@@ -230,6 +230,17 @@ module ComponentInterfaceModule
        integer, intent(in)             :: upper
        end subroutine get_integer_var
 
+       subroutine get_integer_vars(requestNo, variableName, units, value, numvals, lower, upper)
+       ml_external get_integer_vars
+       integer, intent(in)          :: requestNo
+       character(len=*), intent(in) :: variableName
+       character(len=*), intent(in) :: units
+       integer, intent(in out)      :: value
+       integer, intent(in out)      :: numvals
+       integer, intent(in)          :: lower
+       integer, intent(in)          :: upper
+       end subroutine get_integer_vars
+
        subroutine get_real_var(componentID, variableName, units, value, numvals, lower, upper)
        ml_external get_real_var
        integer, intent(in)          :: componentID
@@ -240,6 +251,17 @@ module ComponentInterfaceModule
        real, intent(in)             :: lower
        real, intent(in)             :: upper
        end subroutine get_real_var
+
+       subroutine get_real_vars(requestNo, variableName, units, value, numvals, lower, upper)
+       ml_external get_real_vars
+       integer, intent(in)          :: requestNo
+       character(len=*), intent(in) :: variableName
+       character(len=*), intent(in) :: units
+       real, intent(in out)         :: value
+       integer, intent(in out)      :: numvals
+       real, intent(in)             :: lower
+       real, intent(in)             :: upper
+       end subroutine get_real_vars
 
        subroutine get_real_array(componentID, variableName, arraySize, units, value, numvals, lower, upper)
        ml_external get_real_array
@@ -252,6 +274,18 @@ module ComponentInterfaceModule
        real, intent(in)             :: lower
        real, intent(in)             :: upper
        end subroutine get_real_array
+
+       subroutine get_real_arrays(requestNo, variableName, arraySize, units, value, numvals, lower, upper)
+       ml_external get_real_arrays
+       integer, intent(in)          :: requestNo
+       character(len=*), intent(in) :: variableName
+       integer, intent(in)          :: arraySize
+       character(len=*), intent(in) :: units
+       real, intent(in out)         :: value(*)
+       integer, intent(in out)      :: numvals
+       real, intent(in)             :: lower
+       real, intent(in)             :: upper
+       end subroutine get_real_arrays
 
        subroutine get_real_array_optional(componentID, variableName, arraySize, units, value, numvals, lower, upper)
        ml_external get_real_array_optional
@@ -275,18 +309,6 @@ module ComponentInterfaceModule
        real, intent(in)             :: lower
        real, intent(in)             :: upper
        end subroutine get_real_var_optional
-
-       subroutine get_real_vars(requestNo, variableName, units, value, numvals, lower, upper)
-       ml_external get_real_vars
-       integer, intent(in)          :: requestNo
-       character(len=*), intent(in) :: variableName
-       character(len=*), intent(in) :: units
-       real, intent(in out)         :: value
-       integer, intent(in out)      :: numvals
-       real, intent(in)             :: lower
-       real, intent(in)             :: upper
-       end subroutine get_real_vars
-
 
        subroutine get_double_var(componentID, variableName, units, value, numvals, lower, upper)
        ml_external get_double_var
