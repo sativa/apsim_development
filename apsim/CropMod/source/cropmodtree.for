@@ -1,4 +1,4 @@
-C     Last change:  E    14 Feb 2001    2:51 pm
+C     Last change:  E     1 Aug 2001   12:49 pm
 
 *     ===========================================================
       subroutine Crop_Read_Constants ()
@@ -45,6 +45,12 @@ C     Last change:  E    14 Feb 2001    2:51 pm
 
          call Read_Constants      ()
          call Read_Constants_Sunf ()
+
+
+      elseif (c%crop_type.eq.'sorghum') then
+
+         call Read_Constants_Sorghum ()
+
 
       else
 
@@ -104,7 +110,12 @@ C     Last change:  E    14 Feb 2001    2:51 pm
 
            call Read_Cultivar_Params_Sunf (cultivar)
 
+        elseif (c%crop_type .eq. 'sorghum') then
+
+           call Read_Cultivar_Params_Sorghum (cultivar)
+
         else
+
 
            call Read_Cultivar_Params_Wheat (cultivar)
 
@@ -212,7 +223,7 @@ C     Last change:  E    14 Feb 2001    2:51 pm
 
 
       !SECTION 8 - nitrogen stress factor is used everywhere
-      call nitrogen_stress           (GetSwitchCode(c%nit_switch,7))
+      call nitrogen_stress           (GetSwitchCode(c%nit_switch,8))
 
 
       !SECTION 1:  PLANT WATER REALTION
@@ -224,12 +235,10 @@ C     Last change:  E    14 Feb 2001    2:51 pm
 
       !SECTION 2:  PHENOLOGICAL DEVELOPMENT
 *     call thermal_time              (GetSwitchCode(c%phen_switch,2))   !thermal time will be separated from phenology subroutine
-*     call photoperiodism            (GetSwitchCode(c%phen_switch,4))
       call vernalization             (GetSwitchCode(c%phen_switch,3))
+      call photoperiodism            (GetSwitchCode(c%phen_switch,4))
       call phenology_initalisation   (GetSwitchCode(c%phen_switch,1))
       call phenology                 (GetSwitchCode(c%phen_switch,5))
-
-
 
 
       !SECTION 5: CANOPY FORMATION - ABOVE GROUND PART
@@ -251,7 +260,6 @@ C     Last change:  E    14 Feb 2001    2:51 pm
       call biomass_yieldpart_demand  (GetSwitchCode(c%part_switch,2))
       call biomass_partition         (GetSwitchCode(c%part_switch,3))
       call biomass_retranslocation   (GetSwitchCode(c%part_switch,4))
-
 
 
       call tillering_initialisation  (GetSwitchCode(c%tiller_switch,1))
@@ -281,7 +289,8 @@ C     Last change:  E    14 Feb 2001    2:51 pm
       call nitrogen_demand           (GetSwitchCode(c%nit_switch,3))
       call nitrogen_uptake           (GetSwitchCode(c%nit_switch,4))
       call nitrogen_partition        (GetSwitchCode(c%nit_switch,5))
-      call nitrogen_retranslocation  (GetSwitchCode(c%nit_switch,6))
+      call nitrogen_yieldpart_demand (GetSwitchCode(c%nit_switch,6))
+      call nitrogen_retranslocation  (GetSwitchCode(c%nit_switch,7))
 
 
       call pop_routine (my_name)
@@ -396,6 +405,7 @@ C     Last change:  E    14 Feb 2001    2:51 pm
       include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
+      include 'convert.inc'  ! g2mm, mb2kpa
 
 *+  Sub-Program Arguments
       integer Option ! (INPUT) template option number
@@ -414,6 +424,13 @@ C     Last change:  E    14 Feb 2001    2:51 pm
 
 *+  Local variables
 
+      real       svp           ! function to get saturation vapour
+                               ! pressure for a given temperature in oC (kpa)
+      real       temp_arg      ! dummy temperature for function (oC)
+
+      svp(temp_arg) = 6.1078
+     :              * exp (17.269*temp_arg/ (237.3 + temp_arg))
+     :              * mb2kpa
 
 *- Implementation Section ----------------------------------
 
@@ -444,7 +461,11 @@ C     Last change:  E    14 Feb 2001    2:51 pm
      :                   , g%transp_eff
      :                   , g%sw_demand
      :                     )
- 
+
+
+      g%vpd = c%svp_fract* (svp (g%maxt) - svp (g%mint))
+
+
 
       elseif (Option.eq.3) then
  
@@ -473,7 +494,13 @@ C     Last change:  E    14 Feb 2001    2:51 pm
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
+
+
+      g%sw_supply_demand_ratio = divide(g%sw_supply_sum
+     :                                , g%sw_demand,0.0)
  
+
       call pop_routine (my_name)
       return
       end
@@ -703,6 +730,7 @@ c      REAL    deepest_layer
       use CropModModule
       implicit none
       include 'const.inc'
+      include 'data.pub'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -718,6 +746,8 @@ c      REAL    deepest_layer
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'vernalization')
 
+      REAL leaf_no_now
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
@@ -726,16 +756,16 @@ c      REAL    deepest_layer
       !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
 
 
-      if ((option .eq. 1).or.(option .eq. 9)) then       !NEW OPTION
+      if (option .eq. 1) then       !NEW OPTION
 
        call Crop_Vernalisation (g%current_Stage
      :                         ,germ
      :                         ,floral_init
      :                         ,g%maxt
      :                         ,g%mint
-     :                         ,c%num_temp_vern
-     :                         ,c%x_temp_vern
-     :                         ,c%y_vern_rate
+     :                         ,c%num_vern_temp
+     :                         ,c%x_vern_temp
+     :                         ,c%y_vern_fact
      :                         ,p%vernalisation_requirement
      :                         ,g%dlt_cumvd
      :                         ,g%dlt_vernalisation
@@ -763,6 +793,33 @@ c      REAL    deepest_layer
      :                            ,50.0  !maximum vernalisation requirement is 50 days
      :                            ,g%vern_eff)
 
+      elseif (Option.eq.9) then
+
+         leaf_no_now = sum_between (emerg, now, g%leaf_no)
+
+         if (g%leaf_no_min .eq.0.0) g%leaf_no_min = c%leaf_no_min
+
+         CALL  Vernalization_New (
+     :                           g%mint
+     :                         , g%maxt
+     :                         , p%vernalisation_requirement !vern_days_0C
+     :                         , c%x_vern_temp
+     :                         , c%y_vern_fact
+     :                         , c%num_vern_temp
+     :                         , leaf_no_now
+     :                         , g%leaf_no_min
+     :                         , c%leaf_no_max
+     :                         , g%vernalisation
+     :                         , g%dlt_vernalisation
+     :                          )
+
+c       PRINT *, 'p%vern_requ           =', p%vernalisation_requirement
+c       PRINT *, 'g%vernalisation       =', g%vernalisation
+c       PRINT *, 'g%dlt_vernalisation   =', g%dlt_vernalisation
+c       PRINT *, 'g%leaf_no_min         =', g%leaf_no_min
+
+c       PRINT *, c%x_vern_temp
+c       PRINT *, c%y_vern_fact
 
       else if (Option.eq.0) then
 
@@ -776,6 +833,80 @@ c      REAL    deepest_layer
       return
       end
 
+
+*     ===========================================================
+      subroutine photoperiodism (option)
+*     ===========================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      integer option
+
+*+  Purpose
+*     Initialise crop growth stage targets
+
+*+  Changes
+*     990506  ew - programmed
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'photoperidism')
+
+      REAL leaf_no_now
+      REAL photoperiod
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      if (option .eq. 1) then       !NEW OPTION
+
+      elseif ((option.eq.2).OR.(option.eq.3))  then
+
+
+      elseif (Option.eq.9) then
+
+       leaf_no_now = sum_between (emerg, now, g%leaf_no)
+
+       photoperiod = day_length (g%day_of_year,
+     :                           g%latitude,
+     :                           c%twilight)
+
+        call photoperiodism_New (
+     .          photoperiod,
+     .          c%photoperiod_optimum,
+     .          p%photoperiod_sensitivity,
+     .          g%leaf_no_min,
+     .          c%leaf_no_max,
+     .          leaf_no_now,
+     .          g%leaf_no_final )
+
+c       PRINT *, '===================================='
+c       PRINT *, 'photoperiod               ', photoperiod
+c       PRINT *, 'c%photoperiod_optimum     ', c%photoperiod_optimum
+c       PRINT *, 'p%photoperiod_sensitivity ', p%photoperiod_sensitivity
+c       PRINT *, 'c%leaf_no_min             ', c%leaf_no_min
+c       PRINT *, 'c%leaf_no_max             ', c%leaf_no_max
+c       PRINT *, 'leaf_no_now               ', leaf_no_now
+c       print *, 'g%leaf_no_final           ', g%leaf_no_final
+c       PAUSE
+
+
+      else if (Option.eq.0) then
+
+         !This module is excluded from the model
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
 
 *     ===========================================================
       subroutine phenology_initalisation (option)
@@ -812,7 +943,7 @@ c      REAL    deepest_layer
       !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
 
 
-      if ((option .eq. 1).or.(option .eq. 9)) then       !NEW OPTION
+      if (option .eq. 1) then       !NEW OPTION
 
            call Crop_phenology_init
      :               (
@@ -904,6 +1035,57 @@ c      REAL    deepest_layer
      :              , p%tt_ripe_to_harvest
      :               )
 
+      elseif (option .eq. 9) then       !NEW OPTION
+
+           call Crop_phenology_init_leaf_no
+     :               (
+     :                 g%current_stage
+     :               , c%shoot_lag
+     :               , c%shoot_rate
+     :               , g%sowing_depth
+
+     :               , p%vernalisation_requirement
+     :               , g%dlt_cumvd
+     :               , g%dlt_vernalisation
+     :               , g%vernalisation
+
+     :               , g%day_of_year
+     :               , g%latitude
+     :               , c%twilight
+     :               , g%cum_photoperiod
+     :               , g%cum_photop_day
+
+     :               , c%use_average_photoperiod
+
+     .               , p%photoperiod_crit1
+     .               , p%photoperiod_crit2
+     .               , p%photoperiod_slope
+
+     .               , c%leaf_no_at_emerg
+     .               , c%leaf_no_rate_change
+     :               , c%leaf_no_min
+     :               , c%leaf_no_max
+     .               , g%leaf_no_final
+
+     .               , c%leaf_app_rate0
+     .               , c%leaf_app_rate1
+     .               , c%leaf_app_rate2
+
+     .               , p%tt_germ_to_emerg
+     .               , p%tt_emerg_to_endjuv
+     .               , p%tt_endjuv_to_init
+     .               , p%tt_init_to_flag
+     .               , p%tt_flag_to_flower
+     .               , p%tt_flower_to_start_grain
+     .               , p%startgf_to_mat
+     .               , 1.0  !p%tt_end_grain_to_maturity
+     .               , 1.0  !p%tt_maturity_to_ripe
+     .               , 1.0  !p%tt_ripe_to_harvest
+
+     :               , g%days_tot
+     :               , g%tt_tot
+     :               , g%phase_tt
+     :               )
 
 
       elseif (option.eq.4)  then
@@ -934,6 +1116,40 @@ c      REAL    deepest_layer
      .          p%tt_flower_to_maturity,
      .          p%tt_maturity_to_ripe,
      .          g%phase_tt)
+
+
+      elseif (option.eq.5)  then
+
+      call sorg_phen_init (
+!     .          germ_stage,
+!     .          emerg_stage,
+!     .          begin_PP_sensitive_stage, !end_juv
+!     .          germ_stage,
+ 
+     .          g%current_stage,
+     .          g%days_tot,
+     .          c%shoot_lag,
+     .          g%sowing_depth,
+     .          c%shoot_rate,
+     .          p%tt_emerg_to_endjuv,
+     .          p%tt_endjuv_to_init,
+     .          g%day_of_year,
+     .          g%latitude,
+     .          c%twilight,
+     .          p%photoperiod_crit1,
+     .          p%photoperiod_crit2,
+     .          p%photoperiod_slope,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_no_at_emerg,
+     .          c%leaf_app_rate1,
+     .          c%leaf_app_rate2,
+     .          p%tt_flag_to_flower,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          p%tt_maturity_to_ripe,
+     .          g%phase_tt)
+
 
 
       elseif (Option.eq.0) then
@@ -1060,7 +1276,7 @@ c      REAL    deepest_layer
 
       elseif (Option.eq.4) then
 
-         call sunf_phenology2 (
+         call sorg_phenology2 (
      .       g%previous_stage,
      .       g%current_stage,
  
@@ -1138,7 +1354,7 @@ c      REAL    deepest_layer
 
       include 'science.pub'
       include 'data.pub'
-      
+
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1161,10 +1377,75 @@ c      REAL    deepest_layer
       REAL  extinct_coef
       REAL  co2_modifier
 
+      REAL daylength
+      REAL radn_ext
+      REAL diff_radn_frac
+      REAL rue_used
+      INTEGER current_phase
+
+      real RUE_Diff_Radn_modifier         !
+
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
+
       if (Option .eq. 1) then
+
+
+
+      call Photoperiod_Wang (
+     :                 g%day_of_year
+     :               , g%latitude
+     :               , c%twilight
+     :               , daylength )
+
+      call ExtraTerrestrialRadiationDailyTotal (
+     :                 g%day_of_year
+     :               , g%latitude
+     :               , radn_ext )
+
+      call  Diffuse_Radiation_fraction
+     :                 (
+     :                 g%radn,
+     :                 radn_ext,
+     :                 diff_radn_frac
+     :                 )
+
+      call RUE_Diffuse_Radiation_Modifier (
+     :                 diff_radn_frac,
+     :                 rue_diff_radn_modifier
+     :                 )
+
+c      PRINT *,  rue_diff_radn_modifier
+
+      rue_diff_radn_modifier = linear_interp_real (
+     :                                diff_radn_frac
+     :                               ,c%radn_diff_fr
+     :                               ,c%rue_diff_modifier
+     :                               ,c%num_radn_diff_fr)
+
+c      PRINT *,  rue_diff_radn_modifier
+
+c       PRINT *, '-------------------------------------'
+c       PRINT *, 'DayOfYear =', g%day_of_year
+c       PRINT *, 'day_len   =', daylength
+c       PRINT *, 'radn_ext  =', radn_ext
+c       PRINT *, 'radn_act  =', g%radn
+c       PRINT *, 'RUE_max   =', RUE_Max*0.48
+c       PRINT *, 'RUE_act   =', 1.34
+
+      current_phase = int (g%current_stage)
+
+
+
+      if (c%RUE_Max_Exist) then
+          rue_used = c%RUE_Max * rue_diff_radn_modifier
+      else
+          rue_used = c%rue(current_phase)
+      end if
+
+
 
          call crop_extinction_coefficient
      :          (c%crop_type,
@@ -1175,7 +1456,19 @@ c      REAL    deepest_layer
      :           c%y_extinct_coeff_lai,
      :           c%num_extinct_coeff_lai,
      :           c%extinct_coeff_post_anthesis,
+
+     :           g%row_spacing,
+     :           c%x_row_spacing,
+     :           c%y_extinct_coef,
+     :           c%num_row_spacing,
+
      :           g%extinction_coeff)
+
+c              PRINT *,'row_space       =',  g%row_spacing
+c              PRINT *,'c%x_row_spacing =',  c%x_row_spacing
+c              PRINT *,'c%y_extinct_coef=',  c%y_extinct_coef
+c              PRINT *,'extinct_coef    =',  g%extinction_coeff
+
 
 
          g%cover_green = 1.0 - exp (-g%extinction_coeff*g%lai)
@@ -1205,9 +1498,9 @@ c      REAL    deepest_layer
 c        PRINT *,'biomass CO2 =', g%co2level
 c        PRINT *,'biomass CF  =', co2_modifier
 
-        call crop_dm_pot_rue_co2 (
+        call crop_dm_pot_rue_wang (
      .                     g%current_stage,
-     .                     c%rue,
+     .                     rue_used,
      .                     g%radn_int,
      .                     g%temp_stress_photo,
      .                     g%nfact_photo,
@@ -1539,12 +1832,21 @@ c        PRINT *,'biomass CF  =', co2_modifier
      .          c%dm_grain_embryo,
      .          c%stem_trans_frac,
      .          c%leaf_trans_frac,
+
+     .          c%x_shoot_nc_trans,
+     .          c%y_stem_trans_frac,
+     .          c%num_shoot_nc_trans,
+     .          g%n_green,
+
+
+
      .          g%dm_green,
      .          g%dm_plant_min,
      .          g%dm_seed_reserve,
      .          g%obs_grain_no_psm,
      .          g%dm_green_grainno,
      ,          p%head_grain_no_max,
+     .          c%grain_no_intercept,
      .          g%grain_no,
      .          g%dm_green_retrans_pool)
 
@@ -1586,7 +1888,7 @@ c        PRINT *,'biomass CF  =', co2_modifier
 
       elseif (Option.eq.4) then
 
-         call sunf_dm_init (g%current_stage,
+         call sorg_dm_init (g%current_stage,
      .          g%days_tot,
      .          c%dm_root_init,
      .          g%plants,
@@ -1644,6 +1946,7 @@ c        PRINT *,'biomass CF  =', co2_modifier
 
       call push_routine (my_name)
  
+
 
       if (Option .eq. 1) then !use the grain # approach
 
@@ -1755,6 +2058,57 @@ c        PRINT *,'biomass CF  =', co2_modifier
      :              , p%mum_hi_incr_min_temp
      :               )
 
+
+
+      else if (Option .eq. 5) then
+
+         call cproc_yieldpart_demand_stress1
+     :               (
+     :                g%nfact_photo
+     :              , g%swdef_photo
+     :              , g%temp_stress_photo
+     :              , g%dlt_dm_stress_max
+     :               )
+
+           call sorg_dm_grain_source_sink (
+     .          c%stem_trans_frac,
+     .          c%leaf_trans_frac,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_dm,
+     .          g%dlt_dm_grain_demand,
+     .          g%grain_no,
+     .          g%dlt_tt_fm,
+     .          p%tt_flower_to_start_grain,
+     .          p%tt_flower_to_maturity,
+     .          g%dm_green,
+     .          g%dm_dead,
+     .          p%dm_per_seed,
+     .          g%dm_green_tot_fi)
+ 
+
+
+      else if (Option .eq. 9) then !use the grain # approach
+
+          call Cproc_Bio_Yieldpart_Demand_Temp_Driven
+     :               (
+     :                g%current_stage
+     :              , start_grain_fill
+     :              , end_grain_fill
+     :              , p%grain_gth_rate
+     :              , c%x_temp_grain_dmf
+     :              , c%y_temp_grain_dmf_fac
+     :              , c%num_temp_grain_dmf
+     :              , g%mint
+     :              , g%maxt
+     :              , g%grain_no
+     :              , c%max_kernel_weight
+     :              , g%dm_green(grain)
+     :              , g%dlt_dm_grain_demand
+     :               )
+
+
+       print *, 'new Bio_Yieldpart_demand'
 
 
       else if (Option.eq.0) then
@@ -1889,9 +2243,12 @@ c      REAL nw_sla
 
 
 
-         call cproc_bio_partition_wheat (
+         call cproc_bio_partition_Grass (
      :                  g%current_stage,
      : 	 		c%ratio_root_shoot,
+     :                  c%x_stage_partitn,
+     :                  c%y_leaf_fraction,
+     :                  c%num_stage_partitn,
      :                  c%sla_min,
      :                  g%dlt_lai_stressed,
      :                  g%dlt_dm,
@@ -2002,6 +2359,30 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      .          g%dlt_dm_green)
 
 
+      elseif (Option.eq.5) then
+
+
+         call leaf_area_potential(GetSwitchCode(c%can_switch,2))
+
+         call cproc_leaf_area_stressed1 (
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,g%nfact_expansion
+     :                      ,g%dlt_lai_stressed
+     :                      )
+
+      call sproc_bio_partition1 (
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
+     .          c%sla_min,
+     .          c%frac_stem2flower,
+     .          g%dlt_dm_grain_demand,
+     .          g%dlt_dm_green)
+
 
       elseif (Option.eq.9) then
 
@@ -2048,6 +2429,7 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
       include 'const.inc'
       include 'crp_biom.pub'
       include 'error.pub'                         
+      include 'convert.inc'            ! mg2gm
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2068,6 +2450,9 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
       integer supply_pools(num_supply_pools)
       data    supply_pools /flower,stem,leaf/      !in nwheat no carbon from leaves to grain  ??????????????
       save    /supply_pools/
+
+c      REAL grain_max
+c      REAL grain_now
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -2091,6 +2476,7 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      :              , g%plants
      :              , g%dlt_dm_green_retrans
      :               )
+
 
 
       elseif (Option.eq.2) then
@@ -2302,10 +2688,30 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          c%leaf_no_max,
      .          g%leaf_no_final)
 
+      elseif (Option.eq.5) then
+
+       call sorg_leaf_number_final1 (
+     .          emerg,
+     .          floral_init,
+     .          plant_end,
+ 
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%phase_tt,
+     .          c%leaf_init_rate,
+     .          c%leaf_no_seed,
+     .          c%leaf_no_min,
+     .          c%leaf_no_max,
+     .          g%leaf_no_final)
+ 
+
+      elseif (Option.eq.9) then
+ 
 
       else if (Option.eq.0) then
 
          !This module is excluded from the model
+c         PRINT *, 'option = ', option
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -2426,7 +2832,18 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%dlt_tt,
      .          g%dlt_leaf_no)
 
+      else if (Option.eq.5) then
 
+         call sorg_leaf_appearance1 (
+     .          g%leaf_no,
+     .          g%leaf_no_final,
+     .          c%leaf_no_rate_change,
+     .          c%leaf_app_rate2,
+     .          c%leaf_app_rate1,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_tt,
+     .          g%dlt_leaf_no) ! fraction of leaf emerged
 
       else if (Option.eq.0) then
 
@@ -2665,6 +3082,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 *+  Local variables
       REAL tpla_max
 
+      REAL tiller_stop_stage
+
+      INTEGER GetSwitchCode
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -2675,7 +3095,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  
       if (Option.eq.1) then
 
+         if (GetSwitchCode(c%phen_switch,3).eq.9) then
+            tiller_stop_stage = 5.5
+         else
+            tiller_stop_stage = 5.0
+         end if
+
           call cproc_leaf_area_pot_iw_new (
+     .          tiller_stop_stage,
      .          g%plants,
      .          g%current_stage,
      .          c%leaf_app_rate1,
@@ -2729,6 +3156,34 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call cproc_leaf_area_pot_tpla (
      .          emerg,
      .          flowering, !flag_leaf,
+     .          now,
+     .          g%phase_tt,
+     .          g%tt_tot,
+     .          g%days_tot,
+     .          g%current_stage,
+     .          c%initial_tpla,
+     .          tpla_max,
+     .          c%tpla_inflection_ratio,
+     .          g%tpla_today,
+     .          g%tpla_yesterday,
+     .          p%tpla_prod_coef,
+     .          g%plants,
+     .          g%lai,
+     .          g%dlt_lai_pot)
+
+
+      else if (Option.eq.5) then
+
+         call cproc_tpla_max (
+     .          g%leaf_no_final,
+     .          g%tiller_no_fertile,
+     .          c%tiller_coef,
+     .          p%main_stem_coef,
+     .          tpla_max)
+
+      call cproc_leaf_area_pot_tpla (
+     .          emerg,
+     .          flag_leaf,
      .          now,
      .          g%phase_tt,
      .          g%tt_tot,
@@ -3377,6 +3832,10 @@ c     :                g%dlt_slai )
           call sunf_leaf_area_sen ()
 
 
+      else if (Option.eq.5) then
+
+          call sorg_leaf_area_sen ()
+
       else if (Option.eq.6) then
 
        call leaf_senescence_age_nw_ew(
@@ -3869,6 +4328,17 @@ c       end do
      :                              , g%dlt_N_senesced)
  
 
+      elseif (Option.eq.5) then
+
+           call sorg_N_senescence1 (max_part
+     :                              , c%n_sen_conc
+     :                              , g%dlt_dm_senesced
+     :                              , g%n_green
+     :                              , g%dm_green
+     :                              , g%swdef_expansion
+     :                              , g%dlt_N_senesced)
+ 
+
 
 
 
@@ -4127,49 +4597,18 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
      :              , g%N_green
      :               )
 
+      else if (Option.eq.5) then
 
-
-         IF (((Option.eq.3).or.(Option.eq.1)).and.on_day_of (
-     :            start_grain_fill, g%current_stage, g%days_tot)) then
-
-          call crop_n_retrans_avail_nw(  max_part,
-     :                                   root, 
-     :                                   grain,
-     :                                   g%nfact_expansion,
-     :                                   g%N_conc_min,
-     :                                   g%dm_green,
-     :                                   g%N_green, 
-     :                                   N_avail)
-
-         n_avail_sum = sum_real_array(n_avail,max_part)
-
-         !grain_embryo_nc = 0.03
-
-         g%n_green(grain) = c%grain_embryo_nc * g%dm_green(grain)
-         g%n_green(grain) = min (g%n_green(grain),n_avail_sum)
-
-         dlt_stem_n      = min(n_avail(stem), g%n_green(grain))
-         g%n_green(stem) = g%n_green(stem) - dlt_stem_n
-
-         dlt_leaf_n =  min(n_avail(leaf), g%n_green(grain)-dlt_stem_n)
-         g%n_green(leaf) = g%n_green(leaf) - dlt_leaf_n
-
-         dlt_root_n = g%n_green(grain) - dlt_stem_n - dlt_leaf_n
-         g%n_green(root) = g%n_green(root) - dlt_root_n
-
-         ENDIF
-
-       
-      elseif (Option.eq.4) then
- 
-         call cproc_N_init1
+         call sorg_N_init1
      :               (
-     :                c%n_init_conc
+     :                C%n_init_conc
      :              , max_part
      :              , emerg
-     :              , g%current_stage
-     :              , g%days_tot
-     :              , g%dm_green
+     :              , G%current_stage
+     :              , G%days_tot
+     :              , G%dm_green
+     :              , g%lai
+     :              , g%plants
      :              , g%N_green
      :               )
 
@@ -4181,7 +4620,45 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
+
+
+      !-------------------WHEAT START-------------------------------------
+      if (c%crop_type .eq. 'wheat') then
+
+        if (((Option.eq.3).or.(Option.eq.1)).and.on_day_of (
+     :           start_grain_fill, g%current_stage, g%days_tot)) then
+
+         call crop_n_retrans_avail_nw(  max_part,
+     :                                  root,
+     :                                  grain,
+     :                                  g%nfact_expansion,
+     :                                  g%N_conc_min,
+     :                                  g%dm_green,
+     :                                  g%N_green,
+     :                                  N_avail)
+
+        n_avail_sum = sum_real_array(n_avail,max_part)
+
+        !grain_embryo_nc = 0.03
+
+        g%n_green(grain) = c%grain_embryo_nc * g%dm_green(grain)
+        g%n_green(grain) = min (g%n_green(grain),n_avail_sum)
+
+        dlt_stem_n      = min(n_avail(stem), g%n_green(grain))
+        g%n_green(stem) = g%n_green(stem) - dlt_stem_n
+
+        dlt_leaf_n =  min(n_avail(leaf), g%n_green(grain)-dlt_stem_n)
+        g%n_green(leaf) = g%n_green(leaf) - dlt_leaf_n
+
+        dlt_root_n = g%n_green(grain) - dlt_stem_n - dlt_leaf_n
+        g%n_green(root) = g%n_green(root) - dlt_root_n
+
+        endif
+      end if
+      !-------------------WHEAT END-------------------------------------
+
+
       call pop_routine (my_name)
       return
       end
@@ -4227,25 +4704,6 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
          fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
  
-c         call cproc_n_supply1 (
-c     :            g%dlayer
-c     :          , max_layer
-c     :          , g%dlt_sw_dep
-c     :          , g%NO3gsm
-c     :          , g%NO3gsm_min
-c     :          , g%root_depth
-c     :          , g%sw_dep
-c     :          , g%NO3gsm_mflow_avail
-c     :          , g%sw_avail
-c     :          , g%NO3gsm_diffn_pot
-c     :          , g%current_stage
-c     :          , c%n_fix_rate
-c     :          , fixation_determinant
-c     :          , g%swdef_fixation
-c     :          , g%N_fix_pot
-c     :          )
-c
-
        call cproc_n_supply2 (
      :            g%dlayer
      :          , max_layer
@@ -4296,8 +4754,6 @@ c
      :          )
 
 
-
- 
       elseif (Option .eq. 3) then
  
  
@@ -4318,30 +4774,44 @@ c
      :                  g%pot_extract_NH4gsm)
 
 
+      elseif (Option.eq.9) then
 
-      elseif (Option .eq. 4) then
- 
+
+      PRINT *,'we are here'
+
          fixation_determinant = sum_real_array(g%dm_green, max_part)
      :                        - g%dm_green(root)
  
-         call cproc_n_supply1 (
-     :            g%dlayer
-     :          , max_layer
+       call Cproc_N_Supply_Massflow_Diffusion_Fixation (
+     :            max_layer
+     :          , g%dlayer
+     :          , g%root_depth
      :          , g%dlt_sw_dep
+     :          , g%sw_dep
+     :          , g%sw_avail
+     :          , g%sw_avail_pot
      :          , g%NO3gsm
      :          , g%NO3gsm_min
-     :          , g%root_depth
-     :          , g%sw_dep
      :          , g%NO3gsm_mflow_avail
-     :          , g%sw_avail
      :          , g%NO3gsm_diffn_pot
+     :          , g%NH4gsm
+     :          , g%NH4gsm_min
+     :          , g%NH4gsm_mflow_avail
+     :          , g%NH4gsm_diffn_pot
      :          , g%current_stage
      :          , c%n_fix_rate
      :          , fixation_determinant
      :          , g%swdef_fixation
-     :          , g%N_fix_pot
-     :          )
- 
+     :          , g%N_fix_pot        )
+
+
+
+         call fill_real_array (g%NH4gsm_mflow_avail, 0.0, max_layer)
+         call fill_real_array (g%NH4gsm_diffn_pot,   0.0, max_layer)
+
+
+
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -4431,24 +4901,34 @@ c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
      :              , g%N_max
      :               )
 
-           g%n_demand(flower) =0.0
+         if (c%crop_type.eq.'wheat') then
+             g%n_demand(flower) =0.0
+         end if
 
-      elseif (Option .eq. 4) then
+      elseif (Option .eq. 5) then
  
-       call cproc_N_demand2
-     :               (
-     :                max_part
-     :              , demand_parts
-     :              , num_demand_parts
-     :              , g%dlt_dm_green
-     :              , g%dlt_n_retrans
-     :              , g%dm_green
-     :              , g%n_conc_crit
-     :              , g%n_conc_max
-     :              , g%n_green
-     :              , g%N_demand, g%N_max
-     :               )
 
+       call sorg_N_demand3
+     :               (
+     :                max_part,
+     :                G%dlt_dm_green,
+     :                G%dm_green,
+     :                G%n_green,
+     :                g%lai,
+     :                g%dlt_lai,
+     :                g%dlt_slai,
+     :                G%current_stage,
+     :                g%grain_no,
+     :                g%plants,
+     :                g%tt_tot_fm,
+     :                g%dlt_tt_fm,
+     :                g%dlt_tt,
+     :                g%phase_tt,
+     .                c%x_stage_code,
+     .                c%y_N_conc_crit_stem,
+     .                c%n_target_conc,
+     :                g%N_demand
+     :               )
 
       else if (Option.eq.0) then
 
@@ -4506,6 +4986,25 @@ c       DATA b/0.,0.,0./
       call push_routine (my_name)
 
 
+
+        deepest_layer = find_layer_no(g%root_depth, g%dlayer, max_layer)
+        sw_avail       = sum_real_array(g%sw_avail,     deepest_layer)
+        sw_avail_pot   = sum_real_array(g%sw_avail_pot, deepest_layer)
+        sw_avail_ratio = divide(sw_avail, sw_avail_pot, 1.0)
+
+         if (c%num_fract_avail_sw.eq.0) then
+            fact = 1.0
+         else
+            fact = linear_interp_real(sw_avail_ratio
+     :                               ,c%x_fract_avail_sw
+     :                               ,c%y_fact_diffn_const
+     :                               ,c%num_fract_avail_sw)
+         end if
+
+        g%no3_diffn_const = c%no3_diffn_const * fact
+
+
+
       if (p%uptake_source .eq. 'apsim') then
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
@@ -4520,28 +5019,7 @@ c       DATA b/0.,0.,0./
      :                ,max_layer         ! array dim
      :                )
  
-      elseif ((Option.eq.1).OR.(Option.eq.9)) then
- 
-
-        deepest_layer = find_layer_no(g%root_depth, g%dlayer, max_layer)
-     
-        sw_avail       = sum_real_array(g%sw_avail,     deepest_layer)
-        sw_avail_pot   = sum_real_array(g%sw_avail_pot, deepest_layer)
-        sw_avail_ratio = divide(sw_avail, sw_avail_pot, 1.0)
-
-
-
-         if (c%num_fract_avail_sw.eq.0) then
-            fact = 1.0
-         else
-            fact = linear_interp_real(sw_avail_ratio
-     :                               ,c%x_fract_avail_sw
-     :                               ,c%y_fact_diffn_const
-     :                               ,c%num_fract_avail_sw)
-         end if
-
-        g%no3_diffn_const = c%no3_diffn_const * fact
-
+      elseif (Option.eq.1) then
 
          call cproc_n_uptake2
      :               (
@@ -4561,20 +5039,55 @@ c       DATA b/0.,0.,0./
      :              , g%dlt_NO3gsm_diffusion
      :               )
 
+      elseif (Option.eq.5) then
 
-
-       g%dlt_NO3gsm(:)  =   - min(g%NO3gsm(:), -g%dlt_NO3gsm(:))
-
-c       b(:) = MAX(a(:),0.0)
-
-c       PRINT *, b
-c       pause
-
-      elseif (Option .eq. 4) then
- 
-         call cproc_N_uptake1
+         call sorg_N_uptake2
      :               (
-     :                c%no3_diffn_const
+     :                C%no3_diffn_const
+     :              , G%dlayer
+     :              , G%no3gsm_diffn_pot
+     :              , G%no3gsm_mflow_avail
+     :              , G%N_fix_pot
+     :              , c%n_supply_preference
+     :              , G%n_demand
+     :              , G%root_depth
+     :              , g%NFract
+     :              , g%current_stage
+     :              , g%dlt_NO3gsm
+     :               )
+ 
+
+      elseif (Option.eq.9) then
+ 
+        call cproc_n_uptake_massflow_diffusion_fixation
+     :               (
+     :                max_part
+     :              , g%n_demand
+     :              , g%n_max
+     :              , g%root_depth
+     :              , max_layer
+     :              , g%dlayer
+     :              , g%no3_diffn_const !c_n_diffn_const
+     :              , g%no3gsm_diffn_pot
+     :              , g%no3gsm_mflow_avail
+     :              , g%dlt_NO3gsm
+     :              , g%dlt_NO3gsm_massflow
+     :              , g%dlt_NO3gsm_diffusion
+     :              , g%nh4gsm_diffn_pot
+     :              , g%nh4gsm_mflow_avail
+     :              , g%dlt_NH4gsm
+     :              , g%dlt_NH4gsm_massflow
+     :              , g%dlt_NH4gsm_diffusion
+     :              , c%n_supply_preference
+     :              , g%n_fix_pot
+     :               )
+
+
+      elseif (Option.eq. 7) then
+
+         call cproc_n_uptake_Senthold
+     :               (
+     :                g%no3_diffn_const     !c%no3_diffn_const
      :              , g%dlayer
      :              , max_layer
      :              , g%no3gsm_diffn_pot
@@ -4586,6 +5099,8 @@ c       pause
      :              , max_part
      :              , g%root_depth
      :              , g%dlt_NO3gsm
+     :              , g%dlt_NO3gsm_massflow
+     :              , g%dlt_NO3gsm_diffusion
      :               )
 
 
@@ -4608,7 +5123,6 @@ c       pause
      :              , g%dlt_NO3gsm
      :              , g%dlt_NH4gsm
      :               )
-
 
 
       elseif (Option .eq. 3) then
@@ -4636,6 +5150,10 @@ c       pause
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
+
+       g%dlt_NO3gsm(:)  =   - min(g%NO3gsm(:), -g%dlt_NO3gsm(:))
+
  
       call pop_routine (my_name)
       return
@@ -4682,9 +5200,11 @@ c       pause
        dlt_N_uptake_sum = - sum_real_array(g%dlt_NO3gsm, deepest_layer)
      :                    - sum_real_array(g%dlt_NH4gsm, deepest_layer)
 
- 
 
-      if (Option.eq.1) then
+      if ((Option.eq.1) .or.
+     :    (Option.eq.2) .or.
+     :    (Option.eq.3) .or.
+     :    (Option.eq.4)     ) then
  
         call cproc_N_partition_ew(
      .          g%N_demand,
@@ -4693,39 +5213,12 @@ c       pause
      .          g%dlt_N_green)
 
 
-      else if (Option .eq. 2) then
+      else if (Option.eq.5) then
 
-
-        call cproc_N_partition_ew(
+      call sorg_N_partition1(
      .          g%N_demand,
-     .          g%N_max,
-     .          dlt_n_uptake_sum,
-     .          g%dlt_N_green)
-
-
-
-      else if (Option .eq. 3) then
- 
-        call sproc_N_partition_ew(
-     .          g%root_depth,
-     .          g%dlayer,
-     .          g%N_demand,
-     .          g%N_max,
-     .          g%dlt_NO3gsm,
-     .          g%dlt_NH4gsm,
-     .          g%dlt_N_green
-     .                     )
-
-
-      elseif (Option.eq.4) then
- 
-        call sproc_N_partition1(
-     .          g%root_depth,
-     .          g%dlayer,
-     .          g%N_demand,
-     .          g%N_max,
-     .          g%dlt_NO3gsm,
-     .          g%dlt_N_green
+     .          G%NFract,
+     .          G%dlt_N_green
      .                     )
 
 
@@ -4740,6 +5233,123 @@ c       pause
       call pop_routine (myname)
       return
       end
+
+* ====================================================================
+       subroutine nitrogen_yieldpart_demand (Option)
+* ====================================================================
+      use CropModModule
+      implicit none
+      include 'const.inc'
+      include 'convert.inc'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      integer    Option                ! (INPUT) option number
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'nitrogen_yieldpart_demand')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      if (Option .eq. 1) then
+   
+         call grain_n_demand_nwheat (  !for nwheat
+     .          g%current_stage, 
+     :          g%mint,
+     :          g%maxt,
+     :          g%dlt_tt,
+     :          g%grain_no,
+     .          g%dm_green,
+     .          g%dlt_dm_green,
+     .          g%dlt_dm_green_retrans,
+     .          g%N_green,
+     .          c%max_grain_nc_ratio,
+     .          c%N_conc_max_grain,
+     .          g%N_demand(grain))
+
+
+      elseif (Option .eq. 2) then
+
+
+      elseif (Option .eq. 3) then
+   
+         call grain_n_demand_nwheat (  !for nwheat
+     .          g%current_stage, 
+     :          g%mint,
+     :          g%maxt,
+     :          g%dlt_tt,
+     :          g%grain_no,
+     .          g%dm_green,
+     .          g%dlt_dm_green,
+     .          g%dlt_dm_green_retrans,
+     .          g%N_green,
+     .          c%max_grain_nc_ratio,
+     .          c%N_conc_max_grain,
+     .          g%N_demand(grain))
+
+      else if (Option .eq. 4) then
+
+      call sproc_grain_N_demand (
+     .           g%dm_green(grain),
+     .           g%dlt_dm_green(grain),
+     .           g%maxt,
+     .           g%mint,
+     .           c%temp_fac_min,
+     .           c%tfac_slope,
+     .           c%sw_fac_max,
+     .           c%sfac_slope,
+     .           g%N_green(grain),
+     .           g%N_conc_min (grain),
+     .           g%N_conc_crit(grain),
+     .           g%N_conc_max (grain),
+     .           g%swdef_expansion,
+     .           g%nfact_grain_conc,
+     .           g%N_demand(grain))
+
+      else if (Option .eq. 9) then
+   
+
+         call Cproc_N_Yieldpart_Demand_Temp_Driven
+     :               (
+     :                g%current_stage
+     :              , start_grain_fill
+     :              , end_grain_fill
+     :              , c%max_grainn_fill_rate
+     :              , c%x_temp_grain_nf
+     :              , c%y_temp_grain_nf_fac
+     :              , c%num_temp_grain_nf
+     :              , g%mint
+     :              , g%maxt
+     :              , g%grain_no
+     :              , c%N_conc_max_grain
+     :              , g%n_green(grain)
+     :              , g%dm_green(grain)
+     :              , g%dlt_dm_green(grain)
+     :              , g%N_demand(grain)
+     :               )
+
+       PRINT *, 'new N_Yieldpart_demand'
+
+      else if (Option.eq.0) then
+
+         !This module is excluded from the model
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+ 
+      call pop_routine (myname)
+      return
+      end
+
 
 
 * ====================================================================
@@ -4770,25 +5380,17 @@ c       pause
       if (Option .eq. 1) then
    
          call cproc_N_retranslocate_nw (  !for nwheat
-     .          g%current_stage, 
-     .          g%dlt_dm_green,
-     .          g%dlt_dm_green_retrans,
-     .          c%max_grain_nc_ratio,
+     .          g%N_demand(grain),
      .          g%N_conc_min,
      .          g%N_conc_crit,
      .          g%N_conc_max,
-     .          c%N_conc_max_grain,     
      :          g%nfact_expansion,
-     :          g%maxt,
-     :          g%mint,
-     :          g%dlt_tt,
-     :          g%grain_no,
      .          g%dm_green,
      .          g%N_green,
      .          g%N_senesced,
      .          g%N_dead,
      .          g%dlt_N_retrans)
-   
+
       elseif (Option.eq.2) then
 
          call cproc_N_retranslocate_iw (  !for i_wheat
@@ -4821,41 +5423,40 @@ c       pause
       else if (Option .eq. 3) then
    
          call cproc_N_retranslocate_nw (  !for nwheat
-     .          g%current_stage, 
-     .          g%dlt_dm_green,
+     .          g%N_demand(grain),
      .          g%N_conc_min,
      .          g%N_conc_crit,
      .          g%N_conc_max,
-     .          c%N_conc_max_grain,     
      :          g%nfact_expansion,
-     :          g%maxt,
-     :          g%mint,
-     :          g%dlt_tt,
-     :          g%grain_no,
      .          g%dm_green,
      .          g%N_green,
      .          g%N_senesced,
      .          g%N_dead,
      .          g%dlt_N_retrans)
 
-
       else if (Option .eq. 4) then
 
+
       call sproc_N_retranslocate1 (
-     .          g%dlt_dm_green,
-     .          g%maxt,
-     .          g%mint,
-     .          c%temp_fac_min,
-     .          c%tfac_slope,
-     .          c%sw_fac_max,
-     .          c%sfac_slope,
-     .          g%N_conc_min,
-     .          g%N_conc_crit,
-     .          g%dm_green,
-     .          g%N_green,
-     .          g%N_conc_max,
-     .          g%swdef_expansion,
-     .          g%nfact_grain_conc,
+     .            g%N_demand(grain),
+     .            g%N_conc_min,
+     .            g%dm_green,
+     .            g%N_green,
+     .            g%dlt_N_retrans)
+
+      else if (Option .eq. 5) then
+
+
+       call sorg_N_retranslocate1 (
+     .          g%N_demand,
+     .          g%NFract,
+     .          g%lai, g%dlt_lai, g%dlt_slai,
+     .          G%n_green, g%dlt_N_green,
+     .          G%phase_tt,g%tt_tot_fm,g%dlt_tt_fm,
+     .          g%nfact_expansion,
+     :                G%dlt_dm_green,
+     :                G%dm_green,
+     .          g%current_stage,
      .          g%dlt_N_retrans)
 
 
@@ -5035,6 +5636,21 @@ c         g%nfact_tiller = g%nfact_expansion
      :                          g%nfact_pheno,
      :                          g%nfact_tiller)
         
+
+      else if (Option .eq. 5) then  !Sorghum approach
+   
+          g%nfact_pheno      = g%nfact_expansion
+          g%nfact_grain_conc = 1
+
+          call sorg_nfact_photo(leaf,
+     .                       g%lai,
+     .                       g%N_green,
+     .                       g%nfact_photo)
+
+          g%nfact_expansion = g%nfact_photo
+         
+
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -5090,24 +5706,24 @@ c         g%nfact_tiller = g%nfact_expansion
  
       If (Option .eq. 1) then
  
-      call sproc_plant_death1 (
-     .          c%tt_emerg_limit,
-     .          g%current_stage,
-     .          g%plants,
-     .          g%tt_tot,
-     .          g%dlt_plants_all,
- 
-     .          g%lai,
-     .          g%dlt_slai,
- 
-     .          g%cswd_photo,
-     .          g%leaf_no,
-     .          c%leaf_no_crit,
-     .          c%swdf_photo_limit,
-     .          g%swdef_photo,
-     .          c%swdf_photo_rate,
-     .          g%dlt_plants_water,
-     .          g%dlt_plants_dead)
+c      call sproc_plant_death1 (
+c     .          c%tt_emerg_limit,
+c     .          g%current_stage,
+c     .          g%plants,
+c     .          g%tt_tot,
+c     .          g%dlt_plants_all,
+c
+c     .          g%lai,
+c     .          g%dlt_slai,
+c
+c     .          g%cswd_photo,
+c     .          g%leaf_no,
+c     .          c%leaf_no_crit,
+c     .          c%swdf_photo_limit,
+c     .          g%swdef_photo,
+c     .          c%swdf_photo_rate,
+c     .          g%dlt_plants_water,
+c     .          g%dlt_plants_dead)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
