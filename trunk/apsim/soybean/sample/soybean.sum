@@ -9,42 +9,40 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\soybean\sample\soybean.sim
+     Version                = 3.0
      Title                  = soybean Sample Simulation
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\legume\lib\legume.dll(soybean) - Licensed
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\legume\lib\legume.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date = 15/11/1988
      Simulation end date   = 31/03/1989
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = soybean.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         clock.year
         soybean.lai
         soybean.biomass
         soybean.green_biomass
+     
+     Output file = soybean.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\build\apsuite\apsim\met\sample\dalby.met
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      if day = 330 and year  = 1988 then
         soybean sow cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
@@ -55,7 +53,7 @@
      endif
      report do_output
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -127,7 +125,7 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- RESIDUE2 Initialisation ----------------------------------------------
+------- residue2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -143,7 +141,7 @@
               2000.0    26.7     0.0  mungbean
          ------------------------------------------------
 
-------- SOILN2 Initialisation ------------------------------------------------
+------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Constants
      
@@ -192,178 +190,168 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- SOYBEAN Initialisation -----------------------------------------------
+------- soybean Initialisation ------------------------------------------------
       Initialising
 ------- Start of simulation  --------------------------------------------------
-25 November 1988 (Day of year=330):
-   MANAGER:
-           Manager sending message :- soybean sow cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
-   SOYBEAN:
-      Sow
-      
-       - Reading constants for plant
-      
-         - Reading Cultivar Parameters
-          ------------------------------------------------
-          Cultivar                   = davis
-          est_days_emerg_to_init     =       20
-          cum_vernal_days            =     0.00  100.00
-          tt_emerg_to_endjuv         =    60.00   60.00
-          x_pp_endjuv_to_init        =    12.00   18.00
-          y_tt_endjuv_to_init        =   350.00  850.00
-          x_pp_init_to_flower        =     1.00   24.00
-          y_tt_init_to_flower        =    24.00   24.00
-          x_pp_flower_to_start_grain =     1.00   24.00
-          y_tt_flower_to_start_grain =   300.00  300.00
-          x_pp_start_to_end_grain    =     1.00   24.00
-          y_tt_start_to_end_grain    =   460.00  460.00
-          tt_end_grain_to_maturity   =     40.0
-          tt_maturity_to_ripe        =      5.0
-          x_pp_hi_incr               =     1.00   24.00
-          y_hi_incr                  =  0.01100 0.01100
-          x_hi_max_pot_stress        =     0.00    1.00
-          y_hi_max_pot               =     0.50    0.50
-          x_stem_wt                  =     0.00   10.00
-          y_height                   =     0.00 1200.00
-          ------------------------------------------------
-      
-      
-      
-      
-         - Reading root profile parameters
-      
-      
-                          Root Profile
-      ---------------------------------------------------
-           Layer       Kl           Lower    Exploration
-           Depth     Factor         Limit      Factor
-           (mm)         ()        (mm/mm)       (0-1)
-      ---------------------------------------------------
-           150.0     0.080          0.230       1.000
-           150.0     0.080          0.240       1.000
-           300.0     0.080          0.240       1.000
-           300.0     0.080          0.250       1.000
-           300.0     0.050          0.260       1.000
-           300.0     0.030          0.270       1.000
-           300.0     0.010          0.280       1.000
-      ---------------------------------------------------
-      
-      
-      
-      
-                       Crop Sowing Data
-          ------------------------------------------------
-          Sowing  Depth Plants Spacing Cultivar
-          Day no   mm     m^2     m     Name
-          ------------------------------------------------
-             330   40.0   25.0  500.0 davis
-          ------------------------------------------------
-      
-      
-26 November 1988 (Day of year=331):
-   SOYBEAN:
-       stage    2.0 germination
-30 November 1988 (Day of year=335):
-   SOYBEAN:
-       stage    3.0 emergence
-                           biomass =          0.7500000       lai =    0.7500000E-02
-                           stover N conc =    6.000000       extractable sw =    23.20686
-4 December 1988 (Day of year=339):
-   SOYBEAN:
-       stage    4.0 end_of_juvenile
-                           biomass =           1.281609       lai =    0.1898275E-01
-                           stover N conc =    5.279048       extractable sw =    45.21447
-13 January 1989 (Day of year=13):
-   SOYBEAN:
-       stage    5.0 floral_initiation
-                           biomass =           305.5286       lai =     4.920090    
-                           stover N conc =    3.508131       extractable sw =    203.9729
-15 January 1989 (Day of year=15):
-   SOYBEAN:
-       stage    6.0 flowering
-                           biomass =           344.1418       lai =     5.324049    
-                           stover N conc =    3.396305       extractable sw =    226.8636
-8 February 1989 (Day of year=39):
-   SOYBEAN:
-       stage    7.0 start_grain_fill
-                           biomass =           710.2695       lai =     5.833134    
-                           stover N conc =    3.044063       extractable sw =    113.9765
-14 March 1989 (Day of year=73):
-   SOYBEAN:
-       crop failure because of total leaf senescence.
-          Plant Death. Standing above-ground dm =  8891.4 (kg/ha)
-       stage    0.0
-15 March 1989 (Day of year=74):
-   MANAGER:
-           Manager sending message :- soybean harvest
-   SOYBEAN:
-      
-      
-      
-       flowering day  =   15                  stover (kg/ha) =    6109.0
-       maturity day        =    0             grain yield (kg/ha) =    2781.6
-       grain % water content   =    8.5       grain yield wet (kg/ha) =    3040.1
-       grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 6.508
-       total above ground biomass (kg/ha) =    8890.7
-       live above ground biomass (kg/ha) =       0.0
-       green above ground biomass (kg/ha) =       0.0
-       senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =    8890.7
-       number of leaves =  30.8
-       grain N percent =      6.50            total N content (kg/ha) =    256.51
-       grain N uptake (kg/ha) =    180.81     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =     75.70
-      
-      
-      
-       stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.1785596
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1926600
-      
-      
-      
-       stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for flowering
-       water stress 1 =       0.1079497   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.1503286   nitrogen stress 2 =       0.0000000
-      
-      
-      
-       stress indices for start_grain_fill
-       water stress 1 =       0.1975855   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.2329770   nitrogen stress 2 =       0.0000000
-         
-       Crop harvested.
-                                                tops residue = 6109.0 kg/ha
-                                                tops N =   75.7 kg/ha
-                                                root residue =    0.0 kg/ha
-                                                root N =    0.0 kg/ha
-      
-      
-                                                tops removed = 2781.6 kg/ha
-                                                tops N removed =  180.8 kg/ha
-                                                root removed =    0.0 kg/ha
-                                                root N removed =    0.0 kg/ha
-   MANAGER:
-           Manager sending message :- soybean end_crop
-   SOYBEAN:
-          Crop ended. Yield (dw) =     0.0
-                                                straw residue =    0.0 kg/ha
-                                                straw N =    0.0 kg/ha
-                                                root residue = 3341.1 kg/ha
-                                                root N =   69.0 kg/ha
-31 March 1989 (Day of year=90):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+25 November 1988(Day of year=330), manager: 
+     Manager sending message :- soybean sow  cultivar = davis, plants = 25 (/m2), sowing_depth = 40 (mm)
+25 November 1988(Day of year=330), soybean: 
+     Sow
+     
+      - Reading constants for plant
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                   = davis
+         est_days_emerg_to_init     =       20
+         cum_vernal_days            =     0.00  100.00
+         tt_emerg_to_endjuv         =    60.00   60.00
+         x_pp_endjuv_to_init        =    12.00   18.00
+         y_tt_endjuv_to_init        =   350.00  850.00
+         x_pp_init_to_flower        =     1.00   24.00
+         y_tt_init_to_flower        =    24.00   24.00
+         x_pp_flower_to_start_grain =     1.00   24.00
+         y_tt_flower_to_start_grain =   300.00  300.00
+         x_pp_start_to_end_grain    =     1.00   24.00
+         y_tt_start_to_end_grain    =   460.00  460.00
+         tt_end_grain_to_maturity   =     40.0
+         tt_maturity_to_ripe        =      5.0
+         x_pp_hi_incr               =     1.00   24.00
+         y_hi_incr                  =  0.01100 0.01100
+         x_hi_max_pot_stress        =     0.00    1.00
+         y_hi_max_pot               =     0.50    0.50
+         x_stem_wt                  =     0.00   10.00
+         y_height                   =     0.00 1200.00
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     
+     
+                         Root Profile
+     ---------------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+     ---------------------------------------------------
+          150.0     0.080          0.230       1.000
+          150.0     0.080          0.240       1.000
+          300.0     0.080          0.240       1.000
+          300.0     0.080          0.250       1.000
+          300.0     0.050          0.260       1.000
+          300.0     0.030          0.270       1.000
+          300.0     0.010          0.280       1.000
+     ---------------------------------------------------
+     
+     
+       Crop factor for bounding water use is set to 100.0 times Eo
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   Row   Plant Name
+         ------------------------------------------------
+            330   40.0   25.0  500.0   0.0   0.0  davis
+         ------------------------------------------------
+     
+     
+26 November 1988(Day of year=331), soybean: 
+      stage    2.0 germination
+30 November 1988(Day of year=335), soybean: 
+      stage    3.0 emergence
+                          biomass =          0.7500000       lai =    0.7500000E-02
+                          stover N conc =    6.000000       extractable sw =    23.20686
+4 December 1988(Day of year=339), soybean: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.281609       lai =    0.1898275E-01
+                          stover N conc =    5.279048       extractable sw =    45.21447
+13 January 1989(Day of year=13), soybean: 
+      stage    5.0 floral_initiation
+                          biomass =           305.5286       lai =     4.920090
+                          stover N conc =    3.501188       extractable sw =    203.9729
+15 January 1989(Day of year=15), soybean: 
+      stage    6.0 flowering
+                          biomass =           344.1418       lai =     5.324049
+                          stover N conc =    3.383457       extractable sw =    226.8636
+8 February 1989(Day of year=39), soybean: 
+      stage    7.0 start_grain_fill
+                          biomass =           710.2695       lai =     5.833134
+                          stover N conc =    2.925207       extractable sw =    113.9765
+14 March 1989(Day of year=73), soybean: 
+      crop failure because of total leaf senescence.
+         Plant Death. Standing above-ground dm =  8482.0 (kg/ha)
+15 March 1989(Day of year=74), manager: 
+     Manager sending message :- soybean harvest
+15 March 1989(Day of year=74), soybean: 
+     
+     
+     
+      flowering day  =   15                  stover (kg/ha) =    6108.8
+      maturity day        =    0             grain yield (kg/ha) =    2372.8
+      grain % water content   =    8.5       grain yield wet (kg/ha) =    2593.3
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 6.508
+      total above ground biomass (kg/ha) =    8481.6
+      live above ground biomass (kg/ha) =       0.0
+      green above ground biomass (kg/ha) =       0.0
+      senesced above ground biomass (kg/ha) =       0.0
+      dead above ground biomass (kg/ha) =    8481.6
+      number of leaves =  30.8
+      grain N percent =      6.50            total N content (kg/ha) =    283.57
+      grain N uptake (kg/ha) =    154.23     senesced N content (kg/ha) =      0.00
+      green N content (kg/ha) =      0.00    dead N content (kg/ha) =    129.33
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1785596
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1926600
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.1079497   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1503286   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.1862132   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2216046   nitrogen stress 2 =       0.0001371
+     
+      Crop harvested.
+                                               tops residue = 6108.8 kg/ha
+                                               tops N =  129.3 kg/ha
+                                               root residue =    0.0 kg/ha
+                                               root N =    0.0 kg/ha
+     
+     
+                                               tops removed = 2372.8 kg/ha
+                                               tops N removed =  154.2 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+15 March 1989(Day of year=74), manager: 
+     Manager sending message :- soybean end_crop
+15 March 1989(Day of year=74), soybean: 
+         Crop ended. Yield (dw) =     0.0
+                                               straw residue =    0.0 kg/ha
+                                               straw N =    0.0 kg/ha
+                                               root residue = 3292.9 kg/ha
+                                               root N =   66.7 kg/ha
+31 March 1989(Day of year=90), clock: 
+     Simulation is terminating due to end criteria being met.
