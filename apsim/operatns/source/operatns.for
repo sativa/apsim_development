@@ -623,6 +623,7 @@
       integer    modNameID
       character  msg*500
       integer regID
+      integer iostatus
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -640,8 +641,14 @@
      :       .and. (nextyear.eq. g%thisyear)
      :       .and. (nextphase.eq. Phase_no)) then
 
-            read (g%oplun, '(A)', rec=recno) Line
-
+            read (g%oplun, '(A)', rec=recno, iostat=iostatus) Line
+            if (iostatus .ne. 0) then
+               write (msg, '(a)' )
+     :         'Error reading operations data'
+               call Fatal_error(ERR_user, msg)
+               goto 1000
+            else
+            endif
                ! extract components from string
             call get_next_word (Line, Destination)
             call get_next_word (Line, Action)
@@ -741,7 +748,7 @@
       else
          ! we are at the end of the operations file
       endif
-
+1000  continue
       call pop_routine (my_name)
       return
       end subroutine
@@ -910,6 +917,10 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
+!      print*,'Operatns'
+!      print*,'action=[',trim(action),']'
+!      print*,'data=[',trim(Data_String),']'
+
       if (Action.eq.ACTION_Init) then
          call operatns_Get_Other_Variables ()
          call operatns_zero_variables ()
@@ -948,10 +959,10 @@
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
