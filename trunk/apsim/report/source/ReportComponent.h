@@ -65,6 +65,7 @@ class ReportComponent : public APSIMComponent
       ReportComponent(const FString& name,
                       IComputation& computation,
                       const std::string& ssdl);
+      ~ReportComponent(void);
       virtual void init ();
       virtual bool getVariable (const FString& VariableName);
       virtual bool doAction(const FString& Action);
