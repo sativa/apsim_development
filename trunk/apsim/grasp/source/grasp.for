@@ -2113,7 +2113,12 @@ c      need to be changed. FIXME!
          g%litter = g%litter + g%detach(part)
  1000    continue
 
-      call grasp_add_residue (g%litter, c%litter_n * g%litter)
+c      call grasp_add_residue (g%litter, c%litter_n * g%litter)
+
+
+      call Grasp_Send_Crop_Chopped_Event (g%detach(:)
+     :                                  ,g%detach(:)*c%litter_n)
+
 
 C     Accumulate soilevap + grass transpiration (evapotranspiration) for
 C     basal area calculation. Note the obscureness of the date
@@ -4824,6 +4829,80 @@ c     :                    , 0.0, 10000.0)
       return
       end subroutine
 
+* ====================================================================
+      subroutine Grasp_Send_Crop_Chopped_Event ( dlt_crop_dm
+     :                                           , dlt_dm_n)
+* ====================================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
+
+*+  Purpose
+*     Notify other modules of crop chopped.
+
+*+  Mission Statement
+*     Notify other modules of crop chopped.
+
+*+  Changes
+*   281103 nih - Copied from plant module
+
+*+  Local variables
+      real       fraction_to_residue(max_part)
+      character  part_names(max_part)*(32)
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'grasp_Send_Crop_Chopped_Event')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+
+      fraction_to_Residue(root) = 0.0
+      part_names(root) = 'root'
+
+      fraction_to_Residue(leaf) = 1.0
+      part_names(leaf) = 'leaf'
+
+      fraction_to_Residue(stem) = 1.0
+      part_names(stem) = 'stem'
+
+      call new_postbox ()
+
+      call post_char_var   (DATA_crop_type
+     :                        ,'()'
+     :                        , p%crop_type)
+
+      call post_char_array (DATA_dm_type
+     :                        ,'()'
+     :                        , part_names
+     :                        , max_part)
+
+
+      call post_real_array (DATA_dlt_crop_dm
+     :                        ,'(kg/ha)'
+     :                        , dlt_crop_dm
+     :                        , max_part)
+      call post_real_array (DATA_dlt_dm_n
+     :                        ,'(kg/ha)'
+     :                        , dlt_dm_n
+     :                        , max_part)
+      call post_real_array (DATA_fraction_to_Residue
+     :                        ,'()'
+     :                        , fraction_to_Residue
+     :                        , max_part)
+
+      call event_send (EVENT_Crop_Chopped)
+
+      call delete_postbox ()
+
+
+      call pop_routine (myname)
+      return
+      end subroutine
 
 
       end module GraspModule
