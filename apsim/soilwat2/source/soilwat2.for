@@ -3535,6 +3535,7 @@ c     he should have. Any ideas? Perhaps
 *      261095 DPH Added call to message_unused
 *      070696 nih changed respond2set calls to collect calls
 *      200896 jngh changed cn2 to cn2_bare
+*      241199 jngh zero unused part of profile arrays when received.
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -3699,8 +3700,7 @@ c     he should have. Any ideas? Perhaps
  
             call soilwat2_check_profile (layer)
 5000     continue
- 
-         do 5100 layer = numvals, max_layer
+         do 5100 layer = numvals+1, max_layer
  
             g%air_dry_dep(layer) = 0.0
             g%dul_dep(layer) = 0.0
@@ -3719,16 +3719,25 @@ c     he should have. Any ideas? Perhaps
          do 6000 layer = 1, numvals
             temp(layer) = p%dlayer(layer) + temp(layer)
             fract = divide (temp(layer), p%dlayer(layer), 0.0)
- 
+
             g%air_dry_dep(layer) = g%air_dry_dep(layer) * fract
             g%dul_dep(layer) = g%dul_dep(layer) * fract
             g%ll15_dep(layer) = g%ll15_dep(layer) * fract
             g%sat_dep(layer) = g%sat_dep(layer) * fract
             g%sw_dep(layer) = g%sw_dep(layer) * fract
             p%dlayer(layer) = temp(layer)
- 
+
             call soilwat2_check_profile (layer)
 6000     continue
+         do 6100 layer = numvals+1, max_layer
+ 
+            g%air_dry_dep(layer) = 0.0
+            g%dul_dep(layer) = 0.0
+            g%ll15_dep(layer) = 0.0
+            g%sat_dep(layer) = 0.0
+            g%sw_dep(layer) = 0.0
+            p%dlayer(layer) = 0.0
+ 6100     continue
  
 * end code for erosion
  
