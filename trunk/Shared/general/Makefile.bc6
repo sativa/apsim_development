@@ -31,7 +31,7 @@ LIBFILES =
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\components\boost
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\components\boost;$(BCB)\components\libxml2\include
 LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------
