@@ -33,7 +33,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
       module ManagerModule
       use ComponentInterfaceModule
       use DataTypesModule
-      implicit none
 
 !  Constant variables
       integer MAX_NUM_LOCAL_VARIABLES      ! Maximum number of local variables
@@ -274,10 +273,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end type ManagerData
 
       ! instance variables.
-      common /InstancePointers/ g,p,c
-      type (ManagerData),pointer :: g
-      type (ManagerData),pointer :: p
-      type (ManagerData),pointer :: c
+      common /InstancePointers/ ID, g
+      save InstancePointers
+      type (IDsType), pointer :: ID
+      type (ManagerData), pointer :: g
 
       end module ManagerModule
 
@@ -298,8 +297,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
+         allocate(id)
          allocate(g)
       else
+         deallocate(id)
          deallocate(g)
       end if
       return
@@ -407,7 +408,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine(This_routine)
 
-      call do_registrations()
+      call do_registrations(id)
 
       g%numLocalVariables = 0
       g%lines_been_read = .false.
@@ -650,19 +651,19 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine (my_name)
 
-      if (eventID .eq. prepareId) then
+      if (eventID .eq. id%prepare) then
          g%start_token = g%rule_indexes(2)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
          end if
 
-      else if (eventID .eq. processId) then
+      else if (eventID .eq. id%process) then
          g%start_token = g%rule_indexes(3)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
          end if
 
-      else if (eventID .eq. postId) then
+      else if (eventID .eq. id%post) then
          g%start_token = g%rule_indexes(4)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
@@ -1385,7 +1386,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       ! Look for a date function first.
       if (fullName(1:5) .eq. 'date(') then
          call Manager_get_params (fullName, Params)
-         if (Get_today(todayId, today)) then
+         if (Get_today(id%today, today)) then
             call Double_var_to_string
      .         (String_to_jday_with_error(Params(1), Today), value)
          endif
@@ -1394,7 +1395,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       else if (fullName(1:12) .eq. 'date_within(') then
          call Manager_get_params (fullName, Params)
 
-         if (Get_today(todayId, today)) then
+         if (Get_today(id%today, today)) then
             if (Date_within(Params(1), Params(2), today)) then
                value = '1'
             else
@@ -1567,7 +1568,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
      .    index(Action_string, 'do_end_day_output') .eq. 0) then
-         if (Get_today(todayId, today)) then
+         if (Get_today(id%today, today)) then
             call jday_to_day_of_year (today, day, year)
 
             msg = '     Manager sending message :- ' // Action_string

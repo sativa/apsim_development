@@ -15,11 +15,13 @@
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
+         allocate(id)
          allocate(g)
          allocate(p)
          allocate(c)
 
       else
+         deallocate(id)
          deallocate(g)
          deallocate(p)
          deallocate(c)
@@ -43,7 +45,7 @@
 
 !- Implementation Section ----------------------------------
 
-      call do_registrations()
+      call do_registrations(id)
 
       return
       end
@@ -124,16 +126,16 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. DoMicrometId) then
+      if (eventID .eq. id%DoMicromet) then
          call on_do_micromet()
 
-      else if (eventID .eq. CanopyChangedId) then
+      else if (eventID .eq. id%CanopyChanged) then
          call on_canopy_changed(variant)
 
-      else if (eventID .eq. TickId) then
+      else if (eventID .eq. id%Tick) then
          call on_tick(variant)
 
-      else if (eventID .eq. newmetId) then
+      else if (eventID .eq. id%newmet) then
          call on_newmet(variant)
 
       else
@@ -159,25 +161,25 @@
 
 !- Implementation Section ----------------------------------
 
-      if (methodID.eq.lai_tableId) then
+      if (methodID.eq.id%lai_table) then
          call Micromet_table ('LAI',g%LAI)
-      else if (methodID.eq.f_tableId) then
+      else if (methodID.eq.id%f_table) then
          call Micromet_table ('F',g%F)
-      else if (methodID.eq.rs_tableId) then
+      else if (methodID.eq.id%rs_table) then
          call Micromet_table ('Rs',g%Rs)
-      else if (methodID.eq.rl_tableId) then
+      else if (methodID.eq.id%rl_table) then
          call Micromet_table ('Rl',g%Rl)
-      else if (methodID.eq.gc_tableId) then
+      else if (methodID.eq.id%gc_table) then
          call Micromet_table ('Gc',g%Gc)
-      else if (methodID.eq.ga_tableId) then
+      else if (methodID.eq.id%ga_table) then
          call Micromet_table ('Ga',g%Ga)
-      else if (methodID.eq.pet_tableId) then
+      else if (methodID.eq.id%pet_table) then
          call Micromet_table ('PET',g%PET)
-      else if (methodID.eq.petr_tableId) then
+      else if (methodID.eq.id%petr_table) then
          call Micromet_table ('PETr',g%PETr)
-      else if (methodID.eq.peta_tableId) then
+      else if (methodID.eq.id%peta_table) then
          call Micromet_table ('PETa',g%PETa)
-      else if (methodID.eq.omega_tableId) then
+      else if (methodID.eq.id%omega_table) then
          call Micromet_table ('Omega',g%Omega)
       else
          call error('bad method ID',.true.)
@@ -232,7 +234,7 @@
 
       call push_routine (myname)
 
-      if (Variable_info%id .eq. interceptionId) then
+      if (Variable_info%id .eq. id%interception) then
 
          Total_Interception = 0.0
 
@@ -394,7 +396,7 @@ c      g%ComponentFrgr(:) = 0.0
 *
       character section_name*(*)
       parameter (section_name = 'parameters')
-      
+
 *+  Local Variables
       logical found
 
@@ -471,17 +473,17 @@ c      g%ComponentFrgr(:) = 0.0
      :        'eo_source',           ! Keyword
      :        p%eo_source,           ! Parameter
      :        .true.)
-     
+
       if(.not.found) then
          p%eo_source = blank
       else
          ! better register my interest in this data
-         g%EoSourceID = add_registration(GetVariableReg 
+         g%EoSourceID = add_registration(GetVariableReg
      :                                  ,p%eo_source
      :                                  ,Eoddml)
       endif
-     
-     
+
+
       call pop_routine (myname)
       return
       end
@@ -546,7 +548,7 @@ c      g%ComponentFrgr(:) = 0.0
      :         , c%max_crit_temp      ! Variable
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 50.)                 ! Upper Limit for bound checking
-          
+
       call pop_routine (myname)
       return
       end
@@ -592,15 +594,15 @@ c      g%ComponentFrgr(:) = 0.0
       call unpack_canopy(variant, canopies, num_canopies)
 
       call Write_string ('got it')
-!      print*,canopies(1)%cropType 
+!      print*,canopies(1)%cropType
 !      print*,canopies(1)%NumLayers
-!      print*,canopies(1)%layer(1)%thickness  
-!      print*,canopies(1)%layer(1)%Lai  
-!      print*,canopies(1)%layer(1)%CoverGreen 
-!      print*,canopies(1)%layer(1)%CoverTotal 
-!      print*,canopies(1)%frgr     
+!      print*,canopies(1)%layer(1)%thickness
+!      print*,canopies(1)%layer(1)%Lai
+!      print*,canopies(1)%layer(1)%CoverGreen
+!      print*,canopies(1)%layer(1)%CoverTotal
+!      print*,canopies(1)%frgr
 !      pause
-      
+
       do 100 counter = 1, num_canopies
 
          ComponentNo = Micromet_Component_Number
@@ -794,7 +796,7 @@ c      g%ComponentFrgr(:) = 0.0
       Nodes(1) = 0.0
 
       do 100 ComponentNo = 1, g%NumComponents
-      
+
          CumHeight = 0.0
          do 50 layer = 1, max_layer
                CumHeight = CumHeight
@@ -857,7 +859,7 @@ c      g%ComponentFrgr(:) = 0.0
       real    KLAInew(max_layer)
       real    KLAItot(max_layer)
       real    KLAItotnew(max_layer)
-                  
+
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
@@ -876,7 +878,7 @@ c      g%ComponentFrgr(:) = 0.0
             else
                KLAI(i) = 0.0
                KLAItot(i) = 0.0
-            endif            
+            endif
   100    continue
 
          call map(g%Canopies(j)%NumLayers
@@ -898,7 +900,7 @@ c      g%ComponentFrgr(:) = 0.0
      :           ,KLAItot
      :           ,g%NumLayers
      :           ,g%DeltaZ
-     :           ,KLAItotnew)                 
+     :           ,KLAItotnew)
 
          do 150 i=1,g%Canopies(j)%NumLayers
             g%Cover(i,j) = 1.0-exp(-KLAInew(i))
@@ -911,7 +913,7 @@ c      g%ComponentFrgr(:) = 0.0
          ! =============================================================
 
       do 300 i=1, g%NumLayers
-      
+
          do 250 j = 1, g%NumComponents
             g%F(i,j) = divide(g%LAI(i,j)
      :                       ,sum(g%LAI(i,1:g%NumComponents))
@@ -2143,7 +2145,7 @@ c      g%ComponentFrgr(:) = 0.0
   100 continue
       profile%transmission = g%met%radn - sum(g%Rs(:,:))
 
-      call publish_LightProfile(LightProfileCalculatedID
+      call publish_LightProfile(id%LightProfileCalculated
      :            ,profile,.false.)
 
       call pop_routine (myname)
@@ -2195,7 +2197,7 @@ c      g%ComponentFrgr(:) = 0.0
       CanopyWaterBalance%interception = sum(g%Interception(:,:))
       CanopyWaterBalance%Eo = 0.0
 
-      call publish_CanopyWaterBalance(CanopyWaterBalanceCalculatedID
+      call publish_CanopyWaterBalance(id%CanopyWaterBalanceCalculated
      :            ,CanopyWaterBalance,.false.)
 
       call pop_routine (myname)
@@ -2274,7 +2276,7 @@ c      g%ComponentFrgr(:) = 0.0
 *+  Local Variables
       real eo_system  ! value of Eo obtained from the comm. system
       logical found
-      
+
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name = 'Micromet_pot_evapotranspiration')
@@ -2411,15 +2413,15 @@ c      g%ComponentFrgr(:) = 0.0
       call pop_routine (my_name)
       return
       end
-      
+
 *     ===========================================================
       subroutine map(n,x,y,M,u,v)
-*     ===========================================================      
+*     ===========================================================
       implicit none
 *+  Sub-Program Arguments
       integer N,M
       real x(*),y(*),u(*),v(*)
-      
+
 *+  Purpose
 *     maps concentration in y into v so that integral is conserved
 *     x and u give intervals corresponding to y and v values
