@@ -1638,6 +1638,7 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
         plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
         g.dlt_dm_pot_te = dltDmPotTeVeg + g.dltDmPotTeFruit;
 
+//Remove
 //        cproc_bio_water1 (max_layer, g.dlayer, g.root_depth,
 //                          g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
         }
@@ -4688,6 +4689,7 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
 
         g.sw_demand_te = swDemandTEVeg + g.swDemandTEFruit;
 
+//Remove
 //        cproc_sw_demand1 (g.dlt_dm_pot_rue,
 //                          g.transp_eff,
 //                          &g.sw_demand_te);
@@ -4825,7 +4827,6 @@ void Plant::plant_water_supply_partition(float gSwDemand
     push_routine (my_name);
 
     *gSwSupplyVeg = gSwSupply * divide (gSwDemandVeg, gSwDemand, 0.0);
-    *gSwSupplyVeg = bound (*gSwSupplyVeg, 0.0, 1.0);
     *gSwSupplyFruit = gSwSupply - *gSwSupplyVeg;
 
     pop_routine (my_name);
