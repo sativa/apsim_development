@@ -36,7 +36,7 @@ class __declspec(dllexport) ApsimSettings
 
       // Return a complete list of all keys under the specified key.
       void getKeysUnder(const std::string& key, std::vector<std::string>& keys);
-      void getSectionNames(vector<string>& sections) const;
+      void getSectionNames(std::vector<std::string>& sections) const;
 
       // Erase the specified section or key.
       void deleteSection(const std::string& section);
