@@ -45,7 +45,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
             {
             vector<string> sections;
             runForm->getSelectedSimulations(sections);
-            ApsimControlFile controlFile(fileName);
             string configurationFile = runForm->getSelectedConfiguration();
             delete runForm;
 
@@ -54,10 +53,23 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
                for (vector<string>::iterator sectionI = sections.begin();
                                              sectionI != sections.end();
                                              sectionI++)
-                  controlFile.createSIM(*sectionI, configurationFile);
+                  {
+                  ApsimControlFile controlFile(fileName, *sectionI);
+                  controlFile.createSIM(configurationFile);
+                  }
                }
             else
-               controlFile.run(sections, configurationFile, quietRun);
+               {
+               for (vector<string>::iterator sim = sections.begin();
+                                             sim != sections.end();
+                                             sim++)
+                  {
+                  ApsimControlFile simulation(fileName, *sim);
+                  simulation.run(configurationFile, true);
+                  }
+               if (!quietRun)
+                  MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
+               }
             }
          }
       else if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".run") == 0)
