@@ -63,7 +63,7 @@ void ArraySpecifier::convert(MessageData& messageData, DataTypeCode typeCode)
       }
    else if (typeCode == DTdouble)
       {
-      vector<float> values;
+      vector<double> values;
       convertArray(messageData, values);
       }
    }
