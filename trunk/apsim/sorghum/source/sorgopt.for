@@ -781,6 +781,7 @@ c (how do we do this w. TPLA approach?)
       real       g_tt_tot_fm(*)    !variables used in thermal time for GF
       real       g_dlt_tt_fm    !variables used in thermal time for GF
       real       g_sw_supply_demand_ratio
+      character  string*200            ! output string
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -811,6 +812,7 @@ c (how do we do this w. TPLA approach?)
        if (stage_is_between(sowing, flowering, g_current_stage)) then
 
 !       g_swdef_pheno left alone
+
 
          if (stage_is_between(sowing, endjuv, g_current_stage))
      :          g_nfact_pheno = 1.0
@@ -1728,7 +1730,7 @@ c (how do we do this w. TPLA approach?)
 
 *+  Local Variables
       integer    phase                 ! phase number containing stage
-
+      character  string*200
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -1984,6 +1986,7 @@ cjh  changed 0.0 to 1.0
 *+  Local Variables
       real       new_stage             ! new stage number
       integer    max_stage              !New code
+      character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
 

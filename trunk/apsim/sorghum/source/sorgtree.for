@@ -86,6 +86,7 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Sorg_root_depth_init')
+      character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -209,6 +210,7 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 *+  Constant Values
       character  my_name*(*) ! name of procedure
       parameter (my_name = 'crop_water_stress')
+      character  string*200            ! output string
 
 *+  Local Variables
       real ext_sw_supply (max_layer) ! external sw supply (mm)
@@ -479,7 +481,7 @@ C     Last change:  E     6 Aug 2001   12:28 pm
      .          c%rue,
      .          g%radn_int,
      .          g%temp_stress_photo,
-     .          g%nfact_photo,
+     .          min(g%nfact_photo, PlantP_pfact_photo()),
      .          g%dlt_dm_light)
 
       else
@@ -657,6 +659,8 @@ C     Last change:  E     6 Aug 2001   12:28 pm
 *+  Changes
 *     <insert here>
 
+      real stress_pheno
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'sorg_phenology')
@@ -720,6 +724,7 @@ c
 c     :          g%days_tot)
 
       elseif (Option .eq. 400) then
+         stress_pheno = min(g%nfact_photo, PlantP_pfact_photo())
 
 !version with 2 thermal times (different for GF)
       call sorg_phenology2 (
@@ -736,7 +741,7 @@ c     :          g%days_tot)
 
      .       g%dm_green,
      .       g%N_conc_crit, g%N_conc_min, g%N_green,
-     .       c%N_fact_pheno, g%nfact_pheno,
+     .       c%N_fact_pheno, stress_pheno,
 
      .          g%days_tot,
      .          g%sowing_depth,
@@ -1277,11 +1282,11 @@ c     :          g%days_tot)
 !stress factors should really be called again here!!!
 
          call cproc_leaf_area_stressed1 (
-     :                       g%dlt_lai_pot
-     :                      ,g%swdef_expansion
-     :                      ,g%nfact_expansion
-     :                      ,g%dlt_lai_stressed
-     :                      )
+     :              g%dlt_lai_pot
+     :             ,g%swdef_expansion
+     :             ,min(g%nfact_expansion, PlantP_pfact_expansion())
+     :             ,g%dlt_lai_stressed
+     :             )
 
       else
 
