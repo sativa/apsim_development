@@ -52,9 +52,9 @@ class ComponentOrder
          {
          for (unsigned i = 0; i != components.size(); i++)
             {
-            if (Str_i_Eq(components[i], arg1.moduleName))
+            if (Str_i_Eq(components[i], arg1.instanceName))
                return true;
-            if (Str_i_Eq(components[i], arg2.moduleName))
+            if (Str_i_Eq(components[i], arg2.instanceName))
                return false;
             }
          return true; // neither are in list!!
