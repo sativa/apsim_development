@@ -8,7 +8,7 @@
 #include <string>
 #include <map>
 
-typedef void __fastcall (__closure *EventHandler)(void);
+typedef void __stdcall (*EventHandler)(const char* files);
 
 struct MenuDescription
    {
@@ -40,14 +40,6 @@ class CContextMenuHandler : public IContextMenu, IShellExtInit
 
       void createMenus(std::string& subMenuName,
                        std::vector<MenuDescription>& menuDescriptions);
-
-      void __fastcall excel(void);
-      void __fastcall apsvis(void);
-      void __fastcall apsimoutlook(void);
-      void __fastcall run(void);
-      void __fastcall sim(void);
-      void __fastcall make(void);
-      void __fastcall build(void);
 
    public:
       CContextMenuHandler();
