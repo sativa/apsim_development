@@ -83,9 +83,10 @@ class APSIMSoilwat2Public
    tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
    sysinit                 : APSIMMethod                = System initialise
    reset                   : APSIMMethod                = System reset stage
-   process                 : APSIMMethod                = System process stage
-   sum_report              : APSIMMethod                = Report SoilWat module summary details
-   post                    : APSIMMethod                = System post stage
+   sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
+   evap_init               : APSIMEvapInitMethod        = Method of evaporation calculation
+
+   new_profile             : APSIMNewProfileEvent       = New Profile
 end
 
 ; -----------------------------------------------------------
@@ -111,6 +112,9 @@ class APSIMSoilwat2External
    newmet                  : APSIMNewMetEvent           = New met event
    irrigated               : APSIMIrrigatedEvent        = Irrigated event
    new_solute              : APSIMNewSoluteEvent        = New solute event
+   process                 : APSIMEvent                 = System process stage
+   post                    : APSIMEvent                 = System post stage
+
 end
 
 class APSIMSoilwat2
