@@ -421,6 +421,7 @@ c        read(Values_str, *, iostat=Read_code) ????
 c     else
          ! Don't know this variable name
 c     endif
+      call Message_unused ()
 
       return
       end subroutine
