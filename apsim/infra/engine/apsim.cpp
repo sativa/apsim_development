@@ -1,4 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
+
 #include "Simulation.h"
 #include <string>
 #include <fstream>
