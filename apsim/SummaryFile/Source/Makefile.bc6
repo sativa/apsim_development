@@ -19,14 +19,14 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
-LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+LIBPATH = $(APSROOT)\Shared\ComponentInterface
 
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+CFLAG1 = $(SYSCFLAGS) -vi -TWD
 WARNINGS = -w-par
-LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+LFLAGS = $(SYSLDFLAGS) -D"" -aa -Tpd -x -Gn -Gi
 
 ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
