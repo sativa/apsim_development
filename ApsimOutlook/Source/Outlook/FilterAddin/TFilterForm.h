@@ -12,6 +12,8 @@
 #include <Buttons.hpp>
 #include <Mask.hpp>
 #include <ComCtrls.hpp>
+#include "kbmMemTable.hpp"
+#include <DB.hpp>
 #include "flt_box.hpp"
 #include <general\inifile.h>
 #include <vector>
@@ -38,6 +40,11 @@ __published:	// IDE-managed Components
    TComboBox *FilterCombo2;
    TPSCFltBox *FilterBox1;
    TComboBox *FilterCombo1;
+   TkbmMemTable *MemTable1;
+   TkbmMemTable *MemTable2;
+   TkbmMemTable *MemTable3;
+   TkbmMemTable *MemTable4;
+   TkbmMemTable *MemTable5;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall FilterCombo1Change(TObject *Sender);
