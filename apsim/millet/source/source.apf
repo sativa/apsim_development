@@ -1,9 +1,0 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
-
-[source]
-source  = millet.for; %thispath\millet.for
-source  = millet_i.for; %thispath\millet_i.for
-
