@@ -178,7 +178,7 @@ split_nrate = 40
 if day = sow_day then
    soilwat2 reset
    soiln2 reset
-   residue2 reset
+   surfaceom reset
    fertiliz apply amount = nrate, type = no3_n, depth = 5 (mm)
    wheat sow cultivar = cultivar, plants = 100 (/m2), sowing_depth = 40 (mm)
    in_crop_rain = 0
