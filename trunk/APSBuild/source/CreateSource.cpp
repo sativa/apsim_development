@@ -210,6 +210,31 @@ void processStructure(const ApsimDataTypeData& dataType, XMLNode& node)
       }
    }
 //---------------------------------------------------------------------------
+// Process a field.
+//---------------------------------------------------------------------------
+void processField(const ApsimDataTypeData& dataType, XMLNode& node)
+   {
+   static set<string> structuresAlreadyDone;
+   string lowerName = dataType.getName();
+   To_lower(lowerName);
+   if (structuresAlreadyDone.find(lowerName) == structuresAlreadyDone.end())
+      {
+      structuresAlreadyDone.insert(lowerName);
+
+      // add field to a new macro.
+      XMLNode child = node.appendChild("type", true);
+      child.setAttribute("name", dataType.getName());
+      if (dataType.isArray())
+         child.setAttribute("array", "T");
+      else
+         child.setAttribute("array", "F");
+      XMLNode cddmlNode = child.appendChild("cddml");
+      cddmlNode.setValue(ddmlToCPP(dataType), true);
+      XMLNode forddmlNode = child.appendChild("forddml");
+      forddmlNode.setValue(ddmlToFOR(dataType), true);
+      }
+   }
+//---------------------------------------------------------------------------
 // Performs the conversion using the specified ddml and the specified
 // macro file.
 //---------------------------------------------------------------------------
@@ -229,6 +254,8 @@ void CreateSource::go(const std::string& ddml,
          {
          if (dataType->isStructure())
             processStructure(*dataType, rootNode);
+         else if (dataType->isBuiltIn())
+            processField(*dataType, rootNode);
          }
       if (writeXML)
          xml.write("macro.xml");
