@@ -1,3 +1,4 @@
+C     Last change:  P    23 Oct 2000    4:14 pm
       module ClockModule
       
       type ClockData
@@ -132,8 +133,11 @@
       else if (Action.eq.ACTION_Continue) then
          g%pause_current_run = .false.
  
-      else if (Action.eq.ACTION_End_run) then
-         g%end_current_run = .true.
+      else if (Action.eq.ACTION_Finish) then
+         ! must have been a fatal error better tell crops
+         ! that we're about to end.
+ 
+         call Action_send_to_all_comps (ACTION_End_run)
  
       else
          ! Not our variable
@@ -237,6 +241,7 @@ cih
 *     dph 25/11/96
 *     nih 28/04/99 - added timestep parameter
 *     nih 17/05/99 - changing name of start/end to simulation_start_??? etc - C191
+*     dph 23/10/00 - changed to read dates instead of day and year.
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -247,110 +252,41 @@ cih
       integer year                     ! year
       integer thisdate(3)              ! day, month, year
       integer numvals                  ! used in call to read_integer_var routine
+      character date_st*(100)          ! string representation of date.
 
 *- Implementation Section ----------------------------------
  
       call push_routine (this_routine)
 
-      call read_integer_var_optional ('parameters',
-     .                       'simulation_start_day',
-     .                       '(day)',
-     .                       day_of_year,
-     .                       numvals,
-     .                       1,
-     .                       366)
+      ! go get a start date
+      call read_char_var ('parameters',
+     .                    'start_date',
+     .                    '(date)',
+     .                    date_st,
+     .                    numvals)
+      call String_to_jday (date_st, g%start_date, numvals, 0.0)
 
       if (numvals.eq.0) then
-         call warning_error (ERR_User
-     .                      ,'Please change input for starting day to '
-     .                      //'simulation_start_day = ... as later '
-     .                      //'versions of APSIM will not support the '
-     .                      //'old syntax.')
-         call read_integer_var ('parameters',
-     .                       'start_day',
-     .                       '(day)',
-     .                       day_of_year,
-     .                       numvals,
-     .                       1,
-     .                       366)
-
+         call fatal_error (ERR_User
+     .                    ,'Cannot convert the date:'
+     .                    // TRIM(date_st)
+     .                    //' to a valid date (dd/mm/yyyy)')
       endif
 
-      call read_integer_var_optional ('parameters',
-     .                       'simulation_start_year',
-     .                       '(year)',
-     .                       year,
-     .                       numvals,
-     .                       1700,
-     .                       2100)
+      ! go get an end date
+      call read_char_var ('parameters',
+     .                    'end_date',
+     .                    '(date)',
+     .                    date_st,
+     .                    numvals)
+      call String_to_jday (date_st, g%end_date, numvals, 0.0)
+
       if (numvals.eq.0) then
-         call warning_error (ERR_User
-     .                      ,'Please change input for starting year to '
-     .                      //'simulation_start_year = ... as later '
-     .                      //'versions of APSIM will not support the '
-     .                      //'old syntax.')
-         call read_integer_var ('parameters',
-     .                       'start_year',
-     .                       '(year)',
-     .                       year,
-     .                       numvals,
-     .                       1700,
-     .                       2100)
-
+         call fatal_error (ERR_User
+     .                    ,'Cannot convert the date:'
+     .                    // TRIM(date_st)
+     .                    //' to a valid date (dd/mm/yyyy)')
       endif
-
-      call day_of_year_to_date (day_of_year, year, thisdate)
-      g%Start_date = Date_to_jday 
-     .    (thisdate(1), thisdate(2), thisdate(3))
- 
-      call read_integer_var_optional ('parameters',
-     .                       'simulation_end_day',
-     .                       '(day)',
-     .                       day_of_year,
-     .                       numvals,
-     .                       1,
-     .                       366)
-      if (numvals.eq.0) then
-         call warning_error (ERR_User
-     .                      ,'Please change input for ending day to '
-     .                      //'simulation_end_day = ... as later '
-     .                      //'versions of APSIM will not support the '
-     .                      //'old syntax.')
-         call read_integer_var ('parameters',
-     .                       'end_day',
-     .                       '(day)',
-     .                       day_of_year,
-     .                       numvals,
-     .                       1,
-     .                       366)
-
-      endif
-
-      call read_integer_var_optional ('parameters',
-     .                       'simulation_end_year',
-     .                       '(year)',
-     .                       year,
-     .                       numvals,
-     .                       1700,
-     .                       2100)
-      if (numvals.eq.0) then
-         call warning_error (ERR_User
-     .                      ,'Please change input for ending year to '
-     .                      //'simulation_end_year = ... as later '
-     .                      //'versions of APSIM will not support the '
-     .                      //'old syntax.')
-         call read_integer_var ('parameters',
-     .                       'end_year',
-     .                       '(year)',
-     .                       year,
-     .                       numvals,
-     .                       1700,
-     .                       2100)
-
-      endif
-
-      call day_of_year_to_date (day_of_year, year, thisdate)
-      g%end_date = Date_to_jday (thisdate(1), thisdate(2), thisdate(3))
 
       call read_integer_var_optional ('parameters',
      .                       'timestep',
@@ -761,11 +697,7 @@ cih
       ! do all timesteps for simulation
  
       call Clock_timestep_loop ()
- 
-      ! send end run message to all modules.
- 
-      call Action_send_to_all_comps (ACTION_End_run)
- 
+
       call pop_routine (This_routine)
       return
       end subroutine
