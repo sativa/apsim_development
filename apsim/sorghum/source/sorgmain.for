@@ -19,6 +19,7 @@ C     Last change:  E     6 Aug 2001    3:00 pm
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sorg_process')
+      character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -64,6 +65,12 @@ c      call sorg_light_supply(400)
       call Sorg_transpiration_eff(1)   !CT No bounding on VPD or TE
       call Sorg_water_demand(1)        !CT!movable!
 
+      if (g%phosphorus_aware) then
+         call PlantP_prepare(g%current_stage
+     :                      ,g%dm_green
+     :                      ,g%dlt_dm_light)
+      else
+      endif
 
 
 cew    if (g%plant_status.eq.status_alive) then
@@ -144,6 +151,16 @@ cew    if (g%plant_status.eq.status_alive) then
          call sorg_N_partition(401)     !GMC New 401 (calc dltN to plant and from soil)
 
          call sorg_N_retranslocate(401) !GMC New 401 (retranslocate N where needed)
+
+                                 !SECTION 9: PLANT P RELATIONS
+         if (g%phosphorus_aware) then
+            call PlantP_Process(g%current_stage
+     :                      ,g%dm_green
+     :                      ,g%dm_senesced
+     :                      ,g%dlt_dm_senesced
+     :                      ,g%dlt_dm_detached)
+         else
+         endif
 
 !---------------------    SORGHUM  ---------------------------------
 
