@@ -131,16 +131,11 @@ site_index = 1.0
 ! =======================================
 
 
-[all.residue2.parameters]
-pot_decomp_rate =  0.10 ()   ! Potential decomposition rate
-residue_wt =  10. (kg/ha)   ! Initial surface residue
-residue_cnr =  80.0 ()   ! C:N ration of initial residue
-residue_type =  sugar   ! Type if initial residue
-
-[all.residue2.specific_areas]
-grandis = 0.0005
-globulus = 0.0005
-!grass = 0.0005
+[all.SurfaceOM.parameters]
+mass = 10. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = sugar   ! Type if initial residue
+name = sugar
 
 [all.micromet.parameters]
 soil_albedo = 0.23

@@ -51,8 +51,8 @@ variable = soiln2.biom_n()
 variable = soiln2.fom_n()
 variable = soiln2.hum_n()
 variable = tracker.sum@dlt_n_min()
-variable = residue2.residue_wt
-variable = residue2.residue_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_n
 variable = manager.c_n1
 variable = manager.c_n2
 variable = manager.oc1
@@ -79,8 +79,8 @@ endif
 [all.manager.end_of_day]
 
 ! Try to reproduce initial FOM pools from previous pinus ellioti plantation
-!if day = 35 and year = 1987 then!   residue2 add_residue  dlt_residue_wt = 75000 (kg/ha), dlt_residue_cnr = 100 , dlt_residue_type = grandis
-!   residue2 tillage type = disc, f_incorp = 1.0, tillage_depth = 150 (mm)
+!if day = 35 and year = 1987 then!   surfaceom add_surfaceom mass=75000 kg/ha, cnr=100, type=grandis, name=grandis
+!   surfaceom tillage type = disc, f_incorp = 1.0, tillage_depth = 150 (mm)
 !endif
 
 c_n1 = carbon_tot(1)/nit_tot(1)
@@ -179,14 +179,12 @@ n_uptake_source = calc
 
 ! ================================================
 
-[all.residue2.parameters]
-pot_decomp_rate =  0.1 ()   ! Potential decomposition rate
-residue_wt =  10. (kg/ha)   ! Initial surface residue
-residue_cnr =  80.0 ()   ! C:N ration of initial residue
-residue_type =  sugar   ! Type if initial residue
+[all.SurfaceOM.parameters]
+mass = 10. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = sugar   ! Type if initial residue
 
-[all.residue2.specific_areas]
-!grandis = 0.0003
+name = sugar
 
 [all.micromet.parameters]
 soil_albedo = 0.23
