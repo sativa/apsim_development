@@ -257,7 +257,7 @@ void ReportComponent::doInit1(const FString& sdml)
    static const char* stringDDML = "<type kind=\"string\"\\>";
    titleID = addRegistration(getVariableReg, "title", stringDDML);
    summaryFileID = addRegistration(getVariableReg, "summaryFile", stringDDML);
-   repEventID = addRegistration(respondToEventReg, "rep", "");
+   repEventID = addRegistration(respondToEventReg, "report", "");
    doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
    doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
    daysSinceLastReportVariableID = addRegistration(respondToGetReg,
