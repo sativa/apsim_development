@@ -44,6 +44,7 @@ istream& ApsimDataFile::getline(string& line)
    std::getline(in, line);
    if (line[line.size()-1] == '\r')
       line.erase(line.size()-1);
+   Strip(line, " ");
    return in;
    }
 //---------------------------------------------------------------------------
