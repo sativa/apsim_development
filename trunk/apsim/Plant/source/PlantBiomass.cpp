@@ -804,7 +804,7 @@ void cproc_rue_co2_modifier(photosynthetic_pathway_t croptype, // Photosynthetic
         }
       default:
         {
-        fatal_error(&err_user, "Unknown photosynthetic pathway");
+        fatal_error("Unknown photosynthetic pathway");
         }
       }
    }

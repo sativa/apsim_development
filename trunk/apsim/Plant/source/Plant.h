@@ -2,16 +2,14 @@
 #define PLANT_H_
 
 class PlantComponent;
-struct protocol::ApsimGetQueryData;
+//struct protocol::ApsimGetQueryData;
 class ApsimVariant;
 class PlantP;
 class Plant;
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
-typedef void (Plant::*ptr2EventFn) (unsigned int &, protocol::Variant&);
 
 typedef std::map<unsigned, ptr2setFn>   UInt2SetFnMap;
-typedef std::map<unsigned, ptr2EventFn> UInt2EventFnMap;
 typedef std::map<unsigned, string>      UInt2StringMap;
 
 ////////////////////////
@@ -126,118 +124,25 @@ class Plant {
  public:
   Plant(PlantComponent *P);
   ~Plant();
-  void doInit(void) ;
+  void initialise(void) ;
   void doIDs(void) ;
   void doRegistrations(void) ;
-  void doEvent(unsigned int &id, protocol::Variant &v);
-  void getVariable(unsigned id, protocol::QueryValueData& qd) ;
   bool setVariable(unsigned id, protocol::QuerySetValueData& qd) ;
-  void doPrepare(unsigned &, protocol::Variant &) ;
-  void doProcess(unsigned &, protocol::Variant &) ;
-  void doSow(unsigned &, protocol::Variant &v) ;
-  void doHarvest(unsigned &, protocol::Variant &v) ;
-  void doEndCrop(unsigned &, protocol::Variant &v) ;
-  void doKillCrop(unsigned &, protocol::Variant &v) ;
-  void doKillStem(unsigned &, protocol::Variant &v) ;
-  void doEndRun(unsigned &, protocol::Variant &v) ;
-  void doAutoClassChange(unsigned &, protocol::Variant &v) ;
-  void doTick(unsigned &id, protocol::Variant &v) ;
-  void doNewMet(unsigned &, protocol::Variant &v) ;
-  void doNewProfile(unsigned &, protocol::Variant &v) ;
+  void doPrepare(unsigned &, unsigned &, protocol::Variant &) ;
+  void doProcess(unsigned &, unsigned &, protocol::Variant &) ;
+  void doSow(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doHarvest(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doKillCrop(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doKillStem(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doAutoClassChange(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doTick(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doNewMet(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doNewProfile(unsigned &, unsigned &, protocol::Variant &v) ;
   void registerClassActions(void);
   void onApsimGetQuery(protocol::ApsimGetQueryData&);
   void sendStageMessage(const char *what);
-  ////////////////////Interface code///////////////////////
-  // FLOATs
-  bool read_array(const char * sectionName,
-                  const char * variableName,
-                  const char * units,
-                  float      * values,
-                  int        & numValues,
-                  float        lower,
-                  float        upper,
-                  bool optional = false);
-
-  bool read_array(const vector<std::string>& search_order,
-                  const char * variableName,
-                  const char * units,
-                  float *value,
-                  int &NumValues,
-                  float lower,
-                  float upper,
-                  bool isOptional = false);
-
-  bool read_var(const char * sectionName,
-                const char * variableName,
-                const char * units,
-                float & value,
-                float lower,
-                float upper,
-                bool optional = false);
-
-  bool read_var(const vector<std::string>& search_order,
-                                const char * variableName,
-                                const char * units,
-                                float &value,
-                                float lower,
-                                float upper,
-                                bool isOptional = false);
-
-  // INTs
-  bool read_array(const char * sectionName,
-                  const char * variableName,
-                  const char * units,
-                  int      * values,
-                  int        & numValues,
-                  int        lower,
-                  int        upper,
-                  bool optional = false);
-
-  bool read_array(const vector<std::string>& search_order,
-                  const char * variableName,
-                  const char * units,
-                  int *value, int &NumValues, int lower, int upper,
-                  bool isOptional = false);
-
-  bool read_var(const char * sectionName,
-                const char * variableName,
-                const char * units,
-                int & value,
-                int lower,
-                int upper,
-                bool optional = false);
-
-  bool read_var(const vector<std::string>& search_order,
-                                const char * variableName,
-                                const char * units,
-                                int &value, int lower, int upper, bool isOptional = false);
-
-
-  // CHARs
-  bool read_array(const char * sectionName,
-                  const char * variableName,
-                  const char * units,
-                  vector<string> &values,
-                  bool optional = false);
-
-  bool read_array(const vector<std::string>& search_order,
-                  const char * variableName,
-                  const char * units,
-                  vector<string> &value,bool isOptional = false);
-
-  bool read_var(const char * sectionName,
-                const char * variableName,
-                const char * units,
-                string &value,
-                bool optional = false);
-
-  bool read_var(const vector<std::string>& search_order,
-                                const char * variableName,
-                                const char * units,
-                                string &value,bool isOptional = false);
-
-////////////////////END Interface code///////////////////////
-
 
   void plant_bio_actual (int option /* (INPUT) option number*/);
   void plant_bio_grain_demand (int option /* (INPUT) option number */);
@@ -1448,7 +1353,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
 
  private:
   /* system interface: */
-  UInt2EventFnMap IDtoEventFn;  /* events */
   UInt2SetFnMap   IDtoSetFn;    /* setVariable */
   UInt2StringMap  IDtoAction;   /* class actions*/
 

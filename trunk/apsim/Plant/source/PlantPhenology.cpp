@@ -77,7 +77,7 @@ float legume_stage_code(
 //         write (error_message,'(a, i10)')
 //     :               'Invalid lookup table - number of values ='
 //     :              , numvals
-         warning_error (&err_user, "Bad stage lookup table");
+         warning_error ("Bad stage lookup table");
          }
 
    return x_stage_code;
@@ -164,7 +164,7 @@ float plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage num
 
         char msg[80];
         sprintf(msg, "invalid stage code lookup table - number of values = %d", numvals);
-        warning_error (&err_user, msg);
+        warning_error (msg);
         }
     return (x_stage_code);
     }
@@ -236,7 +236,7 @@ float crop_stage_code (float *c_stage_code_list,
       //we have no valid table
       char  error_mess[80];
       sprintf(error_mess, "Invalid lookup table - number of values = %d", numvals);
-      warning_error (&err_user, error_mess);
+      warning_error (error_mess);
       x_stage_code = 0.0;
       }
    return x_stage_code;
