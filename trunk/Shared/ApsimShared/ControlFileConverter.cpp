@@ -730,43 +730,47 @@ bool ControlFileConverter::ReworkTrackerVariables(const string& arguments) throw
       con->getParameterValues(conSection, instanceNames[i], "variable", variables);
       for (unsigned v = 0; v != variables.size(); v++)
          {
-         StringTokenizer tokenizer(variables[v]);
-         string stat = tokenizer.nextToken();
-         string word = tokenizer.nextToken();
-         string variable = tokenizer.nextToken();
-         string eventName, startPeriod, endPeriod, as;
-         word = tokenizer.nextToken();
-         while (word != "")
+         if (variables[v].find(" from ") == string::npos
+             && variables[v].find(" last ") == string::npos)
             {
-            if (Str_i_Eq(word, "since"))
-               {
-               startPeriod = tokenizer.nextToken();
-               endPeriod = "now";
-               }
-            else if (Str_i_Eq(word, "between"))
-               {
-               startPeriod = tokenizer.nextToken();
-               string and = tokenizer.nextToken();
-               endPeriod = tokenizer.nextToken();
-               }
-            else if (Str_i_Eq(word, "on"))
-               eventName = tokenizer.nextToken();
-            else if (Str_i_Eq(word, "as"))
-               as = tokenizer.nextToken();
+            StringTokenizer tokenizer(variables[v]);
+            string stat = tokenizer.nextToken();
+            string word = tokenizer.nextToken();
+            string variable = tokenizer.nextToken();
+            string eventName, startPeriod, endPeriod, as;
             word = tokenizer.nextToken();
-            }
-         if (Str_i_Eq(eventName, "prepare"))
-            eventName = "start_of_day";
-         if (Str_i_Eq(eventName, "post"))
-            eventName = "end_of_day";
+            while (word != "")
+               {
+               if (Str_i_Eq(word, "since"))
+                  {
+                  startPeriod = tokenizer.nextToken();
+                  endPeriod = "now";
+                  }
+               else if (Str_i_Eq(word, "between"))
+                  {
+                  startPeriod = tokenizer.nextToken();
+                  string and = tokenizer.nextToken();
+                  endPeriod = tokenizer.nextToken();
+                  }
+               else if (Str_i_Eq(word, "on"))
+                  eventName = tokenizer.nextToken();
+               else if (Str_i_Eq(word, "as"))
+                  as = tokenizer.nextToken();
+               word = tokenizer.nextToken();
+               }
+            if (Str_i_Eq(eventName, "prepare"))
+               eventName = "start_of_day";
+            if (Str_i_Eq(eventName, "post"))
+               eventName = "end_of_day";
 
-         variables[v] = stat + " of " + variable;
-         if (eventName != "")
-            variables[v] += " on " + eventName;
-         if (startPeriod != "")
-            variables[v] += " from " + startPeriod + " to " + endPeriod;
-         if (as != "")
-            variables[v] += " as " + as;
+            variables[v] = stat + " of " + variable;
+            if (eventName != "")
+               variables[v] += " on " + eventName;
+            if (startPeriod != "")
+               variables[v] += " from " + startPeriod + " to " + endPeriod;
+            if (as != "")
+               variables[v] += " as " + as;
+            }
          }
 
       if (variables.size() > 0)
