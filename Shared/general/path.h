@@ -9,7 +9,7 @@
 
 //  Notes:
 //		Terms :
-//		   Drive     -> d:
+//		        Drive     -> d:
 //			Directory -> d:\bin
 //			Name      -> test.con
 //			Extension -> .con
