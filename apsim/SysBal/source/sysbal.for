@@ -1675,13 +1675,13 @@ c      integer    sysbal_module_number    ! function
 
       if (g%SWerror_system .gt. error_threshold) then
          write (string, *)
-     :                   '**** SW balance - unaccounted gain (kg/ha) = '
+     :                   '**** SW balance - unaccounted gain (mm) = '
      :                  , g%SWerror_system
          call Write_string (string)
 
       elseif (g%SWerror_system .lt. -error_threshold) then
          write (string, *)
-     :                   '**** SW balance - unaccounted loss (kg/ha) = '
+     :                   '**** SW balance - unaccounted loss (mm) = '
      :                  , g%SWerror_system
          call Write_string (string)
 
