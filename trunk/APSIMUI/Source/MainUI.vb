@@ -24,18 +24,22 @@ Public Class MainUI
 
         Application.EnableVisualStyles()
         Application.DoEvents()
-        Dim splash As New SplashScreen
-        splash.Show()
+
         Application.DoEvents()
         Application.Run(New MainUI)
         Application.DoEvents()
-        splash.Hide()
+
+        Application.DoEvents()
 
     End Sub 'Main
 
 
     Public Sub New()
+
         MyBase.New()
+        Dim splash As New SplashScreen
+        splash.Show()
+        Application.DoEvents()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -54,7 +58,7 @@ Public Class MainUI
         'Tell the ui components where to send there help info
         Me.SimulationExplorer.HelpBrowser = HelpBrowser
         Me.ToolboxExplorer.HelpBrowser = HelpBrowser
-
+        splash.Hide()
     End Sub
 
     'Form overrides dispose to clean up the component list.
