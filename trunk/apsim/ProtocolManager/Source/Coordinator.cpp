@@ -313,7 +313,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
    {
    string regName;
    if (registerData.destID > 0)
-      regName = components[registerData.destID]->getName() + "." + asString(registerData.name);
+       regName = components[registerData.destID]->getName() + "." + asString(registerData.name);
    else
       regName = asString(registerData.name);
    try
@@ -407,7 +407,6 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
 // ------------------------------------------------------------------
 void Coordinator::onTerminateSimulationMessage(void)
    {
-   doTerminate = true;
    if (parentID == 0)
       {
       notifyTermination();
@@ -419,6 +418,7 @@ void Coordinator::onTerminateSimulationMessage(void)
       }
    else
       sendMessage(newTerminateSimulationMessage(componentID, parentID));
+   doTerminate = true;
    }
 // ------------------------------------------------------------------
 // handle incoming getValue messages.
@@ -619,12 +619,23 @@ void Coordinator::pollComponentsForGetVariable(const string& variableName)
    {
    string lowerName = variableName;
    To_lower(lowerName);
-   for (Components::iterator i = components.begin();
-                             i != components.end();
-                             i++)
+   unsigned posPeriod = lowerName.find('.');
+   if (posPeriod != string::npos)
       {
-      sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
-                                          lowerName.c_str()));
+      string regComponent = lowerName.substr(0, posPeriod);
+      string regName = lowerName.substr(posPeriod+1);
+      sendMessage(newApsimGetQueryMessage(componentID, componentNameToID(regComponent),
+                                          regName.c_str()));
+      }
+   else
+      {
+      for (Components::iterator i = components.begin();
+                                i != components.end();
+                                i++)
+         {
+         sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
+                                             lowerName.c_str()));
+         }
       }
    }
 
@@ -637,16 +648,33 @@ void Coordinator::pollComponentsForSetVariable(const string& variableName,
                                                unsigned ourRegID,
                                                protocol::Variant& variant)
    {
-   for (Components::iterator i = components.begin();
-                             i != components.end();
-                             i++)
+   string lowerName = variableName;
+   To_lower(lowerName);
+   unsigned posPeriod = lowerName.find('.');
+   if (posPeriod != string::npos)
       {
+      string regComponent = lowerName.substr(0, posPeriod);
+      string regName = lowerName.substr(posPeriod+1);
       sendMessage(newApsimSetQueryMessage(componentID,
-                                          i->second->ID,
-                                          variableName.c_str(),
+                                          componentNameToID(regComponent),
+                                          regName.c_str(),
                                           fromID,
                                           ourRegID,
                                           variant));
+      }
+   else
+      {
+      for (Components::iterator i = components.begin();
+                                i != components.end();
+                                i++)
+         {
+         sendMessage(newApsimSetQueryMessage(componentID,
+                                             i->second->ID,
+                                             variableName.c_str(),
+                                             fromID,
+                                             ourRegID,
+                                             variant));
+         }
       }
    }
 // ------------------------------------------------------------------

@@ -77,7 +77,13 @@ class Registration
       //-----------------------x----------------------------------------------------
       // Return name to caller.
       //---------------------------------------------------------------------------
-      std::string getName(void) const {return regName;}
+      std::string getName(void) const
+         {
+         if (regComponent != "")
+            return regComponent + "." + regName;
+         else
+            return regName;
+         }
 
       //---------------------------------------------------------------------------
       // Return the regComponent to caller.
@@ -265,21 +271,30 @@ class RegComponent
       // Find any subscriptions that match the specified registration. Store
       // any subscriptions into the specified registration
       //---------------------------------------------------------------------------
-      void findSubs(Registration& regToFind, unsigned componentId, unsigned regId)
+      void findSubs(Registration& regToFind,  RegComponent* componentDoingRegistration, unsigned regId)
          {
          RegistrationType oppositeType = opposite(regToFind.getType());
          Registrations::Regs& regsToSearch = getRegsOfType(oppositeType);
          for (Registrations::Regs::iterator reg = regsToSearch.begin();
-                             reg != regsToSearch.end();
-                             reg++)
+                                            reg != regsToSearch.end();
+                                            reg++)
             {
             if (regToFind.matchForSubscription(*reg->second))
                {
                if (oppositeType == respondToGetReg || oppositeType == respondToSetReg
                    || oppositeType == respondToEventReg || oppositeType == respondToMethodCallReg)
-                  regToFind.addSubscription(id, reg->first);
+                  {
+                  if (reg->second->getRegComponent() == ""
+                      || Str_i_Eq(reg->second->getRegComponent(), name))
+                     regToFind.addSubscription(id, reg->first);
+                  }
                else
-                  reg->second->addSubscription(componentId, regId);
+                  {
+                  if (reg->second->getRegComponent() == ""
+                      || Str_i_Eq(reg->second->getRegComponent(),
+                                  componentDoingRegistration->getName()))
+                     reg->second->addSubscription(componentDoingRegistration->getId(), regId);
+                  }
                }
             }
          }
@@ -420,7 +435,7 @@ void Registrations::add(unsigned componentId,
 
    Registration& newReg = components[componentId]->add(regId, name, type);
    if (resolveReg)
-      resolve(newReg, componentId, regId);
+      resolve(newReg, components[componentId], regId);
    }
 //---------------------------------------------------------------------------
 // Return the name of a registration to caller.
@@ -460,10 +475,10 @@ void Registrations::resolveAll()
                              c != components.end();
                              c++)
       {
-      resolve(c->second->getRegsOfType(getVariableReg), c->second->getId());
-      resolve(c->second->getRegsOfType(setVariableReg), c->second->getId());
-      resolve(c->second->getRegsOfType(eventReg), c->second->getId());
-      resolve(c->second->getRegsOfType(methodCallReg), c->second->getId());
+      resolve(c->second->getRegsOfType(getVariableReg), c->second);
+      resolve(c->second->getRegsOfType(setVariableReg), c->second);
+      resolve(c->second->getRegsOfType(eventReg), c->second);
+      resolve(c->second->getRegsOfType(methodCallReg), c->second);
       }
    }
 //---------------------------------------------------------------------------
@@ -473,13 +488,13 @@ void Registrations::resolveAll()
 // Will throw if a method call does not have a component as part of the
 //    registration name.
 //---------------------------------------------------------------------------
-void Registrations::resolve(Regs& regs, unsigned componentId)
+void Registrations::resolve(Regs& regs, RegComponent* component)
    {
    for (Regs::iterator reg = regs.begin();
                        reg != regs.end();
                        reg++)
       {
-      resolve(*reg->second, componentId, reg->first);
+      resolve(*reg->second, component, reg->first);
       }
    }
 //---------------------------------------------------------------------------
@@ -489,7 +504,7 @@ void Registrations::resolve(Regs& regs, unsigned componentId)
 // Will throw if a method call does not have a component as part of the
 //    registration name.
 //---------------------------------------------------------------------------
-void Registrations::resolve(Registration& reg, unsigned componentId, unsigned regId)
+void Registrations::resolve(Registration& reg,  RegComponent* component, unsigned regId)
    {
    reg.clearSubscriptions();
    string regComponent = reg.getRegComponent();
@@ -498,13 +513,13 @@ void Registrations::resolve(Registration& reg, unsigned componentId, unsigned re
       for (Components::iterator c = components.begin();
                                 c != components.end();
                                 c++)
-         c->second->findSubs(reg, componentId, regId);
+         c->second->findSubs(reg, component, regId);
       }
    else
       {
       RegComponent* comp = getComponent(regComponent);
       if (comp != NULL)
-         comp->findSubs(reg, componentId, regId);
+         comp->findSubs(reg, component, regId);
       }
    }
 //---------------------------------------------------------------------------
@@ -582,4 +597,5 @@ void Registrations::printReport(string& contents)
       c->second->printReport(contents, this);
       }
    }
+
 

@@ -99,7 +99,7 @@ class Registrations
       // Will throw if a method call does not have a component as part of the
       //    registration name.
       //---------------------------------------------------------------------------
-      void resolve(Regs& regs, unsigned componentId);
+      void resolve(Regs& regs,  RegComponent* component);
 
       //---------------------------------------------------------------------------
       // Resolve the specified registration
@@ -108,7 +108,7 @@ class Registrations
       // Will throw if a method call does not have a component as part of the
       //    registration name.
       //---------------------------------------------------------------------------
-      void resolve(Registration& reg, unsigned componentId, unsigned regId);
+      void resolve(Registration& reg,  RegComponent* component, unsigned regId);
 
       //---------------------------------------------------------------------------
       // Return a reference to the component that matches the specified name.
