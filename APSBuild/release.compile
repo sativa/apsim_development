@@ -1,28 +1,27 @@
 [Instructions]
-import   = %apsuite\apsim\infra\lib\ApsimEngine.imp
-include  = %apsuite\apsim\cropmod\source
-module   = %apsuite\apsim\infra\source
-module   = %apsuite\apsim\croptemp\source
-module   = %apsuite\apsim\cropmod\source
-program  = %apsuite\bin\createComponentInterfaceSource.exe
+import   = c:\mydata\development\apsim\infra\lib\ApsimEngine.imp
+include  = c:\mydata\development\apsim\cropmod\source
+module   = c:\mydata\development\apsim\infra\source
+module   = c:\mydata\development\apsim\croptemp\source
+module   = c:\mydata\development\apsim\cropmod\source
+program  = c:\mydata\development\bin\createComponentInterfaceSource.exe
 
-library  = %apsuite\apsim\infra\lib\apsinfra.lib
-library  = %apsuite\apsim\croptemp\lib\croptemp.lib
+library  = c:\mydata\development\apsim\infra\lib\apsinfra.lib
+library  = c:\mydata\development\apsim\croptemp\lib\croptemp.lib
 
-libraryPath = %apsuite\apsbuild
-object   = %apsuite\shared\ComponentInterface\FORTRANComponent.obj
-object   = %apsuite\shared\ComponentInterface\Component.obj
-object   = %apsuite\shared\ComponentInterface\TypeConverter.obj
-object   = %apsuite\shared\ComponentInterface\ProtocolVector.obj
-object   = %apsuite\shared\ComponentInterface\Message.obj
-object   = %apsuite\shared\ComponentInterface\MessageData.obj
-object   = %apsuite\shared\ComponentInterface\Type.obj
-object   = %apsuite\shared\ComponentInterface\Variant.obj
-object   = %apsuite\shared\ComponentInterface\Variants.obj
-object   = %apsuite\shared\ComponentInterface\Registrations.obj
-object   = %apsuite\shared\ComponentInterface\RegistrationItem.obj
-object   = %apsuite\shared\ComponentInterface\ArraySpecifier.obj 
-object   = %apsuite\shared\ComponentInterface\DataTypes.obj 
+libraryPath = c:\mydata\development\apsbuild
+object   = c:\mydata\development\shared\ComponentInterface\FORTRANComponent.obj
+object   = c:\mydata\development\shared\ComponentInterface\Component.obj
+object   = c:\mydata\development\shared\ComponentInterface\TypeConverter.obj
+object   = c:\mydata\development\shared\ComponentInterface\ProtocolVector.obj
+object   = c:\mydata\development\shared\ComponentInterface\Message.obj
+object   = c:\mydata\development\shared\ComponentInterface\MessageData.obj
+object   = c:\mydata\development\shared\ComponentInterface\Type.obj
+object   = c:\mydata\development\shared\ComponentInterface\Variant.obj
+object   = c:\mydata\development\shared\ComponentInterface\Variants.obj
+object   = c:\mydata\development\shared\ComponentInterface\Registrations.obj
+object   = c:\mydata\development\shared\ComponentInterface\RegistrationItem.obj
+object   = c:\mydata\development\shared\ComponentInterface\ArraySpecifier.obj 
 
 compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @compiler.rsp
 link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink @linker.rsp
