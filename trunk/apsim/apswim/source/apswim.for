@@ -79,8 +79,8 @@
  
       else if (Action .eq. 'add_water') then
          call apswim_add_water ()
- 
-      else if (Action .eq. MES_Till) then
+
+      else if (Action .eq. MES_Till) then 
          call apswim_tillage ()
  
       else if (Action .eq. MES_End_run) then
@@ -892,6 +892,7 @@ c     :              3)
      :           numvals,
      :           min_year,
      :           max_year)
+
       call get_real_var (
      :           unknown_module,
      :           'radn',
@@ -1372,6 +1373,7 @@ cnh added as per request by Dr Val Snow
       include 'engine.pub'                        
       include 'error.pub'                         
       include 'intrface.pub'                      
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       character Variable_name*(*) ! (INPUT) Variable name to search for
@@ -1470,21 +1472,34 @@ cnh added as per request by Dr Val Snow
          else
             ! it is OK - keep going
          endif
+
       elseif (Variable_name .eq. 'bbc_potential') then
-         if (ibbc.eq.3) then
-            call collect_double_var (
+         call collect_double_var (
      :              Variable_name,
      :              '(cm)',
      :              constant_potential,
      :              numvals,
      :              -1d7,
      :              1d7)
-         else
-            call fatal_error(ERR_USER,
-     :      'Cannot reset bottom boundary potential unless using'
-     :      //' seepage option.')
+         if (ibbc.ne.1) then
+            ibbc = 1 
+            call write_event 
+     :         ('Bottom boundary condition now constant potential')
          endif
- 
+
+      elseif (Variable_name .eq. 'bbc_gradient') then
+         call collect_double_var (
+     :              Variable_name,
+     :              '(cm)',
+     :              constant_gradient,
+     :              numvals,
+     :              -1d7,
+     :              1d7)
+         if (ibbc.ne.0) then
+            ibbc = 0
+            call write_event 
+     :         ('Bottom boundary condition now constant gradient')
+         endif
  
       else
          ! Don't know this variable name
@@ -1684,7 +1699,7 @@ cnh      slbp0 = 0d0
    78    continue
          cslgw(counter) = 0d0
    21 continue
-      cslgw_is_set = .false.
+      
  
 * =====================================================================
 *      common/solvar/dc,csl,cslt,qsl,qsls,slsur,
@@ -2642,6 +2657,7 @@ c       real bound
       double precision deqr
       double precision dtiny
       double precision dw1
+      integer          crop
       integer          i
       integer          itlim
       integer          node
@@ -2671,10 +2687,12 @@ c      double precision psiold(0:m)
  
 *     define iteration limit for soln of balance eqns
       if (run_has_started) then
-         itlim = 20
+         !itlim = 20
+         itlim = c_max_iterations
       else
          ! this is our first timestep - allow for initial stabilisation
-         itlim = 50
+         !itlim = 50
+         itlim = c_max_iterations + 20
       endif
  
 *     solve until end of time step
@@ -2794,8 +2812,9 @@ cnh time steps so that nutrient exclusion is more effective.
      :          (solute_exclusion_flag.eq.'on'))
      :      then
                call apswim_check_demand()
+               do 564 crop = 1, num_crops
                do 563 solnum = 1, num_solutes
-                  if (demand_is_met(solnum)) then
+                     if (demand_is_met(crop, solnum)) then
                      ! Do nothing
                   else
                      ! Make sure dt is small to maximise
@@ -2803,6 +2822,7 @@ cnh time steps so that nutrient exclusion is more effective.
                      dt = min(dt,dtmax_sol)
                   endif
   563          continue
+  564          continue
             else
                ! no solute uptake so no need to check timestep
             endif
@@ -3064,6 +3084,7 @@ cnh
       call apswim_find_crops()
       call apswim_assign_crop_params ()
       call apswim_get_crop_variables ()
+      call apswim_get_residue_variables ()
  
       if (timestep_source.eq.'input') then
          time_of_day = apswim_time_to_mins (apsim_time)
@@ -3985,6 +4006,7 @@ cnh       double precision table_slscr(nsol)
        double precision table_a(nsol)
        double precision table_dthp(nsol)
        double precision table_dthc(nsol)
+       double precision table_cslgw(nsol)
        integer numvals
        integer solnum
        integer solnum2
@@ -4122,6 +4144,16 @@ c     :           1000d0)
      :           numvals,
      :           c_lb_disp,
      :           c_ub_disp)
+
+      call Read_double_array(
+     :           solute_section,
+     :           'ground_water_conc',
+     :           nsol,
+     :           '(ppm)',
+     :           table_cslgw,
+     :           numvals,
+     :           0d0,
+     :           1000d0)
  
       ! Now find what solutes are out there and assign them the relevant
       ! ----------------------------------------------------------------
@@ -4140,7 +4172,7 @@ cnh               slscr(solnum) = table_slscr(solnum2)
                dthc(solnum) = table_dthc(solnum2)
                dthp(solnum) = table_dthp(solnum2)
                disp(solnum) = table_disp(solnum2)
- 
+               cslgw(solnum) = table_cslgw(solnum2)
                dcon(solnum) = table_d0(solnum2)*table_a(solnum2)
                found = .true.
             else
@@ -4336,15 +4368,16 @@ c                     beta(solnum,node) = table_beta(solnum2)
    50   continue
  
   100 continue
- 
-      if (cslgw_is_set) then
-         ! do nothing
-      else
-         do 101 solnum = 1, num_solutes
-            cslgw(solnum) = csl(solnum,n)
-  101    continue
-         cslgw_is_set = .true.
-      endif
+
+cnh now replaced by parameter value 
+c      if (cslgw_is_set) then
+c         ! do nothing
+c      else
+c         do 101 solnum = 1, num_solutes
+c            cslgw(solnum) = csl(solnum,n)
+c  101    continue
+c         cslgw_is_set = .true.
+c      endif
  
       call pop_routine (myname)
       return
@@ -4361,6 +4394,7 @@ c                     beta(solnum,node) = table_beta(solnum2)
       include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'string.pub'
 
 *+  Purpose
 *      Set the values of solute variables from other modules
@@ -4373,10 +4407,11 @@ c                     beta(solnum,node) = table_beta(solnum2)
       double precision dCtot
       integer solnum                   ! solute array index counter
       integer node                     ! node number specifier
-      double precision solute_n(0:M)
-                                       ! solute concn in layers(kg/ha)
+      double precision solute_n(0:M)   ! solute concn in layers(kg/ha)
+      character string*100
+
 *- Implementation Section ----------------------------------
- 
+
       do 100 solnum = 1, num_solutes
          do 50 node=0,n
             ! Step One - calculate total solute in node from solute in
@@ -4385,25 +4420,51 @@ c                     beta(solnum,node) = table_beta(solnum2)
             call apswim_freundlich (node,solnum,csl(solnum,node)
      :                    ,Ctot,dCtot)
  
+            ! Note:- Sometimes small numerical errors can leave
+            ! -ve concentrations.  Set conc to zero in these cases.
+
             ! convert solute ug/cc soil to kg/ha for node
             !
             !  kg      ug      cc soil    kg
             !  -- = -------- x -------- x --
             !  ha   cc soil       ha      ug
  
-            ! Note:- Sometimes small numerical errors can leave
-            ! -ve concentrations.  Set conc to zero in these cases.
+            Ctot = Ctot
+     :           * (dx(node)*(1d4)**2)! cc soil/ha
+     :           * 1d-9               ! kg/ug
  
-            if (Ctot .lt. 0.d0) then
+            if (Ctot .lt. -c_negative_conc_fatal) then
+               write(string,'(x,3a,i3,a,G12.6)')
+     :              'Total '
+     :             ,solute_names(solnum)(:lastnb(solute_names(solnum)))
+     :             ,'(',node,') = ',Ctot
+               call fatal_error(err_internal,
+     :               '-ve solute conc - increase numerical precision'
+     :               //new_line//string)
+
+            elseif (Ctot .lt. -c_negative_conc_warn) then
+               write(string,'(x,3a,i3,a,G12.6)')
+     :              'Total '
+     :             ,solute_names(solnum)(:lastnb(solute_names(solnum)))
+     :             ,'(',node,') = ',Ctot
+
                call warning_error(err_internal,
-     :               '-ve solute conc - increase numerical precision')
+     :               '-ve solute conc - increase numerical precision'
+     :               //new_line//string)
+
+               Ctot = 0d0
+
+            elseif (Ctot .lt. 0d0) then
+               ! Ctot only slightly negative
+               Ctot = 0d0
+
             else
+               ! Ctot is positive
             endif
- 
-            solute_n(node) = max (Ctot,0.0d0)
-     :                     * (dx(node)*(1d4)**2)! cc soil/ha
-     :                     * 1d-9               ! kg/ug
- 
+
+            ! finished testing - assign value to array element  
+            solute_n(node) = Ctot
+
    50    continue
  
          call new_postbox()
@@ -5209,6 +5270,7 @@ cnh
        include 'const.inc'             ! Constant definitions
        include 'apswim.inc'            ! apswim common block
       include 'error.pub'                         
+      include 'engine.pub'
       include 'intrface.pub'                      
 
 *+  Purpose
@@ -5426,7 +5488,7 @@ cnh
        subroutine apswim_read_constants ()
 * ====================================================================
       implicit none
-       include 'apswim.inc'            ! apswim model common block
+      include 'apswim.inc'            ! apswim model common block
       include 'read.pub'                          
       include 'error.pub'                         
 
@@ -5448,8 +5510,35 @@ cnh
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      call Read_real_var (
+
+      call Read_integer_var (
+     :              section_name,
+     :              'max_iterations',
+     :              '()',
+     :              c_max_iterations,
+     :              numvals,
+     :              1,
+     :              100)
+
+      call Read_double_var (
+     :              section_name,
+     :              'negative_conc_warn',
+     :              '()',
+     :              c_negative_conc_warn,
+     :              numvals,
+     :              0d0,
+     :              10d0)
+
+      call Read_double_var (
+     :              section_name,
+     :              'negative_conc_fatal',
+     :              '()',
+     :              c_negative_conc_fatal,
+     :              numvals,
+     :              0d0,
+     :              10d0)
+
+       call Read_real_var (
      :              section_name,
      :              'min_crit_temp',
      :              '(oC)',
@@ -5513,6 +5602,31 @@ cnh
      :              c_num_trf_asw,  ! get number of nodes from here
      :              0.0d0,
      :              1.0d0)
+
+      call Read_char_var (
+     :              section_name,
+     :              'cover_effects',
+     :              '()',
+     :              c_cover_effects,
+     :              numvals)
+
+      call Read_double_var (
+     :              section_name,
+     :              'a_to_evap_fact',
+     :              '()',
+     :              c_a_to_evap_fact,
+     :              numvals,
+     :              0d0,
+     :              1d0)
+
+      call Read_double_var (
+     :              section_name,
+     :              'canopy_eos_coef',
+     :              '()',
+     :              c_canopy_eos_coef,
+     :              numvals,
+     :              0d0,
+     :              10d0)
  
       call Read_double_var (
      :              section_name,
@@ -6508,7 +6622,11 @@ cnh      end if
             ceqrain = -hrc * log(decay_Fraction)
  
             ! now add rainfall energy for this timestep
-            ceqrain = ceqrain + deqrain
+            if (c_cover_effects.eq.'on') then
+               ceqrain = ceqrain + deqrain * (1d0 - g_residue_cover)
+            else
+               ceqrain = ceqrain + deqrain
+            endif
  
             ! now calculate new surface storage from new energy
             sstorage=hm0+(hm1-hm0)*exp(-ceqrain/hrc)
@@ -6553,16 +6671,11 @@ cnh      end if
  
       ! calculate value of isotherm function and the derivative.
 
-      if (Cw .gt. 0d0) then
          Ctot = th(node) * Cw + ex(solnum,node) * Cw ** fip(solnum,node)
          dCtot = th(node)
      :         + ex(solnum,node)
      :         *fip(solnum,node)
      :         *Cw**(fip(solnum,node)-1d0)
-      else
-         Ctot = 0d0
-         dCtot = 0d0
-      endif
 
       call pop_routine (myname)
       return
@@ -6672,7 +6785,9 @@ cnh      end if
       implicit none
        include 'const.inc'             ! Constant definitions
        include 'apswim.inc'            ! apswim common block
-      include 'intrface.pub'                      
+      include 'intrface.pub'      
+      include 'engine.pub'
+      include 'error.pub'                
 
 *+  Purpose
 *      Get the evap values from other modules
@@ -7240,7 +7355,7 @@ c  400 continue
 c      demand =
 c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
  
-      if (demand_is_met(solnum)
+      if (demand_is_met(crop, solnum)
      :         .and.
      : solute_exclusion_flag.eq.'on')
      :         then
@@ -7276,12 +7391,25 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
 *+  Local Variables
       double precision tpsuptake, demand
       integer layer, crop, solnum
+      integer num_active_crops
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      crop = 1 ! only one crop allowed at present
-      if (        num_crops.gt.1
+      num_active_crops = 0
+      do 20 crop = 1, num_crops
+         demand = 0d0
+         do 10 solnum = 1, num_solutes
+            demand = demand + solute_demand(crop,solnum)         
+   10    continue
+         if ((pep(crop).gt.0d0).or.(demand.gt.0d0)) then
+            ! crop has water or solute demand and so is active
+            num_active_crops = num_active_crops + 1
+         else
+         endif
+   20 continue
+ 
+       if (        num_active_crops.gt.1
      :                .and.
      :     solute_exclusion_flag.eq.'on')
      :then
@@ -7290,6 +7418,7 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
       else
       endif
  
+      do 600 crop = 1, num_crops
       do 500 solnum = 1,num_solutes
  
          tpsuptake = 0d0
@@ -7299,15 +7428,18 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
   400    continue
  
          demand =
-     :          max(solute_demand (crop,solnum) - tpsuptake,0d0)
+     :             max(solute_demand (crop,solnum)
+     :                    - tpsuptake
+     :                ,0d0)
  
          if (demand.le.0.0) then
-            demand_is_met(solnum) = .true.
+               demand_is_met(crop, solnum) = .true.
          else
-            demand_is_met(solnum) = .false.
+               demand_is_met(crop, solnum) = .false.
          endif
  
   500 continue
+  600 continue
  
       call pop_routine (myname)
       return
@@ -8062,5 +8194,107 @@ c      pause
       return
       end
 
+* ====================================================================
+       subroutine apswim_get_residue_variables ()
+* ====================================================================
+       implicit none
+       include 'const.inc'             ! Constant definitions
+       include 'apswim.inc'            ! apswim common block
+       include 'intrface.pub'
+
+*+   Purpose
+*      Get the values of residue variables from other modules
+
+*+   Changes
+
+
+*+  Local Variables
+      integer numvals                  ! number of values returned
+
+*- Implementation Section ----------------------------------
+
+
+         call get_double_var_optional (
+     :            unknown_module, 
+     :           'residue_cover',
+     :           '(0-1)',
+     :           g_residue_cover,
+     :           numvals,
+     :           0d0,
+     :           1d0)
+
+         if (numvals.le.0) then
+            g_residue_cover = 0.0
+         else
+         endif
+
+      return
+      end
+
+* ====================================================================
+      double precision function apswim_cover_eos_redn  ()
+* ====================================================================
+      implicit none
+      include 'apswim.inc'
+      include 'error.pub'
+
+*+  Purpose
+*      Calculate reduction in potential soil evaporation
+*      due to residues on the soil surface.
+*      Approach taken from directly from Soilwat code.
+
+*+  Changes
+*     30-10-1997 - neilh - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'apswim_cover_eos_redn ')
+
+*+  Local Variables
+      real       eos_canopy_fract      ! fraction of potential soil evaporation
+                                       ! limited by crop canopy (mm)
+      real       eos_residue_fract     ! fraction of potential soil evaporation
+                                       ! limited by crop residue (mm)
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+         !---------------------------------------+
+         ! reduce Eo to that under plant CANOPY                    <DMS June 95>
+         !---------------------------------------+
+
+         !  Based on Adams, Arkin & Ritchie (1976) Soil Sci. Soc. Am. J. 40:436-
+         !  Reduction in potential soil evaporation under a canopy is determined
+         !  the "% shade" (ie cover) of the crop canopy - this should include th
+         !  green & dead canopy ie. the total canopy cover (but NOT near/on-grou
+         !  residues).  From fig. 5 & eqn 2.                       <dms June 95>
+         !  Default value for c_canopy_eos_coef = 1.7
+         !              ...minimum reduction (at cover =0.0) is 1.0
+         !              ...maximum reduction (at cover =1.0) is 0.183.
+
+      eos_canopy_fract = exp (-c_canopy_eos_coef * g_crop_cover)
+
+         !-----------------------------------------------+
+         ! reduce Eo under canopy to that under mulch            <DMS June 95>
+         !-----------------------------------------------+
+
+         !1a. adjust potential soil evaporation to account for
+         !    the effects of surface residue (Adams et al, 1975)
+         !    as used in Perfect
+         ! BUT taking into account that residue can be a mix of
+         ! residues from various crop types <dms june 95>
+
+         !    [DM. Silburn unpublished data, June 95 ]
+         !    <temporary value - will reproduce Adams et al 75 effect>
+         !     c_A_to_evap_fact = 0.00022 / 0.0005 = 0.44
+
+         eos_residue_fract = (1. - g_residue_cover)**c_a_to_evap_fact
+
+
+      apswim_cover_eos_redn  = eos_canopy_fract * eos_residue_fract
+
+      call pop_routine (myname)
+      return
+      end
 
 
