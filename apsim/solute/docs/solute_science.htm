@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>The APSIM solute Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p class="Title1">The APSIM solute Model </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Description </p>
+<p class="Normal">The Solute module is an APSIM plug-in-pull-out module that keeps a solute balance of up to five different solutes. The Solute module itself does not change the state of the solutes, but lets other modules change the solute information according to their own processes. For example, a solute may have its state changed by a soil water balance module as a result of its leaching calculations. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Things to note when using the Solute module </p>
+<p class="Normal">The Solute module can keep track of Nitrate and Ammonium, but must do so independent of any other soil balance module ( <em>e.g. </em> SoilN2). The Solute module is designed primarily to trace solutes such as Bromide and Chloride through soil layers. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Parameter File Settings </p>
+<p class="Normal">The following describes a possible parameterisation of the solute module </p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">[sample.solute.parameters] </p>
+<p class="Code">solute_names = br cl </p>
+<p class="Code">br = 100 0 0 0 0 0 0 0 (kg/ha) ! Initial Br profile </p>
+<p class="Code">cl = &nbsp;&nbsp;0 0 0 0 0 0 0 0 (kg/ha) ! Initial Cl profile </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">In this sample, the parameter &quot;solute_names&quot; has specified that two solutes, bromide and chloride, are to be traced by this module during the simulation. The following two lines specify the initial state of these solutes within the profile. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Solute module outputs </p>
+<p class="Normal">The outputs for this module flow on from the input parameters. The module will provide the amount of solute in kg/ha on a layered basis for each of the specified solutes. For the sample illustrated above, the possible outputs would be &quot;br&quot; or &quot;cl&quot;. </p>
+</body>
+</html>
