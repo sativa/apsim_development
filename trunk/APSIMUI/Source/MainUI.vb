@@ -728,6 +728,7 @@ Public Class MainUI
         ElseIf e.Button Is FileSaveButton Then
             SimulationExplorer.UIManager.SaveDocument(SimulationFile)
             SimulationFile.Save()
+            UpdateMainForm()
         ElseIf e.Button Is UIHelpButton Then
             UpdateHelpBrowser()
         ElseIf e.Button Is NewsButton Then
@@ -753,7 +754,7 @@ Public Class MainUI
 
         SimulationExplorer.UIManager.SaveDocument(SimulationFile)
         SimulationFile.Save()
-
+        UpdateMainForm()
     End Sub
 
 
@@ -939,6 +940,7 @@ Public Class MainUI
 
     Private Sub MenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem5.Click
         SimulationFile.SaveAs()
+        UpdateMainForm()
     End Sub
 
 
