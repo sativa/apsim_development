@@ -247,6 +247,8 @@ C     Last change:  DSG  15 Jun 2000    4:33 pm
       ! initialise solute information
       !call apswim_init_solute()
 
+      call apswim_New_Profile_Event()
+
       call pop_routine (myname)
       return
       end
@@ -8529,3 +8531,79 @@ c      pause
       return
       end
 
+*     ===========================================================
+      subroutine apswim_New_Profile_Event ()
+*     ===========================================================
+      use APSwimModule
+      implicit none
+      include 'event.inc'
+      include 'error.pub'
+      include 'postbox.pub'
+      include 'data.pub' 
+*+  Purpose
+*     Advise other modules of new profile specification
+ 
+*+  Mission Statement
+*     Advise other modules of new profile specification
+ 
+*+  Changes
+*        210800 nih 
+
+*+  Local Variables
+      double precision dummy(M)
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'APSwim_New_Profile_Event')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      call new_postbox ()
+ 
+      call post_double_array   (DATA_dlayer
+     :                        ,'(mm)'
+     :                        , g%dlayer(0)
+     :                        , p%n+1)
+
+
+      dummy(:) = 0d0
+
+      call post_double_array   (DATA_air_dry_dep
+     :                        ,'(mm)'
+     :                        , dummy
+     :                        , p%n+1)
+
+      call post_double_array   (DATA_ll15_Dep
+     :                        ,'(mm)'
+     :                        , g%ll15(0:p%n)*g%dlayer(0:p%n)
+     :                        , p%n+1)
+
+      call post_double_array   (DATA_dul_dep
+     :                        ,'(mm)'
+     :                        , g%dul(0:p%n)*g%dlayer(0:p%n)
+     :                        , p%n+1)
+
+      call post_double_array   (DATA_sat_dep
+     :                        ,'(mm)'
+     :                        , g%sat(0:p%n)*g%dlayer(0:p%n)
+     :                        , p%n+1)
+
+      call post_double_array   (DATA_sw_dep
+     :                        ,'(mm)'
+     :                        , g%th(0:p%n)*g%dlayer(0:p%n)
+     :                        , p%n+1)
+
+      call post_double_array   (DATA_bd
+     :                        ,'(g/cc)'
+     :                        , p%rhob(0:p%n)
+     :                        , p%n+1)
+ 
+      call event_send (EVENT_new_profile)
+ 
+      call delete_postbox ()
+
+
+      call pop_routine (myname)
+      return
+      end
