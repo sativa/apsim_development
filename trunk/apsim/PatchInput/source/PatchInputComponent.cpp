@@ -243,7 +243,7 @@ void PatchInputComponent::respondToMethod(unsigned int& fromID, unsigned int& me
 void PatchInputComponent::setPatchData()
    {
    unsigned dayNumber = day_of_year(todaysDate);
-   if (gregorian_calendar::is_leap_year(todaysDate.year()))
+   if (gregorian_calendar::is_leap_year(todaysDate.year()) && dayNumber >= 61)
       dayNumber--;
    PatchData::iterator i = patchData.find(dayNumber);
    if (i == patchData.end())
