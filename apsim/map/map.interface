@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
-
-<component name="map">
-   <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="create" type="create"/>
-   </registrations>
-</component>
