@@ -150,6 +150,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -196,151 +197,167 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 16 October 1988 (Day of year=290):
-          Manager sending message :- pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = short_duration
-         est_days_emerg_to_init  =      20
-         tt_emerg_to_endjuv       =   718.0
-         photoperiod      =   12.80  13.50  13.60
-         phase_tt_init      =    0.00 630.00*******
-         tt_flower_to_maturity    =   600.0
-         tt_init_to_flower        =    10.0
-         tt_flower_to_start_grain =   100.0
-         tt_maturity_to_ripe      =    36.0
-         hi_incr                  =     0.0
-         x_hi_max_pot_stress =    0.00   1.00
-         y_hi_max_pot        =    0.60   0.60
-         x_stem_wt      =    0.00   1.50  15.00
-         y_height      =    0.00 600.002000.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            290   40.0   10.0  500.0 short_dura
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
+   PIGEONP:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = short_duration
+          est_days_emerg_to_init  =      20
+          tt_emerg_to_endjuv       =   718.0
+          photoperiod      =   12.80  13.50  13.60
+          phase_tt_init      =    0.00 630.00*******
+          tt_flower_to_maturity    =   600.0
+          tt_init_to_flower        =    10.0
+          tt_flower_to_start_grain =   100.0
+          tt_maturity_to_ripe      =    36.0
+          hi_incr                  =     0.0
+          x_hi_max_pot_stress =    0.00   1.00
+          y_hi_max_pot        =    0.60   0.60
+          x_stem_wt      =    0.00   1.50  15.00
+          y_height      =    0.00 600.002000.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             290   40.0   10.0  500.0 short_dura
+          ------------------------------------------------
 17 October 1988 (Day of year=291):
-      stage    2.0 germination
+   PIGEONP:
+       stage    2.0 germination
 22 October 1988 (Day of year=296):
-      stage    3.0 emergence
-                          biomass =          0.6500000       lai =    0.1300000e-01
-                          stover N conc =    4.461538       extractable sw =    21.98140
+   PIGEONP:
+       stage    3.0 emergence
+                           biomass =          0.6500000       lai =    0.1300000e-01
+                           stover N conc =    4.461538       extractable sw =    21.98140
 17 December 1988 (Day of year=352):
-      stage    4.0 end_of_juvenile
-                          biomass =           163.4179       lai =     1.546405    
-                          stover N conc =    3.681934       extractable sw =    132.1300
+   PIGEONP:
+       stage    4.0 end_of_juvenile
+                           biomass =           163.4261       lai =     1.546463    
+                           stover N conc =    3.681919       extractable sw =    132.1276
 2 March 1989 (Day of year=61):
-      stage    5.0 floral_initiation
-                          biomass =           989.9025       lai =     3.946326    
-                          stover N conc =    2.845327       extractable sw =    100.3406
+   PIGEONP:
+       stage    5.0 floral_initiation
+                           biomass =           989.9055       lai =     3.946299    
+                           stover N conc =    2.845310       extractable sw =    100.3402
 3 March 1989 (Day of year=62):
-      stage    6.0 flowering
-                          biomass =           1001.645       lai =     3.982024    
-                          stover N conc =    2.803484       extractable sw =    95.12994
+   PIGEONP:
+       stage    6.0 flowering
+                           biomass =           1001.648       lai =     3.981997    
+                           stover N conc =    2.803467       extractable sw =    95.12954
 10 March 1989 (Day of year=69):
-      stage    7.0 start_grain_fill
-                          biomass =           1066.915       lai =     3.669712    
-                          stover N conc =    2.734589       extractable sw =    70.90018
+   PIGEONP:
+       stage    7.0 start_grain_fill
+                           biomass =           1066.918       lai =     3.669687    
+                           stover N conc =    2.734572       extractable sw =    70.89983
 14 April 1989 (Day of year=104):
-      stage    8.0 end_grain_fill
-                          biomass =           1322.586       lai =     2.599691    
-                          stover N conc =    2.292724       extractable sw =    83.38660
+   PIGEONP:
+       stage    8.0 end_grain_fill
+                           biomass =           1322.588       lai =     2.599671    
+                           stover N conc =    2.290547       extractable sw =    83.38645
 17 April 1989 (Day of year=107):
-      stage    9.0 maturity
-                          biomass =           1349.739       lai =     2.563124    
-                          stover N conc =    2.235192       extractable sw =    68.98804
+   PIGEONP:
+       stage    9.0 maturity
+                           biomass =           1349.741       lai =     2.563105    
+                           stover N conc =    2.232814       extractable sw =    68.98792
 21 April 1989 (Day of year=111):
-      stage   10.0 harvest_ripe
-                          biomass =           1349.739       lai =    0.1907349e-05
-                          stover N conc =    2.099059       extractable sw =    62.71720
+   PIGEONP:
+       stage   10.0 harvest_ripe
+                           biomass =           1349.740       lai =    0.0000000    
+                           stover N conc =    2.096260       extractable sw =    62.71707
 22 April 1989 (Day of year=112):
-          Manager sending message :- pigeonp harvest
-     
-     
-     
-      flowering day  =   62                  stover (kg/ha) =   10986.4
-      maturity day        =  107             grain yield (kg/ha) =    2511.0
-      grain % water content   =   12.0       grain yield wet (kg/ha) =    2853.4
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 4.119
-      total above ground biomass (kg/ha) =   13497.4
-      live above ground biomass (kg/ha) =   13497.4
-      green above ground biomass (kg/ha) =    9401.5
-      senesced above ground biomass (kg/ha) =    4095.9
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves = 455.7
-      grain N percent =      1.70            total N content (kg/ha) =    310.20
-      grain N uptake (kg/ha) =     42.69     senesced N content (kg/ha) =    122.88
-      green N content (kg/ha) =    144.64    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0047799
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0145789
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.2407541   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2916645   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0052593   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0408035   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.2936671   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3587235   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.2026418   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2370307   nitrogen stress 2 =       0.0000000
-          Manager sending message :- pigeonp end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =    0.0 kg/ha
-                                               straw N =    0.0 kg/ha
-                                               root residue = 2680.5 kg/ha
-                                               root N =   78.2 kg/ha
+   MANAGER:
+           Manager sending message :- pigeonp harvest
+   PIGEONP:
+      
+      
+      
+       flowering day  =   62                  stover (kg/ha) =   10986.4
+       maturity day        =  107             grain yield (kg/ha) =    2511.0
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    2853.4
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 4.119
+       total above ground biomass (kg/ha) =   13497.4
+       live above ground biomass (kg/ha) =   13497.4
+       green above ground biomass (kg/ha) =    9401.5
+       senesced above ground biomass (kg/ha) =    4095.9
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves = 455.7
+       grain N percent =      1.70            total N content (kg/ha) =    310.01
+       grain N uptake (kg/ha) =     42.69     senesced N content (kg/ha) =    122.88
+       green N content (kg/ha) =    144.44    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0047802
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0145368
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.2407515   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2916609   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0052602   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0408054   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.2936661   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.3587223   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.2026428   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2370316   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- pigeonp end_crop
+   PIGEONP:
+          ended. Yield (dw) =     0.0
+                                                straw residue =    0.0 kg/ha
+                                                straw N =    0.0 kg/ha
+                                                root residue = 2680.5 kg/ha
+                                                root N =   78.1 kg/ha
 30 April 1989 (Day of year=120):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
