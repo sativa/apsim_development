@@ -1,8 +1,112 @@
+      module Tamet2Module
+
+!     ================================================================
+!      tamet2 constants
+!     ================================================================
+
+      integer offset
+      parameter (offset = 3)
+
+!     ================================================================
+      type Tamet2Globals
+
+      character string*80
+      character type*10
+      character field*10
+
+
+      logical   wind_found
+      integer   a_day(offset)
+      integer   a_year(offset)
+      real   a_rain(offset)
+      real   a_min(offset)
+      real   a_max(offset)
+      real   a_evap(offset)
+      real   a_radn(offset)
+      real   a_wind(offset)
+      integer   day
+      integer   year
+      integer   error
+      real   rain
+      real   evap
+      real   maxt
+      real   mint
+      real   wind
+      real   radn
+      double precision   last_day
+      real      latitude
+      real   rd(31)
+      integer nv
+      real    radn_rcal
+      real   dis_evap
+      real   dis_maxt
+      real   dis_mint
+      real   dis_wind
+      real   dis_radn
+
+      end type Tamet2Globals
+!     ================================================================
+      type Tamet2Parameters
+
+      real     dis_evap
+      real     dish_evap
+      real     disvh_evap
+      real     dis_maxt
+      real     dis_maxt_dry
+      real     dis_maxt_other
+      real     dis_mint
+      real     Maxt_to_minT
+      real     rain_lb
+      real     rain_ub
+      real     gauge_capacity
+      real     maxt_lb
+      real     maxt_ub
+      real     mint_lb
+      real     mint_ub
+      real     evap_lb
+      real     evap_ub
+      real     wind_lb
+      real     wind_ub
+      real     radn_lb
+      real     radn_ub
+      real     radn_low
+      real     radn_vlow
+      end type Tamet2Parameters
+!     ================================================================
+      type Tamet2Constants
+
+         integer       dummy
+      end type Tamet2Constants
+!     ================================================================
+         ! instance variables.
+
+      type (Tamet2Globals), pointer :: g
+      type (Tamet2Parameters), pointer :: p
+      type (Tamet2Constants), pointer :: c
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
+      type Tamet2DataPtr
+         type (Tamet2Globals), pointer ::    gptr
+         type (Tamet2Parameters), pointer :: pptr
+         type (Tamet2Constants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type Tamet2DataPtr
+
+      type (Tamet2DataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
+
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use Tamet2Module
       Use infrastructure
       implicit none
 
@@ -24,12 +128,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use Tamet2Module
       Use infrastructure
       implicit none
 
@@ -49,12 +152,11 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use Tamet2Module
       Use infrastructure
       implicit none
 
@@ -74,13 +176,11 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 *====================================================================
       subroutine main (Action, Data_string)
 *====================================================================
-
-      use Tamet2Module
       Use infrastructure
       implicit none
 
@@ -135,11 +235,10 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 *====================================================================
       subroutine tamet2_zero_variables ()
 *====================================================================
-      use Tamet2Module
       Use infrastructure
       implicit none
 
@@ -195,12 +294,11 @@
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 *====================================================================
       subroutine tamet2_zero_daily_variables ()
 *====================================================================
 
-      use Tamet2Module               ! tamet2 common block
       Use infrastructure
       implicit none
 
@@ -250,7 +348,7 @@
       call pop_routine (myname)
 
       return
-      end
+      end subroutine
 *====================================================================
       subroutine tamet2_init ()
 *====================================================================
@@ -295,12 +393,11 @@
        call pop_routine (myname)
 
       return
-      end
+      end subroutine
 *===========================================================
       subroutine tamet2_read_param ()
 *===========================================================
 
-      use Tamet2Module               ! tamet2 common block
       Use infrastructure
       implicit none
 
@@ -594,14 +691,13 @@
 
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 *===========================================================
       subroutine tamet2_read_constants ()
 *===========================================================
 
-      use Tamet2Module               ! tamet2 common block
       Use infrastructure
       implicit none
 
@@ -631,12 +727,12 @@
 
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 *================================================================
       subroutine tamet2_prepare ()
 *================================================================
-
+      use Infrastructure
       implicit   none
 
 *+  Purpose
@@ -658,12 +754,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 *====================================================================
       subroutine tamet2_get_other_variables_init ()
 *====================================================================
 
-      use Tamet2Module               ! tamet2 common block
       Use infrastructure
       implicit none
 
@@ -767,12 +862,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 *====================================================================
       subroutine tamet2_get_other_variables ()
 *====================================================================
 
-      use Tamet2Module               ! tamet2 common block
       Use infrastructure
       implicit none
 
@@ -893,12 +987,12 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 *====================================================================
       subroutine tamet2_send_my_variable (Variable_name)
 *====================================================================
-
-      use Tamet2Module               ! tamet2 common block
+      use Infrastructure
+      implicit none
 
 *+  Purpose
 *      Return the value of one of our variables to caller
@@ -985,11 +1079,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 *================================================================
       subroutine tamet2_process ()
 *================================================================
-
+      use Infrastructure
       implicit   none
 
 
@@ -1013,20 +1107,18 @@
       call tamet2_main()
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 *================================================================
       subroutine tamet2_main()
 *================================================================
 
-      use Tamet2Module
       Use infrastructure
       implicit none
 
       character string*80
 
-      real  radn_max
       real  radn_cal
 
       DOUBLE PRECISION LAT
@@ -1505,12 +1597,11 @@
          !print*, ' 7'
       g%error = lag
       return
-      END
+      end subroutine
 
 *================================================================
       SUBROUTINE t2_ERROR (LAG,N2,STN,K1,K3,RMESS)
 *================================================================
-      use Tamet2Module
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       CHARACTER*4 STN
       CHARACTER RMESS*(*)
@@ -1531,12 +1622,11 @@
          !print*, ' e2'
       call write_string (string)
       RETURN
-      END
+      end subroutine
 
 *================================================================
       SUBROUTINE t2_ERRORR (LAG,N2,STN,K1,K3,r4,RMESS)
 *================================================================
-      use Tamet2Module
       Use infrastructure
       implicit none
       character string*80
@@ -1557,7 +1647,7 @@
  1000 FORMAT(A1,I4,I5,1X,f7.1,1x,a)
       call write_string (string)
       RETURN
-      END
+      end subroutine
 
 
 *     ===========================================================
@@ -1732,6 +1822,7 @@
       !print*, hrangl, radius_vector, lat, latrn, dec
 
       return
-      end
+      end function
 
 
+      end module Tamet2Module
