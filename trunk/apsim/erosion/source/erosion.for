@@ -217,11 +217,13 @@
 *     none
 
 *   Global variables
+      include   'const.inc'
       include   'convert.inc'          ! pcnt2fract
       include   'erosion.inc'          ! erosion model commons
       
       character  erosion_version*40    ! function
       integer    count_of_real_vals    ! function
+      real       sum_real_array        ! function
 
 *   Internal variables
       real       s                     ! temporary (USLE LS factor) slope (0-1)
@@ -244,6 +246,19 @@
          ! Get all parameters from parameter file
       call erosion_read_param ()
 
+         ! Sanity checking
+      if (g_bed_depth .lt. sum_real_array(g_dlayer, max_layer)) then
+          call fatal_error(err_user, 
+     :                  'Depth to bedrock is less than profile depth')
+      else
+      endif
+
+      if (p_model_type .ne. freeb_model .and.
+     :    p_model_type .ne. rose_model ) then
+         call fatal_error(err_user, 'Unknown model_type.')
+      else
+      endif
+
          ! Calculate USLE LS factor
       s = p_slope * pcnt2fract
       a = 0.6 * (1.0 - exp (-35.835 * s))
@@ -261,6 +276,7 @@
       else
          p_layer_merge_mm = 0.0
       endif
+
 
       call pop_routine (my_name)
       return
@@ -628,15 +644,15 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
      :      , p_entrain_eff_bed ! Variable
      :      , num_read_eteff    ! Number of values returned
      :      , 0.0               ! Lower Limit for bound checking
-     :      , 1.0)              ! Upper Limit for bound checking
+     :      , 2.0)              ! Upper Limit for bound checking
          call read_real_var_optional (
      :        section_name      ! Section header
      :      , 'eros_rose_b2'    ! Keyword
      :      , '()'              ! Units
      :      , p_eros_rose_b2_bed ! Variable
      :      , num_read_b2       ! Number of values returned
-     :      , 0.0               ! Lower Limit for bound checking
-     :      , 1.0)              ! Upper Limit for bound checking
+     :      , 0.01              ! Lower Limit for bound checking
+     :      , 0.2)              ! Upper Limit for bound checking
 
          if (num_read_eteff .ne. 1 .or. num_read_b2 .ne. 1) then
            call read_real_var (
@@ -646,15 +662,15 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
      :        , p_entrain_eff_bed ! Variable
      :        , num_read_eteff    ! Number of values returned
      :        , 0.0               ! Lower Limit for bound checking
-     :        , 1.0)              ! Upper Limit for bound checking
+     :        , 2.0)              ! Upper Limit for bound checking
            call read_real_var (
      :          section_name      ! Section header
      :        , 'eros_rose_b2_bed' ! Keyword
      :        , '()'              ! Units
      :        , p_eros_rose_b2_bed ! Variable
      :        , num_read_b2       ! Number of values returned
-     :        , 0.0               ! Lower Limit for bound checking
-     :        , 1.0)              ! Upper Limit for bound checking
+     :        , 0.01              ! Lower Limit for bound checking
+     :        , 0.2)              ! Upper Limit for bound checking
            call read_real_var (
      :          section_name      ! Section header
      :        , 'entrain_eff_susp'     ! Keyword
@@ -662,15 +678,15 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
      :        , p_entrain_eff_susp ! Variable
      :        , num_read_eteff    ! Number of values returned
      :        , 0.0               ! Lower Limit for bound checking
-     :        , 1.0)              ! Upper Limit for bound checking
+     :        , 2.0)              ! Upper Limit for bound checking
            call read_real_var (
      :          section_name      ! Section header
      :        , 'eros_rose_b2_susp' ! Keyword
      :        , '()'              ! Units
      :        , p_eros_rose_b2_susp ! Variable
      :        , num_read_b2       ! Number of values returned
-     :        , 0.0               ! Lower Limit for bound checking
-     :        , 1.0)              ! Upper Limit for bound checking
+     :        , 0.01              ! Lower Limit for bound checking
+     :        , 0.2)              ! Upper Limit for bound checking
          else
              ! Nothing - we're not splitting soil loss.
          endif
@@ -752,10 +768,6 @@ c      p_crop_cover_wtg       = 0.0
       p_p_factor     = 0.0
       p_layer_merge_mm = 0.0
 
-      call fill_real_array (g_bd, 0.0, max_layer)
-      call fill_real_array (g_dlayer, 0.0, max_layer)
-      call fill_real_array (g_dlt_dlayer, 0.0, max_layer)
-
       g_bed_depth    = 0.0
       g_runoff       = 0.0
       g_soil_loss_bed  = 0.0
@@ -794,7 +806,8 @@ c      g_total_cover  = 0.0
 
 *   Changes:
 *     010994 jngh specified and programmed
-
+*     210498 pdev added profile resets here due to stale data left in dlayer
+*                 after an entire layer was eroded.
 *   Calls:
 *     pop_routine
 *     push_routine
@@ -824,6 +837,9 @@ c      g_total_cover  = 0.0
       call push_routine (my_name)
 
           !  zero pools etc.
+      call fill_real_array (g_dlayer, 0.0, max_layer)
+      call fill_real_array (g_dlt_dlayer, 0.0, max_layer)
+      call fill_real_array (g_bd, 0.0, max_layer)
 
       g_soil_loss_bed = 0.0
       g_soil_loss_susp = 0.0
@@ -972,7 +988,6 @@ c$$$     :     (1.0 - g_crop_cover * p_crop_cover_wtg)
 c$$$
 c$$$      g_erosion_cover = bound(visible_contact_cover +
 c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
-
       call get_real_array(
      :     unknown_module       ! Module that responds (Not Used)
      :   , 'dlayer'             ! Variable Name
@@ -1362,7 +1377,6 @@ c$$$     :        , max_layers)
          call erosion_rose (g_soil_loss_bed, g_soil_loss_susp)
 
       else
-         call fatal_error(err_user, 'Unknown model_type.')
       endif
 
       if ((g_soil_loss_bed + g_soil_loss_susp .gt. 0.0) .and. 
@@ -1618,7 +1632,7 @@ cjh           what is the unit conversion here???
 
       call erosion_move_dlayr (g_dlt_dlayer, dlt_bed_depth)
 
-c      write (*,*) g_dlt_dlayer, dlt_bed_depth
+c      write (*,*) 'xxx',g_dlt_dlayer, dlt_bed_depth
 
       num_layers = count_of_real_vals (g_dlayer, max_layer)
 
@@ -1768,9 +1782,11 @@ c      write (*,*) g_dlt_dlayer, dlt_bed_depth
       call fill_real_array (dlt_dlayer, 0.0, max_layer)
       dlt_bed_depth = 0.0
 
+      num_layers = count_of_real_vals (g_dlayer, max_layer)
+
          ! find density based change in each layer
 
-      do 1000 i = 1,count_of_real_vals(g_dlayer, max_layer)
+      do 1000 i = 1, num_layers
          top = (g_soil_loss_bed + g_soil_loss_susp) * t2g/ha2scm
          dlt_depth_mm(i) =  divide (top
      :                            , g_bd(i), 0.0) * cm2mm
@@ -1787,10 +1803,9 @@ c     What happens when layer completely eroded?
          endif
  1000 continue
 
-      num_layers = count_of_real_vals (g_dlayer, max_layer)
 
-         ! check whether we've moved bedrock
-         ! into the profile.
+         ! Check whether we've moved bedrock
+         ! into the profile. If so, we have to change dlayer.
       tot_depth = sum_real_array(g_dlayer, num_layers)
      :          + dlt_depth_mm(num_layers)
 
