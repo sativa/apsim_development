@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <cstring.h>
+#include <ctype.h>
 
 char * GENERAL_EXPORT stristr(char *text_str, const char *srch_str)
 /*	If the string 'text_str' contains a substring equal to the

@@ -1,3 +1,6 @@
+#include <vcl.h>
+#pragma hdrstop
+
 #include <general\exec.h>
 #include <general\string_functions.h>
 #include <vector>
@@ -10,6 +13,9 @@ using std::vector;
 //    Returns true if program was successfully executed.  NOTE:  This
 //    routine is NOT THREAD SAFE.  Wrap inside a Synchronize method call
 //    if being called from a thread.
+//    If the terminateFlagToCheck is specified, then the routine will
+//    check the doTerminate flag periodically and if true, the process
+//    will terminate the child process and exit the routine.
 
 //  Notes:
 
@@ -21,7 +27,8 @@ using std::vector;
 // ------------------------------------------------------------------
 bool GENERAL_EXPORT Exec(const char* Command_line,
                          unsigned int Show_flag,
-                         bool Wait_for_finish)
+                         bool Wait_for_finish,
+                         bool* doTerminateFlag)
    {
    STARTUPINFO StartupInfo;
    PROCESS_INFORMATION ProcessInfo;
@@ -58,9 +65,19 @@ bool GENERAL_EXPORT Exec(const char* Command_line,
       LocalFree( lpMsgBuf );
       }
    else
-      {                              
-      WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
-      //GetExitCodeProcess(ProcessInfo.hProcess, Result);
+      {
+      DWORD exitCode;
+      GetExitCodeProcess(ProcessInfo.hProcess, &exitCode);
+      while (exitCode == STILL_ACTIVE)
+         {
+         Application->ProcessMessages();
+         if (doTerminateFlag != NULL && *doTerminateFlag)
+            {
+            TerminateProcess(ProcessInfo.hProcess, 1);
+            return false;
+            }
+         GetExitCodeProcess(ProcessInfo.hProcess, &exitCode);
+         }
       return true;
       }
    return false;
