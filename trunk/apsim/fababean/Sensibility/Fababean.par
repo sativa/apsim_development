@@ -2,10 +2,10 @@
 outputfile  =Dalby600.out
 [dalby1500.report.parameters]
 outputfile  =Dalby1500.out
-[roma600.report.parameters]
-outputfile  =Roma600.out
-[roma1500.report.parameters]
-outputfile  =Roma1500.out
+[roma400.report.parameters]
+outputfile  =Roma400.out
+[roma800.report.parameters]
+outputfile  =Roma800.out
 
 [sensibility.report.parameters]
 
@@ -43,10 +43,10 @@ endif
 summaryfile=Dalby600.sum
 [Dalby1500.SummaryFile.parameters]
 summaryfile=Dalby1500.sum
-[Roma600.SummaryFile.parameters]
-summaryfile=Roma600.sum
-[Roma1500.SummaryFile.parameters]
-summaryfile=roma1500.sum
+[Roma400.SummaryFile.parameters]
+summaryfile=Roma400.sum
+[Roma800.SummaryFile.parameters]
+summaryfile=roma800.sum
 
 [sensibility.Screen.parameters]
 screen_output=on
