@@ -113,7 +113,7 @@ void Coordinator::doInit1(const FString& sdml)
                                          componentI != componentNames.end();
                                          componentI++)
          {
-         ApsimServiceData component = simulationData.getService(*componentI);
+         ApsimComponentData component = simulationData.getComponent(*componentI);
          addComponent(component.getName(),
                       component.getExecutableFileName(),
                       component.getXML());
@@ -127,7 +127,7 @@ void Coordinator::doInit1(const FString& sdml)
                                          systemI != systemNames.end();
                                          systemI++)
          {
-         ApsimServiceData system = simulationData.getService(*systemI);
+         ApsimSystemData system = simulationData.getSystem(*systemI);
          addComponent(system.getName(),
                       system.getExecutableFileName(),
                       system.getXML());
