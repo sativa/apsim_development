@@ -29,12 +29,14 @@ static const char* stringArrayType = "<type kind=\"string\" array=\"T\">";
 // ------------------------------------------------------------------
 Field::Field (protocol::Component* p,
               const string& variable,
-              bool csvformat)
+              bool csvformat,
+              const std::string& nastring )
    {
    parent = p;
    CSVFormat = csvformat;
    fieldWidth = 0;
    managerVariable = false;
+   NAString = nastring;
 
    unsigned posPeriod = variable.find('.');
    if (posPeriod != string::npos)
@@ -119,7 +121,8 @@ void Field::formatAsFloats(void)
    {
    for (unsigned i = 0; i != values.size(); i++)
       {
-      if (values[i].find('.') != string::npos)
+      if (values[i].find('.') != string::npos &&
+          values[i] != NAString)
          {
          char* endptr;
          double value = strtod(values[i].c_str(), &endptr);
@@ -198,7 +201,7 @@ void Field::writeValue(ostream& out)
       }
 
    if (values.size() == 0)
-      writeTo(out, "?");
+      writeTo(out, NAString);
    }
 
 // ------------------------------------------------------------------
@@ -237,7 +240,7 @@ void Field::writeTo(ostream& out, const string& value)
       out.width(fieldWidth);
       if (value.length() >= fieldWidth)
          value.erase(fieldWidth-1);
-	  out << value;
+      out << value;
       }
    }
 // ------------------------------------------------------------------
@@ -389,6 +392,9 @@ void ReportComponent::doInit2(void)
          frequencyIds.push_back(addRegistration(RegistrationType::respondToEvent, frequencies[f].c_str(), ""));
          }
 
+      NAString = componentData->getProperty("parameters", "NAString");
+      if (NAString == "") NAString = "????";
+
       // get format specifier.
       CSVFormat = Str_i_Eq(componentData->getProperty("parameters", "format"), "csv");
 
@@ -404,7 +410,7 @@ void ReportComponent::doInit2(void)
          string name = *variableI;
          name = "   " + name;
          writeString(name.c_str());
-         fields.push_back(Field(this, *variableI, CSVFormat));
+         fields.push_back(Field(this, *variableI, CSVFormat, NAString));
          }
       writeString("");
 
