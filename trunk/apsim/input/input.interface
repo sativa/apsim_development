@@ -10,7 +10,6 @@ class APSIMInputPublic
    inputfile  : APSIMExternalTable = Input file name, (), READ
    
    sysinit    : APSIMMethod      = System initialise
-   prepare    : APSIMMethod      = System prepare
    
    newmet     : APSIMNewMetEvent       = New met data available
 end
@@ -25,7 +24,8 @@ end
 class APSIMInputExternal
    day        : APSIMInteger    = Day of year, (day)
    year       : APSIMInteger    = Year, (year)
-   today      : APSIMReal    = Today, (jday)
+   today      : APSIMReal       = Today, (jday)
+   prepare    : APSIMEvent      = System prepare
 end
 
 class APSIMInput
