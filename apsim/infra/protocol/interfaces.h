@@ -51,8 +51,8 @@ class IComputation /*: public IExecute */
 
       virtual void idle(void) const = 0;
       virtual void create(void) const = 0;
-      virtual void init(void) const = 0;
-      virtual void term(void) const = 0;
+      virtual void initialise(void) const = 0;
+      virtual void terminate(void) const = 0;
       virtual void action(PROTOCOLMessage& Event) const = 0;
       virtual void inEvent(PROTOCOLEvent& Event) const = 0;
       virtual void outEvent(PROTOCOLEvent& Event) const = 0;
@@ -105,6 +105,9 @@ class ICoordinator : virtual public IComponent
       virtual bool sendMessageToFirst(PROTOCOLMessage& aMsg) = 0;
       virtual void enumerateComponents
          (ConstCallbackFunction<const IComponent*>& f) const = 0;
+
+      virtual void registerSubscribedEvent(FString& eventName,
+                                           FString& componentName) = 0;
 
       // APSIM kludge - used for getvariable and setvariable - remove!
       bool componentResponded;

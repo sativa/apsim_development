@@ -24,8 +24,11 @@ class PROTOCOL_EXPORT PROTOCOLComponent : virtual public IComponent
                         ICoordinator* coordinator,
                         const string& dllFileName,
                         const string& ssdl);
+
+      bool operator< (const PROTOCOLComponent& rhs) const
+         {return name < rhs.name;}
       ~PROTOCOLComponent(void);
-      virtual void init(void) { };
+      virtual void init(void);
       virtual void term(void);
       virtual string getName(void) const {return name;}
       virtual string getFilename(void) const {return filename;}

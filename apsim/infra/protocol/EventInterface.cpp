@@ -208,6 +208,22 @@ extern "C" _export int __stdcall ei_componentresponded
 //    DPH 21/5/98
 
 // ------------------------------------------------------------------
+extern "C" _export void __stdcall ei_registersubscribedevent
+   (EventInterface** EI, const char* eventName, const long eventNameLength)
+   {
+   (*EI)->registerSubscribedEvent(FString(eventName, eventNameLength));
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    signal that a message was used.
+
+//  Notes:
+
+//  Changes:
+//    DPH 21/5/98
+
+// ------------------------------------------------------------------
 //extern "C" _export void __stdcall LOADER_CHANGECOMPONENTORDER
 //   (char* FComponents, int* NumElements, long For_st_len)
 //   {

@@ -54,6 +54,12 @@ class EventInterface
          coordinator->broadcastMessage(PROTOCOLMessage(actionName, actionData));
          }
 
+      // register an interest in an event.
+      void registerSubscribedEvent(FString& eventName)
+         {
+         coordinator->registerSubscribedEvent(eventName, componentName.c_str());
+         }
+
       // Publish an event to the system.
       void publishEvent(const FString& eventName)
          {
