@@ -721,6 +721,29 @@ void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profi
    *dlt_dm_pot_te = sw_uptake_sum * transp_eff;
    }
 
+//===========================================================================
+void plant_bio_water1(float sw_supply        //(INPUT)  potential water to take up (supply)
+                    , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
+                    , float *dlt_dm_pot_te)  //(OUTPUT) potential dry matter production
+                                       //         by transpiration (g/m^2)
+//===========================================================================
+//  Purpose
+//   Calculate the potential biomass production based upon today's water supply.
+
+//  Mission Statement
+//   Calculate the potential biomass production based upon today's water supply.
+
+//  Changes
+//       090994 jngh specified and programmed
+
+{
+   // Implementation Section ----------------------------------
+
+   // potential (supply) by transpiration
+
+   *dlt_dm_pot_te = sw_supply * transp_eff;
+}
+
 //=========================================================================
 void crop_check_sw(commsInterface *iface,
                    float minsw,    // (INPUT)  lowest acceptable value for ll

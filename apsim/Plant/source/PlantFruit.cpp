@@ -463,10 +463,10 @@ void PlantFruit::sw_demand1(float dlt_dm_pot_rue      //(INPUT)  potential dry m
    }
 
 //===========================================================================
-void bio_water1(float sw_supply        //(INPUT)  potential water to take up (supply)
-              , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
-              , float *dlt_dm_pot_te)  //(OUTPUT) potential dry matter production
-                                       //         by transpiration (g/m^2)
+void PlantFruit::bio_water1 (float sw_supply        //(INPUT)  potential water to take up (supply)
+                           , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
+                           , float *dlt_dm_pot_te)  //(OUTPUT) potential dry matter production
+                                                    //         by transpiration (g/m^2)
 //===========================================================================
 //  Purpose
 //   Calculate the potential biomass production based upon today's water supply.
@@ -478,9 +478,6 @@ void bio_water1(float sw_supply        //(INPUT)  potential water to take up (su
 //       090994 jngh specified and programmed
 
 {
-   //  Local Variables
-   int deepest_layer;     // deepest layer in which the roots are growing
-   float sw_uptake_sum;   // Water available to roots (mm)
    // Implementation Section ----------------------------------
 
    // potential (supply) by transpiration

@@ -358,11 +358,11 @@ class Plant : public plantInterface {
   void plant_root_depth_init (int option /*(INPUT) option number*/);
   void plant_root_length_growth (int option /*(INPUT) option number*/);
   void plant_root_length_init (int option /*(INPUT) option number*/);
-  void plant_water_supply_partition(float g_sw_demand
-                                  , float g_sw_demand_veg
-                                  , float *g_sw_supply
-                                  , float g_sw_supply_veg
-                                  , float g_sw_supply_fruit);
+  void plant_water_supply_partition(float sw_demand
+                                  , float swDemandVeg
+                                  , float swSupply
+                                  , float *swSupplyVeg
+                                  , float *swSupplyFruit);
 
  void plant_dm_pot_rue (externalFunction *c_rue
                          ,float  rue_pod
@@ -1333,6 +1333,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float dm_green[max_part];                         // live plant dry weight (biomass) (g/m^2)
       float dm_senesced[max_part];                      // senesced plant dry wt (g/m^2)
       float radn_int;                                   // radn intercepted by leaves (mj/m^2)
+      float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
       float transpEffFruit;                             // transpiration efficiency of fruit (g dm/m^2/mm water)
       float slai;                                       // area of leaf that senesces from plant
@@ -1406,8 +1407,11 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float sat_dep[max_layer];
       float bd[max_layer];
       float sw_dep [max_layer];                         // soil water content of layer L (mm)
+      float swSupplyFruit;                              // crop water water supply to fruit (mm)
+      float swSupplyVeg;                                // crop water water supply to vegetative parts (mm)
       float sw_demand;                                  // total crop demand for water (mm)
       float sw_demand_te;                               // crop demand for water calculated from transpiration efficiency (mm)
+      float swDemandTEFruit;                            // crop fruit demand for water calculated from transpiration efficiency (mm)
       float sw_avail_pot[max_layer];                    // potential extractable soil water (mm)
       float sw_avail[max_layer];                        // actual extractable soil water (mm)
       float sw_supply [max_layer];                      // potential water to take up (supply)

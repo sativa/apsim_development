@@ -1582,6 +1582,11 @@ void cproc_transp_eff1(float svp_fract,          // (INPUT)  fraction of distanc
                        float mint,               // (INPUT)  minimum air temperature (oC)
                        float *transp_eff);       //   (OUTPUT)
 
+void plant_bio_water1(float sw_supply        //(INPUT)  potential water to take up (supply)
+                    , float transp_eff       //(INPUT)  transpiration efficiency (g dm/m^2/m
+                    , float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
+                                             //         by transpiration (g/m^2)
+
 void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profile
                       float *dlayer,        //(INPUT)  thickness of soil layer I (mm)
                       float root_depth,    //(INPUT)  depth of roots (mm)
