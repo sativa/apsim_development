@@ -123,7 +123,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                          state = READ_INSTANTIATION;
                       else if (ch == '[')
                          state = READ_SECTION;
-                      else if (ch != ' ')
+                      else
                          paramFile += ch;
                       break;
          case READ_SECTION :
@@ -133,6 +133,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                             instanceName = moduleName;
 
                          state = READ_PARAM_FILE;
+                         Strip(paramFile, " ");
                          if (paramFile.length() == 0)
                             paramFile = controlFileName;
                          else if (removeMacros)
