@@ -1,4 +1,4 @@
-C     Last change:  E    24 Aug 2001   12:55 pm
+C     Last change:  E     7 Sep 2001    3:42 pm
 *     ===========================================================
       subroutine sorg_nfact_photo(leaf,lai,
      :                  n_green, nfact)
@@ -1749,107 +1749,6 @@ cjh  changed 0.0 to 1.0
 
 
 
-*     ===========================================================
-      subroutine sorg_leaf_appearance1 (
-     .          g_leaf_no,
-     .          g_leaf_no_final,
-     .          c_leaf_no_rate_change,
-     .          c_leaf_app_rate2,
-     .          c_leaf_app_rate1,
-     .          g_current_stage,
-     .          g_days_tot,
-     .          g_dlt_tt,
-     .          g_dlt_leaf_no)
-*     ===========================================================
-      implicit none
-      include   'cropdefcons.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_leaf_no(*)
-      real       g_leaf_no_final
-      real       c_leaf_no_rate_change
-      real       c_leaf_app_rate2
-      real       c_leaf_app_rate1
-      real       g_current_stage
-      real       g_days_tot(*)
-      real       g_dlt_tt
-      real       g_dlt_leaf_no           ! (OUTPUT) new fraction of oldest
-                                       ! expanding leaf
-
-*+  Purpose
-*       Return the fractional increase in emergence of the oldest
-*       expanding leaf.
-*       Note ! this does not take account of the other younger leaves
-*       that are currently expanding
-*
-*   Called by srop_leaf_number(1) in croptree.for
-
-*+  Changes
-*       031194 jngh specified and programmed
-*       070495 psc  added 2nd leaf appearance rate
-*       260596 glh  corrected error in leaf no calcn
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sorg_leaf_appearance1')
-
-*+  Local Variables
-      real       leaf_no_remaining     ! number of leaves to go before all
-                                       ! are fully expanded
-      real       leaf_no_now           ! number of fully expanded leaves
-      real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-cglh uses sowing, not emerg to calc leaf no.
- 
-      leaf_no_now = sum_between (emerg, now, g_leaf_no)
-      leaf_no_remaining = g_leaf_no_final - leaf_no_now
- 
-!scc Peter's 2 stage version used here, modified to apply
-! to last few leaves before flag
-!i.e. c_leaf_no_rate_change is leaf number from the top down (e.g. 4)
- 
-      if (leaf_no_remaining .le. c_leaf_no_rate_change) then
- 
-         leaf_app_rate = c_leaf_app_rate2
- 
-      else
- 
-         leaf_app_rate = c_leaf_app_rate1
- 
-      endif
- 
- 
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
- 
-             ! initialisation done elsewhere.
-         g_dlt_leaf_no = 0.0
- 
-      elseif (leaf_no_remaining.gt.0.0) then
- 
-             ! if leaves are still growing, the cumulative number of
-             ! phyllochrons or fully expanded leaves is calculated from
-             ! daily thermal time for the day.
- 
-         g_dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
-         g_dlt_leaf_no = bound (g_dlt_leaf_no, 0.0, leaf_no_remaining)
- 
-      else
-             ! we have full number of leaves.
- 
-         g_dlt_leaf_no = 0.0
- 
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 *     ===========================================================
@@ -2459,7 +2358,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
             call srop_lai_equilib_water(
      .          g%day_of_year,
      .          g%year,
-     .          c%rue,
+     .          g%rue,
      .          g%cover_green,
      .          g%current_stage,
      .          g%lai,
@@ -2889,7 +2788,7 @@ c the leaf can't sustain itself.
       subroutine srop_lai_equilib_water(
      .           g_day_of_year,
      .           g_year,
-     .           c_rue,
+     .           g_rue,
      .           g_cover_green,
      .           g_current_stage,
      .           g_lai,
@@ -2909,7 +2808,7 @@ c the leaf can't sustain itself.
       INTEGER g_day_of_year          ! (INPUT)  day of year
       INTEGER g_year                 ! (INPUT)  year
       REAL    c_extinction_coef      ! (INPUT)  radiation extinction coefficient
-      REAL    c_rue(*)               ! (INPUT)  radiation use efficiency (g dm/m
+      REAL    g_rue                  ! (INPUT)  radiation use efficiency (g dm/m
       REAL    g_cover_green          ! (INPUT)  fraction of radiation reaching t
       REAL    g_current_stage        ! (INPUT)  current phenological stage
       REAL    g_lai                  ! (INPUT)  live plant green lai
@@ -2959,9 +2858,10 @@ c the leaf can't sustain itself.
  
       dlt_dm_transp = g_sw_supply_sum * g_transp_eff
       rue_reduction = min (g_temp_stress_photo, g_nfact_photo)
-      lrue = c_rue(stage_no) * rue_reduction
+      !lrue = c_rue(stage_no) * rue_reduction
+      lrue = g_rue * rue_reduction
  
-      call bound_check_real_var (lrue, 0.0, c_rue(stage_no), 'c_rue')
+      call bound_check_real_var (lrue, 0.0, g_rue, 'c_rue')
  
       radn_canopy = divide (g_radn_int, g_cover_green, g_radn)
       sen_radn_crit = divide (dlt_dm_transp, lrue, radn_canopy)
