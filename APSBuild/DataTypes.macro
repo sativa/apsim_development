@@ -59,6 +59,11 @@ const unsigned max_array_size = 100;
 // turn off the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 
+extern "C" void __stdcall publish_null(unsigned* id)
+   {
+   FortranProxyComponent::currentInstance->publish(*id, protocol::NoData());
+   }
+
 #for_each structure
 namespace protocol {
 struct Fstructure.nameType
@@ -156,6 +161,39 @@ structure.forddml
       #endif
       #endfor
    end type structure.nameType
+
 #endfor
 end module dataTypes
+#endfile
+
+##################################################
+#file %apsuite\apsim\infra\source\datatypesinterface.f90
+module dataTypesInterface
+   interface
+
+   subroutine publish_null(id)
+   use datatypes
+   ml_external publish_null
+   integer :: id
+   end subroutine
+
+   #for_each structure
+   subroutine publish_structure.name(id, data)
+   use datatypes
+   ml_external publish_structure.name
+   integer :: id
+   type(structure.nameType) :: data
+   end subroutine
+
+   subroutine unpack_structure.name(variant, data)
+   use datatypes
+   ml_external unpack_structure.name
+   integer :: variant
+   type(structure.nameType) :: data
+   end subroutine
+   #endfor
+
+   end interface
+end module dataTypesInterface
+
 #endfile
