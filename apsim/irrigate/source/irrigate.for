@@ -78,6 +78,7 @@
       implicit none
       include   'const.inc'            ! Global constant definitions
       include   'irrigate.inc'         ! irrigate common block
+      include 'event.inc'
       include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
@@ -180,15 +181,15 @@
  
          ! send message regardless of fatal error - will stop anyway
  
-      call post_real_var   ('amount'
+      call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
      :                        , amount)
  
-      call post_real_var   ('duration'
+      call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
      :                        , duration)
  
-      call post_char_var   ('time'
+      call post_char_var   (DATA_irrigate_time
      :                        ,'(hh:mm)'
      :                        , time)
  
@@ -201,7 +202,7 @@
          endif
 200   continue
  
-      call message_send_immediate (unknown_module, 'add_water', blank)
+      call event_send (EVENT_irrigated)
  
       call delete_postbox ()
  
@@ -994,6 +995,7 @@
       implicit none
       include    'const.inc'
       include    'irrigate.inc'        ! irrigation common block
+      include 'event.inc'
       include 'data.pub'
       include 'engine.pub'
       include 'intrface.pub'
@@ -1058,15 +1060,15 @@
  
                call new_postbox ()
  
-               call post_real_var   ('amount'
+               call post_real_var   (DATA_irrigate_amount
      :                              ,'(mm)'
      :                              , amount)
  
-               call post_real_var   ('duration'
+               call post_real_var   (DATA_irrigate_duration
      :                              ,'(min)'
      :                              , myduration)
  
-               call post_char_var   ('time'
+               call post_char_var   (DATA_irrigate_time
      :                              ,'(hh:mm)'
      :                              , mytime)
  
@@ -1076,9 +1078,7 @@
      :                    , g_irrigation_solutes(solnum, irigno))
 200            continue
  
-               call message_send_immediate (unknown_module
-     :                                     , 'add_water'
-     :                                     , blank)
+               call event_send (EVENT_irrigated)
  
                call delete_postbox ()
  
@@ -1104,6 +1104,7 @@
       implicit none
       include   'const.inc'
       include   'irrigate.inc'
+      include 'event.inc'
       include 'data.pub'
       include 'engine.pub'
       include 'intrface.pub'
@@ -1148,15 +1149,15 @@
  
             ! send message regardless of fatal error - will stop anyway
  
-         call post_real_var   ('amount'
+         call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
      :                        , amount)
  
-         call post_real_var   ('duration'
+         call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
      :                        , p_default_duration)
  
-         call post_char_var   ('time'
+         call post_char_var   (DATA_irrigate_time
      :                        ,'(hh:mm)'
      :                        , p_default_time)
  
@@ -1171,10 +1172,7 @@
 !            endif
 !200      continue
  
-         call message_send_immediate (unknown_module
-     :                               , 'add_water'
-     :                               , blank)
- 
+         call event_send(EVENT_irrigated) 
          call delete_postbox ()
  
          g_irrigation_applied = g_irrigation_applied + amount
@@ -1294,6 +1292,7 @@
       implicit none
       include    'const.inc'
       include    'irrigate.inc'        ! irrigation common block
+      include 'event.inc'
       include 'data.pub'
       include 'engine.pub'
       include 'intrface.pub'
@@ -1330,23 +1329,20 @@
 
          call new_postbox ()
  
-         call post_real_var   ('amount'
+         call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
      :                        , actual_amount)
  
-         call post_real_var   ('duration'
+         call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
      :                        , p_default_duration)
  
-         call post_char_var   ('time'
+         call post_char_var   (DATA_irrigate_time
      :                        ,'(hh:mm)'
      :                        , p_default_time)
  
  
-         call message_send_immediate (unknown_module
-     :                               , 'add_water'
-     :                               , blank)
- 
+         call event_send(EVENT_irrigated) 
          call delete_postbox ()
  
          g_irrigation_applied = g_irrigation_applied + amount
