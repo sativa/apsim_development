@@ -3,7 +3,7 @@
 
 #include <iostream.h>
 #include <general\mystring.h>
-
+#include <vcl\sysutils.hpp>
 // ------------------------------------------------------------------
 //  Short description:
 //    Class for encapsulating dates
@@ -142,6 +142,20 @@ class GDate
          return In_stream;
          }
    };
+
+// ------------------------------------------------------------------
+//  Short description:
+//      Get a TDateTime from the specified file.
+
+//  Notes:
+
+//  Changes:
+//    DPH 3/2/98
+
+// ------------------------------------------------------------------
+TDateTime Get_file_date_time (const char* File_name);
+
+
 #endif
 
 
