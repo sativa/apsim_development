@@ -285,7 +285,7 @@
       parameter (myname = 'soiltemp_heat')
 
 *+  Local Variables
-      real l_heat_store(max_layer)
+      real l_heat_store(max_node)
       integer i
       real porosity
 
@@ -328,9 +328,13 @@
       parameter (myname = 'soiltemp_therm')
 
 *+  Local Variables
-      real l_therm_cond(0:max_layer)
+      real l_therm_cond(0:max_node)
       real temp
       integer i
+      real d1
+      real d2
+      real d
+      real d_sum
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -339,7 +343,17 @@
             temp = (g%c3(i) * e%sw(i)) **4.0
             temp = temp * (-1)
             l_therm_cond(i)=
-     :(g%c1(i) + g%c2(i)*e%sw(i) - (g%c1(i)-g%c4(i))*exp(temp))
+     :                    (g%c1(i) + g%c2(i)*e%sw(i) - (g%c1(i)-g%c4(i))
+     :                    *exp(temp))
+         enddo
+            ! now get weighted average between the nodes.
+         do i=2,g%nz-1
+            d = sum(e%dlayer(1:i-1))
+            d1 = d - g%z(i)*1000.0
+            d2 = g%z(i+1)*1000.0 - d
+            d_sum = d1 + d2
+            l_therm_cond(i)= l_therm_cond(i)* d1/(d_sum)
+     :                     + l_therm_cond(i+1)* d2/(d_sum)
          enddo
  
       call pop_routine (myname)
@@ -369,12 +383,12 @@
 
 *+  Local Variables
       integer i
-      real a(max_layer)
-      real b(max_layer)
-      real cc(max_layer)
-      real d(max_layer)
-      real heat(max_layer)
-      real therm(0:max_layer)
+      real a(max_node)
+      real b(max_node)
+      real cc(max_node)
+      real d(max_node)
+      real heat(max_node)
+      real therm(0:max_node)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -471,7 +485,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      do i=0,g%nz
+      do i=0,g%nz+1
          g%t(i) = g%tn(i)
       enddo
  
@@ -518,6 +532,7 @@
  
          g%time = 0
          g%nz          = 0
+         g%num_layer   = 0
          g%dt_max      = 0.0
          g%dt          = 0.0
          g%C1(:)       = 0.0       
@@ -654,7 +669,7 @@
       call get_real_var (
      :      unknown_module ! module that responds (not used)
      :          ,'tav'               ! keyword
-     :          ,'(C)'             ! units
+     :          ,'(oC)'             ! units
      :          ,e%t_ave                 ! array
      :          ,numvals             ! number of values returned
      :          ,-30.0                  !lower
@@ -681,7 +696,12 @@
      :     ,numvals         ! number of values returned
      :     ,0.0            ! lower limit for bound checking
      :     ,1000.0)           ! upper limit for bound checking
-      g%nz = numvals
+      g%num_layer = numvals
+      g%nz = g%num_layer + 1
+
+         ! mapping of layers to nodes -
+         ! layer  - air  surface    1    2  ... num_layer num_layer+1
+         ! node   -  0      1       2    3         nz       nz+1
       g%z(0) = 0.0
       g%z(1) = 0.0
          g%z(2) = 0.5*e%dlayer(1) /1000.0
@@ -689,6 +709,7 @@
          g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0         
       enddo
       g%z(g%nz+1) = g%z(g%nz) + 10.0 !add 2 meters - should always be enough to assume c
+      e%dlayer(g%num_layer+1) = 10.0 - 0.5*e%dlayer(g%num_layer)
 !sw(i)
       call get_real_array (
      :      unknown_module ! module that responds (not used)
@@ -699,11 +720,12 @@
      :     ,numvals         ! number of values returned
      :     ,0.0            ! lower limit for bound checking
      :     ,1.0)           ! upper limit for bound checking
-      if (numvals.ne.g%nz) call fatal_error('user',
+      if (numvals.ne.g%num_layer) call fatal_error(ERR_USER,
      :'All soil variables must have the same number of layers')
-       do i=1,g%nz
-          e%sw(i) = 0.25
-       enddo
+      e%sw(g%nz) = e%sw(numvals)
+       !cjh do i=1,g%nz
+       !cjh    e%sw(i) = 0.25
+       !cjh enddo
  
 !rhob(i)
       call get_real_array (
@@ -715,8 +737,9 @@
      :     ,numvals         ! number of values returned
      :     ,0.0            ! lower limit for bound checking
      :     ,2.65)           ! upper limit for bound checking
-      if (numvals.ne.g%nz) call fatal_error('user',
+      if (numvals.ne.g%num_layer) call fatal_error(ERR_USER,
      :'All soil variables must have the same number of layers')
+      e%rhob(g%nz) = e%rhob(numvals)
  
  
 !maxt_time time at which get maximum temperature (min)
@@ -733,7 +756,7 @@
       call get_real_var (
      :      unknown_module ! module that responds (not used)
      :     ,'mint'          ! variable name
-     :     ,'(C)'        ! units                (not used)
+     :     ,'(oC)'        ! units                (not used)
      :     ,e%mint            ! variable
      :     ,numvals         ! number of values returned
      :     ,-100.0            ! lower limit for bound checking
@@ -742,7 +765,7 @@
       call get_real_var (
      :      unknown_module ! module that responds (not used)
      :     ,'maxt'          ! variable name
-     :     ,'(C)'        ! units                (not used)
+     :     ,'(oC)'        ! units                (not used)
      :     ,e%maxt            ! variable
      :     ,numvals         ! number of values returned
      :     ,-100.0            ! lower limit for bound checking
@@ -815,35 +838,72 @@
  
 !final_soil_temp(0:max_layer)
       if (variable_name .eq. 'final_soil_temp') then
-         do i=1,g%nz
-            temp_array(i) = g%t(i)
+         do i=1,g%num_layer
+            temp_array(i) = g%t(i+1)
          enddo
          call respond2get_real_array (
      :               variable_name            ! variable name
-     :              ,'(C)'           ! variable units
+     :              ,'(oC)'           ! variable units
      :              ,temp_array              ! variable
-     :              ,g%nz)             ! array size
+     :              ,g%num_layer)             ! array size
+
+      elseif (variable_name .eq. 'final_soil_temp_surface') then
+         call respond2get_real_var (
+     :               variable_name            ! variable name
+     :              ,'(oC)'           ! variable units
+     :              ,g%t(1)              ! variable
+     :              )             
 !soil_temp
-      elseif (variable_name .eq. 'soil_temp') then
+      elseif (variable_name .eq. 'ave_soil_temp') then
+         do i=1,g%num_layer
+            temp_array(i) =g%soil_temp(i+1)
+         enddo
          call respond2get_real_array (
      :               variable_name            ! variable name
-     :              ,'(C)'           ! variable units
-     :              ,g%soil_temp              ! variable
-     :              ,g%nz)             ! array size
+     :              ,'(oC)'           ! variable units
+     :              ,temp_array              ! variable
+     :              ,g%num_layer)             ! array size
+
+      elseif (variable_name .eq. 'ave_soil_temp_surface') then
+         call respond2get_real_var (
+     :               variable_name            ! variable name
+     :              ,'(oC)'           ! variable units
+     :              ,g%soil_temp(1)              ! variable
+     :              )            
 !mint_soil
       elseif (variable_name .eq. 'mint_soil') then
+         do i=1,g%num_layer
+            temp_array(i) = g%mint_soil(i+1)
+         enddo
          call respond2get_real_array (
      :               variable_name            ! variable name
-     :              ,'(C)'           ! variable units
-     :              ,g%mint_soil              ! variable
-     :              ,g%nz)             ! array size
+     :              ,'(oC)'           ! variable units
+     :              ,temp_array              ! variable
+     :              ,g%num_layer)             ! array size
+
+      elseif (variable_name .eq. 'mint_soil_surface') then
+         call respond2get_real_var (
+     :               variable_name            ! variable name
+     :              ,'(oC)'           ! variable units
+     :              ,g%mint_soil(1)              ! variable
+     :              )
 !maxt_soil
       elseif (variable_name .eq. 'maxt_soil') then
+         do i=1,g%num_layer
+            temp_array(i) = g%maxt_soil(i+1)
+         enddo
          call respond2get_real_array (
      :               variable_name            ! variable name
-     :              ,'(C)'           ! variable units
-     :              ,g%maxt_soil              ! variable
-     :              ,g%nz)             ! array size
+     :              ,'(oC)'           ! variable units
+     :              ,temp_array              ! variable
+     :              ,g%num_layer)             ! array size
+
+      elseif (variable_name .eq. 'maxt_soil_surface') then
+         call respond2get_real_var (
+     :               variable_name            ! variable name
+     :              ,'(oC)'           ! variable units
+     :              ,g%maxt_soil(1)              ! variable
+     :              )
 !therm_cond(0:max_layer)
       elseif (variable_name .eq. 'therm_cond') then
          do i=1,g%nz
@@ -877,8 +937,7 @@
 
 
 *     ===========================================================
-      Recursive
-     :subroutine soiltemp_read_param ()
+      subroutine soiltemp_read_param ()
 *     ===========================================================
       use SoilTempModule
       implicit none
@@ -919,8 +978,9 @@
      :          ,numvals             ! number of values returned
      :          ,1e-6                  !lower
      :          ,1.0)                 !upper
-      g%nz = numvals
- 
+      g%nz = numvals + 1
+      p%clay(g%nz) = p%clay(numvals)
+
       do i = 1,g%nz
          g%c1(i) = 0.65 - 0.78*e%rhob(i) + 0.6 * e%rhob(i)**2   !A  approximation to e
          g%c2(i) = 1.06 * e%rhob(i) * e%sw(i)           !B   for mineral soil - assume
@@ -934,26 +994,28 @@
      :           section_name         ! section header
      :          ,'soil_temp'               ! keyword
      :          ,max_layer                 ! array size
-     :          ,'(C)'             ! units
+     :          ,'(oC)'             ! units
      :          ,temp_array                 ! array
      :          ,numvals             ! number of values returned
      :          ,-30.0                  !lower
      :          ,40.0)                 !upper
       if (numvals.eq.0) then
-         do i=1,g%nz+1
+         do i=0,g%nz+1
             g%t(i) = e%t_ave
             g%tn(i) = e%t_ave
          enddo
       elseif (numvals.ne.g%nz) then
-         call fatal_error('user',
+         call fatal_error(ERR_USER,
      :'soil_temp has the wrong number of elements')
       else
          do i=1,g%nz
             g%t(i) = temp_array(i)
             g%tn(i) = temp_array(i)
          enddo
-         g%t(g%nz+1) = temp_array(g%nz)
-         g%tn(g%nz+1) = g%t(g%nz+1)
+         g%t(g%nz+1) = e%t_ave
+         g%tn(g%nz+1) = e%t_ave
+         g%t(0) = e%t_ave
+         g%tn(0) = e%t_ave
        endif
  
 !therm_cond(0) = 20.0 ! boundary layer condictance W m-2 K-1
@@ -975,8 +1037,7 @@
 
 
 *     ===========================================================
-      Recursive
-     :subroutine soiltemp_read_constants ()
+      subroutine soiltemp_read_constants ()
 *     ===========================================================
       use SoilTempModule
       implicit none
@@ -1179,7 +1240,7 @@
       call get_real_var (
      :      unknown_module ! module that responds (not used)
      :          ,'tav'               ! keyword
-     :          ,'(C)'             ! units
+     :          ,'(oC)'             ! units
      :          ,e%t_ave                 ! array
      :          ,numvals             ! number of values returned
      :          ,-30.0                  !lower
@@ -1207,15 +1268,20 @@
      :     ,numvals         ! number of values returned
      :     ,0.0            ! lower limit for bound checking
      :     ,1000.0)           ! upper limit for bound checking
-      g%nz = numvals
+      g%num_layer = numvals
+      g%nz = g%num_layer + 1
+
+         ! mapping of layers to nodes -
+         ! layer  - air  surface    1    2  ... num_layer num_layer+1
+         ! node   -  0      1       2    3         nz       nz+1
       g%z(0) = 0.0
       g%z(1) = 0.0
-      g%z(2) = 0.5*e%dlayer(1) /1000.0
+         g%z(2) = 0.5*e%dlayer(1) /1000.0
       do i=2,g%nz
-         g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0
+         g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0         
       enddo
       g%z(g%nz+1) = g%z(g%nz) + 10.0 !add 2 meters - should always be enough to assume c
- 
+      e%dlayer(g%num_layer+1) = 10.0 - 0.5*e%dlayer(g%num_layer)
 !rhob(i)
       call get_real_array (
      :      unknown_module ! module that responds (not used)
@@ -1226,9 +1292,10 @@
      :     ,numvals         ! number of values returned
      :     ,0.0            ! lower limit for bound checking
      :     ,2.65)           ! upper limit for bound checking
-      if (numvals.ne.g%nz) call fatal_error('user',
+      if (numvals.ne.g%num_layer) call fatal_error(ERR_USER,
      :'All soil variables must have the same number of layers')
  
+      e%rhob(g%nz) = e%rhob(numvals)
       call pop_routine (myname)
       return
       end
