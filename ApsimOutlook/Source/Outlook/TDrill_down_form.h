@@ -60,6 +60,10 @@ __published:	// IDE-managed Components
    void __fastcall Rename1Click(TObject *Sender);
    void __fastcall SaveLabelClick(TObject *Sender);
    void __fastcall RestoreLabelClick(TObject *Sender);
+   void __fastcall ScenarioTreeDragOver(TObject *Sender, TObject *Source,
+          int X, int Y, TDragState State, bool &Accept);
+   void __fastcall ScenarioTreeDragDrop(TObject *Sender, TObject *Source,
+          int X, int Y);
 //   void __fastcall Rename1Click(TObject *Sender);
 //   void __fastcall Delete1Click(TObject *Sender);
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,
