@@ -4794,6 +4794,7 @@ cnh      c%crop_type = ' '
 *     ================================================================
 
       Use infrastructure
+      use sugarModule
       implicit none
       ml_external Main
 
@@ -4814,6 +4815,9 @@ cnh      c%crop_type = ' '
 *      250894 jngh specified and programmed
 *      050996 nih  added graze action
 *      060599 sdb  removed version reference and presence action
+
+*+  Calls
+      logical crop_my_type
 
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
