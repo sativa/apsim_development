@@ -160,7 +160,7 @@ module SoilPModule
 
 
 ! ====================================================================
-subroutine soilp_Init ()
+subroutine soilp_reset ()
 ! ====================================================================
    Use infrastructure
    implicit none
@@ -174,7 +174,7 @@ subroutine soilp_Init ()
 
 !+  Constant Values
    character  myname*(*)            ! name of this procedure
-   parameter (myname = 'soilp_init')
+   parameter (myname = 'soilp_reset')
 
 !+  Local Variables
     character Event_string*40       ! String to output
@@ -189,8 +189,8 @@ subroutine soilp_Init ()
 
    ! Notify system that we have initialised
 
-   Event_string = 'Initialising'
-   call Write_string (Event_string)
+!   Event_string = 'Initialising'
+!   call Write_string (Event_string)
 
    ! Get all parameters from parameter file
 
@@ -199,8 +199,6 @@ subroutine soilp_Init ()
    call soilp_read_param ()
 
    call soilp_get_other_init_variables ()
-
-   call soilp_sum_report ()
 
    call pop_routine (myname)
 
@@ -2308,14 +2306,21 @@ subroutine Main (Action, Data_string)
    call push_routine (myname)
 
    if (Action.eq.ACTION_Init) then
-      call soilp_Init ()
+      call soilp_reset ()
+      call soilp_sum_report ()
+
 
    else if (Action.eq.ACTION_Create) then
       call doRegistrations(id)
 
+   else if ((action.eq.ACTION_reset).or.(action.eq.ACTION_user_init)) then
+      call soilp_reset ()
+
    else if (Action.eq.ACTION_Sum_Report) then
       call soilp_sum_report ()
 
+!   elseif (action .eq. EVENT_new_profile) then
+      ! need to do something for this?
    else if (Action.eq.ACTION_Process) then
       call soilp_get_other_variables ()
       call soilp_process ()
@@ -2369,6 +2374,6 @@ subroutine respondToEvent(fromID, eventID, variant)
       call soilp_min_residues ()
 
    endif
- 
+
    return
 end subroutine respondToEvent
