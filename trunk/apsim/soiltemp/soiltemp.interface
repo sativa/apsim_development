@@ -49,8 +49,8 @@ end
 ; -----------------------------------------------------------
 class APSIMSoilTempExternal
 ; variables from other modules by soiltemp_get_ini_variables
-    tav                     : APSIMReal             = Average annual temperature, used to set the initial soil temperature if soil_temp is not supplied.  Also determines the temperature at the lower boundary, (oC), GET, -30.0, 40.0
-    timestep                : APSIMReal             = Simulation timestep, converted to seconds internally, (min), GET, 0.0, 1440.0 
+    tav                     : APSIMReal             = Average annual temperature; used to set the initial soil temperature if soil_temp is not supplied.  Also determines the temperature at the lower boundary, (oC), GET, -30.0, 40.0
+    timestep                : APSIMReal             = Simulation timestep; converted to seconds internally, (min), GET, 0.0, 1440.0 
     dlayer                  : APSIMRealArray        = Thickness of each layer of soil profile, (mm), GET, 0.00, 1000.0
     bd                      : APSIMRealArray        = Moist bulk density of soil, (Mg/m3), GET, 0.0, 2.65
 

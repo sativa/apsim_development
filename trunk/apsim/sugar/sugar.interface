@@ -10,7 +10,7 @@ include base.interface
 
 
 class APSIMSugarPublic
-   crop_status               : APSIMString         = Status of the crop (dead,alive,out), (), GET
+   crop_status               : APSIMString         = Status of the crop (dead;alive;out), (), GET
    stage                     : APSIMReal           = Current phenological stage, (), GET
    stage_code                : APSIMReal           = List of crop stage numbers, (), GET|READ, 0.0, 1000.0
    stage_name                : APSIMString         = Full names of stages for reporting, (), GET
@@ -108,7 +108,7 @@ class APSIMSugarPublic
    kl                          : APSIMRealArray      = Water extraction parameter, (), READ
    rlv                         : APSIMRealArray      = Root length density at emergence, (), READ, 0.0, 20.0
    tt_emerg_to_begcane_ub      : APSIMReal           = Thermal time emergence to beginning cane upper bound, (), 0.0, 10000.0
-   tt_begcaneto flowering_ub   : APSIMReal           = Thermal time beginning cane to flowering upper bound, (), 0.0, 10000.0
+   tt_begcaneto_flowering_ub   : APSIMReal           = Thermal time beginning cane to flowering upper bound, (), 0.0, 10000.0
    tt_flowering_to_crop_end_ub : APSIMReal           = Thermal time flowering to crop end upper bound, (), 0.0, 10000.0
    no3_diffn_const             : APSIMReal           = NO3 diffn const, (days), READ, 0.0, 100.0
    n_supply_preference         : APSIMString         = N supply preference, (), READ
@@ -256,7 +256,7 @@ end
 ; -----------------------------------------------------------
 
 class APSIMSugarExternal
-   latitude                    : APSIMReal              = Latitude (degrees, negative for southern hemisphere), (oL), GET
+   latitude                    : APSIMReal              = Latitude (degrees; negative for southern hemisphere), (oL), GET
    maxt                        : APSIMReal              = Maximum air temperature, (oC), GET
    mint                        : APSIMReal              = Minimum air temperature, (oC), GET
    radn                        : APSIMReal              = Solar radiation, (Mj/m2), GET
@@ -269,12 +269,12 @@ class APSIMSugarExternal
    no3                         : APSIMRealArray         = Soil NO3 content, (kg/ha), GET
    NO3_min                     : APSIMRealArray         = Minimum soil NO3 content, (kg/ha), GET
    st                          : APSIMRealArray         = Soil temperature, (oC), GET
-   
+
    incorp_fom                  : APSIMIncorporateFOMMethod  = Incorporate fresh organic matter
    add_residue                 : APSIMAddResidueMethod      = Message to report a residue decomposition
 
    tick                        : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
-   
+
 end
 
 class APSIMSugar
