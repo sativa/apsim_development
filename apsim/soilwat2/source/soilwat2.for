@@ -4,6 +4,7 @@
       implicit none
       dll_export apsim_soilwat2
       include   'const.inc'            ! mes_presence, mes_init, mes_process
+      include   'event.inc'
       include 'engine.pub'
       include 'error.pub'
  
@@ -59,7 +60,7 @@
 *      190897 nih  added MES_reset and MES_Sum_Report
 *      071097 PdeV added tillage message
 *      090298 jngh changed init phase to only get met variables
- 
+*      170599 nih  Added new solute handler 
 
 *+  Constant Values
       character  my_name*(*)           ! name of this module
@@ -112,6 +113,9 @@
  
       else if (action .eq. mes_till) then
          call soilwat2_tillage ()
+
+      else if (action .eq. EVENT_new_solute) then
+         call soilwat2_on_new_solute ()
  
       else
              ! don't use message
@@ -3439,14 +3443,10 @@ cjh         endif
       parameter (my_name = 'soilwat2_get_solute_variables')
  
 *+  Local Variables
-      integer    counter               ! counter variable
       integer    layer                 ! soil layer number counter
       character  min_name*32           ! name of solute minimum variable
       integer    numvals               ! number of values put into array
-      integer    request_no            ! request no for multiple get
       integer    solnum                ! solute number counter
-      character  solute_names(max_solute)*32
-                                       ! list of solute names
       real       temp_solute(max_layer)! temp solute array (kg/ha)
  
 *- Implementation Section ----------------------------------
@@ -3454,36 +3454,6 @@ cjh         endif
       call push_routine (my_name)
  
       ! --------------- GET SOLUTE INFORMATION --------------
- 
-      solnum = 0
-      request_no = 0
-      g_num_solutes = 0
-3000  continue
-         request_no = request_no + 1
-         call get_char_arrays (request_no
-     :                        , 'solute_names'
-     :                        , max_solute
-     :                        , '()'
-     :                        , solute_names
-     :                        , numvals)
- 
-         if (numvals.ne.0) then
-            do 3100 counter = 1, numvals
-               if (g_num_solutes.lt.max_solute) then
-                  g_num_solutes = g_num_solutes + 1
-                  g_solute_names(g_num_solutes) = solute_names(counter)
-               else
-                  ! too may solutes in APSIM - do not get info any more
-                   call fatal_error (Err_Internal,
-     :                    'Too many solutes in APSIM - cannot move '
-     :                    //solute_names(counter))
-               endif
- 
-3100        continue
-            goto 3000
-         else
-            ! Finished finding all solute names
-         endif
  
          ! Now find information for each of these solutes
          ! ----------------------------------------------
@@ -3493,7 +3463,7 @@ cjh         endif
             call fill_real_array (temp_solute, 0.0, max_layer)
  
             call get_real_array
-     :                       (unknown_module
+     :                       (g_solute_owners(solnum)
      :                       ,g_solute_names(solnum)
      :                       , max_layer
      :                       , '(kg/ha)'
@@ -3516,7 +3486,7 @@ cjh         endif
             min_name = string_concat(g_solute_names(solnum),'_min')
  
             call get_real_array_optional
-     :                       (unknown_module
+     :                       (g_solute_owners(solnum)
      :                       ,min_name
      :                       , max_layer
      :                       , '(kg/ha)'
@@ -3917,7 +3887,7 @@ cjh         endif
      :                       , '(kg/ha)'
      :                       , temp_dlt_solute
      :                       , num_layers)
-         call message_send_immediate (unknown_module
+         call message_send_immediate (g_solute_owners(solnum)
      :                               ,MES_set_variable
      :                               ,dlt_name)
          call delete_postbox()
@@ -4270,6 +4240,11 @@ cjh         endif
       call fill_real_array (c_canopy_fact , 0.0, max_coeffs)
       call fill_real_array (c_canopy_fact_height , 0.0, max_coeffs)
  
+      call fill_char_array (g_solute_names, ' ', max_solute)
+      call fill_char_array (g_solute_owners, ' ', max_solute)
+      call fill_logical_array (g_solute_mobility, .false., max_solute)
+      g_num_solutes = 0
+
       c_canopy_fact_default = 0.0
       g_num_canopy_fact    = 0
       g_sumes1             = 0.0
@@ -4359,7 +4334,6 @@ cjh         endif
       ! initialise all solute information
  
       do 200 solnum = 1, max_solute
-         g_solute_names (solnum) = ' '
          do 100 layer = 1, max_layer
             g_solute (solnum, layer) = 0.0
             g_solute_min (solnum, layer) = 0.0
@@ -4705,95 +4679,24 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :                      ,1000.)
  
       g_irrigation = g_irrigation + amount
- 
-      do 100 solnum = 1, g_num_irrigation_solutes
+
+      do 100 solnum = 1, g_num_solutes
  
          call collect_real_var_optional (
-     :                         g_irrigation_solute_names(solnum)
+     :                         g_solute_names(solnum)
      :                        ,'(kg/ha)'
      :                        ,solconc
      :                        ,numvals
      :                        ,0.0
      :                        ,1000.)
- 
+
         if (numvals.gt.0) then
            g_irrigation_solute(solnum) = g_irrigation_solute(solnum)
      :                                 + solconc
         else
         endif
   100 continue
- 
- 
-      call pop_routine (myname)
-      return
-      end
- 
- 
- 
-* ====================================================================
-       subroutine soilwat2_solute_init ()
-* ====================================================================
-      implicit none
-      include 'const.inc'
-      include 'soilwat2.inc'
-      include 'data.pub'
-      include 'write.pub'
-      include 'error.pub'
- 
-*+  Purpose
-*     <insert here>
- 
-*+  Mission Statement
-*     Solute Initialisation
- 
-*+  Changes
-*   neilh - 04-09-1995 - Programmed and Specified
- 
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'soilwat2_solute_init')
- 
-*+  Local Variables
-      integer counter
-      integer num_solutes
-      integer solnum
- 
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
- 
-      ! NIH - g_solute_names is reset every day and so the irrigation solutes
-      ! keeps its own table headers (g_irrigation_solute_names) consisting
-      ! of all known mobile and immobile solutes.
- 
-      solnum = 0
- 
-      num_solutes = count_of_char_vals (c_mobile_solutes, max_solute)
-      do 100 counter = 1, num_solutes
-         solnum = solnum + 1
-         if (solnum.le.max_solute) then
-            g_irrigation_solute_names(solnum) =
-     :                                   c_mobile_solutes(counter)
-         else
-            call fatal_error (Err_User,
-     :                       'Too many solutes in ini file')
-         endif
-  100 continue
- 
-      num_solutes = count_of_char_vals (c_immobile_solutes, max_solute)
-      do 200 counter = 1, num_solutes
-         solnum = solnum + 1
-         if (solnum.le.max_solute) then
-            g_irrigation_solute_names(solnum) =
-     :                                   c_immobile_solutes(counter)
-         else
-            call fatal_error (Err_User,
-     :                       'Too many solutes in ini file')
-         endif
- 
-  200 continue
- 
-      g_num_irrigation_solutes = solnum
- 
+
       call pop_routine (myname)
       return
       end
@@ -5148,8 +5051,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call soilwat2_evap_init ()
  
-      call soilwat2_solute_init()
- 
       call pop_routine (my_name)
       return
       end
@@ -5271,25 +5172,16 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       parameter (myname = 'soilwat2_irrig_solute')
  
 *+  Local Variables
-      integer    irr_solnum            ! irrigation solute counter variable
       integer    solnum                ! solute number counter variable
  
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      do 1000 irr_solnum = 1, g_num_irrigation_solutes
-         solnum = position_in_char_array(
-     :                      g_irrigation_solute_names(irr_solnum)
-     :                     ,g_solute_names
-     :                     ,max_solute)
-         if (solnum.ne.0) then
-            g_solute(solnum,1)     = g_solute(solnum,1)
-     :                             + g_irrigation_solute(irr_solnum)
-            g_dlt_solute(solnum,1) = g_dlt_solute(solnum,1)
-     :                             + g_irrigation_solute(irr_solnum)
-         else
-            ! This irrigation solute is not being traced
-         endif
+      do 1000 solnum = 1, g_num_solutes
+         g_solute(solnum,1)     = g_solute(solnum,1)
+     :                          + g_irrigation_solute(solnum)
+         g_dlt_solute(solnum,1) = g_dlt_solute(solnum,1)
+     :                          + g_irrigation_solute(solnum)
  
  1000 continue
  
@@ -5324,8 +5216,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *+  Local Variables
       integer    num_layers
       integer    layer                 ! layer number counter variable
-      integer    mobile_no             ! index of a solute name in the
-                                       ! mobile solute name list
       integer    solnum                ! solute number counter variable
       real       leach (max_layer)     ! amount of a solute leached from
                                        ! each soil layer (kg/ha)
@@ -5346,12 +5236,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       num_layers = count_of_real_vals (p_dlayer, max_layer)
  
       do 1300 solnum = 1, g_num_solutes
-         mobile_no = position_in_char_array(g_solute_names(solnum)
-     :                                    ,c_mobile_solutes
-     :                                    ,max_solute)
-         if (mobile_no.ne.0) then
+         if (g_solute_mobility(solnum)) then
  
-            do 1100 layer = 1, max_layer
+            do 1100 layer = 1, num_layers
                temp_solute(layer) = g_solute(solnum, layer)
                leach(layer) = 0.0
                temp_solute_min(layer) = g_solute_min(solnum,layer)
@@ -5364,7 +5251,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             call move_down_real (leach, temp_solute, num_layers)
             call move_down_real (leach, temp_dlt_solute, num_layers)
  
-            do 1200 layer = 1, max_layer
+            do 1200 layer = 1, num_layers
                g_solute (solnum, layer) = temp_solute (layer)
                g_solute_leach (solnum, layer) = leach (layer)
                g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
@@ -5408,8 +5295,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       integer    layer                 ! layer number counter variable
       real       leach (max_layer)     ! amount of a solute leached from
                                        ! each soil layer (kg/ha)
-      integer    mobile_no             ! index of a solute name in the
-                                       ! mobile solute name list
       integer    num_layers            ! number of layers
       integer    solnum                ! solute number counter variable
       real       temp_solute(max_layer)! temp array for solute content(kg/ha)
@@ -5430,10 +5315,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       do 2300 solnum = 1, g_num_solutes
  
-         mobile_no = position_in_char_array(g_solute_names(solnum)
-     :                                    ,c_mobile_solutes
-     :                                    ,max_solute)
-         if (mobile_no.ne.0) then
+         if (g_solute_mobility(solnum)) then
  
             do 2100 layer = 1, max_layer
                temp_solute(layer) = g_solute(solnum, layer)
@@ -5672,5 +5554,91 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       return
       end
  
+
+*     ===========================================================
+      subroutine soilwat2_on_new_solute ()
+*     ===========================================================
+      implicit none
+      include 'const.inc' 
+      include 'event.inc'
+      include 'soilwat2.inc'
+      include 'error.pub'
+      include 'data.pub'
+      include 'intrface.pub'
+ 
+*+  Purpose
+*     Add new solute to internal list of system solutes
+ 
+*+  Mission Statement
+*      Add new solute information to list of system solutes
+ 
+*+  Changes
+*       170599 nih - specified
+ 
+*+  Constant Values
+      character  my_name*(*)           ! this subroutine name
+      parameter (my_name = 'soilwat2_on_new_solute')
+ 
+*+  Local Variables
+      integer numvals
+      character names(max_solute)*32
+      character sender*(max_module_name_size)
+      integer counter
+      integer mobile_no
+      integer immobile_no
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+
+      call collect_char_var (DATA_sender
+     :                      ,'()'
+     :                      ,sender
+     :                      ,numvals)
+
+      call collect_char_array (DATA_new_solute_names
+     :                        ,max_solute
+     :                        ,'()'
+     :                        ,names
+     :                        ,numvals)
+
+      if (g_num_solutes+numvals.gt.max_solute) then
+         call fatal_error (ERR_Internal
+     :                    ,'Too many solutes for Soilwat2')
+      else
+         do 100 counter = 1, numvals
+            g_num_solutes = g_num_solutes + 1
+            g_solute_names(g_num_solutes) = names(counter)
+            g_solute_owners(g_num_solutes) = sender
+
+            mobile_no = position_in_char_array(
+     :                        g_solute_names(g_num_solutes)
+     :                       ,c_mobile_solutes
+     :                       ,max_solute)
+
+            immobile_no = position_in_char_array(
+     :                        g_solute_names(g_num_solutes)
+     :                       ,c_immobile_solutes
+     :                       ,max_solute)
+
+
+            if (mobile_no.ne.0) then
+               g_solute_mobility(g_num_solutes) = .true.
+
+            elseif (immobile_no.ne.0) then
+               g_solute_mobility(g_num_solutes) = .false.
+
+            else
+               call fatal_error(ERR_Internal,
+     :                 'No solute mobility information for '//
+     :                 g_solute_names(g_num_solutes))
+            endif
+
+  100    continue
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
  
  
