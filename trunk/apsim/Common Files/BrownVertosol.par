@@ -89,3 +89,9 @@ wet_soil_depth = 1500
    ll  = 0.200   0.220   0.240   0.260   0.280        ! Crop lower limits for each layer
    kl  = 0.1     0.1    0.08    0.06    0.04        ! Water Extraction parameter (0-1)
    xf  = 1       1       1       1       1        ! Root Exploration factor (0-1)
+
+[BrownVertosol.mungbean.parameters]
+! Assume same as for wheat
+   ll  = 0.200   0.220   0.240   0.260   0.280        ! Crop lower limits for each layer
+   kl  = 0.1     0.1    0.08    0.06    0.04        ! Water Extraction parameter (0-1)
+   xf  = 1       1       1       1       1        ! Root Exploration factor (0-1)
