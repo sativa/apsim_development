@@ -9,8 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = ApsimOutlook.exe DBAddIn.dll DamEasyAddin.dll SOIAddin.dll \
-  WhopEconAddin.dll RotationAddIn.dll FilterAddIn.dll APSData.bpl
+PROJECTS = APSData.bpl ApsimOutlook.exe DBAddIn.dll DamEasyAddin.dll \
+  SOIAddin.dll WhopEconAddin.dll RotationAddIn.dll FilterAddIn.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
