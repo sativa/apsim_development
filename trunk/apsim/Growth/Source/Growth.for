@@ -312,7 +312,7 @@
      :            ,g%plants             ! variable
      :            ,numvals              ! number of elements returned
      :            ,0.0                  ! lower limit for bound check
-     :            ,10000.0)                 ! upper limit for bound check
+     :            ,10000000.0)                 ! upper limit for bound check
 
       call Growth_read_init_param (section_name)
       call Growth_read_param ()
