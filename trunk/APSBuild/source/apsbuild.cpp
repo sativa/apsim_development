@@ -17,7 +17,6 @@ USEUNIT("CompileThread.cpp");
 USELIB("general.lib");
 USELIB("aps32.lib");
 USELIB("odl.lib");
-USEUNIT("FormSize.pas");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {

@@ -7,7 +7,6 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include "CompileThread.h"
-#include "FormSize.hpp"
 #include <ExtCtrls.hpp>
 #include <string>
 #include <list>
@@ -31,7 +30,6 @@ __published:	// IDE-managed Components
 private:	// User declarations
       CompileThread* Thread;
       Path CompilerReportFile;
-      TFormSize* FormSize;
 
       void Go ();
       void GetCompilableProjects (list<string>& Project_files);
