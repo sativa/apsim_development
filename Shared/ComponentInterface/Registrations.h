@@ -44,6 +44,17 @@ class Registrations
                                            const Type& type,
                                            const FString& componentNameOrID="");
 
+      //---------------------------------------------------------------------------
+      // Return the total number of registrations.
+      //---------------------------------------------------------------------------
+      unsigned size(void) {return registrations.size();}
+
+      //---------------------------------------------------------------------------
+      // Return a particular registration
+      //---------------------------------------------------------------------------
+      RegistrationItem* get(unsigned index) {return registrations[index];}
+
+
    private:
       Component* parent;
       protocol::vector<RegistrationItem*> registrations;

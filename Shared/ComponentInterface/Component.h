@@ -56,6 +56,7 @@ class __declspec(dllexport) baseInfo {
       };
    ~baseInfo() {};
    virtual void sendVariable(Component *, QueryValueData&) = 0;
+   virtual std::string getXML();
 };
 
 // ------------------------------------------------------------------
@@ -78,7 +79,8 @@ class __declspec(dllexport) varInfo : public baseInfo {
    };
    ~varInfo() {};
    void sendVariable(Component *, QueryValueData&);
-};
+
+  };
 class __declspec(dllexport) stringInfo : public baseInfo {
   private:
    string *myPtr;
@@ -218,6 +220,7 @@ class __declspec(dllexport) Component
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
       void setRegistrationType(unsigned int regID, const Type& type);
+      std::string getDescription(void);
 
       // override these methods if necessary.
       virtual void doInit1(const FString& sdml);
@@ -264,7 +267,8 @@ class __declspec(dllexport) Component
             completeIDs.push_back(message->messageID);
             completeFound = false;
             }
-         (*messageCallback)(callbackArg, message);
+         if (messageCallback != NULL)
+            (*messageCallback)(callbackArg, message);
          if (doAck)
             waitForComplete();
          deleteMessage(message);
