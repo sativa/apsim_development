@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #include <windows.h>
 #pragma hdrstop
+#include <stdexcept>
 
 #include "Component.h"
 #include "RegistrationItem.h"
@@ -126,11 +127,9 @@ void Component::setup(const char *dllname,
 
 // ------------------------------------------------------------------
 void Component::messageToLogic(const Message* message)
-   {
+{
+try {
    MessageData messageData(message);
-//   char st[100];
-//   itoa(message->messageType, st, 10);
-//   OutputDebugString(st);
    switch (message->messageType)
       {
       case Init1:               {Init1Data init1Data;
@@ -239,6 +238,11 @@ void Component::messageToLogic(const Message* message)
                                      message->from,
                                      message->messageID));
    }
+catch (const std::exception &e) 
+   {
+   this->error(e.what(), true);
+   }
+}
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -469,7 +473,7 @@ bool Component::readParameter
 // ------------------------------------------------------------------
 void Component::error(const FString& msg, bool isFatal)
    {
-   char cMessage[1000];
+   char cMessage[2048];
 
    if (beforeInit2)
       {
