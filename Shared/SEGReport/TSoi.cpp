@@ -192,9 +192,8 @@ void TSOI::readSoiData(void) throw (runtime_error)
          year = StrToInt(words[0].c_str());
          month = StrToInt(words[1].c_str());
          phase = StrToInt(words[2].c_str());
-         ostringstream yearMonth;
-         yearMonth << year << '/' << month;
-         phases.insert(Phases::value_type(yearMonth.str(), phase));
+         string yearMonth = AnsiString(IntToStr(year) + "/" + IntToStr(month)).c_str();
+         phases.insert(Phases::value_type(yearMonth.c_str(), phase));
          }
       }
    }
@@ -207,11 +206,10 @@ void TSOI::readSoiData(void) throw (runtime_error)
 void TSOI::getPhase(unsigned year, unsigned month,
                     unsigned& phase, string& phaseName) throw (runtime_error)
    {
-   ostringstream yearMonth;
-   yearMonth << year << '/' << month;
-   Phases::iterator phaseI = phases.find(yearMonth.str());
+   string yearMonth = AnsiString(IntToStr(year) + "/" + IntToStr(month)).c_str();
+   Phases::iterator phaseI = phases.find(yearMonth.c_str());
    if (phaseI == phases.end())
-      throw runtime_error("Cannot find an SOI phase for year/month: " + yearMonth.str());
+      throw runtime_error("Cannot find an SOI phase for year/month: " + yearMonth);
 
    else
       {
