@@ -9,6 +9,7 @@
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void Exec(const char* Command_line,
+bool Exec(const char* Command_line,
+          unsigned int Show_flag,
           bool Wait_for_finish);
 
