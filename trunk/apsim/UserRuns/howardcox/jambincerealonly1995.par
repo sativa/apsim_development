@@ -21,7 +21,7 @@ End_date = 26/1/1989
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  report  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 [default.report.parameters]
 Outputfile = jambincerealonly1995.out
-variable = clock.today.dd/mm/yyyy as Date
+variable = clock.dd/mm/yyyy as Date
 variable = clock.year
 variable = soilwat2.esw as esw
 variable = soilwat2.runoff as runoff
