@@ -567,7 +567,6 @@ void DEToolBar::doCalculations(TAPSTable& data)
 
          scribble->copyFieldNamesFrom(data);
          scribble->copyPivotsFrom(data);
-         scribble->copySortFieldsFrom(data);
          scribble->addField("Investment Start Year");
          scribble->markFieldAsAPivot("Investment Start Year");
 
@@ -963,7 +962,6 @@ void DEToolBar::doCalculations(TAPSTable& data)
          NPVtable->storeNumericArray("IRR without Tax (%)", vIRR_BIT);
 
          //NPVtable->markFieldAsAPivot("Simulation");
-         NPVtable->addSortField("Year");
          NPVtable->endStoringData();
 
 

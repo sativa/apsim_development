@@ -417,8 +417,6 @@ void DatabaseAddIn::doCalculations(TAPSTable& data, const Scenario& scenario)
    assert (s != simulations.end());
    (*s)->readData(data, scenario.getName());
 
-   data.addSortField(data.getYearFieldName());
-
    Screen->Cursor = savedCursor;
    }
 

@@ -322,7 +322,6 @@ void SOIToolBar::doCalculations(TAPSTable& data)
             }
 
          // we're finished storing data.
-         new_data->addSortField(data.getYearFieldName());
          new_data->endStoringData();
 
          // copy new_data back into data
