@@ -1,112 +1,28 @@
 ! Basic run:
 [apsim.swat0.control]  
-  Module = clock    [swat]      
-  Module = report   [swat]     [standard]      
-  Module = met      GMTR.MET [weather]      
-  Module = soilwat2 [swat]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = manager  [swat]      
+version=2.2
+title =  soilwat2 reference dataset   
+summaryfile =  swat.sum
+debug_output=on
+screen_output =  off    
 
 ! Test calibrators options - External Eo, runoff. 
-[apsim.swat1.control]  
-  Module = clock    [swat]      
-  Module = report   [swat]     [calibrators]      
-  Module = met      GMTR.MET [weather]      
-  Module = soilwat2 [swat]     [calibrators]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = manager  [swat]      
+module = clock    refdata.par [swat]
+module = report   refdata.par [swat]     refdata.par [standard]
+module = Input(Met)      GMTR.MET [weather]
+module = soilwat2 refdata.par [swat]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = manager  refdata.par [swat]
 
-[standard.report.parameters]  
-title =  soilwat2 reference dataset   
-outputfile =  swat.out /overwrite   !
-summaryfile =  swat.sum /overwrite   !
 
-[calibrators.report.parameters]  
+[apsim.swat1.control] 
+version=2.2
 title =  soilwat2 reference dataset (calibrators)   
-outputfile =  calib.out /overwrite   !
-summaryfile =  calib.sum /overwrite   !
-
-[swat.report.parameters]  
-
+summaryfile =  calib.sum 
+debug_output=on 
 screen_output =  off   
 
-module_names =  clock   
-variable_names =  today.dd/mm/yyyy   
-variable_alias =  date   
-units =        -   
-
-! [external.eo]
-! [green_cover.eo]
-! [max_temperature.eo]
-! [min_temperature.eo]  [total_cover.eos]
-! [radiation.eo]        [residue.eos]
-module_names =  soilwat2 soilwat2   
-variable_names =  eo    eos   
-variable_alias =  -     -   
-units =        -        -   
-
-! [rain.runoff]
-! [residue.runoff]
-! [total_cover.runoff]
-! [canopy_height.runoff]
-! [observed.runoff]
-module_names =  soilwat2   
-variable_names =  runoff   
-variable_alias =  -   
-units =        -   
-
-! [water_uptake.sw_dep]
-! [irrigated.sw_dep]
-module_names =  soilwat2 soilwat2   
-variable_names =  sw_dep() sw_dep   
-variable_alias =  -     -   
-units =        -        -   
-
-[swat.clock.parameters]  
-simulation_start_day =  1  ()   
-simulation_start_year =  1977 ()   
-
-simulation_end_day =   365 ()   
-simulation_end_year =  1978 ()   
-
-[swat.soilwat2.parameters]  
-cn2_bare =        80       ()   
-diffus_const =    100      ()   
-diffus_slope =    50       ()   
-cona =            4.0      ()   
-u =               4.0      ()   
-salb =            0.25     ()   
-insoil =          1.5      ()   
-cn_red =          0        ()   
-cn_cov =          0        ()   
-
-!layer           = 1      2      3      4      5
-dlayer =           100    100    100    100    100       (mm)   ! Layer depth mm soil
-air_dry =          0.1    0.1    0.1    0.1    0.1    (mm/mm)   ! Air dry limit
-ll15 =             0.2    0.2    0.2    0.2    0.2    (mm/mm)   ! 15 bar lower limit mm water/mm soil
-dul =              0.4    0.4    0.4    0.4    0.4    (mm/mm)   ! Drained upper limit mm water/mm soil
-sat =              0.5    0.5    0.5    0.5    0.5    (mm/mm)   ! Saturation mm water/mm soil
-bd =               1.0    1.0    1.0    1.0    1.0    (g/cc)   ! Bulk density gm dry soil/cc moist soil
-sw =               0.3    0.3    0.3    0.3    0.3    (mm/mm)   ! Initial water content mm water/mm soil
-swcon =            0.1    0.1    0.1    0.1    0.1    ()   ! Soil conductivity - sand 0.7 heavy clay 0.1
-
-[calibrators.soilwat2.parameters]  
-! Supplied met file has both "pan" and "obrunoff". 
-eo_source =       pan   
-observed_runoff =  obrunoff   
-
-[swat.manager.init]  
-
-[swat.manager.start_of_day]  
-
-if day = 100 then
-   ! [irrigated.irrigated]
-   soilwat2 irrigated amount = 30 (mm)
-endif
-
-if day = 120 then
-   ! [tillage.<MES_till>]
-   soilwat2 tillage type = disc, cn_red = 15.0, cn_rain = 30.0
-endif
-
-[swat.manager.end_of_day]  
-report do_output
-
+module = clock    refdata.par [swat]
+module = report   refdata.par [swat]     refdata.par [calibrators]
+module = Input(Met)      GMTR.MET [weather]
+module = soilwat2 refdata.par [swat]     refdata.par [calibrators]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = manager  refdata.par [swat]
