@@ -36,6 +36,17 @@ class APSIMsoiln2Public
    dlt_n_min                : APSIMRealArray         = Net mineralisation, (kg/ha), GET
    dlt_n_min_res            : APSIMRealArray         = Net mineralization of No3 and Nh4 from residue, (kg/ha), GET
    dlt_n_min_tot            : APSIMRealArray         = Total N mineralization, (kg/ha), GET
+   nh4_transform_net        : APSIMRealArray         = net NH4 transformation today, (kg/ha), GET
+   dlt_res_nh4_min          : APSIMRealArray         = Net Residue NH4 mineralisationn, (kg/ha), GET
+   dlt_fom_n_min            : APSIMRealArray         = net fom N mineralized (negative for immobilization), (kg/ha), GET
+   dlt_biom_n_min           : APSIMRealArray         = net biomass N mineralized, (kg/ha), GET
+   dlt_hum_n_min            : APSIMRealArray         = net humic N mineralized, (kg/ha), GET
+   dlt_rntrf                : APSIMRealArray         = nitrogen moved by nitrification, (kg/ha), GET
+   dlt_urea_hydrol          : APSIMRealArray         = nitrogen moved by hydrolysis, (kg/ha), GET
+   excess_nh4               : APSIMRealArray         = excess N required above NH4 supply, (kg/ha), GET
+   no3_transform_net        : APSIMRealArray         = net NO3 transformation today, (kg/ha), GET
+   dlt_res_no3_min          : APSIMRealArray         = Net Residue NO3 mineralisation, (kg/ha), GET
+   dlt_no3_dnit             : APSIMRealArray         = N denitrified, (kg/ha), GET
    dnit                     : APSIMRealArray         = N denitrified, (kg/ha), GET
    dlt_c_loss_in_sed        : APSIMRealArray         = Total C losses, (kg/ha), GET
    dlt_n_loss_in_sed        : APSIMRealArray         = Total N losses, (kg/ha), GET
