@@ -62,7 +62,6 @@ __published:	// IDE-managed Components
    TMenuItem *Refresh1;
    TMenuItem *Copy2;
    TMenuItem *N3;
-   TToolButton *ToolButton8;
    TdfsMRUFileList *MRUFileList;
    TMenuItem *Print2;
    TAction *PrintCurrentPageAction;
