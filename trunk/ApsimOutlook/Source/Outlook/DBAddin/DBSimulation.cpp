@@ -4,6 +4,7 @@
 
 #include "DBSimulation.h"
 #include <general\vcl_functions.h>
+#include <general\db_functions.h>
 #include <general\string_functions.h>
 #include <general\stristr.h>
 #include <sstream>
@@ -210,15 +211,9 @@ void DBSimulation::getFieldNames (TADOConnection* db, vector<string>& fieldNames
    dataTable->Open();
 
    getDBFieldNames(dataTable, fieldNames);
-//   TStringList* TFieldNames = new TStringList;
-//   Get_field_list (dataTable, TFieldNames);
 
    // remove the simulation_id field from the list.  Assume it is first field.
    fieldNames.erase(fieldNames.begin());
-
-//   TFieldNames->Delete(0);
-//   TStrings_2_stl (TFieldNames, fieldNames);
-//   delete TFieldNames;
    dataTable->Close();
    delete dataTable;
    }
@@ -244,13 +239,8 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
    open();
 
    // get a list of field names from our open dataset.
-//   TStringList* TFieldNames = new TStringList;
-//   Get_field_list (dataset, TFieldNames);
    vector<string> fieldNames, dummy;
-//   TStrings_2_stl (TFieldNames, fieldNames);
-//   delete TFieldNames;
    getDBFieldNames(dataset, fieldNames);
-
 
    // give all field names to the data object.
    data.addField(SIMULATION_FIELD_NAME);
