@@ -49,12 +49,12 @@ class Variant
       void setFromId(unsigned id) {fromId = id;}
 
       template <class T>
-      void unpack(T& obj)
+      bool unpack(T& obj)
          {
          if (arraySpecifier != NULL)
             {
             if (!type.isArray())
-               fatalError("Cannot use array notation on a scalar variable");
+               return false;
             else
                arraySpecifier->convert(messageData, type.getCode());
             }
