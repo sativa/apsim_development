@@ -19,7 +19,9 @@ string addPerYearToFieldName(string& fieldName);
 // the year and field number while doAverage specifies if the
 // value should be averaged within a year.
 // ------------------------------------------------------------------
-string RotationValues::getValue(const FileValues& fileValues, bool doAverage) const
+string RotationValues::getValue(const FileValues& fileValues,
+                                bool doAverage,
+                                unsigned numDataBlocks) const
    {
    float total = 0.0;
    for (FileValues::const_iterator fileI = fileValues.begin();
@@ -37,8 +39,8 @@ string RotationValues::getValue(const FileValues& fileValues, bool doAverage) co
          }
       }
    float returnValue = total;
-   if (fileValues.size() > 0)
-      returnValue /= fileValues.size();
+   if (numDataBlocks > 0)
+      returnValue /= numDataBlocks;
    else
       returnValue = 0.0;
 
@@ -98,16 +100,22 @@ void RotationValues::addValue(unsigned year, unsigned fieldI, unsigned fileI, co
 // years.
 // ------------------------------------------------------------------
 void RotationValues::writeToDataset(const string& rotationName, TAPSTable& data,
-                                    unsigned firstYear, unsigned lastYear) const
+                                    unsigned firstYear, unsigned lastYear,
+                                    unsigned numDataBlocks) const
    {
    // output a single data block containing all years and all averaged
    // numerical field values.  Only consider years that are covered by
    // all datablocks (remember, each data block is offset by a year).
-   for (YearValues::const_iterator yearValueI = yearValues.begin();
-                                   yearValueI != yearValues.end();
-                                   yearValueI++)
+   for (int year = firstYear; year <= lastYear; year++)
       {
-      if (yearValueI->first >= firstYear && yearValueI->first <= lastYear)
+      YearValues::const_iterator yearValueI = yearValues.find(year);
+      if (yearValueI == yearValues.end())
+         {
+         TAPSRecord newRecord;
+         newRecord.setFieldValue("Simulation" ,rotationName);
+         data.storeRecord(newRecord);
+         }
+      else
          {
          const FieldValues& fieldValues = yearValueI->second;
          TAPSRecord newRecord;
@@ -120,8 +128,10 @@ void RotationValues::writeToDataset(const string& rotationName, TAPSTable& data,
             string value;
             if (fieldValueI->first == 0)
                value = rotationName;
+            else if (stristr((char*)name.c_str(), "year") != NULL)
+               value = IntToStr(year).c_str();
             else
-               value = getValue(fileValues, isAveragedField(name));
+               value = getValue(fileValues, isAveragedField(name), numDataBlocks);
             newRecord.setFieldValue(addPerYearToFieldName(name), value);
             }
          data.storeRecord(newRecord);

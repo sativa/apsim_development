@@ -76,7 +76,8 @@ class RotationValues
       std::vector<std::string> fieldsToAverage;
       std::vector<std::string> fieldNames;
 
-      std::string getValue(const FileValues& fileValues, bool doAverage) const;
+      std::string getValue(const FileValues& fileValues, bool doAverage,
+                           unsigned numDataBlocks) const;
       bool isAveragedField(const std::string& fieldName) const;
 
    public:
@@ -84,6 +85,7 @@ class RotationValues
 
       void addValue(unsigned year, unsigned fieldI, unsigned fileI, const std::string& value);
       void writeToDataset(const std::string& rotationName, TAPSTable& data,
-                          unsigned firstYear, unsigned lastYear) const;
+                          unsigned firstYear, unsigned lastYear,
+                          unsigned numDataBlocks) const;
    };
 #endif
