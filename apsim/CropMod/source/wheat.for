@@ -1,4 +1,4 @@
-C     Last change:  E     7 Apr 2000    6:08 pm
+C     Last change:  E    10 Apr 2000   12:52 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -1463,7 +1463,7 @@ c     real       harvest_index         ! last harvest index (g grain/g biomass)
         
          dm_plant_stem      = divide (dm_green(stem), g_plants, 0.0)
 c        dm_plant_min(stem) = dm_plant_stem * (1.0 - c_stem_trans_frac)
-         dm_plant_min(stem) = dm_plant_stem * (1.0 - 0.70)
+         dm_plant_min(stem) = dm_plant_stem * (1.0 - 0.60)
  
 
 c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
@@ -6741,6 +6741,8 @@ c      end if
  
 
 
+
+
 *     ===========================================================
       subroutine cproc_bio_yieldpart_demand_nw
      :               (
@@ -6908,6 +6910,8 @@ c ==============================================================================
       call pop_routine (my_name)
       return
       end
+
+
 
 
 

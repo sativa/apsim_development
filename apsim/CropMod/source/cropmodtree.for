@@ -1,4 +1,4 @@
-C     Last change:  E     7 Apr 2000    6:48 pm
+C     Last change:  E    10 Apr 2000    3:29 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -186,6 +186,8 @@ C     Last change:  E     7 Apr 2000    6:48 pm
       use CropModModule
       implicit none
       include 'const.inc'
+      include 'science.pub'
+      include 'data.pub'
       include 'crp_watr.pub'
       include 'error.pub'                         
 
@@ -203,6 +205,7 @@ C     Last change:  E     7 Apr 2000    6:48 pm
       parameter (my_name = 'water_supply')
 
 *+  Local variables
+       INTEGER deepest_layer
 
 
 *- Implementation Section ----------------------------------
@@ -253,6 +256,16 @@ C     Last change:  E     7 Apr 2000    6:48 pm
 
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
+
+
+        deepest_layer = find_layer_no
+     :                   (g%root_depth, 
+     :                    g%dlayer, 
+     :                    max_layer)
+     
+        g%sw_supply_sum = sum_real_array(g%sw_supply, deepest_layer)
+
  
       call pop_routine (my_name)
       return
@@ -931,7 +944,8 @@ c     integer    deepest_layer
      :                     g%mint,
      :                     g%temp_stress_photo)
 
-        call crop_dm_potential (
+c       call crop_dm_potential (
+        call crop_dm_pot_rue (
      .                     g%current_stage,
      .                     c%rue,
      .                     g%radn_int,
@@ -1179,7 +1193,7 @@ c     integer    deepest_layer
  
       if (Option.eq.1) then
 
-         call wht_dm_init (g%current_stage,
+         call wht_dm_init_nw (g%current_stage,
      .          g%days_tot,
      .          c%dm_root_init,
      .          g%plants,
@@ -1190,8 +1204,10 @@ c     integer    deepest_layer
      .          c%initial_tpla,
      .          g%dm_green, 
      .          g%dm_plant_min,
+     ,          p%head_grain_no_max,
      .          g%dm_seed_reserve,
-     .          g%lai)
+     .          g%lai,
+     .          g%grain_no)
 
       elseif (Option.eq.2) then
 
@@ -1273,34 +1289,25 @@ c     integer    deepest_layer
 
       if (Option .eq. 1) then !use the grain # approach
 
-          call biomass_grain_demand_stress (1)
-
-          call cproc_bio_yieldpart_demand_iw
+         call cproc_bio_yieldpart_demand_nw
      :               (
      :                g%current_stage
-     :              , flag_leaf ! Start Stress_stage
      :              , start_grain_fill
-     :              , maturity
-     :              , grain
-     :              , root
-     :              , max_part
-     :              , g%dlt_dm
+     :              , end_grain_fill
      :              , g%dm_green
-     :              , g%dm_senesced
      :              , g%days_tot
-     :              , g%dm_stress_max
-     :              , p%hi_incr
-     :              , p%x_hi_max_pot_stress
-     :              , p%y_hi_max_pot
-     :              , p%num_hi_max_pot
+     :              , g%maxt
+     :              , g%mint
      :              , g%dlt_tt
-     :              , g%lai
-     :              , g%tt_tot
-     :              , g%phase_tt
-     :              , c%N_conc_crit_grain  !g%n_conc_crit
-     :              , g%n_green
+     :              , p%head_grain_no_max
+     :              , p%grain_gth_rate
+     :              , g%nfact_expansion
+     :              , g%N_conc_min
+     :              , g%N_green 
+     :              , g%grain_no
      :              , g%dlt_dm_grain_demand
      :               )
+
 
       else if (Option .eq. 2) then
 
@@ -1336,6 +1343,7 @@ c     integer    deepest_layer
 
       else if (Option .eq. 3) then
 
+
          call cproc_bio_yieldpart_demand_nw
      :               (
      :                g%current_stage
@@ -1354,6 +1362,7 @@ c     integer    deepest_layer
      :              , g%grain_no
      :              , g%dlt_dm_grain_demand
      :               )
+
 
       else if (Option.eq.0) then
 
@@ -2063,7 +2072,7 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
       
 c     real swdef_exp
       !real nfact_exp
-      REAL sla_est
+c      REAL sla_est
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -2446,7 +2455,7 @@ c        end if
       call push_routine (my_name)
  
 
-      if (Option.eq.1) then
+      if (Option.eq.100) then
 
       !NEIL, I CAN NOT UNDERSTAND THE NWHEAT LEAF SENESCENCE PROCESS SUBROUTINE. SO THE SUBROUTINES NOW USED (_nw_ew) ARE
       !      MODIFIED VERSION WITHOUT AGING BEFORE FLAG LEAF.
@@ -2500,7 +2509,7 @@ c         g%lai_stage = g%lai_stage -(g%dlt_slai-g%dlt_slai_age)
   
 
 
-      else if (Option.eq.2) then
+      else if ((Option.eq.1).or.(Option.eq.2)) then
 
             call iw_tiller_area_sen_light(
      .                               g%plants,
@@ -3845,32 +3854,23 @@ c     :          - sum_real_array (g%dlt_n_sen_supply, max_part)
  
       if (Option .eq. 1) then
    
-
-         call cproc_N_retranslocate_iw (  !for i_wheat
-     .          g%current_stage,
-     .          g%dm_green,
+         call cproc_N_retranslocate_nw (  !for nwheat
+     .          g%current_stage, 
      .          g%dlt_dm_green,
      .          g%N_conc_min,
      .          g%N_conc_crit,
      .          g%N_conc_max,
-     .          c%N_conc_max_grain,
+     .          c%N_conc_max_grain,     
+     :          g%nfact_expansion,
+     :          g%maxt,
+     :          g%mint,
+     :          g%dlt_tt,
+     :          g%grain_no,
+     .          g%dm_green,
      .          g%N_green,
-     .          g%dlt_n_green,
      .          g%N_senesced,
      .          g%N_dead,
-     .          g%phase_tt,
-     .          g%tt_tot,
-     .          g%accum_rad_10d,
-     .          g%lai,
-
-     .          g%dm_senesced,
-     .          g%dlt_dm_senesced,
-     .          g%dlt_dm_green_retrans,
-     .          g%dlt_dm_sen_retrans,
-
-     .          g%dlt_n_senesced,
-     .          g%dlt_N_retrans,
-     .          g%dlt_N_sen_retrans)
+     .          g%dlt_N_retrans)
    
       elseif (Option.eq.2) then
 
