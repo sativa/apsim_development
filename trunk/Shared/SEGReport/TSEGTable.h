@@ -12,6 +12,9 @@
 #include <stdexcept.h>
 #include <vector>
 #include <string>
+#include <set>
+#include <map>
+typedef std::set<std::string> Errors;
 // ------------------------------------------------------------------
 // base class for all our memory tables.  It is derived from a
 // memory table to inherit support for storing records in memory.
@@ -34,16 +37,21 @@ class PACKAGE TSEGTable : public TkbmMemTable
       TSEGTable* sourceDataset;
       std::vector<std::string> seriesNames;
       std::vector<std::string>::iterator currentSeriesI;
-      TDataSetNotifyEvent afterDataRefresh;
+      TStringList* subscriptionComponents;
+
+      typedef std::vector<TDataSetNotifyEvent> SubscriptionEvents;
+      SubscriptionEvents subscriptionEvents;
 
       void __fastcall setSourceDataset(TSEGTable* sourceDataset);
-      virtual void __fastcall Loaded(void);
       void __fastcall beforeOpen(TDataSet* dataset);
       void __fastcall afterOpen(TDataSet* dataset);
+      void __fastcall setSubComponentNames(TStringList* compNames);
+      void fixupSubReferences(void);
 
    protected:
       virtual void createFields(void) throw(std::runtime_error) {}
       virtual void storeRecords(void) throw(std::runtime_error) {}
+      virtual void __fastcall Loaded(void);
 
    public:
       __fastcall TSEGTable(TComponent* Owner);
@@ -73,9 +81,24 @@ class PACKAGE TSEGTable : public TkbmMemTable
       void cancelSeries(void);
       void refresh (void);
 
+      static Errors& errors(void)
+         {
+         static Errors errs;
+         return errs;
+         }
+      // Called by SEGReport to give components a chance to know the current
+      // report directory.  Used by ApsimFileReader to use relative paths.
+      virtual void setReportDirectory(AnsiString reportDir) { };
+
+      void addDataChangeSubscription(AnsiString name);
+      void removeDataChangeSubscription(AnsiString name);
+
+
    __published:
       __property TSEGTable* source = {read=sourceDataset, write=setSourceDataset};
-      __property TDataSetNotifyEvent onDataRefresh = {read=afterDataRefresh, write=afterDataRefresh};
+      __property TStringList* subscriptionComponentNames = {read=subscriptionComponents, write=setSubComponentNames};
+
+      void __fastcall onSourceDataChanged(TDataSet* dataset);
    };
 //---------------------------------------------------------------------------
 #endif
