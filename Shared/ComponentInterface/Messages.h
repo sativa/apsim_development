@@ -245,6 +245,24 @@ inline Message* newPublishEventMessage(unsigned int from,
    messageData << ID << type << data;
    return msg;
    }
+template <class T>
+inline Message* newPublishEventMessage(unsigned int from,
+                                       unsigned int to,
+                                       unsigned int ID,
+                                       const Type& type,
+                                       const T data[],
+                                       unsigned numValues)
+   {
+   Message* msg = constructMessage(PublishEvent, from, to, false,
+                                   memorySize(ID) + memorySize(type) + memorySize(numValues) +
+                                   numValues * memorySize(data));
+   MessageData messageData(msg);
+   messageData << ID << type << numValues;
+   for (unsigned i = 0; i != numValues; i++)
+      messageData << data[i];
+   return msg;
+   }
+
 // -------------- QueryInfo --------------
 enum SimulationInformationKind {respondToGetInfo = 2,
                                 respondToSetInfo = 3,

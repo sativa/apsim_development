@@ -124,10 +124,7 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
    #if (structure.array = T)
 extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
    {
-   protocol::vector<protocol::Fstructure.nameType> values;
-   for (unsigned i = 0; i != *numValues; i++)
-     values.push_back(data[i]);
-   FortranProxyComponent::currentInstance->publish(*id, values);
+   FortranProxyComponent::currentInstance->publishArray(*id, data, *numValues);
    }
    #else
 extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
