@@ -79,6 +79,10 @@ void ControlFileConverter::convert(const std::string& fileName,
 
       if (ok)
          {
+         log << "-------------------------------------------------------" << endl;
+         log << "Converting section: " << controlFileSections[section] << endl;
+         log << "-------------------------------------------------------" << endl;
+
          controlFile = ApsimControlFile(fileName, controlFileSections[section]);
 
          // Loop through all lines in script and perform required actions
@@ -278,7 +282,7 @@ bool ControlFileConverter::executeSetParameterValue(const string& arguments) thr
          moduleName = parameterName.substr(0, posPeriod);
          parameterName.erase(0, posPeriod+1);
          }
-      controlFile.setParameterValue(moduleName, parameterName, value);
+      controlFile.setParameterValue(moduleName, "", parameterName, value);
       return true;
       }
    return false;
@@ -378,9 +382,11 @@ bool ControlFileConverter::executeMoveParameter(const string& arguments) throw(r
    findParameters(arg1, parameterName, parFiles);
    for (unsigned i = 0; i != parFiles.size(); ++i)
       {
+      StringTokenizer fullSection(parFiles[i].getSection(), ".");
+
       string value = parFiles[i].getParamValue(parameterName);
       parFiles[i].deleteParam(parameterName);
-      controlFile.setParameterValue(arg2, parameterName, value);
+      controlFile.setParameterValue(arg2, fullSection.nextToken(), parameterName, value);
       return true;
       }
    return false;
@@ -452,7 +458,8 @@ bool ControlFileConverter::executeNewFormatReportVariables(const std::string& ar
 //---------------------------------------------------------------------------
 bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string arguments) throw(runtime_error)
    {
-   string parFileToUse = arguments;
+   if (arguments != "")
+      parFileToUse = arguments;
 
    vector<ApsimParameterFile> paramFiles;
    controlFile.getParameterFiles("", paramFiles);

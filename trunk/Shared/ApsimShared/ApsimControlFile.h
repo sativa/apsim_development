@@ -65,6 +65,7 @@ class __declspec(dllexport) ApsimControlFile
       // If moduleName is blank then parameter will be written to control file
       // ------------------------------------------------------------------
       void setParameterValue(const string& moduleName,
+                             const string& sectionName,
                              const string& parameterName,
                              const string& parameterValue) const throw(std::runtime_error);
 
