@@ -26,7 +26,7 @@
 #include "IWExtCtrls.hpp"
 #include "IWHTMLControls.hpp"
 #include "IWCompMemo.hpp"
-class Data;
+#include "Data.h"
 class TYPWebSession;
 //---------------------------------------------------------------------------
 // This form shows the user all paddock information.
@@ -59,22 +59,23 @@ class TYPPaddockForm: public TIWAppForm
       TIWImageFile *IWImageFile4;
       TIWImageFile *IWImageFile5;
       TIWLink *CreateReportButton;
-      TIWLink *EmailFilesButton;
-      TIWImageFile *EmailFilesImage;
       TIWLabel *IWLabel4;
       TIWLabel *IWLabel5;
       TIWLabel *IWLabel8;
-   TIWLink *HelpFileLink;
-   TIWLabel *IWLabel10;
-   TIWLabel *IWLabel12;
+      TIWLink *HelpFileLink;
+      TIWLabel *IWLabel10;
+      TIWLabel *IWLabel12;
+      TIWCheckBox *EmailFilesCheckBox;
+   TIWImageFile *HelpImage;
+   TIWLink *HelpButton;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
       void __fastcall CreateReportButtonClick(TObject *Sender);
-      void __fastcall EmailFilesButtonClick(TObject *Sender);
       void __fastcall PlantingDateCheckClick(TObject *Sender);
       void __fastcall SetupButtonClick(TObject *Sender);
       void __fastcall BackButtonClick(TObject *Sender);
-   void __fastcall HelpFileLinkClick(TObject *Sender);
+      void __fastcall HelpFileLinkClick(TObject *Sender);
+   void __fastcall HelpButtonClick(TObject *Sender);
    private:
       TYPWebSession* webSession;
       Data* data;
@@ -98,32 +99,16 @@ class TYPPaddockForm: public TIWAppForm
       void saveFertGrid();
 
       //---------------------------------------------------------------------------
-      // User has finished entering an email address - send files.
-      //---------------------------------------------------------------------------
-      void __fastcall createReportCallback(bool okClicked,
-                                           AnsiString text1,
-                                           AnsiString text2,
-                                           AnsiString text3,
-                                           AnsiString text4);
-      //---------------------------------------------------------------------------
-      // User has finished entering an email address - send files.
-      //---------------------------------------------------------------------------
-      void __fastcall emailFilesCallback(bool okClicked,
-                                         AnsiString text1,
-                                         AnsiString text2,
-                                         AnsiString text3,
-                                         AnsiString text4);
-
-      //---------------------------------------------------------------------------
-      // generate report files and send to the specified email address.
-      //---------------------------------------------------------------------------
-      void generateReportFilesAndEmail(const std::string& reportName,
-                                       const std::string& emailAddress);
-
-      //---------------------------------------------------------------------------
       // Produce an error message if there is missing data.
       //---------------------------------------------------------------------------
       bool checkForMissingData();
+
+      //---------------------------------------------------------------------------
+      // Nitrogen report callback.
+      //---------------------------------------------------------------------------
+      void __fastcall NitrogenReportCallback(bool okClicked,
+                                             AnsiString reportDescription,
+                                             const Data::Properties& properties);
 
    public:
       __fastcall TYPPaddockForm(TComponent* Owner);
@@ -132,7 +117,6 @@ class TYPPaddockForm: public TIWAppForm
                  Data* d,
                  const std::string& userName,
                  const std::string& paddockName,
-                 bool readOnly,
                  bool fromGrowerMan);
 
    };

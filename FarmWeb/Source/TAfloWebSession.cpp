@@ -23,16 +23,19 @@ __fastcall TAfloWebSession::TAfloWebSession(TComponent* Owner)
 //---------------------------------------------------------------------------
 void TAfloWebSession::showPaddockForm(const std::string& userName,
                                       const string& paddockName,
-                                      bool readOnly)
+                                      bool readOnly,
+                                      bool fromGrowerManagement)
    {
    try
       {
       if (paddockForm == NULL)
+         {
          paddockForm = new TAfloPaddockForm(WebApplication);
+         setupForm(paddockForm);
+         }
 
-      setupBar(paddockForm->Bar);
       paddockForm->setup(this, data, userName, paddockName, readOnly);
-      paddockForm->Show();
+      show(paddockForm);
       }
    catch (const exception& err)
       {

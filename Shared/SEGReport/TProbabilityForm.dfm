@@ -6,16 +6,22 @@ inherited ProbabilityForm: TProbabilityForm
   inherited AdvPanelGroup1: TAdvPanelGroup
     FullHeight = 18
     inherited AdvancedPanel: TAdvPanel
-      FullHeight = 293
+      FullHeight = 310
       inherited NameEdit: TEdit
-        Width = 174
+        Width = 126
       end
       inherited SourceCombo: TComboBox
-        Width = 174
+        Width = 126
+      end
+      inherited SortFieldsEdit: TEdit
+        Width = 162
+      end
+      inherited GroupByEdit: TEdit
+        Width = 163
       end
     end
     inherited PropertyPanel: TAdvPanel
-      FullHeight = 297
+      FullHeight = 38
       object Label3: TLabel
         Left = 16
         Top = 32

@@ -74,7 +74,79 @@ namespace CSGeneral
 
 		public static bool StringsAreEqual(string St1, string St2)
 			{
-         return St1 == St2;
+         return St1.ToLower() == St2.ToLower();
 			}
+
+		// -----------------------------------------------------
+		// Remove, and return everything after the specified
+		// delimiter from the specified string. 
+		// -----------------------------------------------------
+		public static string SplitOffAfterDelimiter(ref string St, string Delimiter)
+			{
+			string ReturnString = "";
+			int PosDelimiter = St.IndexOf(Delimiter);
+			if (PosDelimiter != -1)
+				{
+				ReturnString = St.Substring(PosDelimiter + Delimiter.Length).Trim();
+				St = St.Remove(PosDelimiter, St.Length - PosDelimiter);
+				}
+			return ReturnString;
+			}
+
+      		
+		// ------------------------------------------------------------------
+		// Split off a bracketed value from the end of the specified string.
+		// The bracketed value is then returned, without the brackets,
+		// or blank if not found.
+		// ------------------------------------------------------------------
+		public static string SplitOffBracketedValue(ref string St, char OpenBracket, char CloseBracket)
+			{
+			string ReturnString = "";
+
+			int PosOpenBracket = St.LastIndexOf(OpenBracket);
+			int PosCloseBracket = St.LastIndexOf(CloseBracket);
+			if (PosOpenBracket != -1 && PosCloseBracket != -1 && PosOpenBracket < PosCloseBracket)
+				{
+				ReturnString = St.Substring(PosOpenBracket+1, PosCloseBracket-PosOpenBracket-1).Trim();
+				St = St.Remove(PosOpenBracket, PosCloseBracket-PosOpenBracket+1).Trim();
+				}
+			return ReturnString;
+			}
+
+
+
+		// ------------------------------------------
+		// Return true if specified string is numeric
+		// ------------------------------------------
+		public static bool IsNumeric(string St)
+			{
+			try
+				{
+				Single.Parse(St);
+				return true;
+				}
+			catch (Exception)
+				{
+				return false;
+				}
+			}
+
+
+		// ------------------------------------------
+		// Return true if specified string is a date time.
+		// ------------------------------------------
+		public static bool IsDateTime(string St)
+			{
+			try
+				{
+				DateTime.Parse(St);
+				return true;
+				}
+			catch (Exception)
+				{
+				 return false;
+				}
+			}
+
 	}
 }

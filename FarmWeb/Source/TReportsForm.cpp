@@ -37,7 +37,6 @@ __fastcall TReportsForm::TReportsForm(TComponent* Owner)
 void TReportsForm::setup(TWebSession* session,
                          Data* d,
                          const string& userN,
-                         bool readOnly,
                          bool fromGrowerMan)
    {
    webSession = session;
@@ -48,8 +47,7 @@ void TReportsForm::setup(TWebSession* session,
 
    suckInReports();
    populateReportList();
-   HelpButton->Visible = (webSession->getApplicationName() == "YieldProphet");
-   HelpImage->Visible = (webSession->getApplicationName() == "YieldProphet");
+   DeleteButton->Enabled = webSession->isSaveAllowed();
    }
 //---------------------------------------------------------------------------
 // Populate the report list.
@@ -178,8 +176,7 @@ void __fastcall TReportsForm::PaddockButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TReportsForm::HelpButtonClick(TObject *Sender)
    {
-   string helpScriptURL = "http://www.yieldprophet.com.au/yieldprophet/help/help.htm";
-   webSession->newWindow(helpScriptURL.c_str(), "Help", true);
+   webSession->showHelp();
    }
 //---------------------------------------------------------------------------
 // write a report html page to display the report nicely.

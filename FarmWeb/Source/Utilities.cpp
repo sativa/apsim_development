@@ -155,7 +155,23 @@ void sendEmail(TWebSession* webSession,
       string fullFileNoSpaces = fullFile;
       replaceAll(fullFileNoSpaces, " ", "_");
       if (!Str_i_Eq(fullFileNoSpaces, fullFile))
-         CopyFile(fullFile.c_str(), fullFileNoSpaces.c_str(), false);
+         {
+         if (CopyFile(fullFile.c_str(), fullFileNoSpaces.c_str(), false) == 0)
+            {
+            char* lpMsgBuf;
+
+            FormatMessage(
+                FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+                NULL,
+                GetLastError(),
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                (LPTSTR) &lpMsgBuf,
+                0,
+                NULL);
+            MessageBox( NULL, lpMsgBuf, "GetLastError", MB_OK|MB_ICONINFORMATION );
+            LocalFree( lpMsgBuf );
+            }
+         }
 
       string file = ExtractFileName(fullFile.c_str()).c_str();
       string fileNoSpaces = ExtractFileName(fullFileNoSpaces.c_str()).c_str();
@@ -218,7 +234,6 @@ bool generateReport(std::string toEmailAddress,
                     const string& reportName,
                     const Data::Properties& properties,
                     bool generateTempFiles,
-                    bool generateSoilFile,
                     const string& reportDesc)
    {
    if (toEmailAddress == "")
@@ -237,12 +252,12 @@ bool generateReport(std::string toEmailAddress,
       // To generate the rainfall file try and use the resetdate if it exists.
       // Otherwise use the sowing date.
       date firstRainfallDate(pos_infin);
-      string resetDateString = data->getProperty(userName, paddockName, "resetdate");
       string sowDateString = data->getProperty(userName, paddockName, "sowdate");
-      if (resetDateString != "")
-         firstRainfallDate = date(2004, 4, 1);
-      else if (sowDateString != "")
-         firstRainfallDate = date(from_string(sowDateString));
+      date sowDate = date(from_string(sowDateString));
+      if (sowDate.month() >= 4 && sowDate.month() <= 8)
+         firstRainfallDate = date(sowDate.year(), 4, 1);
+      else
+         firstRainfallDate = date(sowDate.year(), 9, 1);
 
       if (!firstRainfallDate.is_infinity())
          {
@@ -260,31 +275,30 @@ bool generateReport(std::string toEmailAddress,
          if (generateTempFiles)
             {
             // generate a soil temperature file.
-            string soilTempFileName = userName + ".soiltemp";
+            string soilTempFileName = webSession->getFilesDir() + "\\" + userName + ".soiltemp";
             string tempNames[2] = {"max_soilt", "min_soilt"};
             data->generateDataFile(userName, paddockName, vector<string>(tempNames, tempNames+2),
-                                   webSession->getFilesDir() + "\\" + soilTempFileName,
+                                   soilTempFileName,
                                    "grower.SoilTemps.data");
             files.push_back(soilTempFileName);
 
             // generate an air temperature file.
-            string airTempFileName = userName + ".airtemp";
+            string airTempFileName = webSession->getFilesDir() + "\\" + userName + ".airtemp";
             string airtempNames[2] = {"patch_maxt", "patch_mint"};
             data->generateDataFile(userName, paddockName, vector<string>(airtempNames, airtempNames+2),
-                                   webSession->getFilesDir() + "\\" + airTempFileName,
+                                   airTempFileName,
                                    "grower.AirTemps.data");
             files.push_back(airTempFileName);
             }
          }
-      // generate a soil file if necessary.
-      if (generateSoilFile)
-         {
-         string soilFileName;
-         soilProfileModified = data->generateSoilFile(userName, paddockName,
-                                                      webSession->getFilesDir(),
-                                                      soilFileName);
-         files.push_back(soilFileName);
-         }
+      // generate a soil file
+      string soilFileName;
+      bool withSW = !Str_i_Eq(webSession->getApplicationName(), "afloman");
+      soilProfileModified = data->generateSoilFile(userName, paddockName,
+                                                   webSession->getFilesDir(),
+                                                   withSW,
+                                                   soilFileName);
+      files.push_back(soilFileName);
 
       vector<string> toEmailAddresses;
       toEmailAddresses.push_back(toEmailAddress);
@@ -335,5 +349,72 @@ void drawMenuItem(TIWAppForm* form, int lineNumber, const string& text,
    image->ImageFile->Filename = gif.c_str();
    image->Left = menuLeft;
    image->Top = itemTop + (lineNumber-1)*itemHeight;
+   }
+//---------------------------------------------------------------------------
+// populate the station number combo
+//---------------------------------------------------------------------------
+void populateStationNumberCombo(Data* data,
+                                const std::string& userName,
+                                const std::string& paddockName,
+                                const std::string& region,
+                                TIWComboBox* WeatherStationCombo)
+   {
+   if (region != "")
+      {
+      vector<string> names;
+      data->getMetStations(region, names);
+      Stl_2_tstrings(names, WeatherStationCombo->Items);
+
+      AnsiString value = data->getProperty(userName, paddockName, "metstation").c_str();
+      WeatherStationCombo->ItemIndex = WeatherStationCombo->Items->IndexOf(value);
+      }
+   else
+      WeatherStationCombo->Items->Clear();
+   }
+//---------------------------------------------------------------------------
+// remove unwanted grower soils from SoilCombo.
+//---------------------------------------------------------------------------
+void removeGrowerSoils(vector<string>& soilTypes, const string& userN)
+   {
+   string userName = userN;
+   stripLeadingTrailing(userName, " ");
+   vector<string> returnSoils;
+   for (unsigned i = 0; i != soilTypes.size(); i++)
+      {
+      bool addSoil;
+      unsigned posGrower = findSubString(soilTypes[i], "Grower soil:");
+      if (posGrower == string::npos)
+         addSoil = true;
+      else
+         {
+         // only include soil if user name matches grower name.
+         string growerName = soilTypes[i].substr(posGrower + strlen("Grower soil:"));
+         stripLeadingTrailing(growerName, " ");
+         addSoil = Str_i_Eq(growerName, userName);
+         }
+      if (addSoil)
+         returnSoils.push_back(soilTypes[i]);
+      }
+   soilTypes = returnSoils;
+   }
+//---------------------------------------------------------------------------
+// populate the soil type combo
+//---------------------------------------------------------------------------
+void populateSoilTypeCombo(Data* data,
+                           const std::string& userName,
+                           const std::string& paddockName,
+                           const std::string& region,
+                           TIWComboBox* SoilTypeCombo)
+   {
+   if (region != "")
+      {
+      vector<string> values;
+      data->getSoils(region, values);
+      removeGrowerSoils(values, userName);
+      Stl_2_tstrings(values, SoilTypeCombo->Items);
+
+      AnsiString value = data->getProperty(userName, paddockName, "soiltype").c_str();
+      SoilTypeCombo->ItemIndex = SoilTypeCombo->Items->IndexOf(value);
+      }
    }
 

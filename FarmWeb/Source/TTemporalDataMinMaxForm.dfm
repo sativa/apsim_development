@@ -16,8 +16,8 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
   DesignSize = (
     937
     602)
-  DesignLeft = 407
-  DesignTop = 115
+  DesignLeft = 389
+  DesignTop = 185
   object grid: TTIWAdvWebGrid
     Left = 136
     Top = 72
@@ -109,7 +109,7 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
-        Title = 'Jan'
+        Title = 'Day'
         TitleRowSpan = False
         TitleSpan = 0
         TitleVAlign = vaNone
@@ -230,7 +230,6 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
-        Title = 'Feb'
         TitleRowSpan = False
         TitleSpan = 0
         TitleVAlign = vaNone
@@ -351,7 +350,6 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
-        Title = 'Mar'
         TitleRowSpan = False
         TitleSpan = 0
         TitleVAlign = vaNone
@@ -472,7 +470,6 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
-        Title = 'Apr'
         TitleRowSpan = False
         TitleSpan = 0
         TitleVAlign = vaNone
@@ -593,7 +590,6 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
-        Title = 'May'
         TitleRowSpan = False
         TitleSpan = 0
         TitleVAlign = vaNone
@@ -714,7 +710,6 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
-        Title = 'Jun'
         TitleRowSpan = False
         TitleSpan = 0
         TitleVAlign = vaNone
@@ -772,6 +767,66 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
         SpinEditMaxValue = 100
         SpinEditMinValue = 0
         SubTitle = 'Max'
+        SubTitleSpan = 0
+        SubTitleVAlign = vaNone
+        Tag = 0
+        TitleRowSpan = False
+        TitleSpan = 0
+        TitleVAlign = vaNone
+        VAlign = vaNone
+        Visible = True
+        Width = 60
+        WidthType = wtAbsolute
+        SortFormat = sfAlphabetic
+      end
+      item
+        Alignment = taLeftJustify
+        AllowSizing = False
+        ButtonWidth = 0
+        CheckTrue = 'true'
+        CheckFalse = 'false'
+        Color = clNone
+        ColumnHeaderAlignment = taLeftJustify
+        ColumnHeaderClick = False
+        ColumnHeaderColor = clNone
+        ColumnHeaderFont.Color = clNone
+        ColumnHeaderFont.Size = 10
+        ColumnHeaderFont.Style = []
+        ColumnHeaderGradient1 = clNone
+        ColumnHeaderGradient2 = clNone
+        ColumnHeaderGradientDirection = gdHorizontal
+        ColumnHeaderCheckBox = False
+        ColumnHeaderNode = False
+        ColumnType = ctNormal
+        DataButtonType = dbtButton
+        DetailSpan = 0
+        DynPrecision = 0
+        DynEditor = deText
+        ImageIndex = -1
+        Editor = edEditFloat
+        Filter = False
+        FilterIndex = 0
+        Font.Color = clNone
+        Font.Size = 10
+        Font.Style = []
+        FooterAlignment = taLeftJustify
+        FooterFormat = '%g'
+        FooterGradient1 = clNone
+        FooterGradient2 = clNone
+        FooterType = ftNone
+        MaxLength = 0
+        PopupColor = clWebWHITE
+        PopupColorTo = clNone
+        PopupColorGradientDirection = gdHorizontal
+        ImageHeight = 0
+        ImageWidth = 0
+        PopupHeight = 200
+        PopupWidth = 200
+        ProgressColor = clWebRED
+        ShowHint = False
+        SpinEditMaxValue = 100
+        SpinEditMinValue = 0
+        SubTitle = 'Min'
         SubTitleSpan = 0
         SubTitleVAlign = vaNone
         Tag = 0
@@ -1049,7 +1104,7 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
     OuterBorder.Color = clWebBLACK
     Page = 0
     RowCount = 32
-    RowHeader.Show = True
+    RowHeader.Show = False
     RowHeader.Width = 40
     RowHeader.Borders.Inner = ibAll
     RowHeader.Borders.Outer = obAll
@@ -1112,92 +1167,168 @@ object TemporalDataMinMaxForm: TTemporalDataMinMaxForm
     Caption = 'Please enter rainfall into the chart below'
     RawText = False
   end
-  object SaveButton: TIWButton
-    Left = 498
-    Top = 8
-    Width = 121
-    Height = 33
+  object IWRectangle1: TIWRectangle
+    Left = 0
+    Top = 0
+    Width = 937
+    Height = 38
     Cursor = crAuto
+    Align = alTop
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
     RenderSize = True
+    Font.Color = clNone
+    Font.Size = 10
+    Font.Style = []
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    FriendlyName = 'IWRectangle1'
+    Color = clWebBEIGE
+    Alignment = taLeftJustify
+    VAlign = vaMiddle
+  end
+  object SaveButton: TIWLink
+    Left = 251
+    Top = 11
+    Width = 46
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
     Caption = 'Save'
-    DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
     Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'SaveButton'
+    Font.Style = [fsUnderline]
     ScriptEvents = <>
-    TabOrder = 3
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
     OnClick = SaveButtonClick
+    TabOrder = 23
+    RawText = False
   end
-  object NextButton: TIWButton
-    Left = 258
+  object IWImageFile1: TIWImageFile
+    Left = 224
     Top = 8
-    Width = 121
-    Height = 33
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+  end
+  object IWImageFile2: TIWImageFile
+    Left = 152
+    Top = 8
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\nav_left_green.gif'
+  end
+  object BackButton: TIWLink
+    Left = 179
+    Top = 11
+    Width = 46
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Back'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'DeleteButton'
+    OnClick = BackButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object IWLabel2: TIWLabel
+    Left = 354
+    Top = 8
+    Width = 44
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'Year:'
+    RawText = False
+  end
+  object YearCombo: TIWComboBox
+    Left = 400
+    Top = 8
+    Width = 233
+    Height = 21
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
     RenderSize = True
-    Caption = 'Next year'
-    DoSubmitValidation = True
-    Color = clBtnFace
+    BGColor = clNone
     Font.Color = clNone
     Font.Size = 10
     Font.Style = []
-    FriendlyName = 'SaveButton'
+    FocusColor = clNone
+    AutoHideOnMenuActivation = False
+    ItemsHaveValues = False
+    NoSelectionText = '-- No Selection --'
+    Required = False
+    RequireSelection = True
     ScriptEvents = <>
-    TabOrder = 3
-    OnClick = NextButtonClick
-  end
-  object PreviousButton: TIWButton
-    Left = 378
-    Top = 8
-    Width = 121
-    Height = 33
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Previous year'
+    OnChange = YearComboChange
+    UseSize = True
     DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'SaveButton'
-    ScriptEvents = <>
-    TabOrder = 3
-    OnClick = PreviousButtonClick
-  end
-  object PaddockButton: TIWButton
-    Left = 138
-    Top = 8
-    Width = 121
-    Height = 33
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Paddock'
-    DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'SaveButton'
-    ScriptEvents = <>
-    TabOrder = 3
-    OnClick = PaddockButtonClick
+    Editable = True
+    NonEditableAsLabel = True
+    TabOrder = 9
+    ItemIndex = -1
+    Sorted = False
+    FriendlyName = 'YearCombo'
   end
 end

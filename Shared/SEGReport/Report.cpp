@@ -17,6 +17,7 @@
 #include "TSegTable.h"
 #include "TGraph.h"
 #include "TWizardForm.h"
+#include "TXYGraph.h"
 
 #pragma package(smart_init)
 #pragma link "dcfdes"
@@ -268,7 +269,7 @@ void Report::updateObjectInspector(TComponent* component)
       if (component != NULL)
          {
          // get a property form.
-         uiForm = createComponentUI(component, objectInspectorForm);
+         uiForm = createComponentUI(component, objectInspectorForm, true);
 
          // If an addin returned a form then make that form a child of the parent
          // form.
@@ -579,7 +580,7 @@ void Report::refresh(void)
 
    if (TSEGTable::errorMessage != "")
       {
-//      ::MessageBox(NULL, TSEGTable::errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
+      ::MessageBox(NULL, TSEGTable::errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
       TSEGTable::errorMessage = "";
       }
    }
@@ -869,6 +870,7 @@ void Report::showWizard()
 
    TWizardForm* wizardForm = new TWizardForm(parent);
 
+   bool someUIsFound = false;
    for (int formI = 0; formI != 2; formI++)
       {
       for (int componentI = 0; componentI < parents[formI]->ComponentCount; componentI++)
@@ -877,7 +879,7 @@ void Report::showWizard()
          if (doShowComponentInWizard(component))
             {
             // get a property form.
-            uiForm = createComponentUI(component, wizardForm);
+            TForm* uiForm = createComponentUI(component, wizardForm, false);
 
             // If an addin returned a form then make that form a child of the parent
             // form.
@@ -885,18 +887,30 @@ void Report::showWizard()
                {
                uiForm->BorderStyle = bsNone;
                wizardForm->addComponentForm(uiForm);
+               someUIsFound = true;
                }
             }
          }
       }
-   wizardForm->ShowModal();
-   delete wizardForm;
+   if (someUIsFound)
+      {
+      wizardForm->ShowModal();
+      delete wizardForm;
+      }
    }
 //---------------------------------------------------------------------------
 // Return true if the specified component show be include in the wizard.
 //---------------------------------------------------------------------------
 bool Report::doShowComponentInWizard(TComponent* component)
    {
-   return true;
+   TSEGTable* table = dynamic_cast<TSEGTable*> (component);
+   if (table != NULL)
+      return table->addToWizard;
+
+   TXYGraph* graph = dynamic_cast<TXYGraph*> (component);
+   if (graph != NULL)
+      return true;
+
+   return false;
    }
 

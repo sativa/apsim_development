@@ -126,51 +126,6 @@ object ReportsForm: TReportsForm
     TabOrder = 23
     RawText = False
   end
-  object HelpImage: TIWImageFile
-    Left = 440
-    Top = 8
-    Width = 24
-    Height = 24
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    AutoSize = False
-    BorderOptions.Color = clNone
-    BorderOptions.Width = 0
-    DoSubmitValidation = True
-    ScriptEvents = <>
-    TabOrder = 22
-    UseSize = True
-    FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
-  end
-  object HelpButton: TIWLink
-    Left = 467
-    Top = 11
-    Width = 46
-    Height = 17
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Caption = 'Help'
-    Color = clNone
-    Font.Color = clWebBLUE
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = [fsUnderline]
-    ScriptEvents = <>
-    DoSubmitValidation = False
-    FriendlyName = 'SaveButton'
-    OnClick = HelpButtonClick
-    TabOrder = 23
-    RawText = False
-  end
   object ReportList: TIWListbox
     Left = 144
     Top = 40
@@ -244,6 +199,51 @@ object ReportsForm: TReportsForm
     DoSubmitValidation = False
     FriendlyName = 'DeleteButton'
     OnClick = ShowButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object HelpImage: TIWImageFile
+    Left = 8
+    Top = 8
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    AutoSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = True
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
+  end
+  object HelpButton: TIWLink
+    Left = 35
+    Top = 11
+    Width = 46
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Help'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = HelpButtonClick
     TabOrder = 23
     RawText = False
   end

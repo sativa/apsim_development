@@ -12,9 +12,7 @@
 #include "IWImageList.hpp"
 class TYPPaddockForm;
 class TYPSetupForm;
-class TSoilsForm;
 class TYPNitrogenReportForm;
-class TMetStationForm;
 //---------------------------------------------------------------------------
 class TYPWebSession : public TWebSession
    {
@@ -22,30 +20,7 @@ class TYPWebSession : public TWebSession
    private:
       TYPPaddockForm* paddockForm;
       TYPSetupForm* ypsetupForm;
-      TSoilsForm* soilsForm;
       TYPNitrogenReportForm* nitrogenReportForm;
-      TMetStationForm* metStationForm;
-
-      //---------------------------------------------------------------------------
-      // setup the specified form.
-      //---------------------------------------------------------------------------
-      virtual int setupForm(TIWAppForm* form);
-
-      //---------------------------------------------------------------------------
-      // Process the bar item click event.
-      //---------------------------------------------------------------------------
-      virtual void processClickItem(AnsiString caption);
-
-      //---------------------------------------------------------------------------
-      // Show the soils form.
-      //---------------------------------------------------------------------------
-      void showSoilsForm();
-
-      //---------------------------------------------------------------------------
-      // Show the met stations form.
-      //---------------------------------------------------------------------------
-      void showMetStationsForm();
-
 
    public:
       __fastcall TYPWebSession(TComponent* Owner);
@@ -81,7 +56,7 @@ class TYPWebSession : public TWebSession
       //---------------------------------------------------------------------------
       void showNitrogenReportForm(const std::string& userName,
                                   const std::string& paddockName,
-                                  const std::string& emailAddress);
+                                  TReportCallback callback);
 
    };
 //---------------------------------------------------------------------------

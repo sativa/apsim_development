@@ -17,6 +17,8 @@
 #include "TDecileFunction.h"
 #include "TShapeForm.h"
 #include "TTextForm.h"
+#include "TXYForm.h"
+#include "TCumulative.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -31,109 +33,60 @@ AnsiString DecileDescription = "Decile function";
 void RegisterComponents(void)
    {
    RegisterTeeBasicFunction(__classid(TDecileFunction), &DecileDescription);
-   TComponentClass standardClasses[4] = {__classid(TText),
+   TComponentClass standardClasses[5] = {__classid(TText),
                                   __classid(::TShape),
                                   __classid(::TImage),
-                                  __classid(::TGraph)};
-   RegisterComponents("Standard", standardClasses, 3);
-   TComponentClass dataClasses[7] = {__classid(TApsimFileReader),
+                                  __classid(::TGraph),
+                                  __classid(::TXYGraph)};
+   RegisterComponents("Standard", standardClasses, 4);
+   TComponentClass dataClasses[8] = {__classid(TApsimFileReader),
                                   __classid(TSOI),
                                   __classid(TProbability),
                                   __classid(TREMS),
                                   __classid(TExcel),
                                   __classid(::TFilter),
-                                  __classid(TStats)};
-   RegisterComponents("Data", dataClasses, 6);
+                                  __classid(TStats),
+                                  __classid(TCumulative)};
+   RegisterComponents("Data", dataClasses, 7);
    }
 
 //---------------------------------------------------------------------------
 // Create a form and return a pointer to it for the specified component.
 //---------------------------------------------------------------------------
-TForm* createComponentUI(TComponent* component, TWinControl* parent)
+TForm* createComponentUI(TComponent* component, TWinControl* parent,
+                         bool showAdvanced)
    {
-   if (component->ClassNameIs("TText"))
-      {
-      TTextForm* form = new TTextForm(NULL);
-      form->Parent = parent;
-      TText* text = dynamic_cast<TText*> (component);
-      form->setComponent(text);
-      text->Frame->Style = psClear;
-      return form;
-      }
-   else if (component->ClassNameIs("TShape"))
-      {
-      TShapeForm* form = new TShapeForm(NULL);
-      form->Parent = parent;
-      ::TShape* shape = (::TShape*) component;
-      form->setComponent(shape);
-      shape->Frame->Style = psClear;
-      return form;
-      }
-   else if (component->ClassNameIs("TImage"))
-      {
-      TImageForm* frame = new TImageForm(parent);
-      frame->Parent = parent;
-      ::TImage* image = dynamic_cast< ::TImage*> (component);
-      frame->setComponent(image);
-      return frame;
-      }
-   else if (component->ClassType() == __classid(TApsimFileReader))
-      {
-      TApsimFileReaderForm* form = new TApsimFileReaderForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast<TApsimFileReader*> (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(TSOI))
-      {
-      TSOIForm* form = new TSOIForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast<TSOI*> (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(::TGraph))
-      {
-      TChartForm* form = new TChartForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast< ::TGraph*> (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(TProbability))
-      {
-      TProbabilityForm* form = new TProbabilityForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast<TProbability*> (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(TREMS))
-      {
-      TREMSForm* form = new TREMSForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast<TREMS*> (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(TExcel))
-      {
-      TExcelForm* form = new TExcelForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast<TExcel*> (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(::TFilter))
-      {
-      TFilterForm* form = new TFilterForm(parent);
-      form->Parent = parent;
-      form->setComponent((::TFilter*) (component));
-      return form;
-      }
-   else if (component->ClassType() == __classid(TStats))
-      {
-      TStatsForm* form = new TStatsForm(parent);
-      form->Parent = parent;
-      form->setComponent(dynamic_cast<TStats*> (component));
-      return form;
-      }
+   TPropertyForm* form;
 
-   return NULL;
+   if (component->ClassType() == __classid(TText))
+      form = new TTextForm(NULL);
+   else if (component->ClassType() == __classid(::TShape))
+      form = new TShapeForm(NULL);
+   else if (component->ClassType() == __classid(::TImage))
+      form = new TImageForm(parent);
+   else if (component->ClassType() == __classid(TApsimFileReader))
+      form = new TApsimFileReaderForm(parent);
+   else if (component->ClassType() == __classid(TSOI))
+      form = new TSOIForm(parent);
+   else if (component->ClassType() == __classid(::TGraph))
+      form = new TChartForm(parent);
+   else if (component->ClassType() == __classid(::TXYGraph))
+      form = new TXYForm(parent);
+   else if (component->ClassType() == __classid(TProbability))
+      form = new TProbabilityForm(parent);
+   else if (component->ClassType() == __classid(TREMS))
+      form = new TREMSForm(parent);
+   else if (component->ClassType() == __classid(TExcel))
+      form = new TExcelForm(parent);
+   else if (component->ClassType() == __classid(::TFilter))
+      form = new TFilterForm(parent);
+   else if (component->ClassType() == __classid(TStats))
+      form = new TStatsForm(parent);
+   else
+      form = new TPropertyForm(parent);
+
+   form->Parent = parent;
+   form->setup(component, showAdvanced);
+   return form;
    }
 

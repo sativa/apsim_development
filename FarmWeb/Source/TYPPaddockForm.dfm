@@ -1086,50 +1086,6 @@ object YPPaddockForm: TYPPaddockForm
     TabOrder = 23
     RawText = False
   end
-  object EmailFilesButton: TIWLink
-    Left = 899
-    Top = 11
-    Width = 86
-    Height = 17
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Caption = 'Email files'
-    Color = clNone
-    Font.Color = clWebBLUE
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = [fsUnderline]
-    ScriptEvents = <>
-    DoSubmitValidation = False
-    FriendlyName = 'SaveButton'
-    OnClick = EmailFilesButtonClick
-    TabOrder = 23
-    RawText = False
-  end
-  object EmailFilesImage: TIWImageFile
-    Left = 872
-    Top = 8
-    Width = 24
-    Height = 24
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    BorderOptions.Color = clNone
-    BorderOptions.Width = 0
-    DoSubmitValidation = True
-    ScriptEvents = <>
-    TabOrder = 22
-    UseSize = False
-    FriendlyName = 'IWImageFile1'
-    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\money_envelope.gif'
-  end
   object IWLabel4: TIWLabel
     Left = 584
     Top = 72
@@ -1262,6 +1218,75 @@ object YPPaddockForm: TYPPaddockForm
     NoWrap = False
     FriendlyName = 'IWLabel1'
     Caption = 'on how to do a N comparison report.'
+    RawText = False
+  end
+  object EmailFilesCheckBox: TIWCheckBox
+    Left = 872
+    Top = 8
+    Width = 121
+    Height = 21
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Email con/par'
+    Editable = True
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    ScriptEvents = <>
+    DoSubmitValidation = True
+    Style = stNormal
+    TabOrder = 32
+    Checked = False
+    FriendlyName = 'EmailFilesCheckBox'
+  end
+  object HelpImage: TIWImageFile
+    Left = 8
+    Top = 8
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    AutoSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = True
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
+  end
+  object HelpButton: TIWLink
+    Left = 35
+    Top = 11
+    Width = 46
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Help'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = HelpButtonClick
+    TabOrder = 23
     RawText = False
   end
 end

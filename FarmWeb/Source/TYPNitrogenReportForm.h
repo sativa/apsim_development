@@ -23,8 +23,9 @@
 #include "IWHTMLControls.hpp"
 #include "IWExtCtrls.hpp"
 
-class TYPWebSession;
+#include "TYPWebSession.h"
 #include "Data.h"
+
 //---------------------------------------------------------------------------
 class TYPNitrogenReportForm: public TIWAppForm
    {
@@ -56,7 +57,7 @@ class TYPNitrogenReportForm: public TIWAppForm
       Data* data;
       std::string userName;
       std::string paddockName;
-      std::string emailAddress;
+      TReportCallback callback;
 
       //---------------------------------------------------------------------------
       // Save the fertiliser grid
@@ -80,7 +81,7 @@ class TYPNitrogenReportForm: public TIWAppForm
                  Data* data,
                  const std::string& userName,
                  const std::string& paddockName,
-                 const std::string& emailAddress);
+                 TReportCallback callback);
    };
 //---------------------------------------------------------------------------
 #endif

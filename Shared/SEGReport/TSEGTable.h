@@ -36,6 +36,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       std::vector<std::string>::iterator groupByFiltersI;
       TStringList* subscriptionComponents;
       bool addToToolbar;
+      bool AddToWizard;
       AnsiString sortFieldNames;
       AnsiString groupByFieldNames;
       bool inForceRefresh;
@@ -97,6 +98,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       __property bool addToToolBar = {read=addToToolbar, write=addToToolbar};
       __property AnsiString sortFields = {read=sortFieldNames, write=setSortFieldNames};
       __property AnsiString groupByFields = {read=groupByFieldNames, write=groupByFieldNames};
+      __property bool addToWizard = {read=AddToWizard, write=AddToWizard};
 
       void __fastcall onSourceDataChanged(TDataSet* dataset);
    };

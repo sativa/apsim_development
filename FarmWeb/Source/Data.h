@@ -316,6 +316,7 @@ class Data
       bool generateSoilFile(const std::string& userName,
                             const std::string& paddockName,
                             const std::string& outputDirectory,
+                            bool withSW,
                             std::string& fileGenerated);
 
       //---------------------------------------------------------------------------
@@ -443,7 +444,12 @@ class Data
       //---------------------------------------------------------------------------
       // Return the apsim run machine's email address.
       //---------------------------------------------------------------------------
-      string getApsimRunEmailAddress() const;
+      std::string getApsimRunEmailAddress() const;
+
+      //---------------------------------------------------------------------------
+      // Return the help url.
+      //---------------------------------------------------------------------------
+      std::string getHelpUrl() const;
 
    private:
       Adodb::TADOConnection* connection;

@@ -203,7 +203,7 @@ object UserDetailsForm: TUserDetailsForm
     ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
   end
   object HelpImage: TIWImageFile
-    Left = 216
+    Left = 8
     Top = 8
     Width = 24
     Height = 24
@@ -224,7 +224,7 @@ object UserDetailsForm: TUserDetailsForm
     ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
   end
   object HelpButton: TIWLink
-    Left = 243
+    Left = 35
     Top = 11
     Width = 46
     Height = 17

@@ -1190,50 +1190,6 @@ object TemporalDataForm: TTemporalDataForm
     Caption = 'Please enter rainfall (in mm) into the chart below'
     RawText = False
   end
-  object NextButton: TIWButton
-    Left = 362
-    Top = 4
-    Width = 121
-    Height = 33
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Next year'
-    DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'SaveButton'
-    ScriptEvents = <>
-    TabOrder = 3
-    OnClick = NextButtonClick
-  end
-  object PreviousButton: TIWButton
-    Left = 482
-    Top = 4
-    Width = 121
-    Height = 33
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Previous year'
-    DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'SaveButton'
-    ScriptEvents = <>
-    TabOrder = 3
-    OnClick = PreviousButtonClick
-  end
   object SaveButton: TIWLink
     Left = 251
     Top = 11
@@ -1321,5 +1277,59 @@ object TemporalDataForm: TTemporalDataForm
     OnClick = BackButtonClick
     TabOrder = 23
     RawText = False
+  end
+  object IWLabel1: TIWLabel
+    Left = 354
+    Top = 8
+    Width = 44
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'Year:'
+    RawText = False
+  end
+  object YearCombo: TIWComboBox
+    Left = 400
+    Top = 8
+    Width = 105
+    Height = 21
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    BGColor = clNone
+    Font.Color = clNone
+    Font.Size = 10
+    Font.Style = []
+    FocusColor = clNone
+    AutoHideOnMenuActivation = False
+    ItemsHaveValues = False
+    NoSelectionText = '-- No Selection --'
+    Required = False
+    RequireSelection = True
+    ScriptEvents = <>
+    OnChange = YearComboChange
+    UseSize = True
+    DoSubmitValidation = True
+    Editable = True
+    NonEditableAsLabel = True
+    TabOrder = 9
+    ItemIndex = -1
+    Sorted = False
+    FriendlyName = 'YearCombo'
   end
 end

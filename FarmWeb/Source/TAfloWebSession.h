@@ -28,14 +28,15 @@ class TAfloWebSession : public TWebSession
       //---------------------------------------------------------------------------
       // Get the application url
       //---------------------------------------------------------------------------
-      virtual std::string getApplicationUrl(void) {return "http://www.apsim.info/apsim/afloman/default.htm";}
+      virtual std::string getApplicationUrl(void) {return "www.apsim.info/apsim/afloman/default.htm";}
 
       //---------------------------------------------------------------------------
       // Show the paddock form.
       //---------------------------------------------------------------------------
       virtual void showPaddockForm(const std::string& userName,
                                    const std::string& paddockName,
-                                   bool readOnly);
+                                   bool readOnly,
+                                   bool fromGrowerManagement);
 
    };
 //---------------------------------------------------------------------------

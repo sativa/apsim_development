@@ -23,7 +23,7 @@ __fastcall TServerController::TServerController(TComponent* Owner)
 void __fastcall TServerController::OnCreateNewSession(
       TIWApplication *ASession, TIWBaseForm *&VMainForm)
    {
-   ASession->Data = new TAfloWebSession(NULL);
+   ASession->Data = new TAfloWebSession(ASession);
    }
 //---------------------------------------------------------------------------
 void setServerController()

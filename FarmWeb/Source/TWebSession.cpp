@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "TWebSession.h"
-#include "Data.h"
 #include "TUserDetailsForm.h"
 #include "TUserManagementForm.h"
 #include "TTemporalDataMinMaxForm.h"
@@ -15,10 +14,14 @@
 #include "TReportsForm.h"
 #include "TDropDownManagementForm.h"
 #include "TClimateForecastForm.h"
+#include "TSoilsForm.h"
+#include "TMetStationForm.h"
 #include "Utilities.h"
 #include <general\string_functions.h>
 
 using namespace boost::gregorian;
+
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -40,6 +43,8 @@ __fastcall TWebSession::TWebSession (TComponent* Owner)
    reportsForm = NULL;
    dropDownManagementForm = NULL;
    climateForecastForm = NULL;
+   soilsForm = NULL;
+   metStationForm = NULL;
    }
 //---------------------------------------------------------------------------
 // Session has been created - set ourselves up.
@@ -56,6 +61,8 @@ void TWebSession::setup(TIWApplication* webApp)
          if (mdbName == "")
             throw runtime_error("No MDB file has been specified.");
          AnsiString mdbFileName = GServerController->FilesDir + mdbName;
+         if (!FileExists(mdbFileName))
+            throw runtime_error("Cannot find file: " + string(mdbFileName.c_str()));
          data = new Data;
          data->open(mdbFileName.c_str());
          }
@@ -114,6 +121,13 @@ std::string TWebSession::getFilesDir(void)
    {
    string filesDir = GServerController->FilesDir.c_str();
    return filesDir.substr(0, filesDir.length()-1); // remove trailing backslash
+   }
+//---------------------------------------------------------------------------
+// Allow the user to do a save? Return true if a save is allowed
+//---------------------------------------------------------------------------
+bool TWebSession::isSaveAllowed(void)
+   {
+   return !Str_i_Eq(userName, "visitor");
    }
 //---------------------------------------------------------------------------
 // Show the default form
@@ -294,7 +308,7 @@ void TWebSession::showReportsForm(const std::string& userName,
          reportsForm = new TReportsForm(this);
          setupForm(reportsForm);
          }
-      reportsForm->setup(this, data, userName, readOnly, fromUserManagement);
+      reportsForm->setup(this, data, userName, fromUserManagement);
       show(reportsForm);
       }
    catch (const exception& err)
@@ -413,6 +427,9 @@ int TWebSession::setupForm(TIWAppForm* form)
       drawMenuHeader(form, itemIndex++, "Administration");
       drawMenuItem(form, itemIndex++, "con/par gen.", "text_code_c.gif", onMenuItemClick);
       drawMenuItem(form, itemIndex++, "ApsimReport gen.", "text_code.gif", onMenuItemClick);
+      drawMenuItem(form, itemIndex++, "Soils", "soils.gif", onMenuItemClick);
+      drawMenuItem(form, itemIndex++, "Met Stations", "metstations.gif", onMenuItemClick);
+
       drawMenuItem(form, itemIndex++, "DropDowns", "element_add.gif", onMenuItemClick);
       drawMenuItem(form, itemIndex++, "SQL", "data.gif", onMenuItemClick);
       }
@@ -448,6 +465,11 @@ void TWebSession::processClickItem(AnsiString caption)
       showClimateForecastForm();
    else if (caption == "SQL")
       showSQLForm();
+   else if (caption == "Soils")
+      showSoilsForm();
+   else if (caption == "Met Stations")
+      showMetStationsForm();
+
    else
       showPaddockForm(userName, caption.c_str(), true, false);
    }
@@ -487,5 +509,124 @@ bool TWebSession::existProperties(const std::string& userName,
    for (unsigned i = 0; i != dataNames.size() && ok; i++)
       ok = (ok && data->getProperty(userName, paddockName, dataNames[i]) != "");
    return ok;
+   }
+//---------------------------------------------------------------------------
+// Show the soils form.
+//---------------------------------------------------------------------------
+void TWebSession::showSoilsForm()
+   {
+   try
+      {
+      if (soilsForm == NULL)
+         {
+         soilsForm = new TSoilsForm(webApplication);
+         setupForm(soilsForm);
+         }
+      soilsForm->setup(this, data);
+      show(soilsForm);
+      }
+   catch (const exception& err)
+      {
+      showMessage(err.what());
+      }
+   }
+//---------------------------------------------------------------------------
+// Show the met stations form.
+//---------------------------------------------------------------------------
+void TWebSession::showMetStationsForm()
+   {
+   try
+      {
+      if (metStationForm == NULL)
+         {
+         metStationForm = new TMetStationForm(webApplication);
+         setupForm(metStationForm);
+         }
+
+      metStationForm->setup(this, data);
+      show(metStationForm);
+      }
+   catch (const exception& err)
+      {
+      showMessage(err.what());
+      }
+   }
+//--------------------------------------------------------
+// User has clicked on Generate report.
+//----------------------------------------------------------
+void TWebSession::onGenerateReportClick(AnsiString userName,
+                                        AnsiString paddockName,
+                                        AnsiString reportName,
+                                        AnsiString reportDescription,
+                                        const Data::Properties& properties,
+                                        bool emailFiles)
+   {
+   currentPaddockName = paddockName;
+   currentReportName = reportName;
+   currentReportDescription = reportDescription;
+   currentUserName = userName;
+   if (reportDescription == "")
+      {
+      if (emailFiles)
+         showInfoForm("Enter a descriptive name for the report:",
+                      "Enter your email address:", "", "", createReportCallback);
+      else
+         showInfoForm("Enter a descriptive name for the report:", "", "", "", createReportCallback);
+      }
+   else if (emailFiles)
+      showInfoForm("", "Enter your email address:", "", "", createReportCallback);
+
+   else
+      generateReportFilesAndEmail("", properties);
+   }
+//---------------------------------------------------------------------------
+// User has finished entering an description and optionally an email address - send files.
+//---------------------------------------------------------------------------
+void __fastcall TWebSession::createReportCallback(bool okClicked,
+                                                  AnsiString text1,
+                                                  AnsiString text2,
+                                                  AnsiString text3,
+                                                  AnsiString text4)
+   {
+   showPaddockForm(currentUserName.c_str(), currentPaddockName.c_str(), false, false);
+
+   if (okClicked)
+      {
+      if (text1 != "")
+         currentReportDescription = text1;
+
+      Data::Properties properties;
+      generateReportFilesAndEmail(text2.c_str(), properties);
+      }
+   }
+//---------------------------------------------------------------------------
+// generate report files and send to the specified email address.
+//---------------------------------------------------------------------------
+void TWebSession::generateReportFilesAndEmail(AnsiString emailAddress,
+                                              const Data::Properties& properties)
+   {
+   if (isSaveAllowed())
+      {
+      try
+         {
+         bool generateTempFiles = Str_i_Eq(getApplicationName(), "Afloman");
+         generateReport(emailAddress.c_str(), this, data, currentUserName.c_str(), currentPaddockName.c_str(),
+                        currentReportName.c_str(),
+                        properties, generateTempFiles, currentReportDescription.c_str());
+         }
+      catch (const exception& err)
+         {
+         showMessage(err.what());
+         }
+      }
+   else
+      showMessage("A guest is not allowed to create a new report.");
+   }
+//---------------------------------------------------------------------------
+// Return a URL to the help page.
+//---------------------------------------------------------------------------
+void TWebSession::showHelp(void)
+   {
+   newWindow(data->getHelpUrl().c_str(), "Help", true);
    }
 

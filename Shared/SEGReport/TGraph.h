@@ -22,6 +22,7 @@ class PACKAGE TGraph : public TgtQRChart
    {
    private:
       AnsiString title;
+      AnsiString subTitle;
       AnsiString leftAxisTitle;
       AnsiString topAxisTitle;
       AnsiString rightAxisTitle;
@@ -38,15 +39,12 @@ class PACKAGE TGraph : public TgtQRChart
       AnsiString dataSeriesNumbers;
       vector<string> seriesNames;
 
-      vector<std::string> sourceNames;
-
       virtual void __fastcall DefineProperties(TFiler *Filer);
       void __fastcall LoadStringProperty(TReader *Reader);
       void __fastcall StoreStringProperty(TWriter *Writer);
       void __fastcall setScientificScaling(bool scaling);
       void __fastcall setSeriesNumbers(AnsiString seriesNumbers);
 
-      void refresh(void);
       bool __fastcall onBeforeAdd(TChartSeries* series);
       virtual void __fastcall Loaded(void);
       void replaceChartMacros(void);
@@ -56,7 +54,7 @@ class PACKAGE TGraph : public TgtQRChart
       // using the 1st chart series as a template, create a new chart series for
       // each data series.
       //---------------------------------------------------------------------------
-      void createTemplatedChartSeries(void);
+      virtual void createChartSeries(void);
 
       //---------------------------------------------------------------------------
       // remove all templated chart series
@@ -73,6 +71,7 @@ class PACKAGE TGraph : public TgtQRChart
       //---------------------------------------------------------------------------
       void removeDataChangeSubscriptions(void);
    protected:
+      void refresh(void);
    public:
       __fastcall TGraph(TComponent* Owner);
       __fastcall ~TGraph(void);

@@ -4,18 +4,16 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="yp.dll"/>
-    <OBJFILES value="yp.obj TYPServerController.obj TYPWebSession.obj TMainForm.obj 
-      TYPSetupForm.obj TYPPaddockForm.obj TYPNitrogenReportForm.obj 
-      TMetStationForm.obj TSoilsForm.obj"/>
+    <OBJFILES value="yp.obj TYPServerController.obj TYPWebSession.obj TYPSetupForm.obj 
+      TYPPaddockForm.obj TYPNitrogenReportForm.obj"/>
     <RESFILES value="yp.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TYPServerController.dfm TYPWebSession.dfm TMainForm.dfm 
-      TYPSetupForm.dfm TYPPaddockForm.dfm TYPNitrogenReportForm.dfm 
-      TMetStationForm.dfm TSoilsForm.dfm"/>
-    <LIBFILES value="..\..\Shared\general\general.lib 
+    <RESDEPEN value="$(RESFILES) TYPServerController.dfm TYPWebSession.dfm TYPSetupForm.dfm 
+      TYPPaddockForm.dfm TYPNitrogenReportForm.dfm"/>
+    <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\general\general_vcl.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Tms\wininet.lib&quot; 
-      FarmWebLib.lib ..\..\Shared\general\general_vcl.lib 
+      FarmWebLib.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
       &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot;"/>
     <LIBRARIES value="IW7TMSGRIDC6.lib IntrawebDB_70_60.lib IW7TMSC6.lib Intraweb_70_60.lib 
@@ -61,20 +59,17 @@
       <FILE FILENAME="yp.res" FORMNAME="" UNITNAME="yp.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="yp.cpp" FORMNAME="" UNITNAME="yp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Tms\wininet.lib" FORMNAME="" UNITNAME="wininet.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FarmWebLib.lib" FORMNAME="" UNITNAME="FarmWebLib.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TYPServerController.cpp" FORMNAME="ServerController" UNITNAME="TYPServerController" CONTAINERID="CCompiler" DESIGNCLASS="TIWServerControllerBase" LOCALCOMMAND=""/>
       <FILE FILENAME="TYPWebSession.cpp" FORMNAME="YPWebSession" UNITNAME="TYPWebSession" CONTAINERID="CCompiler" DESIGNCLASS="TIWUserSessionBase" LOCALCOMMAND=""/>
-      <FILE FILENAME="TMainForm.cpp" FORMNAME="YPMainForm" UNITNAME="TMainForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TYPSetupForm.cpp" FORMNAME="YPSetupForm" UNITNAME="TYPSetupForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TYPPaddockForm.cpp" FORMNAME="YPPaddockForm" UNITNAME="TYPPaddockForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
       <FILE FILENAME="TYPNitrogenReportForm.cpp" FORMNAME="YPNitrogenReportForm" UNITNAME="TYPNitrogenReportForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
-      <FILE FILENAME="TMetStationForm.cpp" FORMNAME="MetStationForm" UNITNAME="TMetStationForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
-      <FILE FILENAME="TSoilsForm.cpp" FORMNAME="SoilsForm" UNITNAME="TSoilsForm" CONTAINERID="CCompiler" DESIGNCLASS="TIWAppForm" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

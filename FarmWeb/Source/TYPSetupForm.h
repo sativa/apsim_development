@@ -49,10 +49,10 @@ class TYPSetupForm: public TIWAppForm
       TIWComboBox *RegionCombo;
       TIWLabel *IWLabel7;
       TIWLabel *IWLabel6;
-   TIWImageFile *IWImageFile1;
-   TIWLink *SaveButton;
-   TIWLink *BackButton;
-   TIWImageFile *IWImageFile2;
+      TIWImageFile *IWImageFile1;
+      TIWLink *SaveButton;
+      TIWLink *BackButton;
+      TIWImageFile *IWImageFile2;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall BackButtonClick(TObject *Sender);
       void __fastcall RegionComboChange(TObject *Sender);
@@ -67,16 +67,6 @@ class TYPSetupForm: public TIWAppForm
       // populate the region combo
       //---------------------------------------------------------------------------
       void populateRegionCombo();
-
-      //---------------------------------------------------------------------------
-      // populate the station number combo
-      //---------------------------------------------------------------------------
-      void populateStationNumberCombo();
-
-      //---------------------------------------------------------------------------
-      // populate the soil type combo
-      //---------------------------------------------------------------------------
-      void populateSoilTypeCombo();
 
       //---------------------------------------------------------------------------
       // Populate the ResetGrid.
@@ -105,7 +95,6 @@ class TYPSetupForm: public TIWAppForm
                  Data* d,
                  const std::string& userName,
                  const std::string& paddockName,
-                 bool readOnly,
                  bool fromGrowerManagement);
 
    };

@@ -20,6 +20,9 @@
 #include "IWTMSCtrls.hpp"
 #include "IWBaseHTMLControl.hpp"
 #include "IWCompRectangle.hpp"
+#include "IWCompCheckbox.hpp"
+#include "IWExtCtrls.hpp"
+#include "IWHTMLControls.hpp"
 class Data;
 class TWebSession;
 //---------------------------------------------------------------------------
@@ -33,31 +36,34 @@ class TAfloPaddockForm: public TIWAppForm
       TTIWDatePicker *PlantingDate;
       TIWLabel *IWLabel4;
       TIWLabel *IWLabel5;
-      TIWButton *RainfallEntryButton;
-      TIWLabel *UserLabel;
-      TIWButton *SaveButton;
       TIWButton *SoilTempButton;
       TIWComboBox *CultivarCombo;
       TIWLabel *IWLabel1;
       TIWComboBox *WeatherStationCombo;
       TIWComboBox *SoilTypeCombo;
-      TIWComboBox *SoilDepthCombo;
-      TIWLabel *IWLabel6;
       TIWComboBox *StartingSWCombo;
       TIWButton *AirTempButton;
-      TTIWOutlookBar *Bar;
-      TIWButton *EmailFilesButton;
-      TIWEdit *EmailFilesEdit;
+      TIWRectangle *IWRectangle1;
+      TIWLabel *UserLabel;
       TIWComboBox *ReportCombo;
-      TIWButton *RequestButton;
+      TIWImageFile *IWImageFile1;
+      TIWLink *SaveButton;
+      TIWLink *RainfallButton;
+      TIWImageFile *IWImageFile4;
+      TIWImageFile *IWImageFile5;
+      TIWLink *CreateReportButton;
+      TIWCheckBox *EmailFilesCheckBox;
       TIWLabel *IWLabel7;
       TIWLabel *IWLabel8;
+      TIWLabel *IWLabel9;
+   TIWImageFile *HelpImage;
+   TIWLink *HelpButton;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
-      void __fastcall RequestButtonClick(TObject *Sender);
+      void __fastcall CreateReportButtonClick(TObject *Sender);
       void __fastcall SoilTempButtonClick(TObject *Sender);
       void __fastcall AirTempButtonClick(TObject *Sender);
-      void __fastcall EmailFilesButtonClick(TObject *Sender);
+   void __fastcall HelpButtonClick(TObject *Sender);
    private:
       TWebSession* webSession;
       Data* data;

@@ -42,13 +42,13 @@ void TYPNitrogenReportForm::setup(TYPWebSession* session,
                                   Data* d,
                                   const string& userN,
                                   const string& paddockN,
-                                  const string& emailaddress)
+                                  TReportCallback callb)
    {
    webSession = session;
    data = d;
    userName = userN;
    paddockName = paddockN;
-   emailAddress = emailaddress;
+   callback = callb;
    }
 //---------------------------------------------------------------------------
 // User has clicked back - call callback
@@ -62,17 +62,13 @@ void __fastcall TYPNitrogenReportForm::BackButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TYPNitrogenReportForm::OkButtonClick(TObject *Sender)
    {
+   Data::Properties properties;
    if (allOk())
       {
       try
          {
-         Data::Properties properties;
          saveFertGrid(properties);
-
-         generateReport(emailAddress, webSession, data, userName, paddockName,
-                        "Nitrogen comparison report", properties, false, true,
-                        ReportDescription->Text.c_str());
-         webSession->show(this);
+         callback(true, ReportDescription->Text, properties);
          }
       catch (const exception& err)
          {

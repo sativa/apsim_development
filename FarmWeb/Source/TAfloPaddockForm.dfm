@@ -1,8 +1,8 @@
 object AfloPaddockForm: TAfloPaddockForm
   Left = 0
   Top = 0
-  Width = 857
-  Height = 519
+  Width = 1007
+  Height = 659
   ConnectionMode = cmAny
   SupportedBrowsers = [brIE, brNetscape7, brOpera, brNetscape6]
   BrowserSecurityCheck = True
@@ -11,15 +11,11 @@ object AfloPaddockForm: TAfloPaddockForm
   LockUntilLoaded = True
   LockOnSubmit = True
   ShowHint = True
-  UpdateMode = umAll
-  DesignSize = (
-    857
-    519)
-  DesignLeft = 217
-  DesignTop = 226
+  DesignLeft = 338
+  DesignTop = 148
   object IWLabel2: TIWLabel
-    Left = 146
-    Top = 216
+    Left = 170
+    Top = 248
     Width = 64
     Height = 19
     Cursor = crAuto
@@ -40,8 +36,8 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object IWLabel3: TIWLabel
-    Left = 146
-    Top = 184
+    Left = 170
+    Top = 216
     Width = 130
     Height = 19
     Cursor = crAuto
@@ -62,8 +58,8 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object PlantingDate: TTIWDatePicker
-    Left = 312
-    Top = 184
+    Left = 336
+    Top = 216
     Width = 209
     Height = 21
     Cursor = crAuto
@@ -86,6 +82,8 @@ object AfloPaddockForm: TAfloPaddockForm
     DateFormat = dfEU
     DateSep = dsSlash
     Day = 16
+    DropDownImage.Stretch = False
+    DropDownImage.Frame = 0
     EditorEnabled = True
     Enabled = True
     Flat = False
@@ -139,8 +137,8 @@ object AfloPaddockForm: TAfloPaddockForm
     Year = 2003
   end
   object IWLabel4: TIWLabel
-    Left = 146
-    Top = 88
+    Left = 170
+    Top = 120
     Width = 68
     Height = 19
     Cursor = crAuto
@@ -161,8 +159,8 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object IWLabel5: TIWLabel
-    Left = 146
-    Top = 248
+    Left = 170
+    Top = 280
     Width = 155
     Height = 19
     Cursor = crAuto
@@ -182,75 +180,9 @@ object AfloPaddockForm: TAfloPaddockForm
     Caption = 'Soil water at planting:'
     RawText = False
   end
-  object RainfallEntryButton: TIWButton
-    Left = 232
-    Top = 304
-    Width = 153
-    Height = 25
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Enter Rainfall'
-    DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'IWButton1'
-    ScriptEvents = <>
-    TabOrder = 0
-    OnClick = RainfallEntryButtonClick
-  end
-  object UserLabel: TIWLabel
-    Left = 144
-    Top = 8
-    Width = 372
-    Height = 19
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Alignment = taLeftJustify
-    BGColor = clNone
-    Font.Color = clNone
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = []
-    NoWrap = False
-    FriendlyName = 'IWLabel1'
-    Caption = 'Paddock details for user xxx and paddock yyy.'
-    RawText = False
-  end
-  object SaveButton: TIWButton
-    Left = 536
-    Top = 248
-    Width = 129
-    Height = 25
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Save changes'
-    DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'IWButton1'
-    ScriptEvents = <>
-    TabOrder = 0
-    OnClick = SaveButtonClick
-  end
   object SoilTempButton: TIWButton
-    Left = 400
-    Top = 304
+    Left = 176
+    Top = 328
     Width = 153
     Height = 25
     Cursor = crAuto
@@ -271,8 +203,8 @@ object AfloPaddockForm: TAfloPaddockForm
     OnClick = SoilTempButtonClick
   end
   object CultivarCombo: TIWComboBox
-    Left = 312
-    Top = 216
+    Left = 336
+    Top = 248
     Width = 209
     Height = 21
     Cursor = crAuto
@@ -302,8 +234,8 @@ object AfloPaddockForm: TAfloPaddockForm
     FriendlyName = 'CultivarCombo'
   end
   object IWLabel1: TIWLabel
-    Left = 146
-    Top = 56
+    Left = 170
+    Top = 88
     Width = 160
     Height = 19
     Cursor = crAuto
@@ -324,38 +256,7 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object WeatherStationCombo: TIWComboBox
-    Left = 312
-    Top = 56
-    Width = 209
-    Height = 21
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    BGColor = clNone
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FocusColor = clNone
-    AutoHideOnMenuActivation = False
-    ItemsHaveValues = False
-    NoSelectionText = '-- No Selection --'
-    Required = False
-    RequireSelection = True
-    ScriptEvents = <>
-    UseSize = False
-    DoSubmitValidation = True
-    Editable = True
-    NonEditableAsLabel = True
-    TabOrder = 16
-    ItemIndex = -1
-    Sorted = False
-    FriendlyName = 'VarietyCombo'
-  end
-  object SoilTypeCombo: TIWComboBox
-    Left = 312
+    Left = 336
     Top = 88
     Width = 209
     Height = 21
@@ -385,8 +286,8 @@ object AfloPaddockForm: TAfloPaddockForm
     Sorted = False
     FriendlyName = 'VarietyCombo'
   end
-  object SoilDepthCombo: TIWComboBox
-    Left = 312
+  object SoilTypeCombo: TIWComboBox
+    Left = 336
     Top = 120
     Width = 209
     Height = 21
@@ -416,31 +317,9 @@ object AfloPaddockForm: TAfloPaddockForm
     Sorted = False
     FriendlyName = 'VarietyCombo'
   end
-  object IWLabel6: TIWLabel
-    Left = 146
-    Top = 120
-    Width = 77
-    Height = 19
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Alignment = taRightJustify
-    BGColor = clNone
-    Font.Color = clNone
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = []
-    NoWrap = False
-    FriendlyName = 'IWLabel1'
-    Caption = 'Soil depth:'
-    RawText = False
-  end
   object StartingSWCombo: TIWComboBox
-    Left = 312
-    Top = 248
+    Left = 336
+    Top = 280
     Width = 209
     Height = 21
     Cursor = crAuto
@@ -470,8 +349,8 @@ object AfloPaddockForm: TAfloPaddockForm
     FriendlyName = 'VarietyCombo'
   end
   object AirTempButton: TIWButton
-    Left = 568
-    Top = 304
+    Left = 344
+    Top = 328
     Width = 153
     Height = 25
     Cursor = crAuto
@@ -491,103 +370,54 @@ object AfloPaddockForm: TAfloPaddockForm
     TabOrder = 0
     OnClick = AirTempButtonClick
   end
-  object Bar: TTIWOutlookBar
+  object IWRectangle1: TIWRectangle
     Left = 0
     Top = 0
-    Width = 129
-    Height = 490
+    Width = 1007
+    Height = 38
     Cursor = crAuto
-    Anchors = [akLeft, akTop, akBottom]
+    Align = alTop
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
     RenderSize = True
-    ActivePanel = 0
-    BackgroundGradientDirection = gdVertical
-    BorderSize = 1
-    ButtonColor = clBtnFace
-    ButtonColorTo = clNone
-    ButtonFont.Color = clWebBLACK
-    ButtonFont.FontName = 'Arial'
-    ButtonFont.FontFamily = 'Arial, Sans-Serif, Verdana'
-    ButtonFont.Size = 12
-    ButtonFont.Style = []
-    ButtonGradientDirection = gdHorizontal
-    ButtonHeight = 20
-    Color = clWebBEIGE
-    ColorTo = clWebLIGHTGRAY
-    HoverColor = clWebRED
-    ImageBorderColor = clInfoBk
-    ImageHeight = 32
-    ImageWidth = 32
-    ImageMargin = 2
-    ItemFont.Color = clWebBLACK
-    ItemFont.FontName = 'Arial'
-    ItemFont.FontFamily = 'Arial, Sans-Serif, Verdana'
-    ItemFont.Size = 12
-    ItemFont.Style = []
-    ItemHeight = 90
-    ItemWidth = 40
-    LabelMargin = 0
-    OpenCloseSpeed = 3
-    Panels = <>
-    UseTemplate = False
-  end
-  object EmailFilesButton: TIWButton
-    Left = 144
-    Top = 464
-    Width = 161
-    Height = 25
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = True
-    Caption = 'Email report files to:'
-    DoSubmitValidation = True
-    Color = clBtnFace
     Font.Color = clNone
     Font.Size = 10
     Font.Style = []
-    FriendlyName = 'RequestButton'
-    ScriptEvents = <>
-    TabOrder = 0
-    OnClick = EmailFilesButtonClick
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    FriendlyName = 'IWRectangle1'
+    Color = clWebBEIGE
+    Alignment = taLeftJustify
+    VAlign = vaMiddle
   end
-  object EmailFilesEdit: TIWEdit
-    Left = 144
-    Top = 440
-    Width = 265
-    Height = 21
+  object UserLabel: TIWLabel
+    Left = 170
+    Top = 56
+    Width = 455
+    Height = 19
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
-    RenderSize = True
+    RenderSize = False
     Alignment = taLeftJustify
     BGColor = clNone
-    FocusColor = clNone
-    DoSubmitValidation = True
-    Editable = True
-    NonEditableAsLabel = True
     Font.Color = clNone
+    Font.FontName = 'Arial'
     Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'EmailFilesEdit'
-    MaxLength = 0
-    ReadOnly = False
-    Required = False
-    ScriptEvents = <>
-    TabOrder = 20
-    PasswordPrompt = False
+    Font.Style = [fsBold]
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'In crop management for user: xxx and paddock: yyy.'
+    RawText = False
   end
   object ReportCombo: TIWComboBox
-    Left = 144
-    Top = 388
-    Width = 201
+    Left = 342
+    Top = 11
+    Width = 219
     Height = 21
     Cursor = crAuto
     IW50Hint = False
@@ -610,77 +440,276 @@ object AfloPaddockForm: TAfloPaddockForm
     DoSubmitValidation = True
     Editable = True
     NonEditableAsLabel = True
-    TabOrder = 21
+    TabOrder = 18
     ItemIndex = -1
     Sorted = False
     FriendlyName = 'ReportCombo'
   end
-  object RequestButton: TIWButton
-    Left = 144
-    Top = 410
-    Width = 185
-    Height = 25
+  object IWImageFile1: TIWImageFile
+    Left = 168
+    Top = 8
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\disk_blue.gif'
+  end
+  object SaveButton: TIWLink
+    Left = 195
+    Top = 11
+    Width = 46
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Save'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = SaveButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object RainfallButton: TIWLink
+    Left = 275
+    Top = 11
+    Width = 70
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Rainfall'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = RainfallEntryButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object IWImageFile4: TIWImageFile
+    Left = 248
+    Top = 8
+    Width = 21
+    Height = 22
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\rainfall.gif'
+  end
+  object IWImageFile5: TIWImageFile
+    Left = 568
+    Top = 8
+    Width = 24
+    Height = 24
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
+    DoSubmitValidation = True
+    ScriptEvents = <>
+    TabOrder = 22
+    UseSize = False
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\column-chart.gif'
+  end
+  object CreateReportButton: TIWLink
+    Left = 595
+    Top = 11
+    Width = 110
+    Height = 17
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Create report'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = CreateReportButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object EmailFilesCheckBox: TIWCheckBox
+    Left = 704
+    Top = 8
+    Width = 121
+    Height = 21
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Email con/par'
+    Editable = True
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    ScriptEvents = <>
+    DoSubmitValidation = True
+    Style = stNormal
+    TabOrder = 32
+    Checked = False
+    FriendlyName = 'EmailFilesCheckBox'
+  end
+  object IWLabel7: TIWLabel
+    Left = 608
+    Top = 88
+    Width = 324
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taLeftJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = 'To request a new report for this paddock'
+    RawText = False
+  end
+  object IWLabel8: TIWLabel
+    Left = 630
+    Top = 112
+    Width = 265
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taRightJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = ' select a report type and click on the'
+    RawText = False
+  end
+  object IWLabel9: TIWLabel
+    Left = 630
+    Top = 136
+    Width = 259
+    Height = 19
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Alignment = taRightJustify
+    BGColor = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = []
+    NoWrap = False
+    FriendlyName = 'IWLabel1'
+    Caption = #39'create report'#39' button at top of page.'
+    RawText = False
+  end
+  object HelpImage: TIWImageFile
+    Left = 8
+    Top = 8
+    Width = 24
+    Height = 24
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
     RenderSize = True
-    Caption = 'Generate report'
+    AutoSize = False
+    BorderOptions.Color = clNone
+    BorderOptions.Width = 0
     DoSubmitValidation = True
-    Color = clBtnFace
-    Font.Color = clNone
-    Font.Size = 10
-    Font.Style = []
-    FriendlyName = 'RequestButton'
     ScriptEvents = <>
-    TabOrder = 0
-    OnClick = RequestButtonClick
+    TabOrder = 22
+    UseSize = True
+    FriendlyName = 'IWImageFile1'
+    ImageFile.Filename = 'C:\MyData\development\FarmWeb\Source\Files\help2.gif'
   end
-  object IWLabel7: TIWLabel
-    Left = 146
-    Top = 344
-    Width = 546
-    Height = 19
+  object HelpButton: TIWLink
+    Left = 35
+    Top = 11
+    Width = 46
+    Height = 17
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
     RenderSize = False
-    Alignment = taRightJustify
-    BGColor = clNone
-    Font.Color = clNone
+    Caption = 'Help'
+    Color = clNone
+    Font.Color = clWebBLUE
     Font.FontName = 'Arial'
     Font.Size = 10
-    Font.Style = []
-    NoWrap = False
-    FriendlyName = 'IWLabel1'
-    Caption = 
-      'To request a new report be generated for this paddock, select a ' +
-      'report type'
-    RawText = False
-  end
-  object IWLabel8: TIWLabel
-    Left = 146
-    Top = 360
-    Width = 247
-    Height = 19
-    Cursor = crAuto
-    IW50Hint = False
-    ParentShowHint = False
-    ShowHint = True
-    ZIndex = 0
-    RenderSize = False
-    Alignment = taRightJustify
-    BGColor = clNone
-    Font.Color = clNone
-    Font.FontName = 'Arial'
-    Font.Size = 10
-    Font.Style = []
-    NoWrap = False
-    FriendlyName = 'IWLabel1'
-    Caption = 'and hit the generate report button.'
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'SaveButton'
+    OnClick = HelpButtonClick
+    TabOrder = 23
     RawText = False
   end
 end

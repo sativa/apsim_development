@@ -1,8 +1,8 @@
 object PropertyForm: TPropertyForm
-  Left = 606
-  Top = 152
-  Width = 288
-  Height = 546
+  Left = 607
+  Top = 153
+  Width = 310
+  Height = 562
   Caption = 'PropertyForm'
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
@@ -11,13 +11,14 @@ object PropertyForm: TPropertyForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 120
   TextHeight = 16
   object AdvPanelGroup1: TAdvPanelGroup
     Left = 0
     Top = 0
-    Width = 280
-    Height = 513
+    Width = 302
+    Height = 528
     Align = alClient
     BevelOuter = bvNone
     Color = clWhite
@@ -52,7 +53,7 @@ object PropertyForm: TPropertyForm
     Caption.Font.Height = -13
     Caption.Font.Name = 'Verdana'
     Caption.Font.Style = []
-    Caption.Height = 20
+    Caption.Height = 25
     Caption.Indent = 2
     Caption.MinMaxButton = False
     Caption.MinMaxButtonColor = clWhite
@@ -153,9 +154,9 @@ object PropertyForm: TPropertyForm
     FullHeight = 18
     object AdvancedPanel: TAdvPanel
       Left = 8
-      Top = 417
-      Width = 264
-      Height = 20
+      Top = 425
+      Width = 286
+      Height = 25
       BevelOuter = bvNone
       BorderStyle = bsSingle
       Color = clInfoBk
@@ -184,7 +185,7 @@ object PropertyForm: TPropertyForm
       Caption.Font.Height = -13
       Caption.Font.Name = 'MS Sans Serif'
       Caption.Font.Style = []
-      Caption.Height = 20
+      Caption.Height = 25
       Caption.Indent = 0
       Caption.MinMaxButton = True
       Caption.MinMaxButtonColor = clWhite
@@ -218,9 +219,9 @@ object PropertyForm: TPropertyForm
       TopIndent = 0
       URLColor = clBlue
       DesignSize = (
-        260
-        16)
-      FullHeight = 293
+        282
+        21)
+      FullHeight = 310
       object Label2: TLabel
         Left = 8
         Top = 24
@@ -256,7 +257,7 @@ object PropertyForm: TPropertyForm
       object NameEdit: TEdit
         Left = 8
         Top = 42
-        Width = 210
+        Width = 184
         Height = 24
         Anchors = [akLeft, akTop, akRight]
         BevelKind = bkFlat
@@ -268,7 +269,7 @@ object PropertyForm: TPropertyForm
       object SourceCombo: TComboBox
         Left = 8
         Top = 95
-        Width = 210
+        Width = 184
         Height = 24
         BevelKind = bkSoft
         Anchors = [akLeft, akTop, akRight]
@@ -279,7 +280,7 @@ object PropertyForm: TPropertyForm
       end
       object ToolbarCheckBox: TCheckBox
         Left = 9
-        Top = 261
+        Top = 253
         Width = 119
         Height = 21
         Alignment = taLeftJustify
@@ -293,7 +294,7 @@ object PropertyForm: TPropertyForm
       object SortFieldsEdit: TEdit
         Left = 8
         Top = 154
-        Width = 210
+        Width = 184
         Height = 26
         Anchors = [akLeft, akTop, akRight]
         BevelKind = bkSoft
@@ -305,7 +306,7 @@ object PropertyForm: TPropertyForm
       object GroupByEdit: TEdit
         Left = 7
         Top = 218
-        Width = 211
+        Width = 185
         Height = 26
         Anchors = [akLeft, akTop, akRight]
         BevelKind = bkSoft
@@ -314,12 +315,25 @@ object PropertyForm: TPropertyForm
         Visible = False
         OnExit = GroupByEditExit
       end
+      object WizardCheckBox: TCheckBox
+        Left = 9
+        Top = 277
+        Width = 119
+        Height = 21
+        Alignment = taLeftJustify
+        Caption = 'In wizard?'
+        Ctl3D = True
+        ParentCtl3D = False
+        TabOrder = 5
+        Visible = False
+        OnClick = WizardCheckBoxClick
+      end
     end
     object PropertyPanel: TAdvPanel
       Left = 8
       Top = 8
-      Width = 264
-      Height = 401
+      Width = 286
+      Height = 409
       Color = clInfoBk
       TabOrder = 2
       UseDockManager = True
@@ -346,7 +360,7 @@ object PropertyForm: TPropertyForm
       Caption.Font.Height = -13
       Caption.Font.Name = 'MS Sans Serif'
       Caption.Font.Style = []
-      Caption.Height = 20
+      Caption.Height = 25
       Caption.Indent = 0
       Caption.MinMaxButton = True
       Caption.MinMaxButtonColor = clWhite
@@ -379,7 +393,7 @@ object PropertyForm: TPropertyForm
       TextVAlign = tvaTop
       TopIndent = 0
       URLColor = clBlue
-      FullHeight = 297
+      FullHeight = 38
     end
   end
 end

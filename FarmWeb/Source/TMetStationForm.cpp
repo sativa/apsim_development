@@ -168,6 +168,7 @@ void __fastcall TMetStationForm::ImportButtonClick(TObject *Sender)
                stripLeadingTrailing(values[1], " ");
                unsigned number = lexical_cast<unsigned> (values[0]);
                string name = values[1];
+               data->deleteMetStation(RegionCombo->Text.c_str(), name);
                data->addMetStation(RegionCombo->Text.c_str(), name, number);
                }
             }

@@ -45,6 +45,15 @@ void TInfoForm::setup(AnsiString prompt1,
    Prompt4->Visible = (prompt4 != "");
    Edit4->Visible = (prompt4 != "");
 
+   if (!Edit1-Visible)
+      Edit1->Text = "";
+   if (!Edit2-Visible)
+      Edit2->Text = "";
+   if (!Edit3-Visible)
+      Edit3->Text = "";
+   if (!Edit4-Visible)
+      Edit4->Text = "";
+
    onClickNotify = callback;
    }
 //---------------------------------------------------------------------------
