@@ -176,6 +176,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = executeSearchReplaceReportVariables(arguments) || ok;
       else if (routineName == "AddParamFileToModule")
          ok = executeAddParamFileToModule(arguments) || ok;
+      else if (routineName == "RemovePeriodsInReportAndTracker")
+         ok = removePeriodsInReportAndTracker(arguments) || ok;
 
       if (!ok)
          return false;
@@ -662,3 +664,54 @@ bool ControlFileConverter::executeAddParamFileToModule(const string& arguments) 
 
    return con->addParameterFileReference(conSection, arg1, arg2, arg3);
    }
+//---------------------------------------------------------------------------
+// Remove any period characters in tracker variables.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::removePeriodsInReportAndTracker(const string& arguments) throw(runtime_error)
+   {
+   // change report variables first.
+   vector<string> instanceNames;
+   con->getInstances(conSection, "report", instanceNames);
+   bool someHaveChanged = false;
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      {
+      vector<string> variables;
+      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
+      for (unsigned v = 0; v != variables.size(); v++)
+         {
+         unsigned posPeriod = variables[v].find('.');
+         someHaveChanged = (replaceAll(variables[v], posPeriod+1, ".", "_") || someHaveChanged);
+         }
+
+      if (someHaveChanged)
+         {
+         con->setParameterValues(conSection, instanceNames[i], "variable",
+                                 "", variables);
+         }
+      }
+
+   // change report variables first.
+   bool someHaveChanged2 = false;
+   instanceNames.erase(instanceNames.begin(), instanceNames.end());
+   con->getInstances(conSection, "tracker", instanceNames);
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      {
+      vector<string> variables;
+      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
+      for (unsigned v = 0; v != variables.size(); v++)
+         {
+         unsigned posAs = variables[v].find(" as ");
+         someHaveChanged2 = (replaceAll(variables[v], posAs, ".", "_") || someHaveChanged);
+         }
+
+      if (someHaveChanged2)
+         {
+         con->setParameterValues(conSection, instanceNames[i], "variable",
+                                 "", variables);
+         }
+      }
+
+
+   return (someHaveChanged || someHaveChanged2);
+   }
+

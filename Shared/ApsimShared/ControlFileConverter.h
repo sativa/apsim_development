@@ -128,6 +128,11 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       bool executeAddParamFileToModule(const string& arguments) throw(runtime_error);
 
+      //---------------------------------------------------------------------------
+      // Remove any period characters in tracker variables.
+      //---------------------------------------------------------------------------
+      bool removePeriodsInReportAndTracker(const string& arguments) throw(runtime_error);
+
    };
 
 // ------------------------------------------------------------------

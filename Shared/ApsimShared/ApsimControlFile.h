@@ -229,7 +229,7 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       // write new module= line to control file.
       // ------------------------------------------------------------------
-      void addModuleLine(const string& section,
+      bool addModuleLine(const string& section,
                          const string& moduleName,
                          const string& instanceName,
                          const string& parFileName,

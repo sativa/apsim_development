@@ -738,7 +738,7 @@ string createModuleLine(vector<ParamFile>& paramFiles)
 // ------------------------------------------------------------------
 // write new module= line to control file.
 // ------------------------------------------------------------------
-void ApsimControlFile::addModuleLine(const string& section,
+bool ApsimControlFile::addModuleLine(const string& section,
                                      const string& moduleName,
                                      const string& instanceName,
                                      const string& parFileName,
@@ -764,7 +764,7 @@ void ApsimControlFile::addModuleLine(const string& section,
          {
          newParamFile.moduleName = paramFiles[0].moduleName;
          if (find(paramFiles.begin(), paramFiles.end(), newParamFile) != paramFiles.end())
-            return;
+            return false;
          paramFiles.push_back(newParamFile);
 
          moduleLines[i] = createModuleLine(paramFiles);
@@ -778,6 +778,7 @@ void ApsimControlFile::addModuleLine(const string& section,
       moduleLines.push_back(createModuleLine(paramFiles));
       }
    ini->write(section, "module", moduleLines);
+   return found;
    }
 // ------------------------------------------------------------------
 // convert a module name to an instance name.
@@ -1076,10 +1077,11 @@ bool ApsimControlFile::addParameterFileReference(const std::string& section,
                                                  const std::string& parameterFileName,
                                                  const std::string& parameterSectionName)
    {
+   bool someFound = false;
    vector<string> instanceNames;
    getInstances(section, moduleName, instanceNames);
    for (unsigned i = 0; i != instanceNames.size(); i++)
-      addModuleLine(section, moduleName, instanceNames[i], parameterFileName, parameterSectionName);
-   return (instanceNames.size() > 0);
+      someFound = (addModuleLine(section, moduleName, instanceNames[i], parameterFileName, parameterSectionName) || someFound);
+   return (someFound);
    }
 
