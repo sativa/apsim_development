@@ -21,10 +21,9 @@
       <respondToGetSetReg name="rr_min" type="rr_min" readable="T"/>
       <respondToGetSetReg name="maximum_conductance" type="maximum_conductance"/>
       <respondToGetSetReg name="minimum_conductance" type="minimum_conductance"/>
-      <respondToMethodCallReg name="sys_init" type="sys_init"/>
-      <respondToMethodCallReg name="swim_timestep_preparation" type="swim_timestep_preparation"/>
-      <respondToMethodCallReg name="pre_swim_timestep" type="pre_swim_timestep"/>
-      <respondToMethodCallReg name="post_swim_timestep" type="post_swim_timestep"/>
+      <respondToEventReg name="swim_timestep_preparation" type="swim_timestep_preparation"/>
+      <respondToEventReg name="pre_swim_timestep" type="pre_swim_timestep"/>
+      <respondToEventReg name="post_swim_timestep" type="post_swim_timestep"/>
       <respondToMethodCallReg name="tillage" type="tillage"/>
       <getVariableReg name="year" type="year"/>
       <getVariableReg name="day" type="day"/>
