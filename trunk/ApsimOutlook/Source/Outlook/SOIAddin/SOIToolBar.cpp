@@ -280,6 +280,9 @@ void SOIToolBar::doCalculations(TAPSTable& data)
          bool ok = data.first();
          while (ok)
             {
+            // C421a force getSowYear to locate a sowing year for this datablock.
+            sowYearFieldName = "";
+
             string blockName = data.getDataBlockName();
 
             // loop through all rows in data array and store the soi value.
