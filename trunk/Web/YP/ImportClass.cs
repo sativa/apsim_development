@@ -165,7 +165,7 @@ namespace YieldProphet
 					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
 					}
 				}
-			catch(Exception E)
+			catch(Exception )
 				{
 				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
 				}
