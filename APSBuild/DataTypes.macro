@@ -1,8 +1,8 @@
 ##################################################
-#file ..\shared\componentinterface\datatypes.h
+#file ../shared/componentinterface/datatypes.h
 #ifndef DataTypesH
 #define DataTypesH
-#include <ComponentInterface\MessageData.h>
+#include <ComponentInterface/MessageData.h>
 #include "ProtocolVector.h"
 namespace protocol {
 
@@ -51,17 +51,17 @@ inline unsigned int memorySize(const structure.nameType& data)
 } // protocol
 #endfile
 ##################################################
-#file ..\shared\componentinterface\datatypes.cpp
+#file ../shared/componentinterface/datatypes.cpp
 #include "DataTypes.h"
-#include "FortranComponent.h"
+#include "FORTRANComponentWrapper.h"
 const unsigned max_array_size = 100;
 
 // turn off the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 
-extern "C" void __stdcall publish_null(unsigned* id)
+extern "C" __declspec(dllexport) void __stdcall publish_null(unsigned* id)
    {
-   FortranProxyComponent::currentInstance->publish(*id, protocol::NoData());
+   FortranWrapper::currentInstance->publish(*id, protocol::NoData());
    }
 
 #for_each structure
@@ -133,23 +133,23 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
    }
 };
    #if (structure.array = T)
-extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
+extern "C" __declspec(dllexport) void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
    {
-   FortranProxyComponent::currentInstance->publishArray(*id, data, *numValues);
+   FortranWrapper::currentInstance->publishArray(*id, data, *numValues);
    }
    #else
-extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
+extern "C" __declspec(dllexport) void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
    {
-   FortranProxyComponent::currentInstance->publish(*id, *data);
+   FortranWrapper::currentInstance->publish(*id, *data);
    }
    #endif
    #if (structure.array = T)
-extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
+extern "C" __declspec(dllexport) void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
    {
    variant->unpackArray(data, *numValues);
    }
    #else
-extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
+extern "C" __declspec(dllexport) void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
    {
    variant->unpack(*data);
    }
@@ -161,7 +161,7 @@ extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, prot
 
 #endfile
 ##################################################
-#file ..\apsim\infra\source\datatypes.f90
+#file ../apsim/infra/source/datatypes.f90
 module dataTypes
    character(len=*), parameter :: nullTypeDDML = '<type/>'
    integer, parameter :: max_array_size = 100
@@ -192,7 +192,7 @@ end module dataTypes
 #endfile
 
 ##################################################
-#file ..\apsim\infra\source\datatypesinterface.f90
+#file ../apsim/infra/source/datatypesinterface.f90
 module dataTypesInterface
    interface
 
