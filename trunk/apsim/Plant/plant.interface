@@ -266,19 +266,19 @@
       <read name="no3_lb" type="no3_lb" readable="T"/>
       <read name="no3_min_ub" type="no3_min_ub" readable="T"/>
       <read name="no3_min_lb" type="no3_min_lb" readable="T"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="sow" type="sow"/>
-      <respondToMethodCallReg name="harvest" type="harvest"/>
-      <respondToMethodCallReg name="end_crop" type="end_crop"/>
-      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
-      <respondToMethodCallReg name="end_run" type="end_run"/>
-      <respondToMethodCallReg name="reduce" type="reduce"/>
-      <respondToMethodCallReg name="spray" type="spray"/>
-      <respondToMethodCallReg name="delay" type="delay"/>
-      <respondToMethodCallReg name="spring" type="spring"/>
-      <respondToMethodCallReg name="dormancy" type="dormancy"/>
-      <respondToMethodCallReg name="kill_stem" type="kill_stem"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="reduce" type="reduce"/>
+      <respondToEventReg name="spray" type="spray"/>
+      <respondToEventReg name="delay" type="delay"/>
+      <respondToEventReg name="spring" type="spring"/>
+      <respondToEventReg name="dormancy" type="dormancy"/>
+      <respondToEventReg name="kill_stem" type="kill_stem"/>
       <eventReg name="crop_chopped" type="crop_chopped"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
       <getVariableReg name="no3" type="no3"/>

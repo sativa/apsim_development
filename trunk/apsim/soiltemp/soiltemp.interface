@@ -21,8 +21,8 @@
       <respondToGetReg name="maxt_soil" type="maxt_soil"/>
       <respondToGetReg name="therm_cond" type="therm_cond"/>
       <respondToGetReg name="heat_store" type="heat_store"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <getVariableReg name="dlayer" type="dlayer"/>
       <getVariableReg name="bd" type="bd"/>
       <getVariableReg name="sw" type="sw"/>

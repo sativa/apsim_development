@@ -3,7 +3,7 @@
 
 <component name="grasp">
    <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <eventReg name="crop_chopped" type="crop_chopped"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>

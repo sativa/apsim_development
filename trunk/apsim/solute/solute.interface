@@ -8,8 +8,8 @@
       <read name="ub_solute" type="ub_solute" readable="T"/>
       <read name="lb_solute" type="lb_solute" readable="T"/>
       <respondToGetSetReg name="dlt_nnnnn" type="dlt_nnnnn"/>
-      <respondToMethodCallReg name="create" type="create"/>
-      <respondToMethodCallReg name="sys_init" type="sys_init"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sys_init" type="sys_init"/>
       <eventReg name="new_solute" type="new_solute"/>
       <getVariableReg name="dlayer" type="dlayer"/>
       <respondToEventReg name="process" type="process"/>

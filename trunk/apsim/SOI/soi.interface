@@ -3,7 +3,7 @@
 
 <component name="soi">
    <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
       <getVariableReg name="today" type="today"/>
    </registrations>
 </component>

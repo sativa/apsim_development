@@ -3,7 +3,7 @@
 
 <component name="map">
    <registrations>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
-      <respondToMethodCallReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="create" type="create"/>
    </registrations>
 </component>

@@ -1718,6 +1718,43 @@
       <type name="cover_tot_all" kind="single" unit="0-1" lower_bound="1" description="Cover_tot_call"/>
       <type name="cover_height_all" kind="single" unit="0-1" lower_bound="2000" description="Cover_height_all"/>
 
+!   !!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!
+
+      <type name="plant2stock">
+        <field name = "herbage" array="T">
+          <element>
+            <field name="dm"           unit="kg/ha"  kind="double"/>
+            <field name="dmd"          unit="-"      kind="double"/>
+            <field name="cp_conc"      unit="kg/kg"  kind="double"/>
+            <field name="p_conc"       unit="kg/kg"  kind="double"/>
+            <field name="s_conc"       unit="kg/kg"  kind="double"/>
+            <field name="prot_dg"      unit="kg/kg"  kind="double"/>
+            <field name="ash_alk"      unit="mol/kg" kind="double"/>
+            <field name="height_ratio" unit="-"      kind="double"/>
+          </element>
+        </field>
+        <field name="propn_green"   unit="-" kind="double"/>
+        <field name="legume"        unit="-" kind="double"/>
+        <field name="select_factor" unit="-" kind="double"/>
+        <field name = "seed" array="T">
+          <element>
+            <field name="dm"           unit="kg/ha"  kind="double"/>
+            <field name="dmd"          unit="-"      kind="double"/>
+            <field name="cp_conc"      unit="kg/kg"  kind="double"/>
+            <field name="p_conc"       unit="kg/kg"  kind="double"/>
+            <field name="s_conc"       unit="kg/kg"  kind="double"/>
+            <field name="prot_dg"      unit="kg/kg"  kind="double"/>
+            <field name="ash_alk"      unit="mol/kg" kind="double"/>
+            <field name="height_ratio" unit="-"      kind="double"/>
+          </element>
+        </field>
+        <field name = "seed_class"  unit="-" kind="integer4" array="T"/>
+      </type>
+
+      <type name="remove_herbage">
+         <field name="herbage" unit="kg/ha" kind="double" array="T" />
+         <field name="seed" unit="kg/ha" kind="double" array="T" />
+      </type>
 
 </types>
 
