@@ -47,6 +47,7 @@ void __fastcall TREMS::setExperimentName(AnsiString ExperimentName)
    if (experimentName != ExperimentName)
       {
       experimentName = ExperimentName;
+      getTreatmentNames();
       Active = false;
       Active = true;
       }
