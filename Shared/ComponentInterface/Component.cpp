@@ -130,7 +130,6 @@ void Component::messageToLogic(Message* message)
                                  messageData >> init1Data;
                                  storeName(init1Data.fqn, init1Data.sdml);
                                  doInit1(init1Data.sdml);
-                                 readAllRegistrations();
                                  break;}
       case Init2:               {beforeInit2 = false;
                                  doInit2();
@@ -154,12 +153,7 @@ void Component::messageToLogic(Message* message)
                                  break;}
       case QuerySetValue:       {QuerySetValueData querySetData;
                                  messageData >> querySetData;
-                                 bool ok = respondToSet(message->from, querySetData);
-                                 sendMessage(newNotifySetValueSuccessMessage
-                                                (componentID,
-                                                 querySetData.replyToID,
-                                                 querySetData.replyID,
-                                                 ok));
+                                 onQuerySetValueMessage(message->from, querySetData);
                                  break;}
       case NotifySetValueSuccess:{NotifySetValueSuccessData notifySetValueSuccess;
                                  messageData >> notifySetValueSuccess;
@@ -310,6 +304,19 @@ void Component::storeName(const FString& fqn, const FString& sdml)
    componentData = newApsimComponentData(sdml.f_str(), sdml.length());
    }
 // ------------------------------------------------------------------
+// add a registration to our internal list of registrations.
+// ------------------------------------------------------------------
+RegistrationItem* Component::addRegistrationToList(RegistrationType kind,
+                                                   const FString& name,
+                                                   const Type& type,
+                                                   const FString& componentNameOrID)
+   {
+   RegistrationItem* reg = registrations->find(kind, name, componentNameOrID);
+   if (reg == NULL)
+      reg = registrations->add(kind, name, type, componentNameOrID);
+   return reg;
+   }
+// ------------------------------------------------------------------
 // add a registration
 // ------------------------------------------------------------------
 unsigned Component::addRegistration(RegistrationType kind,
@@ -318,12 +325,10 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
-   RegistrationItem* reg = registrations->find(kind, name, componentNameOrID);
-   if (reg == NULL)
+   RegistrationItem* reg = addRegistrationToList(kind, name, type, componentNameOrID);
+   unsigned id = (unsigned) reg;
+   if (id != 0)
       {
-      reg = registrations->add(kind, name, type, componentNameOrID);
-
-      unsigned id = (unsigned) reg;
       int destID = reg->getComponentID();
       if (destID == -1) destID = 0;
       char fqn[100];
@@ -338,8 +343,7 @@ unsigned Component::addRegistration(RegistrationType kind,
                                      fqn,
                                      reg->getType()));
       }
-
-   return (unsigned) reg;
+   return id;
    }
 // ------------------------------------------------------------------
 // delete the specified registration.
@@ -592,7 +596,18 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
    else
       return false;
    }
-
+// ------------------------------------------------------------------
+// process the querySetValueMessage.
+// ------------------------------------------------------------------
+void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
+   {
+   bool ok = respondToSet(fromID, querySetData);
+   sendMessage(newNotifySetValueSuccessMessage
+                  (componentID,
+                   querySetData.replyToID,
+                   querySetData.replyID,
+                   ok));
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     write a string to the summary file.
@@ -676,78 +691,6 @@ FString Component::getRegistrationName(unsigned int regID)
    {
    return ((RegistrationItem*) regID)->getName();
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     read all registrations for this Component.
-
-//  Notes:
-
-//  Changes:
-//    dph 6/3/2001
-
-// ------------------------------------------------------------------
-void Component::readAllRegistrations(void)
-   {
-   readRegistrations(getVariableReg, "getVariableReg");
-   readRegistrations(respondToGetReg, "respondToGetReg");
-   readRegistrations(setVariableReg, "setVariableReg");
-   readRegistrations(respondToSetReg, "respondToSetReg");
-   readRegistrations(respondToGetSetReg, "respondToGetSetReg");
-   readRegistrations(eventReg, "eventReg");
-   readRegistrations(respondToEventReg, "respondToEventReg");
-   readRegistrations(methodCallReg, "methodCallReg");
-   readRegistrations(respondToMethodCallReg, "respondToMethodCallReg");
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     read registrations for this Component that match the specified
-//     type.
-
-//  Notes:
-
-//  Changes:
-//    dph 6/3/2001
-
-// ------------------------------------------------------------------
-void Component::readRegistrations(RegistrationType kind, const char* kindString)
-   {
-/*   static const unsigned REGISTRATION_NAME_SIZE = 50;
-   static const unsigned MAX_ALIAS_SIZE = 50;
-   static const unsigned MAX_DATA_TYPE_SIZE = 100;
-   char registrationNames[MAX_NUM_REGISTRATIONS][REGISTRATION_NAME_SIZE];
-   unsigned numRegistrationNames;
-   somcomponent_getregistrationnames(&componentData,
-                                     (char*) registrationNames,
-                                     kindString,
-                                     &MAX_NUM_REGISTRATIONS,
-                                     &numRegistrationNames,
-                                     REGISTRATION_NAME_SIZE,
-                                     strlen(kindString));
-   for (unsigned regI = 0; regI < numRegistrationNames; regI++)
-      {
-      unsigned registration = component_getregistration(&componentData,
-                                                        registrationNames[regI],
-                                                        kindString,
-                                                        REGISTRATION_NAME_SIZE,
-                                                        strlen(kindString));
-
-      char alias[MAX_ALIAS_SIZE];
-      registration_getalias(&registration, alias, MAX_ALIAS_SIZE);
-
-      char dataType[MAX_DATA_TYPE_SIZE];
-      registration_getdatatype(&registration, dataType, MAX_DATA_TYPE_SIZE);
-
-      addRegistration(kind,
-                      FString(registrationNames[regI], REGISTRATION_NAME_SIZE),
-                      FString(dataType, MAX_DATA_TYPE_SIZE),
-                      FString(alias, MAX_ALIAS_SIZE));
-
-      component_freeregistration(&registration);
-      }
-*/   }
-
 // ------------------------------------------------------------------
 //  Short description:
 //     display a setvariable error.

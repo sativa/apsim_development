@@ -6,6 +6,7 @@
 #include <vector>
 #include "ApsimRegistrationData.h"
 #include "ApsimDataTypeData.h"
+#include "ApsimDataTypesFile.h"
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).
@@ -70,6 +71,6 @@ class __declspec(dllexport) ApsimComponentData
       XMLDocument* xmlDoc;
       XMLNode node;
       XMLNode getInitData(void) const;
-
+      mutable ApsimDataTypesFile* dataTypesFile;
    };
 #endif

@@ -153,6 +153,8 @@ class Component
       virtual void onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData) { }
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
       virtual void onApsimChangeOrderData(protocol::MessageData& messageData) { }
+      virtual void onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData);
+
 
       // Send a message
       void sendMessage(Message* message)
@@ -168,6 +170,10 @@ class Component
             waitForComplete();
          deleteMessage(message);
          }
+      RegistrationItem* addRegistrationToList(RegistrationType kind,
+                                              const FString& name,
+                                              const Type& type,
+                                              const FString& componentNameOrID = "");
       Type getRegistrationType(unsigned int regID);
       FString getRegistrationName(unsigned int regID);
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
@@ -202,8 +208,6 @@ class Component
       void storeName(const FString& fqn, const FString& sdml);
 
       void clearReturnInfos(void);
-      void readAllRegistrations(void);
-      void readRegistrations(RegistrationType kind, const char* kindString);
       void waitForComplete(void);
 
       friend TypeConverter;

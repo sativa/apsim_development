@@ -77,14 +77,15 @@ Coordinator::~Coordinator(void)
 // ------------------------------------------------------------------
 void Coordinator::doInit1(const FString& sdml)
    {
-   // If this is the GOD PM then add a ComponentAlias for ourselves.
-   // This is because we sometimes send messages (e.g error)to our 'parent' PM
-   // which is ourself.
    try
       {
-      if (componentID == parentID)
-         components.insert(Components::value_type(componentID,
-               new ComponentAlias("MasterPM", componentID)));
+      // Add a ComponentAlias for ourselves and our parent.
+      // This is because we sometimes send messages (e.g error)to ourselves
+      // and sometimes to our parent.
+      components.insert(Components::value_type(componentID,
+            new ComponentAlias(name, componentID)));
+      components.insert(Components::value_type(parentID,
+            new ComponentAlias("parent", parentID)));
 
       Component::doInit1(sdml);
 
@@ -97,8 +98,9 @@ void Coordinator::doInit1(const FString& sdml)
       static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";
 
       title = simulationData.getTitle();
-      titleID = addRegistration(respondToGetReg, "title", stringDDML);
-      componentsID = addRegistration(respondToGetReg, "components", stringArrayDDML);
+      if (componentID == parentID)
+         titleID = addInternalRegistration(componentID, respondToGetReg, "title", stringDDML);
+      componentsID = addInternalRegistration(componentID, respondToGetReg, "components", stringArrayDDML);
 
       // loop through all services specified in SDML and create
       // and add a componentAlias object to our list of components.
@@ -142,6 +144,8 @@ void Coordinator::doInit1(const FString& sdml)
                       system.getXML());
          }
 
+      readAllRegistrations();
+
       // Perform a debug interrupt so that the FORTRAN debugger can
       // stop.
       DebugException();
@@ -154,7 +158,28 @@ void Coordinator::doInit1(const FString& sdml)
       throw error.what();
       }
    }
-
+// ------------------------------------------------------------------
+// Register a property for our child components
+// ------------------------------------------------------------------
+unsigned Coordinator::addInternalRegistration(unsigned fromID,
+                                              RegistrationType kind,
+                                              const string& name,
+                                              const string& typeString,
+                                              unsigned foreignID)
+   {
+   RegisterData registerData;
+   registerData.kind = kind;
+   registerData.ID = (unsigned) addRegistrationToList(kind,
+                                                      name.c_str(),
+                                                      typeString.c_str());
+   if (foreignID != 0)
+      registerData.ID = foreignID;
+   registerData.destID = 0;
+   registerData.name = name.c_str();
+   registerData.type = typeString.c_str();
+   onRegisterMessage(fromID, registerData);
+   return registerData.ID;
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //    initialise this coordinator.
@@ -178,7 +203,8 @@ void Coordinator::doInit2(void)
                              componentI != components.end();
                              componentI++)
       {
-      if (componentI->second->ID != 0)
+      if (componentI->second->ID != componentID &&
+          componentI->second->ID != parentID)
          sendMessage(newInit2Message(componentID, componentI->second->ID));
       }
    }
@@ -228,7 +254,7 @@ void Coordinator::addComponent(const string& compName,
          (compName,
           compExecutable,
           childID,
-          parentID);
+          componentID);
    components.insert(Components::value_type(childID, componentAlias));
 
    string fqn = name;
@@ -382,6 +408,8 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
                                      interestI != registrationItem->interestedItems.end();
                                      interestI++)
          {
+         if ((*interestI)->componentID == parentID)
+            fromID = componentID;
          sendMessage(newEventMessage(componentID,
                                      (*interestI)->componentID,
                                      (*interestI)->registrationID,
@@ -411,31 +439,38 @@ void Coordinator::onTerminateSimulationMessage(void)
    else
       sendMessage(newTerminateSimulationMessage(componentID, parentID));
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//    handle incoming getValue messages.
-
-//  Notes:
-
-//  Changes:
-//    dph 15/5/2001
-
+// handle incoming getValue messages.
 // ------------------------------------------------------------------
 void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueData)
    {
-   ComponentAlias::Registrations& registrations = *components[fromID]->getRegistrationsForKind(protocol::getVariableReg);
+   sendQueryValueMessage(fromID, fromID, getValueData.ID, getValueData.ID);
+   }
+// ------------------------------------------------------------------
+// Send queryValue messages to all subscribed components.  The toID
+// is used so that the receiving component can send a returnValue
+// message straight back to the originating module.  The fromID
+// can be different to the toID in a multi-paddock simulation where
+// the parent PM may be simply routing a queryValue message on behalf
+// of the originating component.
+// ------------------------------------------------------------------
+void Coordinator::sendQueryValueMessage(unsigned ourComponentID,
+                                        unsigned foreignComponentID,
+                                        unsigned ourRegID,
+                                        unsigned foreignRegID)
+   {
+   ComponentAlias::Registrations& registrations = *components[ourComponentID]->getRegistrationsForKind(protocol::getVariableReg);
 
    // See if we have a registration.
-   ComponentAlias::Registrations::iterator i = registrations.find(getValueData.ID);
+   ComponentAlias::Registrations::iterator i = registrations.find(ourRegID);
    if (i == registrations.end())
       {
       char msg[300];
       strcpy(msg, "A component has requested the value of a variable that hasn't\n"
                   "been registered.\nRequesting component:");
-      strcat(msg, components[fromID]->getName().c_str());
+      strcat(msg, components[ourComponentID]->getName().c_str());
       strcat(msg, "\nGetValue ID:");
-      itoa(getValueData.ID, &msg[strlen(msg)], 10);
+      itoa(ourRegID, &msg[strlen(msg)], 10);
       ::MessageBox(NULL, msg, "Error", MB_ICONSTOP | MB_OK);
       }
    else
@@ -455,8 +490,8 @@ void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueD
          sendMessage(newQueryValueMessage(componentID,
                                           (*interestI)->componentID,
                                           (*interestI)->registrationID,
-                                          fromID,
-                                          getValueData.ID));
+                                          foreignComponentID,
+                                          foreignRegID));
          }
       }
    }
@@ -526,30 +561,46 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    handle the incoming requestSetValue message.
-
-//  Changes:
-//    dph 15/5/2001
+// Handle the incoming requestSetValue message.
 // ------------------------------------------------------------------
 void Coordinator::onRequestSetValueMessage(unsigned int fromID,
                                            RequestSetValueData& setValueData)
    {
-   ComponentAlias::Registrations& registrations = *components[fromID]->getRegistrationsForKind(protocol::setVariableReg);
-   PMRegistrationItem& registrationItem = *registrations[setValueData.ID];
+   sendQuerySetValueMessage(fromID, fromID,
+                            setValueData.ID, setValueData.ID,
+                            setValueData.variant);
+   }
+// ------------------------------------------------------------------
+// Send a querySetValueMessage
+// ------------------------------------------------------------------
+void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
+                                           unsigned foreignComponentID,
+                                           unsigned ourRegID,
+                                           unsigned foreignRegID,
+                                           protocol::Variant& variant)
+   {
+   ComponentAlias::Registrations& registrations = *components[ourComponentID]->getRegistrationsForKind(protocol::setVariableReg);
+   PMRegistrationItem& registrationItem = *registrations[ourRegID];
 
    // apsim hack to poll modules for variables.  This is because we haven't
    // yet got all the .interface files up to date.
    if (registrationItem.interestedItems.size() == 0)
-      pollComponentsForSetVariable(registrationItem, fromID, setValueData);
+      pollComponentsForSetVariable(registrationItem, ourComponentID, ourRegID, variant);
 
    else if (registrationItem.interestedItems.size() == 1)
       sendMessage(newQuerySetValueMessage(componentID,
                                           registrationItem.interestedItems[0]->componentID,
                                           registrationItem.interestedItems[0]->registrationID,
-                                          fromID,
-                                          setValueData.ID,
-                                          setValueData.variant));
+                                          foreignComponentID,
+                                          foreignRegID,
+                                          variant));
+   }
+// ------------------------------------------------------------------
+// process the querySetValueMessage.
+// ------------------------------------------------------------------
+void Coordinator::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
+   {
+   respondToSet(fromID, querySetData);
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -584,10 +635,12 @@ void Coordinator::resolveRegistration(PMRegistrationItem* reg)
    {
    if (reg->destID == 0)
       {
-      for (unsigned c = 0; c < components.size(); c++)
+      for (Components::iterator componentI = components.begin();
+                                componentI != components.end();
+                                componentI++)
          {
          ComponentAlias::Registrations* registrations
-            = components[c]->getRegistrationsForKind(getOppositeType(reg->type));
+            = componentI->second->getRegistrationsForKind(getOppositeType(reg->type));
          for (ComponentAlias::Registrations::iterator regI = registrations->begin();
                                                       regI != registrations->end();
                                                       regI++)
@@ -695,35 +748,16 @@ unsigned Coordinator::componentNameToID(const std::string& name)
    return INT_MAX;
    }
 // ------------------------------------------------------------------
-// return one of our variables to caller
-// ------------------------------------------------------------------
-void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
-   {
-   if (queryData.ID == titleID)
-      sendVariable(queryData, FString(title.c_str()));
-   else if (queryData.ID == componentsID)
-      {
-      std::vector<string> comps;
-      for (Components::iterator c = components.begin();
-                                c != components.end();
-                                c++)
-         {
-         string dll = c->second->getExecutable();
-         if (dll != "")
-            comps.push_back(dll);
-         }
-      sendVariable(queryData, comps);
-      }
-   }
-// ------------------------------------------------------------------
 // Fixup all registration destID's.
 // ------------------------------------------------------------------
 void Coordinator::fixupRegistrationIDs(const protocol::RegistrationType& type)
    {
-   for (unsigned c = 0; c < components.size(); c++)
+   for (Components::iterator component = components.begin();
+                             component != components.end();
+                             component++)
       {
       ComponentAlias::Registrations* registrations
-         = components[c]->getRegistrationsForKind(type);
+         = component->second->getRegistrationsForKind(type);
       for (ComponentAlias::Registrations::iterator regI = registrations->begin();
                                                    regI != registrations->end();
                                                    regI++)
@@ -773,7 +807,8 @@ void Coordinator::pollComponentsForGetVariable(PMRegistrationItem& registrationI
 // ------------------------------------------------------------------
 void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationItem,
                                                unsigned fromID,
-                                               RequestSetValueData& setValueData)
+                                               unsigned ourRegID,
+                                               protocol::Variant& variant)
    {
    static unsigned lastModuleID = 0;
 
@@ -783,8 +818,8 @@ void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationI
                                           lastModuleID,
                                           registrationItem.getName().c_str(),
                                           fromID,
-                                          setValueData.ID,
-                                          setValueData.variant));
+                                          ourRegID,
+                                          variant));
 
    // if we still don't have any registrations then loop through all modules.
    if (registrationItem.interestedItems.size() == 0)
@@ -797,8 +832,8 @@ void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationI
                                              i->second->ID,
                                              registrationItem.getName().c_str(),
                                              fromID,
-                                             setValueData.ID,
-                                             setValueData.variant));
+                                             ourRegID,
+                                             variant));
          if (registrationItem.interestedItems.size() != 0)
             {
             lastModuleID = i->second->ID;
@@ -885,5 +920,137 @@ void Coordinator::publishEventsInOrder(unsigned int fromID,
             }
          }
       }
+   }
+// ------------------------------------------------------------------
+// read all registrations for this Component.
+// ------------------------------------------------------------------
+void Coordinator::readAllRegistrations(void)
+   {
+   for (ApsimComponentData::RegIterator reg = componentData->regBegin();
+                                        reg != componentData->regEnd();
+                                        reg++)
+      {
+      RegistrationType kind;
+      RegistrationType oppositeKind;
+      string kindString = reg->getType();
+      if (kindString == "getVariableReg")
+         {
+         kind = getVariableReg;
+         oppositeKind = respondToGetReg;
+         }
+      else if (kindString == "setVariableReg")
+         {
+         kind = setVariableReg;
+         oppositeKind = respondToSetReg;
+         }
+      else if (kindString == "methodCallReg")
+         {
+         kind = methodCallReg;
+         oppositeKind = respondToMethodCallReg;
+         }
+      else if (kindString == "eventReg")
+         {
+         kind = eventReg;
+         oppositeKind = respondToEventReg;
+         }
+      else if (kindString == "respondToGetReg")
+         {
+         kind = respondToGetReg;
+         oppositeKind = getVariableReg;
+         }
+      else if (kindString == "respondToSetReg")
+         {
+         kind = respondToSetReg;
+         oppositeKind = setVariableReg;
+         }
+      else if (kindString == "respondToMethodCallReg")
+         {
+         kind = respondToMethodCallReg;
+         oppositeKind = methodCallReg;
+         }
+      else if (kindString == "respondToEventReg")
+         {
+         kind = respondToEventReg;
+         oppositeKind = eventReg;
+         }
+
+      ApsimDataTypeData dataType = componentData->getDataType(reg->getDataTypeName());
+      unsigned id = addRegistration(kind, reg->getName().c_str(),
+                                    dataType.getTypeString().c_str(),
+                                    reg->getAlias().c_str());
+
+      addInternalRegistration(parentID,
+                              oppositeKind,
+                              reg->getName(),
+                              dataType.getTypeString().c_str(),
+                              id);
+      }
+   }
+// ------------------------------------------------------------------
+// respond to a event that has happened.
+// ------------------------------------------------------------------
+void Coordinator::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
+   {
+   PublishEventData publishEventData;
+   publishEventData.ID = eventID;
+   publishEventData.variant = variant;
+
+   // need to work out if this event has come from outside this system or
+   // from one of our child components.  If from outside then set the
+   // fromID to point to our parent.
+   unsigned foreignComponentID = fromID;
+   if (components.find(fromID) == components.end())
+      foreignComponentID = parentID;
+   onPublishEventMessage(foreignComponentID, publishEventData);
+   }
+// ------------------------------------------------------------------
+// respond to a method call request
+// ------------------------------------------------------------------
+void Coordinator::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant)
+   {
+   PublishEventData publishEventData;
+   publishEventData.ID = methodID;
+   publishEventData.variant = variant;
+
+   // need to work out if this event has come from outside this system or
+   // from one of our child components.  If from outside then set the
+   // fromID to point to our parent.
+   unsigned foreignComponentID = fromID;
+   if (components.find(fromID) == components.end())
+      foreignComponentID = parentID;
+   onPublishEventMessage(foreignComponentID, publishEventData);
+   }
+// ------------------------------------------------------------------
+// return one of our variables to caller
+// ------------------------------------------------------------------
+void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
+   {
+   if (queryData.ID == titleID)
+      sendVariable(queryData, FString(title.c_str()));
+   else if (queryData.ID == componentsID)
+      {
+      std::vector<string> comps;
+      for (Components::iterator c = components.begin();
+                                c != components.end();
+                                c++)
+         {
+         string dll = c->second->getExecutable();
+         if (dll != "")
+            comps.push_back(dll);
+         }
+      sendVariable(queryData, comps);
+      }
+   else
+      sendQueryValueMessage(fromID, queryData.replytoID, queryData.ID, queryData.replyID);
+   }
+// ------------------------------------------------------------------
+// respond to a method call request
+// ------------------------------------------------------------------
+bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValueData)
+   {
+   sendQuerySetValueMessage(parentID, setValueData.replyToID,
+                            setValueData.ID, setValueData.replyID,
+                            setValueData.variant);
+   return getSetVariableSuccess();
    }
 
