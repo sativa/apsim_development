@@ -64,14 +64,7 @@ class ReportComponent : public APSIMComponent
    public:
       ReportComponent(const FString& name,
                       IComputation& computation,
-                      const std::string& ssdl)
-         : APSIMComponent(name, computation, ssdl)
-         {
-         OutputOnThisDay = false;
-         HaveAccumulatedVarsToday = false;
-         HaveWrittenHeadings = false;
-         }
-
+                      const std::string& ssdl);
       virtual void init ();
       virtual bool getVariable (const FString& VariableName);
       virtual bool doAction(const FString& Action);

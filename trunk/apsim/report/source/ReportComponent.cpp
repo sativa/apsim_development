@@ -519,6 +519,31 @@ APSIMComponent* CreateInstance(const FString& name,
 
 // ------------------------------------------------------------------
 //  Short description:
+//     initialise the REPORT component.
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/7/99
+//    dph 19/12/00
+
+// ------------------------------------------------------------------
+ReportComponent::ReportComponent(const FString& name,
+                                 IComputation& computation,
+                                 const std::string& ssdl)
+   : APSIMComponent(name, computation, ssdl)
+   {
+   OutputOnThisDay = false;
+   HaveAccumulatedVarsToday = false;
+   HaveWrittenHeadings = false;
+
+   // added event registration stuff.
+   eventInterface->registerSubscribedEvent("prepare");
+   eventInterface->registerSubscribedEvent("rep");
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //     callback class for all APSIMOutputVariables
 
 //  Notes:
@@ -561,10 +586,6 @@ class CreateFields : CallbackFunction<APSIMOutputVariable*>
 // ------------------------------------------------------------------
 void ReportComponent::init(void)
    {
-   // added event registration stuff.
-   eventInterface->registerSubscribedEvent("prepare");
-   eventInterface->registerSubscribedEvent("rep");
-
    Out = componentData->getProperty<APSIMOutputFile>("outputfile");
    if (Out != NULL)
       Out->open();
