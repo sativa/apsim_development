@@ -344,7 +344,7 @@ void __fastcall CContextMenuHandler::run(void)
    {
    for (unsigned int file = 0; file != fileNames.size(); file++)
       {
-      string command = getApsimDirectory() + "\\bin\\apsrun " + fileNames[file];
+      string command = "\"" + getApsimDirectory() + "\\bin\\apsrun\" \"" + fileNames[file] + "\"";
 
       // run command
       WinExec(command.c_str(), SW_SHOW);
@@ -357,7 +357,7 @@ void __fastcall CContextMenuHandler::sim(void)
    {
    for (unsigned int file = 0; file != fileNames.size(); file++)
       {
-      string command = getApsimDirectory() + "\\bin\\apsrun /CreateSIM " + fileNames[file];
+      string command = "\"" + getApsimDirectory() + "\\bin\\apsrun\" /CreateSIM \"" + fileNames[file] + "\"";
 
       // run command
       WinExec(command.c_str(), SW_SHOW);
@@ -370,7 +370,7 @@ void __fastcall CContextMenuHandler::make(void)
    {
    for (unsigned int file = 0; file != fileNames.size(); file++)
       {
-      string command = getApsimDirectory() + "\\bin\\apsbuild -make " + fileNames[file];
+      string command = "\"" + getApsimDirectory() + "\\bin\\apsbuild -make \"" + fileNames[file] + "\"";
 
       // run command
       WinExec(command.c_str(), SW_SHOW);
@@ -383,7 +383,7 @@ void __fastcall CContextMenuHandler::build(void)
    {
    for (unsigned int file = 0; file != fileNames.size(); file++)
       {
-      string command = getApsimDirectory() + "\\bin\\apsbuild -build " + fileNames[file];
+      string command = "\"" + getApsimDirectory() + "\\bin\\apsbuild -build \"" + fileNames[file] + "\"";
 
       // run command
       WinExec(command.c_str(), SW_SHOW);
