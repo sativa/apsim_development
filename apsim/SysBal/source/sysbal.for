@@ -1567,13 +1567,13 @@ c      integer    sysbal_module_number    ! function
      :               , g%Pstate_soil_yest
      :               )
 
-      if (g%Perror_system .gt. error_threshold*0.001) then
+      if (g%Perror_system .gt. error_threshold*0.1/8.0) then
          write (string, *)
      :                   '**** P balance - unaccounted gain (kg/ha) = '
      :                  , g%Perror_system
          call Write_string (string)
 
-      elseif (g%Perror_system .lt. -error_threshold*0.001) then
+      elseif (g%Perror_system .lt. -error_threshold*0.1/8.0) then
          write (string, *)
      :                   '**** P balance - unaccounted loss (kg/ha) = '
      :                  , g%Perror_system
@@ -1631,21 +1631,21 @@ c      integer    sysbal_module_number    ! function
      :               , g%DMstate_soil_yest
      :               )
 
-      if (g%DMerror_system .gt. error_threshold) then
-         write (string, *)
-     :                   '**** DM balance - unaccounted gain (kg/ha) = '
-     :                  , g%DMerror_system
-         call Write_string (string)
-
-      elseif (g%DMerror_system .lt. -error_threshold) then
-         write (string, *)
-     :                   '**** DM balance - unaccounted loss (kg/ha) = '
-     :                  , g%DMerror_system
-         call Write_string (string)
-
-      else
-         ! balance is ok
-      endif
+!      if (g%DMerror_system .gt. error_threshold) then
+!         write (string, *)
+!     :                   '**** DM balance - unaccounted gain (kg/ha) = '
+!     :                  , g%DMerror_system
+!         call Write_string (string)
+!
+!      elseif (g%DMerror_system .lt. -error_threshold) then
+!         write (string, *)
+!     :                   '**** DM balance - unaccounted loss (kg/ha) = '
+!     :                  , g%DMerror_system
+!         call Write_string (string)
+!
+!      else
+!         ! balance is ok
+!      endif
 
       call sysbal_Bal (sysbal_get_SW_variables
      :               , g%SWloss_system
