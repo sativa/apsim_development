@@ -39,3 +39,17 @@ module = slurp    test3.par [sample]
 module = SummaryFile  test3.par[sample]
 module = Screen  test3.par[sample]
 
+[apsim.Test4]
+!Test for showing potential and actual sw supply variation with water content
+
+title=APSwim Test 4
+module = clock    test4.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test4.par [sample]
+module = input(met)      Sample2.MET [sample]
+module = micromet test4.par [sample]     %apsuite\apsim\micromet\micromet.ini [standard]
+module = manager  test4.par [sample]
+module = apswim   test4.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = solute   test4.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = slurp    test4.par [sample]
+module = SummaryFile  test4.par[sample]
+module = Screen  test4.par[sample]
