@@ -58,7 +58,7 @@
       return
       end
 * ====================================================================
-      subroutine Main (action, data)
+      recursive subroutine Main (action, data)
 * ====================================================================
       use SOIModule
       implicit none
@@ -113,6 +113,7 @@
       include 'read.pub'                          
       include 'error.pub'                         
       include 'apsimengine.pub'
+      include 'componentinterface.inc'
 
 *+  Purpose
 *       Initialise module - called once only at beginning of run
@@ -139,20 +140,12 @@
       call SOI_zero_variables()
 
       ! create an external table object and open it
-      call ExternalTable_Create(g%LU_SOI)
-      call Get_current_module (Table_name)
-      Table_name = Trim(Table_name) // '.soi.default'
+      g%LU_SOI = component_gettable(componentData, 'soi')
 
-      ok = ApsimSystem_Data_get(Table_name, g%LU_SOI)
-      if (ok) then
+      if (g%LU_SOI .ne. 0) then
          ! Read in all parameters from parameter file
          call SOI_read_phases ()
-      endif
- 
-      ! Close SOI file
-      call ExternalTable_Free(g%LU_SOI)
-
-      if (.not. ok) then
+      else
          call Fatal_error (ERR_User, 'Cannot find soi file')
       endif
       call pop_routine (this_routine)
@@ -279,7 +272,7 @@
 
 
 *     ================================================================
-      subroutine SOI_send_my_variable (variable_name)
+      recursive subroutine SOI_send_my_variable (variable_name)
 *     ================================================================
       use SOIModule
       implicit none
@@ -325,7 +318,7 @@
 
 
 *     ================================================================
-      subroutine SOI_get_phase (variable_name)
+      recursive subroutine SOI_get_phase (variable_name)
 *     ================================================================
       use SOIModule
       implicit none
