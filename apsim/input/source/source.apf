@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(input)
-
-[Contents]
-input.for = input.for
-
-[APSBuild]
-binary = ..\lib\input.dll
-lf90file = %apsuite\apsbuild\module.lf90

@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(erosion)
-
-[Contents]
-erosion.for = erosion.for
-
-[APSBuild]
-binary = ..\lib\erosion.dll
-lf90file = %apsuite\apsbuild\module.lf90

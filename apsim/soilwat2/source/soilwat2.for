@@ -3165,6 +3165,14 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
+      call get_integer_var (unknown_module, 'day', '()'
+     :                                    , g_day, numvals
+     :                                    , 1, 366)
+ 
+      call get_integer_var (unknown_module, 'year', '()'
+     :                                    , g_year, numvals
+     :                                    , min_year, max_year)
+ 
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :                                  , g_maxt, numvals
      :                                  , -100.0, 100.0)
