@@ -138,20 +138,23 @@ void TSEGTable::forceRefresh(bool displayError)
 // ------------------------------------------------------------------
 void TSEGTable::refreshLinkedComponents()
    {
-   // Create an index so that the range methods work.
-   if (IndexDefs->Count == 0)
+   if (Active)
       {
-      AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
-      if (sortFields != "")
-         indexFields += ";" + AnsiString(sortFields.c_str());
-      AddIndex("mainIndex", indexFields, TIndexOptions());
-      IndexFieldNames = indexFields;
-      }
+      // Create an index so that the range methods work.
+      if (IndexDefs->Count == 0)
+         {
+         AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
+         if (sortFields != "")
+            indexFields += ";" + AnsiString(sortFields.c_str());
+         AddIndex("mainIndex", indexFields, TIndexOptions());
+         IndexFieldNames = indexFields;
+         }
 
-   for (unsigned i = 0; i != subscriptionEvents.size(); i++)
-      {
-      if (subscriptionEvents[i] != NULL)
-         subscriptionEvents[i](this);
+      for (unsigned i = 0; i != subscriptionEvents.size(); i++)
+         {
+         if (subscriptionEvents[i] != NULL)
+            subscriptionEvents[i](this);
+         }
       }
    }
 // ------------------------------------------------------------------
