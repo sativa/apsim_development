@@ -102,9 +102,16 @@ class Scenarios {
       void createMultipleScenariosFrom(const Scenario& scenario,
                                        const std::string& factorName,
                                        const std::vector<std::string>& factorValues);
+      // create multiple scenarios, based on the current scenario, given
+      // the factor name and 1 or more factor values.
+      void createScenariosFromCurrentInternal(const std::string& factorName,
+                                              const std::vector<std::string>& factorValues);
 
       // load all add-in DLLs
       bool loadAllAddIns(void);
+
+      // Make sure all scenario names is valid and reflects the factor values.
+      void makeScenarioNamesValid(void);
 };
 
 
