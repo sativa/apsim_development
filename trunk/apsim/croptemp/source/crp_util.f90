@@ -36,9 +36,9 @@
       parameter (my_name = 'crop_radn_int0')
 
 !- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (reals_are_equal (fr_intc_radn, 0.0)) then
             ! we need to calculate our own interception
          radn_int = cover_green * radn
@@ -46,7 +46,7 @@
             ! interception has already been calculated for us
          radn_int = fr_intc_radn * radn
       endif
- 
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -59,8 +59,8 @@
 !     ===========================================================
 
 !      dll_export crop_radn_int1
-      use dataModule                          
-      use errorModule                         
+      use dataModule
+      use errorModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -89,23 +89,23 @@
                                  ! by leaves (0-1) (m^2/m^2)
 
 !- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (reals_are_equal (fr_intc_radn, 0.0)) then
             ! we need to calculate our own interception
- 
+
             ! this equation implies that leaf interception of
             ! solar radiation obeys Beer's law
- 
+
          cover = 1.0 - exp (-extinction_coef*lai)
          radn_int = cover * radn
- 
+
       else
             ! interception has already been calculated for us
          radn_int = fr_intc_radn * radn
       endif
- 
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -141,17 +141,17 @@
       parameter (my_name = 'crop_store_value')
 
 !- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       array(day_of_year) = value
- 
+
       if (day_of_year.eq.365          &
    .and. leap_year (year - 1)) then
          array(366) = 0.0
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -164,10 +164,10 @@
 !     ===========================================================
 
 !      dll_export crop_running_ave
-      use scienceModule                       
-      use dateModule                          
-      use dataModule                          
-      use errorModule                         
+      use scienceModule
+      use dateModule
+      use dataModule
+      use errorModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -195,16 +195,16 @@
       integer start_day          ! day of year to start running                                     ! average
 
 !- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       start_day = offset_day_of_year(year,          &
-                              day_of_year, - number_of_days)
- 
+                              day_of_year, - (number_of_days-1))
+
       crop_running_ave = divide(sum_part_of_real(array, start_day,          &
                                            day_of_year, 366)          &
                           , real (abs (number_of_days)), 0.0)
- 
+
       call pop_routine (my_name)
       return
       end function
@@ -243,13 +243,13 @@
       integer    part                  ! part index
 
 !- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       do 1000 part = 1, num_part
          dlt_pool(part) = pool(part)*fraction(part)
 1000  continue
- 
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -285,11 +285,11 @@
       parameter (my_name = 'crop_part_fraction_delta')
 
 !- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       dlt_part = part * fraction(part_no)
- 
+
       call pop_routine (my_name)
       return
       end subroutine
