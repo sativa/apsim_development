@@ -42,7 +42,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.20  04/09/96')
+      parameter (version_number = 'V1.30  02/10/96')
 
 *   Initial data values
 *       none
@@ -1048,6 +1048,7 @@
 *     dph 25/7/96  added code to put a message in summary file when creating
 *                  a new local variable
 *     dph 4/9/96   added function 'date_within'
+*     dph 2/10/96  changed call to date_between to date_within
 
 *   Calls:
 *      assign_string
@@ -1066,7 +1067,7 @@
       integer Find_string_in_array     ! function
       double precision Date            ! function
       integer lastNb                   ! function
-      logical Date_between             ! function
+      logical Date_within              ! function
 
 *   Internal variables
       logical Is_apsim_variable        ! Is the requested variable APSIM's?
@@ -1095,7 +1096,7 @@
          
          call Manager_get_params (Variable_name, Params)
          
-         if (Date_between(Params(1), Params(2))) then
+         if (Date_within(Params(1), Params(2))) then
             Variable_value = '1'
          else
             Variable_value = '0'
@@ -1181,6 +1182,7 @@
 *      jngh 07/06/96 changed set_ to post_
 *     dph 12/7/96  added code to display line in summary file when setting apsim variable
 *     dph 25/7/96  added message to summary file when creating a local variable
+*     dph 2/10/96  replaced all calls to post_char_var to set_char_var.
 
 *   Calls:
 *      assign_string
@@ -1225,8 +1227,8 @@
 
       if (Is_apsim_variable) then
          call Split_line(Variable_name, Mod_name, Var_name, '.')
-         call post_char_var
-     .        (Mod_name, Var_name,
+         call set_char_var
+     .        (Mod_name, Var_name, ' ',
      .         Variable_value)
 
       else
@@ -1257,7 +1259,7 @@
                call Report_event (str)
 
             else
-               call post_char_var(Unknown_module, Variable_name,
+               call set_char_var(Unknown_module, Variable_name, ' ', 
      .            Variable_value)
                Is_apsim_variable = .true.
             endif
