@@ -1,3 +1,4 @@
+C     Last change:  P     9 Nov 2000   10:15 am
       include 'Grasp.inc'
 
 !     ===========================================================
@@ -2769,7 +2770,7 @@ c         write (*,*) ' n = ', dlt_residue_N
          call post_real_var ('dlt_residue_n',
      :        '(kg/ha)', dlt_residue_n)
  
-         call Action_send (unknown_module,
+         call Action_send (All_active_modules,
      :        'add_residue', blank)
  
          call delete_postbox ()
@@ -3095,7 +3096,9 @@ cpdev  bound required?..
       include   'const.inc'
       include 'data.pub'                          
       include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'apsimengine.pub'
+      include 'componentinterface.inc'
 
 *+  Purpose
 *     get the value/s of variables/arrays from other modules.
@@ -3107,6 +3110,7 @@ cpdev  bound required?..
 *+  Changes
 *     010994 jngh specified and programmed
 *     241199 jngh added zeroing of remainder of soil profile arrays
+*     091100 dph  added call to ei_existscomponent to test for 'tree'
 
 *+  Calls
       real       grasp_vpd
@@ -3246,10 +3250,12 @@ cpdev  bound required?..
       call get_real_var_optional (unknown_module
      :     ,'soil_loss', '(t/ha)'
      :     ,g%soil_loss, numvals, 0.0, 50000.0)
- 
-      call get_real_var_optional ('tree', 'sw_demand', '(mm)'
+
+      if (ei_existscomponent(eventinterface, 'tree')) then
+         call get_real_var_optional ('tree', 'sw_demand', '(mm)'
      :     , g%tree_sw_demand, numvals, c%tree_sw_lb, c%tree_sw_ub)
- 
+      end if
+
       call pop_routine (my_name)
       return
       end
@@ -3277,6 +3283,7 @@ cpdev  bound required?..
 
 *+  Changes
 *     010994 jngh specified and programmed
+*     081100 dph  replaced calls to action_send to set_real_array
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3291,36 +3298,25 @@ cpdev  bound required?..
  
       num_layers = count_of_real_vals (g%dlayer, max_layer)
  
-      call new_postbox ()
- 
 !     If there isn't an N module plugged in, then sending out
 !     N uptake fills the summary file with needless garbage.
 !     However, this check is a bit of a fudge.
       if (sum_real_array(g%No3, max_layer) .lt. 10000.0) then
-        call post_real_array( 'dlt_no3',
+        call set_real_array(unknown_module, 'dlt_no3',
      :     '(kg/ha)',
      :     g%dlt_No3, num_layers)
  
-        call Action_send( unknown_module,
-     :     ACTION_set_variable,
-     :     'dlt_no3')
       else
                                           ! No N module runing
       endif
  
       if (p%uptake_source .eq. 'calc') then
- 
-         call post_real_array ('dlt_sw_dep',
+         call set_real_array (unknown_module, 'dlt_sw_dep',
      :        '(mm)',
      :        g%dlt_sw_dep, num_layers)
  
-         call Action_send( unknown_module,
-     :        ACTION_set_variable,
-     :        'dlt_sw_dep')
       else
       endif
- 
-      call delete_postbox ()
  
       call pop_routine (my_name)
       return
