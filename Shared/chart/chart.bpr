@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="chart.dll"/>
+    <PROJECT value="&quot;c:\program files\borland\cbuilder5\projects\bpl\chart.dll&quot;"/>
     <OBJFILES value="chart.obj low_level\XY_series.obj low_level\Bar_series.obj 
       low_level\Brush.obj low_level\Chart_base.obj low_level\Drawable.obj 
       low_level\Font.obj low_level\Legend_class.obj low_level\Line.obj 
@@ -41,13 +41,14 @@
     <WARNOPTSTR value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl50.csm -Hc -Vx -Ve 
+    <CFLAG1 value="-WD -Od -H=&quot;c:\program files\borland\cbuilder5\lib\vcl50.csm&quot; -Hc -Vx -Ve 
       -Tkh30000 -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -v -M -JPHNE"/>
     <RFLAGS value="= /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ 
       /d_RTLDLL /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd"/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <LFLAGS value="-l&quot;c:\program files\borland\cbuilder5\projects\lib\&quot; -D&quot;&quot; -aa -Tpd -x -Gn 
+      -Gi -v"/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
@@ -115,6 +116,17 @@ Item0=BUILDING_CHART
 Item1=_RTLDLL;BUILDING_CHART;USEPACKAGES
 Item2=_RTLDLL;USEPACKAGES;BUILDING_CHART
 Item3=_RTLDLL;USEPACKAGES
+
+[HistoryLists\hlFinalOutputDir]
+Count=4
+Item0=c:\program files\borland\cbuilder5\projects\bpl\
+Item1=c:\program files\borland\cbuilder5\projects\bpl
+Item2=c:\program files\borland\cbuilder5\projects\lib\
+Item3=$(BCB)\projects\lib
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=c:\program files\borland\cbuilder5\projects\lib
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
