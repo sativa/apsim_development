@@ -78,15 +78,26 @@ Public Class APSIMData
     End Function
     Property Value() As String
         Get
-            Return Node.InnerText
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Value
+            Else
+                Return Node.InnerText
+            End If
         End Get
         Set(ByVal value As String)
-            Dim InvalidChars As String = "&<>"
-            If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
-                Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
-                Node.AppendChild(cdata)
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement)
+                RootNode.FindChild(RemoteSource, "|").Value = value
             Else
-                Node.InnerXml = value
+                Dim InvalidChars As String = "&<>"
+                If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
+                    Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
+                    Node.AppendChild(cdata)
+                Else
+                    Node.InnerXml = value
+                End If
             End If
         End Set
     End Property
@@ -126,10 +137,27 @@ Public Class APSIMData
             Return Node.Name
         End Get
     End Property
-    ReadOnly Property XML() As String
+    Property XML() As String
         Get
-            Return Node.OuterXml
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").XML
+            Else
+                Return Node.OuterXml()
+            End If
         End Get
+        Set(ByVal value As String)
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement)
+                RootNode.FindChild(RemoteSource, "|").XML = value
+            Else
+                Dim newnode As New APSIMData(value)
+                Node.InnerXml = newnode.Node.InnerXml
+
+            End If
+
+        End Set
     End Property
     Public Sub Add(ByVal Data As APSIMData)
         If IsNothing(Data) Then
