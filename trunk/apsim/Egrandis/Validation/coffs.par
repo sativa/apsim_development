@@ -72,8 +72,8 @@ start_date=1/1/1953
 end_date=31/12/1983
 
 [all.manager.start_of_day]
-if day = 1 and year = 1953 then
-   Egrandis establish plants = 1111, init_section = seedling
+if day = 90 and year = 1953 then
+   Egrandis establish plants = 625, init_section = seedling
 endif
 
 [all.manager.end_of_day]
@@ -90,7 +90,7 @@ oc2 = (carbon_tot(2)/100)/(bd(2)*dlayer(2))
 
 total_wt = egrandis.foliage_mass + egrandis.adm_green()
 
-if end_month = 1 then
+if end_year = 1 then
    report do_output
 endif
 
