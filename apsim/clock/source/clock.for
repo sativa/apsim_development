@@ -267,9 +267,6 @@ cih
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
 
-*+  Calls
-      character Clock_time_string*(5)      ! function
-
 *+  Purpose
 *      Return the value of a variable
 
@@ -284,7 +281,6 @@ cih
 *+  Local Variables
       integer thisdate(3)              ! day, month, year
       logical logical_to_return        ! logical value to return to calling module
-      character time*(5)               ! time in 24 hour format
 
 *- Implementation Section ----------------------------------
  
@@ -340,15 +336,10 @@ cih
          call Respond2get_logical_var
      .       (variable_name, '(0-1)', Logical_to_return)
  
+ 
       else if (index(variable_name, 'today') .eq. 1) then
          call clock_today_object(variable_name(6:))
-
-      else if (variable_name .eq. 'time') then
-         time = clock_time_string()
-         call respond2get_char_var (Variable_name,
-     .                                 '()',
-     .                                 time)
-
+ 
       else
          ! Not our variable
  
@@ -647,63 +638,5 @@ cih
       return
       end
 
-
-* ====================================================================
-       character*(*) function Clock_time_string ()
-* ====================================================================
-      implicit none
-       include 'const.inc'             ! Constant definitions
-       include 'clock.inc'
-      include 'engine.pub' 
-      include 'string.pub'                       
-
-*+  Purpose
-*     Create a string giving the daily time in 24 hour format
-*     of hh:mm
-
-*+  Changes
-*      NIH 04/05/99
-
-*+  Notes
-*      NIH 04/05/99 - this will fail is the starting time is not
-*                     the beginning of a day
-
-*+  Local Variables
-      character temp*5
-      integer time_mins  !time since start of day (min)
-      integer hour
-      integer mins
-
-*- Implementation Section ----------------------------------
-
-      time_mins = mod(int(g_current_time), mins_in_day)
-
-      hour = int(time_mins/60)
-      mins = mod(time_mins, 60)
- 
-      if (len(clock_time_String).ge.5) then
-
-         if (hour.lt.10) then
-            if (mins.lt.10) then
-               write (temp,'(''0'',i1,'':0'',i1)') hour,mins
-            else
-               write (temp,'(''0'',i1,'':'',i2)') hour,mins
-            endif
-         else
-            if (mins.lt.10) then
-               write (temp,'(i2,'':0'',i1)') hour,mins
-            else
-               write (temp,'(i2,'':'',i2)') hour,mins
-            endif
-         endif
-     
-         call assign_string (clock_time_String, temp)
-      else
-         call fatal_error (Err_internal
-     :                    ,'Time string requires at least 5 chars')
-      endif
-
-      return
-      end
 
 
