@@ -44,7 +44,7 @@
       parameter (my_name = 'fertiliz_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.2 060696')
+      parameter (version_number = 'V1.3 011196')
 
 *   Initial data values
 *       none
@@ -83,6 +83,8 @@
 *   Changes:
 *      011195 jngh  added call to message_unused
 *      060696 nih   removed data_string from call to fertiliz_fertiliz
+*      150696 nih   changed routine call from fertiliz_prepare to
+*                   fertiliz_inter_timestep.
 
 *   Calls:
 *     fertiliz_zero_variables
@@ -137,13 +139,15 @@
      :              // fertiliz_version ()
 
       else if (Action.eq.MES_Init) then
+         
          call fertiliz_zero_variables ()
          call fertiliz_Init ()
 
-      else if (Action.eq.MES_Prepare) then
-         call fertiliz_prepare()
+      else if (Action.eq.MES_Inter_Timestep) then
+         call fertiliz_Inter_Timestep()
 
       else if (Action.eq.MES_Process) then
+         
          call fertiliz_get_other_variables ()
          call fertiliz_schedule ()
 
@@ -543,7 +547,7 @@
       call push_routine (my_name)
 
       if (Variable_name .eq. 'fertilizer') then
-
+         
          call respond2get_real_var (
      :                              variable_name
      :                            , '(kg/ha)'
@@ -717,7 +721,7 @@
   100    continue
 
          g_fert_applied = g_fert_applied + amount
-
+         
          write (string, '(1x, f7.2, 6a, 41x, a, f7.2, a, i3, a)')
      :             amount,
      :             ' of ',
@@ -1020,7 +1024,7 @@
       end
 
 *     ===========================================================
-      subroutine fertiliz_prepare ()
+      subroutine fertiliz_inter_timestep ()
 *     ===========================================================
 
 *   Short description:
@@ -1040,6 +1044,8 @@
 *                       implicit none
 
 *   Changes:
+*        150696 nih changed routine from fertiliz_prepare to
+*                   fertiliz_inter_timestep.
 
 *   Calls:
 *   pop_routine
@@ -1060,7 +1066,7 @@
 
 *   Constant values
       character*(*) myname               ! name of current procedure
-      parameter (myname = 'fertiliz_prepare')
+      parameter (myname = 'fertiliz_inter_timestep')
 
 *   Initial data values
 *      none
@@ -1069,7 +1075,7 @@
       call push_routine (myname)
 
       g_fert_applied = 0.0
-
+      
       call pop_routine (myname)
       return
       end
