@@ -8,7 +8,7 @@ BCB = $(MAKEDIR)\..
 
 OBJECTS=def2imp.obj
 
-LIBFILES = $(APSROOT)\Shared\general\general.lib 
+LIBFILES = $(APSROOT)\Shared\general\general.lib
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL
@@ -19,7 +19,7 @@ LIBPATH = $(SYSLIBPATH)
 # 'Wizard' generated:
 #CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
 
-CFLAG1 = $(SYSCFLAGS) -O2 -vi- -tWC 
+CFLAG1 = $(SYSCFLAGS) -O2 -vi- -tWC
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
@@ -31,12 +31,12 @@ CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
 # ---------------------------------------------------------------------------
 
-all: def2imp.exe 
+all: def2imp.exe
 
 def2imp.exe: $(OBJECTS)
 	$(LD) @&&!
 	$(LFLAGS) -L$(LIBPATH) +
-	$(ALLOBJ), $(APSROOT)\Bin\def2imp.exe, , $(ALLLIB), $(DEFFILE), $(ALLRES)
+	$(ALLOBJ), def2imp.exe, , $(ALLLIB), $(DEFFILE), $(ALLRES)
 !
 
 .cpp.obj:
