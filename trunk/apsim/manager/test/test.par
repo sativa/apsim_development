@@ -1,8 +1,7 @@
 [sample.report.parameters]  
 outputfile =test.out   
 
-variable = clock.day
-variable = clock.year
+outputfile_increment=true
 
 
 [sample.clock.parameters]
