@@ -430,6 +430,9 @@ void Plant::doRegistrations(void)
                     &Plant::get_biomass, "kg/ha", "Biomass");
 
    setupGetFunction("biomass_wt", protocol::DTsingle, 1,
+                    &Plant::get_biomass_wt, "g/m^2", "Biomass weight");
+
+   setupGetFunction("green_biomass", protocol::DTsingle, 1,
                     &Plant::get_green_biomass, "g/m^2", "Green Biomass weight");
 
    setupGetVar("dlt_dm", protocol::DTsingle, 1,
@@ -11218,16 +11221,17 @@ void Plant::plant_read_root_params ()
        esw_tot += g.dul_dep[layer] - p.ll_dep[layer];
        }
     parent->writeString ("    -----------------------------------------------");
-    sprintf (msg, "    Extractable SW: %7.1f mm in %7.1f mm total depth (%3.0f %%)."
+    sprintf (msg
+          , "    Extractable SW: %5.0fmm in %5.0fmm total depth (%3.0f%%)."
           , esw_tot
           , dep_tot
           , 100.0 * divide(esw_tot, dep_tot, 0.0));
     parent->writeString (msg);
 
     sprintf (msg, "%s%5.1f%s"
-        ,"    Crop factor for bounding water use is set to "
-        , p.eo_crop_factor
-        , " times eo.");
+          , "    Crop factor for bounding water use is set to "
+          , p.eo_crop_factor
+          , " times eo.");
     parent->writeString (msg);
 
     if (c.root_growth_option == 2)
