@@ -76,7 +76,7 @@ class AddInManager
 
                // look for createAddIn and a deleteAddIn entry points
                T*   __stdcall (*createAddInProc) (void);
-               void __stdcall (*deleteAddInProc) (void);
+               void __stdcall (*deleteAddInProc) (T*);
 
                (FARPROC) createAddInProc = GetProcAddress(handle, "createAddIn");
                (FARPROC) deleteAddInProc = GetProcAddress(handle, "deleteAddIn");
@@ -97,7 +97,7 @@ class AddInManager
          {
          for (unsigned i = 0; i < handles.size(); i++)
             {
-            void __stdcall (*deleteAddInProc) (SEGReportAddIn*);
+            void __stdcall (*deleteAddInProc) (T*);
             (FARPROC) deleteAddInProc = GetProcAddress(handles[i], "deleteAddIn");
             if (deleteAddInProc != NULL)
                (*deleteAddInProc)(addins[i]);
