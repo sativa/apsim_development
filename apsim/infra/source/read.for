@@ -1839,6 +1839,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *                  to if (.not. Found_key) then
 *     jngh 24/10/96 Added test for current_unit_num being 0, so new file
 *                   is opened.
+*     sb 15/7/98  Added line to set current_unit_num to -1 when closed.
  
 *+ Calls
       dll_import push_routine
@@ -1921,7 +1922,8 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
          ! old unit number we were looking in.
  
          if (Current_unit_num .gt. LU_Control_file2) then
-            call Close_unit(Current_unit_num)
+            call Close_unit(current_unit_num)
+            current_unit_num = -1
  
          else
             ! This is the first time through this routine
@@ -2288,7 +2290,6 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
                Open_file = No_logical_units
  
             else
- 
                open (unit = Unit_number, file = File_name,
      :              status = 'OLD', iostat = IOStatus)
  
@@ -2890,6 +2891,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Changes
 *     DPH 8/11/94
 *     JNGH 22/06/96 changed function string_concat to call append_string
+*     SB 15/7/98 added line to set open_unit_num to -1 when closed.
  
 *+ Calls
       dll_import get_file_section_list
@@ -3004,7 +3006,8 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
                   if (Open_unit_num .gt. LU_Control_file2) then
-                     close(Open_unit_num)
+                     close(open_unit_num)
+                     open_unit_num = -1
  
                   else
                      ! Don't close control file - ever
@@ -3058,6 +3061,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *   NeilH - 23-11-1994 - Programmed and Specified
 *   DPH 11/4/96        - removed LUN variable and used current_unit_num
 *                        from common block instead
+*   SB 15/7/98  Added line to set current unit num to -1 when closed.
  
 *+ Calls
       dll_import push_routine
@@ -3130,7 +3134,8 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
          ! close off current unit number if necessary.
  
          if (Current_unit_num .gt. LU_Control_file2) then
-            call Close_unit(Current_unit_num)
+            call close_unit(current_unit_num)
+            current_unit_num = -1
          endif
  
 10       continue
@@ -3218,6 +3223,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Changes
 *   NeilH - 23-11-1994 - Programmed and Specified
 *   270295 jngh initialised dummy.
+*   15-7-98  SB set LUN to -1 after closing.
  
 *+ Calls
       dll_import push_routine
@@ -3250,6 +3256,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
          if (LUN .ne. LU_Control_file2) then
             call close_unit (LUN)
+            LUN = -1
          endif
  
 10       continue
