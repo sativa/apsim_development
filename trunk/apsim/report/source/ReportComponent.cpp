@@ -148,6 +148,11 @@ void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
          string arrayVariableName = baseName + "(";
          arrayVariableName += IntToStr(arrayIndex++).c_str();
          arrayVariableName += ")";
+         if (CSVFormat && v != 0)
+            {
+            headingOut << ',';
+            unitOut << ',';
+            }
          writeTo(headingOut, arrayVariableName);
          writeTo(unitOut, unit);
          }
@@ -167,7 +172,12 @@ void Field::writeValue(ostream& out)
    {
    getValues();
    for (unsigned v = 0; v != values.size(); v++)
+      {
+      if (CSVFormat && v != 0)
+         out << ',';
       writeTo(out, values[v]);
+      }
+
    if (values.size() == 0)
       writeTo(out, "?");
    }
