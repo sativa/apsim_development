@@ -210,7 +210,7 @@
 !+ Constant Values
  
 !+ Local Variables
-      character DataString*(500)       ! FORTRAN version of C data string
+      character DataString*(150)       ! FORTRAN version of C data string
  
 !- Implementation Section ----------------------------------
 

@@ -239,6 +239,7 @@
 *       240698 jngh blanked e_messg before writing to it to remove trailing 
 *                   rubbish. D141.
 *   DPH 13/10/99 increased size of e_messg to 400
+*   dph 18/10/99 added 'trim' to printing of 'vname'
  
 *+ Calls
       dll_import error_margin
@@ -284,7 +285,7 @@
       else if (value - margin_val.gt.upper + margin_upper) then
          e_messg = blank
          write (e_messg, '(2a, g16.7e2, 2a, g16.7e2)')
-     :                      vname
+     :                      trim(vname)
      :                    , ' = '
      :                    , value
      :                    , new_line
@@ -298,7 +299,7 @@
          e_messg = blank
          print *, 'vname=',vname
          write (e_messg, '(2a, g16.7e2, 2a, g16.7e2)')
-     :                      vname
+     :                      trim(vname)
      :                    , ' = '
      :                    , value
      :                    , new_line
