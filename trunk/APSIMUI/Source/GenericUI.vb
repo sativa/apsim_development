@@ -49,6 +49,7 @@ Public Class GenericUI
     Friend WithEvents celldataRowTemplate1Column2 As Xceed.Grid.DataCell
     Friend WithEvents cellColumnManagerRow1Column2 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents celldataRowTemplate1Column1 As Xceed.Grid.DataCell
+    Friend WithEvents PictureBox As System.Windows.Forms.PictureBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Grid = New Xceed.Grid.GridControl
         Me.NameColumn = New Xceed.Grid.Column
@@ -60,6 +61,7 @@ Public Class GenericUI
         Me.ColumnManagerRow1 = New Xceed.Grid.ColumnManagerRow
         Me.cellColumnManagerRow1Column1 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column2 = New Xceed.Grid.ColumnManagerCell
+        Me.PictureBox = New System.Windows.Forms.PictureBox
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,14 +76,14 @@ Public Class GenericUI
         Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Grid.FixedHeaderRows.Add(Me.GroupByRow1)
         Me.Grid.FixedHeaderRows.Add(Me.ColumnManagerRow1)
-        Me.Grid.Location = New System.Drawing.Point(0, 23)
+        Me.Grid.Location = New System.Drawing.Point(88, 23)
         Me.Grid.Name = "Grid"
         '
         'Grid.RowSelectorPane
         '
         Me.Grid.RowSelectorPane.Visible = False
         Me.Grid.SingleClickEdit = True
-        Me.Grid.Size = New System.Drawing.Size(1053, 631)
+        Me.Grid.Size = New System.Drawing.Size(933, 546)
         Me.Grid.TabIndex = 2
         Me.Grid.UIStyle = Xceed.Grid.UIStyle.UIStyle.System
         '
@@ -133,12 +135,23 @@ Public Class GenericUI
         Me.cellColumnManagerRow1Column1.Initialize("Name")
         Me.cellColumnManagerRow1Column2.Initialize("Column2")
         '
+        'PictureBox
+        '
+        Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.PictureBox.Location = New System.Drawing.Point(0, 23)
+        Me.PictureBox.Name = "PictureBox"
+        Me.PictureBox.Size = New System.Drawing.Size(88, 546)
+        Me.PictureBox.TabIndex = 3
+        Me.PictureBox.TabStop = False
+        '
         'GenericUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(1053, 694)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.ClientSize = New System.Drawing.Size(1021, 609)
         Me.Controls.Add(Me.Grid)
+        Me.Controls.Add(Me.PictureBox)
         Me.Name = "GenericUI"
+        Me.Controls.SetChildIndex(Me.PictureBox, 0)
         Me.Controls.SetChildIndex(Me.Grid, 0)
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -153,6 +166,10 @@ Public Class GenericUI
         MyBase.Refresh()
 
         InRefresh = True
+
+        Dim inifile As New APSIMSettings
+        Dim imagefile As String = UIManager.Image(mydata.Type)
+        PictureBox.Image = Image.FromFile(imagefile)
 
         For Each Prop As APSIMData In MyData.Children()
             If Prop.Children.Count = 0 Then
