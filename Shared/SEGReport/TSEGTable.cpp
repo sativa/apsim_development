@@ -98,7 +98,11 @@ void TSEGTable::forceRefresh(bool displayError)
                AddIndex("mainIndex", indexFields, TIndexOptions());
                IndexFieldNames = indexFields;
                }
-            Sort(TkbmMemTableCompareOptions());
+            if (SortFields != "")
+               {
+               SortFields = AnsiString(SERIES_FIELD_NAME) + ";" + SortFields;
+               Sort(TkbmMemTableCompareOptions());
+               }
             }
          else
             Active = true;
@@ -200,6 +204,16 @@ string TSEGTable::getSeriesName(void)
       return AnsiString(FieldValues[SERIES_FIELD_NAME]).c_str();
    else
       return "";
+   }
+// ------------------------------------------------------------------
+// Return the current series number - zero index based.
+// ------------------------------------------------------------------
+unsigned TSEGTable::getSeriesNumber(void)
+   {
+   if (seriesNames.size() == 0)
+      getSeriesNames(seriesNames);
+   return find(seriesNames.begin(), seriesNames.end(), getSeriesName())
+          - seriesNames.begin();
    }
 // ------------------------------------------------------------------
 // Set the series name for the current record.

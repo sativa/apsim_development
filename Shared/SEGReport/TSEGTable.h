@@ -49,11 +49,6 @@ class PACKAGE TSEGTable : public TkbmMemTable
       virtual void storeRecords(void) throw(std::runtime_error) {}
       virtual void __fastcall Loaded(void);
 
-      // ------------------------------------------------------------------
-      // force refresh regardless of source.
-      // ------------------------------------------------------------------
-      void forceRefresh(bool displayError = true);
-
    public:
       __fastcall TSEGTable(TComponent* Owner);
       __fastcall ~TSEGTable(void);
@@ -80,7 +75,15 @@ class PACKAGE TSEGTable : public TkbmMemTable
       bool firstSeries(void);
       bool nextSeries(void);
       void cancelSeries(void);
+
       void refresh (void);
+
+      // ------------------------------------------------------------------
+      // force refresh regardless of source.
+      // ------------------------------------------------------------------
+      void forceRefresh(bool displayError = true);
+      
+      unsigned getSeriesNumber(void);  //  - zero index based.
 
       static AnsiString errorMessage;
 
