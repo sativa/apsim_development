@@ -2313,5 +2313,42 @@
       return
       end
  
+*     ===========================================================
+      real function round_to_zero (var)
+*     ===========================================================
+      implicit none
+      dll_export round_to_zero
+      include 'const.inc'             
  
+*+ Sub-Program Arguments
+      real       var                   ! (INPUT) variable to be rounded
+ 
+*+ Purpose
+*       Round a very small variable to zero
+ 
+*+  Definition
+*     Returns "var" providing that it is greater than 
+*     the parameter "close_enough_to_zero".  Otherwise returns "0".  
+
+*+  Mission Statement
+*     %1 rounded to 0 if smaller than or equal to close_enough_to_zero
+ 
+*+ Changes
+*       151200  specified and programmed (jng hargreaves)
+ 
+*+ Calls
+ 
+*- Implementation Section ----------------------------------
+ 
+      if (abs(var) .le. close_enough_to_zero) then
+         round_to_zero = 0
+      else
+         round_to_zero = var
+      endif
+ 
+      return
+      end
+ 
+ 
+  
  
