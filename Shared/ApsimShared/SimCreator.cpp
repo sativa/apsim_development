@@ -246,14 +246,15 @@ void SimCreator::createSim(const string& sectionName,
          {
          string componentXML;
 
-         Components::iterator c = components.find(iniFileName);
+         Components::iterator c = components.find(iniFileName + ":" + instanceName);
          if (c == components.end())
             {
             ApsimComponentData iniComponent;
             ImportSection importSection(iniComponent, moduleName);
             con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
             componentXML = iniComponent.getXML();
-            components.insert(make_pair(iniFileName, componentXML));
+            components.insert(make_pair(iniFileName + ":" + instanceName,
+                                        componentXML));
             }
          else
             componentXML = c->second;
