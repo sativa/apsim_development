@@ -1,72 +1,45 @@
-include base.interface
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; Erosions public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMErosionPublic
-    soil_loss               : APSIMReal      = soil loss from surface, (t/ha), GET
-    soil_loss_bed           : APSIMReal      = daily soil loss in bed, (t/ha), GET
-    soil_loss_susp          : APSIMReal      = daily soil loss in suspension, (t/ha), GET
-    soil_loss_mm            : APSIMReal      = soil loss from surface, (mm), GET
-    sed_conc                : APSIMReal      = sediment concentration , (g/l), GET
-    sed_conc_bed            : APSIMReal      = daily soil loss in bed, (g/l), GET
-    sed_conc_susp           : APSIMReal      = daily soil loss in suspension, (g/l), GET
-    bed_depth               : APSIMReal      = depth to bedrock, (mm), GET|READ, 0.0, 5000.0
-    erosion_cover           : APSIMReal      = cover used in soil loss equation, (), GET
-    cover_extra             : APSIMReal      = fudge factor for extra cover, (), GET|READ_OPT|SET, -1.0, 1.0
-
-; variables read from section parameters in parameter file by erosion_read_param
-    model                   : APSIMString    = Erosion model to use (free/rose), (), READ
-    profile_reduction       : APSIMString    = Switch for profile reduction (on/off), (), READ
-    profile_layer_merge     : APSIMReal      = layer thickness threshold - below this fraction of original layer the layer is absorbed into the layer above, (mm), READ, 0.0, 1.0
-    minimum_depth           : APSIMReal      = mm of dirt below which model stops, (mm), READ, 0.0, 1000.0
-    slope                   : APSIMReal      = field slope, (%), READ, 0.0, 100.0
-    slope_length            : APSIMReal      = slope length, (m), READ, 0.0, 100.0
-; free model parameters
-    k_factor                : APSIMReal      = USLE K factor, (), READ_OPT, 0.0, 1.0
-    k_factor_bed            : APSIMReal      = USLE K factor (bedload), (), READ, 0.0, 1.0
-    k_factor_susp           : APSIMReal      = USLE K factor (suspended load), (), READ, 0.0, 1.0
-    p_factor                : APSIMReal      = USLE P factor, (), READ, 0.0, 1.0
-; rose  model parameters
-    entrain_eff             : APSIMReal      = efficency entrainmnt, (), READ_OPT, 0.0, 2.0
-    eros_rose_b2            : APSIMReal      = coeff for calculating lambda in Rose model, (), READ_OPT, 0.01, 0.2
-    entrain_eff_bed         : APSIMReal      = efficency of bedload entrainmnt (bare), (), READ, 0.0, 2.0
-    eros_rose_b2_bed        : APSIMReal      = coeff for calculating lambda in Rose model (bedload), (), READ, 0.01, 0.2
-    entrain_eff_susp        : APSIMReal      = efficency of suspended load entrainmnt (bare), (), READ, 0.0, 2.0
-    eros_rose_b2_susp       : APSIMReal      = coeff for calculating lambda in Rose model (suspended load), (), READ, 0.01, 0.2
-
-; Main Actions
-    sysinit                 : APSIMMethod         = System initialise
-    end_run                 : APSIMMethod         = System end_run stage
- end
-; -----------------------------------------------------------
-; Erosions External interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-class APSIMErosionExternal
-; variables obtained from other modules by erosion_get_other_variables
-    year                    : APSIMInteger          = year, (), GET, 1800, 2100
-    day                     : APSIMInteger          = day of year, (), GET, 0, 366
-    runoff                  : APSIMReal             = daily runoff, (mm), GET, 0.0, 1000.0
-    cover_surface_runoff    : APSIMReal             = Total surface cover from vegetation, (), GET, 0.0, 1.0
-    dlayer                  : APSIMRealArray        = thickness of layers in soil profile, (mm), GET, 0.0, 2000.0
-    bd                      : APSIMRealArray        = moist bulk density of soil, (g/cm^3), GET, 0.0, 10.0
-    dlt_dlayer              : APSIMRealArray        = Change in layer thicknesses in soil profile, (mm), SET
-
-    process                 : APSIMEvent            = System process stage
-
-end
-
-class APSIMErosion
-   dll      : string
-   public   : APSIMErosionPublic
-   external : APSIMErosionExternal
-end
+<component name="erosion">
+   <registrations>
+      <respondToGetReg name="soil_loss" type="soil_lossType"/>
+      <respondToGetReg name="soil_loss_bed" type="soil_loss_bedType"/>
+      <respondToGetReg name="soil_loss_susp" type="soil_loss_suspType"/>
+      <respondToGetReg name="soil_loss_mm" type="soil_loss_mmType"/>
+      <respondToGetReg name="sed_conc" type="sed_concType"/>
+      <respondToGetReg name="sed_conc_bed" type="sed_conc_bedType"/>
+      <respondToGetReg name="sed_conc_susp" type="sed_conc_suspType"/>
+      <respondToGetReg name="bed_depth" type="bed_depthType" readable="T"/>
+      <respondToGetReg name="erosion_cover" type="erosion_coverType"/>
+      <respondToGetSetReg name="cover_extra" type="cover_extraType" readable="T"/>
+      <read name="bed_depth" type="bed_depthType" readable="T"/>
+      <read name="cover_extra" type="cover_extraType" readable="T"/>
+      <read name="model" type="modelType" readable="T"/>
+      <read name="profile_reduction" type="profile_reductionType" readable="T"/>
+      <read name="profile_layer_merge" type="profile_layer_mergeType" readable="T"/>
+      <read name="minimum_depth" type="minimum_depthType" readable="T"/>
+      <read name="slope" type="slopeType" readable="T"/>
+      <read name="slope_length" type="slope_lengthType" readable="T"/>
+      <read name="k_factor" type="k_factorType" readable="T"/>
+      <read name="k_factor_bed" type="k_factor_bedType" readable="T"/>
+      <read name="k_factor_susp" type="k_factor_suspType" readable="T"/>
+      <read name="p_factor" type="p_factorType" readable="T"/>
+      <read name="entrain_eff" type="entrain_effType" readable="T"/>
+      <read name="eros_rose_b2" type="eros_rose_b2Type" readable="T"/>
+      <read name="entrain_eff_bed" type="entrain_eff_bedType" readable="T"/>
+      <read name="eros_rose_b2_bed" type="eros_rose_b2_bedType" readable="T"/>
+      <read name="entrain_eff_susp" type="entrain_eff_suspType" readable="T"/>
+      <read name="eros_rose_b2_susp" type="eros_rose_b2_suspType" readable="T"/>
+      <respondToMethodCallReg name="sysinit" type="sysinitType"/>
+      <respondToMethodCallReg name="end_run" type="end_runType"/>
+      <getVariableReg name="year" type="yearType"/>
+      <getVariableReg name="day" type="dayType"/>
+      <getVariableReg name="runoff" type="runoffType"/>
+      <getVariableReg name="cover_surface_runoff" type="cover_surface_runoffType"/>
+      <getVariableReg name="dlayer" type="dlayerType"/>
+      <getVariableReg name="bd" type="bdType"/>
+      <setVariableReg name="dlt_dlayer" type="dlt_dlayerType"/>
+      <respondToEventReg name="process" type="processType"/>
+   </registrations>
+</component>
