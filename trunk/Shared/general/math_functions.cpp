@@ -208,3 +208,29 @@ double linear_interp_real (double x,
    assert (false);
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//       Calculates a set of probability values from a given set
+//       of XValues.
+
+//  Notes:
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+void Calculate_prob_dist(vector<double>& X,
+                         bool Prob_exceed,
+                         vector<double>& Prob_values)
+   {
+   // sort our values.
+   std::sort(X.begin(), X.end());
+
+   // create another vector for interpolation.
+   for (int x = 1; x <= X.size(); x++)
+      Prob_values.push_back( (x-0.5)/X.size()*100 );
+
+   if (Prob_exceed)
+      std::reverse(Prob_values.begin(), Prob_values.end());
+   }
+
