@@ -1883,6 +1883,9 @@ subroutine soilp_ONFreshOrganicMatterIncorporated(variant)
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
+   fom_c_pool1(1:max_layer) = 0.0
+   fom_c_pool2(1:max_layer) = 0.0
+   fom_c_pool3(1:max_layer) = 0.0
 
    !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
    call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
@@ -1965,6 +1968,9 @@ subroutine soilp_incorp_residues ()
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
+   fom_c_pool1(1:max_layer) = 0.0
+   fom_c_pool2(1:max_layer) = 0.0
+   fom_c_pool3(1:max_layer) = 0.0
 
    dlt_fom_incorp(:) = 0.0
    dlt_fom_p_incorp(:) = 0.0
@@ -2185,6 +2191,9 @@ subroutine soilp_incorp_residue_P ()
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
+   fom_c_pool1(1:max_layer) = 0.0
+   fom_c_pool2(1:max_layer) = 0.0
+   fom_c_pool3(1:max_layer) = 0.0
 
    dlt_fom_p_incorp(:) = 0.0
    dlt_labile_p(:) = 0.0
