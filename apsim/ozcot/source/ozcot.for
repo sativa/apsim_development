@@ -146,6 +146,13 @@
          if (ozcot_my_type ()) then
                ! request and receive variables from owner-modules
 !jh            call ozcot_get_other_variables ()
+            if (g%zero_variables) then
+               call ozcot_zero_variables()
+               call ozcot_init()
+
+            else
+               ! No need to zero variables.
+            endif
                ! start crop and do  more initialisations
             call ozcot_start_crop ()
          else
@@ -1209,6 +1216,7 @@
       real    trtsno3                ! total no3 in root zone.
       real    trtsnh4                ! total nh4 in root zone.
 !jh      real    sw_dep(max_layers) ! soil water uptake in layer mm
+      real tempsum
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
@@ -1255,7 +1263,10 @@
 
       trtsno3 = sum(g%ano3(1:g%nrtlayr))
       trtsnh4 = 0.0
+      g%dn_plant = u_bound (g%dn_plant, (trtsno3 + trtsnh4)/10.0)
 !jh      trtsnh4 = sum(g%anh4(1:g%nrtlayr))
+      print*,'g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.'
+      print*, g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.
       do 20 Layer = 1, g%nlayr
          if (trtsno3+ trtsnh4 .gt. 0.0 .and. Layer.le.g%nrtlayr) then
             dlt_no3(Layer) = -g%dn_plant*10. * g%ano3(Layer)
@@ -1263,11 +1274,13 @@
 !jh            dlt_nh4(Layer) = -g%dn_plant*10. * g%anh4(Layer)
 !jh     :                     / (trtsno3 + trtsnh4)
             dlt_no3(layer) = min(0.0, dlt_no3(layer))
+      print*, dlt_no3(layer), g%ano3(Layer)
          else
             dlt_no3(layer) = 0.0
             dlt_nh4(layer) = 0.0
          endif
          g%ano3(Layer) = g%ano3(Layer) + dlt_no3(Layer)
+         if (g%ano3(Layer) < -1.0) pause
          g%ano3(Layer) = max(0.0, g%ano3(Layer))
          sNO3(layer) = g%ano3(layer) + g%no3mn(layer)
 !jh         g%anh4(Layer) = g%anh4(Layer) + dlt_nh4(Layer)
@@ -1797,6 +1810,7 @@
               call ozcot_snbal                  ! soil n balance
 !              if(isow.gt.0 .and. i.gt.isow) call pltgrw (i,iend,nszn)
 !              if(openz.gt.0.0) call harvest(iend)
+!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
       if (g%crop_in) then
               IF(g%isow.GT.0 .AND. g%das.GT.0) CALL ozcot_pltgrw
               IF(g%openz.GT.0.0) CALL ozcot_harvest
@@ -1819,7 +1833,7 @@
 !      stop
          else
          endif
-        write(*,'(1x,i4, 9f5.1)')g%das, g%frucat
+!        write(*,'(1x,i4, 9f5.1)')g%das, g%frucat
        call pop_routine(myname)
        return
        END
@@ -5865,7 +5879,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       call read_real_var (section_name
      :                     , 'days_since_fert_max', '()'
      :                     , c%days_since_fert_max, numvals
-     :                     , 0, 100)
+     :                     , 0.0, 100.0)
 
       call pop_routine (my_name)
       return
@@ -5995,6 +6009,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       string = '    ------------------------------------------------'
       call write_string (string)
 
+!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
       call pop_routine (my_name)
       return
       end
