@@ -1,11 +1,71 @@
-* ====================================================================
-       subroutine APSIM_Accum (Action, Data)
-* ====================================================================
+       include 'Accum.inc'
+       
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use AccumModule
       implicit none
-      dll_export apsim_accum
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use AccumModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use AccumModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+ 
+      return
+      end
+       
+* ====================================================================
+       subroutine Main (Action, Data)
+* ====================================================================
+      use AccumModule
+      implicit none
        include 'const.inc'             ! Global constant definitions
-       include 'accum.inc'             ! Accum common block
-      include 'engine.pub'                        
+       include 'action.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -22,14 +82,14 @@
 
 *- Implementation Section ----------------------------------
  
-      if (Action.eq.MES_Init) then
+      if (Action.eq.ACTION_Init) then
          call Accum_zero_variables ()
          call Accum_Init ()
  
-      else if (Action .eq. MES_Post) then
+      else if (Action .eq. ACTION_Post) then
          call Accum_get_other_variables()
  
-      else if (Action.eq.MES_Get_variable) then
+      else if (Action.eq.ACTION_Get_variable) then
          ! respond to request for one of our variable values
  
          call Accum_send_my_variable (Data)
@@ -48,10 +108,9 @@
 * ====================================================================
        subroutine Accum_Init ()
 * ====================================================================
+      use AccumModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'accum.inc'            ! Accum model common
-      include 'write.pub'                         
 
 *+  Purpose
 *      Initialise Accum module
@@ -75,7 +134,7 @@
       ! Notify system that we have initialised
  
       Event_string = ID_Init
-      call Report_event (Event_string)
+      call Write_string (Event_string)
  
       ! Get all parameters from parameter file
  
@@ -89,9 +148,9 @@
 * ====================================================================
        subroutine Accum_read_param ()
 * ====================================================================
+      use AccumModule
       implicit none
       include 'const.inc'              ! Constant definitions
-       include 'accum.inc'             ! Accum model common block
       include 'datastr.pub'                       
       include 'read.pub'                          
       include 'error.pub'                         
@@ -134,20 +193,20 @@
       call push_routine(This_routine)
  
       call read_char_array(section_name, 'accum_variables',
-     .   Max_variables, ' ', Variable_names, Num_variables)
+     .   Max_variables, ' ', g%variable_names, g%num_variables)
  
       ! loop through each variable and pull off size component.
  
-      do 10 indx = 1, Num_variables
-         Pos = index(Variable_names(indx), '[')
+      do 10 indx = 1, g%num_variables
+         Pos = index(g%variable_names(indx), '[')
          if (Pos .eq. 0) then
             call Fatal_error(Err_internal, Err2)
  
          else
             ! Extract size component.
  
-            Size_string = Variable_names(indx)(Pos + 1:)
-            Variable_names(indx)(Pos:) = Blank
+            Size_string = g%variable_names(indx)(Pos + 1:)
+            g%variable_names(indx)(Pos:) = Blank
             Pos = index(Size_string, ']')
             if (Pos .eq. 0) then
                call Fatal_error(Err_internal, Err2)
@@ -155,10 +214,10 @@
             else
                Size_string(Pos:) = Blank
                call String_to_integer_var(Size_string,
-     .              Variable_sizes(indx), Numvals)
+     .              g%variable_sizes(indx), Numvals)
  
-               if (Variable_sizes(indx) .gt. 0 .and.
-     .             Variable_sizes(Num_variables) .le. Max_days) then
+               if (g%variable_sizes(indx) .gt. 0 .and.
+     .             g%variable_sizes(g%num_variables) .le. Max_days) then
                   goto 10
  
                else
@@ -177,8 +236,8 @@
 * ====================================================================
        subroutine Accum_zero_variables ()
 * ====================================================================
+      use AccumModule
       implicit none
-       include 'accum.inc'              ! Accum common block
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -192,10 +251,10 @@
 
 *- Implementation Section ----------------------------------
  
-      Num_variables = 0
+      g%num_variables = 0
       do 10 Var_index = 1, Max_variables
          do 10 Day_index = 1, Max_days
-            Variable_values(Var_index, Day_index) = 0.0
+            g%variable_values(Var_index, Day_index) = 0.0
 10    continue
  
       return
@@ -206,9 +265,9 @@
 * ====================================================================
        subroutine Accum_get_other_variables ()
 * ====================================================================
+      use AccumModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'accum.inc'            ! Accum common block
       include 'intrface.pub'                      
 
 *+  Purpose
@@ -226,17 +285,17 @@
  
       ! Move all other variables down one position in the array.
  
-      do 10 Var_index = 1, Num_variables
-         do 10 Day_index =  Variable_sizes(Var_index), 2, -1
-            Variable_values(Var_index, Day_index) =
-     .         Variable_values(Var_index, Day_index - 1)
+      do 10 Var_index = 1, g%num_variables
+         do 10 Day_index =  g%variable_sizes(Var_index), 2, -1
+            g%variable_values(Var_index, Day_index) =
+     .         g%variable_values(Var_index, Day_index - 1)
 10    continue
  
       ! Get all required variables for today
  
-      do 20 Var_index = 1, Num_variables
-         call Get_real_var(Unknown_module, Variable_names(Var_index),
-     .        ' ', Variable_values(Var_index, 1), Numvals, -10000.0,
+      do 20 Var_index = 1, g%num_variables
+         call Get_real_var(Unknown_module, g%variable_names(Var_index),
+     .        ' ', g%variable_values(Var_index, 1), Numvals, -10000.0,
      .        10000.0)
 20    continue
  
@@ -248,10 +307,9 @@
 * ====================================================================
        subroutine Accum_Send_my_variable (Variable_name)
 * ====================================================================
+      use AccumModule
       implicit none
        include 'const.inc'             ! constant definitions
-       include 'accum.inc'            ! Accum Common block
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'datastr.pub'                       
       include 'error.pub'                         
@@ -272,7 +330,7 @@
       parameter (Routine_name='accum_send_my_variable')
 
 *+  Local Variables
-      integer Day_index                ! Index into day part of variable_values array
+      integer Day_index                ! Index into day part of g%variable_values array
       logical Found                    ! Have we found the variable yet ?
       integer Num_days                 ! Number of days to accumulate.
       integer Numvals                  ! number of values
@@ -307,7 +365,7 @@
          ! Determine weather the requested variable is one of ours.
  
          Var_index = Find_string_in_array
-     .      (Var_name, Variable_names, Num_variables)
+     .      (Var_name, g%variable_names, g%num_variables)
          Found = (Var_index .gt. 0)
       endif
  
@@ -317,7 +375,7 @@
       if (Found) then
  
          if (Num_days .eq. -1) then
-            Num_days = Variable_sizes(Var_index)
+            Num_days = g%variable_sizes(Var_index)
  
          else
             ! Caller has specified the number of days.
@@ -325,7 +383,7 @@
  
          Sum = 0.0
          do 20 Day_index = 1, Num_days
-            Sum = Sum + Variable_values(Var_index, Day_index)
+            Sum = Sum + g%variable_values(Var_index, Day_index)
 20       continue
  
          call respond2get_real_var(Variable_name, '()', Sum)

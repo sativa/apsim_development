@@ -1,11 +1,86 @@
-*====================================================================
-      subroutine apsim_Correl (Action, Data_string)
-*====================================================================
+      include 'Correl.inc'
+
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use CorrelModule
       implicit none
-      dll_export apsim_correl
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+      
+      ! DPH - added this to open the output file.  For some reason
+      ! unknown to me, if this is done later in say the Init routine
+      ! it fails with a run-time error stating that 
+      ! "File sharing is not loaded, requested ACTION not available."
+      ! Something in the new C++ infrastructure must be causing this.
+      open (unit=50, file='correl.out')
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use CorrelModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use CorrelModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
+
+
+*====================================================================
+      subroutine Main (Action, Data_string)
+*====================================================================
+      use CorrelModule
+      implicit none
+      include   'action.inc'
       include   'const.inc'            ! Global constant definitions
-      include   'correl.inc'               ! correl common block
-      include 'engine.pub'                        
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -19,43 +94,41 @@
 *+  Changes
 *       210995 jngh programmed
 *       090696 jngh changed presence report to standard
-*       190599 jngh removed version references and MES_presence
+*       190599 jngh removed version references and ACTION_presence
 
 *+  Constant Values
       character  myname*(*)            ! Name of this procedure
-      parameter (myname = 'apsim_correl')
-
-*+  Local Variables
-      character  module_name*8         ! name of this module
+      parameter (myname = 'Correl_main')
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if (Action.eq.MES_Init) then
+
+      if (Action.eq.ACTION_Init) then
          call correl_zero_variables ()
          call correl_init ()
          call correl_get_other_variables_init ()
  
-      elseif (Action.eq.MES_Prepare) then
+      elseif (Action.eq.ACTION_Prepare) then
          call correl_prepare ()
  
-      elseif (Action.eq.MES_Get_variable) then
+      elseif (Action.eq.ACTION_Get_variable) then
          call correl_send_my_variable (Data_string)
  
-      elseif (Action.eq.MES_Process) then
+      elseif (Action.eq.ACTION_Process) then
          call correl_zero_daily_variables ()
          call correl_get_other_variables ()
          call correl_process ()
  
-      elseif (Action.eq.MES_End_Run) then
+      elseif (Action.eq.ACTION_End_Run) then
          call correl_calculate (Data_string)
+         close(50)
  
       else
             ! don't use message
          call Message_unused ()
  
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -65,9 +138,9 @@
 *====================================================================
       subroutine correl_zero_variables ()
 *====================================================================
+      use CorrelModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'correl.inc'               ! correl common block
       include 'error.pub'                         
 
 *+  Purpose
@@ -85,7 +158,7 @@
  
          !variables
  
-      g_records = 0
+      g%records = 0
  
       call correl_zero_daily_variables ()
  
@@ -99,8 +172,8 @@
 *====================================================================
       subroutine correl_zero_daily_variables ()
 *====================================================================
+      use CorrelModule
       implicit none
-      include    'correl.inc'              ! correl common block
       include 'error.pub'                         
 
 *+  Purpose
@@ -127,8 +200,8 @@
 *====================================================================
       subroutine correl_init ()
 *====================================================================
+      use CorrelModule
       implicit none
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -147,7 +220,7 @@
  
          ! notify system that we have initialised
  
-      call report_event ('Initialising:')
+      call Write_string ('Initialising:')
  
          ! get all parameters from parameter file
  
@@ -167,11 +240,10 @@
 *===========================================================
       subroutine correl_read_param ()
 *===========================================================
+      use CorrelModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'correl.inc'               ! correl common block
       include 'read.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -193,9 +265,9 @@
 *+  Local Variables
       integer    numvals               ! number of values read
 c      character  line*80               ! output string
-      integer    temp(numvars)
+      integer    temp(max_numvars)
       integer    numints
-      character  check(numvars)*8
+      character  check(max_numvars)*8
       integer    numcheck
       integer    i
       integer    k
@@ -205,15 +277,15 @@ c      character  line*80               ! output string
  
       call push_routine (myname)
  
-      call write_string (lu_scr_sum
-     :          ,new_line//'   - Reading correl Parameters')
+      call write_string (
+     :          new_line//'   - Reading correl Parameters')
  
          ! offset days
       call read_integer_var (
      :           section_name
      :          ,'offset'
      :          ,'(-)'
-     :          ,p_offset
+     :          ,p%offset
      :          ,numvals
      :          ,0
      :          ,offset)
@@ -222,15 +294,15 @@ c      character  line*80               ! output string
       call read_char_array (
      :           section_name
      :          ,'names'
-     :          ,numvars
+     :          ,max_numvars
      :          ,'(-)'
-     :          ,p_names
-     :          ,p_numvars)
+     :          ,p%names
+     :          ,p%numvars)
  
       call read_char_array (
      :           section_name
      :          ,'check'
-     :          ,numvars
+     :          ,max_numvars
      :          ,'(-)'
      :          ,check
      :          ,numcheck)
@@ -240,7 +312,7 @@ c      character  line*80               ! output string
          call read_integer_array (
      :           section_name
      :          ,check(i)
-     :          ,numvars
+     :          ,max_numvars
      :          ,'(-)'
      :          ,temp
      :          ,numints
@@ -249,11 +321,11 @@ c      character  line*80               ! output string
          if (numints.eq.0) then
          else
             k = k + 1
-            p_check_name(k) = check(i)
-            p_check_vals(:,k) = temp
+            p%check_name(k) = check(i)
+            p%check_vals(:,k) = temp
          endif
       end do
-      p_num_check = k
+      p%num_check = k
  
       call pop_routine  (myname)
       return
@@ -264,9 +336,9 @@ c      character  line*80               ! output string
 *===========================================================
       subroutine correl_read_constants ()
 *===========================================================
+      use CorrelModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'correl.inc'               ! correl common block
       include 'error.pub'                         
 
 *+  Purpose
@@ -298,6 +370,7 @@ c      character  line*80               ! output string
 *================================================================
       subroutine correl_prepare ()
 *================================================================
+      use CorrelModule
       implicit none
       include 'error.pub'                         
 
@@ -324,10 +397,10 @@ c      character  line*80               ! output string
 *====================================================================
       subroutine correl_get_other_variables_init ()
 *====================================================================
+      use CorrelModule
       implicit none
       include   'const.inc'            ! Constant definitions
       include   'convert.inc'          ! conversion constants
-      include   'correl.inc'               ! correl common block
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -350,13 +423,13 @@ c      character  line*80               ! output string
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      g_numvars = 0
-      do i=1, p_numvars
-      if (p_names(i).ne.blank) then
+      g%numvars = 0
+      do i=1, p%numvars
+      if (p%names(i).ne.blank) then
  
       call get_real_var_optional (
      :      unknown_module
-     :     ,p_names(i)
+     :     ,p%names(i)
      :     ,'()'
      :     ,value
      :     ,numvals
@@ -364,8 +437,8 @@ c      character  line*80               ! output string
      :     ,10000.0)
  
          if (numvals.gt.0) then
-            g_numvars = g_numvars + 1
-            g_name_found(g_numvars) = p_names(i)
+            g%numvars = g%numvars + 1
+            g%name_found(g%numvars) = p%names(i)
          else
          endif
  
@@ -383,10 +456,10 @@ c      character  line*80               ! output string
 *====================================================================
       subroutine correl_get_other_variables ()
 *====================================================================
+      use CorrelModule
       implicit none
       include   'const.inc'            ! Constant definitions
       include   'convert.inc'          ! conversion constants
-      include   'correl.inc'               ! correl common block
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -407,14 +480,14 @@ c      character  line*80               ! output string
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      g_records = g_records + 1
-      do i=1, g_numvars
+      g%records = g%records + 1
+      do i=1, g%numvars
  
          call get_real_var_optional (
      :      unknown_module
-     :     ,g_name_found(i)
+     :     ,g%name_found(i)
      :     ,'()'
-     :     ,g_values(g_records,i)
+     :     ,g%values(g%records,i)
      :     ,numvals
      :     ,-1000.0
      :     ,10000.0)
@@ -430,9 +503,8 @@ c      character  line*80               ! output string
 *====================================================================
       subroutine correl_send_my_variable (Variable_name)
 *====================================================================
+      use CorrelModule
       implicit none
-      include   'correl.inc'               ! correl common block
-      include 'engine.pub'                        
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -462,6 +534,7 @@ c      character  line*80               ! output string
 *================================================================
       subroutine correl_process ()
 *================================================================
+      use CorrelModule
       implicit none
       include 'error.pub'                         
 
@@ -488,11 +561,10 @@ c      character  line*80               ! output string
 *================================================================
       subroutine correl_calculate (variable_name)
 *================================================================
+      use CorrelModule
       implicit none
-      include   'correl.inc'               ! correl common block
       include   'const.inc'
       include 'string.pub'                        
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -509,21 +581,21 @@ c      character  line*80               ! output string
       parameter (myname = 'correl_calculate')
 
 *+  Local Variables
-      real     cor(numvars,numvars,offset*2+1)
+      real     cor(max_numvars,max_numvars,offset*2+1)
       integer  i
       integer  j
       integer  k
       integer  n
       integer  nr
       double precision     sum
-      double precision     sumsqx(numvars)
-      double precision     diffx(numvars)
-      double precision     sumsqy(numvars)
-      double precision     diffy(numvars)
-      double precision     mean(numvars)
-      double precision     sumprod(numvars,numvars)
+      double precision     sumsqx(max_numvars)
+      double precision     diffx(max_numvars)
+      double precision     sumsqy(max_numvars)
+      double precision     diffy(max_numvars)
+      double precision     mean(max_numvars)
+      double precision     sumprod(max_numvars,max_numvars)
       character string*1000
-      integer   corloc(numvars,numvars,1)
+      integer   corloc(max_numvars,max_numvars,1)
       real      temp(offset*2+1)
 
 *- Implementation Section ----------------------------------
@@ -531,17 +603,17 @@ c      character  line*80               ! output string
       call push_routine (myname)
  
  
-      do n = 1, p_offset*2+1
-         do i = 1, g_numvars
+      do n = 1, p%offset*2+1
+         do i = 1, g%numvars
             sum = 0.0
-            do nr = p_offset+1, g_records-p_offset
-               sum = sum + g_values(nr,i)
+            do nr = p%offset+1, g%records-p%offset
+               sum = sum + g%values(nr,i)
             end do
  
-            mean(i) = sum/g_records
+            mean(i) = sum/g%records
             sumsqx(i) = 0.0
             sumsqy(i) = 0.0
-            do j=1,g_numvars
+            do j=1,g%numvars
                sumprod(i,j) = 0.0
             end do
  
@@ -550,23 +622,23 @@ c      character  line*80               ! output string
  
             ! correlate on next day
  
-         do nr = p_offset+1, g_records-p_offset
-            do i = 1, g_numvars
-               diffx(i) = g_values(nr,i) - mean(i)
-               diffy(i) = g_values(nr+n-(p_offset+1),i) - mean(i)
+         do nr = p%offset+1, g%records-p%offset
+            do i = 1, g%numvars
+               diffx(i) = g%values(nr,i) - mean(i)
+               diffy(i) = g%values(nr+n-(p%offset+1),i) - mean(i)
                sumsqx(i) = sumsqx(i) + diffx(i)**2
                sumsqy(i) = sumsqy(i) + diffy(i)**2
             end do
-            do i=1,g_numvars
-               do j=1,g_numvars
+            do i=1,g%numvars
+               do j=1,g%numvars
                sumprod(i,j) = sumprod(i,j) + diffx(i)*diffy(j)
                end do
             end do
          end do
  
-         do i=1,g_numvars
+         do i=1,g%numvars
             if (sumsqx(i).ne.0.0) then
-            do j=1,g_numvars
+            do j=1,g%numvars
                if (sumsqy(j).ne.0.0) then
                cor(i,j,n) =  sumprod(i,j)
      :                  / sqrt(sumsqx(i)*sumsqy(j) )
@@ -576,46 +648,47 @@ c      character  line*80               ! output string
  
             end do
             else
-               do j=1,g_numvars
+               do j=1,g%numvars
                cor(i,j,n) = 0.0
                end do
             endif
          end do
       end do
  
-      open (1000, 'correl.out')
- 
+      open (unit=50, file='correl.out', status='unknown')
+      rewind(50)
+
       string = blank
-      write (string, '(10x, 100a7)') (g_name_found(i), i=1,g_numvars)
-      call write_string (lu_scr_sum, string)
-      write (1000, *) trim(string)
-      do i=1,g_numvars
-         write (string, '(1x, a7)') g_name_found(i)
-         call write_string (lu_scr_sum, string)
-         write (1000, *) trim(string)
-         do k = 1,p_offset*2+1
+      write (string, '(10x, 100a7)') (g%name_found(i), i=1,g%numvars)
+      call write_string (string)
+      write (50, *) trim(string)
+      do i=1,g%numvars
+         write (string, '(1x, a7)') g%name_found(i)
+         call write_string (string)
+         write (50, *) trim(string)
+         do k = 1,p%offset*2+1
             write (string, '(2x, a3, sp, i2, ss, 700f7.2)')
-     :            'day',k-(p_offset+1), (cor(i,j,k), j=1,g_numvars)
-            call write_string (lu_scr_sum, string)
-            write (1000, *) trim(string)
+     :            'day',k-(p%offset+1), (cor(i,j,k), j=1,g%numvars)
+            call write_string (string)
+            write (50, *) trim(string)
          end do
       end do
  
-!      write (string, '(10x, 100a7)') (g_name_found(i), i=1,g_numvars)
-!      call write_string (lu_scr_sum, string)
-!      write (1000, *) trim(string)
-!      do i=1,g_numvars
-!         do j=1,g_numvars
+!      write (string, '(10x, 100a7)') (g%name_found(i), i=1,g%numvars)
+!      call write_string (string)
+!      write (50, *) trim(string)
+!      do i=1,g%numvars
+!         do j=1,g%numvars
 !            temp = cor(i,j,:)
-!            corloc(i,j,1) = maxloc(temp)-(p_offset+1)
+!            corloc(i,j,1) = maxloc(temp)-(p%offset+1)
 !         end do
 !            write (string, '(1x, a7, 2x, 700f7.2)')
-!     :            g_name_found(i), (corloc(i,j), j=1,g_numvars)
-!            call write_string (lu_scr_sum, string)
-!            write (1000, *) trim(string)
+!     :            g%name_found(i), (corloc(i,j), j=1,g%numvars)
+!            call write_string (string)
+!            write (50, *) trim(string)
 !      end do
  
-      close (1000)
+      close (50)
  
       call pop_routine (myname)
       return
