@@ -50,8 +50,14 @@ void Scenarios::loadAllAddIns(void)
          fileName->erase(posSpace);
          }
       }
-   addIns.load(fileNames);
-
+   try
+   {
+      addIns.load(fileNames);
+   }
+   catch (const exception& e)
+   {
+      MessageDlg(e.what(), mtWarning, TMsgDlgButtons() << mbOK, 0);
+   }
    // loop through all addins and pass any add-in parameters.
    for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
       {

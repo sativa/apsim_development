@@ -4,18 +4,18 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\Bin\ApsimOutlook.exe"/>
-    <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj Main.obj TChartSettingsForm.obj 
+    <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj main.obj TChartSettingsForm.obj 
       TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj 
       factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj 
       TValueSelectPopup.obj TOutlookSplashForm.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm Main.dfm TChartSettingsForm.dfm 
+    <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm main.dfm TChartSettingsForm.dfm 
       TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
       TValueSelectPopup.dfm TOutlookSplashForm.dfm"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="APSGeneral.lib kbmMemC6Run.lib thirdparty.lib"/>
+    <LIBRARIES value="thirdparty.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib vclx.lib bdertl.lib dbrtl.lib vcldb.lib APSData.lib 
       thirdparty.lib adortl.lib TMSC6.lib Tee.lib TeePro.lib TeeUI.lib 
       kbmMemC6Run.lib bcbsmp.lib APSGeneral.lib"/>
@@ -23,7 +23,7 @@
       bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
       inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi APSData.bpi 
       TMSC6.bpi TeeUI.bpi Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi 
-      TeeLanguage.bpi TeeImage.bpi"/>
+      TeeLanguage.bpi TeeImage.bpi kbmMemC6Run.bpi APSGeneral.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -35,7 +35,7 @@
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimOutlook.cpp"/>
     <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general"/>
+    <LIBPATH value="..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -59,7 +59,7 @@
       <FILE FILENAME="ApsimOutlook.res" FORMNAME="" UNITNAME="ApsimOutlook" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="about.cpp" FORMNAME="AboutBox" UNITNAME="about" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="childwin.cpp" FORMNAME="MDIChild" UNITNAME="ChildWin" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Main.cpp" FORMNAME="MainForm" UNITNAME="Main" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="main.cpp" FORMNAME="MainForm" UNITNAME="Main" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TChartSettingsForm.cpp" FORMNAME="ChartSettingsForm" UNITNAME="TChartSettingsForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TDrill_down_form.cpp" FORMNAME="Drill_down_form" UNITNAME="TDrill_down_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TPreferences_form.cpp" FORMNAME="Preferences_form" UNITNAME="TPreferences_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -106,10 +106,6 @@ OriginalFilename=
 ProductName=Apsim Outlook
 ProductVersion=1.2
 Comments=Build date: 4 July
-
-[Excluded Packages]
-c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
-c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
 Count=13
@@ -190,5 +186,10 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
   </IDEOPTIONS>
 </PROJECT>
