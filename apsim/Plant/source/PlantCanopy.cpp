@@ -1167,13 +1167,15 @@ void legnew_dm_pot_rue (
     ,float  cover_pod
     ,double  radn_int
     ,double  stress_factor
+    ,float g_co2, float g_maxt, float g_mint
+    ,photosynthetic_pathway_t c_photosynthetic_pathway
     ,float  *dlt_dm_pot                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
     ) {
     //+  Local Variables
     double podfr;                                  // fraction of intercepted light intercepted by pods
     double rue_leaf;
     int   numvals;
-
+    float co2_modifier = 0.0;
 
     // Assume pods are above the rest of the canopy
     podfr = bound(divide(cover_pod,cover_green,0.0), 0.0, 1.0);
@@ -1190,8 +1192,16 @@ void legnew_dm_pot_rue (
                                        , c_x_stage_rue
                                        , c_y_rue
                                        , numvals);
+
+        cproc_rue_co2_modifier(c_photosynthetic_pathway,
+                               g_co2,
+                               g_maxt,
+                               g_mint,
+                               &co2_modifier);
+
         *dlt_dm_pot = (radn_int * podfr * rue_pod +
-                       radn_int * (1.0 - podfr) * rue_leaf) * stress_factor;
+                       radn_int * (1.0 - podfr) * rue_leaf) *
+                       stress_factor * co2_modifier;
         // crue
         //fprintf(stdout, "%d %f %f %f\n",
         //        g.day_of_year, rue_leaf, radn_int, stress_factor);

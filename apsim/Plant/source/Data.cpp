@@ -524,10 +524,11 @@ float sum_between (int start,            //(INPUT)   initial level to begin sum_
 
    {
    float tot = 0.0;
-   for(int level = start; level < finish; level++)
-      {
+   int level = start;
+   do {
       tot = tot + array[level];
-      }
+      level++;
+      } while (level < finish);
    return tot;
    }
 

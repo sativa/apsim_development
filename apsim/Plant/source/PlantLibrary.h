@@ -4,6 +4,8 @@
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
 
+typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
+
 extern const char *Blank;
 
 // Size of a message"s address char. string
@@ -355,7 +357,7 @@ void crop_dm_pot_rue_co2 (float current_stage,
                           float co2_modifier, 
                           float *dlt_dm_pot);     //(OUTPUT) potential dry matter  (carbohydrate) production (g/m^2
 
-void cproc_rue_co2_modifier(char *crop_type,           //!please use 'C3' or 'C4' for crop_type
+void cproc_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4' for crop_type
                             float co2,                 //!CO2 level (ppm)
                             float maxt,                //!daily max temp (C)
                             float mint,                //!daily min temp (C)
@@ -781,7 +783,7 @@ void legnew_cover_leaf_pod (
 
   void legnew_dm_pot_rue (
      float  current_stage
-    , int max_stage 
+    , int max_stage
     ,float  *g_tt_tot
     ,float  *c_x_stage_rue
     ,float  *g_phase_tt
@@ -791,6 +793,8 @@ void legnew_cover_leaf_pod (
     ,float  cover_pod
     ,double  radn_int
     ,double  stress_factor
+    ,float g_co2, float g_maxt, float g_mint
+    ,photosynthetic_pathway_t photosynthetic_pathway
     ,float  *dlt_dm_pot
     ) ;
   float legnew_node_no_from_area
@@ -1684,8 +1688,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
                                     //          for soil layer L (mm)                                                
 
 void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distance between svp at mi
-                          float *transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
-                          float current_stage,    // (INPUT)  current phenological stages
+                          float transp_eff_cf,    // (INPUT)  transpiration efficiency coefficien
                           float maxt,             // (INPUT)  maximum air temperature (oC)
                           float mint,             // (INPUT)  minimum air temperature (oC)
                           float co2level,         // (INPUT)  current co2 level (ppm)
