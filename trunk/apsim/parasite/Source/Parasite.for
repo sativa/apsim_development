@@ -106,14 +106,14 @@
 
 
         real       population_alive(max_class)  ! number of alive parasites on given day (parasites/m2)
-        real       adults_alive    (max_class)  ! number of reproductive parasites on given day (parasites/m2)
-        real       larva_alive     (max_class)  ! number of unreproductive parasites on given day (parasites/m2)
-        real       descendant_alive(max_class)  ! number of parasites produced for the next season (parasites/m2)
+!        real       adults_alive    (max_class)  ! number of reproductive parasites on given day (parasites/m2)
+!        real       larva_alive     (max_class)  ! number of unreproductive parasites on given day (parasites/m2)
+!        real       descendant_alive(max_class)  ! number of parasites produced for the next season (parasites/m2)
 
         real       population_dead (max_class)  ! number of dead parasites on given day (parasites/m2)
-        real       adults_dead     (max_class)  ! number of dead reproductive parasites on given day (parasites/m2)
-        real       larva_dead      (max_class)  ! number of dead unreproductive parasites on given day (parasites/m2)
-        real       descendant_dead (max_class)  ! number of dead parasites produced for the next season (parasites/m2)
+!        real       adults_dead     (max_class)  ! number of dead reproductive parasites on given day (parasites/m2)
+!        real       larva_dead      (max_class)  ! number of dead unreproductive parasites on given day (parasites/m2)
+!        real       descendant_dead (max_class)  ! number of dead parasites produced for the next season (parasites/m2)
 
         real       population_all  (max_class)  ! number of all parasites on given day (parasites/m2)
         real       adults_all      (max_class)  ! number of all reproductive parasites on given day (parasites/m2)
@@ -382,7 +382,7 @@
 
       ! 1. Determine the module 'number' of our host crop.
       if (component_name_to_id(g%host_name, my_crop_module)
-     :    .eq. .false.) then
+     :     .eq.  .false.) then
           call fatal_error (err_user,
      :                      'Cant get id of host crop (1)')
           call write_string('No host crop is present??')
@@ -573,6 +573,15 @@
      :                             , '(parasites/m2)'
      :                             , g%population_all_tot)
 
+      elseif (variable_name .eq. 'population_dead') then
+         call respond2get_real_var (variable_name
+     :                             , '(parasites/m2)'
+     :                             , g%population_dead_tot)
+
+      elseif (variable_name .eq. 'population_alive') then
+         call respond2get_real_var (variable_name
+     :                             , '(parasites/m2)'
+     :                             , g%population_alive_tot)
 
       elseif ((variable_name .eq. 'parasite_dm_demand').OR.
      :        (variable_name .eq. 'dlt_dm_pot'))     then
@@ -770,13 +779,13 @@
 
       call fill_real_array  (g%population_active,0.0,max_class)
       call fill_real_array  (g%population_alive ,0.0,max_class)
-      call fill_real_array  (g%adults_alive     ,0.0,max_class)
-      call fill_real_array  (g%larva_alive      ,0.0,max_class)
-      call fill_real_array  (g%descendant_alive ,0.0,max_class)
+!      call fill_real_array  (g%adults_alive     ,0.0,max_class)
+!      call fill_real_array  (g%larva_alive      ,0.0,max_class)
+!      call fill_real_array  (g%descendant_alive ,0.0,max_class)
       call fill_real_array  (g%population_dead  ,0.0,max_class)
-      call fill_real_array  (g%adults_dead      ,0.0,max_class)
-      call fill_real_array  (g%larva_dead       ,0.0,max_class)
-      call fill_real_array  (g%descendant_dead  ,0.0,max_class)
+!      call fill_real_array  (g%adults_dead      ,0.0,max_class)
+!      call fill_real_array  (g%larva_dead       ,0.0,max_class)
+!      call fill_real_array  (g%descendant_dead  ,0.0,max_class)
       call fill_real_array  (g%population_all   ,0.0,max_class)
       call fill_real_array  (g%adults_all       ,0.0,max_class)
       call fill_real_array  (g%larva_all        ,0.0,max_class)
@@ -1191,6 +1200,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       g%current_stage = 1.0
 
       g%dlt_population_active = -1.0 * g%population_alive_tot
+      g%dlt_population_dead =  g%population_alive_tot
       g%dlt_dm_act_tot = -1.0 * g%dm_act_all_tot
       g%dlt_class = -1.0 * g%actual_class
 
@@ -1217,6 +1227,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       real      p_removed ! parasites removed (/m2)
       real      dm_removed ! dm removed (/m2)
       integer   class
+      integer   numvals
+      real      efficacy
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1228,7 +1240,11 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       call push_routine (my_name)
 
       call write_string ('   Weeding')
-
+      
+      call collect_real_var ('efficacy', '()'
+     :                      , efficacy, numvals
+     :                      , 0.0, 1.0)
+      
 *     Remove all emerged parasites present
 
       tt_emg = g%phase_tt(3)+g%phase_tt(4)
@@ -1236,14 +1252,20 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       p_removed = 0.0
       do class = 1, g%actual_class
             if (g%tt_class_cum(class) .gt. tt_emg) then
-               p_removed = p_removed + g%population_active(class)
-               g%population_active(class) = 0.0
-               dm_removed = dm_removed + g%class_dm(class)
-               g%class_dm(class) = 0.0
+               p_removed = p_removed + 
+     :             g%population_active(class) * efficacy
+               g%population_dead(class) = g%population_dead(class) + 
+     :             g%population_active(class) * efficacy
+               g%population_active(class) = 
+     :             g%population_active(class) * (1.0-efficacy)
+               dm_removed = dm_removed + 
+     :             g%class_dm(class) * efficacy
+               g%class_dm(class) = g%class_dm(class) * (1.0-efficacy)
             else
             end if
       end do
 
+      g%dlt_population_dead =    p_removed
       g%dlt_population_active = -1.0 * p_removed
       g%dlt_dm_act_tot = -1.0 * dm_removed
       call UpdateState ()
@@ -2171,6 +2193,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       g%population_alive_tot = g%population_alive_tot
      :                       + g%dlt_population_active
+
+      g%population_dead_tot   = g%population_dead_tot
+     :                       + g%dlt_population_dead
 
       g%population_all_tot   = g%population_alive_tot
      :                       + g%population_dead_tot
