@@ -302,7 +302,7 @@ void WhopEcon::doCalculations(TAPSTable& data,
          LastCrop = Crop;
 
          //float Yield = StrToFloat(record->getFieldValue("Yield (kg/ha)").c_str()) * (1 - HarvestLoss/100);
-         float Yield = getFloatFromRecord(record, YieldIDs);
+         float Yield = getFloatFromRecord(record, YieldIDs) * (1 - HarvestLoss/100);
          float Return;
          if (Crop == "Cotton")
             Return = Price * Yield;       // $/bale * bale/ha = $/ha
