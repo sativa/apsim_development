@@ -24,7 +24,7 @@ std::string ddmlKindToCPP(const std::string& kind)
    else if (Str_i_Eq(kind, "char"))
       return "char";
    else if (Str_i_Eq(kind, "string"))
-      return "string";
+      return "std::string";
    else
       return "????";
    }
