@@ -617,7 +617,7 @@ Supply stage_names (stage_no) to the requesting module<br>
 
 </blockquote>elseif (variable_name.=.'ratoon_no') then<br>
 
-<blockquote>Supply ratoon_no ro the requesting module<br>
+<blockquote>Supply ratoon_no to the requesting module<br>
 
 </blockquote>elseif (variable_name.=.'phase_tt') then<br>
 
@@ -927,7 +927,7 @@ Supply cane_dmf to the requesting module<br>
 
 das1 = nint (das)<br>
 
-Supply das1 ro the requesting module<br>
+Supply das1 to the requesting module<br>
 
 </blockquote>elseif (variable_name.=.'n_uptake') then<br>
 
@@ -3659,7 +3659,7 @@ if (option.=.1) then<br>
 
 <A HREF = "..\..\croptemp\docs\croptemp_pseudo.html#crop_leaf_area_sen_water1"> Calculate today's leaf area senescence due to water stress. </A><br>
 
-<A HREF = "..\..\croptemp\docs\croptemp_pseudo.html#crop_leaf_area_sen_light1"> Calculate today's leaf area senescence due to light competition. </A><br>
+<A HREF = "..\..\croptemp\docs\croptemp_pseudo.html#crop_leaf_area_sen_light1"> Calculate today's leaf area senescence due to shading. </A><br>
 
 <A HREF = "..\..\croptemp\docs\croptemp_pseudo.html#crop_leaf_area_sen_frost1"> Calculate today's leaf area senescence due to frost </A><br>
 
@@ -5386,21 +5386,9 @@ For each layer from 1 to num_layers<br>
 
 </blockquote>next<br>
 
-<br>
+set_real_array<I><SUB> unknown_module, 'dlt_no3', ' (kg / ha )), dlt_no3, num_layers</SUB></I><br>
 
-Supply dlt_no3 to the messaging system using the name 'dlt_no3'<br>
-
-action_send<I><SUB> unknown_module, action_set_variable, 'dlt_no3'</SUB></I><br>
-
-<br>
-
-<br>
-
-Supply <FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB> to the messaging system using the name 'dlt_sw_dep'<br>
-
-action_send<I><SUB> unknown_module, action_set_variable, 'dlt_sw_dep'</SUB></I><br>
-
-<br>
+set_real_array<I><SUB> unknown_module, 'dlt_sw_dep', ' (mm )), <FONT FACE = "SYMBOL">D</FONT>sw<SUB>(in mm)</SUB>, num_layers</SUB></I><br>
 
 </blockquote>else<br>
 
@@ -9056,7 +9044,7 @@ content="text/html; charset=iso-8859-1">
 height="73"></p>
 </body>
 </html>
-Date: 25/07/2000  APseudo Version:  1. 0 Rev.  1<br>
+Date: 11/01/2001  APseudo Version:  1. 0 Rev.  1<br>
 <hr>
 <html>
 <body>
