@@ -174,7 +174,7 @@ int Month_string_2_integer (string& Month_string)
    }
 
 // *******************************************************************
-       void GDate::Write(char *Str)  {
+       void GDate::Write(string &Str)  {
 // *******************************************************************
 
 //  Short description:
@@ -192,9 +192,10 @@ int Month_string_2_integer (string& Month_string)
 
 // -------------------- Executable code section ----------------------
 
-   ostringstream Out_stream(Str, 50);
+   ostringstream Out_stream;
    Write(Out_stream);
-   Out_stream << ends;
+   //Out_stream << ends;
+   Str = Out_stream.str();
    }
 
 // *******************************************************************

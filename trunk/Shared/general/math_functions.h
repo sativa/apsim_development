@@ -6,50 +6,7 @@
 #include <algorith>
 #include <functional>
 #include <boost\lexical_cast.hpp>
-// ------------------------------------------------------------------
-//  Short description:
-//    cycle through a number series from 1 to Max_number.
-//    returns the next number in the sequence.
-//    eg.  if current_number = 1   and max_number = 4 returns 1
-//         if current_number = 2   and max_number = 4 returns 2
-//         if current_number = 3   and max_number = 4 returns 3
-//         if current_number = 4   and max_number = 4 returns 4
-//         if current_number = 5   and max_number = 4 returns 1
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/4/1997
-
-// ------------------------------------------------------------------
-int Cycle (int Current_number, int Max_number);
-
-
-struct Regr_stats
-   {
-   float m;
-   float c;
-   float SEslope;
-   float SEcoeff;
-   float R2;
-   float ADJR2;
-   float R2YX;
-   float VarRatio;
-   float RMSD;
-   };
-
-// ------------------------------------------------------------------
-//  Short description:
-//     calculate a regression from the specified data.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/4/1997
-
-// ------------------------------------------------------------------
-void Calc_regression_stats (double X[], double Y[], int Num_points,
-                            Regr_stats& stats);
+#include <string_functions.h>  // ftoa()
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -149,7 +106,7 @@ template < class c1, class c2 >
 c1 multiply (const c1& container1, const c2& container2)
    {
    if (container1.size() != container2.size())
-      throw runtime_error("Cannot divide 2 containers of numbers. Different number of values in each container.");
+      throw runtime_error("Cannot multiply 2 containers of numbers. Different number of values in each container.");
 
    c1 return_container;
 
@@ -390,7 +347,7 @@ void Calculate_freq_dist(std::vector<double>& Values,
 //    magnitude of the number passed in.
 
 //  Notes:
-//    eg.  if Value = 0.1   Rounds down to
+//    eg.  if Value = 0.1   Rounds down to  0 Rounds up to 1
 //    eg.  if Value = 369   Rounds down to 300 Rounds up to 400
 //    eg.  if Value = 1234  Rounds down to 1000 Rounds up to 2000
 //    eg.  if Value = 12345 Rounds down to 10000 Rounds up to 20000
@@ -419,9 +376,6 @@ void Round_to_nearest (double& Value, double Nearest, bool Round_up);
 //  Short description:
 //    convert a container of strings to a container of doubles.
 
-//  Notes:
-//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
-
 //  Changes:
 //    DPH 6/8/98
 
@@ -441,9 +395,6 @@ void StringContainerToDoubleContainer (const container1& StringContainer,
 //  Short description:
 //    convert a container of strings to a container of doubles.
 
-//  Notes:
-//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
-
 //  Changes:
 //    DPH 6/8/98
 
@@ -462,9 +413,6 @@ void StringContainerToIntegerContainer (const container1& StringContainer,
 // ------------------------------------------------------------------
 //  Short description:
 //    convert a container of doubles to a container of strings.
-
-//  Notes:
-//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
 
 //  Changes:
 //    DPH 6/8/98
@@ -504,18 +452,6 @@ void IntegerContainerToStringContainer (const container1& IntegerContainer,
 
 typedef std::vector<double> OptimParams;
 typedef double __fastcall (__closure *TOptimEvent)(const OptimParams& params);
-// ------------------------------------------------------------------
-//  Short description:
-//    SIMPLEX method of optimisation.
-// ------------------------------------------------------------------
-void Minim (std::vector<double>& param,
-            std::vector<double>& STEP,
-            double& FUNC,
-            int MAX,
-            double STOPCR,
-            int NLOOP,
-            int& IFAULT,
-            TOptimEvent f);
 
 //---------------------------------------------------------------------------
 // Return true if value is missing.
