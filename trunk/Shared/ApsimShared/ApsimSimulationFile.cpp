@@ -159,6 +159,13 @@ ApsimComponentData ApsimSimulationFile::addComponent(const std::string& name)
    return ApsimSystemData(xmlDoc->documentElement()).addComponent(name);
    }
 // ------------------------------------------------------------------
+// Add a component to the simulation.
+// ------------------------------------------------------------------
+ApsimComponentData ApsimSimulationFile::addComponent(ApsimComponentData& component)
+   {
+   return ApsimSystemData(xmlDoc->documentElement()).addComponent(component);
+   }
+// ------------------------------------------------------------------
 // Add a service to the simulation.
 // ------------------------------------------------------------------
 ApsimServiceData ApsimSimulationFile::addService(const std::string& name)

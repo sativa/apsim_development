@@ -26,6 +26,7 @@ class __declspec(dllexport) ApsimSystemData
       void getComponentNames(std::vector<std::string>& componentNames) const;
       ApsimComponentData getComponent(const std::string& name) const throw(std::runtime_error);
       ApsimComponentData addComponent(const std::string& name);
+      ApsimComponentData addComponent(ApsimComponentData& component);
       bool deleteComponent(const std::string& name);
 
       std::string getXML(void) const;
