@@ -54,8 +54,8 @@
         weed_in = 1
      endif
      if weed.stage = 10 or weed.plant_status = 'dead' then
-        weed end_crop
         weed kill_crop
+        weed end_crop
      endif
      
      SECTION:- end_of_day
@@ -295,6 +295,10 @@
       crop failure because of total leaf senescence.
          Plant Death. Standing above-ground dm = 10785.5 (kg/ha)
 15 September 1988(Day of year=259), manager: 
+     Manager sending message :- weed kill_crop
+15 September 1988(Day of year=259), weed: 
+     plant_kill. 100% crop killed because of external action.
+15 September 1988(Day of year=259), manager: 
      Manager sending message :- weed end_crop
 15 September 1988(Day of year=259), weed: 
          Crop ended. Yield (dw) =  1619.1
@@ -302,16 +306,5 @@
                                                straw N =  109.0 kg/ha
                                                root residue = 2906.6 kg/ha
                                                root N =   14.8 kg/ha
-15 September 1988(Day of year=259), manager: 
-     Manager sending message :- weed kill_crop
-15 September 1988(Day of year=259), weed: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     "weed" is not in the ground - unable to kill crop.
-     Component name: weed
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 30 May 1989(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.

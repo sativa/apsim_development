@@ -70,6 +70,7 @@
      endif
      if (wheat.stage = 11) then
        wheat harvest
+       wheat kill_crop
        wheat end_crop
      endif
      
@@ -468,6 +469,10 @@
       stress indices for start_grain_fill
       water stress 1 =       0.0163404   nitrogen stress 1 =       0.4712372
       water stress 2 =       0.0381952   nitrogen stress 2 =       0.6393614
+31 October 1988(Day of year=305), manager: 
+     Manager sending message :- wheat kill_crop
+31 October 1988(Day of year=305), wheat: 
+         kill. Standing above-ground dm =  6442.7 (kg/ha)
 31 October 1988(Day of year=305), manager: 
      Manager sending message :- wheat end_crop
 31 October 1988(Day of year=305), wheat: 
