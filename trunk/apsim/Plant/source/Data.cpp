@@ -418,7 +418,7 @@ float sum_part_of_real(float *array,     // array to be summed
       {
       if(index == size_of)   //circular array
          {
-         index = 0;
+         index = 1;
          }
       else
          {

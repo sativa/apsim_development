@@ -21,6 +21,7 @@
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/Messages.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -67,6 +68,7 @@ extern "C" int warning_error(const int */*code*/, char *str, int str_length) {
 void Write_string (char *line) {
     if (currentInstance) {currentInstance->write_string(line);}
 }
+
 /////////////////////////
 Plant::Plant(PlantComponent *P)
     {
@@ -166,9 +168,6 @@ void Plant::doIDs(void)
        id.eo = parent->addRegistration(protocol::getVariableReg,
                                        "eo", floatType,
                                        "", "");
-       id.fr_intc_radn = parent->addRegistration(protocol::getVariableReg,
-                                       "fr_intc_radn", floatType,
-                                       "", "");
        id.sw_dep= parent->addRegistration(protocol::getVariableReg,
                                        "sw_dep", floatArrayType,
                                        "", "");
@@ -191,6 +190,11 @@ void Plant::doIDs(void)
                                        "maxt_soil_surface", floatType,
                                        "", "");
 
+       string canopyName = string("fr_intc_radn_") + string(parent->getName());
+       id.fr_intc_radn = parent->addRegistration(protocol::getVariableReg,
+                                       canopyName.c_str(),
+                                       floatType,
+                                       "", "");
        // sets
        id.dlt_no3 = parent->addRegistration(protocol::setVariableReg,
                                        "dlt_no3", floatArrayType,
@@ -265,8 +269,9 @@ void Plant::doRegistrations(void)
    id = parent->addGettableVar("stage_name", protocol::DTstring, false, "");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_stage_name));
 
-   id = parent->addGettableVar("crop_type", protocol::DTstring, false, "");
-   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_type));
+// XXXX UGLY HACK workaround for broken coordinator in 3.4
+//   id = parent->addGettableVar("crop_type", protocol::DTstring, false, "");
+//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_type));
 
    id = parent->addGettableVar("crop_class", protocol::DTstring, false, "");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_class));
@@ -319,8 +324,8 @@ void Plant::doRegistrations(void)
    id = parent->addGettableVar("leaf_area", protocol::DTsingle, true, "mm^2");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_leaf_area));
 
-   id = parent->addGettableVar("height", protocol::DTsingle, false, "mm");
-   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_height));
+//   id = parent->addGettableVar("height", protocol::DTsingle, false, "mm");
+//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_height));
 
    id = parent->addGettableVar("width", protocol::DTsingle, false, "mm");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_width));
@@ -331,11 +336,11 @@ void Plant::doRegistrations(void)
    id = parent->addGettableVar("plants", protocol::DTsingle, false, "plants/m^2");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_plants));
 
-   id = parent->addGettableVar("cover_green", protocol::DTsingle, false, "");
-   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_green));
+//   id = parent->addGettableVar("cover_green", protocol::DTsingle, false, "");
+//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_green));
 
-   id = parent->addGettableVar("cover_tot", protocol::DTsingle, false, "");
-   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_tot));
+//   id = parent->addGettableVar("cover_tot", protocol::DTsingle, false, "");
+//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_tot));
 
    id = parent->addGettableVar("lai_sum", protocol::DTsingle, false, "m^2/m^2");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_lai_sum));
@@ -679,7 +684,7 @@ void Plant::doRegistrations(void)
    id = parent->addGettableVar("fruit_no_stage", protocol::DTsingle, true, "fruit/m2");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_fruit_no_stage));
 
-   id = parent->addGettableVar("dm_fruit_green_cohort", protocol::DTsingle, true, "g/m2");
+   id = parent->addGettableVar("dm_fruit_green_cohort", protocol::DTsingle, false, "g/m2");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dm_fruit_green_cohort));
 
    id = parent->addGettableVar("dm_fruit_green_part", protocol::DTsingle, true, "g/m2");
@@ -697,7 +702,7 @@ void Plant::doRegistrations(void)
    id = parent->addGettableVar("dlt_dm_fruit_green_retrans_part", protocol::DTsingle, true, "g/m2");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_dlt_dm_fruit_green_retrans_part));
 
-   id = parent->addGettableVar("num_fruit_cohorts", protocol::DTsingle, false, "cohorts");
+   id = parent->addGettableVar("num_fruit_cohorts", protocol::DTint4, false, "cohorts");
    IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_num_fruit_cohorts));
 
    id = parent->addGettableVar("dm_parasite_retranslocate", protocol::DTsingle, false, "g/m2");
@@ -738,8 +743,29 @@ void Plant::getVariable(unsigned id, protocol::QueryValueData& qd)
   {
     currentInstance = this;
     ptr2getFn pf = IDtoGetFn[id];
-    if (pf) {(this->*pf)(qd);}
+    if (pf) {
+      (this->*pf)(qd);
+    }
   }
+void Plant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
+{
+   // XXXX UGLY HACK workaround for broken coordinator in 3.4 Get rid of this ASAP
+   string name = string(apsimQueryData.name.f_str(),apsimQueryData.name.length());
+   if (name == string("crop_type")) {
+      unsigned int id = parent->addGettableVar("crop_type", protocol::DTstring, false, "");
+      IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_type));
+   } else if (name == string("cover_green")) {
+      unsigned int id = parent->addGettableVar("cover_green", protocol::DTsingle, false, "");
+      IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_green));
+   } else if (name == string("cover_tot")) {
+      unsigned int id = parent->addGettableVar("cover_tot", protocol::DTsingle, false, "");
+      IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_tot));
+   } else if (name == string("height")) {
+      unsigned int id = parent->addGettableVar("height", protocol::DTsingle, false, "mm");
+      IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_height));
+   }
+}
+
 
 // Set a variable from the system.
 bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd)
@@ -1065,7 +1091,7 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
             , g.dlt_dm_green
             );
         }
-    else if (option == 3) 
+    else if (option == 3)
         {
         legnew_dm_partition3(
                      g.current_stage
@@ -1095,10 +1121,11 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
          for (int part=0; part < max_part; part++)
             {
             g.dlt_dm_green[part] = 0.0;
-            for (int cohort = 0; cohort < g.num_fruit_cohorts; cohort++)
-                {
-                g.dlt_dm_green[part] += g.dlt_dm_fruit_green[cohort][part];
-               }
+            int cohort = 0;
+            do {
+               g.dlt_dm_green[part] += g.dlt_dm_fruit_green[cohort][part];
+               cohort++;
+               } while (cohort < g.num_fruit_cohorts);
             }
         }
     else
@@ -3688,6 +3715,23 @@ void Plant::plant_sen_bio (int dm_senescence_option,
                }
             }
         }
+      else if (dm_senescence_option == 3)
+        {
+        canopy_sen_fr = divide (g.dlt_slai, g.lai + g.dlt_lai, 0.0);
+
+        cproc_dm_senescence1 (max_part
+                              , max_table
+                              , canopy_sen_fr
+                              , c.x_dm_sen_frac
+                              , c.y_dm_sen_frac
+                              , c.num_dm_sen_frac
+                              , g.dm_green
+                              , g.dlt_dm_green
+                              , g.dlt_dm_green_retrans
+                              , g.dlt_dm_senesced);
+        for (int part = 0; part < max_part; part++)
+          g.dlt_dm_fruit_senesced[0][part] = g.dlt_dm_senesced[part];
+        }
     else
         {
         fatal_error (&err_internal, "invalid template option in plant_sen_bio");
@@ -4896,8 +4940,8 @@ void Plant::plant_event
             {
             char msg[256];
             sprintf(msg,
-"                     biomass =       %.6f   lai            = %.6f\n\
-                     stover n conc = %.6f   extractable sw = %.6f"
+"                biomass =       %8.2f (kg/ha)   lai          = %7.3f (m^2/m^2)\n\
+                stover N conc = %8.2f (%%)     extractable sw = %7.2f (mm)"
                 ,biomass
                 ,g_lai
                 ,n_green_conc_percent
@@ -6415,7 +6459,7 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
       // partition to older, filling fruit.
       cohort = 0;
       do {
-         if (g_fruit_no[cohort] > 0.0) 
+         if (g_fruit_no[cohort] > 0.0)
       	    {
 //      	    current_fruit_phase = (int)g_current_fruit_stage[cohort];
              if (stage_is_between (start_grain_fill, end_grain_fill, g_current_fruit_stage[cohort]))
@@ -6426,7 +6470,7 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
                                              ,c_x_stage_no_partition
                                              ,c_y_frac_pod
                                              ,c_num_stage_no_partition);
-             
+
                 legnew_dm_part_demands(
                           frac_pod
                         , g_grain_energy
@@ -6464,7 +6508,7 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
             dlt_dm_oil_conv[cohort]   = 0.0;
             dlt_dm_green[cohort][pod]  = 0.0;
             }
-             
+
          cohort++;
          } while (cohort < g_num_fruit_cohorts);
 
@@ -6483,7 +6527,7 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
       // partition to young fruit
       cohort = 0;
       do {
-      	if (g_fruit_no[cohort] > 0.0) 
+      	if (g_fruit_no[cohort] > 0.0)
       	    {
              if (stage_is_between (flowering, start_grain_fill,
                                    g_current_fruit_stage[cohort]))
@@ -6503,14 +6547,14 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
                                       , dlt_dm_green[cohort]);
                 }
              }
-          else 
+          else
              {
              // No fruit in this cohort
              dlt_dm_green[cohort][meal] = 0.0;
              dlt_dm_green[cohort][oil]  = 0.0;
              dlt_dm_oil_conv[cohort]   = 0.0;
              dlt_dm_green[cohort][pod]  = 0.0;
-             }   
+             }
          cohort++;
          } while (cohort < g_num_fruit_cohorts);
 
@@ -6538,7 +6582,7 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
       cohort = 0;
       do {
          dlt_dm_green_tot += sum_real_array (dlt_dm_green[cohort], max_part)
-                                  - dlt_dm_green[cohort][root];
+                                 - dlt_dm_green[cohort][root];
          cohort++;
          } while (cohort < g_num_fruit_cohorts);
 
@@ -6560,8 +6604,11 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
       for (part=0; part < max_part; part++)
         {
         sum[part] = 0.0;
-        for (cohort; cohort < g_num_fruit_cohorts; cohort++)
-          sum[part] += dlt_dm_green[cohort][part];
+        cohort = 0;
+        do {
+           sum[part] += dlt_dm_green[cohort][part];
+           cohort++;
+           } while (cohort < g_num_fruit_cohorts);
         }
       bound_check_real_array(sum, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
       bound_check_real_var (*dlt_dm_parasite, 0.0, g_dlt_dm, "dlt_dm_parasite");
@@ -6679,7 +6726,7 @@ void Plant::legnew_dm_retranslocate1
            - g_dm_plant_min[part]
            * g_plants;
            dm_part_avail = l_bound (dm_part_avail, 0.0);
-   
+
            dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
            dm_retranslocate[part] = - dlt_dm_retrans_part;
    
@@ -6775,7 +6822,7 @@ void Plant::legnew_dm_retranslocate2
     ,float  *g_dlt_dm_green              // (INPUT)  plant biomass growth (g/m^2)                                            
     ,float  *g_dm_green                  // (INPUT)  live plant dry weight (biomass                                          
     ,float  *g_dm_plant_min              // (INPUT)  minimum weight of each plant p                                          
-    ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)                                              
+    ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
     ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)                     
     ,float  *dm_retranslocate            // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)        
     ) {
@@ -8122,9 +8169,9 @@ void Plant::plant_fruit_number (int option)
                       , g.dlt_fruit_no);
 
        // update fruit and flower numbers now
-       if (g.num_fruit_cohorts > 0) 
+       if (g.num_fruit_cohorts > 0)
            {
-           for (int cohort = 0; cohort < g.num_fruit_cohorts; cohort++) 
+           for (int cohort = 0; cohort < g.num_fruit_cohorts; cohort++)
               {
               g.fruit_no[cohort] +=  g.dlt_fruit_no[cohort];
               g.fruit_flower_no[cohort] -= g.dlt_fruit_no[cohort];
@@ -8790,11 +8837,11 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     dm_root = dlt_dm_crop[root];
     n_root = dlt_dm_n[root];
 
-    parent->writeString (" crop harvested.");
+    parent->writeString ("\n Crop harvested.");
     parent->writeString (string("  tops residue =  " + ftoa(dm_residue, ".2") + " kg/ha").c_str());
     parent->writeString (string("  tops n       =  " + ftoa(n_residue, ".2") + " kg/ha").c_str());
     parent->writeString (string("  root residue =  " + ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  root n       =  " + ftoa(n_root, ".2") + " kg/ha").c_str());
+    parent->writeString (string("  root n       =  " + ftoa(n_root, ".2") + " kg/ha\n").c_str());
 
     dm_removed = 0.0;
     for (part=0; part < max_part; part++)
@@ -8812,7 +8859,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     parent->writeString (string("  tops removed =  "+ ftoa(dm_removed, ".2") + " kg/ha").c_str());
     parent->writeString (string("  tops n removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
     parent->writeString (string("  root removed =  "+ ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  root n removed= "+ ftoa(n_root, ".2") + " kg/ha").c_str());
+    parent->writeString (string("  root n removed= "+ ftoa(n_root, ".2") + " kg/ha\n").c_str());
 
     // put roots into root residue
 
@@ -9682,7 +9729,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.frac_pod,0,max_stage);                       
       fill_real_array (c.ratio_root_shoot, 0, max_table);             
       fill_real_array (c.x_stage_no_partition, 0, max_table);
-      fill_real_array (c.y_frac_leaf, 0, max_table);                  
+      fill_real_array (c.y_frac_leaf, 0, max_table);
       fill_real_array (c.y_frac_pod, 0, max_table);                   
       fill_real_array (c.y_ratio_root_shoot, 0, max_table);           
       c.num_stage_no_partition=0;
@@ -10204,7 +10251,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
         {
         protocol::ApsimVariant incomingApsimVariant(parent);
         incomingApsimVariant.aliasTo(v.getMessageData());
-        parent->writeString ( "sow");
+        parent->writeString ( "Crop Sow");
 
         // Check anachronisms
         if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) != false)
@@ -10768,14 +10815,14 @@ void Plant::plant_read_cultivar_params ()
        }
     else
       {
-      s = string("   x_pp_start_to_end_grain    = ");
+      s = string("   x_pp_start_to_end_grain        = ");
       for (int i = 0; i < p.num_pp_start_to_end_grain; i++)
         {
         s = s + ftoa(p.x_pp_start_to_end_grain[i], "10.2") + " ";
         }
       parent->writeString (s.c_str());
 
-      s = string("   y_tt_start_to_end_grain    = ");
+      s = string("   y_tt_start_to_end_grain        = ");
       for (int i = 0; i < p.num_pp_start_to_end_grain; i++)
         {
         s = s + ftoa(p.y_tt_start_to_end_grain[i], "10.2") + " ";
@@ -10827,64 +10874,64 @@ void Plant::plant_read_cultivar_params ()
        s = string("         Fruit No Parameters");
        parent->writeString (s.c_str());
 
-       s = string("   x_fruit_stage_no_partition = ");
+       s = string("   x_fruit_stage_no_partition   = ");
        for (int i = 0; i < p.num_fruit_stage_no_partition; i++)
          s = s + itoa(p.fruit_stage_no_partition[i], 8) + " ";
        parent->writeString (s.c_str());
 
-       s = string("   y_fruit_frac_pod           = ");
+       s = string("   y_fruit_frac_pod             = ");
        for (int i = 0; i < p.num_fruit_stage_no_partition; i++)
-         s = s + ftoa(p.fruit_frac_pod[i], "10.2") + " ";
+         s = s + ftoa(p.fruit_frac_pod[i], "8.2") + " ";
        parent->writeString (s.c_str());
 
-       s = string("   x_node_no_fruit_sites      = ");
+       s = string("   x_node_no_fruit_sites        = ");
        for (int i = 0; i < p.num_node_no_fruit_sites; i++)
          s = s + ftoa(p.x_node_no_fruit_sites[i], "8.2") + " ";
        parent->writeString (s.c_str());
 
-       s = string("   y_fruit_sites_per_node     = ");
+       s = string("   y_fruit_sites_per_node       = ");
        for (int i = 0; i < p.num_node_no_fruit_sites; i++)
          s = s + ftoa(p.y_fruit_sites_per_node[i], "8.2") + " ";
        parent->writeString (s.c_str());
 
-       s = string("   x_stage_supply_demand_ratio= ");
+       s = string("   x_stage_supply_demand_ratio  = ");
        for (int i = 0; i < p.num_sdr_min; i++)
           s = s + ftoa(p.x_stage_sdr_min[i], "8.2");
        parent->writeString (s.c_str());
 
-       s = string("   y_supply_demand_min        = ");
+       s = string("   y_supply_demand_ratio_min    = ");
        for (int i = 0; i < p.num_sdr_min; i++)
           s = s + ftoa(p.y_sdr_min[i], "8.2");
        parent->writeString (s.c_str());
 
-       s = string("   dm_fruit_max               = ");
+       s = string("   dm_fruit_max                 = ");
        s = s + ftoa(p.dm_fruit_max, "8.2");
        parent->writeString (s.c_str());
 
-       s = string("   dm_fruit_set_min           = ");
+       s = string("   dm_fruit_set_min             = ");
        s = s + ftoa(p.dm_fruit_set_min, "8.2");
        parent->writeString (s.c_str());
 
-       s = string("   dm_fruit_set_crit          = ");
+       s = string("   dm_fruit_set_crit            = ");
        s = s + ftoa(p.dm_fruit_set_crit, "8.2");
        parent->writeString (s.c_str());
 
-       s = string("   pot_fruit_filling_rate     = ");
+       s = string("   potential_fruit_filling_rate = ");
        s = s + ftoa(p.potential_fruit_filling_rate, "8.2");
        parent->writeString (s.c_str());
 
-       s = string("   cutout_fract               = ");
+       s = string("   cutout_fract                 = ");
        s = s + ftoa(p.cutout_fract, "8.2");
        parent->writeString (s.c_str());
        }
-    s = string("   x_stem_wt                  = ");
+    s = string("   x_stem_wt                    = ");
     for (int i = 0; i < p.num_stem_wt; i++)
       {
       s = s + ftoa(p.x_stem_wt[i], "10.2") + " ";
       }
     parent->writeString (s.c_str());
 
-    s = string("   y_height                   = ");
+    s = string("   y_height                     = ");
     for (int i = 0; i < p.num_stem_wt; i++)
       {
       s = s + ftoa(p.y_height[i], "10.2") + " ";
@@ -10936,7 +10983,7 @@ void Plant::plant_read_root_params ()
 
     push_routine (my_name);
 
-    parent->writeString ("\n   - reading root profile parameters");
+    parent->writeString ("   - reading root profile parameters");
 
 //       cproc_sw_demand_bound
 
@@ -11065,7 +11112,7 @@ void Plant::plant_end_crop ()
         yield = (g.dm_green[meal] + g.dm_dead[meal]
           + g.dm_green[oil] + g.dm_dead[oil] )
           * gm2kg /sm2ha;
-        sprintf (msg, "   crop ended. yield (dw) = %7.1f  (kg/ha)", yield);
+        sprintf (msg, " Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
 
         // now do post harvest processes
@@ -11126,22 +11173,22 @@ void Plant::plant_end_crop ()
         n_root  = g.n_green[root] + g.n_dead[root] + g.n_senesced[root];
 
         sprintf (msg, "%s%7.1f%s"
-        , "  straw residue = "
+        , "   straw residue = "
         , dm_residue * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "  straw n =       "
+        , "   straw N =       "
         , n_residue * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "  root residue =  "
+        , "   root residue =  "
         , dm_root * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "  root n =        "
+        , "   root N =        "
         , n_root * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
@@ -11296,8 +11343,8 @@ void Plant::plant_get_other_variables ()
        }
     else 
        {
-       g.dlt_sw_parasite_demand = 0.0;	
-       }   
+       g.dlt_sw_parasite_demand = 0.0;
+       }
 
     // Soil temperature at surface
     if (id.maxt_soil_surface != 0)
@@ -11309,7 +11356,7 @@ void Plant::plant_get_other_variables ()
                         , soil_temp);
        }
 
-    // Canopy
+    // Canopy XX this is wrong if our 'module name' changes during a simulation
     parent->getVariable(id.fr_intc_radn, g.fr_intc_radn, 0.0, 1.0, true);
 
     // Soilwat2
@@ -11345,7 +11392,7 @@ void Plant::plant_get_other_variables ()
     }
 
 // SWIM
-void Plant::plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag             
+void Plant::plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag
                            const char *crop_type,            //(INPUT) crop type name          
                            const char *uptake_type,          //(INPUT) uptake name             
                            float unit_conversion_factor,     //(INPUT) unit conversion factor  
@@ -11673,6 +11720,7 @@ void Plant::plant_read_constants ( void )
     , 0.0, 100000.0);
 
     g.hasreadconstants = true;
+
     pop_routine (my_name);
     return;
     }
@@ -11871,16 +11919,17 @@ void Plant::plant_read_species_const ()
                          , c.y_ratio_root_shoot, numvals
                          , 0.0, 1000.0);
         }
-    else if (c.partition_option==3) 
+    else if (c.partition_option==3)
         {
         read_array (search_order
                          ,"x_stage_no_partition",  "()"
-                         , c.x_stage_no_partition, numvals
+                         , c.x_stage_no_partition
+                         , c.num_stage_no_partition
                          , 0.0, 20.0);
 
         read_array (search_order
                          ,"y_frac_leaf", "()"
-                         , c.frac_leaf, numvals
+                         , c.y_frac_leaf, numvals
                          , 0.0, 1.0);
         read_array (search_order
                          ,"y_ratio_root_shoot", "()"
@@ -12693,7 +12742,7 @@ void Plant::plant_read_species_const ()
     read_array (search_order
                      , "y_swdef_pheno_grainfill", "()"
                      , c.y_swdef_pheno_grainfill, c.num_sw_avail_ratio_grainfill
-                     , 0.0, 1.0);
+                     , 0.0, 5.0);
 
     //fruit cohort number
     read_var (search_order
@@ -12877,35 +12926,35 @@ void Plant::plant_harvest_report ()
 
     parent->writeString ("");
 
-    sprintf (msg, "%s%4d%20s%s%10.1f"
+    sprintf (msg, "%s%4d%26s%s%10.1f"
              , " flowering day          = ",g.flowering_date, " "
              , " stover (kg/ha)         = ",stover);
     parent->writeString (msg);
 
     if (c.fruit_no_option == 2)
        {
-       sprintf (msg, "%s%6.1f%18s%s%10.1f"
+       sprintf (msg, "%s%6.1f%24s%s%10.1f"
              , " fruit yield (kg/ha)    = ", fruit_yield, " "
              , " fruit yield wet (kg/ha)= ", fruit_yield_wet);
        parent->writeString (msg);
        }
 
-    sprintf (msg, "%s%4d%20s%s%10.1f"
+    sprintf (msg, "%s%4d%26s%s%10.1f"
              , " maturity day           = ", g.maturity_date, " "
              , " grain yield (kg/ha)    = ", yield);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%6.1f%18s%s%10.1f"
+    sprintf (msg, "%s%6.1f%24s%s%10.1f"
              , " grain % water content  = ", c.grn_water_cont * fract2pcnt, " "
              , " grain yield wet (kg/ha)= ", yield_wet);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%8.3f%16s%s%10.3f"
+    sprintf (msg, "%s%8.3f%22s%s%10.3f"
              , " grain wt (g)           = ", grain_wt, " "
              , " grains/m^2             = ", g.grain_no);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%6.1f%18s%s%10.3f"
+    sprintf (msg, "%s%6.1f%24s%s%10.3f"
              , " grains/head            = ", head_grain_no, " "
              , " maximum lai            = ", g.lai_max);
     parent->writeString (msg);
@@ -12935,24 +12984,24 @@ void Plant::plant_harvest_report ()
              , " number of leaves       = ", leaf_no);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.2f%14s%s%10.2f"
+    sprintf (msg, "%s%10.2f%20s%s%10.2f"
              , " grain n percent        = ", n_grain_conc_percent, " "
              , " total n content (kg/ha)= ", n_total);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.2f%14s%s%8.2f"
+    sprintf (msg, "%s%10.2f%20s%s%8.2f"
              , " grain n uptake (kg/ha) = ", n_grain, " "
              , " senesced n content (kg/ha)=", n_senesced);
     parent->writeString (msg);
 
-    sprintf (msg, "%s%10.2f%14s%s%10.2f"
+    sprintf (msg, "%s%10.2f%20s%s%10.2f"
              , " green n content (kg/ha)= ", n_green, " "
              , " dead n content (kg/ha) = ", n_dead);
     parent->writeString (msg);
 
     for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++)
          {
-         si1 = divide (g.cswd_photo[phase-1], g.days_tot[phase-1], 0.0); 
+         si1 = divide (g.cswd_photo[phase-1], g.days_tot[phase-1], 0.0);
          si2 = divide (g.cswd_expansion[phase-1], g.days_tot[phase-1], 0.0);
          si4 = divide (g.cnd_photo[phase-1], g.days_tot[phase-1], 0.0);
          si5 = divide (g.cnd_grain_conc[phase-1], g.days_tot[phase-1], 0.0);
@@ -12963,14 +13012,14 @@ void Plant::plant_harvest_report ()
                   , " stress indices for ", c.stage_names[phase-1].c_str());
          parent->writeString (msg);
 
-         sprintf (msg,"%s%16.7f%s%16.7f"
-                  , " water stress 1 =", si1
-                  , "   nitrogen stress 1 =", si4);
+         sprintf (msg,"%s%7.3f%s%7.3f"
+                  , "    water stress 1 =", si1
+                  , "     nitrogen stress 1 =", si4);
          parent->writeString (msg);
 
-         sprintf (msg,"%s%16.7f%s%16.7f"
-                  , " water stress 2 =", si2
-                  , "   nitrogen stress 2 =", si5);
+         sprintf (msg,"%s%7.3f%s%7.3f"
+                  , "    water stress 2 =", si2
+                  , "     nitrogen stress 2 =", si5);
          parent->writeString (msg);
          }
 
@@ -14207,36 +14256,39 @@ void Plant::get_fruit_no(protocol::QueryValueData &qd)
 }
 void Plant::get_fruit_no_stage(protocol::QueryValueData &qd)
 {
-	int cohort;
-   float temp_array[max_fruit_cohorts];
-   for (cohort = 0;cohort < max_fruit_cohorts; cohort++) temp_array[cohort] = 0.0;
-   
-   for (cohort = 0;cohort < g.num_fruit_cohorts; cohort++) 
-       {
-       int stage_no = (int)g.current_fruit_stage[cohort];
-       stage_no = min(stage_no, end_grain_fill);
-       temp_array[stage_no] += g.fruit_no[cohort];
-       }
-   parent->sendVariable(qd, protocol::vector<float>(temp_array+initial_fruit_stage, temp_array+end_grain_fill));
+   int cohort;
+   float temp_array[max_stage];
+   for (cohort = 0;cohort < max_stage; cohort++) temp_array[cohort] = 0.0;
+   cohort = 0;
+   do {
+     int stage_no = (int)g.current_fruit_stage[cohort];
+     stage_no = min(stage_no, end_grain_fill);
+     temp_array[stage_no] += g.fruit_no[cohort];
+     cohort++;
+     } while (cohort < g.num_fruit_cohorts);
+   parent->sendVariable(qd, protocol::vector<float>(temp_array+initial_fruit_stage, temp_array+end_grain_fill+1));
 }
 void Plant::get_dm_fruit_green_cohort(protocol::QueryValueData &qd)
 {
   float sum = 0.0;
-  for (int cohort = 0;cohort < g.num_fruit_cohorts; cohort++) 
-     {
+  int cohort = 0;
+  do {
      sum += sum_real_array(g.dm_fruit_green[cohort], max_part);
-     }
+     cohort++;
+     } while (cohort < g.num_fruit_cohorts);
   parent->sendVariable(qd, sum);
 }
 void Plant::get_dm_fruit_green_part(protocol::QueryValueData &qd)
-{ 
-  int part, cohort;
+{
   float sum[max_part];
-  for (part = 0; part < max_part; part++) 
+  for (int part = 0; part < max_part; part++)
     {
     sum[part] = 0.0;
-    for (cohort = 0; cohort < max_fruit_cohorts; cohort++) 
-      sum[part] += g.dm_fruit_green[cohort][part];
+    int cohort = 0;
+    do {
+       sum[part] += g.dm_fruit_green[cohort][part];
+       cohort++;
+       } while (cohort < g.num_fruit_cohorts);
     }
   parent->sendVariable(qd, protocol::vector<float>(sum, sum+max_part));
 }
@@ -14246,40 +14298,45 @@ void Plant::get_dlt_dm_fruit_demand(protocol::QueryValueData &qd)
 }
 void Plant::get_dlt_dm_fruit_green_part(protocol::QueryValueData &qd)
 {
-  int part, cohort;
   float sum[max_part];
-  for (part = 0; part < max_part; part++) 
+  for (int part = 0; part < max_part; part++)
     {
     sum[part] = 0.0;
-    for (cohort = 0; cohort < max_fruit_cohorts; cohort++) 
-      sum[part] += g.dlt_dm_fruit_green[cohort][part];
+    int cohort = 0;
+    do {
+       sum[part] += g.dlt_dm_fruit_green[cohort][part];
+       cohort++;
+       } while (cohort < g.num_fruit_cohorts);
     }
   parent->sendVariable(qd, protocol::vector<float>(sum, sum+max_part));
 }
 void Plant::get_dm_fruit_green_stage(protocol::QueryValueData &qd)
 {
-	int cohort;
+   int cohort;
    float temp_array[max_fruit_cohorts];
    for (cohort = 0;cohort < max_fruit_cohorts; cohort++) temp_array[cohort] = 0.0;
-   
-   for (cohort = 0;cohort < g.num_fruit_cohorts; cohort++) 
-       {
+   cohort = 0;
+   do {
        int stage_no = (int)g.current_fruit_stage[cohort];
        stage_no = min(stage_no, end_grain_fill);
        temp_array[stage_no] += sum_real_array(&g.dm_fruit_green[cohort][pod],max_part-pod);
-       }
-   parent->sendVariable(qd, protocol::vector<float>(temp_array+initial_fruit_stage, 
-                                                    temp_array+end_grain_fill));
+       cohort++;
+       } while (cohort < g.num_fruit_cohorts);
+
+   parent->sendVariable(qd, protocol::vector<float>(temp_array+initial_fruit_stage,
+                                                    temp_array+end_grain_fill+1));
 }
 void Plant::get_dlt_dm_fruit_green_retrans_part(protocol::QueryValueData &qd)
 {
-  int part, cohort;
   float sum[max_part];
-  for (part = 0; part < max_part; part++) 
+  for (int part = 0; part < max_part; part++)
     {
     sum[part] = 0.0;
-    for (cohort = 0; cohort < max_fruit_cohorts; cohort++) 
-      sum[part] += g.dlt_dm_fruit_green_retrans[cohort][part];
+    int cohort = 0;
+    do {
+       sum[part] += g.dlt_dm_fruit_green_retrans[cohort][part];
+       cohort++;
+       } while (cohort < g.num_fruit_cohorts);
     }
   parent->sendVariable(qd, protocol::vector<float>(sum, sum+max_part));
 }
@@ -14292,19 +14349,19 @@ void Plant::get_dm_parasite_retranslocate(protocol::QueryValueData &qd)
   parent->sendVariable(qd, g.dm_parasite_retranslocate);
 }
 void Plant::get_count_fruit_cohorts(protocol::QueryValueData &qd)
-{ 
+{
   int count = 0;
-  for (int cohort = 0; cohort < max_fruit_cohorts; cohort++) 
+  for (int cohort = 0; cohort < max_fruit_cohorts; cohort++)
   	  count += (g.fruit_no[cohort] > 0.0);
   parent->sendVariable(qd, count);
 }
 void Plant::get_dlt_dm_fruit_abort_cohort(protocol::QueryValueData &qd)
 {
   float sum = 0.0;
-  for (int cohort = 0; cohort < max_fruit_cohorts; cohort++) 
+  for (int cohort = 0; cohort < max_fruit_cohorts; cohort++)
      {
      sum += sum_real_array(g.dlt_dm_fruit_abort[cohort], max_part);
-     }	
+     }
   parent->sendVariable(qd, sum);
 }
 void Plant::get_dlt_dm_fruit_abort(protocol::QueryValueData &qd)
@@ -14316,10 +14373,10 @@ void Plant::get_dlt_dm_fruit_abort_part(protocol::QueryValueData &qd)
 {
   int part, cohort;
   float sum[max_part];
-  for (part = 0; part < max_part; part++) 
+  for (part = 0; part < max_part; part++)
     {
     sum[part] = 0.0;
-    for (cohort = 0; cohort < max_fruit_cohorts; cohort++) 
+    for (cohort = 0; cohort < max_fruit_cohorts; cohort++)
       sum[part] += g.dlt_dm_fruit_abort[cohort][part];
     }
   parent->sendVariable(qd, protocol::vector<float>(sum, sum+max_part));
@@ -14696,14 +14753,14 @@ void Plant::plant_fruit_phenology_update (float g_previous_stage
                fruit_no_cum = fruit_no_cum + g_fruit_no[cohort];
                if (fruit_no_cum >= fruit_no_crit)
                   {
-                  if (floor(*g_current_stage) < 
-                      floor(g_current_fruit_stage[cohort])) 
+                  if (floor(*g_current_stage) <
+                      floor(g_current_fruit_stage[cohort]))
                      {
                      *g_current_stage = floor(*g_current_stage + 1.0);
                      }
-                  else 
+                  else
                      {
-                     *g_current_stage = max(*g_current_stage, 
+                     *g_current_stage = max(*g_current_stage,
                                             g_current_fruit_stage[cohort]);
                      }
                   break;
@@ -14922,9 +14979,9 @@ void Plant::crop_fruit_site_number(float g_current_stage
                              ,float g_mint
                              ,float *c_x_temp_fruit_site
                              ,float *c_y_rel_fruit_site
-                             ,int   c_num_temp_fruit_site 
+                             ,int   c_num_temp_fruit_site
                              ,float g_dlt_node_no
-                             ,float *dlt_fruit_site_no )
+                             ,float *dlt_fruit_site_no )         // OUT
 {
     const char*  my_name = "crop_fruit_site_number" ;
 
@@ -14933,10 +14990,10 @@ void Plant::crop_fruit_site_number(float g_current_stage
     float dlt_fruit_site_no_pot;
     float node_no_now;
     float metabolic_fact;
-    float fruit_tt_target, 
-          fruit_tt_cum, 
-          temp_fac, 
-          tav, 
+    float fruit_tt_target,
+          fruit_tt_cum,
+          temp_fac,
+          tav,
           dlt_node_no;
 
     //- Implementation Section ----------------------------------
@@ -14944,8 +15001,8 @@ void Plant::crop_fruit_site_number(float g_current_stage
 
     node_no_now = sum_between (start_node_app, end_node_app, g_node_no);
 
-    if (on_day_of (initial_fruit_stage, g_current_stage)) 
-        {         
+    if (on_day_of (initial_fruit_stage, g_current_stage))
+        {
         *g_node_no_first_flower = node_no_now;
         dlt_node_no = g_dlt_node_no;
         }
@@ -14964,7 +15021,7 @@ void Plant::crop_fruit_site_number(float g_current_stage
                                              ,p_x_node_no_fruit_sites
                                              ,p_y_fruit_sites_per_node
                                              ,p_num_node_no_fruit_sites);
-    
+
     dlt_fruit_site_no_pot = dlt_node_no
                   * g_plants
                   * fruit_sites_per_node;
@@ -15022,29 +15079,29 @@ void Plant::crop_fruit_flower_number (
     int start_year;
 
     start_day = offset_day_of_year(g_year, g_day_of_year, -1);
-    if (g_day_of_year == 1) 
+    if (g_day_of_year == 1)
          start_year = g_year - 1;
     else
          start_year = g_year;
-    
+
 
     dlt_dm_average = crop_running_ave(start_day
                                      , start_year
                                      , g_dlt_dm_daily
                                      , c_days_assimilate_ave);
 
-    if (g_setting_fruit) 
+    if (g_setting_fruit)
        {
        flower_no_potential = divide (dlt_dm_average, p_dm_fruit_set_min, 0.0);
        }
-    else 
+    else
        {
        flower_no_potential = divide (dlt_dm_average, p_dm_fruit_set_crit, 0.0);
        }
-    dlt_flower_no_potential = flower_no_potential - 
+    dlt_flower_no_potential = flower_no_potential -
                  sum_real_array(g_fruit_flower_no, max_fruit_cohorts);
     dlt_flower_no_potential = l_bound(dlt_flower_no_potential, 0.0);
-    
+
     *dlt_flower_no = dlt_flower_no_potential;
     *dlt_flower_no = u_bound (*dlt_flower_no, g_dlt_fruit_site_no);
 
@@ -15065,28 +15122,22 @@ void Plant::crop_fruit_number (int flowering
                              , float c_tt_flower_to_start_pod
                              , float **g_tt_tot
                              , float *g_flower_no
-                             , float *dlt_fruit_no
-      ) {
+                             , float *dlt_fruit_no)
+    {
     //  Local Variables
-    float dlt_dm_average;
-    float fruit_no_potential;
-    float dlt_fruit_no_potential;
-    int   cohort;
-
-    for (cohort = 0; cohort < g_num_fruit_cohorts; cohort++) 
-         {
-         if (g_flower_no[cohort] > 0.0) 
+    int   cohort = 0;
+    do {
+       if (g_flower_no[cohort] > 0.0)
             {
-            if (g_tt_tot[cohort][flowering-1] >=
-                c_tt_flower_to_start_pod) 
+            if (g_tt_tot[cohort][flowering-1] >= c_tt_flower_to_start_pod)
                 {
                 // flowers become fruit
                 dlt_fruit_no[cohort] = g_flower_no[cohort];
                 }
             }
-         }
-    }
-
+       cohort++;
+       } while (cohort < g_num_fruit_cohorts);
+  }
 //+  Purpose
 //       Get plant fruit number shed
 
@@ -15419,11 +15470,13 @@ void Plant::plant_fruit_update(
        }
 
     dlt_dm_veg = 0.0;
-    for (cohort=0; cohort < g_num_fruit_cohorts; cohort++ )
-       for (part = leaf; part <= stem; part++) 
+    cohort = 0;
+    do {
+       for (part = leaf; part <= stem; part++)
           dlt_dm_veg += g_dlt_dm_fruit_green[cohort][part];
-    
-    crop_store_value(g_day_of_year, g_year, g_dlt_dm_daily, 
+       cohort++;
+       } while (cohort < g_num_fruit_cohorts);
+    crop_store_value(g_day_of_year, g_year, g_dlt_dm_daily,
                      dlt_dm_veg + g_dlt_dm_parasite);
 
     // C4
@@ -15435,7 +15488,7 @@ void Plant::plant_fruit_update(
         {
         cohort = 0;
         do {
-           if (g_fruit_no[cohort] > 0.0) 
+           if (g_fruit_no[cohort] > 0.0)
               crop_store_value(g_day_of_year, g_year
                           , g_fruit_sdr_daily[cohort]
                           , g_fruit_sdr[cohort]);
@@ -15636,11 +15689,11 @@ void Plant::plant_fruit_phenology (
                           , g_swdef_pheno_flower    // no nstress, so just repeat swdef stress here
                           , g_swdef_pheno_flower
                           , &g_dlt_tt[cohort]);
-          }                
+          }
        else if (stage_is_between(start_grain_fill
                                 , end_development_stage
-                                , g_current_stage[cohort])) 
-          {                      
+                                , g_current_stage[cohort]))
+          {
           crop_thermal_time (c_num_temp
                            , c_x_temp
                            , c_y_tt
@@ -15673,11 +15726,14 @@ void Plant::plant_fruit_phenology (
                    , &g_current_stage[cohort]);
 
        // update thermal time states and day count
-       accumulate (g_dlt_tt[cohort], g_tt_tot[cohort]
+//       if (g_previous_stage[cohort] > 0) // This test wasn't in john's code..
+//          {
+          accumulate (g_dlt_tt[cohort], g_tt_tot[cohort]
                     , g_previous_stage[cohort]-1.0, g_dlt_stage[cohort]);
 
-       accumulate (1.0, g_days_tot[cohort]
+          accumulate (1.0, g_days_tot[cohort]
                     , g_previous_stage[cohort]-1.0, g_dlt_stage[cohort]);
+//          }
        cohort++;
     } while (cohort < g_num_fruit_cohorts);
 

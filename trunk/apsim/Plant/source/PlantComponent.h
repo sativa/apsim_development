@@ -3,6 +3,7 @@
 #define PlantComponentH
 
 class Plant;
+struct ApsimGetQueryData;
 
 // ------------------------------------------------------------------
 // This component acts as the interface between an instance of a
@@ -19,6 +20,7 @@ class PlantComponent : public protocol::Component
       virtual void respondToMethod(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
+      virtual void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
       unsigned int addGettableVar(const char *systemName, protocol::DataTypeCode myType, bool isArray, const char *units);
 
       std::string readParameter(const string& sectionName,
@@ -39,6 +41,10 @@ class PlantComponent : public protocol::Component
          {
          return componentData->getProperty(a,b);
          }
+//      FString  getRegistrationName(unsigned int a)
+//         {
+//         return protocol::Component::getRegistrationName(a);
+//         }
    private:
       Plant     *plant;    // The plant module
    };

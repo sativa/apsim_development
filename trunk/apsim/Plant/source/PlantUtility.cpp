@@ -48,11 +48,11 @@ void crop_store_value(int day_of_year,
  */
 
    {
-   array[day_of_year-1] = value;
+   array[day_of_year] = value;
 
    if (day_of_year == 365 && leap_year(year - 1))
       {
-      array[365] = 0.0;
+      array[366] = 0.0;
       }
    }
 
@@ -79,7 +79,7 @@ float crop_running_ave(int day_of_year,
                                       day_of_year,
                                       -1 * number_of_days);
 
-   return divide(sum_part_of_real(array, start_day-1, day_of_year-1, 366)
+   return divide(sum_part_of_real(array, start_day, day_of_year, 366)
                 , float(abs(number_of_days))
                 , 0.0);
    }
@@ -94,10 +94,10 @@ void crop_part_fraction_delta (int part_no,            // (INPUT)
 /*Purpose
  *   Calculate change in a particular plant pool
  *Parameters
- *   part_no      
- *   fraction[]   
- *   part         
- *   dlt_part     
+ *   part_no
+ *   fraction[]
+ *   part
+ *   dlt_part
  *Calls
  */
 

@@ -6,6 +6,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ApsimShared/ApsimComponentData.h>
+#include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -79,7 +80,11 @@ void PlantComponent::respondToMethod(unsigned int& /*fromID*/, unsigned int& eve
    plant->doEvent(eventID, variant);
    }
 
-   // ------------------------------------------------------------------
+void PlantComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
+   {
+   plant->onApsimGetQuery(apsimGetQueryData);
+   }
+// ------------------------------------------------------------------
 // Return a variable to caller.
 // ------------------------------------------------------------------
 void PlantComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueData& queryData)
