@@ -61,7 +61,7 @@ bottom_boundary_condition =  0   ! Bottom Flag  - 0) constant gradient
 vapour_conductivity =  off   ! Vapour Conductivity flag (0=off, 1=on)
                               ! ------------------------
 
-run_solutes =    ! solutes to be moved by SWIM during simulation
+run_solutes = none   ! solutes to be moved by SWIM during simulation
 
 ! --------------------- soil type information -------------------------
 [sample.apswim.soil1]  
