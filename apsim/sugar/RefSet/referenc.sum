@@ -16,7 +16,7 @@ Module = soilwat2
 Variables =sw_dep
  
 Module = sugar
-Variables =tt_tot(),lai,biomass,avg(swdef_photo),avg(nfact_photo),root_depth,water_log_fact,crop_status,dm_dead()
+Variables =tt_tot(),lai,biomass,avg(swdef_photo),avg(nfact_photo),root_depth,avg(oxdef_photo),crop_status,dm_dead()
  
 Module = residue2
 Variables =residue_wt,residue_n
@@ -60,7 +60,7 @@ report do_output
 endif
  
 -----------------------------------------------------------
- day=  90 date= 30  3 1984 soilwat2 -  Initialising, V2.14 081298
+ day=  90 date= 30  3 1984 soilwat2 -  Initialising, V2.15 090299
  
     - Reading constants
  
@@ -211,40 +211,40 @@ Sugar module is calculating its own soil uptakes
       400.000       0.020       0.100       1.000
    -------------------------------------------------
  
- day=  92 date=  1  4 1984 sugar    -  stage    2.0 sprouting
- day= 125 date=  4  5 1984 sugar    -  stage    3.0 emergence
+ day=  93 date=  2  4 1984 sugar    -  stage    2.0 sprouting
+ day= 126 date=  5  5 1984 sugar    -  stage    3.0 emergence
                      biomass =           3.529999       lai =    0.1000000e-01
-                     stover N conc =    2.529745       extractable sw =    45.48062
- day= 267 date= 23  9 1984 sugar    -  stage    4.0 begin_cane
-                     biomass =           1095.114       lai =     4.016154
-                     stover N conc =   0.4350033       extractable sw =    85.76962
+                     stover N conc =    2.529745       extractable sw =    45.05616
+ day= 268 date= 24  9 1984 sugar    -  stage    4.0 begin_cane
+                     biomass =           1104.067       lai =     4.049201
+                     stover N conc =   0.4330782       extractable sw =    83.25791
  Day=  92 Year =  1985     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 4.229
- total above ground biomass (kg/ha) =   33421.9
- live above ground biomass (kg/ha) =   33421.9
- green above ground biomass (kg/ha) =   30356.6
- senesced above ground biomass (kg/ha) =    3065.3
+ maximum lai = 4.236
+ total above ground biomass (kg/ha) =   33310.1
+ live above ground biomass (kg/ha) =   33310.1
+ green above ground biomass (kg/ha) =   30245.0
+ senesced above ground biomass (kg/ha) =    3065.0
  dead above ground biomass (kg/ha) =       0.0
- number of leaves =  46.3
- total N content (kg/ha) =     66.22    senesced N content (kg/ha) =     11.23
- green N content (kg/ha) =     55.00    dead N content (kg/ha) =      0.00
+ number of leaves =  46.4
+ total N content (kg/ha) =     66.15    senesced N content (kg/ha) =     11.23
+ green N content (kg/ha) =     54.92    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.2416710e-02   nitrogen stress 1 =   0.8295417e-01
+ water stress 1 =   0.2416267e-02   nitrogen stress 1 =   0.8344314e-01
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.2421176e-01   nitrogen stress 1 =   0.4308487
- water stress 2 =   0.3287073e-02
+ water stress 1 =   0.2406197e-01   nitrogen stress 1 =   0.4311990
+ water stress 2 =   0.3379714e-02
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue = 7154.1 kg/ha
-                                          straw N =   28.9 kg/ha
-                                          root residue =  880.6 kg/ha
+                                          straw residue = 7098.5 kg/ha
+                                          straw N =   28.7 kg/ha
+                                          root residue =  878.7 kg/ha
                                           root N =    2.9 kg/ha
  
     - Reading constants from ratoon_crop
@@ -262,46 +262,46 @@ Sugar module is calculating its own soil uptakes
  day=  92 date=  2  4 1985 residue2 - Residue tilled using burn
                                         Fraction Incorporated =     1.00
                                         Tillage Depth         =     0.00
- day=  98 date=  8  4 1985 sugar    -  stage    3.0 emergence
+ day=  99 date=  9  4 1985 sugar    -  stage    3.0 emergence
                      biomass =           3.529999       lai =    0.1000000e-01
-                     stover N conc =    2.529743       extractable sw =    83.10493
- day= 239 date= 27  8 1985 sugar    -  stage    4.0 begin_cane
-                     biomass =           198.7688       lai =     1.194784
-                     stover N conc =   0.4597209       extractable sw =    45.57056
+                     stover N conc =    2.529743       extractable sw =    83.24072
+ day= 240 date= 28  8 1985 sugar    -  stage    4.0 begin_cane
+                     biomass =           214.0341       lai =     1.268402
+                     stover N conc =   0.4572075       extractable sw =    43.87408
  Day=  92 Year =  1986     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 2.651
- total above ground biomass (kg/ha) =   21032.7
- live above ground biomass (kg/ha) =   21032.7
- green above ground biomass (kg/ha) =   19548.7
- senesced above ground biomass (kg/ha) =    1484.0
+ maximum lai = 2.551
+ total above ground biomass (kg/ha) =   21199.5
+ live above ground biomass (kg/ha) =   21199.5
+ green above ground biomass (kg/ha) =   19638.1
+ senesced above ground biomass (kg/ha) =    1561.4
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  49.2
- total N content (kg/ha) =     99.85    senesced N content (kg/ha) =      5.44
- green N content (kg/ha) =     94.41    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =     99.90    senesced N content (kg/ha) =      5.72
+ green N content (kg/ha) =     94.18    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.3980347
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.3913955
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.2378498       nitrogen stress 1 =   0.1045776
- water stress 2 =   0.1367547
+ water stress 1 =   0.2573355       nitrogen stress 1 =   0.9168225e-01
+ water stress 2 =   0.1473365
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue = 4996.5 kg/ha
-                                          straw N =   28.6 kg/ha
-                                          root residue =  839.2 kg/ha
+                                          straw residue = 4932.0 kg/ha
+                                          straw N =   27.8 kg/ha
+                                          root residue =  841.9 kg/ha
                                           root N =    8.4 kg/ha
  Day=  92 Year =  1986     Manager sending message :- sugar kill_crop
- day=  91 date=  1  4 1986 sugar    -     crop_kill. Standing above-ground dm =     0.0 (kg/ha)
+ day=  92 date=  2  4 1986 sugar    -     crop_kill. Standing above-ground dm =     0.0 (kg/ha)
  Day=  92 Year =  1986     Manager sending message :- sugar end_crop
                                           straw residue =    0.0 kg/ha
                                           straw N =    0.0 kg/ha
-                                          root residue = 4049.7 kg/ha
+                                          root residue = 4062.5 kg/ha
                                           root N =   40.7 kg/ha
  Day=  92 Year =  1986     Manager sending message :- residue2 tillage type = burn
  
@@ -339,40 +339,40 @@ Sugar module is calculating its own soil uptakes
    -------------------------------------------------
  
  Day= 244 Year =  1986     Manager sending message :- irrigate set crit_fr_asw = 0.8
- day= 245 date=  2  9 1986 sugar    -  stage    2.0 sprouting
- day= 256 date= 13  9 1986 sugar    -  stage    3.0 emergence
+ day= 246 date=  3  9 1986 sugar    -  stage    2.0 sprouting
+ day= 257 date= 14  9 1986 sugar    -  stage    3.0 emergence
                      biomass =           3.529999       lai =    0.1000000e-01
-                     stover N conc =    2.529745       extractable sw =    50.90697
- day= 365 date= 31 12 1986 sugar    -  stage    4.0 begin_cane
-                     biomass =           1311.856       lai =     5.793198
-                     stover N conc =    1.054524       extractable sw =    90.99394
+                     stover N conc =    2.529745       extractable sw =    50.82447
+ day=   1 date=  1  1 1987 sugar    -  stage    4.0 begin_cane
+                     biomass =           1307.614       lai =     5.831861
+                     stover N conc =    1.051744       extractable sw =    91.47067
  Day= 245 Year =  1987     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.085
- total above ground biomass (kg/ha) =   49268.6
- live above ground biomass (kg/ha) =   49268.6
- green above ground biomass (kg/ha) =   46166.7
- senesced above ground biomass (kg/ha) =    3101.8
+ maximum lai = 6.180
+ total above ground biomass (kg/ha) =   49265.4
+ live above ground biomass (kg/ha) =   49265.4
+ green above ground biomass (kg/ha) =   46161.2
+ senesced above ground biomass (kg/ha) =    3104.2
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  49.7
- total N content (kg/ha) =    181.01    senesced N content (kg/ha) =     11.36
- green N content (kg/ha) =    169.65    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =    181.16    senesced N content (kg/ha) =     11.37
+ green N content (kg/ha) =    169.79    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.1004368       nitrogen stress 1 =   0.2218080e-02
- water stress 2 =   0.2042035e-01
+ water stress 1 =   0.1032352       nitrogen stress 1 =   0.1711867e-02
+ water stress 2 =   0.1764257e-01
  
  stress indices for begin_cane
- water stress 1 =   0.7375416e-01   nitrogen stress 1 =   0.0000000
- water stress 2 =   0.9514156e-02
+ water stress 1 =   0.7368034e-01   nitrogen stress 1 =   0.0000000
+ water stress 2 =   0.9316360e-02
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =10360.7 kg/ha
-                                          straw N =   73.6 kg/ha
-                                          root residue = 1238.1 kg/ha
+                                          straw residue =10396.4 kg/ha
+                                          straw N =   74.4 kg/ha
+                                          root residue = 1239.5 kg/ha
                                           root N =    7.5 kg/ha
  Day= 245 Year =  1987     Manager sending message :- residue2 tillage type = burn
  
@@ -381,12 +381,12 @@ Sugar module is calculating its own soil uptakes
                                         Fraction Incorporated =     1.00
                                         Tillage Depth         =     0.00
  Day= 245 Year =  1987     Manager sending message :- sugar set plants = 8
- day= 252 date=  9  9 1987 sugar    -  stage    3.0 emergence
+ day= 253 date= 10  9 1987 sugar    -  stage    3.0 emergence
                      biomass =           2.823975       lai =    0.8000000e-02
-                     stover N conc =    2.529776       extractable sw =    80.29628
- day= 363 date= 29 12 1987 sugar    -  stage    4.0 begin_cane
-                     biomass =           42.78293       lai =    0.2257170
-                     stover N conc =   0.5557896       extractable sw =    83.35430
+                     stover N conc =    2.529776       extractable sw =    87.95587
+ day= 364 date= 30 12 1987 sugar    -  stage    4.0 begin_cane
+                     biomass =           41.63439       lai =    0.2167263
+                     stover N conc =   0.5603197       extractable sw =    95.92803
  Day=   1 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
  day=   1 date=  1  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
  Day=   2 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
