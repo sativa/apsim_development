@@ -1,0 +1,11 @@
+[APSIM.Maize_reference_data_set]
+Module = report      referenc.par[reference]
+Module = input       referenc.met[reference]  referenc.par[reference]
+Module = manager     referenc.par[reference]         
+Module = fertiliz                             \apsuite\apsim\fertiliz\fertiliz.ini [standard] 
+Module = irrigate    referenc.par[reference]
+Module = soilwat2    referenc.par[reference]  \apsuite\apsim\soilwat2\soilwat2.ini [standard] 
+Module = residue2    referenc.par[reference]  \apsuite\apsim\residue2\residue2.ini [standard] 
+Module = soiln2      referenc.par[reference]  \apsuite\apsim\soiln2\soiln2.ini     [standard] 
+module = maize       referenc.par[reference]  ..\maize.ini       [standard]
+
