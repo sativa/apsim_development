@@ -531,6 +531,12 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetVar("dlt_n_dead_detached", max_part,
                g.dlt_n_dead_detached,  "g/m^2", "N in dead detached");
 
+   setupGetVar("dlt_n_green_dead", max_part,
+               g.dlt_n_green_dead,  "g/m^2", "change in N via plant death");
+
+   setupGetVar("dlt_n_senesced_dead", max_part,
+               g.dlt_n_senesced_dead,  "g/m^2", "change in N via plant death");
+
    setupGetVar("temp_stress_photo",
                g.temp_stress_photo, "", "Temperature Stress in photosynthesis");
 
@@ -3682,6 +3688,8 @@ void Plant::plant_cleanup ()
                 , g.dlt_n_senesced
                 , g.dlt_n_senesced_trans
                 , g.dlt_n_senesced_retrans
+                , g.dlt_n_green_dead
+                , g.dlt_n_senesced_dead
                 , g.dlt_plants
                 , g.dlt_root_depth
                 , g.dlt_slai
@@ -3937,6 +3945,8 @@ void Plant::plant_update(
     ,float *g_dlt_n_senesced                                   // (INPUT)  actual N loss with senesced pl
     ,float *g_dlt_n_senesced_trans                             //  ??
     ,float *g_dlt_n_senesced_retrans                           //  ??
+    ,float *g_dlt_n_green_dead                                 // (INPUT)  plant N death (g/m^2)
+    ,float *g_dlt_n_senesced_dead                              // (INPUT)  plant N death (g/m^2)
     ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
     ,float  g_dlt_slai                                         // (INPUT)  area of leaf that senesces fro
@@ -3985,10 +3995,10 @@ void Plant::plant_update(
 //                                                   // (g/m^2)
 //    double dlt_dm_senesced_dead;                   // dry matter of senesced plant part
                                                    // dying (g/m^2)
-    double dlt_n_green_dead;                       // N content of green plant part dying
-                                                   // (g/m^2)
-    double dlt_n_senesced_dead;                    // N content of senesced plant part
-                                                   // dying (g/m^2)
+//    double dlt_n_green_dead;                       // N content of green plant part dying
+//                                                   // (g/m^2)
+//    double dlt_n_senesced_dead;                    // N content of senesced plant part
+//                                                   // dying (g/m^2)
     float dlt_grain_no_lost;                      // grain no lost from barrenness
                                                   // (grains/m^2)
     float dlt_lai_dead;                           // lai of green leaf of plants dying ()
@@ -4051,13 +4061,13 @@ void Plant::plant_update(
 
     for (part = 0; part < max_part; part++)
        {
-       dlt_n_green_dead = g_n_green[part] * dying_fract_plants;
-       g_n_green[part] = g_n_green[part] - dlt_n_green_dead;
-       g_n_dead[part] = g_n_dead[part] + dlt_n_green_dead;
+       g_dlt_n_green_dead[part] = g_n_green[part] * dying_fract_plants;
+       g_n_green[part] = g_n_green[part] - g_dlt_n_green_dead[part];
+       g_n_dead[part] = g_n_dead[part] + g_dlt_n_green_dead[part];
 
-       dlt_n_senesced_dead = g_n_senesced[part] * dying_fract_plants;
-       g_n_senesced[part] = g_n_senesced[part] - dlt_n_senesced_dead;
-       g_n_dead[part] = g_n_dead[part] + dlt_n_senesced_dead;
+       g_dlt_n_senesced_dead[part] = g_n_senesced[part] * dying_fract_plants;
+       g_n_senesced[part] = g_n_senesced[part] - g_dlt_n_senesced_dead[part];
+       g_n_dead[part] = g_n_dead[part] + g_dlt_n_senesced_dead[part];
        }
 
     subtract_real_array (g_dlt_dm_dead_detached, g_dm_dead, max_part);
@@ -9778,6 +9788,8 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dlt_n_detached, 0.0, max_part);
       fill_real_array (g.dlt_n_dead, 0.0, max_part);
       fill_real_array (g.dlt_n_dead_detached, 0.0, max_part);
+      fill_real_array (g.dlt_n_green_dead, 0.0, max_part);
+      fill_real_array (g.dlt_n_senesced_dead, 0.0, max_part);
       fill_real_array (g.n_dead, 0.0, max_part);
       fill_real_array (g.n_green, 0.0, max_part);
       fill_real_array (g.n_senesced, 0.0, max_part);
@@ -10362,6 +10374,8 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.dlt_n_senesced , 0.0, max_part);
     fill_real_array (g.dlt_n_senesced_trans , 0.0, max_part);
     fill_real_array (g.dlt_n_senesced_retrans , 0.0, max_part);
+    fill_real_array (g.dlt_n_green_dead , 0.0, max_part);
+    fill_real_array (g.dlt_n_senesced_dead , 0.0, max_part);
 
     fill_real_array (g.sw_avail , 0.0, max_layer);
     fill_real_array (g.sw_avail_pot , 0.0, max_layer);
