@@ -757,12 +757,14 @@ void Coordinator::fixupRegistrationID(PMRegistrationItem& registrationItem)
 // ------------------------------------------------------------------
 void Coordinator::pollComponentsForGetVariable(PMRegistrationItem& registrationItem)
    {
+   string lowerName = registrationItem.getName();
+   To_lower(lowerName);
    for (Components::iterator i = components.begin();
                              i != components.end();
                              i++)
       {
       sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
-                                          registrationItem.getName().c_str()));
+                                          lowerName.c_str()));
       }
    }
 
