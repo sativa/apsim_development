@@ -75,6 +75,8 @@ WhopEcon::~WhopEcon(void)
 bool WhopEcon::isScenarioValid(Scenario& scenario) const
    {
    string econName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
+   if (econName == "(no economics)")
+      return true;
 
    vector<string> scenarioNames;
    gm.getScenarioNames(scenarioNames);

@@ -13,7 +13,7 @@
 #include <assert.h>
 #include <editchar.hpp>
 #include <TProbability_panel.h>
-#include <TTime_series_panel.h>
+#include <TTime_series_panel.h>          
 #include <TDifference_panel.h>
 #include <TPie_frequency_panel.h>
 #include <TXY_panel.h>
@@ -433,7 +433,7 @@ void TMDIChild::Display_settings(void)
          if (Str_i_Eq(factors[i], "crop"))
             cropName = value;
 
-         if (Str_i_Eq(factors[i], "Econ Config"))
+/*         if (Str_i_Eq(factors[i], "Econ Config"))
             {
             string econConfigFileName;
             ApsimSettings settings;
@@ -443,7 +443,7 @@ void TMDIChild::Display_settings(void)
             Text += gm.econDescription(value, cropName);
             }
          else
-            Text += "\r\n   " + factors[i] + "=" + value;
+*/            Text += "\r\n   " + factors[i] + "=" + value;
 
          }
 

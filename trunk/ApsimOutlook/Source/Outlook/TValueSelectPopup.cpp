@@ -146,13 +146,13 @@ void __fastcall TValueSelectPopup::ListViewChange(TObject *Sender,
 {
    if (checkedCount() > 0)
    {
-      applyLabel->Enabled = true;
-      applyToAllLabel->Enabled = true;
+      ApplyToCurrentButton->Enabled = true;
+      ApplyToAllButton->Enabled = true;
    }
    else
    {
-      applyLabel->Enabled = false;
-      applyToAllLabel->Enabled = false;
+      ApplyToCurrentButton->Enabled = false;
+      ApplyToAllButton->Enabled = false;
    }
 }
 //---------------------------------------------------------------------------

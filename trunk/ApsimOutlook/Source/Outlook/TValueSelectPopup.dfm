@@ -1,19 +1,19 @@
 inherited ValueSelectPopup: TValueSelectPopup
   Left = 322
   Top = 256
-  Caption = 'ValueSelectPopup'
-  ClientHeight = 292
-  ClientWidth = 250
+  Caption = ''
+  ClientHeight = 302
+  ClientWidth = 388
   OldCreateOrder = True
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   object ListView: TListView
     Left = 0
     Top = 0
-    Width = 250
-    Height = 226
+    Width = 249
+    Height = 302
     Align = alClient
     BorderStyle = bsNone
     Checkboxes = True
@@ -34,52 +34,48 @@ inherited ValueSelectPopup: TValueSelectPopup
     OnCompare = ListViewCompare
     OnMouseDown = FormMouseDown
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 226
-    Width = 250
-    Height = 66
-    Align = alBottom
-    BevelOuter = bvNone
-    Color = clWindow
+  object RightHandPanel: TPanel
+    Left = 249
+    Top = 0
+    Width = 139
+    Height = 302
+    Align = alRight
     TabOrder = 1
-    OnMouseDown = FormMouseDown
-    object applyLabel: TLabel
-      Left = 10
-      Top = 10
-      Width = 156
-      Height = 16
-      Cursor = crHandPoint
-      Caption = 'Apply to current scenario...'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
+    object Image: TImage
+      Left = 41
+      Top = 162
+      Width = 50
+      Height = 50
+      Transparent = True
+    end
+    object ApplyToCurrentButton: TButton
+      Left = 8
+      Top = 16
+      Width = 121
+      Height = 25
+      Caption = 'Apply to current'
+      Default = True
+      TabOrder = 0
       OnClick = applyLabelClick
     end
-    object applyToAllLabel: TLabel
-      Left = 10
-      Top = 30
-      Width = 137
-      Height = 16
-      Cursor = crHandPoint
-      Caption = 'Apply to all scenarios...'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
+    object ApplyToAllButton: TButton
+      Left = 8
+      Top = 48
+      Width = 121
+      Height = 25
+      Caption = 'Apply to all'
+      TabOrder = 1
       OnClick = applyToAllLabelClick
     end
-    object Image: TImage
-      Left = 177
-      Top = 2
-      Width = 62
-      Height = 62
-      Transparent = True
+    object CancelButton: TButton
+      Left = 8
+      Top = 120
+      Width = 121
+      Height = 25
+      Cancel = True
+      Caption = 'Cancel'
+      ModalResult = 2
+      TabOrder = 2
     end
   end
   object StateImages: TImageList
