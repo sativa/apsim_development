@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
@@ -54,8 +54,8 @@
         soiln2.hum_c(1)
         soiln2.biom_c(1)
         soiln2.fom_c(1)
-        residue2.residue_n
-        residue2.residue_wt
+        surfaceom.surfaceom_n
+        surfaceom.surfaceom_wt
         wheat.lai as w_lai
         wheat.yield as w_yield
         wheat.biomass as w_biomass
@@ -105,12 +105,12 @@
         report do_output
         wheat harvest
         wheat end_crop
-        residue2 tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
+        surfaceom tillage type = user_defined, f_incorp = 0.95, tillage_depth = 0
      endif
       if day = 264 then
          flag = 3
          report do_output
-         residue2  tillage  type = planter
+         surfaceom  tillage  type = planter
          wheat sow cultivar = xifeng24, plants = 400, sowing_depth = 50 (mm), row_spacing = 0.25 (m)
          fertiliz apply amount = 30 (kg/ha), depth = 50 (mm), type = nh4_n
       endif
@@ -196,30 +196,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  100.000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  20.0000000
+                            C:N =  90.0000000
+      Lying cellulose mass =  70.0000000
+                            C:N =  90.0000000
+      Lying lignin mass =  10.0000000
+                            C:N =  90.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-               100.0     0.4     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    90.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -292,8 +291,8 @@
 1 September 1961(Day of year=244), manager: 
      Manager creating a new local real variable : flag =     1.00000000000000
 21 September 1961(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1961(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1961(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -457,14 +456,14 @@
                           P  (kg/ha) =                                          0.00
      
 30 June 1962(Day of year=181), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-30 June 1962(Day of year=181), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+30 June 1962(Day of year=181), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1962(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1962(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1962(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -626,14 +625,14 @@
                           P  (kg/ha) =                                          0.00
      
 6 July 1963(Day of year=187), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-6 July 1963(Day of year=187), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+6 July 1963(Day of year=187), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1963(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1963(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1963(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -795,14 +794,14 @@
                           P  (kg/ha) =                                          0.00
      
 7 July 1964(Day of year=189), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-7 July 1964(Day of year=189), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+7 July 1964(Day of year=189), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1964(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1964(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1964(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -964,14 +963,14 @@
                           P  (kg/ha) =                                          0.00
      
 3 July 1965(Day of year=184), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-3 July 1965(Day of year=184), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+3 July 1965(Day of year=184), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1965(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1965(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1965(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1133,14 +1132,14 @@
                           P  (kg/ha) =                                          0.00
      
 21 June 1966(Day of year=172), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-21 June 1966(Day of year=172), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+21 June 1966(Day of year=172), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1966(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1966(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1966(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1302,14 +1301,14 @@
                           P  (kg/ha) =                                          0.00
      
 6 July 1967(Day of year=187), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-6 July 1967(Day of year=187), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+6 July 1967(Day of year=187), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1967(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1967(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1967(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1471,14 +1470,14 @@
                           P  (kg/ha) =                                          0.00
      
 6 July 1968(Day of year=188), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-6 July 1968(Day of year=188), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+6 July 1968(Day of year=188), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1968(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1968(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1968(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1640,14 +1639,14 @@
                           P  (kg/ha) =                                          0.00
      
 28 June 1969(Day of year=179), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-28 June 1969(Day of year=179), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+28 June 1969(Day of year=179), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1969(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1969(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1969(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1809,14 +1808,14 @@
                           P  (kg/ha) =                                          0.00
      
 6 July 1970(Day of year=187), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-6 July 1970(Day of year=187), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+6 July 1970(Day of year=187), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1970(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1970(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1970(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1978,14 +1977,14 @@
                           P  (kg/ha) =                                          0.00
      
 3 July 1971(Day of year=184), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-3 July 1971(Day of year=184), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+3 July 1971(Day of year=184), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1971(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1971(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1971(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2147,14 +2146,14 @@
                           P  (kg/ha) =                                          0.00
      
 29 June 1972(Day of year=181), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-29 June 1972(Day of year=181), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+29 June 1972(Day of year=181), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1972(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1972(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1972(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2316,14 +2315,14 @@
                           P  (kg/ha) =                                          0.00
      
 23 June 1973(Day of year=174), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-23 June 1973(Day of year=174), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+23 June 1973(Day of year=174), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1973(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1973(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1973(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2485,14 +2484,14 @@
                           P  (kg/ha) =                                          0.00
      
 1 July 1974(Day of year=182), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-1 July 1974(Day of year=182), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+1 July 1974(Day of year=182), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1974(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1974(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1974(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2654,14 +2653,14 @@
                           P  (kg/ha) =                                          0.00
      
 8 July 1975(Day of year=189), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-8 July 1975(Day of year=189), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+8 July 1975(Day of year=189), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1975(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1975(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1975(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2823,14 +2822,14 @@
                           P  (kg/ha) =                                          0.00
      
 11 July 1976(Day of year=193), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-11 July 1976(Day of year=193), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+11 July 1976(Day of year=193), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1976(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1976(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1976(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2992,14 +2991,14 @@
                           P  (kg/ha) =                                          0.00
      
 1 July 1977(Day of year=182), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-1 July 1977(Day of year=182), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+1 July 1977(Day of year=182), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1977(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1977(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1977(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3161,14 +3160,14 @@
                           P  (kg/ha) =                                          0.00
      
 23 June 1978(Day of year=174), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-23 June 1978(Day of year=174), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+23 June 1978(Day of year=174), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1978(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1978(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1978(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3330,14 +3329,14 @@
                           P  (kg/ha) =                                          0.00
      
 25 June 1979(Day of year=176), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-25 June 1979(Day of year=176), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+25 June 1979(Day of year=176), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1979(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1979(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1979(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3499,14 +3498,14 @@
                           P  (kg/ha) =                                          0.00
      
 27 June 1980(Day of year=179), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-27 June 1980(Day of year=179), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+27 June 1980(Day of year=179), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1980(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1980(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1980(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3668,14 +3667,14 @@
                           P  (kg/ha) =                                          0.00
      
 22 June 1981(Day of year=173), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-22 June 1981(Day of year=173), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+22 June 1981(Day of year=173), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1981(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1981(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1981(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3837,14 +3836,14 @@
                           P  (kg/ha) =                                          0.00
      
 4 July 1982(Day of year=185), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-4 July 1982(Day of year=185), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+4 July 1982(Day of year=185), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1982(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1982(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1982(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4006,14 +4005,14 @@
                           P  (kg/ha) =                                          0.00
      
 9 July 1983(Day of year=190), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-9 July 1983(Day of year=190), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+9 July 1983(Day of year=190), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1983(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1983(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1983(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4175,14 +4174,14 @@
                           P  (kg/ha) =                                          0.00
      
 1 July 1984(Day of year=183), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-1 July 1984(Day of year=183), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+1 July 1984(Day of year=183), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1984(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1984(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1984(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4344,14 +4343,14 @@
                           P  (kg/ha) =                                          0.00
      
 2 July 1985(Day of year=183), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-2 July 1985(Day of year=183), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+2 July 1985(Day of year=183), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1985(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1985(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1985(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4513,14 +4512,14 @@
                           P  (kg/ha) =                                          0.00
      
 1 July 1986(Day of year=182), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-1 July 1986(Day of year=182), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+1 July 1986(Day of year=182), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1986(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1986(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1986(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4682,14 +4681,14 @@
                           P  (kg/ha) =                                          0.00
      
 28 June 1987(Day of year=179), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-28 June 1987(Day of year=179), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+28 June 1987(Day of year=179), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1987(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1987(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1987(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4851,14 +4850,14 @@
                           P  (kg/ha) =                                          0.00
      
 1 July 1988(Day of year=183), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-1 July 1988(Day of year=183), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+1 July 1988(Day of year=183), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1988(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1988(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1988(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5020,14 +5019,14 @@
                           P  (kg/ha) =                                          0.00
      
 4 July 1989(Day of year=185), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-4 July 1989(Day of year=185), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+4 July 1989(Day of year=185), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1989(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1989(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1989(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5189,14 +5188,14 @@
                           P  (kg/ha) =                                          0.00
      
 1 July 1990(Day of year=182), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-1 July 1990(Day of year=182), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+1 July 1990(Day of year=182), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1990(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1990(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1990(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5358,14 +5357,14 @@
                           P  (kg/ha) =                                          0.00
      
 29 June 1991(Day of year=180), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-29 June 1991(Day of year=180), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+29 June 1991(Day of year=180), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1991(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1991(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1991(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5527,14 +5526,14 @@
                           P  (kg/ha) =                                          0.00
      
 27 June 1992(Day of year=179), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-27 June 1992(Day of year=179), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+27 June 1992(Day of year=179), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1992(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1992(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1992(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5696,14 +5695,14 @@
                           P  (kg/ha) =                                          0.00
      
 2 July 1993(Day of year=183), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-2 July 1993(Day of year=183), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+2 July 1993(Day of year=183), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1993(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1993(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1993(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5865,14 +5864,14 @@
                           P  (kg/ha) =                                          0.00
      
 28 June 1994(Day of year=179), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-28 June 1994(Day of year=179), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+28 June 1994(Day of year=179), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1994(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1994(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1994(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6034,14 +6033,14 @@
                           P  (kg/ha) =                                          0.00
      
 22 June 1995(Day of year=173), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-22 June 1995(Day of year=173), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+22 June 1995(Day of year=173), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1995(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1995(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1995(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6203,14 +6202,14 @@
                           P  (kg/ha) =                                          0.00
      
 3 July 1996(Day of year=185), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-3 July 1996(Day of year=185), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+3 July 1996(Day of year=185), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 1996(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 1996(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 1996(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6372,14 +6371,14 @@
                           P  (kg/ha) =                                          0.00
      
 20 June 1997(Day of year=171), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-20 June 1997(Day of year=171), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+20 June 1997(Day of year=171), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1997(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1997(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1997(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6541,14 +6540,14 @@
                           P  (kg/ha) =                                          0.00
      
 24 June 1998(Day of year=175), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-24 June 1998(Day of year=175), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+24 June 1998(Day of year=175), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1998(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1998(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1998(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6710,14 +6709,14 @@
                           P  (kg/ha) =                                          0.00
      
 13 June 1999(Day of year=164), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-13 June 1999(Day of year=164), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+13 June 1999(Day of year=164), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 1999(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 1999(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 1999(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6879,14 +6878,14 @@
                           P  (kg/ha) =                                          0.00
      
 13 June 2000(Day of year=165), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-13 June 2000(Day of year=165), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+13 June 2000(Day of year=165), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 20 September 2000(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 September 2000(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 September 2000(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -7048,14 +7047,14 @@
                           P  (kg/ha) =                                          0.00
      
 22 June 2001(Day of year=173), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-22 June 2001(Day of year=173), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+22 June 2001(Day of year=173), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 2001(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 2001(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 2001(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -7217,14 +7216,14 @@
                           P  (kg/ha) =                                          0.00
      
 18 June 2002(Day of year=169), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-18 June 2002(Day of year=169), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+18 June 2002(Day of year=169), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 2002(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 2002(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 2002(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -7386,14 +7385,14 @@
                           P  (kg/ha) =                                          0.00
      
 25 June 2003(Day of year=176), manager: 
-     Manager sending message :- residue2 tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
-25 June 2003(Day of year=176), residue2: 
+     Manager sending message :- surfaceom tillage  type = user_defined, f_incorp = 0.95, tillage_depth = 0
+25 June 2003(Day of year=176), SurfaceOM: 
      Residue removed using user_defined
                                              Fraction Incorporated =     0.95
                                              Incorporated Depth    =     0.00
 21 September 2003(Day of year=264), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 September 2003(Day of year=264), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 September 2003(Day of year=264), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
