@@ -61,7 +61,7 @@ void TrackerVariable::parse(const string& fullName)
       keyword = tokenizer.nextToken();
       }
    if (on == "")
-      on = "process";
+      throw runtime_error("Expected an 'on' keyword specifying the sampling event.");
    }
 // ------------------------------------------------------------------
 // Parse a 'stat'
