@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Message.h"
+#include "Messages.h"
 #include "MessageFactory.h"
 #include "MessageData.h"
 #include "MessageType.h"
@@ -23,11 +24,12 @@ using namespace std;
 __gc class Init1ComponentStub : public ::IComponent
 	{
 	public:
-		
+		static bool ok = false;;
 		virtual	void init1(String* name, String* sdml, IComms* comms, ApsimEvents* events)
 			{
 			Assert::IsTrue(sdml->CompareTo("<initdata></initdata>") == 0);
 			Assert::IsTrue(name->CompareTo("ComponentStub") == 0);
+			ok = true;
 			}
 		virtual void init2() { }
 	};
@@ -40,9 +42,11 @@ __gc class Init1ComponentStub : public ::IComponent
 __gc class TerminateSimulationComponentStub : public ::IComponent
 	{
 	public:
+		static bool ok = false;;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comms->terminateSimulation();
+			ok = true;
 			}
 		virtual void init2() { }
 	};
@@ -60,9 +64,11 @@ void __stdcall TerminateSimulationCallback(const unsigned* arg, char* messageByt
 __gc class WriteToSummaryComponentStub : public ::IComponent
 	{
 	public:
+		static bool ok = false;;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comms->writeToSummary("Hello from .net");
+			ok = true;
 			}
 		virtual void init2() { }
 	};
@@ -79,10 +85,10 @@ void __stdcall WriteToSummaryCallback(const unsigned* arg, char* messageBytes)
 		{
 		PublishEvent publishEvent;
 		publishEvent.unpack(message);
-		SummaryFileWrite summaryFileWrite;
-		summaryFileWrite.unpack(message);
-		Assert::IsTrue(summaryFileWrite.componentName == "ComponentStub");
-		Assert::IsTrue(summaryFileWrite.lines == "Hello from .net");
+		SummaryFileWrite* summaryFileWrite = new SummaryFileWrite;
+		summaryFileWrite->unpack(message);
+		Assert::IsTrue(summaryFileWrite->componentName->CompareTo("ComponentStub") == 0);
+		Assert::IsTrue(summaryFileWrite->lines->CompareTo("Hello from .net") == 0);
 		}
 	}
 	
@@ -93,9 +99,11 @@ void __stdcall WriteToSummaryCallback(const unsigned* arg, char* messageBytes)
 __gc class WarningComponentStub : public ::IComponent
 	{
 	public:
+		static bool ok = false;;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comms->warning("Hello from .net");
+			ok = true;
 			}
 		virtual void init2() { }
 	};
@@ -112,15 +120,15 @@ void __stdcall WarningCallback(const unsigned* arg, char* messageBytes)
 		{
 		PublishEvent publishEvent;
 		publishEvent.unpack(message);
-		Error error;
-		error.unpack(message);
-		Assert::IsTrue(error.msg == 		
+		Error* error = new Error;
+		error->unpack(message);
+		Assert::IsTrue(error->msg->CompareTo( 		
 				"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
 				"                 APSIM Warning Error               \n"
 				"                 -------------------               \n"
 				"Hello from .net\n"
 				"Component name: ComponentStub\n"
-				"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
+				"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n") == 0);
 		}
 	}	
 
@@ -131,13 +139,16 @@ __gc class GetPropertyComponentStub : public ::IComponent
 	{
 	public:
 		static ::IComponent* comp;
+		static bool ok = false;;
+		
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comp = this;
-			Integer year;
+			System::Int32 year;
 			String* from = comms->getProperty("year", year);
 			Assert::AreEqual(from, new String("ComponentStub2"));
-			Assert::AreEqual(year.value, 2005);
+			Assert::AreEqual(year, 2005);
+			ok = true;
 			}
 		virtual void init2() { }
 	};
@@ -146,20 +157,27 @@ void __stdcall GetPropertyCallback(const unsigned* arg, char* messageBytes)
 	{
 	Message message(messageBytes);
 	ComponentInterface* componentInterface = (ComponentInterface*) arg;
-
-	if (message.type() == MessageType::GetValue)
+	static unsigned id;
+	if (message.type() == MessageType::Register)
+		{
+		Register reg;
+		reg.unpack(message);
+		if (reg.kind == 1)	 // get
+			id = reg.id;
+		}
+	else if (message.type() == MessageType::GetValue)
 		{
 
 		MessageFactory messageFactory;
 		Message returnValueMessage = messageFactory.create(MessageType::ReturnValue);
 		ReturnValue returnValue;
 		returnValue.compID = 15;
-		returnValue.id = 1;
+		returnValue.id = id;
 		returnValue.type = "";
 		returnValue.pack(returnValueMessage);
-		Integer returnYear;
-		returnYear.value = 2005;
-		returnYear.pack(returnValueMessage);
+		int returnYear;
+		returnYear = 2005;
+		pack(returnValueMessage, returnYear);
 
 		componentInterface->messageToLogic(GetPropertyComponentStub::comp, returnValueMessage.byteStream());
 		}
@@ -185,10 +203,11 @@ __gc class InvalidReturnValueComponentStub : public ::IComponent
 	{
 	public:
 		static ::IComponent* comp;
+	
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comp = this;
-			Integer year;
+			Int32 year;
 			comms->getProperty("year", year);
 			Assert::Fail();
 			}
@@ -210,9 +229,9 @@ void __stdcall InvalidReturnValueCallback(const unsigned* arg, char* messageByte
 		returnValue.id = 10000;	  // invalid value.
 		returnValue.type = "";
 		returnValue.pack(returnValueMessage);
-		Integer returnYear;
-		returnYear.value = 2005;
-		returnYear.pack(returnValueMessage);
+		int returnYear;
+		returnYear = 2005;
+		pack(returnValueMessage, returnYear);
 
 		componentInterface->messageToLogic(GetPropertyComponentStub::comp, returnValueMessage.byteStream());
 		}
@@ -225,13 +244,13 @@ __gc class SetPropertyComponentStub : public ::IComponent
 	{
 	public:
 		static ::IComponent* comp;
+		static bool ok = false;;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comp = this;
-			Integer year;
-			year.value = 300;
-			bool ok = comms->setProperty("year", year);
-			Assert::IsTrue(ok);
+			Int32 year;
+			year = 300;
+			ok = comms->setProperty("year", year);
 			}
 		virtual void init2() { }
 	};
@@ -263,15 +282,12 @@ __gc class PublishComponentStub : public ::IComponent
 	{
 	public:
 		static ::IComponent* comp;
-		static bool publishWasSuccessfull;
+		static bool ok = false;;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comp = this;
-			publishWasSuccessfull = false;
-			Integer year;
-			year.value = 300;
+			Int32 year = 300;
 			comms->publishEvent("myevent", year);
-			Assert::IsTrue(publishWasSuccessfull);
 			}
 		virtual void init2() { }
 	};
@@ -285,13 +301,11 @@ void __stdcall PublishCallback(const unsigned* arg, char* messageBytes)
 		{
 		PublishEvent publishEvent;
 		publishEvent.unpack(message);
-		Assert::IsTrue(publishEvent.type == "<type name = \"Integer\">" 
-										    "   <field name=\"value\" kind=\"integer4\"/>" 
-										    "</type>");
-		Integer data;
-		data.unpack(message);
-		Assert::AreEqual(data.value, 300);
-		PublishComponentStub::publishWasSuccessfull = true;
+		Assert::IsTrue(publishEvent.type == "<type kind=\"integer4\"/>"); 
+		int data;
+		unpack(message, data);
+		Assert::AreEqual(data, 300);
+		PublishComponentStub::ok = true;
 		}
 	}	
 	
@@ -307,15 +321,15 @@ __gc class RespondToGetComponentStub : public ::IComponent
 			{
 			comp = this;
 			ok = false;
-			ApsimInteger* myVariable = new ApsimInteger;
+			int myVariable;
 			comms->registerProperty("myvariable", IComms::read, myVariable);
 
-			myVariable->value = 300;
+			myVariable = 300;
 			
 			// try and get our own variable.
-			Integer returnVariable;
+			int returnVariable;
 			comms->getProperty("myvariable", returnVariable);
-			Assert::AreEqual(returnVariable.value, 300);
+			Assert::AreEqual(returnVariable, 300);
 
 			ok = true;
 	
@@ -352,8 +366,8 @@ void __stdcall RespondToGetCallback(const unsigned* arg, char* messageBytes)
 		ReplyValue replyValue;
 		replyValue.unpack(message);
 		Assert::AreEqual(replyValue.queryID, id);
-		Integer variable;
-		variable.unpack(message);
+		int variable;
+		unpack(message, variable);
 
 		MessageFactory messageFactory;
 		Message returnValueMessage = messageFactory.create(MessageType::ReturnValue);
@@ -362,7 +376,7 @@ void __stdcall RespondToGetCallback(const unsigned* arg, char* messageBytes)
 		returnValue.id = id;
 		returnValue.type = "";
 		returnValue.pack(returnValueMessage);
-		variable.pack(returnValueMessage);
+		pack(returnValueMessage, variable);
 		componentInterface->messageToLogic(GetPropertyComponentStub::comp, returnValueMessage.byteStream());
 		}
 	else if (message.type() == MessageType::QueryInfo)
@@ -387,18 +401,17 @@ __gc class RespondToSetComponentStub : public ::IComponent
 	public:
 		static ::IComponent* comp;
 		static bool ok;
-		ApsimInteger* myVariable;
+		Int32 myVariable;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comp = this;
 			ok = false;
-			myVariable = new ApsimInteger;
 			comms->registerProperty("myvariable", IComms::readWrite, myVariable);
 
-			Integer dummy;
+			Int32 dummy;
 			comms->publishEvent("myevent", dummy);
 			
-			Assert::AreEqual(myVariable->value, 456);
+			Assert::AreEqual(myVariable, 456);
 			ok = true;
 			}
 		virtual void init2() { }
@@ -419,17 +432,14 @@ void __stdcall RespondToSetCallback(const unsigned* arg, char* messageBytes)
 		}
 	else if (message.type() == MessageType::PublishEvent)
 		{
-		Integer dummy;
-		dummy.value = 456;
-
 		MessageFactory messageFactory;
 		Message querySetValueMessage = messageFactory.create(MessageType::QuerySetValue);
 		QuerySetValue querySetValue;
 		querySetValue.id = id;
-		querySetValue.type = dummy.ddml();
+		querySetValue.type = "";
 		querySetValue.pack(querySetValueMessage);
 		
-		dummy.pack(querySetValueMessage);
+		pack(querySetValueMessage, 456);
 		componentInterface->messageToLogic(RespondToGetComponentStub::comp, querySetValueMessage.byteStream());
 		}
 				
@@ -448,19 +458,18 @@ __gc class RespondToEventComponentStub : public ::IComponent
 	{
 	public:
 		static ::IComponent* comp;
-		static bool ok;
+		static bool ok = false;
 		virtual	void init1(String* name, String __gc * sdml, IComms* comms, ApsimEvents* events)
 			{
 			comp = this;
-			ok = false;
-			events->registerTickHandler("tick", new ApsimEvents::OnTick(this, &RespondToEventComponentStub::onTick));
+			events->registerTickHandler("tick", new Time::EventHandler(this, &RespondToEventComponentStub::onTick));
 			
-			Integer dummy;
+			Int32 dummy;
 			comms->publishEvent("myevent", dummy);
 			
 			Assert::IsTrue(ok);	
 			}
-		void onTick(ApsimTime* tick)
+		void onTick(Time* tick)
 			{
 			ok = true;
 			Assert::AreEqual(tick->startday, 1);
@@ -484,18 +493,18 @@ void __stdcall RespondToEventCallback(const unsigned* arg, char* messageBytes)
 		}
 	else if (message.type() == MessageType::PublishEvent)
 		{
-		Time time;
-		time.startday = 1;
-		time.endday = 300;
+		Time* time = new Time;
+		time->startday = 1;
+		time->endday = 300;
 
 		MessageFactory messageFactory;
 		Message eventMessage = messageFactory.create(MessageType::Event);
 		Event event;
 		event.id = id;
 		event.publishedBy = 15;
-		event.type = time.ddml();
+		event.type = stringToStdString(time->ddml());
 		event.pack(eventMessage);
-		time.pack(eventMessage);
+		time->pack(eventMessage);
 		componentInterface->messageToLogic(RespondToEventComponentStub::comp, eventMessage.byteStream());
 		}
 	else if (message.type() == MessageType::QueryInfo)
@@ -552,6 +561,7 @@ __gc public class TestComponentInterface
 		void TestInit1()
 			{
 			runTest(new Init1ComponentStub, NULL);
+			Assert::IsTrue(Init1ComponentStub::ok);
 			}         
 
 		// ------------------------------------------------
@@ -561,6 +571,7 @@ __gc public class TestComponentInterface
 		void TestTerminateSimulationEvent()
 			{
 			runTest(new TerminateSimulationComponentStub, &TerminateSimulationCallback);
+			Assert::IsTrue(TerminateSimulationComponentStub::ok);
 			}				
   
 		// ----------------------------------------
@@ -571,6 +582,7 @@ __gc public class TestComponentInterface
 		void TestWriteToSummary() 
 			{
 			runTest(new WriteToSummaryComponentStub, &WriteToSummaryCallback);
+			Assert::IsTrue(WriteToSummaryComponentStub::ok);
 			}
 	
 		// ----------------------------------------
@@ -580,6 +592,7 @@ __gc public class TestComponentInterface
 		void TestWarning() 
 			{
 			runTest(new WarningComponentStub, &WarningCallback);
+			Assert::IsTrue(WarningComponentStub::ok);
 			}	
 			
 		// ----------------------------------------
@@ -589,6 +602,7 @@ __gc public class TestComponentInterface
 		void TestGetProperty() 
 			{
 			runTest(new GetPropertyComponentStub, &GetPropertyCallback);
+			Assert::IsTrue(GetPropertyComponentStub::ok);
 			}			
 			
 		// ----------------------------------------
@@ -609,6 +623,7 @@ __gc public class TestComponentInterface
 		void TestSetProperty() 
 			{
 			runTest(new SetPropertyComponentStub, &SetPropertyCallback);
+			Assert::IsTrue(SetPropertyComponentStub::ok);
 			}			
 
 		// ----------------------------------------
@@ -618,6 +633,7 @@ __gc public class TestComponentInterface
 		void TestPublish() 
 			{
 			runTest(new PublishComponentStub, &PublishCallback);
+			Assert::IsTrue(PublishComponentStub::ok);
 			}			
 
 		// ----------------------------------------

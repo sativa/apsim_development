@@ -3,7 +3,7 @@
 __gc class RegisteredEventHandlers
 	{
 	public:
-		static unsigned add(IEvent* event) 
+		static unsigned add(IEventData* event) 
 			{
 			if (numEvents == MAX_NUM_EVENTS)
 				throw new Exception("Too many event handlers have been registered");
@@ -11,7 +11,7 @@ __gc class RegisteredEventHandlers
 			numEvents++;
 			return numEvents-1;
 			}
-		static IEvent* at(unsigned index)
+		static IEventData* at(unsigned index)
 			{
 			if (index >= numEvents)
 				throw new Exception("Invalid event registeration id");
@@ -20,7 +20,7 @@ __gc class RegisteredEventHandlers
 	
 	private:
 		static const unsigned MAX_NUM_EVENTS = 50;
-		static IEvent __pin * events[] = new IEvent* [MAX_NUM_EVENTS];
+		static IEventData __pin * events[] = new IEventData* [MAX_NUM_EVENTS];
 		static unsigned numEvents = 0;
 			
 	};
