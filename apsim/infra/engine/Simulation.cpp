@@ -58,6 +58,11 @@ Simulation::~Simulation(void)
 // ------------------------------------------------------------------
 void Simulation::go(const string& simFilename)
    {
+   // remove existing log file.
+   Path logPath(simFilename);
+   logPath.Set_extension(".log");
+   unlink(logPath.Get_path().c_str());
+
    try
       {
       ifstream in(simFilename.c_str());
@@ -93,7 +98,8 @@ void Simulation::logError(const char* simFilename, const char* msg)
    {
    Path logPath(simFilename);
    logPath.Set_extension(".log");
-   ofstream log(logPath.Get_path().c_str());
+   ofstream log(logPath.Get_path().c_str(), ios::app);
+   log << endl;
    log << "APSIM Infrastructure Error" << endl;
    log << "--------------------------" << endl;
    log << msg << endl;
