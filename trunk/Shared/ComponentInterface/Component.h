@@ -539,6 +539,20 @@ class Component
       return (value_strings.size() > 0);
       };
 
+       // C arrays
+      template <class T>
+      bool readParameter(const string &sect, const string &name,
+                         T *valarray, int &numvals,
+                         double lower, double upper, bool isoptional = false)
+         {
+         std::vector<T> vv;
+         bool result = readParameter(sect, name, vv, lower, upper);
+         for (unsigned int i = 0; i < vv.size(); i++) 
+             valarray[i] = vv[i];
+         numvals = vv.size();    
+         return result;
+         };
+
       // Add Variables to the Get list.
       // Function
       void addGettableVar(const char *systemName,

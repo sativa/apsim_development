@@ -872,12 +872,6 @@ void fatalError(const FString& st)
 void stringInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
    {
     const char *s = myPtr->c_str();
-//    systemInterface->sendMessage(newReturnValueMessage(
-//                                      systemInterface->getId(),
-//                                      qd.replytoID,
-//                                      qd.replyID,
-//                                      getRegistrationType(qd.ID),
-//                                      FString(s)));
     systemInterface->sendVariable(qd, FString(s));
    }
 
