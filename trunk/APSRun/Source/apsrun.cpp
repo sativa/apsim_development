@@ -16,6 +16,7 @@ USERES("APSRun.res");
 USELIB("aps32.lib");
 USELIB("general.lib");
 USEFORM("TAPSIMRunForm.cpp", APSIMRunForm);
+//---------------------------------------------------------------------------
 using namespace std;
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
@@ -37,7 +38,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       {
       string filename;
       bool quietRun = false;
-      if (stricmp(_argv[1], "\q") == 0)
+      if (stricmp(_argv[1], "/q") == 0)
          {
          quietRun = true;
          filename = _argv[2];
