@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <general\VCLAdaptors.h>
 #include <general\stl_functions.h>
-#include <xmldoc.hpp>
 class XMLNode;
 
 namespace Msxml2_tlb
@@ -29,16 +28,13 @@ class XMLDocument
       void setRootNode(const std::string& rootNode);
       void write(const std::string& fileName) const;
       void writeXML(std::string& xml) const;
-      XMLNode& documentElement(void) {return *docElementNode;}
+      XMLNode documentElement(void);
 
       void setDirty(bool d) {dirty = d;}
       bool isDirty(void) const {return dirty;}
    private:
       XMLDocumentImpl* docImpl;
       mutable bool dirty;
-      XMLNode* docElementNode;
-
-      void createDocElementNode(void);
    };
 //---------------------------------------------------------------------------
 // This class encapsulates a node within an XML document
@@ -50,7 +46,7 @@ class XMLNode
       iterator begin() const;
       iterator end() const;
 
-      XMLNode(XMLDocument* doc, _di_IXMLNode n)
+      XMLNode(XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n)
          : parent(doc), node(n) { }
       XMLNode& operator= (const XMLNode& rhs)
         {
@@ -72,7 +68,7 @@ class XMLNode
 
    private:
       XMLDocument* parent;
-      _di_IXMLNode node;
+      Msxml2_tlb::IXMLDOMNode* node;
 
       XMLNode getNextSibling(void) const;
 

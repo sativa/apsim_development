@@ -10,21 +10,6 @@
 #pragma package(smart_init)
 
 //---------------------------------------------------------------------------
-// This small structure contains the actual xmlDocument.  This is done to avoid
-// including utilcls.h and the Mircosoft XML headers into our header.
-//---------------------------------------------------------------------------
-struct XMLDocumentImpl
-   {
-   _di_IXMLDocument xmlDoc;
-   XMLDocumentImpl()
-      : xmlDoc(NewXMLDocument()) { }
-   XMLDocumentImpl(const string& fileName)
-      : xmlDoc(LoadXMLDocument(AnsiString(fileName.c_str()))) { }
-   XMLDocumentImpl(const string& xml, bool dummy)
-      : xmlDoc(LoadXMLData(AnsiString(xml.c_str()))) { }
-   };
-
-//---------------------------------------------------------------------------
 // Conversion function - from string to variant.
 //---------------------------------------------------------------------------
 Variant asVariant(const string& st)
@@ -32,6 +17,30 @@ Variant asVariant(const string& st)
    WideString wst(st.c_str());
    return Variant(wst);
    }
+//---------------------------------------------------------------------------
+// This small structure contains the actual xmlDocument.  This is done to avoid
+// including utilcls.h and the Mircosoft XML headers into our header.
+//---------------------------------------------------------------------------
+struct XMLDocumentImpl
+   {
+   Msxml2_tlb::TCOMIXMLDOMDocument xmlDoc;
+   XMLDocumentImpl()
+      : xmlDoc(CoDOMDocument40::Create())
+      {
+      }
+   XMLDocumentImpl(const string& fileName)
+      : xmlDoc(CoDOMDocument40::Create())
+      {
+      short isSuccessful;
+      xmlDoc->load(asVariant(fileName), &isSuccessful);
+      }
+   XMLDocumentImpl(const string& xml, bool dummy)
+      : xmlDoc(CoDOMDocument40::Create())
+      {
+      xmlDoc->loadXML(asVariant(xml));
+      }
+   };
+
 //---------------------------------------------------------------------------
 // Conversion function - from variant to string
 //---------------------------------------------------------------------------
@@ -71,7 +80,6 @@ void formatXML(std::string& xml)
 // constructor
 //---------------------------------------------------------------------------
 XMLDocument::XMLDocument()
-   : docElementNode(NULL)
    {
    docImpl = new XMLDocumentImpl();
    dirty = true;
@@ -80,20 +88,16 @@ XMLDocument::XMLDocument()
 // constructor
 //---------------------------------------------------------------------------
 XMLDocument::XMLDocument(const std::string& fileName)
-   : docElementNode(NULL)
    {
    docImpl = new XMLDocumentImpl(fileName);
-   createDocElementNode();
    dirty = true;
    }
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
 XMLDocument::XMLDocument(const std::string& xml, bool dummy)
-   : docElementNode(NULL)
    {
    docImpl = new XMLDocumentImpl(xml, dummy);
-   createDocElementNode();
    dirty = true;
    }
 //---------------------------------------------------------------------------
@@ -101,25 +105,21 @@ XMLDocument::XMLDocument(const std::string& xml, bool dummy)
 //---------------------------------------------------------------------------
 XMLDocument::~XMLDocument(void)
    {
-   delete docElementNode;
    delete docImpl;
-   }
-//---------------------------------------------------------------------------
-// create the document element node.
-//---------------------------------------------------------------------------
-void XMLDocument::createDocElementNode(void)
-   {
-   delete docElementNode;
-   docElementNode = new XMLNode(this, docImpl->xmlDoc->DocumentElement);
    }
 //---------------------------------------------------------------------------
 // set the root node of the document.
 //---------------------------------------------------------------------------
 void XMLDocument::setRootNode(const std::string& rootNodeName)
    {
-   docImpl->xmlDoc->ChildNodes->Clear();
-   docImpl->xmlDoc->DocumentElement = docImpl->xmlDoc->CreateNode(rootNodeName.c_str());
-   createDocElementNode();
+   docImpl->xmlDoc->documentElement = docImpl->xmlDoc->createElement(asVariant(rootNodeName));
+   }
+//---------------------------------------------------------------------------
+// return the root document element
+//---------------------------------------------------------------------------
+XMLNode XMLDocument::documentElement(void)
+   {
+   return XMLNode(this, docImpl->xmlDoc->documentElement);
    }
 //---------------------------------------------------------------------------
 // write the contents of this document to the specified file.
@@ -137,7 +137,7 @@ void XMLDocument::write(const std::string& fileName) const
 //---------------------------------------------------------------------------
 void XMLDocument::writeXML(std::string& xml) const
    {
-   xml = docImpl->xmlDoc->XML->Text.c_str();
+   xml = AnsiString(docImpl->xmlDoc->xml).c_str();
    formatXML(xml);
    }
 //---------------------------------------------------------------------------
@@ -146,7 +146,7 @@ void XMLDocument::writeXML(std::string& xml) const
 string XMLNode::getName(void) const
    {
    if (node != NULL)
-      return asString(node->NodeName);
+      return asString(node->nodeName);
    else
       return "";
    }
@@ -157,9 +157,15 @@ string XMLNode::getAttribute(const std::string& attributeName) const
    {
    if (node != NULL)
       {
-      AnsiString value = node->Attributes[attributeName.c_str()];
-      return value.c_str();
-      }
+      Variant value;
+      Msxml2_tlb::IXMLDOMNamedNodeMap* attributes = node->get_attributes();
+      if (attributes != NULL)
+         {
+         Msxml2_tlb::IXMLDOMNode* attribute = attributes->getNamedItem(asVariant(attributeName));
+         if (attribute != NULL)
+            return asString(attribute->text);
+         }
+       }
    return "";
    }
 // ------------------------------------------------------------------
@@ -170,10 +176,10 @@ std::string XMLNode::getValue(void) const
    if (node != NULL)
       {
       AnsiString text;
-      if (node->ChildNodes->Count == 1)
-         text = node->ChildNodes->First()->Text;
-      else
-         text = node->Text;
+//      if (node->childNodes->Count == 1)
+//         text = node->firstChild->Text;
+//      else
+         text = node->get_text();
       return text.c_str();
       }
    return "";
@@ -186,7 +192,17 @@ void XMLNode::setAttribute(const string& attributeName,
    {
    if (node != NULL)
       {
-      node->Attributes[attributeName.c_str()] = AnsiString(attributeValue.c_str());
+      Msxml2_tlb::IXMLDOMNode* attribute;
+      Msxml2_tlb::IXMLDOMNamedNodeMap* attributes = node->get_attributes();
+      if (attributes != NULL)
+         attribute = attributes->getNamedItem(asVariant(attributeName));
+      if (attribute == NULL)
+         {
+         attribute = node->ownerDocument->createAttribute(asVariant(attributeName));
+         attributes->setNamedItem(attribute);
+         }
+
+      attribute->set_text(asVariant(attributeValue));
       parent->setDirty(true);
       }
    }
@@ -198,11 +214,11 @@ void XMLNode::setValue(const std::string& value, bool asCData)
    {
    if (asCData)
       {
-      _di_IXMLNode newNode = node->OwnerDocument->CreateNode(value.c_str(), ntCData);
-      node->ChildNodes->Add(newNode);
+      Msxml2_tlb::IXMLDOMCDATASection* section = node->ownerDocument->createCDATASection(asVariant(value));
+      node->appendChild(section);
       }
    else
-      node->Text = value.c_str();
+      node->set_text(asVariant(value));
    parent->setDirty(true);
    }
 // ------------------------------------------------------------------
@@ -219,7 +235,9 @@ XMLNode XMLNode::appendChild(const std::string& nodeName, bool alwaysAppend)
       if (i != end())
          return *i;
       }
-   _di_IXMLNode childNode = node->AddChild(nodeName.c_str());
+   Msxml2_tlb::IXMLDOMElement* childNode = node->get_ownerDocument()
+                              ->createElement(asVariant(nodeName));
+   node->appendChild(childNode);
    parent->setDirty(true);
    return XMLNode(parent, childNode);
    }
@@ -232,7 +250,7 @@ XMLNode::iterator XMLNode::erase(XMLNode::iterator& child)
       {
       iterator next = child;
       next++;
-      node->ChildNodes->Delete(child->getName().c_str());   // presumably we don't have to delete the child.
+      node->removeChild(child->node);   // presumably we don't have to delete the child.
       parent->setDirty(true);
       return next;
       }
@@ -244,7 +262,7 @@ XMLNode::iterator XMLNode::erase(XMLNode::iterator& child)
 XMLNode XMLNode::getNextSibling(void) const
    {
    if (node != NULL)
-      return XMLNode(parent, node->ParentNode->ChildNodes->FindSibling(node, 1));
+      return XMLNode(parent, node->nextSibling);
    else
       return XMLNode(parent, NULL);
    }
@@ -253,8 +271,8 @@ XMLNode XMLNode::getNextSibling(void) const
 // ------------------------------------------------------------------
 XMLNode::iterator XMLNode::begin() const
    {
-   if (node != NULL && node->HasChildNodes)
-      return XMLNode::iterator(XMLNode(parent, node->ChildNodes->First()));
+   if (node != NULL)
+      return XMLNode::iterator(XMLNode(parent, node->firstChild));
    else
       return XMLNode(parent, NULL);
    }
@@ -270,6 +288,7 @@ XMLNode::iterator XMLNode::end() const
 //---------------------------------------------------------------------------
 void XMLNode::writeXML(std::string& xml) const
    {
-   xml = AnsiString(node->XML).c_str();
+   xml = AnsiString(node->xml).c_str();
+   formatXML(xml);
    }
 
