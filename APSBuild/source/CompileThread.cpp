@@ -177,6 +177,13 @@ void CompileThread::CompileProject (APSIM_project& apf)
          {
          // cleanup after ourselves.
          Cleanup (apf);
+
+         // send contents of compiler.rpt to standard out.
+         string compilerRptPath = APSDirectories().Get_working() + "\\compiler.rpt";
+         ifstream compilerRpt(compilerRptPath.c_str());
+         string contents;
+         getline(compilerRpt, contents, '\0');
+         std::cout << contents;
          }
       }
    }
@@ -237,13 +244,9 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
    ofstream out (AutomakeFilename.c_str());
 
    // write template out
-   string Line;
-   getline (in, Line);
-   while (in)
-      {
-      out << Line << std::endl;
-      getline (in, Line);
-      }
+   string contents;
+   getline (in, contents, '\0');
+   out << contents;
 
    // write out target name.
    out << "TARGET=" << BinaryFile.Get_path() << std::endl;
