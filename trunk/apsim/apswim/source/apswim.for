@@ -8795,7 +8795,7 @@ c      pause
 
          call get_double_var_optional (
      :            unknown_module,
-     :           'residue_cover',
+     :           'surfaceom_cover',
      :           '(0-1)',
      :           g%residue_cover,
      :           numvals,
