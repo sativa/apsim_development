@@ -189,6 +189,7 @@ Public Class GenericUI
         ElseIf Prop.Attribute("type") = "date" Then
             Dim DateEditor As New DateTimePicker
             DateEditor.Format = DateTimePickerFormat.Short
+
             Return New CustomEditor(DateEditor, "Text", True)
         ElseIf Prop.Attribute("type") = "list" Then
             Dim CheckCombo As New ComboBox
