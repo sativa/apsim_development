@@ -3124,6 +3124,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Changes
 !      TM - 21/11/94
 !      JNGH - 23/4/98 added warning error when special character found
+!      DPH  - 4/12/00 changed warning error to fatal error for special character 
 
 !+  Local Variables
       character str*200
@@ -3213,7 +3214,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      :      new_line,
      :      (blank, i=1,g%first-1), '^'
  
-            call Warning_error(ERR_user, str)
+            call fatal_error(ERR_user, str)
  
  
               call Get_Char()
