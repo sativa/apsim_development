@@ -7,6 +7,7 @@
 #include "ApsimRegistrationData.h"
 #include "ApsimDataTypeData.h"
 #include "ApsimDataTypesFile.h"
+class ApsimSystemData;
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).
@@ -17,12 +18,14 @@ class __declspec(dllexport) ApsimComponentData
       ApsimComponentData(void);
       ApsimComponentData(const std::string& xml);
       ApsimComponentData(const XMLNode& n);
+      ApsimComponentData(const ApsimComponentData& rhs);
       ~ApsimComponentData(void);
 
-      void copyAllFrom(ApsimComponentData& from);
+      ApsimComponentData& operator=(const ApsimComponentData& rhs);
 
       std::string getName(void) const;
       std::string getExecutableFileName(void) const;
+      std::string getXML(void) const;
       void setName(const std::string& name);
       void setExecutableFileName(const std::string& executable);
 
@@ -43,8 +46,6 @@ class __declspec(dllexport) ApsimComponentData
 
       void getGroupNames(const std::string& propertyType,
                          std::vector<std::string>& groupNames);
-
-      std::string getXML(void) const;
 
       // variable methods.
       void clearVariables(void);
@@ -75,5 +76,6 @@ class __declspec(dllexport) ApsimComponentData
       XMLNode node;
       XMLNode getInitData(void) const;
       mutable ApsimDataTypesFile* dataTypesFile;
+      friend ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
    };
 #endif
