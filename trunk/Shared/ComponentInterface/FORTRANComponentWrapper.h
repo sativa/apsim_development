@@ -161,12 +161,12 @@ class FortranWrapper : public protocol::Component
       void respond2var(const FString& variableName, const FString& units,
                        const FString& dataTypeString, const T& value)
          {
-         if (inApsimGetQuery)                         
+         if (inApsimGetQuery)
             {
             static char buffer[1000];
             strcpy(buffer, "");
             strncat(buffer, dataTypeString.f_str(), dataTypeString.length());
-/*            unsigned insertPos = dataTypeString.find(">");
+            unsigned insertPos = dataTypeString.find(">");
             if (insertPos != FString::npos)
                {
                insertPos--;
@@ -175,7 +175,7 @@ class FortranWrapper : public protocol::Component
                strncat(buffer, units.f_str(), units.length());
                strcat(buffer, "\"/>");
                }
-*/            addRegistration(RegistrationType::respondToGet, variableName, buffer);
+            addRegistration(RegistrationType::respondToGet, variableName, buffer);
             }
          else
             sendVariable(queryData, value);
