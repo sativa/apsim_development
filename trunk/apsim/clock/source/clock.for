@@ -330,7 +330,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       ! Register all timestep events.
       do i=1, g%numTimestepEvents
          g%timestepEvents(i) = add_registration
-     .         (eventReg, timestepEvents(i), null_ddml)
+     .         (eventReg, timestepEvents(i), nullddml)
       enddo
 
       call pop_routine (this_routine)
@@ -443,7 +443,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 *+  Calls
       character Clock_time_string*(5)      ! function
-      type(time_type) :: clock_get_time
+      type(TimeType) :: clock_get_time
 
 *+  Purpose
 *      Return the value of a variable
@@ -464,7 +464,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       integer   doy                    ! day of year
       integer   year                   ! year
       character str*100                ! string for date formatting
-      type(time_type) :: time          ! time to send back
+      type(TimeType) :: time          ! time to send back
 
 *- Implementation Section ----------------------------------
 
@@ -472,66 +472,66 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call day_of_year_to_date (g%day, g%year, thisdate)
 
-      if (variable_info%id .eq. day_id) then
+      if (variable_info%id .eq. dayId) then
          call return_day(variable_info, g%day)
 
-      else if (variable_info%id .eq. year_id) then
+      else if (variable_info%id .eq. yearId) then
          call return_year(variable_info, g%year)
 
-      else if (variable_info%id .eq. timestep_id) then
+      else if (variable_info%id .eq. timestepId) then
          call return_timestep(variable_info, g%timestep)
 
-      else if (variable_info%id .eq. day_Of_Month_id) then
+      else if (variable_info%id .eq. day_Of_MonthId) then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g%current_date)
          call return_day_of_month(variable_info, thisdate(1))
 
-      else if (variable_info%id .eq. month_id) then
+      else if (variable_info%id .eq. monthId) then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g%current_date)
          call return_month(variable_info, thisdate(2))
 
-      else if (variable_info%id .eq. start_Week_id) then
+      else if (variable_info%id .eq. start_WeekId) then
          Logical_to_return = Start_week (g%day, g%year)
          call return_start_week(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. end_Week_id) then
+      else if (variable_info%id .eq. end_WeekId) then
          Logical_to_return = End_week (g%day, g%year)
          call return_end_week(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. start_Month_id) then
+      else if (variable_info%id .eq. start_MonthId) then
          Logical_to_return = Start_month (g%day, g%year)
          call return_start_month(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. end_Month_id) then
+      else if (variable_info%id .eq. end_MonthId) then
          Logical_to_return = End_month (g%day, g%year)
          call return_end_month(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. end_Year_id) then
+      else if (variable_info%id .eq. end_YearId) then
          Logical_to_return = End_year (g%day, g%year)
          call return_end_year(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. today_id) then
+      else if (variable_info%id .eq. todayId) then
          call return_today(variable_info,
      .         Date_to_jday(thisdate(1), thisdate(2), thisdate(3)))
 
-      else if (variable_info%id .eq. today_day_id) then
+      else if (variable_info%id .eq. today_dayId) then
          call return_today_day(variable_info, thisdate(1))
 
-      else if (variable_info%id .eq. today_month_id) then
+      else if (variable_info%id .eq. today_monthId) then
          call return_today_month(variable_info, thisdate(2))
 
-      else if (variable_info%id .eq. today_year_id) then
+      else if (variable_info%id .eq. today_yearId) then
          call return_today_year(variable_info, thisdate(3))
 
-      else if (variable_info%id .eq. today_day_Of_Year_id) then
+      else if (variable_info%id .eq. today_day_Of_YearId) then
          call return_today_day_of_year(variable_info, g%day)
 
-      else if (variable_info%id .eq. today_month_Str_id) then
+      else if (variable_info%id .eq. today_month_StrId) then
          call return_today_month_str(variable_info,
      .         Get_month_string(thisdate(2)))
 
-      else if (variable_info%id .eq. today_ddmm_id) then
+      else if (variable_info%id .eq. today_ddmmId) then
          write (str, '(i2,a,i2)')
      .        thisdate(1), '/', thisdate(2)
 
@@ -544,7 +544,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call return_today_ddmm(variable_info, str)
 
-      else if (variable_info%id .eq. today_ddmmyyyy_id) then
+      else if (variable_info%id .eq. today_ddmmyyyyId) then
          write (str, '(i2,a,i2,a,i4)')
      .        thisdate(1), '/', thisdate(2), '/', thisdate(3)
 
@@ -557,7 +557,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call return_today_ddmmyyyy(variable_info, str)
 
-      else if (variable_info%id .eq. today_dd_mmm_yyyy_id) then
+      else if (variable_info%id .eq. today_dd_mmm_yyyyId) then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '_', Get_month_string(thisdate(2)),
      .        '_', thisdate(3)
@@ -568,7 +568,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_dd_mmm_yyyy(variable_info, str)
 
-      else if (variable_info%id .eq. today_ddmmmyyyy_id) then
+      else if (variable_info%id .eq. today_ddmmmyyyyId) then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '/', Get_month_string(thisdate(2)),
      .        '/', thisdate(3)
@@ -579,7 +579,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_ddmmmyyyy(variable_info, str)
 
-      else if (variable_info%id .eq. today_dd_mmm_id) then
+      else if (variable_info%id .eq. today_dd_mmmId) then
          write (str, '(i2,a,a)')
      .        thisdate(1), '_', Get_month_string(thisdate(2))
 
@@ -589,33 +589,33 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_dd_mmm(variable_info, str)
 
-      else if (variable_info%id .eq. time_id) then
+      else if (variable_info%id .eq. timeId) then
          time = clock_get_time()
          call return_time(variable_info, time)
 
-      else if (variable_info%id .eq. time_string_id) then
+      else if (variable_info%id .eq. time_stringId) then
          time_string = clock_time_string()
          call return_time_string(variable_info, time_string)
 
-      else if (variable_info%id .eq. simulation_Start_Day_id) then
+      else if (variable_info%id .eq. simulation_Start_DayId) then
          call jday_to_day_of_year (g%Start_date
      .                            ,doy
      .                            ,year)
          call return_simulation_start_day(variable_info, doy)
 
-      else if (variable_info%id .eq. simulation_Start_Year_id) then
+      else if (variable_info%id .eq. simulation_Start_YearId) then
          call jday_to_day_of_year (g%Start_date
      .                            ,doy
      .                            ,year)
          call return_simulation_start_year(variable_info, year)
 
-      else if (variable_info%id .eq. simulation_End_Day_id) then
+      else if (variable_info%id .eq. simulation_End_DayId) then
          call jday_to_day_of_year (g%End_date
      .                            ,doy
      .                            ,year)
          call return_simulation_end_day(variable_info, doy)
 
-      else if (variable_info%id .eq. simulation_End_Year_id) then
+      else if (variable_info%id .eq. simulation_End_YearId) then
          call jday_to_day_of_year (g%End_date
      .                            ,doy
      .                            ,year)
@@ -798,21 +798,21 @@ C     Last change:  E     5 Dec 2000    8:52 am
 !      NIH 25/08/99
 
 *+  Calls
-      type(time_type) :: clock_get_time
+      type(TimeType) :: clock_get_time
 
 !+  Constant Values
       character This_routine*(*)       ! name of this routine
       parameter (This_routine='clock_dotick')
 
 !+  Local Variables
-      type(time_type) :: tick
+      type(TimeType) :: tick
 
 !- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
 
       tick = Clock_get_time()
-      call publish_time(tick_id, tick, .false.)
+      call publish_time(tickId, tick, .false.)
 
       call pop_routine (This_routine)
 
@@ -826,7 +826,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       implicit none
 
 !+  Sub-Program Arguments
-      type(time_type) :: Clock_get_time
+      type(TimeType) :: Clock_get_time
 
 
 !+  Calls
