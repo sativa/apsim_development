@@ -1,27 +1,24 @@
-[sample.report.parameters]  
-title =  soilp Sample Simulation   
-screen_output =  on   
-outputfile =  soilp.out /overwrite   
-summaryfile =  soilp.sum /overwrite   
+[sample.report.parameters]
 
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
+outputfile =soilp.out
 
-module_names =    soilp     soilp     soilp   soilp     soilp     soilp    soilp    
-variable_names =  labile_p  unavail_p rock_p  banded_p  biom_p()  hum_p()  fom_p()  
-variable_alias =  -         -         -       -         -         -        -        
-units =           -         -         -       -         -         -        -        
+variable = clock.day
+variable = clock.year
+variable = soilp.labile_p
+variable = soilp.unavail_p
+variable = soilp.rock_p
+variable = soilp.banded_p
+variable = soilp.biom_p
+variable = soilp.hum_p()
+variable = soilp.fom_p()
 
 
-[sample.clock.parameters]  
+[sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1   
-simulation_start_year =  1988   
-simulation_end_day =  30   
-simulation_end_year =  1988   
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=30/1/1988     ! dd/mm/yyyy
 
-[sample.manager.start_of_day]  
+[sample.manager.start_of_day]
 if day = 5 then
    fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
 elseif day = 10 then
@@ -32,10 +29,10 @@ elseif day = 20 then
    act_mods tillage type = disc ()
 endif
 
-[sample.manager.end_of_day]  
+[sample.manager.end_of_day]
 report do_output
 
-[sample.residue2.parameters]  
+[sample.residue2.parameters]
 pot_decomp_rate =  0.10 ()   ! Potential decomposition rate
 residue_wt =  0!2000. (kg/ha)  ! Initial surface residue
 residue_cnr =  30.0 ()       ! C:N ratio of initial residue
@@ -45,8 +42,8 @@ residue_type =  mungbean     ! Type if initial residue
 !!!!!SAMPLE PARAMETERS ONLY!!!!!
 ! parameter values are illustrative only and not
 ! necessarily representative of the sample soil type.
-[sample.soilp.parameters]    
-!layer         1   2   3   4   5   6   7   
+[sample.soilp.parameters]
+!layer         1   2   3   4   5   6   7
 labile_P =     5   1   1   1   1   1   1   (ppm) !labile p content for each layer
 sorption =    50  100 200  200 200 200 200  ()   !soils p sorption characteristic
 root_cp =      200             ()                !c:p ratio of roots at initialisation

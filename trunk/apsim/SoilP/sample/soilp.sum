@@ -9,32 +9,27 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\soilp\sample\soilp.sim
+     Version                = 2.2
      Title                  = soilp Sample Simulation
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilp\lib\soilp.dll(soilp) - Licensed
+     Component DLL          = c:\apsuite22\apsim\screen\lib\screen.dll
+     Component DLL          = c:\apsuite22\apsim\log\lib\log.dll
+     Component DLL          = c:\apsuite22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\apsuite22\apsim\clock\lib\clock.dll
+     Component DLL          = c:\apsuite22\apsim\report\lib\report.dll
+     Component DLL          = c:\apsuite22\apsim\input\lib\input.dll
+     Component DLL          = c:\apsuite22\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\apsuite22\apsim\manager\lib\manager.dll
+     Component DLL          = c:\apsuite22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\apsuite22\apsim\residue2\lib\residue2.dll
+     Component DLL          = C:\apsuite22\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\apsuite22\apsim\soilp\lib\soilp.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
      Simulation end date   = 30/01/1988
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = soilp.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         clock.year
@@ -45,11 +40,15 @@
         soilp.biom_p()
         soilp.hum_p()
         soilp.fom_p()
+     
+     Output file = soilp.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\build\apsuite\apsim\met\SAMPLE\DALBY.MET
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\apsuite22\apsim\met\SAMPLE\DALBY.MET
 
-------- FERTILIZ Initialisation ----------------------------------------------
+------- fertiliz Initialisation -----------------------------------------------
       Initialising
      
         - Reading Parameters
@@ -61,7 +60,7 @@
            No fertiliser schedule is used
           -----------------------------------------------
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      if day = 5 then
         fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
@@ -74,7 +73,7 @@
      endif
      report do_output
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -146,7 +145,7 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- RESIDUE2 Initialisation ----------------------------------------------
+------- residue2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -162,7 +161,7 @@
                  0.0     0.0     0.0  mungbean
          ------------------------------------------------
 
-------- SOILN2 Initialisation ------------------------------------------------
+------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Constants
      
@@ -211,7 +210,7 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- SOILP Initialisation -------------------------------------------------
+------- soilp Initialisation --------------------------------------------------
      Initialising
      
         - Reading Constants
@@ -241,47 +240,36 @@
            Dissolution rate of rock P :    0.00061   (/yr)
            Root C:P :                    200.0
 ------- Start of simulation  --------------------------------------------------
-5 January 1988 (Day of year=5):
-   MANAGER:
-           Manager sending message :- fertiliz apply amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
-   FERTILIZ:
-      
-         - Reading Fertiliser Type Parameters
-         30.00 of rock phosphorus (rock_p)
-                                               added at depth   20.00 (layer   1)
-10 January 1988 (Day of year=10):
-   MANAGER:
-           Manager sending message :- fertiliz apply amount = 15 (kg/ha), depth = 20 (mm), type = broadcast_p
-   FERTILIZ:
-      
-         - Reading Fertiliser Type Parameters
-         15.00 of broadcast phosporus (broadcast_p)
-                                               added at depth   20.00 (layer   1)
-15 January 1988 (Day of year=15):
-   MANAGER:
-           Manager sending message :- fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
-   FERTILIZ:
-      
-         - Reading Fertiliser Type Parameters
-         20.00 of banded phosphorus (banded_p)
-                                               added at depth   35.00 (layer   1)
-20 January 1988 (Day of year=20):
-   MANAGER:
-           Manager sending message :- act_mods tillage type = disc ()
-   SOILWAT2:
-      
-          - Reading tillage CN info
-      Soil tilled using disc                          
-                                              CN reduction =     0.00
-                                              Acc rain     =     0.00
-   RESIDUE2:
-      
-          - Reading residue tillage info
-      Residue removed using disc                          
-                                              Fraction Incorporated =     0.50
-                                              Incorporated Depth    =   200.00
-   SOILP:
-      Banded P destroyed
-30 January 1988 (Day of year=30):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+5 January 1988(Day of year=5), manager: 
+     Manager sending message :- fertiliz apply  amount = 30 (kg/ha), depth = 20 (mm), type = rock_p
+5 January 1988(Day of year=5), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+        30.00 of rock phosphorus (rock_p)
+                                              added at depth   20.00 (layer   1)
+10 January 1988(Day of year=10), manager: 
+     Manager sending message :- fertiliz apply  amount = 15 (kg/ha), depth = 20 (mm), type = broadcast_p
+10 January 1988(Day of year=10), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+        15.00 of broadcast phosporus (broadcast_p)
+                                              added at depth   20.00 (layer   1)
+15 January 1988(Day of year=15), manager: 
+     Manager sending message :- fertiliz apply  amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
+15 January 1988(Day of year=15), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+        20.00 of banded phosphorus (banded_p)
+                                              added at depth   35.00 (layer   1)
+20 January 1988(Day of year=20), manager: 
+     Manager sending message :- act_mods tillage  type = disc
+20 January 1988(Day of year=20), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using disc
+                                             Fraction Incorporated =     0.50
+                                             Incorporated Depth    =   200.00
+20 January 1988(Day of year=20), soilp: 
+     Banded P destroyed
+30 January 1988(Day of year=30), clock: 
+     Simulation is terminating due to end criteria being met.
