@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="..\..\ApsimOutlook.exe"/>
+    <PROJECT value="L:\ApsimOutlook.exe"/>
     <OBJFILES value="ApsimOutlook.obj about.obj ChildWin.obj Main.obj TChartSettingsForm.obj 
       TDrill_down_form.obj TPreferences_form.obj TSkin.obj TSplashForm.obj 
       TTabRenameForm.obj TValueSelectionForm.obj Scenarios.obj factor.obj 
@@ -17,12 +17,13 @@
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib VCLX50.lib Vclbde50.lib vcldb50.lib APSData.lib TEE4C5.lib 
       TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib thirdparty.lib 
-      VCLADO50.lib"/>
+      VCLADO50.lib TMSC5.lib"/>
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TEEDB4C5.bpi 
-      TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi 
-      thirdparty.bpi APSGENERAL.bpi VCLADO50.bpi APSData.bpi"/>
+      TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi DB.bpi 
+      thirdparty.bpi APSGENERAL.bpi VCLADO50.bpi tmsc5.bpi APSData.bpi 
+      vcljpg50.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -42,7 +43,7 @@
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
   </OPTIONS>
   <LINKER>
@@ -78,11 +79,6 @@ ProductName=WhopperCropper
 ProductVersion=1.2
 Comments=Build date: 5 October 1998
 
-[Excluded Packages]
-$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
-$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
-$(BCB)\Projects\Bpl\TAChartPackage.bpl=TAChart
-
 [HistoryLists\hlIncludePath]
 Count=5
 Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
@@ -101,17 +97,19 @@ Item4=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\li
 Item5=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
-Count=2
+Count=3
 Item0=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
-Item1=$(BCB)\source\vcl
+Item1=..\..\;c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
+Item2=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=..\..\
+Count=2
+Item0=L:\
+Item1=..\..\
 
 [Debugging]
 DebugSourceDirs=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
