@@ -39,7 +39,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".con") == 0)
          {
          // yes - better ask user for a configuration.
-         TAPSIMRunForm* runForm = new TAPSIMRunForm(NULL);
+         TAPSIMRunForm* runForm = new TAPSIMRunForm(Application);
          runForm->controlFilename = fileName;
          if (runForm->ShowModal() == mrOk)
             {
