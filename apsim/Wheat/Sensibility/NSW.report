@@ -6,7 +6,7 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 865
+  ClientHeight = 861
   ClientWidth = 1384
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,7 +17,7 @@ object data: TForm
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Gunnedah600: TApsimFileReader
+  object Gunnedah750: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -88,12 +88,12 @@ object data: TForm
         DataType = ftString
         Size = 200
       end>
-    IndexFieldNames = 'Series'
+    IndexFieldNames = 'Series;year'
     IndexName = 'mainIndex'
     IndexDefs = <
       item
         Name = 'mainIndex'
-        Fields = 'Series'
+        Fields = 'Series;year'
       end>
     SortOptions = []
     AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
@@ -117,12 +117,13 @@ object data: TForm
       'Warra600HighNProb.onSourceDataChanged'
       'Gunnedah600Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
+    sortFields = 'year'
     filenames.Strings = (
-      'Gunnedah600.out')
+      'Gunnedah750.out')
     Left = 170
     Top = 157
   end
-  object Gunnedah600Prob: TProbability
+  object Gunnedah750Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -165,7 +166,7 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Gunnedah600
+    source = Gunnedah750
     subscriptionComponentNames.Strings = (
       'Graph1.afterDataRefresh')
     sortFields = 'Probability'
@@ -277,7 +278,7 @@ object data: TForm
     Left = 171
     Top = 223
   end
-  object Walgett600: TApsimFileReader
+  object Walgett750: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -348,12 +349,12 @@ object data: TForm
         DataType = ftString
         Size = 200
       end>
-    IndexFieldNames = 'Series'
+    IndexFieldNames = 'Series;year'
     IndexName = 'mainIndex'
     IndexDefs = <
       item
         Name = 'mainIndex'
-        Fields = 'Series'
+        Fields = 'Series;year'
       end>
     SortOptions = []
     AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
@@ -376,8 +377,9 @@ object data: TForm
       'Warra600LowNProb.onSourceDataChanged'
       'Walgett600Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
+    sortFields = 'year'
     filenames.Strings = (
-      'Walgett600.out')
+      'Walgett750.out')
     Left = 176
     Top = 320
   end
@@ -536,7 +538,7 @@ object data: TForm
     Left = 304
     Top = 232
   end
-  object Walgett600Prob: TProbability
+  object Walgett750Prob: TProbability
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -579,7 +581,7 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = Walgett600
+    source = Walgett750
     subscriptionComponentNames.Strings = (
       'Graph1.afterDataRefresh')
     sortFields = 'Probability'
@@ -640,8 +642,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 303
-  Top = 35
+  Left = 162
+  Top = 43
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -778,9 +780,9 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Gunnedah600Prob
+          DataSource = data.Gunnedah750Prob
           SeriesColor = clRed
-          Title = 'Gunnedah 600mm'
+          Title = 'Gunnedah 750mm'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -812,9 +814,9 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Walgett600Prob
+          DataSource = data.Walgett750Prob
           SeriesColor = clYellow
-          Title = 'Walgett 600mm'
+          Title = 'Walgett 750mm'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -878,8 +880,8 @@ object Page1: TQuickRep
           'nditions.'
         ''
         
-          'A wheat crop sown on 600 or 1500 mm of wet soil with profile PAW' +
-          'C of 350mm.  '
+          'A wheat crop sown on 750 or 1500 mm of wet soil with profile PAW' +
+          'C of 250mm.  '
         'Starting soil NO3 of 40 kg/ha .  Sown mid May.'
         ''
         
@@ -896,8 +898,8 @@ object Page1: TQuickRep
       text = 
         'These simulations compare predictions with District Agronomists'#39 +
         ' estimate of average yields'#13#10' at Gunnedah and Walgett for averag' +
-        'e or ideal sowing moisture conditions.'#13#10#13#10'A wheat crop sown on 6' +
-        '00 or 1500 mm of wet soil with profile PAWC of 350mm.  '#13#10'Startin' +
+        'e or ideal sowing moisture conditions.'#13#10#13#10'A wheat crop sown on 7' +
+        '50 or 1500 mm of wet soil with profile PAWC of 250mm.  '#13#10'Startin' +
         'g soil NO3 of 40 kg/ha .  Sown mid May.'#13#10#13#10'Average Yields for no' +
         'rmal sowing soil moisture conditions should be 4 t/ha'#13#10'for Gunne' +
         'dah and 3 t/ha for Walgett.'#13#10'Average Yields for good sowing soil' +
@@ -1013,7 +1015,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Gunnedah600
+          DataSource = data.Gunnedah750
           SeriesColor = clRed
           Title = '600 mm High N'
           ClickableLine = False
@@ -1049,7 +1051,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Walgett600
+          DataSource = data.Walgett750
           SeriesColor = clYellow
           Title = '600 mm Low N'
           ClickableLine = False
