@@ -5,6 +5,7 @@
       dll_export Create
       include 'const.inc'
       include 'ComponentInterface.inc'
+      include 'error.pub'
 
 !+ Sub-Program Arguments
       integer anInstanceNo            ! (INPUT) the particular instance number
@@ -340,6 +341,7 @@
        subroutine  Get_current_module (ModuleName)
 ! ====================================================================
       implicit none
+      include 'error.pub'
  
 !+ Sub-Program Arguments
       character ModuleName*(*)         ! (OUTPUT) current module name
@@ -370,6 +372,7 @@
 ! ====================================================================
       implicit none
        include 'const.inc'             ! Constant definitions
+      include 'error.pub'
  
 !+ Sub-Program Arguments
        character String*(*)            ! (INPUT) String to write out.
@@ -417,6 +420,8 @@
       implicit none
       include 'ComponentInterface.inc'
       include 'const.inc'
+      include 'apsimengine.pub'
+      include 'error.pub'
  
 !+ Sub-Program Arguments
       character ModuleName*(*)          ! (INPUT) the module name
@@ -430,17 +435,31 @@
 !      DPH 14/7/99
  
 !+ Calls
-      dll_import Loader_SendAction
-      dll_import Loader_SendActionToFirstComp
+
+!+ Local Variables
+      logical ok
+      character msg*200
  
 !- Implementation Section ----------------------------------
 
       if (ModuleName .eq. Unknown_module) then
-         call Loader_SendActionToFirstComp (ActionName, Dat)
+         ok = Loader_SendActionToFirstComp (ActionName, Dat)
       else if (ModuleName .eq. All_active_modules) then
          call Loader_SendActionToAllComps (Actionname, Dat)
+         ok = .true.
       else
-         call Loader_SendAction (ModuleName, ActionName, Dat);
+         ok = Loader_SendAction (ModuleName, ActionName, Dat);
+      endif
+      
+      if (.not. ok) then
+         write(msg, '(6a)')
+     .      'Cannot send message to module.',
+     .      new_line,
+     .      'Module name = ',
+     .      ModuleName,
+     .      'Action = ',
+     .      Actionname
+         call Fatal_error (ERR_User, msg) 
       endif
       return
       end
