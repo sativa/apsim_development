@@ -1,24 +1,17 @@
 ! Generic report parameters
 [sample.report.parameters]
-screen_output = on
 
-module_names=    clock clock 
-variable_names=  year  day   
-variable_alias=   -    -        
-units=            -    -      
 
+variable = clock.year
+variable = clock.day
 [Tamet2_dalby.report.parameters]
 
-title = Dalby Tamet2 check 
-outputfile = tamet2.out  /overwrite
-summaryfile = tamet2.sum /overwrite
+outputfile =tamet2.out
 
 [Tamet2_dalby.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_day =  1 
-start_year =  1988   
-end_day =  120  
-end_year =  1990   
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=30/4/1990     ! dd/mm/yyyy
 
 
 [sample.manager.init]
