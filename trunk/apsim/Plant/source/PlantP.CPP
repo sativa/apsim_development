@@ -129,7 +129,7 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
                                    &g.pfact_grain,
                                    "", "P factor in grain");
 
-   myFn = boost::bind(&PlantP::get_p_demand, this, _1, _2);
+   myFn = boost::bind(&PlantP::get_biomass_p, this, _1, _2);
    systemInterface->addGettableVar("biomass_p", protocol::DTsingle, 1,
                                    myFn,
                                    "g/m^2","P in biomass");
