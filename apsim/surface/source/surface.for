@@ -1,41 +1,10 @@
 *     ===========================================================
-      character*(*) function surface_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'                         
-
-*+  Purpose
-*       return version number of surface module
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'surface_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.0  150197')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      surface_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
       subroutine APSIM_surface (Action, Data_String)
 *     ===========================================================
       implicit none
       dll_export APSIM_surface
       include   'const.inc'            ! Global constant definitions
       include   'surface.inc'         ! surface common block
-      include 'string.pub'                        
       include 'engine.pub'                        
       include 'error.pub'                         
 
@@ -54,17 +23,11 @@
 *      value of surface conductance.
 
 *+  Changes
-*     <insert here>
-
-*+  Calls
-      character  surface_version*20   ! function
+*     050599 sdb removed reference to version and presence action
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'surface')
-
-*+  Local Variables
-      character  Module_name*10        ! name of module
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -72,14 +35,7 @@
          ! initialise error flags
       call set_warning_off ()
  
-      if (Action.eq.MES_Presence) then
-         Call Get_Current_Module (Module_Name)
-         write (*, *) 'module_name = '
-     :              , module_name(:lastnb (module_name))
-     :              // blank
-     :              // surface_version ()
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          call surface_zero_variables ()
          call surface_Init ()
  
@@ -137,10 +93,7 @@ c         call surface_surface ()
 *      Initialise surface module
 
 *+  Changes
-*     <insert here>
-
-*+  Calls
-      character  surface_version*15   ! function
+*     050599 sdb removed reference to version and presence action
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -156,7 +109,7 @@ c         call surface_surface ()
  
          ! Notify system that we have initialised
  
-      Event_string = ' Initialising, Version : ' // surface_version ()
+      Event_string = ' Initialising, Version'
       call report_event (Event_string)
  
          ! Get all parameters from parameter file
