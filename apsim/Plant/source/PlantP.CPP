@@ -100,174 +100,164 @@ void PlantP::doIDs(PlantComponent *systemInterface)
 // Register Gets & Sets
 void PlantP::doRegistrations(PlantComponent *systemInterface)
    {
-   // Function pointer
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> myFn;
+#define setupGetVar systemInterface->addGettableVar
+#define setupGetFunction(name,type,length,address,units,desc) {\
+   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
+   fn = boost::bind(address, this, _1, _2); \
+   systemInterface->addGettableVar(name, type, length, fn, units, desc);\
+   }
 
-   systemInterface->addGettableVar("p_green", protocol::DTsingle, max_part,
-                                   &g.part_p_green,
-                                   "g/m^2", "P content of plant parts");
+   setupGetVar("p_green", max_part,
+               g.part_p_green,
+               "g/m^2", "P content of plant parts");
 
-   systemInterface->addGettableVar("p_sen", protocol::DTsingle, max_part,
-                                   &g.part_p_sen,
-                                   "g/m^2", "P content of plant parts");
+   setupGetVar("p_sen", max_part,
+               g.part_p_sen,
+               "g/m^2", "P content of plant parts");
 
-   myFn = boost::bind(&PlantP::get_p_demand, this, _1, _2);
-   systemInterface->addGettableVar("p_demand", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","");
+   setupGetFunction("p_demand", protocol::DTsingle, false,
+                    &PlantP::get_p_demand,
+                    "g/m^2","");
 
-   systemInterface->addGettableVar("pfact_photo", protocol::DTsingle, 1,
-                                   &g.pfact_photo,
-                                   "", "P factor in photosynthesis");
+   setupGetVar("pfact_photo", 
+               g.pfact_photo,
+               "", "P factor in photosynthesis");
 
-   systemInterface->addGettableVar("pfact_pheno", protocol::DTsingle, 1,
-                                   &g.pfact_pheno,
-                                   "", "P factor in phenology");
+   setupGetVar("pfact_pheno", 
+               g.pfact_pheno,
+               "", "P factor in phenology");
 
-   systemInterface->addGettableVar("pfact_expansion", protocol::DTsingle, 1,
-                                   &g.pfact_expansion,
-                                   "", "P factor in leaf expansion");
+   setupGetVar("pfact_expansion", 
+               g.pfact_expansion,
+               "", "P factor in leaf expansion");
 
-   systemInterface->addGettableVar("pfact_grain", protocol::DTsingle, 1,
-                                   &g.pfact_grain,
-                                   "", "P factor in grain");
+   setupGetVar("pfact_grain",  
+               g.pfact_grain,
+               "", "P factor in grain");
 
-   myFn = boost::bind(&PlantP::get_pstress_photo, this, _1, _2);
-   systemInterface->addGettableVar("p_stress_photo", protocol::DTsingle, 1,
-                                   myFn,
-                                   "", "P stress in photosynthesis");
+   setupGetFunction("p_stress_photo", protocol::DTsingle, false,
+                    &PlantP::get_pstress_photo,
+                    "", "P stress in photosynthesis");
 
-   myFn = boost::bind(&PlantP::get_pstress_pheno, this, _1, _2);
-   systemInterface->addGettableVar("p_stress_pheno", protocol::DTsingle, 1,
-                                   myFn,
-                                   "", "P stress in phenology");
+   setupGetFunction("p_stress_pheno", protocol::DTsingle, false,
+                    &PlantP::get_pstress_pheno,
+                    "", "P stress in phenology");
 
-   myFn = boost::bind(&PlantP::get_pstress_expansion, this, _1, _2);
-   systemInterface->addGettableVar("p_stress_expansion", protocol::DTsingle, 1,
-                                   myFn,
-                                   "", "P stress in leaf expansion");
+   setupGetFunction("p_stress_expansion", protocol::DTsingle, false,
+                    &PlantP::get_pstress_expansion,
+                    "", "P stress in leaf expansion");
 
-   myFn = boost::bind(&PlantP::get_pstress_expansion, this, _1, _2);
-   systemInterface->addGettableVar("p_stress_expan", protocol::DTsingle, 1,
-                                   myFn,
-                                   "", "P stress in leaf expansion");
+   setupGetFunction("p_stress_expan", protocol::DTsingle, false,
+                    &PlantP::get_pstress_expansion,
+                    "", "P stress in leaf expansion");
 
-   myFn = boost::bind(&PlantP::get_pstress_grain, this, _1, _2);
-   systemInterface->addGettableVar("p_stress_grain", protocol::DTsingle, 1,
-                                   myFn,
-                                   "", "P stress in grain");
+   setupGetFunction("p_stress_grain", protocol::DTsingle, false,
+                    &PlantP::get_pstress_grain,
+                    "", "P stress in grain");
 
-   myFn = boost::bind(&PlantP::get_biomass_p, this, _1, _2);
-   systemInterface->addGettableVar("biomass_p", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","P in biomass");
+   setupGetFunction("biomass_p", protocol::DTsingle, false,
+                    &PlantP::get_biomass_p,
+                    "g/m^2","P in biomass");
 
-   myFn = boost::bind(&PlantP::get_biomass_p, this, _1, _2);
-   systemInterface->addGettableVar("p_uptake", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","P  uptake");
+   setupGetFunction("p_uptake", protocol::DTsingle, false,
+                    &PlantP::get_biomass_p,
+                    "g/m^2","P  uptake");
 
-   myFn = boost::bind(&PlantP::get_green_biomass_p, this, _1, _2);
-   systemInterface->addGettableVar("green_biomass_p", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","P in green biomass");
+   setupGetFunction("green_biomass_p", protocol::DTsingle, false,
+                    &PlantP::get_green_biomass_p,
+                    "g/m^2","P in green biomass");
 
-   myFn = boost::bind(&PlantP::get_grain_p, this, _1, _2);
-   systemInterface->addGettableVar("grain_p", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","P in grain");
+   setupGetFunction("grain_p", protocol::DTsingle, false,
+                    &PlantP::get_grain_p,
+                    "g/m^2","P in grain");
 
-   systemInterface->addGettableVar("leaf_p", protocol::DTsingle, 1,
-                                   &g.part_p_green[leaf],
-                                   "g/m^2","P in leaf");
+   setupGetVar("leaf_p", 
+               g.part_p_green[leaf],
+               "g/m^2","P in leaf");
 
-   systemInterface->addGettableVar("stem_p", protocol::DTsingle, 1,
-                                   &g.part_p_green[stem],
-                                   "g/m^2","P in stem");
+   setupGetVar("stem_p",  
+               g.part_p_green[stem],
+               "g/m^2","P in stem");
 
-   systemInterface->addGettableVar("root_p", protocol::DTsingle, 1,
-                                   &g.part_p_green[root],
-                                   "g/m^2","P in roots");
+   setupGetVar("root_p",  
+               g.part_p_green[root],
+               "g/m^2","P in roots");
 
-   systemInterface->addGettableVar("deadleaf_p", protocol::DTsingle, 1,
-                                   &g.part_p_sen[leaf],
-                                   "g/m^2","P in dead leaf");
+   setupGetVar("deadleaf_p", 
+               g.part_p_sen[leaf],
+               "g/m^2","P in dead leaf");
 
-   myFn = boost::bind(&PlantP::get_head_p, this, _1, _2);
-   systemInterface->addGettableVar("head_p", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","P in head");
+   setupGetFunction("head_p", protocol::DTsingle, false,
+                    &PlantP::get_head_p,
+                    "g/m^2","P in head");
 
-   myFn = boost::bind(&PlantP::get_pod_p, this, _1, _2);
-   systemInterface->addGettableVar("pod_p", protocol::DTsingle, 1,
-                                   myFn,
-                                   "g/m^2","P in pod shell");
+   setupGetFunction("pod_p", protocol::DTsingle, false,
+                    &PlantP::get_pod_p,
+                    "g/m^2","P in pod shell");
 
-   systemInterface->addGettableVar("p_senesced", protocol::DTsingle, max_part,
-                                   &g.part_p_sen,
-                                   "g/m^2","P in senesced parts");
+   setupGetVar("p_senesced", max_part,
+               g.part_p_sen,
+               "g/m^2","P in senesced parts");
 
-   systemInterface->addGettableVar("p_dead", protocol::DTsingle, max_part,
-                                   &g.part_p_dead,
-                                   "g/m^2","P in dead parts");
+   setupGetVar("p_dead", max_part,
+               g.part_p_dead,
+               "g/m^2","P in dead parts");
 
-   systemInterface->addGettableVar("dlt_p_green", protocol::DTsingle, max_part,
-                                   &g.dlt_part_p_green,
-                                   "g/m^2","dlt P parts");
+   setupGetVar("dlt_p_green", max_part,
+               g.dlt_part_p_green,
+               "g/m^2","dlt P parts");
 
-   systemInterface->addGettableVar("dlt_p_retrans", protocol::DTsingle,max_part,
-                                   &g.dlt_part_p_retrans,
-                                   "g/m^2","dlt P parts");
+   setupGetVar("dlt_p_retrans", max_part,
+               g.dlt_part_p_retrans,
+               "g/m^2","dlt P parts");
+
 // john: this was missing?
-   systemInterface->addGettableVar("dlt_p_det", protocol::DTsingle, max_part,
-                                   &g.dlt_part_p_det,
-                                   "g/m^2","dlt P detached");
+   setupGetVar("dlt_p_det", max_part,
+               g.dlt_part_p_det,
+               "g/m^2","dlt P detached");
 
-   systemInterface->addGettableVar("dlt_p_detached", protocol::DTsingle, max_part,
-                                   &g.dlt_part_p_det,
-                                   "g/m^2","dlt P detached");
+   setupGetVar("dlt_p_detached",  max_part,
+               g.dlt_part_p_det,
+               "g/m^2","dlt P detached");
 
-   systemInterface->addGettableVar("dlt_p_dead", protocol::DTsingle, max_part,
-                                   &g.dlt_part_p_dead,
-                                   "g/m^2","dlt P in dead");
+   setupGetVar("dlt_p_dead", max_part,
+               g.dlt_part_p_dead,
+               "g/m^2","dlt P in dead");
 
-   systemInterface->addGettableVar("dlt_p_sen", protocol::DTsingle, max_part,
-                                   &g.dlt_part_p_sen,
-                                   "g/m^2","dlt P in senesced");
+   setupGetVar("dlt_p_sen", max_part,
+               g.dlt_part_p_sen,
+               "g/m^2","dlt P in senesced");
 
-   myFn = boost::bind(&PlantP::get_p_conc_stover, this, _1, _2);
-   systemInterface->addGettableVar("p_conc_stover", protocol::DTsingle, 1,
-                                   myFn,
-                                   "%","P in stover");
+   setupGetFunction("p_conc_stover", protocol::DTsingle, false,
+                    &PlantP::get_p_conc_stover,
+                    "%","P in stover");
 
-   myFn = boost::bind(&PlantP::get_p_conc_leaf, this, _1, _2);
-   systemInterface->addGettableVar("p_conc_leaf", protocol::DTsingle, 1,
-                                   myFn,
-                                   "%","P in leaf");
+   setupGetFunction("p_conc_leaf", protocol::DTsingle, false,
+                    &PlantP::get_p_conc_leaf,
+                    "%","P in leaf");
 
-   myFn = boost::bind(&PlantP::get_p_conc_stem, this, _1, _2);
-   systemInterface->addGettableVar("p_conc_stem", protocol::DTsingle, 1,
-                                   myFn,
-                                   "%","P in stem");
+   setupGetFunction("p_conc_stem", protocol::DTsingle, false,
+                    &PlantP::get_p_conc_stem,
+                    "%","P in stem");
 
-   myFn = boost::bind(&PlantP::get_p_conc_grain, this, _1, _2);
-   systemInterface->addGettableVar("p_conc_grain", protocol::DTsingle, 1,
-                                   myFn,
-                                   "%","P in grain");
+   setupGetFunction("p_conc_grain", protocol::DTsingle, false,
+                    &PlantP::get_p_conc_grain,
+                    "%","P in grain");
 
-   myFn = boost::bind(&PlantP::get_p_conc_grain, this, _1, _2);
-   systemInterface->addGettableVar("p_grain_pcnt", protocol::DTsingle, 1,
-                                   myFn,
-                                   "%","P in grain");
+   setupGetFunction("p_grain_pcnt", protocol::DTsingle, false,
+                    &PlantP::get_p_conc_grain,
+                    "%","P in grain");
 
-   myFn = boost::bind(&PlantP::get_p_uptake_stover, this, _1, _2);
-   systemInterface->addGettableVar("p_uptake_stover", protocol::DTsingle, 1,
-                                   myFn,
-                                   "%","P in stover");
-// john: this was missing?
-   systemInterface->addGettableVar("grain_p_demand", protocol::DTsingle, 1,
-                                   &g.part_demand[meal],
-                                   "g/m^2","P demand of grain");
+   setupGetFunction("p_uptake_stover", protocol::DTsingle, false,
+                    &PlantP::get_p_uptake_stover,
+                    "%","P in stover");
+
+   setupGetVar("grain_p_demand", 
+               g.part_demand[meal],
+               "g/m^2","P demand of grain");
+
+#undef setupGetVar
+#undef setupGetFunction
    }
 
 // =======================================
@@ -478,7 +468,7 @@ void PlantP::PlantP_read_param ()
 
 
 //     ===========================================================
-void PlantP::read_constants (void)
+void PlantP::read_constants (PlantComponent *systemInterface)
 {
 //+  Purpose
 //       Read all module constants.
@@ -492,26 +482,27 @@ void PlantP::read_constants (void)
     int    num_sections;             // number of sections to search
     int    part;
     float  temp[max_table];
-    vector<string> search_order;                  // sections to search
-
-
+    string scratch;
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
-    plant->read_array (section_name, "stress_determinants",  "()",    c.stress_determinants);
-    plant->read_array (section_name, "yield_parts",          "()",    c.yield_parts);
-    plant->read_array (section_name, "retrans_parts",        "()",    c.retrans_parts);
-    plant->read_var   (section_name, "pfact_photo_slope",     "()",   c.pfact_photo_slope    , 0.0, 100.0);
-    plant->read_var   (section_name, "pfact_expansion_slope", "()",   c.pfact_expansion_slope, 0.0, 100.0);
-    plant->read_var   (section_name, "pfact_pheno_slope",     "()",   c.pfact_pheno_slope    , 0.0, 100.0);
-    plant->read_var   (section_name, "pfact_grain_slope",    "()",    c.pfact_grain_slope    , 0.0, 100.0);
-    plant->read_array (section_name, "x_p_stage_code",       "(g/g)", c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 100.0);
+    scratch = systemInterface->readParameter (section_name, "stress_determinants");
+    Split_string(scratch, " ", c.stress_determinants);
+    scratch = systemInterface->readParameter (section_name, "yield_parts");
+    Split_string(scratch, " ", c.yield_parts);
+    scratch = systemInterface->readParameter (section_name, "retrans_parts");
+    Split_string(scratch, " ", c.retrans_parts);
+    systemInterface->readParameter (section_name, "pfact_photo_slope",    /*"()",   */ c.pfact_photo_slope    , 0.0, 100.0);
+    systemInterface->readParameter (section_name, "pfact_expansion_slope",/*"()",   */ c.pfact_expansion_slope, 0.0, 100.0);
+    systemInterface->readParameter (section_name, "pfact_pheno_slope",    /*"()",   */ c.pfact_pheno_slope    , 0.0, 100.0);
+    systemInterface->readParameter (section_name, "pfact_grain_slope",    /*"()",   */ c.pfact_grain_slope    , 0.0, 100.0);
+    systemInterface->readParameter (section_name, "x_p_stage_code",       /*"(g/g)",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 100.0);
 
     for (part = 0; part < g.num_parts; part++)
     {
        string keyword ="y_p_conc_max_" + g.part_names[part];
-       plant->read_array (section_name, keyword.c_str(), "(g/g)", temp, c.num_x_p_stage_code, 0.0, 1.0);
+       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
 
        for (int i=0; i < c.num_x_p_stage_code; i++)
        {
@@ -519,7 +510,7 @@ void PlantP::read_constants (void)
        }
 
        keyword = "y_p_conc_sen_" + g.part_names[part];
-       plant->read_array (section_name, keyword.c_str(), "(g/g)", temp, c.num_x_p_stage_code, 0.0, 1.0);
+       systemInterface->readParameter (section_name, keyword, /*"(g/g)", */temp, c.num_x_p_stage_code, 0.0, 1.0);
 
        for (int i=0; i < c.num_x_p_stage_code; i++)
        {
@@ -527,7 +518,7 @@ void PlantP::read_constants (void)
        }
 
        keyword = "y_p_conc_min_" + g.part_names[part];
-       plant->read_array (section_name, keyword.c_str(), "(g/g)", temp, c.num_x_p_stage_code, 0.0, 1.0);
+       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
 
        for (int i=0; i < c.num_x_p_stage_code; i++)
        {
@@ -535,7 +526,7 @@ void PlantP::read_constants (void)
        }
 
        keyword = "p_conc_init_" + g.part_names[part];
-       plant->read_var (section_name, keyword.c_str(), "(g/g)", c.p_conc_init[part], 0.0, 1.0);
+       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ c.p_conc_init[part], 0.0, 1.0);
    }
 
    pop_routine  (my_name);
@@ -875,7 +866,7 @@ void PlantP::doInit (PlantComponent *systemInterface
       {
          PlantP_Set_Up_Parts (part_names);
          PlantP_read_param ();
-         read_constants ();
+         read_constants (systemInterface);
 
          string keyword = "uptake_p_" + crop_type;
 //    ids.layered_p_uptake = systemInterface->addRegistration(protocol::getVariableReg,

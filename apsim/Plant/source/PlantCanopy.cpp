@@ -1182,7 +1182,7 @@ void legnew_dm_pot_rue (
 
     if (cover_green<cover_pod)
         {
-        fatal_error (&err_internal,"error in pod light interception");
+        fatal_error ("error in pod light interception");
         *dlt_dm_pot = 0.0;
         }
     else

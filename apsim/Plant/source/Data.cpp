@@ -331,21 +331,21 @@ void bound_check_real_var (float value,       // (IN) Value to be checked
       sprintf(msg,
          "Lower bound (%f) exceeds upper bound (%f)\n        Variable is not checked",
          lower, upper);
-      warning_error (&err_user, msg);
+      warning_error (msg);
       }
    //is the value too big?
    else if (value > (upper + epsilon))    //XX wrong. Needs to be relative tolerance.
       {
       sprintf(msg,
          "%s = %f\n        exceeds upper limit of %f",vname,value,upper);
-      warning_error (&err_user, msg);
+      warning_error (msg);
       }
    //is the value too small?
    else if (value  < (lower - epsilon))
       {
       sprintf(msg,
          "%s = %f\n        less than lower limit of %f",vname, value, lower);
-      warning_error (&err_user, msg);
+      warning_error (msg);
       }
    }
 
@@ -498,7 +498,7 @@ float bound(float var, float lower, float upper)
       sprintf(msg,
             "Lower bound %f is > upper bound %f\n        Variable is not constrained",
             lower, upper);
-      warning_error (&err_internal, msg);
+      warning_error (msg);
       result = var;
       }
    else

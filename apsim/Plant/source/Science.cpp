@@ -114,12 +114,12 @@ float temp_3hr (float tmax, float tmin, int period)
    if (period < 1)
       {
       sprintf(error_mess," 3 hr. number '%d' is below 1", period);
-      fatal_error (&err_internal, error_mess);
+      fatal_error (error_mess);
       }
    else if (period > 8)
       {
       sprintf(error_mess," 3 hr. number '%d' is above 8", period);
-      fatal_error (&err_internal, error_mess);
+      fatal_error (error_mess);
       }
    else
       {
@@ -218,7 +218,7 @@ float stage_no_of (float stage_code,           //(INPUT) stage code to look up
       char error_mess[80];
       sprintf(error_mess,"Stage code not found in code list. Code number = %d",
               stage_code);
-      warning_error (&err_internal, error_mess);
+      warning_error (error_mess);
       return 0;  // We're on our way down...
       }
    }
@@ -258,7 +258,7 @@ float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord)
    float y = 0.0;                         // interpolated value
 
    if (num_cord <= 0) {
-     warning_error (&err_internal,"no coords in linear_interp_real");
+     warning_error ("no coords in linear_interp_real");
    }
 
    //Implementation

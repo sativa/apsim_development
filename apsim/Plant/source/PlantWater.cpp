@@ -769,7 +769,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          sprintf(err_msg,
             " lower limit of %8.2f in layer %d\n         is below acceptable value of %8.2f",
             ll, layer, minsw);
-         warning_error (&err_internal, err_msg);
+         warning_error (err_msg);
          }
       else
          {
@@ -781,7 +781,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          sprintf(err_msg,
             " Drained upper limit of %8.2f in layer %d\n         is at or below lower limit of %8.2f",
             dul,layer, ll);
-         warning_error (&err_internal, err_msg);
+         warning_error (err_msg);
          }
       else
          {
@@ -791,7 +791,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          sprintf(err_msg,
             " Soil water of %8.2f in layer %d\n         is below acceptable value of %8.2f",
             sw, layer, minsw);
-         warning_error (&err_internal, err_msg);
+         warning_error (err_msg);
          }
       else
          {

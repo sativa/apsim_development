@@ -97,9 +97,6 @@ extern const char *ACTION_Add_Residue_P;
 extern const char *ACTION_User_Init;
 extern const char *ACTION_Incorp_FOM_P;
 
-const int err_internal = 1;
-const int err_user = 2;
-
 // ====================================================================
 //      COMMON EVENT CONSTANTS
 // ====================================================================
@@ -1749,17 +1746,8 @@ bool check_date (int day, int month, int year);
 double date_to_jday (int day, int month, int year);
 void   jday_to_date (int *day, int *month, int *year, double jday);
 
-
-//---------------------------------------------------------------------------
-extern "C" int fatal_error(const int *code, char *str, int str_length);
-inline int fatal_error(const int *code, char *str){
-    return(fatal_error(code, str, strlen(str)));
-}
-extern "C" int warning_error(const int *code, char *str, int str_length);
-inline int warning_error(const int *code, char *str){
-    return(warning_error(code, str, strlen(str)));
-}
-
+void fatal_error(const char *str);
+void warning_error(const char *str);
 //---------------------------------------------------------------------------
 
 float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord);

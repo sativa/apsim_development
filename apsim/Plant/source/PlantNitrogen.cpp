@@ -612,7 +612,7 @@ void cproc_n_uptake1(float C_no3_diffn_const,   //(INPUT)  time constant for upt
          }
       else
          {
-         fatal_error (&err_user, "bad n supply preference");
+         fatal_error ( "bad n supply preference");
          }
 
       NO3gsm_diffn = divide (NO3gsm_diffn, C_no3_diffn_const, 0.0);

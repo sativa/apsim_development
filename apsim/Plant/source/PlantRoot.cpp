@@ -307,7 +307,7 @@ void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) 
    float temp;
 
    // Implementation Section ----------------------------------
-   if (max_layer <= 0) {fatal_error(&err_internal, "max_layer 0 in crop_root_length_growth1"); return;}
+   if (max_layer <= 0) {fatal_error("max_layer 0 in crop_root_length_growth1"); return;}
    
    float *rlv_factor = new float[max_layer];  // relative rooting factor for a layer
 
@@ -560,7 +560,7 @@ void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
 
    // Implementation Section ----------------------------------
    int max_layer = max(nlayr_old,nlayr_new); 
-   if (max_layer <= 0) {fatal_error(&err_internal, "max_layer 0 in crop_root_length_growth1"); return;}
+   if (max_layer <= 0) {fatal_error("max_layer 0 in crop_root_length_growth1"); return;}
    float *cum_root_length = new float[max_layer];  //Cum Root length with depth (mm/mm2)
    float *cum_root_depth = new float[max_layer];   //Cum Root depth (mm)
 
@@ -661,7 +661,7 @@ void cproc_root_length_growth_new (
 
     if (max_layer > crop_max_layer)
         {
-        fatal_error (&err_internal,"too many layers for crop routines");
+        fatal_error ("too many layers for crop routines");
         }
     else
         {
