@@ -150,6 +150,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -196,151 +197,167 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 9 May 1988 (Day of year=130):
-          Manager sending message :- chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = amethyst
-         est_days_emerg_to_init  =      83
-         tt_emerg_to_endjuv       =   515.0
-         photoperiod      =   10.70  17.00
-         phase_tt_init      =  446.00   0.00
-         tt_flower_to_maturity    =  1200.0
-         tt_init_to_flower        =    33.0
-         tt_flower_to_start_grain =   450.0
-         tt_maturity_to_ripe      =     1.0
-         hi_incr                  =     0.0
-         x_hi_max_pot_stress =    0.00   1.00
-         y_hi_max_pot        =    0.50   0.50
-         x_stem_wt      =    0.00 300.00
-         y_height      =    0.00 800.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            130   40.0   25.0  350.0 amethyst
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+   CHICKPEA:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = amethyst
+          est_days_emerg_to_init  =      83
+          tt_emerg_to_endjuv       =   515.0
+          photoperiod      =   10.70  17.00
+          phase_tt_init      =  446.00   0.00
+          tt_flower_to_maturity    =  1200.0
+          tt_init_to_flower        =    33.0
+          tt_flower_to_start_grain =   450.0
+          tt_maturity_to_ripe      =     1.0
+          hi_incr                  =     0.0
+          x_hi_max_pot_stress =    0.00   1.00
+          y_hi_max_pot        =    0.50   0.50
+          x_stem_wt      =    0.00 300.00
+          y_height      =    0.00 800.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             130   40.0   25.0  350.0 amethyst
+          ------------------------------------------------
 10 May 1988 (Day of year=131):
-      stage    2.0 germination
+   CHICKPEA:
+       stage    2.0 germination
 16 May 1988 (Day of year=137):
-      stage    3.0 emergence
-                          biomass =           5.000000       lai =    0.2500000e-01
-                          stover N conc =    5.999999       extractable sw =    18.70777
+   CHICKPEA:
+       stage    3.0 emergence
+                           biomass =           5.000000       lai =    0.2500000e-01
+                           stover N conc =    5.999999       extractable sw =    18.70777
 20 June 1988 (Day of year=172):
-      stage    4.0 end_of_juvenile
-                          biomass =           28.54720       lai =    0.5633819    
-                          stover N conc =    4.307540       extractable sw =    142.2485
+   CHICKPEA:
+       stage    4.0 end_of_juvenile
+                           biomass =           28.54720       lai =    0.5633819    
+                           stover N conc =    4.307425       extractable sw =    142.2485
 20 July 1988 (Day of year=202):
-      stage    5.0 floral_initiation
-                          biomass =           161.8516       lai =     2.285726    
-                          stover N conc =    3.140202       extractable sw =    260.5363
+   CHICKPEA:
+       stage    5.0 floral_initiation
+                           biomass =           161.8516       lai =     2.285726    
+                           stover N conc =    3.140202       extractable sw =    260.5363
 22 July 1988 (Day of year=204):
-      stage    6.0 flowering
-                          biomass =           172.7767       lai =     2.402586    
-                          stover N conc =    3.031301       extractable sw =    264.0938
+   CHICKPEA:
+       stage    6.0 flowering
+                           biomass =           172.7767       lai =     2.402586    
+                           stover N conc =    3.031301       extractable sw =    264.0938
 23 August 1988 (Day of year=236):
-      stage    7.0 start_grain_fill
-                          biomass =           430.3579       lai =     3.815356    
-                          stover N conc =    1.887941       extractable sw =    257.1700
+   CHICKPEA:
+       stage    7.0 start_grain_fill
+                           biomass =           430.3579       lai =     3.815356    
+                           stover N conc =    1.887941       extractable sw =    257.1700
 2 October 1988 (Day of year=276):
-      stage    8.0 end_grain_fill
-                          biomass =           843.2781       lai =     2.486668    
-                          stover N conc =    1.727846       extractable sw =    183.2419
+   CHICKPEA:
+       stage    8.0 end_grain_fill
+                           biomass =           843.2781       lai =     2.486668    
+                           stover N conc =    1.727846       extractable sw =    183.2419
 5 October 1988 (Day of year=279):
-      stage    9.0 maturity
-                          biomass =           883.6107       lai =     2.343973    
-                          stover N conc =    1.715993       extractable sw =    163.4032
+   CHICKPEA:
+       stage    9.0 maturity
+                           biomass =           883.6107       lai =     2.343973    
+                           stover N conc =    1.715993       extractable sw =    163.4032
 6 October 1988 (Day of year=280):
-      stage   10.0 harvest_ripe
-                          biomass =           883.6107       lai =    0.0000000    
-                          stover N conc =    2.100394       extractable sw =    155.9869
+   CHICKPEA:
+       stage   10.0 harvest_ripe
+                           biomass =           883.6107       lai =    0.0000000    
+                           stover N conc =    2.100394       extractable sw =    155.9869
 7 October 1988 (Day of year=281):
-          Manager sending message :- chickpea harvest
-     
-     
-     
-      flowering day  =  204                  stover (kg/ha) =    5093.3
-      maturity day        =  279             grain yield (kg/ha) =    3742.8
-      grain % water content   =   12.0       grain yield wet (kg/ha) =    4253.1
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 3.850
-      total above ground biomass (kg/ha) =    8836.1
-      live above ground biomass (kg/ha) =    8836.1
-      green above ground biomass (kg/ha) =    6985.9
-      senesced above ground biomass (kg/ha) =    1850.2
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves = 305.0
-      grain N percent =      3.60            total N content (kg/ha) =    212.11
-      grain N uptake (kg/ha) =    134.74     senesced N content (kg/ha) =      9.25
-      green N content (kg/ha) =     68.12    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0271633
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0632850
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0126974
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-          Manager sending message :- chickpea end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =  437.8 kg/ha
-                                               straw N =    7.5 kg/ha
-                                               root residue = 1987.2 kg/ha
-                                               root N =   30.2 kg/ha
+   MANAGER:
+           Manager sending message :- chickpea harvest
+   CHICKPEA:
+      
+      
+      
+       flowering day  =  204                  stover (kg/ha) =    5093.3
+       maturity day        =  279             grain yield (kg/ha) =    3742.8
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    4253.1
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 3.850
+       total above ground biomass (kg/ha) =    8836.1
+       live above ground biomass (kg/ha) =    8836.1
+       green above ground biomass (kg/ha) =    6985.9
+       senesced above ground biomass (kg/ha) =    1850.2
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves = 305.0
+       grain N percent =      3.60            total N content (kg/ha) =    212.11
+       grain N uptake (kg/ha) =    134.74     senesced N content (kg/ha) =      9.25
+       green N content (kg/ha) =     68.12    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0271633
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0632972
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0127125
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+   MANAGER:
+           Manager sending message :- chickpea end_crop
+   CHICKPEA:
+          ended. Yield (dw) =     0.0
+                                                straw residue =  437.8 kg/ha
+                                                straw N =    7.5 kg/ha
+                                                root residue = 1987.2 kg/ha
+                                                root N =   30.2 kg/ha
 26 October 1988 (Day of year=300):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.

@@ -38,7 +38,7 @@
      
 
 ------- MET Initialisation ---------------------------------------------------
-     File name = c:\regr\apsim\clock\sample\dalby.met
+     File name = c:\build\apsuite\apsim\met\sample\dalby.met
 
 ------- MANAGER Initialisation -----------------------------------------------
      Manager rules:
@@ -47,4 +47,5 @@
      endif
 ------- Start of simulation  --------------------------------------------------
 8 April 1988 (Day of year=99):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
