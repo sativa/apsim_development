@@ -1011,7 +1011,7 @@ module DataStrModule
 
    !+ Constant Values
       character myname*(*)
-      parameter (myname='string_to_logical_array')
+      parameter (myname='string_to_char_array')
 
    !+ Local Variables
       integer indx                     ! index into array
@@ -1746,20 +1746,20 @@ module DataStrModule
       logical,optional :: optval
       logical ok
       logical isoptional
-      
+
       character next_key*32
       character next_value*100
       character units*32
       character temp_line*200
 
       temp_line = line
-      
-      if (present (optval)) then 
+
+      if (present (optval)) then
          isoptional = optval
       else
          isoptional = .false.
       endif
-      
+
       call get_next_variable (temp_line,next_key,next_value)
       do while (next_key.ne.' ')
         if (next_key .eq. key) then
@@ -1772,16 +1772,16 @@ module DataStrModule
            ! still looking for keys?
         endif
       enddo
-      
+
       if (isoptional) then
          !  carry on because the value is optional
       else
          call fatal_error (ERR_User, trim(key) // ' : variable not found')
-      endif  
+      endif
       ok = .false.
 
   999 continue
-  
+
       get_char_variable = ok
       return
       end function
@@ -1819,7 +1819,7 @@ module DataStrModule
       character line*(*)
       logical,optional :: optval
       logical ok
-      
+
       character char_value*32
       integer   numvals
 
