@@ -89,3 +89,19 @@ module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard
 module = screen   test.par [sample]
 module = summaryfile test.par [test6]
 module = log test.par[test6]
+
+[apsim.Test7]
+
+title= SoilP reset Test
+module = clock    test.par [test7] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test.par [test7]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = fertiliz                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = manager  test.par [test7]
+module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   test.par [test7] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = soilp    test.par [sample]     %apsuite\apsim\soilp\soilp.ini [standard]
+module = screen   test.par [sample]
+module = summaryfile test.par [test7]
+module = log test.par[test6]

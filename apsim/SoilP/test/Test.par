@@ -366,3 +366,66 @@ cnr = 100
 cpr = 200
 standing_fraction = .0
 name = lucerne
+
+! ================ TEST 7 ===============================
+! Reset soilP
+
+[test7.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=30/6/1988
+
+[test7.SummaryFile.parameters]
+summaryfile = test7.sum
+
+[test7.report.parameters]
+outputfile =test7.out
+variable = clock.day
+variable = clock.day
+variable = clock.year
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_p
+variable = soilp.fom_p
+variable = soilp.labile_p
+variable = soilp.unavail_p
+variable = soilp.rock_p
+variable = soilp.banded_p
+variable = soilp.biom_p()
+variable = soilp.hum_p()
+variable = soiln2.fom_c()
+variable = soiln2.fom_n()
+variable = soiln2.fom_c_pool1
+variable = soiln2.fom_c_pool2
+variable = soiln2.fom_c_pool3
+variable = soiln2.fom_n_pool1
+variable = soiln2.fom_n_pool2
+variable = soiln2.fom_n_pool3
+
+
+[test7.manager.start_of_day]
+if day = 10 then
+    fertiliz apply amount = 100, type = banded_p, depth = 10
+    fertiliz apply amount = 100, type = broadcast_p, depth = 400
+    fertiliz apply amount = 100, type = rock_p, depth = 600
+endif
+
+if day = 90 then
+    soiln2 reset
+    soilp reset
+endif
+
+[test7.manager.end_of_day]
+report do_output
+
+[test7.log.parameters]
+debug_output = off
+logfile = test7.log
+
+[test7.SurfaceOM.parameters]
+type = lucerne
+mass = 4000
+cnr = 100
+cpr = 200
+standing_fraction = 0.0
+name = lucerne
+
