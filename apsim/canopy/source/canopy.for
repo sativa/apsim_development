@@ -45,7 +45,7 @@
       parameter (my_name = 'canopy_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.11 150896')
+      parameter (version_number = 'V1.12 160996')
 
 *   Initial data values
 *       none
@@ -583,7 +583,6 @@
      :              // 'number of modules with green cover.')
          else
          endif
-
       call pop_routine (my_name)
       return
       end
@@ -612,6 +611,8 @@
 *   Changes:
 *      201093 jngh specified and programmed
 *      011195 jngh  added call to message_unused
+*      010896 jngh changed method of getting module name for gets
+*      120996 jngh removed print statement
 
 *   Calls:
 *       fatal_error
@@ -671,7 +672,6 @@
          if (module.gt.0) then
             call respond2get_real_var (variable_name, '()'
      :                                , g_intc_light(module))
-         print *, module_name, module, g_intc_light(module)
          else
                call fatal_error (err_user
      :              , module_name
