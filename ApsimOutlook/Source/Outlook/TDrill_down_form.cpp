@@ -273,7 +273,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
             ValueSelectPopup->Left = x - ValueSelectPopup->Width;
          if (ValueSelectPopup->Top + ValueSelectPopup->Height > Screen->Height)
             ValueSelectPopup->Top = y - ValueSelectPopup->Height - 10;
-         ValueSelectPopup->Show();
+         ValueSelectPopup->ShowModal();
          }
       scenarios->makeScenariosValid();
       }

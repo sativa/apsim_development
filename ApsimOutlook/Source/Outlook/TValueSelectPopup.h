@@ -22,11 +22,12 @@ class TValueSelectPopup : public TPopupForm
 {
 __published:	// IDE-managed Components
    TListView *ListView;
-   TPanel *Panel1;
-   TLabel *applyLabel;
-   TLabel *applyToAllLabel;
-   TImage *Image;
    TImageList *StateImages;
+   TPanel *RightHandPanel;
+   TButton *ApplyToCurrentButton;
+   TButton *ApplyToAllButton;
+   TButton *CancelButton;
+   TImage *Image;
    void __fastcall ListViewCompare(TObject *Sender, TListItem *Item1,
           TListItem *Item2, int Data, int &Compare);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
