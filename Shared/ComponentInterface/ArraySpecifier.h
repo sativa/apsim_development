@@ -66,16 +66,15 @@ class ArraySpecifier
          unsigned end = number2;
          if (start == 0)
             {
-            start++;
             end = values.size();
+            start = 0;
             }
-         start--;
-         end--;
-
+         else
+            start--;
          if (doSum)
             {
             T sum = 0;
-            for (unsigned i = start; i <= end; ++i)
+            for (unsigned i = start; i < end; ++i)
                sum += values[i];
             values.empty();
             values.push_back(sum);
@@ -83,7 +82,7 @@ class ArraySpecifier
          else
             {
             unsigned index = 0;
-            for (unsigned i = start; i <= end; ++i)
+            for (unsigned i = start; i < end; ++i)
                values[index++] = values[i];
 
             while (values.size() > end-start+1)
