@@ -1,51 +1,56 @@
 # ---------------------------------------------------------------------------
-VERSION = BCB.03
-# ---------------------------------------------------------------------------
-!ifndef BCB
+!if !$d(BCB)
 BCB = $(MAKEDIR)\..
 !endif
+
+# ---------------------------------------------------------------------------
+# IDE SECTION
+# ---------------------------------------------------------------------------
+# The following section of the project makefile is managed by the BCB IDE.
+# It is recommended to use the IDE to change any of the values in this
+# section.
+# ---------------------------------------------------------------------------
+
+VERSION = BCB.03
 # ---------------------------------------------------------------------------
 PROJECT = APSBuild.exe
 OBJFILES = APSBuild.obj TPlease_wait_form.obj
 RESFILES =
+DEFFILE =
 RESDEPEN = $(RESFILES) TPlease_wait_form.dfm
-LIBFILES = ..\..\shared\aps\aps32.lib ..\..\shared\general\general.lib
-LIBRARIES = vcldbx35.lib vcldb35.lib vclx35.lib vcl35.lib
-SPARELIBS = vcl35.lib vclx35.lib vcldb35.lib vcldbx35.lib
+LIBFILES = ..\..\shared\aps\aps32.lib ..\..\shared\general\general.lib "C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib"
+LIBRARIES =
+SPARELIBS = VCL35.lib
 PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
-  Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi Rxctl.bpi Rxdb.bpi \
-  tee35.bpi teedb35.bpi teeUI35.bpi TeePro35.bpi HyperGrid.bpi APSGeneral.bpi \
-  UI.bpi
-PATHASM = .;
+  Qrpt35.bpi tee35.bpi teedb35.bpi teeUI35.bpi ibsmp35.bpi NMFast35.bpi \
+  inetdb35.bpi inet35.bpi TeePro35.bpi Rxctl.bpi Rxdb.bpi APSGeneral.bpi \
+  APSData.bpi
+# ---------------------------------------------------------------------------
 PATHCPP = .;
+PATHASM = .;
 PATHPAS = .;
 PATHRC = .;
 DEBUGLIBPATH = $(BCB)\lib\debug
 RELEASELIBPATH = $(BCB)\lib\release
-DEFFILE =
 # ---------------------------------------------------------------------------
-CFLAG1 = -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
-CFLAG2 = -I..\shared\general;$(BCB)\bin;d:\apsuite\shared\general;$(BCB)\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
-  -H=$(BCB)\lib\vcld.csm
-CFLAG3 =
-PFLAGS = -AWinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE \
-  -U..\shared\general;$(BCB)\bin;d:\apsuite\shared\general;$(BCB)\projects;$(BCB)\lib\obj;$(BCB)\lib;$(DEBUGLIBPATH) \
-  -I..\shared\general;$(BCB)\bin;d:\apsuite\shared\general;$(BCB)\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
-  -$Y -$W -$O- -v -JPHNV -M
-RFLAGS = -i..\shared\general;$(BCB)\bin;d:\apsuite\shared\general;$(BCB)\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-AFLAGS = /i..\shared\general /i$(BCB)\bin /id:\apsuite\shared\general /i$(BCB)\projects \
-  /i$(BCB)\include /i$(BCB)\include\vcl /id:\apsuite\shared /mx /w2 /zd
-LFLAGS = -L..\shared\general;$(BCB)\bin;d:\apsuite\shared\general;$(BCB)\projects;$(BCB)\lib\obj;$(BCB)\lib;$(DEBUGLIBPATH) \
-  -aa -Tpe -x -v
+CFLAG1 = -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx -tW
+CFLAG2 = -D_RTLDLL;USEPACKAGES -I$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
+  -H=$(BCB)\lib\vcl35.csm
+CFLAG3 = -Tkh30000
+PFLAGS = -D_RTLDLL;USEPACKAGES \
+  -U"c:\program files\borland\cbuilder3\lib";..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -I$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared -$Y -$W -$O- -v -JPHN -M
+RFLAGS = -D_RTLDLL;USEPACKAGES -i$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /id:\apsuite\shared /d_RTLDLL \
+  /dUSEPACKAGES /mx /w2 /zd
+LFLAGS = -L"c:\program files\borland\cbuilder3\lib";..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -aa -Tpe -x -Gn -v
 IFLAGS =
-LINKER = tlink32
 # ---------------------------------------------------------------------------
-ALLOBJ = c0w32.obj sysinit.obj $(OBJFILES)
+ALLOBJ = c0w32.obj $(PACKAGES) sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
-.autodepend
-
 !ifdef IDEOPTIONS
 
 [Version Info]
@@ -60,11 +65,39 @@ PreRelease=0
 Special=0
 Private=0
 DLL=0
-Locale=3081
+Locale=1033
 CodePage=1252
 
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=1
+Item0=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+
+[HistoryLists\hlLibraryPath]
+Count=1
+Item0=c:\program files\borland\cbuilder3\lib;..\..\shared\components\data;..\..\shared\components\general;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_RTLDLL;USEPACKAGES
+
 [Debugging]
-DebugSourceDirs=
+DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
 RunParams=
@@ -72,6 +105,52 @@ HostApplication=
 
 !endif
 
+# ---------------------------------------------------------------------------
+# MAKE SECTION
+# ---------------------------------------------------------------------------
+# This section of the project file is not used by the BCB IDE.  It is for
+# the benefit of building from the command-line using the MAKE utility.
+# ---------------------------------------------------------------------------
+
+.autodepend
+# ---------------------------------------------------------------------------
+!if !$d(BCC32)
+BCC32 = bcc32
+!endif
+
+!if !$d(DCC32)
+DCC32 = dcc32
+!endif
+
+!if !$d(TASM32)
+TASM32 = tasm32
+!endif
+
+!if !$d(LINKER)
+LINKER = ilink32
+!endif
+
+!if !$d(BRCC32)
+BRCC32 = brcc32
+!endif
+# ---------------------------------------------------------------------------
+!if $d(PATHCPP)
+.PATH.CPP = $(PATHCPP)
+.PATH.C   = $(PATHCPP)
+!endif
+
+!if $d(PATHPAS)
+.PATH.PAS = $(PATHPAS)
+!endif
+
+!if $d(PATHASM)
+.PATH.ASM = $(PATHASM)
+!endif
+
+!if $d(PATHRC)
+.PATH.RC  = $(PATHRC)
+!endif
+# ---------------------------------------------------------------------------
 $(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
     $(BCB)\BIN\$(LINKER) @&&!
     $(LFLAGS) +
@@ -79,21 +158,24 @@ $(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
     $(PROJECT),, +
     $(ALLLIB), +
     $(DEFFILE), +
-    $(ALLRES) 
+    $(ALLRES)
 !
-
+# ---------------------------------------------------------------------------
 .pas.hpp:
-    $(BCB)\BIN\dcc32 $(PFLAGS) { $** }
+    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
 
 .pas.obj:
-    $(BCB)\BIN\dcc32 $(PFLAGS) { $** }
+    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
 
 .cpp.obj:
-    $(BCB)\BIN\bcc32 $(CFLAG1) $(CFLAG2) -o$* $* 
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
 
 .c.obj:
-    $(BCB)\BIN\bcc32 $(CFLAG1) $(CFLAG2) -o$* $**
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
+
+.asm.obj:
+    $(BCB)\BIN\$(TASM32) $(AFLAGS) $<, $@
 
 .rc.res:
-    $(BCB)\BIN\brcc32 $(RFLAGS) $<
-#-----------------------------------------------------------------------------
+    $(BCB)\BIN\$(BRCC32) $(RFLAGS) -fo$@ $<
+# ---------------------------------------------------------------------------
