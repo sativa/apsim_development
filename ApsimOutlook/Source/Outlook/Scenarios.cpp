@@ -181,16 +181,17 @@ void Scenarios::createScenariosFrom(const string& scenarioName,
 // create multiple scenarios, based on the given scenario, given
 // the factor name and 1 or more factor values.
 // ------------------------------------------------------------------
-void Scenarios::createScenariosFrom(Scenario scenario,
+void Scenarios::createScenariosFrom(Scenario& scenario,
                                     const string& factorName,
                                     const vector<string>& factorValues)
    {
+   Scenario copiedScen(scenario);
    if (factorValues.size() >= 1)
       {
       scenario.setFactorValue(factorName, factorValues[0]);
       for (unsigned factorI = 1; factorI != factorValues.size(); factorI++)
          {
-         Scenario newScenario(scenario);
+         Scenario newScenario(copiedScen);
          newScenario.setFactorValue(factorName, factorValues[factorI]);
          newScenario.setName("");
          makeScenarioValid(newScenario, factorName);
