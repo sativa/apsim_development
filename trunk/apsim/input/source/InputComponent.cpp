@@ -55,6 +55,7 @@ void InputComponent::doInit1(const FString& sdml)
 
    // register a few things.
    tickID = addRegistration(protocol::respondToEventReg, "tick", timeTypeDDML);
+   preNewmetID = addRegistration(protocol::eventReg, "preNewmet", newmetTypeDDML);
    newmetID = addRegistration(protocol::eventReg, "newmet", newmetTypeDDML);
    iAmMet = (stricmp(name, "met") == 0);
    if (iAmMet)
@@ -289,7 +290,14 @@ bool InputComponent::advanceToTodaysData(void)
 unsigned long InputComponent::getFileDate(void)
    {
    int year;
-   yearI->asInteger(year);
+   if (yearI == NULL)
+      {
+      GDate today;
+      today.Set(todaysDate);
+      year = today.Get_year();
+      }
+   else
+      yearI->asInteger(year);
 
    if (dayOfYearI != NULL)
       {
@@ -318,6 +326,9 @@ void InputComponent::dateFieldsOk(void)
    InputVariables::iterator i = findVariable(string(name) + "_year");
    if (i != variables.end())
       yearI = i->second;
+   else
+      yearI = NULL;
+
    i = findVariable(string(name) + "_day");
    if (i != variables.end())
       dayOfYearI = i->second;
@@ -327,12 +338,10 @@ void InputComponent::dateFieldsOk(void)
    i = findVariable("month");
    if (i != variables.end())
       monthI = i->second;
-   bool ok = (yearI != NULL &&
-           (dayOfYearI != NULL ||
-            (dayOfMonthI != NULL && monthI != NULL)));
+   bool ok = (dayOfYearI != NULL ||
+            (dayOfMonthI != NULL && monthI != NULL));
    if (!ok)
-      throw runtime_error("APSIM input files must have year and day OR day, "
-                          "month and year columns.");
+      throw runtime_error("APSIM input files must have day OR day and month columns.");
    }
 
 // ------------------------------------------------------------------
@@ -452,7 +461,18 @@ void InputComponent::publishNewMetEvent(void)
    {
    if (iAmMet)
       {
+      // send out a preNewMet Event.
       protocol::newmetType newmet;
+      newmet.today = todaysDate;
+      getVariableValue("maxt", newmet.maxt);
+      getVariableValue("mint", newmet.mint);
+      getVariableValue("radn", newmet.radn);
+      getVariableValue("rain", newmet.rain);
+      if (!getVariableValue("vp", newmet.vp))
+         newmet.vp = calcVP(newmet.mint);
+      publish(preNewmetID, newmet);
+
+      newmet.today = todaysDate;
       getVariableValue("maxt", newmet.maxt);
       getVariableValue("mint", newmet.mint);
       getVariableValue("radn", newmet.radn);
@@ -460,6 +480,7 @@ void InputComponent::publishNewMetEvent(void)
       if (!getVariableValue("vp", newmet.vp))
          newmet.vp = calcVP(newmet.mint);
       publish(newmetID, newmet);
+
       }
    }
 // ------------------------------------------------------------------

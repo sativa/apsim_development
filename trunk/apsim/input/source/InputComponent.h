@@ -19,7 +19,7 @@ class InputComponent : public protocol::Component
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
 
-   private:
+   protected:
       typedef std::map<unsigned, StringVariant*> InputVariables;
       typedef std::vector<StringVariant*> TemporalVariables;
       InputVariables variables;
@@ -30,6 +30,7 @@ class InputComponent : public protocol::Component
       std::string fileName;
 
       unsigned newmetID;
+      unsigned preNewmetID;
       unsigned tickID;
       unsigned daylengthID;
       double todaysDate;
