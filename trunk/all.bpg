@@ -12,7 +12,7 @@ BRCC = $(ROOT)\bin\brcc32.exe $**
 PROJECTS = general.lib ApsimShared.dll SEGReport.bpl DataControls.dll \
   StandardControls.dll ApsimReport.exe ApsimExplorer.exe APSBuild.exe APSRun.exe \
   ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll Log.dll \
-  SummaryFile.dll Input.dll report.dll Screen.dll
+  SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -86,6 +86,10 @@ Screen.dll: apsim\Screen\source\Screen.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 apsim.exe: apsim\infra\engine\apsim.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Tracker.dll: apsim\Tracker\Source\Tracker.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
