@@ -1918,6 +1918,7 @@ c     :          g%days_tot)
 
 *+  Purpose
 *     biomass senescence
+      real LAI, SLN
 
 *+  Changes
 *     5/9/96 dph
@@ -1941,8 +1942,13 @@ c     :          g%days_tot)
      :                              , g%dlt_N_senesced)
 
       else if (Option .eq. 400) then
-
-         call sorg_N_senescence1 (max_part
+         LAI = g%lai + g%dlt_lai - g%dlt_slai
+         if (LAI .gt. 0.0) then
+            SLN = divide(g%n_green(leaf), LAI, 0.0)
+         else
+            SLN = 0.0
+         endif
+         call sorg_N_senescence1 (max_part, LAI
      :                              , c%n_sen_conc
      :                              , g%dlt_dm_senesced
      :                              , g%n_green
@@ -2004,14 +2010,14 @@ c     :          g%days_tot)
       else If (Option .eq. 401) then    !SORGHUM
 
       call sorg_N_retranslocate1 (
-     .          g%N_demand,
+     .          g%N_demand,g%dlt_N_senesced,
      .          g%NFract,
      .          g%lai, g%dlt_lai, g%dlt_slai,
      .          G%n_green, g%dlt_N_green,
      .          G%phase_tt,g%tt_tot_fm,g%dlt_tt_fm,
      .          g%nfact_expansion,
-     :                G%dlt_dm_green,
-     :                G%dm_green,
+     :          G%dlt_dm_green,
+     :          G%dm_green,
      .          g%current_stage,
      .          g%dlt_N_retrans)
 
