@@ -27,10 +27,12 @@ class Field
       std::vector<std::string> values;
       std::string unit;
       unsigned arrayIndex;
+      bool managerVariable;
 
       bool getValues(void);
       void calcFieldWidth(protocol::Variant* variant, bool ok);
       void writeTo(std::ostream& out, const std::string& value);
+      void formatAsFloats(void);
 
    };
 // ------------------------------------------------------------------
