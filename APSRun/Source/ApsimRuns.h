@@ -68,6 +68,11 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       bool performRun(const std::string& simFileName, bool moreToGo);
 
+      //---------------------------------------------------------------------------
+      // Convert all Apsim runs if necessary.
+      //---------------------------------------------------------------------------
+      void convertFiles();
+
    };
 #endif
 

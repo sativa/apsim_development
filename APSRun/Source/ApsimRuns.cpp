@@ -106,7 +106,10 @@ void ApsimRuns::runAll(bool withConsole, bool quiet)
       RunForm->ShowModal();
       }
    else
+      {
+      convertFiles();
       runApsim(quiet);
+      }
    }
 //---------------------------------------------------------------------------
 // Create SIM files for all runs.
@@ -259,6 +262,32 @@ void ApsimRuns::createApsimSims(void)
          runs[f]->getSimulationsToRun(simulations);
          for (unsigned s = 0; s != simulations.size(); s++)
             simCreator.createSims(simulations, "", (TSimCreatorEvent)NULL);
+         }
+      }
+   }
+//---------------------------------------------------------------------------
+// Convert all Apsim runs if necessary.
+//---------------------------------------------------------------------------
+void ApsimRuns::convertFiles()
+   {
+   ControlFileConverter converter;
+
+   for (unsigned f = 0; f != runs.size(); f++)
+      {
+      Path filePath(runs[f]->getFileName());
+      try
+         {
+         if (filePath.Get_extension() == ".con")
+            {
+            converter.convert(filePath.Get_path(),
+                              (TControlFileConverterEvent)NULL);
+            }
+         }
+      catch (const exception& err)
+         {
+         filePath.Set_extension("log");
+         ofstream log(filePath.Get_path().c_str());
+         log << err.what();
          }
       }
    }
