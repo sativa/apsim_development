@@ -585,6 +585,10 @@ std::string doubleQuoted(const std::string& st)
    {
    return "\"" + st + "\"";
    }
+// ------------------------------------------------------------------
+// Locate a substring within a string - case insensitive.
+// ------------------------------------------------------------------
+unsigned findSubString(const std::string& st, const std::string& substring);
 
 #endif
 
