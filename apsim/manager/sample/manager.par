@@ -1,24 +1,20 @@
 [sample.report.parameters]  
-Title =  accum dalby   
-Outputfile =  manager.out  /overwrite   
-Summaryfile =  manager.sum /overwrite   
-Module_names =   clock      clock   
-Variable_names =  year       day   
-Variable_alias =  -           -   
-Units =          -            -   
+Outputfile =manager.out   
 
 
-Module_names =   manager     manager     manager     manager     manager      met
-Variable_names =  avtemp     avtempi     feb_or_not  fixed_rain  rain_amount  rain
-Variable_alias =   -          -           -          -           -            -
-Units =            -          -           -          -           -            -
 
 
+variable = clock.year
+variable = clock.day
+variable = manager.avtemp
+variable = manager.avtempi
+variable = manager.feb_or_not
+variable = manager.fixed_rain
+variable = manager.rain_amount
+variable = met.rain
 [sample.clock.parameters]
-simulation_start_day = 1
-simulation_end_day = 99
-simulation_start_year = 1988
-simulation_end_year = 1988
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=8/4/1988     ! dd/mm/yyyy
 
 [sample.manager.init]
 fixed_rain = 'no'
