@@ -10,7 +10,6 @@ TColor colours[16] =
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 #pragma link "asgcombo"
-#pragma link "ColorCombo"
 TShapeForm *ShapeForm;
 //---------------------------------------------------------------------------
 __fastcall TShapeForm::TShapeForm(TComponent* Owner)
@@ -24,10 +23,8 @@ void TShapeForm::setComponent(::TShape* s)
    ShapeCombo->ItemIndex = shape->Shape;
    for (int i = 0; i != sizeof(colours); i++)
       {
-      if (shape->Pen->Color == colours[i])
-         PenColourCombo->ItemIndex = i;
-      if (shape->Brush->Color == colours[i])
-         BrushColourCombo->ItemIndex = i;
+      PenColourCombo->Selected = shape->Pen->Color;
+      BrushColourCombo->Selected = shape->Brush->Color;
       }
    }
 //---------------------------------------------------------------------------
@@ -38,12 +35,12 @@ void __fastcall TShapeForm::ShapeComboChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TShapeForm::PenColourComboChange(TObject *Sender)
    {
-   shape->Pen->Color = colours[PenColourCombo->ItemIndex];
+   shape->Pen->Color = PenColourCombo->Selected;
    }
 //---------------------------------------------------------------------------
 void __fastcall TShapeForm::BrushColourComboChange(TObject *Sender)
    {
-   shape->Brush->Color = colours[BrushColourCombo->ItemIndex];
+   shape->Brush->Color = BrushColourCombo->Selected;
    }
 //---------------------------------------------------------------------------
 
