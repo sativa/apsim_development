@@ -13,7 +13,7 @@
       <field name="layer" kind="double" array="T"/>
       <field name="value" kind="double" array="T"/>
    </type>
-  
+
    !!!!! CLOCK types !!!!!
 
    <type name="simulation_start_date" kind="double" unit="" description="Simulation start date"/>
@@ -231,11 +231,11 @@
    <type name="flow_water" kind="single" array="T" unit="mm" description="Flow of water out of bottom of each layer"/>
    <type name="salb" kind="single" unit="??" description="soil albedo"/>
    <type name="hmin" kind="single" unit="mm" description="Soil surface water storage capacity"/>
-   <type name="scon" kind="single" unit="/hr" lower_bound="0.0" upper_bound="100.0" description="Surface seal conductance"/>
-   <type name="scon_min" kind="single" unit="/hr" description="Minimum surface seal conductance"/>
-   <type name="scon_max" kind="single" unit="/hr" description="Maximum surface seal conductance"/>
-   <type name="dr" kind="single" unit="mm" description="Rainfall increment in last SWIM timestep"/>
-   <type name="dt" kind="single" unit="min" description="Time increment for last SWIM timestep"/>
+   <type name="scon" kind="double" unit="/hr" lower_bound="0.0" upper_bound="100.0" description="Surface seal conductance"/>
+   <type name="scon_min" kind="double" unit="/hr" description="Minimum surface seal conductance"/>
+   <type name="scon_max" kind="double" unit="/hr" description="Maximum surface seal conductance"/>
+   <type name="dr" kind="double" unit="mm" description="Rainfall increment in last SWIM timestep"/>
+   <type name="dt" kind="double" unit="min" description="Time increment for last SWIM timestep"/>
    <type name="crop_cover" kind="single" unit="0-1" description="crop cover proportion"/>
    <type name="bbc_potential" kind="double" unit="cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition potential"/>
    <type name="bbc_gradient" kind="double" unit="cm/cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition gradient"/>
@@ -309,7 +309,7 @@
 
    <type name="new_solute" description="To notify all interested modules in the ownership of solutes by an individual module">
       <field name="solute_names" kind="string" array="T" description="List of new solute names added to simulation"/>
-   </type> 
+   </type>
    <type name="solute" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="solute concentration in layers"/>
    <type name="solute_ppm" kind="single" array="T" unit="mg/kg" description="solute concentration(ppm) in layers"/>
    <type name="dlt_solute" kind="single" array="T" unit="kg/ha" description="delta solute concentration in layers"/>
@@ -327,7 +327,7 @@
       </field>
       </element>
    </type>
-  
+
 
    !!!!! IRRIGATE types !!!!!
    <type name="allocation" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Allocation amount"/>
@@ -355,11 +355,11 @@
          </element>
       </field>
    </type>
-  
+
 
    !!!!! CROP types !!!!!
 
-    
+
    <type name="crop_type" kind="string" unit="" description="Name of the crop "/>
    <type name="stage_names" kind="string" array="T" unit="" description="Name of the developmental stages"/>
    <type name="stage_code" kind="single" array="T" unit="" description="Code of the developmental stages"/>
@@ -761,7 +761,7 @@
       <type name="y_tt_other" kind="single" array="T" unit="oC" lower_bound="0.0" upper_bound="100.0" description="Thermal time as a function of temperature"/>
       <type name="fr_intc_radn_nnnn" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of intercepted radiation from module nnnn"/>
       <type name="no3_min" kind="single" array="T" unit="kg/ha" description="Soil NO3 minimum"/>
-      <type name="uptake_p_maize" kind="single" array="T" unit="g/m2" lower_bound="0.0" upper_bound="100.0" description="Soil P uptake"/>     
+      <type name="uptake_p_maize" kind="single" array="T" unit="g/m2" lower_bound="0.0" upper_bound="100.0" description="Soil P uptake"/>
 
 
 !!MILLET Types!!
@@ -1188,7 +1188,7 @@
       </field>
       <field name="frgr" kind="single"/>
       </element>
-   </type>   
+   </type>
 
    <type name="eoscalculated" kind="single" unit="mm" description="Potential evaporation from the soil surface."/>
    <type name="canopy_energy_balance" kind="????" unit="" description=""/>
@@ -1268,7 +1268,7 @@
       <field name="WaterInput" kind="single"/>
    </type>
 
-   
+
 
    <type name="SurfaceWaterDemand" kind="single" unit="mm" description="potential soil water evaporation"/>
    <type name="SurfaceWaterTillageString" kind="string" unit="" description="SurfaceWater Tillage String: cn_red=xx (), cn_rain=xx (mm), type=xx ()"/>
@@ -1278,7 +1278,7 @@
 
    <type name="fertiliser" kind="single" unit="kg/ha" description="Amount of fertiliser applied"/>
    <type name="fertstring" kind="string" unit="" description="Fertiliser string: amount=xx (kg/ha), depth=xx (mm), type=xx"/>
-   
+
    <type name="FertiliserConstituents" array="T">
       <element>
       <field name="name" kind="string"/>
@@ -1633,4 +1633,4 @@
 </types>
 
 
-    
+
