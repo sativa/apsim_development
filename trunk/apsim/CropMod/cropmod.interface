@@ -286,9 +286,9 @@
       <respondToGetReg name="xf" type="xf"/>
       <respondToMethodCallReg name="sysinit" type="sysinit"/>
       <respondToMethodCallReg name="prepare" type="prepare"/>
-      <respondToMethodCallReg name="Process" type="Process"/>
-      <respondToMethodCallReg name="Sow" type="Sow"/>
-      <respondToMethodCallReg name="Harvest" type="Harvest"/>
+      <respondToMethodCallReg name="process" type="process"/>
+      <respondToMethodCallReg name="sow" type="sow"/>
+      <respondToMethodCallReg name="harvest" type="harvest"/>
       <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
       <respondToMethodCallReg name="end_crop" type="end_crop"/>
       <getVariableReg name="Day" type="Day"/>
@@ -314,9 +314,12 @@
       <setVariableReg name="dlt_fom_wt" type="dlt_fom_wt"/>
       <setVariableReg name="dlt_fom_n" type="dlt_fom_n"/>
       <setVariableReg name="dlt_fom_" type="dlt_fom_type"/>
-      <methodCallReg name="Set_variable" type="Set_variable"/>
+      <methodCallReg name="set_variable" type="set_variable"/>
       <methodCallReg name="add_residue" type="add_residue"/>
       <methodCallReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="add_residue" type="add_residue"/>
+      <eventReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
