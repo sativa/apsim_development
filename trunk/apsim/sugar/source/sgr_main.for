@@ -233,6 +233,7 @@
       Sequence
       character  crop_status*5       ! status of crop
       character  crop_cultivar*20    ! cultivar name
+      logical    plant_status_out_today
       real       sowing_depth        ! sowing depth (mm)
       integer    year                ! year
       integer    day_of_year         ! day of year
@@ -1244,6 +1245,7 @@
 
       g%crop_status           = blank
       g%crop_cultivar         = blank
+      g%plant_status_out_today = .false.
       g%sowing_depth          = 0.0
       g%year                  = 0
       g%day_of_year           = 0
@@ -1819,10 +1821,14 @@ cnh     :                 ' Initialising')
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
       character  cultivar_ratoon*30    ! name of cultivar ratoon section
+      character  module_name*50      ! module name
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+
+      if (g%crop_status.eq.crop_out) then
+         if (.not. g%plant_status_out_today) then
 
       ! request and receive variables from owner-modules
       call sugar_get_met_variables ()
@@ -1897,6 +1903,25 @@ cnh     :                 ' Initialising')
 
          g%crop_status = crop_alive
          g%crop_cultivar = cultivar
+
+         else
+            call get_name (module_name)
+            call fatal_error (ERR_USER,
+     :           '"'//trim(module_name)
+     :          //'" was taken out today by end_crop action -'
+     :          //new_line
+     :          //' Unable to accept sow action '
+     :          //' until the next day.')
+         endif
+      else
+         call get_name (module_name)
+         call fatal_error (ERR_USER,
+     :           '"'//trim(module_name)
+     :          //'" is still in the ground -'
+     :          //' unable to sow until it is'
+     :          //' taken out by "end_crop" action.')
+
+      endif
 
       call pop_routine (my_name)
       return
@@ -2311,6 +2336,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       if (g%crop_status.ne.crop_out) then
          g%crop_status = crop_out
          g%current_stage = real (crop_end)
+         g%plant_status_out_today = .true.
 
                 ! report
 
@@ -3858,6 +3884,7 @@ c      call sugar_nit_stress_expansion (1)
       call fill_real_array (g%dlt_plant_wc, 0.0, max_part)
 
 
+      g%plant_status_out_today = .false.
       g%canopy_height = 0.0
       g%isdate = 0
       g%mdate = 0
