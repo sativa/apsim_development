@@ -1,47 +1,24 @@
-include base.interface
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; Correls public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMCorrelPublic
-; from parameter section in parameter file
-    offset                : APSIMinteger           = Days on either side of of current day to correlate, (-), READ, 0, 30 
-    names                 : APSIMStringArray       = Names of variables to use in correlation matrix, (-), READ
-    check                 : APSIMStringArray       = Not yet used, (-), READ
-    check(i)              : APSIMIntegerArray      = Not yet used, (-), READ, -1, 1
+<component name="correl">
+   <registrations>
+      <type name="offset" kind="integer4" unit="-" lower_bound="0" upper_bound="30" description="Days on either side of of current day to correlate"/>
+      <type name="names" kind="string" array="T" unit="-" description="Names of variables to use in correlation matrix"/>
+      <type name="check" kind="string" array="T" unit="-" description="Not yet used"/>
+      <type name="check(i)" kind="integer4" array="T" unit="-" lower_bound="-1" upper_bound="1" description="Not yet used"/>
+      <type name="p%names(i)" kind="single" unit="" lower_bound="-1000.0" upper_bound="10000.0" description="Data values for correlation - to determine which variables are available"/>
+      <type name="g%name_found(i)" kind="single" unit="" lower_bound="-1000.0" upper_bound="10000.0" description="Data values of variables found used for correlation"/>
 
-; main events
-    sysinit                : APSIMMethod         = System initialise
-    end_run                : APSIMMethod         = System end_run stage
-end
-; -----------------------------------------------------------
-; Correls External interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-class APSIMCorrelExternal
-; variables from other modules by correl_get_other_variables_init
-    p%names(i)              : APSIMReal             = Data values for correlation - to determine which variables are available, (), GET_OPT, -1000.0, 10000.0
-
-; variables from other modules by correl_get_other_variables
-    g%name_found(i)         : APSIMReal             = Data values of variables found used for correlation, (), GET_OPT, -1000.0, 10000.0
-
-; events
-    prepare                : APSIMEvent         = System prepare stage
-    process                : APSIMEvent         = System process stage
-
-
-end
-
-class APSIMCorrel
-   dll      : string
-   public   : APSIMCorrelPublic
-   external : APSIMCorrelExternal
-end
+      <read name="offset" type="offset" readable="T"/>
+      <read name="names" type="names" readable="T"/>
+      <read name="check" type="check" readable="T"/>
+      <read name="check(i)" type="check(i)" readable="T"/>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <getVariableReg name="p%names(i)" type="p%names(i)"/>
+      <getVariableReg name="g%name_found(i)" type="g%name_found(i)"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>
