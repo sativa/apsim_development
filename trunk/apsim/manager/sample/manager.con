@@ -1,8 +1,11 @@
 
 [apsim.sample_manager]  
-Module=clock   manager.par [sample]  
-Module=report  manager.par [sample]  
-Module=met     %apsuite\apsim\met\sample\dalby.met [weather]  
-Module=manager manager.par [sample]   
-Module=operatns manager.par [sample]
 
+version=2.2
+title=accum dalby
+summaryfile=manager.sum
+module = clock   manager.par [sample]
+module = report  manager.par [sample]
+module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager manager.par [sample]
+module = operatns manager.par [sample]
