@@ -11,17 +11,17 @@
 #include "PlantLibrary.h"
 using namespace std;
 
-void lookupFunction::search(PlantComponent *P, vector<string> &sections, 
+void lookupFunction::search(PlantComponent *P, vector<string> &sections,
                             const char *xname, const char *xunits, float x0, float x1,
                             const char *yname, const char *yunits, float y0, float y1)
    {
    externalFunction::search(P, sections, xname, xunits, x0, x1, yname, yunits, y0, y1);
    x.clear();   y.clear();
-   
+
    P->searchParameter(sections,xname, x, x0, x1);
    P->searchParameter(sections,yname, y, y0, y1);
 
-   if (x.size() != y.size()) 
+   if (x.size() != y.size())
    	throw std::runtime_error(string("Mismatched vector size in ") + xname + " and " + yname);
 
    if (x.size() <= 0)
@@ -50,7 +50,7 @@ std::string externalFunction::description(void)
    return string("");
    }
 
-std::string lookupFunction::description(void) 
+std::string lookupFunction::description(void)
    {
    int pad;
    ostringstream text;
@@ -70,7 +70,7 @@ std::string lookupFunction::description(void)
    return text.str();
    }
 
-std::string interpolationFunction::description(void) 
+std::string interpolationFunction::description(void)
    {
    int pad;
    ostringstream text;
@@ -121,8 +121,8 @@ float lookupFunction::value(float v)
 
    // find which sector of the table that v falls in
    unsigned sector;
-   for(sector = 0; sector < x.size() && v > x[sector]; sector++) /*nothing*/ ; 
-   
+   for(sector = 0; sector < x.size() && v > x[sector]; sector++) /*nothing*/ ;
+
    if(sector == 0) return y[0];
    return y[sector-1];
    }
@@ -332,14 +332,15 @@ double divide (double dividend, double divisor, double default_value)
    double quotient;
 
    //Implementation
-   if(reals_are_equal(dividend, 0.0))      //multiplying by 0
-      {
-      quotient = 0.0;
-      }
-   else if(reals_are_equal(divisor, 0.0))  //dividing by 0
+   if(reals_are_equal(divisor, 0.0))  //dividing by 0
       {
       quotient = default_value;
       }
+   else if(reals_are_equal(dividend, 0.0))      //multiplying by 0
+      {
+      quotient = 0.0;
+      }
+
    else if(fabs(divisor) < 1.0)            //possible overflow
       {
       if(fabs(dividend) > fabs(LARGEST * divisor)) //overflow
@@ -505,8 +506,8 @@ void bound_check_integer_var (commsInterface *i,
    }
 
 //===========================================================================
-float sum_part_of_real(float *array,     // array to be summed            
-                       int start,        // index for starting element    
+float sum_part_of_real(float *array,     // array to be summed
+                       int start,        // index for starting element
                        int stop,         // index for stopping element
                        int size_of)      //  size of array
 //===========================================================================
