@@ -625,4 +625,11 @@ void __fastcall TMDIChild::FormActivate(TObject *Sender)
    Enable_options();
 }
 //---------------------------------------------------------------------------
+void __fastcall TMDIChild::CopyScenarioMenuClick(TObject *Sender)
+   {
+   Settings_form->Settings_list->SelectAll();
+   Settings_form->Settings_list->CopyToClipboard();
+   Settings_form->Settings_list->ClearSelection();
+   }
+//---------------------------------------------------------------------------
 

@@ -74,6 +74,7 @@ __published:
    TAPSTable *AllData;
    TAPSTable *working;
    TDBAdvStringGrid *Grid;
+   TMenuItem *CopyScenarioMenu;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
@@ -97,6 +98,7 @@ __published:
    void __fastcall FormResize(TObject *Sender);
    void __fastcall ChartsNoChartMenuClick(TObject *Sender);
    void __fastcall FormActivate(TObject *Sender);
+   void __fastcall CopyScenarioMenuClick(TObject *Sender);
 private:
    bool Large_fonts;
    bool FirstTime;
