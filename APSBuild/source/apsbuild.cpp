@@ -159,7 +159,7 @@ void Run (string& Command_line)
       {
       APSIM_simulation_collection Simulation_collection;
       Simulation_collection.Add(control_file_name.c_str());
-      Simulation_collection.Run(config_name.c_str());
+      Simulation_collection.Run();
       }
    }
 
