@@ -1,8 +1,12 @@
 [APSIM.Tamet2_sample]
-module=clock   tamet2.par [Tamet2_dalby]
-module=report  tamet2.par[sample] tamet2.par[tamet2_dalby]
-module=met     %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
-module=manager tamet2.par[sample]
-module=tamet2  tamet2.par [sample]
 
 
+version=2.2
+title=Dalby Tamet2 check
+summaryfile=tamet2.sum
+screen_output=on
+module = clock   tamet2.par [Tamet2_dalby]
+module = report  tamet2.par[sample] tamet2.par[tamet2_dalby]
+module = Input(Met)     %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = manager tamet2.par[sample]
+module = tamet2  tamet2.par [sample]
