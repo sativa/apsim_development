@@ -190,7 +190,7 @@ void TREMS::storeRecords(void) throw(runtime_error)
             FieldValues["experiment"] = experimentName;
             FieldValues["treatment"] = treatmentName;
             for(int i=0;i < query->FieldCount;i++)
-               Fields->Fields[i] = query->Fields->Fields[i];
+               Fields->Fields[i+2] = query->Fields->Fields[i];
             }
          catch (const Exception& err)
             {
