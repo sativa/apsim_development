@@ -104,7 +104,7 @@ class APSIMCropModPublic
    grn_water_cont      : APSIMReal      = water content of grain,                          (g/g), READ
 
    x_shoot_nc_trans    : APSIMRealArray = nitrogen concentration of the stover - optional,                  (g/g), READ
-   y_stem_trans_frac = : APSIMRealArray = fraction of stem biomass for retranlsocation to grain - optional, ()   , READ
+   y_stem_trans_frac   : APSIMRealArray = fraction of stem biomass for retranlsocation to grain - optional, ()   , READ
 
    !------------------------------
    !LEAF/STEM/POD AREA GROWTH
