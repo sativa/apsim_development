@@ -6,6 +6,7 @@
 #include "ApsimSettings.h"
 #include "ApsimDirectories.h"
 #include <general\inifile.h>
+#include <general\path.h>
 #include <sstream>
 using namespace std;
 using namespace boost;
@@ -25,7 +26,10 @@ string ApsimSettings::getSettingsFolder(void) throw(runtime_error)
 // ------------------------------------------------------------------
 ApsimSettings::ApsimSettings(void)
 	{
-   original = new IniFile(ChangeFileExt(Application->ExeName, ".ini").c_str());
+   string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
+   string originalPath = getAppHomeDirectory() + "\\" + applicationName + ".ini";
+
+   original = new IniFile(originalPath);
    string workingPath = getSettingsFolder() + "\\"
                       + ExtractFileName(Application->ExeName).c_str();
    workingPath = ChangeFileExt(workingPath.c_str(), ".ini").c_str();
