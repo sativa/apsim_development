@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000   11:43 am
+C     Last change:  E    18 Jan 2001   10:53 am
       include 'cropmodmain.for'
       
 *     ===========================================================
@@ -6,8 +6,10 @@ C     Last change:  E    18 Dec 2000   11:43 am
 *     ===========================================================
       use CropModModule
       implicit none
-      include   'const.inc'
-      include 'data.pub'                          
+      include 'const.inc'
+      include 'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Purpose
@@ -30,7 +32,8 @@ C     Last change:  E    18 Dec 2000   11:43 am
 !CROP WATER SUPPLY
 
       if (g%plant_status.eq.status_alive) then
- 
+
+
       call Sorg_root_depth(1)          !CT = crop template
       call Sorg_root_depth_init(2)     !CT - called later as root_depth sets delta
                                         ! option 1 initial root depth = c%...
