@@ -23,6 +23,12 @@ __fastcall TPreferences_form::TPreferences_form(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TPreferences_form::FormShow(TObject *Sender)
    {
+   // make the soi stuff not visible when SOI is not in the skin.
+   string soi;
+   settings.read("Skin|soi", soi);
+   SOILabel->Visible = !Str_i_Eq(soi, "off");
+   File_name_edit->Visible = !Str_i_Eq(soi, "off");
+   
    // read a list of directory names from .ini file.
    string SOI_file_name;
    settings.read (SOI_KEY, SOI_file_name);

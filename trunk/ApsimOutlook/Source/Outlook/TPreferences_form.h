@@ -16,7 +16,7 @@
 class TPreferences_form : public TForm
 {
 __published:	// IDE-managed Components
-   TLabel *Label1;
+   TLabel *SOILabel;
    TBitBtn *BitBtn1;
    TBitBtn *BitBtn2;
    TCheckBox *ColourBackgroundCheckbox;
