@@ -41,6 +41,7 @@ report do_output
 crop_type     = wheat
 uptake_source = calc
 eo_fraction   = 0.9 (0-1)
+height        = 2000. (mm)
 rlv           = 0.05 0.03 0.02 0.01 0.01 0.01 0.01 (mm/mm3)
 solute_names  = no3 nh4
 no3_demand    = 1 (kg/ha)
