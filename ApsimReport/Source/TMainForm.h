@@ -68,7 +68,6 @@ __published:	// IDE-managed Components
    TMenuItem *Delete1;
    TMenuItem *Copy1;
    TMenuItem *Paste1;
-   TSEGReport *SEGReport1;
    TControlBar *ControlBar1;
    TToolBar *Standard;
    TToolButton *ToolButton1;
@@ -93,7 +92,6 @@ __published:	// IDE-managed Components
    TMenuItem *SendToLibrary1;
    TMenuItem *Library2;
    TMenuItem *N5;
-   TSEGLibrary *SEGLibrary1;
    TAction *RefreshAction;
    TToolButton *ToolButton4;
    TMenuItem *Refresh1;
@@ -101,6 +99,10 @@ __published:	// IDE-managed Components
    TMenuItem *N3;
    TToolButton *ToolButton8;
    TdfsMRUFileList *MRUFileList;
+   TSEGReport *SEGReport1;
+   TSEGLibrary *SEGLibrary1;
+   TMenuItem *Print2;
+   TAction *PrintCurrent;
    void __fastcall AdvancedEditModeExecute(TObject *Sender);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ExitExecute(TObject *Sender);
@@ -125,6 +127,7 @@ __published:	// IDE-managed Components
    void __fastcall RefreshActionExecute(TObject *Sender);
    void __fastcall MRUFileListMRUItemClick(TObject *Sender,
           AnsiString AFilename);
+   void __fastcall PrintCurrentExecute(TObject *Sender);
 private:	// User declarations
    AnsiString filename;
    AnsiString fileThatWasCopied;
