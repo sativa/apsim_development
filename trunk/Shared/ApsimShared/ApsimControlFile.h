@@ -75,14 +75,15 @@ class __declspec(dllexport) ApsimControlFile
       // Set the value of a parameter for a module.
       // If moduleName is blank then parameter will be written to control file
       // ------------------------------------------------------------------
-      void setParameterValues(const string& sectionName,
-                              const string& instanceName,
-                              const string& parameterName,
-                              const vector<string>& parameterValues) throw(std::runtime_error);
-      void setParameterValue(const string& sectionName,
-                             const string& instanceName,
-                             const string& parameterName,
-                             const string& parameterValue) throw(std::runtime_error);
+      void setParameterValues(const std::string& sectionName,
+                              const std::string& instanceName,
+                              const std::string& parameterName,
+                              const std::string& parameterSectionName,
+                              const std::vector<std::string>& parameterValues) throw(std::runtime_error);
+      void setParameterValue(const std::string& sectionName,
+                             const std::string& instanceName,
+                             const std::string& parameterName,
+                             const std::string& parameterValue) throw(std::runtime_error);
 
       // ------------------------------------------------------------------
       // Rename the specified parameter in all instances of module.
