@@ -220,6 +220,7 @@ void ApsimDataFile::lookForDateField(void)
    monthI = temporalData.end();
    dayI = temporalData.end();
    dateI = temporalData.end();
+   domI = temporalData.end();
    for (iterator i = temporalData.begin();
                  i != temporalData.end();
                  i++)
@@ -232,10 +233,14 @@ void ApsimDataFile::lookForDateField(void)
          dayI = i;
       else if (Str_i_Eq(i->name, "date"))
          dateI = i;
+      else if (Str_i_Eq(i->name, "dom"))
+         domI = i;
       }
    bool ok = (dateI != temporalData.end());
    if (!ok)
       ok = (yearI != temporalData.end() && dayI != temporalData.end());
+   if (!ok)
+      ok = (yearI != temporalData.end() && domI != temporalData.end() && monthI != temporalData.end());
    if (!ok)
       ok = (dayI != temporalData.end());   // to keep patchinput's data files ok.
    if (!ok)
@@ -243,7 +248,7 @@ void ApsimDataFile::lookForDateField(void)
                           "The file must have one of the following combinations:\n"
                           "   a date column\n"
                           "   a year and day column\n"
-                          "   a year, month and day column");
+                          "   a year, month and dom column");
    }
 // ------------------------------------------------------------------
 // return the date on the current record.
@@ -261,7 +266,8 @@ gregorian::date ApsimDataFile::getDate(void) const
       else
          {
          int month  = lexical_cast<int>(monthI->values[0]);
-         return date(year, month, day);
+         int dom    = lexical_cast<int>(domI->values[0]);
+         return date(year, month, dom);
          }
       }
    }

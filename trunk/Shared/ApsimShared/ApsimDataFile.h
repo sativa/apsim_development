@@ -113,6 +113,7 @@ class __declspec(dllexport) ApsimDataFile
       iterator monthI;
       iterator dayI;
       iterator dateI;
+      iterator domI;
 
       std::istream& getline(std::string& line);
 
