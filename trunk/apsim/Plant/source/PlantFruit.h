@@ -125,6 +125,7 @@ class PlantFruit
     ,int    meal
     ,int    oil
     ,int    max_part
+    ,float  g_dlt_dm_retrans_to_fruit
     ,int    *supply_pools
     ,int    num_supply_pools
     ,float  g_dlt_dm_grain_demand
