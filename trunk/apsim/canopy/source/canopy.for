@@ -46,7 +46,7 @@
                                                                     ! swap for
                                                                     ! intercropping
          integer  crop_module(max_crops)        ! list of modules replying
-                                                                     
+
       end type CanopyGlobals
 ! ====================================================================
       ! instance variables.
@@ -278,7 +278,7 @@
 
 *+  Constant Values
       real       max_height          ! maximum crop canopy height (mm)
-      parameter (max_height  = 10000.0)
+      parameter (max_height  = 40000.0)
 *
       real       k_lai_full_cover    ! a value for k*lai when cover is 100%
       parameter (k_lai_full_cover = 100.0)
@@ -449,7 +449,7 @@ c      integer    canopy_crop_number    ! function
       character  module_string*(max_module_name_size) ! module name
       real       cover_tot_all(max_crops)   ! total cover of each crop (0-1)
       real       cover_green_all(max_crops) ! green cover of each crop (0-1)
-      integer    moduleID 
+      integer    moduleID
       integer    numvals
       logical    found
 
@@ -469,9 +469,9 @@ c      integer    canopy_crop_number    ! function
      :                       // 'Module id = '
      :                       // module_string)
          else
-           
+
             module = canopy_crop_number (moduleID)
-            
+
             if (module.gt.0) then
                call respond2get_real_var (variable_name, '()'
      :                                   , g%intc_light(module))
@@ -480,10 +480,10 @@ c      integer    canopy_crop_number    ! function
      :              , 'Module: ' // module_string
      :              // ' requested fr_intc_radn and does not '
      :              // 'have a canopy')
-   
+
             endif
          endif
-         
+
       else if (variable_name.eq.'cover_tot_sum') then
          cover = 1.0
      :         - exp (-sum_real_array (g%K_lai_total, g%num_crops))
@@ -1039,13 +1039,13 @@ c      real       canopy_width          ! function
 
 
 
-      end module CanopyModule     
+      end module CanopyModule
 
 !     ===========================================================
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use CanopyModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -1141,10 +1141,10 @@ c      real       canopy_width          ! function
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
