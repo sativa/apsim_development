@@ -67,6 +67,21 @@ namespace CSGeneral
 				return _Constants;
 				}
 			}
+		// -------------------------------------
+		// Return a given constant to caller
+		// -------------------------------------
+		public APSIMConstant Constant(string ConstantName)
+		{
+			foreach(APSIMConstant c in _Constants)
+			{
+				if(StringManip.StringsAreEqual(c.Name, ConstantName))
+				{
+					return c;
+				}
+			}
+			return null;
+		}
+
 		// ----------------------------------
 		// Read from the specified file
 		// ----------------------------------
