@@ -5,7 +5,8 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="ComponentInterface.lib"/>
     <OBJFILES value="Vector.obj Component.obj message.obj Type.obj TypeConverter.obj 
-      Variant.obj Variants.obj FORTRANComponent.obj MessageData.obj"/>
+      Variant.obj Variants.obj FORTRANComponent.obj MessageData.obj 
+      ApsimVariant.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -50,6 +51,7 @@
       <FILE FILENAME="Variants.cpp" FORMNAME="" UNITNAME="Variants.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FORTRANComponent.cpp" FORMNAME="" UNITNAME="FORTRANComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="MessageData.cpp" FORMNAME="" UNITNAME="MessageData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimVariant.cpp" FORMNAME="" UNITNAME="ApsimVariant" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

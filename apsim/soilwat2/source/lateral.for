@@ -15,58 +15,34 @@
 
 
 ! ===========================================================================
-      type LateralGlobals
+      type LateralData 
 ! ===========================================================================
          sequence
          real    outflow_lat(max_layer)
          integer num_layers
-      end type LateralGlobals
-! ===========================================================================
-      type LateralParameters
-! ===========================================================================
-         sequence
          real slope
          real discharge_width     ! basal width of discharge area (m)
          real catchment_area      ! area over which lateral flow is occuring (m2)
          real Klat(max_layer)
-      end type LateralParameters
-
-! ===========================================================================
-      type LateralConstants
-! ===========================================================================
-         sequence
-         real dummy
-      end type LateralConstants
-! ===========================================================================
-!      Module-Level Variables
-! ===========================================================================
-
-      ! instance variables.
-      common /InstancePointers/ ID,g,p,c
-      save InstancePointers
-      type (LateralGlobals),pointer :: g
-      type (LateralParameters),pointer :: p
-      type (LateralConstants),pointer :: c
-
+      end type LateralData
 
 ! ===========================================================================
 !      Module Source Code
 ! ===========================================================================
 
 ! Public Interface to Module
-! ==========================
-      public Lateral_alloc_dealloc_instance
+! ========================== 
       public Lateral_Init
       public Lateral_Prepare
       public Lateral_Process
       public Lateral_Send_My_Variable
+      public LateralData
 
       contains
 
 
-
 * ====================================================================
-       subroutine Lateral_zero_variables ()
+       subroutine Lateral_zero_variables (g)
 * ====================================================================
       Use Infrastructure
       implicit none
@@ -77,6 +53,9 @@
 *+  Changes
 *     <insert here>
 
+*+  Subroutine arguments
+      type(lateralData), pointer :: g
+      
 *+  Constant Values
       character*(*) myname                 ! Name of this procedure
       parameter (myname = 'Lateral_zero_variables')
@@ -90,10 +69,10 @@
       ! Parameters
       ! ==========
 
-         p%slope = 0.0
-         p%discharge_width = 0.0
-         p%catchment_area = 0.0
-         p%Klat(:) = 0.0
+         g%slope = 0.0
+         g%discharge_width = 0.0
+         g%catchment_area = 0.0
+         g%Klat(:) = 0.0
 
       ! Globals
       ! =======
@@ -110,7 +89,7 @@
 
 
 * ====================================================================
-       subroutine Lateral_get_other_variables ()
+       subroutine Lateral_get_other_variables (g)
 * ====================================================================
       Use Infrastructure
       implicit none
@@ -122,6 +101,9 @@
 *     <insert here>
 
 *+  Calls
+
+*+  Subroutine arguments
+      type(lateralData), pointer :: g
 
 *+  Constant Values
       character*(*) myname                 ! Name of this procedure
@@ -150,7 +132,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
 
 *     ===========================================================
-      subroutine Lateral_read_param ()
+      subroutine Lateral_read_param (g)
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -160,6 +142,9 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
 *+  Changes
 *     <insert here>
+
+*+  Subroutine arguments
+      type(lateralData), pointer :: g
 
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
@@ -179,26 +164,26 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           section_name,          ! Section header
      :           'slope',               ! Keyword
      :           '()',                  ! Units
-     :           p%slope,               ! Array
+     :           g%slope,               ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           1.0)                   ! Upper Limit for bound checking
 
       if (numvals.eq.0) then
-         p%slope = 0.0
+         g%slope = 0.0
       endif
 
       call read_real_var_optional (
      :           section_name,          ! Section header
      :           'discharge_width',        ! Keyword
      :           '(m)',                  ! Units
-     :           p%discharge_width,        ! Array
+     :           g%discharge_width,        ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           1e8)                   ! Upper Limit for bound checking
 
       if (numvals.eq.0) then
-         p%discharge_width = 0.0
+         g%discharge_width = 0.0
       endif
 
 
@@ -206,13 +191,13 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           section_name,          ! Section header
      :           'catchment_area',        ! Keyword
      :           '(m2)',                  ! Units
-     :           p%catchment_area,        ! Array
+     :           g%catchment_area,        ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           1e8)                   ! Upper Limit for bound checking
 
       if (numvals.eq.0) then
-         p%catchment_area = 0.0
+         g%catchment_area = 0.0
       endif
 
       call read_real_array_optional (
@@ -220,13 +205,13 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           'klat',                ! Keyword
      :           max_layer,             ! Array size
      :           '(mm/d)',              ! Units
-     :           p%klat,                ! Array
+     :           g%klat,                ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           1e3)                   ! Upper Limit for bound checking
 
        if (numvals.eq.0) then
-         p%klat(:) = 0.0
+         g%klat(:) = 0.0
       endif
 
       call pop_routine  (myname)
@@ -235,7 +220,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
 
 *     ===========================================================
-      subroutine Lateral_read_constants ()
+      subroutine Lateral_read_constants (g)
 *     ===========================================================
 
       Use Infrastructure
@@ -244,7 +229,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 *+  Calls
 
 *+  Sub-Program Arguments
-
+      type(lateralData), pointer :: g
 
 *+  Purpose
 *       Read all module constants.
@@ -284,12 +269,13 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Lateral_prepare ()
+       subroutine Lateral_prepare (g)
 * ====================================================================
        Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(lateralData), pointer :: g
 
 *+  Purpose
 *     <insert here>
@@ -304,7 +290,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Lateral_zero_daily_variables()
+      call Lateral_zero_daily_variables(g)
 
       call pop_routine (myname)
       return
@@ -312,7 +298,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Lateral_process (sw_dep
+       subroutine Lateral_process (g, sw_dep
      :                            ,dul_dep
      :                            ,sat_dep
      :                            ,dlayer)
@@ -321,6 +307,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
       implicit none
 
 *+  Sub-Program Arguments
+      type(lateralData), pointer :: g
       real sw_dep(*)
       real dul_dep(*)
       real sat_dep(*)
@@ -376,16 +363,16 @@ c     :              1.0)                   ! Upper Limit for bound checking
      :                              ,0.0)
          d = max(0.0,d) ! water table depth in layer must be +ve
 
-!         g%outflow_lat(layer) = p%Klat(layer)
+!         g%outflow_lat(layer) = g%Klat(layer)
 !     :                     * d
-!     :                     * (p%discharge_width/mm2m)
-!     :                     / (p%catchment_area*sm2smm)
-!     :                     * p%slope
-!     :                     /(1.0+p%slope**2)**0.5
+!     :                     * (g%discharge_width/mm2m)
+!     :                     / (g%catchment_area*sm2smm)
+!     :                     * g%slope
+!     :                     /(1.0+g%slope**2)**0.5
 
-         g%outflow_lat(layer) = divide((p%Klat(layer)* d *
-     :    (p%discharge_width/mm2m)* p%slope),((p%catchment_area*sm2smm)
-     :                     *(1.0+p%slope**2)**0.5),0.0)
+         g%outflow_lat(layer) = divide((g%Klat(layer)* d *
+     :    (g%discharge_width/mm2m)* g%slope),((g%catchment_area*sm2smm)
+     :                     *(1.0+g%slope**2)**0.5),0.0)
 
 
          ! Cannot drop sw below dul
@@ -408,13 +395,16 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Lateral_zero_daily_variables ()
+       subroutine Lateral_zero_daily_variables (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Purpose
 *     <insert here>
+
+*+  Subroutine arguments
+      type(lateralData), pointer :: g
 
 *+  Changes
 *
@@ -434,12 +424,13 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Lateral_Init ()
+       subroutine Lateral_Init (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(lateralData), pointer :: g
 
 *+  Purpose
 *      Create Lateral module
@@ -458,20 +449,21 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Lateral_zero_variables ()
-      call Lateral_read()
+      call Lateral_zero_variables (g)
+      call Lateral_read(g)
 
       call pop_routine (myname)
       return
       end subroutine
 
 * ====================================================================
-       subroutine Lateral_Read ()
+       subroutine Lateral_Read (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(lateralData), pointer :: g
 
 *+  Purpose
 *      Initialise Lateral module
@@ -490,21 +482,22 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Lateral_read_param ()
+      call Lateral_read_param (g)
 
-      call Lateral_read_constants ()
+      call Lateral_read_constants (g)
 
       call pop_routine (myname)
       return
       end subroutine
 
 * ====================================================================
-       logical function Lateral_Send_my_variable (variable_name)
+       logical function Lateral_Send_my_variable (g, variable_name)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(lateralData), pointer :: g
       character variable_name*(*)
 
 *+  Purpose
@@ -544,31 +537,3 @@ c     :              1.0)                   ! Upper Limit for bound checking
       end function
 
       end module LateralModule
-
-!     ===========================================================
-      subroutine Lateral_alloc_dealloc_instance(doAllocate)
-!     ===========================================================
-      use LateralModule
-      implicit none  
-      ml_external alloc_dealloc_instance
-
-!+  Sub-Program Arguments
-      logical, intent(in) :: doAllocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      if (doAllocate) then
-         allocate(g)
-         allocate(p)
-         allocate(c)
-      else
-         deallocate(g)
-         deallocate(p)
-         deallocate(c)
-      end if
-      return
-      end subroutine
-

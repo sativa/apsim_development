@@ -604,7 +604,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 10    continue
       if (g%Pause_current_run) then 
-         call Action_send_to_all_comps (ACTION_Idle)
+         call event_send(ACTION_Idle)
          goto 10
       endif
 

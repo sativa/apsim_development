@@ -183,7 +183,7 @@ bool Computation::loadComponent(const std::string& filename) throw (runtime_erro
                     0,
                     NULL
                     );
-      string errorMessage = ("Cannot load DLL: " + filename + ".  " + (LPTSTR) lpMsgBuf);
+      string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
       LocalFree( lpMsgBuf );
 
       throw runtime_error(errorMessage);

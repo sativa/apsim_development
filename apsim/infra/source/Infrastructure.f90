@@ -9,8 +9,6 @@ module Infrastructure
    use ComponentInterfaceModule
    use ConvertModule
    use ReadModule
-   Use InterfaceModule
-   Use PostBoxModule
-   Use EventModule
+   Use EventModule          
 end module Infrastructure
                                               

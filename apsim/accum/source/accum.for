@@ -346,6 +346,7 @@
        subroutine Main (Action, Data)
 * ====================================================================
       Use infrastructure
+      Use AccumModule
       implicit none
       ml_external Main
 

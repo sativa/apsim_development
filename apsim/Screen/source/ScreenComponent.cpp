@@ -4,6 +4,7 @@
 
 #include "ScreenComponent.h"
 #include <ComponentInterface\MessageDataExt.h>
+#include <ComponentInterface\ApsimVariant.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimComponentData.h>
 #include <ApsimShared\ApsimServiceData.h>
@@ -32,6 +33,7 @@ Component* createComponent(void)
 ScreenComponent::ScreenComponent(void)
    {
    inDiaryState = false;
+   startDateJDay = 0;
    ScreenForm = new TScreenForm(NULL);
    ScreenForm->Show();
    Application->ProcessMessages();
@@ -82,7 +84,7 @@ void ScreenComponent::getStartEndDate(void)
    {
    string st;
    protocol::Variant* variant;
-   bool ok = getVariable(startDateID, variant, true);
+   bool ok = getVariable(startDateID, variant);
    if (ok)
       {
       double num;
@@ -94,7 +96,7 @@ void ScreenComponent::getStartEndDate(void)
       d.Write(out);
       ScreenForm->StartDateLabel->Caption = out.str().c_str();
       }
-   ok = getVariable(endDateID, variant, true);
+   ok = getVariable(endDateID, variant);
    if (ok)
       {
       double num;
@@ -118,8 +120,10 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       if (startDateJDay == 0)
          getStartEndDate();
 
-      variant.unpack(currentDate);
-
+      protocol::ApsimVariant apsimVariant(variant);
+      double jday;
+      apsimVariant.get("jday", protocol::DTdouble, jday);
+      currentDate = jday;
       int percent = (currentDate - startDateJDay) * 100 / (endDateJDay - startDateJDay);
       if (percent / 5.0 == percent / 5)
          {

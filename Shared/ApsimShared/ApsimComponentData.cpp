@@ -389,7 +389,9 @@ extern "C" bool _export __stdcall ApsimComponentData_getProperty
     const FString& name,
     FString& value)
    {
-   value = componentData->getProperty(asString(propertyType), asString(name)).c_str();
+   string lowerValue = componentData->getProperty(asString(propertyType), asString(name));
+   strlwr((char*)lowerValue.c_str());
+   value = lowerValue.c_str();
    return (value.length() > 0);
    }
 extern "C" void _export __stdcall ApsimComponentData_getRuleNames

@@ -67,7 +67,7 @@ module ConstantsModule
    integer, parameter :: max_year = 2200
 
    character (len=*), parameter :: All_active_modules ='act_mods'
-   character (len=*), parameter :: Unknown_module = 'unk_mod'
+   integer, parameter           :: Unknown_module = 0
    character (len=*), parameter :: First_active_module = 'unk_mod'
 
    ! Smallest number considered to be zero
@@ -191,6 +191,9 @@ module ConstantsModule
       character DATA_year *(*)      ! data name for year
       parameter (DATA_year = 'year')
       character DATA_time *(*)      ! data name for time of day
+      character DATA_jday *(*)      ! data name for julian day number
+      parameter (DATA_jday = 'jday')
+     
       parameter (DATA_time = 'time')
       character DATA_timestep *(*)  ! data name for timestep
       parameter (DATA_timestep = 'timestep')

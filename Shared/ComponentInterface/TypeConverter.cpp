@@ -89,7 +89,7 @@ class StringFromDouble : public TypeConverter
          messageData >> value;
          char st[100];
          sprintf(st, "%10.3f", value);
-         bufferMessageData << FString(st, strlen(st));
+         bufferMessageData << FString(st);
          }
       virtual TypeConverter* clone(void)
          {

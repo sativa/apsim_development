@@ -39,7 +39,8 @@ enum MessageType
    ReturnInfo = 28,
    ReturnType = 29,
    ReturnValue = 30,
-   TerminateSimulation = 31
+   TerminateSimulation = 31,
+   ApsimQuery = 41
    };
 
 

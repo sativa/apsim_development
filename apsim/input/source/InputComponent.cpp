@@ -5,6 +5,7 @@
 #include "InputComponent.h"
 #include <ApsimShared\ApsimComponentData.h>
 #include <ComponentInterface\MessageDataExt.h>
+#include <ComponentInterface\ApsimVariant.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\date_class.h>
@@ -346,9 +347,10 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    {
    if (eventID == tickID)
       {
-      int jday;
-      variant.unpack(jday);
-      
+      protocol::ApsimVariant apsimVariant(variant);
+      double jday;
+      apsimVariant.get("jday", protocol::DTdouble, jday);
+
       todaysDate = jday;
       if (!advanceToTodaysData() && !allowSparseData)
          {

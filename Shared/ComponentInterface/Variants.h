@@ -46,7 +46,10 @@ class Variants
 
       Variant* getVariant(unsigned int variantIndex)
          {
-         return variants[variantIndex];
+         if (variantIndex < variants.size())
+            return variants[variantIndex];
+         else
+            return NULL;
          }
       void setTypeConverter(TypeConverter* typeConv)
          {

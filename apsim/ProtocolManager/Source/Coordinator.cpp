@@ -331,8 +331,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
       if (posPeriod != string::npos)
          {
          componentName = regName.substr(0, posPeriod);
-         destID = componentNameToID(componentName);
-         regName.erase(0, posPeriod+1);
+         regName = regName.substr(posPeriod+1, regName.length()-posPeriod);
          }
 
       PMRegistrationItem* regItem = new PMRegistrationItem(regName,
@@ -343,7 +342,10 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
                                                            registerData.ID);
       registrations->insert(ComponentAlias::Registrations::value_type(registerData.ID, regItem));
       if (afterInit2)
+         {
+         fixupRegistrationID(*regItem);
          resolveRegistration(regItem);
+         }
       }
    }
 
@@ -439,6 +441,12 @@ void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueD
    else
       {
       PMRegistrationItem& registrationItem = *i->second;
+
+      // apsim hack to poll modules for variables.  This is because we haven't
+      // yet got all the .interface files up to date.
+      if (registrationItem.interestedItems.size() == 0)
+         pollComponentsForVariable(registrationItem);
+
       for (PMRegistrationItem::InterestedItems::iterator
                                      interestI = registrationItem.interestedItems.begin();
                                      interestI != registrationItem.interestedItems.end();
@@ -610,6 +618,7 @@ void Coordinator::resolveRegistration(PMRegistrationItem* reg)
 void Coordinator::resolveRegistrations(void)
    {
    fixupRegistrationIDs(getVariableReg);
+   fixupRegistrationIDs(methodCallReg);
    fixupRegistrationIDs(respondToGetReg);
 
    // loop through all registrations in all components.
@@ -681,7 +690,7 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
 // ------------------------------------------------------------------
 // Fixup all registration destID's.
 // ------------------------------------------------------------------
-void Coordinator::fixupRegistrationIDs(protocol::RegistrationType& type)
+void Coordinator::fixupRegistrationIDs(const protocol::RegistrationType& type)
    {
    for (unsigned c = 0; c < components.size(); c++)
       {
@@ -691,17 +700,55 @@ void Coordinator::fixupRegistrationIDs(protocol::RegistrationType& type)
                                                    regI != registrations->end();
                                                    regI++)
          {
-         // convert all component names to ID's
-         if (regI->second->destID == INT_MAX && regI->second->componentName != "")
+         fixupRegistrationID(*regI->second);
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// fixup registration ID for the specified registration
+// ------------------------------------------------------------------
+void Coordinator::fixupRegistrationID(PMRegistrationItem& registrationItem)
+   {
+   // convert all component names to ID's
+   if (registrationItem.destID == 0 && registrationItem.componentName != "")
+      {
+      unsigned id = componentNameToID(registrationItem.componentName);
+      if (id != INT_MAX)
+         registrationItem.destID = id;
+      else
+         {
+         registrationItem.name = registrationItem.componentName + "." + registrationItem.name;
+         registrationItem.destID = 0;
+         }
+      }
+   }
+// ------------------------------------------------------------------
+// apsim hack to poll modules for variables.  This is because we haven't
+// yet got all the .interface files up to date.
+// ------------------------------------------------------------------
+void Coordinator::pollComponentsForVariable(PMRegistrationItem& registrationItem)
+   {
+   static unsigned lastModuleID = 0;
+
+   // try the last responding module first
+   if (lastModuleID != NULL)
+      sendMessage(newApsimQueryMessage(componentID,
+                                       lastModuleID,
+                                       registrationItem.getName().c_str()));
+
+   // if we still don't have any registrations then loop through all modules.
+   if (registrationItem.interestedItems.size() == 0)
+      {
+      for (Components::iterator i = components.begin();
+                                i != components.end();
+                                i++)
+         {
+         sendMessage(newApsimQueryMessage(componentID, i->second->ID,
+                                          registrationItem.getName().c_str()));
+         if (registrationItem.interestedItems.size() != 0)
             {
-            unsigned id = componentNameToID(regI->second->componentName);
-            if (id != INT_MAX)
-               regI->second->destID = id;
-            else
-               {
-               regI->second->name = regI->second->componentName + "." + regI->second->name;
-               regI->second->destID = 0;
-               }
+            lastModuleID = i->second->ID;
+            return;
             }
          }
       }

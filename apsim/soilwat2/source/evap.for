@@ -15,7 +15,7 @@
 
 
 ! ===========================================================================
-      type EvapGlobals
+      type EvapData
 ! ===========================================================================
          sequence
          integer num_layers
@@ -23,45 +23,22 @@
          real    air_dry_dep(max_layer)
          real    dul_dep(max_layer)
          real    swf(max_layer)
-
-      end type EvapGlobals
-! ===========================================================================
-      type EvapParameters
-! ===========================================================================
-         sequence
          real max_evap_depth
-         real max_evap
+         real max_evap        
          real first_stage_evap
-
-      end type EvapParameters
-
-! ===========================================================================
-      type EvapConstants
-! ===========================================================================
-         sequence
          real evap_swf_curvature
          real relative_evap(max_table)
          real relative_swc(max_table)
          integer num_relative_swc
-      end type EvapConstants
-! ===========================================================================
-!      Module-Level Variables
-! ===========================================================================
-
-      ! instance variables.
-      common /InstancePointers/ ID,g,p,c
-      save InstancePointers
-      type (EvapGlobals),pointer :: g
-      type (EvapParameters),pointer :: p
-      type (EvapConstants),pointer :: c
-
+      end type EvapData
 
 ! ===========================================================================
 !      Module Source Code
 ! ===========================================================================
 
 ! Public Interface to Module
-! ==========================
+! ========================== 
+      public EvapData
       public Evap_alloc_dealloc_instance
       public Evap_Create
       public Evap_Init
@@ -71,16 +48,18 @@
 
       contains
 
-
 * ====================================================================
-       subroutine Evap_zero_variables ()
+       subroutine Evap_zero_variables (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Purpose
 *     Set all variables in this module to zero.
-
+                   
+*+  Sub-Program Arguments
+      type(evapData), pointer :: g
+                   
 *+  Changes
 *     <insert here>
 
@@ -97,8 +76,8 @@
       ! Parameters
       ! ==========
 
-         p%max_evap_depth = 0.0
-         p%max_evap = 0.0
+         g%max_evap_depth = 0.0
+         g%max_evap = 0.0
 
       ! Globals
       ! =======
@@ -111,10 +90,10 @@
 
       ! Constants
       ! =========
-        c%evap_swf_curvature = 0
-        c%relative_evap(:) = 0
-        c%relative_swc(:) = 0
-        c%num_relative_swc = 0
+        g%evap_swf_curvature = 0
+        g%relative_evap(:) = 0
+        g%relative_swc(:) = 0
+        g%num_relative_swc = 0
 
       call pop_routine (myname)
       return
@@ -123,13 +102,16 @@
 
 
 * ====================================================================
-       subroutine Evap_get_other_variables ()
+       subroutine Evap_get_other_variables (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Purpose
 *      Get the values of variables from other modules
+
+*+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 *+  Changes
 *     <insert here>
@@ -163,13 +145,16 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
 
 *     ===========================================================
-      subroutine Evap_read_param ()
+      subroutine Evap_read_param (g)
 *     ===========================================================
       Use Infrastructure
       implicit none
 
 *+  Purpose
 *       Read all module parameters.
+
+*+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 *+  Changes
 *     <insert here>
@@ -192,7 +177,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           section_name,          ! Section header
      :           'max_evap_depth',      ! Keyword
      :           '(mm)',                ! Units
-     :           p%max_evap_depth,      ! Array
+     :           g%max_evap_depth,      ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           1000.)                 ! Upper Limit for bound checking
@@ -201,7 +186,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           section_name,          ! Section header
      :           'max_evap',            ! Keyword
      :           '(mm)',                ! Units
-     :           p%max_evap,            ! Array
+     :           g%max_evap,            ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           100.)                  ! Upper Limit for bound checking
@@ -210,7 +195,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :           section_name,          ! Section header
      :           'first_stage_evap',    ! Keyword
      :           '(mm)',                ! Units
-     :           p%first_stage_evap,    ! Array
+     :           g%first_stage_evap,    ! Array
      :           numvals,               ! Number of values returned
      :           0.0,                   ! Lower Limit for bound checking
      :           100.)                  ! Upper Limit for bound checking
@@ -221,7 +206,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
 
 *     ===========================================================
-      subroutine Evap_read_constants ()
+      subroutine Evap_read_constants (g)
 *     ===========================================================
 
       Use Infrastructure
@@ -230,6 +215,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 *+  Calls
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 
 *+  Purpose
@@ -258,7 +244,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :              section_name,          ! Section header
      :              'evap_swf_curvature', ! Keyword
      :              '(m)',                 ! Units
-     :              c%evap_swf_curvature, ! Variable
+     :              g%evap_swf_curvature, ! Variable
      :              numvals,               ! Number of values returned
      :              0.0,                   ! Lower Limit for bound checking
      :              1.0)                   ! Upper Limit for bound checking
@@ -268,8 +254,8 @@ c     :              section_name,          ! Section header
 c     :              'relative_evap',       ! Keyword
 c     :              max_table,             ! array size
 c     :              '(mm/mm)',             ! Units
-c     :              c%relative_evap,       ! Variable
-c     :              c%num_relative_swc,    ! Number of values returned
+c     :              g%relative_evap,       ! Variable
+c     :              g%num_relative_swc,    ! Number of values returned
 c     :              0.0,                   ! Lower Limit for bound checking
 c     :              1.0)                   ! Upper Limit for bound checking
 c
@@ -278,8 +264,8 @@ c     :              section_name,          ! Section header
 c     :              'relative_swc',        ! Keyword
 c     :              max_table,             ! array size
 c     :              '(mm/mm)',             ! Units
-c     :              c%relative_swc,        ! Variable
-c     :              c%num_relative_swc,    ! Number of values returned
+c     :              g%relative_swc,        ! Variable
+c     :              g%num_relative_swc,    ! Number of values returned
 c     :              0.0,                   ! Lower Limit for bound checking
 c     :              1.0)                   ! Upper Limit for bound checking
 
@@ -290,12 +276,13 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Evap_prepare ()
+       subroutine Evap_prepare (g)
 * ====================================================================
        Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 *+  Purpose
 *     <insert here>
@@ -317,7 +304,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Evap_process (sw_dep
+       subroutine Evap_process (g, sw_dep
      :                            ,surface_water
      :                            ,Infiltration
      :                            ,eo
@@ -328,6 +315,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
       implicit none
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
       real sw_dep(*)
       real surface_water
       real Infiltration
@@ -368,7 +356,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Evap_get_other_variables ()
+      call Evap_get_other_variables (g)
 
       if (surface_Water.gt.0.0) then
          call warning_error(err_internal
@@ -379,7 +367,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
       profile_depth = sum_real_array (g%dlayer, g%num_layers)
 
-      max_evap_depth = min (p%max_evap_depth
+      max_evap_depth = min (g%max_evap_depth
      :                     ,profile_depth)
 
       max_evap_layer = find_layer_no (max_evap_depth
@@ -400,7 +388,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
       soil_Fact = min(1.0
      :               ,0.05
-     :               +(min(1.0,p%max_evap/eo)-0.05)
+     :               +(min(1.0,g%max_evap/eo)-0.05)
      :                  * avg_rwc**2)
       soil_fact = bound(soil_Fact,0.0,1.0)
 
@@ -414,11 +402,11 @@ c     :              1.0)                   ! Upper Limit for bound checking
       relative_evap = 1.0/resistance
       evap = eo*relative_evap
 
-      evap = min(p%max_evap, evap)
+      evap = min(g%max_evap, evap)
 
       if (infiltration.gt.0.0) then
          RainEvap = infiltration
-         RainEvap = min(p%max_evap,RainEvap,eos)
+         RainEvap = min(g%max_evap,RainEvap,eos)
          if (RainEvap.gt.Evap) then
             Evap = RainEvap
          endif
@@ -454,7 +442,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Evap_zero_daily_variables ()
+       subroutine Evap_zero_daily_variables (g)
 * ====================================================================
       Use Infrastructure
       implicit none
@@ -462,7 +450,11 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *+  Purpose
 *     <insert here>
 
-*+  Changes
+*+  Changes                                   
+
+*+  Sub-Program Arguments
+      type(evapData), pointer :: g
+
 *
 
 *+  Constant Values
@@ -479,12 +471,13 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Evap_Create ()
+       subroutine Evap_Create (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 *+  Purpose
 *      Create Evap module
@@ -503,18 +496,19 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Evap_zero_variables ()
+      call Evap_zero_variables (g)
 
       call pop_routine (myname)
       return
       end subroutine
 * ====================================================================
-       subroutine Evap_Init (num_layers,dlayer,air_dry_dep,dul_dep)
+       subroutine Evap_Init (g, num_layers,dlayer,air_dry_dep,dul_dep)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
       integer num_layers
       real dlayer(*)
       real air_dry_dep(*)
@@ -542,9 +536,9 @@ c     :              1.0)                   ! Upper Limit for bound checking
       g%air_dry_dep(1:num_layers) = air_dry_dep(1:num_layers)
       g%dul_dep(1:num_layers) = dul_dep(1:num_layers)
 
-      call Evap_get_other_variables ()
+      call Evap_get_other_variables (g)
 
-      call Evap_init_calc ()
+      call Evap_init_calc (g)
 
 
       call pop_routine (myname)
@@ -552,12 +546,13 @@ c     :              1.0)                   ! Upper Limit for bound checking
       end subroutine
 
 * ====================================================================
-       subroutine Evap_Read ()
+       subroutine Evap_Read (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 *+  Purpose
 *      Initialise Evap module
@@ -576,21 +571,24 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Evap_read_param ()
+      call Evap_read_param (g)
 
-      call Evap_read_constants ()
+      call Evap_read_constants (g)
 
       call pop_routine (myname)
       return
       end subroutine
 
 * ====================================================================
-       subroutine Evap_init_calc ()
+       subroutine Evap_init_calc (g)
 * ====================================================================
       Use Infrastructure
       implicit none
 
 *+  Calls
+
+*+  Sub-Program Arguments
+      type(evapData), pointer :: g
 
 *+  Purpose
 *      Perform initialisation calculations
@@ -613,7 +611,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call evap_space_weighting_factor(g%swf)
+      call evap_space_weighting_factor(g, g%swf)
 
       do layer = 1,g%num_layers
 
@@ -628,13 +626,14 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
 
 * ====================================================================
-       subroutine Evap_space_weighting_factor (evap_swf)
+       subroutine Evap_space_weighting_factor (g, evap_swf)
 * ====================================================================
 
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
+      type(evapData), pointer :: g
       real    evap_swf(*)              ! (OUTPUT) weighting factor for evaporation
 
 *+  Purpose
@@ -682,7 +681,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
       profile_depth = sum_real_array (g%dlayer, g%num_layers)
 
-      max_evap_depth = min (p%max_evap_depth
+      max_evap_depth = min (g%max_evap_depth
      :                     ,profile_depth)
 
 
@@ -690,7 +689,7 @@ c     :              1.0)                   ! Upper Limit for bound checking
      :                               , g%dlayer
      :                               , g%num_layers)
 
-      if (c%evap_swf_curvature.eq.0.0) then
+      if (g%evap_swf_curvature.eq.0.0) then
 
          do 100 layer = 1, max_evap_layer
             evap_swf(layer) = divide(g%dlayer(layer)
@@ -700,12 +699,12 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
       else
 
-         scale_fact = 1.0/(1.0 - exp(-c%evap_swf_curvature))
+         scale_fact = 1.0/(1.0 - exp(-g%evap_swf_curvature))
          do 200 layer = 1, max_evap_layer
             cum_depth = cum_depth + g%dlayer(layer)
             cum_depth = u_bound (cum_depth, max_evap_depth)
 
-            wx = scale_fact * (1.0 - exp( - c%evap_swf_curvature
+            wx = scale_fact * (1.0 - exp( - g%evap_swf_curvature
      :                                 * divide (cum_depth
      :                                          , max_evap_depth
      :                                          , 0.0)))
@@ -729,30 +728,4 @@ c     :              1.0)                   ! Upper Limit for bound checking
 
       end module EvapModule
 
-!     ===========================================================
-      subroutine Evap_alloc_dealloc_instance(doAllocate)
-!     ===========================================================
-      use EvapModule
-      implicit none  
-      ml_external alloc_dealloc_instance
-
-!+  Sub-Program Arguments
-      logical, intent(in) :: doAllocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      if (doAllocate) then
-         allocate(g)
-         allocate(p)
-         allocate(c)
-      else
-         deallocate(g)
-         deallocate(p)
-         deallocate(c)
-      end if
-      return
-      end subroutine
 

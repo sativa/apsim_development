@@ -2,10 +2,9 @@
 Dependency = %licensed_source(manager)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
-datatypesmodule.f90 = datatypesmodule.f90
+ComponentInterface.f90 = ComponentInterface.f90
 manager.for = manager.for
 
 [APSBuild]
 binary = ..\lib\manager.dll
-moduletype = module
+compilerfile=release.compile

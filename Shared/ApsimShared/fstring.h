@@ -73,6 +73,7 @@ class FString
                   strncmpi(f_str(), rhs.f_str(), length()) == 0);}
       bool operator!= (const FString& rhs) const
          {return !(*this == rhs);}
+      char operator[] (unsigned index) {return text[index];}
       FString& operator= (const FString& rhs)
          {
          if (canModify)
