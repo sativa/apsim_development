@@ -4,7 +4,6 @@
 
 #include <string>
 #include <vector>
-#include <boost\lexical_cast.hpp>
 class IniFile;
 // ------------------------------------------------------------------
 // This class looks after all storing of apsim settings.
@@ -24,8 +23,8 @@ class __declspec(dllexport) ApsimSettings
       //    section1|section2|...|keyvalue.
       // Will throw if key value cannot be converted to int or double.
       void read(const std::string& key, std::string& value, bool replaceMacros = false) const;
-      void read(const std::string& key, int& value) const throw(boost::bad_lexical_cast);
-      void read(const std::string& key, double& value) const throw(boost::bad_lexical_cast);
+      void read(const std::string& key, int& value) const;
+      void read(const std::string& key, double& value) const;
       void read(const std::string& key, std::vector<std::string>& values, bool replaceMacros = false) const;
 
       // Write a setting for the specified key.

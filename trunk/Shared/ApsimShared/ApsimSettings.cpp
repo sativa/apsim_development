@@ -5,6 +5,7 @@
 
 #include "ApsimSettings.h"
 #include "ApsimDirectories.h"
+#include <boost\lexical_cast.hpp>
 #include <general\inifile.h>
 #include <general\path.h>
 #include <sstream>
@@ -70,7 +71,7 @@ void ApsimSettings::read(const std::string& key, std::string& value,
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const string& key, int& value) const throw(bad_lexical_cast)
+void ApsimSettings::read(const string& key, int& value) const
    {
    string stringValue;
    read(key, stringValue);
@@ -79,7 +80,7 @@ void ApsimSettings::read(const string& key, int& value) const throw(bad_lexical_
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const string& key, double& value) const throw(bad_lexical_cast)
+void ApsimSettings::read(const string& key, double& value) const
    {
    string stringValue;
    read(key, stringValue);
