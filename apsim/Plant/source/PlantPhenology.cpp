@@ -748,7 +748,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          {
       	dltStage = 1.0;
          }
-      phase_devel = dltStage;
+      phase_devel = 1.999;
       new_stage = currentStage + dltStage;
       }
    else if (inPhase("germination"))
@@ -1280,14 +1280,14 @@ void LegumePhenology::zeroEverything(void)
 void LegumePhenology::writeCultivarInfo (PlantComponent *systemInterface)
    {
    string s;
-   s =  "   est_days_emerg_to_init     = " + itoa(est_days_emerg_to_init) + "(days)\n";
+   s =  "   est_days_emerg_to_init     = " + itoa(est_days_emerg_to_init) + " (days)\n";
    s += tt_emerg_to_endjuv.description();
    s += tt_endjuv_to_init.description();
    s += tt_init_to_flower.description();
    s += tt_flower_to_start_grain.description();
    s += tt_start_to_end_grain.description();
-   s += "   tt_end_grain_to_maturity   = " + ftoa(tt_end_grain_to_maturity, "10.2") + "(dd)\n";
-   s += "   tt_maturity_to_ripe        = " + ftoa(tt_maturity_to_ripe, "10.2") + "(dd)\n";
+   s += "   tt_end_grain_to_maturity   = " + ftoa(tt_end_grain_to_maturity, "10.0") + " (dd)\n";
+   s += "   tt_maturity_to_ripe        = " + ftoa(tt_maturity_to_ripe, "10.0") + " (dd)";
    systemInterface->writeString (s.c_str());
    }
 
@@ -1305,7 +1305,7 @@ void LegumePhenology::process(const environment_t &e, const pheno_stress_t &ps)
       {
       dlt_tt_phenol = dlt_tt;
       // can't germinate on same day as sowing, because we would miss out on
-      // day of sowing elsewhere.
+      // day of sowing elsewhere. 
       if (das == 0)
          {
          dltStage = 0.0;
@@ -1401,7 +1401,6 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       float b =  current.getTTTarget();
       phase_devel = divide(a, b, 1.0);
       new_stage = floor(currentStage) + phase_devel;
-//fprintf(stdout, "%.6f, %.6f, %.6f, %.6f\n", a, b, currentStage, phase_devel);     
       }
    else if (inPhase("emergence2floral_initiation"))
       {
@@ -1411,7 +1410,6 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       float b =  current.getTTTarget();
       phase_devel = divide(a, b, 1.0);
       new_stage = floor(currentStage) + phase_devel;
-//fprintf(stdout, "%.6f, %.6f, %.6f, %.6f\n", a, b, currentStage, phase_devel);     
       }
     else if (inPhase("flowering"))
       {
