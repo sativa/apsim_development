@@ -93,7 +93,7 @@ bool getXLSRow(ExcelWorksheetPtr worksheet, int row, vector<string>& values)
          Variant variantValue = VarArrayGet(farray, indexes, 1);
          AnsiString value = variantValue;
          string strippedValue = value.c_str();
-         Strip(strippedValue, " ");
+         stripLeadingTrailing(strippedValue, " ");
          values.push_back(strippedValue);
          }
       }

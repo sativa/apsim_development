@@ -249,7 +249,7 @@ void Path::Set_path (const string& New_path)
    if (New_path.length() > 0)
       {
       string New_path_string(New_path);
-      Strip (New_path_string, " ");
+      stripLeadingTrailing(New_path_string, " ");
 
       // remove drive part of path.
       size_t Pos_drive = New_path_string.find(":");
