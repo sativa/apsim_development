@@ -43,6 +43,8 @@ module ComponentInterfaceModule
    dll_import ei_broadcastaction
    dll_import ei_sendaction
    dll_import ei_publishevent
+   dll_import ei_registersubscribedevent
+   dll_import ei_registerpublishedevent
    dll_import ei_changecomponentorder
    dll_import screen_writepercentcomplete
    dll_import apsimsystem_callstack_push
@@ -110,6 +112,16 @@ module ComponentInterfaceModule
       integer, intent(in)           :: eventInterface
       character (len=*), intent(in) :: eventName
       end subroutine ei_publishevent
+
+      subroutine ei_registersubscribedevent(eventInterface, eventName)
+      integer, intent(in)           :: eventInterface
+      character (len=*), intent(in) :: eventName
+      end subroutine ei_registersubscribedevent
+
+      subroutine ei_registerpublishedevent(eventInterface, eventName)
+      integer, intent(in)           :: eventInterface
+      character (len=*), intent(in) :: eventName
+      end subroutine ei_registerpublishedevent
 
       subroutine ei_changecomponentorder(eventInterface, components, numComponents)
       integer, intent(in)           :: eventInterface
