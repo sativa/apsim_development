@@ -32,8 +32,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimOutlook.cpp"/>
-    <INCLUDEPATH value="&quot;c:\program files\borland\components\thirdparty&quot;;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;&quot;j:\thirdparty\&quot;"/>
-    <LIBPATH value="&quot;c:\program files\borland\components\thirdparty&quot;;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;&quot;j:\Thirdparty\&quot;"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;&quot;j:\thirdparty\&quot;"/>
+    <LIBPATH value="$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;&quot;j:\Thirdparty\&quot;"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
@@ -78,17 +78,21 @@ ProductVersion=1.2
 Comments=Build date: 5 October 1998
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
-Item1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
-Item2=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
+Count=5
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;K:\general\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item1=c:\program files\borland\components\thirdparty;K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item2=K:\general\;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item3=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
+Item4=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=4
-Item0=..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
-Item1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\
-Item2=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
-Item3=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Count=6
+Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item1=c:\program files\borland\components\thirdparty;..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item2=..\OutlookDevelopment\Outlook\Source\Outlook;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\data\;k:\components\general\;j:\tb97\;j:\rx\units\;j:\Thirdparty\
+Item3=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\
+Item4=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\lib\obj;$(BCB)\lib
+Item5=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
