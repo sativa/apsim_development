@@ -67,11 +67,13 @@ class __declspec(dllexport) ApsimControlFile
       void setParameterValues(const string& moduleName,
                               const string& sectionName,
                               const string& parameterName,
-                              const vector<string>& parameterValues) const throw(std::runtime_error);
+                              const vector<string>& parameterValues,
+                              const string& filename = "") const throw(std::runtime_error);
       void setParameterValue(const string& moduleName,
                              const string& sectionName,
                              const string& parameterName,
-                             const string& parameterValue) const throw(std::runtime_error);
+                             const string& parameterValue,
+                             const string& filename = "") const throw(std::runtime_error);
 
       // Return a list of all parameter values for the specified module
       // and parameter name.

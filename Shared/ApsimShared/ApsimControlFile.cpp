@@ -398,7 +398,8 @@ string ApsimControlFile::getParameterValue(const string& instanceName,
 void ApsimControlFile::setParameterValues(const string& moduleName,
                                           const string& sectionName,
                                           const string& parameterName,
-                                          const vector<string>& parameterValues) const throw(std::runtime_error)
+                                          const vector<string>& parameterValues,
+                                          const string& suggestedFileName) const throw(std::runtime_error)
    {
    if (moduleName == "")
       {
@@ -418,6 +419,8 @@ void ApsimControlFile::setParameterValues(const string& moduleName,
          getDefaultParFileAndSection(defaultFile, defaultSection);
          if (sectionName != "")
             defaultSection = sectionName;
+         if (suggestedFileName != "")
+            defaultFile = suggestedFileName;
 
          // write new module= line to control file.
          vector<string> moduleLines;
@@ -443,11 +446,12 @@ void ApsimControlFile::setParameterValues(const string& moduleName,
 void ApsimControlFile::setParameterValue(const string& moduleName,
                                          const string& sectionName,
                                          const string& parameterName,
-                                         const string& parameterValue) const throw(std::runtime_error)
+                                         const string& parameterValue,
+                                         const string& fileName) const throw(std::runtime_error)
    {
    vector<string> values;
    values.push_back(parameterValue);
-   setParameterValues(moduleName, sectionName, parameterName, values);
+   setParameterValues(moduleName, sectionName, parameterName, values, fileName);
    }
 // ------------------------------------------------------------------
 // Create a SIM file for the specified section and return its filename.
@@ -573,7 +577,6 @@ void ApsimControlFile::removeSelfReferences(const std::string& parFileForConPara
    controlFile.read(section, "module", moduleLines);
 
    // loop through all module lines
-   bool needToRewrite = false;
    vector<string> lines;
    for (vector<string>::const_iterator moduleLineI = moduleLines.begin();
                                        moduleLineI != moduleLines.end();
@@ -582,32 +585,24 @@ void ApsimControlFile::removeSelfReferences(const std::string& parFileForConPara
       vector<ParamFile> paramFiles;
       parseModuleLine(fileName, *moduleLineI, paramFiles, false);
 
-      for (unsigned p = 0; p != paramFiles.size() && !needToRewrite; ++p)
+      string line;
+      line += paramFiles[0].moduleName;
+      if (paramFiles[0].moduleName != paramFiles[0].instanceName)
+         line += "(" + paramFiles[0].instanceName + ")";
+      for (unsigned p = 0; p != paramFiles.size(); ++p)
          {
+         line += " ";
          if (paramFiles[p].fileName == fileName)
-            needToRewrite = true;
+            line += parFileForConParams;
+         else if (paramFiles[p].fileName != "")
+            line += paramFiles[p].fileName;
+         if (paramFiles[p].sectionName != "")
+            line += "[" + paramFiles[p].sectionName + "]";
          }
-      if (needToRewrite)
-         {
-         string line;
-         line += paramFiles[0].moduleName;
-         if (paramFiles[0].moduleName != paramFiles[0].instanceName)
-            line += "(" + paramFiles[0].instanceName + ")";
-         for (unsigned p = 0; p != paramFiles.size(); ++p)
-            {
-            line += " ";
-            if (paramFiles[p].fileName == fileName)
-               line += parFileForConParams;
-            else if (paramFiles[p].fileName != "")
-               line += paramFiles[p].fileName;
-            if (paramFiles[p].sectionName != "")
-               line += "[" + paramFiles[p].sectionName + "]";
-            }
-         lines.push_back(line);
-         }
+      lines.push_back(line);
       }
-   if (lines.size() > 0)
-      controlFile.write(section, "module", lines);
+   ApsimParameterFile con(fileName, "", "", section);
+   con.setParamValues("module", lines);
    }
 // ------------------------------------------------------------------
 // Return the version number as an integer
