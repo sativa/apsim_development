@@ -107,12 +107,12 @@ reduce_status = 0
 [early.manager.start_of_day]
 if ((year = 1993) and (day = 1)) then
 !soiln2 set no3 = 1 2 3 4 5 6 7
-soiln2 incorp_fom dlt_fom_wt=1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0,dlt_fom_cnr=30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
+soiln2 add_roots dlt_fom_wt=1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0,dlt_fom_cnr=30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
 endif
 
 [late.manager.start_of_day]
 if ((year = 1994) and (day = 1)) then
-soiln2 incorp_fom dlt_fom_wt=1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0,dlt_fom_cnr=30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
+soiln2 add_roots dlt_fom_wt=1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0,dlt_fom_cnr=30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
 endif
 
 [all.manager.start_of_day]
@@ -698,7 +698,7 @@ endif
 ! Lucerne removal: chemically removed 4-5 weeks prior to sowing of crop - assume 40 days, no removal of residue or burn
 ! Only the 2L96 and the 3L96 were disced just prior to sowing (Hirth et al 2001)
 ! highly winter-active lucerne cv Pioneer L69 - replaced by trifecta
-! wheat: Trticum aestivum cv Katunga, cv Swift, cv Goldmark
+! wheat: Trticum aestivum cv Katunga, cv Swift, cv Gold*mark
 ! lupin: Lupinus angustifolius cv Gungurru
 ! canola: Brassica napus cv Oscar, cv Pinnaccle
 
