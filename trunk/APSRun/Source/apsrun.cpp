@@ -6,6 +6,7 @@
 #include <aps\APSIMCONSimulationCollection.h>
 #include <general\string_functions.h>
 #include <general\stristr.h>
+#include <general\path.h>
 #include <fstream>
 #include <dos.h>
 #include "TAPSIMRunForm.h"
@@ -55,7 +56,9 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
       else if (stristr(_argv[1], ".sim") != NULL)
          {
          simulations = new APSIMSimulationCollection;
-         simulations->addSimulation(new APSIMSimulation(_argv[1]));
+         Path simPath(_argv[1]);
+         simulations->addSimulation(new APSIMSimulation
+            (simPath.Get_name_without_ext(), simPath.Get_path()));
          }
 
       try
