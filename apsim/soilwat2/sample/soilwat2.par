@@ -5,9 +5,9 @@
                     !                                         >1 = input by user)
    u = 8 (mm)       ! stage 1 soil evaporation coefficient (mm)
 
-   runoff_filename =blank ! runoff predicted using CN2
+   runoff_filename =blank ! runoff predicted using CN2_bare
 
-   cn2    = 73 ()   ! runoff curve number for BARE soil at AMC2
+   cn2_bare    = 73 ()   ! runoff curve number for BARE soil at AMC2
 
  ! CN2b CN_red CN_cov
  !  73   20     0.8   - cultivated cracking clays & black earths (eg. greenmount & capella)
@@ -18,7 +18,7 @@
  !  94   28     0.8   - hard setting red brown earths (eg ICRASAT & Tippera)
  !  94   42     0.8   - hard set pasture solodics
 
-   cn_red = 20 ()   ! reduction in CN2 for "cn_cov" increase in cover 
+   cn_red = 20 ()   ! reduction in CN2_bare for "cn_cov" increase in cover 
    cn_cov = 0.8 ()  ! frac. cover for "cn_red" reduction in cover 
                     ! & max. cover for reduction 
    cn_canopy_fact = 1.0 () !  1.0 = canopy cover is fully effective in reducing runoff
