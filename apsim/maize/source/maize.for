@@ -1,3 +1,4 @@
+C     Last change:  E    16 Nov 1999    3:05 pm
       include 'Maize.inc'
 
 *     ===========================================================
@@ -5675,6 +5676,7 @@ cpsc need to develop leaf senescence functions for crop
 *+  Changes
 *      5/9/96 dph
 *     970318 slw new template version
+*     991116 ew changed the crop_dm_senescence0 call
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5694,7 +5696,8 @@ cpsc need to develop leaf senescence functions for crop
      .          g%dlt_slai,
      .          g%dm_green,
      .          g%lai,
-     .          g%dlt_dm_senesced)
+     .          g%dlt_dm_senesced,
+     .          g%dlt_dm_sen_retrans)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5842,6 +5845,7 @@ cpsc need to develop leaf senescence functions for crop
      .          g_dm_dead,
      .          g_dlt_dm_green,
      .          g_dlt_dm_green_retrans,
+     .          g_dlt_dm_sen_retrans,
      .          g_dlt_dm_senesced,
      .          g_dlt_dm_detached,
      .          g_dm_senesced,
@@ -5946,6 +5950,7 @@ cpsc need to develop leaf senescence functions for crop
        real g_dm_dead(*)
        real g_dlt_dm_green(*)
        real g_dlt_dm_green_retrans(*)
+       real g_dlt_dm_sen_retrans(*)
        real g_dlt_dm_senesced(*)
        real g_dlt_dm_detached(*)
        real g_dm_senesced(*)
@@ -6028,6 +6033,7 @@ cpsc need to develop leaf senescence functions for crop
 
 *+  Changes
 *      250894 jngh specified and programmed
+*      161199 ew added dlt_dm_sen_retrans
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6122,6 +6128,8 @@ cpsc need to develop leaf senescence functions for crop
  
       call add_real_array (g_dlt_dm_senesced, g_dm_senesced
      :                   , max_part)
+      call subtract_real_array (g_dlt_dm_sen_retrans, g_dm_senesced
+     :                        , max_part)
       call subtract_real_array (g_dlt_dm_detached, g_dm_senesced
      :                        , max_part)
  
