@@ -1,9 +1,173 @@
-C     Last change:  E    26 Jan 2000   12:10 pm
+C     Last change:  E     3 Apr 2000    4:09 pm
 
        INCLUDE 'CropMod.inc'
 
 *=======================================================================
       subroutine sunf_process ()
+*=======================================================================
+*+  Purpose
+*       Simulate crop processes.  These include biomass production,
+*       phenological stages, plant component development,
+*       water uptake and nitrogen uptake, and plant senescense.
+
+*+  Changes
+*      250894 sc   specified and programmed
+*=======================================================================
+      use CropModModule
+      implicit none
+      include   'const.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Calls
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sunf_process')
+
+
+c      INTEGER num_layers
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+!CROP WATER SUPPLY
+c     if (g%plant_status.eq.status_alive) then
+
+
+      call sunf_nit_stress(400)        !CT
+
+
+
+
+      call sunf_water_supply(1)        !CT
+
+      call sunf_bio_RUE(1)             !CT
+      call sunf_transpiration_eff(1)   !CT No bounding on VPD or TE
+      call sunf_water_demand(1)        !CT!movable!
+
+      call sunf_water_uptake(2)      !CT
+
+      call sunf_water_stress(1)        !CT
+
+
+!PHENOLOGY
+         call sunf_phenology_init(2)     !1 = works with two leaf appearance rates, 2= works with lar lookup table - Enli
+         call sunf_phenology(400)        !different TT for grainfill, EW not checked yet
+
+
+
+
+      call sunf_root_depth(1)          !CT = crop template
+      
+      call sunf_root_depth_init(2)     !CT - called later as root_depth sets delta
+                                        ! option 1 initial root depth = c%...
+                                        ! option 2 initial root depth = sowing depth
+
+
+!CROP WATER DEMAND (following are in PREPARE section for APSWIM version)
+!cf sunf light_supply is based on direct calculation of k from rowspacing etc
+!rather than looking for cover calculation (that is only done at end of day)
+!Problem with other modules is that they use cover_green which is calculated elsewhere!
+      
+
+      call sunf_temp_stress(1)         !CT
+      
+!sunf - testing new version of the k calculation our new test = 500
+!      call sunf_light_supply(400)
+      
+      call sunf_light_supply(500)      !EW already checked
+      
+
+*   if (g%plant_status.eq.status_alive) then
+
+!below causes slight variation as cannot control N,water stress separately
+!         call sunf_phenology(403)        !different TT for grainfill
+
+!WATER UPTAKE
+
+c         num_layers = count_of_real_vals (g%dlayer, max_layer)
+
+c        call fill_real_array(g%dlt_sw_dep, -0.2, num_layers)
+
+
+!CANOPY HEIGHT
+         call sunf_height(1)            !CT
+
+!NODE NUMBER and APPEARANCE
+         call sunf_leaf_no_init(1)      !CT
+         call sunf_leaf_no_pot(500)     !400 - two leaf appearance rates, 500 = lar lookup table - Enli
+
+!LEAF AREA - Potential and stressed
+!         call sunf_leaf_area_pot(2)      !TPLA (works using new template)
+        
+         call sunf_leaf_area_pot(500)      !TPLA (works using new template)
+          
+         call sunf_leaf_area_stressed(1)!CT
+
+!BIOMASS Water_limited, light_N_temp limited, actual
+         call sunf_bio_TE(1)            !CT delta_bio_water
+         call sunf_bio_RUE(1)           !CT delta_bio_light
+         call sunf_bio_init(1)           !these 2 routines are together
+         call sunf_bio_actual(1)         !same as maize_bio_actual
+
+!ECONOMIC YIELD - demand
+         call sunf_bio_grain_demand_stress(1)!CT
+        
+         call sunf_bio_grain_demand(500) !CT HI approach EW ???? neet to be changed for  critical_temp = 15.0 ????
+
+!         call crop_bio_grain_demand(3)  !local source sink RLV
+ 
+!BIOMASS PARTITIONING and RETRANSLOCATION
+!NEW VERSION - based on leaf and head distribution ratios
+!as a function of porportional thermal time to anthesis
+!         call sunf_bio_partition(400)    !CODE is SAME as maize option(1)
+        
+         call sunf_bio_partition(500)   !EW we changed this subroutine for sunflower biom partition
+
+         call sunf_bio_retrans(1)       !CT
+
+!ROOT BIOMASS PARTITIONING AND ROOT LENGTH DENSITY
+         call sunf_root_length_init(1)  !CT
+         call sunf_root_dist(1)         !CT
+
+!LEAF AREA - Actual (biomass limited)
+         call sunf_leaf_area_actual(400) !Limits g%dlt_lai by C
+
+!         call sunf_leaf_death(400)       !AGE kill of leaves - not req. for SPLA approach
+
+!SENESCENCE - leaf area, biomass, roots, N
+ 
+         call sunf_leaf_area_sen(400)    !Alternate approach to leaf senesc.
+         
+!        print *, "g%dlt_leaf_no_dead", g%dlt_leaf_no_dead
+         
+         call sunf_sen_bio(1)           !CT
+         call sunf_sen_root_length(1)   !CT
+         call sunf_sen_nit(1)           !CT
+
+!NITROGEN SUPPLY - soil, N_fix, other parts
+         call sunf_nit_supply(1)        !CT
+         call sunf_nit_init(1)          !CT
+         
+         call sunf_N_retranslocate(400)  !EW ???? is grain N demand calculation OK
+         
+         
+!NITROGEN DEMAND/UPTAKE/PARTITION
+         call sunf_nit_demand(2)        !CT
+         call sunf_nit_uptake(1)        !CT
+         
+         call sunf_N_partition(400)      !CODE is SAME as maize
+
+
+      call pop_routine (my_name)
+
+      return
+      end
+
+
+*=======================================================================
+      subroutine sunf_process_orig ()
 *=======================================================================
 *+  Purpose
 *       Simulate crop processes.  These include biomass production,
