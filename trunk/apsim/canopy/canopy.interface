@@ -19,9 +19,9 @@ class APSIMCanopyPublic
     cover_crops_all         : APSIMStringArray    = list of crop modules using this module, (), GET
 
 ; Main actions
+
     sysinit                : APSIMMethod         = System initialise
-    prepare                : APSIMMethod         = System prepare stage
-    post                   : APSIMMethod         = System post stage
+
 end
 ; -----------------------------------------------------------
 ; Canopys External interface which documents things in other 
@@ -40,6 +40,11 @@ class APSIMCanopyExternal
     cover_green             : APSIMReal             = green cover of crop canopy, (), GET, 0.0, 1.0 
     cover_tot               : APSIMReal             = total cover of crop canopy, (), GET, 0.0, 1.0 
     height                  : APSIMReal             = height of crop canopy, (mm), GET, 0.0, 10000.0 
+
+    prepare                 : APSIMEvent            = System prepare stage
+    post                    : APSIMEvent            = System post stage
+
+
 end
 
 class APSIMCanopy
