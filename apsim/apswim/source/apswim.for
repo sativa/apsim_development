@@ -1,27 +1,3 @@
-*     ===========================================================
-      character*(*) function apswim_version ()
-*     ===========================================================
-      implicit none
-
-*+  Purpose
-*       return version number of apswim module
-
-*+  Changes
-*     <insert here>
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.6  13/6/97')
-
-*- Implementation Section ----------------------------------
- 
-      apswim_version = version_number
- 
-      return
-      end
-
-
-
 * ====================================================================
        subroutine apsim_apswim (Action, Data_string)
 * ====================================================================
@@ -34,8 +10,6 @@
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
        character Data_String*(*)       ! Message data
-*
-       character Apswim_version*40     ! function
 
 *+  Purpose
 *      This routine is the interface between the main system and the
@@ -48,16 +22,12 @@
       character myname*(*)
       parameter (myname = 'apsim_apswim')
 
-*+  Local Variables
-      character Module_name*10         ! name of this module
-
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      if (Action.eq.MES_Presence) then
-         call Get_current_module (module_name)
-         write(*, *) 'Module_name = ', Module_name, apswim_version()
- 
+      if (Action.eq.MES_Get_variable) then
+         call apswim_Send_my_variable (Data_string) 
+
       else if (Action.eq.MES_Init) then
          call apswim_Init ()
  
@@ -70,9 +40,6 @@
  
       else if (Action .eq. MES_Post) then
          call apswim_post ()
- 
-      else if (Action.eq.MES_Get_variable) then
-         call apswim_Send_my_variable (Data_string)
  
       else if (Action .eq. MES_Set_variable) then
          call apswim_set_my_variable (Data_string)
@@ -113,9 +80,6 @@
 *+  Changes
 *     <insert here>
 
-*+  Calls
-       character apswim_version*15     ! function
-
 *+  Constant Values
       character myname*(*)
       parameter (myname = 'apswim_init')
@@ -133,7 +97,7 @@
  
       ! Notify system that we have initialised
  
-      Event_string = 'Initialising Version : ' // apswim_version()
+      Event_string = 'Initialising '
       call report_event (Event_string)
  
       ! Get all constants from constants file
@@ -928,7 +892,7 @@ c
 c      ret_string = get_variable_value('rain')
 c      read(ret_string, *, iostat = err_code) rain
  
-      call get_real_var_optional (
+      call get_real_var (
      :           unknown_module,
      :           'timestep',
      :           '(min)',
@@ -936,44 +900,15 @@ c      read(ret_string, *, iostat = err_code) rain
      :           numvals,
      :           1.0,
      :           44640.)              ! one month of minutes
-      If (numvals.ne.1) then
-         apsim_timestep = 0.0
-      else
-      endif
  
          ! Get length of apsim timestep
  
-      call get_char_var_optional (
+      call get_char_var (
      :           unknown_module,
      :           'time',
      :           '(hh:mm)',
      :           apsim_time,
      :           numvals)
-      If (numvals.ne.1) then
-         apsim_time = ' '
-      else
-      endif
- 
-* ---------------- DECIDE ON SOURCE OF TIMESTEP ----------------------
-      if ((int(apsim_timestep).ne.0).and.(apsim_time.ne.blank)) then
-         ! timestep is defined in the input files - use these.
-         timestep_source = 'input'
- 
-      elseif (((int(apsim_timestep).ne.0).and.(apsim_time.eq.blank))
-     :                                   .or.
-     :       ((int(apsim_timestep).eq.0).and.(apsim_time.ne.blank)))
-     :                                   then
-        ! only one of the timestep info values available - error!
-        call fatal_error(Err_User,
-     :                  'Insufficient timestep information available')
- 
-      else
-         ! it has not been specified - use default (1 day)
-         timestep_source = 'default'
-         apsim_timestep = 1440.
-         apsim_time     = '00:00'
-      endif
- 
  
       return
       end
@@ -3107,15 +3042,9 @@ cnh
       call apswim_get_crop_variables ()
       call apswim_get_residue_variables ()
  
-      if (timestep_source.eq.'input') then
-         time_of_day = apswim_time_to_mins (apsim_time)
-         timestep_start = apswim_time (year,day,time_of_day)
-         timestep       = apsim_timestep/60.d0
-      else
-         timestep_start = apswim_time (year,day,0)
-         timestep       = apsim_timestep/60.d0
- 
-      endif
+      time_of_day = apswim_time_to_mins (apsim_time)
+      timestep_start = apswim_time (year,day,time_of_day)
+      timestep       = apsim_timestep/60.d0
  
       fail = apswim_swim (timestep_start,timestep)
  
