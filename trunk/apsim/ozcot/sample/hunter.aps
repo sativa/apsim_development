@@ -1,8 +1,13 @@
-[standard.met.WEATHER]  
-Latitude =  -29.47   
+[standard.met.WEATHER]
+Latitude =  -29.47
 !moree temp and rad(Radiation gen using tamsim based on dalby ave)
- site year day  radn   maxt  mint  rain 
-   ()   ()  () (MJ/m2) (oC)  (oC)  (mm) 
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 16:39 for period from 190/1995 to 153/1996 (ddd/yyyy)
+ tav =  19.19 (oC)     ! annual average ambient temperature
+ amp =  12.97 (oC)     ! annual amplitude in mean monthly temperature
+
+ site year day  radn   maxt  mint  rain
+   ()   ()  () (MJ/m2) (oC)  (oC)  (mm)
 MORE   1995 190    11.7  17.0   2.0   0.0
 MORE   1995 191    10.3  19.0   5.0   0.0
 MORE   1995 192     6.0  19.0   2.0   0.0

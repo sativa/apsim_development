@@ -1,7 +1,12 @@
-[standard.met.weather]    
+[standard.met.weather]
 
-site =  ICRISAT-Pat ()   
+site =  ICRISAT-Pat ()
 latitude =   +37.5 (deg.)   ! Amended latitude for daylength extension
+
+
+   ! TAV and AMP inserted by "tav_amp" on 28/10/1999 at 16:36 for period from   1/1986 to 365/1986 (ddd/yyyy)
+ tav =  26.23 (oC)     ! annual average ambient temperature
+ amp =  12.78 (oC)     ! annual amplitude in mean monthly temperature
 
 year  month  dom   day  maxt  mint  RH07  RH14  evap  rain  wind   sun    radn
  ()     ()    ()    ()  (oC)  (oC)   (%)   (%)  (mm)  (mm) (kph)  (hr)    (MJ)
