@@ -67,7 +67,6 @@ class FString
          canModify = rhs.canModify;
          len = rhs.len;
          realLen = rhs.realLen;
-         ::MessageBox(NULL, text, "hh", MB_OK);
          }
 
       // alias to the specified string

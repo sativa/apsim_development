@@ -45,12 +45,12 @@ class Type
       Type(const FString& typeString) : type(typeString), code(DTunknown) { }
       Type(const Type& rhs)
          {
-         type = FString(rhs.type);
+         type.aliasTo(rhs.type.f_str(), rhs.type.length());
          code = rhs.code;
          }
       Type& operator= (const Type& rhs)
          {
-         type = FString(rhs.type);
+         type.aliasTo(rhs.type.f_str(), rhs.type.length());
          code = rhs.code;
          return *this;
          }
