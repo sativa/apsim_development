@@ -73,28 +73,32 @@ void TSEGTable::forceRefresh(bool displayError)
          if (IndexDefs->Count > 0)
             DeleteIndex("mainIndex");
 
-         Active = false;
-         FieldDefs->Clear();
-         TFieldDef *fieldDef = FieldDefs->AddFieldDef();
-         fieldDef->Name = SERIES_FIELD_NAME;
-         fieldDef->DataType = ftString;
-         fieldDef->Size = 200;
-         SortFields = "";
-         createFields();
-         Active = true;
-
-         // Go load all records.
-         storeRecords();
-
-         // Create an index so that the range methods work.
-         if (IndexDefs->Count == 0)
+         if (createFields())
             {
-            AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
-            AddIndex("mainIndex", indexFields, TIndexOptions());
-            IndexFieldNames = indexFields;
-            }
-         Sort(TkbmMemTableCompareOptions());
+            TFieldDef *fieldDef = FieldDefs->AddFieldDef();
+            fieldDef->Name = SERIES_FIELD_NAME;
+            fieldDef->DataType = ftString;
+            fieldDef->Size = 200;
+            fieldDef->FieldNo = 1;
 
+            SortFields = "";
+
+            Active = true;
+
+            // Go load all records.
+            storeRecords();
+
+            // Create an index so that the range methods work.
+            if (IndexDefs->Count == 0)
+               {
+               AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);
+               AddIndex("mainIndex", indexFields, TIndexOptions());
+               IndexFieldNames = indexFields;
+               }
+            Sort(TkbmMemTableCompareOptions());
+            }
+         else
+            Active = true;
          for (unsigned i = 0; i != subscriptionEvents.size(); i++)
             {
             if (subscriptionEvents[i] != NULL)
@@ -115,11 +119,12 @@ void TSEGTable::forceRefresh(bool displayError)
          }
       EnableControls();
 
-   /*   // force children to update themselves.
-        First();
-        Edit();
-        Post();
-   */
+      // force children to update themselves.  Without this the chart series
+      // don't draw for some reason.
+      First();
+      Edit();
+      Post();
+
       Screen->Cursor = savedCursor;
       if (displayError && errorMessage != "")
          {
@@ -270,6 +275,12 @@ void TSEGTable::addDataChangeSubscription(AnsiString eventName)
    string compName = tokenizer.nextToken();
    string event = tokenizer.nextToken();
    TComponent* subComponent = getComponent<TComponent> (Owner, compName.c_str());
+   if (subComponent == NULL)
+      {
+//      TComponent* reportComponent = getComponent<TComponent>(Owner->Owner, "report");
+      subComponent = getComponent<TComponent> (Owner->Owner, compName.c_str());
+      }
+
    if (subComponent != NULL)
       {
       u.asPointers.Code = subComponent->MethodAddress(event.c_str());
@@ -294,7 +305,7 @@ void TSEGTable::removeDataChangeSubscription(AnsiString eventName)
 // ------------------------------------------------------------------
 void __fastcall TSEGTable::onSourceDataChanged(TDataSet* dataset)
    {
-   refresh();
+   forceRefresh();
    }
 // ------------------------------------------------------------------
 // Fixup all subscription references.
