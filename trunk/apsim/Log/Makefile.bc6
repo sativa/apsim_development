@@ -6,4 +6,4 @@ all: source
 
 source:
 	cd source
-	$(MAKE) -DAPSROOT=$(APSROOT) source
+	$(APSMAKE)  source

@@ -1,5 +1,4 @@
 # (Borlandish) Makefile for apsim source modules
-MAKE=$(MAKEDIR)\make
 
 ####Unused: SurfaceWater soilnitrogen soilwater tcllink
 
@@ -59,7 +58,7 @@ WaterSupply
 #
 #source-recursive sample-recursive clean-recursive:
 #	target=`echo $@ |sed s/-recursive//`; \
-#	for dir in $(SUBDIRS); do (cd $dir && 	$(MAKE) -DAPSROOT=$(APSROOT) $(target)); done
+#	for dir in $(SUBDIRS); do (cd $dir && 	$(APSMAKE)  $(target)); done
 #
 # but for now, we are only concerned with target = source.
 
@@ -68,5 +67,5 @@ source: $(SUBDIRS)
 $(SUBDIRS):
    cd $@
    echo  ------Compiling $@
-	$(MAKE) -DAPSROOT=$(APSROOT) source
+	$(APSMAKE)  source
    cd ..

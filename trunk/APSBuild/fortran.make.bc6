@@ -1,8 +1,8 @@
 
 # May need to define the full path to these (usually c:\lf9556\bin), but
 # the lahey installation adds it to your path anyway.
-LFLM=C:\LF9556\bin\lm.exe
-LF95=C:\LF9556\bin\lf95.exe
+LFLM=$(FORROOT)\lm.exe
+LF95=$(FORROOT)\lf95.exe
 
 F90FLAGS=-winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink
 F90LIBFLAGS=-winconsole -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink
@@ -14,7 +14,7 @@ F90CROPINCLUDES=-i .;$(APSROOT)\apsim\infra\source;$(APSROOT)\apsim\croptemp\sou
 F90CROPMODS=-mod .;$(APSROOT)\apsim\infra\source;$(APSROOT)\apsim\croptemp\source
 F90CROPLIBS=-libPath $(APSROOT)\apsbuild -lib $(APSROOT)\apsim\infra\lib\apsinfra.lib -lib $(APSROOT)\apsim\croptemp\lib\croptemp.lib
 
-# Generic rules 
+# Generic rules
 .for.obj:
 	$(ECHO) $(F90FLAGS) > compiler.tmp
 	$(ECHO) $(F90INCLUDES) >> compiler.tmp
