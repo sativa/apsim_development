@@ -9,31 +9,26 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\slurp\sample\slurp.sim
+     Version                = 2.2
      Title                  = Slurp Sample Simulation
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\slurp\lib\slurp.dll(slurp) - Licensed
+     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\apswork\apsim\slurp\lib\slurp.dll
+     Component DLL          = c:\apswork\apsim\fertiliz\lib\fertiliz.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
      Simulation end date   = 30/01/1988
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = slurp.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         clock.year
@@ -52,23 +47,15 @@
         soiln2.no3
         soiln2.nh4
         soilwat2.sw_dep
+     
+     Output file = slurp.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\build\apsuite\apsim\MET\SAMPLE\DALBY.MET
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\progra~1\apsim22\apsim\MET\SAMPLE\DALBY.MET
 
-------- FERTILIZ Initialisation ----------------------------------------------
-      Initialising
-     
-        - Reading Parameters
-     
-     
-     
-                    Fertiliser Schedule (kg/ha)
-          -----------------------------------------------
-           No fertiliser schedule is used
-          -----------------------------------------------
-
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      if day = 1 or day = 15 then
         fertiliz apply amount = 100 (), type = nh4no3 ()
@@ -77,7 +64,7 @@
      endif
      report do_output
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -149,7 +136,7 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- SOILN2 Initialisation ------------------------------------------------
+------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Constants
      
@@ -198,28 +185,36 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- SLURP Initialisation -------------------------------------------------
+------- slurp Initialisation --------------------------------------------------
      Initialising:
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-1 January 1988 (Day of year=1):
-   MANAGER:
-           Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
-   FERTILIZ:
-      
-         - Reading Fertiliser Type Parameters
-        100.00 of ammonium nitrate (nh4no3)
-                                               added at depth    0.00 (layer   1)
-10 January 1988 (Day of year=10):
-   MANAGER:
-           Manager sending message :- slurp set eo_fraction = 0.75 ()
-15 January 1988 (Day of year=15):
-   MANAGER:
-           Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
-   FERTILIZ:
-      
-         - Reading Fertiliser Type Parameters
-        100.00 of ammonium nitrate (nh4no3)
-                                               added at depth    0.00 (layer   1)
-30 January 1988 (Day of year=30):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+1 January 1988(Day of year=1), manager: 
+     Manager sending message :- fertiliz apply  amount = 100, type = nh4no3
+1 January 1988(Day of year=1), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       100.00 of ammonium nitrate (nh4no3)
+                                              added at depth    0.00 (layer   1)
+10 January 1988(Day of year=10), manager: 
+     Manager sending message :- slurp set  eo_fraction = 0.75
+15 January 1988(Day of year=15), manager: 
+     Manager sending message :- fertiliz apply  amount = 100, type = nh4no3
+15 January 1988(Day of year=15), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       100.00 of ammonium nitrate (nh4no3)
+                                              added at depth    0.00 (layer   1)
+30 January 1988(Day of year=30), clock: 
+     Simulation is terminating due to end criteria being met.
