@@ -197,7 +197,7 @@ class Component
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
       void setRegistrationType(unsigned int regID, const Type& type);
-      std::string getName(void) {return name;}
+      const char *getName(void) {return name;}
 
    protected:
       unsigned int componentID;
