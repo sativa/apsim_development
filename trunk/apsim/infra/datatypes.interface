@@ -680,7 +680,7 @@
       <element>
 ! dsg 040702  ****** note: below is the 'SurfaceOrganicMatter' data structure with 'cover' added *******
       <field name="name" kind="string"/>
-      <field name="type" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
       <field name="OrganicMatterFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
@@ -768,7 +768,7 @@
 !dsg 030702
    <type name="SurfaceOrganicMatter">
       <field name="name" kind="string"/>
-      <field name="type" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
       <field name="OrganicMatterFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
@@ -782,7 +782,7 @@
 
 !dsg 030702
    <type name="SoilOrganicMatter">
-      <field name="type" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
       <field name="layer" array = "T">
           <element>
           <field name="OrganicMatterFraction" array="T">
