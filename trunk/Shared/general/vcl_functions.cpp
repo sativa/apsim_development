@@ -444,14 +444,33 @@ AnsiString replaceComponentPropertyMacros(TComponent* owner, AnsiString text)
             TComponent* component = getComponent<TComponent>(owner, componentName.c_str());
             if (component != NULL)
                {
-               try
+               AnsiString value;
+               TDataSet* dataset = dynamic_cast<TDataSet*> (component);
+               if (dataset != NULL)
                   {
-                  AnsiString value = GetPropValue(component, propertyName.c_str(), true);
+                  try
+                     {
+                     // try and get a field value.
+                     value = dataset->FieldValues[propertyName.c_str()];
+                     }
+                  catch (Exception& error)
+                     { }
+                  }
+               if (value == "")
+                  {
+                  try
+                     {
+                     // try and get the value of a property.
+                     value = GetPropValue(component, propertyName.c_str(), true);
+                     }
+                  catch (Exception& error)
+                     { }
+                  }
+               if (value != "")
+                  {
                   int posEndMacro = newText.find("$", posStartMacro+1);
                   newText.replace(posStartMacro, posEndMacro-posStartMacro+1, value.c_str());
                   }
-               catch (Exception& error)
-                  { }
                }
             }
          }
