@@ -15,8 +15,7 @@ string _export getApsimDirectory(void) throw(runtime_error)
    {
    Path path(Application->ExeName.c_str());
    path.Set_name("version.ini");
-   while (path.Get_path() != "" && !path.Exists())
-      path.Back_up_directory();
+   while (path.Back_up_directory() != "" && !path.Exists());
 
    if (!path.Exists())
       {
