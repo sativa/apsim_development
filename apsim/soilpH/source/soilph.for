@@ -1,7 +1,425 @@
+      module SoilpHModule
+
+!      real       NO3_valency              ! NO3 valency
+!      parameter (NO3_valency = -1.0)
+
+      real       Al_valency               ! Al valency
+      parameter (Al_valency = +3.0)
+
+      real       CO3_valency              ! CO3 valency
+      parameter (CO3_valency = -2.0)
+
+      real       HCO3_valency             ! HCO3 valency
+      parameter (HCO3_valency = -1.0)
+
+      real       H_valency                ! H valency
+      parameter (H_valency = +1.0)
+
+      real       OH_valency               ! OH valency
+      parameter (OH_valency = -1.0)
+
+      real       Ca_valency               ! Ca valency
+      parameter (Ca_valency = +2.0)
+
+      real       Mg_valency               ! Mg valency
+      parameter (Mg_valency = +2.0)
+
+      real       K_valency                ! K valency
+      parameter (K_valency = +1.0)
+
+      real       Na_valency               ! Na valency
+      parameter (Na_valency = +1.0)
+
+      real       H2PO4_valency            ! H2PO4 valency
+      parameter (H2PO4_valency = -1.0)
+
+      real       SO4_valency              ! SO4 valency
+      parameter (SO4_valency = -2.0)
+
+      real       Cl_valency               ! Cl valency
+      parameter (Cl_valency = -1.0)
+
+      real       NH4_valency               ! NH4 valency
+      parameter (NH4_valency = +1.0)
+
+      real       NO3_valency               ! NO3 valency
+      parameter (NO3_valency = -1.0)
+
+      real       C_wt_atomic
+      parameter (C_wt_atomic = 12.0107)
+
+      real       Ca_wt_atomic
+      parameter (Ca_wt_atomic = 40.078)
+
+      real       N_wt_atomic
+      parameter (N_wt_atomic = 14.00674)
+
+      real       O_wt_atomic
+      parameter (O_wt_atomic = 15.9994)
+
+      real       H_wt_atomic
+      parameter (H_wt_atomic = 1.00794)
+
+      real       Mg_wt_atomic
+      parameter (Mg_wt_atomic = 24.305)
+
+      real       K_wt_atomic
+      parameter (K_wt_atomic = 39.0983)
+
+      real       Na_wt_atomic
+      parameter (Na_wt_atomic = 22.98977)
+
+      real       P_wt_atomic
+      parameter (P_wt_atomic = 30.973762)
+
+      real       S_wt_atomic
+      parameter (S_wt_atomic = 32.066)
+
+      real       Cl_wt_atomic
+      parameter (Cl_wt_atomic = 35.4527)
+
+      real       CaCO3_Kg2Mol   ! Wt of CaCO3 in Kg to Moles.
+      parameter (CaCO3_Kg2Mol = 2.0
+     :                              * (1000.0
+     :                            /(Ca_wt_atomic
+     :                              + C_wt_atomic
+     :                              + O_wt_atomic*3.0)))
+      real       CaCO3_Mol2Kg
+      parameter (CaCO3_Mol2Kg = 1.0/CaCO3_Kg2Mol)
+
+      real       CaCO3_t2KMol
+      parameter (CaCO3_t2KMol = CaCO3_Kg2Mol)
+      real       CaCO3_KMol2t
+      parameter (CaCO3_KMol2t = 1.0/CaCO3_Kg2Mol)
+
+      real       NH4_Kg2Mol   ! Wt of N part of NH4 in Kg to Moles.
+      parameter (NH4_Kg2Mol = 1000.0/N_wt_atomic)
+      real       NH4_Mol2Kg
+      parameter (NH4_Mol2Kg = 1.0/NH4_Kg2Mol)
+
+      real       NO3_Kg2Mol   ! Wt of N part of NO3 in Kg to Moles.
+      parameter (NO3_Kg2Mol = 1000.0/N_wt_atomic)
+      real       NO3_Mol2Kg
+      parameter (NO3_Mol2Kg = 1.0/NO3_Kg2Mol)
+
+      real       Ca_Kg2Mol   ! Wt of Ca(2+) in Kg to Moles.
+      parameter (Ca_Kg2Mol = 1000.0/Ca_wt_atomic)
+      real       Ca_Mol2Kg
+      parameter (Ca_Mol2Kg = 1.0/Ca_Kg2Mol)
+
+      real       Mg_Kg2Mol   ! Wt of Mg(2+) in Kg to Moles.
+      parameter (Mg_Kg2Mol = 1000.0/Mg_wt_atomic)
+      real       Mg_Mol2Kg
+      parameter (Mg_Mol2Kg = 1.0/Mg_Kg2Mol)
+
+      real       K_Kg2Mol   ! Wt of K(+) in Kg to Moles.
+      parameter (K_Kg2Mol = 1000.0/K_wt_atomic)
+      real       K_Mol2Kg
+      parameter (K_Mol2Kg = 1.0/K_Kg2Mol)
+
+      real       Na_Kg2Mol   ! Wt of Na(+) in Kg to Moles.
+      parameter (Na_Kg2Mol = 1000.0/Na_wt_atomic)
+      real       Na_Mol2Kg
+      parameter (Na_Mol2Kg = 1.0/Na_Kg2Mol)
+
+      real       P_Kg2Mol   ! Wt of P(-) in Kg to Moles.
+      parameter (P_Kg2Mol = 1000.0/P_wt_atomic)
+      real       P_Mol2Kg
+      parameter (P_Mol2Kg = 1.0/P_Kg2Mol)
+
+      real       S_Kg2Mol   ! Wt of S(2-) in Kg to Moles.
+      parameter (S_Kg2Mol = 1000.0/S_wt_atomic)
+      real       S_Mol2Kg
+      parameter (S_Mol2Kg = 1.0/S_Kg2Mol)
+
+      real       Cl_Kg2Mol   ! Wt of Cl(-) in Kg to Moles.
+      parameter (Cl_Kg2Mol = 1000.0/Cl_wt_atomic)
+      real       Cl_Mol2Kg
+      parameter (Cl_Mol2Kg = 1.0/Cl_Kg2Mol)
+
+      real       cmol2mol
+      parameter (cmol2mol = 1.0/100.0)
+      real       mol2cmol
+      parameter (mol2cmol = 1.0/cmol2mol)
+
+      real       kmol2mol
+      parameter (kmol2mol = 1000.0)
+      real       mol2kmol
+      parameter (mol2kmol = 1.0/kmol2mol)
+
+
+!     ===========================================================
+!     Basic constants
+!     ===========================================================
+
+!+  Changes
+
+!- Declaration Section ----------------------------------
+
+      real       pKc_water                ! Equilibrium constant of water
+      parameter (pKc_water = 14.0)
+
+!      real       pCO2_rain                ! pCO2 of the atmospheric air
+!      parameter (pCO2_rain = 3.5229)
+
+      real       pKa_CO2                  ! Equilibrium constant of CO2
+      parameter (pKa_CO2 = 7.82)
+
+      real       pKa_HCO3                 ! Equilibrium constant of Carbonic Acid
+      parameter (pKa_HCO3 = 10.33)
+
+      integer    max_layer                ! Maximum no of soil layers.
+      parameter (max_layer = 20)
+
+      integer    lime_sol_tbl_size_max    ! Max size of lime solubility table.
+      parameter (lime_sol_tbl_size_max = 20)
+
+      integer    max_MF_equiv_type        ! maximum number of H+ equivalent types in mass flow.
+      parameter (max_MF_equiv_type = 5)
+
+      integer    H_index                  ! H index used in mass flow.
+      parameter (H_index = 1)
+
+      integer    OH_index                 ! OH index used in mass flow.
+      parameter (OH_index = 2)
+
+      integer    HCO3_index               ! HCO3 index used in mass flow.
+      parameter (HCO3_index = 3)
+
+      integer    CO3_index                ! CO3 index used in mass flow.
+      parameter (CO3_index = 4)
+
+      integer    Al_index                 ! Al index used in mass flow.
+      parameter (Al_index = 5)
+
+      integer    max_dm_type              ! maximum number of dry matter types
+      parameter (max_dm_type = 10)
+
+      integer    dm_type_size             ! max length of the crop type.
+      parameter (dm_type_size = 32)
+
+      integer    max_crops                ! maximum number of crops in at once
+      parameter (max_crops = 10)
+
+      integer    max_actions              ! maximum number of actions in at once
+      parameter (max_actions = 10)
+
+      integer    module_name_size         ! maximum length of module name
+      parameter (module_name_size = 8)
+
+      integer    crop_type_size           ! max length of the crop type.
+      parameter (crop_type_size = 50)
+
+      integer    action_type_size         ! max length of the action type.
+      parameter (action_type_size = 50)
+
+      character  pHBC_method_unknown*(*)
+      parameter (pHBC_method_unknown = 'unknown')
+
+      character  pHBC_method_parameters*(*)
+      parameter (pHBC_method_parameters = 'parameters')
+
+      character  pHBC_method_Hochman*(*)
+      parameter (pHBC_method_Hochman = 'hochman')
+
+      integer    pHCa2pH_tbl_size_max             ! max no elements in pH
+      parameter (pHCa2pH_tbl_size_max = 20)     ! conversion table.
+
+      character  keyword_ash_alkalinity*(*)
+      parameter (keyword_ash_alkalinity = 'ash_alkalinity')
+
+      character  keyword_name_dm_type*(*)
+      parameter (keyword_name_dm_type = 'name_dm_type')
+
+      character  section_ash_alkalinity_loss*(*)
+      parameter (section_ash_alkalinity_loss = 'ash_alkalinity_loss')
+
+!     ================================================================
+      type soilpHGlobals
+
+         real   infiltration_mol
+         real   H_equiv_infiltration(max_MF_equiv_type)! H+ ion equivalents into the top layer by component (Mol/ha)
+                                          ! (rain).
+         real   residue_ash_alk_wt        ! Residue pool ash alkalinity wt (Mol/ha),
+
+         real   pHBC(max_layer)           !  pH buffer cap of the soil(Kmol/ha/100mm/ph_unit).
+         real   pHCa(max_layer)           !  pHCa for the soil layer.
+         real   pHca_old(max_layer)       !  old pHCa for the soil layer.
+         real   dlt_pHCa(max_layer)       !  Change in pHCa.
+         real   dlt_pHCa_tot(max_layer)   !  total change in pHCa.
+         real   lime_pool(max_layer)      ! lime pool equivalent for each layer (Mol/Ha).
+         real   dlt_lime_pool(max_layer)  ! dlt lime pool for each layer (Mol/Ha).
+         real   H_equiv_mass_flow(max_layer, max_MF_equiv_type) ! H+ flow out of each layer by component (Mol/ha).
+         real   H_equiv_mass_flow_tot(max_layer, max_MF_equiv_type) ! Total H+ flow out of each layer by component (Mol/ha).
+         real   H_equiv_flow_net(max_layer, max_MF_equiv_type)  ! Net H+ flow inflow by component - H_equiv_mass_flow (Mol/ha).
+         real   H_equiv_flow_net_tot(max_layer, max_MF_equiv_type)  ! Total Net H+ flow inflow by component - H_equiv_mass_flow (Mol/ha).
+         real   dlt_lime_dissl(max_layer) ! lime dissolved this timestep (Mol/Ha).
+         real   acid_excretion_root(max_layer) ! (R)oo(t) (Ex)cretion of acid.  (Mol/ha)
+         real   tec_init(max_layer)       ! Initial Total Exchange Capacity. (cMol/Kg).
+         real   tec(max_layer)            ! Total Exchange Capacity. (cMol/Kg).
+         real   Al_exchangable(max_layer) ! Concentration of exchangable Al (cMol/Kg)
+         real   sAls_calc(max_layer)      ! Calculated Slope of Al versus H+.
+         real   sAls(max_layer)           ! Slope of Al versus H+ actually used.
+         real   dlt_acid_N_cycle(max_layer) ! Acid added nitrogen cycle (mol H+/Ha).
+         real   dlt_acid_org_C_cycle(max_layer) ! Change in acid due to change in
+                                                ! humic C. (mol/ha) H+ equiv.
+
+         real   pH(max_layer)             ! pH of soil in a 1:1 soil-water slurry
+
+      end type soilpHGlobals
+!     ================================================================
+      type soilpHParameters
+
+         real    pH_rain                      ! The pHCa of the rainfall.
+         real    ionic_strength_rain          ! ionic strength of rain
+
+         character    pHBC_method*32          ! Number of layers used for this simulation.
+         character    report_additions*5
+         logical  sAls_supplied_use_flag(max_layer) !  Use the one supplied by the user.
+         real     Ca_avail(max_layer)         ! Fraction Ca available in this layer.
+         real     Mg_avail(max_layer)         ! Fraction Mg available in this layer.
+         real     K_avail(max_layer)          ! Fraction K available in this layer.
+         real     Na_avail(max_layer)         ! Fraction Na available in this layer.
+         real     P_avail(max_layer)          ! Fraction P available in this layer.
+         real     S_avail(max_layer)          ! Fraction S available in this layer.
+         real     Cl_avail(max_layer)         ! Fraction Cl available in this layer.
+         real     Ca_dm_percent               ! Plant uptake_equiv of Ca   %DM
+         real     Mg_dm_percent               ! Plant uptake_equiv of Mg   %DM
+         real     K_dm_percent                ! Plant uptake_equiv of K    %DM
+         real     Na_dm_percent               ! Plant uptake_equiv of Na   %DM
+         real     P_dm_percent                ! Plant uptake_equiv of P    %DM
+         real     S_dm_percent                ! Plant uptake_equiv of S    %DM
+         real     Cl_dm_percent               ! Plant uptake_equiv of Cl   %DM
+         real     pHCa_initial(max_layer)     ! Initial pHCa of layer.
+         real     ionic_strength_initial(max_layer) ! initial ionic strength of soil in the layer ()
+         real     CO2_pressure_soil(max_layer)! Soil air CO2 partial pressure in the layer (atm).
+         real     pHBC(max_layer)             ! pH buffer capacity. (Kmol/ha/100mm/ph_unit).
+         real     lime_pool_init(max_layer)   ! Initial lime pool (Mol/Ha).
+         real     Al_conc_init(max_layer)     ! Initial concentration of Al. (cMol/Kg)
+         real     sAls_supplied(max_layer)    ! Slope of Al versus H+. (CMol/Kg)
+         real     ecec_init(max_layer)        ! Initial Effective Cation Exchange Capacity. (CMol/Kg)
+         real     hum_acid_slope(max_layer)   ! Slope coefficient for humic acids (cMol/Kg).
+         real     hum_acid_pHCa_offset(max_layer) ! Slope offset for humic acids (no units)
+
+            ! Following pair are the slope and intercept of pAl versus pHCa, where
+            ! where PAl is the negative log of the molar concentration of
+            ! labile aluminium in the soil layer.
+         real     pAl_pHca_slope(max_layer)     ! Slope of log ionic conc of labile Al vs pHCa.
+         real     pAl_pHCa_intercept(max_layer) ! Intercept of log ionic conc of labile Al vs pHCa.
+
+
+      end type soilpHParameters
+!     ================================================================
+      type soilpHConstants
+
+         integer       num_crops
+         integer       num_actions
+         integer       num_dm_type(max_crops)
+         character     name_dm_type(max_crops,max_dm_type)
+     :                 *(dm_type_size)
+
+         integer       lime_sol_tbl_size                    ! Size of lime solubility table.
+         real          hum_acid_slope                       ! Slope coeff for humic acids (cMol/Kg)
+         real          hum_acid_pHCa_offset                 ! Slope offset for humic acids (no units)
+         character     crop_type(max_crops)*(crop_type_size)
+         character     action_type(max_actions)*(action_type_size)
+
+               ! Lime solubility table - lime solubility (g/l) versus pHCa.
+         real          lime_sol_tbl_pHCa(lime_sol_tbl_size_max)
+         real          lime_sol_tbl_lime(lime_sol_tbl_size_max)
+
+         real          ash_alk_tbl_crop(max_crops, max_dm_type)
+         real          ash_alk_tbl_action(max_actions)
+         real          pHCa2pH_tbl_phca(pHCa2pH_tbl_size_max)
+         real          pHCa2pH_tbl_ph(pHCa2pH_tbl_size_max)
+         integer       pHCa2pH_tbl_size
+         real          wr_coef                      ! depth at which root weighting is 1.8% (mm)
+         real          CO2_pressure_atm             ! Atmospheric CO2 partial pressure
+
+      end type soilpHConstants
+!     ================================================================
+      type soilpHExternals
+
+         integer   num_layers                ! Number of layers used for this simulation.
+ !cjh         integer   day
+ !cjh         integer   year
+         real   infiltration_mm              !  Rain infiltrating into top layer (mm).
+         real   crop_ash_alk_wt
+         real   dlayer(max_layer)            !  Thickness of the soil layer (mm).
+         real   flow_water(max_layer)        !  Water moving down out of layer (mm).
+         real   org_C_fract(max_layer)       !  Fraction of organic C in the layer.
+         real   dlt_lime_added(max_layer)    !  equivalent lime added (Mol/Ha).
+         real   ash_alk_wt_incorp(max_layer) ! Ash alkalinity * dry matter
+                                             ! weight of residue decomposed or
+                                             ! incorporated by tillage.
+         real   dlt_OM(max_layer)            !  Increase in soil organic matter (Kg/Ha).
+         real   NO3_transform_net_mol(max_layer) ! net NO3 transformation today(Mol/Ha)
+         real   NH4_transform_net_mol(max_layer) ! net NH4 transformation today(Mol/Ha)
+
+            ! Crop uptakes for each layer for the day in Moles H+ equiv per Hectare.
+         real   NO3_uptake_equiv(max_layer)   ! NO3 taken by crops today (Mol/Ha).
+         real   NH4_uptake_equiv(max_layer)   ! NH4 taken by crops today (Mol/Ha).
+         real   Ca_uptake_equiv(max_layer)    ! uptake_equiv of Ca,   (Moles H+ equiv / Ha).
+         real   Mg_uptake_equiv(max_layer)    ! uptake_equiv of Mg,   (Moles H+ equiv / Ha).
+         real   K_uptake_equiv(max_layer)     ! uptake_equiv of K,    (Moles H+ equiv / Ha).
+         real   Na_uptake_equiv(max_layer)    ! uptake_equiv of Na,   (Moles H+ equiv / Ha).
+         real   P_uptake_equiv(max_layer)     ! uptake_equiv of P,    (Moles H+ equiv / Ha).
+         real   S_uptake_equiv(max_layer)     ! uptake_equiv of S,    (Moles H+ equiv / Ha).
+         real   Cl_uptake_equiv(max_layer)    ! uptake_equiv of Cl,   (Moles H+ equiv / Ha).
+         real   Cation_uptake_equiv(max_layer)! uptake_equiv of Cations,   (Moles H+ equiv / Ha).
+         real   Anion_uptake_equiv(max_layer) ! uptake_equiv of Anions,   (Moles H+ equiv / Ha).
+
+         real   ash_alk_wt_incorp_last(max_layer)  ! Ash alkalinity * dry matter
+                                                   ! weight of residue decomposed or
+                                                   ! incorporated by tillage.
+         real   dlt_OM_last(max_layer)             !  Increase in soil organic matter (Kg/Ha).
+         real   NO3_transform_net_mol_last(max_layer)  ! net NO3 transformation today(Mol/Ha)
+         real   NH4_transform_net_mol_last(max_layer)  ! net NH4 transformation today(Mol/Ha)
+
+            ! Crop uptakes for each layer for the day in Moles H+ equiv per Hectare.
+         real   Ca_uptake_equiv_last(max_layer)     ! uptake_equiv of Ca,   (Moles H+ equiv / Ha).
+         real   Mg_uptake_equiv_last(max_layer)     ! uptake_equiv of Mg,   (Moles H+ equiv / Ha).
+         real   K_uptake_equiv_last(max_layer)      ! uptake_equiv of K,    (Moles H+ equiv / Ha).
+         real   Na_uptake_equiv_last(max_layer)     ! uptake_equiv of Na,   (Moles H+ equiv / Ha).
+         real   P_uptake_equiv_last(max_layer)      ! uptake_equiv of P,    (Moles H+ equiv / Ha).
+         real   S_uptake_equiv_last(max_layer)      ! uptake_equiv of S,    (Moles H+ equiv / Ha).
+         real   Cl_uptake_equiv_last(max_layer)     ! uptake_equiv of Cl,   (Moles H+ equiv / Ha).
+         real   Cation_uptake_equiv_last(max_layer) ! uptake_equiv of Cations,   (Moles H+ equiv / Ha).
+         real   Anion_uptake_equiv_last(max_layer)  ! uptake_equiv of Anions,   (Moles H+ equiv / Ha).
+
+      end type soilpHExternals
+!     ================================================================
+         ! instance variables.
+
+      type (SoilpHGlobals), pointer :: g
+      type (SoilpHExternals), pointer :: e
+      type (SoilpHParameters), pointer :: p
+      type (SoilpHConstants), pointer :: c
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
+      type SoilpHDataPtr
+         type (SoilpHGlobals), pointer ::    gptr
+         type (SoilpHExternals), pointer ::  eptr
+         type (SoilpHParameters), pointer :: pptr
+         type (SoilpHConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type SoilpHDataPtr
+
+      type (SoilpHDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
+
+
  !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -21,12 +439,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -44,12 +461,11 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -67,13 +483,12 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine main (action, data_string)
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -162,14 +577,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_endrun ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -191,14 +605,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_init ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -231,14 +644,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_read_constants ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -354,14 +766,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine SoilpH_read_param ()
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 
@@ -718,13 +1128,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine SoilpH_sum_report ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -950,14 +1359,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine soilpH_zero_all_globals ()
 *     ===========================================================
-      use soilpHModule
       Use infrastructure
       implicit none
 
@@ -1096,11 +1504,10 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 *     ===========================================================
       subroutine SoilpH_zero_variables ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -1246,12 +1653,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine SoilpH_zero_event_variables ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -1303,7 +1709,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1311,7 +1717,6 @@
 *     ===========================================================
       subroutine SoilpH_get_other_variables ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -1361,13 +1766,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine SoilpH_get_soil_layers ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -1399,7 +1803,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1407,7 +1811,6 @@
 *     ===========================================================
       subroutine soilpH_get_org_C_fract ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -1447,15 +1850,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_get_crop_uptakes ()
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 
@@ -1545,7 +1946,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -1562,8 +1963,6 @@
      :                              , Anion_uptake_equiv
      :                              )
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 
@@ -1806,7 +2205,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_estimate_uptake_equiv (uptake_equiv
@@ -1880,7 +2279,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1948,14 +2347,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_set_other_variables ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -1977,15 +2375,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_send_my_variable (variable_name)
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 
@@ -2325,15 +2721,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_set_my_variable (variable_name)
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 
@@ -2406,13 +2800,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ON_Nbalance ()
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 *+  Purpose
@@ -2461,12 +2853,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ON_Cbalance ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 *+  Purpose
@@ -2507,12 +2898,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ON_Residue_added ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -2605,12 +2995,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ON_Residue_removed ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -2721,12 +3110,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ON_Crop_chopped ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -2848,13 +3236,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ash_alk_rate (ash_alk_rate, crop_type, dm_type)
 *     ===========================================================
-      use SoilpHModule
-      Use SoilpHConst
       Use infrastructure
       implicit none
 
@@ -2991,13 +3377,12 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_ash_alk_loss_fract (ash_alk_loss_fract
      :                                    , action_type)
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -3080,12 +3465,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine SoilpH_init_calc ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -3134,7 +3518,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3230,7 +3614,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3273,7 +3657,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3310,7 +3694,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3332,7 +3716,7 @@
 *     Print real array %2 to string %1
 *
 *   Definition
-*     Prints out each element of the array "arr" in order onto the end
+*     Prints out each element of the array "arr" in order onto the end subroutine
 *     of "str".  Every group of 5 elements is terminated by a newline.
 *     If the last group of numbers contains less than five elements, a
 *     newline will follow anyway.
@@ -3380,14 +3764,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine SoilpH_process ()
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -3663,7 +4046,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3675,7 +4058,6 @@
      :                                   , pHCa )
 *     ===========================================================
       Use infrastructure
-      Use SoilpHConst
       implicit none
 
 *+  Sub-Program Arguments
@@ -3708,7 +4090,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -3771,7 +4153,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -3818,7 +4200,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine soilpH_pHBC_Parameters (pHBC, pHBC_param)
@@ -3851,7 +4233,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -3863,7 +4245,6 @@
      :                   , pHCa )
 *     ===========================================================
       Use infrastructure
-      Use SoilpHConst
       implicit none
 
 *+  Sub-Program Arguments
@@ -3942,7 +4323,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3959,7 +4340,6 @@
      :                   , dlayer)
 *     ===========================================================
       Use infrastructure
-      Use SoilpHConst
       implicit none
 
 *+  Sub-Program Arguments
@@ -4014,7 +4394,7 @@
 !      print*,'dlt_pHCa=',dlt_pHCa
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4074,7 +4454,7 @@
      :            + Cl_uptake_equiv ! uptake_equiv of Cl,   (Moles H+ equiv / Ha).
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4115,7 +4495,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4131,7 +4511,6 @@
      :                   , lime_sol_tbl_size)
 *     ===========================================================
       Use infrastructure
-      Use SoilpHConst
       implicit none
 
 *+  Sub-Program Arguments
@@ -4192,7 +4571,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4206,9 +4585,7 @@
      :                                    , pAl_pHCa_intercept
      :                                    , ionic_strength)
 *     ===========================================================
-      use soilpHModule
       Use infrastructure
-      Use SoilpHConst
       implicit none
 
 *+  Sub-Program Arguments
@@ -4258,7 +4635,6 @@
       real CO3_conc           ! HCO3_conc (Mol/L)
       real pCO2               ! -log10 of CO2 partial pressure
 
-      real soilpH_ionic_conc  ! function
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -4350,14 +4726,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       real function soilpH_ionic_conc ( pIon
      :                                , valency
      :                                , ionic_strength)
 *     ===========================================================
-      use soilpHModule
       Use infrastructure
       implicit none
 
@@ -4404,12 +4779,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 *     ===========================================================
       subroutine soilpH_pHCa2pH (pH, pHCa, num_layers)
 *     ===========================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -4447,12 +4821,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ================================================================
       subroutine soilpH_init_residue_ash_alk_wt()
 *     ================================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -4511,13 +4884,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ================================================================
       subroutine SoilpH_incorp (Tillage_depth)
 *     ================================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -4602,12 +4974,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ================================================================
       subroutine SoilpH_Tillage ()
 *     ================================================================
-      use SoilpHModule
       Use infrastructure
       implicit none
 
@@ -4662,6 +5033,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
+      end module SoilpHModule

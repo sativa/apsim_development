@@ -1,8 +1,97 @@
+      module SoilTModule
+
+! ====================================================================
+!      soilt parameters
+! ====================================================================
+
+!   Short description:
+!      Assorted constants used through out
+
+
+!   Changes:
+!      psc - 080695
+
+!   Constant values
+      character Module_name*(7)       ! Name of this module
+      parameter (Module_name='soilt')
+
+
+!   Constant values
+
+      integer    max_layers             ! Maximum number of layers in soil
+      parameter (max_layers = 100)
+
+!   Global variables
+!     ================================================================
+      type SoilTGlobals
+
+      real       maxt                  ! maximum air temperature (oC)
+      real       mint                  ! minimum air temperature (oC)
+      real       radn                  ! incident solar radiation (?)
+      real       es                    ! soil evaporation (mm)
+      real       temp0                 ! soil surface temperature (oC)
+      real       estimated_lai         ! estimated lai from total residue and crop canopy cover
+      real       dlayer_cm (max_layers)   ! thickness of soil layer I (cm)
+      real       sw (max_layers)       ! soil water content of layer L (m3/m3)
+      real       st_max (max_layers+1) ! maximum temperature of layer L (m3/m3)
+      integer    num_layers            ! number of layers in profile ()
+      logical Zero_variables           ! flag
+
+      end type SoilTGlobals
+!     ================================================================
+      type SoilTParameters
+      logical   dummy_parameter
+
+      end type SoilTParameters
+!     ================================================================
+      type SoilTConstants
+      logical   dummy_Constantr
+
+      end type SoilTConstants
+!     ================================================================
+      type SoilTExternals
+      logical   dummy_External
+
+      end type SoilTExternals
+!     ================================================================
+         ! instance variables.
+
+      type (SoilTGlobals), pointer :: g
+      type (SoilTExternals), pointer :: e
+      type (SoilTParameters), pointer :: p
+      type (SoilTConstants), pointer :: c
+
+      save g
+      save e
+      save p
+      save c
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
+      type SoilTDataPtr
+         type (SoilTGlobals), pointer ::    gptr
+         type (SoilTExternals), pointer ::  eptr
+         type (SoilTParameters), pointer :: pptr
+         type (SoilTConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type SoilTDataPtr
+
+      type (SoilTDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      save Instances
+
+      contains
+
+
+
+
  !     ===========================================================
       Recursive
      :Subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -22,13 +111,12 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       Recursive
      :Subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -46,13 +134,12 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       Recursive
      :Subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -70,14 +157,13 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 
 * ====================================================================
       Recursive
      :Subroutine Main (action, data_string)
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -140,13 +226,12 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_Init ()
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -177,13 +262,12 @@
       call soilt_get_other_variables ()
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_read_param ()
 * ====================================================================
-      use SoilTModule
        Use infrastructure
       implicit none
 
@@ -211,13 +295,12 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_zero_variables ()
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -237,13 +320,12 @@
       g%Zero_variables = .false.
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_manager (Event_action, Event_data)
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -271,13 +353,12 @@
  !     call Report_event ( Event_action)
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_get_other_variables ()
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -385,13 +466,12 @@ cjh100   continue
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_set_other_variables ()
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -417,13 +497,12 @@ cjh100   continue
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_Send_my_variable (Variable_name)
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -470,13 +549,12 @@ c     1     ttav,hv,g%es,beta2,g%ys,g%phis
       endif
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_set_my_variable (Variable_name)
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -499,13 +577,12 @@ c     else
 c     endif
 
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine soilt_Process ()
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -528,7 +605,7 @@ c     endif
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -547,7 +624,7 @@ c     endif
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
@@ -565,7 +642,7 @@ c     endif
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
@@ -583,13 +660,12 @@ c     endif
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine TC1MAX ()
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -787,13 +863,12 @@ c     endif
 
       call pop_routine(myname)
       return
-      END
+      end subroutine
 
 * ====================================================================
       Recursive
      :Subroutine SOILT (ys, phis, ratio_G, ratio_T)
 * ====================================================================
-      use SoilTModule
       Use infrastructure
       implicit none
 
@@ -920,7 +995,7 @@ c     endif
 
       call pop_routine(myname)
       return
-      END
+      end subroutine
 
 * ====================================================================
       Recursive
@@ -963,7 +1038,7 @@ c     endif
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 * ====================================================================
       Recursive
@@ -1016,4 +1091,6 @@ c     endif
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
+
+      end module SoilTModule
