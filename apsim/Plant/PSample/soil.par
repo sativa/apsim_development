@@ -83,16 +83,16 @@ profile_reduction =  on
 
 
 !******************************************************************************************************
-[sample.residue2.parameters]
+[sample.SurfaceOM.parameters]
 
 !This part needs to talk to Holger, not found in APS06, copied from elsewhere -------------------- Question?
 
-pot_decomp_rate =         0.05  ()
-residue_wt =            500.0   ()   ! surface residues as biomass (kg/ha)
-residue_cnr =            76.0   ()   ! cn ratio of surface residues
-residue_cpr =            200.0   ()  ! cp ratio of surface residues
-residue_type =          sorghum
+mass = 500.0   ()   ! surface residues as biomass (kg/ha)
+cnr = 76.0   ()   ! cn ratio of surface residues
+cpr = 200.0   ()  ! cp ratio of surface residues
+type = sorghum
 
+name = sorghum
 [sample.soilp.parameters]
 !layer         1   2   3   4   5   6   7
 labile_p =     2   1   1   1   1   1   1   (ppm) !labile p content for each layer
