@@ -126,7 +126,7 @@
       Type MicrometParameters
          sequence
          real      soil_albedo
-         real      layer_ga
+
          real      A_interception
          real      B_interception
          real      C_interception
@@ -140,6 +140,7 @@
          real sun_angle
          real soil_heat_flux_fraction
          real night_interception_fraction
+         real windspeed_default
 
       end type MicrometConstants
 *     ========================================
@@ -316,7 +317,7 @@
       c%soil_emissivity = 0.0
 
       p%soil_albedo = 0.0
-      p%layer_ga = 0.0
+
       p%A_interception = 0.0
       p%B_interception = 0.0
       p%C_interception = 0.0
@@ -412,14 +413,14 @@
          call respond2get_real_var (
      :               variable_name       ! variable name
      :              ,'()'              ! variable units
-     :              ,g%petr(1,1)) ! variable
+     :              ,sum(g%petr(:,:))) ! variable
 
       elseif (Variable_name.eq.'peta') then
 
          call respond2get_real_var (
      :               variable_name       ! variable name
      :              ,'()'              ! variable units
-     :              ,g%peta(1,1)) ! variable
+     :              ,sum(g%peta(:,:))) ! variable
 
       elseif (Variable_name.eq.'net_radn') then
 
@@ -517,14 +518,6 @@
      :        0.0,                   ! Lower Limit for bound checking
      :        1.0)                   ! Upper Limit for bound checking
 
-      call read_real_var (
-     :        section_name,          ! Section header
-     :        'layer_ga',            ! Keyword
-     :        '(m/s)',               ! Units
-     :        p%layer_ga,            ! Parameter
-     :        numvals,               ! Number of values returned
-     :        0.0,                   ! Lower Limit for bound checking
-     :        1.0)                   ! Upper Limit for bound checking
 
       call read_real_var_optional (
      :        section_name,          ! Section header
@@ -639,8 +632,8 @@
      :         , '()'                 ! Units
      :         , c%sun_angle    ! Variable
      :         , numvals              ! Number of values returned
-     :         , -10.0                  ! Lower Limit for bound checking
-     :         , 0.0)                ! Upper Limit for bound checking
+     :         , -20.0                  ! Lower Limit for bound checking
+     :         , 20.0)                 ! Upper Limit for bound checking
 
       call read_real_var (
      :           section_name         ! Section header
@@ -659,6 +652,16 @@
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1.0)                ! Upper Limit for bound checking
+
+      call read_real_var (
+     :           section_name         ! Section header
+     :         , 'windspeed_default'    ! Keyword
+     :         , '(m/s)'                 ! Units
+     :         , c%windspeed_default    ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 10.0)                ! Upper Limit for bound checking
+
 
       call pop_routine (myname)
       return
@@ -1874,11 +1877,15 @@
 
       call push_routine (myname)
 
-      call get_real_var (unknown_module, 'windspeed'
-     :                                    , '(mm)'
+      call get_real_var_optional (unknown_module, 'windspeed'
+     :                                    , '(m/s)'
      :                                    , g%windspeed, numvals
-     :                                    , 0.0, 100.)
+     :                                    , 0.0, 10.0)
 
+      if (numvals.le.0) then
+         ! no windspeed information
+         g%windspeed = c%windspeed_default
+      endif
 
       TotalGa = micromet_AerodynamicConductanceFAO(
      :                         g%WindSpeed          !windspeed
