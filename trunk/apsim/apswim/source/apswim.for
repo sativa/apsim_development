@@ -166,6 +166,7 @@
          double precision rssf
          double precision qs(0:M)
          double precision qex(0:M)
+         double precision qexpot(0:M)
          double precision qssif(0:M)
          double precision qssof(0:M)
 
@@ -224,6 +225,7 @@
          double precision ctp(MV)
          double precision ct(MV)
          double precision qr(0:M,MV)
+         double precision qrpot(0:M,MV)
          double precision slup(MV,nsol) ! this seems a silly declaration
                                      ! from what I see it makes no difference
                                      ! because it is not used.
@@ -255,6 +257,7 @@
 
          double precision psuptake(nsol,MV,0:M)
          double precision pwuptake(MV,0:M)
+         double precision pwuptakepot(MV,0:M)
          double precision cslold(nsol,0:M)
 
          double precision hyscon
@@ -1661,6 +1664,19 @@ cnh      print*,g%TD_pevap
             Call Message_Unused()
          endif
 
+      else if (index (Variable_name, 'supply_').eq.1) then
+         call split_line (Variable_name(8:),uname,ucrop,'_')
+         call apswim_get_supply (ucrop, uname, uptake, uunits,uflag)
+         if (uflag) then
+            call respond2Get_double_array (
+     :            Variable_name,
+     :            uunits,
+     :            uptake(0),
+     :            p%n+1)
+         else
+            Call Message_Unused()
+         endif
+
       else if (index(Variable_name,'leach_').eq.1) then
          solnum = apswim_solute_number (Variable_name(7:))
          if (solnum.ne.0) then
@@ -2118,6 +2134,7 @@ cnh
       g%rssf = 0d0
       g%qs(:) = 0d0
       g%qex(:) = 0d0
+      g%qexpot(:) = 0d0
       g%qssif(:) = 0d0
       g%qssof(:) = 0d0
 
@@ -2364,6 +2381,7 @@ c       double precision g%slup(MV)
             g%rld(node,vegnum) = 0d0
             g%rc (node,vegnum) = 0d0
             g%qr (node,vegnum) = 0d0
+            g%qrpot (node,vegnum) = 0d0
             do 39 solnum=1,nsol
                g%slup (vegnum,solnum) = 0d0
    39       continue
@@ -3106,6 +3124,7 @@ c      double precision psiold(0:M)
       double precision old_hmin
       double precision old_gsurf
       double precision evap_Demand
+      double precision LogTime
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -3153,6 +3172,8 @@ c         print*,g%t
                qmax=max(qmax,g%res)
                do 15 i=0,p%n
                   qmax=max(qmax,g%qex(i))
+                  qmax=max(qmax,g%qexpot(i)) ! this to make steps small when pot is large therefore to
+                                             ! provide accurate pot supply back to crops
                   qmax=max(qmax,abs(g%qs(i)))
                   qmax=max(qmax,abs(g%qssif(i)))
                   qmax=max(qmax,abs(g%qssof(i)))
@@ -3198,6 +3219,13 @@ cnh            g%dt=max(g%dt,p%dtmin)
 
             g%dt=min(g%dt,p%dtmax)
             g%dt=max(g%dt,p%dtmin)
+
+cnh need to limit timestep to not step past a point on the evap or rainfall log
+            LogTime = NextLogTime(g%SWIMRainTime,g%SWIMRainNumPairs)
+            g%dt=min(g%dt,LogTime-g%t)
+             LogTime = NextLogTime(g%SWIMEvapTime,g%SWIMEvapNumPairs)
+            g%dt=min(g%dt,LogTime-g%t)
+
 cnh            g%dt = dubound(g%dt,timestep_remaining)
          end if
 
@@ -3834,6 +3862,7 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
                   g%psuptake(solnum,vegnum,node) = 0d0
    63          continue
                g%pwuptake(vegnum,node) = 0d0
+               g%pwuptakepot(vegnum,node) = 0d0
    62       continue
    61    continue
 
@@ -5752,6 +5781,83 @@ cnh NOTE - intensity is not part of the official design !!!!?
       return
       end subroutine
 
+* ====================================================================
+       subroutine apswim_get_supply (ucrop, uname, uarray, uunits,uflag)
+* ====================================================================
+      use Infrastructure
+      Use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      double precision uarray(0:p%n)
+      character ucrop *(*)
+      character uname *(*)
+      character uunits*(*)
+      logical       uflag
+
+*+  Constant Values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_get_supply')
+
+*+  Local Variables
+      integer counter
+      integer node
+      integer solnum
+      integer vegnum
+
+*+  Initial Data Values
+      uflag = .false. ! set to false to start - if match is found it is
+                      ! set to true.
+      uunits = ' '
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      call fill_double_array (uarray(0), 0d0, p%n+1)
+
+      vegnum = 0
+      do 10 counter = 1, g%num_crops
+         if (g%crop_names(counter).eq.ucrop) then
+            vegnum = counter
+         else
+         endif
+   10 continue
+
+      if (vegnum.eq.0) then
+         ! ignore it
+
+      else
+
+         if (uname.eq.'water') then
+             uflag = .true.
+             uunits = '(mm)'
+             do 40 node=0,p%n
+                ! uptake may be very small -ve - assume error small
+                uarray(node) = max (g%pwuptakepot(vegnum,node),0d0)
+   40        continue
+
+         else
+!            do 100 solnum = 1, p%num_solutes
+!               if (p%solute_names(solnum).eq.uname) then
+!                  do 50 node=0,p%n
+!                     uarray(node) = max(g%psuptake(solnum,vegnum,node)
+!     :                                 ,0d0)
+!   50             continue
+!                  uflag = .true.
+!                  uunits = '(kg/ha)'
+!                  goto 110
+!               else
+!               endif
+!  100       continue
+!  110       continue
+             uflag = .false.
+
+         endif
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
 
 
 *     ===========================================================
@@ -9279,6 +9385,45 @@ c      pause
       return
       end subroutine
 
+!     ===========================================================
+      double precision function NextLogTime(logtime,numpairs)
+!     ===========================================================
+      Use infrastructure
+      implicit none
+
+      double precision logtime(*)
+      integer          numpairs
+
+*+  Local Variables
+      integer          counter
+      logical          found
+      double precision end_of_day
+
+*- Implementation Section ----------------------------------
+
+      found = .false.
+
+      do 10 counter = 1, NumPairs
+         if (logtime(counter).gt.g%t) then
+            found = .true.
+            NextLogTime = logtime(counter)
+            goto 999
+         else
+            ! smaller or same - keep looking to next one
+         endif
+   10 continue
+  999 continue
+
+      if (.not. found) then
+          end_of_day = apswim_time (g%year
+     :                             ,g%day
+     :                             ,apswim_time_to_mins(g%apsim_time)
+     :                                +int(g%apsim_timestep))
+         NextLogTime = end_of_day
+      endif
+
+      return
+      end function
 
       include 'swim.for'
 
