@@ -1,0 +1,1048 @@
+Version = 2.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 865
+  ClientWidth = 1384
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Gunnedah600: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Dalby600Prob.onSourceDataChanged'
+      'Warra600HighNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Gunnedah600.out')
+    Left = 170
+    Top = 157
+  end
+  object Gunnedah600Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Gunnedah600
+    fieldName = 'yield'
+    Left = 304
+    Top = 160
+  end
+  object Gunnedah1500: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra1500HighNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Gunnedah1500.out')
+    Left = 171
+    Top = 223
+  end
+  object Walgett600: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra600LowNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Walgett600.out')
+    Left = 176
+    Top = 320
+  end
+  object Walgett1500: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra1500LowNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Walgett1500.out')
+    Left = 192
+    Top = 408
+  end
+  object Gunnedah1500Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Gunnedah1500
+    fieldName = 'yield'
+    Left = 304
+    Top = 232
+  end
+  object Walgett600Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Walgett600
+    fieldName = 'yield'
+    Left = 312
+    Top = 328
+  end
+  object Walgett1500Prob: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Walgett1500
+    fieldName = 'yield'
+    Left = 322
+    Top = 418
+  end
+end
+object Page1: TQuickRep
+  Left = 347
+  Top = 73
+  Width = 556
+  Height = 786
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 70
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 556
+    Height = 786
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2101.54761904762)
+    BandType = rbTitle
+    object Graph1: TGraph
+      Left = 32
+      Top = 269
+      Width = 454
+      Height = 258
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        973.666666666667
+        121.708333333333
+        1016
+        1714.5)
+      title = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.LabelsFont.Height = -19
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMaximum = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.LabelsFont.Height = -19
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.Maximum = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.Brush.Color = clWhite
+        Legend.Brush.Style = bsClear
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 90
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 44
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series2: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Gunnedah600Prob
+          SeriesColor = clRed
+          Title = 'Gunnedah 600mm'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series3: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Gunnedah1500Prob
+          SeriesColor = clGreen
+          Title = 'Gunnedah 1500mm'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series4: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Walgett600Prob
+          SeriesColor = clYellow
+          Title = 'Walgett 600mm'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series1: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Walgett1500Prob
+          SeriesColor = clBlue
+          Title = 'Walgett 1500 mm'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 23
+      Top = 51
+      Width = 447
+      Height = 183
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        691.696428571429
+        86.9345238095238
+        192.767857142857
+        1689.55357142857)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        
+          'These simulations compare predictions with District Agronomists'#39 +
+          ' estimate of average yields'
+        
+          ' at Gunnedah and Walgett for average or ideal sowing moisture co' +
+          'nditions.'
+        ''
+        
+          'A wheat crop sown on 600 or 1500 mm of wet soil with profile PAW' +
+          'C of 350mm.  '
+        'Starting soil NO3 of 40 kg/ha .  Sown mid May.'
+        ''
+        
+          'Average Yields for normal sowing soil moisture conditions should' +
+          ' be 4 t/ha'
+        'for Gunnedah and 3 t/ha for Walgett.'
+        
+          'Average Yields for good sowing soil moisture conditions should b' +
+          'e 5 t/ha'
+        'for Gunndeah and 4.5 t/ha for Walgett.')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 
+        'These simulations compare predictions with District Agronomists'#39 +
+        ' estimate of average yields'#13#10' at Gunnedah and Walgett for averag' +
+        'e or ideal sowing moisture conditions.'#13#10#13#10'A wheat crop sown on 6' +
+        '00 or 1500 mm of wet soil with profile PAWC of 350mm.  '#13#10'Startin' +
+        'g soil NO3 of 40 kg/ha .  Sown mid May.'#13#10#13#10'Average Yields for no' +
+        'rmal sowing soil moisture conditions should be 4 t/ha'#13#10'for Gunne' +
+        'dah and 3 t/ha for Walgett.'#13#10'Average Yields for good sowing soil' +
+        ' moisture conditions should be 5 t/ha'#13#10'for Gunndeah and 4.5 t/ha' +
+        ' for Walgett.'#13#10
+      FontSize = 12
+    end
+    object Text2: TText
+      Left = 62
+      Top = 20
+      Width = 40
+      Height = 36
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        136.071428571429
+        234.345238095238
+        75.5952380952381
+        151.190476190476)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Arial'
+      Font.Style = [fsBold, fsUnderline]
+      Lines.Strings = (
+        'NSW')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'NSW'#13#10
+      FontSize = 18
+    end
+    object Graph2: TGraph
+      Left = 43
+      Top = 518
+      Width = 454
+      Height = 244
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        920.75
+        164.041666666667
+        1957.91666666667
+        1714.5)
+      title = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.LabelsFont.Height = -19
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.LabelsFont.Height = -19
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.Brush.Color = clWhite
+        Legend.Brush.Style = bsClear
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 90
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 44
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object LineSeries1: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Gunnedah600
+          SeriesColor = clRed
+          Title = '600 mm High N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries2: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Gunnedah1500
+          SeriesColor = clGreen
+          Title = '1500 mm High N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries3: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Walgett600
+          SeriesColor = clYellow
+          Title = '600 mm Low N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries4: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Walgett1500
+          SeriesColor = clBlue
+          Title = '1500 mm Low N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+      end
+    end
+  end
+end
