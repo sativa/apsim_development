@@ -1884,7 +1884,7 @@ cjh special for erik - end
 
       call push_routine (my_name)
 !gd
-!         call get_current_module (module_name)
+!         call get_name (module_name)
 !         write(*,*) 'len_trim', len_trim(module_name)
 
       call Write_string ( 'Sow')
@@ -2763,7 +2763,7 @@ cgd   Eriks modifications for Leaf Area
 
                                ! canopy
 
-      call get_current_module (module_name)
+      call get_name (module_name)
 
       call get_real_var_optional (unknown_module
      :                           , 'fr_intc_radn_'//module_name
@@ -5151,6 +5151,7 @@ cpsc
      :subroutine Main (action, data_string)
 *     ================================================================
       Use infrastructure
+      Use MilletModule
       implicit none
       ml_external Main
 
@@ -5181,7 +5182,7 @@ cpsc
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-      call get_current_module (module_name)
+      call get_name (module_name)
 
 
 !        call write_string('millet('// module_name // ' '

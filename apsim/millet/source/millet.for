@@ -1257,7 +1257,7 @@ cccc
       call accumulate (g%dlt_tiller_no, g%tiller_no
      :               , g%previous_stage, g%dlt_stage)
 
-!         call get_current_module (module_name)
+!         call get_name (module_name)
 !
 ! gd
 !      write (*,*) 'module name', module_name
@@ -1973,11 +1973,7 @@ cjh     :                               , string)
      :                        ,dlt_n_incorp
      :                        ,deepest_layer)
 
-         call Action_send (
-     :                              all_active_modules
-     :                            , 'incorp_fom'
-     :                            , Blank
-     :                            )
+         call event_send ('incorp_fom')
 
          call Delete_postbox ()
 
@@ -2334,7 +2330,7 @@ cgol bounds added to tiller number determination
 
 !cjh         write (*,*) 'tiller_no(int(sum(emerg,now))) = ', tiller_no
 
-         call get_current_module (module_name)
+         call get_name (module_name)
          write (tiller_module, '(a, i2)') module_name, tiller_no
 
 !cjh         write (*,*) 'tiller_module', tiller_module
@@ -2386,11 +2382,8 @@ cgol bounds added to tiller number determination
      :                        ,'()'
      :                        ,g%cultivar)
 
-            call Action_send (
-     :                              tiller_module
-     :                            , ACTION_initiate_crop
-     :                            , Blank
-     :                            )
+            call Action_send (tiller_module
+     :                        , ACTION_initiate_crop)
 
             call Delete_postbox ()
 
