@@ -96,6 +96,15 @@ void ApsimSettings::read(const string& key, double& value) throw(bad_lexical_cas
    value = lexical_cast<double> (stringValue);
    }
 // ------------------------------------------------------------------
+// Read in the contents of a given section.
+// ------------------------------------------------------------------
+void ApsimSettings::readSection(const std::string& sectionName, std::string& contents)
+   {
+   working->readSection(sectionName, contents);
+   if (contents == "")
+      original->readSection(sectionName, contents);
+   }
+// ------------------------------------------------------------------
 // Read and return a list of values for the specified key.
 // ------------------------------------------------------------------
 void ApsimSettings::read(const string& key, vector<string>& values)

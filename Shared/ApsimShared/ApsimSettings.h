@@ -39,6 +39,9 @@ class __declspec(dllexport) ApsimSettings
       // will also be removed.
       void erase(const std::string& key);
 
+      // Read in the contents of a given section.
+      void readSection(const std::string& sectionName, std::string& contents);
+
       // Return the folder where all APSIM settings are located.
       // Will throw if the current application is not in the apsim directory.
       static std::string getSettingsFolder(void) throw(std::runtime_error);
