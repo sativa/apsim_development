@@ -3,7 +3,6 @@
 #pragma hdrstop
 
 #include "ArraySpecifier.h"
-#include <string.h>
 
 #pragma package(smart_init)
 using namespace protocol;
