@@ -11,25 +11,25 @@
 
      Version                = 2.2
      Title                  = pat95_wrajpop
-     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\canopy\lib\canopy.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\residue2\lib\residue2.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date = 19/06/1995
@@ -78,7 +78,7 @@
        174 1995  Prepare       soilwat2 set sw = 0.168   0.197   0.226   0.257   0.257   0.190 0.190
        174 1995  Prepare       soiln2 set no3ppm= 6 16 11  4  2  2  2
        174 1995  Prepare       soiln2 set nh4ppm= 3  2  3  4  10 5  5
-       192 1995  Prepare       fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()
+       192 1995  Prepare       fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea
        249 1995  Prepare       soilwat2 set sw = 0.140   0.197   0.277   0.271   0.222   0.205 0.205
        249 1995  Prepare       soiln2 set no3ppm= 1  1  1  2  3  3  3
        249 1995  Prepare       soiln2 set nh4ppm= 9  4  8  5  5  5  5
@@ -383,9 +383,6 @@
       Initialising:
      
          - Reading constants
-
-------- tracker Initialisation ------------------------------------------------
-     Tracker variables:
 ------- Start of simulation  --------------------------------------------------
 20 June 1995(Day of year=171), operatns: 
       Sending sow message to millet
