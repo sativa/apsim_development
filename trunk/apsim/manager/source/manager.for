@@ -1190,7 +1190,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Error(str, .true.)
          methodIndex = 0
       else
-         fullName = componentName // '.' // name
+         fullName = Trim(componentName) // '.' // name
          call assign_string(
      .     g%ApsimMethods(g%numApsimMethods)%name, fullName)
          g%ApsimMethods(g%numApsimMethods)%regID
@@ -1581,7 +1581,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       dataString = adjustl(dataString)
       call split_line (dataString, methodName, dataString, Blank)
       methodName = adjustl(methodName)
-      fullMethodName = componentName // '.' // methodName
+      fullMethodName = Trim(componentName) // '.' // methodName
 
       ! perform the method call.
       if (.not. find_apsim_method(fullMethodName, methodIndex)) then
