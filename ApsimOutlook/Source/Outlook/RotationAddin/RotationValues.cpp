@@ -101,10 +101,10 @@ RotationValues::RotationValues(const vector<string>& fields)
    : fieldNames(fields), cropFields(NULL)
    {
    string st;
-   settings.read("fields|fields_averaged", st);
+   settings.read("Rotation Fields|fields_averaged", st);
    Split_string(st, ",", fieldsToAverage);
 
-   settings.read("fields|fields_divided_by_num_files", st);
+   settings.read("Rotation Fields|fields_divided_by_num_files", st);
    Split_string(st, ",", fieldsDividedByNumFiles);
    }
 // ------------------------------------------------------------------

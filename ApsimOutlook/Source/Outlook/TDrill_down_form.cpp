@@ -165,7 +165,7 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    // display logo if necessary.
    ApsimSettings settings;
    string fileName;
-   settings.read("Skin|logo", fileName);
+   settings.read("Outlook Skin|logo", fileName);
    if (fileName != "")
       {
       fileName = getAppHomeDirectory() + "\\" + fileName;
@@ -350,7 +350,7 @@ void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
    {
    ApsimSettings settings;
    vector<string> saved;
-   settings.read("Saved scenarios|saved", saved);
+   settings.read("Outlook Saved Scenarios|saved", saved);
    AnsiString value;
    if (InputQuery("Save name", "Save scenarios under what name?", value))
       {
@@ -367,7 +367,7 @@ void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
       if (doSave)
          {
          scenarios->save(value.c_str());
-         settings.write("Saved scenarios|saved", saved);
+         settings.write("Outlook Saved Scenarios|saved", saved);
          }
       }
    }
@@ -376,7 +376,7 @@ void __fastcall TDrill_down_form::RestoreLabelClick(TObject *Sender)
    {
    ApsimSettings settings;
    vector<string> saved;
-   settings.read("Saved scenarios|saved", saved);
+   settings.read("Outlook Saved Scenarios|saved", saved);
    Stl_2_tstrings(saved, ScenarioSelectForm->ScenarioList->Items);
    if (ScenarioSelectForm->ShowModal())
       {

@@ -35,10 +35,10 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
 
    ApsimSettings settings;
    string leftSt, topSt, widthSt, heightSt;
-   settings.read("MainFormPos|Left", leftSt);
-   settings.read("MainFormPos|Top", topSt);
-   settings.read("MainFormPos|Width", widthSt);
-   settings.read("MainFormPos|Height", heightSt);
+   settings.read("Apsim Report Pos|MainFormLeft", leftSt);
+   settings.read("Apsim Report Pos|MainFormTop", topSt);
+   settings.read("Apsim Report Pos|MainFormWidth", widthSt);
+   settings.read("Apsim Report Pos|MainFormHeight", heightSt);
    if (leftSt != "" && topSt != "" && widthSt != "" && heightSt != "")
       {
       Left = atoi(leftSt.c_str());
@@ -211,10 +211,10 @@ void __fastcall TMainForm::SaveEnvironmentExecute(TObject *Sender)
    {
    SEGReport1->saveEnvironment();
    ApsimSettings settings;
-   settings.write("MainFormPos|Left", IntToStr(Left).c_str());
-   settings.write("MainFormPos|Top", IntToStr(Top).c_str());
-   settings.write("MainFormPos|Width", IntToStr(Width).c_str());
-   settings.write("MainFormPos|Height", IntToStr(Height).c_str());
+   settings.write("Apsim Report Pos|MainFormLeft", IntToStr(Left).c_str());
+   settings.write("Apsim Report Pos|MainFormTop", IntToStr(Top).c_str());
+   settings.write("Apsim Report Pos|MainFormWidth", IntToStr(Width).c_str());
+   settings.write("Apsim Report Pos|MainFormHeight", IntToStr(Height).c_str());
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PageSetupExecute(TObject *Sender)

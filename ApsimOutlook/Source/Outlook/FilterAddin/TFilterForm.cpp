@@ -31,7 +31,7 @@ void __fastcall TFilterForm::FormShow(TObject *Sender)
    inFormShow = true;
    // populate the comboboxes with most recent filter values.
    vector<string> mostRecentFilters;
-   settings.read("filters|filter", mostRecentFilters);
+   settings.read("Outlook Filters|filter", mostRecentFilters);
    Stl_2_tstrings(mostRecentFilters, FilterCombo1->Items);
    Stl_2_tstrings(mostRecentFilters, FilterCombo2->Items);
    Stl_2_tstrings(mostRecentFilters, FilterCombo3->Items);
@@ -104,7 +104,7 @@ void __fastcall TFilterForm::FormClose(TObject *Sender,
       // make up a most recent filter list that we're going to write back
       // to the .ini file.
       vector<string> strings;
-      settings.read("filters|filter", strings);
+      settings.read("Outlook Filters|filter", strings);
       list<string> mostRecentFilters;
       copy(strings.begin(), strings.end(), back_inserter(mostRecentFilters));
       for (vector<string>::iterator i = filters.begin();
@@ -124,7 +124,7 @@ void __fastcall TFilterForm::FormClose(TObject *Sender,
 
       strings.erase(strings.begin(), strings.end());
       copy(mostRecentFilters.begin(), mostRecentFilters.end(), back_inserter(strings));
-      settings.write("filters|filter", strings);
+      settings.write("Outlook Filters|filter", strings);
       }
    }
 //---------------------------------------------------------------------------

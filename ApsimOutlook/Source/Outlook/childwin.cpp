@@ -188,7 +188,7 @@ void TMDIChild::Enable_options(void)
 
       // See if we need to disable the pie chart option.
       string disablePieCharts;
-      settings.read("Skin|DisablePieCharts", disablePieCharts);
+      settings.read("Outlook Skin|DisablePieCharts", disablePieCharts);
       if (Str_i_Eq(disablePieCharts, "yes"))
          {
          ChartsPieMenu->Visible = false;
@@ -284,7 +284,7 @@ void TMDIChild::Refresh_panel()
       Path p(Application->ExeName.c_str());
       p.Set_extension(".ini");
       string Option;
-      static const char* COLOUR_KEY = "Options|colour_background";
+      static const char* COLOUR_KEY = "Outlook|colour_background";
       settings.read(COLOUR_KEY, Option);
       Analysis_panel->Colour_background = !Str_i_Eq(Option, "off");
 
@@ -523,7 +523,7 @@ void TMDIChild::loadAllToolbarAddIns(void)
    iniPath.Set_extension(".ini");
 
    vector<string> addInFileNames;
-   settings.read("ToolBarAddins|addin", addInFileNames);
+   settings.read("Outlook ToolBar Addins|addin", addInFileNames);
 
    // Loop through all filenames, load the DLL, call the DLL to create an
    // instance of an AddInBase and store in our list of addins.

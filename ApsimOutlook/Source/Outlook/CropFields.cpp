@@ -17,9 +17,9 @@ CropFields::CropFields(const TAPSRecord* record)
    {
    // get a list of all recognised crop acronyms
    string st;
-   settings.read("crops|crop_acronyms", st);
+   settings.read("Outlook Crops|crop_acronyms", st);
    Split_string(st, ",", recogCropAcronyms);
-   settings.read("crops|crop_names", st);
+   settings.read("Outlook Crops|crop_names", st);
    Split_string(st, ",", recogCropNames);
 
    for (vector<string>::iterator i = recogCropAcronyms.begin();
@@ -275,7 +275,7 @@ std::string CropFields::getCropFieldName(const TAPSRecord& recordI,
    {
    // get a list of all recognised crop acronyms
    string st;
-   settings.read("crops|" + fieldIdentifier, st);
+   settings.read("Outlook Crops|" + fieldIdentifier, st);
    vector<string> recognisedFieldNames;
    Split_string(st, ",", recognisedFieldNames);
 

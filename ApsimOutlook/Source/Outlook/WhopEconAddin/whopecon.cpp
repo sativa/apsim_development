@@ -17,7 +17,7 @@
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
-#define MDB_KEY "WhopEcon|Econ Database"
+#define MDB_KEY "Economics|Database"
 #define WHOPECON_FACTOR_NAME "Econ Config"
 #define BITMAP_NAME_KEY "WhopEcon|bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
@@ -47,7 +47,7 @@ void WhopEcon::setStartupParameters(const std::string& parameters)
    
    // open the last economics data base.
    ApsimSettings settings;
-   settings.read(MDB_KEY, econMDB);
+   settings.read(MDB_KEY, econMDB, true);
    gm.open(econMDB);
 
    // get a default econ config name

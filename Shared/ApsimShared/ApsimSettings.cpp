@@ -12,21 +12,11 @@ using namespace std;
 using namespace boost;
 
 // ------------------------------------------------------------------
-// Return the folder where all APSIM settings are located.
-// ------------------------------------------------------------------
-string ApsimSettings::getSettingsFolder(void) throw(runtime_error)
-   {
-   string settingsFolder = getApsimDirectory() + "\\settings";
-   if (!DirectoryExists(settingsFolder.c_str()))
-      CreateDir(settingsFolder.c_str());
-   return settingsFolder;
-   }
-// ------------------------------------------------------------------
 //	constructor
 // ------------------------------------------------------------------
 ApsimSettings::ApsimSettings(void)
 	{
-   string originalPath = getApsimDirectory() + "\\settings.ini";
+   string originalPath = getApsimDirectory() + "\\apsim.ini";
    original = new IniFile(originalPath);
    }
 // ------------------------------------------------------------------
@@ -35,7 +25,6 @@ ApsimSettings::ApsimSettings(void)
 ApsimSettings::~ApsimSettings(void)
    {
    delete original;
-//   delete working;
    }
 // ------------------------------------------------------------------
 // refresh.
@@ -70,11 +59,12 @@ string ApsimSettings::getKey(const std::string& key) const
 // ------------------------------------------------------------------
 // read in a string value for the specified key.
 // ------------------------------------------------------------------
-void ApsimSettings::read(const std::string& key, std::string& value) const
+void ApsimSettings::read(const std::string& key, std::string& value,
+                         bool replaceMacros) const
    {
-//   working->read(getSection(key), getKey(key), value);
-//   if (value == "")
-      original->read(getSection(key), getKey(key), value);
+   original->read(getSection(key), getKey(key), value);
+   if (replaceMacros)
+      replaceAll(value, "%apsuite", getApsimDirectory());
    }
 
 // ------------------------------------------------------------------

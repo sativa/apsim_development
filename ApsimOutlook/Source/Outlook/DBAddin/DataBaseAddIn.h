@@ -5,7 +5,6 @@
 #include "AddIn.h"
 #include "DBSimulation.h"
 #include <map>
-#include <ApsimShared\ApsimSettings.h>
 // ------------------------------------------------------------------
 //  Short description:
 //    this class encapsulates a database addin
@@ -47,7 +46,6 @@ class DatabaseAddIn : public AddInBase
    private:
       typedef std::vector<DBSimulation*> SimulationContainer;
       SimulationContainer simulations;
-      ApsimSettings settings;
 
       void askUserForMDBs(void);
       void askUserForDataSets(void);

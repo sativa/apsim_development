@@ -183,6 +183,8 @@ void ApsimRuns::runApsim(bool quiet)
          continueWithRuns = performRun(filePath.Get_path(), moreToGo);
          }
       }
+   settings.refresh();
+   settings.deleteKey("Apsim|Quiet");
    settings.deleteKey("Apsim|MoreRunsToGo");
    settings.deleteKey("Apsim|NextWasClicked");
    }

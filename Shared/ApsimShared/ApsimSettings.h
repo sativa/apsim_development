@@ -23,7 +23,7 @@ class __declspec(dllexport) ApsimSettings
       // Read in a setting for the specified key.  Key should be in the format:
       //    section1|section2|...|keyvalue.
       // Will throw if key value cannot be converted to int or double.
-      void read(const std::string& key, std::string& value) const;
+      void read(const std::string& key, std::string& value, bool replaceMacros = false) const;
       void read(const std::string& key, int& value) const throw(boost::bad_lexical_cast);
       void read(const std::string& key, double& value) const throw(boost::bad_lexical_cast);
       void read(const std::string& key, std::vector<std::string>& values) const;
@@ -47,13 +47,8 @@ class __declspec(dllexport) ApsimSettings
       void writeSection(const std::string& sectionName, std::string& contents) const;
       void deleteSection(const std::string& sectionName) const;
 
-      // Return the folder where all APSIM settings are located.
-      // Will throw if the current application is not in the apsim directory.
-      static std::string getSettingsFolder(void) throw(std::runtime_error);
-
    private:
       IniFile* original;
-//      IniFile* working;
 
       std::string getSection(const std::string& key) const;
       std::string getKey(const std::string& key) const;

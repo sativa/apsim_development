@@ -6,7 +6,6 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <ApsimShared\ApsimSettings.h>
 // ------------------------------------------------------------------
 //  Short description:
 //    this class encapsulates a crop rotation addin
@@ -23,7 +22,6 @@ class RotationAddIn : public ToolBarAddInBase
       TToolButton* rotationButton;
       Graphics::TBitmap* glyph;
       TToolBar* Toolbar;
-      ApsimSettings settings;
       typedef std::vector<std::string> DataBlockNames;
       typedef std::map<std::string, DataBlockNames> Rotations;
       Rotations rotations;

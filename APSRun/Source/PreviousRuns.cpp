@@ -5,28 +5,18 @@
 
 #include "PreviousRuns.h"
 #include <ApsimShared\ApsimSettings.h>
+#include <general\inifile.h>
+#include <general\string_functions.h>
 using namespace std;
 
-static const char* NUM_REMEMBERED_RUNS = "most_recent_apsim_runs|num_apsim_runs_remembered";
-static const char* RUN_KEY = "most_recent_apsim_runs|run";
-static const char* SIMULATION_KEY = "simulation";
+static const char* SECTION = "Apsim Recent Runs";
 
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
 PreviousRuns::PreviousRuns(void)
    {
-   // get the maximum number of runs to remember in the .ini file.
-   string st;
-   ApsimSettings settings;
-   settings.read(NUM_REMEMBERED_RUNS, st);
-   if (st == "")
-      maxNumRememberedRuns = 10;
-   else
-      maxNumRememberedRuns = atoi(st.c_str());
-
-   // get the current remembered runs.
-   settings.read(RUN_KEY, rememberedRuns);
+   maxNumRememberedRuns = 10;
    }
 // ------------------------------------------------------------------
 // Get the details of a specified run if possible.  Returns
@@ -35,18 +25,9 @@ PreviousRuns::PreviousRuns(void)
 bool PreviousRuns::getPreviousRun(const string& controlFilename,
                                   vector<string>&simulationNames)
    {
-   RememberedRuns::iterator i = find(rememberedRuns.begin(),
-                                     rememberedRuns.end(),
-                                     controlFilename);
-   if (i != rememberedRuns.end())
-      {
-      ApsimSettings settings;
-      string simulationKey = controlFilename + "|" + SIMULATION_KEY;
-      settings.read(simulationKey, simulationNames);
-      return true;
-      }
-   else
-      return false;
+   ApsimSettings settings;
+   settings.read(string(SECTION) + "|" + controlFilename, simulationNames);
+   return (simulationNames.size() > 0);
    }
 
 // ------------------------------------------------------------------
@@ -58,39 +39,39 @@ void PreviousRuns::setCurrentRun(const string& controlFilename,
    ApsimSettings settings;
 
    // Write the control file section to the .ini file.
-   string simulationKey = controlFilename + "|" + SIMULATION_KEY;
-   settings.write(simulationKey, simulationNames);
+   string contents;
+   settings.readSection(SECTION, contents);
 
-   // if this control file name isn't in the current list of
-   // remembered runs, then add it to the front of the list.
-   // If the number of remembered runs is > maxNumRememberedRuns
-   // then drop one off the list and delete its section from the
-   // ini file.
-   RememberedRuns::iterator i = find(rememberedRuns.begin(),
-                                     rememberedRuns.end(),
-                                     controlFilename);
-   if (i == rememberedRuns.end())
+   // Loop through all lines in section, removing any lines matching controlFileName
+   // and making sure there are only maxNumRememberedRuns-1 control files.
+   istringstream in(contents.c_str());
+   ostringstream out;
+   string line;
+   string previousKey;
+   unsigned numSoFar=0;
+   while (getline(in, line))
       {
-
-      if (rememberedRuns.size() >= maxNumRememberedRuns)
+      string key, value;
+      getKeyNameAndValue(line, key, value);
+      if (key != "" && !Str_i_Eq(key, controlFilename))
          {
-         i--;
-         string controlFileToRemove = *i;
-         rememberedRuns.erase(i);
-         settings.deleteSection(controlFileToRemove);
+         if (!Str_i_Eq(key, previousKey))
+            numSoFar++;
+         if (numSoFar < maxNumRememberedRuns)
+            out << line << endl;
+         previousKey = key;
          }
       }
-   else
-      {
-      // remove it from the list
-      rememberedRuns.erase(i);
-      }
 
-   // write all remembered runs to .ini file.
-   vector<string> newRuns;
-   newRuns.push_back(controlFilename);
-   copy(rememberedRuns.begin(), rememberedRuns.end(), back_inserter(newRuns));
-   settings.write(RUN_KEY, newRuns);
+   // Now change the section contents to have our controlFileName first and then
+   // the rest of the older control filenames.
+   contents = "";
+   for (unsigned s = 0; s != simulationNames.size(); s++)
+      {
+      contents += controlFilename + " = " + simulationNames[s] + "\n";
+      }
+   contents += out.str();
+   settings.writeSection(SECTION, contents);
    }
 
 

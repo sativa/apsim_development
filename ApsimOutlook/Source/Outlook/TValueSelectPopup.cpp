@@ -76,7 +76,7 @@ void __fastcall TValueSelectPopup::FormShow(TObject *Sender)
    // load the picture - if any.
    string fileName;
    ApsimSettings settings;
-   settings.read("Bitmaps|" + factorName, fileName);
+   settings.read("Outlook Bitmaps|" + factorName, fileName);
    if (fileName != "")
       fileName = getAppHomeDirectory() + "\\" + fileName;
    if (fileName == "" || !FileExists(fileName.c_str()))
