@@ -86,7 +86,7 @@ RotationValues::RotationValues(const vector<string>& fields)
 
    string st;
    ini.Read("fields", "averaged_fields", st);
-   Split_string(st, " ", fieldsToAverage);
+   Split_string(st, ",", fieldsToAverage);
    }
 // ------------------------------------------------------------------
 // Add a rotation value for a particular year, field and file.
