@@ -616,10 +616,10 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 411
-  Top = 186
-  Width = 397
-  Height = 561
+  Left = 311
+  Top = 17
+  Width = 635
+  Height = 898
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -660,12 +660,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 50
+  Zoom = 80
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 397
-    Height = 561
+    Width = 635
+    Height = 898
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -677,13 +677,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.79166666667)
+      2100.13020833333)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 23
-      Top = 202
-      Width = 324
-      Height = 174
+      Left = 37
+      Top = 323
+      Width = 518
+      Height = 278
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -813,10 +813,10 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 27
-      Top = 37
-      Width = 343
-      Height = 131
+      Left = 42
+      Top = 58
+      Width = 548
+      Height = 247
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -824,10 +824,10 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        693.208333333333
-        142.875
-        195.791666666667
-        1815.04166666667)
+        816.901041666667
+        138.90625
+        191.822916666667
+        1812.39583333333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -846,8 +846,11 @@ object Page1: TQuickRep
           'r 75 kg/ha of N applied at sowing.'
         
           'Soil PAWC of 200mm (Properties from Dr M Probert).  Starting soi' +
-          'l NO3 of 44 kg/ha '
-        '(similar to Trial'#39's 0N treatments).  Sown mid May.'
+          'l NO3 of 50 kg/ha '
+        
+          '(similar to Trial'#39's 0N treatments) for low N system and 100 kg/h' +
+          'a for high N system.  '
+        'Sown mid May.'
         ''
         'Predicted Wheat Yields should '
         '1) never exceed 4.5 t/ha for the high N treatments.'
@@ -869,21 +872,22 @@ object Page1: TQuickRep
         'Simulations to be compared to Warra long term trial yields.'#13#10#13#10'A' +
         ' wheat crop sown on 600 or 1500 mm of wet soil with either 10 or' +
         ' 75 kg/ha of N applied at sowing.'#13#10'Soil PAWC of 200mm (Propertie' +
-        's from Dr M Probert).  Starting soil NO3 of 44 kg/ha '#13#10'(similar ' +
-        'to Trial'#39's 0N treatments).  Sown mid May.'#13#10#13#10'Predicted Wheat Yie' +
-        'lds should '#13#10'1) never exceed 4.5 t/ha for the high N treatments.' +
-        #13#10' and 2 t/ha for the low N treatments.'#13#10'2) get down to below 1 ' +
-        't/ha for low sowing PAWC and 2 t/ha for high sowing PAWC'#13#10'Predic' +
-        'ted Grain N% should'#13#10'1) Decrease from 3% at 1 t/ha to 2% at 4.5 ' +
-        't/ha for the High N conditions.'#13#10'2) Decrease from 2.5 % at 1 t/h' +
-        'a to 1.5% at 2 t/ha  for the Low N conditions.'#13#10
+        's from Dr M Probert).  Starting soil NO3 of 50 kg/ha '#13#10'(similar ' +
+        'to Trial'#39's 0N treatments) for low N system and 100 kg/ha for hig' +
+        'h N system.  '#13#10'Sown mid May.'#13#10#13#10'Predicted Wheat Yields should '#13#10 +
+        '1) never exceed 4.5 t/ha for the high N treatments.'#13#10' and 2 t/ha' +
+        ' for the low N treatments.'#13#10'2) get down to below 1 t/ha for low ' +
+        'sowing PAWC and 2 t/ha for high sowing PAWC'#13#10'Predicted Grain N% ' +
+        'should'#13#10'1) Decrease from 3% at 1 t/ha to 2% at 4.5 t/ha for the ' +
+        'High N conditions.'#13#10'2) Decrease from 2.5 % at 1 t/ha to 1.5% at ' +
+        '2 t/ha  for the Low N conditions.'#13#10
       FontSize = 12
     end
     object Text2: TText
-      Left = 44
-      Top = 14
-      Width = 34
-      Height = 26
+      Left = 71
+      Top = 23
+      Width = 54
+      Height = 41
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -891,10 +895,10 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        137.583333333333
-        232.833333333333
-        74.0833333333333
-        179.916666666667)
+        135.598958333333
+        234.817708333333
+        76.0677083333333
+        178.59375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -914,10 +918,10 @@ object Page1: TQuickRep
       FontSize = 18
     end
     object Graph2: TGraph
-      Left = 31
-      Top = 370
-      Width = 324
-      Height = 174
+      Left = 50
+      Top = 592
+      Width = 518
+      Height = 278
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
