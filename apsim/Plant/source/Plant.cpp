@@ -8509,16 +8509,16 @@ void Plant::plant_process ( void )
         plant_soil_nit_demand (1);
         plant_nit_uptake (c.n_uptake_option);     // allows preference of N source
         plant_nit_partition (1);                  // allows output of n fixed
-        phosphorous->process(g.current_stage
-                            , g.dm_green
-                            , g.dlt_dm_senesced);
-
         if (c.n_retrans_option==2)
            {
            // this option requires soil uptake to satisfy grain n before
            // retranslocation
            plant_nit_retrans (c.n_retrans_option);
            }
+        phosphorous->process(g.current_stage
+                            , g.dm_green
+                            , g.dlt_dm_senesced);
+
         plant_fruit_abort(c.fruit_no_option);
         plant_plant_death (1);
         }
