@@ -1245,7 +1245,7 @@
      .            trim(variable_name),
      .            ' = ',
      .            trim(Variable_value)
-               call Write_event (str)
+               call Write_string (LU_scr_sum, str)
  
             else
                call set_char_var(Unknown_module,
