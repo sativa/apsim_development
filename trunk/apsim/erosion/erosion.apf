@@ -1,13 +1,12 @@
 [general]
 name = erosion
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=erosion
+[dll]
+target  = target dll; %this\lib\erosion.dll
 
-[erosion]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\erosion.for
-target  = lib\erosion.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Mark Silburn - Module Developer; mailto:silburm@dpi.qld.gov.au
