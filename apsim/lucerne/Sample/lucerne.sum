@@ -31,7 +31,7 @@ endif
 report do_output
  
 -----------------------------------------------------------
- day= 150 date= 29  5 1988 soilwat2 -  Initialising, V2.14 081298
+ day= 150 date= 29  5 1988 soilwat2 -  Initialising, V2.15 090299
  
     - Reading constants
  
@@ -367,10 +367,10 @@ tt_emerg_limit =     1000.000
  water stress 2 =       0.4823000   nitrogen stress 2 =       0.0000000
  day=  67 date=  8  3 1989 lucerne  -  stage    6.0 flowering
                      biomass =           163.7959       lai =     1.053858
-                     stover N conc =    2.734500       extractable sw =    76.99600
+                     stover N conc =    2.734500       extractable sw =    76.99599
  day=  73 date= 14  3 1989 lucerne  -  stage    7.0 start_grain_fill
                      biomass =           208.8572       lai =     1.022914
-                     stover N conc =    2.845178       extractable sw =    50.85809
+                     stover N conc =    2.845178       extractable sw =    50.85808
  Day= 100 Year =  1989     Manager sending message :- lucerne harvest height = 50 (mm)
  
  flowering day  =   67                  stover (kg/ha) =    1130.7
@@ -402,7 +402,7 @@ tt_emerg_limit =     1000.000
  
  stress indices for flowering
  water stress 1 =       0.3864082   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.6331486   nitrogen stress 2 =       0.0000000
+ water stress 2 =       0.6331487   nitrogen stress 2 =       0.0000000
  
  stress indices for start_grain_fill
  water stress 1 =       0.0695161   nitrogen stress 1 =       0.0000000
