@@ -121,10 +121,20 @@ inline unsigned int memorySize(const Fstructure.nameType& data)
    #endfor;
    }
 };
+   #if (structure.array = T)
+extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
+   {
+   protocol::vector<protocol::Fstructure.nameType> values;
+   for (unsigned i = 0; i != *numValues; i++)
+     values.push_back(data[i]);
+   FortranProxyComponent::currentInstance->publish(*id, values);
+   }
+   #else
 extern "C" void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
    {
    FortranProxyComponent::currentInstance->publish(*id, *data);
    }
+   #endif
 extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
    {
    variant->unpack(*data);
@@ -178,12 +188,22 @@ module dataTypesInterface
    end subroutine
 
    #for_each structure
+   #if (structure.array = T)
+   subroutine publish_structure.name(id, data, numValues)
+   use datatypes
+   ml_external publish_structure.name
+   integer :: id
+   type(structure.nameType) :: data(*)
+   integer :: numValues
+   end subroutine
+   #else
    subroutine publish_structure.name(id, data)
    use datatypes
    ml_external publish_structure.name
    integer :: id
    type(structure.nameType) :: data
    end subroutine
+   #endif
 
    subroutine unpack_structure.name(variant, data)
    use datatypes
