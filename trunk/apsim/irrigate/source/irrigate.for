@@ -45,7 +45,7 @@
       parameter (my_name = 'irrigate_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.3  060696')
+      parameter (version_number = 'V1.31 120996')
 
 *   Initial data values
 *       none
@@ -85,11 +85,12 @@
 *     210395 jngh changed from irrigate_section to a parameters section
 *      011195 jngh  added call to message_unused
 *      060696 jngh removed data string from irrigate_irrigate call
+*      110996 nih  changed call to prepare to inter_timestep
 
 *   Calls:
 *     irrigate_zero_variables
 *     irrigate_Init
-*     irrigate_Prepare
+*     irrigate_Inter_timestep
 *     irrigate_get_other_variables
 *     irrigate_Process
 *     irrigate_Post
@@ -145,8 +146,8 @@
          call irrigate_zero_variables ()
          call irrigate_Init ()
 
-      else if (Action.eq.MES_Prepare) then
-         call irrigate_prepare()
+      else if (Action.eq.MES_Inter_Timestep) then
+         call irrigate_Inter_Timestep()
 
       else if (Action.eq.MES_Process) then
          call irrigate_get_other_variables ()
@@ -200,6 +201,7 @@
 *     060696 jngh changed extract to collect routines
 *                 removed data string from argument
 *                 implemented postbox method for data transfer
+*     110996 nih  added increment for g_irr_applied
 
 *   Calls:
 *     pop_routine
@@ -291,7 +293,7 @@
      :                     , numvals_solute(solnum)
      :                     , 0.0
      :                     , 1000.0)
-      
+
   100 continue
 
       call new_postbox ()
@@ -322,6 +324,8 @@
       call message_send_immediate (unknown_module, 'add_water', blank)
 
       call delete_postbox ()
+
+      g_irr_applied = g_irr_applied + amount
 
       call pop_routine (my_name)
       return
@@ -1190,6 +1194,7 @@
 *     070694 - nih adapted from old irigat module
 *     110395 jngh moved messaging to to apply routine
 *     060696 jngh implemented postbox method for data transfer
+*     110996 nih  added increment for g_irr_applied
 
 *   Calls:
 *      count_of_integer_vals
@@ -1218,7 +1223,7 @@
       integer    num_irrigs            ! number of irrigation applications
       integer    solnum
       integer    start_irrig_no        ! index in schedule to start at
-      
+
 *   Constant values
       character  my_name*(*)           ! name of this procedure
       parameter (my_name = 'irrigate_schedule')
@@ -1234,9 +1239,9 @@
       if (num_irrigs.gt.0) then
 
              ! we have a schedule.  see if we have an irrigation today.
-         
+
          start_irrig_no = g_irr_pointer
-         
+
          do 1000 irigno = start_irrig_no, num_irrigs
             if (g_day.eq.g_irr_day(irigno)
      :                     .and.
@@ -1283,67 +1288,15 @@
 
                call delete_postbox ()
 
+               g_irr_applied = g_irr_applied + amount
                g_irr_pointer = irigno + 1
+
             else
             endif
 1000     continue
       else
          ! no irrigations
       endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine irrigate_prepare ()
-*     ===========================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-
-*   Calls:
-*   pop_routine
-*   push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*      none
-
-*   Global variables
-      include   'irrigate.inc'
-
-*   Internal variables
-*      none
-
-*   Constant values
-      character*(*) my_name            ! name of current procedure
-      parameter (my_name = 'irrigate_prepare')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      g_irr_applied = 0.0
 
       call pop_routine (my_name)
       return
@@ -1375,6 +1328,7 @@
 *      040895 - jngh corrected format statement to match data types.
 *      021195 jngh changed message_pass_to_module to message_send_immediate
 *      060696 jngh implemented postbox method for data transfer
+*      110996 nih  added increment for g_irr_applied
 
 *   Calls:
 *      count_of_integer_vals
@@ -1486,6 +1440,7 @@ cnh note that results may be strange if swdep < ll15
 
          call delete_postbox ()
 
+         g_irr_applied = g_irr_applied + amount
 
       else
           ! soil not dry enough to require irrigation
@@ -1494,3 +1449,58 @@ cnh note that results may be strange if swdep < ll15
       call pop_routine (my_name)
       return
       end
+*     ===========================================================
+      subroutine irrigate_inter_timestep ()
+*     ===========================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+
+*   Calls:
+*   pop_routine
+*   push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*      none
+
+*   Global variables
+      include   'irrigate.inc'
+
+*   Internal variables
+*      none
+
+*   Constant values
+      character*(*) my_name            ! name of current procedure
+      parameter (my_name = 'irrigate_inter_timestep')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      g_irr_applied = 0.0
+
+      call pop_routine (my_name)
+      return
+      end
+
