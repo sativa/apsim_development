@@ -17,8 +17,8 @@ object MainForm: TMainForm
   Scaled = False
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 13
+  PixelsPerInch = 120
+  TextHeight = 16
   object LeftSplitter: TSplitter
     Left = 0
     Top = 88
@@ -245,15 +245,18 @@ object MainForm: TMainForm
       end
       object Open1: TMenuItem
         Action = OpenAction
+        Caption = '&Open...'
       end
       object N1: TMenuItem
         Caption = '-'
       end
       object Save1: TMenuItem
         Action = SaveAction
+        Caption = '&Save...'
       end
       object SaveAs1: TMenuItem
         Action = SaveAsAction
+        Caption = 'Save&As...'
       end
       object N2: TMenuItem
         Caption = '-'
@@ -263,10 +266,11 @@ object MainForm: TMainForm
       end
       object Print1: TMenuItem
         Action = PrintAction
-        Caption = '&Print all pages'
+        Caption = '&Print all pages...'
       end
       object Print2: TMenuItem
         Action = PrintCurrentPageAction
+        Caption = 'Print &current page only...'
       end
       object N4: TMenuItem
         Caption = '-'
