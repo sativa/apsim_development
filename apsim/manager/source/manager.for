@@ -584,7 +584,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                end if
                g%line_number = 0
                g%num_lines = apsimcomponentdata_getnumrulelines
-     .             (get_componentData())
+     .             ()
                call Tokenize (g%token_array
      .                      , g%token_array2
      .                      , max_tokens)
@@ -794,8 +794,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          EOF_flag = 1
 
       else
-         call apsimcomponentdata_getruleline(g%rule,
-     .                                       g%line_number,
+         call apsimcomponentdata_getruleline(g%line_number,
      .                                       Line)
          Line = lower_case(Line)
 
