@@ -290,8 +290,8 @@ void devide_value (container_type& container1, value_type value)
 
 // ------------------------------------------------------------------
 double linear_interp_real (double x,
-                           vector<double>& x_cord,
-                           vector<double>& y_cord,
+                           const vector<double>& x_cord,
+                           const vector<double>& y_cord,
                            bool& Did_interpolate);
 
 // ------------------------------------------------------------------
