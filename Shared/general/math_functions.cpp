@@ -1,5 +1,6 @@
 #include <general\math_functions.h>
 #include <math.h>
+#include <assert.h>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -132,4 +133,78 @@ void Calc_regression_stats (double X[], double Y[], int Num_points,
       }
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//       Linearly interpolates a value y for a given value x and a given
+//       set of xy co-ordinates.
+//       When x lies outside the x range_of, y is set to the boundary condition.
+//       Returns true for Did_interpolate if interpolation was necessary.
+
+//  Notes:
+//       XY pairs are ordered by x in ascending order.
+
+//  Changes:
+//    DPH 16/1/95
+
+// ------------------------------------------------------------------
+double linear_interp_real (double x,
+                           vector<double>& x_cord,
+                           vector<double>& y_cord,
+                           bool& Did_interpolate)
+   {
+   // find where x lies in the x cord
+
+   for (int indx = 0; indx < x_cord.size(); indx++)
+      {
+      if (x <= x_cord[indx])
+         {
+         // found position
+
+         if (indx == 1)
+            {
+            Did_interpolate = true;
+            return y_cord[indx];
+            }
+
+         else
+            {
+            // check to see if x is exactly equal to x_cord(indx).
+            // if so then dont calculate y.  This was added to
+            // remove roundoff error.  (DPH)
+
+            if (x == x_cord[indx])
+               {
+               Did_interpolate = false;
+               return y_cord[indx];
+               }
+
+            else
+               {
+               // interpolate - y = mx+c
+
+               if (x_cord[indx] - x_cord[indx-1] == 0)
+                  {
+                  Did_interpolate = true;
+                  return y_cord[indx-1];
+                  }
+
+               else
+                  {
+                  Did_interpolate = true;
+                  return ( (y_cord[indx] - y_cord[indx-1]) /
+                           (x_cord[indx] - x_cord[indx-1])
+                          * (x - x_cord[indx-1])
+                          + y_cord[indx-1]);
+                  }
+               }
+            }
+         }
+      else if (indx == x_cord.size())
+         {
+         Did_interpolate = true;
+         return y_cord[indx];
+         }
+      }
+   assert (false);
+   }
 
