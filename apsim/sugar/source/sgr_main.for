@@ -2753,6 +2753,7 @@ cmjr
       real       rwu(max_layer)        ! root water uptake (mm)
       real       rlv(max_layer)
       real       ep
+      real       esw(max_layer)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
@@ -3223,6 +3224,20 @@ c      call sugar_nit_stress_expansion (1)
          call respond2get_real_var (variable_name
      :                             , '(0-1)'
      :                             , fasw)
+
+      elseif (variable_name .eq. 'esw') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         if (g%crop_status.ne.crop_out) then
+            do 20 layer = 1, num_layers
+               esw(layer) = max(0.,g%sw_dep(layer)-p%ll_dep(layer))
+   20       continue
+         else
+            esw(1:num_layers) = 0.0
+         endif
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
+     :                               , esw
+     :                               , num_layers)
 
       elseif (variable_name .eq. 'cane_dmf') then
          cane_dmf = divide (
