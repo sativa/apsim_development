@@ -27,7 +27,7 @@ elseif day = 15 then
    fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
 elseif day = 20 then
    soilwat2 tillage type = disc ()
-   residue2 tillage type = disc ()
+   surfaceom tillage type = disc ()
    soilp tillage ! optional arguments are 'f_incorp' and 'tillage_depth', defaults for these are 
                  !  1.0 and 'all into soil layer 1' respectively
 endif
@@ -35,12 +35,12 @@ endif
 [sample.manager.end_of_day]
 report do_output
 
-[sample.residue2.parameters]
-pot_decomp_rate =  0.10 ()   ! Potential decomposition rate
-residue_wt =  0!2000. (kg/ha)  ! Initial surface residue
-residue_cnr =  30.0 ()       ! C:N ratio of initial residue
-residue_cpr = 250.0 ()       ! C:P ratio of initial residue
-residue_type =  mungbean     ! Type if initial residue
+[sample.SurfaceOM.parameters]
+mass = 0!2000. (kg/ha)  ! Initial surface residue
+cnr = 30.0 ()       ! C:N ratio of initial residue
+cpr = 250.0 ()       ! C:P ratio of initial residue
+type = mungbean     ! Type if initial residue
+name = mungbean
 
 !!!!!SAMPLE PARAMETERS ONLY!!!!!
 ! parameter values are illustrative only and not

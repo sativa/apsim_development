@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
 
@@ -75,7 +75,7 @@
         fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
      elseif day = 20 then
         soilwat2 tillage type = disc ()
-        residue2 tillage type = disc ()
+        surfaceom tillage type = disc ()
         soilp tillage
      endif
      
@@ -156,32 +156,38 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
-     
-         - Module is set Phosphorus aware
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     cpr =     250.0000
+             exceeds upper limit of    200.0000
+     Component name: SurfaceOM
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  0.00000000E+00
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying lignin mass =  0.00000000E+00
+                            C:N =  -NaN
      
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-                 0.0     0.0     0.0  mungbean
-         ------------------------------------------------
      
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0   250.0       T       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -292,8 +298,8 @@
                                              CN reduction =     0.00
                                              Acc rain     =     0.00
 20 January 1988(Day of year=20), manager: 
-     Manager sending message :- residue2 tillage  type = disc
-20 January 1988(Day of year=20), residue2: 
+     Manager sending message :- surfaceom tillage  type = disc
+20 January 1988(Day of year=20), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using disc
