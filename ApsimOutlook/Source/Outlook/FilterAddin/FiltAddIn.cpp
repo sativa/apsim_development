@@ -5,7 +5,7 @@
 #include "FiltAddIn.h"
 #include "TFilterForm.h"
 #include <general\string_functions.h>
-#include <expressionparser\parseexpr.hpp>
+#include <parseexpr.hpp>
 
 #pragma resource "Filter.res"
 using namespace std;
