@@ -1,12 +1,8 @@
-//---------------------------------------------------------------------------
-
-#include <vcl.h>
-#pragma hdrstop
-USEFORM("TSplashForm.cpp", SplashForm);
 USEFORM("TAboutForm.cpp", AboutForm);
+USEFORM("TControlFileConversionForm.cpp", ControlFileConversionForm);
+USEFORM("TSplashForm.cpp", SplashForm);
 //---------------------------------------------------------------------------
-#define Library
+This file is used by the project manager only and should be treated like the project file
 
-// To add a file to the library use the Project menu 'Add to Project'.
 
- 
+DllEntryPoint
