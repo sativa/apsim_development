@@ -140,8 +140,8 @@
          character plant_status*(10)
 !jh         real    DAY(3)
 !jh         real    HR(2)
-         real    HAIL_LAG
-         logical hail
+!         real    HAIL_LAG
+!         logical hail
          real    WLI
          real    smi_wlog
          real    F_LIMITING
@@ -286,7 +286,7 @@
          real    FRUCAL_OUT
          real    YIELD_OUT
          real    s_bed_mi
-         real    s_bed_sat
+!         real    s_bed_sat
          real    delay
          real    bpsum(Max_cohort)
          real    BOLLGR
@@ -421,7 +421,7 @@
          real     fcutout
          real     flai
          real     DDISQ
-         real     TIPOUT
+!         real     TIPOUT
          real     dlds_max
          real     POPCON
          real     acotyl
@@ -446,10 +446,10 @@
 !jh         integer MODE
       real leaf_res_n_conc
 !jh      real dlds
-      real a
-      real b1
-      real b2
-      real b3
+!      real a
+!      real b1
+!      real b2
+!      real b3
          real    HUCUT
          real    BASET
 !jh         real    AMBDA
@@ -707,8 +707,8 @@
       g%plant_status = status_out
 !jh      g%DAY(:)   = 0.0
 !jh      g%HR(:)    = 0.0
-      g%HAIL_LAG = 0.0
-      g%HAIL = .false.
+!      g%HAIL_LAG = 0.0
+!      g%HAIL = .false.
       g%wli      = 0.0
       g%F_LIMITING = 0.0
       g%smi_row   = 0.0
@@ -1748,10 +1748,6 @@
          call respond2get_real_var (variable_name
      :        , '()', g%bload)
 
-      else if (Variable_name .eq. 'frun') then
-         call respond2get_real_var (variable_name
-     :        , '()', g%frun)
-
       else if (Variable_name .eq. 'carcap_c') then
          call respond2get_real_var (variable_name
      :        , '()', g%carcap_c)
@@ -1799,6 +1795,11 @@
      :        , '(kg/ha)', totnup)
 
       else if (variable_name .eq. 'yield') then
+         yield = g%alint / 227.
+         call respond2get_real_var (variable_name
+     :        , '(bales/ha)', yield)
+
+      else if (variable_name .eq. 'lint_yield') then
          yield = g%alint / 227.
          call respond2get_real_var (variable_name
      :        , '(bales/ha)', yield)
@@ -2039,7 +2040,7 @@
 
 *- Implementation Section ----------------------------------
 
-      g%HAIL = .false.
+!      g%HAIL = .false.
 
       return
       end subroutine
@@ -3923,7 +3924,7 @@
       IF(g%tempmn.LT.c%cold_shock_delay_crit)
      :                        g%delay = g%delay+c%cold_shock_delay ! cold shock Constable (pers. comm)
 
-      IF(g%HAIL) g%delay = g%delay + p%TIPOUT + g%HAIL_LAG    ! tipping out delay
+!      IF(g%HAIL) g%delay = g%delay + p%TIPOUT + g%HAIL_LAG    ! tipping out delay
       IF(g%sumdd .LT. p%DDISQ + g%delay)then
          call pop_routine(myname)
          RETURN
@@ -5918,25 +5919,25 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                     , 0.0, 1.0)
 
 
-      call read_real_var (section_name
-     :                     , 'a', '()'
-     :                     , c%a, numvals
-     :                     , 0.0, 1.0)
-
-      call read_real_var (section_name
-     :                     , 'b1', '()'
-     :                     , c%b1, numvals
-     :                     , -1.0, 1.0)
-
-      call read_real_var (section_name
-     :                     , 'b2', '()'
-     :                     , c%b2, numvals
-     :                     , -1.0, 1.0)
-
-      call read_real_var (section_name
-     :                     , 'b3', '()'
-     :                     , c%b3, numvals
-     :                     , 0.0, 1.0)
+!      call read_real_var (section_name
+!     :                     , 'a', '()'
+!     :                     , c%a, numvals
+!     :                     , 0.0, 1.0)
+!
+!      call read_real_var (section_name
+!     :                     , 'b1', '()'
+!     :                     , c%b1, numvals
+!     :                     , -1.0, 1.0)
+!
+!      call read_real_var (section_name
+!     :                     , 'b2', '()'
+!     :                     , c%b2, numvals
+!     :                     , -1.0, 1.0)
+!
+!      call read_real_var (section_name
+!     :                     , 'b3', '()'
+!     :                     , c%b3, numvals
+!     :                     , 0.0, 1.0)
 
 !jh      call read_integer_var (section_name
 !jh     :                     , 'mode', '()'
@@ -6293,17 +6294,17 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                     , 0.0, 20.0)
 
       call read_real_var (section_name
-     :                     , 'fert_crit', '()'
+     :                     , 'fert_crit', '(kg/ha)'
      :                     , c%fert_crit, numvals
      :                     , 0.0, 100.0)
 
       call read_real_var (section_name
-     :                     , 'fert_detect', '()'
+     :                     , 'fert_detect', '(kg/ha)'
      :                     , c%fert_detect, numvals
      :                     , 0.0, 100.0)
 
       call read_integer_var (section_name
-     :                     , 'days_since_fert_max', '()'
+     :                     , 'days_since_fert_max', '(days)'
      :                     , c%days_since_fert_max, numvals
      :                     , 0, 100)
 
@@ -6504,10 +6505,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                    , p%DDISQ, numvals
      :                    , 0.0, 1000.0)
 
-      call read_real_var (g%cultivar
-     :                    , 'TIPOUT', '()'
-     :                    , p%TIPOUT, numvals
-     :                    , 0.0, 100.0)
+!      call read_real_var (g%cultivar
+!     :                    , 'TIPOUT', '()'
+!     :                    , p%TIPOUT, numvals
+!     :                    , 0.0, 100.0)
 
       call read_real_var (g%cultivar
      :                     , 'popcon', '()'
@@ -6600,10 +6601,10 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :               , p%DDISQ
       call write_string (string)
 
-      write (string, '(4x, a, f7.1)')
-     :                'TIPOUT     = '
-     :               , p%TIPOUT
-      call write_string (string)
+!      write (string, '(4x, a, f7.1)')
+!     :                'TIPOUT     = '
+!     :               , p%TIPOUT
+!      call write_string (string)
 
       write (string, '(4x, a, f7.5)')
      :                'popcon     = '
@@ -7054,37 +7055,37 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       return
       end subroutine
 
-*     ===========================================================
-      subroutine ozcot_ONHail ()
-*     ===========================================================
-      Use Infrastructure
-      implicit none
-
-*+  Purpose
-*     Update internal time record and reset daily state variables.
-
-*+  Mission Statement
-*     Update internal time record and reset daily state variables.
-
-*+  Changes
-*        261001 jngh
-
-*+  Local Variables
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'ozcot_ONHail')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      g%Hail = .true.
-
-      call pop_routine (myname)
-      return
-      end subroutine
-
-
+!*     ===========================================================
+!      subroutine ozcot_ONHail ()
+!*     ===========================================================
+!      Use Infrastructure
+!      implicit none
+!
+!*+  Purpose
+!*     Update internal time record and reset daily state variables.
+!
+!*+  Mission Statement
+!*     Update internal time record and reset daily state variables.
+!
+!*+  Changes
+!*        261001 jngh
+!
+!*+  Local Variables
+!
+!*+  Constant Values
+!      character*(*) myname               ! name of current procedure
+!      parameter (myname = 'ozcot_ONHail')
+!
+!*- Implementation Section ----------------------------------
+!      call push_routine (myname)
+!
+!      g%Hail = .true.
+!
+!      call pop_routine (myname)
+!      return
+!      end subroutine
+!
+!
       end module OzcotModule
 
 
