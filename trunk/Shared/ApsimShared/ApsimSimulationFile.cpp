@@ -42,13 +42,13 @@ ApsimSimulationFile::~ApsimSimulationFile(void)
 // ------------------------------------------------------------------
 // Run the simulation
 // ------------------------------------------------------------------
-void ApsimSimulationFile::run(bool quiet) const
+void ApsimSimulationFile::run(bool console) const
    {
-   string commandLine = getApsimDirectory() + "\\bin\\apsim.exe " +
-                        fileName;
+   string commandLine = getApsimDirectory() + "\\bin\\apsim.exe ";
+   if (console)
+      commandLine += "/console ";
+   commandLine += fileName;
    Exec(commandLine.c_str(), SW_SHOW, true);
-   if (!quiet)
-      MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
    }
 // ------------------------------------------------------------------
 // Read in the contents of the simulation file.

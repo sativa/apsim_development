@@ -28,6 +28,13 @@ class ComponentAlias
       ~ComponentAlias(void);
 
       std::string getName(void) {return name;}
+      std::string getExecutable(void)
+         {
+         if (computation != NULL)
+            return computation->getExecutable();
+         else
+            return "";
+         }
       unsigned int ID;
 
       typedef std::map<unsigned int, PMRegistrationItem*> Registrations;

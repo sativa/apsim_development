@@ -192,9 +192,16 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          break;
          }
       case protocol::GetValue:
-      case protocol::PublishEvent:
          {
          writeRegistrationData(message);
+         break;
+         }
+      case protocol::PublishEvent:
+         {
+         protocol::PublishEventData eventData;
+         messageData >> eventData;
+         writeRegistrationData(message);
+         writeVariant(eventData.variant);
          break;
          }
       case protocol::ApsimGetQuery:
@@ -209,6 +216,7 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          protocol::ApsimSetQueryData apsimSetQuery;
          messageData >> apsimSetQuery;
          out << " name=\"" << asString(apsimSetQuery.name) << "\"";
+         writeVariant(apsimSetQuery.variant);
          }
       }
    }
@@ -245,4 +253,15 @@ void LogComponent::writeRegistrationData(const Message* message)
    out << " regName=\"" << components[message->from].registrations[ID] << "\"";
    out << " regID=\"" << ID << "\"";
    }
+// ------------------------------------------------------------------
+//  Short description:
+//    write the registration data for the specified message.
 
+//  Changes:
+//    dph 14/5/2001
+
+// ------------------------------------------------------------------
+void LogComponent::writeVariant(const protocol::Variant& variant)
+   {
+   out << " type=\"" << asString(variant.getType().getTypeString()) << "\"";
+   }

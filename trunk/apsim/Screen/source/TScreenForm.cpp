@@ -42,4 +42,15 @@ void TScreenForm::addLine(const string& line)
       Memo->Lines->Delete(0);
    Memo->Lines->Add(line.c_str());
    }
+//---------------------------------------------------------------------------
+void TScreenForm::errorsWereEncountered(void)
+   {
+   ErrorLabel->Visible = true;
+   }
+//---------------------------------------------------------------------------
+void TScreenForm::simulationHasFinished(void)
+   {
+   FinishedLabel->Visible = true;
+   CloseButton->Caption = "Close";
+   }
 

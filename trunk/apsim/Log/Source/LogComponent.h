@@ -41,6 +41,8 @@ class LogComponent : public protocol::Component,
       void writeMessageData(const protocol::Message* message);
       void writeRegistrationData(const protocol::Message* message);
       void storeRegistration(const protocol::Message* message);
+      void writeVariant(const protocol::Variant& variant);
+
    };
 
 #endif

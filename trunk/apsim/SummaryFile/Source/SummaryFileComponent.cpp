@@ -6,6 +6,7 @@
 #include <ComponentInterface\ApsimVariant.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
+#include <ApsimShared\ApsimVersion.h>
 #include <general\date_class.h>
 #include <sstream>
 #include <iomanip>
@@ -56,11 +57,14 @@ void SummaryFileComponent::doInit1(const FString& sdml)
 
    // do registrations.
    static const char* stringDDML = "<type kind=\"string\"\\>";
+   static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";   
    summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
    tickID = addRegistration(respondToEventReg, "tick", "");
    prepareID = addRegistration(respondToEventReg, "prepare", "");
    externalErrorID = addRegistration(respondToEventReg, "error", "");
    summaryFileID = addRegistration(respondToGetReg, "summaryFile", stringDDML);
+   titleID = addRegistration(getVariableReg, "title", stringDDML);
+   componentsID = addRegistration(getVariableReg, "components", stringArrayDDML);
 
    string sdmlString(sdml.f_str(), sdml.length());
    ApsimServiceData service(sdmlString);
@@ -75,6 +79,47 @@ void SummaryFileComponent::doInit1(const FString& sdml)
       }
    else
       writeBanner();
+   }
+// ------------------------------------------------------------------
+// do INIT2 stuff.
+// ------------------------------------------------------------------
+void SummaryFileComponent::doInit2(void)
+   {
+   writeInfo();
+   }
+// ------------------------------------------------------------------
+// write all simulation information to summary file.
+// ------------------------------------------------------------------
+void SummaryFileComponent::writeInfo(void)
+   {
+   // write out apsim version and simulation file
+   string line = "Version                = " + getApsimVersion();
+   writeLine("", line.c_str());
+
+   // write out title.
+   protocol::Variant* variant;
+   bool ok = getVariable(titleID, variant);
+   if (ok)
+      {
+      string title;
+      variant->unpack(title);
+      line = "Title                  = " + title;
+      writeLine("", line.c_str());
+      }
+
+   // write out list of components.
+   ok = getVariable(componentsID, variant);
+   if (ok)
+      {
+      std::vector<string> components;
+      variant->unpack(components);
+      for (unsigned comp = 0; comp != components.size(); comp++)
+         {
+         line = "Component DLL          = " + components[comp];
+         writeLine("", line.c_str());
+         }
+      }
+
    }
 
 // ------------------------------------------------------------------
@@ -94,6 +139,8 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
       protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
       apsimVariant.get("jday", protocol::DTdouble, jday);
+//      unsigned jday;
+//      variant.unpack(jday);
       currentDate = jday;
       }
    else if (eventID == prepareID && !inDiaryState)
@@ -167,7 +214,9 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
             previousDate = currentDate;
          GDate date;
          date.Set((unsigned long) currentDate);
+         date.Set_write_format("D MMMMMM YYYY");
          date.Write(out);
+         out << "(Day of year=" << date.Get_day_of_year() << ")";
 
          out << ", " << asString(componentName) << ": " << endl;
          previousDate = currentDate;

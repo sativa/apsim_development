@@ -12,8 +12,11 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {
    Simulation simulation;
 
-   if (_argc == 3 && strcmpi(_argv[1], "/q") == 0)
+   if (_argc == 3 && strcmpi(_argv[1], "/console") == 0)
+      {
+      AllocConsole();
       simulation.go(_argv[2]);
+      }
 
    else if (_argc == 2)
       simulation.go(_argv[1]);
@@ -21,7 +24,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    else
       {
       ::MessageBox(NULL, "To run APSIM type : \n"
-                         "   apsim sim_file_name\n\n"
+                         "   apsim [/console] sim_file_name\n\n"
                          "Where sim_file_name is the name of your simulation file (.SIM)",
                          "Error", MB_ICONSTOP | MB_OK);
       }
@@ -46,6 +49,9 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
           Application->ShowException(&exception);
        }
    }
+   if (_argc == 3 && strcmpi(_argv[1], "/console") == 0)
+      FreeConsole();
+
    return 0;
 }
 //---------------------------------------------------------------------------

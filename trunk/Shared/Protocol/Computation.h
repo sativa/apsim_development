@@ -38,10 +38,12 @@ class __declspec(dllexport) Computation : public IComputation
          (*messageToLogicProc) (&instanceNo, message, &messageProcessed);
          }
       unsigned getInstanceNo(void) const {return instanceNo;}
+      std::string getExecutable(void) {return executableFileName;}
 
    private:
       int instanceNo;
       void* handle;
+      std::string executableFileName;
 
       void createInstance(const std::string& filename,
                           unsigned int componentId,

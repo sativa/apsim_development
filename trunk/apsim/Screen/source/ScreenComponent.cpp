@@ -43,7 +43,7 @@ ScreenComponent::ScreenComponent(void)
 // ------------------------------------------------------------------
 ScreenComponent::~ScreenComponent(void)
    {
-   ScreenForm->CloseButton->Caption = "Close";
+   ScreenForm->simulationHasFinished();
    if (ScreenForm->PauseCheckBox->Checked)
       {
       while (ScreenForm->ModalResult != mrOk)
@@ -124,6 +124,8 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
       apsimVariant.get("jday", protocol::DTdouble, jday);
+//      unsigned jday;
+//      variant.unpack(jday);
       currentDate = jday;
       int percent = (currentDate - startDateJDay) * 100 / (endDateJDay - startDateJDay);
       if (percent / 5.0 == percent / 5)
@@ -162,6 +164,8 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       else
          componentName = "";
       writeLine(componentName.c_str(), errorMessage);
+      if (isFatal)
+         ScreenForm->errorsWereEncountered();
       }
    }
 
@@ -204,8 +208,9 @@ void ScreenComponent::writeLine(const FString& componentName, const FString& lin
             previousDate = currentDate;
          GDate date;
          date.Set((unsigned long) currentDate);
+         date.Set_write_format("D MMMMMM YYYY");
          date.Write(out);
-
+         out << "(Day of year=" << date.Get_day_of_year() << ")";
          out << ", " << asString(componentName) << ": ";
          ScreenForm->addLine(out.str());
          previousDate = currentDate;

@@ -5,6 +5,7 @@
 #include "Coordinator.h"
 #include <ApsimShared\FStringExt.h>
 #include <ComponentInterface\messages.h>
+#include <ComponentInterface\messageDataExt.h>
 #include <assert.h>
 #include <general\stl_functions.h>
 #include <ApsimShared\ApsimSimulationFile.h>
@@ -94,9 +95,11 @@ void Coordinator::doInit1(const FString& sdml)
 
       // read in title and register a respondToGet
       static const char* stringDDML = "<type kind=\"string\"\\>";
+      static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";
 
       title = simulationData.getTitle();
       titleID = addRegistration(respondToGetReg, "title", stringDDML);
+      componentsID = addRegistration(respondToGetReg, "components", stringArrayDDML);
 
       // loop through all services specified in SDML and create
       // and add a componentAlias object to our list of components.
@@ -697,6 +700,19 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryData)
    {
    if (queryData.ID == titleID)
       sendVariable(queryData, FString(title.c_str()));
+   else if (queryData.ID == componentsID)
+      {
+      std::vector<string> comps;
+      for (Components::iterator c = components.begin();
+                                c != components.end();
+                                c++)
+         {
+         string dll = c->second->getExecutable();
+         if (dll != "")
+            comps.push_back(dll);
+         }
+      sendVariable(queryData, comps);
+      }
    }
 // ------------------------------------------------------------------
 // Fixup all registration destID's.

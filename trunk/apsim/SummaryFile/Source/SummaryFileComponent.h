@@ -19,6 +19,7 @@ class SummaryFileComponent : public protocol::Component
       SummaryFileComponent(void);
       ~SummaryFileComponent(void) { };
       virtual void doInit1(const FString& sdml);
+      virtual void doInit2(void);
    private:
       ofstream out;
       bool inDiaryState;
@@ -27,6 +28,8 @@ class SummaryFileComponent : public protocol::Component
       unsigned tickID;
       unsigned prepareID;
       unsigned externalErrorID;
+      unsigned titleID;
+      unsigned componentsID;
       int currentDate;
       string fileName;
 
@@ -35,6 +38,7 @@ class SummaryFileComponent : public protocol::Component
 
       void writeLine(const FString& moduleName, const FString& line);
       void writeBanner(void);
+      void writeInfo(void);
 
    };
 
