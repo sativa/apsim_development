@@ -179,7 +179,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
       else if (action.eq.mes_init) then
          call soilwat2_reset ()
          call soilwat2_sum_report ()
-         
+
       else if (action.eq.mes_reset) then
          call soilwat2_reset ()
 
@@ -574,10 +574,7 @@ cjh           need to be able run irrigation off at a different curve no.
       real       bound                 ! function
       integer    count_of_real_vals    ! function
       real       divide                ! function
-      integer    find_layer_no         ! function
       real       l_bound               ! function
-      real       sum_real_array        ! function
-      real       u_bound               ! function
 
 *   Internal variables
       real       cn                    ! scs curve number
@@ -588,33 +585,16 @@ cjh           need to be able run irrigation off at a different curve no.
       real       cover_fract           ! proportion of maximum cover effect on
                                        !    runoff (0-1)
       real       runoff_cover          ! effective cover for runoff (0-1)
-      real       profile_depth         ! current depth of soil profile
-                                       ! - for when erosion turned on
       real       cnpd                  ! cn proportional in dry range
                                        !    (dul to ll15)
-      real       cum_depth             ! cumulative depth (mm)
-      real       hydrol_effective_depth ! hydrologically effective depth for
-                                        ! runoff (mm)
-      integer    hydrol_effective_layer ! layer number that the effective 
-                                        ! depth occurs in ()
       integer    layer                 ! layer counter
       integer    num_layers            ! number of layers
       real       s                     ! potential max retention
                                        !    (surface ponding + infiltration)
-      real       scale_fact            ! scaling factor for wf function to
-                                       ! sum to 1
-      real       wf                    ! depth weighting factor for current
-                                       !    layer
-      real       wf_tot                ! total of wf ()
-      real       wx                    ! depth weighting factor for current
-                                       !    total depth.
-                                       !    intermediate variable for
-                                       !    deriving wf
-                                       !    (total wfs to current layer)
       real       xpb                   ! intermedite variable for deriving
                                        !    runof
-      real       xx                    ! intermediate variable for deriving wf
-                                       ! total wfs to previous layer
+
+      real       runoff_wf(max_layer)   ! weighting factor for depth for each la
 
 *   Constant values
       character  my_name*(*)           ! name of subroutine
@@ -635,47 +615,20 @@ cjh           need to be able run irrigation off at a different curve no.
             ! s     : s value from scs equation, transfer to mm scale
             !         = max. pot. retention (~infiltration) (mm)
 
-      xx     = 0.0
-      cum_depth = 0.0
-      cnpd = 0.0
       num_layers = count_of_real_vals (p_dlayer, max_layer)
 
            ! check if hydro_effective_depth applies for eroded profile.
 
-      profile_depth = sum_real_array (p_dlayer, num_layers)
-      hydrol_effective_depth = min (c_hydrol_effective_depth
-     :                            , profile_depth)
+      call soilwat2_runoff_depth_factor (runoff_wf)
 
-      wf_tot = 0.0
-      scale_fact = 1.0/(1.0 - exp(-4.16))
-      hydrol_effective_layer = find_layer_no (hydrol_effective_depth
-     :                                       , p_dlayer
-     :                                       , num_layers)
-      do 100 layer = 1, hydrol_effective_layer
-         cum_depth = cum_depth + p_dlayer(layer)
-         cum_depth = u_bound (cum_depth, hydrol_effective_depth)
-         
-            ! assume water content to c_hydrol_effective_depth affects runoff
-            ! sum of wf should = 1 - may need to be bounded? <dms 7-7-95>
-
-         wx = scale_fact * (1.0 - exp( - 4.16* divide (cum_depth
-     :                                         , hydrol_effective_depth
-     :                                         , 0.0)))
-         wf = wx - xx
-         xx = wx
-         
-         wf_tot = wf_tot + wf
-
+      do 100 layer = 1, num_layers
          cnpd = cnpd
      :        + divide (g_sw_dep(layer) - g_ll15_dep(layer)
      :                 , g_dul_dep(layer) - g_ll15_dep(layer)
-     :                 , 0.0) *wf
+     :                 , 0.0) *runoff_wf(layer)
   100 continue
-
-      call bound_check_real_var (wf_tot, 0.9999, 1.0001, 'wf_tot')
-
       cnpd = bound (cnpd, 0.0, 1.0)
-      
+
       call soilwat2_runoff_cover (runoff_cover)
 
           ! reduce CN2 for the day due to cover effect
@@ -690,7 +643,7 @@ cjh           need to be able run irrigation off at a different curve no.
 
 cjh         this is redundant because the previous bound of cover_frac and the
 cjh         calculation of cn2_new make it impossible to go lower.
-cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)    
+cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
       g_cn2_new = bound (g_cn2_new, 0.0, 100.0)
 
       cn1 = divide (g_cn2_new, (2.334 - 0.01334*g_cn2_new), 0.0)
@@ -1021,7 +974,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *                   & mixes of residues.  Externalized 2 coef's.
 *       300695 jngh changed pot_eo to global g_eo
 *       130896 jngh removed g_cover_tot_sum
-
+*       260897 nih  added test to avoid log of zero error
 *   Calls:
 *            bound
 *            exp
@@ -1099,13 +1052,20 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          ! BUT taking into account that residue can be a mix of
          ! residues from various crop types <dms june 95>
 
+      if (g_residue_cover.eq.1.0) then
+         ! We test for 100% to avoid log function failure.
+         ! The algorithm applied here approaches 0 as cover approaches
+         ! 100% and so we use zero in this case.
+         eos_residue_fract = 0.0
+      else
+               
          ! Calculate coefficient of residue_wt effect on reducing first
          ! stage soil evaporation rate from residue specific area "A"
 
          ! a) back-calculate specific_area from residue_cover & residue_wt
 
-      resid_specific_area = -divide (log (1.0 - g_residue_cover)
-     :                              , g_residue_wt, 0.0)
+         resid_specific_area = -divide (log (1.0 - g_residue_cover)
+     :                                 , g_residue_wt, 0.0)
 
 
          ! b) estimate 1st stage soil evap reduction power of
@@ -1114,8 +1074,9 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          !    <temporary value - will reproduce Adams et al 75 effect>
          !     c_A_to_evap_fact = 0.00022 / 0.0005 = 0.44
 
-      eos_resid_coef = resid_specific_area * c_A_to_evap_fact
-      eos_residue_fract = exp(-eos_resid_coef * g_residue_wt)
+         eos_resid_coef = resid_specific_area * c_A_to_evap_fact
+         eos_residue_fract = exp(-eos_resid_coef * g_residue_wt)
+      endif
 
          ! Reduce potential soil evap under canopy to that under residue (mulch)
 
@@ -3325,6 +3286,7 @@ cjh         endif
 *                  approached that is now used.
 *      261095 DPH  Added call to message_unused
 *      130896 jngh removed crop_cover (g_cover_green_sum)
+*      260897 nih  Added output for flow_water and flow_(solute_name)
 
 *   Calls:
 *      count_of_real_vals
@@ -3515,6 +3477,35 @@ cjh         endif
          num_layers =  count_of_real_vals (p_dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
      :                               , g_flow, num_layers)
+
+      ! --- Resultant water and solute flow output variables ---
+      else if (variable_name .eq. 'flow_water') then
+         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         do 6100 layer = 1, num_layers
+            temp_array(layer) = g_flux (layer)
+     :                        - g_flow (layer)
+ 6100    continue
+         call respond2get_real_array (variable_name, '(mm)'
+     :                               , temp_array, num_layers)
+
+      else if (index(variable_name, 'flow_').eq.1) then
+         solute_name = variable_name(len('flow_')+1:)
+         solnum = position_in_char_array (solute_name
+     :                                   ,g_solute_names
+     :                                   ,max_solute)
+         if (solnum.ne.0) then
+            num_layers = count_of_real_vals (p_dlayer, max_layer)
+            do 6200 layer = 1, num_layers
+               temp_array(layer) = g_solute_leach(solnum,layer)
+     :                           - g_solute_up(solnum,layer)
+ 6200       continue
+
+            call respond2get_real_array (variable_name, '(kg/ha)'
+     :                               , temp_array, num_layers)
+         else
+            call Message_unused ()
+         endif
+
 
       ! Oh boy isn't this messy
       ! If variable name has _leach or _up as the last thing in its
@@ -4296,6 +4287,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *       190595 jngh added bulk density
 *       300695 jngh changed format for insoil from i8 to f8.2
 *       190897 nih  renamed from soilwat2_init_report
+*       260897 nih  Added extra information to summary report
 
 *   Calls:
 *   divide
@@ -4316,15 +4308,20 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       integer    count_of_real_vals    ! function
       real       divide                ! function
       real       sum_real_array        ! function
-
+      real       l_bound               ! function
+      
 *   Internal variables
       real       depth_layer_top       ! depth to top of layer (mm)
       real       depth_layer_bottom    ! depth to bottom of layer (mm)
       integer    layer                 ! layer number
       integer    num_layers            ! number of soil profile layers
       character  line*100              ! temp output record
-
-
+      real       runoff_wf(max_layer)  ! weighting factor for runoff
+      real       usw(max_layer)        ! unavail. sw (mm)
+      real       asw(max_layer)        ! avail. sw (mm)
+      real       masw(max_layer)       ! max unavail. sw (mm)
+      real       dsw(max_layer)        ! drainable sw (mm)
+      
 *   Constant values
       character  my_name*(*)           ! name of current procedure
       parameter (my_name = 'soilwat2_sum_report')
@@ -4341,28 +4338,32 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call write_string (lu_scr_sum, line)
 
       line =
-     :'     ------------------------------------------------------'
+     :'   -----------------------------------------------------------'
+     ://'----------'
       call write_string (lu_scr_sum, line)
 
       line =
-     :'         Depth   Air_Dry   LL15    Dul    Sat     Sw    BD'
+     :'         Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   '
+     ://'Runoff  SWCON'
       call write_string (lu_scr_sum, line)
 
       line =
-     :'            mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc'
+     :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'
       call write_string (lu_scr_sum, line)
 
       line =
-     :'     ------------------------------------------------------'
+     :'   -----------------------------------------------------------'
+     ://'----------'
       call write_string (lu_scr_sum, line)
 
       num_layers = count_of_real_vals (p_dlayer, max_layer)
       depth_layer_top = 0.0
-
+      call soilwat2_runoff_depth_factor (runoff_wf)
+      
       do 1000 layer = 1,num_layers
          depth_layer_bottom = depth_layer_top + p_dlayer(layer)
 
-         write (line,'(3x, f7.0, a, f6.0, f6.3, f7.3, 1x, 5f7.3)')
+         write (line,'(3x, f6.0, a, f6.0, 8f7.3)')
      :            depth_layer_top, '-', depth_layer_bottom
      :          , divide (g_air_dry_dep(layer)
      :                  , p_dlayer(layer), 0.0)
@@ -4372,26 +4373,79 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :          , divide (g_sat_dep(layer), p_dlayer(layer), 0.0)
      :          , divide (g_sw_dep(layer), p_dlayer(layer), 0.0)
      :          , g_bd(layer)
+     :          , runoff_wf(layer)
+     :          , p_swcon(layer)
 
          call write_string (lu_scr_sum, line)
          depth_layer_top = depth_layer_bottom
 1000  continue
 
       line =
-     :'     ------------------------------------------------------'
+     :'   -----------------------------------------------------------'
+     ://'----------'
       call write_string (lu_scr_sum, line)
 
-      write (line,'(6x,''Totals'', 2f9.1, 1x, 3f7.1)')
-     :               sum_real_array (g_air_dry_dep, num_layers)
-     :             , sum_real_array (g_ll15_dep,    num_layers)
-     :             , sum_real_array (g_dul_dep,     num_layers)
-     :             , sum_real_array (g_sat_dep,     num_layers)
-     :             , sum_real_array (g_sw_dep,      num_layers)
+      call write_string (lu_scr_sum, new_line//new_line)
+
+      line = '             Soil Water Holding Capacity'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     ---------------------------------------------------------'
 
       call write_string (lu_scr_sum, line)
 
       line =
-     :'     ------------------------------------------------------'
+     :'         Depth    Unavailable Available  Max Avail.  Drainable'
+      call write_string (lu_scr_sum, line)
+      line =
+     :'                      (LL)     (SW-LL)    (DUL-LL)   (SAT-DUL)'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'                       mm        mm          mm         mm'
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      depth_layer_top = 0.0
+
+      do 2000 layer = 1,num_layers
+         depth_layer_bottom = depth_layer_top + p_dlayer(layer)
+         usw(layer) = g_ll15_dep(layer)
+         asw(layer) = l_bound(g_sw_dep(layer)-g_ll15_dep(layer),0.0)
+         masw(layer) = g_dul_dep(layer) - g_ll15_dep(layer)
+         dsw(layer) = g_sat_dep(layer) - g_dul_dep(layer)
+
+         write (line,'(3x, f6.0, a, f6.0, 4f11.2)')
+     :            depth_layer_top, '-', depth_layer_bottom
+     :           ,usw(layer)
+     :           ,asw(layer)
+     :           ,masw(layer)
+     :           ,dsw(layer)
+
+         call write_string (lu_scr_sum, line)
+         depth_layer_top = depth_layer_bottom
+2000  continue
+
+      line =
+     :'     ---------------------------------------------------------'
+      call write_string (lu_scr_sum, line)
+
+      write (line,'(10x,''Totals'', 4f11.2)')
+     :               sum_real_array (usw,  num_layers)
+     :             , sum_real_array (asw,  num_layers)
+     :             , sum_real_array (masw, num_layers)
+     :             , sum_real_array (dsw,  num_layers)
+
+
+      call write_string (lu_scr_sum, line)
+
+      line =
+     :'     ---------------------------------------------------------'
       call write_string (lu_scr_sum, line)
 
              ! echo sw parameters
@@ -4548,5 +4602,120 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call soilwat2_solute_init()
 
       call pop_routine (my_name)
+      return
+      end
+* ====================================================================
+       subroutine Soilwat2_runoff_depth_factor (runoff_wf)
+* ====================================================================
+
+*   Short description:
+*      Calculate the weighting factor hydraulic effectiveness used
+*      to weight the effect of soil moisture on runoff.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     26-08-1997 - Neil Huth - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+      real    runoff_wf(*)              ! (OUTPUT) weighting factor for runoff
+
+*   Global variables
+      include 'soilwat2.inc'
+      integer    count_of_real_vals    ! function
+      real       divide                ! function
+      integer    find_layer_no         ! function
+      real       sum_real_array        ! function
+      real       u_bound               ! function
+
+*   Internal variables
+      real       profile_depth         ! current depth of soil profile
+                                       ! - for when erosion turned on
+      real       cum_depth             ! cumulative depth (mm)
+      real       hydrol_effective_depth ! hydrologically effective depth for
+                                        ! runoff (mm)
+      integer    hydrol_effective_layer ! layer number that the effective
+                                        ! depth occurs in ()
+      integer    layer                 ! layer counter
+      integer    num_layers            ! number of layers
+      real       scale_fact            ! scaling factor for wf function to
+                                       ! sum to 1
+      real       wf_tot                ! total of wf ()
+      real       wx                    ! depth weighting factor for current
+                                       !    total depth.
+                                       !    intermediate variable for
+                                       !    deriving wf
+                                       !    (total wfs to current layer)
+      real       xx                    ! intermediate variable for deriving wf
+                                       ! total wfs to previous layer
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'Soilwat2_runoff_depth_factor')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      call fill_real_array (runoff_wf, 0.0, max_layer)
+      xx     = 0.0
+      cum_depth = 0.0
+      wf_tot = 0.0
+      num_layers = count_of_real_vals (p_dlayer, max_layer)
+
+           ! check if hydro_effective_depth applies for eroded profile.
+
+      profile_depth = sum_real_array (p_dlayer, num_layers)
+      hydrol_effective_depth = min (c_hydrol_effective_depth
+     :                            , profile_depth)
+
+      scale_fact = 1.0/(1.0 - exp(-4.16))
+      hydrol_effective_layer = find_layer_no (hydrol_effective_depth
+     :                                       , p_dlayer
+     :                                       , num_layers)
+
+      do 100 layer = 1, hydrol_effective_layer
+         cum_depth = cum_depth + p_dlayer(layer)
+         cum_depth = u_bound (cum_depth, hydrol_effective_depth)
+
+            ! assume water content to c_hydrol_effective_depth affects runoff
+            ! sum of wf should = 1 - may need to be bounded? <dms 7-7-95>
+
+         wx = scale_fact * (1.0 - exp( - 4.16* divide (cum_depth
+     :                                         , hydrol_effective_depth
+     :                                         , 0.0)))
+         runoff_wf(layer) = wx - xx
+         xx = wx
+
+         wf_tot = wf_tot + runoff_wf(layer)
+
+  100 continue
+
+      call bound_check_real_var (wf_tot, 0.9999, 1.0001, 'wf_tot')
+
+      call pop_routine (myname)
       return
       end
