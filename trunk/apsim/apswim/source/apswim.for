@@ -410,6 +410,10 @@
          integer          max_iterations
 
          double precision min_total_root_length
+         character default_rain_time*6   ! default time of rainfall (hh:mm)
+         double precision default_rain_duration        ! default duration of rainfall (min)
+         character default_evap_time*6   ! default time of evaporation (hh:mm)
+         double precision default_evap_duration        ! default duration of evaporation (min)
 
       End Type APSwimConstants
 
@@ -3220,12 +3224,28 @@ cnh            g%dt=max(g%dt,p%dtmin)
             g%dt=min(g%dt,p%dtmax)
             g%dt=max(g%dt,p%dtmin)
 
-cnh need to limit timestep to not step past a point on the evap or rainfall log
-            LogTime = NextLogTime(g%SWIMRainTime,g%SWIMRainNumPairs)
-            g%dt=min(g%dt,LogTime-g%t)
-             LogTime = NextLogTime(g%SWIMEvapTime,g%SWIMEvapNumPairs)
-            g%dt=min(g%dt,LogTime-g%t)
 
+            if(sum(g%pep(1:g%num_crops)).gt.0.0) then
+               ! there are crops requiring water. Therefore do not step past the start and end
+               ! of daily ET period.
+               ! need to limit timestep to not step past a point on the evap or rainfall log
+c               LogTime = NextLogTime(g%SWIMRainTime,g%SWIMRainNumPairs)
+c               g%dt=min(g%dt,LogTime-g%t)
+                LogTime = NextLogTime(g%SWIMEvapTime,g%SWIMEvapNumPairs)
+                g%dt=min(g%dt,LogTime-g%t)
+
+               if (g%res.eq.0d0) then
+                  ! last step was night time - better check if we are starting a new day and
+                  ! allow for change in evaporation rates
+                  qmax=max(qmax,
+     :             (apswim_cevap(g%t+g%dt)-apswim_cevap(g%t+g%dt))/g%dt)
+               endif
+               if (qmax.gt.0) then
+                  g%dt=ddivide(p%dw,qmax,0.d0)
+               else
+                  ! No Evap so no change to dt required
+               endif
+            endif
 cnh            g%dt = dubound(g%dt,timestep_remaining)
          end if
 
@@ -5314,7 +5334,8 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
                g%rld(layer-1,vegnum) = rlv_l(layer)*100d0
                length = length + rlv_l(layer) * g%dlayer(layer-1)
    60       continue
-            if (length.lt.c%min_total_root_length) then
+            if ((length.gt.0.).and.
+     :          (length.lt.c%min_total_root_length)) then
                call warning_error(Err_Internal,
      :        'Possible error with low total RLV for '
      :         //g%crop_names(vegnum))
@@ -5960,7 +5981,6 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        subroutine apswim_get_rain_variables ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -6006,14 +6026,19 @@ cnh NOTE - intensity is not part of the official design !!!!?
       else
       endif
 
-      call get_char_var (
+      call get_char_var_optional (
      :           unknown_module,
      :           'rain_time',
      :           '(hh:mm)',
      :           time,
      :           numvals)
 
-      call get_double_var_optional (
+      if (numvals.eq.0) then
+         time = c%default_rain_time
+         duration = c%default_rain_duration
+      else
+
+         call get_double_var_optional (
      :           unknown_module,
      :           'rain_durn',
      :           '(min)',
@@ -6023,8 +6048,8 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :           1440.d0*30.d0)    ! one month of mins
 
 
-      if (numvals.eq.0) then
-         call get_double_var_optional (
+         if (numvals.eq.0) then
+            call get_double_var_optional (
      :           unknown_module,
      :           'rain_int',
      :           '(min)',
@@ -6033,15 +6058,16 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :           0.d0,
      :           250.d0)          ! 10 inches in one hour
 
-         if (numvals.eq.0) then
-            call fatal_error (Err_User,
+            if (numvals.eq.0) then
+               call fatal_error (Err_User,
      :         'Failure to supply rainfall duration or intensity data')
+            else
+               Duration = ddivide (amount,intensity,0.d0) * 60.d0
+            endif                                    !      /
+                                               ! hrs->mins
          else
-            Duration = ddivide (amount,intensity,0.d0) * 60.d0
-         endif                                    !      /
-                                                  ! hrs->mins
-      else
-      endif
+         endif
+       endif
 
       if (amount.gt.0d0) then
          time_of_day = apswim_time_to_mins (time)
@@ -6300,6 +6326,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              0d0,
      :              10d0)
 
+
+
+
       call Read_char_var (
      :              section_name,
      :              'cover_effects',
@@ -6324,6 +6353,39 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              numvals,
      :              0d0,
      :              10d0)
+
+
+      call Read_char_var (
+     :              section_name,
+     :              'default_rain_time',
+     :              '()',
+     :              c%default_rain_time,
+     :              numvals)
+
+      call Read_double_var (
+     :              section_name,
+     :              'default_rain_duration',
+     :              '(min)',
+     :              c%default_rain_duration,
+     :              numvals,
+     :              0d0,
+     :              1440d0)
+
+      call Read_char_var (
+     :              section_name,
+     :              'default_evap_time',
+     :              '()',
+     :              c%default_evap_time,
+     :              numvals)
+
+      call Read_double_var (
+     :              section_name,
+     :              'default_evap_duration',
+     :              '(min)',
+     :              c%default_evap_duration,
+     :              numvals,
+     :              0d0,
+     :              1440d0)
 
       call Read_double_var (
      :              section_name,
@@ -6629,18 +6691,19 @@ cnh NOTE - intensity is not part of the official design !!!!?
 
          ! calculate evaporation for entire timestep
 
-         call get_char_var (
+         call get_char_var_optional (
      :           unknown_module,
      :           'eo_time',
      :           '(hh:mm)',
      :           time,
      :           numvals)
 
-         time_of_day = apswim_time_to_mins (time)
-         Time_mins = apswim_time (g%year,g%day,time_of_day)
+         if (numvals.eq.0) then
+            time = c%default_evap_time
+            duration = c%default_evap_duration
+         else
 
-
-         call get_double_var (
+            call get_double_var (
      :           unknown_module,
      :           'eo_durn',
      :           '(min)',
@@ -6648,6 +6711,11 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :           numvals,
      :           0.d0,
      :           1440.d0*30.d0)    ! one month of mins
+
+         endif
+
+         time_of_day = apswim_time_to_mins (time)
+         Time_mins = apswim_time (g%year,g%day,time_of_day)
 
          call apswim_get_green_cover (g%cover_green_sum)
          call apswim_pot_evapotranspiration (Amount)
@@ -7518,14 +7586,19 @@ cnh      end if
       else
       endif
 
-      call get_char_var (
+      call get_char_var_optional (
      :           unknown_module,
      :           'eo_time',
      :           '(hh:mm)',
      :           time,
      :           numvals)
 
-      call get_double_var (
+      if (numvals.eq.0) then
+         time = c%default_evap_time
+         duration = c%default_evap_duration
+      else
+
+         call get_double_var (
      :           unknown_module,
      :           'eo_durn',
      :           '(min)',
@@ -7533,7 +7606,7 @@ cnh      end if
      :           numvals,
      :           0.d0,
      :           1440.d0*30.d0)    ! one month of mins
-
+      endif
 
       time_of_day = apswim_time_to_mins (time)
       Time_mins = apswim_time (g%year,g%day,time_of_day)
