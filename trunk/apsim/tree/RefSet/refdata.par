@@ -82,7 +82,7 @@ end_date=1/1/1977
 
 [gmtb0.report.parameters]
 outputfile =step3.out
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 !               [soil_moisture.sw_dep]
 variable = apswim.sw_dep()
 !               [water_uptake.ep]
