@@ -36,7 +36,7 @@ inline void pack(Message& message, System::Single value)
 	}
 inline void unpack(Message& message,  System::Single& value) 
 	{
-	value = (float) *message.dataStream(); 	
+	value = *(float*) message.dataStream(); 	
 	message.advanceDataStream(4);
 	}
 inline const char* ddml(System::Single& value)
@@ -55,7 +55,7 @@ inline void pack(Message& message, System::Double value)
 	}
 inline void unpack(Message& message, System::Double& value) 
 	{
-	value = (double) *message.dataStream(); 	
+	value = *(double*) message.dataStream(); 	
 	message.advanceDataStream(8);
 	}
 inline const char* ddml(System::Double& value)
