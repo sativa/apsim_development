@@ -378,7 +378,7 @@ bool Replace_all (std::string& St, const char* Sub_string, const char* Replaceme
 // the substring with the replacement string.  Case insensitive.
 // Return true if a replacement was made.
 // ------------------------------------------------------------------
-bool replaceAll(string& St, const std::string& subString, const std::string& replacementString);
+bool replaceAll(std::string& St, const std::string& subString, const std::string& replacementString);
 
 // ------------------------------------------------------------------
 //  Short description:
