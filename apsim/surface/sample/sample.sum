@@ -9,67 +9,59 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
+     Version                = 2.2
+     Title                  =
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\apswim\lib\apswim.dll
+     Component DLL          = c:\development\apsim\Surface\lib\Surface.dll
+     Component DLL          = c:\development\apsim\slurp\lib\slurp.dll
 
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\surface\sample\sample.sim
-     Title                  = 
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\canopy\lib\canopy.dll(canopy) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\apswim\lib\apswim.dll(apswim) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\surface\lib\surface.dll(surface) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\slurp\lib\slurp.dll(slurp) - Licensed
-
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1995
      Simulation end date   = 31/01/1995
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = sample.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.day
         apswim.scon
         surface.rr
+     
+     Output file = sample.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\regr\apsim\surface\sample\sample.met
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: SAMPLE.MET
 
-------- CANOPY Initialisation ------------------------------------------------
+------- canopy Initialisation -------------------------------------------------
       Initialising
       No module rotation for intercropping
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      if day = 10 or day = 20 then
         apswim tillage
      endif
      report do_output
 
-------- APSWIM Initialisation ------------------------------------------------
+------- apswim Initialisation -------------------------------------------------
      Initialising
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = apswim
-     
-     Call stack  = apswim_read_param
-                   apswim_reset
-                   APSwim Main
-     
-     User error:
-     
-     initial_surface_storage =     20.00000    
+                      APSIM Warning Error
+                      -------------------
+     initial_surface_storage =     20.00000
              exceeds upper limit of    19.99500
+     Component name: apswim
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
      
      
            APSIM soil profile
@@ -149,7 +141,7 @@
            p%dtmin p%dtmax   p%ersoil   p%ernode    p%errex p%dppl p%dpnl max_water_increment
            --------------------------------------------------------------------
      
-            0.0   0.5 .100E-05 .100E-05 .100E-01 2.00 1.00        0.100                                  
+            0.0   0.5 .100E-05 .100E-05 .100E-01 2.00 1.00        0.100
      
      
      
@@ -175,30 +167,27 @@
      
      
           vapour conductivity = off
-          Rainfall Source: apsim                                             
+          Rainfall Source: apsim
      
      
-          Evaporation Source: apsim                                             
+          Evaporation Source: apsim
      
      
      
      
      
 
-------- SURFACE Initialisation -----------------------------------------------
+------- surface Initialisation ------------------------------------------------
      Initialising
      
         - Reading Parameters
 
-------- SLURP Initialisation -------------------------------------------------
+------- slurp Initialisation --------------------------------------------------
      Initialising:
 ------- Start of simulation  --------------------------------------------------
-10 January 1995 (Day of year=10):
-   MANAGER:
-           Manager sending message :- apswim tillage
-20 January 1995 (Day of year=20):
-   MANAGER:
-           Manager sending message :- apswim tillage
-31 January 1995 (Day of year=31):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+10 January 1995(Day of year=10), manager: 
+     Manager sending message :- apswim tillage
+20 January 1995(Day of year=20), manager: 
+     Manager sending message :- apswim tillage
+31 January 1995(Day of year=31), clock: 
+     Simulation is terminating due to end criteria being met.
