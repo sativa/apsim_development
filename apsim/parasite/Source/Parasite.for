@@ -1890,10 +1890,17 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :                           , y_active_population
      :                           , num_tt_since_start_active)
 
+!      tot_tt = sum(g%tt_tot(:stage_yday)) + g%dlt_tt
+!      factor1 = EXP(0.012*(min(0,tot_tt-600.0)))
+!      tot_tt = sum(g%tt_tot(:stage_yday))
+!      factor2 = EXP(0.012*(min(0,tot_tt-600.0)))
+
+
       parasite_today   = parasite_final * factor1
       parasite_ystoday = parasite_final * factor2
 
-      dlt_population_active = parasite_today - parasite_ystoday
+      dlt_population_active = parasite_today - g%population_all_tot
+!      dlt_population_active = parasite_today - parasite_ystoday
 
       end if
 
