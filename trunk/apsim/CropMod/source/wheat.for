@@ -1,4 +1,4 @@
-C     Last change:  E    10 Jan 2001   12:22 pm
+C     Last change:  E    18 Jan 2001    4:29 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -1024,8 +1024,11 @@ c      end if
      :                  g_dlt_dm_green,
      :                  c_start_grainno_dm_stage,
      :                  c_end_grainno_dm_stage,
-     :                  g_dlt_dm_green_grainno)
-     
+     :                  g_dlt_dm_green_grainno,
+     :                  c_start_retrans_dm_stage,
+     :                  c_end_retrans_dm_stage,
+     :                  g_dlt_dm_green_retrans_pool)
+      
 *     ===========================================================
       implicit none
       include   'convert.inc'
@@ -1051,6 +1054,9 @@ c      end if
       integer c_start_grainno_dm_stage
       integer c_end_grainno_dm_stage
       real    g_dlt_dm_green_grainno
+      integer c_start_retrans_dm_stage
+      integer c_end_retrans_dm_stage
+      real    g_dlt_dm_green_retrans_pool(*)
 
 
 *+  Purpose
@@ -1082,6 +1088,7 @@ c     REAL       root_fr
       REAL       dlt_dm_tot
       REAL       dlt_dm_root_min
       REAL       dlt_dm_leaf_max
+      INTEGER    part
 
 
 
@@ -1209,6 +1216,9 @@ ccccccccccccccccccccccccccc
        endif
 
 
+
+
+
       !====================================================
       !dry matter accumulation for grain no determination
 
@@ -1225,8 +1235,27 @@ ccccccccccccccccccccccccccc
 
       endif
 
+      !====================================================
+      !dry matter accumulation for retanslocation pools
+
+
+      if (stage_is_between (c_start_retrans_dm_stage,
+     :                      c_end_retrans_dm_stage,
+     :                      g_current_stage)) then
+
+         do part = 1, max_part
+           g_dlt_dm_green_retrans_pool(part) = g_dlt_dm_green(part)
+         end do
+
+      else
+
+          g_dlt_dm_green_retrans_pool(part) = 0.0
+
+      endif
+
 
       !====================================================
+
 
 
       ! now check that we have mass balance

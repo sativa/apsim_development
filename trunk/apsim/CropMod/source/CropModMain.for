@@ -1,4 +1,4 @@
-C     Last change:  E    17 Jan 2001    1:17 pm
+C     Last change:  E    18 Jan 2001    4:06 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -642,8 +642,18 @@ cjh      endif
       endif
 
 
-
-
+      if (c%crop_type .eq. 'wheat') then
+          c%wat_switch    = '111111111'
+          c%phen_switch   = '111111111'
+          c%leafno_switch = '111111111'
+          c%carb_switch   = '111111111'
+          c%part_switch   = '111111111'
+          c%tiller_switch = '111111111'
+          c%can_switch    = '111111111'
+          c%root_switch   = '111111111'
+          c%sen_switch    = '111111111'
+          c%nit_switch    = '111111111'
+      end if
 
 
       if (c%crop_type .eq. 'sunflower') then
@@ -3454,6 +3464,11 @@ c      INTEGER    istage
 
 
 
+
+      call add_real_array (g%dlt_dm_green_retrans_pool
+     :                   , g%dm_green_retrans_pool
+     :                   , max_part)
+
       g%dm_green_grainno = g%dm_green_grainno + g%dlt_dm_green_grainno
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -3679,9 +3694,6 @@ c     : *MIN(g%nfact_expansion,g%swdef_expansion)
      .          c%N_conc_crit_grain,
      .          c%N_conc_max_grain,
      .          c%N_conc_min_grain,
-     .          c%N_conc_crit_root,
-     .          c%N_conc_max_root,
-     .          c%N_conc_min_root,
      .          c%x_stage_code,
      .          c%stage_code_list,
      .          g%tt_tot,
@@ -4343,9 +4355,6 @@ cpsc  add above
      .          c_N_conc_crit_grain,
      .          c_N_conc_max_grain,
      .          c_N_conc_min_grain,
-     .          c_N_conc_crit_root,
-     .          c_N_conc_max_root,
-     .          c_N_conc_min_root,
      .          c_x_stage_code,
      .          c_stage_code_list,
      .          g_tt_tot,
@@ -4381,9 +4390,6 @@ cpsc  add above
        real c_N_conc_crit_grain
        real c_N_conc_max_grain
        real c_N_conc_min_grain
-       real c_N_conc_crit_root
-       real c_N_conc_max_root
-       real c_N_conc_min_root
        real c_x_stage_code(*)
        real c_stage_code_list(*)
        real g_tt_tot(*)
@@ -4443,10 +4449,7 @@ cpsc  add above
          N_conc_max(grain) = c_N_conc_max_grain
          N_conc_min(grain) = c_N_conc_min_grain
  
-         N_conc_crit(root) = c_N_conc_crit_root
-         N_conc_max(root) = c_N_conc_max_root
-         N_conc_min(root) = c_N_conc_min_root
- 
+
              ! the tops critical N percentage concentration is the stover
              ! (non-grain shoot) concentration below which N concentration
              ! begins to affect plant growth.
@@ -4884,6 +4887,10 @@ c           string_to_integer_var(value_string, value, numvals)
       call fill_real_array(g%dm_green,         0.0,max_part)
       call fill_real_array(g%dm_senesced,      0.0,max_part)
       call fill_real_array(g%dm_plant_min,     0.0,max_part)
+
+      call fill_real_array(g%dm_green_retrans,     0.0,max_part)
+      call fill_real_array(g%dm_green_retrans_pool,0.0,max_part)
+
 
       g%dm_green_grainno = 0.0
 
@@ -5635,6 +5642,8 @@ c           string_to_integer_var(value_string, value, numvals)
       call fill_real_array(g%dlt_dm_detached,      0.0,max_part)
       call fill_real_array(g%dlt_dm_dead_detached, 0.0,max_part)
       call fill_real_array(g%dlt_dm_green_retrans, 0.0,max_part)
+
+      call fill_real_array(g%dlt_dm_green_retrans_pool, 0.0,max_part)
 
       g%dlt_dm_green_grainno   =0.0
 

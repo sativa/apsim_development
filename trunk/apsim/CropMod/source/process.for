@@ -1,4 +1,4 @@
-C     Last change:  E    19 Dec 2000   12:26 pm
+C     Last change:  E    18 Jan 2001    4:45 pm
 
 *     ===========================================================
       subroutine cproc_transp_eff_co2(svp_fract,
@@ -566,7 +566,8 @@ C     Last change:  E    19 Dec 2000   12:26 pm
      .          g_obs_grain_no_psm,
      .          g_dm_green_grainno,
      .          p_grain_num_coeff,
-     .          g_grain_no )
+     .          g_grain_no,
+     .          g_dm_green_retrans_pool )
 *     ===========================================================
       implicit none
       include 'CropDefCons.inc'
@@ -592,7 +593,7 @@ C     Last change:  E    19 Dec 2000   12:26 pm
        REAL g_dm_green_grainno
        REAL p_grain_num_coeff   !(INPUT) grain number per g stem (grains/g stem)
        REAL g_grain_no          !(OUTPUT) grain number per square meter (grains/m^2)
-
+       REAL g_dm_green_retrans_pool(*)
 
 
 *+  Purpose
@@ -640,10 +641,22 @@ c for nwheat min stem weight at beginning of grain filling stage, no carbon mobi
          ! set the minimum weight of leaf; used for translocation to grain and stem
  
          dm_plant_leaf       = divide (g_dm_green(leaf), g_plants, 0.0)
-         g_dm_plant_min(leaf)= dm_plant_leaf * (1.0 - c_leaf_trans_frac)
-        
+c        g_dm_plant_min(leaf)= dm_plant_leaf * (1.0 - c_leaf_trans_frac)
+         g_dm_plant_min(leaf)= dm_plant_leaf -
+     :              divide(g_dm_green_retrans_pool(leaf)
+c    :               + c_dm_leaf_init * g_plants
+     :               , g_plants, 0.0)
+     :              * c_leaf_trans_frac
+
          dm_plant_stem       = divide (g_dm_green(stem), g_plants, 0.0)
-         g_dm_plant_min(stem)= dm_plant_stem * (1.0 - c_stem_trans_frac)
+c        g_dm_plant_min(stem)= dm_plant_stem * (1.0 - c_stem_trans_frac)
+         g_dm_plant_min(stem)= dm_plant_stem -
+     :              divide(g_dm_green_retrans_pool(stem)
+c    :               + c_dm_stem_init * g_plants
+     :              , g_plants, 0.0)
+     :              * c_stem_trans_frac
+
+
 
          ! Initial grain weigth is taken from this immobile stem as simplification to
          ! having grain filling prior to grain filling.
