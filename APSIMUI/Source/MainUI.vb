@@ -32,8 +32,6 @@ Public Class MainUI
         MainUImanager.SimulationExplorer = SimulationExplorer
         MainUImanager.MainForm = Me
 
-        '
-
         'Event Handlers
         AddHandler SimulationExplorer.DataSelectedEvent, AddressOf OnDataSelected
 

@@ -35,33 +35,41 @@ Public Class ReportVariablesListView
     Friend WithEvents NameColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents ModuleColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents DescriptionColumn As System.Windows.Forms.ColumnHeader
+    Friend WithEvents AliasColumn As System.Windows.Forms.ColumnHeader
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.ListView = New System.Windows.Forms.ListView
-        Me.NameColumn = New System.Windows.Forms.ColumnHeader
+        Me.AliasColumn = New System.Windows.Forms.ColumnHeader
         Me.ModuleColumn = New System.Windows.Forms.ColumnHeader
+        Me.NameColumn = New System.Windows.Forms.ColumnHeader
         Me.DescriptionColumn = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
         'ListView
         '
         Me.ListView.AllowDrop = True
-        Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NameColumn, Me.ModuleColumn, Me.DescriptionColumn})
+        Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.AliasColumn, Me.ModuleColumn, Me.NameColumn, Me.DescriptionColumn})
         Me.ListView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ListView.LabelEdit = True
         Me.ListView.Location = New System.Drawing.Point(0, 0)
         Me.ListView.Name = "ListView"
         Me.ListView.Size = New System.Drawing.Size(648, 336)
         Me.ListView.TabIndex = 0
         Me.ListView.View = System.Windows.Forms.View.Details
         '
-        'NameColumn
+        'AliasColumn
         '
-        Me.NameColumn.Text = "Name"
-        Me.NameColumn.Width = 135
+        Me.AliasColumn.Text = "Name"
+        Me.AliasColumn.Width = 100
         '
         'ModuleColumn
         '
         Me.ModuleColumn.Text = "Module"
         Me.ModuleColumn.Width = 131
+        '
+        'NameColumn
+        '
+        Me.NameColumn.Text = "Variable"
+        Me.NameColumn.Width = 135
         '
         'DescriptionColumn
         '
@@ -82,8 +90,9 @@ Public Class ReportVariablesListView
         ListView.Items.Clear()
         For Each child As String In MyData.ChildList("variable")
             Dim item As New ListViewItem
-            item.Text = child
+            item.Text = MyData.Child(child).Attribute("alias")
             item.SubItems.Add(MyData.Child(child).Attribute("module"))
+            item.SubItems.Add(MyData.Child(child).Attribute("name"))
             item.SubItems.Add(MyData.Child(child).Attribute("description"))
             ListView.Items.Add(item)
         Next
@@ -118,5 +127,9 @@ Public Class ReportVariablesListView
             Next
 
         End If
+    End Sub
+
+    Private Sub ListView_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.LabelEditEventArgs) Handles ListView.AfterLabelEdit
+        MyData.Child(ListView.Items(e.Item).Text).SetAttribute("alias", e.Label)
     End Sub
 End Class
