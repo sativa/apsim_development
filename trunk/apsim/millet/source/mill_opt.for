@@ -32,17 +32,17 @@
       if (Option .eq. 1) then
 
          call cproc_sw_supply1 (
-     :                 c%minsw
-     :                ,g%dlayer
-     :                ,p%ll_dep
-     :                ,g%dul_dep
-     :                ,g%sw_dep
-     :                ,g%num_layers
-     :                ,g%root_depth
-     :                ,p%kl
-     :                ,g%sw_avail
-     :                ,g%sw_avail_pot
-     :                ,g%sw_supply
+     :                  c%minsw
+     :                , g%dlayer
+     :                , p%ll_dep
+     :                , g%dul_dep
+     :                , g%sw_dep
+     :                , g%num_layers
+     :                , g%root_depth
+     :                , p%kl
+     :                , g%sw_avail
+     :                , g%sw_avail_pot
+     :                , g%sw_supply
      :                )
 
       else
@@ -87,28 +87,28 @@
       if (Option .eq. 1) then
 
          call crop_nfact_pheno(leaf, stem, g%dm_green
-     :        ,                g%N_conc_crit
-     :        ,                g%N_conc_min
-     :        ,                g%N_green
-     :        ,                c%N_fact_pheno, g%nfact_pheno)
+     :        , g%N_conc_crit
+     :        , g%N_conc_min
+     :        , g%N_green
+     :        , c%N_fact_pheno, g%nfact_pheno)
          call crop_nfact_photo(leaf, stem
-     :        ,            g%dm_green
-     :        ,            g%N_conc_crit
-     :        ,            g%N_conc_min
-     :        ,            g%N_green
-     :        ,            c%N_fact_photo, g%nfact_photo)
+     :        , g%dm_green
+     :        , g%N_conc_crit
+     :        , g%N_conc_min
+     :        , g%N_green
+     :        , c%N_fact_photo, g%nfact_photo)
          call crop_nfact_grain_conc(leaf, stem
-     :        ,            g%dm_green
-     :        ,            g%N_conc_crit
-     :        ,            g%N_conc_min
-     :        ,            g%N_green, g%nfact_grain_conc)
+     :        , g%dm_green
+     :        , g%N_conc_crit
+     :        , g%N_conc_min
+     :        , g%N_green, g%nfact_grain_conc)
          call crop_nfact_expansion(leaf
-     :        ,            g%dm_green
-     :        ,            g%N_conc_crit
-     :        ,            g%N_conc_min
-     :        ,            g%N_green
-     :        ,            c%N_fact_expansion
-     :        ,            g%nfact_expansion)
+     :        , g%dm_green
+     :        , g%N_conc_crit
+     :        , g%N_conc_min
+     :        , g%N_green
+     :        , c%N_fact_expansion
+     :        , g%nfact_expansion)
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -151,8 +151,12 @@
 
       if (Option .eq. 1) then
           call crop_temperature_stress_photo
-     :               (c%num_ave_temp, c%x_ave_temp, c%y_stress_photo
-     :        ,       g%maxt, g%mint, g%temp_stress_photo)
+     :               (c%num_ave_temp
+     :              , c%x_ave_temp
+     :              , c%y_stress_photo
+     :              , g%maxt
+     :              , g%mint
+     :              , g%temp_stress_photo)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -194,7 +198,7 @@
 
       if (Option .eq. 1) then
        call crop_radn_int0(g%cover_green
-     :        ,            g%fr_intc_radn, g%radn, g%radn_int)
+     :        , g%fr_intc_radn, g%radn, g%radn_int)
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -436,19 +440,19 @@
 
       if (Option .eq. 1) then
          call cproc_root_depth1 (
-     :                              g%dlayer
-     :                             ,c%num_sw_ratio
-     :                             ,c%x_sw_ratio
-     :                             ,c%y_sw_fac_root
-     :                             ,g%dul_dep
-     :                             ,g%sw_dep
-     :                             ,p%ll_dep
-     :                             ,c%root_depth_rate
-     :                             ,g%current_stage
-     :                             ,p%xf
-     :                             ,g%dlt_root_depth
-     :                             ,g%root_depth
-     :                             )
+     :                           g%dlayer
+     :                         , c%num_sw_ratio
+     :                         , c%x_sw_ratio
+     :                         , c%y_sw_fac_root
+     :                         , g%dul_dep
+     :                         , g%sw_dep
+     :                         , p%ll_dep
+     :                         , c%root_depth_rate
+     :                         , g%current_stage
+     :                         , p%xf
+     :                         , g%dlt_root_depth
+     :                         , g%root_depth
+     :                          )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -565,14 +569,14 @@
             ! we only have one supply variable.
 
             call crop_get_ext_uptakes(
-     :                 p%uptake_source   ! uptake flag
-     :                ,c%crop_type       ! crop type
-     :                ,'water'           ! uptake name
-     :                ,1.0               ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,ext_sw_supply     ! uptake array
-     :                ,max_layer         ! array dim
+     :                  p%uptake_source   ! uptake flag
+     :                , c%crop_type       ! crop type
+     :                , 'water'           ! uptake name
+     :                , 1.0               ! unit conversion factor
+     :                , 0.0               ! uptake lbound
+     :                , 100.0             ! uptake ubound
+     :                , ext_sw_supply     ! uptake array
+     :                , max_layer         ! array dim
      :                )
             call crop_swdef_photo(
      :                           max_layer
@@ -660,14 +664,14 @@
 
       if (p%uptake_source .eq. 'apsim') then
          call crop_get_ext_uptakes(
-     :                 p%uptake_source   ! uptake flag
-     :                ,c%crop_type       ! crop type
-     :                ,'water'           ! uptake name
-     :                ,1.0               ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,ext_sw_supply     ! uptake array
-     :                ,max_layer         ! array dim
+     :                  p%uptake_source   ! uptake flag
+     :                , c%crop_type       ! crop type
+     :                , 'water'           ! uptake name
+     :                , 1.0               ! unit conversion factor
+     :                , 0.0               ! uptake lbound
+     :                , 100.0             ! uptake ubound
+     :                , ext_sw_supply     ! uptake array
+     :                , max_layer         ! array dim
      :                )
 
          do 100 layer = 1, g%num_layers
@@ -820,16 +824,16 @@
       call push_routine (my_name)
 
       if (Option .eq. 101) then
-      if (g%current_stage <= emerg) then
-      endif
+         if (g%current_stage <= emerg) then
+         endif
 
 !cjh         call Millet_leaf_number_final (g%leaf_no_final)
 cjh special for erik - start
-      if (.not. g%set_leaf_no_final) then
-         call Millet_leaf_number_final (g%leaf_no_final)
-      else
-         ! final leaf no already set
-      endif
+         if (.not. g%set_leaf_no_final) then
+            call Millet_leaf_number_final (g%leaf_no_final)
+         else
+            ! final leaf no already set
+         endif
 cjh special for erik - end
 !         call Millet_leaf_number_final (
 !     :          g%current_stage,
@@ -844,7 +848,7 @@ cjh special for erik - end
 !     :          g%leaf_no_final)
 
 
-      call millet_leaf_appearance (g%dlt_leaf_no_pot) ! fraction of leaf emerged
+         call millet_leaf_appearance (g%dlt_leaf_no_pot) ! fraction of leaf emerged
 !         call Millet_leaf_appearance0 (
 !     :          g%leaf_no,
 !     :          g%leaf_no_final,
@@ -964,19 +968,21 @@ cjh special for erik - end
       if (Option .eq. 101) then
 
          call cproc_leaf_area_stressed1 (
-     :                       g%dlt_lai_pot
-     :                      ,g%swdef_expansion
-     :                      ,1.0
-!cjh     :                      ,min(g%nfact_expansion
-!cjh     :                          ,g%pfact_expansion)
-     :                      ,g%dlt_lai_stressed
+     :                        g%dlt_lai_pot
+     :                      , g%swdef_expansion
+     :                      , 1.0
+!cjh     :                      , min(g%nfact_expansion
+!cjh     :                          , g%pfact_expansion)
+     :                      , g%dlt_lai_stressed
      :                      )
 
       else
 
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
       g%dlt_lai_pot = g%dlt_lai_stressed
+
       call pop_routine (my_name)
       return
       end
@@ -1029,12 +1035,12 @@ cjh special for erik - end
 !     :          g%dm_green, g%dm_plant_min)
 
 cjh special for erik - start
-      if (.not. g%stop_growth) then
-         g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
-      else
-         ! no drymatter production
-         g%dlt_dm = 0.0
-      endif
+         if (.not. g%stop_growth) then
+            g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
+         else
+            ! no drymatter production
+            g%dlt_dm = 0.0
+         endif
 cjh special for erik - end
 !cjh         g%dlt_dm = min (g%dlt_dm_light, g%dlt_dm_water)
 
@@ -1337,8 +1343,8 @@ cjh special for erik - end
       if (Option .eq. 1) then
          ! Standard routines (4) simulate grain no approach (Ceres)
            call millet_heat_stress (g%maxt
-     :        ,               c%temp_grain_crit_stress
-     :        ,               g%dlt_heat_stress_tt)     ! high temperature stres
+     :        , c%temp_grain_crit_stress
+     :        , g%dlt_heat_stress_tt)     ! high temperature stres
            call millet_grain_no(g%current_stage
      :        , g%days_tot
      :        , g%dm_plant_top_tot
@@ -1354,6 +1360,7 @@ cjh special for erik - end
      :        , c%seed_wt_min
      :        , c%grain_N_conc_min
      :        , g%grain_no)              ! set grain number
+
            call millet_dm_grain (
      :          g%current_stage
      :        , g%maxt
@@ -1400,8 +1407,9 @@ cjh special for erik - end
       elseif (Option .eq. 3) then
          ! same as option 1 but with grain no routine fix
            call millet_heat_stress (g%maxt
-     :        ,               c%temp_grain_crit_stress
-     :        ,               g%dlt_heat_stress_tt)     ! high temperature stres
+     :        , c%temp_grain_crit_stress
+     :        , g%dlt_heat_stress_tt)     ! high temperature stres
+
            call millet_grain_no1(g%current_stage
      :        , g%days_tot
      :        , g%dm_plant_top_tot
@@ -1417,6 +1425,7 @@ cjh special for erik - end
      :        , c%seed_wt_min
      :        , c%grain_N_conc_min
      :        , g%grain_no)              ! set grain number
+
            call millet_dm_grain (
      :          g%current_stage
      :        , g%maxt
@@ -2003,14 +2012,14 @@ cjh special for erik - end
          ! NIH - note that I use a -ve conversion
          ! factor FOR NOW to make it a delta.
          call crop_get_ext_uptakes(
-     :                 p%uptake_source   ! uptake flag
-     :                ,c%crop_type       ! crop type
-     :                ,'no3'             ! uptake name
-     :                ,-kg2gm/ha2sm      ! unit conversion factor
-     :                ,0.0               ! uptake lbound
-     :                ,100.0             ! uptake ubound
-     :                ,g%dlt_no3gsm      ! uptake array
-     :                ,max_layer         ! array dim
+     :                  p%uptake_source   ! uptake flag
+     :                , c%crop_type       ! crop type
+     :                , 'no3'             ! uptake name
+     :                , -kg2gm/ha2sm      ! unit conversion factor
+     :                , 0.0               ! uptake lbound
+     :                , 100.0             ! uptake ubound
+     :                , g%dlt_no3gsm      ! uptake array
+     :                , max_layer         ! array dim
      :                )
 
       elseif (Option .eq. 1) then
@@ -2219,14 +2228,14 @@ cjh special for erik - end
          call fill_real_array (layered_p_uptake,0.0,max_layer)
 
          call get_real_array_Optional
-     :                        (unknown_module
-     :                       ,'uptake_p_millet'
-     :                       ,max_layer
-     :                       ,'()'
-     :                       ,layered_p_uptake
-     :                       ,numvals
-     :                       ,0.0
-     :                       ,100.)
+     :                         (unknown_module
+     :                       , 'uptake_p_millet'
+     :                       , max_layer
+     :                       , '()'
+     :                       , layered_p_uptake
+     :                       , numvals
+     :                       , 0.0
+     :                       , 100.)
          if (numvals.gt.0) then
             g%dlt_plant_p = sum_real_array (layered_p_uptake
      :                                     ,numvals)
@@ -2622,31 +2631,35 @@ cnh      real dlt_plants
 
       if (Option .eq. 1) then
 
-         g%dlt_plants_all = 0.0
+!         g%dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now
      :        , c%days_germ_limit
      :        , g%current_stage
      :        , g%days_tot
      :        , g%plants
-     :        , g%dlt_plants_all)
+     :        , g%dlt_plants_failure_germ)
+
          call crop_failure_emergence (germ, emerg, now
      :        , c%tt_emerg_limit
      :        , g%current_stage
      :        , g%plants
      :        , g%tt_tot
-     :        , g%dlt_plants_all)
-         call failure_leaf_sen (
+     :        , g%dlt_plants_failure_emergence)
+
+         call millet_failure_leaf_sen (
      :          g%lai
      :        , g%current_stage
      :        , g%plants
-     :        , g%dlt_plants_all)
-         call failure_phen_delay (
+     :        , g%dlt_plants_failure_leaf_sen)
+
+         call millet_failure_phen_delay (
      :          g%cswd_pheno
      :        , g%current_stage
      :        , c%swdf_pheno_limit
      :        , g%plants
-     :        , g%dlt_plants_all)
-         call death_barrenness (
+     :        , g%dlt_plants_failure_phen_delay)
+
+         call millet_death_barrenness (
      :          g%current_stage
      :        , g%days_tot
      :        , c%head_grain_no_crit
@@ -2654,8 +2667,9 @@ cnh      real dlt_plants
      :        , c%barren_crit
      :        , g%grain_no
      :        , g%plants
-     :        , g%dlt_plants_barren)
-         call death_seedling (
+     :        , g%dlt_plants_death_barrenness)
+
+         call millet_death_seedling (
      :          g%days_tot
      :        , g%year
      :        , g%day_of_year
@@ -2664,8 +2678,9 @@ cnh      real dlt_plants
      :        , c%y_plant_death
      :        , c%num_weighted_temp
      :        , g%plants
-     :        , g%dlt_plants_temp)
-         call death_drought (
+     :        , g%dlt_plants_death_seedling)
+
+         call millet_death_drought (
      :          g%cswd_photo
      :        , g%leaf_no
      :        , c%leaf_no_crit
@@ -2673,13 +2688,16 @@ cnh      real dlt_plants
      :        , g%swdef_photo
      :        , c%swdf_photo_rate
      :        , g%plants
-     :        , g%dlt_plants_water)
+     :        , g%dlt_plants_death_drought)
+
          call millet_death_actual (
-     :          g%dlt_plants_all
-     :        , g%dlt_plants_temp
-     :        , g%dlt_plants_water
-     :        , g%dlt_plants_barren
-!cnh     :         , dlt_plants
+     :          g%dlt_plants_failure_germ
+     :        , g%dlt_plants_failure_emergence
+     :        , g%dlt_plants_failure_leaf_sen
+     :        , g%dlt_plants_failure_phen_delay
+     :        , g%dlt_plants_death_seedling
+     :        , g%dlt_plants_death_drought
+     :        , g%dlt_plants_death_barrenness
      :        , g%dlt_plants
      :            )
 
@@ -2693,30 +2711,34 @@ cnh      real dlt_plants
 
       elseif (Option .eq. 2) then
 
-         g%dlt_plants_all = 0.0
+!         g%dlt_plants_all = 0.0
          call crop_failure_germination (sowing, germ, now
      :        , c%days_germ_limit
      :        , g%current_stage
      :        , g%days_tot
      :        , g%plants
-     :        , g%dlt_plants_all)
+     :        , g%dlt_plants_failure_germ)
+
          call crop_failure_emergence (germ, emerg, now
      :        , c%tt_emerg_limit
      :        , g%current_stage
      :        , g%plants
      :        , g%tt_tot
-     :        , g%dlt_plants_all)
-         call failure_leaf_sen (
+     :        , g%dlt_plants_failure_emergence)
+
+         call millet_failure_leaf_sen (
      :          g%lai
      :        , g%current_stage
      :        , g%plants
-     :        , g%dlt_plants_all)
-         call failure_phen_delay (
+     :        , g%dlt_plants_failure_leaf_sen)
+
+         call millet_failure_phen_delay (
      :          g%cswd_pheno
      :        , g%current_stage
      :        , c%swdf_pheno_limit
      :        , g%plants
-     :        , g%dlt_plants_all)
+     :        , g%dlt_plants_failure_phen_delay)
+
          call millet_death_barrenness0 (
      :          g%current_stage
      :        , g%days_tot
@@ -2725,8 +2747,9 @@ cnh      real dlt_plants
      :        , c%barren_crit
      :        , g%grain_no
      :        , g%plants
-     :        , g%dlt_plants_barren)
-         call death_seedling (
+     :        , g%dlt_plants_death_barrenness)
+
+         call millet_death_seedling (
      :          g%days_tot
      :        , g%year
      :        , g%day_of_year
@@ -2735,8 +2758,9 @@ cnh      real dlt_plants
      :        , c%y_plant_death
      :        , c%num_weighted_temp
      :        , g%plants
-     :        , g%dlt_plants_temp)
-         call death_drought (
+     :        , g%dlt_plants_death_seedling)
+
+         call millet_death_drought (
      :          g%cswd_photo
      :        , g%leaf_no
      :        , c%leaf_no_crit
@@ -2744,13 +2768,16 @@ cnh      real dlt_plants
      :        , g%swdef_photo
      :        , c%swdf_photo_rate
      :        , g%plants
-     :        , g%dlt_plants_water)
+     :        , g%dlt_plants_death_drought)
+
          call millet_death_actual (
-     :          g%dlt_plants_all
-     :        , g%dlt_plants_temp
-     :        , g%dlt_plants_water
-     :        , g%dlt_plants_barren
-!cnh     :         , dlt_plants
+     :          g%dlt_plants_failure_germ
+     :        , g%dlt_plants_failure_emergence
+     :        , g%dlt_plants_failure_leaf_sen
+     :        , g%dlt_plants_failure_phen_delay
+     :        , g%dlt_plants_death_seedling
+     :        , g%dlt_plants_death_drought
+     :        , g%dlt_plants_death_barrenness
      :        , g%dlt_plants
      :            )
 
@@ -2890,15 +2917,15 @@ c (how do we do this w. TPLA approach?)
          call millet_tt (g%dlt_tt)
 !cjh         call millet_devel (g%dlt_stage, g%current_stage)
 cjh special for erik - start
-      if (.not. g%stop_growth) then
-         call millet_devel (g%dlt_stage, g%current_stage)
+         if (.not. g%stop_growth) then
+            call millet_devel (g%dlt_stage, g%current_stage)
 
-      else
-         ! no phenological development
-         g%dlt_stage = 0.0
-         call accumulate (g%dlt_tt, g%phase_tt
-     :               , g%previous_stage, g%dlt_stage)
-      endif
+         else
+            ! no phenological development
+            g%dlt_stage = 0.0
+            call accumulate (g%dlt_tt, g%phase_tt
+     :                  , g%previous_stage, g%dlt_stage)
+         endif
 cjh special for erik - end
 
 
@@ -2913,39 +2940,39 @@ cjh special for erik - end
       else if (option .eq. 1)  then
 
          call cproc_phenology1 (
-     :                             g%previous_stage
-     :                            ,g%current_stage
-     :                            ,sowing
-     :                            ,germ
-     :                            ,harvest_ripe
-     :                            ,emerg
-     :                            ,flag_leaf
-     :                            ,max_stage
-     :                            ,c%num_temp
-     :                            ,c%x_temp
-     :                            ,c%y_tt
-     :                            ,g%maxt
-     :                            ,g%mint
-     :                            ,min(g%nfact_pheno
-     :                                ,g%pfact_pheno)
-     :                            ,g%swdef_pheno
-     :                            ,c%pesw_germ
-     :                            ,c%fasw_emerg     !
-     :                            ,c%rel_emerg_rate !
-     :                            ,c%num_fasw_emerg !
-     :                            ,g%dlayer
-     :                            ,max_layer
-     :                            ,g%sowing_depth
-     :                            ,g%sw_dep
-     :                            ,g%dul_dep
-     :                            ,p%ll_dep
-     :                            ,g%dlt_tt
-     :                            ,g%phase_tt
-     :                            ,phase_dvl
-     :                            ,g%dlt_stage
-     :                            ,g%tt_tot
-     :                            ,g%days_tot
-     :                            )
+     :                          g%previous_stage
+     :                        , g%current_stage
+     :                        , sowing
+     :                        , germ
+     :                        , harvest_ripe
+     :                        , emerg
+     :                        , flag_leaf
+     :                        , max_stage
+     :                        , c%num_temp
+     :                        , c%x_temp
+     :                        , c%y_tt
+     :                        , g%maxt
+     :                        , g%mint
+     :                        , min(g%nfact_pheno
+     :                            , g%pfact_pheno)
+     :                        , g%swdef_pheno
+     :                        , c%pesw_germ
+     :                        , c%fasw_emerg     !
+     :                        , c%rel_emerg_rate !
+     :                        , c%num_fasw_emerg !
+     :                        , g%dlayer
+     :                        , max_layer
+     :                        , g%sowing_depth
+     :                        , g%sw_dep
+     :                        , g%dul_dep
+     :                        , p%ll_dep
+     :                        , g%dlt_tt
+     :                        , g%phase_tt
+     :                        , phase_dvl
+     :                        , g%dlt_stage
+     :                        , g%tt_tot
+     :                        , g%days_tot
+     :                        )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')

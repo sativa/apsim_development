@@ -2574,23 +2574,23 @@ cgol bounds added to tiller number determination
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_leaf_no(*)
-       real leaf_no_effective
-       real c_leaf_no_correction
-       real c_x0_const
-       real c_x0_slope
-       real g_leaf_no_final
-       real c_y0_const
-       real c_y0_slope
-       real c_a_const
-       real c_a_slope1
-       real c_a_slope2
-       real c_b_const
-       real c_b_slope1
-       real c_b_slope2
-       real g_dlt_leaf_no
-       real g_plants
-      real g_swdef_expansion
+      real       g_leaf_no(*)
+      real       leaf_no_effective
+      real       c_leaf_no_correction
+      real       c_x0_const
+      real       c_x0_slope
+      real       g_leaf_no_final
+      real       c_y0_const
+      real       c_y0_slope
+      real       c_a_const
+      real       c_a_slope1
+      real       c_a_slope2
+      real       c_b_const
+      real       c_b_slope1
+      real       c_b_slope2
+      real       g_dlt_leaf_no
+      real       g_plants
+      real       g_swdef_expansion
       real       dlt_lai_pot           ! (OUTPUT) change in leaf area
 
 *+  Purpose
@@ -2669,18 +2669,18 @@ cgol bounds added to tiller number determination
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real c_x0_const
-       real c_x0_slope
-       real g_leaf_no_final
-       real c_y0_const
-       real c_y0_slope
-       real c_a_const
-       real c_a_slope1
-       real c_a_slope2
-       real c_b_const
-       real c_b_slope1
-       real c_b_slope2
-       real       leaf_no               ! (INPUT) nominated leaf number
+      real       c_x0_const
+      real       c_x0_slope
+      real       g_leaf_no_final
+      real       c_y0_const
+      real       c_y0_slope
+      real       c_a_const
+      real       c_a_slope1
+      real       c_a_slope2
+      real       c_b_const
+      real       c_b_slope1
+      real       c_b_slope2
+      real       leaf_no               ! (INPUT) nominated leaf number
 
 *+  Purpose
 *       Return the leaf area (mm^2) of a specified leaf no.
@@ -2761,23 +2761,23 @@ cgol bounds added to tiller number determination
 *     Partitions new biomass between plant components
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real c_ratio_root_shoot(*)
-       real g_dlt_dm
-       real g_leaf_no(*)
-       real c_partition_rate_leaf
-       real g_dlt_lai_stressed
-       real c_sla_min
-       real c_frac_stem2flower
-       real g_dlt_dm_grain_demand
-       real       dlt_dm_green (*)      ! (OUTPUT) actual biomass partitioned
+      real       g_current_stage
+      real       c_ratio_root_shoot(*)
+      real       g_dlt_dm
+      real       g_leaf_no(*)
+      real       c_partition_rate_leaf
+      real       g_dlt_lai_stressed
+      real       c_sla_min
+      real       c_frac_stem2flower
+      real       g_dlt_dm_grain_demand
+      real       dlt_dm_green (*)      ! (OUTPUT) actual biomass partitioned
                                        ! to plant parts (g/m^2)
 
-       integer  c_tiller_no_pot
-       real     g_dlt_lai_pot
-       real     p_hi_max_pot
-       real     g_dm_green(*)
-       real     g_dm_senesced(*)
+      integer  c_tiller_no_pot
+      real     g_dlt_lai_pot
+      real     p_hi_max_pot
+      real     g_dm_green(*)
+      real     g_dm_senesced(*)
 
 *+  Changes
 *       010994 jngh specified and programmed
@@ -2973,25 +2973,25 @@ cgol bounds added to tiller number determination
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real c_stage_code_list(*)
-       real c_ratio_root_shoot(*)
-       real g_dlt_dm
-       real g_leaf_no(*)
-       real c_partition_rate_leaf
-       real c_frac_dm_to_leaf(*)
-       real g_dlt_lai_stressed
-       real c_sla_min
-       real c_frac_stem2flower
-       real g_dlt_dm_grain_demand
-       real       dlt_dm_green (*)      ! (OUTPUT) actual biomass partitioned
+      real       g_current_stage
+      real       c_stage_code_list(*)
+      real       c_ratio_root_shoot(*)
+      real       g_dlt_dm
+      real       g_leaf_no(*)
+      real       c_partition_rate_leaf
+      real       c_frac_dm_to_leaf(*)
+      real       g_dlt_lai_stressed
+      real       c_sla_min
+      real       c_frac_stem2flower
+      real       g_dlt_dm_grain_demand
+      real       dlt_dm_green (*)      ! (OUTPUT) actual biomass partitioned
                                        ! to plant parts (g/m^2)
 
-       integer  c_tiller_no_pot
-       real     g_dlt_lai_pot
-       real     p_hi_max_pot
-       real     g_dm_green(*)
-       real     g_dm_senesced(*)
+      integer  c_tiller_no_pot
+      real     g_dlt_lai_pot
+      real     p_hi_max_pot
+      real     g_dm_green(*)
+      real     g_dm_senesced(*)
 
 *+  Purpose
 *     Partitions new dm (assimilate) between plant components (g/m^2)
@@ -3252,21 +3252,21 @@ cgol bounds added to tiller number determination
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real g_dm_plant_top_tot(*)
-       real c_growth_rate_min
-       real c_growth_rate_crit
-       real p_head_grain_no_max
-       real g_heat_stress_tt(*)
-       real c_htstress_coeff
-       real g_N_conc_min(*)
-       real g_dm_green(*)
-       real g_N_green(*)
-       real g_plants
-       real c_seed_wt_min
-       real c_grain_N_conc_min
-       real grain_num
+      real       g_current_stage
+      real       g_days_tot(*)
+      real       g_dm_plant_top_tot(*)
+      real       c_growth_rate_min
+      real       c_growth_rate_crit
+      real       p_head_grain_no_max
+      real       g_heat_stress_tt(*)
+      real       c_htstress_coeff
+      real       g_N_conc_min(*)
+      real       g_dm_green(*)
+      real       g_N_green(*)
+      real       g_plants
+      real       c_seed_wt_min
+      real       c_grain_N_conc_min
+      real       grain_num
 
 *+  Purpose
 *     Calculate the grains per m^2 and heads per m^2
@@ -3410,21 +3410,21 @@ cgol bounds added to tiller number determination
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real g_dm_plant_top_tot(*)
-       real c_growth_rate_min
-       real c_growth_rate_crit
-       real p_head_grain_no_max
-       real g_heat_stress_tt(*)
-       real c_htstress_coeff
-       real g_N_conc_min(*)
-       real g_dm_green(*)
-       real g_N_green(*)
-       real g_plants
-       real c_seed_wt_min
-       real c_grain_N_conc_min
-       real grain_num
+      real       g_current_stage
+      real       g_days_tot(*)
+      real       g_dm_plant_top_tot(*)
+      real       c_growth_rate_min
+      real       c_growth_rate_crit
+      real       p_head_grain_no_max
+      real       g_heat_stress_tt(*)
+      real       c_htstress_coeff
+      real       g_N_conc_min(*)
+      real       g_dm_green(*)
+      real       g_N_green(*)
+      real       g_plants
+      real       c_seed_wt_min
+      real       c_grain_N_conc_min
+      real       grain_num
 
 *+  Purpose
 *     Calculate the grains per m^2 and heads per m^2
@@ -3574,28 +3574,28 @@ c     :                           , 'grain_no_fract')
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real g_maxt
-       real g_mint
-       real c_x_temp_grain(*)
-       real c_y_grain_rate(*)
-       integer c_num_temp_grain
-       real c_swdf_grain_min
-       real g_grain_no
-       real p_grain_gth_rate
-       real g_N_conc_min(*)
-       real g_dm_green(*)
-       real g_N_green(*)
-       real c_temp_fac_min
-       real c_tfac_slope
-       real c_sw_fac_max
-       real c_sfac_slope
-       real g_N_conc_crit(*)
-       real g_swdef_photo
-       real g_pfact_grain
-       real g_swdef_expansion
-       real g_nfact_grain_conc
-       real dlt_dm_grain_demand
+      real       g_current_stage
+      real       g_maxt
+      real       g_mint
+      real       c_x_temp_grain(*)
+      real       c_y_grain_rate(*)
+      integer    c_num_temp_grain
+      real       c_swdf_grain_min
+      real       g_grain_no
+      real       p_grain_gth_rate
+      real       g_N_conc_min(*)
+      real       g_dm_green(*)
+      real       g_N_green(*)
+      real       c_temp_fac_min
+      real       c_tfac_slope
+      real       c_sw_fac_max
+      real       c_sfac_slope
+      real       g_N_conc_crit(*)
+      real       g_swdef_photo
+      real       g_pfact_grain
+      real       g_swdef_expansion
+      real       g_nfact_grain_conc
+      real       dlt_dm_grain_demand
 
 *+  Purpose
 *     Calculate grain demand for carbohydrate(g/m^2)
@@ -3711,18 +3711,18 @@ c     :                           , 'grain_no_fract')
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_N_conc_min(*)
-       real g_dm_green(*)
-       real g_N_green(*)
-       real g_maxt
-       real g_mint
-       real c_temp_fac_min
-       real c_tfac_slope
-       real c_sw_fac_max
-       real c_sfac_slope
-       real g_N_conc_crit(*)
-       real g_swdef_expansion
-       real g_nfact_grain_conc
+      real       g_N_conc_min(*)
+      real       g_dm_green(*)
+      real       g_N_green(*)
+      real       g_maxt
+      real       g_mint
+      real       c_temp_fac_min
+      real       c_tfac_slope
+      real       c_sw_fac_max
+      real       c_sfac_slope
+      real       g_N_conc_crit(*)
+      real       g_swdef_expansion
+      real       g_nfact_grain_conc
 
 *+  Purpose
 *     Maximum grain growth for available nitrogen (g/m^2)
@@ -3803,20 +3803,20 @@ c     :                           , 'grain_no_fract')
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_dlt_dm_green(*)
-       real g_maxt
-       real g_mint
-       real c_temp_fac_min
-       real c_tfac_slope
-       real c_sw_fac_max
-       real c_sfac_slope
-       real g_N_conc_min(*)
-       real g_N_conc_crit(*)
-       real g_dm_green(*)
-       real g_N_green(*)
-       real g_N_conc_max(*)
-       real g_swdef_expansion
-       real g_nfact_grain_conc
+      real       g_dlt_dm_green(*)
+      real       g_maxt
+      real       g_mint
+      real       c_temp_fac_min
+      real       c_tfac_slope
+      real       c_sw_fac_max
+      real       c_sfac_slope
+      real       g_N_conc_min(*)
+      real       g_N_conc_crit(*)
+      real       g_dm_green(*)
+      real       g_N_green(*)
+      real       g_N_conc_max(*)
+      real       g_swdef_expansion
+      real       g_nfact_grain_conc
       real       dlt_N_retrans (*)     ! (OUTPUT) plant N taken out from
                                        ! plant parts (g N/m^2)
 
@@ -3951,10 +3951,10 @@ csc  true....
       include 'science.pub'
 
 *+  Sub-Program Arguments
-       real g_root_depth
-       real g_dlayer(*)
-       real g_N_demand(*)
-       real g_N_max(*)
+      real       g_root_depth
+      real       g_dlayer(*)
+      real       g_N_demand(*)
+      real       g_N_max(*)
       real       dlt_N_green(max_part) ! (OUTPUT) actual plant N uptake
                                        ! into each plant part (g/m^2)
       real       dlt_NO3gsm(max_layer) ! (OUTPUT) actual plant N uptake
@@ -4075,26 +4075,26 @@ csc  true....
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real c_N_conc_crit_grain
-       real c_N_conc_max_grain
-       real c_N_conc_min_grain
-       real c_N_conc_crit_root
-       real c_N_conc_max_root
-       real c_N_conc_min_root
-       real c_x_stage_code(*)
-       real c_stage_code_list(*)
-       real g_tt_tot(*)
-       real g_phase_tt(*)
-       real c_y_n_conc_crit_stem(*)
-       real c_y_n_conc_crit_leaf(*)
-       real c_y_n_conc_crit_flower(*)
-       real c_y_n_conc_min_stem(*)
-       real c_y_n_conc_min_leaf(*)
-       real c_y_n_conc_min_flower(*)
-       real c_y_n_conc_max_stem(*)
-       real c_y_n_conc_max_leaf(*)
-       real c_y_n_conc_max_flower(*)
+      real       g_current_stage
+      real       c_N_conc_crit_grain
+      real       c_N_conc_max_grain
+      real       c_N_conc_min_grain
+      real       c_N_conc_crit_root
+      real       c_N_conc_max_root
+      real       c_N_conc_min_root
+      real       c_x_stage_code(*)
+      real       c_stage_code_list(*)
+      real       g_tt_tot(*)
+      real       g_phase_tt(*)
+      real       c_y_n_conc_crit_stem(*)
+      real       c_y_n_conc_crit_leaf(*)
+      real       c_y_n_conc_crit_flower(*)
+      real       c_y_n_conc_min_stem(*)
+      real       c_y_n_conc_min_leaf(*)
+      real       c_y_n_conc_min_flower(*)
+      real       c_y_n_conc_max_stem(*)
+      real       c_y_n_conc_max_leaf(*)
+      real       c_y_n_conc_max_flower(*)
       real       N_conc_crit(*)        ! (OUTPUT) critical N concentration
                                        ! (g N/g part)
       real       N_conc_max(*)         ! (OUTPUT) maximum N concentration
@@ -4213,25 +4213,25 @@ csc  true....
 * ====================================================================
       Recursive
      :subroutine millet_cover1 (
-     :                                 g_row_spacing
-     :                                ,c_x_row_spacing
-     :                                ,c_y_extinct_coef
-     :                                ,c_num_row_spacing
-     :                                ,g_lai
-     :                                ,g_cover_green
-     :                                )
+     :                          g_row_spacing
+     :                        , c_x_row_spacing
+     :                        , c_y_extinct_coef
+     :                        , c_num_row_spacing
+     :                        , g_lai
+     :                        , g_cover_green
+     :                         )
 * ====================================================================
       implicit none
       include 'science.pub'
       include 'error.pub'
 
 *+  Sub-Program Arguments
-      real g_row_spacing
-      real c_x_row_spacing(*)
-      real c_y_extinct_coef(*)
-      integer c_num_row_spacing
-      real g_lai
-      real g_cover_green
+      real       g_row_spacing
+      real       c_x_row_spacing(*)
+      real       c_y_extinct_coef(*)
+      integer    c_num_row_spacing
+      real       g_lai
+      real       g_cover_green
 
 *+  Purpose
 *       'Cover' by leaves (0-1) . Fraction of radiation reaching the
@@ -4249,15 +4249,15 @@ csc  true....
       parameter (myname = 'millet_cover1')
 
 *+  Local Variables
-      real extinct_coef
+      real       extinct_coef
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
       extinct_coef = linear_interp_real (g_row_spacing
-     :                                  ,c_x_row_spacing
-     :                                  ,c_y_extinct_coef
-     :                                  ,c_num_row_spacing)
+     :                                  , c_x_row_spacing
+     :                                  , c_y_extinct_coef
+     :                                  , c_num_row_spacing)
 
       g_cover_green = 1.0 - exp(-extinct_coef*g_lai)
 
@@ -4286,13 +4286,13 @@ csc  true....
       include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real c_p_stage_code(*)
-       real c_stage_code_list(*)
-       real g_tt_tot(*)
-       real g_phase_tt(*)
-       real c_p_conc_min(*)
-       real c_p_conc_max(*)
+      real       g_current_stage
+      real       c_p_stage_code(*)
+      real       c_stage_code_list(*)
+      real       g_tt_tot(*)
+      real       g_phase_tt(*)
+      real       c_p_conc_min(*)
+      real       c_p_conc_max(*)
       real       P_conc_max   ! (OUTPUT) maximum P conc
                               ! (g N/g part)
       real       P_conc_min   ! (OUTPUT) minimum P conc
@@ -4337,15 +4337,15 @@ csc  true....
 
 cnh         P_conc_max = linear_interp_real (current_stage_code
          P_conc_max = linear_interp_real (g_current_stage
-     :                                   ,c_P_stage_code
-     :                                   ,c_P_conc_max
-     :                                   ,numvals)
+     :                                   , c_P_stage_code
+     :                                   , c_P_conc_max
+     :                                   , numvals)
 
 cnh         P_conc_min = linear_interp_real (current_stage_code
          P_conc_min = linear_interp_real (g_current_stage
-     :                                   ,c_P_stage_code
-     :                                   ,c_P_conc_min
-     :                                   ,numvals)
+     :                                   , c_P_stage_code
+     :                                   , c_P_conc_min
+     :                                   , numvals)
 
 
       else
@@ -4539,11 +4539,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-      integer init_stage
-      real g_current_stage
-      real g_days_tot(*)
-      real g_dm_green(*)
-      integer max_part
+      integer    init_stage
+      real       g_current_stage
+      real       g_days_tot(*)
+      real       g_dm_green(*)
+      integer    max_part
       real       g_p_conc_max
       real       g_plant_p
 
@@ -4561,7 +4561,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       parameter (my_name = 'millet_P_init')
 
 *+  Local Variables
-      real biomass
+      real       biomass
 
 *- Implementation Section ----------------------------------
 
@@ -4581,11 +4581,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine failure_leaf_sen (
+     :subroutine millet_failure_leaf_sen (
      :                            g_lai
      :                          , g_current_stage
      :                          , g_plants
-     :                          , dlt_plants_all)
+     :                          , dlt_plants)
 *     ===========================================================
       use milletModule
       implicit none
@@ -4595,11 +4595,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_lai
-       real g_current_stage
-       real g_plants
+      real       g_lai
+      real       g_current_stage
+      real       g_plants
 *
-       real dlt_plants_all
+      real       dlt_plants
 
 *+  Purpose
 *      Determine plant death due to total leaf area senescence
@@ -4612,7 +4612,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'failure_leaf_sen')
+      parameter (my_name = 'millet_failure_leaf_sen')
 
 *+  Local Variables
       character  string*200            ! output string
@@ -4625,7 +4625,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :       .and. stage_is_between (floral_init, plant_end
      :                             , g_current_stage)) then
 
-         dlt_plants_all = - g_plants
+         dlt_plants = - g_plants
 
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
@@ -4640,12 +4640,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine failure_phen_delay (
+     :subroutine millet_failure_phen_delay (
      :              g_cswd_pheno
      :            , g_current_stage
      :            , c_swdf_pheno_limit
      :            , g_plants
-     :            , dlt_plants_all)
+     :            , dlt_plants)
 *     ===========================================================
       use milletModule
       implicit none
@@ -4655,12 +4655,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_cswd_pheno(*)
-       real g_current_stage
-       real c_swdf_pheno_limit
-       real g_plants
-*
-       real dlt_plants_all
+      real       g_cswd_pheno(*)
+      real       g_current_stage
+      real       c_swdf_pheno_limit
+      real       g_plants
+      real       dlt_plants
 
 *+  Purpose
 *     Determine crop failure because of prolonged delay 
@@ -4674,10 +4673,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'failure_phen_delay')
+      parameter (my_name = 'millet_failure_phen_delay')
 
 *+  Local Variables
-      real cswd_pheno
+      real       cswd_pheno
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
@@ -4689,7 +4688,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       if (stage_is_between (emerg, flag_leaf, g_current_stage)
      :       .and. cswd_pheno.ge.c_swdf_pheno_limit) then
 
-         dlt_plants_all = - g_plants
+         dlt_plants = - g_plants
 
          write (string, '(3a)')
      :                 '         crop failure because of prolonged'
@@ -4707,7 +4706,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine death_seedling (
+     :subroutine millet_death_seedling (
      :            g_days_tot
      :          , g_year
      :          , g_day_of_year
@@ -4716,7 +4715,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :          , c_y_plant_death
      :          , c_num_weighted_temp
      :          , g_plants
-     :          , dlt_plants_temp)
+     :          , dlt_plants)
 *     ===========================================================
       use milletModule
       implicit none
@@ -4725,16 +4724,16 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_days_tot(*)
-       integer g_year
-       integer g_day_of_year
-       real g_soil_temp(*)
-       real c_x_weighted_temp(*)
-       real c_y_plant_death(*)
-       integer c_num_weighted_temp
-       real g_plants
+      real       g_days_tot(*)
+      integer    g_year
+      integer    g_day_of_year
+      real       g_soil_temp(*)
+      real       c_x_weighted_temp(*)
+      real       c_y_plant_death(*)
+      integer    c_num_weighted_temp
+      real       g_plants
 *
-       real dlt_plants_temp
+      real       dlt_plants
 
 *+  Purpose
 *      Determine plant seedling death.
@@ -4747,10 +4746,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'death_seedling')
+      parameter (my_name = 'millet_death_seedling')
 
 *+  Local Variables
-      integer days_after_emerg
+      integer    days_after_emerg
       real       killfr                ! fraction of crop population to kill
       character  string*200            ! output string
 
@@ -4763,7 +4762,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       days_after_emerg = int (sum_between (emerg, now, g_days_tot)) - 1
       if (days_after_emerg .eq. 1) then
 
-         call plants_temp (
+         call millet_plants_temp (
      :          g_year
      :        , g_day_of_year
      :        , g_soil_temp
@@ -4771,7 +4770,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , c_y_plant_death
      :        , c_num_weighted_temp
      :        , killfr)
-         dlt_plants_temp = - g_plants*killfr
+         dlt_plants = - g_plants*killfr
 
          if (killfr .gt. 0.0) then
          write (string, '(a, i4, a)')
@@ -4786,7 +4785,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
          endif
 
       else
-         dlt_plants_temp = 0.0
+         dlt_plants = 0.0
 
       endif
 
@@ -4798,7 +4797,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine death_drought (
+     :subroutine millet_death_drought (
      :              g_cswd_photo
      :            , g_leaf_no
      :            , c_leaf_no_crit
@@ -4806,7 +4805,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , g_swdef_photo
      :            , c_swdf_photo_rate
      :            , g_plants
-     :            , dlt_plants_water)
+     :            , dlt_plants)
 *     ===========================================================
       use milletModule
       implicit none
@@ -4815,15 +4814,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_cswd_photo(*)
-       real g_leaf_no(*)
-       real c_leaf_no_crit
-       real c_swdf_photo_limit
-       real g_swdef_photo
-       real c_swdf_photo_rate
-       real g_plants
-*
-       real dlt_plants_water
+      real       g_cswd_photo(*)
+      real       g_leaf_no(*)
+      real       c_leaf_no_crit
+      real       c_swdf_photo_limit
+      real       g_swdef_photo
+      real       c_swdf_photo_rate
+      real       g_plants
+      real       dlt_plants
 
 *+  Purpose
 *      Determine percentage plant failure due to water stress
@@ -4836,7 +4834,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'death_drought')
+      parameter (my_name = 'millet_death_drought')
 
 *+  Local Variables
       real       cswd_photo            ! cumulative water stress for photoperiod
@@ -4857,7 +4855,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
          killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
          killfr = bound (killfr, 0.0, 1.0)
-         dlt_plants_water = - g_plants*killfr
+         dlt_plants = - g_plants*killfr
 
          write (string, '(a, i4, a)')
      :          'plant_kill.'
@@ -4867,7 +4865,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
          call Write_string (string)
 
       else
-         dlt_plants_water = 0.0
+         dlt_plants = 0.0
 
       endif
 
@@ -4879,7 +4877,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine death_barrenness (
+     :subroutine millet_death_barrenness (
      :              g_current_stage
      :            , g_days_tot
      :            , c_head_grain_no_crit
@@ -4887,7 +4885,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , c_barren_crit
      :            , g_grain_no
      :            , g_plants
-     :            , dlt_plants_barren)
+     :            , dlt_plants)
 *     ===========================================================
       use milletModule
       implicit none
@@ -4896,15 +4894,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real c_head_grain_no_crit
-       real p_head_grain_no_max
-       real c_barren_crit
-       real g_grain_no
-       real g_plants
-*
-       real dlt_plants_barren
+      real       g_current_stage
+      real       g_days_tot(*)
+      real       c_head_grain_no_crit
+      real       p_head_grain_no_max
+      real       c_barren_crit
+      real       g_grain_no
+      real       g_plants
+      real       dlt_plants
 
 *+  Purpose
 *      Determine percent plant failure due to barreness
@@ -4917,7 +4914,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'death_barrenness')
+      parameter (my_name = 'millet_death_barrenness')
 
 *+  Local Variables
       real       killfr                ! fraction of crop population to kill
@@ -4929,14 +4926,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
-         call plants_barren (
+         call millet_plants_barren (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit
      :        , g_grain_no
      :        , g_plants
      :        , killfr)
-         dlt_plants_barren = - g_plants*killfr
+         dlt_plants = - g_plants*killfr
 
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
@@ -4951,7 +4948,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
          endif
 
       else
-         dlt_plants_barren = 0.0
+         dlt_plants = 0.0
 
       endif
 
@@ -4964,11 +4961,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       Recursive
      :subroutine millet_death_actual (
-     :              g_dlt_plants_all
-     :            , g_dlt_plants_temp
-     :            , g_dlt_plants_water
-     :            , g_dlt_plants_barren
-     :            , dlt_plants
+     :                      g_dlt_plants_failure_germ
+     :                    , g_dlt_plants_failure_emergence
+     :                    , g_dlt_plants_failure_leaf_sen
+     :                    , g_dlt_plants_failure_phen_delay
+     :                    , g_dlt_plants_death_seedling
+     :                    , g_dlt_plants_death_drought
+     :                    , g_dlt_plants_death_barrenness
+     :                    , dlt_plants
      :                       )
 *     ==========================================================
       use milletModule
@@ -4977,11 +4977,14 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-      real g_dlt_plants_all
-      real g_dlt_plants_temp
-      real g_dlt_plants_water
-      real g_dlt_plants_barren
-      real dlt_plants
+      real       g_dlt_plants_failure_germ
+      real       g_dlt_plants_failure_emergence
+      real       g_dlt_plants_failure_leaf_sen
+      real       g_dlt_plants_failure_phen_delay
+      real       g_dlt_plants_death_seedling
+      real       g_dlt_plants_death_drought
+      real       g_dlt_plants_death_barrenness
+      real       dlt_plants
 
 *+  Purpose
 *      Determine actual plant death.
@@ -5000,10 +5003,13 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call push_routine (my_name)
 
-      dlt_plants = min (g_dlt_plants_all
-     :                , g_dlt_plants_temp
-     :                , g_dlt_plants_water
-     :                , g_dlt_plants_barren)
+      dlt_plants = min (g_dlt_plants_failure_germ
+     :                , g_dlt_plants_failure_emergence
+     :                , g_dlt_plants_failure_leaf_sen
+     :                , g_dlt_plants_failure_phen_delay
+     :                , g_dlt_plants_death_seedling
+     :                , g_dlt_plants_death_drought
+     :                , g_dlt_plants_death_barrenness)
 
       call pop_routine (my_name)
       return
@@ -5013,7 +5019,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine plants_temp (
+     :subroutine millet_plants_temp (
      :          g_year
      :        , g_day_of_year
      :        , g_soil_temp
@@ -5028,12 +5034,12 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       integer g_year
-       integer g_day_of_year
-       real g_soil_temp(*)
-       real c_x_weighted_temp(*)
-       real c_y_plant_death(*)
-       integer c_num_weighted_temp
+      integer    g_year
+      integer    g_day_of_year
+      real       g_soil_temp(*)
+      real       c_x_weighted_temp(*)
+      real       c_y_plant_death(*)
+      integer    c_num_weighted_temp
       real       killfr                ! (OUTPUT) fraction of plants killed
                                        ! (plants/m^2)
 
@@ -5049,7 +5055,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'plants_temp')
+      parameter (my_name = 'millet_plants_temp')
 
 *+  Local Variables
       integer    day_before            ! day of year number of day before
@@ -5080,7 +5086,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine plants_barren (
+     :subroutine millet_plants_barren (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit
@@ -5093,11 +5099,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real c_head_grain_no_crit
-       real p_head_grain_no_max
-       real c_barren_crit
-       real g_grain_no
-       real g_plants
+      real       c_head_grain_no_crit
+      real       p_head_grain_no_max
+      real       c_barren_crit
+      real       g_grain_no
+      real       g_plants
       real       killfr                ! (OUTPUT) fraction of plants killed
                                        ! (plants/m^2)
 
@@ -5113,7 +5119,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'plants_barren')
+      parameter (my_name = 'millet_plants_barren')
 
 *+  Local Variables
       real       fract_of_optimum      ! fraction of optimum no. of heads due
@@ -5124,7 +5130,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call check_grain_no (
+      call millet_check_grain_no (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit)
@@ -5162,7 +5168,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *     ===========================================================
       Recursive
-     :subroutine check_grain_no (
+     :subroutine millet_check_grain_no (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit)
@@ -5172,9 +5178,9 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real c_head_grain_no_crit
-       real p_head_grain_no_max
-       real c_barren_crit
+      real       c_head_grain_no_crit
+      real       p_head_grain_no_max
+      real       c_barren_crit
 
 *+  Purpose
 *        Check validity of grain no. parameters
@@ -5187,7 +5193,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'check_grain_no')
+      parameter (my_name = 'millet_check_grain_no')
 
 *+  Local Variables
       character  err_messg*200         ! error message
@@ -5233,10 +5239,10 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       character g_plant_status*(*)
-       real g_dm_green(*)
-       real g_dm_senesced(*)
-       real g_dm_dead(*)
+      character g_plant_status*(*)
+      real       g_dm_green(*)
+      real       g_dm_senesced(*)
+      real       g_dm_dead(*)
 
 *+  Purpose
 *       Kill crop
@@ -5298,7 +5304,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :            , c_barren_crit
      :            , g_grain_no
      :            , g_plants
-     :            , dlt_plants_barren)
+     :            , dlt_plants)
 *     ===========================================================
       use milletModule
       implicit none
@@ -5307,15 +5313,15 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real g_current_stage
-       real g_days_tot(*)
-       real c_head_grain_no_crit
-       real p_head_grain_no_max
-       real c_barren_crit
-       real g_grain_no
-       real g_plants
+      real       g_current_stage
+      real       g_days_tot(*)
+      real       c_head_grain_no_crit
+      real       p_head_grain_no_max
+      real       c_barren_crit
+      real       g_grain_no
+      real       g_plants
 *
-       real dlt_plants_barren
+      real       dlt_plants
 
 *+  Purpose
 *      Determine percent plant failure due to barreness
@@ -5328,7 +5334,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'death_barrenness0')
+      parameter (my_name = 'millet_death_barrenness0')
 
 *+  Local Variables
       real       killfr                ! fraction of crop population to kill
@@ -5347,7 +5353,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :        , g_grain_no
      :        , g_plants
      :        , killfr)
-         dlt_plants_barren = - g_plants*killfr
+         dlt_plants = - g_plants*killfr
 
          if (killfr .gt. 0.0) then
             write (string, '(a, i4, a)')
@@ -5362,7 +5368,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
          endif
 
       else
-         dlt_plants_barren = 0.0
+         dlt_plants = 0.0
 
       endif
 
@@ -5385,11 +5391,11 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       include 'error.pub'
 
 *+  Sub-Program Arguments
-       real c_head_grain_no_crit
-       real p_head_grain_no_max
-       real c_barren_crit
-       real g_grain_no
-       real g_plants
+      real       c_head_grain_no_crit
+      real       p_head_grain_no_max
+      real       c_barren_crit
+      real       g_grain_no
+      real       g_plants
       real       killfr                ! (OUTPUT) fraction of plants killed
                                        ! (plants/m^2)
 
@@ -5416,7 +5422,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call check_grain_no (
+      call millet_check_grain_no (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit)
