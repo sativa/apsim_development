@@ -6,13 +6,14 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <strstream>
 
 // ------------------------------------------------------------------
 //  Short description:
 //    splits a string into words.
 
 //  Notes:
-
+       
 //  Changes:
 //    DPH 17/4/1997
 
@@ -222,6 +223,7 @@ void Strings_to_lower (StringContainer& words)
 //    insensitive.
 
 //  Notes:
+//    returns -1 if string not found
 
 //  Changes:
 //    DPH 17/4/1997
@@ -247,23 +249,25 @@ int Locate_string (const char* Search_string, StringContainer& words)
 #ifdef __WIN32__
 // ------------------------------------------------------------------
 //  Short description:
-//     generic "for_each" function for removing a substring from all
-//     strings in a given stl container.
+//     generic "for_each" function for trimming from the start of the
+//     occurrance of substring to the end in a given stl container.
 
-//  Notes:
+//  Usage: (JW)
+//     use in conjunction with for_each(), end result = copy container
+//     A to B with certain substrings in B removed, A remains the same.
 
 //  Changes:
 //    DPH 28/10/97
 
 // ------------------------------------------------------------------
 template <class Container >
-class remove_substring_and_copy : private std::unary_function < std::string, void >
+class trim_from_substring_and_copy : private std::unary_function < std::string, void >
    {
    private:
       Container& container;
       std::string Substring;
    public:
-      remove_substring_and_copy( const char* sub, Container& c )
+      trim_from_substring_and_copy( const char* sub, Container& c )
          : Substring ( sub ), container(c) { }
       void operator(  ) ( const std::string& x )
          {
@@ -275,59 +279,6 @@ class remove_substring_and_copy : private std::unary_function < std::string, voi
          }
     };
 
-// ------------------------------------------------------------------
-//  Short description:
-//     generic "for_each" function for appending a substring to all
-//     strings in a given stl container.
-
-//  Notes:
-
-//  Changes:
-//    DPH 28/10/97
-
-// ------------------------------------------------------------------
-template < class Container >
-class append_substring_and_copy : private std::unary_function < std::string, void >
-   {
-   private:
-      Container& container;
-      std::string Substring;
-   public:
-      append_substring_and_copy( const char* sub, Container& c )
-         : Substring (sub), container(c) { }
-      void operator(  ) ( const std::string& x )
-         {
-         std::string new_st(x);
-         new_st.append(Substring);
-         container.push_back (new_st);
-         }
-    };
-
-// ------------------------------------------------------------------
-//  Short description:
-//     generic "for_each" function for appending a substring to all
-//     strings in a given stl container.
-
-//  Notes:
-
-//  Changes:
-//    DPH 28/10/97
-
-// ------------------------------------------------------------------
-template < class Container >
-class prepend_substring_and_copy : private std::unary_function <std::string, void >
-   {
-   private:
-      Container& container;
-      std::string Substring;
-   public:
-      prepend_substring_and_copy( const char* sub, Container& c )
-         : Substring (sub), container(c) { }
-      void operator() (const std::string& x)
-         {
-         container.push_back (Substring + x);
-         }
-    };
 #endif
 
 // ------------------------------------------------------------------
@@ -336,6 +287,7 @@ class prepend_substring_and_copy : private std::unary_function <std::string, voi
 //     stl container of doubles.
 
 //  Notes:
+//     string entries delimited by " " (space)
 
 //  Changes:
 //    DPH 28/10/97
@@ -361,7 +313,9 @@ void String_2_double_container (const char* Numbers,
 //  Short description:
 //     function that takes a container of numbers and converts to a string.
 
-//  Notes:
+//  Notes: (JW)
+//     delimiter = " " (space)
+//     'precision' indiciates number of decimal places
 
 //  Changes:
 //    DPH 28/10/97
@@ -453,104 +407,6 @@ int Str_i_Cmp(const std::string &a, const std::string &b);
 
 // ------------------------------------------------------------------
 void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
-
-// ------------------------------------------------------------------
-// Get all words from a double null terminated string where each
-// word is separated by a null.  Windows API routines sometimes
-// do things this way.
-// ------------------------------------------------------------------
-void getWordsFromDoubleNullSt(char* st, std::vector<std::string>& words);
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Count and return the number of occurrances of a substring
-//     in a text string.
-
-//  Notes:
-
-//  Changes:
-//    NH 13/12/2000
-
-// ------------------------------------------------------------------
-int NumOccurrences (std::string text, std::string substring);
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Return an attribute of the type.
-
-//  Notes:
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-std::string getAttributeFromLine(const std::string& attributeName,
-                                 const std::string& line);
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Given the position of an equals sign within a line, extract
-//     the name and value from the left and right hand side of the
-//     equals.
-
-//  Notes:
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-void getAttributeNameAndValue(const std::string& line,
-                              unsigned int posEquals,
-                              std::string& name,
-                              std::string& value);
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Return a list of attribute names and values from the specified line.
-
-//  Notes:
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-template <class CT>
-void getAttributesFromLine(const std::string& line, CT& names, CT& values)
-   {
-   unsigned posEquals = line.find("=");
-   while (posEquals != std::string::npos)
-      {
-      std::string name;
-      std::string value;
-      getAttributeNameAndValue(line, posEquals, name, value);
-      names.push_back(name);
-      values.push_back(value);
-      posEquals = line.find("=", posEquals+1);
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Remove an attribute from the specified line.
-
-//  Notes
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    dph 16/8/2001
-// ------------------------------------------------------------------
-void removeAttributeFromLine(std::string& line, const std::string& attribute);
 
 // ------------------------------------------------------------------
 // Helper function - Get a section name from the specified line.

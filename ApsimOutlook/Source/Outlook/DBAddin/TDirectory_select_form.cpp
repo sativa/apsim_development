@@ -35,7 +35,7 @@ void __fastcall TDirectory_select_form::FormShow(TObject *Sender)
    settings.readSection(DATASETS_SECTION, Contents);
    Split_string (Contents, "\n", DatasetLines);
 
-   remove_substring_and_copy< vector<string> > RemoveEquals("=", DatasetNames);
+   trim_from_substring_and_copy< vector<string> > RemoveEquals("=", DatasetNames);
    std::for_each (DatasetLines.begin(), DatasetLines.end(), RemoveEquals);
 
    // give dataset names to dataset combo.

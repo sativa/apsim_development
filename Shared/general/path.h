@@ -27,13 +27,13 @@ class Path
       std::string Directory;
       std::string Name;
 
-	public:
+   public:
       Path(void) {};
       Path(const std::string& File_path) {Set_path(File_path);};
-      int operator== (const Path& From) const {return (Directory == From.Directory &&
-                                                 Name == From.Name);};
-      int operator< (const Path& From) const {return (Directory < From.Directory &&
-                                                 Name < From.Name);};
+      int operator== (const Path& From) const {return From.Get_full_path() ==
+                                                      this->Get_full_path();};
+      int operator< (const Path& From) const {return From.Get_full_path() >
+                                                      this->Get_full_path();};
 
       std::string Get_drive(void);
 		std::string Get_directory(void);
@@ -53,7 +53,7 @@ class Path
       bool Exists(void);
       void Change_directory(void);
 
-      void Append_path (const char* Path);
+      void Append_path (const char* Path); // append to current_working_dir (JW)
       std::string Back_up_directory (void);
 
       static Path getCurrentFolder(void);
