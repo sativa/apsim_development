@@ -3,14 +3,15 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="ProtocolManager.dll"/>
+    <PROJECT value="..\Lib\ProtocolManager.dll"/>
     <OBJFILES value="ProtocolManager.obj Coordinator.obj ComponentAlias.obj DebugHook.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib"/>
+      ..\..\..\Shared\ComponentInterface\ComponentInterface.lib 
+      ..\..\..\Shared\Protocol\Protocol.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib vcl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi dbrtl.bpi vcldb.bpi bdertl.bpi"/>
@@ -30,8 +31,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- 
-      -vi -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c"/>
     <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zn"/>
@@ -41,7 +41,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -53,6 +53,7 @@
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\Protocol\Protocol.lib" FORMNAME="" UNITNAME="Protocol.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -139,7 +140,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
 
 [Linker]
 LibPrefix=

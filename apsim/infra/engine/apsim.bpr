@@ -3,19 +3,18 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="apsim.exe"/>
-    <OBJFILES value="apsim.obj Simulation.obj 
-      ..\..\..\Shared\ComponentInterface\Computation.obj ..\..\..\Shared\ComponentInterface\transport.obj 
-      ..\..\..\Shared\ComponentInterface\message.obj"/>
+    <PROJECT value="..\..\..\Bin\apsim.exe"/>
+    <OBJFILES value="apsim.obj Simulation.obj ..\..\..\Shared\ComponentInterface\message.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
-      ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\Shared\Protocol\Protocol.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib vcl.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi dbrtl.bpi vcldb.bpi bdertl.bpi"/>
-    <PATHCPP value=".;..\..\..\Shared\ComponentInterface;..\..\..\Shared\ComponentInterface;..\..\..\Shared\ComponentInterface"/>
+    <PATHCPP value=".;..\..\..\Shared\ComponentInterface"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -31,8 +30,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-vGc -vGt -vGd -O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi 
-      -tWC -tWM -c"/>
+    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWC -tWM -c"/>
     <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zn"/>
@@ -42,7 +40,7 @@
   <LINKER>
     <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -51,9 +49,8 @@
       <FILE FILENAME="Simulation.cpp" FORMNAME="" UNITNAME="Simulation.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\..\Shared\ComponentInterface\Computation.cpp" FORMNAME="" UNITNAME="Computation.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\..\Shared\ComponentInterface\transport.cpp" FORMNAME="" UNITNAME="transport.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\message.cpp" FORMNAME="" UNITNAME="message" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\Protocol\Protocol.lib" FORMNAME="" UNITNAME="Protocol.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -127,14 +124,16 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=..\..\
+Count=3
+Item0=..\..\..\Bin\
+Item1=..\..\..\Bin
+Item2=..\..\
 
 [Debugging]
 DebugSourceDirs=
 
 [Parameters]
-RunParams=D:\Development\apsim\input\sample\input.sim
+RunParams=D:\Development\apsim\clock\sample\test.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -148,6 +147,6 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
   </IDEOPTIONS>
 </PROJECT>

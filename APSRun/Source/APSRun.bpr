@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\APSRun.exe"/>
+    <PROJECT value="..\..\Bin\APSRun.exe"/>
     <OBJFILES value="APSRun.obj TAPSIMRunForm.obj PreviousRuns.obj"/>
     <RESFILES value="APSRun.res"/>
     <IDLFILES value=""/>
@@ -31,18 +31,18 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- 
-      -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
-    <PFLAGS value="-$YD -$W -$O- -$A8 -v -M -JPHNE"/>
+    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -a8 -b- -k- -vi -c 
+      -tW -tWM"/>
+    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -M -JPHNE"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
     <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -128,14 +128,16 @@ Item1=@confiles.lst
 Item2=c:\apswork\apsim\mungbean\sample\mungbean.con
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=..\
+Count=3
+Item0=..\..\Bin\
+Item1=..\..\Bin
+Item2=..\
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/CreateSIM d:\development\apsim\accum\sample\accum.con
+RunParams=/CreateSIM d:\development\apsim\clock\sample\test.con
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -149,6 +151,6 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
   </IDEOPTIONS>
 </PROJECT>
