@@ -1284,6 +1284,7 @@ cnh         call report_event (string)
 *+  Changes
 *     060495 nih taken from template
 *     210896 nih added module name as suffice to intercepted radiation
+*     020998 sb Relaced c_year_lb and c_year_ub with min_year and max_year.
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1309,7 +1310,7 @@ cnh         call report_event (string)
      :                                    , 1, 366)
       call get_integer_var (unknown_module, 'year', '()'
      :                                    , g_year, numvals
-     :                                    , c_year_lb, c_year_ub)
+     :                                    , min_year, max_year)
       call get_real_var (unknown_module, 'latitude', '(oL)'
      :                                  , g_latitude, numvals
      :                                  , c_latitude_lb, c_latitude_ub)
@@ -2260,6 +2261,7 @@ c      call sugar_nit_stress_expansion (1)
 
 *+  Changes
 *     060495 nih taken from template
+*     020998 sb deleted c_year_lb and c_year_ub.
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2331,16 +2333,6 @@ c      call sugar_nit_stress_expansion (1)
          !    sugar_get_other_variables
  
          ! checking the bounds of the bounds..
-      call read_integer_var (section_name
-     :                    , 'year_ub', '()'
-     :                    , c_year_ub, numvals
-     :                    , 1800, 2000)
- 
-      call read_integer_var (section_name
-     :                    , 'year_lb', '()'
-     :                    , c_year_lb, numvals
-     :                    , 1800, 2000)
- 
       call read_real_var (section_name
      :                    , 'latitude_ub', '(oL)'
      :                    , c_latitude_ub, numvals
