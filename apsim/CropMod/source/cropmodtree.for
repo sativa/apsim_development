@@ -1,4 +1,4 @@
-C     Last change:  E    15 Dec 2000   12:33 pm
+C     Last change:  E    18 Dec 2000    4:55 pm
 
 C      INCLUDE 'CropMod.inc'
 
