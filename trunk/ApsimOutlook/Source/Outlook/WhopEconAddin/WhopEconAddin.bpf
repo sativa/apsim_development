@@ -2,8 +2,6 @@ USEFORM("crop.cpp", CropForm);
 USEFORM("dataform.cpp", DATA); /* TDataModule: File Type */
 USEFORM("econ.cpp", EconForm);
 USEFORM("about.cpp", AboutBox);
-USEFORM("..\TValueSelectionForm.cpp", ValueSelectionForm);
-USEFORM("TWEValueSelectionForm.cpp", WEValueSelectionForm);
 USEFORM("WheatMatrix.cpp", WheatMatrixForm);
 USEFORM("SeedWeight.cpp", SeedWeightsForm);
 //---------------------------------------------------------------------------

@@ -81,27 +81,32 @@ __fastcall TMDIChild::~TMDIChild()
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormShow(TObject *Sender)
    {
+   bool success = false;
    try
       {
       scenarios = new Scenarios();
-
-      // Create child settings window.
-      Settings_form = new TChartSettingsForm(this);
-      Settings_form->Parent = this;
-      Settings_form->Show();
-      Settings_form->OnClose = On_settings_form_close;
-
-      // could load the toolbar addins here
-      // for each toolbar addin, add a divider, and place the buttons after it
-      if (numObjects == 1)
-         loadAllToolbarAddIns();
-
-      SelectSimulations(NULL);
+      success = true;
       }
    catch (const exception& error)
       {
-      Close();
+      success = false;
       }
+
+   // Create child settings window.
+   Settings_form = new TChartSettingsForm(this);
+   Settings_form->Parent = this;
+   Settings_form->Show();
+   Settings_form->OnClose = On_settings_form_close;
+
+   // could load the toolbar addins here
+   // for each toolbar addin, add a divider, and place the buttons after it
+   if (numObjects == 1)
+      loadAllToolbarAddIns();
+
+   if (success)
+      SelectSimulations(NULL);
+   else
+      Close();
    }
 
 //---------------------------------------------------------------------------
@@ -124,54 +129,69 @@ void __fastcall TMDIChild::FormClose(TObject *Sender, TCloseAction &Action)
 //---------------------------------------------------------------------
 void TMDIChild::Enable_options(void)
    {
-   EditCopyMenu->Enabled = (Analysis_panel != NULL);
-   EditCopyWithoutMenu->Enabled = (Analysis_panel != NULL);
-
-   ChartsSummaryMenu->Enabled = (scenarios->count() > 0);
-   ChartsTimeSeriesMenu->Enabled = (scenarios->count() > 0);
-   ChartsPieMenu->Enabled = (scenarios->count() > 0);
-   ChartsDifferenceMenu->Enabled = (scenarios->count() > 0);
-   ChartsFrequencyMenu->Enabled = (scenarios->count() > 0);
-   ChartsProbabilityMenu->Enabled = (scenarios->count() > 0);
-   ChartsXYMenu->Enabled = (scenarios->count() > 0);
-   ChartsPropertiesMenu->Enabled = (Analysis_panel != NULL);
-   ChartsViewDataMenu->Enabled = (scenarios->count() > 0);
-   EditSendDatatoEXCELMenu->Enabled = (scenarios->count() > 0);
-
-   ChartsSummaryMenu->Checked = (dynamic_cast<TSummary_panel*> (Analysis_panel) != NULL);
-   ChartsTimeSeriesMenu->Checked = (dynamic_cast<TTime_series_panel*> (Analysis_panel) != NULL);
-   ChartsPieMenu->Checked = (dynamic_cast<TPie_frequency_panel*> (Analysis_panel) != NULL);
-   ChartsDifferenceMenu->Checked = (dynamic_cast<TDifference_panel*> (Analysis_panel) != NULL);
-   ChartsFrequencyMenu->Checked = (dynamic_cast<TFrequency_panel*> (Analysis_panel) != NULL);
-   ChartsProbabilityMenu->Checked = (dynamic_cast<TProbability_panel*> (Analysis_panel) != NULL);
-   ChartsXYMenu->Checked = (dynamic_cast<TXY_panel*> (Analysis_panel) != NULL);
-   ChartsNoChartMenu->Checked = (Grid->Visible && Analysis_panel == NULL);
-
-   // buttons on button bar.
-   if (Get_button ("Time_series_button") != NULL)
+   if (scenarios != NULL)
       {
-      Get_button ("Time_series_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("Difference_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("Pie_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("Frequency_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("Probability_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("Summary_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("XY_button")->Enabled = (scenarios->count() > 0);
-      Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL);
-      }
+      EditCopyMenu->Enabled = (Analysis_panel != NULL);
+      EditCopyWithoutMenu->Enabled = (Analysis_panel != NULL);
 
-   // setup button bar event handlers.
-   if (Toolbar != NULL)
-      {
-      Get_button ("Time_series_button")->OnClick = TimeSeriesChart;
-      Get_button ("Difference_button")->OnClick = DifferenceChart;
-      Get_button ("Pie_button")->OnClick = PieChart;
-      Get_button ("Frequency_button")->OnClick = FrequencyChart;
-      Get_button ("Probability_button")->OnClick = ProbabilityChart;
-      Get_button ("Summary_button")->OnClick = SummaryTable;
-      Get_button ("XY_button")->OnClick = XYChart;
-      Get_button ("Select_simulation_button")->OnClick = SelectSimulations;
-      Get_button ("Properties_button")->OnClick = Properties;
+      ChartsSummaryMenu->Enabled = (scenarios->count() > 0);
+      ChartsTimeSeriesMenu->Enabled = (scenarios->count() > 0);
+      ChartsPieMenu->Enabled = (scenarios->count() > 0);
+      ChartsDifferenceMenu->Enabled = (scenarios->count() > 0);
+      ChartsFrequencyMenu->Enabled = (scenarios->count() > 0);
+      ChartsProbabilityMenu->Enabled = (scenarios->count() > 0);
+      ChartsXYMenu->Enabled = (scenarios->count() > 0);
+      ChartsPropertiesMenu->Enabled = (Analysis_panel != NULL);
+      ChartsViewDataMenu->Enabled = (scenarios->count() > 0);
+      EditSendDatatoEXCELMenu->Enabled = (scenarios->count() > 0);
+
+      ChartsSummaryMenu->Checked = (dynamic_cast<TSummary_panel*> (Analysis_panel) != NULL);
+      ChartsTimeSeriesMenu->Checked = (dynamic_cast<TTime_series_panel*> (Analysis_panel) != NULL);
+      ChartsPieMenu->Checked = (dynamic_cast<TPie_frequency_panel*> (Analysis_panel) != NULL);
+      ChartsDifferenceMenu->Checked = (dynamic_cast<TDifference_panel*> (Analysis_panel) != NULL);
+      ChartsFrequencyMenu->Checked = (dynamic_cast<TFrequency_panel*> (Analysis_panel) != NULL);
+      ChartsProbabilityMenu->Checked = (dynamic_cast<TProbability_panel*> (Analysis_panel) != NULL);
+      ChartsXYMenu->Checked = (dynamic_cast<TXY_panel*> (Analysis_panel) != NULL);
+      ChartsNoChartMenu->Checked = (Grid->Visible && Analysis_panel == NULL);
+
+      // buttons on button bar.
+      if (Get_button ("Time_series_button") != NULL)
+         {
+         Get_button ("Time_series_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("Difference_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("Pie_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("Frequency_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("Probability_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("Summary_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("XY_button")->Enabled = (scenarios->count() > 0);
+         Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL);
+         }
+
+      // setup button bar event handlers.
+      if (Toolbar != NULL)
+         {
+         Get_button ("Time_series_button")->OnClick = TimeSeriesChart;
+         Get_button ("Difference_button")->OnClick = DifferenceChart;
+         Get_button ("Pie_button")->OnClick = PieChart;
+         Get_button ("Frequency_button")->OnClick = FrequencyChart;
+         Get_button ("Probability_button")->OnClick = ProbabilityChart;
+         Get_button ("Summary_button")->OnClick = SummaryTable;
+         Get_button ("XY_button")->OnClick = XYChart;
+         Get_button ("Select_simulation_button")->OnClick = SelectSimulations;
+         Get_button ("Properties_button")->OnClick = Properties;
+         }
+
+      // See if we need to disable the pie chart option.
+      string disablePieCharts;
+      settings.read("Skin|DisablePieCharts", disablePieCharts);
+      if (Str_i_Eq(disablePieCharts, "yes"))
+         {
+         ChartsPieMenu->Visible = false;
+         if (Toolbar != NULL)
+            {
+            Get_button ("Pie_button")->Visible = false;
+            }
+         }
       }
    }
 //---------------------------------------------------------------------------

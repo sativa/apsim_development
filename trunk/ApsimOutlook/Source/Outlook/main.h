@@ -23,6 +23,7 @@
 #include <ImgList.hpp>
 #include <DdeMan.hpp>
 #include "MDIWallp.hpp"
+#include <jpeg.hpp>
 
 //----------------------------------------------------------------------------
 class TMainForm : public TForm
@@ -38,7 +39,6 @@ __published:
    TMenuItem *Window_arrange_icons_menu;
    TMenuItem *HelpAboutMenu;
    TMenuItem *Window_minimize_all_menu;
-   TStatusBar *StatusBar;
    TMenuItem *FileCloseMenu;
    TMenuItem *FilePrintMenu;
    TMenuItem *N2;
@@ -50,35 +50,36 @@ __published:
    TMenuItem *FilePresentationFontsMenu;
    TMenuItem *N1;
    TMenuItem *Evaluate1;
-        TControlBar *ControlBar1;
-        TToolBar *ToolBar1;
-        TToolBar *ToolBar2;
-   TToolButton *File_new_button;
-        TToolButton *Print_button;
-        TToolButton *Font_button;
-        TToolButton *ToolButton1;
-        TToolButton *Copy_button;
-        TToolButton *Copy_without_button;
-        TToolButton *Excel_button;
-        TToolButton *ToolButton2;
-        TToolButton *Evaluate_button;
         TImageList *Main_toolbar_images;
         TImageList *Chart_images;
-        TToolButton *Time_series_button;
-        TToolButton *Difference_button;
-        TToolButton *ToolButton3;
-        TToolButton *Pie_button;
-        TToolButton *Frequency_button;
-        TToolButton *Probability_button;
-        TToolButton *ToolButton4;
-        TToolButton *Summary_button;
-        TToolButton *XY_button;
-        TToolButton *Properties_button;
-        TToolButton *ToolButton5;
-        TToolButton *Select_simulation_button;
    TDdeServerConv *ApsimOutlook;
    TTimer *Timer1;
    TMDIWallpaper *MDIWallpaper1;
+   TCoolBar *CoolBar1;
+   TToolBar *ToolBar1;
+   TToolButton *File_new_button;
+   TToolButton *Print_button;
+   TToolButton *Font_button;
+   TToolButton *ToolButton1;
+   TToolButton *Copy_button;
+   TToolButton *Copy_without_button;
+   TToolButton *Excel_button;
+   TToolButton *ToolButton2;
+   TToolButton *Evaluate_button;
+   TToolBar *ToolBar2;
+   TToolButton *Time_series_button;
+   TToolButton *Difference_button;
+   TToolButton *XY_button;
+   TToolButton *ToolButton3;
+   TToolButton *Probability_button;
+   TToolButton *Pie_button;
+   TToolButton *Frequency_button;
+   TToolButton *Summary_button;
+   TToolButton *ToolButton4;
+   TToolButton *Properties_button;
+   TToolButton *ToolButton5;
+   TToolButton *Select_simulation_button;
+   TImage *LogoImage;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);
@@ -107,6 +108,7 @@ __published:
    void __fastcall ApsimOutlookExecuteMacro(TObject *Sender,
           TStrings *Msg);
    void __fastcall Timer1Timer(TObject *Sender);
+   void __fastcall FormResize(TObject *Sender);
 private:
    TCursor savedCursor;
    bool FixMDI;

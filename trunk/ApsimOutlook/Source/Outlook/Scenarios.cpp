@@ -384,4 +384,24 @@ std::string Scenarios::getDisplaySettings(void)
       settingsString += addIns.getAddIn(addinIndex)->getDisplaySettings();
    return settingsString;
    }
+//---------------------------------------------------------------------------
+// Allow the add-ins to display a UI form if they want to.
+//---------------------------------------------------------------------------
+std::string Scenarios::getUIButtonCaption(void) const
+   {
+   string captionString;
+   for (unsigned addinIndex = 0;
+                 addinIndex != addIns.getNumAddIns() && captionString == "";
+                 addinIndex++)
+      captionString = addIns.getAddIn(addinIndex)->getUIButtonCaption();
+   return captionString;
+   }
+//---------------------------------------------------------------------------
+// Allow the add-ins to display information in the settings window.
+//---------------------------------------------------------------------------
+void Scenarios::showUI(void)
+   {
+   for (unsigned addinIndex = 0; addinIndex != addIns.getNumAddIns(); addinIndex++)
+      addIns.getAddIn(addinIndex)->showUI();
+   }
 

@@ -5,7 +5,6 @@
 
 #include <graphics.hpp>
 #include <TAPSTable.h>
-#include "TValueSelectionForm.h"
 #include <ApsimShared\ApsimSettings.h>
 #include <general\AddInManager.h>
 #include "AddIn.h"
@@ -70,6 +69,11 @@ class Scenarios
 
       // Allow the add-ins to display information in the settings window.
       std::string getDisplaySettings(void);
+
+      // Allow the add-ins to display a UI form if they want to.
+      std::string getUIButtonCaption(void) const;
+      void showUI(void);
+
 
    private:
       AddInManager<AddInBase> addIns;

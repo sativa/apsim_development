@@ -4,8 +4,6 @@
 #pragma hdrstop
 
 #include "TDrill_down_form.h"
-#include "TValueSelectionForm.h"
-#include "TTabRenameForm.h"
 #include "TValueSelectPopup.h"
 
 #include <general\vcl_functions.h>
@@ -13,6 +11,8 @@
 #include <general\string_functions.h>
 #include <general\inifile.h>
 #include <general\path.h>
+#include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\ApsimDirectories.h>
 
 #include <components\general\tmultistringlist.h>
 #include <strstream>
@@ -137,6 +137,29 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
 
    scenarios->restore();
    Refresh();
+
+   string addInCaption = scenarios->getUIButtonCaption();
+   if (addInCaption == "")
+      {
+      AddInBevel->Visible = false;
+      AddInLabel->Visible = false;
+      }
+   else
+      {
+      AddInBevel->Visible = true;
+      AddInLabel->Caption = addInCaption.c_str();
+      AddInLabel->Visible = true;
+      }
+
+   // display logo if necessary.
+   ApsimSettings settings;
+   string fileName;
+   settings.read("Skin|logo", fileName);
+   if (fileName != "")
+      {
+      fileName = getAppHomeDirectory() + "\\" + fileName;
+      LogoImage->Picture->LoadFromFile(fileName.c_str());
+      }
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -230,20 +253,6 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
       }
    }
 //---------------------------------------------------------------------------
-void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
-   {
-   // rename the current simulation and tab name.
-   string selectedScenario = ScenarioTree->Selected->Text.c_str();
-   TabRenameForm->EditBox->Text = selectedScenario.c_str();
-
-   if (TabRenameForm->ShowModal() == mrOk)
-      {
-      scenarios->renameScenario(selectedScenario,
-                                TabRenameForm->EditBox->Text.c_str());
-      Refresh();
-      }
-   }
-//---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ShowAllButtonClick(TObject *Sender)
    {
    ScenarioTree->FullExpand();
@@ -280,6 +289,11 @@ void __fastcall TDrill_down_form::ScenarioTreeEdited(TObject *Sender,
       TTreeNode *Node, AnsiString &S)
    {
    scenarios->renameScenario(Node->Text.c_str(), S.c_str());
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::AddInLabelClick(TObject *Sender)
+   {
+   scenarios->showUI();
    }
 //---------------------------------------------------------------------------
 

@@ -129,7 +129,6 @@ void DatabaseAddIn::setStartupParameters(const std::string& parameters)
       Split_string(parameters, " ", filenames);
       readAllDatabases(filenames);
       }
-   readAllImages();
    }
 
 // ------------------------------------------------------------------
@@ -144,17 +143,7 @@ void DatabaseAddIn::setStartupParameters(const std::string& parameters)
 // ------------------------------------------------------------------
 DatabaseAddIn::~DatabaseAddIn(void)
    {
-   for (ImageMap::iterator i = images.begin();
-                           i != images.end();
-                           i++)
-      {
-      Graphics::TBitmap* bitmap = (*i).second;
-      delete bitmap;
-      }
-   images.erase(images.begin(), images.end());
-
    delete_container(simulations);
-
    }
 
 // ------------------------------------------------------------------
@@ -455,62 +444,5 @@ Scenario DatabaseAddIn::convertSimulationToScenario
       factors.push_back(Factor(ECON_FACTOR_NAME, econFactorValue));
 
    return Scenario(scenarioName, factors);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    read all images from .ini file.
-
-//  Changes:
-//    DPH 5/4/01
-
-// ------------------------------------------------------------------
-void DatabaseAddIn::readAllImages(void)
-   {
-   static const char* BITMAPS_SECTION = "bitmaps";
-
-   // read in all bitmaps.
-   string bitmapSectionContents;
-   settings.readSection(BITMAPS_SECTION, bitmapSectionContents);
-
-   // loop through all lines in section.
-   istringstream in (bitmapSectionContents.c_str());
-   string line;
-   getline(in, line);
-   while (!in.eof())
-      {
-      string factorName, bitmapName;
-      getKeyNameAndValue(line, factorName, bitmapName);
-      Path bitmapPath(Application->ExeName.c_str());
-      bitmapPath.Set_name (bitmapName.c_str());
-      To_lower(factorName);
-
-      if (bitmapPath.Exists())
-         {
-         Graphics::TBitmap* bitmap = new Graphics::TBitmap;
-         bitmap->LoadFromFile(bitmapPath.Get_path().c_str());
-         images.insert(ImageMap::value_type(factorName, bitmap));
-         }
-      getline(in, line);
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    return an image for a specified factor.
-
-//  Changes:
-//    DPH 5/4/01
-
-// ------------------------------------------------------------------
-const Graphics::TBitmap* DatabaseAddIn::getImageForFactor(const string& factorName) const
-   {
-   string lowerFactorName = factorName;
-   To_lower(lowerFactorName);
-   ImageMap::const_iterator i = images.find(lowerFactorName);
-   if (i != images.end())
-      return (*i).second;
-   else
-      return NULL;
    }
 

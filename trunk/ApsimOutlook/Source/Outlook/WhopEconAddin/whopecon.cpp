@@ -9,7 +9,6 @@
 #include "DataForm.h"
 #include "Econ.h"
 #include "WheatMatrix.h"
-#include "TWEValueSelectionForm.h"
 #include <general\path.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
@@ -67,10 +66,6 @@ void WhopEcon::setStartupParameters(const std::string& parameters)
 
    // read settings from ini
    Read_inifile_settings();
-
-   string bitmap_path = getAppHomeDirectory() + "\\" + Econ_bitmap_name;
-   Graphics::TBitmap* bitmap = new Graphics::TBitmap;
-   bitmap->LoadFromFile(bitmap_path.c_str());
 
    // get a default econ config name
    AnsiString default_config_name;
@@ -150,15 +145,10 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
       }
    }
    
-TValueSelectionForm*  WhopEcon::getUIForm(const string& factorName,
-                                                             TComponent* Owner) const{
-   if ( WEValueSelectionForm == NULL)
-      WEValueSelectionForm = new TWEValueSelectionForm(Owner);
-
-   return  WEValueSelectionForm;
-}
-
-
+void WhopEcon::showUI(void)
+   {
+   EconForm->ShowModal();
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //      read all defaults from .ini file.
@@ -173,8 +163,6 @@ void WhopEcon::Read_inifile_settings (void)
 {
    // read all defaults.
    string st;
-   settings.read (BITMAP_NAME_KEY, st);
-   Econ_bitmap_name = st;
    settings.read (ECON_DB_NAME, st);
    Econ_DB_name = getAppHomeDirectory() +  "\\"  +  st;
    EconForm->DBFileName = Econ_DB_name.c_str();

@@ -8,6 +8,7 @@
 #include "Main.h"
 #include "about.h"
 #include <general\path.h>
+#include <ApsimShared\ApsimDirectories.h>
 
 #pragma package(smart_init)
 TSkin* Skin;
@@ -58,6 +59,7 @@ void TSkin::DisplaySplashScreen(void)
    {
    // read splash screen
    settings.read("skin|splashscreen", BitmapName);
+   BitmapName = getAppHomeDirectory() + "\\" + BitmapName;
    if (BitmapName != "" && FileExists(BitmapName.c_str()))
       {
       string backdrop;
@@ -103,17 +105,19 @@ void TSkin::InitApplication(void)
 
    // read icon
    settings.read("skin|icon", St);
-   if (St != "" && FileExists(St.c_str()))
+   string fileName = getAppHomeDirectory() + "\\" + St;
+   if (St != "" && FileExists(fileName.c_str()))
       {
       Icon = new TIcon;
-      Icon->LoadFromFile(St.c_str());
+      Icon->LoadFromFile(fileName.c_str());
       Application->Icon->Handle = Icon->Handle;
       }
 
    // read help about
    settings.read("skin|helpabout", St);
-   if (St != "" && FileExists(St.c_str()))
-      AboutBox->Image1->Picture->LoadFromFile(St.c_str());
+   fileName = getAppHomeDirectory() + "\\" + St;
+   if (St != "" && FileExists(fileName.c_str()))
+      AboutBox->Image1->Picture->LoadFromFile(fileName.c_str());
 
    // read evaluation
    settings.read("skin|evaluation", evaluation);
@@ -150,6 +154,7 @@ void TSkin::displayEvaluation(void)
 // ------------------------------------------------------------------
 void TSkin::displayHelp(void)
    {
+   helpFile = getAppHomeDirectory() + "\\" + helpFile;
    ShellExecute (MainForm->Handle, "open",
                  helpFile.c_str(), NULL, "", SW_SHOW);
    }
