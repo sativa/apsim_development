@@ -334,6 +334,71 @@ class EqualToName
       bool operator () (T& arg)
          {return (stricmp(arg.getName().c_str(), name.c_str()) == 0);};
    };
+template <class T>
+class PEqualToFileName
+   {
+   private:
+      std::string filename;
+   public:
+      PEqualToFileName(const std::string& fn)
+         : filename(fn) {}
 
+      bool operator () (T* arg)
+         {return (stricmp(arg->getFilename().c_str(), filename.c_str()) == 0);};
+   };
+template <class T>
+class EqualToFileName
+   {
+   private:
+      std::string filename;
+   public:
+      EqualToFileName(const std::string& fn)
+         : filename(fn) {}
+
+      bool operator () (T& arg)
+         {return (stricmp(arg.getFilename().c_str(), filename.c_str()) == 0);};
+   };
+
+template <class CT, class T>
+class MatchNameAndStore : public CallbackFunction<T*>
+   {
+   public:
+      CT& C;
+      const std::string& nameToMatch;
+      MatchNameAndStore(const std::string& nametomatch, CT& c)
+         : C(c), nameToMatch(nametomatch) { }
+
+      virtual void callback(T& t)
+         {
+         if (Str_i_Eq(t.getName(), nameToMatch))
+            C.push_back(t);
+         }
+   };
+
+template <class CT, class T>
+class PMatchNameAndStore : public CallbackFunction<T*>
+   {
+   public:
+      CT& C;
+      const std::string& nameToMatch;
+      PMatchNameAndStore(const std::string& nametomatch, CT& c)
+         : C(c), nameToMatch(nametomatch) { }
+
+      virtual void callback(T* t)
+         {
+         if (Str_i_Eq(t->getName(), nameToMatch))
+            C.push_back(t);
+         }
+   };
+template <class CT, class T>
+class PrefixCallback
+   {
+   public:
+      CT& C;
+      T&  prefix;
+      PrefixCallback(CT& c, T& p) : C(c), prefix(p) { }
+
+      void operator() (T t) {C.push_back(prefix + t);}
+   };
 
 #endif
