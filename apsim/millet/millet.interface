@@ -1,359 +1,303 @@
-include base.interface
-; -----------------------------------------------------------
-; Independant types that Millet uses  
-; for some of its methods and events.
-; -----------------------------------------------------------
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
- 
-; class APSIMMilletEndCropMethod : APSIMMethod
-;    type                : APSIMString           = Type of Crop, (), GET
-;    dlt_fom_type        : APSIMString           = Type of fresh organic matter (FOM) incorporated, (), SET
-;    dlt_fom_wt          : APSIMRealArray        = Weight of FOM incorporated, (kg/ha), SET
-;    dlt_fom_n           : APSIMRealArray        = amount of FOM N incorporated, (kg/ha), SET
-;    incorp_fom          : APSIMIncorporateFOMMethod  = Incorporate FOM action
-;    
-;    dlt_residue_type    : APSIMString           = Type of Residue added, (), SET
-;    dlt_residue_wt      : APSIMReal             = Weight of residue added, (kg/ha), SET
-;    dlt_residue_n       : APSIMReal             = amount of residue N added, (kg/ha), SET
-;    add_residue         : APSIMAddResidueMethod = Add residue action
-; end
- 
- 
-; -----------------------------------------------------------
-; Millets public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMMilletPublic
-; variables read from ini file by  millet_read_cultivar_params
-    hi_max_pot             : APSIMReal           = maximum harvest index, (g grain/ g biomass), READ, 0.0, 1.0
-    head_grain_no_max      : APSIMReal           = maximum kernel number, (grains/plant), READ  !, 0.0, c%head_grain_no_max_ub 
-    grain_gth_rate         : APSIMReal           = potential grain growth rate, (mg/grain/day), READ !, 0.0, c%grain_gth_rate_ub
-    tt_emerg_to_endjuv     : APSIMReal           = Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv), (deg day), READ  ! , 0.0, c%tt_emerg_to_endjuv_ub
-    est_days_emerg_to_init : APSIMInteger        = estimated days from emergence to floral initiation, (day), READ, 0, 100
-    pp_endjuv_to_init      : APSIMReal           = Photoperiod sensitivity coefficient, (dtt/hr), READ !, 0.0, c%pp_endjuv_to_init_ub
-    tt_flower_to_maturity  : APSIMReal           = Growing degree days to complete grainfill (silking to maturity), (deg day), READ !, 0.0, c%tt_flower_to_maturity_ub
-    tt_flag_to_flower      : APSIMReal           = growing deg days for head emergence phase, (deg day), READ !, 0.0, c%tt_flag_to_flower_ub
-    tt_flower_to_start_grain : APSIMReal         = growing degree-days for flower_to_start_grain, (deg day), READ !, 0.0, c%tt_flower_to_start_grain_ub
-    tt_maturity_to_ripe    : APSIMReal           = growing deg day required to for grain dry down, (deg day), READ !, 0.0, c%tt_maturity_to_ripe_ub
-    y0_const               : APSIMReal           = largest leaf area intercept, (), READ, -40000.0, 100000.0
-    y0_slope               : APSIMReal           = largest leaf area slope, (), READ, 0.0, 10000.0
-
-; variables read from parameters section in parameter file by  millet_read_root_params
-    ll                     : APSIMRealArray      = lower limit of plant-extractable soil water for soil layer L, (mm), READ !, 0.0, c%ll_ub
-    kl                     : APSIMRealArray      = root length density factor for water, (), READ !, 0.0, c%kl_ub
-
-; variables read from constants section in ini file by  millet_read_constants
-    stage_names            : APSIMStringArray    = full names of stages for reporting, (), READ
-    stage_code             : APSIMRealArray      = list of stage numbers, (), READ, 0.0, 1000.0
-    rue                    : APSIMRealArray      = radiation use efficiency, (g dm/mj), READ, 0.0, 1000.0
-    root_depth_rate        : APSIMRealArray      = root growth rate potential, (mm/day), READ, 0.0, 1000.0
-    ratio_root_shoot       : APSIMRealArray      = root:shoot ratio of new dm, (), READ, 0.0, 1000.0
-    row_spacing_default    : APSIMReal           = default row spacing for calculating k, (m), READ, 0.0, 2.0
-    x_row_spacing          : APSIMRealArray      = row spacing for interpolating k, (m), READ, 0.0, 2.0
-    y_extinct_coef         : APSIMRealArray      = interpolated k for live canopy, (), READ, 0.0, 1.0
-    y_extinct_coef_dead    : APSIMRealArray      = interpolated k for dead canopy, (), READ, 0.0, 1.0
-    root_extinction        : APSIMReal           = extinction coef to distribute roots down profile, (), READ, 0.0, 10.0
-    days_germ_limit        : APSIMReal           = maximum days allowed after sowing for germination to take place, (day), READ, 0.0, 365.0
-    swdf_pheno_limit       : APSIMReal           = critical cumulative phenology water stress above which the crop fails, (), READ, 0.0, 100.0
-    swdf_photo_limit       : APSIMReal           = critical cumulative photosynthesis water stress above which the crop partly fails, (), READ, 0.0, 100.0
-    swdf_photo_rate        : APSIMReal           = rate of plant reduction with photosynthesis water stress, (), READ, 0.0, 1.0
-    initial_root_depth     : APSIMReal           = initial depth of roots, (mm), READ, 0.0, 1000.0
-    initial_tpla           : APSIMReal           = initial plant leaf area, (mm^2), READ, 0.0, 100000.0
-    x_lai                  : APSIMRealArray      = LAI for interpolating SLA_max, (mm2/mm2), READ, 0.0, 15.0
-    y_sla_max              : APSIMRealArray      = interpolated SLA_max, (mm2/g), READ, 0.0, 1000000.0
-    x_lai_ratio            : APSIMReal           = ratio table for critical leaf size below which leaf number is reduced, (), READ, 0.0, 1.0
-    y_leaf_no_frac         : APSIMReal           = reduction in leaf appearance, (), READ, 0.0, 1.0
-    height_max             : APSIMReal           = maximum canopy height, (mm), READ, 0.0, 10000.0
-    height_stem_slope      : APSIMReal           = rate of height growth, (mm/g stem), READ, 0.0, 1000.0
-    head_grain_no_max_ub   : APSIMReal           = upper limit, (grains/plant), READ, 0.0, 10000.0
-    grain_gth_rate_ub      : APSIMReal           = upper limit, (mg/grain/day), READ, 0.0, 1000.0
-    tt_emerg_to_endjuv_ub  : APSIMReal           = upper limit, (deg day), READ, 0.0, 1000.0
-    pp_endjuv_to_init_ub   : APSIMReal           = upper limit, (dtt/hr), READ, 0.0, 1000.0
-    tt_flower_to_maturity_ub : APSIMReal         = upper limit, (deg day), READ, 0.0, 2000.0
-    tt_maturity_to_ripe_ub   : APSIMReal         = upper limit, (deg day), READ, 0.0, 1000.0
-    tt_flower_to_start_grain_ub : APSIMReal      = upper limit, (deg day), READ, 0.0, 1000.0
-    tt_flag_to_flower_ub   : APSIMReal           = upper limit, (deg day), READ, 0.0, 1000.0
-    svp_fract              : APSIMReal           = fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies, (), READ, 0.0, 1.0
-    transp_eff_cf          : APSIMReal           = transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa) although this is expressed as a pressure it is really in the form kpa*g carbo per m^2 / g water per m^2 and this can be converted to kpa*g carbo per m^2 / mm water because 1g water = 1 cm^3 water, (kpa), READ, , 0.0, 1.0
-    head_grain_no_crit     : APSIMReal           = grains per plant minimum which all heads are barren, (grains/plant), READ, 0.0, 1000.0
-    barren_crit            : APSIMReal           = fraction of maximum grains per plant below which barrenness occurs, (grains/plant), READ, 0.0, 1.0
-    pesw_germ              : APSIMReal           = plant extractable soil water in seedling layer inadequate for germination, (mm/mm), READ, 0.0, 1.0
-    grain_n_conc_min       : APSIMReal           = minimum nitrogen concentration of grain, (), READ, 0.0, 100.0
-    seed_wt_min            : APSIMReal           = minimum grain weight, (g/seed), READ, 0.0, 100.0
-    growth_rate_min        : APSIMReal           = minimum rate of photosynthesis below which there is no grain produced, (g/plant), READ, 0.0, 1000.0
-    growth_rate_crit       : APSIMReal           = threshold  rate of photosynthesis below which heat stress has no effect (g/plant).  This is also the rate at which the grains/plant is half of the maximum grains, (g/plant), READ, 0.0, 1000.0
-    leaf_no_at_emerg       : APSIMReal           = leaf number at emergence, (), READ, 0.0, 100.0
-    no3_diffn_const        : APSIMReal           = time constant for uptake by diffusion (days). H van Keulen & NG Seligman. Purdoe 1987. This is the time it would take to take up by diffusion the current amount of N if it wasn't depleted between time steps, (day), READ, 0.0, 100.0
-    N_fix_rate             : APSIMReal           = potential rate of N fixation (g N fixed per g above ground biomass), (g N/g plant), READ, 0.0, 1.0
-    shoot_lag              : APSIMReal           = minimum growing degree days for germination, (deg days), READ, 0.0, 100.0
-    shoot_rate             : APSIMReal           = growing deg day increase with depth for germination, (oC/mm), READ, 0.0, 100.0
-    photoperiod_base       : APSIMReal           = lower threshold of hours of light, (hr), READ, 0.0, 24.0
-    photoperiod_crit       : APSIMReal           = critical daylength (h) to amend c%y_tiller_tt, (hr), READ, 0.0, 24.0
-    photo_tiller_crit      : APSIMReal           = critical daylength (h) to amend c%y_tiller_tt, (hr), READ, 0.0, 24.0
-    leaf_app_rate1         : APSIMReal           = thermal time required to develop a leaf ligule for first leaves, (deg day), READ, 0.0, 100.0
-    leaf_app_rate2         : APSIMReal           = thermal time required to develop a leaf ligule for later leaves, (deg day), READ, 0.0, 100.0
-    leaf_no_rate_change    : APSIMReal           = leaf no at which change from rate1 to rate2 for leaf appearance, (), READ, 0.0, 30.0
-    dm_leaf_init           : APSIMReal           = leaf growth before emergence, (g/plant), READ, 0.0, 1000.0
-    dm_root_init           : APSIMReal           = root growth before emergence, (g/plant), READ, 0.0, 1000.0
-    dm_stem_init           : APSIMReal           = stem growth before emergence, (g/plant), READ, 0.0, 1000.0
-    ll_ub                  : APSIMReal           = upper limit of lower limit, (mm/mm), READ, 0.0, 1000.0
-    kl_ub                  : APSIMReal           = upper limit of water uptake factor, (), READ, 0.0, 1000.0
-    leaf_init_rate         : APSIMReal           = growing degree days to initiate each le primordium until fl_initling, (deg day), READ, 0.0, 100.0
-    leaf_no_seed           : APSIMReal           = number of leaf primordia present in seed, (leaves), READ, 0.0, 100.0
-    leaf_no_min            : APSIMReal           = lower limit of leaf number, (), READ, 0.0, 100.0
-    leaf_no_max            : APSIMReal           = upper limit of leaf number, (), READ, 0.0, 100.0
-    leaf_no_diff           : APSIMReal           = GD, (), READ, 0.0, 10.0
-    stem_trans_frac        : APSIMReal           = fraction of stem used in translocat to grain, (), READ, 0.0, 1.0
-    leaf_trans_frac        : APSIMReal           = fraction of leaf used in translocat to grain, (), READ, 0.0, 1.0
-    minsw                  : APSIMReal           = lowest acceptable value for ll, (mm/mm), READ, 0.0, 1000.0
-    swdf_grain_min         : APSIMReal           = minimum of water stress factor, (), READ, 0.0, 100.0
-    sw_fac_max             : APSIMReal           = soil water stress factor maximum, (), READ, 0.0, 100.0
-    temp_fac_min           : APSIMReal           = temperature stress factor minimum optimum temp, (), READ, 0.0, 100.0
-    sfac_slope             : APSIMReal           = soil water stress factor slope, (), READ, -10.0, 10.0
-    tfac_slope             : APSIMReal           = temperature stress factor slope, (), READ, 0.0, 100.0
-    leaf_no_dead_const     : APSIMReal           = dead leaf no intercept, (), READ, -9.0, 100.0
-    leaf_no_dead_slope     : APSIMReal           = dead leaf no slope, (), READ, 0.0, 100.0
-    leaf_no_dead_slope1    : APSIMReal           = dead leaf no slope, (), READ, 0.0, 100.0
-    leaf_no_dead_slope2    : APSIMReal           = dead leaf no slope, (), READ, 0.0, 100.0
-    latitude_ub            : APSIMReal           = upper limit of latitude for model, (oL), READ, -90.0, 90.0
-    latitude_lb            : APSIMReal           = lower limit of latitude for model, (oL), READ, -90.0, 90.0
-    maxt_ub                : APSIMReal           = upper limit of maximum temperature, (oC), READ, 0.0, 60.0
-    maxt_lb                : APSIMReal           = lower limit of maximum temperature, (oC), READ, 0.0, 60.0
-    mint_ub                : APSIMReal           = upper limit of minimum temperature, (oC), READ, 0.0, 40.0
-    mint_lb                : APSIMReal           = lower limit of minimum temperature, (oC), READ, -100.0, 100.0
-    radn_ub                : APSIMReal           = upper limit of solar radiation, (MJ/m^2), READ, 0.0, 100.0
-    radn_lb                : APSIMReal           = lower limit of solar radiation, (MJ/m^2), READ, 0.0, 100.0
-    dlayer_ub              : APSIMReal           = upper limit of layer depth, (mm), READ, 0.0, 10000.0
-    dlayer_lb              : APSIMReal           = lower limit of layer depth, (mm), READ, 0.0, 10000.0
-    dul_dep_ub             : APSIMReal           = upper limit of dul, (mm), READ, 0.0, 10000.0
-    dul_dep_lb             : APSIMReal           = lower limit of dul, (mm), READ, 0.0, 10000.0
-    sw_dep_ub              : APSIMReal           = upper limit of soilwater depth, (mm), READ, 0.0, 10000.0
-    sw_dep_lb              : APSIMReal           = lower limit of soilwater depth, (mm), READ, 0.0, 10000.0
-    no3_ub                 : APSIMReal           = upper limit of soil NO3, (kg/ha), READ, 0.0, 100000.0
-    no3_lb                 : APSIMReal           = lower limit of soil NO3, (kg/ha), READ, 0.0, 100000.0
-    no3_min_ub             : APSIMReal           = upper limit of minimum soil NO3, (kg/ha), READ, 0.0, 100000.0
-    no3_min_lb             : APSIMReal           = lower limit of minimum soil NO3, (kg/ha), READ, 0.0, 100000.0
-    grn_water_cont         : APSIMReal           = water content of grain, (g/g), READ, 0.0, 1.0
-    sla_min                : APSIMReal           = minimum specific leaf area for new leaf area, (mm^2/g), READ, 0.0, 100000.0
-    partition_rate_leaf    : APSIMReal           = rate coefficient of sigmoidal function between leaf partition fraction and internode no**2 (0-1), (), READ, 0.0, 1.0
-    frac_leaf_pre_flower   : APSIMReal           = fraction of dm allocated to leaves prior to flowering, (), READ, 0.0, 1.0
-    frac_leaf_post_flower  : APSIMReal           = fraction of dm allocated to leaves after flowering, (), READ, 0.0, 1.0
-    frac_stem2flower       : APSIMReal           = fraction of dm allocated_z to stem that goes to developing head, (), READ, 0.0, 1.0
-    frac_flower2grain      : APSIMReal           = fraction of dm allocated to flower relative to grain, (), READ, 0.0, 1.0
-    htstress_coeff         : APSIMReal           = coeff for conversion of heat stress during flowering to heat stress factor on grain number development, (), READ, 0.0, 1.0
-    dm_root_sen_frac             : APSIMReal           = fraction of root dry matter senescing each day, (), READ, 0.0, 1.0
-    dm_leaf_sen_frac             : APSIMReal           = fraction of senescing leaf dry matter remaining in leaf, (), READ, 0.0, 1.0
-    dead_detach_frac             : APSIMRealArray      = fraction of dead plant parts detaching each day, (), READ, 0.0, 1.0
-    dm_leaf_detach_frac             : APSIMReal           = fraction of senesced leaf dry matter detaching from live plant each day, (), READ, 0.0, 1.0
-    leaf_size_average             : APSIMReal           = average leaf size, (mm2), READ, 0.0, 10000.0
-    leaf_size_endjuv             : APSIMReal           = early leaf size, (mm2), READ, 0.0, 10000.0
-    x0_const             : APSIMReal           = largest leaf no intercept, (), READ, -10.0, 100.0
-    x0_slope             : APSIMReal           = largest leaf no slope, (), READ, 0.0, 100.0
-    a_const             : APSIMReal           = leaf area breadth intercept, (), READ, -1000.0, 1000.0
-    a_slope1             : APSIMReal           = leaf area breadth slope1, (), READ, -1000.0, 1000.0
-    a_slope2             : APSIMReal           = leaf area breadth slope2, (), READ, -1000.0, 1000.0
-    b_const             : APSIMReal           = leaf area skewness intercept, (), READ, -1000.0, 1000.0
-    b_slope1             : APSIMReal           = leaf area skewness slope1, (), READ, -1000.0, 1000.0
-    b_slope2             : APSIMReal           = leaf area skewness slope2, (), READ, -1000.0, 1000.0
-    tiller_no_pot        : APSIMReal           = potential number of tillers, (mm), READ, 0, 5
-    tiller_appearance    : APSIMString         = method of tiller appearance, (), READ
-    x_tiller_no_next     : APSIMRealArray      = tiller table for determining tt for tiller appearance rate, (), READ, 0.0, 6.0
-    y_tiller_tt          : APSIMRealArray      = thermal time for theoretical  tiller appearance rate (oCd) at plant density = 0, (oCd), READ, 0.0, 2000.0
-    tiller_appearance_slope  : APSIMReal       = relationship between tiller appearance and plant density, (), READ, 0.0, 5.0
-    dm_tiller_crit       : APSIMReal           = critical dry matter required for a new tiller to become independent, (g/plant), READ, 0.0, 100.0
-    lai_sen_light        : APSIMReal           = critical lai above which light, (m^2/m^2), READ, 3.0, 20.0
-    sen_light_slope      : APSIMReal           = slope of linear relationship between lai and light competition factor for determining leaf senesence rate, (), READ, 0.0, 100.0
-    x_temp_senescence    : APSIMRealArray      = temperature senescence table, (oC), READ, -20.0, 20.0
-    y_senescence_fac     : APSIMRealArray      = temperature factor senescence table, (), READ, 0.0, 1.0
-    sen_rate_water       : APSIMReal           = slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate, (), READ, 0.0, 100.0
-    twilight             : APSIMReal           = twilight in angular distance between sunset and end of twilight - altitude of sun, (deg), READ, -90.0, 90.0
-    temp_grain_crit_stress : APSIMReal         = temperature above which heat stress occurs, (oC), READ, 20.0, 50.0
-    x_stage_code         : APSIMRealArray           = stage table for N concentrations, (), READ, 0.0, 100.0
-    y_n_conc_crit_leaf   : APSIMRealArray           = critical N concentration of leaf, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_max_leaf    : APSIMRealArray           = maximum N concentration of leaf, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_min_leaf    : APSIMRealArray           = minimum N concentration of leaf, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_crit_stem   : APSIMRealArray           = critical N concentration of stem, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_max_stem    : APSIMRealArray           = maximum N concentration of stem, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_min_stem    : APSIMRealArray           = minimum N concentration of stem, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_crit_flower : APSIMRealArray           = critical N concentration of flower, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_max_flower  : APSIMRealArray           = maximum N concentration of flower, (g N/g biomass), READ, 0.0, 100.0
-    y_n_conc_min_flower  : APSIMRealArray           = minimum N concentration of flower, (g N/g biomass), READ, 0.0, 100.0
-    n_conc_crit_grain    : APSIMReal           = critical N concentration of grain, (g N/g biomass), READ, 0.0, 100.0
-    n_conc_max_grain     : APSIMReal           = maximum N concentration of grain, (g N/g biomass), READ, 0.0, 100.0
-    n_conc_min_grain     : APSIMReal           = minimum N concentration of grain, (g N/g biomass), READ, 0.0, 100.0
-    n_conc_crit_root     : APSIMReal           = critical N concentration of root, (g N/g biomass), READ, 0.0, 100.0
-    n_conc_max_root      : APSIMReal           = maximum N concentration of root, (g N/g biomass), READ, 0.0, 100.0
-    n_conc_min_root      : APSIMReal           = minimum N concentration of root, (g N/g biomass), READ, 0.0, 100.0
-    n_leaf_init_conc     : APSIMReal           = initial leaf N concentration, (g N/g biomass), READ, 0.0, 100.0
-    n_root_init_conc     : APSIMReal           = initial root N concentration, (g N/g biomass), READ, 0.0, 100.0
-    n_stem_init_conc     : APSIMReal           = initial stem N concentration, (g N/g biomass), READ, 0.0, 100.0
-    n_leaf_sen_conc      : APSIMReal           = N concentration of senesced leaf, (g N/g biomass), READ, 0.0, 100.0
-    n_root_sen_conc      : APSIMReal           = N concentration of senesced root, (g N/g biomass), READ, 0.0, 100.0
-    N_fact_photo         : APSIMReal           = multipler for N deficit effect on photosynthesis, (), READ, 0.0, 100.0
-    N_fact_pheno         : APSIMReal           = multipler for N deficit effect on phenology, (), READ, 0.0, 100.0
-    x_ave_temp           : APSIMRealArray           = critical temperatures for photosynthesis, (oC), READ, 0.0, 100.0
-    y_stress_photo       : APSIMRealArray           = Factors for critical temperatures, (), READ, 0.0, 1.0
-    x_temp_grain         : APSIMRealArray           = critical temperatures controlling grain fill rates, (oC), READ, 0.0, 100.0
-    y_grain_rate         : APSIMRealArray           = Relative grain fill rates for critical temperatures, (), READ, 0.0, 1.0
-    x_temp               : APSIMRealArray           = temperature table for photosynthesis degree days, (oC), READ, 0.0, 100.0
-    y_tt                 : APSIMRealArray           = degree days, (oC), READ, 0.0, 100.0
-    x_weighted_temp      : APSIMRealArray           = temperature table for poor establishment, (oC), READ, 0.0, 100.0
-    y_plant_death        : APSIMRealArray           = index of plant death, (oC), READ, 0.0, 100.0
-    x_sw_demand_ratio    : APSIMRealArray           = Soilwater supply:demand ratio controlling leaf expansion, (), READ, 0.0, 100.0
-    y_swdef_leaf         : APSIMRealArray           = Leaf expansion water availability factor, (), READ, 0.0, 100.0
-    x_sw_avail_ratio     : APSIMRealArray           = Soilwater actual:potential availability ratio controlling phenology, (), READ, 0.0, 100.0
-    y_swdef_pheno        : APSIMRealArray           = Phenology water availability factor, (), READ, 0.0, 100.0
-    x_sw_ratio           : APSIMRealArray           = Soilwater actual:potential availability ratio controlling extension, (), READ, 0.0, 100.0
-    y_sw_fac_root        : APSIMRealArray           = Root extension water availability factor, (), READ, 0.0, 100.0
-    x_sw_avail_fix       : APSIMRealArray           = Soilwater actual:potential availability ratio controlling N fixation, (), READ, 0.0, 100.0
-    y_swdef_fix          : APSIMRealArray           = N fixation water availibility factor, (), READ, 0.0, 100.0
-
-    plant_status            : APSIMString           = status of crop(alive dead out), (), GET
-    stage                   : APSIMReal             = current phenological stage(1-12), (), GET
-    stage_code              : APSIMReal             = stage number from constants section, (), GET
-    stage_name              : APSIMString           = full names of stages for reporting, (), GET
-    crop_type               : APSIMString           = crop type, (), GET|READ
-    dlt_tt                  : APSIMReal             = daily thermal time (growing deg day), (oCd), GET
-    phase_tt                : APSIMRealArray        = Cumulative growing degree days required for each stage (deg days), (oCd), GET
-    tt_tot                  : APSIMRealArray        = the sum of growing degree days for a phenological stage (oC d), (oC), GET
-    dlt_tt_curv             : APSIMReal             = daily thermal time (growing deg day), (oC), GET
-    phase_tt_curv           : APSIMRealArray        = Cumulative growing degree days required for each stage (deg days), (oC), GET
-    tt_curv_tot             : APSIMRealArray        = the sum of growing degree days for a phenological stage (oC d), (oC), GET
-    dlt_tt_other            : APSIMReal             = daily thermal time (growing deg day), (oC), GET
-    dlt_tiller_no           : APSIMReal             = fraction of new tiller, (), GET
-    phase_tt_other          : APSIMRealArray        = Cumulative growing degree days required for each stage (deg days), (oC), GET
-    tt_other_tot            : APSIMRealArray        = the sum of growing degree days for a phenological stage (oC d), (oC), GET
-    days_tot                : APSIMRealArray        = duration of each phase, (day), GET
-    tiller_no               : APSIMRealArray        = number of tillers, (), GET
-    leaf_no                 : APSIMRealArray        = number of fully expanded leaves, (), GET
-    leaf_no_final           : APSIMReal             = total number of leaves the plant produces, (), GET|SET, 0.0, 40.0
-    leaf_no_total           : APSIMReal             = total no of leaves the main shoot produces, (), GET
-    leaf_no_effective       : APSIMReal             = number of leaves the plant produced # fully expanded leaves plus corr. factor, (), GET
-    leaf_no_dead_const2     : APSIMReal             = intercept for second slope of seneced leaf number (after flag leaf stage), (), GET
-    lf_no_dead_at_flaglf    : APSIMReal             = senesced leaf number at flag leaf, (), GET
-    leaf_no_dead            : APSIMRealArray        = no of dead leaves, (), GET
-    leaf_no_ref             : APSIMReal             = total no of leaves the main shoot produces, (), GET
-    leaf_area               : APSIMRealArray        = leaf area of each leaf, (mm^2), GET
-    y_tiller_tt_adj         : APSIMRealArray        = thermal time for tiller appearance rate, (), GET
-    height                  : APSIMReal             = canopy height, (mm), GET
-    root_depth              : APSIMReal             = depth of roots, (mm), GET
-    plants                  : APSIMReal             = Plant density, (plants/m^2), GET
-    grain_no                : APSIMReal             = grain number, (grains/plant), GET
-    grain_size              : APSIMReal             = individual grain wt, (g/grain), GET
-    cover_green             : APSIMReal             = fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy (0-1), (), GET
-    lai_sum                 : APSIMReal             = leaf area index of all leaf material live + dead, (m^2/m^2), GET
-    tlai                    : APSIMReal             = total lai (green + senesced), (m^2/m^2), GET
-    slai                    : APSIMReal             = area of leaf that senesces from plant, (m^2/m^2), GET
-    lai                     : APSIMReal             = live plant green lai, (m^2/m^2), GET
-    tlai_dead               : APSIMReal             = total lai of dead plants, (m^2/m^2), GET
-    root_wt                 : APSIMReal             = live plant root dry weight, (g/m^2), GET
-    leaf_wt                 : APSIMReal             = live plant leaf  weight, (g/m^2), GET
-    stem_wt                 : APSIMReal             = live plant stem dry weight, (g/m^2), GET
-    flower_wt               : APSIMReal             = live plant flower dry weight, (g/m^2), GET
-    grain_wt                : APSIMReal             = live plant grain dry weight, (g/m^2), GET
-    dm_green                : APSIMRealArray        = live plant dry weight, (g/m^2), GET
-    dm_senesced             : APSIMRealArray        = senesced plant dry wt, (g/m^2), GET
-    dm_dead                 : APSIMRealArray        = dry wt of dead plants, (g/m^2), GET
-    yield                   : APSIMReal             = grain yield, (kg/ha), GET
-    biomass                 : APSIMReal             = total above-ground biomass, (kg/ha), GET
-    dlt_dm                  : APSIMReal             = the daily biomass production, (g/m^2), GET
-    dlt_dm_green            : APSIMRealArray        = plant biomass growth, (g/m^2), GET
-    dlt_dm_green_retrans    : APSIMRealArray        = plant biomass retranslocated, (g/m^2), GET
-    dlt_dm_detached         : APSIMRealArray        = plant biomass detached, (g/m^2), GET
-    dlt_dm_dead_detached    : APSIMRealArray        = plant biomass detached from dead plant, (g/m^2), GET
-    n_green                 : APSIMRealArray        = plant nitrogen content, (g/m^2), GET
-    n_senesced              : APSIMRealArray        = plant N content of senesced plant, (g/m^2), GET
-    n_dead                  : APSIMRealArray        = plant N content of dead plants, (g/m^2), GET
-    dlt_n_green             : APSIMRealArray        = actual N uptake into plant, (g/m^2), GET
-    dlt_n_retrans           : APSIMRealArray        = nitrogen retranslocated out from parts to grain, (g/m^2), GET
-    dlt_n_detached          : APSIMRealArray        = actual N loss with detached plant, (g/m^2), GET
-    dlt_n_dead_detached     : APSIMRealArray        = actual N loss with detached dead plant, (g/m^2), GET
-    swdef_pheno             : APSIMReal             = soil water deficit factor used for phenology thermal time, (), GET
-    swdef_photo             : APSIMReal             = soil water deficit factor ussed for leaf area senescence + rue reduction + grain filling + leaf death, (), GET
-    swdef_expan             : APSIMReal             = soil water deficit factor used for leaf expansion, (), GET
-    ep                      : APSIMRealArray        = water uptake in each layer, (mm), GET
-    cep                     : APSIMReal             = cumulative transpiration, (mm), GET
-    sw_demand               : APSIMReal             = total crop demand for water, (mm), GET
-    sw_supply               : APSIMReal             = potential water to take up (supply) from current soil water, (mm), GET
-    esw_layr                : APSIMRealArray        = plant extractable soil water, (mm), GET
-    das                     : APSIMReal             = Days after sowing, (day), GET
-    n_conc_stover           : APSIMReal             = sum of tops actual N concentration, (%), GET
-    n_conc_crit             : APSIMReal             = sum of tops critical N concentration, (%), GET
-    n_grain_pcnt            : APSIMReal             = Grain N percent, (%), GET
-    n_uptake_grain          : APSIMReal             = N uptake by grain, (kg/ha), GET
-    n_uptake                : APSIMReal             = cumulative total N uptake by plant, (kg/ha), GET
-    n_uptake_stover         : APSIMReal             = N uptake by stover, (kg/ha), GET
-    no3_tot                 : APSIMReal             = total NO3 in the root profile, (g/m^2), GET
-    n_demand                : APSIMReal             = sum N demand for plant parts, (g/m^2), GET
-    n_supply                : APSIMReal             = N supply for grain, (g/m^2), GET
-    n_supply_soil           : APSIMReal             = N supply from soil, (g/m^2), GET
-    n_fix_pot               : APSIMReal             = the potential quantity of atmospheric nitrogen fixed per unit carbohydrate per day, (g/m^2), GET
-    nfact_photo             : APSIMReal             = N availability factor to reduce rue and phenology thermal time, (), GET
-    nfact_grain             : APSIMReal             = N availability factor to reduce grain N concentration below critical, (), GET
-    photoperiod             : APSIMReal             = daylength of photoperiod response, (hour), GET
-
-; variables set by other modules in  millet_set_my_variable
-    dlt_leaf_no_pot         : APSIMReal             = Irrigation, (), SET
-
-; Main actions
-
-    create                 : APSIMMethod             = System message to create
-    sysinit                : APSIMMethod             = System initialise
-    sow                    : APSIMSowMethod          = Perform sowing
-    harvest                : APSIMHarvestMethod      = Perform harvest
-    end_crop               : APSIMEndCropMethod      = Perform end_crop
-    initiate_crop          : APSIMInitiateCropMethod = Perform initiate_crop
-    kill_crop              : APSIMKillCropMethod     = Perform kill_crop
-    stop_growth            : APSIMStopGrowthMethod   = Message from manager to module millet
-
-    crop_chopped           : APSIMCropChoppedEvent   = To notify all interested modules of the removal of dry matter from a crop
-
-end
-; -----------------------------------------------------------
-; Millets External interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-class APSIMMilletExternal
-    day                     : APSIMInteger          = Day of year, (), GET, 1, 366
-    year                    : APSIMInteger          = Year, (), GET, 1700, 2100
-    fr_intc_radn_[module_name] : APSIMReal          = Maximum, (), GET_OPT, 0.0, 1.0
-    leaf_no_ref             : APSIMReal             = Maximum, (), GET, 0.0, 100.0
-    latitude                : APSIMReal             = Maximum, (oL), GET !, c%latitude_lb, c%latitude_ub
-    maxt                    : APSIMReal             = Maximum ambient temperature, (oC), GET !, c%maxt_lb, c%maxt_ub
-    mint                    : APSIMReal             = Minimum ambient temperature, (oC), GET !, c%mint_lb, c%mint_ub
-    radn                    : APSIMReal             = Incident radiation, (Mj/m^2), GET !, c%radn_lb, c%radn_ub
-    maxt_soil_surface       : APSIMReal             = Maximum soil surface temperature, (oC), GET_OPT, 0.0, 80.0
-    dlayer                  : APSIMRealArray        = Thickness of each layer of soil profile, (mm), GET !, c%dlayer_lb, c%dlayer_ub
-    cover_green_sum         : APSIMRealArray        = moist, (g/cm^3), GET_OPT, 0.0, 1.0
-    dul_dep                 : APSIMRealArray        = drained upper limit soil water content for each soil layer, (mm), GET !, c%dul_dep_lb, c%dul_dep_ub
-    sw_dep                  : APSIMRealArray        = Soil water content of each layer, (mm), GET !, c%sw_dep_lb, c%sw_dep_ub
-    no3_min                 : APSIMRealArray        = Minimum allowable NO3 in soil in each layer, (kg/ha), GET_OPT !, c%NO3_min_lb, c%NO3_min_ub
-    no3                     : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), GET_OPT !, c%NO3_lb, c%NO3_ub
-    dlt_sw_dep              : APSIMRealArray        = Soil water content of each layer, (mm), SET
-    dlt_no3                 : APSIMRealArray        = Nitrate nitrogen in each layer, (kg/ha), SET
-
-; Other actions
-
-    incorp_fom              : APSIMIncorporateFOMMethod  = Incorporate FOM action
-    add_residue             : APSIMAddResidueMethod      = Add residue action
-    initiate_crop           : APSIMInitiateCropMethod    = Message for a crop to be initiated
-
-    tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
-    newmet                  : APSIMNewMetEvent           = To notify all interested modules in a change in the simulation met data for the current time step
-    prepare                 : APSIMEvent                 = System prepare stage
-    process                 : APSIMEvent                 = System process stage
-
-end
-
-class APSIMMillet
-   dll      : string
-   public   : APSIMMilletPublic
-   external : APSIMMilletExternal
-end
+<component name="millet">
+   <registrations>
+      <read name="hi_max_pot" type="hi_max_pot" readable="T"/>
+      <read name="head_grain_no_max" type="head_grain_no_max" readable="T"/>
+      <read name="grain_gth_rate" type="grain_gth_rate" readable="T"/>
+      <read name="tt_emerg_to_endjuv" type="tt_emerg_to_endjuv" readable="T"/>
+      <read name="est_days_emerg_to_init" type="est_days_emerg_to_init" readable="T"/>
+      <read name="pp_endjuv_to_init" type="pp_endjuv_to_init" readable="T"/>
+      <read name="tt_flower_to_maturity" type="tt_flower_to_maturity" readable="T"/>
+      <read name="tt_flag_to_flower" type="tt_flag_to_flower" readable="T"/>
+      <read name="tt_flower_to_start_grain" type="tt_flower_to_start_grain" readable="T"/>
+      <read name="tt_maturity_to_ripe" type="tt_maturity_to_ripe" readable="T"/>
+      <read name="y0_const" type="y0_const" readable="T"/>
+      <read name="y0_slope" type="y0_slope" readable="T"/>
+      <read name="ll" type="ll" readable="T"/>
+      <read name="kl" type="kl" readable="T"/>
+      <read name="stage_names" type="stage_names" readable="T"/>
+      <read name="stage_code" type="stage_code" readable="T"/>
+      <read name="rue" type="rue" readable="T"/>
+      <read name="root_depth_rate" type="root_depth_rate" readable="T"/>
+      <read name="ratio_root_shoot" type="ratio_root_shoot" readable="T"/>
+      <read name="row_spacing_default" type="row_spacing_default" readable="T"/>
+      <read name="x_row_spacing" type="x_row_spacing" readable="T"/>
+      <read name="y_extinct_coef" type="y_extinct_coef" readable="T"/>
+      <read name="y_extinct_coef_dead" type="y_extinct_coef_dead" readable="T"/>
+      <read name="root_extinction" type="root_extinction" readable="T"/>
+      <read name="days_germ_limit" type="days_germ_limit" readable="T"/>
+      <read name="swdf_pheno_limit" type="swdf_pheno_limit" readable="T"/>
+      <read name="swdf_photo_limit" type="swdf_photo_limit" readable="T"/>
+      <read name="swdf_photo_rate" type="swdf_photo_rate" readable="T"/>
+      <read name="initial_root_depth" type="initial_root_depth" readable="T"/>
+      <read name="initial_tpla" type="initial_tpla" readable="T"/>
+      <read name="x_lai" type="x_lai" readable="T"/>
+      <read name="y_sla_max" type="y_sla_max" readable="T"/>
+      <read name="x_lai_ratio" type="x_lai_ratio" readable="T"/>
+      <read name="y_leaf_no_frac" type="y_leaf_no_frac" readable="T"/>
+      <read name="height_max" type="height_max" readable="T"/>
+      <read name="height_stem_slope" type="height_stem_slope" readable="T"/>
+      <read name="head_grain_no_max_ub" type="head_grain_no_max_ub" readable="T"/>
+      <read name="grain_gth_rate_ub" type="grain_gth_rate_ub" readable="T"/>
+      <read name="tt_emerg_to_endjuv_ub" type="tt_emerg_to_endjuv_ub" readable="T"/>
+      <read name="pp_endjuv_to_init_ub" type="pp_endjuv_to_init_ub" readable="T"/>
+      <read name="tt_flower_to_maturity_ub" type="tt_flower_to_maturity_ub" readable="T"/>
+      <read name="tt_maturity_to_ripe_ub" type="tt_maturity_to_ripe_ub" readable="T"/>
+      <read name="tt_flower_to_start_grain_ub" type="tt_flower_to_start_grain_ub" readable="T"/>
+      <read name="tt_flag_to_flower_ub" type="tt_flag_to_flower_ub" readable="T"/>
+      <read name="svp_fract" type="svp_fract" readable="T"/>
+      <read name="transp_eff_cf" type="transp_eff_cf" readable="T"/>
+      <read name="head_grain_no_crit" type="head_grain_no_crit" readable="T"/>
+      <read name="barren_crit" type="barren_crit" readable="T"/>
+      <read name="pesw_germ" type="pesw_germ" readable="T"/>
+      <read name="grain_n_conc_min" type="grain_n_conc_min" readable="T"/>
+      <read name="seed_wt_min" type="seed_wt_min" readable="T"/>
+      <read name="growth_rate_min" type="growth_rate_min" readable="T"/>
+      <read name="growth_rate_crit" type="growth_rate_crit" readable="T"/>
+      <read name="leaf_no_at_emerg" type="leaf_no_at_emerg" readable="T"/>
+      <read name="no3_diffn_const" type="no3_diffn_const" readable="T"/>
+      <read name="N_fix_rate" type="N_fix_rate" readable="T"/>
+      <read name="shoot_lag" type="shoot_lag" readable="T"/>
+      <read name="shoot_rate" type="shoot_rate" readable="T"/>
+      <read name="photoperiod_base" type="photoperiod_base" readable="T"/>
+      <read name="photoperiod_crit" type="photoperiod_crit" readable="T"/>
+      <read name="photo_tiller_crit" type="photo_tiller_crit" readable="T"/>
+      <read name="leaf_app_rate1" type="leaf_app_rate1" readable="T"/>
+      <read name="leaf_app_rate2" type="leaf_app_rate2" readable="T"/>
+      <read name="leaf_no_rate_change" type="leaf_no_rate_change" readable="T"/>
+      <read name="dm_leaf_init" type="dm_leaf_init" readable="T"/>
+      <read name="dm_root_init" type="dm_root_init" readable="T"/>
+      <read name="dm_stem_init" type="dm_stem_init" readable="T"/>
+      <read name="ll_ub" type="ll_ub" readable="T"/>
+      <read name="kl_ub" type="kl_ub" readable="T"/>
+      <read name="leaf_init_rate" type="leaf_init_rate" readable="T"/>
+      <read name="leaf_no_seed" type="leaf_no_seed" readable="T"/>
+      <read name="leaf_no_min" type="leaf_no_min" readable="T"/>
+      <read name="leaf_no_max" type="leaf_no_max" readable="T"/>
+      <read name="leaf_no_diff" type="leaf_no_diff" readable="T"/>
+      <read name="stem_trans_frac" type="stem_trans_frac" readable="T"/>
+      <read name="leaf_trans_frac" type="leaf_trans_frac" readable="T"/>
+      <read name="minsw" type="minsw" readable="T"/>
+      <read name="swdf_grain_min" type="swdf_grain_min" readable="T"/>
+      <read name="sw_fac_max" type="sw_fac_max" readable="T"/>
+      <read name="temp_fac_min" type="temp_fac_min" readable="T"/>
+      <read name="sfac_slope" type="sfac_slope" readable="T"/>
+      <read name="tfac_slope" type="tfac_slope" readable="T"/>
+      <read name="leaf_no_dead_const" type="leaf_no_dead_const" readable="T"/>
+      <read name="leaf_no_dead_slope" type="leaf_no_dead_slope" readable="T"/>
+      <read name="leaf_no_dead_slope1" type="leaf_no_dead_slope1" readable="T"/>
+      <read name="leaf_no_dead_slope2" type="leaf_no_dead_slope2" readable="T"/>
+      <read name="latitude_ub" type="latitude_ub" readable="T"/>
+      <read name="latitude_lb" type="latitude_lb" readable="T"/>
+      <read name="maxt_ub" type="maxt_ub" readable="T"/>
+      <read name="maxt_lb" type="maxt_lb" readable="T"/>
+      <read name="mint_ub" type="mint_ub" readable="T"/>
+      <read name="mint_lb" type="mint_lb" readable="T"/>
+      <read name="radn_ub" type="radn_ub" readable="T"/>
+      <read name="radn_lb" type="radn_lb" readable="T"/>
+      <read name="dlayer_ub" type="dlayer_ub" readable="T"/>
+      <read name="dlayer_lb" type="dlayer_lb" readable="T"/>
+      <read name="dul_dep_ub" type="dul_dep_ub" readable="T"/>
+      <read name="dul_dep_lb" type="dul_dep_lb" readable="T"/>
+      <read name="sw_dep_ub" type="sw_dep_ub" readable="T"/>
+      <read name="sw_dep_lb" type="sw_dep_lb" readable="T"/>
+      <read name="no3_ub" type="no3_ub" readable="T"/>
+      <read name="no3_lb" type="no3_lb" readable="T"/>
+      <read name="no3_min_ub" type="no3_min_ub" readable="T"/>
+      <read name="no3_min_lb" type="no3_min_lb" readable="T"/>
+      <read name="grn_water_cont" type="grn_water_cont" readable="T"/>
+      <read name="sla_min" type="sla_min" readable="T"/>
+      <read name="partition_rate_leaf" type="partition_rate_leaf" readable="T"/>
+      <read name="frac_leaf_pre_flower" type="frac_leaf_pre_flower" readable="T"/>
+      <read name="frac_leaf_post_flower" type="frac_leaf_post_flower" readable="T"/>
+      <read name="frac_stem2flower" type="frac_stem2flower" readable="T"/>
+      <read name="frac_flower2grain" type="frac_flower2grain" readable="T"/>
+      <read name="htstress_coeff" type="htstress_coeff" readable="T"/>
+      <read name="dm_root_sen_frac" type="dm_root_sen_frac" readable="T"/>
+      <read name="dm_leaf_sen_frac" type="dm_leaf_sen_frac" readable="T"/>
+      <read name="dead_detach_frac" type="dead_detach_frac" readable="T"/>
+      <read name="dm_leaf_detach_frac" type="dm_leaf_detach_frac" readable="T"/>
+      <read name="leaf_size_average" type="leaf_size_average" readable="T"/>
+      <read name="leaf_size_endjuv" type="leaf_size_endjuv" readable="T"/>
+      <read name="x0_const" type="x0_const" readable="T"/>
+      <read name="x0_slope" type="x0_slope" readable="T"/>
+      <read name="a_const" type="a_const" readable="T"/>
+      <read name="a_slope1" type="a_slope1" readable="T"/>
+      <read name="a_slope2" type="a_slope2" readable="T"/>
+      <read name="b_const" type="b_const" readable="T"/>
+      <read name="b_slope1" type="b_slope1" readable="T"/>
+      <read name="b_slope2" type="b_slope2" readable="T"/>
+      <read name="tiller_no_pot" type="tiller_no_pot" readable="T"/>
+      <read name="tiller_appearance" type="tiller_appearance" readable="T"/>
+      <read name="x_tiller_no_next" type="x_tiller_no_next" readable="T"/>
+      <read name="y_tiller_tt" type="y_tiller_tt" readable="T"/>
+      <read name="tiller_appearance_slope" type="tiller_appearance_slope" readable="T"/>
+      <read name="dm_tiller_crit" type="dm_tiller_crit" readable="T"/>
+      <read name="lai_sen_light" type="lai_sen_light" readable="T"/>
+      <read name="sen_light_slope" type="sen_light_slope" readable="T"/>
+      <read name="x_temp_senescence" type="x_temp_senescence" readable="T"/>
+      <read name="y_senescence_fac" type="y_senescence_fac" readable="T"/>
+      <read name="sen_rate_water" type="sen_rate_water" readable="T"/>
+      <read name="twilight" type="twilight" readable="T"/>
+      <read name="temp_grain_crit_stress" type="temp_grain_crit_stress" readable="T"/>
+      <read name="x_stage_code" type="x_stage_code" readable="T"/>
+      <read name="y_n_conc_crit_leaf" type="y_n_conc_crit_leaf" readable="T"/>
+      <read name="y_n_conc_max_leaf" type="y_n_conc_max_leaf" readable="T"/>
+      <read name="y_n_conc_min_leaf" type="y_n_conc_min_leaf" readable="T"/>
+      <read name="y_n_conc_crit_stem" type="y_n_conc_crit_stem" readable="T"/>
+      <read name="y_n_conc_max_stem" type="y_n_conc_max_stem" readable="T"/>
+      <read name="y_n_conc_min_stem" type="y_n_conc_min_stem" readable="T"/>
+      <read name="y_n_conc_crit_flower" type="y_n_conc_crit_flower" readable="T"/>
+      <read name="y_n_conc_max_flower" type="y_n_conc_max_flower" readable="T"/>
+      <read name="y_n_conc_min_flower" type="y_n_conc_min_flower" readable="T"/>
+      <read name="n_conc_crit_grain" type="n_conc_crit_grain" readable="T"/>
+      <read name="n_conc_max_grain" type="n_conc_max_grain" readable="T"/>
+      <read name="n_conc_min_grain" type="n_conc_min_grain" readable="T"/>
+      <read name="n_conc_crit_root" type="n_conc_crit_root" readable="T"/>
+      <read name="n_conc_max_root" type="n_conc_max_root" readable="T"/>
+      <read name="n_conc_min_root" type="n_conc_min_root" readable="T"/>
+      <read name="n_leaf_init_conc" type="n_leaf_init_conc" readable="T"/>
+      <read name="n_root_init_conc" type="n_root_init_conc" readable="T"/>
+      <read name="n_stem_init_conc" type="n_stem_init_conc" readable="T"/>
+      <read name="n_leaf_sen_conc" type="n_leaf_sen_conc" readable="T"/>
+      <read name="n_root_sen_conc" type="n_root_sen_conc" readable="T"/>
+      <read name="N_fact_photo" type="N_fact_photo" readable="T"/>
+      <read name="N_fact_pheno" type="N_fact_pheno" readable="T"/>
+      <read name="x_ave_temp" type="x_ave_temp" readable="T"/>
+      <read name="y_stress_photo" type="y_stress_photo" readable="T"/>
+      <read name="x_temp_grain" type="x_temp_grain" readable="T"/>
+      <read name="y_grain_rate" type="y_grain_rate" readable="T"/>
+      <read name="x_temp" type="x_temp" readable="T"/>
+      <read name="y_tt" type="y_tt" readable="T"/>
+      <read name="x_weighted_temp" type="x_weighted_temp" readable="T"/>
+      <read name="y_plant_death" type="y_plant_death" readable="T"/>
+      <read name="x_sw_demand_ratio" type="x_sw_demand_ratio" readable="T"/>
+      <read name="y_swdef_leaf" type="y_swdef_leaf" readable="T"/>
+      <read name="x_sw_avail_ratio" type="x_sw_avail_ratio" readable="T"/>
+      <read name="y_swdef_pheno" type="y_swdef_pheno" readable="T"/>
+      <read name="x_sw_ratio" type="x_sw_ratio" readable="T"/>
+      <read name="y_sw_fac_root" type="y_sw_fac_root" readable="T"/>
+      <read name="x_sw_avail_fix" type="x_sw_avail_fix" readable="T"/>
+      <read name="y_swdef_fix" type="y_swdef_fix" readable="T"/>
+      <respondToGetReg name="plant_status" type="plant_status"/>
+      <respondToGetReg name="stage" type="stage"/>
+      <respondToGetReg name="stage_code" type="stage_code"/>
+      <respondToGetReg name="stage_name" type="stage_name"/>
+      <read name="crop_" type="crop_type" readable="T"/>
+      <respondToGetReg name="crop_" type="crop_type" readable="T"/>
+      <respondToGetReg name="dlt_tt" type="dlt_tt"/>
+      <respondToGetReg name="phase_tt" type="phase_tt"/>
+      <respondToGetReg name="tt_tot" type="tt_tot"/>
+      <respondToGetReg name="dlt_tt_curv" type="dlt_tt_curv"/>
+      <respondToGetReg name="phase_tt_curv" type="phase_tt_curv"/>
+      <respondToGetReg name="tt_curv_tot" type="tt_curv_tot"/>
+      <respondToGetReg name="dlt_tt_other" type="dlt_tt_other"/>
+      <respondToGetReg name="dlt_tiller_no" type="dlt_tiller_no"/>
+      <respondToGetReg name="phase_tt_other" type="phase_tt_other"/>
+      <respondToGetReg name="tt_other_tot" type="tt_other_tot"/>
+      <respondToGetReg name="days_tot" type="days_tot"/>
+      <respondToGetReg name="tiller_no" type="tiller_no"/>
+      <respondToGetReg name="leaf_no" type="leaf_no"/>
+      <respondToGetSetReg name="leaf_no_final" type="leaf_no_final"/>
+      <respondToGetReg name="leaf_no_total" type="leaf_no_total"/>
+      <respondToGetReg name="leaf_no_effective" type="leaf_no_effective"/>
+      <respondToGetReg name="leaf_no_dead_const2" type="leaf_no_dead_const2"/>
+      <respondToGetReg name="lf_no_dead_at_flaglf" type="lf_no_dead_at_flaglf"/>
+      <respondToGetReg name="leaf_no_dead" type="leaf_no_dead"/>
+      <respondToGetReg name="leaf_no_ref" type="leaf_no_ref"/>
+      <respondToGetReg name="leaf_area" type="leaf_area"/>
+      <respondToGetReg name="y_tiller_tt_adj" type="y_tiller_tt_adj"/>
+      <respondToGetReg name="height" type="height"/>
+      <respondToGetReg name="root_depth" type="root_depth"/>
+      <respondToGetReg name="plants" type="plants"/>
+      <respondToGetReg name="grain_no" type="grain_no"/>
+      <respondToGetReg name="grain_size" type="grain_size"/>
+      <respondToGetReg name="cover_green" type="cover_green"/>
+      <respondToGetReg name="lai_sum" type="lai_sum"/>
+      <respondToGetReg name="tlai" type="tlai"/>
+      <respondToGetReg name="slai" type="slai"/>
+      <respondToGetReg name="lai" type="lai"/>
+      <respondToGetReg name="tlai_dead" type="tlai_dead"/>
+      <respondToGetReg name="root_wt" type="root_wt"/>
+      <respondToGetReg name="leaf_wt" type="leaf_wt"/>
+      <respondToGetReg name="stem_wt" type="stem_wt"/>
+      <respondToGetReg name="flower_wt" type="flower_wt"/>
+      <respondToGetReg name="grain_wt" type="grain_wt"/>
+      <respondToGetReg name="dm_green" type="dm_green"/>
+      <respondToGetReg name="dm_senesced" type="dm_senesced"/>
+      <respondToGetReg name="dm_dead" type="dm_dead"/>
+      <respondToGetReg name="yield" type="yield"/>
+      <respondToGetReg name="biomass" type="biomass"/>
+      <respondToGetReg name="dlt_dm" type="dlt_dm"/>
+      <respondToGetReg name="dlt_dm_green" type="dlt_dm_green"/>
+      <respondToGetReg name="dlt_dm_green_retrans" type="dlt_dm_green_retrans"/>
+      <respondToGetReg name="dlt_dm_detached" type="dlt_dm_detached"/>
+      <respondToGetReg name="dlt_dm_dead_detached" type="dlt_dm_dead_detached"/>
+      <respondToGetReg name="n_green" type="n_green"/>
+      <respondToGetReg name="n_senesced" type="n_senesced"/>
+      <respondToGetReg name="n_dead" type="n_dead"/>
+      <respondToGetReg name="dlt_n_green" type="dlt_n_green"/>
+      <respondToGetReg name="dlt_n_retrans" type="dlt_n_retrans"/>
+      <respondToGetReg name="dlt_n_detached" type="dlt_n_detached"/>
+      <respondToGetReg name="dlt_n_dead_detached" type="dlt_n_dead_detached"/>
+      <respondToGetReg name="swdef_pheno" type="swdef_pheno"/>
+      <respondToGetReg name="swdef_photo" type="swdef_photo"/>
+      <respondToGetReg name="swdef_expan" type="swdef_expan"/>
+      <respondToGetReg name="ep" type="ep"/>
+      <respondToGetReg name="cep" type="cep"/>
+      <respondToGetReg name="sw_demand" type="sw_demand"/>
+      <respondToGetReg name="sw_supply" type="sw_supply"/>
+      <respondToGetReg name="esw_layr" type="esw_layr"/>
+      <respondToGetReg name="das" type="das"/>
+      <respondToGetReg name="n_conc_stover" type="n_conc_stover"/>
+      <respondToGetReg name="n_conc_crit" type="n_conc_crit"/>
+      <respondToGetReg name="n_grain_pcnt" type="n_grain_pcnt"/>
+      <respondToGetReg name="n_uptake_grain" type="n_uptake_grain"/>
+      <respondToGetReg name="n_uptake" type="n_uptake"/>
+      <respondToGetReg name="n_uptake_stover" type="n_uptake_stover"/>
+      <respondToGetReg name="no3_tot" type="no3_tot"/>
+      <respondToGetReg name="n_demand" type="n_demand"/>
+      <respondToGetReg name="n_supply" type="n_supply"/>
+      <respondToGetReg name="n_supply_soil" type="n_supply_soil"/>
+      <respondToGetReg name="n_fix_pot" type="n_fix_pot"/>
+      <respondToGetReg name="nfact_photo" type="nfact_photo"/>
+      <respondToGetReg name="nfact_grain" type="nfact_grain"/>
+      <respondToGetReg name="photoperiod" type="photoperiod"/>
+      <respondToGetSetReg name="dlt_leaf_no_pot" type="dlt_leaf_no_pot"/>
+      <respondToMethodCallReg name="create" type="create"/>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToMethodCallReg name="sow" type="sow"/>
+      <respondToMethodCallReg name="harvest" type="harvest"/>
+      <respondToMethodCallReg name="end_crop" type="end_crop"/>
+      <respondToMethodCallReg name="initiate_crop" type="initiate_crop"/>
+      <respondToMethodCallReg name="kill_crop" type="kill_crop"/>
+      <respondToMethodCallReg name="stop_growth" type="stop_growth"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <getVariableReg name="day" type="day"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="fr_intc_radn_[module_name]" type="fr_intc_radn_[module_name]"/>
+      <getVariableReg name="leaf_no_ref" type="leaf_no_ref"/>
+      <getVariableReg name="latitude" type="latitude"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="radn" type="radn"/>
+      <getVariableReg name="maxt_soil_surface" type="maxt_soil_surface"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="cover_green_sum" type="cover_green_sum"/>
+      <getVariableReg name="dul_dep" type="dul_dep"/>
+      <getVariableReg name="sw_dep" type="sw_dep"/>
+      <getVariableReg name="no3_min" type="no3_min"/>
+      <getVariableReg name="no3" type="no3"/>
+      <setVariableReg name="dlt_sw_dep" type="dlt_sw_dep"/>
+      <setVariableReg name="dlt_no3" type="dlt_no3"/>
+      <methodCallReg name="incorp_fom" type="incorp_fom"/>
+      <methodCallReg name="add_residue" type="add_residue"/>
+      <methodCallReg name="initiate_crop" type="initiate_crop"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>
