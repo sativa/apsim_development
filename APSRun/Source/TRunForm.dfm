@@ -663,6 +663,7 @@ object RunForm: TRunForm
         ReadOnly = True
         TabOrder = 0
         OnClick = simulationListClick
+        OnMouseUp = simulationListMouseUp
       end
     end
     object Page4: TTabSheet

@@ -46,6 +46,8 @@ class __declspec(dllexport) TRunForm : public TForm
       void __fastcall FormShow(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
    void __fastcall simulationListClick(TObject *Sender);
+   void __fastcall simulationListMouseUp(TObject *Sender,
+          TMouseButton Button, TShiftState Shift, int X, int Y);
    private:	// User declarations
       PreviousRuns previousRuns;
       std::vector<std::string> filesNeedingConversion;

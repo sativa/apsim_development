@@ -204,4 +204,19 @@ void __fastcall TRunForm::simulationListClick(TObject *Sender)
    checkOkButtonState(NULL);
    }
 //---------------------------------------------------------------------------
+// Need to trap the mouse up so that if the user clicks an already selected node
+// without using CTRL or SHIFT then only one node is selected.
+//---------------------------------------------------------------------------
+
+void __fastcall TRunForm::simulationListMouseUp(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+   {
+   TTreeNode* node = simulationList->GetNodeAt(X, Y);
+   if (Shift.Empty() && node != NULL)
+      {
+      simulationList->ClearSelection();
+      node->Selected = true;
+      }
+   }
+//---------------------------------------------------------------------------
 
