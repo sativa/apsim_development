@@ -49,7 +49,7 @@ int location_number (InputIterator first, InputIterator last, const T& value)
 template <class InputIterator, class T>
 InputIterator Pfind (InputIterator first, InputIterator last, const T& value)
 {
-    while (first != last && *(*first) != value)
+    while (first != last && !(*(*first) == value))
         ++first;
     return first;
 }
