@@ -1,6 +1,6 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  manager  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-[run1.manager.init]
+[run1.manager.init]    
    crop_in = 0
    chick_in = 0
    mung_in = 0
@@ -17,7 +17,7 @@
    sorg_in = 0
    start_year = year
    
-[run1.manager.end_of_day]
+[run1.manager.end_of_day]    
 
 if (soi['15-oct'] = 1) then
       report do_end_day_output
@@ -73,7 +73,7 @@ endif
     
       
 
-[run1.manager.start_of_day]
+[run1.manager.start_of_day]    
    if (today = date('15-Oct')) AND (crop_in = 0) then
       sorg sow plants = 10 (plants/m2), sowing_depth = 30, cultivar = Buster, tiller_no_fertile = 0.5
       sorg_in = 1
