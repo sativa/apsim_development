@@ -25,6 +25,9 @@ class __declspec(dllexport) ApsimComponentData
       // property methods
       std::string getProperty(const std::string& propertyType,
                               const std::string& name) const;
+      void getProperties(const std::string& propertyType,
+                         std::vector<std::string>& names,
+                         std::vector<std::string>& values) const;
       void setProperty(const std::string& propertyType,
                        const std::string& groupName,
                        const std::string& name,
