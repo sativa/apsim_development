@@ -230,8 +230,13 @@
      :                  // operatns_version ())
 
       g_oplun = Get_Logical_Unit ()
-      open (unit=g_oplun, file='operatns.tmp', form='formatted',
-     :     access='direct', recl= record_length, iostat=iostatus)
+cnh no need to specify file names with scratch files.
+c      open (unit=g_oplun, file='operatns.tmp', form='formatted',
+c     :     access='direct', recl= record_length, iostat=iostatus,
+c     :     status='scratch')
+      open (unit=g_oplun, form='formatted',
+     :     access='direct', recl= record_length, iostat=iostatus,
+     :     status='scratch')
 
       if (iostatus.eq.0) then
          call operatns_read_section ('prepare',prepare_phase)
@@ -245,7 +250,9 @@
 
          rewind (g_oplun)
       else
-         call fatal_error (Err_User, 'Cannot open scratch file.')
+         call fatal_error (Err_User
+     :      ,'Cannot open scratch file. Delete operatns.tmp file'//
+     :       ' in working directory if it exists.')
       endif
 
       call pop_routine (my_name)
