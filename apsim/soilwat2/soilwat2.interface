@@ -20,7 +20,7 @@ class APSIMSoilwat2Public
    eff_rain                : APSIMReal         = Effective rainfall = Rainfall - runoff - drainage, (mm), GET
    bd                      : APSIMRealArray    = Bulk density of the soil for each layer, (g/cc), GET|READ, 0.0, 2.0
    esw                     : APSIMReal         = Extractable soil water, (mm), GET
-   sw_dep                  : APSIMReal         = Layered soil water, (mm), GET|SET
+   sw_dep                  : APSIMRealArray    = Layered soil water, (mm), GET|SET
    dlt_sw_dep              : APSIMRealArray    = Change in soil moisture, (mm), SET, -10000.0, 10000.0
    sw                      : APSIMRealArray    = Soil water, (mm/mm), GET|SET|READ, 0.0, 1.0
    dlt_sw                  : APSIMRealArray    = Change in volumetric soil moisture, (mm/mm), SET, -1.0, 1.0
