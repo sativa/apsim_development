@@ -4,6 +4,8 @@
 #include <string>
 #include <stdexcept>
 #include <ComponentInterface/Component.h>
+#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
 
 #include "PlantComponent.h"
@@ -29,6 +31,22 @@ float environment_t::daylength(float sun_angle) const
 {
 	return daylength(day_of_year, sun_angle);
 }
+
+// ------------------------------------------------------------------
+// Transfer of sign - from FORTRAN.
+// The result is of the same type and kind as a. Its value is the abs(a) of a,
+// if b is greater than or equal positive zero; and -abs(a), if b is less than
+// or equal to negative zero.
+// Example a = sign (30,-2) ! a is assigned the value -30
+// ------------------------------------------------------------------
+float sign(float a, float b)
+   {
+   if (b >= 0)
+      return fabs(a);
+   else
+      return -fabs(a);
+   }
+
 float environment_t::daylength(int dyoyr, float sun_angle) const
 {
  // (INPUT) angle to measure time between such as twilight (deg).
@@ -119,7 +137,7 @@ float environment_t::daylength(int dyoyr, float sun_angle) const
    // the twilight altitude between these.
 
    if (reals_are_equal(fabs(latitude), 90.0)) {
-     //coshra = sign (1.0, -dec) * sign (1.0, lat); XXXXXsign???
+     coshra = sign (1.0, -dec) * sign (1.0, latitude); 
    } else {
      latrn = latitude*dg2rdn;
      slsd = sin(latrn)*sin(dec);
@@ -176,32 +194,32 @@ void pPhase::add(float dlt_days, float dlt_tt, float *balance_days, float *balan
    }
 bool compositePhase::contains(const pPhase &p) const
    {
-//   for (vector<pStage>::const_iterator s = phases.begin();
-//        s !=  phases.end();
-//        s++)
-//      {
-//      if (*s == p) return true;
-//      }
-//   return false;
-   return (find(phases.begin(), phases.end(), p) != phases.end());
+   for (vector<pPhase *>::const_iterator s = phases.begin(); s !=  phases.end(); s++)
+      {
+      if ((*s)->name() == p.name()) return true;
+      }
+   return false;
+//   return (find(phases.begin(), phases.end(), p) != phases.end());
    }
 
-float compositePhase::getTT(vector<pPhase> &pPhases)
+float compositePhase::getTT(void) const
 {
    float tt = 0.0;
-   for (vector<pPhase>::iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
    {
-      pPhase *test = find(pPhases.begin(), pPhases.end(), *phase);
-      if (test != pPhases.end())
-      {
-         tt += (*test).getTT();
-      }
-      else
-      {
-//         throw std::invalid_argument("Unknown phase name '" + phase->name + "'");
-      }
+      tt += (*phase)->getTT();
    }
    return tt;
+}
+
+float compositePhase::getDays(void) const
+{
+   float days = 0.0;
+   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+   {
+      days += (*phase)->getDays();
+   }
+   return days;
 }
 
 void PlantPhenology::initialise (PlantComponent *s, const string &section)
@@ -223,6 +241,7 @@ void PlantPhenology::initialise (PlantComponent *s, const string &section)
       phases.push_back(*sn);
       }
 
+   //XX composites need to be defined as "start stage, end stage" pairs.
    // find composite phases that we care about
    scratch = s->readParameter(section, "composite_phases");
    vector<string> composite_names;
@@ -231,7 +250,7 @@ void PlantPhenology::initialise (PlantComponent *s, const string &section)
         name !=  composite_names.end();
         name++)
       {
-      compositePhase composite(*name);
+      compositePhase composite;
       scratch = s->readParameter(section, *name);
       vector<string> composite_names;
       Split_string(scratch, " ", composite_names);
@@ -241,7 +260,7 @@ void PlantPhenology::initialise (PlantComponent *s, const string &section)
          {
          pPhase *p = find(phases.begin(), phases.end(), *phase);
          if (p != phases.end())
-           composite.add(*p);
+           composite.add(p);
          else
            throw std::invalid_argument("Unknown phase name '" + (*phase) + "'");
          }
@@ -279,6 +298,7 @@ void PlantPhenology::doRegistrations (protocol::Component *s)
                     &PlantPhenology::get_tt_tot, "dd", "Thermal time spent in each crop stage");
    setupGetFunction("days_tot",protocol::DTsingle, true,
                     &PlantPhenology::get_days_tot, "days", "Days spent in each crop stage");
+
 
 #undef setupGetVar
 #undef setupGetFunction
@@ -337,19 +357,6 @@ bool PlantPhenology::inPhase(const string &phase_name)
    return(current == *test);
    }
 
-//xxxxxxxxxxxxxxxx
-void PlantPhenology::setStage(const pPhase &stage)
-   {
-   // See if the stage is known at all to us
-   pPhase *newpos = find(phases.begin(), phases.end(), stage);
-   if (newpos == phases.end()) throw std::runtime_error("Can't set stage to " + stage.name());
-
-   int newStageNumber = newpos - phases.begin();
-   currentStage = newStageNumber;
-   if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
-     throw std::runtime_error("stage has gone wild in PlantPhenology::setStage..");
-   }
-
 pPhase *PlantPhenology::getStage(const string &name)
    {
    pPhase test(name);
@@ -366,10 +373,10 @@ pPhase *PlantPhenology::getStage(const string &name)
 //   return pos;
    }
 
-int PlantPhenology::daysInCurrentStage(void)
+int PlantPhenology::daysInCurrentPhase(void)
    {
-	const pPhase &current = phases[currentStage];
-	return current.getDays();
+   const pPhase &current = phases[currentStage];
+   return current.getDays();
    }
 
 float PlantPhenology::ttInPhase(const string &phaseName)
@@ -378,7 +385,7 @@ float PlantPhenology::ttInPhase(const string &phaseName)
       compositePhase phaseGroup = composites[phaseName];
       if (!phaseGroup.isEmpty())
       {
-         return phaseGroup.getTT(phases);
+         return phaseGroup.getTT();
       }
       else
       {
@@ -395,22 +402,33 @@ float PlantPhenology::ttInPhase(const string &phaseName)
    	}
    }
 
-float PlantPhenology::ttInCurrentStage(void)
+float PlantPhenology::ttInCurrentPhase(void)
    {
 	const pPhase &current = phases[currentStage];
 	return current.getTT();
    }
-int PlantPhenology::daysInStage(const pPhase &stage)
+
+int PlantPhenology::daysInPhase(const string &phaseName)
    {
-	pPhase *mystage = find(phases.begin(), phases.end(), stage);
-	if (mystage == phases.end()) throw std::runtime_error("Can't find stage " + stage.name());
-	return mystage->getDays();
-   }
-float PlantPhenology::ttInStage(const pPhase &stage)
-   {
-	pPhase *mystage = find(phases.begin(), phases.end(), stage);
-	if (mystage == phases.end()) throw std::runtime_error("Can't find stage " + stage.name());
-	return mystage->getTT();
+      // See if it's a composite
+      compositePhase phaseGroup = composites[phaseName];
+      if (!phaseGroup.isEmpty())
+      {
+         return phaseGroup.getDays();
+      }
+      else
+      {
+         // No, see if the stage is known at all to us
+         pPhase *phase = find(phases.begin(), phases.end(), pPhase(phaseName));
+         if (phase == phases.end())
+         {
+            throw std::runtime_error("unknown phase name " + phaseName);
+         }
+         else
+         {
+   	      return phase->getDays();
+   	   }
+   	}
    }
 
 string PlantPhenology::stageName(void)
@@ -444,8 +462,9 @@ float PlantPhenology::phase_fraction(float dlt_tt) //(INPUT)  daily thermal time
 void PlantPhenology::zeroStateVariables(void)
    {
    previousStage = currentStage = dltStage = 0.0;
-   for(unsigned int i=0; i < phases.size(); i++)
-      phases[i].reset();
+   for (unsigned int i=0; i < phases.size(); i++) phases[i].reset();
+   day_of_year = 0;
+   flowering_das = maturity_das = 0;
    }
 
 //+  Purpose
@@ -517,6 +536,18 @@ void WheatPhenology::initialise (PlantComponent *s, const string &section)
 void WheatPhenology::doRegistrations (protocol::Component *s)
    {
    PlantPhenology::doRegistrations(s);
+
+#define setupEvent(name,type,address) {\
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
+   fn = boost::bind(address, this, _1, _2, _3); \
+   s->addEvent(name, type, fn);\
+   }
+
+   setupEvent("sow", RegistrationType::respondToEvent, &WheatPhenology::onSow);
+   setupEvent("end_crop", RegistrationType::respondToEvent, &WheatPhenology::onEndCrop);
+   //XX not yet setupEvent("harvest", RegistrationType::respondToEvent, &WheatPhenology::onHarvest);
+   //XXnot yet setupEvent("kill_stem", RegistrationType::respondToEvent, &WheatPhenology::onKillStem);
+
 #define setupGetVar s->addGettableVar
 #define setupGetFunction(name,type,length,address,units,desc) {\
    boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;\
@@ -534,6 +565,12 @@ void WheatPhenology::doRegistrations (protocol::Component *s)
    setupGetFunction("zadok_stage", protocol::DTsingle, false,
                     &WheatPhenology::get_zadok_stage,
                     "0-100", "Zadok's growth developmental stage");
+   setupGetVar("flowering_das", flowering_das, "days", "Days from sowing to flowering");
+   setupGetVar("maturity_das", maturity_das, "days", "Days from sowing to maturity");
+
+#undef setupGetVar
+#undef setupGetFunction
+#undef setupEvent
    }
 
 void WheatPhenology::readSpeciesParameters(PlantComponent *s, vector<string> &sections)
@@ -599,10 +636,16 @@ void WheatPhenology::readCultivarParameters(PlantComponent *s, const string & cu
                    , 0.0, 10.0);
    }
 
-void WheatPhenology::onSow(float depth)
+void WheatPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    {
+   protocol::ApsimVariant incomingApsimVariant(parentPlant);
+   incomingApsimVariant.aliasTo(v.getMessageData());
+   if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
+      {
+      throw std::invalid_argument("sowing_depth not specified");
+      }
+   bound_check_real_var(parentPlant, sowing_depth, 0.0, 100.0, "sowing_depth");
    currentStage = 1.0;
-   sowing_depth = depth;
    das = 0;
    setupTTTargets();
    }
@@ -643,12 +686,12 @@ void WheatPhenology::setupTTTargets(void)
    ripe_to_harvest->setTarget(1000.0) ;       // keep it from dying????
    }
 
-void WheatPhenology::onEndCrop()
+void WheatPhenology::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
    {
    zeroStateVariables();
    }
 
-void WheatPhenology::onHarvest()
+void WheatPhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    {
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
@@ -658,7 +701,7 @@ void WheatPhenology::onHarvest()
 //   float fract = fmod(currentStage, 1.0);
 //   phases[currentStage].reset(fract);
    }
-void WheatPhenology::onKillStem()
+void WheatPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
    {
    previousStage = currentStage;
    currentStage = stage_reduction_kill_stem[currentStage];
@@ -914,6 +957,18 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    }
 #endif
 
+void WheatPhenology::update(void) 
+   {
+   PlantPhenology::update();
+   if (on_day_of ("flowering"))
+        {
+        flowering_das = das;
+        }
+   if (on_day_of ("maturity"))
+        {
+        maturity_das = das;
+        }
+   }
 //+  Mission Statement
 //     Photoperiod factor
 float WheatPhenology::wheat_photoperiod_effect(float photoperiod, float p_photop_sen)
@@ -1108,25 +1163,31 @@ void WheatPhenology::writeCultivarInfo (PlantComponent *systemInterface)
    systemInterface->writeString (s.c_str());
    }
 
-void LegumePhenology::onSow(float depth)
+void LegumePhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    {
+   protocol::ApsimVariant incomingApsimVariant(parentPlant);
+   incomingApsimVariant.aliasTo(v.getMessageData());
+   if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
+      {
+      throw std::invalid_argument("sowing_depth not specified");
+      }
+   bound_check_real_var(parentPlant, sowing_depth, 0.0, 100.0, "sowing_depth");
    currentStage = 1.0;
-   sowing_depth = depth;
    das = 0;
    setupTTTargets();
    }
-void LegumePhenology::onEndCrop()
+void LegumePhenology::onEndCrop(unsigned &, unsigned &, protocol::Variant &)
    {
    zeroStateVariables();
    }
-void LegumePhenology::onHarvest()
+void LegumePhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    {
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
    for (unsigned int stage = currentStage; stage != phases.size(); stage++)
       phases[stage].reset();
    }
-void LegumePhenology::onKillStem()
+void LegumePhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
    {
    previousStage = currentStage;
    currentStage = stage_reduction_kill_stem[currentStage];
@@ -1289,11 +1350,26 @@ void LegumePhenology::doRegistrations (protocol::Component *s)
    fn = boost::bind(address, this, _1, _2); \
    s->addGettableVar(name, type, length, fn, units, desc);\
    }
+#define setupEvent(name,type,address) {\
+   boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
+   fn = boost::bind(address, this, _1, _2, _3); \
+   s->addEvent(name, type, fn);\
+   }
+   setupEvent("sow", RegistrationType::respondToEvent, &LegumePhenology::onSow);
+   setupEvent("end_crop", RegistrationType::respondToEvent, &LegumePhenology::onEndCrop);
+   //XX not yet setupEvent("harvest", RegistrationType::respondToEvent, &LegumePhenology::onHarvest);
+   //XX not yet setupEvent("kill_stem", RegistrationType::respondToEvent, &LegumePhenology::onKillStem);
 
    setupGetVar("das", das,               "d", "Days after Sowing");
    setupGetVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
    setupGetVar("dlt_tt", dlt_tt,         "dd", "Todays thermal time (no stress factors)");
    setupGetVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
+   setupGetVar("flowering_das", flowering_das, "days", "Days from sowing to flowering");
+   setupGetVar("maturity_das", maturity_das, "days", "Days from sowing to maturity");
+
+#undef setupGetVar
+#undef setupGetFunction
+#undef setupEvent
    }
 
 
@@ -1395,10 +1471,6 @@ void LegumePhenology::zeroStateVariables(void)
    {
    PlantPhenology::zeroStateVariables();
    das = dlt_cumvd = cumvd = dlt_tt = dlt_tt_phenol = 0.0;
-   }
-
-void LegumePhenology::zeroEverything(void)
-   {
    est_days_emerg_to_init=0;
    }
 
@@ -1617,6 +1689,19 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    das++;
    }
 #endif
+
+void LegumePhenology::update(void) 
+   {
+   PlantPhenology::update();
+   if (on_day_of ("flowering"))
+        {
+        flowering_das = das;
+        }
+   if (on_day_of ("maturity"))
+        {
+        maturity_das = das;
+        }
+   }
 
 #if 0
 void LegumeCohortPhenology::init (void)

@@ -302,11 +302,9 @@ class Plant : public plantInterface {
     ,float *g_dlt_sw_dep
     ,float *g_dm_green
     ,int   *g_flowering_date
-    ,int   *g_flowering_das
     ,float *g_lai
     ,float *g_lai_max
     ,int   *g_maturity_date
-    ,int   *g_maturity_das
     ,float  *g_n_conc_act_stover_tot
     ,float  *g_n_conc_crit
     ,float  *g_n_conc_crit_stover_tot
@@ -1232,7 +1230,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float skip_plant;                                 // skip plant (0, 1, 2)
       float skip_row_fac;                               // skip row factor
       float skip_plant_fac;                             // skip plant factor
-      float sowing_depth;                               // sowing depth (mm)
       int   year;                                       // year
       int   day_of_year;                                // day of year
       float fr_intc_radn;                               // fraction of radiation intercepted by canopy
