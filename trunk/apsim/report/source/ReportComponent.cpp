@@ -559,7 +559,7 @@ class CreateFields : CallbackFunction<APSIMOutputVariable*>
 // ------------------------------------------------------------------
 void ReportComponent::init(void)
    {
-   Out = componentData->properties()->get<APSIMOutputFile>("outputfile");
+   Out = componentData->getProperty<APSIMOutputFile>("outputfile");
    if (Out != NULL)
       Out->open();
 
@@ -570,14 +570,26 @@ void ReportComponent::init(void)
 
    // get format specifier.
    APSIMProperty* formatProperty =
-      componentData->properties()->get<APSIMProperty>("format");
+      componentData->getProperty<APSIMProperty>("format");
    CSVFormat = (formatProperty != NULL &&
                 Str_i_Eq(formatProperty->getValue(), "csv"));
 
    // enumerate through all output variables and create a field for each.
-   CreateFields createFields(eventInterface, Fields, CSVFormat);
-   componentData->properties()->enumerate
-      <APSIMOutputVariable, CreateFields>(createFields);
+   list<string> names;
+   componentData->getPropertyNames("OutputVariable", names);
+   for (list<string>::iterator nameI = names.begin();
+                               nameI != names.end();
+                               nameI++)
+      {
+      APSIMOutputVariable* variable
+         = componentData->getProperty<APSIMOutputVariable>(*nameI);
+      if (variable != NULL)
+         Fields.push_back(Field(eventInterface,
+                                variable->getOwnerModule(),
+                                variable->getName(),
+                                variable->getAlias(),
+                                CSVFormat));
+      }
 
    DaysSinceLastReport = 1;
 
