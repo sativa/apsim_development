@@ -454,6 +454,7 @@ void ApsimControlFile::createSIM(const string& configurationFile,
       throw runtime_error("Cannot find a DLL filename in configuration file for module: protocolmanager");
 
    simulation.setExecutableFileName(dllFileName);
+   simulation.setTitle(getTitle());
 
    vector<ParamFile> modules;
    parseControlSection(fileName, section, modules);
