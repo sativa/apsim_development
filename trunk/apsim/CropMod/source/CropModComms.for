@@ -73,6 +73,7 @@
       character  cultivar*20           ! name of cultivar
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
+      character  skip*20               ! skip type solid,single,double
 
 *- Implementation Section ----------------------------------
 
@@ -115,18 +116,35 @@ cjh      if (data_record.ne.blank) then
       else
       endif
 
+
+ ! skiprow           gmcChange
+      call collect_char_var_optional ('skip', '()', skip, numvals)
+
+      if (numvals.eq.0) then
+         g%skip_row = c%skip_row_default
+      else
+         if (skip .eq. 'single') then
+            g%skip_row = 1.0
+         elseif (skip .eq. 'double') then
+            g%skip_row = 2.0
+         else
+            g%skip_row = 0.0
+         endif
+      endif
+
       g%skip_row_fac = (2.0 + g%skip_row)/2.0
 
+
          !scc added FTN 11/10/95
-         call collect_real_var_optional (
+      call collect_real_var_optional (
      :                      'tiller_no_fertile', '()'
      :                    , g%tiller_no_fertile, numvals
      :                    , 0.0, 10.0)
 
-         if (numvals.eq.0) then
-            g%tiller_no_fertile = 0.0
-         else
-         endif
+      if (numvals.eq.0) then
+         g%tiller_no_fertile = 0.0
+      else
+      endif
 
       !-----------------------------------------------------------
       !Report sowing information
@@ -3722,17 +3740,17 @@ c=======================================================================
      :               (g%row_spacing
      :                ,c%x_row_spacing,c%y_extinct_coef
      :                ,c%num_row_spacing
-     :                ,g%lai,g%cover_green)
+     :                ,g%lai,g%skip_row_fac,g%cover_green)
         call crop_cover_sorghum
      :               (g%row_spacing
      :                ,c%x_row_spacing,c%y_extinct_coef_dead
      :                ,c%num_row_spacing
-     :                ,g%slai,g%cover_sen)
+     :                ,g%slai,g%skip_row_fac,g%cover_sen)
         call crop_cover_sorghum
      :               (g%row_spacing
      :                ,c%x_row_spacing,c%y_extinct_coef_dead
      :                ,c%num_row_spacing
-     :                ,g%tlai_dead,g%cover_dead)
+     :                ,g%tlai_dead,g%skip_row_fac,g%cover_dead)
 
       else
 
@@ -3787,6 +3805,8 @@ c=======================================================================
       g%canopy_height = g%canopy_height + g%dlt_canopy_height
       g%plants = g%plants + g%dlt_plants
       g%root_depth = g%root_depth + g%dlt_root_depth
+      g%root_front = g%root_front + g%dlt_root_front
+
 
       call add_real_array      (g%dlt_root_length
      :                         ,g%root_length
@@ -5006,6 +5026,7 @@ c     CALL fill_real_array(g%soil_temp,0.0, 366)
 
 
       g%root_depth       =0.0
+      g%root_front       =0.0
       g%cover_green      =0.0
       g%cover_sen        =0.0
       g%cover_dead       =0.0
@@ -5832,6 +5853,7 @@ c      g%dlt_n_uptake_stover=0.0
       !plant
       g%dlt_plants                     =0.0
       g%dlt_root_depth                 =0.0
+      g%dlt_root_front                 =0.0
       g%dlt_plants_failure_germ        =0.0
       g%dlt_plants_failure_emergence   =0.0
       g%dlt_plants_failure_leaf_sen    =0.0
@@ -7055,12 +7077,13 @@ cew - added this section
 
 
 * ====================================================================
+c  Skip row   gmc
        subroutine crop_cover_sorghum (
      .          g_row_spacing,
      .          c_x_row_spacing,
      .          c_y_extinct_coef,
      .          c_num_row_spacing,
-     .          g_lai,
+     .          g_lai,g_skip,
      .          g_cover_green)
 * ====================================================================
       Use infrastructure
@@ -7073,6 +7096,7 @@ cew - added this section
       integer c_num_row_spacing
       real g_lai
       real g_cover_green
+      real g_skip
 
 *+  Purpose
 *scc Does crop cover calculation for green, senesced or dead LAI
@@ -7098,9 +7122,11 @@ cew - added this section
      :                                  ,c_y_extinct_coef
      :                                  ,c_num_row_spacing)
 
-      g_cover_green = (1.0 -exp (-extinct_coef*g_lai))
+      g_cover_green = divide(1.0 - exp(-extinct_coef*g_lai*g_skip),
+     :                       g_skip, 0.0)
 
       call pop_routine (myname)
       return
       end subroutine
+
 
