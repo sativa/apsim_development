@@ -46,8 +46,9 @@ double __fastcall TDecileFunction::Calculate(Teengine::TChartSeries* sourceSerie
    if (last != -1)
       endPoint = last;
    vector<double> values;
+   TChartValueList* vals = sourceSeries->MandatoryValueList;
    for (int i = startPoint; i != endPoint; i++)
-      values.push_back(sourceSeries->MandatoryValueList->Items[i]);
+      values.push_back((*vals)[i]);
    return Calculate_percentile(values, false, percentile);
    }
 //---------------------------------------------------------------------------
@@ -63,7 +64,7 @@ double __fastcall TDecileFunction::CalculateMany(Classes::TList* sourceSeriesLis
       {
       TChartSeries* series = (TChartSeries*) (sourceSeriesList->Items[i]);
       for (int j = 0; j != series->Count()-1; j++)
-         values.push_back(series->MandatoryValueList->Items[valueIndex]);
+         values.push_back((*series->MandatoryValueList)[valueIndex]);
       }
    return Calculate_percentile(values, false, percentile);
    }
