@@ -188,6 +188,8 @@ void __fastcall TDrill_down_form::FormClose(TObject *Sender,
    {
    if (ModalResult == mrOk)
       scenarios->save("Default");
+
+   delete ValueSelectPopup;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
@@ -221,7 +223,6 @@ void __fastcall TDrill_down_form::popupClose(System::TObject* Sender, TCloseActi
                                            ValueSelectPopup->SelectedItems);
       Refresh();
       }
-   delete ValueSelectPopup;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
@@ -248,6 +249,8 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
          getKeyNameAndValue(node->Text.c_str(), Factor_name, Factor_value);
 
          // delete old selections.
+         if (ValueSelectPopup != NULL)
+            delete ValueSelectPopup;
          ValueSelectPopup = new TValueSelectPopup(this);
 
          // get a list of identifier values that the user can select from.
