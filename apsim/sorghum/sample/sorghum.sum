@@ -19,7 +19,6 @@
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
      Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -192,9 +191,6 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- tracker Initialisation ------------------------------------------------
-     Tracker variables:
-
 ------- sorghum Initialisation ------------------------------------------------
       Initialising, V1.0 2000.01.21
      
@@ -277,35 +273,35 @@
 16 November 1989(Day of year=320), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           6.419174       lai =    0.9226178E-01
-                          stover N conc =    3.705177       extractable sw =    121.8948
+                          stover N conc =    3.705528       extractable sw =    121.8948
 30 November 1989(Day of year=334), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           49.25940       lai =    0.6637632
-                          stover N conc =    2.528467       extractable sw =    166.3964
+                          stover N conc =    2.531719       extractable sw =    166.3670
 23 December 1989(Day of year=357), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           406.3969       lai =     2.986908
-                          stover N conc =    1.658579       extractable sw =    255.1120
+                          stover N conc =    1.658569       extractable sw =    254.9352
 31 December 1989(Day of year=365), sorghum: 
       stage    7.0 flowering
                           biomass =           581.8571       lai =     2.891603
-                          stover N conc =    1.350527       extractable sw =    251.5188
+                          stover N conc =    1.375746       extractable sw =    251.3853
 1 January 1990(Day of year=1), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           605.3770       lai =     2.875462
-                          stover N conc =    1.300576       extractable sw =    244.9532
+                          stover N conc =    1.321149       extractable sw =    244.8198
 1 February 1990(Day of year=32), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           919.8713       lai =     1.297121
-                          stover N conc =    1.749780       extractable sw =    187.6620
+                          biomass =           1157.166       lai =     1.366883
+                          stover N conc =   0.6233220       extractable sw =    135.1949
 3 February 1990(Day of year=34), sorghum: 
       stage   10.0 maturity
-                          biomass =           924.7523       lai =     1.229711
-                          stover N conc =    1.748478       extractable sw =    228.1141
+                          biomass =           1170.470       lai =     1.229711
+                          stover N conc =   0.6113346       extractable sw =    176.0721
 4 February 1990(Day of year=35), sorghum: 
       stage   11.0 harvest_ripe
-                          biomass =           924.7523       lai =     0.000000
-                          stover N conc =    1.927892       extractable sw =    225.8320
+                          biomass =           1170.470       lai =     0.000000
+                          stover N conc =   0.6847049       extractable sw =    173.4733
 5 February 1990(Day of year=36), manager: 
      Manager sending message :- sorghum harvest
 5 February 1990(Day of year=36), sorghum: 
@@ -313,20 +309,20 @@
      
      
      flowering (DAS) =  60                  maturity (DAS)  =  94
-      flowering day  =  365                  stover (kg/ha) =    5062.1
-      maturity day        =   34             grain yield (kg/ha) =    4185.4
-      grain % water content   =   13.0       grain yield wet (kg/ha) =    4810.8
-      grain wt (g) =     0.016               grains/m^2   = 25993.426
+      flowering day  =  365                  stover (kg/ha) =    5814.7
+      maturity day        =   34             grain yield (kg/ha) =    5890.0
+      grain % water content   =   13.0       grain yield wet (kg/ha) =    6770.1
+      grain wt (g) =     0.023               grains/m^2   = 25993.426
       grains/head =2599.3                    maximum lai = 2.996
-      total above ground biomass (kg/ha) =    9247.5
-      live above ground biomass (kg/ha) =    9247.5
-      green above ground biomass (kg/ha) =    7507.7
+      total above ground biomass (kg/ha) =   11704.7
+      live above ground biomass (kg/ha) =   11704.7
+      green above ground biomass (kg/ha) =    9964.9
       senesced above ground biomass (kg/ha) =    1739.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  15.6
-      grain N percent =      2.87            total N content (kg/ha) =    157.24
-      grain N uptake (kg/ha) =    119.94     senesced N content (kg/ha) =     12.50
-      green N content (kg/ha) =     24.80    dead N content (kg/ha) =      0.00
+      grain N percent =      0.76            total N content (kg/ha) =     84.12
+      grain N uptake (kg/ha) =     44.70     senesced N content (kg/ha) =     15.89
+      green N content (kg/ha) =     23.53    dead N content (kg/ha) =      0.00
      
      
      
@@ -361,14 +357,14 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4621563
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0058791
       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
 5 February 1990(Day of year=36), manager: 
      Manager sending message :- sorghum end_crop
 5 February 1990(Day of year=36), sorghum: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 5062.1 kg/ha
-                                               straw N =   37.3 kg/ha
+                                               straw residue = 5814.7 kg/ha
+                                               straw N =   39.4 kg/ha
                                                root residue = 2138.4 kg/ha
                                                root N =    4.2 kg/ha
 19 February 1990(Day of year=50), clock: 
