@@ -1,9 +1,8 @@
 #include "StdAfx.h"
 #using <mscorlib.dll>
-#pragma managed 
+#pragma managed
 #include "Interfaces.h"
 
-#using "TestComponent.dll"
 using namespace System;
 using namespace System::Collections;
 using namespace System::Reflection;
