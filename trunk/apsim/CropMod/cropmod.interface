@@ -10,8 +10,6 @@ include base.interface
 class APSIMCropmodPublic
 
    sysinit                 : APSIMMethod                = System initialise
-   prepare                 : APSIMMethod                = Message to prepare for process
-   process                 : APSIMMethod                = Message to process
    sow                     : APSIMSowMethod             = Message from manager to module
    harvest                 : APSIMHarvestMethod         = Message from manager to module
    end_crop                : APSIMEndCropMethod         = Message for a crop to terminate
@@ -32,6 +30,9 @@ class APSIMCropmodExternal
 
    add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
    incorp_fom              : APSIMIncorporateFOMMethod  = Message to report a residue decomposition
+
+   prepare                 : APSIMEvent                 = Message to prepare for process
+   process                 : APSIMEvent                 = Message to process
 
 end
 
