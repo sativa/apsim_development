@@ -199,8 +199,8 @@ void TGraph::refresh(void)
       for (int s = 0; s != Chart->SeriesCount(); s++)
          Chart->Series[s]->CheckDataSource();
       scaleAxis();
+      replaceChartMacros();
       }
-   replaceChartMacros();
    }
 //---------------------------------------------------------------------------
 // using the 1st chart series as a template, create a new chart series for
@@ -213,7 +213,9 @@ void TGraph::createChartSeries(void)
       TSEGTable* source = dynamic_cast<TSEGTable*> (Chart->Series[0]->DataSource);
       if (source != NULL)
          {
-//         source->getSeriesNames(seriesNames);
+         getDBFieldValues(source, "series", seriesNames);
+         sort(seriesNames.begin(), seriesNames.end());
+         seriesNames.erase(unique(seriesNames.begin(), seriesNames.end()), seriesNames.end());
 
          vector<unsigned> seriesNumbers;
          if (dataSeriesNumbers == "*")
@@ -238,12 +240,12 @@ void TGraph::createChartSeries(void)
             series->Color = Chart->GetFreeSeriesColor();
             }
 
-//         for (int s = 0; s != Chart->SeriesCount(); s++)
-//            {
-//            string title = seriesTitle.c_str();
-//            replaceAll(title, "$seriesName", seriesNames[seriesNumbers[s]]);
-//            Chart->Series[s]->Title = title.c_str();
-//            }
+         for (int s = 0; s != Chart->SeriesCount(); s++)
+            {
+            string title = seriesTitle1.c_str();
+            replaceAll(title, "$seriesName", seriesNames[seriesNumbers[s]]);
+            Chart->Series[s]->Title = title.c_str();
+            }
          }
       }
    }
@@ -298,7 +300,7 @@ void TGraph::replaceChartMacros(void)
       Chart->BottomAxis->Title->Caption = macros.doReplacement(Owner, bottomAxisTitle);
    if (footTitle != "")
       Chart->Foot->Text->Text = macros.doReplacement(Owner, footTitle);
-   if (Chart->SeriesCount() >= 1 && seriesTitle1 != "")
+   if (Chart->SeriesCount() >= 1 && seriesTitle1 != "" && seriesTitle1 != "$seriesName")
       Chart->Series[0]->Title = macros.doReplacement(Owner, seriesTitle1);
    if (Chart->SeriesCount() >= 2 && seriesTitle2 != "")
       Chart->Series[1]->Title = macros.doReplacement(Owner, seriesTitle2);
