@@ -246,7 +246,6 @@ cglh      real       tt_cum                ! cumulative dtt from sowing (deg day
       call push_routine (my_name)
 
           ! set total leaf number
-
       if (on_day_of (emerg, g%current_stage, g%days_tot)) then
 
                ! estimate the final leaf no from an approximated thermal
@@ -360,8 +359,9 @@ cgd
 
       call push_routine (my_name)
 
-      leaf_no_now = sum_between (emerg, now, g%leaf_no)
-      leaf_no_remaining = g%leaf_no_final - leaf_no_now
+
+         leaf_no_now = sum_between (emerg, now, g%leaf_no)
+         leaf_no_remaining = g%leaf_no_final - leaf_no_now
 
       if (leaf_no_now .le. c%leaf_no_rate_change) then
 
@@ -379,7 +379,8 @@ cgd
 
          dlt_leaf_no_pot = 0.0
 
-      elseif (leaf_no_remaining.gt.0.0) then
+      elseif (stage_is_between (emerg, flag_leaf, g%current_stage)
+     :       .and. (leaf_no_remaining.gt.0.0)) then
 
              ! we  haven't reached full number of leaves yet
 
@@ -956,6 +957,7 @@ cjh  changed 0.0 to 1.0
 
 *+  Changes
 *     010994 jngh specified and programmed
+*     011100 jngh added check for leaf_no_final to be ne 0.
 
 *+  Calls
 
@@ -978,87 +980,71 @@ cejvo
 
       call push_routine (my_name)
 
-cpsc need to develop leaf senescence functions for crop
+cpsc           need to develop leaf senescence functions for crop
 
       leaf_no_dead_yesterday = sum_between (emerg, now, g%leaf_no_dead)
 
-cejvo made it absolute leafnumber and added second slope
+cejvo         made it absolute leafnumber and added second slope
 
       if ((stage_is_between (emerg, harvest_ripe, g%current_stage))
-     : .and. (g%leaf_no_effective .lt. g%leaf_no_final)) then
+     : .and. (g%leaf_no_final .ne. 0.0)) then
 
-cgol added upper and lower bounds
-!         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
-!     :    amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
+         ttsum= sum_between (emerg, now, g%tt_tot)
+         if (g%leaf_no_effective .lt. g%leaf_no_final) then
+cgol         added upper and lower bounds
+!            leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
+!     :      amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
 !     :          * sum_between (emerg, now, g%tt_tot))
 !     :          , g%leaf_no_final))
 cgd
-      ttsum= sum_between (emerg, now, g%tt_tot)
-      leaf_no_dead_now = c%leaf_no_dead_const + c%leaf_no_dead_slope1
-     :                   * ttsum
-      leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
-      leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
-     :                             , leaf_no_dead_now)
+            leaf_no_dead_now = c%leaf_no_dead_const 
+     :                       + c%leaf_no_dead_slope1 * ttsum
+            leaf_no_dead_now = u_bound (leaf_no_dead_now
+     :                                , g%leaf_no_final)
+            leaf_no_dead_today = l_bound (leaf_no_dead_now
+     :                                  , leaf_no_dead_yesterday)
 
-      g%lf_no_dead_at_flaglf = leaf_no_dead_today
-!      ttsum= sum_between (emerg, now, g%tt_tot)
+            g%lf_no_dead_at_flaglf = leaf_no_dead_today
 
-      elseif ((stage_is_between (emerg, harvest_ripe, g%current_stage))
-     :   .and. (g%leaf_no_effective .ge. g%leaf_no_final) .and.
-     :   (g%leaf_no_dead_const2 .eq. 0.0)) then
+            g%leaf_no_dead_const2 = leaf_no_dead_today 
+     :                            - c%leaf_no_dead_slope2 * ttsum
 
-!         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
-!     :    amin1((c%leaf_no_dead_const + c%leaf_no_dead_slope1
+         
+         else
+
+!              leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
+!     :        amin1((g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
 !     :          * sum_between (emerg, now, g%tt_tot))
 !     :          , g%leaf_no_final))
 
-      ttsum= sum_between (emerg, now, g%tt_tot)
-      leaf_no_dead_now = c%leaf_no_dead_const + c%leaf_no_dead_slope1
-     :                   * ttsum
-      leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
-      leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
-     :                             , leaf_no_dead_now)
+            leaf_no_dead_now = g%leaf_no_dead_const2 
+     :                       + c%leaf_no_dead_slope2 * ttsum
 
-      temp = g%lf_no_dead_at_flaglf - (c%leaf_no_dead_slope2
-     :         * sum_between (emerg, now, g%tt_tot))
-      g%leaf_no_dead_const2 = temp
-!      ttsum= sum_between (emerg, now, g%tt_tot)
+            leaf_no_dead_now = u_bound (leaf_no_dead_now
+     :                                , g%leaf_no_final)
+            leaf_no_dead_today = l_bound (leaf_no_dead_now
+     :                                  , leaf_no_dead_yesterday)
 
-      elseif((stage_is_between (emerg, harvest_ripe, g%current_stage))
-     :   .and. (g%leaf_no_effective .ge. g%leaf_no_final) .and.
-     :   (g%leaf_no_dead_const2 .ne. 0.0)) then
-
-!         leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
-!     :    amin1((g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
-!     :          * sum_between (emerg, now, g%tt_tot))
-!     :          , g%leaf_no_final))
-
-      ttsum= sum_between (emerg, now, g%tt_tot)
-      leaf_no_dead_now = g%leaf_no_dead_const2 + c%leaf_no_dead_slope2
-     :                   * ttsum
-      leaf_no_dead_now = u_bound (leaf_no_dead_now,g%leaf_no_final)
-      leaf_no_dead_today = l_bound (leaf_no_dead_yesterday
-     :                             , leaf_no_dead_now)
-
+         endif
       elseif (on_day_of (harvest_ripe
      :                 , g%current_stage, g%days_tot)) then
          leaf_no_dead_today = g%leaf_no_final
 
       else
-      leaf_no_dead_today = 0.0
+         leaf_no_dead_today = 0.0
 
       endif
 
-cgol removed bound check
+cgol     !removed bound check
 !      leaf_no_dead_today = bound (leaf_no_dead_today
 !     :                           , leaf_no_dead_yesterday
 !     :                           , g%leaf_no_final)
 !
-cgol added lower bound of zero
+cgol     !added lower bound of zero
 !      dlt_leaf_no_dead = amax1(0.0, leaf_no_dead_today -
 !     : leaf_no_dead_yesterday)
-      dlt_leaf_no_dead = l_bound (0.0, leaf_no_dead_today -
-     : leaf_no_dead_yesterday)
+      dlt_leaf_no_dead = l_bound (0.0
+     :                   , leaf_no_dead_today - leaf_no_dead_yesterday)
 
 cccc
 !     write (*,*) 'fln',g%leaf_no_final,'slno',leaf_no_dead_today
