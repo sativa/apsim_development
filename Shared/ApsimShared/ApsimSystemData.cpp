@@ -108,6 +108,22 @@ ApsimComponentData ApsimSystemData::addComponent(const std::string& name)
       return ApsimComponentData(*i);
    }
 // ------------------------------------------------------------------
+// Add a component to the system
+// ------------------------------------------------------------------
+ApsimComponentData ApsimSystemData::addComponent(ApsimComponentData& component)
+   {
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 NodeEquals<XMLNode>("component", component.getName()));
+   if (i == node.end())
+      {
+      component.node = node.appendChild(component.node, true);
+      return component;
+      }
+   else
+      return ApsimComponentData(*i);
+   }
+// ------------------------------------------------------------------
 // Add a system to the system.
 // ------------------------------------------------------------------
 ApsimSystemData ApsimSystemData::addSystem(const std::string& name)
