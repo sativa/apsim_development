@@ -187,9 +187,9 @@ class __declspec(dllexport) ApsimControlFile
                                bool includeConstants,
                                ParamCallbackEvent callback);
       void enumerateParametersForInstance(const std::string& section,
-                                          const std::string& instanceName,
-                                          bool constantsOnly,
-                                          ParamCallbackEvent callback);
+                                                 const std::string& instanceName,
+                                                 bool constantsOnly,
+                                                 ParamCallbackEvent callback);
       // ------------------------------------------------------------------
       // Add a parameter file reference to all instances of the
       // specified module. Return true if the con file was modified.
