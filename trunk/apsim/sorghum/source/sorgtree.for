@@ -1,9 +1,8 @@
-C     Last change:  E    18 Nov 1999    2:28 pm
-!      include 'sorghum.inc'
+C     Last change:  E    18 Dec 2000   11:06 am
 *     ===========================================================
       subroutine Sorg_root_depth (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_root.pub'                      
@@ -55,7 +54,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_root_depth_init (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_root.pub'                      
@@ -113,7 +112,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_water_supply (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -166,7 +165,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_water_stress(Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -238,7 +237,8 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine sorg_nit_stress(Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
+      dll_import sorg_nfact_photo
       implicit none
       include   'const.inc'
       include 'crp_nitn.pub'                      
@@ -254,8 +254,6 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     010994 jngh specified and programmed
 *     970225 slw modified to split stress factors
 
-      dll_import sorg_nfact_photo
-      
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Sorg_nit_stress')
@@ -339,10 +337,10 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_temp_stress(Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
-      include 'stress.inc'
+!      include 'stress.inc'
       include 'crp_temp.pub'                      
       include 'error.pub'                         
 
@@ -381,7 +379,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine sorg_light_supply (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_util.pub'                      
@@ -432,7 +430,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_bio_RUE (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_biom.pub'                      
@@ -479,7 +477,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_transpiration_eff (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include     'const.inc'
       include 'crp_watr.pub'                      
@@ -528,7 +526,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine Sorg_water_demand (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -572,7 +570,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 *     ===========================================================
       subroutine sorg_phenology_init (option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -637,7 +635,7 @@ C     Last change:  E    18 Nov 1999    2:28 pm
 * ====================================================================
        subroutine sorg_phenology (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -818,7 +816,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_water_uptake (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'science.pub'                       
@@ -901,7 +899,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_nit_supply (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -970,7 +968,8 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_nit_init (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
+      dll_import sorg_N_init1
       implicit none
       include   'const.inc'
       include 'crp_nitn.pub'                      
@@ -985,8 +984,6 @@ c     :          g%days_tot)
 *+  Changes
 *     250894 jngh specified and programmed
 
-      dll_import sorg_n_init1
-      
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'Sorg_nit_init')
@@ -1034,7 +1031,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_height (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -1083,7 +1080,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_leaf_no_init (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -1130,7 +1127,7 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_leaf_no_pot (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -1185,7 +1182,7 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_leaf_area_pot (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -1270,7 +1267,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_leaf_area_stressed (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -1317,7 +1314,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_bio_TE (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -1365,7 +1362,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine sorg_bio_init (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -1415,7 +1412,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine sorg_bio_actual (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -1458,7 +1455,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_bio_grain_demand_stress (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_biom.pub'                      
@@ -1510,7 +1507,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_bio_grain_demand (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_biom.pub'                      
@@ -1583,7 +1580,7 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_bio_partition (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -1632,7 +1629,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_bio_retrans (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_biom.pub'                      
@@ -1695,7 +1692,7 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_leaf_area_actual (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -1757,7 +1754,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_root_length_init (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_root.pub'                      
@@ -1806,7 +1803,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_root_dist (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_root.pub'                      
@@ -1867,7 +1864,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_sen_bio (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_biom.pub'                      
@@ -1917,7 +1914,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_sen_root_length (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_root.pub'                      
@@ -1965,7 +1962,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_sen_nit (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_nitn.pub'                      
@@ -2022,7 +2019,7 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_N_retranslocate (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -2090,7 +2087,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_nit_demand (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_nitn.pub'                      
@@ -2179,7 +2176,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_nit_uptake (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -2265,7 +2262,8 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_N_partition (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
+      dll_import sorg_N_partition1
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -2273,7 +2271,6 @@ c     :          g%days_tot)
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
-      dll_import sorg_n_partition1
 
 *+  Purpose
 *     <insert here>
@@ -2320,7 +2317,7 @@ c     :          g%days_tot)
 * ====================================================================
        subroutine sorg_plant_death (Option)
 * ====================================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -2376,7 +2373,7 @@ c     :          g%days_tot)
 *     ===========================================================
       subroutine Sorg_detachment(option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -2442,7 +2439,7 @@ c in maize
 *     ===========================================================
       subroutine sorg_leaf_area_sen (Option)
 *     ===========================================================
-      use SorgModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         

@@ -1,3 +1,4 @@
+C     Last change:  E    18 Dec 2000   11:40 am
 *     ===========================================================
       subroutine sorg_nfact_photo(leaf,lai,
      :                  n_green, nfact)
@@ -39,8 +40,10 @@
  
       call push_routine (my_name)
  
-      SLN = n_green(leaf) / lai
- 
+cew   SLN = n_green(leaf)/lai
+      SLN = divide(n_green(leaf), lai,10)
+
+
       nfact = (1.0/0.7) * SLN - (3.0/7.0)
       
       nfact = bound (nfact, 0.0, 1.0)
@@ -152,7 +155,7 @@
      :               )
 *     ===========================================================
       implicit none
-      dll_export sorg_n_init1
+      dll_export sorg_N_init1
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -226,7 +229,7 @@
 *     ===========================================================
       implicit none
       include   'const.inc'            ! err_user
-      include 'sorgcons.inc'
+      include 'cropdefcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
       include 'science.pub'
@@ -327,7 +330,18 @@
        endif
 
       
-       SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
+
+cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
+        SLN = divide(G_n_green(leaf),
+     :              (g_lai + g_dlt_lai - g_dlt_slai),
+     :               1.5)
+
+
+
+
+
+
+
        N_demand(leaf) = max(0.0, N_required - G_n_green(leaf))
 
       
@@ -349,7 +363,7 @@
          elseif(gf_tt_now/gf_tt .le. 0.8)then
             NFillFact = 1
          else
-            NFillFact = 0.5
+            NFillFact = 0.0
          endif
 
 !         N_required = (min(gf_tt_now,200.0)/2 + max(gf_tt_now-200,0.0))
@@ -399,7 +413,7 @@
       implicit none
 !      dll_export sorg_N_uptake2
       include 'const.inc'
-      include 'sorgcons.inc'
+      include 'cropdefcons.inc'
       include 'cmxlayer.inc'
       include 'science.pub'                             
       include 'data.pub'                          
@@ -563,8 +577,8 @@
 
 *     ===========================================================
       implicit none
-      dll_export sorg_n_partition1
-      include   'sorgcons.inc'
+      dll_export sorg_N_partition1
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
       include 'science.pub'                         
@@ -635,7 +649,7 @@
 
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -703,7 +717,13 @@
 
       lai = g_lai + g_dlt_lai - g_dlt_slai
       LeafN = G_n_green(leaf) + dlt_N_green(leaf)
-      SLN = LeafN/lai
+
+
+
+cew   SLN = LeafN/lai
+      SLN = divide(LeafN, lai, 1.5)
+
+
       g_nfact_expansion = 1.0
       if(g_N_demand(leaf).gt. 0.0)then
          if(SLN .lt. 1.0)then
