@@ -215,7 +215,8 @@ bool TMDIChild::Edit_panel()
    {
       Analysis_panel->Refresh();
       APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
-      APSTable_2_TDataSet->Refresh();
+      if (ChartsViewDataMenu->Checked)
+         APSTable_2_TDataSet->Refresh();
       return true;
    }
    else
@@ -246,7 +247,8 @@ void TMDIChild::Force_refresh()
    else
       APSTable_2_TDataSet->APSTable =  working;
 
-   APSTable_2_TDataSet->Refresh();
+   if (ChartsViewDataMenu->Checked)
+      APSTable_2_TDataSet->Refresh();
 }
 
 //---------------------------------------------------------------------------
@@ -336,6 +338,7 @@ void __fastcall TMDIChild::ViewData(TObject *Sender)
    ChartsViewDataMenu->Checked = !ChartsViewDataMenu->Checked;
    Splitter->Visible = ChartsViewDataMenu->Checked;
    Grid->Visible = ChartsViewDataMenu->Checked;
+   APSTable_2_TDataSet->Refresh();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
@@ -343,7 +346,8 @@ void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
       delete Analysis_panel;
       Analysis_panel = NULL;
       APSTable_2_TDataSet->APSTable =  working;
-      APSTable_2_TDataSet->Refresh();
+      if (ChartsViewDataMenu->Checked)
+         APSTable_2_TDataSet->Refresh();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
@@ -355,6 +359,7 @@ void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
    if (!Excel->IsCreated() || !Excel->Visible)
       Excel->CreateExcelInstance();
 
+   APSTable_2_TDataSet->Refresh();
    Excel->DataSetToExcel (APSTable_2_TDataSet);
    Excel->Visible = true;
    Screen->Cursor = Saved_Cursor;
