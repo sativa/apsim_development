@@ -149,6 +149,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -195,72 +196,78 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 25 November 1988 (Day of year=330):
-          Manager sending message :- mucuna sow cultivar = mucuna_gen, plants = 25 (/m2), sowing_depth = 40 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = mucuna_gen
-         est_days_emerg_to_init  =      20
-         tt_emerg_to_endjuv       =   500.0
-         photoperiod      =   13.30  18.00
-         phase_tt_init      =  600.00 600.00
-         tt_flower_to_maturity    =  1200.0
-         tt_init_to_flower        =    20.0
-         tt_flower_to_start_grain =   100.0
-         tt_maturity_to_ripe      =     5.0
-         hi_incr                  =     0.1
-         x_hi_max_pot_stress =    0.00   1.00
-         y_hi_max_pot        =    0.35   0.35
-         x_stem_wt      =    0.00  30.00
-         y_height      =    0.001200.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            330   40.0   25.0  500.0 mucuna_gen
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- mucuna sow cultivar = mucuna_gen, plants = 25 (/m2), sowing_depth = 40 (mm)
+   MUCUNA:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = mucuna_gen
+          est_days_emerg_to_init  =      20
+          tt_emerg_to_endjuv       =   500.0
+          photoperiod      =   13.30  18.00
+          phase_tt_init      =  600.00 600.00
+          tt_flower_to_maturity    =  1200.0
+          tt_init_to_flower        =    20.0
+          tt_flower_to_start_grain =   100.0
+          tt_maturity_to_ripe      =     5.0
+          hi_incr                  =     0.1
+          x_hi_max_pot_stress =    0.00   1.00
+          y_hi_max_pot        =    0.35   0.35
+          x_stem_wt      =    0.00  30.00
+          y_height      =    0.001200.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             330   40.0   25.0  500.0 mucuna_gen
+          ------------------------------------------------
 26 November 1988 (Day of year=331):
-      stage    2.0 germination
+   MUCUNA:
+       stage    2.0 germination
 1 December 1988 (Day of year=336):
-      stage    3.0 emergence
-                          biomass =           17.50000       lai =    0.2000000    
-                          stover N conc =    6.000000       extractable sw =    45.57298
+   MUCUNA:
+       stage    3.0 emergence
+                           biomass =           17.50000       lai =    0.2000000    
+                           stover N conc =    6.000000       extractable sw =    45.57298
 6 January 1989 (Day of year=6):
-      stage    4.0 end_of_juvenile
-                          biomass =           266.9724       lai =     2.032173    
-                          stover N conc =    3.681633       extractable sw =    108.3013
+   MUCUNA:
+       stage    4.0 end_of_juvenile
+                           biomass =           266.9724       lai =     2.032173    
+                           stover N conc =    3.681633       extractable sw =    108.3013
 1 March 1989 (Day of year=60):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
