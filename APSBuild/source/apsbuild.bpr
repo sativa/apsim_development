@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\APSBuild.exe"/>
-    <OBJFILES value="APSBuild.obj TMainForm.obj CompileThread.obj"/>
+    <OBJFILES value="APSBuild.obj TMainForm.obj CompileThread.obj CreateDataTypesF90.obj"/>
     <RESFILES value="APSBuild.res"/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -52,6 +52,7 @@
       <FILE FILENAME="CompileThread.cpp" FORMNAME="" UNITNAME="CompileThread" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CreateDataTypesF90.cpp" FORMNAME="" UNITNAME="CreateDataTypesF90.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
