@@ -64,6 +64,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
             runForm->controlFilename = filename;
             if (runForm->ShowModal() == mrOk)
                runForm->getSelectedSimulations(*simulations);
+            delete runForm;
             }
          else if (stristr((char*) filename.c_str(), ".run") != NULL)
             {
