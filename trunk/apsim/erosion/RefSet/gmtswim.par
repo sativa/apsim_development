@@ -31,10 +31,10 @@ simulation_end_day =  365
 simulation_end_year =  1989   
 
 [gmtb0.manager.init]  
-total_cover = 0.0
+cover_surface_runoff = 0.0
 
 [gmtb0.manager.start_of_day]  
-total_cover = 1.0 - (1.0 - grasp.cover_tot) * (1.0 - residue2.residue_cover)
+cover_surface_runoff = 1.0 - (1.0 - grasp.cover_tot) * (1.0 - residue2.residue_cover)
 
 [gmtb0.manager.end_of_day]  
 
