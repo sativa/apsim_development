@@ -100,6 +100,7 @@ void TRunForm::populatePage3()
 //---------------------------------------------------------------------------
 void TRunForm::fillSimulationList(void)
    {
+   simulationList->Items->BeginUpdate();
    vector<string> fileNames;
    runs->getFilesToRun(fileNames);
    for (unsigned f = 0; f != fileNames.size(); f++)
@@ -108,12 +109,15 @@ void TRunForm::fillSimulationList(void)
       parentNode->ImageIndex = 0;
       parentNode->SelectedIndex = 0;
 
-      bool someSelected = false;
       vector<string> previousSimulations;
       previousRuns.getPreviousRun(fileNames[f], previousSimulations);
 
       vector<string> names;
       runs->getSimulationsToRun(fileNames[f], names);
+
+      TTreeNode** itemsToSelect = new TTreeNode*[names.size()];
+      int numItemsToSelect = 0;
+
       for (unsigned n = 0; n != names.size(); n++)
          {
          TTreeNode* node = simulationList->Items->AddChild(parentNode, names[n].c_str());
@@ -122,20 +126,24 @@ void TRunForm::fillSimulationList(void)
          if (find(previousSimulations.begin(), previousSimulations.end(),
                   names[n]) != previousSimulations.end())
             {
-            simulationList->Select(node, TShiftState() << ssCtrl);
-            someSelected = true;
+            itemsToSelect[numItemsToSelect] = node;
+            numItemsToSelect++;
             }
          }
-      if (!someSelected)
+      if (numItemsToSelect == 0)
          {
          TTreeNode* node = parentNode->getFirstChild();
          while (node != NULL)
             {
-            simulationList->Select(node, TShiftState() << ssCtrl);
+            itemsToSelect[numItemsToSelect] = node;
+            numItemsToSelect++;
             node = node->getNextSibling();
             }
          }
+      simulationList->Select((const TTreeNode**)itemsToSelect, numItemsToSelect-1);
+      delete [] itemsToSelect;
       }
+   simulationList->Items->EndUpdate();
    checkOkButtonState(NULL);
    }
 //---------------------------------------------------------------------------
