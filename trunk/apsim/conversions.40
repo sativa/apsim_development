@@ -1,17 +1,32 @@
-[Changed Tracker reference to 'ep()' to 'ep']
-command = SearchReplace(tracker,ep\(\),ep)
+[Changed Tracker reference to "ep()" to "ep"]
+command = SearchReplace(tracker," ep\(\)"," ep")
 
-[Changed Tracker1 reference to 'ep()' to 'ep']
-command = SearchReplace(tracker1,ep\(\),ep)
+[Changed Tracker reference to ".ep()" to ".ep"]
+command = SearchReplace(tracker,"\.ep\(\)","\.ep")
 
-[Changed Tracker2 reference to 'ep()' to 'ep']
-command = SearchReplace(tracker2,ep\(\),ep)
+[Changed Tracker1 reference to "ep()" to "ep"]
+command = SearchReplace(tracker1," ep\(\)"," ep")
 
-[Changed manager reference to 'ep()' to 'ep']
-command = SearchReplace(manager,ep\(\),ep)
+[Changed Tracker1 reference to ".ep()" to ".ep"]
+command = SearchReplace(tracker1,"\.ep\(\)","\.ep")
 
-[Changed report reference to 'ep()' to 'ep']
-command = SearchReplace(report,ep\(\),ep)
+[Changed Tracker2 reference to "ep()" to "ep"]
+command = SearchReplace(tracker2," ep\(\)"," ep")
+
+[Changed Tracker2 reference to ".ep()" to ".ep"]
+command = SearchReplace(tracker2,"\.ep\(\)","\.ep")
+
+[Changed manager reference to "ep()" to "ep"]
+command = SearchReplace(manager," ep\(\)"," ep")
+
+[Changed manager reference to ".ep()" to ".ep"]
+command = SearchReplace(manager,"\.ep\(\)","\.ep")
+
+[Changed report reference to "ep()" to "ep"]
+command = SearchReplace(report," ep\(\)"," ep")
+
+[Changed report reference to ".ep()" to ".ep"]
+command = SearchReplace(report,"\.ep\(\)","\.ep")
 
 [Converted 'module=cropmod(wheat)' to 'module=plant(wheat)']
 command=ChangeInstantiation(cropmod(wheat),plant(wheat))
