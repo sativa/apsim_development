@@ -158,6 +158,9 @@ string SOIToolBar::Get_sow_year_field_name(TAPSTable& data)
 // ------------------------------------------------------------------
 void SOIToolBar::Read_all_soi_data (void)
    {
+   FPhase_names.erase(FPhase_names.begin(), FPhase_names.end());
+   soi_phases.erase(soi_phases.begin(), soi_phases.end());
+
    ifstream in (FSOI_data_file.c_str());
    string Line;
    getline(in, Line); // get first line, and check if it specs Phase names
@@ -256,6 +259,10 @@ void SOIToolBar::doCalculations(TAPSTable& data)
       new_data->addField(SOI_PHASE_NUMBER_FIELD_NAME);
       new_data->markFieldAsAPivot(SOI_PHASE_FIELD_NAME);
 
+      // create some storage for all phases for all records
+      vector<TAPSRecord>* allData = new vector<TAPSRecord>[FPhase_names.size() + 1];
+      const unsigned allYearsFieldNum = FPhase_names.size();
+
       // loop through all datasets.
       int SOI_phase;
       string SOI_phase_st;
@@ -279,20 +286,28 @@ void SOIToolBar::doCalculations(TAPSTable& data)
             string blockForRecord = blockName + ";" + blockSuffix;
             newRecord.setFieldValue("Simulation", blockForRecord.c_str());
 
-            new_data->storeRecord(newRecord);
+            allData[SOI_phase].push_back(newRecord);
 
             // store all years records.
             newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, "All years");
             blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + "All years";
             blockForRecord = blockName + ";" + blockSuffix;
             newRecord.setFieldValue("Simulation", blockForRecord.c_str());
-            new_data->storeRecord(newRecord);
-            }
 
+            allData[allYearsFieldNum].push_back(newRecord);
+            }
 
          // goto next dataset.
          ok = data.next();
          }
+
+      // Loop through all the soi phases.  For each, store the vector
+      // of numbers in new_data.
+      for (unsigned int phase = 0; phase <= allYearsFieldNum; phase++)
+         {
+         new_data->storeData(allData[phase]);
+         }
+      delete [] allData;
 
       // we're finished storing data.
       new_data->addSortField(data.getYearFieldName());
@@ -300,11 +315,12 @@ void SOIToolBar::doCalculations(TAPSTable& data)
 
       // copy new_data back into data
       data.storeData(*new_data);
-      
+      delete new_data;
+
       needs_update = false;
 
       Screen->Cursor = savedCursor;
+      }
    }
-}
 
 
