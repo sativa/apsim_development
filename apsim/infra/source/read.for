@@ -1,3 +1,5 @@
+
+
 * ====================================================================
        subroutine read_real_var
      .   (section_name, variable_name,
@@ -9,13 +11,13 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      real Variable                    ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      real variable                    ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      real Lower_limit                 ! (INPUT) Lower limit for bounds check
-      real Upper_limit                 ! (INPUT) Upper limit for bounds check
+      real lower_limit                 ! (INPUT) Lower limit for bounds check
+      real upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a real value from a parameter file.
@@ -35,29 +37,29 @@
       dll_import split_off_units
       dll_import string_to_real_var
       dll_import bound_check_real_var
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_real_var
-     .      (Return_string, Variable, numvals)
-         call Bound_check_real_var
-     .      (Variable, Lower_limit, Upper_limit, Variable_name)
+         call string_to_real_var
+     .      (return_string, variable, numvals)
+         call bound_check_real_var
+     .      (variable, lower_limit, upper_limit, variable_name)
       endif
  
       return
@@ -65,6 +67,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_integer_var
      .    (section_name, variable_name,
@@ -76,13 +80,13 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      integer Variable                    ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      integer variable                    ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      integer Lower_limit                 ! (INPUT) Lower limit for bounds check
-      integer Upper_limit                 ! (INPUT) Upper limit for bounds check
+      integer lower_limit                 ! (INPUT) Lower limit for bounds check
+      integer upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a integer value from a parameter file.
@@ -102,29 +106,29 @@
       dll_import split_off_units
       dll_import string_to_integer_var
       dll_import bound_check_integer_var
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_integer_var
-     .      (Return_string, Variable, numvals)
-         call Bound_check_integer_var
-     .      (Variable, Lower_limit, Upper_limit, Variable_name)
+         call string_to_integer_var
+     .      (return_string, variable, numvals)
+         call bound_check_integer_var
+     .      (variable, lower_limit, upper_limit, variable_name)
       endif
  
       return
@@ -132,6 +136,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_double_var
      .    (section_name, variable_name,
@@ -143,13 +149,13 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      double precision Variable        ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      double precision variable        ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      double precision Lower_limit     ! (INPUT) Lower limit for bounds check
-      double precision Upper_limit     ! (INPUT) Upper limit for bounds check
+      double precision lower_limit     ! (INPUT) Lower limit for bounds check
+      double precision upper_limit     ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a double value from a parameter file.
@@ -169,31 +175,31 @@
       dll_import split_off_units
       dll_import string_to_double_var
       dll_import bound_check_double_var
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
  
-         call String_to_double_var
-     .      (Return_string, Variable, numvals)
+         call string_to_double_var
+     .      (return_string, variable, numvals)
  
-         call Bound_check_double_var
-     .      (Variable, Lower_limit, Upper_limit, Variable_name)
+         call bound_check_double_var
+     .      (variable, lower_limit, upper_limit, variable_name)
       endif
  
       return
@@ -201,6 +207,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_logical_var
      .    (section_name, variable_name,
@@ -211,10 +219,10 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      logical Variable                    ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      logical variable                    ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -234,27 +242,27 @@
       dll_import read_param
       dll_import split_off_units
       dll_import string_to_logical_var
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_logical_var
-     .      (Return_string, Variable, numvals)
+         call string_to_logical_var
+     .      (return_string, variable, numvals)
       endif
  
       return
@@ -262,6 +270,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_char_var
      .    (section_name, variable_name,
@@ -272,10 +282,10 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      character Variable*(*)           ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      character variable*(*)           ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -292,27 +302,27 @@
  
 *+ Calls
       dll_import read_param
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
-      Variable = Return_string
-      if (Return_string .eq. Blank) then
-         Numvals = 0
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
+      variable = return_string
+      if (return_string .eq. blank) then
+         numvals = 0
  
       else
-         Numvals = 1
+         numvals = 1
       endif
  
       return
@@ -320,6 +330,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_real_var_optional
      .   (section_name, variable_name,
@@ -331,13 +343,13 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      real Variable                    ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      real variable                    ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      real Lower_limit                 ! (INPUT) Lower limit for bounds check
-      real Upper_limit                 ! (INPUT) Upper limit for bounds check
+      real lower_limit                 ! (INPUT) Lower limit for bounds check
+      real upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a real value from a parameter file.
@@ -355,34 +367,34 @@
       dll_import split_off_units
       dll_import string_to_real_var
       dll_import bound_check_real_var
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character Return_units*50        ! Units found on string
+      character return_units*50        ! Units found on string
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
  
       call split_off_units (return_string, return_units)
  
-      if (Return_string .eq. Blank) then
+      if (return_string .eq. blank) then
          variable = 0.0
-         Numvals = 0
+         numvals = 0
  
       else
-         call String_to_real_var
-     .      (Return_string, Variable, numvals)
-         call Bound_check_real_var
-     .     (Variable, Lower_limit, Upper_limit, Variable_name)
+         call string_to_real_var
+     .      (return_string, variable, numvals)
+         call bound_check_real_var
+     .     (variable, lower_limit, upper_limit, variable_name)
       endif
  
       return
@@ -390,6 +402,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_integer_var_optional
      .    (section_name, variable_name,
@@ -401,13 +415,13 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      integer Variable                    ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      integer variable                    ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      integer Lower_limit                 ! (INPUT) Lower limit for bounds check
-      integer Upper_limit                 ! (INPUT) Upper limit for bounds check
+      integer lower_limit                 ! (INPUT) Lower limit for bounds check
+      integer upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a integer value from a parameter file.
@@ -426,33 +440,33 @@
       dll_import split_off_units
       dll_import string_to_integer_var
       dll_import bound_check_integer_var
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
  
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
+      if (return_string .eq. blank) then
          variable = 0
-         Numvals = 0
+         numvals = 0
  
       else
-         call String_to_integer_var
-     .      (Return_string, Variable, numvals)
-         call Bound_check_integer_var
-     .      (Variable, Lower_limit, Upper_limit, Variable_name)
+         call string_to_integer_var
+     .      (return_string, variable, numvals)
+         call bound_check_integer_var
+     .      (variable, lower_limit, upper_limit, variable_name)
       endif
  
       return
@@ -460,6 +474,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_double_var_optional
      .    (section_name, variable_name,
@@ -471,13 +487,13 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      double precision Variable        ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      double precision variable        ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      double precision Lower_limit     ! (INPUT) Lower limit for bounds check
-      double precision Upper_limit     ! (INPUT) Upper limit for bounds check
+      double precision lower_limit     ! (INPUT) Lower limit for bounds check
+      double precision upper_limit     ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a double value from a parameter file.
@@ -496,34 +512,34 @@
       dll_import split_off_units
       dll_import string_to_double_var
       dll_import bound_check_double_var
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
  
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
+      if (return_string .eq. blank) then
          variable = 0.0d0
-         Numvals = 0
+         numvals = 0
  
       else
-         call String_to_double_var
-     .      (Return_string, Variable, numvals)
+         call string_to_double_var
+     .      (return_string, variable, numvals)
  
-         call Bound_check_double_var
-     .      (Variable, Lower_limit, Upper_limit, Variable_name)
+         call bound_check_double_var
+     .      (variable, lower_limit, upper_limit, variable_name)
       endif
  
       return
@@ -531,6 +547,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_logical_var_optional
      .    (section_name, variable_name,
@@ -541,10 +559,10 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      logical Variable                    ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      logical variable                    ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -563,30 +581,30 @@
       dll_import read_param_optional
       dll_import split_off_units
       dll_import string_to_logical_var
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
+      if (return_string .eq. blank) then
          variable = .false.
-         Numvals = 0
+         numvals = 0
  
       else
-         call String_to_logical_var
-     .      (Return_string, Variable, numvals)
+         call string_to_logical_var
+     .      (return_string, variable, numvals)
       endif
  
       return
@@ -594,6 +612,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_char_var_optional
      .    (section_name, variable_name,
@@ -604,10 +624,10 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
-      character Units*(*)              ! (INPUT) Units required by caller
-      character Variable*(*)           ! (OUTPUT) Variable returned to caller
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
+      character units*(*)              ! (INPUT) Units required by caller
+      character variable*(*)           ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -624,30 +644,30 @@
 *+ Calls
       dll_import read_param_optional
       dll_import split_off_units
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character Return_units*50        ! Units found on string
+      character return_units*50        ! Units found on string
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
-      call Split_off_units(Return_string, Return_units)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
+      call split_off_units(return_string, return_units)
  
-      Variable = Return_string
-      if (Return_string .eq. Blank) then
-         Numvals = 0
+      variable = return_string
+      if (return_string .eq. blank) then
+         numvals = 0
  
       else
-         Numvals = 1
+         numvals = 1
       endif
  
       return
@@ -655,6 +675,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_real_array
      .   (section_name, variable_name, size_of,
@@ -666,14 +688,14 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      real Variable(*)                 ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      real variable(*)                 ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      real Lower_limit                 ! (INPUT) Lower limit for bounds check
-      real Upper_limit                 ! (INPUT) Upper limit for bounds check
+      real lower_limit                 ! (INPUT) Lower limit for bounds check
+      real upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a real value from a parameter file.
@@ -693,29 +715,29 @@
       dll_import split_off_units
       dll_import string_to_real_array
       dll_import bound_check_real_array
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_real_array
-     .      (Return_string, Variable, size_of, numvals)
-         call Bound_check_real_array
-     .    (Variable, Lower_limit, Upper_limit, Variable_name, Numvals)
+         call string_to_real_array
+     .      (return_string, variable, size_of, numvals)
+         call bound_check_real_array
+     .    (variable, lower_limit, upper_limit, variable_name, numvals)
       endif
  
       return
@@ -723,6 +745,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_integer_array
      .    (section_name, variable_name, size_of,
@@ -734,14 +758,14 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      integer Variable(*)                 ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      integer variable(*)                 ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      integer Lower_limit                 ! (INPUT) Lower limit for bounds check
-      integer Upper_limit                 ! (INPUT) Upper limit for bounds check
+      integer lower_limit                 ! (INPUT) Lower limit for bounds check
+      integer upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a integer value from a parameter file.
@@ -761,29 +785,29 @@
       dll_import split_off_units
       dll_import string_to_integer_array
       dll_import bound_check_integer_array
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_integer_array
-     .      (Return_string, Variable, size_of, numvals)
-         call Bound_check_integer_array
-     .    (Variable, Lower_limit, Upper_limit, Variable_name, Numvals)
+         call string_to_integer_array
+     .      (return_string, variable, size_of, numvals)
+         call bound_check_integer_array
+     .    (variable, lower_limit, upper_limit, variable_name, numvals)
       endif
  
       return
@@ -791,6 +815,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_double_array
      .    (section_name, variable_name, size_of,
@@ -802,14 +828,14 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      double precision Variable(*)     ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      double precision variable(*)     ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      double precision Lower_limit     ! (INPUT) Lower limit for bounds check
-      double precision Upper_limit     ! (INPUT) Upper limit for bounds check
+      double precision lower_limit     ! (INPUT) Lower limit for bounds check
+      double precision upper_limit     ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a double value from a parameter file.
@@ -829,29 +855,29 @@
       dll_import split_off_units
       dll_import string_to_double_array
       dll_import bound_check_double_array
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_double_array
-     .      (Return_string, Variable, size_of, numvals)
-         call Bound_check_double_array
-     .     (Variable, Lower_limit, Upper_limit, Variable_name, Numvals)
+         call string_to_double_array
+     .      (return_string, variable, size_of, numvals)
+         call bound_check_double_array
+     .     (variable, lower_limit, upper_limit, variable_name, numvals)
       endif
  
       return
@@ -859,6 +885,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_logical_array
      .    (section_name, variable_name, size_of,
@@ -869,11 +897,11 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      logical Variable(*)                 ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      logical variable(*)                 ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -893,27 +921,27 @@
       dll_import read_param
       dll_import split_off_units
       dll_import string_to_logical_array
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
+      if (return_string .ne. blank) then
          call split_off_units (return_string, return_units)
-         call String_to_logical_array
-     .      (Return_string, Variable, size_of, numvals)
+         call string_to_logical_array
+     .      (return_string, variable, size_of, numvals)
       endif
  
       return
@@ -921,6 +949,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_char_array
      .    (section_name, variable_name, size_of,
@@ -931,11 +961,11 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      character Variable(*)*(*)        ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      character variable(*)*(*)        ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -955,27 +985,27 @@
       dll_import read_param
       dll_import split_off_units
       dll_import string_to_char_array
-      character Read_param*(Function_string_len)
+      character read_param*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param
+     .   (section_name, variable_name, no_multiple_keys)
  
-      if (Return_string .ne. Blank) then
-         call Split_off_units (Return_string, Return_units)
-         call String_to_char_array
-     .      (Return_string, Variable, size_of, numvals)
+      if (return_string .ne. blank) then
+         call split_off_units (return_string, return_units)
+         call string_to_char_array
+     .      (return_string, variable, size_of, numvals)
       endif
  
       return
@@ -983,6 +1013,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_real_array_optional
      .   (section_name, variable_name, size_of,
@@ -994,14 +1026,14 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      real Variable(*)                 ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      real variable(*)                 ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      real Lower_limit                 ! (INPUT) Lower limit for bounds check
-      real Upper_limit                 ! (INPUT) Upper limit for bounds check
+      real lower_limit                 ! (INPUT) Lower limit for bounds check
+      real upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a real value from a parameter file.
@@ -1021,33 +1053,33 @@
       dll_import fill_real_array
       dll_import string_to_real_array
       dll_import bound_check_real_array
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
  
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
-         call Fill_real_array(variable, 0.0, size_of)
-         Numvals = 0
+      if (return_string .eq. blank) then
+         call fill_real_array(variable, 0.0, size_of)
+         numvals = 0
  
       else
-         call String_to_real_array
-     .     (Return_string, Variable, size_of, numvals)
-         call Bound_check_real_array
-     .      (Variable, Lower_limit, Upper_limit, Variable_name, Numvals)
+         call string_to_real_array
+     .     (return_string, variable, size_of, numvals)
+         call bound_check_real_array
+     .      (variable, lower_limit, upper_limit, variable_name, numvals)
       endif
  
       return
@@ -1055,6 +1087,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_integer_array_optional
      .    (section_name, variable_name, size_of,
@@ -1066,14 +1100,14 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      integer Variable(*)                 ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      integer variable(*)                 ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      integer Lower_limit                 ! (INPUT) Lower limit for bounds check
-      integer Upper_limit                 ! (INPUT) Upper limit for bounds check
+      integer lower_limit                 ! (INPUT) Lower limit for bounds check
+      integer upper_limit                 ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a integer value from a parameter file.
@@ -1093,33 +1127,33 @@
       dll_import fill_integer_array
       dll_import string_to_integer_array
       dll_import bound_check_integer_array
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
  
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
-         call Fill_integer_array(variable, 0, size_of)
-         Numvals = 0
+      if (return_string .eq. blank) then
+         call fill_integer_array(variable, 0, size_of)
+         numvals = 0
  
       else
-         call String_to_integer_array
-     .      (Return_string, Variable, size_of, numvals)
-         call Bound_check_integer_array
-     .      (Variable, Lower_limit, Upper_limit, Variable_name, Numvals)
+         call string_to_integer_array
+     .      (return_string, variable, size_of, numvals)
+         call bound_check_integer_array
+     .      (variable, lower_limit, upper_limit, variable_name, numvals)
       endif
  
       return
@@ -1127,6 +1161,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_double_array_optional
      .    (section_name, variable_name, size_of,
@@ -1138,14 +1174,14 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      double precision Variable(*)     ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      double precision variable(*)     ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
-      double precision Lower_limit     ! (INPUT) Lower limit for bounds check
-      double precision Upper_limit     ! (INPUT) Upper limit for bounds check
+      double precision lower_limit     ! (INPUT) Lower limit for bounds check
+      double precision upper_limit     ! (INPUT) Upper limit for bounds check
  
 *+ Purpose
 *     High level routine to read in a double value from a parameter file.
@@ -1165,32 +1201,32 @@
       dll_import fill_double_array
       dll_import string_to_double_array
       dll_import bound_check_double_array
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
-         call Fill_double_array(variable, 0.0d0, size_of)
-         Numvals = 0
+      if (return_string .eq. blank) then
+         call fill_double_array(variable, 0.0d0, size_of)
+         numvals = 0
  
       else
-         call String_to_double_array
-     .      (Return_string, Variable, size_of, numvals)
-         call Bound_check_double_array
-     .      (Variable, Lower_limit, Upper_limit, Variable_name, Numvals)
+         call string_to_double_array
+     .      (return_string, variable, size_of, numvals)
+         call bound_check_double_array
+     .      (variable, lower_limit, upper_limit, variable_name, numvals)
       endif
  
       return
@@ -1198,6 +1234,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_logical_array_optional
      .    (section_name, variable_name, size_of,
@@ -1208,11 +1246,11 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      logical Variable(*)                 ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      logical variable(*)                 ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -1232,31 +1270,31 @@
       dll_import split_off_units
       dll_import fill_logical_array
       dll_import string_to_logical_array
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
  
       call split_off_units (return_string, return_units)
-      if (Return_string .eq. Blank) then
-         call Fill_logical_array(variable, .false., size_of)
-         Numvals = 0
+      if (return_string .eq. blank) then
+         call fill_logical_array(variable, .false., size_of)
+         numvals = 0
  
       else
-         call String_to_logical_array
-     .      (Return_string, Variable, size_of, numvals)
+         call string_to_logical_array
+     .      (return_string, variable, size_of, numvals)
       endif
  
       return
@@ -1264,6 +1302,8 @@
  
  
  
+
+
 * ====================================================================
        subroutine read_char_array_optional
      .    (section_name, variable_name, size_of,
@@ -1274,11 +1314,11 @@
       include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) section name to search for
-      character Variable_name*(*)      ! (INPUT) Variable name to search for
+      character section_name*(*)       ! (INPUT) section name to search for
+      character variable_name*(*)      ! (INPUT) Variable name to search for
       integer size_of                  ! (INPUT) size_of of array
-      character Units*(*)              ! (INPUT) Units required by caller
-      character Variable(*)*(*)        ! (OUTPUT) Variable returned to caller
+      character units*(*)              ! (INPUT) Units required by caller
+      character variable(*)*(*)        ! (OUTPUT) Variable returned to caller
       integer numvals                 ! (OUTPUT) Number of values returned
  
 *+ Purpose
@@ -1298,30 +1338,30 @@
       dll_import fill_char_array
       dll_import split_off_units
       dll_import string_to_char_array
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical No_multiple_keys         ! Don't look for multiple keys
-      parameter (No_multiple_keys=.false.)
+      logical no_multiple_keys         ! Don't look for multiple keys
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-      character Return_string*(Function_string_len)
+      character return_string*(function_string_len)
                                        ! String returned from read_file_string
       character return_units*50        ! units of returned value
  
 *- Implementation Section ----------------------------------
  
-      Return_string = Read_param_optional
-     .   (Section_name, Variable_name, No_multiple_keys)
-      if (Return_string .eq. Blank) then
-         call Fill_char_array(variable, Blank, size_of)
-         Numvals = 0
+      return_string = read_param_optional
+     .   (section_name, variable_name, no_multiple_keys)
+      if (return_string .eq. blank) then
+         call fill_char_array(variable, blank, size_of)
+         numvals = 0
  
       else
-         call Split_off_units (Return_string, Return_units)
-         call String_to_char_array
-     .      (Return_string, Variable, size_of, numvals)
+         call split_off_units (return_string, return_units)
+         call string_to_char_array
+     .      (return_string, variable, size_of, numvals)
       endif
  
       return
@@ -1329,16 +1369,18 @@
  
  
  
+
+
 * ====================================================================
-       character*(*) function Get_data_string (Char_string, Key_name)
+       character*(*) function get_data_string (char_string, key_name)
 * ====================================================================
       implicit none
       dll_export get_data_string
        include 'const.inc'             ! Constant definitions
  
 *+ Sub-Program Arguments
-       character Char_string*(*)       ! (INPUT) Character string to look in
-       character Key_name*(*)          ! (INPUT) Key name to search for
+       character char_string*(*)       ! (INPUT) Character string to look in
+       character key_name*(*)          ! (INPUT) Key name to search for
  
 *+ Purpose
 *      Get a parameter string from a character string that
@@ -1369,35 +1411,35 @@
       dll_import no_spaces
       dll_import assign_string
       dll_import get_next_variable
-       character Lower_case*30         ! function
-       character No_spaces*30          ! function
+       character lower_case*30         ! function
+       character no_spaces*30          ! function
  
 *+ Local Variables
-       character Char_string_lower
-     .    *(Function_string_len)       ! Lower case version of char_string
-       character Key*30                ! Key pulled apart from key_name_lower
-       character Key_name_lower*30     ! Lower case version of key name
-       character Parameters
-     .    *(Function_string_len)       ! Parameters to right of '=' sign
+       character char_string_lower
+     .    *(function_string_len)       ! Lower case version of char_string
+       character key*30                ! Key pulled apart from key_name_lower
+       character key_name_lower*30     ! Lower case version of key name
+       character parameters
+     .    *(function_string_len)       ! Parameters to right of '=' sign
  
 *- Implementation Section ----------------------------------
  
-      Key_name_lower = Lower_case (Key_name)
-      Key_name_lower = No_spaces (Key_name_lower)
+      key_name_lower = lower_case (key_name)
+      key_name_lower = no_spaces (key_name_lower)
  
 cjh      shouldn't need this lower case conversion
 cjh      call assign_string (char_string_lower, lower_case (char_string))
-      call assign_string (Char_string_lower, Char_string)
+      call assign_string (char_string_lower, char_string)
  
 10    continue
-      call Get_next_variable (Char_string_lower, Key, Parameters)
+      call get_next_variable (char_string_lower, key, parameters)
  
-      if (Key .eq. Key_name_lower) then
-         call assign_string (Get_data_string
-     :                      , adjustl(Parameters))
+      if (key .eq. key_name_lower) then
+         call assign_string (get_data_string
+     :                      , adjustl(parameters))
  
-      else if (Key .eq. Blank) then
-         Get_data_string = Blank
+      else if (key .eq. blank) then
+         get_data_string = blank
  
       else
          goto 10
@@ -1409,18 +1451,20 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       subroutine Get_next_variable (Variables_str,
-     .            Var_name, Values_str)
+       subroutine get_next_variable (variables_str,
+     .            var_name, values_str)
 * ====================================================================
       implicit none
       dll_export get_next_variable
        include 'const.inc'             ! Constant definitions
  
 *+ Sub-Program Arguments
-       character Variables_str*(*)     ! (INPUT & OUTPUT) String to break up
-       character Var_name*(*)          ! (OUTPUT) Extracted variable name
-       character Values_str*(*)        ! (OUTPUT) Extracted values string
+       character variables_str*(*)     ! (INPUT & OUTPUT) String to break up
+       character var_name*(*)          ! (OUTPUT) Extracted variable name
+       character values_str*(*)        ! (OUTPUT) Extracted values string
  
 *+ Purpose
 *      Returns the next variable from Variables_str and its
@@ -1441,7 +1485,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     assign value with leading spaces removed to values_str.  
 *     If there is not enough space in values_str for it, a
 *     warning error is flagged and truncation occurs.
-
+ 
 *+ Notes
 *      Example of a typical variables_str is :-
 *         sw=30 25 15 15, yield=1.6
@@ -1466,58 +1510,60 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import split_line
       dll_import assign_string
       dll_import no_spaces
-       character No_spaces*(Function_string_len)
+       character no_spaces*(function_string_len)
  
 *+ Constant Values
-      character Delimiter*(*)          ! Delimiter to use to separate variables.
-      parameter (Delimiter=',')
+      character delimiter*(*)          ! Delimiter to use to separate variables.
+      parameter (delimiter=',')
 *
-       character Equals*(*)            ! Equals sign
-       parameter (Equals='=')
+       character equals*(*)            ! Equals sign
+       parameter (equals='=')
  
 *+ Local Variables
-       integer Pos                     ! Position in variables_str
-       character String_right
-     .    *(Function_string_len)       ! String to right of equals sign
+       integer pos                     ! Position in variables_str
+       character string_right
+     .    *(function_string_len)       ! String to right of equals sign
  
 *- Implementation Section ----------------------------------
  
-      call Split_line (Variables_str, Var_name, String_right, Equals)
-      call assign_string (Variables_str, String_right)
+      call split_line (variables_str, var_name, string_right, equals)
+      call assign_string (variables_str, string_right)
  
-      Pos = index (Variables_str, Delimiter)
+      pos = index (variables_str, delimiter)
  
       ! Handle the situation when no MES_delimiter is in Variables_str.
  
-      if (Pos .eq. 0) then
-         call assign_string (Values_str, Variables_str)
-         Variables_str = Blank
+      if (pos .eq. 0) then
+         call assign_string (values_str, variables_str)
+         variables_str = blank
  
       else
-         call assign_string (Values_str, Variables_str (1:Pos-1))
-         Variables_str = Variables_str (Pos+1:)
+         call assign_string (values_str, variables_str (1:pos-1))
+         variables_str = variables_str (pos+1:)
       endif
  
-      Var_name = No_spaces(Var_name)
-      Values_str = adjustl(Values_str)
+      var_name = no_spaces(var_name)
+      values_str = adjustl(values_str)
  
       return
       end
  
  
  
+
+
 * ====================================================================
-       subroutine Read_line (Logical_unit, Record_num, Line, IOStatus)
+       subroutine read_line (logical_unit, record_num, line, iostatus)
 * ====================================================================
       implicit none
       dll_export read_line
        include 'const.inc'             ! constant definitions
  
 *+ Sub-Program Arguments
-       character Line*(*)              ! (OUTPUT) Line read from file
-       integer Logical_unit            ! (INPUT) Logical unit to read from
-       integer Record_num              ! (OUTPUT) Record number in file
-       integer IOStatus                ! (OUTPUT) Status of read
+       character line*(*)              ! (OUTPUT) Line read from file
+       integer logical_unit            ! (INPUT) Logical unit to read from
+       integer record_num              ! (OUTPUT) Record number in file
+       integer iostatus                ! (OUTPUT) Status of read
  
 *+ Purpose
 *      Read in the next uncommented, non blank line from the control file.
@@ -1538,7 +1584,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     "iostatus" is set to 1, otherwise "iostatus" is set to 0.  
 *     Every time a line is read, regardless of whether it is
 *     blank, or end of file, "record_num" is incremented.  
-
+ 
 *+ Assumptions
 *      Assumes that line is long enough to hold an entire line read from
 *      control file.
@@ -1556,71 +1602,71 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Calls
       dll_import lower_case
-       character lower_case*(Function_string_len)
+       character lower_case*(function_string_len)
  
 *+ Constant Values
-       character Comment*(*)           ! Comment specifier
-       parameter (Comment='!')
+       character comment*(*)           ! Comment specifier
+       parameter (comment='!')
 *
-       integer TAB_CHAR                ! TAB character
-       parameter (TAB_CHAR=9)
+       integer tab_char                ! TAB character
+       parameter (tab_char=9)
 *
-       integer End_file_status         ! End of file status
-       parameter (End_file_status=2)
+       integer end_file_status         ! End of file status
+       parameter (end_file_status=2)
 *
-       character End_run*(*)           ! End of run specifier
-       parameter (End_run='end run')
+       character end_run*(*)           ! End of run specifier
+       parameter (end_run='end run')
 *
-       integer End_run_status          ! End of run block status
-       parameter (End_run_status=1)
+       integer end_run_status          ! End of run block status
+       parameter (end_run_status=1)
 *
-       integer Ok_status               ! Ok status
-       parameter (Ok_status = 0)
+       integer ok_status               ! Ok status
+       parameter (ok_status = 0)
  
 *+ Local Variables
-       integer Comment_pos             ! Position of comment in line
-       integer Read_status             ! Status of read.
-       integer Tab_pos                 ! position of tab character
+       integer comment_pos             ! Position of comment in line
+       integer read_status             ! Status of read.
+       integer tab_pos                 ! position of tab character
  
 *- Implementation Section ----------------------------------
  
 10    read (logical_unit, '(a)', iostat=read_status ) line
-      Record_num = Record_num + 1
+      record_num = record_num + 1
  
       ! Remove comment from line if necessary
  
-      Comment_pos = index (Line, comment)
-      if (Comment_pos .eq. 0) then
+      comment_pos = index (line, comment)
+      if (comment_pos .eq. 0) then
          ! No comment on line
  
       else
-         Line(Comment_pos:) = Blank
+         line(comment_pos:) = blank
       endif
  
       ! remove tab character if necessary.
-      Tab_pos = index(Line, char(TAB_CHAR))
-      if (Tab_pos .gt. 0) then
-         Line(Tab_pos:Tab_pos) = ' '
+      tab_pos = index(line, char(tab_char))
+      if (tab_pos .gt. 0) then
+         line(tab_pos:tab_pos) = ' '
       endif
  
-      if (Read_status .eq. Ok_status) then
+      if (read_status .eq. ok_status) then
  
-         Line = Lower_case(Line)
-         Line = adjustl(Line)
+         line = lower_case(line)
+         line = adjustl(line)
  
-         if (Line.eq.End_run) then
-            IOStatus = End_run_status
+         if (line.eq.end_run) then
+            iostatus = end_run_status
  
-         else if (Line.eq.Blank) then
+         else if (line.eq.blank) then
             goto 10
  
          else
-            IOStatus = Ok_status
+            iostatus = ok_status
  
          endif
  
       else
-         IOStatus = End_file_status
+         iostatus = end_file_status
  
       endif
  
@@ -1629,8 +1675,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       integer function Open_param_file (Section_name)
+       integer function open_param_file (section_name)
 * ====================================================================
       implicit none
       dll_export open_param_file
@@ -1638,7 +1686,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       include 'read.inc'
  
 *+ Sub-Program Arguments
-      character Section_name*(*)       ! (INPUT) Section name to find
+      character section_name*(*)       ! (INPUT) Section name to find
  
 *+ Purpose
 *     Get the name of the parameter file for a module from the control
@@ -1666,24 +1714,24 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import pop_routine
  
 *+ Constant Values
-      character This_routine*(*)       ! Name of this routine
-      parameter (This_routine='open_param_file')
+      character this_routine*(*)       ! Name of this routine
+      parameter (this_routine='open_param_file')
  
 *+ Local Variables
-      character Msg*300                ! Message to display
-      integer LU_param                 ! Logical unit number of open file
-      character Module_name*(Max_module_name_size)
+      character msg*300                ! Message to display
+      integer lu_param                 ! Logical unit number of open file
+      character module_name*(max_module_name_size)
                                        ! Module name of caller
-      integer Record_num               ! Record number in file
+      integer record_num               ! Record number in file
       character  full_section_name*100
       character  exclude_section_name*10
       integer    exclude_file_num
  
 *- Implementation Section ----------------------------------
  
-      call push_routine(This_routine)
+      call push_routine(this_routine)
  
-      call Get_current_module(Module_name)
+      call get_current_module(module_name)
  
       lu_param = -1
       record_num = 1
@@ -1703,19 +1751,21 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       else
          msg = 'Cannot find section : '// section_name
  
-         call Fatal_error(ERR_user, msg)
+         call fatal_error(err_user, msg)
       endif
  
-      Open_param_file = LU_param
+      open_param_file = lu_param
  
-      call pop_routine(This_routine)
+      call pop_routine(this_routine)
       return
       end
  
  
  
+
+
 * ====================================================================
-       character*(*) function Get_Section_Name (record)
+       character*(*) function get_section_name (record)
 * ====================================================================
       implicit none
       dll_export get_section_name
@@ -1737,7 +1787,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     definition line, then this function will return the
 *     section heading contained in it.  Otherwise it will return
 *     blank.  
-
+ 
 *+  Mission Statement
 *      
  
@@ -1754,15 +1804,15 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import lower_case
       dll_import warning_error
       dll_import pop_routine
-      character  lower_case*(Function_string_len)
+      character  lower_case*(function_string_len)
  
 *+ Local Variables
-      logical    Section_found         ! legal section has  been found
-      integer    Left_delimiter_pos    ! position of left delimiter in record
-      integer    Right_delimiter_pos   ! position of left delimiter in record
-      character  Section*(Max_section_name_size)
+      logical    section_found         ! legal section has  been found
+      integer    left_delimiter_pos    ! position of left delimiter in record
+      integer    right_delimiter_pos   ! position of left delimiter in record
+      character  section*(max_section_name_size)
                                        ! name of section of ini file
-      character  TempRecord*(Function_string_len)
+      character  temprecord*(function_string_len)
                                        ! internal copy of record
 *
 *   Constant valuesz
@@ -1781,33 +1831,33 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
       ! Firstly do a quick test for a section name.
  
-      if (index(Record, Open_delimiter) .eq. 0) then
+      if (index(record, open_delimiter) .eq. 0) then
          ! There's no section here - exit.
  
-         Section = blank
+         section = blank
  
       else
          ! OK we could have a section name - find out.
  
-         TempRecord= adjustl(Record)
-         Left_delimiter_Pos = index (TempRecord, open_delimiter)
-         Right_delimiter_Pos = index (TempRecord, close_delimiter)
+         temprecord= adjustl(record)
+         left_delimiter_pos = index (temprecord, open_delimiter)
+         right_delimiter_pos = index (temprecord, close_delimiter)
  
-         Section_found = Left_delimiter_Pos .eq. 1
-     :             .and. Right_delimiter_Pos .ge. 2
+         section_found = left_delimiter_pos .eq. 1
+     :             .and. right_delimiter_pos .ge. 2
  
-         If (Section_found) then
+         if (section_found) then
                   ! We have a section heading
  
-            If (Right_delimiter_Pos .ge. 3) then
-               call assign_string (Section, TempRecord
-     :                     (left_delimiter_pos+1:Right_delimiter_Pos-1))
-               Section = adjustl(Lower_case (Section))
+            if (right_delimiter_pos .ge. 3) then
+               call assign_string (section, temprecord
+     :                     (left_delimiter_pos+1:right_delimiter_pos-1))
+               section = adjustl(lower_case (section))
  
-            Else
+            else
                   ! This is an empty section heading
                section = blank
-            Endif
+            endif
  
             if (section.eq.blank) then
                   ! we have no section name specified
@@ -1822,7 +1872,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
          endif
       endif
  
-      call assign_string (Get_Section_Name, Section)
+      call assign_string (get_section_name, section)
  
       call pop_routine (myname)
       return
@@ -1830,9 +1880,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       character*(*) function Read_param_optional
-     .     (Section_spec, Key_name, Multiple_keys)
+       character*(*) function read_param_optional
+     .     (section_spec, key_name, multiple_keys)
 * ====================================================================
       implicit none
       dll_export read_param_optional
@@ -1840,9 +1892,9 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       include 'read.inc'
  
 *+ Sub-Program Arguments
-      character Section_spec*(*)       ! (INPUT) Section specifier to search for
-      character Key_name*(*)           ! (INPUT) Key name to search in
-      logical Multiple_keys            ! (INPUT) Should we look for multiple
+      character section_spec*(*)       ! (INPUT) Section specifier to search for
+      character key_name*(*)           ! (INPUT) Key name to search in
+      logical multiple_keys            ! (INPUT) Should we look for multiple
                                        ! keys?
  
 *+ Purpose
@@ -1875,9 +1927,9 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import find_next_matching_section
       dll_import append_string
       dll_import pop_routine
-      character Read_key_from_section*(Function_string_len)
+      character read_key_from_section*(function_string_len)
                                        ! function
-      character Lower_case*(Function_string_len)
+      character lower_case*(function_string_len)
                                        ! function
  
 *+ Constant Values
@@ -1885,101 +1937,101 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       parameter (myname='Read_param_optional')
  
 *+ Local Variables
-      character Current_module_name*(Max_module_name_size)
+      character current_module_name*(max_module_name_size)
                                        ! Name of current module
-      integer Exclude_file_num         ! Exclude which file from search for
+      integer exclude_file_num         ! Exclude which file from search for
                                        ! sections
-      logical Found_key                ! Have we found the key?
-      logical Found_section            ! Have we found the section?
-      character Return_string*(Function_string_len)
+      logical found_key                ! Have we found the key?
+      logical found_section            ! Have we found the section?
+      character return_string*(function_string_len)
                                        ! String to return to caller.
-      character New_string*(Function_string_len)
+      character new_string*(function_string_len)
                                        ! String to return to caller.
-      logical Same_module_calling      ! Is the same module calling
+      logical same_module_calling      ! Is the same module calling
                                        ! as previous call?
-      logical Same_section_spec        ! Is the section specifier the same as
+      logical same_section_spec        ! Is the section specifier the same as
                                        ! previous call?
  
 *- Implementation Section ----------------------------------
  
       call push_routine(myname)
  
-      Return_string = Blank
+      return_string = blank
  
       ! Convert section name to lower case
  
-      Section_spec = Lower_case(Section_spec)
+      section_spec = lower_case(section_spec)
  
       ! Determine if this is the same module calling as last module
  
-      call Get_current_module(Current_module_name)
-      Same_module_calling = (Last_module_name .eq. Current_module_name)
+      call get_current_module(current_module_name)
+      same_module_calling = (last_module_name .eq. current_module_name)
  
       ! Determine if this section name is the same as the last section.
  
-      Same_section_spec = (Last_section_spec .eq. Section_spec)
+      same_section_spec = (last_section_spec .eq. section_spec)
  
-      if (Same_module_calling .and. Same_section_spec
-     :   .and. Current_unit_num.ne.0) then
+      if (same_module_calling .and. same_section_spec
+     :   .and. current_unit_num.ne.0) then
          ! The same module is still calling this routine with the same
          ! section so continue reading where we left off.
  
-         Return_string = Read_key_from_section
-     .            (Current_unit_num, Current_record_num,
-     .             Last_section_name, Key_name, Multiple_keys)
+         return_string = read_key_from_section
+     .            (current_unit_num, current_record_num,
+     .             last_section_name, key_name, multiple_keys)
  
-         Found_key = (Return_string .ne. Blank)
-         Exclude_file_num = Search_section_index
+         found_key = (return_string .ne. blank)
+         exclude_file_num = search_section_index
  
       else
-         Found_key = .false.
-         Exclude_file_num = 0
+         found_key = .false.
+         exclude_file_num = 0
       endif
  
-      if (.not. Found_key) then
+      if (.not. found_key) then
  
-         Last_module_name = Current_module_name
-         Last_section_spec = Section_spec
-         Search_section_index = 0
+         last_module_name = current_module_name
+         last_section_spec = section_spec
+         search_section_index = 0
  
 10       continue
          ! We need to go find the section name so close off the
          ! old unit number we were looking in.
  
-         if (Current_unit_num .gt. LU_Control_file2) then
-            call Close_unit(current_unit_num)
+         if (current_unit_num .gt. lu_control_file2) then
+            call close_unit(current_unit_num)
             current_unit_num = -1
  
          else
             ! This is the first time through this routine
          endif
  
-         call Find_next_matching_section
-     .        (Current_module_name, Section_spec, Last_section_name,
-     .         Current_unit_num, Current_record_num,
-     .         Exclude_file_num, 'weather')
+         call find_next_matching_section
+     .        (current_module_name, section_spec, last_section_name,
+     .         current_unit_num, current_record_num,
+     .         exclude_file_num, 'weather')
  
-         Found_section = (Current_unit_num .gt. 0)
+         found_section = (current_unit_num .gt. 0)
  
-         if (Found_section) then
-            New_string = Read_key_from_section
-     .          (Current_unit_num, Current_record_num,
-     .           Last_section_name, Key_name, Multiple_keys)
-            Found_key = (New_string .ne. Blank)
+         if (found_section) then
+            new_string = read_key_from_section
+     .          (current_unit_num, current_record_num,
+     .           last_section_name, key_name, multiple_keys)
+            found_key = (new_string .ne. blank)
  
             ! Append new_string to return string if multiple_keys was specified
             ! and found_key = true.
  
-            if (Found_key .and. Multiple_keys) then
-               New_string = Blank // New_string
-               call append_string (Return_string, New_string)
+            if (found_key .and. multiple_keys) then
+               new_string = blank // new_string
+               call append_string (return_string, new_string)
             endif
  
-            if (Found_key .and. .not. Multiple_keys) then
+            if (found_key .and. .not. multiple_keys) then
                ! Need look no further.  Report to summary file
  
-               Return_string = New_string
-               if (Current_param_file_name .ne. Blank) then
+               return_string = new_string
+               if (current_param_file_name .ne. blank) then
 *DPH                  write(msg, '(50a)' )
 *DPH     .               'File opened ok -> ',
 *DPH     .               Current_param_file_name
@@ -1999,12 +2051,12 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
          else
             ! Cannot find a section name therefore cannot continue
  
-            Last_module_name = Blank
+            last_module_name = blank
  
          endif
       endif
  
-      Read_param_optional = Return_string
+      read_param_optional = return_string
  
       call pop_routine(myname)
  
@@ -2013,18 +2065,20 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       character*(*) function Read_param
-     .     (Section_spec, Key_name, Multiple_keys)
+       character*(*) function read_param
+     .     (section_spec, key_name, multiple_keys)
 * ====================================================================
       implicit none
       dll_export read_param
       include 'const.inc'
  
 *+ Sub-Program Arguments
-      character Section_spec*(*)       ! (INPUT) Section specifier to search in
-      character Key_name*(*)           ! (INPUT) Key name to search in
-      logical Multiple_keys            ! (INPUT) Should we look for multiple
+      character section_spec*(*)       ! (INPUT) Section specifier to search in
+      character key_name*(*)           ! (INPUT) Key name to search in
+      logical multiple_keys            ! (INPUT) Should we look for multiple
                                        ! keys?
  
 *+ Purpose
@@ -2046,7 +2100,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import read_param_optional
       dll_import fatal_error
       dll_import pop_routine
-      character Read_param_optional*(Function_string_len)
+      character read_param_optional*(function_string_len)
                                        ! function
  
 *+ Constant Values
@@ -2060,21 +2114,21 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
       call push_routine(myname)
  
-      Read_param = Read_param_optional
-     .    (Section_spec, Key_name, Multiple_keys)
+      read_param = read_param_optional
+     .    (section_spec, key_name, multiple_keys)
  
-      if (Read_param .eq. Blank) then
+      if (read_param .eq. blank) then
          ! Cannot find key name.  Issue fatal err message.
  
          msg =
      .      'Cannot find a parameter in any of the files/sections'//
      .      new_line//
      .      'specified in the control file.  Parameter name = '//
-     .      Key_name//
+     .      key_name//
      .      new_line//
-     .      'Section specifier = '// Section_spec
+     .      'Section specifier = '// section_spec
  
-         call Fatal_error(ERR_user, msg)
+         call fatal_error(err_user, msg)
  
       else
          ! Found the key name - exit
@@ -2087,8 +2141,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       subroutine Read_next_param_section
+       subroutine read_next_param_section
      .     (module_name, line, flag, section)
 * ====================================================================
       implicit none
@@ -2124,17 +2180,19 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *- Implementation Section ----------------------------------
  
-      Section_suffix = Section
-      call Read_next_param_line(Module_name, line, flag)
-      Section_suffix = Blank
+      section_suffix = section
+      call read_next_param_line(module_name, line, flag)
+      section_suffix = blank
  
       return
       end
  
  
  
+
+
 * ====================================================================
-       integer function Get_logical_unit ()
+       integer function get_logical_unit ()
 * ====================================================================
       implicit none
       dll_export get_logical_unit
@@ -2149,7 +2207,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     This function will return an available logical unit number
 *     if there is one.  Otherwise it will flag a fatal error
 *     and return -1.  
-
+ 
 *+  Mission Statement
 *      
  
@@ -2163,34 +2221,34 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import fatal_error
  
 *+ Constant Values
-       integer    Unit_number_start    ! The first available unit number
-       parameter (Unit_number_start = 20)
+       integer    unit_number_start    ! The first available unit number
+       parameter (unit_number_start = 20)
 *
-       integer    Unit_number_end      ! The last available unit number
-       parameter (Unit_number_end = 100)
+       integer    unit_number_end      ! The last available unit number
+       parameter (unit_number_end = 100)
  
 *+ Local Variables
-       character  Error_string*110     ! err string
-       logical    Unit_number_unavail  ! Shows if unit number is available
-       integer    Unit_number          ! Unit number
+       character  error_string*110     ! err string
+       logical    unit_number_unavail  ! Shows if unit number is available
+       integer    unit_number          ! Unit number
  
 *- Implementation Section ----------------------------------
  
-      Unit_number = Unit_number_start
+      unit_number = unit_number_start
  
 10    continue
-         inquire (unit = Unit_number, opened = unit_number_unavail)
+         inquire (unit = unit_number, opened = unit_number_unavail)
          if (unit_number_unavail) then
-            Unit_number = Unit_number + 1
+            unit_number = unit_number + 1
  
-            if (Unit_number.gt.Unit_number_end) then
-               Error_string =
+            if (unit_number.gt.unit_number_end) then
+               error_string =
      .         'All logical unit numbers are currently in use.' //
-     .         New_line //
+     .         new_line //
      .         'Increase the maximum logical unit number allowed.'
  
-               call Fatal_error (ERR_internal, Error_string)
-               Unit_number = file_not_found
+               call fatal_error (err_internal, error_string)
+               unit_number = file_not_found
  
             else
                goto 10
@@ -2201,13 +2259,15 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
       endif
  
-      Get_logical_unit = Unit_number
+      get_logical_unit = unit_number
  
       return
       end
  
  
  
+
+
 *     ===========================================================
       subroutine close_unit (logical_unit)
 *     ===========================================================
@@ -2222,7 +2282,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+  Definition
 *     Closes logical unit "logical_unit".
-
+ 
 *+  Mission Statement
 *      
  
@@ -2246,21 +2306,23 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       integer function Open_file (File_name)
+       integer function open_file_for_read (file_name)
 * ====================================================================
       implicit none
-      dll_export open_file
+      dll_export open_file_for_read
        include 'const.inc'             ! Constant definitions
  
 *+ Sub-Program Arguments
-       character File_name*(*)         ! File name to open.
+       character file_name*(*)         ! File name to open.
  
 *+ Purpose
 *      Open and rewind a file and return the logical unit number.
 *      Return -1 (file_not_found flag) if file cannot be opened and
 *      calls Fatal_error
-
+ 
 *+  Definition
 *     Attempts to open the file file_name using the first
 *     available logical unit number.  On success, a message is
@@ -2290,22 +2352,22 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import get_logical_unit
       dll_import fatal_error
       dll_import pop_routine
-       integer Get_logical_unit        ! function
+       integer get_logical_unit        ! function
  
 *+ Constant Values
-       integer No_logical_units
-       parameter (No_logical_units=0)
+       integer no_logical_units
+       parameter (no_logical_units=0)
 *
-       integer Ok                      ! Status indicating open was successful.
-       parameter (Ok = 0)
+       integer ok                      ! Status indicating open was successful.
+       parameter (ok = 0)
 *
-       character This_routine*(*)      ! Name of this routine
-       parameter (This_routine='Open_file')
+       character this_routine*(*)      ! Name of this routine
+       parameter (this_routine='open_file_for_read')
  
 *+ Local Variables
-       character Error_string*(Function_string_len) ! err string
-       integer IOStatus                ! I/O status
-       integer Unit_number             ! Unit number of open file.
+       character error_string*(function_string_len) ! err string
+       integer iostatus                ! I/O status
+       integer unit_number             ! Unit number of open file.
        logical opened                  ! status of file
  
 *- Implementation Section ----------------------------------
@@ -2313,33 +2375,33 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       call push_routine (this_routine)
  
       if (file_name.eq.blank) then           ! is filename ok?
-         Open_file = file_not_found
+         open_file_for_read = file_not_found
  
-         Error_string = '  Cannot open file. No file name.'
-         call fatal_error (err_user, Error_string)
+         error_string = '  Cannot open file. No file name.'
+         call fatal_error (err_user, error_string)
       else
             ! Is the file already open?
          inquire (file = file_name, opened = opened)
          if (opened) then
                ! Lets find out its unit number
-            inquire (file = File_name, number = Unit_number)
-            Open_file = Unit_number
+            inquire (file = file_name, number = unit_number)
+            open_file_for_read = unit_number
          else
                ! get a new unit number and try to open it
-            Unit_number = Get_logical_unit ()
+            unit_number = get_logical_unit ()
  
-            if (Unit_number.eq.file_not_found) then
-               Open_file = No_logical_units
+            if (unit_number.eq.file_not_found) then
+               open_file_for_read = no_logical_units
  
             else
-               open (unit = Unit_number, file = File_name,
-     :              status = 'OLD', iostat = IOStatus)
+               open (unit = unit_number, file = file_name,
+     :              action='READ', status='OLD', iostat=iostatus)
  
-               if (IOStatus.eq.Ok) then
+               if (iostatus.eq.ok) then
                                ! file has been opened.
  
-                  rewind (Unit_number)
-                  Open_file = Unit_number
+                  rewind (unit_number)
+                  open_file_for_read = unit_number
  
 !                  Error_string = new_line
 !      :                       // ' File opened ok. -> '
@@ -2347,10 +2409,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 !                  call write_string (lu_scr_sum, Error_string)
  
                else
-                  Open_file = file_not_found
+                  open_file_for_read = file_not_found
  
-                  Error_string = ' Cannot open file -> '// file_name
-                  call fatal_error (err_user, Error_string)
+                  error_string = ' Cannot open file -> '// file_name
+                  call fatal_error (err_user, error_string)
  
                endif
  
@@ -2364,8 +2426,130 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       logical function read_Init ()
+       integer function open_file (file_name)
+* ====================================================================
+      implicit none
+      dll_export open_file
+       include 'const.inc'             ! Constant definitions
+ 
+*+ Sub-Program Arguments
+       character file_name*(*)         ! File name to open.
+ 
+*+ Purpose
+*      Open and rewind a file and return the logical unit number.
+*      Return -1 (file_not_found flag) if file cannot be opened and
+*      calls Fatal_error
+ 
+*+  Definition
+*     Attempts to open the file file_name using the first
+*     available logical unit number.  On success, a message is
+*     sent to the screen to that effect and the logical unit
+*     number is returned.  If there is no logical unit number
+*     available, the constant NO_LOGICAL_UNITS will be returned.
+*     If the file cannot be opened, a fatal error is flagged and
+*     the constant FILE_NOT_FOUND will be returned.  
+ 
+*+  Mission Statement
+*     the file unit number for %1
+ 
+*+ Changes
+*      DPH 17/6/92
+*     JNGH 3/8/94 put in err messages from old open_f routine
+*                    used file_not_found flag instead of -1
+*                    removed err message re unavailable unit no. This is
+*                    already in get_logical_unit
+*       DPH 19/10/94 Removed routine name parameter in call to fatal_error
+*     jngh 21/2/95 changed write to string to replacement statement.
+*        DPH 25/10/95 Changed error_message size to function_string_len
+*        dph 22/10/97 commented out the "file opened ok" message c-039
+*        jngh 21/5/98 added inquires so file isn't opened more than once
+ 
+*+ Calls
+      dll_import push_routine
+      dll_import get_logical_unit
+      dll_import fatal_error
+      dll_import pop_routine
+       integer get_logical_unit        ! function
+ 
+*+ Constant Values
+       integer no_logical_units
+       parameter (no_logical_units=0)
+*
+       integer ok                      ! Status indicating open was successful.
+       parameter (ok = 0)
+*
+       character this_routine*(*)      ! Name of this routine
+       parameter (this_routine='Open_file')
+ 
+*+ Local Variables
+       character error_string*(function_string_len) ! err string
+       integer iostatus                ! I/O status
+       integer unit_number             ! Unit number of open file.
+       logical opened                  ! status of file
+ 
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (this_routine)
+ 
+      if (file_name.eq.blank) then           ! is filename ok?
+         open_file = file_not_found
+ 
+         error_string = '  Cannot open file. No file name.'
+         call fatal_error (err_user, error_string)
+      else
+            ! Is the file already open?
+         inquire (file = file_name, opened = opened)
+         if (opened) then
+               ! Lets find out its unit number
+            inquire (file = file_name, number = unit_number)
+            open_file = unit_number
+         else
+               ! get a new unit number and try to open it
+            unit_number = get_logical_unit ()
+ 
+            if (unit_number.eq.file_not_found) then
+               open_file = no_logical_units
+ 
+            else
+               open (unit = unit_number, file = file_name,
+     :              status = 'OLD', iostat = iostatus)
+ 
+               if (iostatus.eq.ok) then
+                               ! file has been opened.
+ 
+                  rewind (unit_number)
+                  open_file = unit_number
+ 
+!                  Error_string = new_line
+!      :                       // ' File opened ok. -> '
+!      :                       // file_name
+!                  call write_string (lu_scr_sum, Error_string)
+ 
+               else
+                  open_file = file_not_found
+ 
+                  error_string = ' Cannot open file -> '// file_name
+                  call fatal_error (err_user, error_string)
+ 
+               endif
+ 
+            endif
+         endif
+      endif
+ 
+      call pop_routine (this_routine)
+      return
+      end
+ 
+ 
+ 
+
+
+* ====================================================================
+       logical function read_init ()
 * ====================================================================
       implicit none
       dll_export read_init
@@ -2385,10 +2569,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *- Implementation Section ----------------------------------
  
-      Last_module_name = Blank
-      Last_section_name = Blank
-      Current_unit_num = -1
-      Section_suffix = Blank
+      last_module_name = blank
+      last_section_name = blank
+      current_unit_num = -1
+      section_suffix = blank
  
       read_init = .true.
       return
@@ -2396,6 +2580,8 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
        subroutine read_term()
 * ====================================================================
@@ -2417,59 +2603,61 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import pop_routine
  
 *+ Constant Values
-       character  This_routine*(*)     ! Name of this routine
-       parameter (This_routine='utility_close')
+       character  this_routine*(*)     ! Name of this routine
+       parameter (this_routine='utility_close')
 *
-       integer    Unit_number_start    ! The first available unit number
-       parameter (Unit_number_start = 20)
+       integer    unit_number_start    ! The first available unit number
+       parameter (unit_number_start = 20)
 *
-       integer    Unit_number_end      ! The last available unit number
-       parameter (Unit_number_end = 100)
+       integer    unit_number_end      ! The last available unit number
+       parameter (unit_number_end = 100)
 *
-       integer LU_temp_file            ! Temporary file opened by engine
-       parameter (LU_temp_file=20)     ! Don't ever close it.
+       integer lu_temp_file            ! Temporary file opened by engine
+       parameter (lu_temp_file=20)     ! Don't ever close it.
  
 *+ Local Variables
-       logical    Unit_number_open     ! Shows if unit number is open
-       integer    Unit_number          ! Unit number
+       logical    unit_number_open     ! Shows if unit number is open
+       integer    unit_number          ! Unit number
  
 *- Implementation Section ----------------------------------
  
-      call Push_routine(This_routine)
+      call push_routine(this_routine)
  
-      do 10 Unit_number = Unit_number_start, Unit_number_end
+      do 10 unit_number = unit_number_start, unit_number_end
  
          ! If unit number is open - then close it.
  
-         inquire (unit = Unit_number, opened = unit_number_open)
+         inquire (unit = unit_number, opened = unit_number_open)
  
-         if (unit_number_open .and. unit_number .ne. LU_temp_file) then
-            close(Unit_number)
+         if (unit_number_open .and. unit_number .ne. lu_temp_file) then
+            close(unit_number)
  
          else
             ! Unit number already closed.
          endif
 10    continue
  
-      call Pop_routine(This_routine)
+      call pop_routine(this_routine)
       return
       end
  
  
  
+
+
 * ====================================================================
-      character*(*) function Read_file_string_optional
-     :                       (Unit_number, Section_name, Key_name)
+      character*(*) function read_file_string_optional
+     :                       (unit_number, section_name, key_name)
 * ====================================================================
       implicit none
       dll_export read_file_string_optional
        include   'const.inc'           ! Constant definitions
  
 *+ Sub-Program Arguments
-       character  Key_name*(*)         ! (INPUT) Key name to search for
-       character  Section_name*(*)     ! (INPUT) name of section of file
+       character  key_name*(*)         ! (INPUT) Key name to search for
+       character  section_name*(*)     ! (INPUT) name of section of file
                                        ! for search.
-       integer    Unit_number          ! (INPUT) Unit number of open file
+       integer    unit_number          ! (INPUT) Unit number of open file
  
 *+ Purpose
 *      Read a parameter string from a file, opened on Unit_number, within
@@ -2501,43 +2689,43 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import read_key_from_section
       dll_import assign_string
       dll_import pop_routine
-       character  Read_key_from_section*(Function_string_len)
+       character  read_key_from_section*(function_string_len)
                                        ! function
-       logical Find_section_name       ! function
+       logical find_section_name       ! function
  
 *+ Constant Values
       character  myname*(*)            ! name of current procedure
       parameter (myname = 'read_file_string_optional')
 *
       logical no_multiple_keys         ! Don't read multiple keys
-      parameter (No_multiple_keys=.false.)
+      parameter (no_multiple_keys=.false.)
  
 *+ Local Variables
-       logical    Found                ! Found the key name ?
-       integer Record_num              ! Record number in file
-       character  Return_string*(Function_string_len)
+       logical    found                ! Found the key name ?
+       integer record_num              ! Record number in file
+       character  return_string*(function_string_len)
                                        ! Parameter string read from file
  
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
  
-      Found = Find_section_name (Unit_number, Record_num, Section_name)
+      found = find_section_name (unit_number, record_num, section_name)
  
-      if (Found) then
-          Return_string = Read_key_from_section
-     .        (Unit_number, Record_num, Section_name,
-     .         Key_name, No_multiple_keys)
+      if (found) then
+          return_string = read_key_from_section
+     .        (unit_number, record_num, section_name,
+     .         key_name, no_multiple_keys)
  
       else
          ! Cannot find the section name.
       endif
  
-      if (Found) then
-         call assign_string (Read_file_string_optional, Return_string)
+      if (found) then
+         call assign_string (read_file_string_optional, return_string)
  
       else
-         Read_file_string_optional = Blank
+         read_file_string_optional = blank
       endif
  
       call pop_routine (myname)
@@ -2546,18 +2734,20 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       logical function Find_section_name
-     .         (Unit_number, Record_num, Section_name)
+       logical function find_section_name
+     .         (unit_number, record_num, section_name)
 * ====================================================================
       implicit none
       dll_export find_section_name
       include 'const.inc'              ! constant definitions
  
 *+ Sub-Program Arguments
-      integer Unit_number              ! (INPUT) Unit number to read from
-      character Section_name*(*)       ! (INPUT) Section name to search for
-      integer Record_num               ! (OUTPUT) Current record number in file
+      integer unit_number              ! (INPUT) Unit number to read from
+      character section_name*(*)       ! (INPUT) Section name to search for
+      integer record_num               ! (OUTPUT) Current record number in file
  
 *+ Purpose
 *     Go find the section name on the specified open logical unit number.
@@ -2571,7 +2761,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *     line after the section name, sets "record" to that record
 *     number (i.e. the line number of the line after the section
 *     name), and returns .TRUE..  Otherwise it returns .FALSE.  
-
+ 
 *+  Mission Statement
 *      
  
@@ -2585,42 +2775,42 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import read_line
       dll_import get_section_name
       dll_import pop_routine
-      character Get_section_name*(Function_string_len)
+      character get_section_name*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      integer Ok_status                ! Read was ok
-      parameter (Ok_status=0)
+      integer ok_status                ! Read was ok
+      parameter (ok_status=0)
 *
-      character Routine_name*(*)       ! Name of this routine
-      parameter (Routine_name='Find_section_name')
+      character routine_name*(*)       ! Name of this routine
+      parameter (routine_name='Find_section_name')
  
 *+ Local Variables
-      character Line*(Function_string_len)
+      character line*(function_string_len)
                                        ! Line read from file
-      integer Read_status              ! Status of read_line
-      logical Section_found            ! Have we found the section ?
+      integer read_status              ! Status of read_line
+      logical section_found            ! Have we found the section ?
       character section_name_read*(function_string_len)
  
 *- Implementation Section ----------------------------------
  
-      call push_routine(Routine_name)
+      call push_routine(routine_name)
  
-      rewind (Unit_number)
-      Record_num = 1
+      rewind (unit_number)
+      record_num = 1
  
-      if (section_name .eq. No_section) then
+      if (section_name .eq. no_section) then
          ! we have no section specified - start at beginning of file
  
-         Section_found = .true.
+         section_found = .true.
  
       else
 10       continue
-         call Read_line (Unit_number, Record_num, Line, Read_status)
+         call read_line (unit_number, record_num, line, read_status)
  
-         if (Read_status .eq. Ok_status) then
+         if (read_status .eq. ok_status) then
             section_name_read = get_section_name (line)
-            If (section_name_read .ne. Section_name) then
+            if (section_name_read .ne. section_name) then
                if (index (section_name_read, 'weather').gt.4) then
                      ! don't look past weather section
                   section_found = .false.
@@ -2631,27 +2821,29 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
             else
                ! we have found the section we want
  
-               Section_found = .true.
+               section_found = .true.
             endif
          else
             ! we have trouble reading file - probably EOF
  
-            Section_found = .false.
+            section_found = .false.
          endif
       endif
  
-      Find_section_name = Section_found
+      find_section_name = section_found
  
-      call pop_routine(Routine_name)
+      call pop_routine(routine_name)
       return
       end
  
  
  
+
+
 * ====================================================================
-       character*(*) function Read_key_low_level
-     .    (Unit_number, Record_num,
-     .     Section_name, Key_name, Multiple_keys, Wrap_around)
+       character*(*) function read_key_low_level
+     .    (unit_number, record_num,
+     .     section_name, key_name, multiple_keys, wrap_around)
 * ====================================================================
       implicit none
       dll_export read_key_low_level
@@ -2659,12 +2851,12 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       include 'read.inc'
  
 *+ Sub-Program Arguments
-      integer Unit_number              ! (INPUT) Open unit number.
-      integer Record_num               ! (OUTPUT) Current record number in file
-      character Key_name*(*)           ! (INPUT) Key name to search for
-      character Section_name*(*)       ! (INPUT) Section name we're in.
-      logical Multiple_keys            ! (INPUT) Look for multiple keys ?
-      logical Wrap_around              ! (INPUT) Wrap around to top of section?
+      integer unit_number              ! (INPUT) Open unit number.
+      integer record_num               ! (OUTPUT) Current record number in file
+      character key_name*(*)           ! (INPUT) Key name to search for
+      character section_name*(*)       ! (INPUT) Section name we're in.
+      logical multiple_keys            ! (INPUT) Look for multiple keys ?
+      logical wrap_around              ! (INPUT) Wrap around to top of section?
  
 *+ Purpose
 *     Search an entire section for the key_name.  If Multiple_keys
@@ -2692,87 +2884,87 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import assign_string
       dll_import find_section_name
       dll_import pop_routine
-      character Get_data_string*(Function_string_len)
+      character get_data_string*(function_string_len)
                                        ! function
-      character Get_section_name*(Function_string_len)
+      character get_section_name*(function_string_len)
                                        ! function
-      logical Find_section_name        ! function
+      logical find_section_name        ! function
  
 *+ Constant Values
-      integer Ok_status                ! Status of read if ok
-      parameter (Ok_status=0)
+      integer ok_status                ! Status of read if ok
+      parameter (ok_status=0)
 *
-      character Routine_name*(*)       ! Name of this routine
-      parameter (Routine_name='Read_key_low_level')
+      character routine_name*(*)       ! Name of this routine
+      parameter (routine_name='Read_key_low_level')
  
 *+ Local Variables
-      logical End_section              ! Have we reached end of section?
-      logical Found                    ! Have we found the key ?
-      character Line*(Function_string_len)
+      logical end_section              ! Have we reached end of section?
+      logical found                    ! Have we found the key ?
+      character line*(function_string_len)
                                        ! Line read from file
-      integer Read_status              ! Status from read_line
+      integer read_status              ! Status from read_line
  
 *- Implementation Section ----------------------------------
  
-      call push_routine(Routine_name)
+      call push_routine(routine_name)
  
-      Read_key_low_level = Blank
+      read_key_low_level = blank
  
 20    continue
  
-      if (Searching_top_half .and.
-     .    Record_num .ge. Start_record_num) then
+      if (searching_top_half .and.
+     .    record_num .ge. start_record_num) then
          ! That's it - look no more.
  
-         Found = .false.
-         End_section = .true.
+         found = .false.
+         end_section = .true.
  
       else
  
-         call Read_line (Unit_number, Record_num, Line, Read_status)
+         call read_line (unit_number, record_num, line, read_status)
  
-         if (Read_status .eq. Ok_status) then
-            if (Get_section_name (Line) .eq. blank) then
-               Line = Get_data_string (Line, Key_name)
-               Found = (Line .ne. Blank)
-               End_section = .false.
+         if (read_status .eq. ok_status) then
+            if (get_section_name (line) .eq. blank) then
+               line = get_data_string (line, key_name)
+               found = (line .ne. blank)
+               end_section = .false.
             else
                ! We have reached the end of section
-               Found = .false.
-               End_section = .true.
+               found = .false.
+               end_section = .true.
  
             endif
          else
             ! We have reached the end of file
-            Found = .false.
-            End_section = .true.
+            found = .false.
+            end_section = .true.
          endif
       endif
  
-      if (Found) then
-         if (Multiple_keys) then
+      if (found) then
+         if (multiple_keys) then
  
-            e_message = Blank // Line
-            Line = e_message
+            e_message = blank // line
+            line = e_message
  
-            call append_string (Read_key_low_level, Line)
+            call append_string (read_key_low_level, line)
             goto 20
  
          else
-            call assign_string (Read_key_low_level, Line)
+            call assign_string (read_key_low_level, line)
          endif
  
-      else if (End_section) then
-         if (Searching_top_half) then
+      else if (end_section) then
+         if (searching_top_half) then
             ! We've reached our starting point - look no further.
  
-         else if (Wrap_around) then
+         else if (wrap_around) then
             ! We've reached the bottom of the section - rewind unit
             ! to start of section and keep looking.
  
-            Searching_top_half = .true.
-            Found = Find_section_name
-     .              (Unit_number, Record_num, Section_name)
+            searching_top_half = .true.
+            found = find_section_name
+     .              (unit_number, record_num, section_name)
             goto 20
          endif
  
@@ -2782,16 +2974,18 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
          goto 20
       endif
  
-      call pop_routine(Routine_name)
+      call pop_routine(routine_name)
       return
       end
  
  
  
+
+
 * ====================================================================
-       character*(*) function Read_key_from_section
-     .    (Unit_number, Record_num,
-     .     Section_name, Key_name, Multiple_keys)
+       character*(*) function read_key_from_section
+     .    (unit_number, record_num,
+     .     section_name, key_name, multiple_keys)
  
 * ====================================================================
       implicit none
@@ -2800,11 +2994,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       include 'read.inc'
  
 *+ Sub-Program Arguments
-      integer Unit_number              ! (INPUT) Open unit number.
-      integer Record_num               ! (OUTPUT) Current record number in file
-      character Key_name*(*)           ! (INPUT) Key name to search for
-      character Section_name*(*)       ! (INPUT) Section name we're in.
-      logical Multiple_keys            ! (INPUT) Look for multiple keys ?
+      integer unit_number              ! (INPUT) Open unit number.
+      integer record_num               ! (OUTPUT) Current record number in file
+      character key_name*(*)           ! (INPUT) Key name to search for
+      character section_name*(*)       ! (INPUT) Section name we're in.
+      logical multiple_keys            ! (INPUT) Look for multiple keys ?
  
 *+ Purpose
 *     Search an entire section for the key_name.  If Multiple_keys
@@ -2825,41 +3019,43 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Calls
       dll_import read_key_low_level
-      character Read_key_low_level*(Function_string_len)
+      character read_key_low_level*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical Do_wrap_around           ! Do wrap around section if necessary
-      parameter (Do_wrap_around=.true.)
+      logical do_wrap_around           ! Do wrap around section if necessary
+      parameter (do_wrap_around=.true.)
  
 *- Implementation Section ----------------------------------
  
-      Start_record_num = Record_num
-      Searching_top_half = .false.
+      start_record_num = record_num
+      searching_top_half = .false.
  
-      Read_key_from_section = Read_key_low_level
-     .   (Unit_number, Record_num, Section_name, Key_name,
-     .    Multiple_keys, Do_wrap_around)
+      read_key_from_section = read_key_low_level
+     .   (unit_number, record_num, section_name, key_name,
+     .    multiple_keys, do_wrap_around)
       return
       end
  
  
  
+
+
 * ====================================================================
-       character*(*) function Read_next_key_from_section
-     .    (Unit_number, Record_num,
-     .     Section_name, Key_name, Multiple_keys)
+       character*(*) function read_next_key_from_section
+     .    (unit_number, record_num,
+     .     section_name, key_name, multiple_keys)
 * ====================================================================
       implicit none
       dll_export read_next_key_from_section
       include 'const.inc'
  
 *+ Sub-Program Arguments
-      integer Unit_number              ! (INPUT) Open unit number.
-      integer Record_num               ! (OUTPUT) Current record number in file
-      character Key_name*(*)           ! (INPUT) Key name to search for
-      character Section_name*(*)       ! (INPUT) Section name we're in.
-      logical Multiple_keys            ! (INPUT) Look for multiple keys ?
+      integer unit_number              ! (INPUT) Open unit number.
+      integer record_num               ! (OUTPUT) Current record number in file
+      character key_name*(*)           ! (INPUT) Key name to search for
+      character section_name*(*)       ! (INPUT) Section name we're in.
+      logical multiple_keys            ! (INPUT) Look for multiple keys ?
  
 *+ Purpose
 *     Search an entire section for the key_name.  If Multiple_keys
@@ -2884,29 +3080,31 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Calls
       dll_import read_key_low_level
-      character Read_key_low_level*(Function_string_len)
+      character read_key_low_level*(function_string_len)
                                        ! function
  
 *+ Constant Values
-      logical Dont_wrap_around         ! Dont wrap around section
-      parameter (Dont_wrap_around=.true.)
+      logical dont_wrap_around         ! Dont wrap around section
+      parameter (dont_wrap_around=.true.)
  
 *- Implementation Section ----------------------------------
  
-      Read_next_key_from_section = Read_key_low_level
-     .   (Unit_number, Record_num, Section_name, Key_name,
-     .    Multiple_keys, Dont_wrap_around)
+      read_next_key_from_section = read_key_low_level
+     .   (unit_number, record_num, section_name, key_name,
+     .    multiple_keys, dont_wrap_around)
  
       return
       end
  
  
  
+
+
 * ====================================================================
-       subroutine Find_next_matching_section
-     .    (Current_module_name, Section_spec, Section_name,
-     .     Open_unit_num, Record_num, Exclude_file_num,
-     .     Exclude_section_name)
+       subroutine find_next_matching_section
+     .    (current_module_name, section_spec, section_name,
+     .     open_unit_num, record_num, exclude_file_num,
+     .     exclude_section_name)
 * ====================================================================
       implicit none
       dll_export find_next_matching_section
@@ -2914,15 +3112,15 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       include 'read.inc'
  
 *+ Sub-Program Arguments
-      character Current_module_name*(*) ! (INPUT) Name of current module
-      character Section_spec*(*)       ! (INTPUT) Section specifier to look for.
-      character Section_name*(*)       ! (OUTPUT) Real section name found in
+      character current_module_name*(*) ! (INPUT) Name of current module
+      character section_spec*(*)       ! (INTPUT) Section specifier to look for.
+      character section_name*(*)       ! (OUTPUT) Real section name found in
                                        ! file
-      integer Open_unit_num            ! (OUTPUT) Unit number of open file
-      integer Record_num               ! (OUTPUT) Current record number in file
-      integer Exclude_file_num         ! (INPUT) File number to exclude from
+      integer open_unit_num            ! (OUTPUT) Unit number of open file
+      integer record_num               ! (OUTPUT) Current record number in file
+      integer exclude_file_num         ! (INPUT) File number to exclude from
                                        ! search.
-      character Exclude_section_name*(*) ! (INPUT) Section name to exclude from
+      character exclude_section_name*(*) ! (INPUT) Section name to exclude from
                                         ! search.
  
 *+ Purpose
@@ -2947,73 +3145,73 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import get_file_section_list
       dll_import append_string
       dll_import get_control_file_section
-      dll_import open_file
+      dll_import open_file_for_read
       dll_import find_section_name
-      integer Open_file                ! function
-      logical Find_section_name        ! function
-      character Get_control_file_section*(Function_string_len)
+      integer open_file_for_read                ! function
+      logical find_section_name        ! function
+      character get_control_file_section*(function_string_len)
                                        ! function
  
 *+ Local Variables
-      character File_list(Max_files)*(Max_file_name_size)
+      character file_list(max_files)*(max_file_name_size)
                                        ! List of files for current module
-      integer Num_files                ! Number of files specified for module
-      character Section_list(Max_files)*(Max_section_name_size)
+      integer num_files                ! Number of files specified for module
+      character section_list(max_files)*(max_section_name_size)
                                        ! List of sections for current module
-      logical Section_found            ! Have we found the section yet?
+      logical section_found            ! Have we found the section yet?
  
 *- Implementation Section ----------------------------------
  
       ! Get all files/sections for current module
  
-      call Get_file_section_list
-     .    (Current_module_name, File_list, Section_list, Num_files)
+      call get_file_section_list
+     .    (current_module_name, file_list, section_list, num_files)
  
       ! Check to see if we've run out of sections to look in.
  
-      if (Search_section_index .ge. Num_files) then
+      if (search_section_index .ge. num_files) then
          ! No more sections left - exit
  
-         Open_unit_num = -1
+         open_unit_num = -1
  
       else
  
          ! Loop through each of the section names until one is found.
  
 10       continue
-         Search_section_index = Search_section_index + 1
+         search_section_index = search_section_index + 1
  
-         if (Search_section_index .gt. Num_files) then
+         if (search_section_index .gt. num_files) then
             ! Cannot find section - exit
  
-            Open_unit_num = -1
+            open_unit_num = -1
  
          else
             ! If our section spec is blank then we don't need to append
             ! the section spec to our section name.
  
-            Section_name = Section_list(Search_section_index)
-            if (Section_spec .eq. Blank) then
+            section_name = section_list(search_section_index)
+            if (section_spec .eq. blank) then
                ! Nothing to append to our search_section
  
             else
                ! Append the section name to the search section.
  
-               call append_string (Section_name, '.')
-               call append_string (Section_name, Current_module_name)
-               call append_string (Section_name, '.')
-               call append_string (Section_name, Section_spec)
+               call append_string (section_name, '.')
+               call append_string (section_name, current_module_name)
+               call append_string (section_name, '.')
+               call append_string (section_name, section_spec)
             endif
  
             ! Check for a blank file name in file_list.  If found then
             ! read from either control file1 or control file 2 depending
             ! on whether the section name = current control file section.
  
-            if (File_list(Search_section_index) .eq. Blank) then
-               if (Section_name .eq. Get_control_file_section()) then
-                  Open_unit_num = LU_Control_file
+            if (file_list(search_section_index) .eq. blank) then
+               if (section_name .eq. get_control_file_section()) then
+                  open_unit_num = lu_control_file
                else
-                  Open_unit_num = LU_Control_file2
+                  open_unit_num = lu_control_file2
                endif
  
             else
@@ -3021,33 +3219,33 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
                ! module is input and the section found was 'weather' then
                ! skip to next file/section.
  
-               if ((Current_module_name .eq. 'input' .or.
-     .           Current_module_name .eq. 'hardinpt') .and.
-     .           index(Section_name, Exclude_section_name) .gt. 0) then
+               if ((current_module_name .eq. 'input' .or.
+     .           current_module_name .eq. 'hardinpt') .and.
+     .           index(section_name, exclude_section_name) .gt. 0) then
                   goto 10
  
-               else if (Exclude_file_num .eq. Search_section_index)then
+               else if (exclude_file_num .eq. search_section_index)then
                   goto 10
  
                else
                   ! Not special case - open file
-                  Open_unit_num = Open_file
-     .               (File_list(Search_section_index))
+                  open_unit_num = open_file_for_read
+     .               (file_list(search_section_index))
                endif
  
             endif
  
             ! If nothing wrong with file then go find section
  
-            if (Open_unit_num .gt. 0) then
-               Record_num = 1
-               Section_found = Find_section_name
-     .                   (Open_unit_num, Record_num, Section_name)
-               if (Section_found) then
+            if (open_unit_num .gt. 0) then
+               record_num = 1
+               section_found = find_section_name
+     .                   (open_unit_num, record_num, section_name)
+               if (section_found) then
                   ! Found section - exit routine.
  
-                  Current_param_file_name = File_list
-     .                (Search_section_index)
+                  current_param_file_name = file_list
+     .                (search_section_index)
                else
                   ! Cannot find section - continue looking
  
@@ -3055,7 +3253,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 !DPH                  call Warning_error (ERR_user, E_Message)
  
  
-                  if (Open_unit_num .gt. LU_Control_file2) then
+                  if (open_unit_num .gt. lu_control_file2) then
                      close(open_unit_num)
                      open_unit_num = -1
  
@@ -3071,7 +3269,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
                ! Could'nt open file.  Fatal_error already been called.
                ! Simply exit.
  
-               Open_unit_num = -1
+               open_unit_num = -1
  
             endif
          endif
@@ -3082,8 +3280,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       subroutine Read_next_param_line (module_name, line, flag)
+       subroutine read_next_param_line (module_name, line, flag)
 * ====================================================================
       implicit none
       dll_export read_next_param_line
@@ -3123,7 +3323,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import read_param_line
       dll_import fatal_error
       dll_import pop_routine
-      integer Open_file_section   ! function
+      integer open_file_section   ! function
  
 *+ Constant Values
       integer end_flag
@@ -3139,21 +3339,21 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       parameter (start_flag = 1)
  
 *+ Local Variables
-      integer   Current_FileNo    ! index of current param file in
+      integer   current_fileno    ! index of current param file in
                                   ! file_list
-      character File_list(Max_files)*(Max_file_name_size)
+      character file_list(max_files)*(max_file_name_size)
                                    ! List of files for current module
       character last_module*(max_module_name_size)
                                    ! name of the module that last called
                                    ! this routine
-      integer Num_files            ! No. of files specified for module
-      character Section_list(Max_files)*(Max_section_name_size)
+      integer num_files            ! No. of files specified for module
+      character section_list(max_files)*(max_section_name_size)
                                    ! List of sections for current module
  
 *+ Initial Data Values
       save file_list
       save section_list
-      save Current_FileNo
+      save current_fileno
       save num_files
       save last_module
 *
@@ -3176,30 +3376,30 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
          call fill_char_array (file_list, blank, max_files)
          call fill_char_array (section_list, blank, max_files)
  
-         call Get_File_Section_List (module_name, File_List,
-     :               Section_List, Num_files)
+         call get_file_section_list (module_name, file_list,
+     :               section_list, num_files)
  
-         Current_FileNo = 1
+         current_fileno = 1
  
          ! close off current unit number if necessary.
  
-         if (Current_unit_num .gt. LU_Control_file2) then
+         if (current_unit_num .gt. lu_control_file2) then
             call close_unit(current_unit_num)
             current_unit_num = -1
          endif
  
 10       continue
-         If (num_files.gt.0 .and. Current_FileNo .le. num_files) then
+         if (num_files.gt.0 .and. current_fileno .le. num_files) then
  
-            Current_unit_num = Open_File_section (
-     :                               File_List(Current_FileNo),
-     :                               Section_List(Current_FileNo))
-            if (Current_unit_num .gt. 0) then
+            current_unit_num = open_file_section (
+     :                               file_list(current_fileno),
+     :                               section_list(current_fileno))
+            if (current_unit_num .gt. 0) then
                   ! we have started the search ok - go to it!!
  
-               call Read_param_line (Current_unit_num, File_List,
-     :                               Section_List,
-     :                               Num_Files, Current_FileNo, Line)
+               call read_param_line (current_unit_num, file_list,
+     :                               section_list,
+     :                               num_files, current_fileno, line)
  
 *DPH               write(msg, '(50a)' )
 *DPH     .            'File opened ok -> ',
@@ -3207,7 +3407,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *DPH               call Write_string(LU_Scr_sum, msg)
  
             else
-               Current_FileNo = Current_FileNo + 1
+               current_fileno = current_fileno + 1
                goto 10
             endif
  
@@ -3217,23 +3417,23 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
       else if (flag.eq.iterate_flag) then
  
-         call Read_param_line (Current_unit_num, File_List,
-     :                         Section_List,
-     :                         Num_Files, Current_FileNo, Line)
+         call read_param_line (current_unit_num, file_list,
+     :                         section_list,
+     :                         num_files, current_fileno, line)
  
       else if (flag.eq.end_flag) then
          line = blank
  
       else
-         call fatal_error(Err_internal, 'Bad flag value')
+         call fatal_error(err_internal, 'Bad flag value')
  
       endif
  
-      if (Line.eq.blank) then
+      if (line.eq.blank) then
          ! We have reached the end of the search - reset the last module flag
          ! so that we know to start from scratch next time
  
-         Last_Module = blank
+         last_module = blank
  
       else
       endif
@@ -3244,9 +3444,11 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       subroutine Read_Param_Line (LUN, File_List, Section_List,
-     :                  Num_Files, Current_FileNo, Line)
+       subroutine read_param_line (lun, file_list, section_list,
+     :                  num_files, current_fileno, line)
 * ====================================================================
       implicit none
       dll_export read_param_line
@@ -3254,12 +3456,12 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
        include 'read.inc'
  
 *+ Sub-Program Arguments
-       integer Current_FileNo
-       character File_List(*)*(*)
-       character Line*(*)
-       integer LUN
-       integer Num_Files
-       character Section_List(*)*(*)
+       integer current_fileno
+       character file_list(*)*(*)
+       character line*(*)
+       integer lun
+       integer num_files
+       character section_list(*)*(*)
  
 *+ Purpose
 *     <insert here>
@@ -3282,7 +3484,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
       dll_import close_unit
       dll_import open_file_section
       dll_import pop_routine
-       integer Open_File_section
+       integer open_file_section
        character get_section_name*(max_section_name_size)
  
 *+ Constant Values
@@ -3291,7 +3493,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Local Variables
        integer dummy
-       integer IOStatus
+       integer iostatus
        character section_name*(max_section_name_size)
  
 *- Implementation Section ----------------------------------
@@ -3299,24 +3501,24 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
       dummy = 0
   100 continue
-      call Read_Line (LUN, dummy, Line, IOStatus)
+      call read_line (lun, dummy, line, iostatus)
       section_name = get_section_name (line)
  
-      If ((IOStatus.ne.0).or.(section_name.ne.blank)) then
+      if ((iostatus.ne.0).or.(section_name.ne.blank)) then
  
-         if (LUN .ne. LU_Control_file2) then
-            call close_unit (LUN)
-            LUN = -1
+         if (lun .ne. lu_control_file2) then
+            call close_unit (lun)
+            lun = -1
          endif
  
 10       continue
-         If (Current_FileNo.lt.Num_Files) then
+         if (current_fileno.lt.num_files) then
  
-           Current_FileNo = Current_FileNo + 1
-           LUN = Open_File_section (
-     :                    File_List(Current_FileNo),
-     :                    Section_List(Current_FileNo))
-           If (LUN.gt.0) then
+           current_fileno = current_fileno + 1
+           lun = open_file_section (
+     :                    file_list(current_fileno),
+     :                    section_list(current_fileno))
+           if (lun.gt.0) then
               goto 100
            else
               goto 10
@@ -3324,7 +3526,7 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
          else
             ! search is finished - send blank string
-            Line = blank
+            line = blank
  
          endif
  
@@ -3338,8 +3540,10 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
  
  
+
+
 * ====================================================================
-       integer function Open_File_Section (file,section)
+       integer function open_file_section (file,section)
 * ====================================================================
       implicit none
       dll_export open_file_section
@@ -3368,15 +3572,15 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
 *+ Calls
       dll_import push_routine
       dll_import get_current_module
-      dll_import open_file
+      dll_import open_file_for_read
       dll_import assign_string
       dll_import append_string
       dll_import find_section_name
       dll_import close_unit
       dll_import fatal_error
       dll_import pop_routine
-      integer Open_File
-      logical Find_section_name
+      integer open_file_for_read
+      logical find_section_name
  
 *+ Constant Values
       character*(*) myname               ! name of current procedure
@@ -3384,65 +3588,65 @@ cjh      call assign_string (char_string_lower, lower_case (char_string))
  
 *+ Local Variables
       integer dummy
-      integer LUN
+      integer lun
       logical section_found
-      character Section_name*100       ! Section to search for
-      character Current_module_name*(Max_module_name_size)
+      character section_name*100       ! Section to search for
+      character current_module_name*(max_module_name_size)
                                        ! Name of current module
  
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      call Get_current_module(Current_module_name)
+      call get_current_module(current_module_name)
  
-      if (File .eq. ' ') then
-         LUN = LU_Control_file2
+      if (file .eq. ' ') then
+         lun = lu_control_file2
  
       else
-         LUN = Open_file (File)
+         lun = open_file_for_read (file)
       endif
  
-      If (LUN .gt. 0) then
+      if (lun .gt. 0) then
  
-          if (Section_suffix .eq. Blank) then
-             call assign_string (Section_name, Section)
+          if (section_suffix .eq. blank) then
+             call assign_string (section_name, section)
           else
-             call assign_string (Section_name, Section)
-             call append_string (Section_name, '.')
+             call assign_string (section_name, section)
+             call append_string (section_name, '.')
              call append_string
-     .             (Section_name, Current_module_name)
-             call append_string (Section_name, '.')
-             call append_string (Section_name, Section_suffix)
+     .             (section_name, current_module_name)
+             call append_string (section_name, '.')
+             call append_string (section_name, section_suffix)
           endif
  
-          Section_found = Find_section_name (LUN, Dummy,Section_name)
+          section_found = find_section_name (lun, dummy,section_name)
  
-          if (Section_found) then
+          if (section_found) then
              ! Got it - exit routine
  
-          else if (Section_suffix .eq. Blank) then
+          else if (section_suffix .eq. blank) then
 *DPH             e_message =
 *DPH     :            'Cannot find section '//trim(Section)
 *DPH     :          //' in file:- '//trim(File)
 *DPH             call Fatal_error (Err_Internal, e_message)
-             if (LUN .ne. LU_Control_file2) then
-                call close_unit (LUN)
+             if (lun .ne. lu_control_file2) then
+                call close_unit (lun)
              endif
-             LUN = 0
+             lun = 0
  
           else
-             if (LUN .ne. LU_Control_file2) then
-                call close_unit(LUN)
+             if (lun .ne. lu_control_file2) then
+                call close_unit(lun)
              endif
-             LUN = 0
+             lun = 0
           endif
  
        else
           e_message = 'Cannot open file:- '//trim(file)
-          call Fatal_error (Err_Internal, e_message)
+          call fatal_error (err_internal, e_message)
        endif
  
-      Open_file_section = LUN
+      open_file_section = lun
  
       call pop_routine (myname)
       return
