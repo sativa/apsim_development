@@ -14,12 +14,12 @@ class APSIMSoilpPublic
   unavailable_p           : APSIMRealArray      = Unavailable phosphorus content for each soil layer, (kg/ha), GET|READ
   banded_p                : APSIMRealArray      = Banded P content for each layer, (kg/ha), GET|READ|SET, 0.0, 1000.0
   rock_p                  : APSIMRealArray      = Rock P content for each layer ie. no water soluble, (kg/ha), GET|READ|SET, 0.0, 1000.0 
-  soil_test_p             : APSIMRealArray      = , (kg/ha), GET
-  biom_p                  : APSIMRealArray      = , (kg/ha), GET
-  hum_p                   : APSIMRealArray      = , (kg/ha), GET
-  fom_p                   : APSIMRealArray      = , (kg/ha), GET
-  fom_cp                  : APSIMRealArray      = , (kg/ha), GET
-  crop_p_uptake           : APSIMRealArray      = , (kg/ha), GET
+  soil_test_p             : APSIMRealArray      = Soil_test_p, (kg/ha), GET
+  biom_p                  : APSIMRealArray      = Biom_p, (kg/ha), GET
+  hum_p                   : APSIMRealArray      = Hum_p, (kg/ha), GET
+  fom_p                   : APSIMRealArray      = Fom_p, (kg/ha), GET
+  fom_cp                  : APSIMRealArray      = Fom_cp, (kg/ha), GET
+  crop_p_uptake           : APSIMRealArray      = P uptake by crop, (kg/ha), GET
   sorption                : APSIMRealArray      = Soils P sorption characteristic, (), READ, 0.0, 10000.0
   root_cp                 : APSIMReal           = C:P ratio of roots at initialisation, (), READ, 0.0, 300.0
   rate_dissol_rock_p      : APSIMReal           = Rate at which rock P source becomes available, (/yr), READ, 0.0, 1.0
@@ -43,9 +43,9 @@ class APSIMSoilpPublic
   ub_banded_p             : APSIMReal           = upper bound for banded P, (kg/ha), READ, 0.0, 1000.0
   lb_rock_p               : APSIMReal           = lower bound for rock P, (kg/ha), READ, 0.0, 100.0
   ub_rock_p               : APSIMReal           = lower bound for rock P, (kg/ha), READ, 0.0, 1000.0
-  dlt_labile_p            : APSIMRealArray      = , (kg/ha), SET, -1000.0, 1000.0
-  dlt_banded_p            : APSIMRealArray      = , (kg/ha), SET, -1000.0, 1000.0
-  dlt_rock_p              : APSIMRealArray      = , (kg/ha), SET, -1000.0, 1000.0
+  dlt_labile_p            : APSIMRealArray      = dlt_labile_p, (kg/ha), SET, -1000.0, 1000.0
+  dlt_banded_p            : APSIMRealArray      = dlt_banded_p, (kg/ha), SET, -1000.0, 1000.0
+  dlt_rock_p              : APSIMRealArray      = dlt_rock_p, (kg/ha), SET, -1000.0, 1000.0
   init                    : APSIMMethod         = Initialise
   sum_report              : APSIMMethod         = Output P module summary details
   process                 : APSIMMethod         = Timestep calculations in soil P
@@ -69,19 +69,19 @@ class APSIMSoilpExternal
   dul_dep                  : APSIMRealArray      = Drained upper limit in each soil layer, (mm), GET, 0.00001, 1000.0
   sat_dep                  : APSIMRealArray      = Soil water in each soil layer at saturation, (mm), GET, 0.00001, 1000.0
   bd                       : APSIMRealArray      = Bulk density in each soil layer, (g/cc), GET, 0.01, 3.0
-  dlt_fom_c_hum            : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_fom_c_biom           : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_fom_c_atm            : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_hum_c_biom           : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_hum_c_atm            : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_biom_c_hum           : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_biom_c_atm           : APSIMRealArray      = , (), GET, 0.0, 1000.0
-  dlt_res_c_biom           : APSIMRealArray      = , (), GET, 0.0, 10.0
-  dlt_res_c_hum            : APSIMRealArray      = , (), GET, 0.0, 10.0
-  dlt_res_c_atm            : APSIMReal           = , (), GET, 0.0, 1000.0
-  pot_residue_decomp       : APSIMRealArray      = , (mm), GET, 0.0, 1000.0
+  dlt_fom_c_hum            : APSIMRealArray      = dlt_fom_c_hum, (), GET, 0.0, 1000.0
+  dlt_fom_c_biom           : APSIMRealArray      = dlt_fom_c_biom, (), GET, 0.0, 1000.0
+  dlt_fom_c_atm            : APSIMRealArray      = dlt_fom_c_atm, (), GET, 0.0, 1000.0
+  dlt_hum_c_biom           : APSIMRealArray      = dlt_hum_c_biom, (), GET, 0.0, 1000.0
+  dlt_hum_c_atm            : APSIMRealArray      = dlt_hum_c_atm, (), GET, 0.0, 1000.0
+  dlt_biom_c_hum           : APSIMRealArray      = dlt_biom_c_hum, (), GET, 0.0, 1000.0
+  dlt_biom_c_atm           : APSIMRealArray      = dlt_biom_c_atm, (), GET, 0.0, 1000.0
+  dlt_res_c_biom           : APSIMRealArray      = dlt_res_c_biom, (), GET, 0.0, 10.0
+  dlt_res_c_hum            : APSIMRealArray      = dlt_res_c_hum, (), GET, 0.0, 10.0
+  dlt_res_c_atm            : APSIMReal           = dlt_res_c_atm, (), GET, 0.0, 1000.0
+  pot_residue_decomp       : APSIMRealArray      = pot_residue_decomp, (mm), GET, 0.0, 1000.0
   crop_type                : APSIMString         = Crop name, (), GET
-  rlv                      : APSIMRealArray      = , (mm/mm3), GET, 0.0, 1.0
+  rlv                      : APSIMRealArray      = Root length volume, (mm/mm3), GET, 0.0, 1.0
   demand                   : APSIMRealArray      = p demand for each crop, (kg/ha), GET, 0.0, 20.0
   biom_c                   : APSIMRealArray      = temporary array, (), GET, 0.0, 10000.0
   hum_c                    : APSIMRealArray      = temporary array, (), GET, 0.0, 100000.0
@@ -91,7 +91,7 @@ class APSIMSoilpExternal
 end 
 
 class APSIMSoilp
-   dll     : string
-   public  : APSIMSoilpPublic
-   private : APSIMSoilpExternal
+   dll      : string
+   public   : APSIMSoilpPublic
+   external : APSIMSoilpExternal
 end
