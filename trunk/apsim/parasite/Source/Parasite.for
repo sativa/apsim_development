@@ -1047,14 +1047,17 @@
 
                                   ! send out surface residue
          call new_postbox ()
-         call post_char_var ('dlt_residue_type',
+
+         call post_char_var ('name',
      :        '()', c%parasite_type)
-         call post_real_var ('dlt_residue_wt',
+         call post_char_var ('type',
+     :        '()', c%parasite_type)
+         call post_real_var ('mass',
      :        '(kg/ha)', dlt_residue_weight)
-         call post_real_var ('dlt_residue_n',
+         call post_real_var ('n',
      :        '(kg/ha)', dlt_residue_n)
 
-         call event_send ('add_residue')
+         call event_send ('add_surfaceom')
 
          call delete_postbox ()
 
