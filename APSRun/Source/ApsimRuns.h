@@ -38,6 +38,12 @@ class ApsimRuns
       void getFilesToRun(std::vector<std::string>& fileNames);
 
       //---------------------------------------------------------------------------
+      // Get the list of simulations to run for the specified control file.
+      //---------------------------------------------------------------------------
+      void getSimulationsToRun(const std::string& fileName,
+                               std::vector<std::string>& simulations);
+
+      //---------------------------------------------------------------------------
       // Set the list of simulations to run for the specified control file.
       //---------------------------------------------------------------------------
       void setSimulationsToRun(const std::string& fileName,

@@ -113,8 +113,7 @@ void TRunForm::fillSimulationList(void)
       previousRuns.getPreviousRun(fileNames[f], previousSimulations);
 
       vector<string> names;
-      ApsimControlFile con(fileNames[f]);
-      con.getAllSectionNames(names);
+      runs->getSimulationsToRun(fileNames[f], names);
       for (unsigned n = 0; n != names.size(); n++)
          {
          TTreeNode* node = simulationList->Items->AddChild(parentNode, names[n].c_str());
