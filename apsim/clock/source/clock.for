@@ -4,7 +4,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       use DataTypesModule
 
       integer, parameter :: MAX_EVENT_NAME_SIZE = 100
-      integer, parameter :: MAX_NUM_EVENTS = 50
+      integer, parameter :: MAX_NUM_EVENTS = 15
 
       type ClockData
          sequence
@@ -81,6 +81,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 !- Implementation Section ----------------------------------
 
       call do_registrations(ID)
+      call clock_read_timesteps()
 
       g%end_current_run = .false.
       return
@@ -161,7 +162,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *+  Calls
       integer :: registrationNameToID
       logical clock_read_params
-      logical  clock_read_timesteps
 
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
@@ -176,12 +176,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call push_routine (this_routine)
 
-      ok = clock_read_timesteps()
-
       ! read in all parameters for clock module.
-      if (ok) then
-         ok = clock_read_params ()
-      endif
+      ok = clock_read_params ()
 
       if (ok) then
          ! set the clock to start_day.
@@ -250,8 +246,6 @@ C     Last change:  E     5 Dec 2000    8:52 am
       integer numvals                  ! used in call to read_integer_var routine
       character date_st*(100)          ! string representation of date.
       logical found
-      character(len=MAX_EVENT_NAME_SIZE), dimension(MAX_NUM_EVENTS)
-     .     :: timestepEvents
       integer i
 
 *- Implementation Section ----------------------------------
@@ -302,7 +296,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       end
 
 * ====================================================================
-      logical function clock_read_timesteps ()
+      subroutine clock_read_timesteps ()
 * ====================================================================
       use ClockModule
       use DateModule
@@ -319,20 +313,38 @@ C     Last change:  E     5 Dec 2000    8:52 am
       parameter (This_routine='clcok_read_timesteps')
 
 *+  Local Variables
-      logical found
-      character(len=MAX_EVENT_NAME_SIZE), dimension(MAX_NUM_EVENTS)
-     .     :: timestepEvents
+      character(len=*), dimension(MAX_NUM_EVENTS)
+     .     , parameter :: timestepEvents
+     .   = (/'prepare                        ',
+     .       'DoMicromet                     ',
+     .       'process                        ',
+     .       'DoSurfaceWaterBalance          ',
+     .       'DoSoilWaterBalance             ',
+     .       'DoSoilTemperature              ',
+     .       'DoPotentialResidueDecomposition',
+     .       'DoCropgrowth                   ',
+     .       'DoSoilNitrogenBalance          ',
+     .       'DoSoilPhosphorusBalance        ',
+     .       'DoCropUpdate                   ',
+     .       'DoResidue                      ',
+     .       'DoErosion                      ',
+     .       'post                           ',
+     .       'rep                            '/)
       integer i
 
 *- Implementation Section ----------------------------------
 
       call push_routine(this_routine)
 
-      ! Read in all timestep events.
-      found = read_parameter('constants',
-     .                       'timestep_events',
-     .                       timestepEvents,
-     .                       g%numTimestepEvents)
+      ! timestep events are now hardcoded because windows won't let us
+      ! read from a clock.ini file.  Under NT platforms this file is
+      ! mapped to the registry, so when we read from a clock.ini, Windows
+      ! goes looking in the registry!  Thanks Bill!
+      g%numTimestepEvents = 15
+!      found = read_parameter('constants',
+!     .                       'timestep_events',
+!     .                       timestepEvents,
+!     .                       g%numTimestepEvents)
 
       ! Register all timestep events.
       do i=1, g%numTimestepEvents
@@ -340,10 +352,9 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .         (eventReg, timestepEvents(i), nullddml)
       enddo
 
-      clock_read_timesteps = found
       call pop_routine (this_routine)
       return
-      end function
+      end subroutine
 
 * ====================================================================
       subroutine clock_advance_clock ()
