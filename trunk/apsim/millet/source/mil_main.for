@@ -3743,7 +3743,7 @@ cejvo
       elseif (variable_name .eq. 'cep') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
-     :                             , - g%transpiration_tot)
+     :                             , g%transpiration_tot)
 
       elseif (variable_name .eq. 'sw_demand') then
          call respond2get_real_var (variable_name
