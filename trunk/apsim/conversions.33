@@ -4,3 +4,5 @@ command=SearchReplaceReportVariables(.today., .)
 [Added clock.ini to the module = clock line in the control file]
 command=AddParamFileToModule(clock,%apsuite\apsim\clock\clock.ini,standard)
 
+[Removed period '.' characters from report and tracker variables]
+command=RemovePeriodsInReportAndTracker()
