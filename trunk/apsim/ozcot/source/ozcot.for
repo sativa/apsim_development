@@ -1199,6 +1199,7 @@
       call push_routine (myname)
 
       if (myrecd.ne.blank) then
+         call publish_null(id%sowing)
 
          ! variety,seed depth,rowspace,plants per m row
 
@@ -6827,6 +6828,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call publish_null(id%harvesting)
 
 !      res_dm = (g%dw_total - g%openwt / g%rs ) * 10.
 !      res_dm = (g%dw_total - g%openwt) * 10.
