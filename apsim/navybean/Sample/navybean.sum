@@ -221,7 +221,7 @@
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   0.80   1.00
           y_hi_max_pot        =    0.45   0.45   0.45
-          x_stem_wt      =    0.00  50.00
+          x_stem_wt      =    0.00   5.00
           y_height      =    0.001000.00
           ------------------------------------------------
       
@@ -265,43 +265,43 @@
 30 November 1988 (Day of year=335):
    NAVYBEAN:
        stage    3.0 emergence
-                           biomass =           2.500000       lai =    0.8500000E-01
+                           biomass =           2.500000       lai =    0.1000000E-01
                            stover N conc =    6.000000       extractable sw =    23.20686
 31 December 1988 (Day of year=366):
    NAVYBEAN:
        stage    4.0 end_of_juvenile
-                           biomass =           251.0593       lai =     4.553534    
-                           stover N conc =    3.600655       extractable sw =    146.8080
+                           biomass =           102.2963       lai =     1.899063    
+                           stover N conc =    3.597973       extractable sw =    188.8938
 4 January 1989 (Day of year=4):
    NAVYBEAN:
        stage    5.0 floral_initiation
-                           biomass =           321.2463       lai =     5.653954    
-                           stover N conc =    3.267932       extractable sw =    171.1195
+                           biomass =           155.0565       lai =     2.848747    
+                           stover N conc =    3.253449       extractable sw =    220.1106
 7 January 1989 (Day of year=7):
    NAVYBEAN:
        stage    6.0 flowering
-                           biomass =           367.6975       lai =     6.180287    
-                           stover N conc =    3.001861       extractable sw =    169.6765
+                           biomass =           194.4011       lai =     3.422664    
+                           stover N conc =    2.921371       extractable sw =    221.1774
 9 January 1989 (Day of year=9):
    NAVYBEAN:
        stage    7.0 start_grain_fill
-                           biomass =           406.2654       lai =     6.469130    
-                           stover N conc =    2.918241       extractable sw =    153.3420
+                           biomass =           228.3277       lai =     3.789582    
+                           stover N conc =    2.852942       extractable sw =    206.1627
 20 February 1989 (Day of year=51):
    NAVYBEAN:
        stage    8.0 end_grain_fill
-                           biomass =           803.1239       lai =    0.8084865    
-                           stover N conc =    1.210614       extractable sw =    32.08934
+                           biomass =           725.1116       lai =     1.274588    
+                           stover N conc =    1.223159       extractable sw =    41.29498
 22 February 1989 (Day of year=53):
    NAVYBEAN:
        stage    9.0 maturity
-                           biomass =           806.6196       lai =    0.3058619    
-                           stover N conc =    1.220671       extractable sw =    125.9768
+                           biomass =           729.3766       lai =    0.8546219    
+                           stover N conc =    1.243470       extractable sw =    131.5853
 23 February 1989 (Day of year=54):
    NAVYBEAN:
        stage   10.0 harvest_ripe
-                           biomass =           806.6196       lai =    0.4768372E-06
-                           stover N conc =    1.230976       extractable sw =    124.5606
+                           biomass =           729.3766       lai =     0.000000    
+                           stover N conc =    1.273268       extractable sw =    129.9527
 24 February 1989 (Day of year=55):
    MANAGER:
            Manager sending message :- navybean harvest
@@ -309,26 +309,26 @@
       
       
       
-       flowering day  =    7                  stover (kg/ha) =    5232.6
-       maturity day        =   53             grain yield (kg/ha) =    2833.6
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    3220.0
+       flowering day  =    7                  stover (kg/ha) =    4734.1
+       maturity day        =   53             grain yield (kg/ha) =    2559.7
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    2908.7
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 6.864
-       total above ground biomass (kg/ha) =    8066.2
-       live above ground biomass (kg/ha) =    8066.2
-       green above ground biomass (kg/ha) =    5014.0
-       senesced above ground biomass (kg/ha) =    3052.2
+       grains/head =   0.0                    maximum lai = 5.423
+       total above ground biomass (kg/ha) =    7293.8
+       live above ground biomass (kg/ha) =    7293.8
+       green above ground biomass (kg/ha) =    4878.9
+       senesced above ground biomass (kg/ha) =    2414.8
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  24.5
-       grain N percent =      2.89            total N content (kg/ha) =    139.14
-       grain N uptake (kg/ha) =     81.78     senesced N content (kg/ha) =     30.52
-       green N content (kg/ha) =     26.84    dead N content (kg/ha) =      0.00
+       number of leaves =  20.7
+       grain N percent =      2.86            total N content (kg/ha) =    126.76
+       grain N uptake (kg/ha) =     73.08     senesced N content (kg/ha) =     24.15
+       green N content (kg/ha) =     29.53    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0035948
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0501814
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0024385
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0133514
       
       
       
@@ -351,16 +351,16 @@
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.3534984   nitrogen stress 1 =       0.1968519
-       water stress 2 =       0.4336474   nitrogen stress 2 =       0.3354392
+       water stress 1 =       0.1784755   nitrogen stress 1 =       0.1958101
+       water stress 2 =       0.2367472   nitrogen stress 2 =       0.3178792
    MANAGER:
            Manager sending message :- navybean end_crop
    NAVYBEAN:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 2779.1 kg/ha
-                                                root N =   41.9 kg/ha
+                                                root residue = 1639.4 kg/ha
+                                                root N =   23.4 kg/ha
 1 March 1989 (Day of year=60):
    CLOCK:
       Simulation is terminating due to end criteria being met.

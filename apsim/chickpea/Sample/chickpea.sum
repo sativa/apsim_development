@@ -221,7 +221,7 @@
           hi_incr                  =     0.0
           x_hi_max_pot_stress =    0.00   1.00
           y_hi_max_pot        =    0.50   0.50
-          x_stem_wt      =    0.00 300.00
+          x_stem_wt      =    0.00  10.00
           y_height      =    0.00 800.00
           ------------------------------------------------
       
@@ -270,38 +270,38 @@
 20 June 1988 (Day of year=172):
    CHICKPEA:
        stage    4.0 end_of_juvenile
-                           biomass =           18.54447       lai =    0.3509161    
-                           stover N conc =    4.387924       extractable sw =    143.8069
+                           biomass =           17.08382       lai =    0.2722035    
+                           stover N conc =    4.419270       extractable sw =    144.0450
 20 July 1988 (Day of year=202):
    CHICKPEA:
        stage    5.0 floral_initiation
-                           biomass =           109.1110       lai =     1.926988    
-                           stover N conc =    3.140202       extractable sw =    262.2651
+                           biomass =           91.80185       lai =     1.603042    
+                           stover N conc =    3.140203       extractable sw =    262.0494
 22 July 1988 (Day of year=204):
    CHICKPEA:
        stage    6.0 flowering
-                           biomass =           117.7731       lai =     2.041297    
-                           stover N conc =    3.032351       extractable sw =    266.1020
+                           biomass =           99.58762       lai =     1.715365    
+                           stover N conc =    3.024826       extractable sw =    266.0006
 23 August 1988 (Day of year=236):
    CHICKPEA:
        stage    7.0 start_grain_fill
-                           biomass =           339.3914       lai =     3.483564    
-                           stover N conc =    1.869664       extractable sw =    265.8324
+                           biomass =           309.4042       lai =     3.228600    
+                           stover N conc =    1.855037       extractable sw =    268.6628
 3 October 1988 (Day of year=277):
    CHICKPEA:
        stage    8.0 end_grain_fill
-                           biomass =           712.7514       lai =     2.290476    
-                           stover N conc =    1.725986       extractable sw =    198.4839
+                           biomass =           689.7218       lai =     2.482046    
+                           stover N conc =    1.724762       extractable sw =    199.0598
 5 October 1988 (Day of year=279):
    CHICKPEA:
        stage    9.0 maturity
-                           biomass =           735.0311       lai =     2.210343    
-                           stover N conc =    1.713321       extractable sw =    186.1912
+                           biomass =           712.8953       lai =     2.399598    
+                           stover N conc =    1.705077       extractable sw =    186.3214
 6 October 1988 (Day of year=280):
    CHICKPEA:
        stage   10.0 harvest_ripe
-                           biomass =           735.0311       lai =    0.7152557E-06
-                           stover N conc =    2.072937       extractable sw =    179.9153
+                           biomass =           712.8953       lai =    0.4768372E-06
+                           stover N conc =    1.770537       extractable sw =    179.8075
 7 October 1988 (Day of year=281):
    MANAGER:
            Manager sending message :- chickpea harvest
@@ -309,32 +309,32 @@
       
       
       
-       flowering day  =  204                  stover (kg/ha) =    4237.5
-       maturity day        =  279             grain yield (kg/ha) =    3112.8
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    3537.3
+       flowering day  =  204                  stover (kg/ha) =    4113.3
+       maturity day        =  279             grain yield (kg/ha) =    3015.7
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    3426.9
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 3.510
-       total above ground biomass (kg/ha) =    7350.3
-       live above ground biomass (kg/ha) =    7350.3
-       green above ground biomass (kg/ha) =    5903.1
-       senesced above ground biomass (kg/ha) =    1447.2
+       grains/head =   0.0                    maximum lai = 3.295
+       total above ground biomass (kg/ha) =    7129.0
+       live above ground biomass (kg/ha) =    7129.0
+       green above ground biomass (kg/ha) =    5694.9
+       senesced above ground biomass (kg/ha) =    1434.0
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves = 283.0
-       grain N percent =      3.60            total N content (kg/ha) =    177.14
-       grain N uptake (kg/ha) =    112.06     senesced N content (kg/ha) =      7.24
-       green N content (kg/ha) =     57.84    dead N content (kg/ha) =      0.00
+       number of leaves = 303.4
+       grain N percent =      3.60            total N content (kg/ha) =    177.51
+       grain N uptake (kg/ha) =    108.56     senesced N content (kg/ha) =     21.51
+       green N content (kg/ha) =     47.44    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0271633
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0497654
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0473070
       
       
       
        stress indices for end_of_juvenile
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0075823
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0032611
       
       
       
@@ -357,10 +357,10 @@
            Manager sending message :- chickpea end_crop
    CHICKPEA:
           ended. Yield (dw) =     0.0
-                                                straw residue =  360.6 kg/ha
-                                                straw N =    6.1 kg/ha
-                                                root residue = 1536.0 kg/ha
-                                                root N =   23.3 kg/ha
+                                                straw residue =    0.0 kg/ha
+                                                straw N =    0.0 kg/ha
+                                                root residue = 1400.2 kg/ha
+                                                root N =   21.2 kg/ha
 26 October 1988 (Day of year=300):
    CLOCK:
       Simulation is terminating due to end criteria being met.
