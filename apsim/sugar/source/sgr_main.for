@@ -1,4 +1,4 @@
-      include 'sugar.inc'
+!      include 'sugar.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
