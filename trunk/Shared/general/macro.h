@@ -10,14 +10,17 @@ using namespace std;
 class GENERAL_EXPORT Macro
    {
       public:
-         Macro(string Name);                     //Constructor
+         Macro(string Contents);                 //Constructor
          ~Macro();                               //Destructor
          void SetValues(list<string> Values);    //Directive to set macro values
-         void GetValues(list<string> Values);    //Return macro values
-         string MacroName;                       //The name of the macro
+         void GetValues(list<string>& Values);    //Return macro values
          void Translate(string& text);           //Directive to translate the given
-                                                 //text for the macro values
+         string MacroName;                       // Macro name
+         string MacroKey;                        // RAW Key e.g. $$nrate
       private:
          list<string> MacroValues;               //The list of macro values
+
+         void ParseContents(const string& Contents);
+
    };
 #endif

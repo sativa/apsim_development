@@ -10,15 +10,15 @@
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
-Macro::Macro(string Name):                                    //  CONSTRUCTOR
-   MacroName(Name)
+Macro::Macro(string Contents)                                 //  CONSTRUCTOR
 //---------------------------------------------------------------------------
 // Description:
 //    Constructor
 // Notes:
 //
    {
-      //Do nothing else
+   ParseContents(Contents);
+
    }
 //----------------------------------------------------------------------------
 Macro::~Macro()                                               //   DESTRUCTOR
@@ -41,7 +41,7 @@ void Macro::SetValues(list<string> Values)
    MacroValues = Values;
    }
 //----------------------------------------------------------------------------
-void Macro::GetValues(list<string> Values)
+void Macro::GetValues(list<string>& Values)
 //----------------------------------------------------------------------------
 // Description:
 //    Provide the list of macro values
@@ -69,7 +69,50 @@ void Macro::Translate(string& text)
       {
          // Now, add a copy of the original with macro substituted
          string workstr = original;
-         Replace_all(workstr,MacroName.c_str(),(*I).c_str());
+         Replace_all(workstr,MacroKey.c_str(),(*I).c_str());
          text+=workstr;
       }
    }
+
+//----------------------------------------------------------------------------
+void Macro::ParseContents(const string& Contents)
+//----------------------------------------------------------------------------
+// Description:
+//     Break up the contents string into description and values.
+// Notes:
+//
+   {
+   unsigned int posName = Contents.find("#name");
+   if (posName != string::npos)
+      {
+      int posEOL = Contents.find("\n", posName);
+      MacroName = Contents.substr(posName+strlen("#name"),
+                                  posEOL-posName-strlen("#name"));
+      Strip(MacroName, " ");
+      }
+   else
+      throw string("Cannot find macro name");
+
+   unsigned int posKey = Contents.find("#key");
+   if (posKey != string::npos)
+      {
+      int posEOL = Contents.find("\n", posKey);
+      MacroKey = Contents.substr(posKey+strlen("#key"),
+                                         posEOL-posKey-strlen("#key"));
+      Strip(MacroKey, " ");
+      }
+   else
+      throw string("Cannot find macro key");
+
+   unsigned int posValues = Contents.find("#values");
+   if (posValues != string::npos)
+      {
+      int posEOL = Contents.find("\n", posValues);
+      string MacroValuesString = Contents.substr(posValues+strlen("#values"),
+                                                 posEOL-posValues-strlen("#values"));
+      Split_string(MacroValuesString, " ", MacroValues);
+      }
+   else
+      MacroValues.erase(MacroValues.begin(), MacroValues.end());
+   }
+
