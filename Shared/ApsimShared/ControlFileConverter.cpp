@@ -600,7 +600,11 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                   paramFiles[par].setParamValues("variable", newVariables);
                }
             if (doneSomething)
+               {
                controlFile.setParameterValues(trackerInstanceName, "", "variable", trackerVariables);
+               controlFile.changeModuleName
+                  (trackerInstanceName, "tracker(" + trackerInstanceName + ")");
+               }
             }
          }
       }
