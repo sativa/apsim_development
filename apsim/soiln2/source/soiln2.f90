@@ -1815,7 +1815,7 @@ subroutine soiln2_init_calc ()
    do layer = 1,deepest_layer
       cum_depth = cum_depth + g%dlayer(layer)
       factor=min(1.0,divide((g%root_depth - previous_cum_depth),g%dlayer(layer),0.0))
-      root_distrib(layer) = exp (-3.0*min(1.0,cum_depth/g%root_depth))*factor
+      root_distrib(layer) = exp (-3.0*min(1.0,divide(cum_depth,g%root_depth,0.0)))*factor
       previous_cum_depth = cum_depth
    end do
 
@@ -2700,7 +2700,7 @@ real function soiln2_soiltemp_dampdepth ()
 
    wc = divide (sw_avail_tot, (ww*cum_depth), 1.0)
    wc = bound (wc, 0.0, 1.0)
-   wcf = (1.0  - wc) /(1.0 + wc)
+   wcf = divide((1.0  - wc),(1.0 + wc),0.0)
 
        ! Here b can range from -.69314 to -1.94575
        ! and f ranges from 1 to  0.142878
@@ -2936,7 +2936,7 @@ subroutine soiln2_min_residues (dlt_C_decomp, dlt_N_decomp, dlt_c_biom, dlt_c_hu
    ! Partition Additions of C and N to layers
 
    do layer = 1, min_layer
-      part_fraction = g%dlayer(layer)*fraction(layer)/c%min_depth
+      part_fraction = divide(g%dlayer(layer)*fraction(layer),c%min_depth,0.0)
       do residue = 1, g%num_residues
 
          ! now adjust carbon transformations etc.
@@ -2957,7 +2957,7 @@ subroutine soiln2_min_residues (dlt_C_decomp, dlt_N_decomp, dlt_c_biom, dlt_c_hu
          ! we have mineralisation into NH4
          ! distribute it over the layers
       do layer = 1, min_layer
-         part_fraction = g%dlayer(layer)*fraction(layer)/c%min_depth
+         part_fraction = divide(g%dlayer(layer)*fraction(layer),c%min_depth,0.0)
          dlt_nh4_min(layer) = dlt_n_min * part_fraction
       end do
 
@@ -3515,8 +3515,8 @@ subroutine soiln2_nitrification (layer, dlt_rntrf)
 
    ! get actual rate of nitrification for layer
    nh4ppm = g%nh4(layer)*soiln2_fac (layer)
-   opt_rate_ppm = c%nitrification_pot* nh4ppm / (nh4ppm + c%nh4_at_half_pot)
-   opt_rate = opt_rate_ppm/soiln2_fac(layer)
+   opt_rate_ppm = divide((c%nitrification_pot* nh4ppm),(nh4ppm + c%nh4_at_half_pot),0.0)
+   opt_rate = divide(opt_rate_ppm,soiln2_fac(layer),0.0)
    dlt_rntrf = pni * opt_rate
    nh4_avail = l_bound (g%nh4(layer) - g%nh4_min(layer), 0.0)
    dlt_rntrf = bound (dlt_rntrf, 0.0, nh4_avail)
