@@ -194,6 +194,8 @@ void Field::calcFieldWidth(protocol::Variant* variant, bool ok)
       fieldWidth = 15;
    fieldWidth = max(fieldWidth, VariableName.length() + 1);
    fieldWidth = max(fieldWidth, unit.length() + 1);
+   if (values.size() > 1)
+      fieldWidth += strlen("(xx)");
    }
 
 // ------------------------------------------------------------------
