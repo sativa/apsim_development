@@ -56,10 +56,10 @@ endif
 
 [test.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_day =  1   
-start_year =  1970   
-end_day =  21   
-end_year =  1970   
+simulation_start_day =  1   
+simulation_start_year =  1970   
+simulation_end_day =  21   
+simulation_end_year =  1970   
 
 
 [test.frmrpt.parameters]  
