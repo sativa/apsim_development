@@ -391,7 +391,7 @@ struct NewMet
    };
 inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const NewMet& newmet)
    {
-   messageData << newmet.maxt << newmet.mint << newmet.radn << newmet.rain << newmet.vp;
+   messageData << newmet.radn << newmet.maxt << newmet.mint << newmet.rain << newmet.vp;
    return messageData;
    }
 inline unsigned int memorySize(const NewMet& newmet)
