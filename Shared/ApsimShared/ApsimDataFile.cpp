@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <general\string_functions.h>
+#include <general\stl_functions.h>
 #include <general\inifile.h>
 
 #pragma package(smart_init)
@@ -29,9 +30,21 @@ void ApsimDataFile::open(void) throw(runtime_error)
    if (!FileExists(fileName.c_str()))
       throw runtime_error("Cannot open file: " + fileName + ". File doesn't exist");
 
-   in.open(fileName.c_str());
+   in.open(fileName.c_str(), ios::binary);
    readApsimHeader(in);
+   firstRecordPos = in.tellg();
    readNextRecord(in);
+   lookForDateField();
+   }
+//---------------------------------------------------------------------------
+// retrieve the next line from the input stream.
+//---------------------------------------------------------------------------
+istream& ApsimDataFile::getline(string& line)
+   {
+   std::getline(in, line);
+   if (line[line.size()-1] == '\r')
+      line.erase(line.size()-1);
+   return in;
    }
 //---------------------------------------------------------------------------
 // return a list of field names to caller.
@@ -91,6 +104,35 @@ bool ApsimDataFile::next(void)
    return readNextRecord(in);
    }
 //---------------------------------------------------------------------------
+// position at first record.
+//---------------------------------------------------------------------------
+bool ApsimDataFile::first(void)
+   {
+   in.seekg(firstRecordPos);
+   in.clear();
+   return readNextRecord(in);
+   }
+//---------------------------------------------------------------------------
+// advance to the last record.
+//---------------------------------------------------------------------------
+bool ApsimDataFile::last(void)
+   {
+   in.seekg(-1, ios::end);
+   in.clear();
+
+   // skip over any blank lines.
+   while (in && in.peek() == '\n' || in.peek() == '\r')
+      in.seekg(-1, ios::cur);
+
+   // skip to previous \n
+   while (in && in.peek() != '\n')
+      in.seekg(-1, ios::cur);
+
+   // move forward 1 char to get past the \n
+   in.seekg(1, ios::cur);
+   return readNextRecord(in);
+   }
+//---------------------------------------------------------------------------
 // return a list of constant names to caller.
 //---------------------------------------------------------------------------
 void ApsimDataFile::getConstantNames(std::vector<std::string>& names) const
@@ -122,7 +164,7 @@ void ApsimDataFile::readApsimHeader(istream& in) throw(runtime_error)
    // loop through all lines looking for heading line.
    string line, previousLine;
    bool foundHeadings = false;
-   while (!foundHeadings && getline(in, line))
+   while (!foundHeadings && getline(line))
       {
       unsigned posComment = line.find('!');
       if (posComment != string::npos)
@@ -162,7 +204,7 @@ void ApsimDataFile::readApsimHeader(istream& in) throw(runtime_error)
 bool ApsimDataFile::readNextRecord(istream& in) throw(runtime_error)
    {
    string line;
-   if (getline(in, line) && line.length() > 0)
+   if (getline(line) && line.length() > 0)
       {
       Split_string(line, " ", fieldValues);
       if (fieldValues.size() != fieldNames.size())
@@ -171,5 +213,67 @@ bool ApsimDataFile::readNextRecord(istream& in) throw(runtime_error)
       }
    else
       return false;
+   }
+// ------------------------------------------------------------------
+// Look at the columns names to see if we sufficient columns to
+// build a date.
+// ------------------------------------------------------------------
+void ApsimDataFile::lookForDateField(void)
+   {
+   vector<string>::iterator i;
+
+   // look for year column
+   i = find_if(fieldNames.begin(), fieldNames.end(),
+               CaseInsensitiveStringComparison("year"));
+   if (i != fieldNames.end())
+      yearI = i - fieldNames.begin();
+
+   // look for day column
+   i = find_if(fieldNames.begin(),
+               fieldNames.end(),
+               CaseInsensitiveStringComparison("day"));
+   if (i != fieldNames.end())
+      dayOfYearI = i - fieldNames.begin();
+
+   // look for day_of_month column
+   i = find_if(fieldNames.begin(),
+               fieldNames.end(),
+               CaseInsensitiveStringComparison("day_of_month"));
+   if (i != fieldNames.end())
+      dayOfMonthI = i - fieldNames.begin();
+
+   // look for month column
+   i = find_if(fieldNames.begin(),
+               fieldNames.end(),
+               CaseInsensitiveStringComparison("month"));
+   if (i != fieldNames.end())
+      monthI = i - fieldNames.begin();
+   }
+// ------------------------------------------------------------------
+// return the date on the current record.
+// ------------------------------------------------------------------
+TDateTime ApsimDataFile::getDate(void) const throw(std::runtime_error)
+   {
+   bool ok = (yearI != NULL &&
+           (dayOfYearI != NULL ||
+            (dayOfMonthI != NULL && monthI != NULL)));
+   if (!ok)
+      throw runtime_error("APSIM input files must have year and day OR day, "
+                          "month and year columns.");
+
+   int year = StrToInt(fieldValues[yearI].c_str());
+
+   if (dayOfYearI != NULL)
+      {
+      int dayOfYear = StrToInt(fieldValues[dayOfYearI].c_str());
+      TDateTime date(year, 1, 1);
+      return date + dayOfYear - 1;
+      }
+   else
+      {
+      int day = StrToInt(fieldValues[dayOfMonthI].c_str());
+      int month = StrToInt(fieldValues[monthI].c_str());
+      return TDateTime(year, month, day);
+      }
    }
 
