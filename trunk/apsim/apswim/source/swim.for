@@ -142,7 +142,6 @@ cnh               call warning_error(Err_internal,
 cnh     :            'swim will reduce timestep to solve water movement')
                   call write_event (
      :      'swim will reduce timestep to avoid error in water balance')
-               call apswim_diagnostics()
                goto 90
             endif
  
@@ -172,7 +171,6 @@ cnh      if(isol.ne.1.or.fail)go to 90
       if (fail) then
          call write_event (
      :   'Maximum iterations reached - swim will reduce timestep')
-         call apswim_diagnostics()
          goto 90
       endif
       if(isol.ne.1) then
