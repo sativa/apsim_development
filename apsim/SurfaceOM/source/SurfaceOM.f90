@@ -1,6 +1,6 @@
 module SurfaceOMModule
    use ComponentInterfaceModule
-   use Registrations 
+   use Registrations
 
 ! ====================================================================
 !     SurfaceOM constants
@@ -656,8 +656,13 @@ end subroutine
 
    ave_temp = (g%MetData%maxt + g%MetData%mint)/2.0
 
-   tf = divide (ave_temp, c%opt_temp, 0.0)**2.0
-   tf = bound (tf, 0.0, 1.0)
+   if (ave_temp.gt.0.0) then
+      tf = divide (ave_temp, c%opt_temp, 0.0)**2.0
+      tf = bound (tf, 0.0, 1.0)
+   else
+      ! it is too cold for decomposition
+      tf = 0.0
+   endif
 
    surfom_tf = tf
 
@@ -920,7 +925,7 @@ subroutine surfom_Leach (leach_rain)
    !  Calculate Leaching Fraction
    g%leaching_fr = divide(leach_rain,c%leach_rain_tot,0.0)
    g%leaching_fr = bound(g%leaching_fr,0.0,1.0)
-   
+
 
    ! Apply leaching fraction to all mineral pools
    ! Put all mineral NO3,NH4 and PO4 into top layer
@@ -938,7 +943,7 @@ subroutine surfom_Leach (leach_rain)
        else
        endif
    endif
-   
+
    ! Update globals
    g%SurfOM(1:g%Num_surfom)%no3=g%SurfOM(1:g%Num_surfom)%no3 * (1.-g%Leaching_Fr)
    g%SurfOM(1:g%Num_surfom)%nh4=g%SurfOM(1:g%Num_surfom)%nh4 * (1.-g%Leaching_Fr)
@@ -982,7 +987,7 @@ end subroutine
        SOMDecomp(residue)%P = Pot_P_decomp(residue)
        SOMDecomp(residue)%AshAlk = 0.0
    end do
-    
+
    call publish_SurfaceOrganicMatterDecomp(id%PotentialResidueDecompositionCalculated, SOMDecomp, g%num_surfom)
 
 
@@ -1287,9 +1292,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
    real       N_pool(MaxFr,max_layer)      ! total N in each Om fraction and layer (from all surfOM's) incorporated
    real       P_pool(MaxFr,max_layer)      ! total P in each Om fraction and layer (from all surfOM's) incorporated
    real       AshAlk_pool(MaxFr,max_layer) ! total AshAlk in each Om fraction and layer (from all surfOM's) incorporated
-   real       no3(max_layer)               ! total no3 to go into each soil layer (from all surfOM's) 
-   real       nh4(max_layer)               ! total nh4 to go into each soil layer (from all surfOM's) 
-   real       po4(max_layer)               ! total po4 to go into each soil layer (from all surfOM's) 
+   real       no3(max_layer)               ! total no3 to go into each soil layer (from all surfOM's)
+   real       nh4(max_layer)               ! total nh4 to go into each soil layer (from all surfOM's)
+   real       po4(max_layer)               ! total po4 to go into each soil layer (from all surfOM's)
    type (FPoolProfileLayerType), dimension(max_layer)::FPoolProfileLayer
 
 
@@ -1388,9 +1393,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
 
    end do
 
-      g%SurfOM(:)%no3 = g%SurfOM(:)%no3 * (1-F_incorp)      
-      g%SurfOM(:)%nh4 = g%SurfOM(:)%nh4 * (1-F_incorp)      
-      g%SurfOM(:)%po4 = g%SurfOM(:)%po4 * (1-F_incorp)      
+      g%SurfOM(:)%no3 = g%SurfOM(:)%no3 * (1-F_incorp)
+      g%SurfOM(:)%nh4 = g%SurfOM(:)%nh4 * (1-F_incorp)
+      g%SurfOM(:)%po4 = g%SurfOM(:)%po4 * (1-F_incorp)
 
    call pop_routine (my_name)
    return
@@ -1914,7 +1919,7 @@ subroutine surfom_Send_my_variable (Variable_name)
       call respond2get_real_var (variable_name, '(0-1)', factor)
 
    else if (Variable_name .eq. 'leaching_fr') then
-      
+
       call respond2get_real_var (variable_name, '(0-1)', g%leaching_fr)
 
    else
@@ -2332,7 +2337,7 @@ subroutine surfom_Sum_Report ()
    call write_string (string)
 
    do  i = 1,g%num_surfom
- 
+
       name = g%SurfOM(i)%name
       mass = sum(g%SurfOM(i)%Standing(1:MaxFr)%amount) + sum(g%SurfOM(i)%Lying(1:MaxFr)%amount)
       N = sum(g%SurfOM(i)%Standing(1:MaxFr)%N) + sum(g%SurfOM(i)%Lying(1:MaxFr)%N)

@@ -399,25 +399,25 @@ subroutine soiln2_read_param ()
       ! Get parameter file name from control file and open it
    if (.not. g%use_external_st) then
       ! only need to read these if soil temp is not external
-      call get_real_var_optional ( unknown_module,'amp','(oC)',g%amp,numvals,0.0,50.0)             
+      call get_real_var_optional ( unknown_module,'amp','(oC)',g%amp,numvals,0.0,50.0)
 
       if (numvals .ne.1) then
          g%use_external_tav_amp = .false.
-         call read_real_var (section_name, 'amp', '(oC)', g%amp, numvals, 0.0, 50.0)           
+         call read_real_var (section_name, 'amp', '(oC)', g%amp, numvals, 0.0, 50.0)
 
       else
          ! got amp from system ok
          g%use_external_tav_amp = .true.
       endif
 
-      call get_real_var_optional (unknown_module,'tav','(oC)',g%ave_temp,numvals,0.0,50.0)             
+      call get_real_var_optional (unknown_module,'tav','(oC)',g%ave_temp,numvals,0.0,50.0)
 
       if (numvals .ne.1) then
          if (g%use_external_tav_amp) then
             call fatal_error (err_internal, 'Default AMP with external TAV not permitted.')
          else
          endif
-         call read_real_var (section_name, 'tav', '(oC)', g%ave_temp, numvals, 0.0, 50.0)             
+         call read_real_var (section_name, 'tav', '(oC)', g%ave_temp, numvals, 0.0, 50.0)
 
       else
          ! got tav from system ok
@@ -429,11 +429,11 @@ subroutine soiln2_read_param ()
 
    endif
 
-   call read_real_var (section_name, 'root_cn', '()', g%root_cn, numvals, 0.0, 500.0)              
+   call read_real_var (section_name, 'root_cn', '()', g%root_cn, numvals, 0.0, 500.0)
 
 
    !dsg   Optionally read in CN ratio in each of the fractions
-   call read_real_array_optional (section_name, 'root_cn_pool', 3, '()', g%root_cn_pool, numvals, 0.0, 1000.0)            
+   call read_real_array_optional (section_name, 'root_cn_pool', 3, '()', g%root_cn_pool, numvals, 0.0, 1000.0)
 
    !dsg    Check if all values supplied.  If not use average C:N ratio in all pools
    if (numvals.lt.3) then
@@ -443,38 +443,38 @@ subroutine soiln2_read_param ()
    endif
 
 
-   call read_real_var (section_name, 'root_wt', '(kg/ha)', g%root_wt, numvals, 0.0, 100000.0)         
+   call read_real_var (section_name, 'root_wt', '(kg/ha)', g%root_wt, numvals, 0.0, 100000.0)
 
    call read_real_var_optional (section_name, 'root_depth', '(kg/ha)', g%root_depth, numvals, 0.0, 10000.0)
      ! dsg 180604 if 'root_depth' not provided, assume that 'root_wt' is distributed over whole profile
      if (numvals.eq.0) then
         g%root_depth = sum_real_array (g%dlayer, max_layer)
-     endif                        
+     endif
 
-   call read_real_var (section_name, 'soil_cn', '()', g%soil_cn, numvals, 5.0, 30.0)             
+   call read_real_var (section_name, 'soil_cn', '()', g%soil_cn, numvals, 5.0, 30.0)
 
-   call read_real_array (section_name, 'oc', max_layer, '(%)', g%oc, numvals, 0.01, 4.0)              
+   call read_real_array (section_name, 'oc', max_layer, '(%)', g%oc, numvals, 0.01, 4.0)
 
    if (.not. g%use_external_ph) then
-      call read_real_array (section_name, 'ph', max_layer, '()', g%ph, numvals, 3.5, 11.0)             
+      call read_real_array (section_name, 'ph', max_layer, '()', g%ph, numvals, 3.5, 11.0)
    endif
 
-   call read_real_array (section_name, 'fbiom', max_layer, '()', g%fr_biom_c, numvals, 0.0, 1.0)                 
+   call read_real_array (section_name, 'fbiom', max_layer, '()', g%fr_biom_c, numvals, 0.0, 1.0)
 
    call read_real_array ( &
-              section_name, 'finert', max_layer, '()', g%fr_inert_c, numvals, 0.0, 1.0)                 
+              section_name, 'finert', max_layer, '()', g%fr_inert_c, numvals, 0.0, 1.0)
 
-   call read_real_array (section_name, 'no3ppm', max_layer, '(ppm)', no3, numvals, 0.0, 300.0)               
+   call read_real_array (section_name, 'no3ppm', max_layer, '(ppm)', no3, numvals, 0.0, 300.0)
 
-   call read_real_array (section_name, 'nh4ppm', max_layer, '(ppm)', nh4, numvals, 0.0, 300.0)               
+   call read_real_array (section_name, 'nh4ppm', max_layer, '(ppm)', nh4, numvals, 0.0, 300.0)
 
-   call read_real_array_optional (section_name, 'ureappm', max_layer, '(ppm)', ureappm, numvals, 0.0, 600.0)               
+   call read_real_array_optional (section_name, 'ureappm', max_layer, '(ppm)', ureappm, numvals, 0.0, 600.0)
 
-   call read_real_var (section_name, 'enr_a_coeff', '()', c%enr_a_coeff, numvals, 1.0, 20.0)            
+   call read_real_var (section_name, 'enr_a_coeff', '()', c%enr_a_coeff, numvals, 1.0, 20.0)
 
-   call read_real_var (section_name, 'enr_b_coeff', '()', c%enr_b_coeff, numvals, 0.0, 20.0)            
+   call read_real_var (section_name, 'enr_b_coeff', '()', c%enr_b_coeff, numvals, 0.0, 20.0)
 
-   call read_char_var (section_name, 'profile_reduction', '()', string, numvals)            
+   call read_char_var (section_name, 'profile_reduction', '()', string, numvals)
 
    if (string(1:2) .eq. 'on') then
       g%p_n_reduction = on
@@ -822,19 +822,19 @@ subroutine soiln2_get_other_variables ()
 
    call push_routine (my_name)
 
-   call get_real_array (unknown_module, 'sw_dep', max_layer, '(mm)', g%sw_dep, numvals, 0.00001, 1000.0)         
-   call get_real_array (unknown_module, 'dlayer', max_layer, '(mm)', g%dlayer, numvals, 0.0, 10000.0)         
+   call get_real_array (unknown_module, 'sw_dep', max_layer, '(mm)', g%sw_dep, numvals, 0.00001, 1000.0)
+   call get_real_array (unknown_module, 'dlayer', max_layer, '(mm)', g%dlayer, numvals, 0.0, 10000.0)
 
     if (g%p_n_reduction.eq.on) then
       ! ONLY need soil loss if profile reduction is on
 
-      call get_real_var_optional (unknown_module,'soil_loss','(t/ha)',g%dlt_soil_loss,numvals,0.0,1000.0)              
+      call get_real_var_optional (unknown_module,'soil_loss','(t/ha)',g%dlt_soil_loss,numvals,0.0,1000.0)
    endif
 
    if (g%use_external_ph) then
       g%ph  = 0.0
 
-      call get_real_array (unknown_module, 'ph', max_layer, '()', g%ph, numvals, 3.5, 11.0)           
+      call get_real_array (unknown_module, 'ph', max_layer, '()', g%ph, numvals, 3.5, 11.0)
 
    endif
 
@@ -881,8 +881,8 @@ subroutine Soiln2_sendActualResidueDecompositionCalculated()
    g%soilp_dlt_res_c_hum(:) = 0.0
    g%soilp_dlt_res_c_biom(:) = 0.0
    g%soilp_dlt_org_p(:) = 0.0
-   c_summed_layer(:) = 0.0  
-   
+   c_summed_layer(:) = 0.0
+
    num_layers = count_of_real_vals (g%dlayer, max_layer)
 
    ! Potential decomposition was given to this module by a residue
@@ -919,7 +919,7 @@ subroutine Soiln2_sendActualResidueDecompositionCalculated()
 
      ! dsg 131004 soilp needs some stuff - very ugly process - needs to be streamlined
      !    create some variables which soilp can "get" - layer based arrays independant of residues
-     
+
        g%soilp_dlt_res_c_atm(:) = g%soilp_dlt_res_c_atm(:) +  g%dlt_res_c_atm(:,residue)
        g%soilp_dlt_res_c_hum(:) = g%soilp_dlt_res_c_hum(:) +  g%dlt_res_c_hum(:,residue)
        g%soilp_dlt_res_c_biom(:) = g%soilp_dlt_res_c_biom(:) +  g%dlt_res_c_biom(:,residue)
@@ -928,7 +928,7 @@ subroutine Soiln2_sendActualResidueDecompositionCalculated()
 
      ! dsg 131004  calculate the old dlt_org_p (from the old Decomposed event sent by residue2) for getting by soilp
        g%soilp_dlt_org_p(:) = c_summed_layer(:) * divide (sum(g%pot_P_decomp), sum(g%pot_C_decomp), 0.0)
- 
+
 
    call publish_SurfaceOrganicMatterDecomp(id%ActualResidueDecompositionCalculated, SurfaceOrganicMatterDecomp, g%num_residues)
 
@@ -1492,7 +1492,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    if (variable_name .eq. 'no3') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%no3, numvals, 0.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%no3, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
          call bound_check_real_var (g%no3(layer), g%no3_min(layer), g%no3(layer), 'g%NO3(layer)')
@@ -1502,7 +1502,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
       call fill_real_array (no3,0.0,max_layer)
 
-      call collect_real_array(variable_name, max_layer, '(ppm)', no3, numvals, c%no3ppm_min, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(ppm)', no3, numvals, c%no3ppm_min, 1000.0)
 
       do layer=1,numvals
          g%no3(layer) = divide (no3(layer), soiln2_fac (layer), 0.0)
@@ -1510,7 +1510,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'nh4') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%nh4, numvals, 0.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%nh4, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
          call bound_check_real_var (g%nh4(layer), g%nh4_min(layer), g%nh4(layer), 'g%NH4(layer)')
@@ -1520,7 +1520,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
       call fill_real_array (nh4, 0.0, max_layer)
 
-      call collect_real_array(variable_name, max_layer, '(ppm)', nh4, numvals, c%nh4ppm_min, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(ppm)', nh4, numvals, c%nh4ppm_min, 1000.0)
 
       do layer=1,numvals
          g%nh4(layer) = divide (nh4(layer), soiln2_fac (layer), 0.0)
@@ -1528,11 +1528,11 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'urea') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%urea, numvals, g_urea_min, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', g%urea, numvals, g_urea_min, 1000.0)
 
    elseif (variable_name .eq. 'dlt_no3') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals,-1000.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals,-1000.0, 1000.0)
 
       do layer = 1, numvals
          g%no3(layer) = g%no3(layer) + tarray(layer)
@@ -1541,7 +1541,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'dlt_nh4') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals,-1000.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals,-1000.0, 1000.0)
 
       do layer = 1, numvals
          g%nh4(layer) = g%nh4(layer) + tarray(layer)
@@ -1550,7 +1550,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'dlt_no3ppm') then
 
-      call collect_real_array(variable_name, max_layer, '(ppm)', tarray, numvals,-1000.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(ppm)', tarray, numvals,-1000.0, 1000.0)
 
       do layer = 1, numvals
          g%no3(layer) = g%no3(layer) + divide (tarray(layer), soiln2_fac (layer), 0.0)
@@ -1559,7 +1559,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'dlt_nh4ppm') then
 
-      call collect_real_array(variable_name, max_layer, '(ppm)', tarray, numvals,-1000.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(ppm)', tarray, numvals,-1000.0, 1000.0)
 
       do layer = 1, numvals
          g%nh4(layer) = g%nh4(layer)+ divide (tarray(layer), soiln2_fac (layer), 0.0)
@@ -1568,7 +1568,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'dlt_urea') then
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals,-1000.0, 1000.0)      
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals,-1000.0, 1000.0)
 
       do layer = 1, numvals
          g%urea(layer) = g%urea(layer) + tarray(layer)
@@ -1577,7 +1577,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
    elseif (variable_name .eq. 'n_reduction') then
 
-      call collect_char_var (variable_name, '()', string, numvals)          
+      call collect_char_var (variable_name, '()', string, numvals)
       if (string(1:2) .eq. 'on') then
          g%p_n_reduction = on
       else
@@ -1588,7 +1588,7 @@ subroutine soiln2_set_my_variable (variable_name)
    ! NIH - This works because there is no logical difference
    ! between the pool and it delta
 
-      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals, 0.0, 1000.0)       
+      call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals, 0.0, 1000.0)
 
       do layer = 1, numvals
          g%fom_n(layer) = g%fom_n(layer) + tarray(layer)
@@ -1604,7 +1604,7 @@ subroutine soiln2_set_my_variable (variable_name)
 
       if (numvals .eq. 1) then
 
-         call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals, 0.0, 1000.0)       
+         call collect_real_array(variable_name, max_layer, '(kg/ha)', tarray, numvals, 0.0, 1000.0)
 
          do layer = 1, numvals
             g%fom_c_pool(pool_num,layer) =g%fom_c_pool(pool_num,layer) + tarray(layer)
@@ -1657,35 +1657,35 @@ subroutine soiln2_read_constants ()
    call write_string (new_line//'   - Reading Constants')
 
 
-   call read_real_var (section_name, 'mcn', '()', c%mcn, numvals, 1.0, 50.0)             
+   call read_real_var (section_name, 'mcn', '()', c%mcn, numvals, 1.0, 50.0)
 
-   call read_real_var (section_name, 'ef_fom', '()', c%ef_fom, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'ef_fom', '()', c%ef_fom, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'fr_fom_biom', '()', c%fr_fom_biom, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'fr_fom_biom', '()', c%fr_fom_biom, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'ef_biom', '()', c%ef_biom, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'ef_biom', '()', c%ef_biom, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'fr_biom_biom', '()', c%fr_biom_biom, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'fr_biom_biom', '()', c%fr_biom_biom, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'ef_hum', '()', c%ef_hum, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'ef_hum', '()', c%ef_hum, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'rd_biom', '()', c%rd_biom, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'rd_biom', '()', c%rd_biom, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'rd_hum', '()', c%rd_hum, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'rd_hum', '()', c%rd_hum, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'ef_res', '()', c%ef_res, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'ef_res', '()', c%ef_res, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'fr_res_biom', '()', c%fr_res_biom, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'fr_res_biom', '()', c%fr_res_biom, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'rd_carb', '()', c%rd_fom(1), numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'rd_carb', '()', c%rd_fom(1), numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'rd_cell', '()', c%rd_fom(2), numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'rd_cell', '()', c%rd_fom(2), numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'rd_lign', '()', c%rd_fom(3), numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'rd_lign', '()', c%rd_fom(3), numvals, 0.0, 1.0)
 
-      call read_char_array (section_name, 'fom_type', max_fom_type, '()', g%fom_types, g%num_fom_types)  
+      call read_char_array (section_name, 'fom_type', max_fom_type, '()', g%fom_types, g%num_fom_types)
 
-   call read_real_array (section_name, 'fr_carb', max_fom_type, '()', c%fr_fom(1,:), numvals, 0.0, 1.0)              
+   call read_real_array (section_name, 'fr_carb', max_fom_type, '()', c%fr_fom(1,:), numvals, 0.0, 1.0)
 
    If (numvals.ne.g%num_fom_types) then
          ! We have an mismatch of type and data
@@ -1695,7 +1695,7 @@ subroutine soiln2_read_constants ()
    else
    endif
 
-   call read_real_array (section_name, 'fr_cell', max_fom_type, '()', c%fr_fom(2,:), numvals, 0.0, 1.0)                
+   call read_real_array (section_name, 'fr_cell', max_fom_type, '()', c%fr_fom(2,:), numvals, 0.0, 1.0)
 
    If (numvals.ne.g%num_fom_types) then
          ! We have an mismatch of type and data
@@ -1705,7 +1705,7 @@ subroutine soiln2_read_constants ()
    else
    endif
 
-   call read_real_array (section_name, 'fr_lign', max_fom_type, '()', c%fr_fom(3,:), numvals, 0.0, 1.0)                
+   call read_real_array (section_name, 'fr_lign', max_fom_type, '()', c%fr_fom(3,:), numvals, 0.0, 1.0)
 
    If (numvals.ne.g%num_fom_types) then
          ! We have an mismatch of type and data
@@ -1715,42 +1715,42 @@ subroutine soiln2_read_constants ()
    else
    endif
 
-   call read_real_var (section_name, 'oc2om_factor', '()', c%oc2om_factor, numvals, 0.0, 3.0)              
+   call read_real_var (section_name, 'oc2om_factor', '()', c%oc2om_factor, numvals, 0.0, 3.0)
 
-   call read_real_var (section_name, 'fom_min', '()', c%fom_min, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'fom_min', '()', c%fom_min, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'no3ppm_min', '()', c%no3ppm_min, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'no3ppm_min', '()', c%no3ppm_min, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'nh4ppm_min', '()', c%nh4ppm_min, numvals, 0.0, 1.0)              
+   call read_real_var (section_name, 'nh4ppm_min', '()', c%nh4ppm_min, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'min_depth', '(mm)', c%min_depth, numvals, 0.0, 1000.0)           
+   call read_real_var (section_name, 'min_depth', '(mm)', c%min_depth, numvals, 0.0, 1000.0)
 
-   call read_real_var (section_name, 'cnrf_coeff', '(mm)', c%cnrf_coeff, numvals, 0.0, 10.0)             
+   call read_real_var (section_name, 'cnrf_coeff', '(mm)', c%cnrf_coeff, numvals, 0.0, 10.0)
 
-   call read_real_var (section_name, 'cnrf_optcn', '(mm)', c%cnrf_optcn, numvals, 5.0, 100.0)            
+   call read_real_var (section_name, 'cnrf_optcn', '(mm)', c%cnrf_optcn, numvals, 5.0, 100.0)
 
-   call read_real_var (section_name, 'opt_temp', '(mm)', c%opt_temp, numvals, 5.0, 100.0)            
+   call read_real_var (section_name, 'opt_temp', '(mm)', c%opt_temp, numvals, 5.0, 100.0)
 
-   call read_real_array (section_name, 'wfmin_index', max_wf_values, '()', c%wf_min_index, numvals, 0.0, 2.0)              
+   call read_real_array (section_name, 'wfmin_index', max_wf_values, '()', c%wf_min_index, numvals, 0.0, 2.0)
 
-   call read_real_array (section_name, 'wfmin_values', max_wf_values, '(0-1)', c%wf_min_values, numvals, 0.0, 1.0)              
+   call read_real_array (section_name, 'wfmin_values', max_wf_values, '(0-1)', c%wf_min_values, numvals, 0.0, 1.0)
 
-   call read_real_array (section_name, 'wfnit_index', max_wf_values, '()', c%wf_nit_index, numvals, 0.0, 2.0)              
+   call read_real_array (section_name, 'wfnit_index', max_wf_values, '()', c%wf_nit_index, numvals, 0.0, 2.0)
 
-   call read_real_array (section_name, 'wfnit_values', max_wf_values, '(0-1)', c%wf_nit_values, numvals, 0.0, 1.0)              
+   call read_real_array (section_name, 'wfnit_values', max_wf_values, '(0-1)', c%wf_nit_values, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'nitrification_pot', '(ppm)', c%nitrification_pot, numvals, 0.0, 100.0)               
+   call read_real_var (section_name, 'nitrification_pot', '(ppm)', c%nitrification_pot, numvals, 0.0, 100.0)
 
-   call read_real_var (section_name, 'nh4_at_half_pot', '(ppm)', c%nh4_at_half_pot, numvals, 0.0, 200.0)               
+   call read_real_var (section_name, 'nh4_at_half_pot', '(ppm)', c%nh4_at_half_pot, numvals, 0.0, 200.0)
 
 
-   call read_real_array (section_name, 'phf_nit_ph', max_phf_values, '()', c%phf_nit_ph, numvals, 0.0, 14.)                 
+   call read_real_array (section_name, 'phf_nit_ph', max_phf_values, '()', c%phf_nit_ph, numvals, 0.0, 14.)
 
-   call read_real_array (section_name, 'pHf_nit_values', max_phf_values, '(0-1)', c%phf_nit_values, numvals, 0.0, 1.0)                 
+   call read_real_array (section_name, 'pHf_nit_values', max_phf_values, '(0-1)', c%phf_nit_values, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'dnit_rate_coeff', '(kg/mg)', c%dnit_rate_coeff, numvals, 0.0, 1.0)                 
+   call read_real_var (section_name, 'dnit_rate_coeff', '(kg/mg)', c%dnit_rate_coeff, numvals, 0.0, 1.0)
 
-   call read_real_var (section_name, 'dnit_wf_power', '()', c%dnit_wf_power, numvals, 0.0, 5.0)                 
+   call read_real_var (section_name, 'dnit_wf_power', '()', c%dnit_wf_power, numvals, 0.0, 5.0)
 
 
    call pop_routine (my_name)
@@ -1774,22 +1774,22 @@ subroutine soiln2_init_calc ()
 !+  Calls
 
 !+  Constant Values
-   character  my_name*(*)           
+   character  my_name*(*)
    parameter (my_name = 'soiln2_init_calc')
 !
-   real       ppm                   ! factor to convert parts to parts per 
-   parameter (ppm = 1000000.0)      !    million                           
-                                     
-!+  Local Variables                                        
-   real       cum_depth             ! cumulative depth of profile (mm)     
-   real       deepest_layer         ! deepest layer number to which initial root_wt is distributed          
+   real       ppm                   ! factor to convert parts to parts per
+   parameter (ppm = 1000000.0)      !    million
+
+!+  Local Variables
+   real       cum_depth             ! cumulative depth of profile (mm)
+   real       deepest_layer         ! deepest layer number to which initial root_wt is distributed
    real       previous_cum_depth    ! previous value of cum_depth as layer loop is stepped through (mm)
    real       factor                ! factor representing the proportion of layer into which the roots have delved
    real       fom                   ! fresh organic matter in layer (kg/ha)
-   integer    layer                 ! layer number in loop ()              
-   integer    i                     ! counter                              
-   integer    num_layers            ! number of layers used ()             
-   real       oc_ppm                ! soil organic carbon (ppm)            
+   integer    layer                 ! layer number in loop ()
+   integer    i                     ! counter
+   integer    num_layers            ! number of layers used ()
+   real       oc_ppm                ! soil organic carbon (ppm)
    real       root_distrib(max_layer) ! root distribution weighting over
                                     ! profile (0-1)
    real       ave_temp              ! averave temperature (oC)
@@ -1811,7 +1811,7 @@ subroutine soiln2_init_calc ()
 
    cum_depth = 0.0
    previous_cum_depth = 0.0
-   
+
    do layer = 1,deepest_layer
       cum_depth = cum_depth + g%dlayer(layer)
       factor=min(1.0,divide((g%root_depth - previous_cum_depth),g%dlayer(layer),0.0))
@@ -2144,7 +2144,7 @@ subroutine soiln2_incorp_fom ()
    if(numvals .eq. 0 .and. numvals_n .eq. 0) then
 
       dlt_fom_type = ' '
-      call collect_char_var_optional ('dlt_fom_type', '()', dlt_fom_type, numvals)          
+      call collect_char_var_optional ('dlt_fom_type', '()', dlt_fom_type, numvals)
 
       g%fom_type = Find_string_in_array (dlt_fom_type, g%fom_types, g%num_fom_types)
       if (g%fom_type.le.0) then
@@ -2286,7 +2286,7 @@ subroutine soiln2_incorp_min_n ()
    endif
 
    do layer = 1, numvals
-   
+
       g%no3(layer) = g%no3(layer) + dlt_no3_incorp(layer)
       g%nh4(layer) = g%nh4(layer) + dlt_nh4_incorp(layer)
    end do
@@ -2400,7 +2400,7 @@ subroutine soiln2_soil_temp (soil_temp)
       ! another module is supplying soil temperature
       g%soil_temp = 0.0
 
-      call get_real_array (unknown_module, 'ave_soil_temp', max_layer, '(oC)', g%soil_temp, numvals, -20.0, 80.0)           
+      call get_real_array (unknown_module, 'ave_soil_temp', max_layer, '(oC)', g%soil_temp, numvals, -20.0, 80.0)
 
 
    else
@@ -3826,11 +3826,15 @@ real function soiln2_tf (layer)
 
    ! alternative quadratic temperature function is preferred
    !  with optimum temperature (CM - used 32 deg)
-
-   tf = divide (g%soil_temp(layer)*g%soil_temp(layer), c%opt_temp**2.0, 0.0)
-
-   tf = bound (tf, 0.0, 1.0)
+   if (g%soil_temp(layer).gt.0.0) then
+      tf = divide (g%soil_temp(layer)*g%soil_temp(layer), c%opt_temp**2.0, 0.0)
+      tf = bound (tf, 0.0, 1.0)
+   else
+      ! Soil is too cold for mineralisation
+      tf = 0.0
+   endif
    soiln2_tf = tf
+
 
    call pop_routine (my_name)
    return
@@ -4145,7 +4149,7 @@ subroutine soiln2_check_data_supply ()
 
    call push_routine (my_name)
 
-   call get_real_var_optional (unknown_module, 'ave_soil_temp()', '(oC)', temp_var, numvals, -20.0, 80.0)         
+   call get_real_var_optional (unknown_module, 'ave_soil_temp()', '(oC)', temp_var, numvals, -20.0, 80.0)
 
    if(numvals .gt. 0.0)then
       ! another module owns soil temperature
@@ -4155,7 +4159,7 @@ subroutine soiln2_check_data_supply ()
       g%use_external_st = .false.
    endif
 
-   call get_real_var_optional (unknown_module, 'ph()', '()', temp_var, numvals, 3.5, 11.0)         
+   call get_real_var_optional (unknown_module, 'ph()', '()', temp_var, numvals, 3.5, 11.0)
 
    if(numvals .gt. 0.0)then
       ! another module owns soil ph
@@ -4305,9 +4309,9 @@ subroutine soiln2_get_site_variables ()
 
    call push_routine (my_name)
 
-   call get_real_var (unknown_module, 'latitude', '(degrees)', g%latitude, numvals, -60.0,  60.0)         
+   call get_real_var (unknown_module, 'latitude', '(degrees)', g%latitude, numvals, -60.0,  60.0)
 
-   call get_real_var (unknown_module, 'salb', '()', g%salb, numvals, 0.00001, 1.0)           
+   call get_real_var (unknown_module, 'salb', '()', g%salb, numvals, 0.00001, 1.0)
 
    call pop_routine (my_name)
    return
@@ -4491,7 +4495,7 @@ subroutine soiln2_Send_Cbalance_Event ()
       ! OC can increase by flows from residues
       ! ======================================
       c_from_residues = 0.0
-      
+
       do residue = 1, g%num_residues
          c_from_residues = c_from_residues+ g%dlt_res_c_biom(layer,residue)+ g%dlt_res_c_hum(layer,residue)
       end do
@@ -4549,17 +4553,17 @@ subroutine Soiln2_ONNew_Profile ()
 
    call fill_real_array (new_dlayer, 0.0, max_layer)
 
-   call collect_real_array(DATA_dlayer, max_layer, '(mm)', new_dlayer, numvals, 0.0, 1000.0)      
+   call collect_real_array(DATA_dlayer, max_layer, '(mm)', new_dlayer, numvals, 0.0, 1000.0)
 
-   call collect_real_array(DATA_ll15_dep, max_layer, '(mm)', g%ll15_dep, numvals, 0.0, 1000.0)      
+   call collect_real_array(DATA_ll15_dep, max_layer, '(mm)', g%ll15_dep, numvals, 0.0, 1000.0)
 
-   call collect_real_array(DATA_dul_dep, max_layer, '(mm)', g%dul_dep, numvals, 0.0, 1000.0)      
+   call collect_real_array(DATA_dul_dep, max_layer, '(mm)', g%dul_dep, numvals, 0.0, 1000.0)
 
-   call collect_real_array(DATA_sat_dep, max_layer, '(mm)', g%sat_dep, numvals, 0.0, 1000.0)      
+   call collect_real_array(DATA_sat_dep, max_layer, '(mm)', g%sat_dep, numvals, 0.0, 1000.0)
 
-   call collect_real_array(DATA_sw_dep, max_layer, '(mm)', g%sw_dep, numvals, 0.0, 1000.0)      
+   call collect_real_array(DATA_sw_dep, max_layer, '(mm)', g%sw_dep, numvals, 0.0, 1000.0)
 
-   call collect_real_array(DATA_bd, max_layer, '(g/cc)', g%bd, numvals, 0.01, 3.0)         
+   call collect_real_array(DATA_bd, max_layer, '(g/cc)', g%bd, numvals, 0.01, 3.0)
 
    call soiln2_check_profile (new_dlayer)
 
