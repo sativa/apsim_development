@@ -5,6 +5,7 @@
       dll_export apsim_sugar
       include   'sugar.inc'            !
       include   'const.inc'            ! mes_presence, mes_init, mes_process
+      include   'event.inc'
       include 'crp_comm.pub'                      
       include 'engine.pub'                        
       include 'error.pub'                         
@@ -101,8 +102,8 @@
             call message_unused ()
          endif
  
-      elseif (action.eq.MES_Inter_timestep) then
-         call sugar_zero_daily_variables ()
+      elseif (action.eq.EVENT_tick) then
+         call sugar_ONtick()
  
       elseif (action.eq.'graze') then
          call sugar_graze ()
@@ -1285,12 +1286,6 @@ cnh         call report_event (string)
  
       ! INPUT module
       ! ------------
-      call get_integer_var (unknown_module, 'day', '()'
-     :                                    , g_day_of_year, numvals
-     :                                    , 1, 366)
-      call get_integer_var (unknown_module, 'year', '()'
-     :                                    , g_year, numvals
-     :                                    , min_year, max_year)
       call get_real_var (unknown_module, 'latitude', '(oL)'
      :                                  , g_latitude, numvals
      :                                  , c_latitude_lb, c_latitude_ub)
@@ -3455,5 +3450,44 @@ cnh      c_crop_type = ' '
       return
       end
 
+*     ===========================================================
+      subroutine sugar_ONtick ()
+*     ===========================================================
+      implicit none
+      include   'sugar.inc'
+      include 'error.pub'
+      include 'event.pub'
+ 
+*+  Purpose
+*     Update internal time record and reset daily state variables.
+ 
+*+  Mission Statement
+*     Update internal time record and reset daily state variables.
+ 
+*+  Changes
+*        260899 nih 
+
+*+  Local Variables
+      character temp1*5
+      integer   temp2
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'sugar_ONtick')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      ! Note that time and timestep information is not required
+      ! and so dummy variables are used in their place.
+
+      call handler_ONtick(g_day_of_year, g_year, temp1, temp2)
+
+      call sugar_zero_daily_variables ()
+ 
+      call pop_routine (myname)
+      return
+      end
+ 
 
 
