@@ -2,8 +2,11 @@
 Dependency = %licensed_source(wheat)
 
 [Contents]
+cropmoddata.for = cropmoddata.for
+cropmod.for = cropmod.for
 ComponentInterface.for = ComponentInterface.for
-CropModMain.for = CropModMain.for
+
+
 
 [APSBuild]
 binary = ..\lib\CropMod.dll
