@@ -1,68 +1,134 @@
+      module CanopyModule
+! ====================================================================
+!     canopy constants
+! ====================================================================
+
+!   Short description:
+!      canopy module constants
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      201093 jngh programmed
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+      integer    max_crops                    ! maximum number of crops in at once
+      parameter (max_crops = 10)
+
+      integer    module_name_size             ! maximum length of module name
+      parameter (module_name_size = 8)
+
+
+      type CanopyGlobals
+         integer    canopy_index(max_crops) ! index to sorted canopy height ()
+         real       K_lai_green(max_crops)  ! k*green_lai of each crop ()
+         real       K_lai_total(max_crops)  ! k*total_lai of each crop ()
+         real       height(max_crops)       ! canopy height of crops (mm)
+         real       intc_light(max_crops)   ! fraction of light intercepted by each
+                                            ! crop canopy (0-1)
+         integer    num_canopies            ! number of canopies present ()
+         integer    num_crops               ! number of crops ()
+         real       top_layer_light(max_crops) ! fraction of light at top of
+                                                 ! each canopy layer (0-1)
+         character  intercrop_list(max_crops)*(module_name_size)  ! list of modules to
+                                                                    ! swap for
+                                                                    ! intercropping
+         character  crop_module(max_crops)*(module_name_size)     ! list of modules
+                                                                    ! replying
+
+      end type CanopyGlobals
+! ====================================================================
+      ! instance variables.
+      type (CanopyGlobals), pointer :: g
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type CanopyDataPtr
+         type (CanopyGlobals), pointer ::    gptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type CanopyDataPtr
+      type (CanopyDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+
+
+      contains
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
-       
+
       return
-      end
-     
+      end subroutine
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       return
-      end
-       
+      end subroutine
+
 *     ===========================================================
       subroutine Main (Action, Data_string)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -86,45 +152,45 @@
       parameter (my_name = 'canopy_main')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       if (Action.eq.ACTION_Get_variable) then
             ! respond to requests from other modules
          call canopy_send_my_variable (Data_string)
- 
+
       elseif (Action .eq. ACTION_Prepare) then
          call canopy_zero_variables ()
          call canopy_find_crops ()
          call canopy_get_other_variables ()
          call canopy_prepare ()
- 
+
       else if (Action .eq. ACTION_Post) then
          call canopy_post ()
- 
+
       else if (Action.eq.ACTION_Init) then
          call canopy_zero_all_variables ()
          call canopy_init ()
          call canopy_find_crops ()
 !         call canopy_get_other_variables ()
- 
-      else 
+
+      else
             ! Don't use message
- 
+
          call Message_unused ()
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_init ()
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -150,48 +216,48 @@
       integer    i                     ! loop counter
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! initialisation message
- 
+
       call Write_string (' Initialising')
- 
+
             ! now get intercropping swap list from control file
- 
+
       call read_char_array_optional (section_name
      :                   , 'intercrop', max_crops, '()'
      :                   , g%intercrop_list, num_modules)
- 
+
       call bound_check_integer_var (num_modules, 0, max_crops
      :                            , 'num_modules')
- 
+
          ! now report initial conditions
- 
+
       if (num_modules.gt.1) then
          write (line, '(a)')  ' Module rotation for intercropping :'
          call write_string (line)
- 
+
          write (line, '(100a)')  (g%intercrop_list(i), i=1, num_modules)
          call write_string (line)
- 
+
       else
          ! no swapping required
          write (line,'(a)')
      :             ' No module rotation for intercropping'
          call write_string (line)
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine canopy_find_crops ()
 * ====================================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -214,19 +280,19 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
       crop = 0
       crop_type = blank
 1000  continue
- 
+
          call get_char_vars(
      :             crop + 1
      :           , 'crop_type'
      :           , '()'
      :           , crop_type
      :           , numvals)
- 
+
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
@@ -241,19 +307,19 @@
             endif
          else
          endif
- 
+
       g%num_crops = crop
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_zero_all_variables ()
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -268,9 +334,9 @@
       parameter (my_name  = 'canopy_zero_all_variables')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       g%canopy_index = 0
       g%k_lai_total  = 0.0
       g%k_lai_green  = 0.0
@@ -283,16 +349,16 @@
       g%intercrop_list = blank
       g%crop_module    = blank
 
- 
+
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine canopy_zero_variables ()
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -307,29 +373,29 @@
       parameter (my_name  = 'canopy_zero_variables')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call fill_integer_array (g%canopy_index, 0, max_crops)
       call fill_real_array (g%k_lai_total, 0.0, max_crops)
       call fill_real_array (g%k_lai_green, 0.0, max_crops)
       call fill_real_array (g%height, 0.0, max_crops)
       call fill_real_array (g%intc_light, 0.0 ,max_crops)
       call fill_real_array (g%top_layer_light, 0.0, max_crops)
- 
+
       g%num_canopies = 0
       g%num_crops = 0
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_get_other_variables ()
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -357,18 +423,18 @@
       character  owner_module*(max_module_name_size) ! owner module of variable
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
              ! Get green cover of each crop
- 
+
       crop = 0
 1000  continue
- 
+
          call get_real_vars (crop+1, 'cover_green', '()'
      :                              , temp, numvals
      :                              , 0.0, 1.0)
- 
+
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
@@ -387,16 +453,16 @@
             endif
          else
          endif
- 
+
          if (crop.ne.g%num_crops) then
             call fatal_error (err_user
      :              , 'Number of modules with green cover different to '
      :              // 'number of modules with crop type.')
          else
          endif
- 
+
             ! Get total cover of each crop
- 
+
       crop = 0
 2000  continue
          call get_real_vars (crop+1, 'cover_tot', '(mm)'
@@ -425,16 +491,16 @@
             endif
          else
          endif
- 
+
          if (crop.ne.g%num_crops) then
             call fatal_error (err_user
      :              , 'Number of modules with total cover different to '
      :              // 'number of modules with green cover.')
          else
          endif
- 
+
             ! Get canopy heights
- 
+
       crop = 0
 3000  continue
          call get_real_vars (crop+1, 'height', '(mm)'
@@ -459,7 +525,7 @@
             endif
          else
          endif
- 
+
          if (crop.ne.g%num_crops) then
             call fatal_error (err_user
      :              , 'Number of modules with height different to '
@@ -468,14 +534,14 @@
          endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_send_my_variable (Variable_name)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -493,7 +559,7 @@
 *      021199 jngh added export of cover_tot_all and cover_height_all arrays
 
 *+  Calls
-      integer    canopy_crop_number    ! function
+c      integer    canopy_crop_number    ! function
 
 *+  Constant Values
       character  my_name*(*)           ! procedure name
@@ -518,11 +584,11 @@
       real       cover_green_all(max_crops) ! green cover of each crop (0-1)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       temp_variable_name = variable_name
- 
+
       if (temp_variable_name .eq. fr_intc_radn_name) then
          module_name = Variable_name(fr_intc_radn_name_length+1:)
          module = canopy_crop_number (module_name)
@@ -534,14 +600,14 @@
      :              , module_name
      :              // ' requested fr_intc_radn and does not '
      :              // 'have a canopy')
- 
+
          endif
- 
+
       else if (variable_name.eq.'cover_tot_sum') then
          cover = 1.0
      :         - exp (-sum_real_array (g%K_lai_total, g%num_crops))
          call respond2get_real_var (variable_name, '()', cover)
- 
+
       else if (variable_name.eq.'cover_tot_all') then
          cover_tot_all(:) = 0.0
          do 1000 module = 1, g%num_crops
@@ -550,16 +616,16 @@
 1000     continue
          call respond2get_real_array (variable_name, '()'
      :                                 , cover_tot_all, g%num_crops)
- 
+
       else if (variable_name.eq.'cover_height_all') then
          call respond2get_real_array (variable_name, '()', g%height
      :                                 , g%num_crops)
- 
+
       else if (variable_name.eq.'cover_green_sum') then
          cover = 1.0
      :         - exp (-sum_real_array (g%K_lai_green, g%num_crops))
          call respond2get_real_var (variable_name, '()', cover)
- 
+
       else if (variable_name.eq.'cover_green_all') then
          cover_tot_all(:) = 0.0
          do 2000 module = 1, g%num_crops
@@ -568,26 +634,26 @@
 2000     continue
          call respond2get_real_array (variable_name, '()'
      :                                 , cover_green_all, g%num_crops)
- 
+
       else if (variable_name.eq.'cover_crops_all') then
          call respond2get_char_array (variable_name, '()', g%crop_module
      :                                 , g%num_crops)
- 
+
       else
             ! don't own the variable
          call Message_unused ()
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        integer function canopy_crop_number (module_name)
 * ====================================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -610,31 +676,31 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       do 1000 crop = 1, g%num_crops
          if (module_name.eq.g%crop_module(crop)) then
             crop_num = crop
             goto 1100
          else
          endif
- 
+
 1000  continue
       crop_num = 0
- 
+
 1100  continue
- 
+
       canopy_crop_number = crop_num
- 
+
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine canopy_prepare ()
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -650,37 +716,37 @@
       parameter (my_name='canopy_prepare')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! determine crops with canopies now
- 
+
       call canopy_canopies_present (g%canopy_index, g%num_canopies)
- 
+
       if (g%num_canopies.gt.0) then
- 
+
                ! get light transmitted through each layer
- 
+
          call canopy_top_layer_light (g%top_layer_light)
- 
+
                ! get light intercepted by each crop canopy
- 
+
          call canopy_intc_light (g%intc_light)
- 
+
       else
             ! no canopies present
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_canopies_present (canopy_index, num_canopies)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -703,38 +769,38 @@
       real       temp1(max_crops)      ! temporary height array for counting
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! determine crops with canopies now
- 
+
             ! We put the heights into a temporary array as negative numbers,
             ! sort that into ascending order, with a key to their original
             ! position before sortine.  This gives us an index to the
             ! height array in descending order of height.
- 
+
       call fill_real_array (temp, 0.0, max_crops)
       call subtract_real_array (g%height, temp, max_crops)
       call fill_integer_array (canopy_index, 0, max_crops)
- 
+
             ! determine order of canopies from top down
- 
+
       call shell_sort_real (temp, -max_crops, canopy_index)
- 
+
       call fill_real_array (temp1, 0.0, max_crops)
       call subtract_real_array (temp, temp1, max_crops)
       num_canopies = count_of_real_vals (temp1, max_crops)
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_top_layer_light (layer_light)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -764,14 +830,14 @@
       integer    num_layers            ! number of layers in total canopy ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! initialise canopy light array and top of combined canopy
- 
+
       light_out = 1.0
       call fill_real_array (layer_light, 0.0, max_crops)
- 
+
             ! We define the layer boundaries by the top of each canopy.
             ! Thus thwre are as many layers as canopies.
             ! We now take each layer in turn from the top, in the combined
@@ -781,39 +847,39 @@
             ! that layer can be calculated, which is in turn the fraction
             ! entering the next layer below.
             ! The lai here is the lai of green and dead leaves.
- 
+
       num_layers = g%num_canopies
- 
+
             ! take each layer in turn from top.
- 
+
       do 1000 layer = 1, num_layers
          light_in = light_out
          layer_no = g%canopy_index(layer)
          layer_light(layer_no) = light_in
- 
+
                ! get the combined K*lai of the canopies.
- 
+
          call canopy_k_lai (K_lai_in_layer, g%K_lai_total, layer)
          K_lai_in_layer_sum = sum_real_array (K_lai_in_layer, max_crops)
- 
+
                ! now we can get the fraction of transmitted light
- 
+
                ! this equation implies that leaf interception of radiation
                ! obeys beer's law.
- 
+
          light_out = exp (-K_lai_in_layer_sum)*light_in
 1000  continue
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_intc_light (intc_light)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -846,63 +912,63 @@
       integer    num_layers            ! number of layers in total canopy ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call fill_real_array (intc_light, 0.0, max_crops)
- 
+
             ! Here we take each layer in turn from the top down, get the
             ! light used by the combined canopy and then apportion that
             ! to each canopy occupying the layer
- 
+
       num_layers = g%num_canopies
       do 2000 layer = 1, num_layers
- 
+
                ! get the combined K*lai of the canopies.
- 
+
          call canopy_k_lai (K_lai_in_layer, g%K_lai_green, layer)
          K_lai_in_layer_sum = sum_real_array (K_lai_in_layer, max_crops)
- 
+
                ! get the fraction of light used in the layer
- 
+
          layer_no = g%canopy_index(layer)
          light_in = g%top_layer_light(layer_no)
- 
+
                ! this equation implies that leaf interception of radiation
                ! obeys beer's law.
- 
+
          light_used_in_layer = (1.0 - exp (-K_lai_in_layer_sum))
      :                       * light_in
- 
+
                ! now we divide the total light used amongst the canopies
                ! occupying the layer.  This is done on the basis of the
                ! K*lai product_of of each canopy as its structure (K) must
                ! be taken into account.
- 
+
          do 1000 canopy_in_layer = 1, g%num_canopies
             crop = g%canopy_index(canopy_in_layer)
- 
+
 cjh            note that the fraction is of the total green - perhaps it
 cjh            should be of total tot. This method also ignores the shape
 cjh            of the canopies within the layer.
- 
+
             fr_light_intc = divide (K_lai_in_layer(crop)
      :                            , K_lai_in_layer_sum, 0.0)
             intc_light(crop) = intc_light(crop)
      :                       + fr_light_intc*light_used_in_layer
 1000     continue
 2000  continue
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine canopy_k_lai (K_lai_in_layer, K_lai, layer)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -919,7 +985,7 @@ cjh            of the canopies within the layer.
 *      201093 jngh specified and programmed
 
 *+  Calls
-      real       canopy_fract_canopy   ! function
+c      real       canopy_fract_canopy   ! function
 
 *+  Constant Values
       character  my_name*(*)           ! procedure name
@@ -931,32 +997,32 @@ cjh            of the canopies within the layer.
       integer    canopy                ! canopy counter in layer ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call fill_real_array (K_lai_in_layer, 0.0, max_crops)
- 
+
             ! now take each canopy in turn that possibly lies in the layer
             ! and get its K*lai product_of
- 
+
       canopies_in_layer = layer
       do 1000 canopy = 1, canopies_in_layer
          crop = g%canopy_index(canopy)
          K_lai_in_layer(crop) = canopy_fract_canopy (crop, layer)
      :                        * K_lai(crop)
- 
+
 1000  continue
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function canopy_fract_canopy (crop, layer)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -972,8 +1038,8 @@ cjh            of the canopies within the layer.
 
 *+  Calls
             ! describe the canopy shape as a function of height.
-      external   canopy_width
-      real       canopy_width          ! function
+c      external   canopy_width
+c      real       canopy_width          ! function
 
 *+  Constant Values
       character  my_name*(*)           ! procedure name
@@ -988,40 +1054,40 @@ cjh            of the canopies within the layer.
       real       total_canopy          ! area of total canopy ()
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! we get the heights of the top and bottom of the layer and
             ! then find the k_lai contained in each of the heights,
             ! the difference being the k_lai in the layer.
- 
+
       layer_no = g%canopy_index(layer)
       call bound_check_integer_var (layer+1, 0, max_crops, 'layer+1')
       next_layer = g%canopy_index(layer+1)
- 
+
       height_at_top = divide (g%height(layer_no)
      :                      , g%height(crop), 0.0)
       height_at_top = bound (height_at_top, 0.0, 1.0)
- 
+
       height_at_bottom = divide (g%height(next_layer)
      :                         , g%height(crop), 0.0)
       height_at_bottom = bound (height_at_bottom, 0.0, 1.0)
- 
+
       part_in_layer = integrate_real_lg (height_at_bottom, height_at_top
      :                                 , canopy_width)
       total_canopy = integrate_real_lg (0.0, 1.0, canopy_width)
- 
+
       canopy_fract_canopy = divide (part_in_layer, total_canopy, 0.0)
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       real function canopy_width (height_in_canopy)
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -1039,22 +1105,22 @@ cjh            of the canopies within the layer.
       parameter (my_name = 'canopy_width')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       canopy_width = height_in_canopy**5.0
- 
+
       call pop_routine (my_name)
- 
+
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine canopy_post ()
 *     ===========================================================
-      use CanopyModule
+
       Use Infrastructure
       implicit none
 
@@ -1072,19 +1138,20 @@ cjh            of the canopies within the layer.
       integer    num_in_list           ! number of names in crop list
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       num_in_list = count_of_char_vals (g%intercrop_list, max_crops)
       if (num_in_list.gt.1) then
          call Loader_ChangeComponentOrder(g%intercrop_list, num_in_list)
       else
          ! no swapping required
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
+      end module CanopyModule      
