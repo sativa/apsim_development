@@ -10,6 +10,7 @@
 #include <general\vcl_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
+#include <general\stl_functions.h>
 #include <general\inifile.h>
 #include <general\path.h>
 #include <ApsimShared\ApsimSettings.h>
@@ -240,7 +241,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
    else if (!weAreExpanding && node != NULL && Button == mbLeft)
       {
       ScenarioTree->Selected = node;
-      ScenarioTree->Selected->Expanded = !ScenarioTree->Selected->Expanded;
+//      ScenarioTree->Selected->Expanded = !ScenarioTree->Selected->Expanded;
       if (node->Parent != NULL)
          {
          // get factor name and value.
@@ -375,8 +376,18 @@ void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
 void __fastcall TDrill_down_form::RestoreLabelClick(TObject *Sender)
    {
    ApsimSettings settings;
+   vector<string> sections;
+   settings.getSectionNames(sections);
+
+   // Remove all sections that don't start with "Outlook Scenario "
+   vector<string> scenarioStrings;
+   for_each(sections.begin(), sections.end(),
+            MatchPartialStringAndStore<vector<string> >("Outlook Scenario ", scenarioStrings));
+
    vector<string> saved;
-   settings.read("Outlook Saved Scenarios|saved", saved);
+   for_each(scenarioStrings.begin(), scenarioStrings.end(),
+            RemoveSubStringAndStore<vector<string> >("Outlook Scenario ", saved));
+
    Stl_2_tstrings(saved, ScenarioSelectForm->ScenarioList->Items);
    if (ScenarioSelectForm->ShowModal())
       {
@@ -384,6 +395,36 @@ void __fastcall TDrill_down_form::RestoreLabelClick(TObject *Sender)
       Refresh();
       Caption = "Scenario set: " + ScenarioSelectForm->ScenarioList->Text;
       }
+   }
+//---------------------------------------------------------------------------
+// User has begun dragging a node in the scenario Tree - allow a drop here?
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::ScenarioTreeDragOver(TObject *Sender,
+      TObject *Source, int X, int Y, TDragState State, bool &Accept)
+   {
+   TTreeNode* nodeOver = ScenarioTree->GetNodeAt(X, Y);
+   Accept = (ScenarioTree->Selected->Level == 0
+             && (nodeOver == NULL || nodeOver->Level == 0));
+   }
+//---------------------------------------------------------------------------
+// User has dropped a scenario tree node.
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::ScenarioTreeDragDrop(TObject *Sender,
+      TObject *Source, int X, int Y)
+   {
+   TTreeNode* sourceNode = ScenarioTree->Selected;
+
+   TTreeNode* nodeOver = ScenarioTree->GetNodeAt(X, Y);
+   TTreeNode* newNode = ScenarioTree->Items->Insert(nodeOver, sourceNode->Text);
+   TTreeNode* childNode = sourceNode->getFirstChild();
+   while (childNode != NULL)
+      {
+      ScenarioTree->Items->AddChild(newNode, childNode->Text);
+      childNode = sourceNode->GetNextChild(childNode);
+      }
+
+   scenarios->moveScenario(sourceNode->Text.c_str(), nodeOver->Text.c_str());
+   ScenarioTree->Items->Delete(ScenarioTree->Selected);
    }
 //---------------------------------------------------------------------------
 
