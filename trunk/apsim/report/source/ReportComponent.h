@@ -2,40 +2,48 @@
 #ifndef ReportComponentH
 #define ReportComponentH
 #include <APSIMComponent.h>
-#include <APSIMReportVariables.h>
+#include <APSIMVariant.h>
+
 class Field
    {
    public:
-      Field (const string& ModuleName,
+      Field (EventInterface* eventInterface,
+             const string& ModuleName,
              const string& VariableName,
              const string& VariableAlias,
              bool CSVFormat);
 
-      void writeHeading(ostream& out);
-      void writeUnits(ostream& out);
-      void writeValue(ostream& out);
+      void init(void);
+
+      void writeHeading(std::ostream& out);
+      void writeUnits(std::ostream& out);
+      void writeValue(std::ostream& out);
+      void writeToSummary(void);
       void accumulateValue(void);
-      bool isFunction(void) {return (FunctionName.length() > 0);}
+      bool isFunction(void) const {return (FunctionName.length() > 0);}
 
    private:
-      string ModuleName;
-      string VariableName;
-      string VariableAlias;
-      string VariableUnits;
-      string FunctionName;
+      EventInterface* eventInterface;
+      std::string ModuleName;
+      std::string VariableName;
+      std::string VariableAlias;
+      std::string VariableUnits;
+      std::string FunctionName;
       int NumTimesAccumulated;
       bool CSVFormat;
 
       APSIMVariant::TypeCodesEnum VariableType;
       bool VariableFound;
       unsigned int NumElements;
+   public:
       vector<string> Values;
+   private:
       vector<double> FunctionValues;
 
       string truncateSt (const string& st, unsigned int Width);
       unsigned int getWidth();
       bool retrieveValue(void);
-      void WriteString (ostream& out, const string& st);
+      void WriteString (std::ostream& out, const string& st);
 
    };
 // ------------------------------------------------------------------
@@ -54,31 +62,33 @@ class Field
 class ReportComponent : public APSIMComponent
    {
    public:
-      ReportComponent(const string& Name)
-         : APSIMComponent(Name)
+      ReportComponent(const FString& name,
+                      IComputation& computation,
+                      const std::string& ssdl)
+         : APSIMComponent(name, computation, ssdl)
          {
          OutputOnThisDay = false;
          HaveAccumulatedVarsToday = false;
+         HaveWrittenHeadings = false;
          }
 
-      virtual void Init (void);
-      virtual bool GetVariable (const char* VariableName);
-      virtual bool DoAction(const char* Action);
+      virtual void init ();
+      virtual bool getVariable (const FString& VariableName);
+      virtual bool doAction(const FString& Action);
 
    private:
-      APSIMReportVariables Variables;
-      APSIMOutputFile Out;
+      APSIMOutputFile* Out;
       bool HaveAccumulatedVarsToday;
       bool OutputOnThisDay;
       list<Field> Fields;
       bool SomeFieldsAreFuntions;
       int DaysSinceLastReport;
       bool CSVFormat;
+      bool HaveWrittenHeadings;
 
       void Setup(void);
       void WriteLineOfOutput(void);
       void AccumulateVariables(void);
-
    };
 
 
