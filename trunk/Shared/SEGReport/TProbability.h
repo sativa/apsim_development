@@ -19,7 +19,7 @@ class TProbability : public TSEGTable
 
       void __fastcall setExceedence(bool exceedence);
       void __fastcall setFieldName(AnsiString fieldName);
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
 
    public:

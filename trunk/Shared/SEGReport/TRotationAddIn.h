@@ -20,7 +20,7 @@ class TRotationAddIn : public TSEGTable
       void __fastcall setCropNames(TStrings* cropNames);
       void __fastcall setAveragedFields(TStrings* averagedFields);
 
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
       bool isCropVariable(AnsiString fieldName) const;
       bool cropWasSown(AnsiString fieldName);

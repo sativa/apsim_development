@@ -16,7 +16,7 @@ class TApsimFileReader : public TSEGTable
       AnsiString reportDirectory;
 
       void __fastcall setFileNames(TStrings* apsimFiles);
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
       void readAndStoreFields(const std::string& filename) throw(std::runtime_error);
       void readAndStoreRecords(const std::string& filename,

@@ -19,7 +19,7 @@ class TExcel : public TSEGTable
       AnsiString __fastcall getPageName(void);
       void __fastcall setPageName(AnsiString pageName);
 
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
 
    public:

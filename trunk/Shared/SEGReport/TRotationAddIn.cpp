@@ -167,10 +167,14 @@ class YearValues
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TRotationAddIn::createFields(void) throw(runtime_error)
+bool TRotationAddIn::createFields(void) throw(runtime_error)
    {
    if (source != NULL)
+      {
       FieldDefs->Assign(source->FieldDefs);
+      return true;
+      }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.

@@ -73,7 +73,7 @@ void __fastcall TExcel::setPageName(AnsiString pageName)
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TExcel::createFields(void) throw(runtime_error)
+bool TExcel::createFields(void) throw(runtime_error)
    {
    if (xlsFileName != "" && pageName != "")
       {
@@ -86,10 +86,14 @@ void TExcel::createFields(void) throw(runtime_error)
       vector<string> fieldValues;
       getXLSRow(worksheet, 1, fieldNames);
       getXLSRow(worksheet, 2, fieldValues);
+
+      FieldDefs->Clear();
       addDBFields(this, fieldNames, fieldValues);
 
       worksheet->Release();
+      return true;
       }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
