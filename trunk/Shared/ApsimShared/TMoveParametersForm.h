@@ -15,10 +15,8 @@ class TMoveParametersForm : public TForm
 {
 __published:	// IDE-managed Components
    TLabel *Label1;
-   TLabel *Label2;
    TLabel *Label3;
    TAdvFileNameEdit *FileEdit;
-   TLabel *Label4;
    TButton *Button1;
    TButton *Button2;
 private:	// User declarations

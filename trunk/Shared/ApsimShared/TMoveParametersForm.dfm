@@ -4,7 +4,7 @@ object MoveParametersForm: TMoveParametersForm
   AutoScroll = False
   Caption = 'Control File Converter'
   ClientHeight = 199
-  ClientWidth = 359
+  ClientWidth = 368
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,44 +14,36 @@ object MoveParametersForm: TMoveParametersForm
   OldCreateOrder = False
   Position = poScreenCenter
   Scaled = False
+  DesignSize = (
+    368
+    199)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 19
-    Top = 16
-    Width = 227
-    Height = 13
-    Caption = 'APSIM 3 no longer supports parameters being in'
-  end
-  object Label2: TLabel
     Left = 16
-    Top = 32
-    Width = 319
-    Height = 13
+    Top = 8
+    Width = 329
+    Height = 97
+    Alignment = taCenter
     Caption = 
-      ' the control file. The APSIM control file converter will move th' +
-      'em out'
+      'APSIM 3 no longer supports parameters being in  the control file' +
+      '. The APSIM control file converter will move them out  automatic' +
+      'ally to another file.'
+    WordWrap = True
   end
   object Label3: TLabel
     Left = 16
-    Top = 88
+    Top = 120
     Width = 334
     Height = 13
     Caption = 
       'Please enter the name of a file where the parameters will be app' +
       'ended:'
   end
-  object Label4: TLabel
-    Left = 16
-    Top = 48
-    Width = 134
-    Height = 13
-    Caption = ' automatically to another file.'
-  end
   object FileEdit: TAdvFileNameEdit
     Left = 16
-    Top = 104
-    Width = 329
+    Top = 136
+    Width = 337
     Height = 21
     AutoFocus = False
     ErrorMarkerPos = 0
@@ -111,20 +103,22 @@ object MoveParametersForm: TMoveParametersForm
     DialogKind = fdOpen
   end
   object Button1: TButton
-    Left = 192
+    Left = 199
     Top = 168
     Width = 75
     Height = 25
+    Anchors = [akTop, akRight]
     Caption = '&Ok'
     Default = True
     ModalResult = 1
     TabOrder = 1
   end
   object Button2: TButton
-    Left = 272
+    Left = 282
     Top = 168
     Width = 75
     Height = 25
+    Anchors = [akTop, akRight]
     Caption = '&Cancel'
     ModalResult = 2
     TabOrder = 2
