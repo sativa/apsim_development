@@ -10,8 +10,6 @@ include base.interface
 class APSIMGraspPublic
 
    sysinit                 : APSIMMethod                = System initialise
-   prepare                 : APSIMMethod                = Message to prepare for process
-   process                 : APSIMMethod                = Message to process
 
 end
 
@@ -28,6 +26,9 @@ class APSIMGraspExternal
 
    add_residue             : APSIMAddResidueMethod      = Message to report a residue decomposition
 
+   prepare                 : APSIMEvent                 = Message to prepare for process
+   process                 : APSIMEvent                 = Message to process
+ 
 end
 
 class APSIMGrasp

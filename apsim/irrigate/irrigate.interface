@@ -30,7 +30,6 @@ class APSIMIrrigatePublic
    carry_over             : APSIMReal           = carry_over, (Ml), GET
 
    sysinit                : APSIMMethod         = System initialise
-   process                : APSIMMethod         = System process stage
    irrigate               : APSIMIrrigateMethod = Perform irrigation
    apply                  : APSIMApplyMethod    = Perform irrigation
 
@@ -53,6 +52,8 @@ class APSIMIrrigateExternal
 
    tick                   : APSIMClockTickEvent   = Tick event
    new_solute             : APSIMNewSoluteEvent   = New solute event
+   process                : APSIMEvent            = System process stage
+
 end
 
 class APSIMIrrigate

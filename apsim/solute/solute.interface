@@ -16,7 +16,6 @@ class APSIMSolutePublic
 
    create       : APSIMMethod         = System message to create
    sys_init     : APSIMMethod         = System init stage
-   process      : APSIMMethod         = System process stage   
 
    new_solute   : APSIMNewSoluteEvent = New solute event
 
@@ -32,6 +31,10 @@ end
 ; -----------------------------------------------------------
 class APSIMSoluteExternal
    dlayer  : APSIMRealArray = Depth of each layer, (mm), GET, 0, 1000
+
+   process      : APSIMEvent          = System process stage   
+
+
 end
 
 class APSIMSolute

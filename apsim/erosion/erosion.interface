@@ -41,7 +41,6 @@ class APSIMErosionPublic
 
 ; Main Actions
     sysinit                 : APSIMMethod         = System initialise
-    process                 : APSIMMethod         = System process stage
     end_run                 : APSIMMethod         = System end_run stage
  end
 ; -----------------------------------------------------------
@@ -61,6 +60,9 @@ class APSIMErosionExternal
     dlayer                  : APSIMRealArray        = thickness of layers in soil profile, (mm), GET, 0.0, 2000.0
     bd                      : APSIMRealArray        = moist bulk density of soil, (g/cm^3), GET, 0.0, 10.0
     dlt_dlayer              : APSIMRealArray        = Change in layer thicknesses in soil profile, (mm), SET
+
+    process                 : APSIMEvent            = System process stage
+
 end
 
 class APSIMErosion

@@ -7,9 +7,6 @@ include base.interface
 class APSIMOperatnsPublic
 
 sysinit                : APSIMMethod         = System Initialise
-prepare                : APSIMMethod         = System Prepare
-process                : APSIMMethod         = System Process
-post                   : APSIMMethod         = System Post
 
 end
 
@@ -20,8 +17,13 @@ end
 
 class APSIMOperatnsExternal
 
-  year                 : APSIMInteger        =  Current year, (), GET
-  day                  : APSIMInteger        =  Current day, (), GET
+year                   : APSIMInteger        =  Current year, (), GET
+day                    : APSIMInteger        =  Current day, (), GET
+
+prepare                : APSIMEvent          = System Prepare
+process                : APSIMEvent          = System Process
+post                   : APSIMEvent          = System Post
+
 
 end
 

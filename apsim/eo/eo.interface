@@ -73,8 +73,6 @@ class APSIMEoPublic
 
 ; Main routine actions
     sysinit                 : APSIMMethod         = System initialise
-    prepare                 : APSIMMethod         = System prepare stage
-    process                 : APSIMMethod         = System process stage
  
 end
 ; -----------------------------------------------------------
@@ -104,6 +102,11 @@ class APSIMEoExternal
     radn                    : APSIMReal             = incoming radiation, (MJ/m2), GET, 0.0, 100.0
     canopy_height           : APSIMReal             = height of canopy, (mm), GET_OPT, 0.0, 20000.0
     cover_green             : APSIMReal             = green canopy cover of crop, (), GET_OPT, 0.0, 1.0
+
+    prepare                 : APSIMEvent            = System prepare stage
+    process                 : APSIMEvent            = System process stage
+
+
 end
 
 class APSIMEo

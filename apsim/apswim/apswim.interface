@@ -1,0 +1,50 @@
+include base.interface
+
+; -----------------------------------------------------------
+; Apswim's public interface which other components may
+; use.  Contains:
+;    Properties which other components may get or set
+;    Methods which other components may call
+;    Events which other components may trap (or subscribe to)
+; -----------------------------------------------------------
+class APSIMApswimPublic
+
+   create                  : APSIMMethod                = System message to create
+   sysinit                 : APSIMMethod                = System initialise
+   reset                   : APSIMMethod                = System reset stage
+   sum_report              : APSIMSumReportMethod       = Report SoilWat module summary details
+   tillage                 : APSIMApswimTillageMethod   = Set up for CN reduction after tillage operation
+   end_run                 : APSIMMethod                = Message that run is to end
+
+end
+
+; -----------------------------------------------------------
+; Apswim's external interface which documents things in other 
+; components that this component uses.
+; Contains:
+;    Properties used in other components
+;    Methods called in other components
+;    Events from other components that this component uses.
+; -----------------------------------------------------------
+
+class APSIMApswimExternal
+
+   swim_timestep_preparation : APSIMSwimTimestepPreparationMethod  =  Message from APSWIM to SURFACE
+   pre_swim_timestep       : APSIMPreSwimTimestepMethod = Message from APSWIM to SURFACE
+   post_swim_timestep      : APSIMPostSwimTimestepMethod = Message from APSWIM to SURFACE
+
+   tick                    : APSIMClockTickEvent        = Change in the simulation system time and the duration of the new time step
+   new_solute              : APSIMNewSoluteEvent        = To notify all interested modules in the ownership of solutes by an individual module
+   irrigated               : APSIMIrrigatedEvent        = To notify all interested modules in an irrigation application which may/maynot include solutes
+   prepare                 : APSIMEvent                = Message to prepare for process
+   process                 : APSIMEvent                = Message to process
+   post                    : APSIMEvent                = Message sent after main process
+
+
+end
+
+class APSIMApswim
+   dll       : string
+   public    : APSIMApswimPublic
+   External  : APSIMApswimExternal
+end
