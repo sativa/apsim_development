@@ -59,6 +59,11 @@ class Registrations
       std::string getName(unsigned componentId, unsigned regId, RegistrationType type);
 
       //---------------------------------------------------------------------------
+      // Return the id of a registration given a name.
+      //---------------------------------------------------------------------------
+      unsigned find(unsigned componentId, const string& regName, RegistrationType type);
+
+      //---------------------------------------------------------------------------
       // Get the destination id of registration.
       //---------------------------------------------------------------------------
       unsigned getDestId(unsigned componentId, unsigned regId, RegistrationType type);

@@ -320,7 +320,8 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
       unsigned destID = registerData.destID;
       unsigned posPeriod = regName.find('.');
 
-      if (posPeriod != string::npos)
+      if (registerData.kind != RegistrationType::respondToGet
+          && posPeriod != string::npos)
          {
          string componentName = regName.substr(0, posPeriod);
          if (Str_i_Eq(componentName.c_str(), name))
@@ -409,17 +410,10 @@ void Coordinator::onPublishEventMessage(unsigned int fromID, PublishEventData& p
 // ------------------------------------------------------------------
 void Coordinator::onTerminateSimulationMessage(void)
    {
-   if (parentID == 0)
-      {
-      notifyTermination();
-      for (Components::iterator componentI = components.begin();
-                                componentI != components.end();
-                                componentI++)
-         sendMessage(newNotifyTerminationMessage(componentID,
-                                                 componentI->second->ID));
-      }
-   else
+   if (componentID != parentID)
       sendMessage(newTerminateSimulationMessage(componentID, parentID));
+   else
+      notifyTermination();
    doTerminate = true;
    }
 // ------------------------------------------------------------------
@@ -453,17 +447,9 @@ void Coordinator::sendQueryValueMessage(unsigned fromID, unsigned regID)
       if (subs.size() == 0)
          {
          string regName = registrations.getName(fromID, regID, RegistrationType::get);
-         string fqn = itoa(registrations.getDestId(fromID, regID, RegistrationType::get));
-         fqn += "." + regName;
-         bool havePolled = (variablesBeenPolledForGets.find(fqn)
-            != variablesBeenPolledForGets.end());
-         if (!havePolled)
-            {
-            variablesBeenPolledForGets.insert(fqn);
-            unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
-            pollComponentsForGetVariable(regName, destID);
-            registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
-            }
+         unsigned destID = registrations.getDestId(fromID, regID, RegistrationType::get);
+         pollComponentsForGetVariable(regName, destID);
+         registrations.getSubscriptions(fromID, regID, RegistrationType::get, subs);
          }
 
       previousGetValueCompID.push(fromID);
@@ -621,7 +607,7 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
             {
             variablesBeenPolledForSets.insert(fqn);
             unsigned destID = registrations.getDestId(ourComponentID, ourRegID, RegistrationType::set);
-            pollComponentsForSetVariable(regName, destID, ourComponentID, ourRegID, variant);
+            pollComponentsForSetVariable(regName, destID, foreignComponentID, foreignRegID, variant);
             registrations.getSubscriptions(ourComponentID, ourRegID, RegistrationType::set, subs);
             return;
             }
@@ -687,21 +673,30 @@ unsigned Coordinator::componentNameToID(const std::string& name)
 void Coordinator::pollComponentsForGetVariable(const string& variableName,
                                                unsigned destID)
    {
-   string lowerName = variableName;
-   To_lower(lowerName);
-   if (destID > 0)
+   string fqn = itoa(destID) + string(".") + variableName;
+
+   bool havePolled = (variablesBeenPolledForGets.find(fqn)
+      != variablesBeenPolledForGets.end());
+   if (!havePolled)
       {
-      sendMessage(newApsimGetQueryMessage(componentID, destID,
-                                          lowerName.c_str()));
-      }
-   else
-      {
-      for (Components::iterator i = components.begin();
-                                i != components.end();
-                                i++)
+      variablesBeenPolledForGets.insert(fqn);
+
+      string lowerName = variableName;
+      To_lower(lowerName);
+      if (destID > 0)
          {
-         sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
+         sendMessage(newApsimGetQueryMessage(componentID, destID,
                                              lowerName.c_str()));
+         }
+      else
+         {
+         for (Components::iterator i = components.begin();
+                                   i != components.end();
+                                   i++)
+            {
+            sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
+                                                lowerName.c_str()));
+            }
          }
       }
    }
@@ -891,18 +886,41 @@ bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValue
 // ------------------------------------------------------------------
 void Coordinator::notifyTermination(void)
    {
-/*   if (printReport)
+   for (Components::iterator componentI = components.begin();
+                             componentI != components.end();
+                             componentI++)
+      sendMessage(newNotifyTerminationMessage(componentID,
+                                              componentI->second->ID));
+   }
+// ------------------------------------------------------------------
+// A parent PM has asked us to provide a registration for the
+// specified variable.
+// ------------------------------------------------------------------
+void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
+   {
+   string fqn = asString(apsimGetQueryData.name);
+   unsigned posPeriod = fqn.find('.');
+   if (posPeriod != string::npos)
       {
-      string msg = "---------- Registrations for: ";
-      msg += name;
-      msg += "----------";
-      writeString(msg.c_str());
+      string componentName = fqn.substr(0, posPeriod);
+      unsigned childComponentID = componentNameToID(componentName);
+      if (childComponentID != INT_MAX)
+         {
+         string variableName = fqn.substr(posPeriod+1);
+         std::vector<Registration> matches;
+         registrations.findMatching(childComponentID, variableName, RegistrationType::respondToGet, matches);
+         if (matches.size() == 0)
+            pollComponentsForGetVariable(variableName, childComponentID);
 
-      string reportContents;
-      registrations.printReport(reportContents);
-      writeString(reportContents.c_str());
-
-      writeString("--------------------");
+         matches.erase(matches.begin(), matches.end());
+         registrations.findMatching(childComponentID, variableName, RegistrationType::respondToGet, matches);
+         if (matches.size() > 0)
+            {
+            unsigned parentRegId = addRegistration(RegistrationType::respondToGet,
+                                                   fqn.c_str(),
+                                                   "<type/>");
+            registrations.add(Registration(parentID, parentRegId, variableName, RegistrationType::get));
+            }
+         }
       }
-*/   }
-
+   }
