@@ -315,7 +315,6 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       // can pick it up.
       contents.insert(posAddIn+19, " " + destinationMDB);
       ini.Write_section_contents("addins", contents);
-      ShowMessage(contents.c_str());
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
 
       // now remove our modification to the .ini file.
