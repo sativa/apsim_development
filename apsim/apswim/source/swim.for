@@ -779,7 +779,8 @@ cnh         if(g%psi(p%n).ge.0.)then
          end if
       else if(p%ibbc.eq.4)then
 **       flux calculated according to head difference from water table
-         headdiff = g%psi(p%n) - p%water_table_depth/10d0   ! cm
+         headdiff = g%psi(p%n) - p%x(p%n) + p%water_table_depth/10d0   ! cm
+     :
          g%q(p%n+1)= headdiff*p%water_table_conductance
          qp1(p%n+1)=psip(p%n)*p%water_table_conductance
       end if

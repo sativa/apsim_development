@@ -1384,7 +1384,7 @@ c     :              1.0d0)
      :           '(oC)',
      :           g%maxt,
      :           numvals,
-     :           -10.0,
+     :           -50.0,
      :           70.0)
       call get_real_var (
      :           unknown_module,
@@ -1392,7 +1392,7 @@ c     :              1.0d0)
      :           '(oC)',
      :           g%mint,
      :           numvals,
-     :           -20.0,
+     :           -50.0,
      :           50.0)
 
 c      ! get potential evapotranspiration
