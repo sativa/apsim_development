@@ -6,9 +6,13 @@
 #include <string>
 #include <sstream>
 #include <general\string_functions.h>
+#include <general\io_functions.h>
 #include <general\path.h>
 #include <general\exec.h>
 using namespace std;
+
+string outFile;
+string tempBPGFile;
 
 // ------------------------------------------------------------------
 // Convert a BPR file.
@@ -68,32 +72,32 @@ void convertBPG(const string& filename)
    infile.close();
 
    // look for the BORLAND lines and replace with ours.
-   static const char* borlandLines1 = "  $(ROOT)\\bin\\bpr2mak $**\n"
-                                      "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -f$*.mak";
-   static const char* borlandLines2 = "  $(ROOT)\\bin\\bpr2mak -t$(ROOT)\\bin\\deflib.bmk $**\n"
-                                      "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -f$*.mak";
-   static const char* ourLines1 = "  $(ROOT)\\bin\\bpr2mak $** >tmp.tmp\n"
-                                  "  cd $(**D)\n"
-                                  "  echo ------Compiling $**------\n"
-                                  "  echo ------Compiling $**------ >> \\build\\build.out\n"
-                                  "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -s -f$*.mak >> \\build\\build.out\n"
-                                  "  cd $$$$\n"
-                                  "  del tmp.tmp";
+   string borlandLines1 = "  $(ROOT)\\bin\\bpr2mak $**\n"
+                          "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -f$*.mak";
+   string borlandLines2 = "  $(ROOT)\\bin\\bpr2mak -t$(ROOT)\\bin\\deflib.bmk $**\n"
+                          "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -f$*.mak";
+   string ourLines1 = "  $(ROOT)\\bin\\bpr2mak $** >tmp.tmp\n"
+                      "  cd $(**D)\n"
+                      "  echo ------Compiling $**------\n"
+                      "  echo ------Compiling $**------ >> " + outFile + "\n"
+                      "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -s -f$*.mak >> " + outFile + "\n"
+                      "  cd $$$$\n"
+                      "  del tmp.tmp";
 
-   static const char* ourLines2 = "  $(ROOT)\\bin\\bpr2mak -t$(ROOT)\\bin\\deflib.bmk $** >tmp.tmp\n"
-                                  "  cd $(**D)\n"
-                                  "  echo ------Compiling $**------\n"
-                                  "  echo ------Compiling $**------ >> \\build\\build.out\n"
-                                  "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -s -f$*.mak >> \\build\\build.out\n"
-                                  "  cd $$$$\n"
-                                  "  del tmp.tmp";
-   Replace_all(Contents, borlandLines1, ourLines1);
-   Replace_all(Contents, borlandLines2, ourLines2);
-   Replace_all(Contents, "$$$$", Path(filename).Get_directory().c_str());
+   string ourLines2 = "  $(ROOT)\\bin\\bpr2mak -t$(ROOT)\\bin\\deflib.bmk $** >tmp.tmp\n"
+                      "  cd $(**D)\n"
+                      "  echo ------Compiling $**------\n"
+                      "  echo ------Compiling $**------ >> " + outFile + "\n"
+                      "  $(ROOT)\\bin\\make -$(MAKEFLAGS) -s -f$*.mak >> " + outFile + "\n"
+                      "  cd $$$$\n"
+                      "  del tmp.tmp";
+   replaceAll(Contents, borlandLines1, ourLines1);
+   replaceAll(Contents, borlandLines2, ourLines2);
+   replaceAll(Contents, "$$$$", Path(filename).Get_directory());
 
    // open the file for writting and write new contents.
 
-   ofstream out (filename.c_str());
+   ofstream out (tempBPGFile.c_str());
    out << Contents;
    out.close();
    }
@@ -111,7 +115,10 @@ int main(int argc, char* argv[])
       Path filePath(argv[1]);
       filePath.Change_directory();
 
-//      strlwr(argv[1]);
+      outFile = filePath.Get_directory() + "\\gui.out";
+      tempBPGFile = filePath.Get_directory() + "\\temp.bpg";
+      unlink(outFile.c_str());
+
       string filename = argv[1];
 
       // get current contents of file.
@@ -123,17 +130,16 @@ int main(int argc, char* argv[])
       // convert file to something that is compilable.
       if (filename.find(".bpg") != string::npos)
          convertBPG(filename);
-//      else
-//         convertBPR(filename);
 
       // run make.
-      string commandLine = "make -i -s -f " + filename;
+      char buffer[100];
+      getcwd(buffer, sizeof buffer);
+
+      string commandLine = "make -i -s -f " + tempBPGFile;
       Exec(commandLine.c_str(), SW_SHOW, true);
 
-      // reinstate original file contents.
-      ofstream out(filename.c_str());
-      out << contents;
-      out.close();
+      // delete temporary bpg file
+      unlink(tempBPGFile.c_str());
 
       // restore the current working directory.
       currentDir.Change_directory();
