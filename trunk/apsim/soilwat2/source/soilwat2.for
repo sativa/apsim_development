@@ -135,7 +135,11 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      if (action.eq.ACTION_get_variable) then
+      if (action.eq.ACTION_set_variable) then
+               ! respond to request to reset variable values - from modules
+         call soilwat2_set_my_variable (data_string)
+ 
+      else if (action.eq.ACTION_get_variable) then
                ! respond to request for variable values - from modules
          call soilwat2_send_my_variable (Data_string)
 
@@ -145,27 +149,6 @@
       else if (action.eq.EVENT_newmet) then
          call soilwat2_ONnewmet()
   
-      else if (action.eq.ACTION_init) then
-         call soilwat2_zero_variables ()
-         call soilwat2_zero_data_links ()
-         call soilwat2_init ()
-         call soilwat2_sum_report ()
- 
-      else if ((action.eq.ACTION_reset)
-     :        .or.(action.eq.ACTION_user_init)) then
-         call soilwat2_zero_variables ()
-         call soilwat2_get_other_variables ()
-         call soilwat2_init ()
- 
-      else if (action.eq.ACTION_sum_report) then
-         call soilwat2_sum_report ()
- 
-      else if (action.eq.ACTION_post) then
- 
-      else if (action.eq.ACTION_set_variable) then
-               ! respond to request to reset variable values - from modules
-         call soilwat2_set_my_variable (data_string)
- 
       else if (action.eq.ACTION_process) then
          call soilwat2_zero_daily_variables ()
                ! request and receive variables from owner-modules
@@ -189,6 +172,23 @@
 
       else if (action .eq. EVENT_new_solute) then
          call soilwat2_on_new_solute ()
+ 
+      else if (action.eq.ACTION_init) then
+         call soilwat2_zero_variables ()
+         call soilwat2_zero_data_links ()
+         call soilwat2_init ()
+         call soilwat2_sum_report ()
+ 
+      else if ((action.eq.ACTION_reset)
+     :        .or.(action.eq.ACTION_user_init)) then
+         call soilwat2_zero_variables ()
+         call soilwat2_get_other_variables ()
+         call soilwat2_init ()
+ 
+      else if (action.eq.ACTION_sum_report) then
+         call soilwat2_sum_report ()
+ 
+      else if (action.eq.ACTION_post) then
  
       else
              ! don't use message
@@ -234,6 +234,7 @@
 *       170895 nih  changed to handle user defined list of solutes
 *                   and addition of solutes in irrigation water.
 *       270897 pdev Cleaned up. Runoff, solute handing in separate subroutines.
+*       021199 jngh added call to cover_surface_runoff
  
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -252,6 +253,8 @@
       num_layers = count_of_real_vals (p%dlayer, max_layer)
  
          ! runoff
+ 
+      call soilwat2_cover_surface_runoff (g%cover_surface_runoff)
  
       call soilwat2_runoff (g%rain, g%runoff)
  
@@ -448,7 +451,6 @@
                                        !    moisture
       real       cover_fract           ! proportion of maximum cover effect on
                                        !    runoff (0-1)
-      real       runoff_cover          ! effective cover for runoff (0-1)
       real       cnpd                  ! cn proportional in dry range
                                        !    (dul to ll15)
       integer    layer                 ! layer counter
@@ -488,11 +490,9 @@
   100 continue
       cnpd = bound (cnpd, 0.0, 1.0)
  
-      call soilwat2_runoff_cover (runoff_cover)
- 
           ! reduce CN2 for the day due to cover effect
  
-      cover_fract = divide (runoff_cover, p%cn_cov, 0.0)
+      cover_fract = divide (g%cover_surface_runoff, p%cn_cov, 0.0)
       cover_fract = bound (cover_fract, 0.0, 1.0)
  
       g%cn2_new = p%cn2_bare - (p%cn_red * cover_fract)
@@ -536,7 +536,7 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
  
  
 *     ===========================================================
-      subroutine soilwat2_runoff_cover (runoff_cover)
+      subroutine soilwat2_cover_surface_runoff (cover_surface_runoff)
 *     ===========================================================
       use Soilwat2Module
       implicit none
@@ -544,7 +544,7 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
       include 'error.pub'
  
 *+  Sub-Program Arguments
-      real       runoff_cover          ! (output) effective runoff cover (0-1)
+      real       cover_surface_runoff   ! (output) effective runoff cover (0-1)
  
 *+  Purpose
 *       calculate the effective runoff cover
@@ -553,20 +553,21 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 *       Assumes that if canopy height is negative it is missing.
  
 *+  Mission Statement
-*     Calculate the Effective Runoff Cover
+*     Calculate the Effective Runoff surface Cover
  
 *+  Changes
 *        200896 jngh specified and programmed
+*        021199 jngh added cover_surface_extra
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_runoff_cover')
+      parameter (my_name = 'soilwat2_cover_surface_runoff')
  
 *+  Local Variables
       real       canopy_fact           ! canopy factor (0-1)
       integer    crop                  ! crop number
       real       effective_crop_cover  ! effective crop cover (0-1)
-      real       effective_cover_tot   ! efective total cover (0-1)
+      real       cover_surface_crop    ! efective total cover (0-1)
  
 *- Implementation Section ----------------------------------
  
@@ -580,7 +581,7 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
           ! weight effectiveness of crop canopies
           !    0 (no effect) to 1 (full effect)
  
-      effective_cover_tot = 0.0
+      cover_surface_crop = 0.0
       do 1000 crop = 1, g%num_crops
          if (g%canopy_height(crop).ge.0.0) then
             canopy_fact = linear_interp_real (g%canopy_height(crop)
@@ -592,16 +593,23 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
          endif
  
          effective_crop_cover = g%cover_tot(crop) * canopy_fact
-         effective_cover_tot = add_cover (effective_cover_tot
+         cover_surface_crop = add_cover (cover_surface_crop
      :                                   , effective_crop_cover)
 1000  continue
           ! add cover known to affect runoff
           !    ie residue with canopy shading residue
  
-      runoff_cover = add_cover (effective_cover_tot
+      cover_surface_runoff = add_cover (cover_surface_crop
      :                         , g%residue_cover)
  
- 
+!  This line may need to be added when moved to surface module
+!      cover_surface_runoff = add_cover (cover_surface_runoff
+!     :                         , g%cover_surface_extra)
+
+!   This is the original method for adding the extra cover. 
+!      cover_surface_runoff = bound(cover_surface_runoff 
+!     :                             + g%cover_surface_extra
+!     :                           , 0.0, 1.0) 
       call pop_routine (my_name)
       return
       end
@@ -877,6 +885,7 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
 *       130896 jngh removed g_cover_tot_sum
 *       260897 nih  added test to avoid log of zero error
 *       031296 pdev removed g_es, replaced with g_es_layers.
+*       011199 jngh removed resid_area
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -888,10 +897,6 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
                                        ! limited by crop canopy (mm)
       real       eos_residue_fract     ! fraction of potential soil evaporation
                                        ! limited by crop residue (mm)
-      real       resid_area            ! area "A" of residue (ha/kg)
-                                       ! same as in residue.for but re-calc here
-      real       eos_resid_coef        ! coefficient in Adam's type residue
-                                       ! effect on Eos
  
 *- Implementation Section ----------------------------------
  
@@ -933,22 +938,15 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
       else
  
          ! Calculate coefficient of residue_wt effect on reducing first
-         ! stage soil evaporation rate from residue specific area "A"
+         ! stage soil evaporation rate 
  
-         ! a) back-calculate area from residue_cover & residue_wt
- 
-         resid_area = -divide (log (1.0 - g%residue_cover)
-     :                                 , g%residue_wt, 0.0)
- 
- 
-         ! b) estimate 1st stage soil evap reduction power of
+         !  estimate 1st stage soil evap reduction power of
          !    mixed residues from the area of mixed residues.
          !    [DM. Silburn unpublished data, June 95 ]
          !    <temporary value - will reproduce Adams et al 75 effect>
          !     c%A_to_evap_fact = 0.00022 / 0.0005 = 0.44
  
-         eos_resid_coef = resid_area * c%A_to_evap_fact
-         eos_residue_fract = exp(-eos_resid_coef * g%residue_wt)
+         eos_residue_fract = (1.0 - g%residue_cover)** c%A_to_evap_fact
       endif
  
          ! Reduce potential soil evap under canopy to that under residue (mulch)
@@ -3206,6 +3204,7 @@ c     he should have. Any ideas? Perhaps
 *     110393 jngh altered to new engine - immediate messages
 *      191094 jngh changed interface routines
 *     070696 nih  changed get other for optimal speed
+*     011199 jngh removed residue_wt
  
  
 *+  Constant Values
@@ -3218,11 +3217,6 @@ c     he should have. Any ideas? Perhaps
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
- 
-      call get_real_var_optional (unknown_module
-     :                                  , 'residue_wt', '(kg/ha)'
-     :                                  , g%residue_wt, numvals
-     :                                  , 0.0, 100000.0)
  
       call get_real_var_optional (unknown_module, 'residue_cover', '()'
      :                                  , g%residue_cover, numvals
@@ -3261,7 +3255,7 @@ c     he should have. Any ideas? Perhaps
 *     110393 jngh altered to new engine - immediate messages
 *     010994 jpd  Added request for 'crop_cover' from crop modules
 *     160994 jpd  add basal_cover request
-*     230994  pdev  added cover_extra
+*     230994  pdev  added cover_surface_crop
 *      191094 jngh changed interface routines
 *     070696 nih  changed get other for optimal speed
 *     130896 jngh removed getting cover from canopy module.
@@ -3284,6 +3278,13 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
+      call get_real_var_optional (unknown_module
+     :                           , 'cover_surface_extra'
+     :                           , '()'
+     :                           , g%cover_surface_extra
+     :                           , numvals
+     :                           , 0.0, 1.0)
+  
              ! Get green cover of each crop
              ! g%cover_green is all canopys green
  
@@ -3874,20 +3875,21 @@ c     he should have. Any ideas? Perhaps
 *      260897 nih  Added output for flow_water and flow_(solute_name)
 *      970910 slw  fix problem with es reporting as zero
 *      990323 nih  Added output for effective rainfall (eff_rain)
+*      021199 jngh removed export of total_cover
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name = 'soilwat2_send_my_variable')
  
 *+  Local Variables
-      real       crop_cover            ! sum of crop covers (0-1)
+!      real       crop_cover            ! sum of crop covers (0-1)
       real       esw                   ! potential extractable sw in profile
       integer    layer                 ! layer counter
       integer    num_layers            ! number of layers
       integer    solnum                ! solute no. counter
       character  solute_name*32        ! solute name
       real       temp_array(max_layer) ! temporary array
-      real       total_cover           ! total ground cover (0-1)
+!      real       total_cover           ! total ground cover (0-1)
       real       es                    ! total es
       real       eff_rain              ! daily effective rainfall (mm)
 
@@ -3905,11 +3907,15 @@ c     he should have. Any ideas? Perhaps
       else if (variable_name .eq. 'eos') then
          call respond2get_real_var (variable_name, '(mm)', g%eos)
  
-      else if (variable_name .eq. 'total_cover') then
-         crop_cover = sum_cover_array (g%cover_tot, g%num_crops)
-         total_cover = add_cover (crop_cover, g%residue_cover)
+!      else if (variable_name .eq. 'total_cover') then
+!         crop_cover = sum_cover_array (g%cover_tot, g%num_crops)
+!         total_cover = add_cover (crop_cover, g%residue_cover)
+!         call respond2get_real_var (variable_name, '()'
+!     :                             , total_cover)
+ 
+      else if (variable_name .eq. 'cover_surface_runoff') then
          call respond2get_real_var (variable_name, '()'
-     :                             , total_cover)
+     :                             , g%cover_surface_runoff)
  
       else if (variable_name .eq. 'cn2_new') then
          call respond2get_real_var (variable_name, '()', g%cn2_new)
@@ -4189,6 +4195,8 @@ c     he should have. Any ideas? Perhaps
       g%tillage_cn_rain    = 0.0
       g%tillage_cn_red     = 0.0
       g%irrigation         = 0.0
+      g%cover_surface_extra = 0.0
+      g%cover_surface_runoff = 0.0
  
       call pop_routine (my_name)
       return
@@ -4252,6 +4260,7 @@ c     he should have. Any ideas? Perhaps
 *                   removed g%cover_tot_sum
 *                   added g%cover_tot and g%cover_green and g%crop_module
 *                   added g%num_crops
+*     011199 jngh removed residue_wt
  
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4275,7 +4284,6 @@ c     he should have. Any ideas? Perhaps
       call fill_char_array (g%crop_module, ' ', max_crops)
       call fill_real_array (g%canopy_height, 0.0, max_crops)
  
-      g%residue_wt         = 0.0
       g%residue_cover      = 0.0
       g%eo                 = 0.0
       g%eos                = 0.0
