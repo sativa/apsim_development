@@ -167,9 +167,12 @@
       <respondToMethodCallReg name="sum_report" type="sum_reportType"/>
       <respondToMethodCallReg name="tillage" type="tillageType"/>
       <respondToMethodCallReg name="end_run" type="end_runType"/>
-      <methodCallReg name="swim_timestep_preparation" type="swim_timestep_preparationType"/>
-      <methodCallReg name="pre_swim_timestep" type="pre_swim_timestepType"/>
-      <methodCallReg name="post_swim_timestep" type="post_swim_timestepType"/>
+
+      <EventReg name="swim_timestep_preparation" type="swim_timestep_preparationType"/>
+      <EventReg name="pre_swim_timestep" type="pre_swim_timestepType"/>
+      <EventReg name="post_swim_timestep" type="post_swim_timestepType"/>
+      <EventReg name="new_profile" type="new_profile"/>
+
       <respondToEventReg name="tick" type="tickType"/>
       <respondToEventReg name="new_solute" type="new_soluteType"/>
       <respondToEventReg name="irrigated" type="irrigatedType"/>

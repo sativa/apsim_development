@@ -4745,12 +4745,15 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
    50    continue
 
+
          call Set_double_array (
      :           g%solute_owners(solnum),
      :           p%solute_names(solnum),
      :           '(kg/ha)',
      :           solute_n(0),
      :           p%n+1)
+
+
   100 continue
 
       return
@@ -8147,6 +8150,8 @@ c      pause
      :              c%lb_solute,
      :              c%ub_solute)
 
+
+
          else
                call fatal_error (Err_User,
      :            'No module has registered ownership for solute: '
@@ -8581,18 +8586,20 @@ c      pause
 
       call push_routine (my_name)
 
-      call collect_integer_var (DATA_sender
+      call collect_integer_var (DATA_sender_ID
      :                          ,'()'
      :                          ,sender
      :                          ,numvals
      :                          ,0
      :                          ,10000000)
 
+
       call collect_char_array (DATA_new_solute_names
      :                        ,nsol
      :                        ,'()'
      :                        ,names
      :                        ,numvals)
+
 
       do 100 counter = 1, numvals
 
@@ -8861,7 +8868,7 @@ c      pause
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use APSwimModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -8924,7 +8931,7 @@ c      pause
          call apswim_zero_variables()
 
       else if (Action.eq.ACTION_Init) then
-         call apswim_zero_module_links()
+         !call apswim_zero_module_links()
          call apswim_reset ()
          call apswim_sum_report ()
 
