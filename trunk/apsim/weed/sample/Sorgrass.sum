@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
@@ -174,30 +174,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -416,28 +415,28 @@
 21 December 1988(Day of year=356), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           368.0118       lai =     2.986853
-                          stover N conc =    1.765744       extractable sw =    489.0825
+                          stover N conc =    1.765746       extractable sw =    489.0839
 28 December 1988(Day of year=363), sorghum: 
       stage    7.0 flowering
                           biomass =           512.0424       lai =     2.896465
-                          stover N conc =    1.473486       extractable sw =    554.1124
+                          stover N conc =    1.473487       extractable sw =    554.1140
 30 December 1988(Day of year=365), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           552.9617       lai =     2.859178
-                          stover N conc =    1.362097       extractable sw =    540.3923
+                          stover N conc =    1.362098       extractable sw =    540.3940
 1 February 1989(Day of year=32), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           1108.256       lai =     1.261595
-                          stover N conc =   0.8498372       extractable sw =    453.6717
+                          stover N conc =   0.7329987       extractable sw =    453.6736
 2 February 1989(Day of year=33), sorghum: 
       stage   10.0 maturity
-                          biomass =           1117.539       lai =     1.196933
-                          stover N conc =   0.8399603       extractable sw =    450.1246
+                          biomass =           1117.497       lai =     1.196933
+                          stover N conc =   0.7242514       extractable sw =    450.1265
 3 February 1989(Day of year=34), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           1117.539       lai =     0.000000
-                          stover N conc =   0.9256583       extractable sw =    448.5647
+                          biomass =           1117.497       lai =     0.000000
+                          stover N conc =   0.8028057       extractable sw =    448.5721
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum harvest
 4 February 1989(Day of year=35), sorghum: 
@@ -445,20 +444,20 @@
      
      
      flowering (DAS) =  58                  maturity (DAS)  =  95
-      flowering day  =  363                  stover (kg/ha) =    5749.3
+      flowering day  =  363                  stover (kg/ha) =    5748.9
       maturity day        =   33             grain yield (kg/ha) =    5426.1
       grain % water content   =   13.0       grain yield wet (kg/ha) =    6236.9
       grain wt (g) =     0.022               grains/m^2   = 24602.561
       grains/head =2460.3                    maximum lai = 2.997
-      total above ground biomass (kg/ha) =   11175.4
-      live above ground biomass (kg/ha) =   11175.4
-      green above ground biomass (kg/ha) =    9531.9
+      total above ground biomass (kg/ha) =   11175.0
+      live above ground biomass (kg/ha) =   11175.0
+      green above ground biomass (kg/ha) =    9531.5
       senesced above ground biomass (kg/ha) =    1643.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  15.6
-      grain N percent =      1.15            total N content (kg/ha) =    105.70
-      grain N uptake (kg/ha) =     62.30     senesced N content (kg/ha) =     17.47
-      green N content (kg/ha) =     25.93    dead N content (kg/ha) =      0.00
+      grain N percent =      0.97            total N content (kg/ha) =     93.55
+      grain N uptake (kg/ha) =     52.79     senesced N content (kg/ha) =     17.03
+      green N content (kg/ha) =     23.73    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -501,13 +500,13 @@
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum kill_crop
 4 February 1989(Day of year=35), sorghum: 
-         kill. Standing above-ground dm =  5749.3 (kg/ha)
+         kill. Standing above-ground dm =  5748.9 (kg/ha)
 4 February 1989(Day of year=35), manager: 
      Manager sending message :- sorghum end_crop
 4 February 1989(Day of year=35), sorghum: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 5749.3 kg/ha
-                                               straw N =   43.4 kg/ha
+                                               straw residue = 5748.9 kg/ha
+                                               straw N =   40.8 kg/ha
                                                straw P =    0.0 kg/ha
                                                root residue = 1947.5 kg/ha
                                                root N =    3.9 kg/ha
