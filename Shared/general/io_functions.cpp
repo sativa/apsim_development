@@ -1,12 +1,12 @@
-#include <windows.h>
+#include "io_functions.h"
 
+#include <windows.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <io.h>
 #include <general/path.h>
 #include <general/stristr.h>
 #include <iostream>
-#include "io_functions.h"
 
 #include "boost/filesystem/path.hpp"
 #include "boost/filesystem/operations.hpp"
@@ -23,14 +23,33 @@ std::string ExpandFileName(const char *s){
 
 bool FileExists (const std::string &f) {
    fs::path p(f);
-   return (fs::is_empty(p));
+   return (fs::exists(p));
 }
 
 bool DirectoryExists (const std::string &d) {
    fs::path p(d);
-   return (fs::is_directory(p));
+   return (fs::exists(p) && fs::is_directory(p));
 }
-
+//---------------------------------------------------------------------------
+// Remove the path and extension from the specified file.
+//---------------------------------------------------------------------------
+void RemovePathAndExtension(std::string& fileName)
+   {
+   boost::filesystem::path p(fileName, boost::filesystem::native);
+   std::string name = p.leaf();
+   unsigned posExtension = name.find('.');
+   if (posExtension != std::string::npos)
+      name.erase(posExtension);
+   fileName = name;
+   }
+//---------------------------------------------------------------------------
+// Return the temporary directory.
+//---------------------------------------------------------------------------
+std::string GetTempDir(void)
+   {
+   string st = getenv("TEMP");
+   return st;
+   }
 // ------------------------------------------------------------------
 // Return a list of files/directories to caller.
 // ------------------------------------------------------------------

@@ -4,22 +4,21 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Test.exe"/>
-    <OBJFILES value="Test.obj TestStringTokenizer.obj TestIniFile.obj TestMacro.obj 
-      ..\Macro.obj ..\..\ApsimShared\ApsimDirectories.obj 
-      ..\..\ApsimShared\ApsimShared.obj"/>
+    <OBJFILES value="test.obj TestXml.obj TestIoFunctions.obj"/>
     <RESFILES value="Test.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\CppUnit\src\cppunit.lib&quot; 
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin\libxml2.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib&quot; 
       ..\general.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="vcl.lib rtl.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
-      bdertl.bpi qrpt60.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
-      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
-      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
-      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi"/>
-    <PATHCPP value=".;..;..\..\ApsimShared"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib adortl.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi 
+      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi 
+      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi 
+      inetdbxpress.bpi dclocx.bpi soaprtl.bpi"/>
+    <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -27,40 +26,38 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Test.bpf"/>
-    <INCLUDEPATH value="..\..\ApsimShared;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\cppunit\include;$(SHARED)"/>
-    <LIBPATH value="..\..\ApsimShared;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k 
-      -y -v -vi- -tWC -tWM -c"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC 
+      -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -v"/>
+    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -Gi -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0x32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
       <FILE FILENAME="Test.res" FORMNAME="" UNITNAME="Test.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Test.bpf" FORMNAME="" UNITNAME="Test" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Test.cpp" FORMNAME="" UNITNAME="Test" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TestStringTokenizer.cpp" FORMNAME="" UNITNAME="TestStringTokenizer.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TestIniFile.cpp" FORMNAME="" UNITNAME="TestIniFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\CppUnit\src\cppunit.lib" FORMNAME="" UNITNAME="cppunit.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="test.cpp" FORMNAME="" UNITNAME="test" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestXml.cpp" FORMNAME="" UNITNAME="TestXml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestIoFunctions.cpp" FORMNAME="" UNITNAME="TestIoFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib" FORMNAME="" UNITNAME="filesystem.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib" FORMNAME="" UNITNAME="test.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TestMacro.cpp" FORMNAME="" UNITNAME="TestMacro" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\Macro.cpp" FORMNAME="" UNITNAME="Macro" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\ApsimShared\ApsimDirectories.cpp" FORMNAME="" UNITNAME="ApsimDirectories" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\ApsimShared\ApsimShared.cpp" FORMNAME="" UNITNAME="ApsimShared" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -94,22 +91,24 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
+..\Lib\C6\DCLgtQRC60Pro.bpl=(untitled)
 
 [HistoryLists\hlIncludePath]
-Count=5
-Item0=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\cppunit\include;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\cppunit\include;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\cppunit;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=..\..\..\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl
+Count=6
+Item0=C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item2=..\..\APSoil\Source;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=C:\MyData\development\Shared\Soil;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=4
-Item0=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item2=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..\..\Shared\general\test;$(BCB)\Projects\Lib;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item3=..\..\..\Shared\general\test;$(BCB)\Projects\Lib;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=5
+Item0=C:\MyData\development\Shared\general\test;..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item2=..\..\APSoil\Source;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\MyData\development\Shared\Soil;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -118,6 +117,15 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
@@ -137,7 +145,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
 
 [Language]
 ActiveLang=

@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
-#ifndef io functionsH
-#define io functionsH
+#ifndef io_functionsH
+#define io_functionsH
 
 #include <string>
 #include <vector>
@@ -9,6 +9,16 @@
 std::string ExpandFileName(const char *);
 bool FileExists (const std::string &);
 bool DirectoryExists (const std::string &d);
+
+//---------------------------------------------------------------------------
+// Remove the path and extension from the specified file.
+//---------------------------------------------------------------------------
+void RemovePathAndExtension(std::string& fileName);
+
+//---------------------------------------------------------------------------
+// Return the temporary directory.
+//---------------------------------------------------------------------------
+std::string GetTempDir(void);
 
 // ------------------------------------------------------------------
 // Return a list of files/directories to caller.
