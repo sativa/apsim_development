@@ -106,6 +106,13 @@ void DamEasyEcon::getFactorValues(const Scenario& scenario,
                                    const std::string& factorName,
                                    std::vector<std::string>& factorValues) const
 {
+   getAllFactorValues(factorName, factorValues);
+}
+
+
+void DamEasyEcon::getAllFactorValues(const std::string& factorName,
+                                   std::vector<std::string>& factorValues) const
+{
    if ( DEValueSelectionForm != NULL)
    {
       for_each(Econ_configs.begin(), Econ_configs.end(),
@@ -140,7 +147,7 @@ void DamEasyEcon::saveConfigs()
    Ini_file ini;
    ini.Set_file_name (p.Get_path().c_str());
    vector<string> config_names;
-   getFactorValues("", config_names);
+   getAllFactorValues("", config_names);
    string config_names_comma_list;
    Build_string(config_names, ",", config_names_comma_list);
    ini.Write(DAMEASY_SECTION, ECON_CONFIGS_KEY, config_names_comma_list.c_str());

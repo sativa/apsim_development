@@ -67,6 +67,8 @@ class DamEasyEcon : public AddInBase
       static int numObjects;
       void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, string Item);
+		void getAllFactorValues(const std::string& factorName,
+                                     std::vector<std::string>& factorValues) const;
       void saveConfigs();
 
       vector<Factor> factors;
