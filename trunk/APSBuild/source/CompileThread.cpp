@@ -28,7 +28,7 @@ static const char* AUTOMAKE_FILENAME = "automake.fig";
 static const char* COMPILER_RESPONSE_FILENAME = "compiler.rsp";
 static const char* LINKER_RESPONSE_FILENAME = "linker.rsp";
 
-static const char* MODULETYPE_KEY = "moduletype";
+static const char* COMPILER_FILE_KEY = "compilerFile";
 static const char* LF90FILE_SECTION = "lf90files";
 // ------------------------------------------------------------------
 //  Short description:
@@ -45,7 +45,8 @@ CompileThread::CompileThread (const char* File_name)
    {
    Compiler_output_filename = APSDirectories().Get_working() + "\\" + COMPILER_OUTPUT_FILENAME;
    InitialFilename = File_name;
-   DisplayMessage = NULL;
+   DisplayMessage1 = NULL;
+   DisplayMessage2 = NULL;
    }
 
 // ------------------------------------------------------------------
@@ -60,15 +61,7 @@ CompileThread::CompileThread (const char* File_name)
 // ------------------------------------------------------------------
 __fastcall CompileThread::~CompileThread (void)
    {
-   // send contents of compiler.rpt to standard out.
-   // for some reason this section of code causes a Access Violation
-/*
-   string compilerRptPath = APSDirectories().Get_working() + "\\compiler.rpt";
-   ifstream compilerRpt(compilerRptPath.c_str());
-   string contents;
-   getline(compilerRpt, contents, '\0');
-   std::cout << contents;
-*/   }
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     go compile project.
@@ -79,11 +72,27 @@ __fastcall CompileThread::~CompileThread (void)
 //    DPH 18/3/99
 
 // ------------------------------------------------------------------
-void __fastcall CompileThread::GoDisplayMessage (void)
+void __fastcall CompileThread::goDisplayMessage1 (void)
    {
-   if (DisplayMessage != NULL)
-      DisplayMessage (NULL, Message.c_str());
+   if (DisplayMessage1 != NULL)
+      DisplayMessage1 (NULL, Message.c_str());
    }
+// ------------------------------------------------------------------
+//  Short description:
+//     go compile project.
+
+//  Notes:
+
+//  Changes:
+//    DPH 18/3/99
+
+// ------------------------------------------------------------------
+void __fastcall CompileThread::goDisplayMessage2 (void)
+   {
+   if (DisplayMessage2 != NULL)
+      DisplayMessage2 (NULL, Message.c_str());
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     go run command line.
@@ -94,9 +103,9 @@ void __fastcall CompileThread::GoDisplayMessage (void)
 //    DPH 18/3/99
 
 // ------------------------------------------------------------------
-void __fastcall CompileThread::RunCommandLine (void)
+void __fastcall CompileThread::runCommandLine (void)
    {
-   Exec(CommandLineToExecute.c_str(), SW_HIDE, true);
+   Exec(CommandLineToExecute.c_str(), SW_HIDE, true, &Terminated);
    }
 
 // ------------------------------------------------------------------
@@ -121,13 +130,13 @@ void __fastcall CompileThread::Execute (void)
          CompileType = "lf90";
 
       APSIM_project apf (InitialFilename.c_str());
-      CompileProject (apf);
+      compileProject (apf);
 
       // get a list of child apfs and perform build on each of them.
       list<string> Keys, Children;
       apf.Get_keys (Keys);
       for (list<string>::iterator key = Keys.begin();
-                                  key != Keys.end();
+                                  key != Keys.end() && !Terminated;
                                   key++)
          {
          string Child;
@@ -157,11 +166,11 @@ void __fastcall CompileThread::Execute (void)
 //    dph 13/12/2000 added code to generate a componentinterface.for
 
 // ------------------------------------------------------------------
-void CompileThread::CompileProject (APSIM_project& apf)
+void CompileThread::compileProject (APSIM_project& apf)
    {
    // get a list of binary filenames.
    list<string> BinaryFileNames;
-   GetBinaryFileNames(apf, BinaryFileNames);
+   getBinaryFileNames(apf, BinaryFileNames);
 
    for (list<string>::iterator BinaryFileNameIter = BinaryFileNames.begin();
                                BinaryFileNameIter != BinaryFileNames.end();
@@ -170,41 +179,42 @@ void CompileThread::CompileProject (APSIM_project& apf)
       Path BinaryFile( (*BinaryFileNameIter).c_str());
 
       // display message on screen.
-      Message = "Compiling " + BinaryFile.Get_path();
-      Synchronize(GoDisplayMessage);
+      Message = BinaryFile.Get_path();
+      Synchronize(goDisplayMessage1);
 
       // write banner to output file.
-      WriteToOutputFile ("------Compiling " + BinaryFile.Get_path() + "------");
+      writeToOutputFile ("------Compiling " + BinaryFile.Get_path() + "------");
+
+      // change the current directory to the source directory.
+      SetCurrentDirectory(getSourceDirectory(apf).c_str());
 
       // if this is a build then remove all .obj files.
       if (Build)
-         DeleteDependentFiles(apf);
+         deleteDependentFiles(apf);
 
       // make sure the binary path exists.
       CreateDirectory (BinaryFile.Get_directory().c_str(), NULL);
 
-      // create a componentInterface.for file for this component.
-      CreateComponentInterface(apf);
-
       // create an AUTOMAKE file for this binary.
-      CreateAutoMakeFile (apf, BinaryFile);
+      if (!Terminated)           
+         createAutoMakeFile (apf, BinaryFile);
 
       // create a compiler response file for this binary.
-      CreateCompilerResponseFile (apf);
+      if (!Terminated)
+         createCompilerResponseFile (apf);
 
       // create a linker response file for this binary.
-      CreateLinkerResponseFile (apf);
-
-      // copy all foreign source files to current directory
-      CopySourceFiles (apf);
+      if (!Terminated)
+         createLinkerResponseFile (apf);
 
       // run AUTOMAKE
-      RunAutoMake (apf, BinaryFile);
+      if (!Terminated)
+         runAutoMake (apf, BinaryFile);
 
       if (!Debug)
          {
          // cleanup after ourselves.
-         Cleanup (apf);
+         cleanup (apf);
 
          // send contents of compiler.rpt to standard out.
          if (Stdout)
@@ -229,7 +239,7 @@ void CompileThread::CompileProject (APSIM_project& apf)
 //    DPH 18/3/99
 
 // ------------------------------------------------------------------
-void CompileThread::GetBinaryFileNames (APSIM_project& apf, list<string>& BinaryFileNames)
+void CompileThread::getBinaryFileNames (APSIM_project& apf, list<string>& BinaryFileNames)
    {
    apf.Get(BINARY_KEY, BinaryFileNames, APSBUILD_SECTION, true);
    }
@@ -244,47 +254,30 @@ void CompileThread::GetBinaryFileNames (APSIM_project& apf, list<string>& Binary
 //    DPH 18/3/99
 
 // ------------------------------------------------------------------
-void CompileThread::WriteToOutputFile (string& msg)
+void CompileThread::writeToOutputFile (const string& msg)
    {
    ofstream out (Compiler_output_filename.c_str(), std::ios::app);
    out << msg << std::endl;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     create an automake file.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
+// create an automake file in the source directory.
 // ------------------------------------------------------------------
-void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
+void CompileThread::createAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
    {
-   // open the automake template from.
-   string AutomakeTemplate = APSDirectories().Get_home() +
-                             "\\apsbuild\\automake." +
-                             CompileType;
-   if (!FileExists(AutomakeTemplate.c_str()))
-      AutomakeTemplate = APSDirectories().Get_home() + "\\apsbuild\\automake.fig";
-   ifstream in(AutomakeTemplate.c_str());
-
    // open a stream to the file we're going to write to.
-   string AutomakeFilename = GetSourceDirectory(apf) + "\\" + AUTOMAKE_FILENAME;
+   string AutomakeFilename = getSourceDirectory(apf) + "\\" + AUTOMAKE_FILENAME;
    ofstream out (AutomakeFilename.c_str());
 
-   // write template out
-   string contents;
-   getline (in, contents, '\0');
-   out << contents;
-
-   // write out target name.
-   out << "TARGET=" << BinaryFile.Get_path() << std::endl;
+   // write out the LINK, TARGET, INCLUDE and MODULE lines.
+   out << "LINK=" << getCompilerSetting(apf, "link", ' ') << endl;
+   out << "TARGET=" << BinaryFile.Get_path() << endl;
+   out << "INCLUDE=" << getCompilerSetting(apf, "include") << endl;
+   out << "MODULE=" << getCompilerSetting(apf, "module") << endl;
 
    // get a list of all source files.
    list<string> SourceFiles;
-   GetSourceFileNames(apf, SourceFiles);
+   getSourceFileNames(apf, SourceFiles);
 
    // for each source file write a line to automake file.
    for (list<string>::iterator i = SourceFiles.begin();
@@ -293,347 +286,200 @@ void CompileThread::CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile)
       {
       if (i != SourceFiles.begin())
          out << "AND" << std::endl;
-      out << "FILES=";
-      out << *i;
-      out << std::endl;
+      out << "COMPILE=" << getCompileLineForSourceFile(apf, *i) << endl;
+      out << "FILES=" << *i << endl;
       }
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     create a compiler response file for this binary.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-//    dph 6/6/2000 added code to write include string to response file
-
+// create a compiler response file for this binary in the source directory
 // ------------------------------------------------------------------
-void CompileThread::CreateCompilerResponseFile (APSIM_project& apf)
+void CompileThread::createCompilerResponseFile  (APSIM_project& apf)
    {
-   // open a stream to the file we're going to write to.
-   string CompilerResponseFilename = GetSourceDirectory(apf) + "\\" + COMPILER_RESPONSE_FILENAME;
-   ofstream out (CompilerResponseFilename.c_str());
+   // open the compiler file we're going to write to.
+   string filename = getSourceDirectory(apf) + "\\" + COMPILER_RESPONSE_FILENAME;
+   ofstream out (filename.c_str());
 
-   // copy switches to our output stream.
-   CopySwitchesToStream (apf, out);
-
-   // get an include directory string and write to response file
-   list<string> IncludeDirectories;
-   GetFilesForCompiler (apf, INCLUDE_KEY, IncludeDirectories);
-   string IncludeString;
-   Build_string (IncludeDirectories, ";", IncludeString);
-   out << "-i " << IncludeString;
-
-   // add a modules switch.
-   list<string> ModuleDirectories;
-   GetFilesForCompiler (apf, MODULE_KEY, ModuleDirectories);
-   if (ModuleDirectories.size() > 0)
-      {
-      string ModuleString;
-      Build_string (ModuleDirectories, ";", ModuleString);
-      out << " -mod " << ModuleString;
-      }
+   // write include and module directories
+   out << "-i " << getCompilerSetting(apf, "include");
+   out << " -mod " << getCompilerSetting(apf, "module") << endl;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     create a linker response file for this binary.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
+// create a linker response file for this binary in the source directory.
 // ------------------------------------------------------------------
-void CompileThread::CreateLinkerResponseFile (APSIM_project& apf)
+void CompileThread::createLinkerResponseFile (APSIM_project& apf)
    {
-   // open a stream to the file we're going to write to.
-   string LinkerResponseFilename = GetSourceDirectory(apf) + "\\" + LINKER_RESPONSE_FILENAME;
-   ofstream out (LinkerResponseFilename.c_str());
+   // open the compiler file we're going to write to.
+   string filename = getSourceDirectory(apf) + "\\" + LINKER_RESPONSE_FILENAME;
+   ofstream out (filename.c_str());
 
-   // copy switches to our output stream.
-   CopySwitchesToStream (apf, out);
-
-   // get a list of all import files for this binary.
-   list<string> ImportFiles;
-   GetFilesForCompiler (apf, IMPORT_KEY, ImportFiles);
-
-   // for each import output to linker response file
-   for (list<string>::iterator i = ImportFiles.begin();
-                              i != ImportFiles.end();
-                              i++)
-      {
-      out << *i << std::endl;
-      }
-
-   // get a list of all object files for this binary.
-   list<string> ObjectFiles;
-   GetFilesForCompiler (apf, OBJECT_KEY, ObjectFiles);
-   for (list<string>::iterator i = ObjectFiles.begin();
-                              i != ObjectFiles.end();
-                              i++)
-      {
-      out << (*i) << std::endl;
-      }
-
-   // get a list of all library files for this binary.
-   list<string> LibraryFiles;
-   GetFilesForCompiler (apf, LIBRARY_KEY, LibraryFiles);
-
-   // for each library, write library name to our file.
-   for (list<string>::iterator i = LibraryFiles.begin();
-                               i != LibraryFiles.end();
-                               i++)
-      out << "-lib " << *i << std::endl;
+   // write out all import, object and library files
+   out << getCompilerSetting(apf, "import", '\n') << endl;
+   out << getCompilerSetting(apf, "object", '\n') << endl;
+   out << "-lib " << getCompilerSetting(apf, "library", ',') << endl;
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     copy all source files to source directory if necessary
-
-//  Notes:
-
-//  Changes:
-//    DPH 6/6/2000
-
+// go run AUTOMAKE.  This will invoke the compiler and linker and
+// produce the target executable.
 // ------------------------------------------------------------------
-void CompileThread::CopySourceFiles (APSIM_project& apf)
+void CompileThread::runAutoMake (APSIM_project& apf, Path& BinaryFile)
    {
-   // get a list of all import files for this binary.
-   list<string> SourceFiles;
-   GetFilesForCompiler (apf, SOURCE_KEY, SourceFiles);
+   // display message on screen.
+   Message = "Creating DataTypesModule.f90";
+   Synchronize(goDisplayMessage2);
 
-   // for each file copy to source directory.
-   for (list<string>::iterator i = SourceFiles.begin();
-                               i != SourceFiles.end();
-                               i++)
+   // go create the component interface file - datatypesmodule.f90
+   createDataTypesModule(apf);
+
+   // display message on screen.
+   Message = " ";
+   Synchronize(goDisplayMessage2);
+
+   if (!Terminated)
       {
-      Path ExistingSourceFile ((*i).c_str());
-      Path NewSourceFile;
-      NewSourceFile.Set_directory (GetSourceDirectory(apf).c_str());
-      NewSourceFile.Set_name (ExistingSourceFile.Get_name().c_str());
-      CopyFile (ExistingSourceFile.Get_path().c_str(), NewSourceFile.Get_path().c_str(), FALSE);
+      // delete the old automake.dep file.  For some reason, when this file
+      // already exists, automake gets the dependency order of .f90 files
+      // wrong.  Found with cropmod.
+      DeleteFile("automake.dep");
 
-      // make sure file is not readonly.
-      SetFileAttributes( NewSourceFile.Get_path().c_str(), FILE_ATTRIBUTE_NORMAL);
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     delete foreign source files
-
-//  Notes:
-
-//  Changes:
-//    DPH 6/6/2000
-
-// ------------------------------------------------------------------
-void CompileThread::DeleteSourceFiles (APSIM_project& apf)
-   {
-   // get a list of all import files for this binary.
-   list<string> SourceFiles;
-   GetFilesForCompiler (apf, SOURCE_KEY, SourceFiles);
-
-   // for each file copy to source directory.
-   for (list<string>::iterator i = SourceFiles.begin();
-                               i != SourceFiles.end();
-                               i++)
-      {
-      Path ExistingSourceFile ((*i).c_str());
-      Path NewSourceFile;
-      NewSourceFile.Set_directory (GetSourceDirectory(apf).c_str());
-      NewSourceFile.Set_name (ExistingSourceFile.Get_name().c_str());
-      if (!Str_i_Eq(ExistingSourceFile.Get_directory(),
-                   NewSourceFile.Get_directory()))
-         DeleteFile (NewSourceFile.Get_name().c_str());
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     go run AUTOMAKE.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
-// ------------------------------------------------------------------
-void CompileThread::RunAutoMake (APSIM_project& apf, Path& BinaryFile)
-   {
-   // run automake
-   SetCurrentDirectory (GetSourceDirectory(apf).c_str());
-   CommandLineToExecute = string("automake fig=") + AUTOMAKE_FILENAME;
-   Synchronize(RunCommandLine);
-
-   CreateAutomakeRSP(apf);
-      
-   if (!Debug)
-      {
-      // run batch file that automake has created.
-      string AmtempPath = GetSourceDirectory(apf) + "\\amtemp.bat";
-      CommandLineToExecute = AmtempPath + " >> " + APSDirectories().Get_working() + "\\compiler.rpt";
-      Synchronize(RunCommandLine);
-
-      // delete .MAP file
-      Path GeneratedMapFile(BinaryFile);
-      GeneratedMapFile.Set_extension(".map");
-      DeleteFile(GeneratedMapFile.Get_path().c_str());
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     cleanup all unwanted files.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
-// ------------------------------------------------------------------
-void CompileThread::Cleanup (APSIM_project& apf)
-   {
-   DeleteFile ("amtemp.bat");
-   DeleteFiles (apf, "automake.*");
-   DeleteFiles (apf, "*.rsp");
-//   DeleteSourceFiles (apf);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     copy contents of switches file to specified output stream.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
-// ------------------------------------------------------------------
-void CompileThread::CopySwitchesToStream (APSIM_project& apf, ostream& out)
-   {
-   string extension = "." + CompileType;
-   list<string> Files;
-   GetFilesForCompiler (apf, SWITCHES_KEY, Files);
-   for (list<string>::iterator i = Files.begin();
-                               i != Files.end();
-                               i++)
-      {
-      Path switchPath(i->c_str());
-      switchPath.Set_extension(extension.c_str());
-
-      if (switchPath.Exists())
+      // run automake to produce the amtemp.bat file
+      CommandLineToExecute = string("automake fig=") + AUTOMAKE_FILENAME;
+      Synchronize(runCommandLine);
+      if (!Debug)
          {
-         ifstream in (switchPath.Get_path().c_str() );
-         string SwitchContents;
-         getline(in, SwitchContents, '\0');
-         out << SwitchContents << std::endl;
+         // run batch file that automake has created.
+         string AmtempPath = getSourceDirectory(apf) + "\\amtemp.bat";
+         CommandLineToExecute = AmtempPath + " >> " + APSDirectories().Get_working() + "\\compiler.rpt";
+         Synchronize(runCommandLine);
+
+         // delete .MAP file
+         Path GeneratedMapFile(BinaryFile);
+         GeneratedMapFile.Set_extension(".map");
+         DeleteFile(GeneratedMapFile.Get_path().c_str());
          }
       }
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     return a list of source files to compile.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-//    dph 6/6/2000 added code to also look for source files in the
-//                 compiler file.
-
+// cleanup all unwanted files.
 // ------------------------------------------------------------------
-void CompileThread::GetSourceFileNames (APSIM_project& apf, list<string>& SourceFiles)
+void CompileThread::cleanup (APSIM_project& apf)
    {
-   // get all keys for contents of this project.
-   list<string> Keys;
-   apf.Get_keys (Keys);
-
-   // for each key we want to examine the key value and if it is source code
-   // then add to return list.
-   for (list<string>::iterator i = Keys.begin();
-                               i != Keys.end();
-                               i++)
-      {
-      string FileName;
-      apf.Get((*i).c_str(), FileName);
-      Path File(FileName.c_str());
-      if (File.Get_extension() == ".for" ||
-          File.Get_extension() == ".f90")
-         SourceFiles.push_back (FileName);
-      }
-
-   // now we need to look in the compiler file to see if there are any more.
-   GetFilesForCompiler (apf, SOURCE_KEY, SourceFiles);
+   DeleteFile ("amtemp.bat");
+   deleteFiles (apf, "automake.*");
+   deleteFiles (apf, "*.rsp");
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     get the source code directory.
+// Return a list of source files to compile.
+// ------------------------------------------------------------------
+void CompileThread::getSourceFileNames (APSIM_project& apf, list<string>& sourceFiles)
+   {
+   // get all files listed in the contents part of this project.
+   list<string> files;
+   apf.Get_keys (files);
 
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-//    DPH 1/5/2001 changed to assume apf location is the source location.
+   // for each file, work out which are source files and save the the returned
+   // sourceFiles list.
+   for (list<string>::iterator fileI = files.begin();
+                               fileI != files.end();
+                               fileI++)
+      {
+      string filename = *fileI;
+      // remove any compile= switch from the filename.
+      unsigned posSwitch = filename.find(" compile=");
+      if (posSwitch != string::npos)
+         filename = filename.substr(0, posSwitch);
+      Path File(filename.c_str());
+      if (File.Get_extension() == ".for" ||
+          File.Get_extension() == ".f90")
+         sourceFiles.push_back(filename);
+      }
+   }
 
 // ------------------------------------------------------------------
-string CompileThread::GetSourceDirectory (APSIM_project& apf)
+// Return the the source code directory.
+// ------------------------------------------------------------------
+string CompileThread::getSourceDirectory (APSIM_project& apf)
    {
    Path Source (apf.Get_filename().c_str());
    return Source.Get_directory();
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     return a list of files from the compiler section
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-//    DPH 5/6/2000 added support for LF95
-
+// Return a list of the specified compiler settings for the
+// specified project file.
 // ------------------------------------------------------------------
-void CompileThread::GetFilesForCompiler (APSIM_project& apf, const char* Key, list<string>& Files)
+void CompileThread::getCompilerSettings(APSIM_project& apf,
+                                       const string& settingName,
+                                       list<string>& settings,
+                                       const string& compilerFile)
    {
-   // get name of compiler file.
-   string st;
-   apf.Get(MODULETYPE_KEY, st, APSBUILD_SECTION, false);
-   string compilerFile = APSDirectories().Get_home() + "\\apsbuild\\" + st + "." + CompileType;
-   if (!FileExists(compilerFile.c_str()))
-      compilerFile = APSDirectories().Get_home() + "\\apsbuild\\" + st + ".fig";
+   // If the caller supplied a compilerFile then use that to do the lookup.
+   // Otherwise go find and use the default one for the specified project.
+   string compilerFileToUse = compilerFile;
+   if (compilerFileToUse == "")
+      {
+      apf.Get("compilerFile", compilerFileToUse, APSBUILD_SECTION, false);
+      if (compilerFileToUse == "")
+         compilerFileToUse = "release.compile";
+      }
 
-
-   // open compiler file and return requested information.
-   APSuite_ini Ini;
-   Ini.Set_file_name (compilerFile.c_str());
-   string Key_values[MAX_NUM_KEYS];
-   int Num_keys;
-   string compilerSection = "Instructions";
-   Ini.Read_list (compilerSection.c_str(), Key, Key_values, Num_keys);
-   for (int i = 0; i < Num_keys; i++)
-      Files.push_back (Key_values[i]);
+   // Try and open the compiler file in the apsbuild directory.  If
+   // the file is opened ok, then read in the requested settings
+   // If the file isn't opened ok then show an error message.
+   Path compilerPath(Application->ExeName.c_str());
+   compilerPath.Set_name(compilerFileToUse.c_str());
+   if (compilerPath.Exists())
+      {
+      // open compiler file and return requested information.
+      APSuite_ini Ini;
+      Ini.Set_file_name (compilerPath.Get_path().c_str());
+      string Key_values[MAX_NUM_KEYS];
+      int Num_keys;
+      string compilerSection = "Instructions";
+      Ini.Read_list (compilerSection.c_str(), settingName.c_str(), Key_values, Num_keys);
+      for (int i = 0; i < Num_keys; i++)
+         settings.push_back (Key_values[i]);
+      }
+   else
+      {
+      string msg = "Cannot find compiler file in the APSBuild directory.  File: " + compilerFileToUse;
+      ShowMessage(msg.c_str());
+      }
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     delete files matching file specification
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
+// Return a single specified compiler setting for the
+// specified project file.  This routine will concatenate all
+// multiple settings into a single string.
 // ------------------------------------------------------------------
-void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
+string CompileThread::getCompilerSetting(APSIM_project& apf,
+                                         const string& settingName,
+                                         const char delimiter,
+                                         const string& compilerFile)
+   {
+   string setting;
+   list<string> settings;
+   getCompilerSettings(apf, settingName, settings, compilerFile);
+   for (list<string>::iterator settingI = settings.begin();
+                               settingI != settings.end();
+                               settingI++)
+      {
+      if (setting != "")
+         setting += delimiter;
+      setting += *settingI;
+      }
+   return setting;
+   }
+// ------------------------------------------------------------------
+// Delete files matching file specification
+// ------------------------------------------------------------------
+void CompileThread::deleteFiles (APSIM_project& apf, const char* filespec)
    {
    list<string> Files;
-   Get_directory_listing (GetSourceDirectory(apf).c_str(), Filespec, Files, FA_NORMAL, true);
+   Get_directory_listing (getSourceDirectory(apf).c_str(), filespec, Files, FA_NORMAL, true);
    for (list<string>::iterator i = Files.begin();
                                i != Files.end();
                                i++)
@@ -642,23 +488,16 @@ void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
       }
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     create a ComponentInterface.for file for this module.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
+// Create a DataTypesModule.f90 file for this module.
 // ------------------------------------------------------------------
-void CompileThread::CreateComponentInterface(APSIM_project& apf)
+void CompileThread::createDataTypesModule(APSIM_project& apf)
    {
    // need to work out the name of the interface file.
    // It does this by looking at the name of the binary file and
    // assuming the interface file has the same name but with a .interface
    // extension and exists in the parent directory of the apf passed in.
    list<string> binaryFileNames;
-   GetBinaryFileNames (apf, binaryFileNames);
+   getBinaryFileNames (apf, binaryFileNames);
    if (binaryFileNames.size() > 0)
       {
       Path binaryPath(binaryFileNames.begin()->c_str());
@@ -670,30 +509,29 @@ void CompileThread::CreateComponentInterface(APSIM_project& apf)
       interfaceFilePath.Set_extension(".interface");
       if (interfaceFilePath.Exists())
          {
-         Path sourcePath(GetSourceDirectory(apf).c_str());
-         sourcePath.Change_directory();
+         // Get path of this executable and use it to find the datatypescreate program
+         Path homePath(Application->ExeName.c_str());
+         homePath.Back_up_directory();
 
-         // generate interface file.
-         GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
+         // run the DataTypesCreate tool
+         CommandLineToExecute = homePath.Get_directory()
+              + "\\apsim\\infra\\datatypes\\datatypescreate.exe"
+              + " " + interfaceFilePath.Get_path();
+         Synchronize(runCommandLine);
          }
       }
    }
 // ------------------------------------------------------------------
-//  Short description:
-//     create a ComponentInterface.for file for this module.
-
-//  Notes:
-
-//  Changes:
-//    DPH 18/3/99
-
+// Delete all dependant files for this module.  This will force a
+// rebuild.
 // ------------------------------------------------------------------
-void CompileThread::DeleteDependentFiles(APSIM_project& apf)
+void CompileThread::deleteDependentFiles(APSIM_project& apf)
    {
-   DeleteFiles(apf, "*.obj");
+   deleteFiles(apf, "*.obj");
+   DeleteFile("datatypesmodule.f90");
 
    list<string> sourceFilenames;
-   GetSourceFileNames(apf, sourceFilenames);
+   getSourceFileNames(apf, sourceFilenames);
    for (list<string>::iterator file = sourceFilenames.begin();
                                file != sourceFilenames.end();
                                file++)
@@ -726,7 +564,7 @@ void CompileThread::CreateAutomakeRSP(APSIM_project& apf)
    ofstream automakeRSP("automake.rsp");
 
    list<string> sourceFilenames;
-   GetSourceFileNames(apf, sourceFilenames);
+   getSourceFileNames(apf, sourceFilenames);
    for (list<string>::iterator file = sourceFilenames.begin();
                                file != sourceFilenames.end();
                                file++)
@@ -736,3 +574,23 @@ void CompileThread::CreateAutomakeRSP(APSIM_project& apf)
       }
    }
 
+// ------------------------------------------------------------------
+// Using the specified source file, go locate and return the compile=
+// line for this source file.
+// ------------------------------------------------------------------
+string CompileThread::getCompileLineForSourceFile(APSIM_project& apf, const string& sourceFile)
+   {
+   // get all files listed in the contents part of this project.
+   string file;
+   apf.Get(sourceFile.c_str(), file);
+
+   // look at the returned file for a compile= switch on it.
+   // If it does then use that compiler file
+   // rather that the default one for looking up the compile line.
+   string compilerFile;
+   unsigned posSwitch = file.find(" compilerfile=");
+   if (posSwitch != string::npos)
+      compilerFile = file.substr(posSwitch+14);
+
+   return getCompilerSetting(apf, "compile", ' ', compilerFile);
+   }
