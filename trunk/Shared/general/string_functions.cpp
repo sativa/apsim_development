@@ -215,8 +215,8 @@ void GENERAL_EXPORT To_upper (string& St)
 // ------------------------------------------------------------------
 //  Short description:
 //     function that takes a string and replaces all occurrances of
-//     the substring with the replacement string.
-
+//     the substring with the replacement string.  Return true if
+//     a replacement was made.
 //  Notes:
 
 //  Changes:
@@ -224,14 +224,17 @@ void GENERAL_EXPORT To_upper (string& St)
 //    dph 27/3/98 changed string::npos to string::string::npos in line with standard.
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
+bool GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
    {
+   bool replacementMade = false;
    size_t Pos = St.find(Sub_string);
    while (Pos != string::npos)
       {
       St.replace(Pos, strlen(Sub_string), Replacement_string);
+      replacementMade = true;
       Pos = St.find(Sub_string);
       }
+   return replacementMade;
    }
 
 // ------------------------------------------------------------------
@@ -340,3 +343,80 @@ int GENERAL_EXPORT NumOccurrences (string text, string substring)
    return counter;
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     Return an attribute of the type.
+
+//  Notes:
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+string getAttributeFromLine(const string& attributeName,
+                            const string& line)
+   {
+   unsigned posEquals = 0;
+   bool found = false;
+   string value;
+
+   while ((posEquals = line.find("=", posEquals)) != string::npos && !found)
+      {
+      string name;
+      getAttributeNameAndValue(line, posEquals, name, value);
+
+      // is the attribute name the one we're looking for?
+      found = Str_i_Eq(name, attributeName);
+      }
+   if (!found)
+      value = "";
+   return value;
+   }
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Given the position of an equals sign within a line, extract
+//     the name and value from the left and right hand side of the
+//     equals.
+
+//  Notes:
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+void getAttributeNameAndValue(const string& line,
+                              unsigned int posEquals,
+                              string& name,
+                              string& value)
+   {
+   // get the bit to the left of the equals sign.
+   string leftOfEquals = line.substr(0, posEquals);
+   Strip(leftOfEquals, " ");
+
+   // get the last word on the left of the equals i.e. the attribute name
+   unsigned lastSpace = leftOfEquals.find_last_of(" \t");
+   if (lastSpace == string::npos)
+      name = leftOfEquals;
+   else
+      name = leftOfEquals.substr(lastSpace+1);
+
+   string rightOfEquals = line.substr(posEquals+1);
+
+   // Need to get bit inside of quotes.
+   unsigned int firstQuote = rightOfEquals.find("\"");
+   unsigned int secondQuote;
+   if (firstQuote != string::npos)
+       secondQuote= rightOfEquals.find("\"", firstQuote+1);
+   if (firstQuote != string::npos && secondQuote != string::npos)
+      value = rightOfEquals.substr(firstQuote+1, secondQuote-firstQuote-1);
+   else
+      value = "";
+   }
