@@ -9,20 +9,26 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.4
      Title                  = oryza Sample Simulation
-     Component DLL          = c:\progra~1\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\eo\lib\eo.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\progra~1\apsim32\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\eo\lib\eo.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\oryza\lib\oryza.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  1/01/1992
      Simulation end date   = 31/12/1992
      Time step =           = 1440 (mins)
@@ -39,7 +45,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\progra~1\apsim32\apsim\MET\SAMPLE\PHIL1.MET
+     INPUT File name: c:\development\apsim\MET\SAMPLE\bundabrg.MET
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising
@@ -52,8 +58,17 @@
      Manager rules:
      
      SECTION:- start_of_day
+     if (day = 15) then
+       oryza sow cultivar = cv1
+     endif
+     if (day = 135) then
+       oryza sow cultivar = cv1
+     endif
      
      SECTION:- end_of_day
+     if (oryza.plant_status = 'dead') then
+       oryza end_crop
+     endif
      report do_output
      END of rules
      
@@ -81,7 +96,7 @@
      
      
           Default instrument height used =      2000. (mm)
-          Source of VPD is vpd
+          Source of VPD is mint
           Default atmospheric pressure used =   1000.0 (mb)
           Default wind used =     60.0 (km/day)
 
@@ -162,69 +177,6 @@
         - Reading Constants
      
         - Reading Parameters
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     oc =     0.000000
-             less than lower limit of   0.1000000E-01
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
      
      
      
@@ -237,15 +189,15 @@
            Layer    pH    OC     NO3     NH4    Urea
                          (%) (kg/ha) (kg/ha) (kg/ha)
           ------------------------------------------------
-             1     8.20  0.00    0.00    0.00    0.00
-             2     8.50  0.00    0.00    0.00    0.00
-             3     8.60  0.00    0.00    0.00    0.00
-             4     8.60  0.00    0.00    0.00    0.00
-             5     7.40  0.00    0.00    0.00    0.00
-             6     5.30  0.00    0.00    0.00    0.00
-             7     5.00  0.00    0.00    0.00    0.00
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
           ------------------------------------------------
-           Totals                0.00    0.00    0.00
+           Totals               81.46    8.81    0.00
           ------------------------------------------------
      
      
@@ -258,16 +210,5078 @@
            Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
                     (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
           ---------------------------------------------------------
-             1          0.0     0.0     0.0     0.0     0.0     0.0
-             2          0.0     0.0     0.0     0.0     0.0     0.0
-             3          0.0     0.0     0.0     0.0     0.0     0.0
-             4          0.0     0.0     0.0     0.0     0.0     0.0
-             5          0.0     0.0     0.0     0.0     0.0     0.0
-             6          0.0     0.0     0.0     0.0     0.0     0.0
-             7          0.0     0.0     0.0     0.0     0.0     0.0
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
           ---------------------------------------------------------
-           Totals       0.0     0.0     0.0     0.0     0.0     0.0
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
+
+------- oryza Initialisation --------------------------------------------------
+        - Initialising
 ------- Start of simulation  --------------------------------------------------
+15 January 1992(Day of year=15), manager: 
+     Manager sending message :- oryza sow  cultivar = cv1
+15 January 1992(Day of year=15), oryza: 
+        - Reading Parameters
+        - Reading Cultivar Parameters
+14 May 1992(Day of year=135), manager: 
+     Manager sending message :- oryza sow  cultivar = cv1
+14 May 1992(Day of year=135), oryza: 
+        - Reading Parameters
+        - Reading Cultivar Parameters
+16 May 1992(Day of year=137), oryza: 
+     Maturity
+16 May 1992(Day of year=137), manager: 
+     Manager sending message :- oryza end_crop
+16 May 1992(Day of year=137), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  5744.8 (kg/ha)
+16 May 1992(Day of year=137), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: dlt_fom_n
+     Value: 13432437.0000000
+     Bounds:   -10000.0000000 to    10000.0000000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 May 1992(Day of year=137), oryza: 
+                             straw residue = 1810.1 (kg/ha)
+                             straw N       =  149.7 (kg/ha)
+                             root residue  = 1765.3 (kg/ha)
+                             root N        = ****** (kg/ha)
+17 May 1992(Day of year=138), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     399351.0
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 May 1992(Day of year=139), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:   399350.9687500
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 May 1992(Day of year=139), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     721584.0
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 May 1992(Day of year=140), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:   721584.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 May 1992(Day of year=140), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     1125614.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 May 1992(Day of year=141), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  1125613.7500000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 May 1992(Day of year=141), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     1515298.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 May 1992(Day of year=142), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  1515297.8750000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 May 1992(Day of year=142), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     1888390.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 May 1992(Day of year=143), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  1888390.1250000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 May 1992(Day of year=143), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     2262178.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 May 1992(Day of year=144), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  2262178.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 May 1992(Day of year=144), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     2610150.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 May 1992(Day of year=145), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  2610150.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 May 1992(Day of year=145), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     2931297.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 May 1992(Day of year=146), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  2931297.2500000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 May 1992(Day of year=146), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     3237490.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 May 1992(Day of year=147), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  3237489.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 May 1992(Day of year=147), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     3535353.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 May 1992(Day of year=148), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  3535353.2500000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 May 1992(Day of year=148), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     3813019.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 May 1992(Day of year=149), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  3813019.2500000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 May 1992(Day of year=149), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     4074691.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 May 1992(Day of year=150), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  4074690.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 May 1992(Day of year=150), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     4320703.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 May 1992(Day of year=151), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  4320702.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 May 1992(Day of year=151), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     4553456.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 May 1992(Day of year=152), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  4553456.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 May 1992(Day of year=152), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     4769238.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 June 1992(Day of year=153), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  4769238.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 June 1992(Day of year=153), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     4977861.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 June 1992(Day of year=154), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  4977860.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 June 1992(Day of year=154), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     5186890.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 June 1992(Day of year=155), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  5186889.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 June 1992(Day of year=155), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     5401616.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 June 1992(Day of year=156), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  5401616.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 June 1992(Day of year=156), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     5613456.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 June 1992(Day of year=157), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  5613456.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 June 1992(Day of year=157), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     5810979.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 June 1992(Day of year=158), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  5810979.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 June 1992(Day of year=158), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     5993744.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 June 1992(Day of year=159), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  5993743.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 June 1992(Day of year=159), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6163475.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 June 1992(Day of year=160), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6163475.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 June 1992(Day of year=160), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6311313.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 June 1992(Day of year=161), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6311313.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 June 1992(Day of year=161), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6440595.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 June 1992(Day of year=162), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6440594.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 June 1992(Day of year=162), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6561465.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 June 1992(Day of year=163), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6561464.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 June 1992(Day of year=163), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6672323.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 June 1992(Day of year=164), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6672323.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 June 1992(Day of year=164), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6777459.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 June 1992(Day of year=165), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6777458.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 June 1992(Day of year=165), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6881942.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 June 1992(Day of year=166), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6881941.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 June 1992(Day of year=166), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     6990795.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 June 1992(Day of year=167), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  6990794.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 June 1992(Day of year=167), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7104436.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 June 1992(Day of year=168), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7104435.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 June 1992(Day of year=168), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7184672.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 June 1992(Day of year=169), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7184672.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 June 1992(Day of year=169), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7291152.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 June 1992(Day of year=170), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7291152.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 June 1992(Day of year=170), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7414882.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 June 1992(Day of year=171), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7414881.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 June 1992(Day of year=171), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7533400.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 June 1992(Day of year=172), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7533399.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 June 1992(Day of year=172), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7641855.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 June 1992(Day of year=173), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7641855.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 June 1992(Day of year=173), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7743614.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 June 1992(Day of year=174), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7743613.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 June 1992(Day of year=174), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7841164.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 June 1992(Day of year=175), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7841163.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 June 1992(Day of year=175), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     7930850.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 June 1992(Day of year=176), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  7930850.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 June 1992(Day of year=176), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8016955.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 June 1992(Day of year=177), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8016954.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 June 1992(Day of year=177), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8099853.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 June 1992(Day of year=178), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8099853.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 June 1992(Day of year=178), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8176892.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 June 1992(Day of year=179), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8176892.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 June 1992(Day of year=179), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8247927.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 June 1992(Day of year=180), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8247927.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 June 1992(Day of year=180), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8315532.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 June 1992(Day of year=181), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8315532.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 June 1992(Day of year=181), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8382587.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 June 1992(Day of year=182), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8382586.5000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 June 1992(Day of year=182), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8452065.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 July 1992(Day of year=183), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8452065.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 July 1992(Day of year=183), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8526445.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 July 1992(Day of year=184), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8526445.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 July 1992(Day of year=184), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8605762.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 July 1992(Day of year=185), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8605762.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 July 1992(Day of year=185), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8689568.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 July 1992(Day of year=186), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8689568.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 July 1992(Day of year=186), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8776455.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 July 1992(Day of year=187), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8776455.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 July 1992(Day of year=187), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8867026.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 July 1992(Day of year=188), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8867026.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 July 1992(Day of year=188), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     8958307.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 July 1992(Day of year=189), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  8958307.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 July 1992(Day of year=189), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9046650.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 July 1992(Day of year=190), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9046650.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 July 1992(Day of year=190), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9128266.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 July 1992(Day of year=191), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9128266.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 July 1992(Day of year=191), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9200060.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 July 1992(Day of year=192), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9200060.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 July 1992(Day of year=192), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9261788.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 July 1992(Day of year=193), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9261788.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 July 1992(Day of year=193), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9319617.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 July 1992(Day of year=194), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9319617.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 July 1992(Day of year=194), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9375550.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 July 1992(Day of year=195), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9375550.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 July 1992(Day of year=195), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9431469.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 July 1992(Day of year=196), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9431469.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 July 1992(Day of year=196), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9488490.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 July 1992(Day of year=197), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9488490.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 July 1992(Day of year=197), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9547716.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 July 1992(Day of year=198), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9547716.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 July 1992(Day of year=198), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9605701.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 July 1992(Day of year=199), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9605701.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 July 1992(Day of year=199), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9661906.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 July 1992(Day of year=200), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9661906.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 July 1992(Day of year=200), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9718487.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 July 1992(Day of year=201), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9718487.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 July 1992(Day of year=201), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9774391.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 July 1992(Day of year=202), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9774391.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 July 1992(Day of year=202), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9826261.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 July 1992(Day of year=203), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9826261.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 July 1992(Day of year=203), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9874198.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 July 1992(Day of year=204), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9874198.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 July 1992(Day of year=204), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9921325.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 July 1992(Day of year=205), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9921325.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 July 1992(Day of year=205), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =     9966510.
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 July 1992(Day of year=206), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value:  9966510.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 July 1992(Day of year=206), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1001140E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 July 1992(Day of year=207), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10011395.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 July 1992(Day of year=207), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1005769E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 July 1992(Day of year=208), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10057692.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 July 1992(Day of year=208), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1010645E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 July 1992(Day of year=209), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10106446.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 July 1992(Day of year=209), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1015489E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 July 1992(Day of year=210), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10154889.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 July 1992(Day of year=210), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1020155E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 July 1992(Day of year=211), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10201554.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 July 1992(Day of year=211), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1024761E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 July 1992(Day of year=212), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10247609.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 July 1992(Day of year=212), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1029496E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 July 1992(Day of year=213), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10294964.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 July 1992(Day of year=213), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1034260E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 August 1992(Day of year=214), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10342600.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 August 1992(Day of year=214), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1039071E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 August 1992(Day of year=215), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10390712.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 August 1992(Day of year=215), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1043987E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 August 1992(Day of year=216), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10439865.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 August 1992(Day of year=216), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1049005E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 August 1992(Day of year=217), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10490052.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 August 1992(Day of year=217), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1054064E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 August 1992(Day of year=218), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10540640.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 August 1992(Day of year=218), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1059142E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 August 1992(Day of year=219), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10591420.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 August 1992(Day of year=219), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1063843E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 August 1992(Day of year=220), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10638428.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 August 1992(Day of year=220), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1068541E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 August 1992(Day of year=221), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10685409.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 August 1992(Day of year=221), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1072753E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 August 1992(Day of year=222), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10727531.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 August 1992(Day of year=222), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1075999E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 August 1992(Day of year=223), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10759993.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 August 1992(Day of year=223), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1078335E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 August 1992(Day of year=224), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10783346.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 August 1992(Day of year=224), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1081655E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 August 1992(Day of year=225), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10816554.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 August 1992(Day of year=225), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1084966E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 August 1992(Day of year=226), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10849661.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 August 1992(Day of year=226), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1088582E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 August 1992(Day of year=227), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10885824.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 August 1992(Day of year=227), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1092415E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 August 1992(Day of year=228), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10924151.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 August 1992(Day of year=228), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1096475E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 August 1992(Day of year=229), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 10964745.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 August 1992(Day of year=229), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1100437E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 August 1992(Day of year=230), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11004368.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 August 1992(Day of year=230), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1104241E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 August 1992(Day of year=231), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11042409.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 August 1992(Day of year=231), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1108022E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 August 1992(Day of year=232), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11080218.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 August 1992(Day of year=232), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1111641E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 August 1992(Day of year=233), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11116406.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 August 1992(Day of year=233), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1115059E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 August 1992(Day of year=234), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11150592.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 August 1992(Day of year=234), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1118383E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 August 1992(Day of year=235), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11183825.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 August 1992(Day of year=235), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1121569E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 August 1992(Day of year=236), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11215685.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 August 1992(Day of year=236), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1124425E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 August 1992(Day of year=237), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11244246.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 August 1992(Day of year=237), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1127180E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 August 1992(Day of year=238), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11271797.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 August 1992(Day of year=238), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1129882E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 August 1992(Day of year=239), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11298820.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 August 1992(Day of year=239), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1132537E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 August 1992(Day of year=240), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11325369.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 August 1992(Day of year=240), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1135131E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 August 1992(Day of year=241), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11351306.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 August 1992(Day of year=241), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1137893E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 August 1992(Day of year=242), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11378931.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 August 1992(Day of year=242), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1140683E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 August 1992(Day of year=243), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11406826.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 August 1992(Day of year=243), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1143659E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 August 1992(Day of year=244), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11436588.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 August 1992(Day of year=244), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1146533E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 September 1992(Day of year=245), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11465328.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 September 1992(Day of year=245), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1149306E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 September 1992(Day of year=246), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11493060.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 September 1992(Day of year=246), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1151745E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 September 1992(Day of year=247), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11517449.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 September 1992(Day of year=247), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1153461E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 September 1992(Day of year=248), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11534613.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 September 1992(Day of year=248), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1155209E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 September 1992(Day of year=249), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11552086.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 September 1992(Day of year=249), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1157529E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 September 1992(Day of year=250), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11575289.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 September 1992(Day of year=250), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1160051E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 September 1992(Day of year=251), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11600506.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 September 1992(Day of year=251), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1162842E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 September 1992(Day of year=252), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11628416.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 September 1992(Day of year=252), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1166008E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 September 1992(Day of year=253), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11660081.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 September 1992(Day of year=253), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1169235E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 September 1992(Day of year=254), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11692348.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 September 1992(Day of year=254), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1172322E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 September 1992(Day of year=255), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11723221.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 September 1992(Day of year=255), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1175271E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 September 1992(Day of year=256), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11752712.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 September 1992(Day of year=256), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1178079E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 September 1992(Day of year=257), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11780790.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 September 1992(Day of year=257), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1180604E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 September 1992(Day of year=258), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11806042.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 September 1992(Day of year=258), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1183006E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 September 1992(Day of year=259), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11830062.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 September 1992(Day of year=259), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1185332E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 September 1992(Day of year=260), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11853315.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 September 1992(Day of year=260), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1187070E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 September 1992(Day of year=261), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11870695.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 September 1992(Day of year=261), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1189284E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 September 1992(Day of year=262), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11892836.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 September 1992(Day of year=262), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1191503E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 September 1992(Day of year=263), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11915029.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 September 1992(Day of year=263), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1193762E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 September 1992(Day of year=264), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11937623.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 September 1992(Day of year=264), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1195917E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 September 1992(Day of year=265), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11959170.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 September 1992(Day of year=265), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1197965E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 September 1992(Day of year=266), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11979650.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 September 1992(Day of year=266), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1199973E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 September 1992(Day of year=267), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 11999730.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 September 1992(Day of year=267), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1201945E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 September 1992(Day of year=268), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12019448.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 September 1992(Day of year=268), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1203848E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 September 1992(Day of year=269), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12038475.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 September 1992(Day of year=269), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1205823E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 September 1992(Day of year=270), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12058229.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 September 1992(Day of year=270), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1207932E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 September 1992(Day of year=271), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12079323.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 September 1992(Day of year=271), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1210062E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 September 1992(Day of year=272), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12100621.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 September 1992(Day of year=272), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1212169E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 September 1992(Day of year=273), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12121689.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 September 1992(Day of year=273), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1214243E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 September 1992(Day of year=274), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12142425.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 September 1992(Day of year=274), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1215710E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 October 1992(Day of year=275), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12157095.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 October 1992(Day of year=275), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1217416E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 October 1992(Day of year=276), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12174164.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 October 1992(Day of year=276), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1219041E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 October 1992(Day of year=277), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12190414.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 October 1992(Day of year=277), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1220605E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 October 1992(Day of year=278), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12206049.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 October 1992(Day of year=278), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1222109E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 October 1992(Day of year=279), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12221090.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 October 1992(Day of year=279), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1223752E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 October 1992(Day of year=280), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12237522.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 October 1992(Day of year=280), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1225547E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 October 1992(Day of year=281), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12255466.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 October 1992(Day of year=281), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1227375E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 October 1992(Day of year=282), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12273753.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 October 1992(Day of year=282), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1229180E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 October 1992(Day of year=283), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12291797.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 October 1992(Day of year=283), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1230962E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 October 1992(Day of year=284), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12309619.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 October 1992(Day of year=284), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1232655E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 October 1992(Day of year=285), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12326546.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 October 1992(Day of year=285), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1234218E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 October 1992(Day of year=286), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12342176.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 October 1992(Day of year=286), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1235709E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 October 1992(Day of year=287), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12357093.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 October 1992(Day of year=287), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1237148E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 October 1992(Day of year=288), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12371484.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 October 1992(Day of year=288), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1238508E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 October 1992(Day of year=289), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12385082.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 October 1992(Day of year=289), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1239757E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 October 1992(Day of year=290), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12397568.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 October 1992(Day of year=290), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1240971E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 October 1992(Day of year=291), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12409710.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 October 1992(Day of year=291), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1242149E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 October 1992(Day of year=292), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12421488.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 October 1992(Day of year=292), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1243333E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 October 1992(Day of year=293), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12433329.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 October 1992(Day of year=293), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1244522E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 October 1992(Day of year=294), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12445222.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 October 1992(Day of year=294), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1245768E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 October 1992(Day of year=295), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12457678.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 October 1992(Day of year=295), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1247008E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 October 1992(Day of year=296), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12470083.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 October 1992(Day of year=296), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1248234E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 October 1992(Day of year=297), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12482339.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 October 1992(Day of year=297), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1249430E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 October 1992(Day of year=298), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12494295.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 October 1992(Day of year=298), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1250597E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 October 1992(Day of year=299), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12505965.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 October 1992(Day of year=299), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1251692E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 October 1992(Day of year=300), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12516924.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 October 1992(Day of year=300), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1252757E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 October 1992(Day of year=301), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12527572.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 October 1992(Day of year=301), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1253813E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 October 1992(Day of year=302), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12538130.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 October 1992(Day of year=302), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1254855E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 October 1992(Day of year=303), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12548551.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 October 1992(Day of year=303), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1255864E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 October 1992(Day of year=304), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12558644.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 October 1992(Day of year=304), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1256841E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 October 1992(Day of year=305), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12568413.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 October 1992(Day of year=305), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1257793E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 November 1992(Day of year=306), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12577925.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 November 1992(Day of year=306), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1258718E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 November 1992(Day of year=307), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12587181.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 November 1992(Day of year=307), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1259633E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 November 1992(Day of year=308), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12596328.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 November 1992(Day of year=308), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1260571E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 November 1992(Day of year=309), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12605714.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 November 1992(Day of year=309), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1261537E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 November 1992(Day of year=310), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12615374.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 November 1992(Day of year=310), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1262518E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 November 1992(Day of year=311), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12625182.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 November 1992(Day of year=311), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1263486E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 November 1992(Day of year=312), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12634855.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 November 1992(Day of year=312), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1264434E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 November 1992(Day of year=313), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12644343.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 November 1992(Day of year=313), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1265360E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 November 1992(Day of year=314), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12653603.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 November 1992(Day of year=314), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1266264E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 November 1992(Day of year=315), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12662638.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 November 1992(Day of year=315), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1267130E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 November 1992(Day of year=316), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12671299.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 November 1992(Day of year=316), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1268031E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 November 1992(Day of year=317), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12680310.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 November 1992(Day of year=317), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1268923E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 November 1992(Day of year=318), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12689226.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 November 1992(Day of year=318), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1269801E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 November 1992(Day of year=319), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12698011.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 November 1992(Day of year=319), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1270645E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 November 1992(Day of year=320), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12706446.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 November 1992(Day of year=320), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1271444E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 November 1992(Day of year=321), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12714443.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 November 1992(Day of year=321), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1272174E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 November 1992(Day of year=322), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12721735.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 November 1992(Day of year=322), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1272879E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 November 1992(Day of year=323), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12728786.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 November 1992(Day of year=323), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1273567E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 November 1992(Day of year=324), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12735674.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 November 1992(Day of year=324), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1274271E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 November 1992(Day of year=325), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12742709.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 November 1992(Day of year=325), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1275002E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 November 1992(Day of year=326), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12750020.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 November 1992(Day of year=326), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1275755E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 November 1992(Day of year=327), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12757551.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 November 1992(Day of year=327), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1276528E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 November 1992(Day of year=328), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12765280.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 November 1992(Day of year=328), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1277229E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 November 1992(Day of year=329), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12772291.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 November 1992(Day of year=329), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1277998E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 November 1992(Day of year=330), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12779976.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 November 1992(Day of year=330), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1278791E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 November 1992(Day of year=331), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12787909.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 November 1992(Day of year=331), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1279426E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 November 1992(Day of year=332), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12794260.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 November 1992(Day of year=332), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1280162E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 November 1992(Day of year=333), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12801617.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 November 1992(Day of year=333), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1280782E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 November 1992(Day of year=334), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12807818.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 November 1992(Day of year=334), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1281381E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 November 1992(Day of year=335), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12813810.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 November 1992(Day of year=335), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1281958E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 December 1992(Day of year=336), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12819575.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+1 December 1992(Day of year=336), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1282649E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 December 1992(Day of year=337), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12826485.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+2 December 1992(Day of year=337), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1283304E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 December 1992(Day of year=338), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12833042.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+3 December 1992(Day of year=338), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1283924E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 December 1992(Day of year=339), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12839239.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+4 December 1992(Day of year=339), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1284519E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 December 1992(Day of year=340), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12845186.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 December 1992(Day of year=340), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1285094E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 December 1992(Day of year=341), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12850937.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+6 December 1992(Day of year=341), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1285661E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 December 1992(Day of year=342), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12856606.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+7 December 1992(Day of year=342), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1286241E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 December 1992(Day of year=343), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12862407.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+8 December 1992(Day of year=343), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1286831E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 December 1992(Day of year=344), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12868311.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+9 December 1992(Day of year=344), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1287304E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 December 1992(Day of year=345), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12873036.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+10 December 1992(Day of year=345), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1287859E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 December 1992(Day of year=346), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12878592.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+11 December 1992(Day of year=346), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1288385E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 December 1992(Day of year=347), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12883847.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+12 December 1992(Day of year=347), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1288886E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 December 1992(Day of year=348), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12888855.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+13 December 1992(Day of year=348), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1289360E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 December 1992(Day of year=349), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12893596.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+14 December 1992(Day of year=349), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1289837E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 December 1992(Day of year=350), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12898374.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+15 December 1992(Day of year=350), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1290311E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 December 1992(Day of year=351), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12903112.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 December 1992(Day of year=351), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1290775E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 December 1992(Day of year=352), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12907753.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+17 December 1992(Day of year=352), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1291235E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 December 1992(Day of year=353), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12912352.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+18 December 1992(Day of year=353), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1291681E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 December 1992(Day of year=354), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12916814.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+19 December 1992(Day of year=354), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1292108E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 December 1992(Day of year=355), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12921081.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+20 December 1992(Day of year=355), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1292523E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 December 1992(Day of year=356), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12925225.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+21 December 1992(Day of year=356), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1292927E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 December 1992(Day of year=357), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12929266.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+22 December 1992(Day of year=357), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1293317E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 December 1992(Day of year=358), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12933174.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 December 1992(Day of year=358), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1293714E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 December 1992(Day of year=359), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12937137.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+24 December 1992(Day of year=359), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1294120E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 December 1992(Day of year=360), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12941201.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+25 December 1992(Day of year=360), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1294531E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 December 1992(Day of year=361), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12945313.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+26 December 1992(Day of year=361), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1294955E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 December 1992(Day of year=362), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12949550.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+27 December 1992(Day of year=362), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1295382E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 December 1992(Day of year=363), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12953823.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+28 December 1992(Day of year=363), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1295807E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 December 1992(Day of year=364), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12958068.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+29 December 1992(Day of year=364), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1296234E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 December 1992(Day of year=365), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12962340.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+30 December 1992(Day of year=365), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1296660E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 December 1992(Day of year=366), soilwat2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Value of variable is out of bounds.
+     Variable: nh4
+     Value: 12966597.0000000
+     Bounds:        0.0000000 to    30000.0000000
+     Component name: soilwat2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 December 1992(Day of year=366), soiln2: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     NH4(layer) =    0.1297054E+08
+             exceeds upper limit of    9000.000
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
 31 December 1992(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.
