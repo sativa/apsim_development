@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\sugar\lib\sugar.dll
 
@@ -39,8 +39,8 @@
         clock.year
         soilwat2.esw
         soiln2.no3()
-        residue2.residue_wt
-        residue2.residue_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_n
         irrigate.irrigation
         sugar.lai
         sugar.biomass
@@ -118,7 +118,7 @@
      
      SECTION:- end_of_day
       soil_n = (soiln2.nit_tot())/10
-      resid_n = (residue2.residue_n)/10
+      resid_n = (surfaceom.surfaceom_n)/10
       plant_n = sugar.plant_n_tot
        leach_n = (soilwat2.no3_leach(7))/10
        dnit_n  = (soiln2.dnit())/10
@@ -149,7 +149,7 @@
            (das = ratoonlen and ratoon_no > 0) then
            sugar harvest
            if burn_flag = 1 then
-              residue2 tillage type = burn
+              surfaceom tillage type = burn
            endif
            if ratoon_no = noratoons + 1 then
               sugar kill_crop
@@ -159,7 +159,7 @@
               if sowing_reset = 1 then
                  soilwat2 reset
                  soiln2   reset
-                 residue2 reset
+                 surfaceom reset
               else
               endif
               if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -180,7 +180,7 @@
         sugar harvest
         sugar end_crop
         if burn_flag = 1 then
-           residue2 tillage type = burn
+           surfaceom tillage type = burn
         endif
      elseif (sugar.crop_status = 'out') and (day = planting_day) then
         sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
@@ -291,30 +291,29 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sugar
+      Residue type = sugar
+      Overall mass =  10000.0000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  2000.00000
+                            C:N =  80.0000000
+      Lying cellulose mass =  7000.00000
+                            C:N =  80.0000000
+      Lying lignin mass =  1000.00000
+                            C:N =  80.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-             10000.0    50.0     0.0  sugar
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    80.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -441,7 +440,7 @@
 25 October 1980(Day of year=299), sugar: 
       stage    4.0 begin_cane
                           biomass =           2204.646       lai =     6.293204
-                          stover N conc =   0.6785887       extractable sw =    171.7891
+                          stover N conc =   0.6785888       extractable sw =    171.7891
 10 April 1981(Day of year=100), manager: 
      Manager sending message :- sugar lodge
 10 April 1981(Day of year=100), sugar: 
@@ -458,7 +457,7 @@
       live above ground biomass (kg/ha) =   78330.3
       green above ground biomass (kg/ha) =   73787.6
       senesced above ground biomass (kg/ha) =    4542.7
-      dead above ground biomass (kg/ha) =    4046.3
+      dead above ground biomass (kg/ha) =    4046.2
       number of leaves =  53.6
       total N content (kg/ha) =    156.19    senesced N content (kg/ha) =     16.64
       green N content (kg/ha) =    136.93    dead N content (kg/ha) =      2.62
@@ -472,7 +471,7 @@
      
      
       stress indices for begin_cane
-      water stress 1 =    0.000000       nitrogen stress 1 =   0.1616533E-01
+      water stress 1 =    0.000000       nitrogen stress 1 =   0.1616505E-01
       water stress 2 =    0.000000
      
      
@@ -489,8 +488,8 @@
      
          - Reading constants from q117_ratoon
 2 August 1981(Day of year=214), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-2 August 1981(Day of year=214), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+2 August 1981(Day of year=214), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -504,10 +503,10 @@
 10 August 1981(Day of year=222), sugar: 
       stage    3.0 emergence
                           biomass =           3.529968       lai =    0.1000000E-01
-                          stover N conc =    2.529765       extractable sw =    224.2995
+                          stover N conc =    2.529765       extractable sw =    224.2993
 12 December 1981(Day of year=346), sugar: 
       stage    4.0 begin_cane
                           biomass =           1807.089       lai =     6.485062
-                          stover N conc =   0.7201347       extractable sw =    256.4507
+                          stover N conc =   0.7201347       extractable sw =    256.4506
 10 April 1982(Day of year=100), clock: 
      Simulation is terminating due to end criteria being met.
