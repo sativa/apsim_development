@@ -189,7 +189,7 @@
       g%dis_wind  = 0.0
       g%dis_radn  = 0.0
       g%string = blank
-      g%rd    = 0.0
+      g%rd(:)    = 0.0
       g%nv = 0
       g%radn_rcal = 0.0
              
@@ -1499,7 +1499,7 @@
          call write_string (string)
 !         LAG = 1 + LAG/2
          endif
-         g%rd = 0.0
+         g%rd(:) = 0.0
          g%nv = 0
       else
       endif
