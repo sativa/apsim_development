@@ -378,6 +378,12 @@
 *+  Local Variables
       real residue_wt, residue_n
 
+      real fraction_to_residue(max_part)
+      integer num_foliage_parts
+      character foliage_part_names(max_part)*(32)
+      real dlt_dm(max_part)
+      real dlt_n(max_part)
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -401,9 +407,35 @@
      :                            ,c%num_above_gnd_parts))
      :           * kg2gm/ha2sm
 
-      call crop_top_residue(c%crop_type
-     :                     ,residue_wt
-     :                     ,residue_n)
+
+
+      ! Publish an event stating biomass flows to other parts of the system
+      fraction_to_Residue = 1.0
+      num_foliage_parts = 1
+      foliage_part_names(:)=' '
+      foliage_part_names(1) = 'foliage'
+      dlt_dm(:) = 0.0
+      dlt_n(:) = 0.0
+      dlt_dm(1) = g%dlt_foliage_mass_detached
+      dlt_n(1) = g%dlt_foliage_n_detached
+
+      call Growth_Send_Crop_Chopped_Event (c%crop_type
+     :                                    , foliage_part_names
+     :                                    , dlt_dm
+     :                                    , dlt_n
+     :                                    , fraction_to_Residue
+     :                                    , num_foliage_parts)
+
+
+      ! Publish an event stating biomass flows to other parts of the system
+      fraction_to_Residue(1:c%num_above_gnd_parts) = 1.0
+      call Growth_Send_Crop_Chopped_Event (c%crop_type
+     :                                    ,c%above_gnd_parts
+     :                                    , g%dlt_adm_detached
+     :                                    , g%dlt_an_detached
+     :                                    , fraction_to_Residue
+     :                                    , c%num_above_gnd_parts)
+
 
       call crop_root_incorp (g%root_mass * kg2gm/ha2sm
      :                      ,g%root_mass * g%root_n * kg2gm/ha2sm
@@ -2371,7 +2403,10 @@ c   Needs to wait until we put reads into create phase
              ! Calculate NO3 Uptake
              ! ========================
              do 150 layer=1,num_layers
-                avail_no3(layer) = g%no3(layer)- g%no3_min(layer)
+                ! NIH added cap on minimum no3 to remove warnings about very
+                ! small negative numbers due to near zero values.
+                avail_no3(layer) = g%no3(layer)
+     :                           - max(g%no3_min(layer),0.000001)
                 avail_no3(layer) = l_bound (avail_no3(layer),0.0)
                 g%dlt_no3 (layer) = 0.0
   150        continue
@@ -5028,39 +5063,13 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
       parameter (myname = 'Growth_update_other_variables')
 
 *+  Local Variables
-      real residue_wt
-      real residue_n
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      residue_wt = (sum_Real_array(g%dlt_adm_detached
-     :                           ,c%num_above_gnd_parts)
-     :              + g%dlt_foliage_mass_detached)
-     :           * kg2gm/ha2sm
-      residue_n  = (sum_Real_array(g%dlt_an_detached
-     :                           ,c%num_above_gnd_parts)
-     :              + g%dlt_foliage_n_detached)
-     :           * kg2gm/ha2sm
-
-      call crop_top_residue(c%crop_type
-     :                     ,residue_wt
-     :                     ,residue_n)
-
-      call Growth_root_senescence(g%dlt_root_length_sen
-     :                           ,g%dlt_root_mass_sen
-     :                           ,g%dlt_root_n_sen)
 
 
 
-      call crop_root_incorp (g%dlt_root_mass_sen * kg2gm/ha2sm
-     :                      ,g%dlt_root_n_sen * kg2gm/ha2sm
-     :                      ,g%dlayer
-     :                      ,g%root_length
-     :                      ,g%root_depth
-     :                      ,c%crop_type
-     :                      ,max_layer
-     :                      )
 
 
 
@@ -5183,6 +5192,11 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 *      120100 nih
 
 *+  Local Variables
+      real fraction_to_residue(max_part)
+      integer num_foliage_parts
+      character foliage_part_names(max_part)*(32)
+      real dlt_dm(max_part)
+      real dlt_n(max_part)
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5225,6 +5239,25 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 
       call Growth_canopy_height(g%dlt_canopy_height)
       g%height = g%height + g%dlt_canopy_height
+
+
+      ! Publish an event stating biomass flows to other parts of the system
+      fraction_to_Residue = 1.0
+      num_foliage_parts = 1
+      foliage_part_names(:)=' '
+      foliage_part_names(1) = 'foliage'
+      dlt_dm(:) = 0.0
+      dlt_n(:) = 0.0
+      dlt_dm(1) = g%dlt_foliage_mass_detached
+      dlt_n(1) = g%dlt_foliage_n_detached
+
+      call Growth_Send_Crop_Chopped_Event (c%crop_type
+     :                                    , foliage_part_names
+     :                                    , dlt_dm
+     :                                    , dlt_n
+     :                                    , fraction_to_Residue
+     :                                    , num_foliage_parts)
+
 
       call pop_routine (my_name)
       return
@@ -5280,6 +5313,20 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
      :                         ,num_layers)
       g%root_depth = g%root_depth + g%dlt_root_depth
 
+
+      ! Publish an event to tell other modules that biomass has flowed to another
+      ! part of the system
+
+      call crop_root_incorp (g%dlt_root_mass_sen * kg2gm/ha2sm
+     :                      ,g%dlt_root_n_sen * kg2gm/ha2sm
+     :                      ,g%dlayer
+     :                      ,g%root_length
+     :                      ,g%root_depth
+     :                      ,c%crop_type
+     :                      ,max_layer
+     :                      )
+
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -5299,6 +5346,7 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 *      120100 nih
 
 *+  Local Variables
+      real fraction_to_residue(max_part)
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5351,6 +5399,20 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 
       call subtract_real_array (g%dlt_an_detached, g%an_sen, max_part)
       call subtract_real_array (g%dlt_bn_detached, g%bn_sen, max_part)
+
+
+      ! Publish an event stating biomass flows to other parts of the system
+      ! NOTE = below ground structure is not yet sent to the soil!!!!!!!!!
+
+      fraction_to_Residue(1:c%num_above_gnd_parts) = 1.0
+      call Growth_Send_Crop_Chopped_Event (c%crop_type
+     :                                    ,c%above_gnd_parts
+     :                                    , g%dlt_adm_detached
+     :                                    , g%dlt_an_detached
+     :                                    , fraction_to_Residue
+     :                                    , c%num_above_gnd_parts)
+
+
 
 
       call pop_routine (my_name)
@@ -5948,6 +6010,74 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       call push_routine (myname)
 
       call Growth_zero_variables ()
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+* ====================================================================
+      subroutine Growth_Send_Crop_Chopped_Event (crop_type
+     :                                           , dm_type
+     :                                           , dlt_crop_dm
+     :                                           , dlt_dm_n
+     :                                           , fraction_to_Residue
+     :                                           , max_part)
+* ====================================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      character  crop_type*(*)              ! (INPUT) crop type
+      character  dm_type(*)*(*)             ! (INPUT) residue type
+      real  dlt_crop_dm(*)                  ! (INPUT) residue weight (kg/ha)
+      real  dlt_dm_n(*)                     ! (INPUT) residue N weight (kg/ha)
+      real  fraction_to_Residue(*)          ! (INPUT) residue fraction to residue (0-1)
+      integer max_part                      ! (INPUT) number of residue types
+*+  Purpose
+*     Notify other modules of crop chopped.
+
+*+  Mission Statement
+*     Notify other modules of crop chopped.
+
+*+  Changes
+*   281103 nih - Copied from plant module
+
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'growth_Send_Crop_Chopped_Event')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      call new_postbox ()
+
+      call post_char_var   (DATA_crop_type
+     :                        ,'()'
+     :                        , crop_type)
+      call post_char_array (DATA_dm_type
+     :                        ,'()'
+     :                        , dm_type
+     :                        , max_part)
+
+
+      call post_real_array (DATA_dlt_crop_dm
+     :                        ,'(kg/ha)'
+     :                        , dlt_crop_dm
+     :                        , max_part)
+      call post_real_array (DATA_dlt_dm_n
+     :                        ,'(kg/ha)'
+     :                        , dlt_dm_n
+     :                        , max_part)
+      call post_real_array (DATA_fraction_to_Residue
+     :                        ,'()'
+     :                        , fraction_to_Residue
+     :                        , max_part)
+
+      call event_send (EVENT_Crop_Chopped)
+
+      call delete_postbox ()
+
 
       call pop_routine (myname)
       return
