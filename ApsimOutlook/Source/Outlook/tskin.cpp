@@ -128,7 +128,7 @@ void TSkin::InitApplication(void)
       }
 
    // read help file
-   settings.read("Outlook skin|helpfile", helpFile);
+   settings.read("Outlook skin|helpfile", helpFile, true);
 
    // read version
    settings.read("Outlook skin|version", St);
@@ -154,7 +154,6 @@ void TSkin::displayEvaluation(void)
 // ------------------------------------------------------------------
 void TSkin::displayHelp(void)
    {
-   helpFile = getAppHomeDirectory() + "\\" + helpFile;
    ShellExecute (MainForm->Handle, "open",
                  helpFile.c_str(), NULL, "", SW_SHOW);
    }
