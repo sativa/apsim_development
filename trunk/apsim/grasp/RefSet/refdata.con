@@ -12,7 +12,7 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step1]     refdata.par [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]
 module = residue2 refdata.par [all]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = SummaryFile  refdata.par[step1]
-module = tracker  refdata.par[all]
+module = screen  refdata.par[all]
 
 ! Introduce dead grass
 [apsim.step3]
@@ -25,7 +25,7 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step3]     refdata.par [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]
 module = residue2 refdata.par [all]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = SummaryFile  refdata.par[step3]
-module = tracker  refdata.par[all]
+module = screen  refdata.par[all]
 
 ! Add growth by regrowth
 [apsim.step5]
@@ -37,8 +37,8 @@ module = manager  refdata.par [all]
 module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step5]     refdata.par [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]
 module = residue2 refdata.par [all]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = screen  refdata.par[all]
 module = SummaryFile  refdata.par[step5]
-module = tracker  refdata.par[all]
 
 ! And growth by transpiration
 [apsim.step6]
@@ -51,7 +51,8 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [step6]     refdata.par [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]
 module = residue2 refdata.par [all]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = SummaryFile  refdata.par[step6]
-module = tracker  refdata.par[all]
+module = screen  refdata.par[all]
+
 ! SWIM interface.
 [apsim.step8]
 title = Step 8. swim
@@ -64,7 +65,7 @@ module = grasp    refdata.par [all]     refdata.par [step8]     refdata.par [swi
 module = residue2 refdata.par [gmtb0]   %apsuite\apsim\residue2\residue2.ini [standard]
 module = surface  refdata.par [gmtb0]
 module = canopy   refdata.par [gmtb0]
-module = tracker  refdata.par [gmtb0]
+module = screen  refdata.par[all]
 module = SummaryFile  refdata.par[step8]
 
 ! EP effect on Nitrogen uptake
@@ -78,7 +79,7 @@ module = erosion  refdata.par [ep]
 module = grasp    refdata.par [all]     refdata.par [ep]     refdata.par [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]
 module = residue2 refdata.par [all]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = manager  refdata.par [ep]
-module = tracker  refdata.par[ep]
+module = screen  refdata.par[all]
 module = SummaryFile  refdata.par[ep-on]
 
 [apsim.ep-off]
@@ -90,5 +91,5 @@ module = soilwat2 refdata.par [all]     soilwat2.ini [standard]
 module = grasp    refdata.par [all]     refdata.par [ep]     refdata.par [soilwat]     %apsuite\apsim\grasp\grasp.ini [standard]
 module = residue2 refdata.par [all]     %apsuite\apsim\residue2\residue2.ini [standard]
 module = manager  refdata.par [ep]
-module = tracker  refdata.par[ep]
+module = screen  refdata.par[all]
 module = SummaryFile  refdata.par[ep-off]
