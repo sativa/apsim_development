@@ -24,11 +24,7 @@ string _export getApsimDirectory(void) throw(runtime_error)
    while (path.Back_up_directory() != "" && !path.Exists());
 
    if (!path.Exists())
-      {
-      string msg = "The application: " + path.Get_path() + " is not in the "
-                   "APSIM directory structure.";
-      throw runtime_error(msg);
-      }
+      return Path(moduleFileName).Get_directory();
    else
       return path.Get_directory();
    }
