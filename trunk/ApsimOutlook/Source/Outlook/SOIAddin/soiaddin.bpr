@@ -27,7 +27,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="soiaddin.bpf"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
+    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
     <LIBPATH value="..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -87,14 +87,19 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
+
 [HistoryLists\hlIncludePath]
-Count=6
-Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
-Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item5=..\ApsimOutlook\Source\Outlook\SOIAddin;$(BCB)\include;$(BCB)\include\vcl
+Count=7
+Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item1=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item2=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item3=..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=..\;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item6=..\ApsimOutlook\Source\Outlook\SOIAddin;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=6

@@ -24,7 +24,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="APSBuild.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)"/>
     <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
@@ -87,20 +87,22 @@ Comments=
 [Excluded Packages]
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 C:\MyData\development\Bin\APSData.bpl=APSuite data components
+c:\program files\borland\cbuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=11
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms\
-Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms
-Item6=..\..\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item7=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item8=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item9=
-Item10=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
+Count=12
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(BCB)\components\tms;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms\
+Item6=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms
+Item7=..\..\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item8=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item9=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
+Item10=
+Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
 
 [HistoryLists\hlLibraryPath]
 Count=4
