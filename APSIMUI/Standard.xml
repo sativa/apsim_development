@@ -73,6 +73,20 @@
         <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
       </category>
     </rule>
+    <rule name="Irrigation: amount at event">
+      <condition name="[modulename].[eventname]"><![CDATA[
+      if ([irrig_amount_evt] > 0) then
+         irrigation apply amount = [irrig_amount_evt] (mm)
+      endif
+]]></condition>
+      <category name="When should irrigation be applied">
+        <property name="modulename" value="" type="modulename" description="The module the event come from : " />
+        <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+      </category>
+      <category name="Irrigation application details">
+        <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+      </category>
+    </rule>
   </manager>
   <logic name="logic">
     <script name="init">
@@ -83,17 +97,11 @@
     </script>
   </logic>
   <fertiliser name="fertiliser" />
-  <irrigation name="irrigation">
-    <automaticirrigation name="automaticirrigation">
-      <switch name="switch">on</switch>
-      <depth name="depth">1000.</depth>
-      <fasw name="fasw">0.5</fasw>
-    </automaticirrigation>
-    <irrigationefficiency name="irrigationefficiency">1.0</irrigationefficiency>
-    <allocation name="allocation">
-      <switch name="switch">on</switch>
-      <amount name="amount">1000.</amount>
-    </allocation>
+  <irrigation name="Irrigation">
+    <property name="automatic_irrigation" type="text" description="switch">on</property>
+    <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+    <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+    <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
   </irrigation>
   <log name="log">
     <debugoutput name="debugoutput">on</debugoutput>
