@@ -22,6 +22,11 @@ using namespace boost::gregorian;
 static const char* dayLengthType =
    "<type name=\"daylength\" kind=\"single\" units=\"hours\"/>";
 
+static const char* startDateType =
+   "<type name=\"startDate\" kind=\"integer4\" units=\"julian days\"/>";
+static const char* endDateType =
+   "<type name=\"endDate\" kind=\"integer4\" units=\"julian days\"/>";
+
 // ------------------------------------------------------------------
 // createComponent
 // ------------------------------------------------------------------
@@ -34,7 +39,8 @@ protocol::Component* createComponent(void)
 // constructor
 // ------------------------------------------------------------------
 InputComponent::InputComponent(void)
-   : todaysDate(pos_infin), fileDate(pos_infin)
+   : todaysDate(pos_infin), fileDate(pos_infin),
+     startDate(pos_infin), endDate(pos_infin)
    {
    }
 
@@ -63,12 +69,14 @@ void InputComponent::doInit1(const FString& sdml)
       else
          daylengthID = 0;
 
-      fileName = componentData->getProperty("parameters", "filename");
-      if (fileName == "")
-         throw "Cannot find a filename parameter for module: " + string(name);
+      string dateName = name;
+      dateName += "_start_date";
+      startDateID = addRegistration(protocol::respondToGetReg, dateName.c_str(), startDateType);
+      dateName = name;
+      dateName += "_end_date";
+      endDateID = addRegistration(protocol::respondToGetReg, dateName.c_str(), endDateType);
 
-      data.open(fileName);
-
+      openInputFile();
       registerAllVariables();
       checkForSparseData();
       }
@@ -76,6 +84,17 @@ void InputComponent::doInit1(const FString& sdml)
       {
       error(err.what(), true);
       }
+   }
+// ------------------------------------------------------------------
+// Open the input file associtated with this module.
+// ------------------------------------------------------------------
+void InputComponent::openInputFile(void)
+   {
+   fileName = componentData->getProperty("parameters", "filename");
+   if (fileName == "")
+      throw "Cannot find a filename parameter for module: " + string(name);
+
+   data.open(fileName);
    }
 // ------------------------------------------------------------------
 // INIT 2 - temporary
@@ -159,6 +178,18 @@ void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData
    {
    if (queryData.ID == daylengthID)
       sendVariable(queryData, calcDayLength());
+   else if (queryData.ID == startDateID)
+      {
+      getStartEndDate();
+      sendVariable(queryData, (int) startDate.julian_day());
+      }
+
+   else if (queryData.ID == endDateID)
+      {
+      getStartEndDate();
+      sendVariable(queryData, (int) endDate.julian_day());
+      }
+
    else
       variables[queryData.ID].sendVariable(queryData, (todaysDate == fileDate));
    }
@@ -387,5 +418,18 @@ float InputComponent::dayLength(int dyoyr, float lat, float sun_angle)
    hrangl = acos (coshra);
    hrlt = hrangl*rdn2hr*2.0;
    return hrlt;
+   }
+// ------------------------------------------------------------------
+// If we haven't already, get the input file start and end dates.
+// ------------------------------------------------------------------
+void InputComponent::getStartEndDate(void)
+   {
+   if (startDate.is_infinity())
+      {
+      data.last();
+      endDate = data.getDate();
+      data.first();
+      startDate = data.getDate();
+      }
    }
 
