@@ -1353,7 +1353,7 @@
          <field name="N"       kind="single" units="kg/ha"/>
          <field name="P"       kind="single" units="kg/ha"/>
          <field name="AshAlk"  kind="single" units="kg/ha"/>
-         </element>         
+         </element>
       </field>
       </element>
    </type>
@@ -1508,6 +1508,7 @@
 
 !dsg 040702  array sized for number of soil layers
    <type name="SoilNitrogenFlowsLayer" array = "T">
+      <element>
       <field name="nh4_transform_net" kind="single" units="kg/ha"/>
       <field name="no3_transform_net" kind="single" units="kg/ha"/>
       <field name="dlt_nh4_net"       kind="single" units="kg/ha"/>
@@ -1522,11 +1523,13 @@
       <field name="dlt_biomc_hum"     kind="single" units="kg/ha"/>
       <field name="dlt_biomc_atm"     kind="single" units="kg/ha"/>
       <field name="dlt_fomc_pool"     kind="single" array="T" units="kg/ha"/>
+      </element>
    </type>
 
 
 !dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event, array sized for soil layers
    <type name="NitrogenBalance" array = "T">
+      <element>
       <field name="Fertilizer"              kind="single" units="kg/ha"/>
       <field name="ResiduesMineralised"     kind="single" units="kg/ha"/>
       <field name="Leaching"                kind="single" units="kg/ha"/>
@@ -1534,6 +1537,7 @@
       <field name="Uptake"                  kind="single" units="kg/ha"/>
       <field name="Erosion"                 kind="single" units="kg/ha"/>
       <field name="LateralFlow"             kind="single" units="kg/ha"/>
+      </element>
    </type>
 
 
@@ -1568,7 +1572,7 @@
          <field name="sw_dep" kind="single" array="T"/>
          <field name="bd" kind="single" array="T"/>
       </type>
-      
+
 ! dsg 041202  ALL 'OLD' APSIM 2.2 EVENTS AND METHODS
 
       <type name="incorp_fom" kind="????" unit="" description="Message to report a residue decomposition"/>
