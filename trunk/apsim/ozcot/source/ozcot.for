@@ -1,8 +1,559 @@
+      module OzcotModule
+
+! ====================================================================
+!      ozcot parameters
+! ====================================================================
+
+!   Short description:
+!      Assorted constants used through out
+
+!   Assumptions:
+!      None
+
+!   Notes:
+
+!   Changes:
+!      psc - 300394                                           ark
+!      300695 jngh changed max_layer from 11 to 100
+!      DPH 7/7/94 Moved title variable out to separate common block.
+!                 Essential for UNIX systems.
+!      JNGH - 12/7/94 Added dlayr_cm to represent depth in cm
+
+!   Constant values
+      character Module_name*(7)       ! Name of this module
+      parameter (Module_name='ozcot')
+
+      integer Max_layers
+      parameter (Max_layers=100)
+
+      ! Fruit age classes
+      integer Small_Sqz
+      parameter (Small_Sqz=1)
+      integer Medium_Sqz
+      parameter (Medium_Sqz=2)
+      integer Large_Sqz
+      parameter (Large_Sqz=3)
+      integer Flowers
+      parameter (Flowers=4)
+      integer Small_bolls
+      parameter (Small_bolls=5)
+      integer Medium_bolls
+      parameter (Medium_bolls=6)
+      integer Large_bolls
+      parameter (Large_bolls=7)
+      integer Inedible_bolls
+      parameter (Inedible_bolls=8)
+      integer open_bolls
+      parameter (open_bolls=9)
+
+      integer Max_categories
+      parameter (Max_categories=9)
+
+      integer Max_cohort
+      parameter (Max_cohort=300)
+
+      real   ozcot_kvalue
+      parameter (ozcot_kvalue = 1.0)
+
+      integer       sw_sowing
+      parameter (sw_sowing = 2)
+      integer       rain_preboll
+      parameter (rain_preboll = 3)
+      integer       rain_postboll
+      parameter (rain_postboll = 4)
+      integer       rain_fallow
+      parameter (rain_fallow = 5)
+      integer       rain_pre_post_boll
+      parameter (rain_pre_post_boll = 7)
+      integer       et_accum
+      parameter (et_accum = 8)
+
+!cjh v2001       integer Max_rrig
+!cjh v2001       parameter (Max_rrig = 10)
+
+      integer    age1
+      parameter (age1 = 1)
+      integer    age6
+      parameter (age6 = 6)
+      integer    age7
+      parameter (age7 = 7)
+
+      integer Max_age
+      parameter (Max_age = 7)
+
+         ! crop status
+
+      character  status_alive*(*)
+      parameter (status_alive = 'alive')
+
+      character  status_dead*(*)
+      parameter (status_dead = 'dead')
+
+      character  status_out*(*)
+      parameter (status_out = 'out')
+
+      character  crop_inactive*(*)
+      parameter (crop_inactive = 'inactive')
+
+      real       c_uptakn_max
+      parameter (c_uptakn_max = 240.0)
+
+! ====================================================================
+      type OzcotGlobals
+
+      real    frudw_shed
+         real    APPLIED_N
+         real    TOTAL_APPLIED
+
+         character TITLE*15
+         character plant_status*(10)
+!jh         real    DAY(3)
+!jh         real    HR(2)
+         real    HAIL_LAG
+         logical hail
+         real    WLI
+         real    smi_wlog
+         real    F_LIMITING
+         real    smi_row
+         real    smi_pre
+         logical USESKIP
+         real    TEMPMX
+         real    TEMPMN
+         real    SOLRAD
+         real    RAIN
+!jh         real    EPAN
+         real    TEMPDY
+         real    TEMPWT
+         real    WIND
+         real    TEMPAV
+         real    HUNITS
+         real    ASOIL
+!jh v2001         real    EOS
+         real    QA
+         real    SOLRTO
+         real    Q
+!jh         real    SUMES1
+!jh         real    SUMES2
+         real    EO
+         real    ES
+         real    EP
+         real    ET
+         real    HO
+!cjh v2001          real    G
+         real    TR
+         real    f_intz
+!cjh v2001          real    RRIG(Max_rrig)
+         real    RTSW
+!jh v2001         real    DEFIRG
+!                 real    RANSUB(20)
+         real    VPD
+         real    BPER
+         real    dlayr(max_layers)
+         real    dlayr_cm(max_layers)
+         real    ULLAYR(max_layers)
+         real    dullayr(max_layers)
+         real    STLAYR(max_layers)
+         real    SWLAYR(max_layers)
+         real    SW
+         real    UL
+         real    DUL
+         real    sat
+         real    BULKD(Max_layers)
+!cjh v2001          real    STEMP
+!jh v2001         real    TRANS(max_layers)
+!jh v2001         real    DEF
+         real    WPWC
+         real    WHCSUB
+         real    ULSUB
+         real    AVSWSM
+!                 real    SWEPLR(10)
+!                 real    SWWEP
+!jh v2001         real    TSWL(max_layers)
+!jh v2001         real    SETLYR(max_layers)
+         real    ESUM
+         real    ALAI
+         real    ALAI_row
+         real    RTDEP
+         real    RTGROW
+         real    CRSPCE
+         real    PPM
+         real    SDEPTH
+         real    RTDEPM
+         real    SHEDLF
+         real    SMI
+         real    S
+         real    RS
+         real    PP
+         real    PS
+         real    FLL
+!                 real    SNAPLC(2)
+         real    SNAPLC
+         real    AVAILN
+         real    initialN
+!                 real    SOILNT
+         real    UPTAKN
+         real    VEGN
+         real    FRUN
+         real    PLANTN
+         real    SEED_NC
+         real    STRUCN
+         real    FRUCAT(Max_categories-1)
+         real    DAYSQZ
+         real    DAYSFL
+         real    DAYSOP
+         real    FMKCAT(Max_categories-2,Max_age)
+         real    DD
+         real    DDMERG
+         real    SUMDD
+         real    BGRVAR
+         real    FRUDW
+         real    SQUARZ
+         real    BOLLZ
+         real    OPENZ
+         real    SITES
+         real    sites1
+         real    SIZE
+         real    BLOAD
+         real    OPENWT
+!                 real    SQCNT(25)
+!                 real    BLCNT(25)
+!                 real    OPCNT(25)
+!                 real    ALCT(25)
+!                 real    ANUP(25)
+!jh         real    SQCON(10)
+!jh         real    RESPCON(10)
+!jh         real    FLAI(10)
+!jh         real    FCUTOUT(10)
+         real    CARCAP
+         real    CUTOUT
+         real    VNSTRS
+         real    FNSTRS
+         real    RAD
+         real    PCLINT
+         real    CARCAP_C
+         real    CARCAP_N
+!jh         real    SCBOLL(10)
+         real    FRUNO(Max_cohort)
+         real    FRUWT(Max_cohort)
+         real    FRMARK(Max_cohort,Max_age)
+         real    FYZAGE(Max_cohort)
+         real    DLAI(Max_cohort)
+         real    ALAIZ
+         real    PLNTNZ
+!         real    DEFIRR(20)
+         real    TWATER
+         real    ALINT
+         real    GROSS_MARG
+!jh v2001         real    DEF_LAST
+         real    SQZX
+         real    AGRON_INP
+         real    SOILW_INP
+         real    COUNT_INP
+         real    RAIN_INP
+         real    MET_INP
+         real    FCOT_OUT
+         real    FRUCAL_OUT
+         real    YIELD_OUT
+         real    s_bed_mi
+         real    s_bed_sat
+         real    delay
+         real    bpsum(Max_cohort)
+         real    BOLLGR
+         real    DLAI_POT
+         real    DW_BOLL
+         real    DW_LEAF
+         real    DW_ROOT
+         real    DW_STEM
+         real    DW_TOTAL
+         real    RESERVE
+         real    RES_CAP
+         real    ROOT_FEEDBACK
+         real    dDW_L(Max_cohort)
+         real    dDW_BOLL
+         real    dDW_LEAF
+         real    dDW_ROOT
+         real    dDW_STEM
+         real    LEAF_RES
+         real    STEM_RES
+         real    ROOT_RES
+         real    LEAF_RES_N
+         real    STEM_RES_N
+         real    ROOT_RES_N
+         real    total_n
+         real    dn_plant
+         real    tsno3
+         real    tsnh4
+         real    no3mn(max_layers)
+         real    nh4mn(max_layers)
+         real    yest_tsn
+         real    yest_tsno3
+         real    yest_tsnh4
+         real    ano3(max_layers)
+         real    anh4(max_layers)
+         real    ppm_target
+         real    ppm_row
+         real    nskip
+         integer NDAY_CO
+         integer NWET_CO
+         real    SUM_TMX
+         real    AVE_TX
+         real    DELAY_emerg
+         real    DD_EMERG
+         real    PPM_SOWN
+         real    PPM_EMERGE
+         real    PPM_ESTABLISH
+         real    FAIL_EMRG
+         real    F_DIE
+
+         integer Last_Iday
+!         integer IMET
+         integer IMMO
+         integer IMDY
+         integer IMYR
+         integer JDATE
+!cjh v2001          integer MDPY
+!         integer IGDAY(20)
+!         integer NEWRAN
+!         integer NRNSDY(20)
+         integer NLAYR
+         integer nrtlayr
+         integer ISW
+         integer IEMRG
+         integer ISOW
+!         integer ISMO
+!         integer ISDY
+!         integer ISYR
+         integer ISQ
+         integer IVAR
+!jh         integer IDATE
+         integer ILAI
+         integer IDAY
+!         integer IERMO
+!         integer IERDY
+!         integer IERYR
+!         integer NFERT
+!         integer NDAY(2)
+         integer LFRU(Max_categories)
+!         integer JCO(25)
+!         integer ICO(25)
+         integer LAST
+         integer NEXT
+         integer LASTL
+         integer NEXTL
+         integer IDAYCO
+         integer LAST_DAY
+         integer ILAIZ
+         integer IPLNTN
+         integer NIRR
+         integer ISQZX
+         integer J_PICK
+         integer N_PICK
+         integer N_DEF
+         integer I_DEF
+         integer I_DEF2
+         integer J_DEF
+         integer LAI_INP
+         integer das
+         integer iend
+         integer idayx
+         integer lastlf
+         integer n_cutout
+         integer ifrost
+         integer istress
+         integer ireliefco
+         integer INITIAL
+         integer days_since_fert
+         logical Crop_in                  ! Is a crop in ?
+         logical Zero_variables
+!      character  module_name*50      ! module name
+      character  crop_class*50       ! crop type
+      character  cultivar*20         ! name of cultivar
+      real        SFMCAT(Max_categories-1)
+      real     sw_start(max_layers)
+      integer nsince
+
+      end type OzcotGlobals
+
+! ====================================================================
+
+      type OzcotParameters
+
+         real    UNUL(max_layers)
+         integer num_ll_vals
+
+         real     percent_l
+         real     scboll
+         real     respcon
+         real     sqcon
+         real     fcutout
+         real     flai
+         real     DDISQ
+         real     TIPOUT
+         real     dlds_max
+         real     POPCON
+         real     acotyl
+         real     rlai
+         real     FRUDD(Max_categories-1)
+         real     BLTME(Max_categories-1)
+         real     WT(Max_categories-1)
+         real     FBURR
+         ! emergence
+      real    rate_emergence
+
+
+      end type OzcotParameters
+! ====================================================================
+
+      type OzcotConstants
+      character  crop_type*50        ! crop type
+                                             ! reporting
+      real       row_spacing_default
+      real       nskip_default
+!jh         integer MODE
+      real leaf_res_n_conc
+!jh      real dlds
+      real a
+      real b1
+      real b2
+      real b3
+         real    HUCUT
+         real    BASET
+!jh         real    AMBDA
+         real    CONA
+         real    UL1
+         real    OPEN_DEF
+!jh         integer IWINDOW
+!jh         real    SOW_SW
+         real    A_ROOT_LEAF
+         real    A_STEM_LEAF
+         real    SPECIFIC_LW
+         real    T_OPT
+         real    T_BASE
+         real    EMBRYO
+         real    F_LEAF
+         real    F_STEM
+         real    F_ROOT
+         real    WT_AREA_MAX
+!jh         real    WT_AREA_MIN
+         real    E_PAR
+         real    elevation_default
+
+      real    watlog_c  ! sw/ul ratio for waterlogging
+      real    watlog_n  ! for waterlogging
+      real    wlog_assimilate_red ! assimilate reduction with waterlogging
+      real    wlog_carcap_red ! carrying capacity reduction with waterlogging
+      real    wlog_carcap_red_stress  ! carrying capacity reduction with waterlogging after stress
+      real    smi_affect_wlog ! level of water stress below which could affect waterlogging
+      integer days_relief_wlog ! number of days of stress relief after which has no effect on waterlogging
+
+      real    frost_kill_immediate   ! min temperature below which immediate kill
+
+      real    rtdep_max
+      real    harvest_n_frac ! fraction of uptake N for potential N harvested
+        !c-----------------------------------------------------------------------------
+        !c     if coutout due to water stress or full boll load ie smi < 0.75
+        !c     10% of fruiting sites become inactive for frugen every day after 5 days
+        !c-----------------------------------------------------------------------------
+      real    cutout_smi_crit !
+      integer cutout_smi_days
+      real    cutout_smi_site_red
+
+      real    smi_delay_crit
+      real    cold_shock_delay_crit
+      real    cold_shock_delay
+
+
+      real    epcoef1
+      real    epcoef2
+      real    epcoef_smi_crit
+
+        ! water stress on bolls
+      real    fbwstr_low       ! lower limit
+      real    fbwstr_high      ! upper limit
+      real    fbwstr_a       ! power
+
+        ! N stress
+      real    fbnstr_low
+      real    fbnstr_high
+      real    fbnstr_a
+
+        ! water stress on photosynthesis
+      real    relp_smi_crit     ! critical level of smi below which it affects pp
+      real    relp_intercept    ! intercept  of f(smi)
+      real    relp_slope        ! slope  of f(smi)
+
+        ! severity of effect of water stress on photosynthesis
+      real    relp_low
+      real    relp_high
+      real    relp_a
+
+        ! N stress on fruiting site number
+      real    vsnstr_low
+      real    vsnstr_high
+      real    vsnstr_a
+
+        ! water stress on pre-squaring lai
+      real    flfsmi_low
+      real    flfsmi_high
+      real    flfsmi_a
+
+        ! N stress on lai
+      real    vlnstr_low
+      real    vlnstr_high
+      real    vlnstr_a
+
+        ! effect of water stress on leaf senescence
+      real    fw_low
+      real    fw_high
+      real    fw_a
+
+        ! plant N adjustment for supply/demand ratio
+      real    adjust_low
+      real    adjust_high
+      real    adjust_a
+
+        ! water stress for boll growth
+      real    fwstrs_low
+      real    fwstrs_high
+      real    fwstrs_a
+
+      real    fert_crit
+      real    fert_detect
+      integer days_since_fert_max
+
+      end type OzcotConstants
+! ====================================================================
+
+      ! instance variables.
+      type (OzcotGlobals), pointer :: g
+      type (OzcotParameters), pointer :: p
+      type (OzcotConstants), pointer :: c
+      save g
+      save p
+      save c
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type OzcotDataPtr
+         type (OzcotGlobals), pointer ::    gptr
+         type (OzcotParameters), pointer :: pptr
+         type (OzcotConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type OzcotDataPtr
+      type (OzcotDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      save Instances
+
+      contains
+
+
+
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -21,12 +572,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -43,12 +593,11 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -65,14 +614,13 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Main (action, data_string)
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -95,7 +643,7 @@
 *      sdb   060599  removed version reference and presence action
 
 *+  Calls
-      logical    ozcot_my_type         ! function
+
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -218,7 +766,7 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
@@ -226,7 +774,6 @@
 * ====================================================================
        subroutine ozcot_Init ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -262,15 +809,14 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 !obsolete * ====================================================================
 !obsolete        subroutine ozcot_read_param ()
 !obsolete * ====================================================================
-!obsolete       use OzcotModule
-!obsolete       Use Infrastructure
+!obsolete !obsolete       Use Infrastructure
 !      implicit none
 !obsolete        include 'const.inc'             ! Constant definitions
 !obsolete       include 'read.pub'
@@ -326,12 +872,11 @@
 !obsolete
 !obsolete       call pop_routine(myname)
 !obsolete       return
-!obsolete       end
+!obsolete       end subroutine
 
 *     ===========================================================
       subroutine ozcot_zero_all_globals ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -678,13 +1223,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
        subroutine ozcot_zero_variables ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -751,14 +1295,13 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_manager (Event_action, event_data)
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -820,14 +1363,13 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine ozcot_sow (myrecd)
 *     ===========================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -896,14 +1438,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_get_other_variables ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1171,14 +1712,13 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_set_other_variables ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1303,7 +1843,7 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1311,7 +1851,6 @@
        subroutine ozcot_Send_my_variable
      .    (Variable_name)
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1575,14 +2114,13 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_set_my_variable (Variable_name)
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1610,14 +2148,13 @@
 
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_Process ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1654,14 +2191,13 @@
 
       call pop_routine(myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_Prepare ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1674,14 +2210,13 @@
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_post ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1696,14 +2231,13 @@
       g%HAIL = .false.
 
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine ozcot_end_run ()
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1716,7 +2250,7 @@
 *- Implementation Section ----------------------------------
 
       return
-      end
+      end subroutine
 
 
 
@@ -1808,7 +2342,6 @@
 * ====================================================================
       subroutine OZCOT2
 * ====================================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -1854,7 +2387,7 @@
               call ozcot_snbal                  ! soil n balance
 !              if(isow.gt.0 .and. i.gt.isow) call pltgrw (i,iend,nszn)
 !              if(openz.gt.0.0) call harvest(iend)
-!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
+!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend subroutine
       if (g%crop_in) then
               IF(g%isow.GT.0 .AND. g%das.GT.0) CALL ozcot_pltgrw
 !              if(iend.eq.2)  go to 32     ! end of season
@@ -1879,7 +2412,7 @@
 !        write(*,'(1x,i4, 9f5.1)')g%das, g%frucat
        call pop_routine(myname)
        return
-       END
+       end subroutine
 
 
 
@@ -1896,7 +2429,6 @@
 !      model.                                                      !
 !-------------------------------------------------------------------
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -2052,7 +2584,7 @@
       call pop_routine(myname)
 
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -2064,14 +2596,13 @@
 !     bollgrowth rate is driven by dd,limited by water,
 !     n and c(incl water effects on photosynthesis) stress
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
 
 !------stuff done on 1st call of the day - stresses & growth rate -------------
       !  functions
-      real ozcot_stress
+
 
       ! locals (i hope!)
       integer cohort
@@ -2155,7 +2686,7 @@
 !------------------------------------------------------------------------------
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -2168,11 +2699,9 @@
 !     carcap is carrying capacity, maximum number of bolls the crop
 !     can carry, therefore the boll load that causes 100% shedding.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_stress
 
       real alight
       real radn_watts
@@ -2291,7 +2820,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -2299,7 +2828,6 @@
       subroutine ozcot_cropn
 * ====================================================================
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -2391,7 +2919,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -2426,7 +2954,6 @@
 !
 !------------------------------------------------------------------------------------------------
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -2544,7 +3071,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 !-------------------------------------------------------------------
 
@@ -2576,7 +3103,7 @@
 !      iemrg = i
 
 !      return
-!      end
+!      end subroutine
 
 
 * ====================================================================
@@ -2596,11 +3123,9 @@
 !          eos = potential et below plant canopy                   c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_satvp
 
       real elev
       real Pp
@@ -2724,7 +3249,7 @@
 
         call pop_routine(myname)
         RETURN
-        END
+        end subroutine
 
 
 * ====================================================================
@@ -2749,13 +3274,12 @@
 
 !      data from "siratac" - 1987-88 hearn (pers. comm.).
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
       integer ndas
 
-      real ozcot_stress
+
 
 !pc   real sites1
       real blr
@@ -2839,7 +3363,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end function
 
 
 * ====================================================================
@@ -2853,12 +3377,9 @@
 !      calls s/r ozcot_frugen to estimate new squares when counts not
 !      available.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_frugen
-      real ozcot_survive
 
 !jh      real frudd
 !jh      real wt
@@ -3098,7 +3619,7 @@
 !-----------------------------------------------------------------------------
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -3119,7 +3640,6 @@
 !     subjects for future development in a more comprehensive whole farm
 !     management model.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -3199,7 +3719,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -3216,7 +3736,6 @@
 !      the 'init' subroutine.                                      c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -3250,7 +3769,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -3263,7 +3782,6 @@
 !      key variables:                                              c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -3302,7 +3820,7 @@
 
 !jh      data leaf_res_n_conc/0.02/
 
-!      end
+!      end subroutine
 
 !------------------------------------------------------------------------------
 !      'bclim' climate parameters
@@ -3527,7 +4045,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -3542,7 +4060,6 @@
 !     currently sets isq=i, should be isq=iday for consistency between seasons
 !     when convenient, change and check all refs to isq
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -3617,7 +4134,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -3633,12 +4150,9 @@
 !      all leaf areas are square meters per plant except alai
 !      which is m**2/m**2 i.e. lai.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_stress
-      real ozcot_senlf
 
       real dlds
       real dlds_x
@@ -3759,7 +4273,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -3787,7 +4301,6 @@
 !                                                                  c
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -3990,7 +4503,7 @@
       call ozcot_evap
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -4037,7 +4550,7 @@
 !c
        call pop_routine(myname)
        RETURN
-       END
+       end subroutine
 
 
 * ====================================================================
@@ -4049,7 +4562,6 @@
 !     ie when boll load exceeds carrying capacity.
 !-------------------------------------------------------------------------------
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4139,7 +4651,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -4177,7 +4689,7 @@
 
         call pop_routine(myname)
         RETURN
-        END
+        end function
 
 * ====================================================================
       real FUNCTION ozcot_senlf(bload,alai,carcap_c,smi)
@@ -4187,11 +4699,9 @@
 !     reduced by water stress, nitrogen stress, boll load and self shading of
 !     canopy when lai gt 3.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_stress
 
       real fb
       real fw
@@ -4231,7 +4741,7 @@
 
       call pop_routine(myname)
       RETURN
-      END
+      end function
 
 !jh      SUBROUTINE SNBAL(I)
       SUBROUTINE ozcot_SNBAL
@@ -4248,7 +4758,6 @@ C      Day of application of N fertiliser, NDAY(J) from CINPUT2 & AGRON.INP,
 C      can be day of year (+ve) or days after sowing (-ve), assigned to local
 C      variable JNAPLC(J) on first day of season or day of sowing.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4322,7 +4831,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 * ====================================================================
 !jh      SUBROUTINE SOLWAT (I)
@@ -4352,7 +4861,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !                                                                  C
 !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4384,7 +4892,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
   500   CONTINUE
 
         RETURN
-        END
+        end subroutine
 
 
 !-------------------------------------------------------------------------------
@@ -4404,7 +4912,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !     WLI (waterlogging index) adjusted for plant row,
 !     assuming water logging is limited to plant row.
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4441,7 +4948,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 10    FORMAT(5F5.2,L5)
 
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -4450,11 +4957,9 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 !     calculates EP, adds to ES, to get ET, limits to EO
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_watco
 
       g%alai_row = g%alai
         IF(g%nskip.GT.0) g%alai_row = g%alai*g%rs  ! lai in hedgerow - ABH 5/11/96
@@ -4489,7 +4994,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 
       RETURN
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -4498,7 +5003,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 !     calculates SMI AND WLI
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4545,7 +5049,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !jhtemp        g%wli = max(0.0,min(1.0,g%wli))                        ! waterlogging index
 
       RETURN
-      END
+      end subroutine
 
 * ====================================================================
       subroutine ozcot_SUM_SW
@@ -4553,7 +5057,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 !     calculates SW in each layer & sums down profile
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4568,7 +5071,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !jh v2001        g%def = g%UL-g%sw
 
       RETURN
-      END
+      end subroutine
 
 
 
@@ -4609,7 +5112,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end function
 * ====================================================================
       real FUNCTION ozcot_survive(CAPACITY,bload)
 * ====================================================================
@@ -4644,7 +5147,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end function
 
 
 * ====================================================================
@@ -4656,7 +5159,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !   **** soil & plant water balance including rain and soil evaporation, ****
 !   **** beginning with the top soil layer.                      ****
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4748,7 +5250,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
         call pop_routine(myname)
         RETURN
-        END
+        end subroutine
 
 
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -4795,7 +5297,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
         call pop_routine(myname)
         RETURN
-        END
+        end function
 
 
 * ====================================================================
@@ -4805,7 +5307,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 !     estimates yield and gross margin at end of season
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -4953,7 +5454,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !7771  format(x,2i2,i4,f8.1,f8.0,2f8.2,f8.0,i4,i3,3f7.1)
 !7772  format(15a4)
 
-      END
+      end subroutine
 
 
 * ====================================================================
@@ -4966,11 +5467,9 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !              supply_n from system
 !               dn_plant = daily increment of plant n to system
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_stress
 
       real supply_n
       real conc_l
@@ -5075,7 +5574,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 * ====================================================================
       subroutine ozcot_residues
@@ -5083,7 +5582,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
 !      called from s/r yield to calculate stem and root residues
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -5104,7 +5602,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 
@@ -5156,11 +5654,9 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !       supply     day's supply of assimilate available for potential growth
 !       wt_area    leaf weight:area ratio
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
-      real ozcot_stress
 
       real wt_area
       real fwstrs
@@ -5307,7 +5803,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 
 
@@ -5336,7 +5832,6 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 !       par_int         intercepted photosynthetically active radiation
 !       tf              temperature scalar for dry matter production
 
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -5455,12 +5950,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine(myname)
       RETURN
-      END
+      end subroutine
 
 *     ===========================================================
       logical function ozcot_my_type ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -5497,14 +5991,13 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine ozcot_read_constants ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -5943,20 +6436,19 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                     , c%fert_detect, numvals
      :                     , 0.0, 100.0)
 
-      call read_real_var (section_name
+      call read_integer_var (section_name
      :                     , 'days_since_fert_max', '()'
      :                     , c%days_since_fert_max, numvals
-     :                     , 0.0, 100.0)
+     :                     , 0, 100)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine ozcot_start_crop ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6074,17 +6566,16 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       string = '    ------------------------------------------------'
       call write_string (string)
 
-!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend
+!      print*, g%crop_in, g%das, g%isow, g%openz, g%iend subroutine
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine ozcot_read_cultivar_params ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6300,14 +6791,13 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine ozcot_read_root_params ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6391,12 +6881,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine ozcot_end_crop ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6436,13 +6925,12 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       endif
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine ozcot_harvest_update ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6496,12 +6984,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine ozcot_harvest_report ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6572,12 +7059,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Ozcot_ONNew_Met ()
 *     ===========================================================
-      use OzcotModule
       Use Infrastructure
       implicit none
 
@@ -6638,12 +7124,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine ozcot_ONtick ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6674,12 +7159,11 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine ozcot_ONHail ()
 *     ===========================================================
-      use ozcotModule
       Use Infrastructure
       implicit none
 
@@ -6705,6 +7189,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
-   
+
+      end module OzcotModule
