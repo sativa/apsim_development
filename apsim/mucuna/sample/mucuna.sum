@@ -28,7 +28,7 @@
 
 ------- CLOCK Initialisation -------------------------------------------------
      Simulation start date = 15/11/1988
-     Simulation end date   =  1/03/1989
+     Simulation end date   = 20/05/1989
      Time step =           = 1440 (mins)
 
 ------- REPORT Initialisation ------------------------------------------------
@@ -215,13 +215,13 @@
           x_pp_flower_to_start_grain =     1.00   24.00
           y_tt_flower_to_start_grain =   100.00  100.00
           x_pp_start_to_end_grain    =     1.00   24.00
-          y_tt_start_to_end_grain    =  1040.00 1040.00
-          tt_end_grain_to_maturity   =     60.0
+          y_tt_start_to_end_grain    =   900.00  900.00
+          tt_end_grain_to_maturity   =    400.0
           tt_maturity_to_ripe        =      5.0
           x_pp_hi_incr               =     1.00   24.00
-          y_hi_incr                  =  0.06000 0.06000
+          y_hi_incr                  =  0.03000 0.03000
           x_hi_max_pot_stress        =     0.00    1.00
-          y_hi_max_pot               =     0.35    0.35
+          y_hi_max_pot               =     0.20    0.20
           x_stem_wt                  =     0.00   15.00
           y_height                   =     0.00 1200.00
           ------------------------------------------------
@@ -262,31 +262,102 @@
 26 November 1988 (Day of year=331):
    MUCUNA:
        stage    2.0 germination
-1 December 1988 (Day of year=336):
+2 December 1988 (Day of year=337):
    MUCUNA:
        stage    3.0 emergence
-                           biomass =           17.50000       lai =    0.2000000    
-                           stover N conc =    6.000000       extractable sw =    45.57298
-4 January 1989 (Day of year=4):
+                           biomass =           17.50000       lai =    0.2500000E-01
+                           stover N conc =    5.357143       extractable sw =    45.49775
+7 January 1989 (Day of year=7):
    MUCUNA:
        stage    4.0 end_of_juvenile
-                           biomass =           260.1826       lai =     2.235759    
-                           stover N conc =    3.742738       extractable sw =    97.83362
-15 February 1989 (Day of year=46):
-   MUCUNA:
-       stage    5.0 floral_initiation
-                           biomass =           692.8035       lai =     3.471493    
-                           stover N conc =    3.215337       extractable sw =    75.99768
-16 February 1989 (Day of year=47):
-   MUCUNA:
-       stage    6.0 flowering
-                           biomass =           696.8641       lai =     3.359593    
-                           stover N conc =    3.240066       extractable sw =    72.19259
+                           biomass =           264.5303       lai =     2.221875    
+                           stover N conc =    5.362158       extractable sw =    106.6771
 23 February 1989 (Day of year=54):
    MUCUNA:
+       stage    5.0 floral_initiation
+                           biomass =           752.5898       lai =     4.511084    
+                           stover N conc =    4.872854       extractable sw =    137.1935
+24 February 1989 (Day of year=55):
+   MUCUNA:
+       stage    6.0 flowering
+                           biomass =           768.2375       lai =     4.647551    
+                           stover N conc =    4.764833       extractable sw =    130.1612
+5 March 1989 (Day of year=64):
+   MUCUNA:
        stage    7.0 start_grain_fill
-                           biomass =           752.6083       lai =     3.277614    
-                           stover N conc =    3.202989       extractable sw =    134.2065
-1 March 1989 (Day of year=60):
+                           biomass =           896.8765       lai =     5.318984    
+                           stover N conc =    4.387148       extractable sw =    80.59160
+30 April 1989 (Day of year=120):
+   MANAGER:
+           Manager sending message :- mucuna harvest
+   MUCUNA:
+      
+      
+      
+       flowering day  =   55                  stover (kg/ha) =    9439.9
+       maturity day        =    0             grain yield (kg/ha) =    2360.0
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    2681.8
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 5.401
+       total above ground biomass (kg/ha) =   11799.9
+       live above ground biomass (kg/ha) =   11799.9
+       green above ground biomass (kg/ha) =    8714.0
+       senesced above ground biomass (kg/ha) =    3085.9
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  49.5
+       grain N percent =      7.50            total N content (kg/ha) =    398.86
+       grain N uptake (kg/ha) =    177.00     senesced N content (kg/ha) =     30.86
+       green N content (kg/ha) =    191.01    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0142605   nitrogen stress 1 =       0.0181381
+       water stress 2 =       0.0211736   nitrogen stress 2 =       0.0205562
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.4381180   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.5212502   nitrogen stress 2 =       0.0002199
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.1537177   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2266172   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.1377072   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.1662715   nitrogen stress 2 =       0.0000000
+         
+       Crop harvested.
+                                                tops residue = 9364.9 kg/ha
+                                                tops N =  217.0 kg/ha
+                                                root residue =  491.1 kg/ha
+                                                root N =    2.5 kg/ha
+      
+      
+                                                tops removed = 2360.0 kg/ha
+                                                tops N removed =  177.0 kg/ha
+                                                root removed =    0.0 kg/ha
+                                                root N removed =    0.0 kg/ha
+   MANAGER:
+           Manager sending message :- mucuna end_crop
+   MUCUNA:
+          Crop ended. Yield (dw) =     0.0
+                                                straw residue =   75.0 kg/ha
+                                                straw N =    4.9 kg/ha
+                                                root residue = 4935.2 kg/ha
+                                                root N =   86.0 kg/ha
+20 May 1989 (Day of year=140):
    CLOCK:
       Simulation is terminating due to end criteria being met.
