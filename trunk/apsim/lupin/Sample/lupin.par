@@ -13,15 +13,6 @@ variable_names=  lai      biomass  green_biomass
 variable_alias=  -        -        -     
 units=           -         -       -     
 
-module_names=    lupin lupin lupin
-variable_names=  dlt_dm sw_demand no3_demand
-variable_alias=  -        -        -     
-units=           -         -       -     
-
-module_names=    lupin lupin lupin
-variable_names=  swdef_photo nfact_photo oxdef_photo
-variable_alias=  -        -        -     
-units=           -         -       -     
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
