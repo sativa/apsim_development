@@ -1,12 +1,14 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "io_functions.h"
+#include <dir.h>
 #include <general\path.h>
+#include <shellapi.h>
 // ------------------------------------------------------------------
 //  Short description:
 //      return a list of files/directories to caller.
 
-//  Notes:
+//  Notes:    
 
 //  Changes:
 //    DPH 11/6/1997
