@@ -580,6 +580,8 @@ void CompileThread::runExternalProgram(ApsimProject& apf)
 // ------------------------------------------------------------------
 void CompileThread::copyModuleFiles(ApsimProject& apf)
    {
+   string thisDirectory = Path::getCurrentFolder().Get_directory();
+
    string directoriesString = getCompilerSetting(apf, "module");
    vector<string> directories;
    Split_string(directoriesString, ";", directories);
@@ -589,10 +591,16 @@ void CompileThread::copyModuleFiles(ApsimProject& apf)
       getDirectoryListing(directories[dir], "*.mod", files, FA_NORMAL, true);
       for (unsigned file = 0; file != files.size(); file++)
          {
-         string filename = Path(files[file]).Get_name();
-         CopyFile(files[file].c_str(), filename.c_str(), false);
-         filesToCleanup.push_back(filename);
+         if (!Str_i_Eq(Path(files[file]).Get_directory(), thisDirectory))
+            {
+            string filename = Path(files[file]).Get_name();
+            CopyFile(files[file].c_str(), filename.c_str(), false);
+            filesToCleanup.push_back(filename);
+            }
          }
       }
    }
+
+
+
 
