@@ -704,13 +704,12 @@
       <field name="layer" array="T">
          <element>
          <field name="thickness" kind="single" units = "mm"/>
-         <field name="FOM"    array="T" >
-            <element>
+         <field name="FOM" >
             <field name="amount"  kind="single" units="kg/ha"/>
             <field name="C"       kind="single" units="kg/ha"/>
             <field name="N"       kind="single" units="kg/ha"/>
+            <field name="P"       kind="single" units="kg/ha"/>
             <field name="AshAlk"  kind="single" units="kg/ha"/>
-            </element>
          </field>
          </element>
       </field>
