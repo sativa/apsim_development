@@ -542,7 +542,7 @@ void IniFile::doBackup()
       string ext = bakFile.Get_extension();
       ext.insert(1, "old");
       bakFile.Set_extension(ext.c_str());
-      CopyFile(fileName, bakFile.Get_path().c_str(), false);
+      CopyFile(fileName.c_str(), bakFile.Get_path().c_str(), false);
       haveDoneBackup = true;
       }
    }
