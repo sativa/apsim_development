@@ -2,13 +2,11 @@
 #include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
-
-#include "CreateSource.h"
 #include <ApsimShared\ApsimDataTypesFile.h>
 #include <general\Macro.h>
 #include <general\xml.h>
+#include "CreateSource.h"
 
-#pragma package(smart_init)
 using namespace std;
 
 // ------------------------------------------------------------------
@@ -239,10 +237,17 @@ void CreateSource::go(const std::string& ddml,
       vector<string> filesGenerated;
       Macro macro;
       macro.go(rootNode, contents, filesGenerated);
+      
+      cout << "Wrote:";
+      for (vector<string>::iterator f = filesGenerated.begin();
+                                    f != filesGenerated.end(); 
+                                    f++) 
+         cout << *f << " ";  	
+      cout << endl;   
       }
    catch (const runtime_error& err)
       {
-      ShowMessage(err.what());
+      cerr << err.what() << endl;
       }
    }
 

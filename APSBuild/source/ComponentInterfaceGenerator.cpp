@@ -84,12 +84,10 @@ void GenerateComponentInterface(const string& interfaceFileName)
    {
    try
       {
-      // need to change the current working directory.
-      AnsiString sourceDir = ExtractFileDir(interfaceFileName.c_str()) + "\\source";
-      SetCurrentDir(sourceDir);
 
       if (!FileExists(interfaceFileName.c_str()))
          throw runtime_error("Cannot find component interface file: " + interfaceFileName);
+
       ifstream in(interfaceFileName.c_str());
       ostringstream contents;
       contents << in.rdbuf();
@@ -154,7 +152,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
       }
    catch (const runtime_error& error)
       {
-      ShowMessage(error.what());
+      cerr << error.what() << endl;
       }
    catch (...)
       {
