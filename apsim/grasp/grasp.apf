@@ -1,13 +1,12 @@
 [general]
 name = grasp
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=grasp
+[dll]
+target  = target dll; %this\lib\grasp.dll
 
-[grasp]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\grasp.for
-target  = lib\grasp.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Mark Silburn - Module Developer; mailto:SilburM@dpi.qld.gov.au

@@ -1,32 +1,16 @@
 [general]
 name = APSIM infrastructure
+apf = %this\apsim-help\apsim-help.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-;----------------------------------------------
-; This lists the DLLs that make up the package.
-;----------------------------------------------
 [Binaries]
-binary=infra
+binary=DLL; dll
 
-;------------------------------------------------------
-; For each DLL we need to define the build instructions
-;------------------------------------------------------
-[infra]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-target  = lib\apsinfra.dll
-source  = source\error.for
-source  = source\profile.f90
-source  = source\datastr.for
-source  = source\data.for
-source  = source\date.for
-source  = source\string.for
-source  = source\engine.for
-source  = source\write.for
-source  = source\license.for
-source  = source\intrface.for
-source  = source\read.for
-source  = source\science.for
+[dll]
+target  = target dll; %this\lib\APSinfra.dll
+compiler_switches = LF90 Compiler Switches; %apsuite\apsim\infra\lf90.fig
 
-
-
-include = %apsuite\apsim\infra\
-import  = %apsuite\apsim\infra\lib\apsload.imp
+[menu]
+menu = Source Code; source; source

@@ -1,13 +1,12 @@
 [general]
 name = surface
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=surface
+[dll]
+target  = target dll; %this\lib\surface.dll
 
-[surface]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\surface.for
-target  = lib\surface.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Robin Connelly - Module Developer; mailto:ConnelR@dpi.qld.gov.au

@@ -1,13 +1,12 @@
 [general]
 name = ozcot
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=ozcot
+[dll]
+target  = target dll; %this\lib\ozcot.dll
 
-[ozcot]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\ozcot.for
-target  = lib\ozcot.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Peter Carberry - Module Developer; mailto:Peter.Carberry@tag.csiro.au

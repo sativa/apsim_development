@@ -1,19 +1,9 @@
 [general]
 name = mucuna
+apf = %this\..\base-legume.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=mucuna
-
-[mucuna]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-
-library = %apsuite\apsim\legume\lib\legume.lib
-source  = source\mucuna.for
-
-target  = lib\mucuna.dll
-
-include = %apsuite\apsim\infra\
-include = %apsuite\apsim\legume\source\
-
-import  = %apsuite\apsim\infra\lib\apsinfra.imp
-import  = %apsuite\apsim\croptemp\lib\croptemp.imp
+[dll]
+target  = target dll; %this\lib\mucuna.dll

@@ -1,13 +1,12 @@
 [general]
 name = correl
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=correl
+[dll]
+target  = target dll; %this\lib\correl.dll
 
-[correl]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\correl.for
-target  = lib\correl.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = John Hargreaves - Module Developer; mailto:John.Hargreaves@tag.csiro.au

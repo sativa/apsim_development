@@ -1,19 +1,12 @@
 [general]
 name = sugar
+apf = %this\..\base-croptemp.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=sugar
+[dll]
+target  = target dll; %this\lib\sugar.dll
 
-[sugar]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-
-source  = source\sugar.for
-source  = source\sgr_main.for
-
-target  = lib\sugar.dll
-
-include = %apsuite\apsim\infra\
-include = %apsuite\apsim\croptemp\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
-import  = %apsuite\apsim\croptemp\lib\croptemp.imp
+[contacts]
+contact = Brian Keating - Module Developer; mailto:Brian.Keating@tag.csiro.au

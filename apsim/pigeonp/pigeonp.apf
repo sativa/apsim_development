@@ -1,19 +1,9 @@
 [general]
 name = pigeonp
+apf = %this\..\base-legume.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=pigeonp
-
-[pigeonp]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-
-library = %apsuite\apsim\legume\lib\legume.lib
-source  = source\pigeonp.for
-
-target  = lib\pigeonp.dll
-
-include = %apsuite\apsim\infra\
-include = %apsuite\apsim\legume\source\
-
-import  = %apsuite\apsim\infra\lib\apsinfra.imp
-import  = %apsuite\apsim\croptemp\lib\croptemp.imp
+[dll]
+target  = target dll; %this\lib\pigeonp.dll

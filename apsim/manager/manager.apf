@@ -1,12 +1,12 @@
 [general]
-name = Manager
+name = manager
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=manager
+[dll]
+target  = target dll; %this\lib\manager.dll
 
-[manager]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\manager.for
-target  = lib\manager.dll
-include = %apsuite\apsim\infra\
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au

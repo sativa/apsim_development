@@ -1,13 +1,12 @@
 [general]
 name = canopy
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=canopy
+[dll]
+target  = target dll; %this\lib\canopy.dll
 
-[canopy]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\canopy.for
-target  = lib\canopy.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = John Hargreaves - Module Developer; mailto:John.Hargreaves@tag.csiro.au

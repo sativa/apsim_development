@@ -1,13 +1,12 @@
 [general]
 name = solute
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=solute
+[dll]
+target  = target dll; %this\lib\solute.dll
 
-[solute]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\solute.for
-target  = lib\solute.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au
