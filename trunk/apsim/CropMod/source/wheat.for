@@ -1,4 +1,4 @@
-C     Last change:  E     1 Mar 2000    9:39 am
+C     Last change:  E     7 Apr 2000    6:08 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -7889,8 +7889,8 @@ c      istage = int(g_current_stage)
 *
       !cbak  reduced potrate by factor of 2 ....... 5/6/94
       !parameter (potrate = .9e-6)        ! (g n/mm root/day)
-      !parameter (rate_max = .45e-6)        ! (g N/mm root/day)
-      parameter (rate_max = .85e-6)        ! (g N/mm root/day)   !Enli Changed back
+      parameter (rate_max = .45e-6)        ! (g N/mm root/day)
+      !parameter (rate_max = .85e-6)        ! (g N/mm root/day)   !Enli Changed back
 
  
 *+  Local Variables

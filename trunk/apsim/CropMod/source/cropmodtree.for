@@ -1,4 +1,4 @@
-C     Last change:  E     3 Apr 2000    3:40 pm
+C     Last change:  E     7 Apr 2000    6:48 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -2363,11 +2363,11 @@ c      endif
  
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
  
-        if (on_day_of (emerg, g%current_stage, g%days_tot)) then
-            dlt_dm_root = 0.06*g%plants
-        else
+c        if (on_day_of (emerg, g%current_stage, g%days_tot)) then
+c            dlt_dm_root = 0.06*g%plants
+c        else
             dlt_dm_root = g%dlt_dm_green(root)
-        end if
+c        end if
 
 
          call cproc_root_length_growth1
