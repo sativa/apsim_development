@@ -1274,7 +1274,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character msg*500                ! Error message
       logical Data_was_stored          ! Was data stored in postbox?
       integer modNameID                ! ID for module.
-      logical ok
+      logical ok  
+      integer regID
 
 !- Implementation Section ----------------------------------
 
@@ -1328,6 +1329,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       else if (Data_was_stored) then
          Action = Lower_case(Action)
          if (Module_name.eq.All_active_modules)then
+            regID=Add_Registration(EventReg,Action,' ',' ',' ')
             call Event_Send(Action)
          else
             call Action_send (Module_name, Action)
