@@ -642,6 +642,7 @@ void cproc_phenology_nw (
     ,int   end_development_stage
     ,int   start_stress_stage
     ,int   end_stress_stage
+    ,int   end_flower_stage
     ,int   max_stage
     ,int   c_num_temp
     ,float *c_x_temp
@@ -650,6 +651,8 @@ void cproc_phenology_nw (
     ,float g_mint
     ,float g_nfact_pheno
     ,float g_swdef_pheno
+    ,float g_swdef_pheno_flower
+    ,float g_swdef_pheno_grainfill
     ,float g_vern_eff
     ,float g_photop_eff
     ,float c_pesw_germ
@@ -719,13 +722,13 @@ void cproc_phenology_nw (
     //c==============================================================================;
 
     if (stage_is_between (start_stress_stage,end_stress_stage, *g_current_stage))
-        {
         fstress = min (g_swdef_pheno, g_nfact_pheno);
-        }
+    else if (stage_is_between (end_stress_stage,end_flower_stage, *g_current_stage))
+        fstress = g_swdef_pheno_flower;
+    else if (stage_is_between (end_flower_stage,end_development_stage, *g_current_stage))
+        fstress = g_swdef_pheno_grainfill;
     else
-        {
         fstress = 1.0;
-        }
 
 
     //g_dlt_tt        = g_dlt_tt ;                      //*fstress Enli deleted the stress
@@ -811,6 +814,7 @@ void plant_phenology3 (float *g_previous_stage
                              ,float *g_current_stage
                              ,int   sowing_stage
                              ,int   germ_stage
+                             ,int   end_flowering_stage
                              ,int   end_development_stage
                              ,int   start_stress_stage
                              ,int   end_stress_stage
@@ -822,6 +826,8 @@ void plant_phenology3 (float *g_previous_stage
                              ,float g_mint
                              ,float g_nfact_pheno
                              ,float g_swdef_pheno
+                             ,float g_swdef_pheno_flower
+                             ,float g_swdef_pheno_grainfill
                              ,float c_pesw_germ
                              ,float *c_fasw_emerg
                              ,float *c_rel_emerg_rate
@@ -842,8 +848,10 @@ void plant_phenology3 (float *g_previous_stage
     //- Implementation Section ----------------------------------
     *g_previous_stage = *g_current_stage;
 
-    // get thermal times
-    crop_thermal_time(c_num_temp
+    if (stage_is_between(sowing_stage, end_stress_stage, *g_current_stage)) 
+       {
+       // get thermal times
+       crop_thermal_time(c_num_temp
                     , c_x_temp
                     , c_y_tt
                     , *g_current_stage
@@ -854,31 +862,73 @@ void plant_phenology3 (float *g_previous_stage
                     , g_nfact_pheno
                     , g_swdef_pheno
                     , g_dlt_tt );
+       }
+    else if (stage_is_between(end_stress_stage, end_flowering_stage, *g_current_stage)) 
+       {
+       crop_thermal_time(c_num_temp
+                    , c_x_temp
+                    , c_y_tt
+                    , *g_current_stage
+                    , g_maxt
+                    , g_mint
+                    , start_stress_stage
+                    , end_flowering_stage
+                    , g_swdef_pheno_flower  //no nstress, so just repeat swdef stress here
+                    , g_swdef_pheno_flower
+                    , g_dlt_tt );
+       }
+    else if (stage_is_between(end_flowering_stage, end_development_stage, *g_current_stage)) 
+       {
+       crop_thermal_time(c_num_temp
+                    , c_x_temp
+                    , c_y_tt
+                    , *g_current_stage
+                    , g_maxt
+                    , g_mint
+                    , end_flowering_stage
+                    , end_development_stage
+                    , g_swdef_pheno_grainfill  //no nstress, so just repeat swdef stress here
+                    , g_swdef_pheno_grainfill
+                    , g_dlt_tt );
+       }
+    else
+       { 
+       crop_thermal_time(c_num_temp
+                    , c_x_temp
+                    , c_y_tt
+                    , *g_current_stage
+                    , g_maxt
+                    , g_mint
+                    , start_stress_stage
+                    , end_stress_stage
+                    , g_nfact_pheno
+                    , g_swdef_pheno
+                    , g_dlt_tt );
+       }
 
     crop_phase_devel(sowing_stage
-                   , germ_stage
-                   , end_development_stage
-                   , c_pesw_germ
-                   , c_fasw_emerg
-                   , c_rel_emerg_rate
-                   , c_num_fasw_emerg
-                   , *g_current_stage
-                   , g_days_tot
-                   , g_dlayer
-                   , max_layer
-                   , g_sowing_depth
-                   , g_sw_dep
-                   , g_dul_dep
-                   , p_ll_dep
-                   , *g_dlt_tt
-                   , g_phase_tt
-                   , g_tt_tot
-                   , g_phase_devel);
-
+                       , germ_stage
+                       , end_development_stage
+                       , c_pesw_germ
+                       , c_fasw_emerg
+                       , c_rel_emerg_rate
+                       , c_num_fasw_emerg
+                       , *g_current_stage
+                       , g_days_tot
+                       , g_dlayer
+                       , max_layer
+                       , g_sowing_depth
+                       , g_sw_dep
+                       , g_dul_dep
+                       , p_ll_dep
+                       , *g_dlt_tt
+                       , g_phase_tt
+                       , g_tt_tot
+                       , g_phase_devel);
     crop_devel(max_stage
-               , *g_phase_devel
-               , g_dlt_stage
-               , g_current_stage);
+             , *g_phase_devel
+             , g_dlt_stage
+             , g_current_stage);
 }
 //+  Purpose
 //     <insert here>
