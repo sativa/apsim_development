@@ -449,42 +449,9 @@ subroutine surfom_read_param ()
       g%SurfOM(i)%Lying(1:MaxFr)%P =tot_p(i)* c%fr_pool_p(1:MaxFr,i) * (1 - p%standing_fraction(i))
       g%SurfOM(i)%Lying(1:MaxFr)%AshAlk = 0.0
 
-      write(err_string,*)'Residue name = ',g%SurfOM(i)%name
-      call write_string (err_string)
-      write(err_string,*)'Residue type = ',g%SurfOM(i)%OrganicMatterType
-      call write_string (err_string)
-      write(err_string,*)'Overall mass = ',sum(g%SurfOM(i)%Standing(1:MaxFr)%amount)+sum(g%SurfOM(i)%Lying(1:MaxFr)%amount)
-      call write_string (err_string)
-      write(err_string,*)'Pot Decomposition Rate = ',g%SurfOM(i)%PotDecompRate
-      call write_string (err_string)
-      write(err_string,*)'Standing carbohydrate mass = ',g%SurfOM(i)%Standing(1)%amount
-      call write_string (err_string)
-      write(err_string,*)'                      C:N = ',(g%SurfOM(i)%Standing(1)%C   &
-                                /g%SurfOM(i)%Standing(1)%N)
-      call write_string (err_string)
-      write(err_string,*)'Standing cellulose mass = ',g%SurfOM(i)%Standing(2)%amount
-      call write_string (err_string)
-      write(err_string,*)'                      C:N = ',(g%SurfOM(i)%Standing(2)%C/g%SurfOM(i)%Standing(2)%N)
-      call write_string (err_string)
-      write(err_string,*)'Standing lignin mass = ',g%SurfOM(i)%Standing(3)%amount
-      call write_string (err_string)
-      write(err_string,*)'                      C:N = ',(g%SurfOM(i)%Standing(3)%C/g%SurfOM(i)%Standing(3)%N)
-      call write_string (err_string)
-      write(err_string,*)'Lying carbohydrate mass = ',g%SurfOM(i)%Lying(1)%amount
-      call write_string (err_string)
-      write(err_string,*)'                      C:N = ',(g%SurfOM(i)%Lying(1)%C/g%SurfOM(i)%Lying(1)%N)
-      call write_string (err_string)
-      write(err_string,*)'Lying cellulose mass = ',g%SurfOM(i)%Lying(2)%amount
-      call write_string (err_string)
-      write(err_string,*)'                      C:N = ',(g%SurfOM(i)%Lying(2)%C/g%SurfOM(i)%Lying(2)%N)
-      call write_string (err_string)
-      write(err_string,*)'Lying lignin mass = ',g%SurfOM(i)%Lying(3)%amount
-      call write_string (err_string)
-      write(err_string,*)'                      C:N = ',(g%SurfOM(i)%Lying(3)%C/g%SurfOM(i)%Lying(3)%N)
-      call write_string (err_string)
-      call write_string (new_line)
-
    end do
+
+   call surfom_Sum_Report ()
 
    call pop_routine (my_name)
    return
@@ -2308,10 +2275,16 @@ subroutine surfom_Sum_Report ()
 !+  Local Variables
    character string*300
    character name*100
+   character somtype*100
    real      mass
+   real      C
    real      N
    real      P
    real      cover
+   real      standfr
+   real      cover1                 ! fraction of ground covered by residue (0-1)
+   real      cover2                 ! fraction of ground covered by residue (0-1)
+   real      combined_cover         ! effective combined cover from covers 1 & 2 (0-1)
    integer   i
 
 !- Implementation Section ----------------------------------
@@ -2322,33 +2295,51 @@ subroutine surfom_Sum_Report ()
 
    call write_string (new_line//new_line)
 
-   string = '                 Surface Organic Matter Data'
+   string = '                    Initial Surface Organic Matter Data'
    call write_string (string)
 
-   string = '    --------------------------------------------------------'
+   string = '    ----------------------------------------------------------------------'
    call write_string (string)
 
-   call write_string ('       Name      Dry matter   N        P    Cover')
+   call write_string ('       Name   Type        Dry matter   C        N        P    Cover  Standing_fr')
 
-   call write_string ('                  (kg/ha)  (kg/ha)  (kg/ha) (0-1) ')
+   call write_string ('                           (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)')
 
-   string = '    --------------------------------------------------------'
+   string = '    ----------------------------------------------------------------------'
    call write_string (string)
 
    do  i = 1,g%num_surfom
- 
+
       name = g%SurfOM(i)%name
+      somtype = g%SurfOM(i)%OrganicMatterType
       mass = sum(g%SurfOM(i)%Standing(1:MaxFr)%amount) + sum(g%SurfOM(i)%Lying(1:MaxFr)%amount)
+      C = sum(g%SurfOM(i)%Standing(1:MaxFr)%C) + sum(g%SurfOM(i)%Lying(1:MaxFr)%C)
       N = sum(g%SurfOM(i)%Standing(1:MaxFr)%N) + sum(g%SurfOM(i)%Lying(1:MaxFr)%N)
       P = sum(g%SurfOM(i)%Standing(1:MaxFr)%P) + sum(g%SurfOM(i)%Lying(1:MaxFr)%P)
       cover = surfom_Cover(i)
-
-      write (string, '(7x, a10, 3f8.1, f8.3)')name, mass, N, P, cover
+      standfr = divide(sum(g%SurfOM(i)%Standing(1:MaxFr)%C), C, 0.0)
+      
+      write (string, '(5x, a10, a12, 4f8.1, f8.3, f8.1)')name, somtype, mass, C, N, P, cover, standfr
       call write_string (string)
 
    end do
 
-   string = '    --------------------------------------------------------'
+   string = '    ----------------------------------------------------------------------'
+   call write_string (string)
+
+   do i = 1,g%num_surfom
+       cover2 = surfom_Cover(i)
+       combined_cover = add_cover(cover1,cover2)
+       cover1 = cover2
+   end do
+
+   string = '    '
+   call write_string (string)
+
+   write(string,'(a58,f5.1)')'                 Effective Cover from Surface Materials = ', combined_cover
+   call write_string (string)
+
+   string = '    '
    call write_string (string)
 
    call pop_routine (my_name)
