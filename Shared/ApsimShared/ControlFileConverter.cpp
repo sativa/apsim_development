@@ -521,9 +521,8 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
    bool doneSomething = false;
    // Return all the parameter files for the specified section and instance.
    vector<ApsimParameterFile> paramFiles;
-   controlFile.getParameterFiles("report", paramFiles);
    string name;
-   findParameters("report.module_names", name, paramFiles);
+   findParameters("report.variable", name, paramFiles);
    for (unsigned par = 0; par != paramFiles.size(); ++par)
       {
       vector<string> variables;
