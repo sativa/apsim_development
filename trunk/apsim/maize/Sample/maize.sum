@@ -11,16 +11,14 @@
 
      Version                = 2.2
      Title                  = Maize Sample Simulation
-     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
      Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
      Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
      Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
      Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
      Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\apswork\apsim\maize\lib\maize.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date = 27/10/1989
@@ -48,13 +46,13 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
-        if day = 305 and year = 1989 then
-           maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
-        endif
-        if (maize.stage = 11) then
-           maize harvest
-           maize end_crop
-        endif
+     if day = 305 and year = 1989 then
+        maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
+     endif
+     if (maize.stage = 11) then
+        maize harvest
+        maize end_crop
+     endif
      report do_output
 
 ------- soilwat2 Initialisation -----------------------------------------------
@@ -249,36 +247,36 @@
                           stover N conc =    4.399999       extractable sw =    31.23713
 19 November 1989(Day of year=323), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.978152       lai =    0.4463288E-01
-                          stover N conc =    3.036417       extractable sw =    68.73208
+                          biomass =           2.971894       lai =    0.4451712E-01
+                          stover N conc =    3.033018       extractable sw =    68.73183
 25 November 1989(Day of year=329), maize: 
       stage    5.0 floral_initiation
-                          biomass =           8.402216       lai =    0.1027826
-                          stover N conc =    2.522225       extractable sw =    121.0484
+                          biomass =           8.384141       lai =    0.1025910
+                          stover N conc =    2.519681       extractable sw =    121.0497
 5 January 1990(Day of year=5), maize: 
       stage    6.0 flag_leaf
-                          biomass =           681.8411       lai =     4.551334
-                          stover N conc =    1.493452       extractable sw =    200.9010
+                          biomass =           679.9765       lai =     4.545519
+                          stover N conc =    1.490138       extractable sw =    201.3515
 10 January 1990(Day of year=10), maize: 
       stage    7.0 flowering
-                          biomass =           788.6232       lai =     4.437921
-                          stover N conc =    1.357950       extractable sw =    173.0778
+                          biomass =           786.4128       lai =     4.431458
+                          stover N conc =    1.355849       extractable sw =    173.6168
 20 January 1990(Day of year=20), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           956.7386       lai =     4.112092
-                          stover N conc =    1.201023       extractable sw =    177.7845
+                          biomass =           954.1060       lai =     4.105774
+                          stover N conc =    1.199579       extractable sw =    178.4142
 8 March 1990(Day of year=67), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1422.891       lai =     1.469425
-                          stover N conc =    1.006264       extractable sw =    145.9549
+                          biomass =           1418.926       lai =     1.463591
+                          stover N conc =    1.006331       extractable sw =    146.8512
 9 March 1990(Day of year=68), maize: 
       stage   10.0 maturity
-                          biomass =           1430.776       lai =     1.435289
-                          stover N conc =    1.003772       extractable sw =    144.2733
+                          biomass =           1426.775       lai =     1.429452
+                          stover N conc =    1.003866       extractable sw =    145.1760
 10 March 1990(Day of year=69), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1430.776       lai =    0.1284003E-01
-                          stover N conc =    1.038100       extractable sw =    141.9661
+                          biomass =           1426.775       lai =    0.1281595E-01
+                          stover N conc =    1.038142       extractable sw =    142.8781
 11 March 1990(Day of year=70), manager: 
      Manager sending message :- maize harvest
 11 March 1990(Day of year=70), maize: 
@@ -286,63 +284,63 @@
      
      
      flowering (DAS) =  70                  maturity (DAS)  = 129
-      flowering day  =   10                  stover (kg/ha) =    8653.8
-      maturity day        =   68             grain yield (kg/ha) =    5654.0
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    6691.1
-      grain wt (g) =     0.414               grains/m^2   =  1366.507
-      grains/head = 136.7                    maximum lai = 4.594
-      total above ground biomass (kg/ha) =   14307.8
-      live above ground biomass (kg/ha) =   14307.8
-      green above ground biomass (kg/ha) =   12663.8
-      senesced above ground biomass (kg/ha) =    1644.0
+      flowering day  =   10                  stover (kg/ha) =    8651.9
+      maturity day        =   68             grain yield (kg/ha) =    5615.9
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    6646.0
+      grain wt (g) =     0.414               grains/m^2   =  1357.300
+      grains/head = 135.7                    maximum lai = 4.588
+      total above ground biomass (kg/ha) =   14267.8
+      live above ground biomass (kg/ha) =   14267.8
+      green above ground biomass (kg/ha) =   12626.9
+      senesced above ground biomass (kg/ha) =    1640.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.3
-      grain N percent =      1.17            total N content (kg/ha) =    133.11
-      grain N uptake (kg/ha) =     66.25     senesced N content (kg/ha) =      1.64
-      green N content (kg/ha) =     65.21    dead N content (kg/ha) =      0.00
+      grain N percent =      1.17            total N content (kg/ha) =    132.73
+      grain N uptake (kg/ha) =     65.94     senesced N content (kg/ha) =      1.64
+      green N content (kg/ha) =     65.15    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0296346
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1149402
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1168884
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1041976
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1057534
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0412478
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1685081
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0423163
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1703230
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577508
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862007
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3596196
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4876956
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4218205
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5374563
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4229685
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5383748
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4926362
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5941089
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4935040
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5948030
 11 March 1990(Day of year=70), manager: 
      Manager sending message :- maize end_crop
 11 March 1990(Day of year=70), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 8653.8 kg/ha
-                                               straw N =   66.9 kg/ha
-                                               root residue = 2360.2 kg/ha
+                                               straw residue = 8651.9 kg/ha
+                                               straw N =   66.8 kg/ha
+                                               root residue = 2353.6 kg/ha
                                                root N =   17.6 kg/ha
 30 April 1990(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.
