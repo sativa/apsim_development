@@ -2620,18 +2620,23 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *+  Local Variables
       real       c_eff                 ! fraction of C returned to soil
-      real       dm_residue            ! dry matter going to residue
+      real       dm_residue            ! dry matter going to residue as dung (g/m^2)
+      real       dm_grazed             ! dry matter removed by grazing (g/m^2)
       real       fraction              ! fraction of green material grazed
       integer    leaf_no               ! index for leaves
       real       node_no_dead          ! number of dead or dying leaves
       real       n_eff                 ! fraction of N returned to soil
-      real       n_residue             ! N going to residue
+      real       n_residue             ! N going to residue in dung (g/m^2)
+      real       n_grazed              ! N removed by grazing (g/m^2)
       integer    numvals               ! number of values found in array
       character  report*10             ! report flag
       character  string*150            ! output string
-      real       grn_fr               ! fraction of bottom leaf that is dead
+      real       grn_fr                ! fraction of bottom leaf that is dead
       integer    start_leaf            ! leaf to start grazing from
       real       fraction_removed      ! fraction of each leaf grazed
+      real       fraction_to_Residue(max_part)   ! fraction sent to residue (0-1)
+      real       dlt_dm_crop(max_part) ! dry matter removed by grazing (kg/ha)
+      real       dlt_dm_N(max_part)    ! N content of dm removed (kg/ha)
 
 *- Implementation Section ----------------------------------
  
@@ -2657,42 +2662,84 @@ c      call sugar_get_other_variables ()
       endif
  
       ! Note - I could use loops here but I want to be specific.
-      dm_residue = 0.0
-      n_Residue = 0.0
+      dm_grazed = 0.0
+      n_grazed = 0.0
+      dlt_dm_crop(:) = 0.0
+      dlt_dm_N(:) = 0.0
  
-      g%dm_graze = g%dm_graze + g%dm_green(leaf)*fraction
-      g%n_graze = g%n_graze + g%n_green(leaf)*fraction
-      dm_residue = dm_residue + g%dm_green(leaf)*fraction*c_eff
-      n_residue = n_residue + g%n_green(leaf)*fraction*n_eff
+         ! leaf
+      dm_grazed = g%dm_green(leaf)*fraction
+      n_grazed =  g%n_green(leaf)*fraction
+      dlt_dm_crop(leaf) = dm_grazed * gm2kg/sm2ha
+      dlt_dm_N(leaf) = n_grazed * gm2kg/sm2ha
+      
+      g%dm_graze = g%dm_graze + dm_grazed
+      g%n_graze = g%n_graze + n_grazed
       g%dm_green(leaf) = g%dm_green(leaf) * (1. - fraction)
       g%n_green(leaf) = g%n_green(leaf) * (1. - fraction)
       g%plant_wc(leaf) = g%plant_wc(leaf) * (1. - fraction)
  
+         ! cabbage
+      dm_grazed = g%dm_green(cabbage)*fraction
+      n_grazed =  g%n_green(cabbage)*fraction
+      dlt_dm_crop(cabbage) = dm_grazed * gm2kg/sm2ha
+      dlt_dm_N(cabbage) = n_grazed * gm2kg/sm2ha
+      
       g%dm_graze = g%dm_graze + g%dm_green(cabbage)*fraction
       g%n_graze = g%n_graze + g%n_green(cabbage)*fraction
-      dm_residue = dm_residue + g%dm_green(cabbage)*fraction*c_eff
-      n_residue = n_residue + g%n_green(cabbage)*fraction*n_eff
       g%dm_green(cabbage) = g%dm_green(cabbage) * (1. - fraction)
       g%n_green(cabbage) = g%n_green(cabbage) * (1. - fraction)
       g%plant_wc(cabbage) = g%plant_wc(cabbage) * (1. - fraction)
  
+         ! structural stem
+      dm_grazed = g%dm_green(sstem)*fraction
+      n_grazed =  g%n_green(sstem)*fraction
+      dlt_dm_crop(sstem) = dm_grazed * gm2kg/sm2ha
+      dlt_dm_N(sstem) = n_grazed * gm2kg/sm2ha
+      
       g%dm_graze = g%dm_graze + g%dm_green(sstem)*fraction
       g%n_graze = g%n_graze + g%n_green(sstem)*fraction
-      dm_residue = dm_residue + g%dm_green(sstem)*fraction*c_eff
-      n_residue = n_residue + g%n_green(sstem)*fraction*n_eff
       g%dm_green(sstem)= g%dm_green(sstem) * (1. - fraction)
       g%n_green(sstem)= g%n_green(sstem) * (1. - fraction)
       g%plant_wc(sstem) = g%plant_wc(sstem) * (1. - fraction)
  
+         ! sucrose
+      dm_grazed = g%dm_green(sucrose)*fraction
+      n_grazed =  g%n_green(sucrose)*fraction
+      dlt_dm_crop(sucrose) = dm_grazed * gm2kg/sm2ha
+      dlt_dm_N(sucrose) = n_grazed * gm2kg/sm2ha
+      
       g%dm_graze = g%dm_graze + g%dm_green(sucrose)*fraction
       g%n_graze = g%n_graze + g%n_green(sucrose)*fraction
-      dm_residue = dm_residue + g%dm_green(sucrose)*fraction*c_eff
-      n_residue = n_residue + g%n_green(sucrose)*fraction*n_eff
+!cjh      dm_grazed = dm_grazed + g%dm_green(sucrose)*fraction*c_eff
+!cjh      n_grazed = n_grazed + g%n_green(sucrose)*fraction*n_eff
       g%dm_green(sucrose)= g%dm_green(sucrose) * (1. - fraction)
       g%n_green(sucrose)= g%n_green(sucrose) * (1. - fraction)
       g%plant_wc(sucrose) = g%plant_wc(sucrose) * (1. - fraction)
- 
-      call crop_top_residue (c%crop_type, dm_residue, N_residue)
+
+      dm_residue = g%dm_graze *c_eff
+      N_residue = g%N_graze *n_eff
+      
+      ! remove material from crop
+
+!      call crop_top_residue (c%crop_type, dm_grazed, n_grazed)
+      fraction_to_residue(:) = 0.0
+
+      if (sum(dlt_dm_crop) .gt. 0.0) then
+         call sugar_Send_Crop_Chopped_Event 
+     :                (c%crop_type
+     :               , part_name
+     :               , dlt_dm_crop
+     :               , dlt_dm_N                                                       
+     :               , fraction_to_Residue
+     :               , max_part)
+      else
+         ! no surface residue
+      endif
+                                      
+      ! now add the dung    (manure module?)
+      call crop_top_residue (c%crop_type, dm_residue, n_residue)
+
  
       ! Now we need to update the leaf tracking info
  
