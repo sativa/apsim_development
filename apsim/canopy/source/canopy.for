@@ -45,7 +45,7 @@
       parameter (my_name = 'canopy_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.12 160996')
+      parameter (version_number = 'V1.13 261196')
 
 *   Initial data values
 *       none
@@ -291,6 +291,7 @@
 
 *   Changes:
 *     090896 jngh - Programmed and Specified
+*     261196 jngh lengthened crop_type to 100 from 20 and set it blank before use
 
 *   Calls:
 *   Popsr
@@ -309,7 +310,7 @@
 
 *   Internal variables
       integer    crop                  ! index for crops
-      character  crop_type*20          ! type of crop
+      character  crop_type*100         ! type of crop
       integer    numvals               ! number of values in string
       character  owner_module*max_module_name_size ! owner module of variable
 
@@ -325,6 +326,7 @@
 
 
       crop = 0
+      crop_type = blank
 1000  continue
 
          call get_char_vars(
@@ -446,6 +448,7 @@
 
 *   Changes:
 *      201093 jngh specified and programmed
+*      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
 *   Calls:
 *       fatal_error
@@ -456,7 +459,7 @@
 
 * ----------------------- Declaration section ------------------------
 
-      implicit none
+      implicit none                                                              
 
 *   Subroutine arguments
 *      none
@@ -472,8 +475,11 @@
       character  owner_module*max_module_name_size ! owner module of variable
 
 *   Constant values
-      real       c_max_height            ! maximum crop canopy height (mm)
+      real       c_max_height          ! maximum crop canopy height (mm)
       parameter (c_max_height  = 10000.0)
+      
+      real       c_k_lai_full_cover    ! a value for k*lai when cover is 100%
+      parameter (c_k_lai_full_cover = 100.0)
 
       character  my_name*(*)           ! procedure name
       parameter (my_name='canopy_get_other_variables')
@@ -499,7 +505,11 @@
                crop = crop + 1
                call get_posting_Module (Owner_module)
                g_crop_module(crop) = owner_module
-               g_K_lai_green(crop) = - log (1.0 - temp)
+               if (temp.lt.1) then
+                  g_K_lai_green(crop) = - log (1.0 - temp)
+               else
+                  g_K_lai_green(crop) = c_k_lai_full_cover
+               endif
                goto 1000
             else
                call fatal_error (err_user
@@ -528,7 +538,11 @@
                crop = crop + 1
                call get_posting_Module (Owner_module)
                if (owner_module.eq.g_crop_module(crop)) then
-                  g_K_lai_total(crop) = -log (1.0 - temp)
+                  if (temp.lt.1) then
+                     g_K_lai_total(crop) = - log (1.0 - temp)
+                  else
+                     g_K_lai_total(crop) = c_k_lai_full_cover
+                  endif
                   goto 2000
                else
                   call fatal_error (err_user
