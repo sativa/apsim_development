@@ -14,10 +14,8 @@
     <SPARELIBS value="Vcl50.lib"/>
     <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
       ibsmp50.bpi vcldbx50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi 
-      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi TEE4C5.bpi 
-      TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi OpenXML.bpi 
-      dclusr50.bpi vclado50.bpi psc_c5.bpi tmsc5.bpi VCLIB50.bpi 
-      TAChartPackage.bpi APSGENERAL.bpi APSData.bpi"/>
+      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi dclusr50.bpi vclado50.bpi 
+      VCLIB50.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -72,6 +70,9 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+$(BCB)\Projects\Bpl\DclTee4C5.bpl=TeeChart 4.0 Components
+
 [HistoryLists\hlIncludePath]
 Count=4
 Item0=$(BCB)\include;$(BCB)\include\vcl;..\..\infra\ComponentInterface;k:\
@@ -81,9 +82,9 @@ Item3=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=3
-Item0=c:\program files\borland\cbuilder5\projects\lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=$(BCB)\lib\obj;$(BCB)\lib
-Item2=C:\Program Files\Borland\CBuilder5\Projects\Lib\;$(BCB)\lib\obj;$(BCB)\lib
+Item0=c:\program files\borland\cbuilder5\projects\lib\;$(BCB)\lib\obj;$(BCB)\lib
+Item1=c:\program files\borland\cbuilder5\projects\lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
