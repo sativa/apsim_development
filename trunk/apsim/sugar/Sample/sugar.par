@@ -1,45 +1,42 @@
-[sample.report.parameters]  
-title =  Sugar Sample Simulation   
-screen_output =  on   
-outputfile =  sugar.out /overwrite   
-summaryfile =  sugar.sum /overwrite   
-
-module_names =   clock   
-variable_names =  today.dd/mm/yyyy   
-variable_alias =  Date   
-
-module_names =   soilwat2 soiln2 residue2   irrigate   
-variable_names =  esw()   no3()  residue_wt irrigation   
-variable_alias =  -       -      -          -   
-
-module_names =   sugar   sugar     sugar           sugar       sugar   
-variable_names =  lai    biomass   green_biomass   swdef_photo nfact_photo   
-variable_alias =  -         -         -            -           -   
-units =          -          -         -            -           -   
+[sample.report.parameters]
+outputfile =sugar.out
 
 
 
-[sample.clock.parameters]  
+variable = clock.today.dd/mm/yyyy as Date
+variable = soilwat2.es
+variable = soilwat2.eos
+variable = soilwat2.eo
+variable = soilwat2.drain
+variable = soilwat2.infiltration
+variable = soilwat2.esw()
+variable = soiln2.no3
+variable = residue2.residue_wt
+variable = irrigate.irrigation
+variable = sugar.lai
+variable = sugar.biomass
+variable = sugar.green_biomass
+variable = sugar.swdef_photo
+variable = sugar.nfact_photo
+[sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  100   
-simulation_start_year =  1980   
-simulation_end_day =  100   
-simulation_end_year =  1990   
+start_date=9/4/1980     ! dd/mm/yyyy
+end_date=10/4/1990     ! dd/mm/yyyy
 
 
-[sample.irrigate.parameters]  
-automatic_irrigation =  on   
-crit_fr_asw =  0.5   
-asw_depth =  600   
+[sample.irrigate.parameters]
+automatic_irrigation =  on
+crit_fr_asw =  0.5
+asw_depth =  600
 
-[sample.sugar.parameters]  
+[sample.sugar.parameters]
 uptake_source =    calc   ! calculate all uptakes
 ll =       .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
 xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ! Weighting factor for root advance
 kl =      0.16 0.16 0.16 0.16 0.12 0.08 0.04   ! Water Extraction Parameter (0-1)
 rlv =     .005 .001 0.00 0.00 0.00 0.00 0.00   ! Root length density at emergence (mm/mm3)
 
-[sample.manager.init]  
+[sample.manager.init]
 
 ! The management logic for sugar cane here is fairly self-contained.  Many management
 ! scenarios can be handled by altering the management parameters below.  No changes to the
@@ -73,7 +70,7 @@ dah = 0
 sample = 0
 num_irr = 0
 
-[sample.manager.end_of_day]  
+[sample.manager.end_of_day]
 report do_output
 
 if sugar.crop_status = 'alive' then
@@ -99,7 +96,7 @@ if sugar.crop_status = 'alive' then
    endif
 
    ! Set harvest dates for each crop phase
-   if (das = plantlen and ratoon_no = 0) or     
+   if (das = plantlen and ratoon_no = 0) or
       (das = ratoonlen and ratoon_no > 0) then
 
       sugar harvest
@@ -107,7 +104,7 @@ if sugar.crop_status = 'alive' then
       if burn_flag = 1 then
          residue2 tillage type = burn
       endif
-         
+
       if ratoon_no = NoRatoons + 1 then
          ! plough the crop out
          sugar kill_crop
