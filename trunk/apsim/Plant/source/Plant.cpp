@@ -10133,7 +10133,7 @@ void Plant::plant_zero_daily_variables ()
       }
     }
     for (int j = 0; j < max_part; j++) {
-      g.dlt_dm_green_abort[i]                   = 0.0;
+      g.dlt_dm_green_abort[j]                   = 0.0;
     }
     pop_routine (my_name);
     return;
@@ -15933,6 +15933,19 @@ bool Plant::read_array(const char * sectionName,
    Split_string(valueString, " ", splitValues);
 
    numValues = splitValues.size();
+
+   if (numValues <= 0)
+     {
+     if (!optional)
+        {
+        strcpy(msg, "Cannot read a value from empty string\n"
+                        "Parameter name = ");
+        strcat(msg, variableName);
+        strcat(msg, "\n");
+        fatal_error(&err_user, msg, strlen(msg));
+        }
+     return false;
+     }
    for (int v = 0; v < numValues; v++)
       {
       if (char2any(splitValues[v].c_str(), values[v]) != 1)
@@ -16109,6 +16122,18 @@ bool Plant::read_array(const char * sectionName,
    Split_string(valueString, " ", splitValues);
 
    numValues = splitValues.size();
+   if (numValues <= 0)
+     {
+     if (!optional)
+        {
+        strcpy(msg, "Cannot read a value from empty string\n"
+                        "Parameter name = ");
+        strcat(msg, variableName);
+        strcat(msg, "\n");
+        fatal_error(&err_user, msg, strlen(msg));
+        }
+     return false;
+     }
    for (int v = 0; v < numValues; v++)
       {
       if (char2any(splitValues[v].c_str(), values[v]) != 1)
