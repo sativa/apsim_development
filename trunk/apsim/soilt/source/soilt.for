@@ -322,6 +322,7 @@
      :                                    , '(mm)'
      :                                    , g%dlayer, g%num_layers
      :                                    , 0.0, 1000.0)
+!jh      g%dlayer(:) = g%dlayer(:) / 10.0
 
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :                                  , g%maxt, numvals
@@ -651,6 +652,8 @@ c     endif
       real  x4
       real wattm2    ! incoming shortwave radiation (W/m2)
       real tempm     ! average temperature (oC)
+      real       ys                    ! magnitude of soil thermal admittance (W/m2/K)
+      real       phis                  ! phase angle of soil thermal admittance (rad)
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -658,12 +661,16 @@ c     endif
 
       REAL       SIGMA     ! Stefan-Boltzmann constant (W/m2/K4)
       parameter (SIGMA = 5.67E-8)
+      
       real       PI        ! ratio of circumference to diameter of circle
       parameter (PI = 3.1415927 )
+      
       real       OMEGA     ! daily angular frequency (rad/s)
       parameter (OMEGA = 2.0*PI / 86400.0)
+      
       real       TZ        ! temperature freezing point (K)
       parameter (TZ = 273.16)
+      
       real       w2        ! average width of mulch elements (m)
       parameter (w2 = 0.02)
 
@@ -677,37 +684,38 @@ c     endif
       wattm2 = 0.30*g%radn / 180.*698.
       rb0 = 0.85*wattm2
       rd = 0.15*wattm2
-c               rl calculated from Monteith 1973
+              ! rl calculated from Monteith 1973
       rl = 208. + 6.*g%maxt
       p0 = exp(-A2 / 4.)
-      if (p0.eq.1.) p0 = 0.999
+      if (p0 .eq. 1.) p0 = 0.999
       pav = exp(-A2 / 2.6)
-      if (pav.eq.1.) pav = 0.999
-c
+      if (pav .eq. 1.) pav = 0.999
+
       TR = g%maxt + TZ
       tempm = (g%maxt + g%mint) / 2.
       ttav = tempm + p0*(g%maxt - tempm) + tz
       hv = 27.78*g%es
-c
+
       sf2 = 0.22
       sb2 = 0.20
       sb1 = 0.20
       alpha1 = 1.70 * A1
       beta2 = 1.4*A2 / w2**0.25
-      if (beta2.le.22.) beta2 = 22.
-c
-      call soilt ()
-C       DERIVE OTHER PARAMETERS
+      if (beta2 .le. 22.) beta2 = 22.
+
+      call soilt (ys, phis)
+        !  DERIVE OTHER PARAMETERS
       IAV = 1.0 - PAV
       RHO1 = SB1
       RHO2 = IAV*SB2
       TAU2 = PAV + IAV*SF2
-      YEFF = g%ys*COS(g%phis)
-c
+      YEFF = ys*COS(phis)
+
       tt = 0.
+
  20   CONTINUE
-C       CALCULATE VARIABLES
-c
+       ! CALCULATE VARIABLES
+
       PHI = OMEGA*tt
       RB = RB0*COS(PHI)
       PSI = PHI
@@ -723,8 +731,9 @@ c
       TC2 = TR
       DTC1 = 5.0
       DTC2 = 5.0
+
  30   CONTINUE
-C       START NEXT ITERATION
+         !  START NEXT ITERATION
       TC1 = TC1 + DTC1
       TC2 = TC2 + DTC2
       X1 = SIGMA*TC1**4
@@ -735,7 +744,7 @@ C       START NEXT ITERATION
       RC2 = 1.0 / (BETA2*(ABS(TC2 - TR))**0.25)
       HS1 = (TC1 - TR) / RC1
       HS2 = (TC2 - TR) / RC2
-c
+
       Gg = (TC1 - ttav)*YEFF
       H1 = ES1 + EL1 - HV - HS1 - Gg
       H2 = ES2 + EL2 - HS2
@@ -746,39 +755,43 @@ c
       DJ = J11*J22 - J12*J21
       DTC1 = (-J22*H1 + J12*H2) / DJ
       DTC2 = (J21*H1 - J11*H2) / DJ
-      IF(ABS(H1) + ABS(H2).GT.0.01)GO TO 30
+      IF (ABS(H1) + ABS(H2) .GT. 0.01) GO TO 30
 
       X3 = PPSI*ALOG(PPSI)
       F1 = (1. - SB1)*(PPSI + SF2*IPSI - X3*(1. - SF2))
       F2 = (1. - SB2 - SF2)*(IPSI + IAV*SB1*PPSI + X3*(1. - IAV*SB1))
-      F = g%ys*SIN(g%phis) / (RB*(F1 - (J12 / J22)*F2))
-c
+      F = ys*SIN(phis) / (RB*(F1 - (J12 / J22)*F2))
+
       PHI = ATAN((TC1 - ttav)*F)
 
       X4 = tt
       tt = PHI / OMEGA
-      IF(ABS(tt - X4).GT.0.1)GO TO 20
-c
+      IF (ABS(tt - X4) .GT. 0.1) GO TO 20
+
       g%temp0 = tc1 - tz
-c      write (6,630) iyr,jdate,g%temp0,wattm2,rb0,rd,rl,p0,pav,g%estimated_lai,tr,
-c     1     ttav,hv,g%es,beta2,g%ys,g%phis
-c  630 format(i3,i4,f5.1,4f5.0,2f5.2,3f6.0,f5.0,3f5.1,f6.3)
+!c      write (6,630) iyr,jdate,g%temp0,wattm2,rb0,rd,rl,p0,pav,g%estimated_lai,tr,
+!c     1     ttav,hv,g%es,beta2,ys,phis
+!c  630 format(i3,i4,f5.1,4f5.0,2f5.2,3f6.0,f5.0,3f5.1,f6.3)
 
       call pop_routine(myname)
       return
       END
-c
+
 * ====================================================================
       Recursive
-     :Subroutine SOILT ()
+     :Subroutine SOILT (ys, phis)
 * ====================================================================
       use SoilTModule
       implicit none
       include   'error.pub'
 
+*+  Sub-Program Arguments
+      real       ys                    ! (Output) magnitude of soil thermal admittance (W/m2/K)
+      real       phis                  ! (Output) phase angle of soil thermal admittance (rad)
+
 *+  Local Variables
-      REAL Z
-      real VWC
+      REAL Z             ! layer depth (decimetre)
+      real VWC           ! volumetric soil water content of layer (m3/m3)
       real Cc
       real K
       real fun_A
@@ -791,81 +804,102 @@ c
       COMPLEX SRG(100)
       COMPLEX SRT(100)
       COMPLEX CN
-      integer nj
-      integer i
-      integer j
-      real topsw
-      real subsw
-      real zd
+      integer nj   ! layer counter
+      integer i    ! layer counter
+      integer j    ! layer counter
+      real topsw   ! soil water depth in top profile )mm)
+      real subsw   ! soil water depth in sub-profile (mm)
+      real zd      ! depth (mm)
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
       parameter (myname = 'SOILT')
 
-      REAL Pp, vsw(7),tlayr(7)
-      DATA Pp / 86400. / 
+      REAL Pp         ! period length (s)
+      parameter (Pp = 86400.0)
+
+      real vsw(7)     ! volumetric soil water content of SoilT layers (m3/m3)
+      real tlayr(7)   ! SoilT layer depths (7 is top, 1 is bottom)
+
+!      DATA Pp / 86400. / 
       data tlayr / 0.,0.,1.,1.,1.,1.,1. / 
       data vsw / 7*0.0 / 
       
-      fun_M(CN) = cabs(CN)
-      fun_A(CN) = aimag(clog(CN))
+      fun_M (CN) = cabs (CN)
+      fun_A (CN) = aimag (clog (CN))
 
 *- Implementation Section ----------------------------------
 
       call push_routine(myname)
-      YS1 = (10.,.7845)
-      NJ = 0
-      tlayr(1) = 0.
-      topsw = 0.
-      subsw = 0.
-      zd = 6.
-      if (g%dlayer(1).ge.6.) then
-        do 20 i = 3,7
+
+         ! SoilT layers number 1 to 7 from bottom to top (reverse of dlayer).
+      if (g%dlayer(1) .ge. 6.) then
+            ! we have a thick top layer. Split top layer into 6 layers
+            ! and lump the other layers into one - a total of 7 layers.
+            ! Top 5 thin layers
+         topsw = 0.
+         zd = 6.
+        do 20 i = 3, 7
           zd = zd - 1.
           vsw(i) = .0125 - 0.25*g%sw(1) + 0.25*(g%sw(1) - .01)*zd
           topsw = topsw + vsw(i)
    20   continue
+            ! 6th layer is remainder of top dlayer.
         vsw(2) = (g%sw(1)*g%dlayer(1) - topsw) / (g%dlayer(1) - 5.)
         tlayr(2) = g%dlayer(1) - 5.
-        do 30 j = 2,10
+
+            ! now put the remaining layers (dlayer(2) onwards to 75??) into one bottom layer        
+         tlayr(1) = 0.
+         subsw = 0.
+        do 30 j = 2, 10
           tlayr(1) = tlayr(1) + g%dlayer(j)
           subsw = subsw + g%sw(j)*g%dlayer(j)
-          if (tlayr(1).ge.75.) go to 40
+          if (tlayr(1) .ge. 75.) go to 40
    30   continue
+
    40   vsw(1) = subsw / tlayr(1)
+
       else
-        do 50 j = 1,4
+         tlayr(1) = 0.
+            ! top layer is thin enough.
+        do 50 j = 1, 4
    50     vsw(j) = g%sw(4)
         vsw(5) = g%sw(3)
         vsw(6) = g%sw(2)
         vsw(7) = g%sw(1)
       endif
+
+      YS1 = (10., .7845)
+      NJ = 0
    10 CONTINUE
+         ! start at bottom layer (1) and loop up to the top layer (7)
       NJ = NJ + 1
       z = tlayr(nj) / 100.
       vwc = vsw(nj)
-      CALL GETCK(VWC,Cc,K)
-      CALL ADMIT1(Pp,Z,Cc,K,YS1,Y,RG,RT)
+      CALL GETCK (VWC, Cc, K)
+      CALL ADMIT1 (Pp, Z, Cc, K, YS1, Y, RG, RT)
       YS1 = Y
-      if (nj.lt.7) GO TO 10
-      g%ys = fun_m(y)
-      g%phis = fun_a(y)
+      if (nj .lt. 7) GO TO 10
+
+         ! store rresults into real variables
+      ys = fun_m (y)
+      phis = fun_a (y)
 
       call pop_routine(myname)
       return
       END
-c
+
 * ====================================================================
       Recursive
-     :Subroutine GETCK(VWC,C,K)
+     :Subroutine GETCK (VWC, C, K)
 * ====================================================================
       implicit none
       include   'error.pub'
       
 *+  Sub-Program Arguments
-      REAL VWC
-      real C
-      real K
+      REAL VWC      ! (Input)
+      real C        ! (Output)
+      real K        ! (Output)
 
 *+  Local Variables
       real x
@@ -875,46 +909,51 @@ c
       parameter (myname = 'GETCK')
 
       REAL C0
+      parameter (C0 = 1.4E6)
       real C1
+      parameter (C1 = 4.18E6)
       real K0
+      parameter (K0 = 0.32)
       real K1
-      DATA C0,C1,K0,K1 / 1.4E6,4.18E6,.32,1.18 / 
+      parameter (K1 = 1.18)
+!      DATA C0, C1, K0, K1 / 1.4E6, 4.18E6, .32, 1.18 / 
 *- Implementation Section ----------------------------------
 
       call push_routine(myname)
+
       C = C0 + C1*VWC
       x = 2.4*vwc
-      if (vwc.gt.0.075) x = x + 35.0*(vwc - 0.075)**2
-      if (vwc.gt.0.15) x = x - 750.0*(vwc - 0.15)**3
-      if (vwc.gt.0.225) x = 1.0
+      if (vwc .gt. 0.075) x = x + 35.0*(vwc - 0.075)**2
+      if (vwc .gt. 0.15)  x = x - 750.0*(vwc - 0.15)**3
+      if (vwc .gt. 0.225) x = 1.0
       K = K0 + K1*x
 
       call pop_routine(myname)
       RETURN
       END
-c
+
 * ====================================================================
       Recursive
-     :Subroutine ADMIT1(P,Z,C,K,YS1,Y,RG,RT)
+     :Subroutine ADMIT1 (P, Z, C, K, YS1, Y, RG, RT)
 * ====================================================================
       implicit none
       include   'error.pub'
 
 *+  Sub-Program Arguments
-      REAL P
-      real Z
-      real C
-      real K
-      COMPLEX YS1
-      COMPLEX Y
-      COMPLEX RG
-      COMPLEX RT
+      REAL P         ! (Input) period length (s)
+      real Z         ! (Input) layer depth (decimetre)
+      real C         ! (Input)
+      real K         ! (Input)
+      COMPLEX YS1    ! (Input)
+      COMPLEX Y      !(Output)
+      COMPLEX RG     !(Output)
+      COMPLEX RT     !(Output)
 
 *+  Local Variables
       REAL W
       real D
       COMPLEX YINF
-      COMPLEX R
+      COMPLEX R     
       COMPLEX SINH
       COMPLEX COSH
       COMPLEX TANH
@@ -924,11 +963,12 @@ c
       parameter (myname = 'ADMIT1')
 
       REAL PI
-      DATA PI / 3.141592654 / 
+      parameter (PI = 3.141592654)
 
 *- Implementation Section ----------------------------------
 
       call push_routine(myname)
+
       W = 2.*PI / P
       D = SQRT(2.*K / (W*C))
       YINF = (1.,1.)*SQRT(W*C*K / 2.)
@@ -936,6 +976,7 @@ c
       SINH = (CEXP(R) - CEXP( - R)) / 2.
       COSH = (CEXP(R) + CEXP( - R)) / 2.
       TANH = SINH / COSH
+
       RG = SINH*YINF / YS1 + COSH
       RT = SINH*YS1 / YINF + COSH
       Y = YINF*(TANH + YS1 / YINF) / (TANH*YS1 / YINF + 1.)
