@@ -28,7 +28,7 @@ if today = date('1-oct') then
    soiln2 reset
    residue2 reset
    fertiliz apply amount = 200, type = no3_n, depth = 200.
-   maize sow cultivar = dekalb_xl82, plants = 10 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0
+   maize sow cultivar = dekalb_xl82, plants = 5 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0
 endif
 
 [sensibility.manager.end_of_day]
