@@ -2364,12 +2364,14 @@ c     Bound to reasonable values:
       include   'grasp.inc'
       include 'data.pub'                          
       include 'error.pub'                         
+      include   'const.inc'  
 
 *+  Purpose
 *       zero grasp_ variables & arrays
 
 *+  Changes
 *     010994 jngh specified and programmed
+*     080299 jngh zeroed all common block contents
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -2377,25 +2379,212 @@ c     Bound to reasonable values:
 
 *- Implementation Section ----------------------------------
  
+ 
       call push_routine (my_name)
  
           !  zero pools etc.
  
       call grasp_zero_daily_variables ()
  
+      p_stage_names = blank
+      p_crop_type   = blank
+      p_uptake_source = blank
+
+      g_year          = 0
+      g_day_of_year   = 0
+      g_crop_status   = 0
+
+      g_fr_intc_radn = 0.0
+      g_radn         = 0.0
+
+      g_mint         = 0.0
+      g_maxt         = 0.0
+      g_pan          = 0.0
+      g_vpd          = 0.0
+
+      call fill_real_array (c_x_sw_ratio, 0.0, max_table)
+      call fill_real_array (c_y_sw_fac_root, 0.0, max_table)
+      call fill_real_array (c_x_sw_demand_ratio, 0.0, max_table)
+      call fill_real_array (c_y_swdef_leaf, 0.0, max_table)
+      call fill_real_array (c_x_sw_avail_ratio, 0.0, max_table)
+      call fill_real_array (c_y_swdef_pheno, 0.0, max_table)
+      c_num_sw_ratio          = 0
+      c_num_sw_demand_ratio   = 0
+      c_num_sw_avail_ratio    = 0
+
+      g_dlt_stage        = 0.0
+      g_current_stage   = 0.0
+      g_previous_stage  = 0.0
+      call fill_real_array (p_stage_code_list, 0.0, max_stage)
+
+      g_dlt_dm          = 0.0
+      call fill_real_array (g_dlt_dm_plant, 0.0, max_part)    
+      call fill_real_array (g_dm_green, 0.0, max_part) 
+      call fill_real_array (g_dm_dead, 0.0, max_part) 
+      g_dlt_root_depth  = 0.0
+      g_root_depth      = 0.0
+      g_dlt_canopy_height = 0.0
+      g_canopy_height     = 0.0
+
+
+      call fill_real_array (g_dlt_no3, 0.0, max_layer) 
+      call fill_real_array (g_no3, 0.0, max_layer)
+      call fill_real_array (g_no3_min, 0.0, max_layer)
+      c_litter_n     = 0.0
+      g_N_uptake     = 0.0
+
+      call fill_real_array (p_rue, 0.0, max_stage)
+
+      p_yld_fpc50        = 0.0
+      p_yld_cov50        = 0.0
+      p_yld_cover_slope  = 0.0
+      c_stem_thresh      = 0.0
+     
+      call fill_real_array (g_dlayer, 0.0, max_layer)
+      call fill_real_array (g_dlt_sw_dep, 0.0, max_layer)
+      call fill_real_array (g_dul_dep, 0.0, max_layer)
       call fill_real_array (g_ll_dep, 0.0, max_layer)
-      call fill_real_array (p_max_n_avail, 0.0, max_layer)
-      g_num_layers = 0
-      g_canopy_height = 0.0
-      g_previous_stage = 0.0
-      g_root_depth = 0.0
+      call fill_real_array (g_sw_dep, 0.0, max_layer)
+      call fill_real_array (g_swi, 0.0, max_layer)
+      call fill_real_array (g_rlv, 0.0, max_layer)
+      call fill_real_array (g_bd, 0.0, max_layer)
+      call fill_real_array (g_layer_fract, 0.0, max_layer)
+
+
+       g_swi_total     = 0.0
+       g_rawswi_total = 0.0
+       g_num_layers   = 0
+
+      g_out_radn_cover     = 0.0
+      g_out_transp_cover   = 0.0
+      g_out_total_cover    = 0.0
+      g_out_clothesline    = 0.0
+      g_out_sw_pot         = 0.0
+      g_out_growth_transp  = 0.0
+      g_out_growth_regrow  = 0.0
+      g_out_growth_photo   = 0.0
+      g_out_sw_demand      = 0.0
+      call fill_real_array (g_out_death_frost, 0.0, max_part)
+      call fill_real_array (g_out_death_pheno, 0.0, max_part)
+      call fill_real_array (g_out_death_water, 0.0, max_part)
+      g_out_rfact          = 0.0
+      g_out_nfact          = 0.0
+      g_out_tfact          = 0.0
+
+      c_svp_fract = 0.0
+
+      c_minsw     = 0.0
+
+      call fill_real_array (c_x_ave_temp, 0.0, max_table)
+      call fill_real_array (c_y_stress_photo, 0.0, max_table)
+      c_num_ave_temp     = 0
+      c_num_factors      = 0
+
+
+      c_ll_ub       = 0.0
+      c_sw_dep_ub   = 0.0
+      c_sw_dep_lb   = 0.0
+      c_no3_ub      = 0.0
+      c_no3_lb      = 0.0
+      c_no3_min_ub  = 0.0
+      c_no3_min_lb  = 0.0
+
+
+      c_latitude_ub  = 0.0
+      c_latitude_lb  = 0.0
+      c_maxt_ub      = 0.0
+      c_maxt_lb      = 0.0
+      c_mint_ub      = 0.0
+      c_mint_lb      = 0.0
+      c_radn_ub      = 0.0
+      c_radn_lb      = 0.0
+      c_dlayer_ub    = 0.0
+      c_dlayer_lb    = 0.0
+      c_dul_dep_ub   = 0.0
+      c_dul_dep_lb   = 0.0
+      c_tree_sw_ub   = 0.0
+      c_tree_sw_lb   = 0.0
+     
+      c_frac_leaf2total = 0.0
+      c_et_use_efficiency = 0.0
+      c_ba_ll = 0.0
+      c_ba_ul = 0.0
+      c_vpd_grnd_mult = 0.0
+      c_hgt_vpd_screen = 0.0
+      p_te_std = 0.0
+      c_std_vpd = 0.0
+      c_height_1000kg = 0.0 
+      c_day_end_summer = 0
+      c_day_start_summer = 0
+      c_day_start_wet = 0
+      c_day_start_dry = 0
+      c_acc_et_reset = 0
+      c_acc_growth_reset = 0
+      c_trans_for_n_reset = 0
+      c_growth_for_n_reset = 0
+
+      c_frost_start = 0.0
+      c_frost_kill = 0.0
+      c_death_slope = 0.0
+      c_death_intercept = 0.0
+      c_leaf_death_ratio = 0.0
+      c_stem_death_ratio = 0.0
+      c_N_uptk_per100 = 0.0
+      p_max_N_avail = 0.0
+      c_N_conc_dm_crit = 0.0
+      c_N_conc_dm_min = 0.0
+      c_N_conc_dm_max = 0.0
+      c_residual_plant_N = 0.0
+      p_swi_fullgreen = 0.0
+      p_swi_nogrow   = 0.0
+
+      p_pot_regrow = 0.0
+      p_rad_factor = 0.0
+      c_pan_lb = 0.0            
+      c_pan_ub = 0.0
+      c_vpd_lb = 0.0            
+      c_vpd_ub = 0.0
+      c_es_lb = 0.0
+      c_es_ub = 0.0
+      c_detach_dryseason = 0.0
+      c_detach_wetseason = 0.0
+      c_dead_cover_slope = 0.0
+      p_kl = 0.0
+      p_kl2rlv = 0.0
+
       g_acc_growth_last_summer = 0.0
-      g_acc_growth = 0.0
       g_acc_et_summer = 0.0
- 
+      g_tree_sw_demand = 0.0
+      g_es = 0.0
+      g_basal_area = 0.0
+      g_dlt_basal_area = 0.0
+      call fill_real_array (g_dlt_dm_sen, 0.0, max_part) 
+      g_acc_trans_for_N = 0.0
+      g_acc_growth_for_N = 0.0
+      g_acc_growth = 0.0
+      call fill_real_array (g_detach, 0.0, max_part) 
+      g_litter = 0.0
+      g_litter_pool = 0.0
+      g_biomass_yesterday = 0.0
+      g_soil_loss = 0.0
+      p_enr_a_coeff = 0.0
+      p_enr_b_coeff = 0.0
+
+      p_dm_dead_stem_init = 0.0
+      p_dm_dead_leaf_init = 0.0 
+      p_dm_dead_root_init = 0.0
+      p_dm_green_leaf_init = 0.0
+      p_dm_green_root_init = 0.0
+      p_dm_green_stem_init = 0.0
+      p_root_depth_init = 0.0
+      p_basal_area_init = 0.0
+      p_acc_trans_for_n_init = 0.0
+      p_acc_growth_for_n_init = 0.0
+
       call pop_routine (my_name)
       return
       end
+
 
 
 
@@ -2903,8 +3092,6 @@ cpdev  bound required?..
 
 *+  Changes
 *     010994 jngh specified and programmed
-*     080299 jngh zeroed ll_dep before adding new value
-*                 zeroed temp array
 
 *+  Calls
       real       grasp_vpd
@@ -2974,14 +3161,12 @@ cpdev  bound required?..
      :     , g_es, numvals, c_es_lb, c_es_ub)
  
                                 ! soil profile and soil water
-Cjh      call fill_real_array (temp, 0.0, max_layer)
       call get_real_array (unknown_module, 'dlayer', max_layer
      :     , '(mm)', temp, numvals, c_dlayer_lb, c_dlayer_ub)
  
       if (g_num_layers.eq.0) then
                                 ! we assume dlayer hasn't been
                                 ! initialised yet.
-         call fill_real_array (g_ll_dep, 0.0, max_layer)
          call add_real_array (temp, g_dlayer, numvals)
          g_num_layers = numvals
  
