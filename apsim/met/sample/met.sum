@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Met Sample Simulation
      Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
      Component DLL          = c:\development\apsim\screen\lib\screen.dll
@@ -19,6 +19,11 @@
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  1/01/1988
      Simulation end date   = 30/01/1988
      Time step =           = 1440 (mins)
