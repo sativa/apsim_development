@@ -35,7 +35,7 @@ class Field
       string truncateSt (const string& st, unsigned int Width);
       unsigned int getWidth();
       void retrieveValue(void);
-
+      void WriteString (ostream& out, const string& st);
 
    };
 // ------------------------------------------------------------------
