@@ -261,4 +261,10 @@ Public Class MetUI
             GetNewMetFile()
         End If
     End Sub
+
+    Private Sub TabControl_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TabControl.SelectedIndexChanged
+        If TabControl.SelectedTab.Text = "Graph" Then
+            MetGraphControl1.PopulateGraph()
+        End If
+    End Sub
 End Class

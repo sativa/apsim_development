@@ -75,6 +75,7 @@ Public Class NewDocumentForm
         Me.ListView.Name = "ListView"
         Me.ListView.Size = New System.Drawing.Size(464, 320)
         Me.ListView.TabIndex = 2
+        Me.ListView.View = System.Windows.Forms.View.List
         '
         'OKButton
         '
@@ -136,6 +137,7 @@ Public Class NewDocumentForm
         MyFile.Open(TemplateFile)
         ListView.Clear()
         ListView.LargeImageList = UIManager.LargeImageList
+        ListView.SmallImageList = UImanager.SmallImageList
 
         ' Add an item for all children of this system.
         Dim ChildList As StringCollection = UImanager.GetUserVisibleComponents(MyFile.data)
@@ -143,7 +145,7 @@ Public Class NewDocumentForm
         For Each ChildName In ChildList
             'create new item
             Dim item As New ListViewItem(ChildName, 0)
-            item.ImageIndex = UImanager.LargeImageIndex(MyFile.data.Child(ChildName).Type)
+            item.ImageIndex = UImanager.SmallImageIndex(MyFile.data.Child(ChildName).Type)
             ListView.Items.Add(item)
 
         Next

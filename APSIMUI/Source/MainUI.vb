@@ -15,7 +15,6 @@ Public Class MainUI
     Private ToolboxFile As New APSIMFile
     Private ToolboxExplorer As New ExplorerUI
 
-
 #Region " Windows Form Designer generated code "
 
     <System.STAThread()> _
@@ -540,7 +539,7 @@ Public Class MainUI
         'HorizontalSplitter
         '
         Me.HorizontalSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 281)
+        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 355)
         Me.HorizontalSplitter.Name = "HorizontalSplitter"
         Me.HorizontalSplitter.Size = New System.Drawing.Size(1015, 6)
         Me.HorizontalSplitter.TabIndex = 10
@@ -552,7 +551,7 @@ Public Class MainUI
         Me.HelpBrowserPanel.Controls.Add(Me.HelpToolBarPanel)
         Me.HelpBrowserPanel.Controls.Add(Me.CaptionLabel)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 287)
+        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 361)
         Me.HelpBrowserPanel.Name = "HelpBrowserPanel"
         Me.HelpBrowserPanel.Size = New System.Drawing.Size(1015, 200)
         Me.HelpBrowserPanel.TabIndex = 11
@@ -632,16 +631,17 @@ Public Class MainUI
         'ToolboxPanel
         '
         Me.ToolboxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 80)
+        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 203)
         Me.ToolboxPanel.Name = "ToolboxPanel"
-        Me.ToolboxPanel.Size = New System.Drawing.Size(1015, 201)
+        Me.ToolboxPanel.Size = New System.Drawing.Size(1015, 152)
         Me.ToolboxPanel.TabIndex = 12
         Me.ToolboxPanel.Visible = False
         '
         'ToolBoxSplitter
         '
         Me.ToolBoxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolBoxSplitter.Location = New System.Drawing.Point(0, 78)
+        Me.ToolBoxSplitter.Enabled = False
+        Me.ToolBoxSplitter.Location = New System.Drawing.Point(0, 201)
         Me.ToolBoxSplitter.Name = "ToolBoxSplitter"
         Me.ToolBoxSplitter.Size = New System.Drawing.Size(1015, 2)
         Me.ToolBoxSplitter.TabIndex = 13
@@ -652,13 +652,13 @@ Public Class MainUI
         Me.SimulationPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SimulationPanel.Location = New System.Drawing.Point(0, 36)
         Me.SimulationPanel.Name = "SimulationPanel"
-        Me.SimulationPanel.Size = New System.Drawing.Size(1015, 42)
+        Me.SimulationPanel.Size = New System.Drawing.Size(1015, 165)
         Me.SimulationPanel.TabIndex = 14
         '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1015, 487)
+        Me.ClientSize = New System.Drawing.Size(1015, 561)
         Me.Controls.Add(Me.SimulationPanel)
         Me.Controls.Add(Me.ToolBoxSplitter)
         Me.Controls.Add(Me.ToolboxPanel)
@@ -693,14 +693,14 @@ Public Class MainUI
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(filename))
                 SimulationExplorer.Data = SimulationFile.data
                 UpdateMainForm()
-
+                SimulationExplorer.UIManager.AddFileToFrequentList(filename)
             End If
 
 
         Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Cannot open APSIM file")
         End Try
-
+        SimulationExplorer.UIManager.CloseUI()
     End Sub
 
     Sub OpenNewFile()
@@ -717,13 +717,18 @@ Public Class MainUI
                 UpdateMainForm()
                 NewDocForm.Close()
             End If
+            SimulationExplorer.UIManager.CloseUI()
 
         Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
         End Try
     End Sub
     Private Sub UpdateMainForm()
-        Me.Text = SimulationFile.Filename
+        If SimulationFile.Filename = "" Then
+            Me.Text = "APSIM"
+        Else
+            Me.Text = SimulationFile.Filename
+        End If
         SimulationExplorer.UIManager.MainForm = Me
         SimulationExplorer.UIManager.ApsimFileName = SimulationFile.Filename
     End Sub
@@ -769,6 +774,7 @@ Public Class MainUI
         SimulationExplorer.UIManager.SaveDocument()
         SimulationFile.Save()
         UpdateMainForm()
+        SimulationExplorer.UIManager.AddFileToFrequentList(SimulationFile.Filename)
     End Sub
 
 
@@ -809,6 +815,11 @@ Public Class MainUI
 
         PopulateToolBoxContextMenu()
         ReadWindowPosition()
+        UpdateMainForm()
+        ShowHelpBrowser()
+        SimulationExplorer.UIManager.ShowStartupUI()
+
+        AddHandler HelpBrowserPanel.Resize, AddressOf HelpBrowserPanel_Resize
     End Sub
 
 
@@ -846,9 +857,7 @@ Public Class MainUI
     End Sub
 
     Private Sub UpdateHelpBrowser()
-        'Dim type As String = MainUImanager.SimulationFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
-        'MsgBox(type)
-        HelpBrowser.Navigate("www.apsim.info")
+        SimulationExplorer.UIManager.ShowHelp(APSIMSettings.ApsimDirectory + "\docs\documentation.xml")
     End Sub
 
 
@@ -886,6 +895,7 @@ Public Class MainUI
         ToolboxExplorer.Data = ToolboxFile.data
         ToolboxExplorer.UIManager.ShowUI(ToolboxFile.data)
         ToolboxPanel.Visible = True
+        ToolBoxSplitter.Enabled = ToolboxMenuItem.Checked
 
         ToolboxPanel.Height = ToolboxPanel.Height + 1
         ToolboxPanel.Height = ToolboxPanel.Height - 1
@@ -899,6 +909,7 @@ Public Class MainUI
     Private Sub ToolboxMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolboxMenuItem.Click
         ToolboxMenuItem.Checked = Not ToolboxMenuItem.Checked
         ToolboxPanel.Visible = ToolboxMenuItem.Checked
+        ToolBoxSplitter.Enabled = ToolboxMenuItem.Checked
         ToolboxFile.Save()
     End Sub
 
@@ -914,16 +925,15 @@ Public Class MainUI
 
     Public Sub ShowHelpBrowser()
         ViewMenuHelp.Checked = True
-        HelpBrowser.Visible = True
+        HelpBrowserPanel.Visible = True
         HelpBrowsertoolBar.Visible = True
         Dim inifile As New APSIMSettings
         HelpBrowserPanel.Height = Val(inifile.GetSetting("apsimui", "helpheight"))
         HorizontalSplitter.Enabled = True
     End Sub
     Private Sub CloseHelpBrowser()
-        HelpBrowser.Visible = False
+        HelpBrowserPanel.Visible = False
         HelpBrowsertoolBar.Visible = False
-        HelpBrowserPanel.Height = 1
         HorizontalSplitter.Enabled = False
     End Sub
 
@@ -969,22 +979,26 @@ Public Class MainUI
     ' in the currently open simulation set.
     ' ----------------------------------------------
     Private Function MakeSimFiles() As StringCollection
+        Dim inifile As New APSIMSettings
+        Dim TypesFile As New APSIMFile
+        TypesFile.Open(inifile.GetSetting("apsimui", "typesfile"))
+
         Try
             Dim SimFiles As New StringCollection
             SimulationFile.Save()
+            UpdateMainForm() ' Just in case there was a SaveAs inside of call to Save.
+
             Dim M As New Macro
-            Dim inifile As New APSIMSettings
             If File.Exists(SimulationFile.Filename) Then
                 Dim DirectoryName As String = Path.GetDirectoryName(SimulationFile.Filename)
                 Dim FileName As String = inifile.GetSetting("apsimui", "macrofile")
                 If File.Exists(FileName) Then
-                    Dim sr As New StreamReader(FileName)
-                    Dim MacroContents As String = sr.ReadToEnd
-                    sr.Close()
-
-                    SimFiles = M.Go(SimulationFile.data, MacroContents, DirectoryName)
+                    For Each Sim As APSIMData In SimulationExplorer.Data.Children("simulation")
+                        Dim MacroContents As String = CreateMacroFile(TypesFile.data, Sim, 1)
+                        SimFiles = M.Go(SimulationFile.data, MacroContents, DirectoryName)
+                    Next
                 Else
-                    MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
+                        MsgBox("Cannot find the simulation creation macro file", MsgBoxStyle.Critical, "Error")
                 End If
             Else
                 ' MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
@@ -997,17 +1011,78 @@ Public Class MainUI
 
 
     ' -----------------------------------------------
+    ' Create a macro file by going through the specified
+    ' simulation and for each node, goto types.xml and
+    ' pull out the SimMacro for that node.
+    ' -----------------------------------------------
+    Private Function CreateMacroFile(ByVal TypesData As APSIMData, ByVal Data As APSIMData, ByVal Level As Integer) As String
+        Dim MacroString As String
+        Dim TypesNode As APSIMData = TypesData.Child(Data.Type)
+        If Not IsNothing(TypesNode) Then
+            Dim SimMacroNode As APSIMData = TypesNode.Child("SimMacro")
+            If Not IsNothing(SimMacroNode) Then
+                MacroString = SimMacroNode.Value
+                MacroString = StringManip.UnIndentText(MacroString, 9)
+                MacroString = StringManip.IndentText(MacroString, (Level - 1) * 3)
+                If Not IsNothing(MacroString) Then
+                    For Each Child As APSIMData In Data.Children()
+                        Dim ChildrenMacroString As String = CreateMacroFile(TypesData, Child, Level + 1)
+                        If Not IsNothing(ChildrenMacroString) Then
+                            Dim SearchString As String = "[insert " + Child.Type + "]"
+                            ChildrenMacroString = ChildrenMacroString.TrimStart()
+                            MacroString = MacroString.Replace(SearchString, ChildrenMacroString)
+                        End If
+                    Next
+                End If
+                'ChildrenMacroString = StringManip.UnIndentText(ChildrenMacroString, 9)
+                'ChildrenMacroString = StringManip.IndentText(ChildrenMacroString, Level * 3)
+            End If
+        End If
+
+        Return MacroString
+    End Function
+
+
+    ' -----------------------------------------------
     ' Go run the currently open set of simulations
     ' -----------------------------------------------
     Private Sub RunSimulations()
         SimulationExplorer.UIManager.SaveDocument()
+
+        ' kill old apsim processes
+        Dim AllProcesses As Process() = Process.GetProcesses()
+        For Each proc As Process In AllProcesses
+            If Path.GetFileName(proc.ProcessName) = "apsim" Then
+                proc.Kill()
+            End If
+        Next
+
+        ' create a .run file to pass to apsrun.
+        Dim TempFileName As String = Path.GetTempPath() + "\\apsimui.run"
+        Dim Out As New StreamWriter(TempFileName)
         Dim SimFiles As StringCollection = MakeSimFiles()
         For Each simfile As String In SimFiles
             If Path.GetExtension(simfile) = ".sim" Then
-                Dim CommandLine As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe /run """ + simfile + """"
-                Dim ID As Integer = Shell(CommandLine, AppWinStyle.NormalFocus)
+                Out.WriteLine("[" + simfile + "]")
+                Out.WriteLine("Simulation_file=" + simfile)
             End If
         Next
+        Out.Close()
+
+        Dim CommandLine As String
+        If SimFiles.Count > 0 Then
+            CommandLine = "/run "
+        Else
+            CommandLine = ""
+        End If
+        CommandLine = CommandLine + TempFileName
+
+        Dim ApsRunFileName As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe"
+        Dim ApsimStartInfo As New ProcessStartInfo(ApsRunFileName, CommandLine)
+        Dim ApsimProcess As New Process
+        ApsimProcess.StartInfo = ApsimStartInfo
+        ApsimProcess.Start()
+
     End Sub
 
     Private Sub ReadWindowPosition()
@@ -1048,8 +1123,8 @@ Public Class MainUI
 
 
 
-    Private Sub HelpBrowserPanel_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles HelpBrowserPanel.Resize
-        If HelpBrowser.Visible = True Then
+    Private Sub HelpBrowserPanel_Resize(ByVal sender As Object, ByVal e As System.EventArgs)
+        If HelpBrowserPanel.Visible = True Then
             Dim inifile As New APSIMSettings
             inifile.SetSetting("apsimui", "helpheight", Str(HelpBrowserPanel.Height))
         End If
@@ -1097,4 +1172,7 @@ Public Class MainUI
     Private Sub ChangeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeMenuItem.Click
         HelpMenuChange_Click(sender, e)
     End Sub
+
+
+
 End Class

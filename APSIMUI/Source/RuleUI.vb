@@ -294,10 +294,17 @@ Public Class RuleUI
             row.Cells(1).Value = Prop.Attribute("value")
             row.Cells(2).Value = Data.Attribute("name")
             row.Cells(3).Value = Prop.Name
-            Dim Editor As CustomEditor = GenericUI.CreateCustomEditorForColumn(Prop)
+            Dim Editor As CustomEditor
+            Dim DefaultText As String
+            GenericUI.CreateCustomEditorForColumn(Prop, Editor, DefaultText)
             If Not IsNothing(Editor) Then
                 row.Cells(1).CellEditor = Editor
+                If row.Cells(1).Value = "" Then
+                    row.Cells(1).Value = DefaultText
+                    Prop.SetAttribute("value", DefaultText)
+                End If
             End If
+
             AddHandler row.Cells(1).LeavingEdit, AddressOf Me.CellLeavingEdit
             row.EndEdit()
         Next

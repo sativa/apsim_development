@@ -55,7 +55,9 @@ Public Class ReportVariablesListView
     Friend WithEvents cellColumnManagerRow1Column5 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents celldataRowTemplate1Column5 As Xceed.Grid.DataCell
     Friend WithEvents Tooltip As System.Windows.Forms.Label
+    Friend WithEvents NotifyIcon1 As System.Windows.Forms.NotifyIcon
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.VariablesList = New Xceed.Grid.GridControl
         Me.Column1 = New Xceed.Grid.Column
         Me.Column2 = New Xceed.Grid.Column
@@ -76,6 +78,7 @@ Public Class ReportVariablesListView
         Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column5 = New Xceed.Grid.ColumnManagerCell
         Me.Tooltip = New System.Windows.Forms.Label
+        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         CType(Me.VariablesList, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -206,6 +209,11 @@ Public Class ReportVariablesListView
         Me.Tooltip.Name = "Tooltip"
         Me.Tooltip.Size = New System.Drawing.Size(648, 23)
         Me.Tooltip.TabIndex = 2
+        '
+        'NotifyIcon1
+        '
+        Me.NotifyIcon1.Text = "NotifyIcon1"
+        Me.NotifyIcon1.Visible = True
         '
         'ReportVariablesListView
         '
@@ -386,10 +394,15 @@ Public Class ReportVariablesListView
     ' ----------------------------------------------------
     Private Sub Mouse_Move(ByVal sender As Object, ByVal e As MouseEventArgs)
         ' The mouse button is pressed
-        If Not m_mouseLocation.IsEmpty Then
+        If e.Button <> MouseButtons.None Then
 
             ' The mouse has moved!
-            If (Math.Abs(m_mouseLocation.X - e.X) > 3 Or Math.Abs(m_mouseLocation.Y - e.Y) > 3) Then
+            Dim InitiateDrag As Boolean = True
+            If (Not IsNothing(VariablesList.CurrentCell)) Then
+                InitiateDrag = Not VariablesList.CurrentCell.IsBeingEdited
+            End If
+            InitiateDrag = InitiateDrag And (Math.Abs(m_mouseLocation.X - e.X) > 3 Or Math.Abs(m_mouseLocation.Y - e.Y) > 3)
+            If (InitiateDrag) Then
                 Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
                 Dim RowNumber As Integer = Row.Index
 
@@ -398,7 +411,6 @@ Public Class ReportVariablesListView
 
                 ' Initialize the drag and drop operation.
                 VariablesList.DoDragDrop(DataString, DragDropEffects.Copy)
-
             End If
         End If
 
