@@ -11,7 +11,7 @@
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib
       ..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="bcb2kaxserver.lib"/>
+    <LIBRARIES value="bcb2kaxserver.lib libxml2.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib bcb2kaxserver.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi qrpt60.bpi
       nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi
@@ -28,7 +28,7 @@
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="FileGeneratorFromExcel.cpp"/>
     <INCLUDEPATH value="..\..\Shared\general;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
-    <LIBPATH value="..\..\Shared\general;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <LIBPATH value="..\..\Shared\general;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\libxml2\win32\bin"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
