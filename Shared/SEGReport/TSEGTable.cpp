@@ -72,8 +72,10 @@ void TSEGTable::refresh (void)
 // ------------------------------------------------------------------
 void TSEGTable::forceRefresh(bool displayError)
    {
-   if (!ComponentState.Contains(csLoading))
+   static bool inForceRefresh = false;
+   if (!ComponentState.Contains(csLoading) && !inForceRefresh)
       {
+      inForceRefresh = true;
       DisableControls();
       TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
@@ -131,6 +133,7 @@ void TSEGTable::forceRefresh(bool displayError)
 //         ::MessageBox(NULL, errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
          errorMessage = "";
          }
+      inForceRefresh = false;
       }
    }
 // ------------------------------------------------------------------
