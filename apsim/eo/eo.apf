@@ -1,0 +1,13 @@
+[general]
+name = eo module
+
+[Binaries]
+binary=eo
+
+[eo]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\eo.for
+target  = lib\eo.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp

@@ -1,0 +1,14 @@
+[general]
+name = apswim module
+
+[Binaries]
+binary=apswim
+
+[apswim]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\apswim.for
+source  = source\swim.for
+target  = lib\apswim.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
