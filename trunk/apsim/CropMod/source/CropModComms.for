@@ -724,8 +724,8 @@ cjh      endif
      :        (variable_name .eq. 'das_int')) then
 
          das_real = sum_between (sowing, now, g%days_tot)
-         das_int  = int(das_real+0.9999999)
-
+!         das_int  = int(das_real+0.9999999)
+         das_int  = nint(das_real
          call respond2get_integer_var (variable_name
      :                             , '(days)'
      :                             , das_int)
@@ -3632,7 +3632,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      :                       - dlt_dm_senesced_dead
          g%dm_dead(part) = g%dm_dead(part) + dlt_dm_senesced_dead
 2000  continue
-
 
 
 
