@@ -129,7 +129,7 @@
       <getVariableReg name="ph" type="ph"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="PotentialResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <respondToEventReg name="pot_decomp" type="pot_decomp"/>
       <respondToEventReg name="new_profile" type="new_profile"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
