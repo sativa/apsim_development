@@ -10,7 +10,5 @@
 
 // ------------------------------------------------------------------
 void Exec(const char* Command_line,
-          int Show_flag,
-          const char* Window_title,
           bool Wait_for_finish);
 
