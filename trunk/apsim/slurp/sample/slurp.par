@@ -45,3 +45,8 @@ solute_names  = no3 nh4
 no3_demand    = 1 (kg/ha)
 nh4_demand    = 0.3 (kg/ha)
 
+[sample.summaryfile.parameters]
+summaryfile=slurp.sum
+
+[sample.screen.parameters]
+screen_output=on

@@ -20,3 +20,10 @@ variable = clock.today.dd/mm/yyyy as Date
 variable = soilt.soil_temp
 variable = met.maxt
 variable = met.mint
+
+
+[sample.screen.parameters]
+screen_output = on
+
+[sample.summaryfile.parameters]
+summaryfile=soilt.sum

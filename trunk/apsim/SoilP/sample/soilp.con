@@ -1,8 +1,6 @@
-[apsim.sample_soilp]
 version=2.2
+[apsim.sample_soilp]
 title=soilp Sample Simulation
-summaryfile=soilp.sum
-screen_output=on
 
 module = clock    soilp.par [sample]
 module = report   soilp.par [sample]
@@ -13,4 +11,5 @@ module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %aps
 module = residue2 soilp.par [sample]                               %apsuite\apsim\residue2\residue2.ini [standard]
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = soilp    soilp.par [sample]                               %apsuite\apsim\soilp\soilp.ini [standard]
-
+module = screen   soilp.par [sample]
+module = summaryfile soilp.par [sample]

@@ -3,10 +3,8 @@
 !********************************************************************
 
 [o97_1_all.clock.parameters]
-simulation_start_day =     265
-simulation_start_year =   1995
-simulation_end_day =       140
-simulation_end_year =     1996
+start_date=22/9/1995
+end_date=19/5/1996
 
 
 [o97_1_all.manager.end_of_day]
@@ -26,10 +24,7 @@ simulation_end_year =     1996
 !******************************* Alan Hunter *****************************************
 
 [o97_1_1.report.parameters]
-Title =          Alan Hunter
-Screen_output =  on
-Outputfile =     o_971_1.out    /overwrite
-Summaryfile =    s_971_1.sum    /overwrite
+Outputfile =o_971_1.out
 
 [o97_1_1.manager.end_of_day]
 
