@@ -42,8 +42,10 @@ class WhopEcon : public AddInBase
                                    const std::string& factorName,
                                    std::vector<std::string>& factorValues) const;
 
-      virtual TValueSelectionForm*  getUIForm(const std::string& factorName,
-                                                             TComponent* Owner)const;
+      // if your add-in wants to display a properties form then implement
+      // the following 2 methods.
+      virtual std::string getUIButtonCaption(void) const {return "Edit economic config.";}
+      virtual void showUI(void);
 
       void __fastcall updateConfigs(TObject *Sender);
 
@@ -70,7 +72,6 @@ class WhopEcon : public AddInBase
       void addWarning(const std::string& msg);
 
       std::vector<Factor> factors;
-      std::string Econ_bitmap_name;
       std::string Econ_DB_name;
 
 };

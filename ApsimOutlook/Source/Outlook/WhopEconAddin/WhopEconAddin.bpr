@@ -4,14 +4,12 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\..\Bin\WhopEconAddin.dll"/>
-    <OBJFILES value="WhopEconAddin.obj crop.obj dataform.obj econ.obj about.obj 
-      ..\TValueSelectionForm.obj TWEValueSelectionForm.obj WhopEcon.obj 
+    <OBJFILES value="WhopEconAddin.obj crop.obj dataform.obj econ.obj about.obj WhopEcon.obj 
       ..\Scenario.obj WheatMatrix.obj SeedWeight.obj ..\CropFields.obj 
       EconConfigCropData.obj EconConfigData.obj SysSuppAddIn.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) crop.dfm dataform.dfm econ.dfm about.dfm 
-      ..\TValueSelectionForm.dfm TWEValueSelectionForm.dfm WheatMatrix.dfm 
+    <RESDEPEN value="$(RESFILES) crop.dfm dataform.dfm econ.dfm about.dfm WheatMatrix.dfm 
       SeedWeight.dfm"/>
     <LIBFILES value="..\..\..\..\Shared\general\general.lib 
       ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
@@ -24,7 +22,7 @@
       inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi APSGeneral.bpi 
       apsdata.bpi TMSC6.bpi TeeUI.bpi Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi 
       TeePro.bpi TeeLanguage.bpi TeeImage.bpi"/>
-    <PATHCPP value=".;..;..;.."/>
+    <PATHCPP value=".;..;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -61,8 +59,6 @@
       <FILE FILENAME="dataform.cpp" FORMNAME="DATA" UNITNAME="DataForm" CONTAINERID="CCompiler" DESIGNCLASS="TDataModule" LOCALCOMMAND=""/>
       <FILE FILENAME="econ.cpp" FORMNAME="EconForm" UNITNAME="Econ" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="about.cpp" FORMNAME="AboutBox" UNITNAME="About" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\TValueSelectionForm.cpp" FORMNAME="ValueSelectionForm" UNITNAME="TVALUESELECTIONFORM" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TWEValueSelectionForm.cpp" FORMNAME="WEValueSelectionForm" UNITNAME="TWEValueSelectionForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="WhopEcon.cpp" FORMNAME="" UNITNAME="WhopEcon" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\Scenario.cpp" FORMNAME="" UNITNAME="Scenario" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="WheatMatrix.cpp" FORMNAME="WheatMatrixForm" UNITNAME="WheatMatrix" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>

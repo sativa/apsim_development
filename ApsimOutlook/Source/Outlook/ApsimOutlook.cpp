@@ -11,8 +11,6 @@ USEFORM("main.cpp", MainForm);
 USEFORM("TChartSettingsForm.cpp", ChartSettingsForm);
 USEFORM("TDrill_down_form.cpp", Drill_down_form);
 USEFORM("TPreferences_form.cpp", Preferences_form);
-USEFORM("TTabRenameForm.cpp", TabRenameForm);
-USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
 USEFORM("POPUPFORMUNIT.cpp", PopupForm);
 USEFORM("TValueSelectPopup.cpp", ValueSelectPopup);
 USEFORM("TOutlookSplashForm.cpp", OutlookSplashForm);
@@ -36,7 +34,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
        Application->CreateForm(__classid(TAboutBox), &AboutBox);
        Application->CreateForm(__classid(TDrill_down_form), &Drill_down_form);
        Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
-       Application->CreateForm(__classid(TTabRenameForm), &TabRenameForm);
        Application->CreateForm(__classid(TOutlookSplashForm), &OutlookSplashForm);
        Application->Run();
    }

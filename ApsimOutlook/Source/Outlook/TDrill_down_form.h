@@ -29,11 +29,13 @@ __published:	// IDE-managed Components
    TPopupMenu *ScenarioNamePopup;
    TMenuItem *Rename1;
    TMenuItem *Delete1;
-   TPanel *Panel2;
-   TButton *ShowAllButton;
-   TButton *HideAllButton;
-   TBitBtn *ClearButton;
    TTreeView *ScenarioTree;
+   TLabel *ExpandAllLabel;
+   TLabel *CollapseAllLabel;
+   TLabel *ClearLabel;
+   TLabel *AddInLabel;
+   TPanel *AddInBevel;
+   TImage *LogoImage;
    void __fastcall FormShow(TObject *Sender);
 //   void __fastcall Tab_controlChange(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
@@ -41,7 +43,6 @@ __published:	// IDE-managed Components
    void __fastcall ClearButtonClick(TObject *Sender);
    void __fastcall ScenarioTreeMouseDown(TObject *Sender,
           TMouseButton Button, TShiftState Shift, int X, int Y);
-   void __fastcall Rename1Click(TObject *Sender);
    void __fastcall ShowAllButtonClick(TObject *Sender);
    void __fastcall HideAllButtonClick(TObject *Sender);
    void __fastcall Delete1Click(TObject *Sender);
@@ -49,6 +50,7 @@ __published:	// IDE-managed Components
           bool &AllowEdit);
    void __fastcall ScenarioTreeEdited(TObject *Sender, TTreeNode *Node,
           AnsiString &S);
+   void __fastcall AddInLabelClick(TObject *Sender);
 //   void __fastcall Rename1Click(TObject *Sender);
 //   void __fastcall Delete1Click(TObject *Sender);
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,

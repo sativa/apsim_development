@@ -44,7 +44,6 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 //---------------------------------------------------------------------
 void __fastcall TMainForm::ShowHint(TObject *Sender)
    {
-	StatusBar->SimpleText = Application->Hint;
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::CreateMDIChild(String Name)
@@ -198,6 +197,16 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
    Path p(Application->ExeName.c_str());
    if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
       Caption = "Whopper Cropper";
+
+   // display logo if necessary.
+   ApsimSettings settings;
+   string fileName;
+   settings.read("Skin|logo", fileName);
+   if (fileName != "")
+      {
+      fileName = getAppHomeDirectory() + "\\" + fileName;
+      LogoImage->Picture->LoadFromFile(fileName.c_str());
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Evaluate(TObject *Sender)
@@ -354,7 +363,7 @@ void __fastcall TMainForm::FixMDIChild(void)
 {
     if (ActiveMDIChild && ActiveMDIChild->WindowState == wsMaximized)
     {
-        // Prevent screen updates
+/*        // Prevent screen updates
         SNDMSG(ClientHandle, WM_SETREDRAW, false, 0);
         try
         {
@@ -378,6 +387,12 @@ void __fastcall TMainForm::FixMDIChild(void)
 
         // Restore screen updates
         SNDMSG(ClientHandle, WM_SETREDRAW, true, 0);
-    }
+*/    }
 }
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::FormResize(TObject *Sender)
+   {
+   LogoImage->Left = CoolBar1->Width - LogoImage->ClientWidth - 4;
+   }
+//---------------------------------------------------------------------------
 

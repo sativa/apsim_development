@@ -5,16 +5,14 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\Bin\ApsimOutlook.exe"/>
     <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj Main.obj TChartSettingsForm.obj 
-      TDrill_down_form.obj TPreferences_form.obj tskin.obj TTabRenameForm.obj 
-      TValueSelectionForm.obj Scenarios.obj factor.obj scenario.obj addin.obj 
-      ToolBarAddIn.obj POPUPFORMUNIT.obj TValueSelectPopup.obj 
-      TOutlookSplashForm.obj"/>
+      TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj 
+      factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj 
+      TValueSelectPopup.obj TOutlookSplashForm.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm Main.dfm TChartSettingsForm.dfm 
-      TDrill_down_form.dfm TPreferences_form.dfm TTabRenameForm.dfm 
-      TValueSelectionForm.dfm POPUPFORMUNIT.dfm TValueSelectPopup.dfm 
-      TOutlookSplashForm.dfm"/>
+      TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
+      TValueSelectPopup.dfm TOutlookSplashForm.dfm"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value="APSGeneral.lib thirdparty.lib"/>

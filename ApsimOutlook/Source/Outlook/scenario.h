@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 #include "factor.h"
-#include "TValueSelectionForm.h"
 // ------------------------------------------------------------------
 // This class encapsulates a single scenario.  A Scenario has
 // a name and 1 or more factors.

@@ -3,7 +3,6 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "TDEValueSelectionForm.h"
 #include "TDamEasy_form.h"
 #include "AddCostsBenefits.h"
 
@@ -33,10 +32,6 @@ int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved
 {
    try
    {
-//      Application->Initialize();
-//      Application->CreateForm(__classid(TDEValueSelectionForm),&DEValueSelectionForm);
-//      Application->CreateForm(__classid(TDamEasy_form),&DamEasy_form);
-//      Application->CreateForm(__classid(TAddCostsBenefitsForm),&AddCostsBenefitsForm);
       return 1;
    }
    catch (Exception &exception)

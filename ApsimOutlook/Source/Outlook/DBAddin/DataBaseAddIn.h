@@ -46,9 +46,7 @@ class DatabaseAddIn : public AddInBase
       virtual void doCalculations(TAPSTable& data, const Scenario&);
    private:
       typedef std::vector<DBSimulation*> SimulationContainer;
-      typedef std::map<std::string, Graphics::TBitmap*> ImageMap;
       SimulationContainer simulations;
-      ImageMap images;
       ApsimSettings settings;
 
       void askUserForMDBs(void);
@@ -58,8 +56,6 @@ class DatabaseAddIn : public AddInBase
       Scenario convertSimulationToScenario(const DBSimulation& simulation,
                                            const std::string& scenarioName,
                                            const std::string& econFactorValue) const;
-      void readAllImages(void);
-      const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const;
    };
 
 #endif
