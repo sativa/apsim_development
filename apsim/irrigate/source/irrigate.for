@@ -220,7 +220,7 @@
          call get_real_var        (
      :        unknown_module       ! Module that responds (Not Used)
      :       ,'crop_area'               ! Variable Name
-     :       ,'()'               ! Units                (Not Used)
+     :       ,'(ha)'               ! Units                (Not Used)
      :       ,g%area            ! Variable
      :       ,numvals              ! Number of values returned
      :       ,0.0                  ! Lower Limit for bound checking
@@ -465,6 +465,7 @@
 
        do 100 solnum = 1,g%num_solutes
         g%solute(solnum) = solute_conc(solnum)* (water_supplied/g%area)
+        g%irrigation_solutes(solnum) = g%solute(solnum)       
  100   continue
 
         call irrigate_sendirrigated()
@@ -517,6 +518,7 @@
 !       Also calculate solutes supplied in water sent
        do 200 solnum = 1,g%num_solutes
         g%solute(solnum) = solute_conc(solnum)* (water_supplied/g%area)
+        g%irrigation_solutes(solnum) = g%solute(solnum)       
  200   continue
 
 
