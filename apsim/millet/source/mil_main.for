@@ -188,9 +188,8 @@
       character  data_string*(*)       ! (INPUT) Message data
 
 *+  Purpose
-*      This module performs crop crop growth
-*       simulates root, leaf, head, stem and grain development. Water and
-*       nitrogen uptake, photosynhesis, and leaf and root senescense.
+*      This module simulates phenology, root, leaf, stem, panicle, and grain growth, 
+*      water and nitrogen uptake, photosynthesis, and leaf and root senescence.
 
 *+  Mission Statement
 *     Handles communications for Maize
@@ -427,9 +426,10 @@ cjh special for erik - end
       include 'error.pub'
 
 *+  Purpose
-*       Simulate crop processes.  These include biomass production,
-*       phenological stages, plant component development,
-*       water uptake and nitrogen uptake, and plant senescense.
+*     Simulate crop process, including phenology, biomass (carbohydrate) and nitrogen
+*     accumulation and partitioning, senescence of vegetative plant parts, and water
+*     and N uptake. All processes can be affected by abiotic stresses like drought, 
+*     N and P deficiency, and temperature stress.
 
 *+  Mission Statement
 *     Performs actions for the current day

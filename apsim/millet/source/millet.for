@@ -524,7 +524,7 @@ cejvo
       real       N_green(*)            ! plant nitrogen (g/m^2)
 
 *+  Purpose
-*       Set plant nitrogen
+*     Set initial nitrogen contents for each plant part
 
 *+  Mission Statement
 *     Set plant nitrogen
@@ -2099,7 +2099,8 @@ cjh     :                               , string)
       include 'error.pub'
 
 *+  Purpose
-*       Determine tillering 
+*       Determine the tiller appearance rate, either as a function of thermal time or
+*       biomass 
 
 *+  Mission statement
 *       Call a tillering routine
@@ -2777,9 +2778,6 @@ cgol bounds added to tiller number determination
        real     p_hi_max_pot
        real     g_dm_green(*)
        real     g_dm_senesced(*)
-
-*+  Purpose
-*       Partitions new dm (assimilate) between plant components (g/m^2)
 
 *+  Changes
 *       010994 jngh specified and programmed
@@ -3600,7 +3598,7 @@ c     :                           , 'grain_no_fract')
        real dlt_dm_grain_demand
 
 *+  Purpose
-*     Find grain demand for carbohydrate (g/m^2)
+*     Calculate grain demand for carbohydrate(g/m^2)
 
 *+  Mission statement
 *     Calculate %22 for carbohydrate (g/m^2)
@@ -4301,9 +4299,9 @@ csc  true....
                               ! (g N/g part)
 
 *+  Purpose
-*       Calculate the critical N concentration below which plant growth
-*       is affected.  Also minimum and maximum N concentrations below
-*       and above which it is not allowed to fall or rise.
+*     Calculate the critical P concentration below which plant growth is affected.
+*     Also minimum and maximum P concentrations below and above which it is not 
+*     allowed to fall or rise. 
 
 *+  Mission Statement
 *       Calculate the critical p concentration below which plant growth 
@@ -4665,7 +4663,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
        real dlt_plants_all
 
 *+  Purpose
-*      Determine plant death due to water stress
+*     Determine crop failure because of prolonged delay 
+*     in phenology through water stress.
 
 *+  Mission Statement
 *     Determine plant death from prolonged phenology delay
