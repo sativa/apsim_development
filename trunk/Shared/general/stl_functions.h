@@ -293,5 +293,30 @@ class GetNameCallback : public CallbackFunction<T>
       virtual void callback(T& t) {C.push_back(t);}
    };
 
+template <class T>
+class PEqualToName
+   {
+   private:
+      string name;
+   public:
+      PEqualToName(const string& n)
+         : name(n) {}
+
+      bool operator () (T* arg)
+         {return (stricmp(arg->getName().c_str(), name.c_str()) == 0);};
+   };
+template <class T>
+class EqualToName
+   {
+   private:
+      string name;
+   public:
+      EqualToName(const string& n)
+         : name(n) {}
+
+      bool operator () (T& arg)
+         {return (stricmp(arg.getName().c_str(), name.c_str()) == 0);};
+   };
+
 
 #endif
