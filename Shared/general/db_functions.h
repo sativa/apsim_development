@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <general\general.h>
+#include <db.hpp>
 
 //---------------------------------------------------------------------------
 // Adds the specified fields to the specified dataset.
@@ -35,7 +36,7 @@ void GENERAL_EXPORT getDBFieldNames(TDataSet* dataset,
 // specified dataset and returns a vector of numbers for the specified field.
 // Will through runtime_error if cannot convert the values to a float.
 // ------------------------------------------------------------------
-void GENERAL_EXPORT getDBFieldValues(TDataSet* dataset,  
+void GENERAL_EXPORT getDBFieldValues(TDataSet* dataset,
                                      const std::string& fieldName,
                                      std::vector<double>& values) throw (std::runtime_error);
 // ------------------------------------------------------------------
