@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\map\sample\map.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\map\sample\map.sim
      Title                  = Map Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -33,13 +32,14 @@
      Time step =           = 1440 (mins)
 
 ------- REPORT Initialisation ------------------------------------------------
-     Output file = map.out
+     Output file = Map.out
      Format = normal
-     Module_names = clock clock map map map 
-     Variable_names = day year ave_sw conc_cl concsw_br 
-     Variable_alias = - - - - - 
-     Units = - - -   
-     
+     Output variables:
+        clock.day
+        clock.year
+        map.ave_sw
+        map.conc_cl
+        map.concsw_br
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\SAMPLE\DALBY.MET
@@ -145,7 +145,7 @@
      sw                            -->ave_sw
      cl                            -->conc_cl
      br                            -->concsw_br
-     
+      
      Calculated coefficients
      Core_start    Core_end    Simulation Layer
           0.000        600.  1.000  1.000  1.000  0.000  0.000  0.000  0.000

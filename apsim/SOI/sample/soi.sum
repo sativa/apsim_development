@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\soi\sample\run.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\soi\sample\run.sim
      Title                  = * Insur Chin Sorg 15 Oct
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -35,11 +34,9 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = soi.out
      Format = normal
-     Module_names = clock soi 
-     Variable_names = today.dd/mm/yyyy soi[Jun] 
-     Variable_alias = Date soi 
-     Units = - - 
-     
+     Output variables:
+        clock.today.dd/mm/yyyy (alias: Date)
+        soi.soi[Jun] (alias: soi)
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\soi\sample\028004.sg2

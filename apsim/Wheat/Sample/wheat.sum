@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\wheat\sample\sample.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\wheat\sample\sample.sim
      Title                  = WHEAT SAMPLE Simulation - N120
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -35,13 +34,35 @@
      Time step =           = 1440 (mins)
 
 ------- REPORT Initialisation ------------------------------------------------
-     Output file = wheat.out
+     Output file = WHEAT.out
      Format = normal
-     Module_names = clock clock wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat wheat soilwat2 soilwat2 soilwat2 soilwat2 soilwat2 soiln2 soiln2 
-     Variable_names = year day das_int stage lai biomass_wt grain_wt biomass_n grain_n tiller_no_fertile root_depth swdef_pheno swdef_photo swdef_expan swdef_tiller nfact_pheno nfact_photo nfact_expan nfact_tiller esw sw() es runoff drain no3() nh4() 
-     Variable_alias = - - das - - biomass grain biomass_n grain_n tillers rootdepth ws_pheno ws_photo ws_expan ws_tiller Ns_pheno Ns_photo Ns_expan Ns_tiller esw - - - - - - 
-     Units = - - - - - - - - - - - - - - - - - - - - - - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        wheat.das_int (alias: das)
+        wheat.stage
+        wheat.lai
+        wheat.biomass_wt (alias: biomass)
+        wheat.grain_wt (alias: grain)
+        wheat.biomass_n (alias: biomass_n)
+        wheat.grain_n (alias: grain_n)
+        wheat.tiller_no_fertile (alias: tillers)
+        wheat.root_depth (alias: rootdepth)
+        wheat.swdef_pheno (alias: ws_pheno)
+        wheat.swdef_photo (alias: ws_photo)
+        wheat.swdef_expan (alias: ws_expan)
+        wheat.swdef_tiller (alias: ws_tiller)
+        wheat.nfact_pheno (alias: Ns_pheno)
+        wheat.nfact_photo (alias: Ns_photo)
+        wheat.nfact_expan (alias: Ns_expan)
+        wheat.nfact_tiller (alias: Ns_tiller)
+        soilwat2.esw (alias: esw)
+        soilwat2.sw()
+        soilwat2.es
+        soilwat2.runoff
+        soilwat2.drain
+        soiln2.no3()
+        soiln2.nh4()
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\wheat\sample\gatton.met
@@ -278,7 +299,7 @@
       
          - Reading root profile parameters
       Uptake of NO3 and water calculated by wheat
-      
+       
       
       
       

@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\soilp\sample\soilp.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\soilp\sample\soilp.sim
      Title                  = soilp Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -36,11 +35,16 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = soilp.out
      Format = normal
-     Module_names = clock clock soilp soilp soilp soilp soilp soilp soilp 
-     Variable_names = day year labile_p unavail_p rock_p banded_p biom_p() hum_p() fom_p() 
-     Variable_alias = - - - - - - - - - 
-     Units = - - - - - - -   
-     
+     Output variables:
+        clock.day
+        clock.year
+        soilp.labile_p
+        soilp.unavail_p
+        soilp.rock_p
+        soilp.banded_p
+        soilp.biom_p()
+        soilp.hum_p()
+        soilp.fom_p()
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\SAMPLE\DALBY.MET

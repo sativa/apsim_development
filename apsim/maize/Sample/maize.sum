@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\maize\sample\maize.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\maize\sample\maize.sim
      Title                  = Maize Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -34,11 +33,16 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = maize.out
      Format = normal
-     Module_names = clock clock maize maize maize maize maize maize maize 
-     Variable_names = day year lai biomass yield biomass_n swdef_expan nfact_expan das 
-     Variable_alias = - - - - - - - - - 
-     Units = - - - - - - -   
-     
+     Output variables:
+        clock.day
+        clock.year
+        maize.lai
+        maize.biomass
+        maize.yield
+        maize.biomass_n
+        maize.swdef_expan
+        maize.nfact_expan
+        maize.das
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\sample\dalby.met
@@ -215,7 +219,7 @@
       
          - Reading root profile parameters
       Uptake of NO3 and water calculated by maize
-      
+       
       
       
       
