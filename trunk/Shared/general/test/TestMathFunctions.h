@@ -1,4 +1,4 @@
-// TestMath_functions.h - header for TestMath_functions.cpp
+// TestMathFunctions.h - header for TestMathFunctions.cpp
 //
 // J Wang
 // Aug 2004

@@ -3,12 +3,11 @@
 // J Wang
 // Aug 2004
 
+#include <boost/test/unit_test.hpp>
 #include <iostream.h>
 #include <stdlib.h>
-#include "../path.h"
+#include "general/path.h"
 
-//boost
-#include <boost/test/unit_test.hpp>
 using boost::unit_test_framework::test_suite;
 
 //---------------------------------------------------------------------------
@@ -20,7 +19,20 @@ public:
     Path mpath;
 
     // Test Functions
-    void TestIsEmpty();
+    void TestExists();
+    void TestIsEmpty(){};          
+    void TestGetCurrentFolder();
+    void TestChangeDirectory();
+    void TestGetTempFolder();
+    void TestSetPath();
+    void TestSetDrive();
+    void TestSetDirectory();
+    void TestSetName();
+    void TestSetExtension();
+    void TestBackUpDirectory();
+    void TestOperatorEqual();
+    void TestOperatorLessThan();
+    void TestAppendPath(){};
 };
 
 //---------------------------------------------------------------------------
@@ -31,10 +43,19 @@ public:
     Path_test_suite() : test_suite("Path_test_suite"){
     boost::shared_ptr<Path_test> instance(new Path_test);
 
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestExists,instance));
     add(BOOST_CLASS_TEST_CASE(&Path_test::TestIsEmpty,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestGetCurrentFolder,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestChangeDirectory,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestGetTempFolder,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestSetPath,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestSetDrive,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestSetDirectory,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestSetName,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestSetExtension,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestBackUpDirectory,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestOperatorEqual,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestOperatorLessThan,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestAppendPath,instance));
     }
 };
-
-//---------------------------------------------------------------------------
-// 3. Register the test suite onto Boost - see Test.cpp
-//---------------------------------------------------------------------------

@@ -4,6 +4,7 @@
 #include "TestDateClass.h"
 #include "testMathFunctions.h"
 #include "TestPathClass.h"
+#include "TestStringFunctions.h"
 
 using namespace boost::unit_test_framework;
 
@@ -16,6 +17,7 @@ init_unit_test_suite( int argc, char* argv[] )
    test->add(new GDate_test_suite());
    test->add(testMathFunctions());
    test->add(new Path_test_suite());
+   test->add(testStringFunctions());
 
    return test;
    }
