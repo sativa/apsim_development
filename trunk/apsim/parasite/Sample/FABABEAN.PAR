@@ -1,18 +1,7 @@
-[fababean.report.parameters]
-outputfile  =fababean.out
-
-variable = clock.day
-variable = clock.year
-variable = fababean.stage as faba_stage
-variable = fababean.lai as faba_lai
-variable = fababean.biomass as faba_biomass
-variable = fababean.yield as faba_yield
-variable = fababean.root_wt
-variable = fababean.root_depth
-variable = fababean.rlv(1-5)
+[orobanche0.report.parameters]
+outputfile  =orobanche0.out
 [orobanche1.report.parameters]
 outputfile  =orobanche1.out
-
 [orobanche2.report.parameters]
 outputfile  =orobanche2.out
 
@@ -20,69 +9,53 @@ outputfile  =orobanche2.out
 variable = clock.day
 variable = clock.year
 
-!variable = soiltemp.ave_soil_temp
-
-!variable = fababean.stage as faba_stage
-!variable = fababean.lai as faba_lai
+variable = fababean.stage   as faba_stage
+variable = fababean.lai     as faba_lai
 variable = fababean.biomass as faba_biomass
-!variable = fababean.yield as faba_yield
-variable = fababean.parasite_c_gain as faba_c
+variable = fababean.yield   as faba_yield
 
-variable = orobanche.daa as day_at
+variable = orobanche.daa 
 variable = orobanche.stage      as orob_stage
-!variable = orobanche.stage_name as orob_stage_name
-!variable = orobanche.stage_code as orob_stage_code
-!variable = orobanche.tt_attach
-variable = orobanche.dlt_tt
-variable = orobanche.host_tt_sum
-variable = orobanche.parasite_c_demand
-variable = orobanche.biomass
-variable = orobanche.biomass_pot
-variable = orobanche.biomass_emerg
-!variable = orobanche.population
-!variable = orobanche.attach_area
-!variable = orobanche.class
-!variable = orobanche.biomass_class(1-40)
+variable = orobanche.biomass    as orob_biomass
+variable = orobanche.population
+variable = orobanche.population_dead
+variable = orobanche.population_alive
+variable = orobanche.attach_area
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=9/5/1988
-end_date=26/10/1988
+end_date=26/12/1988
 
-[sample.manager.start_of_day]
-
+[fababean.manager.start_of_day]
 if day = 130 and year  = 1988 then
    fababean sow cultivar = ILB1814, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
-
-
 if fababean.stage_name = 'harvest_ripe' or fababean.plant_status = 'dead' then
    fababean harvest
    fababean end_crop
 endif
 
-
+[orobanche.manager.init]
+oro_in = 0
 [orobanche.manager.start_of_day]
-
-!if fababean.stage = 3 then
-if fababean.stage_code = 1.0 then
-   orobanche start cultivar = crenata, density = 600.0 (parasites/kg soil), depth = 100.0 (mm)
+if (fababean.stage_code >= 1.0 AND oro_in = 0) then
+   orobanche start cultivar = crenata, density = 600.0 (parasites/kg soil), depth = 100.0 (mm), host = fababean ()
+   oro_in = 1
 endif
-if fababean.stage_name = 'harvest_ripe' or fababean.plant_status = 'dead' then
+if (oro_in = 1 AND fababean.plant_status = 'out') then
    orobanche harvest
    orobanche finish
+   oro_in = 0
 endif
 
 [orobanche_treated.manager.start_of_day]
-
 if day = 250 and year  = 1988 then
-   orobanche weeding
+   orobanche weeding efficacy = 0.8 ()
 endif
 
-
-[sample.manager.end_of_day]
+[fababean.manager.end_of_day]
 report do_output
-
 
 [sample.soiltemp.parameters]
 bound_layer_cond = 20.0  (J/s/m2/K)
@@ -92,14 +65,15 @@ clay =  0.1  0.1  0.1  0.1  0.1  0.2  0.3  () ! proportion of clay (0-1)
    ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
    xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
    kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
-[fababean.SummaryFile.parameters]
-summaryfile = fababean.sum
+[orobanche0.SummaryFile.parameters]
+summaryfile = orobanche0.sum
+[orobanche1.SummaryFile.parameters]
+summaryfile = orobanche1.sum
+[orobanche2.SummaryFile.parameters]
+summaryfile = orobanche2.sum
 
 [sample.Screen.parameters]
 screen_output = off
-
-[orobanche.SummaryFile.parameters]
-summaryfile = orobanche.sum
 
 [sample.log.parameters]
 debug_output = on
