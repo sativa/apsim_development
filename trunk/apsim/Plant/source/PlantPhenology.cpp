@@ -230,8 +230,11 @@ void PlantPhenology::initialise (PlantComponent *s, const string &section)
 
    // Register stage names as events (eg. flowering)
    for (unsigned i = 0; i != phases.size(); i++)
+      {
       s->addRegistration(RegistrationType::event, phases[i].name().c_str(),
                          "", "", "");
+      //s->writeString((string("registered ") + phases[i].name()).c_str());
+      }
 };
 
 void PlantPhenology::doRegistrations (protocol::Component *s)
@@ -316,8 +319,8 @@ bool PlantPhenology::inPhase(const string &phase_name)
 void PlantPhenology::setStage(const pPhase &stage)
    {
    // See if the stage is known at all to us
-	pPhase *newpos = find(phases.begin(), phases.end(), stage);
-	if (newpos == phases.end()) throw std::runtime_error("Can't set stage to " + stage.name());
+   pPhase *newpos = find(phases.begin(), phases.end(), stage);
+   if (newpos == phases.end()) throw std::runtime_error("Can't set stage to " + stage.name());
 
    int newStageNumber = newpos - phases.begin();
    currentStage = newStageNumber;
@@ -586,11 +589,13 @@ void WheatPhenology::setupTTTargets(void)
    pPhase *ripe_to_harvest = getStage("harvest_ripe");
    ripe_to_harvest->setTarget(1000.0) ;       // keep it from dying????
    }
-void WheatPhenology::onEndCrop() 
+
+void WheatPhenology::onEndCrop()
    {
    zeroStateVariables();
-	}
-void WheatPhenology::onHarvest() 
+   }
+
+void WheatPhenology::onHarvest()
    {
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
@@ -842,6 +847,9 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       currentStage = floor(currentStage + 1.0);
    else
       currentStage = new_stage;
+
+   if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
+     throw std::runtime_error("stage has gone wild in WheatPhenology::process()..");
 
    cumvd += dlt_cumvd;
    das++;
@@ -1487,6 +1495,9 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       currentStage = floor(currentStage + 1.0);
    else
       currentStage = new_stage;
+
+   if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
+     throw std::runtime_error("stage has gone wild in LegumePhenology::process()..");
 
    cumvd += dlt_cumvd;
    das++;
