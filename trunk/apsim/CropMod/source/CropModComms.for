@@ -2,7 +2,8 @@
       subroutine print_routine (my_name)
 
       character*(*) my_name
-!      print*, trim(my_name)
+!      call Write_string ( my_name)
+
       end subroutine
 
 *================================================================

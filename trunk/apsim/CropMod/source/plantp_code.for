@@ -21,6 +21,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       ! Parameters
       ! ==========
@@ -94,6 +95,7 @@ c      p%crop_type = ' '       ! Characters
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
 c      call Get_real_array (
 c     :      unknown_module  ! Module that responds (Not Used)
@@ -137,6 +139,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       PlantP_Send_my_variable = .true.
 
@@ -435,6 +438,7 @@ cih     :            *gm2kg /sm2ha
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
+      call print_routine (myname)
 
 
 c      call read_char_var (
@@ -491,6 +495,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 *- Implementation Section ----------------------------------
 
       call push_routine (myname)
+      call print_routine (myname)
 
       call read_char_array ('constants'
      :                     , 'stress_determinants'
@@ -633,6 +638,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       call PlantP_zero_daily_variables()
 
@@ -680,6 +686,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
       call PlantP_init_pools(dm_green)
 
       call PlantP_partition()
@@ -739,6 +746,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       call fill_real_array (layered_p_uptake,0.0,max_layer)
 
@@ -805,6 +813,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       g%dlt_part_p_sen(:) = 0.0
 
@@ -855,6 +864,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       g%dlt_part_p_det(:) = 0.0
 
@@ -891,6 +901,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       g%dlt_part_p_green(:) = 0.0
       g%part_demand(:) = 0.0
@@ -928,6 +939,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       call PlantP_zero_variables ()
 
@@ -962,6 +974,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       call PlantP_get_other_variables ()
 
@@ -1009,6 +1022,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       g%num_parts = num_parts
       g%part_names(1:num_parts) = part_names(1:num_parts)
@@ -1036,8 +1050,8 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 *     170599 jngh added include 'write.pub'
 
 *+  Constant Values
-      character*(*) my_name
-      parameter (my_name = 'PlantP_set_phosphorus_aware')
+      character*(*) myname
+      parameter (myname = 'PlantP_set_phosphorus_aware')
 
 *+  Local Variables
       integer   numvals
@@ -1045,7 +1059,8 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
 
-      call push_routine (my_name)
+      call push_routine (myname)
+      call print_routine (myname)
 
       call Get_real_array_optional(
      :      unknown_module  ! Module that responds (Not Used)
@@ -1068,7 +1083,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
       endif
 
-      call pop_routine (my_name)
+      call pop_routine (myname)
       return
       end subroutine
 
@@ -1106,6 +1121,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       g%Part_demand(:) = 0.0
       g%growth_stage = growth_stage
@@ -1184,6 +1200,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
          PlantP_Pfact_photo = g%plantPfact_photo
@@ -1219,6 +1236,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
          PlantP_Pfact_grain = g%plantPfact_grain
@@ -1253,6 +1271,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
          PlantP_Pfact_expansion = g%plantPfact_expansion
@@ -1287,6 +1306,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
          PlantP_Pfact_pheno = g%plantPfact_pheno
@@ -1330,6 +1350,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       dlt_residue_p = sum(chop_fr_green(1:g%num_parts)
      :                      * g%part_p_green(1:g%num_parts)
@@ -1405,6 +1426,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
          dlt_dm_P(1:g%num_parts) = (chop_fr_green(1:g%num_parts)
@@ -1476,6 +1498,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       p_incorporated = sum(incorp_fr_green(1:g%num_parts)
      :                      * g%part_p_green(1:g%num_parts)
@@ -1568,6 +1591,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       num_determinants = count_of_char_vals(c%stress_determinants
      :                                     ,max_parts)
@@ -1651,6 +1675,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
          pfact = PlantP_Pfact(growth_stage,dm_green)
@@ -1703,6 +1728,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       if ((sum(dm_green(1:g%num_parts)).ne.0.0)
      :            .and.
@@ -1759,6 +1785,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
+      call print_routine (myname)
 
       g%dlt_part_p_retrans(:) = 0.0
       supply(:) = 0.0
@@ -1855,6 +1882,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *- Implementation Section ----------------------------------          g%part_p_green(1:g%num_parts)
       call push_routine (myname)
+      call print_routine (myname)
 
       if (g%phosphorus_aware) then
 
