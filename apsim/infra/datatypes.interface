@@ -53,14 +53,156 @@
       <field name="endsecpart" kind="double" description="Fraction of a second of the end of the timestep (0-1)"/>
    </type>
 
-   !!!!! MET types !!!!!
 
+!!!EO TYPES!!!! dsg 051202
+
+      <type name="eo_pm" kind="single" unit="mm" description="Penman-Monteith potential evapotranspiration"/>
+      <type name="eo_penman" kind="single" unit="mm" description="Penman potential evaporation"/>
+      <type name="eo_penman_d" kind="single" unit="mm" description="Penman (doorenbos) potential evaporation"/>
+      <type name="eo_transp" kind="single" unit="mm" description="Penman-Monteith potential evapotranspiration by plant"/>
+      <type name="eo_pm_x_cover" kind="single" unit="mm" description="Adjusted Penman-Monteith potential evapotranspiration by cover"/>
+      <type name="eo_penman_x_cover" kind="single" unit="mm" description="Adjusted Penman potential evapotranspiration by cover"/>
+      <type name="eo_pm_x_kfunction" kind="single" unit="mm" description="Adjusted Penman-Monteith potential evapotranspiration by K function"/>
+      <type name="eo_radn_x_kfunction" kind="single" unit="mm" description="Adjusted radiation term in Penman-Monteith potential evapotranspiration by K function"/>
+      <type name="eo_plant" kind="single" unit="mm" lower_bound="0.0" upper_bound="100.0" description="Adjusted Penman-Ponteith potential evapotranspiration by plant"/>
+      <type name="eo_soil" kind="single" unit="mm" description="Priestly Taylor potential transpiration"/>
+      <type name="eo_priestly_taylor" kind="single" unit="mm" description="Priestly Taylor potential evapotranspiration (PET)"/>
+      <type name="eo_ritchie" kind="single" unit="mm" description="Ritchie potential evapotranspiration (PET)"/>
+      <type name="eo_vpd" kind="single" unit="kpa" description="vapour pressure deficit"/>
+      <type name="wind_ms_multiplier_height" kind="single" unit="m/s" description="wind speed at multiplier height"/>
+      <type name="wind_ms_reference" kind="single" unit="m/s" description="wind speed at reference point"/>
+      <type name="wind_adj" kind="single" unit="km/day" description="wind adjusted to daylight component"/>
+      <type name="n_hrs" kind="single" unit="hour" description="maximum number of hours of bright sunlight"/>
+      <type name="radn_net" kind="single" unit="W/m2" description="net inward radiant flux density"/>
+      <type name="da" kind="single" unit="kg/kg" description="specific humidity deficit of the air at a reference height above the canopy"/>
+      <type name="ra" kind="single" unit="s/m" description="turb resistance: zo+d to ref. ht."/>
+      <type name="rc" kind="single" unit="s/m" description="vegetation surface resistance"/>
+      <type name="epsilon" kind="single" unit="kg/kg/K" description="the slope of saturation vapour pressure curve"/>
+      <type name="eo_daylength" kind="single" unit="hour" description="maximum number of hours of bright sunlight"/>
+      <type name="vpd_fac" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Tanner Sinclair factor for net positive radiation"/>
+      <type name="albedo" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="canopy/soil albedo"/>
+      <type name="max_albedo" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="maximum bare ground soil albedo"/>
+      <type name="z0soil" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="soil z0 (used when rlai=0)"/>
+      <type name="default_wind" kind="single" unit="km/day" lower_bound="0.0" upper_bound="1000.0" description="default wind speed"/>
+      <type name="default_pa" kind="single" unit="hPa" lower_bound="800.0" upper_bound="1200.0" description="default atmospheric pressure"/>
+      <type name="default_instrum_height" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="default instrument height"/>
+      <type name="disp_instrum" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="zero plane displacement at instrument"/>
+      <type name="z0_instrum" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="roughness length"/>
+      <type name="extinct_coef" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="xtinction coefficient for plant"/>
+      <type name="eo_plant_method" kind="string" unit="" description="method used for transpiration"/>
+      <type name="wind_day_fraction" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="fraction of 24 hour wind run in daytime"/>
+      <type name="adjustment_factor" kind="single" unit="" lower_bound="0.0" upper_bound="2.0" description="Calibration factor"/>
+      <type name="wind_multiplier" kind="single" unit="" lower_bound="0.0" upper_bound="2.0" description="wind multiplier to adjust wind"/>
+      <type name="reference_height" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="reference point height above base"/>
+      <type name="reference_height_base" kind="string" unit="" description="reference height base (canopy or soil)"/>
+      <type name="zc_conversion" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="height at which surface has no influence"/>
+      <type name="multiplier_height" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="height at which multiplier is applied"/>
+      <type name="rsmin_canopy" kind="single" unit="s/m" lower_bound="0.0" upper_bound="200.0" description="minimum leaf stomatal resistance"/>
+      <type name="radn_crit" kind="single" unit="w/m2" lower_bound="0.0" upper_bound="1000.0" description="critical value of radiation in Raupach method below which surface resistance increases"/>
+      <type name="vpd_crit" kind="single" unit="kg/kg" lower_bound="0.0" upper_bound="10.0" description="critical value of vpd in raupach method above which surface resistance increases"/>
+      <type name="lai_crit" kind="single" unit="mm2/mm2" lower_bound="0.0" upper_bound="10.0" description="critical value of lai below which surface resistance increases"/>
+      <type name="rc_method" kind="string" unit="" description="method to calculate rc (simulat simple kelliher fixed)"/>
+      <type name="rc" kind="single" unit="s/m" lower_bound="0.0" upper_bound="200.0" description="bulk vegetation surface resistance for 'fixed' method"/>
+      <type name="pen_mon_ub" kind="single" unit="mm" lower_bound="0.0" upper_bound="100.0" description="upper limit of Penman Monteith Eo for warning messages"/>
+      <type name="default_wind_day_fraction" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="default fraction of 24 hour wind run in daytime"/>
+      <type name="ra_ub" kind="single" unit="s/m" lower_bound="0.0" upper_bound="3000.0" description="upper bound of areodynamic resistance"/>
+      <type name="alt_photo_radn" kind="single" unit="degree" lower_bound="-90.0" upper_bound="90.0" description="altitude of sun above which photosynthesis takes place"/>
+      <type name="wind_hrs" kind="single" unit="hrs" lower_bound="-1.0" upper_bound="24.0" description="duration of daytime wind"/>
+      <type name="wind_min" kind="single" unit="m/s" lower_bound="0.0" upper_bound="10.0" description="minimum wind speed"/>
+      <type name="soil_heat_flux" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="proportion of heat flux pertaining to soil and plants"/>
+      <type name="penman_fU2_coef_a" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="a coefficent in Penman wind function"/>
+      <type name="penman_fU2_coef_b" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="b coefficent in Penman wind function"/>
+      <type name="latitude" kind="single" unit="degree" lower_bound="-90.0" upper_bound="90.0" description="latitude of site"/>
+      <type name="instrum_height" kind="single" unit="mm" lower_bound="0.0" upper_bound="50000.0" description="height of instruments"/>
+      <type name="vpd" kind="single" unit="mb" lower_bound="0.0" upper_bound="200.0" description="vapour pressure deficit"/>
+      <type name="rh" kind="single" unit="%" lower_bound="0.0" upper_bound="100.0" description="relative humidity"/>
+      <type name="pa" kind="single" unit="hPa" lower_bound="800.0" upper_bound="1200.0" description="atmospheric pressure"/>
+      <type name="wind" kind="single" unit="km/day" lower_bound="0.0" upper_bound="1000.0" description="wind"/>
+      <type name="fr_intc_radn" kind="single" unit="-" lower_bound="0.0" upper_bound="1.0" description="fraction of radiation intercepted by canopy"/>
+      <type name="canopy_height" kind="single" unit="mm" lower_bound="0.0" upper_bound="20000.0" description="height of canopy"/>
+
+
+!!!EROSION TYPES!!!!! dsg 051202
+
+      <type name="soil_loss" kind="single" unit="t/ha" description="soil loss from surface"/>
+      <type name="soil_loss_bed" kind="single" unit="t/ha" description="daily soil loss in bed"/>
+      <type name="soil_loss_susp" kind="single" unit="t/ha" description="daily soil loss in suspension"/>
+      <type name="soil_loss_mm" kind="single" unit="mm" description="soil loss from surface"/>
+      <type name="sed_conc" kind="single" unit="g/l" description="sediment concentration"/>
+      <type name="sed_conc_bed" kind="single" unit="g/l" description="daily soil loss in bed"/>
+      <type name="sed_conc_susp" kind="single" unit="g/l" description="daily soil loss in suspension"/>
+      <type name="bed_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="5000.0" description="depth to bedrock"/>
+      <type name="erosion_cover" kind="single" unit="" description="cover used in soil loss equation"/>
+      <type name="cover_extra" kind="single" unit="" lower_bound="-1.0" upper_bound="1.0" description="fudge factor for extra cover"/>
+      <type name="model" kind="string" unit="" description="Erosion model to use (free/rose)"/>
+      <type name="profile_reduction" kind="string" unit="" description="Switch for profile reduction (on/off)"/>
+      <type name="profile_layer_merge" kind="single" unit="mm" lower_bound="0.0" upper_bound="1.0" description="layer thickness threshold - below this fraction of original layer the layer is absorbed into the layer above"/>
+      <type name="minimum_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="mm of dirt below which model stops"/>
+      <type name="slope" kind="single" unit="%" lower_bound="0.0" upper_bound="100.0" description="field slope"/>
+      <type name="slope_length" kind="single" unit="m" lower_bound="0.0" upper_bound="100.0" description="slope length"/>
+      <type name="k_factor" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="USLE K factor"/>
+      <type name="k_factor_bed" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="USLE K factor (bedload)"/>
+      <type name="k_factor_susp" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="USLE K factor (suspended load)"/>
+      <type name="p_factor" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="USLE P factor"/>
+      <type name="entrain_eff" kind="single" unit="" lower_bound="0.0" upper_bound="2.0" description="efficency entrainmnt"/>
+      <type name="eros_rose_b2" kind="single" unit="" lower_bound="0.01" upper_bound="0.2" description="coeff for calculating lambda in Rose model"/>
+      <type name="entrain_eff_bed" kind="single" unit="" lower_bound="0.0" upper_bound="2.0" description="efficency of bedload entrainmnt (bare)"/>
+      <type name="eros_rose_b2_bed" kind="single" unit="" lower_bound="0.01" upper_bound="0.2" description="coeff for calculating lambda in Rose model (bedload)"/>
+      <type name="entrain_eff_susp" kind="single" unit="" lower_bound="0.0" upper_bound="2.0" description="efficency of suspended load entrainmnt (bare)"/>
+      <type name="eros_rose_b2_susp" kind="single" unit="" lower_bound="0.01" upper_bound="0.2" description="coeff for calculating lambda in Rose model (suspended load)"/>
+      <type name="cover_surface_runoff" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Total surface cover from vegetation"/>
+
+!!! FRMRPT TYPES !!! dsg 051202
+      <type name="handle" kind="string" unit="" description="Handle"/>
+      <type name="form_file" kind="string" unit="" description="Form file"/>
+      <type name="out_file" kind="string" unit="" description="Out file"/>
+      <type name="escape_char" kind="string" unit="" description="Escape character"/>
+      <type name="report_days" kind="integer4" array="T" unit="" description="Report days"/>
+      <type name="report_start" kind="integer4" array="T" unit="" description="Report start"/>
+
+!!! GRAZ TYPES!!! dsg 051202
+      <type name="alw" kind="single" unit="kg" description="animal live wgt"/>
+      <type name="lwg" kind="single" unit="" description="animal live weught gain"/>
+      <type name="acc_eaten" kind="single" unit="" description="accumulated intake by animals"/>
+      <type name="intake_restr" kind="single" unit="" description="final intake restriction"/>
+      <type name="green_leaf" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="daily green leaf from grasp"/>
+      <type name="green_stem" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="daily green stem from grasp"/>
+      <type name="dead_leaf" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="daily dead leaf from grasp"/>
+      <type name="dead_stem" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100000.0" description="daily dead stem from grasp"/>
+      <type name="acc_growth" kind="single" unit="" lower_bound="0.0" upper_bound="1000000.0" description="accumulated growth of sward from grasp"/>
+
+!! SOILTEMP types!! dsg 061202
+      <type name="clay" kind="single" array="T" unit="" lower_bound="1.0e-6" upper_bound="1.0" description="proportion of clay in soil profile layers"/>
+      <type name="soil_temp" kind="single" array="T" unit="oC" lower_bound="-30.0" upper_bound="40.0" description="Average soil temperature during the Apsim timestep"/>
+      <type name="bound_layer_cond" kind="single" unit="W/m2/K" lower_bound="0.0" upper_bound="100.0" description="boundary layer thermal conductance"/>
+      <type name="nu" kind="single" unit="-" lower_bound="0.0" upper_bound="1.0" description="forward/backward differencing"/>
+      <type name="vol_spec_heat_om" kind="single" unit="J/m3/K" lower_bound="1.0e6" upper_bound="1.0e7" description="volumetric specific heat of organic matter"/>
+      <type name="vol_spec_heat_water" kind="single" unit="J/m3/K" lower_bound="1.0e6" upper_bound="1.0e7" description="volumetric specific heat of water"/>
+      <type name="vol_spec_heat_clay" kind="single" unit="J/m3/K" lower_bound="1.0e6" upper_bound="1.0e7" description="volumetric specific heat of clay minerals"/>
+      <type name="final_soil_temp_surface" kind="single" unit="oC" description="Soil surface temperature at the end of the final internal Soiltemp timestep."/>
+      <type name="final_soil_temp" kind="single" array="T" unit="oC" description="Soil temperature at the end of the final internal Soiltemp timestep."/>
+      <type name="ave_soil_temp_surface" kind="single" unit="oC" description="Average soil temperature found at the surface during the Apsim timestep"/>
+      <type name="ave_soil_temp" kind="single" array="T" unit="oC" description="Average soil temperature found in each layer during the Apsim timestep"/>
+      <type name="mint_soil_surface" kind="single" unit="oC" description="Minimum soil temperature found at the surface during the Apsim timestep"/>
+      <type name="mint_soil" kind="single" array="T" unit="oC" description="Minimum soil temperature found in each layer during the Apsim timestep"/>
+      <type name="maxt_soil_surface" kind="single" unit="oC" description="Maximum soil temperature found at the surface during the Apsim timestep"/>
+      <type name="maxt_soil" kind="single" array="T" unit="oC" description="Maximum soil temperature found in each layer during the Apsim timestep."/>
+      <type name="therm_cond" kind="single" array="T" unit="J/sec/m/K" description="Thermal conductivity for each layer"/>
+      <type name="heat_store" kind="single" array="T" unit="J/m3/K/s" description="Volumetric specific heat for each layer"/>
+      <type name="timestep" kind="single" unit="" description="Simulation timestep"/>
+      <type name="maxt_time" kind="single" unit="hours" lower_bound="0.0" upper_bound="24.0" description="Specifies the hour of the day when the maximum air temperature occurs"/>
+
+
+   !!!!! MET types !!!!!
+   <type name="metfile" kind="string" unit="" description="Met file name"/>
+   <type name="inputfile" kind="string" unit="" description="Input file name"/>
    <type name="latitude" kind="single" lower_bound="-90.0" upper_bound="90.0" units="oC"/>
    <type name="radn" kind="single" lower_bound="0.0" upper_bound="50.0" units="MJ/m2/d"/>
    <type name="maxt" kind="single" lower_bound="-10.0" upper_bound="70.0"  units="oC"/>
    <type name="mint" kind="single" lower_bound="-20.0" upper_bound="50.0"  units="oC"/>
    <type name="rain" kind="single" lower_bound="0.0" upper_bound="1000.0"  units="mm/d"/>
    <type name="vp"   kind="single" units="????"/>
+   <type name="day_length" kind="single" unit="hours" description="Day length"/>
    <type name="newmet">
       <field name="radn"  kind="single" lower_bound="0.0" upper_bound="50.0" units="MJ/m2/d"/>
       <field name="maxt"  kind="single" lower_bound="-10.0" upper_bound="70.0"  units="oC"/>
@@ -190,6 +332,8 @@
    <type name="solute_ppm" kind="single" array="T" unit="mg/kg" description="solute concentration(ppm) in layers"/>
    <type name="dlt_solute" kind="single" array="T" unit="kg/ha" description="delta solute concentration in layers"/>
    <type name="solute_min" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" />
+   <type name="ub_solute" kind="single" unit="" lower_bound="0" upper_bound="1E10" description="upper bound solute"/>
+   <type name="lb_solute" kind="single" unit="" lower_bound="0" upper_bound="1E10" description="lower bound solute"/>
 
    <type name="SoluteProfile" array="T">
       <element>
@@ -1010,6 +1154,185 @@
       <field name="Erosion"                 kind="single" units="kg/ha"/>
       <field name="LateralFlow"             kind="single" units="kg/ha"/>
    </type>
+
+
+
+! dsg 041202  ALL 'OLD' APSIM 2.2 EVENTS AND METHODS
+
+      <type name="add_residue" kind="????" unit="" description="Message to report a residue decomposition"/>
+      <type name="incorp_fom" kind="????" unit="" description="Message to report a residue decomposition"/>
+      <type name="tick" kind="????" unit="" description="Change in the simulation system time and the duration of the new time step"/>
+      <type name="newmet" kind="????" unit="" description="To notify all interested modules in a change in the simulation met data for the current time step"/>
+      <type name="new_profile" kind="????" unit="" description="To notify all interested modules of the change in soil water profile characteristic information"/>
+      <type name="prepare" kind="????" unit="" description="Message to prepare for process"/>
+      <type name="process" kind="????" unit="" description="Message to process"/>
+      <type name="post" kind="????" unit="" description="System post stage"/>
+      <type name="init" kind="????" unit="" description="Initialisation rules"/>
+      <type name="sysinit" kind="????" unit="" description="System initialise"/>
+      <type name="sow" kind="????" unit="" description="Message from manager to module"/>
+      <type name="plant" kind="????" unit="" description="Message from manager to module i_wheat"/>
+      <type name="harvest" kind="????" unit="" description="Message from manager to module"/>
+      <type name="end_crop" kind="????" unit="" description="Message for a crop to terminate"/>
+      <type name="kill_crop" kind="????" unit="" description="Message for a crop to be killed"/>
+      <type name="end_run" kind="????" unit="" description="Message that run is to end"/>
+      <type name="crop_chopped" kind="????" unit="" description="To notify all interested modules of the removal of dry matter from a crop"/>
+      <type name="start" kind="????" unit="" description="Start simulation"/>
+      <type name="pause" kind="????" unit="" description="Pause simulation"/>
+      <type name="cont" kind="????" unit="" description="Continue simulation"/>
+      <type name="create" kind="????" unit="" description="System message to create"/>
+      <type name="reset" kind="????" unit="" description="System reset stage"/>
+      <type name="sum_report" kind="????" unit="" description="Report SoilWat module summary details"/>
+      <type name="tillage" kind="????" unit="" description="Set up for CN reduction after tillage operation"/>
+      <type name="swim_timestep_preparation" kind="????" unit="" description="Message from APSWIM to SURFACE"/>
+      <type name="pre_swim_timestep" kind="????" unit="" description="Message from APSWIM to SURFACE"/>
+      <type name="post_swim_timestep" kind="????" unit="" description="Message from APSWIM to SURFACE"/>
+      <type name="new_solute" kind="????" unit="" description="To notify all interested modules in the ownership of solutes by an individual module"/>
+      <type name="irrigated" kind="????" unit="" description="To notify all interested modules in an irrigation application which may/maynot include solutes"/>
+      <type name="Demofile" kind="????" unit="" description="Demo file name"/>
+      <type name="fertilize" kind="????" unit="" description="Message from manager to module fertiliz"/>
+      <type name="irrigate" kind="????" unit="" description="Perform irrigation"/>
+      <type name="apply" kind="????" unit="" description="Perform irrigation"/>
+      <type name="add_manure" kind="????" unit="" description="Message to add manure"/>
+      <type name="do_decompose" kind="????" unit="" description="Message to do a residue decomposition"/>
+      <type name="pot_decomp" kind="????" unit="" description="To notify all interested modules in a potential residue decomposition"/>
+      <type name="decomposed_p" kind="????" unit="" description="Message to report decomposition from MANURE"/>
+      <type name="incorp_manure" kind="????" unit="" description="Message to report decomposition from MANURE"/>
+      <type name="incorp_min_n" kind="????" unit="" description="Message to report decomposition from MANURE"/>
+      <type name="incorp_min_p" kind="????" unit="" description="Message to report decomposition from MANURE"/>
+      <type name="incorp_fom" kind="????" unit="" description="Message to report a residue decomposition"/>
+      <type name="decomposed" kind="????" unit="" description="Message to report a residue decomposition"/>
+      <type name="stop_growth" kind="????" unit="" description="Message from manager to module millet"/>
+      <type name="initiate_crop" kind="????" unit="" description="Message for a crop to be initiated"/>
+      <type name="hail" kind="????" unit="" description="Message for hail event in ozcot"/>
+      <type name="n_balanceType" kind="????" unit="" description="To notify all interested modules in the completion of the soil N calculations"/>
+      <type name="c_balanceType" kind="????" unit="" description="To notify all interested modules in the completion of the soil C calculations"/>
+      <type name="residue_addedType" kind="????" unit="" description="To notify all interested modules of the addition of residue to the residue pool"/>
+      <type name="residue_removedType" kind="????" unit="" description="To notify all interested modules of the removal of residue from the residue pool"/>
+      <type name="graze" kind="????" unit="" description="Perform Sugar Graze"/>
+      <type name="hill_up" kind="????" unit="" description="Perform Sugar Hillup"/>
+      <type name="lodge" kind="????" unit="" description="Perform Sugar Lodge"/>
+
+!!  report types!! dsg 061202
+      <type name="outputfile" kind="????" unit="" description="Simulation output file"/>
+      <type name="reportvariables" kind="????" unit="" description="Columns to output to file"/>
+      <type name="format" kind="string" unit="" description="Output file format - [csv:normal]"/>
+      <type name="rep" kind="????" unit="" description="System report"/>
+      <type name="do_output" kind="????" unit="" description="Perform an immediate output"/>
+      <type name="do_end_day_output" kind="????" unit="" description="Perform an output at end of day"/>
+      <type name="days_since_last_report" kind="integer4" unit="days" description="Number of days since last report"/>
+!!  forest types!! dsg 051202
+      <type name="cut" kind="????" unit="" description=""/>
+      <type name="thin" kind="????" unit="" description=""/>
+      <type name="new_pot_growth" kind="????" unit="" description=""/>
+      <type name="new_canopy" kind="????" unit="" description=""/>
+      <type name="new_crop" kind="????" unit="" description=""/>
+!!  frmrpt types!!
+      <type name="do_output" kind="????" unit="" description="Message to FRMRPT from MANAGER"/>
+      <type name="clear" kind="????" unit="" description="Message to FRMRPT from MANAGER"/>
+!! OLD IRRIGATE types (including variables)
+      <type name="amount" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="500." description="Amounts of irrigation"/>
+      <type name="time" kind="string" array="T" unit="hh:mm" description="Times for irrigation"/>
+      <type name="duration" kind="single" array="T" unit="min" lower_bound="1.0" upper_bound="1440.0" description="Durations for irrigation"/>
+      <type name="default_time" kind="string" unit="hh:mm" description="Default time for irrigation"/>
+      <type name="default_duration" kind="single" unit="min" lower_bound="1.0" upper_bound="1440.0" description="Default duration for irrigation"/>
+      <type name="crit_fr_asw" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Critical fraction of avail. soil water"/>
+      <type name="asw_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="1.0" description="avail. soil water depth"/>
+      <type name="manual_irrigation" kind="boolean" unit="" description="Manual irrigation on?"/>
+      <type name="automatic_irrigation" kind="boolean" unit="" description="Automatic irrigation on?"/>
+      <type name="irrigation_allocation" kind="boolean" unit="" description="Irrigation allocation on?"/>
+      <type name="allocation" kind="single" unit="mm" lower_bound="0.0" upper_bound="10000.0" description="Allocation"/>
+      <type name="irrigation_efficiency" kind="single" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Irrigation efficiency"/>
+      <type name="irrigation" kind="single" unit="mm" description="Irrigation applied"/>
+      <type name="irrig_tot" kind="single" unit="mm" description="Irrigation total"/>
+      <type name="irrig_loss" kind="single" unit="mm" description="Irrigation loss"/>
+      <type name="irr_fasw" kind="single" unit="mm" description="irr fasw"/>
+      <type name="irr_deficit" kind="single" unit="mm" description="irr_deficit"/>
+      <type name="carry_over" kind="single" unit="Ml" description="carry_over"/>
+!!Soilp types!!! dsg061202
+      <type name="labile_p" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Labile phosphorus"/>
+      <type name="unavailable_p" kind="single" array="T" unit="kg/ha" description="Unavailable phosphorus content for each soil layer"/>
+      <type name="banded_p" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Banded P content for each layer"/>
+      <type name="rock_p" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Rock P content for each layer ie. no water soluble"/>
+      <type name="soil_test_p" kind="single" array="T" unit="kg/ha" description="Soil_test_p"/>
+      <type name="biom_p" kind="single" array="T" unit="kg/ha" description="Biom_p"/>
+      <type name="hum_p" kind="single" array="T" unit="kg/ha" description="Hum_p"/>
+      <type name="fom_p" kind="single" array="T" unit="kg/ha" description="Fom_p"/>
+      <type name="fom_cp" kind="single" array="T" unit="kg/ha" description="Fom_cp"/>
+      <type name="crop_p_uptake" kind="single" array="T" unit="kg/ha" description="P uptake by crop"/>
+      <type name="sorption" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="10000.0" description="Soils P sorption characteristic"/>
+      <type name="root_cp" kind="single" unit="" lower_bound="0.0" upper_bound="300.0" description="C:P ratio of roots at initialisation"/>
+      <type name="rate_dissol_rock_p" kind="single" unit="/yr" lower_bound="0.0" upper_bound="1.0" description="Rate at which rock P source becomes available"/>
+      <type name="rate_loss_avail_p" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of P lost per yr specified at 25 oC"/>
+      <type name="act_energy_loss_avail_p" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Effect of soil temperature on P availability"/>
+      <type name="availp_ratio" kind="single" unit="" lower_bound="0.01" upper_bound="0.25" description="Ratio of available P : unavailable P at a steady state"/>
+      <type name="rate_decr_placement" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fractional loss of placement effect per yr"/>
+      <type name="eff_band" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="Relative effectiveness of banded_p compared with broadcast_p"/>
+      <type name="biom_cp" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="c:p ratio of biom pool"/>
+      <type name="hum_cp" kind="single" unit="" lower_bound="0.0" upper_bound="100.0" description="c:p ratio of hum pool"/>
+      <type name="wf_loss_index" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="Index specifying water content for water factor for loss of availability"/>
+      <type name="wf_loss_values" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Value of water factor function at given index values"/>
+      <type name="crop_name" kind="string" array="T" unit="" description="Name of crop"/>
+      <type name="crit_p_supply" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="10.0" description="critical p supply for each crop"/>
+      <type name="crit_p_rlv" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="100.0" description="critical rlv above which p status is maximum"/>
+      <type name="lb_labile_p" kind="single" unit="ppm" lower_bound="0.0" upper_bound="100.0" description="lower bound for labile P"/>
+      <type name="ub_labile_p" kind="single" unit="ppm" lower_bound="0.0" upper_bound="1000.0" description="upper bound for labile P"/>
+      <type name="lb_unavail_p" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100.0" description="lower bound for unavailable P"/>
+      <type name="ub_unavail_p" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="10000.0" description="upper bound for unavailable P"/>
+      <type name="lb_banded_p" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100.0" description="lower bound for banded P"/>
+      <type name="ub_banded_p" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="upper bound for banded P"/>
+      <type name="lb_rock_p" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="100.0" description="lower bound for rock P"/>
+      <type name="ub_rock_p" kind="single" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="lower bound for rock P"/>
+      <type name="dlt_labile_p" kind="single" array="T" unit="kg/ha" lower_bound="-1000.0" upper_bound="1000.0" description="dlt_labile_p"/>
+      <type name="dlt_banded_p" kind="single" array="T" unit="kg/ha" lower_bound="-1000.0" upper_bound="1000.0" description="dlt_banded_p"/>
+      <type name="dlt_rock_p" kind="single" array="T" unit="kg/ha" lower_bound="-1000.0" upper_bound="1000.0" description="dlt_rock_p"/>
+      <type name="sysinit" kind="????" unit="" description="System initialise"/>
+      <type name="sum_report" kind="????" unit="" description="Report SoilWat module summary details"/>
+      <type name="tillage" kind="????" unit="" description="Set up for CN reduction after tillage operation"/>
+      <type name="incorp_fom" kind="????" unit="" description="Message to report a residue decomposition"/>
+      <type name="decomposed" kind="????" unit="" description="Message to report a residue decomposition"/>
+      <type name="dlayer" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Depth of each soil layer"/>
+      <type name="st" kind="single" array="T" unit="oC" lower_bound="-20.0" upper_bound="50.0" description="Soil temperature for each soil layer"/>
+      <type name="sw_dep" kind="single" array="T" unit="mm" lower_bound="0.00001" upper_bound="1000.0" description="Soil water in each soil layer"/>
+      <type name="ll15_dep" kind="single" array="T" unit="mm" lower_bound="0.00001" upper_bound="1000.0" description="15 bar lower limit in each soil layer"/>
+      <type name="dul_dep" kind="single" array="T" unit="mm" lower_bound="0.00001" upper_bound="1000.0" description="Drained upper limit in each soil layer"/>
+      <type name="sat_dep" kind="single" array="T" unit="mm" lower_bound="0.00001" upper_bound="1000.0" description="Soil water in each soil layer at saturation"/>
+      <type name="bd" kind="single" array="T" unit="g/cc" lower_bound="0.01" upper_bound="3.0" description="Bulk density in each soil layer"/>
+      <type name="dlt_fom_c_hum" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_fom_c_hum"/>
+      <type name="dlt_fom_c_biom" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_fom_c_biom"/>
+      <type name="dlt_fom_c_atm" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_fom_c_atm"/>
+      <type name="dlt_hum_c_biom" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_hum_c_biom"/>
+      <type name="dlt_hum_c_atm" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_hum_c_atm"/>
+      <type name="dlt_biom_c_hum" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_biom_c_hum"/>
+      <type name="dlt_biom_c_atm" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_biom_c_atm"/>
+      <type name="dlt_res_c_biom" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="10.0" description="dlt_res_c_biom"/>
+      <type name="dlt_res_c_hum" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="10.0" description="dlt_res_c_hum"/>
+      <type name="dlt_res_c_atm" kind="single" unit="" lower_bound="0.0" upper_bound="1000.0" description="dlt_res_c_atm"/>
+      <type name="pot_residue_decomp" kind="single" array="T" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="pot_residue_decomp"/>
+!!old SURFACE types!! dsg 061202
+      <type name="rr" kind="single" unit="cm" description="rr"/>
+      <type name="surf_cover" kind="single" unit="cm" description="surf_cover"/>
+      <type name="g1" kind="single" unit="cm" description="g1"/>
+      <type name="g0" kind="single" unit="cm" description="g0"/>
+      <type name="grc" kind="single" unit="cm" description="grc"/>
+      <type name="model_no" kind="integer4" unit="" description="model_no"/>
+      <type name="precip_const" kind="integer4" unit="mm" description="precip_const"/>
+      <type name="effpar" kind="single" unit="" description="effpar"/>
+      <type name="seal_decay_rate" kind="single" unit="/MJ/m2" lower_bound="0" upper_bound="1" description="seal_decay_rate"/>
+      <type name="rr_decay_rate" kind="single" unit="/MJ/m2" lower_bound="0" upper_bound="1" description="rr_decay_rate"/>
+      <type name="rr_max" kind="single" unit="/MJ/m2" lower_bound="0" upper_bound="2000" description="rr_max"/>
+      <type name="rr_min" kind="single" unit="/MJ/m2" lower_bound="0" upper_bound="2000" description="rr_min"/>
+      <type name="maximum_conductance" kind="single" unit="" lower_bound="0" upper_bound="2000" description="maximum_conductance"/>
+      <type name="minimum_conductance" kind="single" unit="" lower_bound="0" upper_bound="2000" description="minimum_conductance"/>
+      <type name="year" kind="integer4" unit="" lower_bound="1800" upper_bound="2000" description="year"/>
+      <type name="day" kind="integer4" unit="" lower_bound="0" upper_bound="366" description="day"/>
+      <type name="dr" kind="single" unit="mm" lower_bound="1" upper_bound="1000" description="dr"/>
+      <type name="dt" kind="single" unit="min" lower_bound="0" upper_bound="1440" description="dt"/>
+      <type name="scon" kind="single" unit="/h" lower_bound="0" upper_bound="1000" description="scon"/>
+      <type name="scon_min" kind="single" unit="/h" lower_bound="0" upper_bound="1000" description="scon_min"/>
+      <type name="scon_max" kind="single" unit="/h" lower_bound="0" upper_bound="1000" description="scon_max"/>
+      <type name="cover_tot_all" kind="single" unit="0-1" lower_bound="1" description="cover_tot_call"/>
+      <type name="cover_height_all" kind="single" unit="0-1" lower_bound="2000" description="cover_height_all"/>
+      <type name="residue_cover" kind="single" unit="0-1" lower_bound="1" description="residue_cover"/>
 
 
 </types>
