@@ -1140,7 +1140,7 @@ void PlantP::crop_chopped (float chop_fr_green[]        //IN
       }
       else
       {
-         for (int part = 0; part < g.num_parts; part++)
+         for (int part = 0; part <max_part; part++)
          {
             dlt_dm_p[part] = 0.0;
             *dlt_residue_p = 0.0;
@@ -1190,7 +1190,7 @@ void PlantP::end_crop (float chop_fr[]        //IN
       }
       else
       {
-         for (int part = 0; part < g.num_parts; part++)
+         for (int part = 0; part < max_part; part++)
          {
             dlt_dm_p[part] = 0.0;
             *dlt_residue_p = 0.0;
@@ -1236,7 +1236,7 @@ void PlantP::detached (float chop_fr[]
       }
       else
       {
-         for (int part = 0; part < g.num_parts; part++)
+         for (int part = 0; part < max_part; part++)
          {
             dlt_dm_p[part] = 0.0;
             *dlt_residue_p = 0.0;
@@ -1282,7 +1282,7 @@ void PlantP::dead_detached (float chop_fr[]
       }
       else
       {
-         for (int part = 0; part < g.num_parts; part++)
+         for (int part = 0; part < max_part; part++)
          {
             dlt_dm_p[part] = 0.0;
             *dlt_residue_p = 0.0;
@@ -1446,7 +1446,7 @@ float PlantP::incorp_fom_detached (float incorp_fr[]      //IN
       {
          dlt_p_tot += g.dlt_part_p_det[part] * incorp_fr[part];
       }
-      if (dlt_p_tot > 0.0) 
+      if (dlt_p_tot > 0.0)
       {
           crop_root_dist( dlayer
                         , root_length
@@ -1454,7 +1454,7 @@ float PlantP::incorp_fom_detached (float incorp_fr[]      //IN
                         , dlt_fom_p
                         , dlt_p_tot * gm2kg/sm2ha
                         , max_layer);
-    
+
           num_layers = 1 + count_of_real_vals(root_length, max_layer);
           if (num_layers > 0)
           {
@@ -1463,7 +1463,7 @@ float PlantP::incorp_fom_detached (float incorp_fr[]      //IN
                                         protocol::vector<float>(dlt_fom_p, dlt_fom_p+num_layers));
              plant->parent->publish (ids.incorp_fom_p, outgoingApsimVariant);
           }
-      } 
+      }
    }
    else
    {}
@@ -1500,7 +1500,7 @@ float PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
       {
          dlt_p_tot += g.dlt_part_p_dead_det[part] * incorp_fr[part];
       }
-      if (dlt_p_tot > 0.0) 
+      if (dlt_p_tot > 0.0)
       {
          crop_root_dist( dlayer
                        , root_length
@@ -1508,7 +1508,7 @@ float PlantP::incorp_fom_dead_detached (float incorp_fr[]      //IN
                        , dlt_fom_p
                        , dlt_p_tot * gm2kg/sm2ha
                        , max_layer);
-   
+
          num_layers = 1 + count_of_real_vals(root_length, max_layer);
          if (num_layers > 0)
          {
