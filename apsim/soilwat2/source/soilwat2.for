@@ -3606,7 +3606,7 @@ c     he should have. Any ideas? Perhaps
 
       call push_routine (my_name)
 
-      call get_real_var_optional (unknown_module, 'residue_cover', '()'
+      call get_real_var_optional (unknown_module, 'surfaceom_cover', '()'
      :                                  , g%residue_cover, numvals
      :                                  , 0.0, 1.0)
 
