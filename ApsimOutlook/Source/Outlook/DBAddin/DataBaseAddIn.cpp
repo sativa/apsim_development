@@ -33,21 +33,28 @@ extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
 //    make a scenario valid (makeScenarioValid).
 
 //  Notes:
+//    The upToButNotIncluding flag controls whether the returned partial
+//    title contains all factors up to and including the factor name
+//    passed in.
 
 //  Changes:
 //    DPH 5/2/98
 //    dph 4/4/01 reworked for new Add-in.
 
 // ------------------------------------------------------------------
-string createPartialTitle(const Scenario& scenario, const string& factorName)
+string createPartialTitle(const Scenario& scenario,
+                          const string& factorName,
+                          bool upToButNotIncluding = true)
    {
    string partialTitle;
    vector<string> factorNames;
    scenario.getFactorNames(factorNames);
    for (vector<string>::iterator f = factorNames.begin();
-                                 f != factorNames.end() && (*f) != factorName;
+                                 f != factorNames.end();
                                  f++)
       {
+      if (upToButNotIncluding &&  (*f) == factorName)
+         return partialTitle;
       string factorValue;
       Graphics::TBitmap* factorBitmap;
       scenario.getFactorAttributes(*f, factorValue, factorBitmap);
@@ -57,6 +64,8 @@ string createPartialTitle(const Scenario& scenario, const string& factorName)
          partialTitle += factorValue;
       else
          partialTitle += *f + "=" + factorValue;
+      if (!upToButNotIncluding &&  (*f) == factorName)
+         return partialTitle;
       }
    return partialTitle;
    }
@@ -331,11 +340,11 @@ Scenario DatabaseAddIn::getDefaultScenario(void) const
 // ------------------------------------------------------------------
 void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string factorName) const
    {
-   string titleToFind = createPartialTitle(scenario, "");
+   string titleToFind = createPartialTitle(scenario, factorName, false);
    SimulationContainer::const_iterator closestSimulation = simulations.begin();
    unsigned int closestRank = 0;
    for (SimulationContainer::const_iterator  s = simulations.begin();
-                                             s != simulations.end() && closestRank != 10000;
+                                             s != simulations.end() && closestRank != 100000;
                                              s++)
       {
       unsigned int rank = (*s)->calculateRank(titleToFind);
@@ -344,6 +353,39 @@ void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string fact
          closestRank = rank;
          closestSimulation = s;
          }
+      }
+   // try and make this simulation even closer by substituting factor values
+   // AFTER the factorName passed in, from the scenario passed in
+   // into this closestSimulation.
+   vector<Factor> factorsToFind, closestFactors;
+   scenario.getFactors(factorsToFind);
+   (*closestSimulation)->getFactors(closestFactors);
+   vector<Factor>::const_iterator f = find(closestFactors.begin(),
+                                           closestFactors.end(),
+                                           factorName);
+   f++;
+   while (f != closestFactors.end())
+      {
+      // see if this factor is one we're supposed to find.
+      vector<Factor>::const_iterator factorToFind = find(factorsToFind.begin(),
+                                                         factorsToFind.end(),
+                                                         f->getName());
+      bool closerSimulationWasFound = false;
+      if (factorToFind != factorsToFind.end())
+         {
+         string titleToTry = titleToFind + ";" + f->getName() + "=" + factorToFind->getValue();
+         SimulationContainer::const_iterator closerSimulation = find_if
+            (simulations.begin(), simulations.end(), PartialTitleFindIf(titleToTry));
+         if (closerSimulation != simulations.end())
+            {
+            closestSimulation = closerSimulation;
+            closerSimulationWasFound = true;
+            titleToFind = titleToTry;
+            }
+         }
+      if (!closerSimulationWasFound)
+         titleToFind += ";" + f->getName() + "=" + f->getValue();
+      f++;
       }
    scenario = convertSimulationToScenario(**closestSimulation, scenario.getName());
    }
@@ -395,6 +437,7 @@ void DatabaseAddIn::doCalculations(TAPSTable& data,
                                    const vector<Scenario*>& selectedScenarios)
    {
    data.beginStoringData();
+   data.clearFields();
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
 

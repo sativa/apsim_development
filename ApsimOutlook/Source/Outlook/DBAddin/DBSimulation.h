@@ -76,4 +76,19 @@ class DBSimulation
       void getFactors(std::vector<std::string>& names, std::vector<std::string>& values) const;
    };
 
+class PartialTitleFindIf
+   {
+   private:
+      const std::string& partialTitle;
+   public:
+      PartialTitleFindIf(const std::string& title)
+         : partialTitle(title) { }
+      bool operator() (const DBSimulation* simulation) const
+         {
+         return simulation->partialTitleCompare(partialTitle.c_str());
+         }
+   };
+
+
+
 #endif
