@@ -1,0 +1,13 @@
+[general]
+name = solute module
+
+[Binaries]
+binary=solute
+
+[solute]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\solute.for
+target  = lib\solute.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
