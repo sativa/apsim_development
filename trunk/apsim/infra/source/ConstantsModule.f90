@@ -161,6 +161,10 @@ module ConstantsModule
       parameter (DATA_sender='sender')   ! of an event.  This data is included
                                           ! with every event.
 
+      character DATA_sender_ID*(*)        ! ID used to identify the sender
+      parameter (DATA_sender_ID='sender_id')   ! of an event.  This data is included
+                                          ! with every event.
+
 ! ====================================================================
 !      CLOCK TICK EVENT
 ! ====================================================================
