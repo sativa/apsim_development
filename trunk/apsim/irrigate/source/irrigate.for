@@ -1,44 +1,10 @@
 *     ===========================================================
-      character*(*) function irrigate_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'
- 
-*+  Purpose
-*       return version number of irrigate module
- 
-*+  Mission Statement
-*     Version number
- 
-*+  Changes
-*       080794 jngh removed print to screen statements
- 
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'irrigate_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.31 120996')
- 
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      irrigate_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
- 
- 
- 
-*     ===========================================================
       subroutine APSIM_irrigate (Action, Data_String)
 *     ===========================================================
       implicit none
       dll_export apsim_irrigate
       include   'const.inc'            ! Global constant definitions
       include   'irrigate.inc'         ! irrigate common block
-      include 'string.pub'
       include 'engine.pub'
       include 'error.pub'
  
@@ -59,29 +25,19 @@
 *      060696 jngh removed data string from irrigate_irrigate call
 *      110996 nih  changed call to prepare to inter_timestep
  
-*+  Calls
-      character  irrigate_version*20   ! function
- 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'irrigate')
- 
-*+  Local Variables
-      character  Module_name*10        ! name of module
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
          ! initialise error flags
       call set_warning_off ()
- 
-      if (Action.eq.MES_Presence) then
-         Call Get_Current_Module (Module_Name)
-         write (*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // irrigate_version ()
- 
+
+      if (Action.eq.MES_Get_variable) then
+         call irrigate_Send_my_variable (Data_String)
+  
       else if (Action.eq.MES_Init) then
          call irrigate_zero_variables ()
          call irrigate_Init ()
@@ -96,9 +52,6 @@
       else if ((Action.eq.'irrigate').or.(Action.eq.'apply')) then
          call irrigate_get_other_variables ()
          call irrigate_irrigate ()
- 
-      else if (Action.eq.MES_Get_variable) then
-         call irrigate_Send_my_variable (Data_String)
  
       else if (Action .eq. MES_Set_variable) then
          call irrigate_set_my_variable (Data_String)
@@ -277,9 +230,6 @@
 *+  Changes
 *     <insert here>
  
-*+  Calls
-      character  irrigate_version*15   ! function
- 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'irrigate_init')
@@ -295,7 +245,7 @@
  
          ! Notify system that we have initialised
  
-      Event_string = ' Initialising, Version : ' // irrigate_version ()
+      Event_string = ' Initialising '
       call report_event (Event_string)
  
          ! Get all parameters from parameter file
