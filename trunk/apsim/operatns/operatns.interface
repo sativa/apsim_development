@@ -1,34 +1,13 @@
-include base.interface
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; OPERATNSs public interface which other components may
-; use.  
-; -----------------------------------------------------------
-class APSIMOperatnsPublic
-
-sysinit                : APSIMMethod         = System Initialise
-
-end
-
-; -----------------------------------------------------------
-; OPERATNSs External interface which documents things in other
-; components that this component uses.  
-; -----------------------------------------------------------
-
-class APSIMOperatnsExternal
-
-year                   : APSIMInteger        =  Current year, (), GET
-day                    : APSIMInteger        =  Current day, (), GET
-
-prepare                : APSIMEvent          = System Prepare
-process                : APSIMEvent          = System Process
-post                   : APSIMEvent          = System Post
-
-
-end
-
-class APSIMOperatns
-   dll      : string
-   public   : APSIMOperatnsPublic
-   external : APSIMOperatnsExternal
-end
+<component name="operatns">
+   <registrations>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="day" type="day"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>
