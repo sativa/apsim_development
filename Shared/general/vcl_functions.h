@@ -4,7 +4,7 @@
 #include <general\general.h>
 
 #include "Grids.hpp"
-#include <fstream.h>
+#include <fstream>
 #include <vcl\db.hpp>
 #include <oleauto.h>
 #include <vector>
@@ -302,6 +302,6 @@ void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, std::vector<doub
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strings_to_olevariant (std::vector<string>& StlArray, VARIANT& OleVariant);
+void GENERAL_EXPORT Strings_to_olevariant (std::vector<std::string>& StlArray, VARIANT& OleVariant);
 
 #endif
