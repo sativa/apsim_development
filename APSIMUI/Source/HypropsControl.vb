@@ -36,8 +36,7 @@ Public Class HypropsControl
     Friend WithEvents TabControl As System.Windows.Forms.TabControl
     Friend WithEvents MCPage As System.Windows.Forms.TabPage
     Friend WithEvents HKPage As System.Windows.Forms.TabPage
-    Friend WithEvents MCPlot As scpl.Windows.PlotSurface2D
-    Friend WithEvents HKPlot As scpl.Windows.PlotSurface2D
+
     Friend WithEvents DataTree As APSIMUI.DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel
@@ -46,8 +45,7 @@ Public Class HypropsControl
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.MCPage = New System.Windows.Forms.TabPage
         Me.HKPage = New System.Windows.Forms.TabPage
-        Me.MCPlot = New scpl.Windows.PlotSurface2D
-        Me.HKPlot = New scpl.Windows.PlotSurface2D
+
         Me.Panel1.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.MCPage.SuspendLayout()
@@ -100,7 +98,7 @@ Public Class HypropsControl
         '
         'MCPage
         '
-        Me.MCPage.Controls.Add(Me.MCPlot)
+
         Me.MCPage.Location = New System.Drawing.Point(4, 22)
         Me.MCPage.Name = "MCPage"
         Me.MCPage.Size = New System.Drawing.Size(448, 494)
@@ -109,60 +107,13 @@ Public Class HypropsControl
         '
         'HKPage
         '
-        Me.HKPage.Controls.Add(Me.HKPlot)
         Me.HKPage.Location = New System.Drawing.Point(4, 22)
         Me.HKPage.Name = "HKPage"
         Me.HKPage.Size = New System.Drawing.Size(448, 494)
         Me.HKPage.TabIndex = 1
         Me.HKPage.Text = "Hydraulic Conductivity"
         '
-        'MCPlot
-        '
-        Me.MCPlot.AllowSelection = False
-        Me.MCPlot.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.MCPlot.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.MCPlot.HorizontalEdgeLegendPlacement = scpl.Legend.Placement.Inside
-        Me.MCPlot.LegendBorderStyle = scpl.Legend.BorderType.Shadow
-        Me.MCPlot.LegendXOffset = 10.0!
-        Me.MCPlot.LegendYOffset = 1.0!
-        Me.MCPlot.Location = New System.Drawing.Point(0, 0)
-        Me.MCPlot.Name = "MCPlot"
-        Me.MCPlot.Padding = 10
-        Me.MCPlot.PlotBackColor = System.Drawing.Color.White
-        Me.MCPlot.ShowLegend = False
-        Me.MCPlot.Size = New System.Drawing.Size(448, 494)
-        Me.MCPlot.TabIndex = 0
-        Me.MCPlot.Title = ""
-        Me.MCPlot.TitleFont = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.MCPlot.VerticalEdgeLegendPlacement = scpl.Legend.Placement.Outside
-        Me.MCPlot.XAxis1 = Nothing
-        Me.MCPlot.XAxis2 = Nothing
-        Me.MCPlot.YAxis1 = Nothing
-        Me.MCPlot.YAxis2 = Nothing
-        '
-        'HKPlot
-        '
-        Me.HKPlot.AllowSelection = False
-        Me.HKPlot.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.HKPlot.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.HKPlot.HorizontalEdgeLegendPlacement = scpl.Legend.Placement.Inside
-        Me.HKPlot.LegendBorderStyle = scpl.Legend.BorderType.Shadow
-        Me.HKPlot.LegendXOffset = 10.0!
-        Me.HKPlot.LegendYOffset = 1.0!
-        Me.HKPlot.Location = New System.Drawing.Point(0, 0)
-        Me.HKPlot.Name = "HKPlot"
-        Me.HKPlot.Padding = 10
-        Me.HKPlot.PlotBackColor = System.Drawing.Color.White
-        Me.HKPlot.ShowLegend = False
-        Me.HKPlot.Size = New System.Drawing.Size(448, 494)
-        Me.HKPlot.TabIndex = 0
-        Me.HKPlot.Title = ""
-        Me.HKPlot.TitleFont = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.HKPlot.VerticalEdgeLegendPlacement = scpl.Legend.Placement.Outside
-        Me.HKPlot.XAxis1 = Nothing
-        Me.HKPlot.XAxis2 = Nothing
-        Me.HKPlot.YAxis1 = Nothing
-        Me.HKPlot.YAxis2 = Nothing
+
         '
         'HypropsControl
         '

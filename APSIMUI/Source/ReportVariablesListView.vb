@@ -267,7 +267,7 @@ Public Class ReportVariablesListView
     ' ---------------------------------
     Sub AddBlankRow()
         Dim row As Xceed.Grid.DataRow
-        row = VariablesList.DataRows(VariablesList.DataRows.Count - 2)
+        row = VariablesList.DataRows(VariablesList.DataRows.Count - 1)
         If row.Cells(0).Value <> "" Or row.Cells(1).Value <> "" Or row.Cells(2).Value <> "" _
             Or row.Cells(3).Value <> "" Or row.Cells(4).Value <> "" Then
             row = VariablesList.DataRows.AddNew()

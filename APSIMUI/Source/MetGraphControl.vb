@@ -1,5 +1,5 @@
 Imports VBGeneral
-Imports scpl
+
 Imports System.Math
 Imports CSGeneral
 Imports VBMet
@@ -45,7 +45,6 @@ Public Class MetGraphControl
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
-    Friend WithEvents Description As System.Windows.Forms.Label
     Friend WithEvents ImageList As System.Windows.Forms.ImageList
     Friend WithEvents PageSetupDialog1 As System.Windows.Forms.PageSetupDialog
     Friend WithEvents RainfallGroup As Xceed.SmartUI.Controls.OutlookShortcutBar.Group
@@ -68,7 +67,6 @@ Public Class MetGraphControl
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetGraphControl))
-        Me.Description = New System.Windows.Forms.Label
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog
         Me.OutlookBar = New Xceed.SmartUI.Controls.OutlookShortcutBar.SmartOutlookShortcutBar(Me.components)
@@ -92,15 +90,6 @@ Public Class MetGraphControl
         CType(Me.TrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Description
-        '
-        Me.Description.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Description.Location = New System.Drawing.Point(0, 456)
-        Me.Description.Name = "Description"
-        Me.Description.Size = New System.Drawing.Size(888, 80)
-        Me.Description.TabIndex = 0
-        Me.Description.Text = "Description of the graph type"
-        '
         'ImageList
         '
         Me.ImageList.ImageSize = New System.Drawing.Size(32, 32)
@@ -112,13 +101,12 @@ Public Class MetGraphControl
         Me.OutlookBar.Items.AddRange(New Object() {Me.RainfallGroup, Me.TemperatureGroup, Me.RadiationGroup, Me.HumidityGroup})
         Me.OutlookBar.Location = New System.Drawing.Point(0, 23)
         Me.OutlookBar.Name = "OutlookBar"
-        Me.OutlookBar.Size = New System.Drawing.Size(120, 433)
+        Me.OutlookBar.Size = New System.Drawing.Size(120, 513)
         Me.OutlookBar.TabIndex = 1
         Me.OutlookBar.Text = "OutlookBar"
         '
         'RainfallGroup
         '
-        Me.RainfallGroup.Expanded = True
         Me.RainfallGroup.Items.AddRange(New Object() {Me.DailyRain, Me.MonthlyRainfall})
         Me.RainfallGroup.ItemsImageList = Me.ImageList
         Me.RainfallGroup.Text = "Rainfall"
@@ -148,11 +136,13 @@ Public Class MetGraphControl
         '
         'FrostRisk
         '
+        Me.FrostRisk.Enabled = False
         Me.FrostRisk.ImageIndex = 1
         Me.FrostRisk.Text = "Frost Risk"
         '
         'RadiationGroup
         '
+        Me.RadiationGroup.Expanded = True
         Me.RadiationGroup.Items.AddRange(New Object() {Me.DailyRadiation})
         Me.RadiationGroup.ItemsImageList = Me.ImageList
         Me.RadiationGroup.Text = "Radiation"
@@ -186,7 +176,7 @@ Public Class MetGraphControl
         '
         Me.Splitter.Location = New System.Drawing.Point(120, 23)
         Me.Splitter.Name = "Splitter"
-        Me.Splitter.Size = New System.Drawing.Size(5, 433)
+        Me.Splitter.Size = New System.Drawing.Size(5, 513)
         Me.Splitter.TabIndex = 2
         Me.Splitter.TabStop = False
         '
@@ -204,7 +194,7 @@ Public Class MetGraphControl
         Me.ChartBox.Location = New System.Drawing.Point(125, 23)
         Me.ChartBox.Name = "ChartBox"
         Me.ChartBox.Settings = CType(resources.GetObject("ChartBox.Settings"), Xceed.Chart.Core.Settings)
-        Me.ChartBox.Size = New System.Drawing.Size(763, 401)
+        Me.ChartBox.Size = New System.Drawing.Size(763, 463)
         Me.ChartBox.TabIndex = 3
         Me.ChartBox.Watermarks = CType(resources.GetObject("ChartBox.Watermarks"), Xceed.Chart.Standard.WatermarkCollection)
         '
@@ -213,19 +203,20 @@ Public Class MetGraphControl
         Me.Panel.Controls.Add(Me.TrackBar)
         Me.Panel.Controls.Add(Me.YearBox)
         Me.Panel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel.Location = New System.Drawing.Point(125, 424)
+        Me.Panel.Location = New System.Drawing.Point(125, 486)
         Me.Panel.Name = "Panel"
-        Me.Panel.Size = New System.Drawing.Size(763, 32)
+        Me.Panel.Size = New System.Drawing.Size(763, 50)
         Me.Panel.TabIndex = 5
         '
         'TrackBar
         '
         Me.TrackBar.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.TrackBar.LargeChange = 1
-        Me.TrackBar.Location = New System.Drawing.Point(100, -13)
+        Me.TrackBar.Location = New System.Drawing.Point(100, 5)
         Me.TrackBar.Name = "TrackBar"
         Me.TrackBar.Size = New System.Drawing.Size(663, 45)
         Me.TrackBar.TabIndex = 8
+        Me.TrackBar.TickStyle = System.Windows.Forms.TickStyle.Both
         '
         'YearBox
         '
@@ -241,10 +232,8 @@ Public Class MetGraphControl
         Me.Controls.Add(Me.Panel)
         Me.Controls.Add(Me.Splitter)
         Me.Controls.Add(Me.OutlookBar)
-        Me.Controls.Add(Me.Description)
         Me.Name = "MetGraphControl"
         Me.Size = New System.Drawing.Size(888, 536)
-        Me.Controls.SetChildIndex(Me.Description, 0)
         Me.Controls.SetChildIndex(Me.OutlookBar, 0)
         Me.Controls.SetChildIndex(Me.Splitter, 0)
         Me.Controls.SetChildIndex(Me.Panel, 0)
@@ -258,22 +247,25 @@ Public Class MetGraphControl
 #End Region
 
     Public Overrides Sub fill()
-        Metfile.ReadFromFile(MyData.Child("filename").Value)
-        Dim FirstRow As DataRow = Metfile.Data.Rows(0)
-        Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
-        Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
-        StartDate = FirstRow(DateColumn)
-        EndDate = LastRow(DateColumn)
-        YearBox.Text = StartDate.Year
-        With TrackBar
-            .Minimum = StartDate.Year
-            .Maximum = EndDate.Year
-            .SmallChange = 1
-            .LargeChange = 1
-        End With
+        Try
+            Metfile.ReadFromFile(MyData.Child("filename").Value)
+            Dim FirstRow As DataRow = Metfile.Data.Rows(0)
+            Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
+            Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
+            StartDate = FirstRow(DateColumn)
+            EndDate = LastRow(DateColumn)
+            YearBox.Text = StartDate.Year
+            With TrackBar
+                .Minimum = StartDate.Year
+                .Maximum = EndDate.Year
+                .SmallChange = 1
+                .LargeChange = 1
+            End With
         RedrawGraph()
 
-
+        Catch e As System.Exception
+            MsgBox(e.Message, MsgBoxStyle.Critical, "Unable to build met file interface")
+        End Try
     End Sub
 
 
