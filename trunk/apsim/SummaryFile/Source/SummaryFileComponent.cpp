@@ -3,7 +3,7 @@
 #pragma hdrstop
 
 #include "SummaryFileComponent.h"
-#include <ComponentInterface\FStringExt.h>
+#include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <general\date_class.h>
 #include <sstream>

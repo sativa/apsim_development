@@ -2,7 +2,7 @@
 #ifndef RegistrationItemH
 #define RegistrationItemH
 #include "Variants.h"
-#include "fstring.h"
+#include <ApsimShared\fstring.h>
 
 namespace protocol {
 

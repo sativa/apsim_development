@@ -2,7 +2,7 @@
 #pragma hdrstop
 
 #include "Coordinator.h"
-#include <ComponentInterface\FStringExt.h>
+#include <ApsimShared\FStringExt.h>
 #include <ComponentInterface\messages.h>
 #include <assert.h>
 #include <general\stl_functions.h>

@@ -4,7 +4,7 @@
 
 #include "LogComponent.h"
 #include <ComponentInterface\transport.h>
-#include <ComponentInterface\FStringExt.h>
+#include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <general\string_functions.h>
 #include <sstream>

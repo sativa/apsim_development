@@ -1,7 +1,7 @@
 #ifndef DDMLH
 #define DDMLH
 #include "MessageData.h"
-#include "fstring.h"
+#include <ApsimShared\fstring.h>
 
 namespace protocol {
 
