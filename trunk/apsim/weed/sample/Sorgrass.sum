@@ -15,19 +15,19 @@
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
      Version                = 2.0
-     Simulation filename    = c:\develo~1\weed\sample\weed.sim
+     Simulation filename    = c:\regr\apsim\weed\sample\weed.sim
      Title                  = Sorghum summer-grass Simulation
-     Instantiated DLL       = c:\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\accum\lib\accum.dll(accum) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\canopy\lib\canopy.dll(canopy) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\sorghum\lib\sorghum.dll(sorghum) - Licensed
-     Instantiated DLL       = c:\apsuite\apsim\legume\lib\legume.dll(weed) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\accum\lib\accum.dll(accum) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\canopy\lib\canopy.dll(canopy) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\sorghum\lib\sorghum.dll(sorghum) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\legume\lib\legume.dll(weed) - Licensed
 
 ------- CLOCK Initialisation -------------------------------------------------
      Simulation start date =  9/04/1988
@@ -49,7 +49,7 @@
         sorghum.yield
 
 ------- MET Initialisation ---------------------------------------------------
-     File name = C:\APSuite\apsim\met\sample\dalby.met
+     File name = c:\build\apsuite\apsim\met\sample\dalby.met
 
 ------- ACCUM Initialisation -------------------------------------------------
      Initialising
@@ -386,7 +386,7 @@
    SORGHUM:
        stage    4.0 end_of_juvenile
                            biomass =           6.062224       lai =    0.7708421E-01
-                           stover N conc =    3.410611       extractable sw =    179.2707
+                           stover N conc =    3.410557       extractable sw =    179.2707
 20 November 1988 (Day of year=325):
    MANAGER:
            Manager sending message :- weed kill_crop
@@ -409,7 +409,7 @@
    SORGHUM:
        stage    6.0 flag_leaf
                            biomass =           362.7117       lai =     2.972994    
-                           stover N conc =    1.782804       extractable sw =    459.3913
+                           stover N conc =    1.782804       extractable sw =    459.3912
 28 December 1988 (Day of year=363):
    SORGHUM:
        stage    7.0 flowering
@@ -424,12 +424,12 @@
    SORGHUM:
        stage    9.0 end_grain_fill
                            biomass =           868.6048       lai =     1.255741    
-                           stover N conc =    1.909567       extractable sw =    474.6916
+                           stover N conc =    1.909566       extractable sw =    474.6916
 2 February 1989 (Day of year=33):
    SORGHUM:
        stage   10.0 maturity
                            biomass =           871.7094       lai =     1.191378    
-                           stover N conc =    1.907670       extractable sw =    473.3084
+                           stover N conc =    1.907669       extractable sw =    473.3084
 3 February 1989 (Day of year=34):
    SORGHUM:
        stage   11.0 harvest_ripe
