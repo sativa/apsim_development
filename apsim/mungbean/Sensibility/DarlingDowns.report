@@ -201,7 +201,8 @@ object data: TForm
       'Warra1500HighNProb.onSourceDataChanged'
       'Gunnedah1500Prob.onSourceDataChanged'
       'Dalby1500Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
+      'Graph2.afterDataRefresh'
+      'Dalby1200Prob.onSourceDataChanged')
     sortFields = 'year'
     filenames.Strings = (
       'Dalby1200.out')
@@ -503,8 +504,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 321
-  Top = 43
+  Left = 159
+  Top = 35
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -709,7 +710,7 @@ object Page1: TQuickRep
     object Text1: TText
       Left = 45
       Top = 96
-      Width = 447
+      Width = 452
       Height = 152
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -721,7 +722,7 @@ object Page1: TQuickRep
         574.52380952381
         170.089285714286
         362.857142857143
-        1689.55357142857)
+        1708.45238095238)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -734,28 +735,31 @@ object Page1: TQuickRep
       Font.Style = []
       Lines.Strings = (
         
-          'These simulations compare predictions with District Agronomists'#39 +
-          ' estimate of average yields'
+          'These simulations compare predictions with agronomists'#39' estimate' +
+          ' of average yields'
         
           ' at Dalby and Roma for average or ideal sowing moisture conditio' +
           'ns.'
         ''
         
-          'A chickpea crop sown on differing depths of wet soil with profil' +
+          'A mungbean crop sown on differing depths of wet soil with profil' +
           'e PAWC of 130 mm at Roma '
-        'and  400mm at Dalby.  Sown mid May.'
+        'and  230mm at Dalby.  Sown at beginning of December.'
         ''
-        'Average Yields for ???????????????')
+        'Yields at Roma should vary between 0.5 and 2.0 t/ha.'
+        ''
+        'Yields at Dalby should vary between 1.0 and 2.5 t/ha.')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = 
-        'These simulations compare predictions with District Agronomists'#39 +
-        ' estimate of average yields'#13#10' at Dalby and Roma for average or i' +
-        'deal sowing moisture conditions.'#13#10#13#10'A chickpea crop sown on diff' +
-        'ering depths of wet soil with profile PAWC of 130 mm at Roma '#13#10'a' +
-        'nd  400mm at Dalby.  Sown mid May.'#13#10#13#10'Average Yields for ???????' +
-        '????????'#13#10
+        'These simulations compare predictions with agronomists'#39' estimate' +
+        ' of average yields'#13#10' at Dalby and Roma for average or ideal sowi' +
+        'ng moisture conditions.'#13#10#13#10'A mungbean crop sown on differing dep' +
+        'ths of wet soil with profile PAWC of 130 mm at Roma '#13#10'and  230mm' +
+        ' at Dalby.  Sown at beginning of December.'#13#10#13#10'Yields at Roma sho' +
+        'uld vary between 0.5 and 2.0 t/ha.'#13#10#13#10'Yields at Dalby should var' +
+        'y between 1.0 and 2.5 t/ha.'#13#10
       FontSize = 12
     end
     object Text2: TText
