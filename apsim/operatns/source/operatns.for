@@ -154,7 +154,6 @@
          call operatns_sort_data ()
          call operatns_list ()
  
-         rewind (g%oplun)
       else
          call fatal_error (Err_User, 'Cannot open scratch file.')
       endif
