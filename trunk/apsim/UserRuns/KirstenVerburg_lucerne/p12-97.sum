@@ -1161,7 +1161,7 @@
       stage 2.0 germination
 23 May 1997(Day of year=143), canola: 
       stage 3.0 emergence
-                     biomass =           4.02 (kg/ha)   lai          =   0.007 (m^2/m^2)
+                     biomass =           4.02 (g/m^2)   lai          =   0.007 (m^2/m^2)
                      stover N conc =     6.50 (%)     extractable sw =   18.24 (mm)
 30 May 1997(Day of year=150), operatns: 
       Sending do_end_day_output message to report7
@@ -1169,7 +1169,7 @@
       Sending do_end_day_output message to report3
 13 June 1997(Day of year=164), canola: 
       stage 4.0 end_of_juvenile
-                     biomass =           7.72 (kg/ha)   lai          =   0.091 (m^2/m^2)
+                     biomass =           7.72 (g/m^2)   lai          =   0.091 (m^2/m^2)
                      stover N conc =     5.73 (%)     extractable sw =   67.97 (mm)
 19 June 1997(Day of year=170), operatns: 
       Sending do_end_day_output message to report7
@@ -1184,17 +1184,17 @@
       Sending do_end_day_output message to report7
 10 August 1997(Day of year=222), canola: 
       stage 5.0 floral_initiation
-                     biomass =         118.61 (kg/ha)   lai          =   1.458 (m^2/m^2)
+                     biomass =         118.61 (g/m^2)   lai          =   1.458 (m^2/m^2)
                      stover N conc =     5.04 (%)     extractable sw =  105.12 (mm)
 5 September 1997(Day of year=248), canola: 
       stage 6.0 flowering
-                     biomass =         353.54 (kg/ha)   lai          =   4.392 (m^2/m^2)
+                     biomass =         353.54 (g/m^2)   lai          =   4.392 (m^2/m^2)
                      stover N conc =     3.62 (%)     extractable sw =   96.41 (mm)
 7 September 1997(Day of year=250), operatns: 
       Sending do_end_day_output message to report7
 22 September 1997(Day of year=265), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         646.19 (kg/ha)   lai          =   4.216 (m^2/m^2)
+                     biomass =         646.19 (g/m^2)   lai          =   4.216 (m^2/m^2)
                      stover N conc =     2.15 (%)     extractable sw =   75.70 (mm)
 24 September 1997(Day of year=267), operatns: 
       Sending do_end_day_output message to report7
@@ -1253,7 +1253,7 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =           4.02 (kg/ha)   lai          =   0.007 (m^2/m^2)
+                     biomass =           4.02 (g/m^2)   lai          =   0.007 (m^2/m^2)
                      stover N conc =     2.21 (%)     extractable sw =   24.54 (mm)
 7 November 1997(Day of year=311), operatns: 
       Sending end_crop message to canola
@@ -1348,12 +1348,12 @@
       stage 2.0 germination
 28 April 1998(Day of year=118), weed: 
       stage 3.0 emergence
-                     biomass =           0.60 (kg/ha)   lai          =   0.002 (m^2/m^2)
+                     biomass =           0.60 (g/m^2)   lai          =   0.002 (m^2/m^2)
                      stover N conc =     6.24 (%)     extractable sw =   25.15 (mm)
 25 May 1998(Day of year=145), operatns: 
       Sending kill_crop message to weed
 25 May 1998(Day of year=145), weed: 
-     plant_kill. 100.00% crop killed because of external action.
+     Plant kill. 100.00% crop killed because of external action.
 25 May 1998(Day of year=145), operatns: 
       Sending end_crop message to weed
 25 May 1998(Day of year=145), weed: 
@@ -1452,11 +1452,11 @@
       Sending do_end_day_output message to report7
 8 June 1998(Day of year=159), wheat: 
       stage 3.0 emergence
-                     biomass =           0.43 (kg/ha)   lai          =   0.017 (m^2/m^2)
+                     biomass =           0.43 (g/m^2)   lai          =   0.017 (m^2/m^2)
                      stover N conc =     6.22 (%)     extractable sw =   27.02 (mm)
 9 June 1998(Day of year=160), wheat: 
       stage 4.0 end_of_juvenile
-                     biomass =           0.54 (kg/ha)   lai          =   0.019 (m^2/m^2)
+                     biomass =           0.54 (g/m^2)   lai          =   0.019 (m^2/m^2)
                      stover N conc =     5.06 (%)     extractable sw =   25.76 (mm)
 18 June 1998(Day of year=169), operatns: 
       Sending do_end_day_output message to report3
@@ -1475,7 +1475,7 @@
       Sending do_end_day_output message to report5
 8 September 1998(Day of year=251), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         351.41 (kg/ha)   lai          =   4.582 (m^2/m^2)
+                     biomass =         351.41 (g/m^2)   lai          =   4.582 (m^2/m^2)
                      stover N conc =     2.35 (%)     extractable sw =   91.82 (mm)
 9 September 1998(Day of year=252), operatns: 
       Sending do_end_day_output message to report7
@@ -1489,13 +1489,13 @@
       Sending do_end_day_output message to report5
 19 October 1998(Day of year=292), wheat: 
       stage 6.0 flowering
-                     biomass =        1046.64 (kg/ha)   lai          =   4.292 (m^2/m^2)
+                     biomass =        1046.64 (g/m^2)   lai          =   4.292 (m^2/m^2)
                      stover N conc =     0.75 (%)     extractable sw =   77.40 (mm)
 21 October 1998(Day of year=294), operatns: 
       Sending do_end_day_output message to report7
 28 October 1998(Day of year=301), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1232.47 (kg/ha)   lai          =   3.823 (m^2/m^2)
+                     biomass =        1232.47 (g/m^2)   lai          =   3.823 (m^2/m^2)
                      stover N conc =     0.40 (%)     extractable sw =   41.12 (mm)
 30 October 1998(Day of year=303), operatns: 
       Sending do_end_day_output message to report7
@@ -1640,7 +1640,7 @@
      
 28 November 1998(Day of year=332), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1345.41 (kg/ha)   lai          =   0.517 (m^2/m^2)
+                     biomass =        1345.41 (g/m^2)   lai          =   0.517 (m^2/m^2)
                      stover N conc =     0.24 (%)     extractable sw =   71.53 (mm)
 30 November 1998(Day of year=334), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1652,11 +1652,11 @@
      
      
       stage 9.0 maturity
-                     biomass =        1348.99 (kg/ha)   lai          =   0.408 (m^2/m^2)
+                     biomass =        1348.99 (g/m^2)   lai          =   0.408 (m^2/m^2)
                      stover N conc =     0.24 (%)     extractable sw =   68.31 (mm)
 1 December 1998(Day of year=335), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1348.99 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =        1348.99 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.24 (%)     extractable sw =   68.02 (mm)
 3 December 1998(Day of year=337), operatns: 
       Sending do_end_day_output message to report7
@@ -1713,12 +1713,12 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =           0.02 (kg/ha)   lai          =   0.019 (m^2/m^2)
+                     biomass =           0.02 (g/m^2)   lai          =   0.019 (m^2/m^2)
                      stover N conc =     6.30 (%)     extractable sw =   66.79 (mm)
 11 December 1998(Day of year=345), operatns: 
       Sending kill_crop message to wheat
 11 December 1998(Day of year=345), wheat: 
-     plant_kill. 100.00% crop killed because of external action.
+     Plant kill. 100.00% crop killed because of external action.
 11 December 1998(Day of year=345), operatns: 
       Sending end_crop message to wheat
 11 December 1998(Day of year=345), wheat: 
@@ -1812,43 +1812,43 @@
       stage 2.0 germination
 21 December 1998(Day of year=355), weed: 
       stage 3.0 emergence
-                     biomass =           1.20 (kg/ha)   lai          =   0.005 (m^2/m^2)
+                     biomass =           1.20 (g/m^2)   lai          =   0.005 (m^2/m^2)
                      stover N conc =     6.24 (%)     extractable sw =   27.31 (mm)
 17 January 1999(Day of year=17), weed: 
       stage 4.0 end_of_juvenile
-                     biomass =          25.47 (kg/ha)   lai          =   0.194 (m^2/m^2)
+                     biomass =          25.47 (g/m^2)   lai          =   0.194 (m^2/m^2)
                      stover N conc =     2.31 (%)     extractable sw =   59.30 (mm)
 4 February 1999(Day of year=35), operatns: 
       Sending do_end_day_output message to report5
 16 February 1999(Day of year=47), weed: 
       stage 5.0 floral_initiation
-                     biomass =         124.98 (kg/ha)   lai          =   0.790 (m^2/m^2)
+                     biomass =         124.98 (g/m^2)   lai          =   0.790 (m^2/m^2)
                      stover N conc =     1.06 (%)     extractable sw =   60.92 (mm)
 19 February 1999(Day of year=50), weed: 
       stage 6.0 flowering
-                     biomass =         138.58 (kg/ha)   lai          =   0.846 (m^2/m^2)
+                     biomass =         138.58 (g/m^2)   lai          =   0.846 (m^2/m^2)
                      stover N conc =     1.00 (%)     extractable sw =   55.26 (mm)
 26 February 1999(Day of year=57), weed: 
       stage 7.0 start_grain_fill
-                     biomass =         165.78 (kg/ha)   lai          =   0.880 (m^2/m^2)
+                     biomass =         165.78 (g/m^2)   lai          =   0.880 (m^2/m^2)
                      stover N conc =     0.89 (%)     extractable sw =   55.70 (mm)
 20 March 1999(Day of year=79), weed: 
       stage 8.0 end_grain_fill
-                     biomass =         228.11 (kg/ha)   lai          =   0.154 (m^2/m^2)
+                     biomass =         228.11 (g/m^2)   lai          =   0.154 (m^2/m^2)
                      stover N conc =     0.72 (%)     extractable sw =   43.27 (mm)
 22 March 1999(Day of year=81), weed: 
       stage 9.0 maturity
-                     biomass =         230.14 (kg/ha)   lai          =   0.083 (m^2/m^2)
+                     biomass =         230.14 (g/m^2)   lai          =   0.083 (m^2/m^2)
                      stover N conc =     0.72 (%)     extractable sw =   56.27 (mm)
 23 March 1999(Day of year=82), weed: 
       stage 10.0 harvest_ripe
-                     biomass =         230.14 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =         230.14 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.74 (%)     extractable sw =   55.95 (mm)
 24 March 1999(Day of year=83), operatns: 
       Sending do_end_day_output message to report5
 24 March 1999(Day of year=83), weed: 
-      crop failure because of total leaf senescence.
-      plant death. standing above-ground dm = 2301.407959 (kg/ha)
+     Crop failure because of total leaf senescence.
+     Plant death. standing above-ground dm = 2301.41 (kg/ha)
 26 March 1999(Day of year=85), operatns: 
       Sending harvest message to weed
 26 March 1999(Day of year=85), weed: 
@@ -1996,11 +1996,11 @@
       stage 2.0 germination
 4 April 1999(Day of year=94), weed: 
       stage 3.0 emergence
-                     biomass =           1.20 (kg/ha)   lai          =   0.005 (m^2/m^2)
+                     biomass =           1.20 (g/m^2)   lai          =   0.005 (m^2/m^2)
                      stover N conc =     6.24 (%)     extractable sw =   23.92 (mm)
 2 May 1999(Day of year=122), weed: 
       stage 4.0 end_of_juvenile
-                     biomass =          21.76 (kg/ha)   lai          =   0.198 (m^2/m^2)
+                     biomass =          21.76 (g/m^2)   lai          =   0.198 (m^2/m^2)
                      stover N conc =     2.36 (%)     extractable sw =   77.34 (mm)
 31 May 1999(Day of year=151), operatns: 
       Sending end_crop message to weed
@@ -2112,7 +2112,7 @@
       Sending do_end_day_output message to report5
 3 August 1999(Day of year=215), lucerne: 
       stage 3.0 emergence
-                     biomass =           1.50 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =           1.50 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     6.00 (%)     extractable sw =    5.49 (mm)
 4 August 1999(Day of year=216), operatns: 
       Sending do_end_day_output message to report7
@@ -2130,7 +2130,7 @@
       Sending do_end_day_output message to report7
 27 October 1999(Day of year=300), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =          96.02 (kg/ha)   lai          =   1.690 (m^2/m^2)
+                     biomass =          96.02 (g/m^2)   lai          =   1.690 (m^2/m^2)
                      stover N conc =     3.79 (%)     extractable sw =  124.12 (mm)
 3 November 1999(Day of year=307), operatns: 
       Sending do_end_day_output message to report5
@@ -2138,11 +2138,11 @@
       Sending do_end_day_output message to report5
 22 November 1999(Day of year=326), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         380.78 (kg/ha)   lai          =   3.578 (m^2/m^2)
+                     biomass =         380.78 (g/m^2)   lai          =   3.578 (m^2/m^2)
                      stover N conc =     4.17 (%)     extractable sw =   82.11 (mm)
 6 December 1999(Day of year=340), lucerne: 
       stage 6.0 flowering
-                     biomass =         466.88 (kg/ha)   lai          =   3.760 (m^2/m^2)
+                     biomass =         466.88 (g/m^2)   lai          =   3.760 (m^2/m^2)
                      stover N conc =     3.50 (%)     extractable sw =   40.03 (mm)
 8 December 1999(Day of year=342), operatns: 
       Sending do_end_day_output message to report3
@@ -2199,23 +2199,23 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          92.89 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          92.89 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.65 (%)     extractable sw =   37.57 (mm)
 13 December 1999(Day of year=347), operatns: 
       Sending do_end_day_output message to report5
 29 December 1999(Day of year=363), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         218.20 (kg/ha)   lai          =   1.491 (m^2/m^2)
+                     biomass =         218.20 (g/m^2)   lai          =   1.491 (m^2/m^2)
                      stover N conc =     4.02 (%)     extractable sw =   82.52 (mm)
 11 January 2000(Day of year=11), operatns: 
       Sending do_end_day_output message to report5
 11 January 2000(Day of year=11), lucerne: 
       stage 6.0 flowering
-                     biomass =         361.25 (kg/ha)   lai          =   2.041 (m^2/m^2)
+                     biomass =         361.25 (g/m^2)   lai          =   2.041 (m^2/m^2)
                      stover N conc =     3.13 (%)     extractable sw =   37.50 (mm)
 17 January 2000(Day of year=17), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         373.35 (kg/ha)   lai          =   2.021 (m^2/m^2)
+                     biomass =         373.35 (g/m^2)   lai          =   2.021 (m^2/m^2)
                      stover N conc =     3.02 (%)     extractable sw =   31.01 (mm)
 20 January 2000(Day of year=20), operatns: 
       Sending do_end_day_output message to report7
@@ -2270,11 +2270,11 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          88.45 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          88.45 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.93 (%)     extractable sw =   27.88 (mm)
 9 February 2000(Day of year=40), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         133.88 (kg/ha)   lai          =   0.751 (m^2/m^2)
+                     biomass =         133.88 (g/m^2)   lai          =   0.751 (m^2/m^2)
                      stover N conc =     4.27 (%)     extractable sw =   36.74 (mm)
 11 February 2000(Day of year=42), operatns: 
       Sending do_end_day_output message to report5
@@ -2307,11 +2307,11 @@
      
 21 February 2000(Day of year=52), lucerne: 
       stage 6.0 flowering
-                     biomass =         201.58 (kg/ha)   lai          =   1.301 (m^2/m^2)
+                     biomass =         201.58 (g/m^2)   lai          =   1.301 (m^2/m^2)
                      stover N conc =     3.16 (%)     extractable sw =   34.10 (mm)
 26 February 2000(Day of year=57), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         222.22 (kg/ha)   lai          =   1.416 (m^2/m^2)
+                     biomass =         222.22 (g/m^2)   lai          =   1.416 (m^2/m^2)
                      stover N conc =     2.82 (%)     extractable sw =   45.39 (mm)
 7 March 2000(Day of year=67), operatns: 
       Sending do_end_day_output message to report5
@@ -2392,13 +2392,13 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          84.66 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          84.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.54 (%)     extractable sw =   30.26 (mm)
 19 April 2000(Day of year=110), operatns: 
       Sending do_end_day_output message to report5
 3 May 2000(Day of year=124), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          79.12 (kg/ha)   lai          =   0.013 (m^2/m^2)
+                     biomass =          79.12 (g/m^2)   lai          =   0.013 (m^2/m^2)
                      stover N conc =     5.62 (%)     extractable sw =   70.43 (mm)
 12 May 2000(Day of year=133), operatns: 
       Sending do_end_day_output message to report5
@@ -2406,13 +2406,13 @@
       Sending do_end_day_output message to report3
 1 June 2000(Day of year=153), lucerne: 
       stage 6.0 flowering
-                     biomass =          78.19 (kg/ha)   lai          =   0.074 (m^2/m^2)
+                     biomass =          78.19 (g/m^2)   lai          =   0.074 (m^2/m^2)
                      stover N conc =     5.68 (%)     extractable sw =  109.96 (mm)
 13 June 2000(Day of year=165), operatns: 
       Sending do_end_day_output message to report5
 20 June 2000(Day of year=172), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =          76.13 (kg/ha)   lai          =   0.075 (m^2/m^2)
+                     biomass =          76.13 (g/m^2)   lai          =   0.075 (m^2/m^2)
                      stover N conc =     6.07 (%)     extractable sw =  107.05 (mm)
 12 July 2000(Day of year=194), operatns: 
       Sending do_end_day_output message to report5
@@ -2469,7 +2469,7 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          57.23 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          57.23 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     5.90 (%)     extractable sw =  137.34 (mm)
 31 July 2000(Day of year=213), operatns: 
       Sending do_end_day_output message to report5
@@ -2479,7 +2479,7 @@
       Sending do_end_day_output message to report3
 14 September 2000(Day of year=258), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          64.42 (kg/ha)   lai          =   0.219 (m^2/m^2)
+                     biomass =          64.42 (g/m^2)   lai          =   0.219 (m^2/m^2)
                      stover N conc =     5.43 (%)     extractable sw =  197.94 (mm)
 25 September 2000(Day of year=269), operatns: 
       Sending do_end_day_output message to report5
@@ -2489,13 +2489,13 @@
       - reading constants for regrowth(lucerne)
 5 October 2000(Day of year=279), lucerne: 
       stage 6.0 flowering
-                     biomass =         196.30 (kg/ha)   lai          =   1.581 (m^2/m^2)
+                     biomass =         196.30 (g/m^2)   lai          =   1.581 (m^2/m^2)
                      stover N conc =     2.68 (%)     extractable sw =  163.54 (mm)
 6 October 2000(Day of year=280), operatns: 
       Sending do_end_day_output message to report7
 15 October 2000(Day of year=289), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         277.73 (kg/ha)   lai          =   1.922 (m^2/m^2)
+                     biomass =         277.73 (g/m^2)   lai          =   1.922 (m^2/m^2)
                      stover N conc =     2.60 (%)     extractable sw =  143.18 (mm)
 23 October 2000(Day of year=297), operatns: 
       Sending do_end_day_output message to report5
@@ -2550,21 +2550,21 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          81.89 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          81.89 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.56 (%)     extractable sw =  174.57 (mm)
 17 November 2000(Day of year=322), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         232.86 (kg/ha)   lai          =   1.552 (m^2/m^2)
+                     biomass =         232.86 (g/m^2)   lai          =   1.552 (m^2/m^2)
                      stover N conc =     4.08 (%)     extractable sw =  153.60 (mm)
 22 November 2000(Day of year=327), operatns: 
       Sending do_end_day_output message to report5
 29 November 2000(Day of year=334), lucerne: 
       stage 6.0 flowering
-                     biomass =         428.40 (kg/ha)   lai          =   2.661 (m^2/m^2)
+                     biomass =         428.40 (g/m^2)   lai          =   2.661 (m^2/m^2)
                      stover N conc =     3.06 (%)     extractable sw =   70.22 (mm)
 5 December 2000(Day of year=340), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         476.65 (kg/ha)   lai          =   2.766 (m^2/m^2)
+                     biomass =         476.65 (g/m^2)   lai          =   2.766 (m^2/m^2)
                      stover N conc =     2.77 (%)     extractable sw =   55.05 (mm)
 12 December 2000(Day of year=347), operatns: 
       Sending do_end_day_output message to report3
@@ -2620,21 +2620,21 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          95.13 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          95.13 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.59 (%)     extractable sw =   40.87 (mm)
 18 December 2000(Day of year=353), operatns: 
       Sending do_end_day_output message to report5
 31 December 2000(Day of year=366), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         148.95 (kg/ha)   lai          =   0.636 (m^2/m^2)
+                     biomass =         148.95 (g/m^2)   lai          =   0.636 (m^2/m^2)
                      stover N conc =     4.36 (%)     extractable sw =   32.05 (mm)
 11 January 2001(Day of year=11), lucerne: 
       stage 6.0 flowering
-                     biomass =         189.30 (kg/ha)   lai          =   1.019 (m^2/m^2)
+                     biomass =         189.30 (g/m^2)   lai          =   1.019 (m^2/m^2)
                      stover N conc =     3.59 (%)     extractable sw =   23.28 (mm)
 18 January 2001(Day of year=18), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         194.31 (kg/ha)   lai          =   1.012 (m^2/m^2)
+                     biomass =         194.31 (g/m^2)   lai          =   1.012 (m^2/m^2)
                      stover N conc =     3.47 (%)     extractable sw =   19.07 (mm)
 23 January 2001(Day of year=23), operatns: 
       Sending do_end_day_output message to report5
@@ -2702,13 +2702,13 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          69.10 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          69.10 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.50 (%)     extractable sw =    8.82 (mm)
 27 June 2001(Day of year=178), operatns: 
       Sending do_end_day_output message to report5
 20 July 2001(Day of year=201), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          57.10 (kg/ha)   lai          =   0.029 (m^2/m^2)
+                     biomass =          57.10 (g/m^2)   lai          =   0.029 (m^2/m^2)
                      stover N conc =     5.56 (%)     extractable sw =   41.06 (mm)
 23 July 2001(Day of year=204), operatns: 
       Sending do_end_day_output message to report5
@@ -2716,7 +2716,7 @@
       Sending do_end_day_output message to report5
 22 August 2001(Day of year=234), lucerne: 
       stage 6.0 flowering
-                     biomass =          60.34 (kg/ha)   lai          =   0.276 (m^2/m^2)
+                     biomass =          60.34 (g/m^2)   lai          =   0.276 (m^2/m^2)
                      stover N conc =     5.35 (%)     extractable sw =   43.42 (mm)
 30 August 2001(Day of year=242), operatns: 
       Sending harvest message to lucerne
@@ -2769,7 +2769,7 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          56.09 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          56.09 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     5.72 (%)     extractable sw =   42.86 (mm)
 25 September 2001(Day of year=268), operatns: 
       Sending do_end_day_output message to report3
@@ -2780,7 +2780,7 @@
       - reading constants for regrowth(lucerne)
 1 October 2001(Day of year=274), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          64.13 (kg/ha)   lai          =   0.343 (m^2/m^2)
+                     biomass =          64.13 (g/m^2)   lai          =   0.343 (m^2/m^2)
                      stover N conc =     5.09 (%)     extractable sw =   40.67 (mm)
 11 October 2001(Day of year=284), operatns: 
       Sending harvest message to lucerne
@@ -2833,23 +2833,23 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          67.74 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          67.74 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.53 (%)     extractable sw =   20.40 (mm)
 23 October 2001(Day of year=296), operatns: 
       Sending do_end_day_output message to report5
 7 November 2001(Day of year=311), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         189.99 (kg/ha)   lai          =   1.001 (m^2/m^2)
+                     biomass =         189.99 (g/m^2)   lai          =   1.001 (m^2/m^2)
                      stover N conc =     4.39 (%)     extractable sw =   18.98 (mm)
 23 November 2001(Day of year=327), operatns: 
       Sending do_end_day_output message to report5
 24 November 2001(Day of year=328), lucerne: 
       stage 6.0 flowering
-                     biomass =         242.76 (kg/ha)   lai          =   1.142 (m^2/m^2)
+                     biomass =         242.76 (g/m^2)   lai          =   1.142 (m^2/m^2)
                      stover N conc =     3.53 (%)     extractable sw =    9.10 (mm)
 30 November 2001(Day of year=334), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         240.71 (kg/ha)   lai          =   1.094 (m^2/m^2)
+                     biomass =         240.71 (g/m^2)   lai          =   1.094 (m^2/m^2)
                      stover N conc =     3.53 (%)     extractable sw =    7.34 (mm)
 4 December 2001(Day of year=338), operatns: 
       Sending do_end_day_output message to report3
@@ -2906,21 +2906,21 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          76.98 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          76.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.61 (%)     extractable sw =    5.12 (mm)
 4 January 2002(Day of year=4), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          84.24 (kg/ha)   lai          =   0.246 (m^2/m^2)
+                     biomass =          84.24 (g/m^2)   lai          =   0.246 (m^2/m^2)
                      stover N conc =     4.59 (%)     extractable sw =    3.71 (mm)
 9 January 2002(Day of year=9), operatns: 
       Sending do_end_day_output message to report5
 17 January 2002(Day of year=17), lucerne: 
       stage 6.0 flowering
-                     biomass =          85.19 (kg/ha)   lai          =   0.256 (m^2/m^2)
+                     biomass =          85.19 (g/m^2)   lai          =   0.256 (m^2/m^2)
                      stover N conc =     4.50 (%)     extractable sw =    2.93 (mm)
 22 January 2002(Day of year=22), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =          84.02 (kg/ha)   lai          =   0.255 (m^2/m^2)
+                     biomass =          84.02 (g/m^2)   lai          =   0.255 (m^2/m^2)
                      stover N conc =     4.52 (%)     extractable sw =    4.10 (mm)
 7 February 2002(Day of year=38), operatns: 
       Sending harvest message to lucerne
@@ -2973,7 +2973,7 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          63.78 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          63.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     4.60 (%)     extractable sw =   68.51 (mm)
 8 February 2002(Day of year=39), operatns: 
       Sending tillage message to residue2
@@ -2987,7 +2987,7 @@
       Sending do_end_day_output message to report5
 25 February 2002(Day of year=56), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          84.82 (kg/ha)   lai          =   0.250 (m^2/m^2)
+                     biomass =          84.82 (g/m^2)   lai          =   0.250 (m^2/m^2)
                      stover N conc =     4.57 (%)     extractable sw =   87.92 (mm)
 1 March 2002(Day of year=60), operatns: 
       Sending harvest message to lucerne
@@ -3040,11 +3040,11 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =          20.62 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =          20.62 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     4.07 (%)     extractable sw =   75.08 (mm)
 20 March 2002(Day of year=79), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =          25.78 (kg/ha)   lai          =   0.046 (m^2/m^2)
+                     biomass =          25.78 (g/m^2)   lai          =   0.046 (m^2/m^2)
                      stover N conc =     5.03 (%)     extractable sw =   67.10 (mm)
 21 March 2002(Day of year=80), operatns: 
       Sending do_end_day_output message to report5
@@ -3099,12 +3099,12 @@
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
-                     biomass =           5.76 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     biomass =           5.76 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     4.16 (%)     extractable sw =   74.66 (mm)
 30 March 2002(Day of year=89), operatns: 
       Sending kill_crop message to lucerne
 30 March 2002(Day of year=89), lucerne: 
-     plant_kill. 100.00% crop killed because of external action.
+     Plant kill. 100.00% crop killed because of external action.
 30 March 2002(Day of year=89), operatns: 
       Sending end_crop message to lucerne
 30 March 2002(Day of year=89), lucerne: 
