@@ -32,32 +32,48 @@ __fastcall TREMS::~TREMS()
 //---------------------------------------------------------------------------
 void __fastcall TREMS::setFilename(AnsiString file)
    {
-   mdbFilename = file;
-   refresh();
+   if (mdbFilename != file)
+      {
+      mdbFilename = file;
+      Active = false;
+      Active = true;
+      }
    }
 //---------------------------------------------------------------------------
 // set the 'experimentName' property and refresh all data.
 //---------------------------------------------------------------------------
 void __fastcall TREMS::setExperimentName(AnsiString ExperimentName)
    {
-   experimentName = ExperimentName;
-   refresh();
+   if (experimentName != ExperimentName)
+      {
+      experimentName = ExperimentName;
+      Active = false;
+      Active = true;
+      }
    }
 //---------------------------------------------------------------------------
 // set the 'treatmentName' property and refresh all data.
 //---------------------------------------------------------------------------
 void __fastcall TREMS::setTreatmentName(AnsiString TreatmentName)
    {
-   treatmentName = TreatmentName;
-   refresh();
+   if (treatmentName != TreatmentName)
+      {
+      treatmentName = TreatmentName;
+      Active = false;
+      Active = true;
+      }
    }
 //---------------------------------------------------------------------------
 // set the 'datasource' property and refresh all data.
 //---------------------------------------------------------------------------
 void __fastcall TREMS::setDatasource(AnsiString dataSource)
    {
-   datasourceName = dataSource;
-   refresh();
+   if (datasourceName != dataSource)
+      {
+      datasourceName = dataSource;
+      Active = false;
+      Active = true;
+      }
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.

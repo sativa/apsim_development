@@ -35,7 +35,8 @@ void __fastcall TProbability::setExceedence(bool exceedence)
    if (isExceedence != exceedence)
       {
       isExceedence = exceedence;
-      refresh();
+      Active = false;
+      Active = true;
       }
    }
 //---------------------------------------------------------------------------
@@ -46,7 +47,8 @@ void __fastcall TProbability::setFieldName(AnsiString fieldName)
    if (fieldNameToAnalyse != fieldName)
       {
       fieldNameToAnalyse = fieldName;
-      refresh();
+      Active = false;
+      Active = true;
       }
    }
 //---------------------------------------------------------------------------

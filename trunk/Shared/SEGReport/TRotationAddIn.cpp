@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -40,7 +40,8 @@ __fastcall TRotationAddIn::~TRotationAddIn()
 void __fastcall TRotationAddIn::setCropNames(TStrings* cropNames)
    {
    recognisedCropNames->Assign(cropNames);
-   refresh();
+   Active = false;
+   Active = true;
    }
 //---------------------------------------------------------------------------
 // set the 'averagedFields' property and refresh all data.
@@ -48,7 +49,8 @@ void __fastcall TRotationAddIn::setCropNames(TStrings* cropNames)
 void __fastcall TRotationAddIn::setAveragedFields(TStrings* averagedFields)
    {
    fieldsToAverage->Assign(averagedFields);
-   refresh();
+   Active = false;
+   Active = true;
    }
 
 // ------------------------------------------------------------------
