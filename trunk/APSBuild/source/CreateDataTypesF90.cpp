@@ -1,20 +1,18 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <stdlib.h>
 
-#include "CreateDataTypesF90.h"
-#include <ApsimShared\ApsimDataTypesFile.h>
-#include <ApsimShared\ApsimComponentData.h>
 #include <fstream>
 #include <algorithm>
 #include <set>
 #include <iomanip>
 #include <sstream>
+#include <ApsimShared\ApsimDataTypesFile.h>
+#include <ApsimShared\ApsimComponentData.h>
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
-#include <general\path.h>
-#include <general\date_class.h>
+
+#include "CreateDataTypesF90.h"
+
 using namespace std;
 
 set<string> routinesDoneSoFar;
@@ -62,7 +60,7 @@ std::string KindToFORTRANType(const std::string& kind, bool isRoutineParameter =
    else
       {
       string msg = "Unknown DDML kind: " + kind;
-      ShowMessage(msg.c_str());
+      cout << msg.c_str() << endl;
       return "????";
       }
    }
@@ -1057,7 +1055,7 @@ class WriteRegistration
 // ------------------------------------------------------------------
 // converts the specified .interface filename to FORTRAN90
 // ------------------------------------------------------------------
-void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
+void CreateDataTypesF90::doConvert(const std::string& contents,
                                    const std::string& destFilename,
                                    ostream& console)
    {
@@ -1066,16 +1064,11 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
    routinesDoneSoFar.erase(routinesDoneSoFar.begin(), routinesDoneSoFar.end());
    try
       {
+
       dataTypes = new ApsimDataTypesFile;
+      component = new ApsimComponentData(contents.c_str());
 
-      if (!FileExists(sourceFilename.c_str()))
-         throw runtime_error("Cannot find component interface file: " + sourceFilename);
-      ifstream in(sourceFilename.c_str());
-      ostringstream contents;
-      contents << in.rdbuf();
-      component = new ApsimComponentData(contents.str());
-
-      console << "Creating: DataTypesModule.f90 from " << sourceFilename << endl;
+      console << "Creating: " << destFilename.c_str() << endl;
       ofstream out(destFilename.c_str());
       out << "module DataTypesModule" << endl;
       out << "   use ComponentCInterfaceModule" << endl;
@@ -1141,21 +1134,11 @@ void CreateDataTypesF90::doConvert(const std::string& sourceFilename,
 // ------------------------------------------------------------------
 // converts the specified .interface filename to FORTRAN90
 // ------------------------------------------------------------------
-void CreateDataTypesF90::convert(const std::string& filename, ostream& console)
+void CreateDataTypesF90::convert(const std::string& ddml, ostream& console)
    {
    try
       {
-      Path generatedFilePath(filename);
-      generatedFilePath.Append_path("source");
-      generatedFilePath.Set_name("datatypesmodule.f90");
-
-      TDateTime sourceTime = Get_file_date_time (filename.c_str());
-      TDateTime destTime = Get_file_date_time (generatedFilePath.Get_path().c_str());
-      if (!generatedFilePath.Exists() ||
-          sourceTime > destTime)
-         doConvert(filename, generatedFilePath.Get_path(), console);
-      else
-         console << "DataTypesModule.f90 is up to date.  No need to re-create it from the .interface file." << endl;
+      doConvert(ddml, "../apsim/infra/source/datatypesmodule.f90", console);
       }
    catch (const exception& error)
       {
