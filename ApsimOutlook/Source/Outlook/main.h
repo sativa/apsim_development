@@ -118,6 +118,7 @@ private:
    void __fastcall Application_minimize (TObject* Sender);
    void __fastcall CreateDefaultDatabase(TStrings* files);
    void __fastcall FixMDIChild(void);
+   unsigned findDBAddInLine(const string& contents);
 
 public:
 	virtual __fastcall TMainForm(TComponent *Owner);
