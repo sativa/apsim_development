@@ -13,12 +13,14 @@
    <h2>Module documentation</h2>
 
    <!-- Create a table of contents -->
-   <xsl:apply-templates select="//Documentation">
+   <p>
+   <xsl:apply-templates select="//UItype">
       <xsl:with-param name="table-of-contents" select="'yes'"/>
       <xsl:sort select="name(..)"/>
    </xsl:apply-templates>
+   </p>
 
-   <xsl:apply-templates select="//Documentation">
+   <xsl:apply-templates select="//UItype">
       <xsl:with-param name="table-of-contents" select="'no'"/>
       <xsl:sort select="@name"/>
    </xsl:apply-templates>
@@ -28,25 +30,21 @@
 </xsl:template>
 
 <!-- ============================================================================
-     Matches all 'variables' elements. Called twice, once for a table of contents
+     Matches all 'UItype' elements. Called twice, once for a table of contents
      and once for the actual variables
      ============================================================================ -->
-<xsl:template match="Documentation">
+<xsl:template match="UItype">
    <xsl:param name="table-of-contents" select="'no'"/>
-   <xsl:if test="name(..)!='Types'">
+   <xsl:if test="../Documentation">
       <xsl:choose>
          <xsl:when test="$table-of-contents='yes'">
-            <p>
-            <a href="#{name(..)}"><xsl:value-of select="name(..)"/></a>
-            </p>
+            <a href="#{name(..)}"><xsl:value-of select="name(..)"/></a><br/><xsl:text>&#160;</xsl:text>
          </xsl:when>
 
          <xsl:otherwise>
             <H2><a name="{name(..)}"><xsl:value-of select="name(..)"/></a></H2>
-            <a href="{.}"><xsl:value-of select="@name"/> Documentation</a>
-            <xsl:if test="../Documentation2">
-               <p><a href="{../Documentation2}"><xsl:value-of select="../Documentation2/@name"/> Documentation</a></p>
-            </xsl:if>
+            <xsl:apply-templates select="../Documentation"/>
+
             <xsl:if test="../variables">
               <xsl:choose>
                   <xsl:when test="boolean(../variables/@link) = false">
@@ -66,10 +64,20 @@
                   </xsl:otherwise>
               </xsl:choose>
            </xsl:if>
-      </xsl:otherwise>
+
+         </xsl:otherwise>
       </xsl:choose>
    </xsl:if>
 </xsl:template>
+
+
+<!-- ============================================================================
+     Matches all 'documentation' elements.
+     ============================================================================ -->
+<xsl:template match="Documentation">
+   <p><a href="{.}"><xsl:value-of select="@name"/></a></p>
+</xsl:template>
+
 
 <!-- ============================================================================
      Matches all 'variable' elements. Simply output variable details.
