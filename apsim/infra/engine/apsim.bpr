@@ -6,42 +6,39 @@
     <PROJECT value="apsim.exe"/>
     <OBJFILES value="apsim.obj"/>
     <RESFILES value=""/>
-    <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="APSIMEngine.lib ..\..\..\shared\aps\aps32.lib 
-      ..\..\..\shared\general\general.lib ..\..\..\shared\odl\odl.lib"/>
-    <LIBRARIES value="vcl50.lib"/>
-    <SPARELIBS value="vcl50.lib"/>
-    <PACKAGES value="vcl50.bpi ibsmp50.bpi vcldb50.bpi vclbde50.bpi vclx50.bpi bcbsmp50.bpi 
-      vcldbx50.bpi dclocx50.bpi qrpt50.bpi teeui50.bpi teedb50.bpi tee50.bpi 
-      nmfast50.bpi"/>
+    <LIBFILES value="APSIMEngine.lib ..\..\..\shared\aps\aps32.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="Vcl50.lib"/>
+    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
+      ibsmp50.bpi vcldbx50.bpi TeeUI50.bpi TeeDB50.bpi Tee50.bpi TeeQR50.bpi 
+      VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi NMFast50.bpi 
+      dclocx50.bpi bcb97axserver50.bpi asgc5.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
-    <LINKER value="ilink32"/>
-    <USERDEFINES value=""/>
-    <SYSDEFINES value="_RTLDLL;_VIS_NOLIB"/>
-    <MAINSOURCE value="apsim.cpp"/>
-    <INCLUDEPATH value="k:\;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
-    <WARNINGS value="-w-par -w-8027 -w-8026"/>
-    <WARNOPTSTR value=""/>
+    <LINKER value="tlink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="apsim.bpf"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\;&quot;k:\aps\&quot;"/>
+    <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
-    <IDLCFLAGS value="-src_suffix cpp -boa"/>
-    <CFLAG1 value="-Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl50.csm -Hc -Vx -Ve -Tkh30000 
-      -X- -r- -a4 -b- -k -y -v -vi- -c -tWM -tWC"/>
-    <PFLAGS value="-$YD -$W -$O- -v -JPHN -M"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC 
+      -tWM- -c"/>
+    <PFLAGS value="-$Y+ -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -v"/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0x32.obj Memmgr.Lib $(OBJFILES)"/>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
   </LINKER>
@@ -63,7 +60,7 @@ CodePage=1252
 
 [Version Info Keys]
 CompanyName=
-FileDescription=Executable (Console)
+FileDescription=
 FileVersion=1.0.0.0
 InternalName=
 LegalCopyright=
@@ -74,31 +71,30 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=k:\;$(BCB)\include;$(BCB)\include\vcl
-Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
-Item2=..\..\report\source;$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared
+Count=1
+Item0=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=$(BCB)\lib\obj;$(BCB)\lib
-Item1=..\..\report\source;$(BCB)\lib\obj;$(BCB)\lib
+Count=5
+Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\;k:\aps\
+Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\;k:\aps;..\engine
+Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\odl\
+Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\odl
+Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
-[HistoryLists\hlRunParameters]
-Count=3
-Item0=&quot;c:\apswork\all runs.run&quot;
-Item1=c:\apswork\all runs.run
-Item2=c:\apswork\test\test.run
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=&quot;c:\apswork\all runs.run&quot;
+RunParams=d:\apsuite\apsim\soi\sample\run.sim
 HostApplication=
 RemoteHost=
 RemotePath=
