@@ -2,7 +2,7 @@ version = 3.3
 
 [sample]
 title=tracker Sample Simulation
-module = clock    tracker.par [sample] %apsuite\apsim\clock\clock2.ini [standard] %apsuite\apsim\clock\clock.ini[standard]
+module = clock    tracker.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   tracker.par [sample]
 module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = tracker tracker.par [sample]

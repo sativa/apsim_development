@@ -12,7 +12,7 @@ module = soilwat2 SunfSoil.par[EMERALD] SunfSoil.par[em81dhi] %apsuite\apsim\soi
 module = soiln2 SunfSoil.par[General] SunfSoil.par[em81dhi] %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow49]
-module = fertiliz valid.man[allexp] valid.man[sow49] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = cropmod(sunflower)  sunfsoil.par[emerald] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = SummaryFile  report.par[em81dhi]
 module = Screen  report.par[allexp]
@@ -31,7 +31,7 @@ module = soiln2 SunfSoil.par[General] SunfSoil.par[da84] %apsuite\apsim\soiln2\s
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow18]
 module = cropmod(sunflower) sunfsoil.par[DALBY] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow18] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[da84]
 module = Screen  report.par[allexp]
 
@@ -49,7 +49,7 @@ module = soiln2 SunfSoil.par[General] SunfSoil.par[ta81j] %apsuite\apsim\soiln2\
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow330]
 module = cropmod(sunflower) sunfsoil.par[TATURA] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow330] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[ta81j1]
 module = Screen  report.par[allexp]
 
@@ -63,9 +63,9 @@ module = input(met) met\ta81j2.met[weather]
 module = soilwat2 SunfSoil.par[TATURA] SunfSoil.par[ta81j] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = soiln2 SunfSoil.par[General] SunfSoil.par[ta81j] %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
-module = manager valid.man[allexp] valid.man[sow330]
+module = manager valid.man[sow330]
 module = cropmod(sunflower) sunfsoil.par[TATURA] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow330] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz valid.man[sow330] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[ta81j2]
 module = Screen  report.par[allexp]
 
@@ -84,7 +84,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow249]
 module = cropmod(sunflower) sunfsoil.par[BI723] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow249] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723a]
 module = Screen  report.par[allexp]
 
@@ -101,7 +101,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow277]
 module = cropmod(sunflower) sunfsoil.par[BI723] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow277] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723b]
 module = Screen  report.par[allexp]
 
@@ -118,7 +118,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow335]
 module = cropmod(sunflower) sunfsoil.par[BI723] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow335] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723c]
 module = Screen  report.par[allexp]
 
@@ -135,7 +135,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow38]
 module = cropmod(sunflower) sunfsoil.par[BI723] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow38] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723d]
 module = Screen  report.par[allexp]
 
@@ -152,7 +152,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow60]
 module = cropmod(sunflower) sunfsoil.par[BI723] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow60] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723e]
 module = Screen  report.par[allexp]
 
@@ -169,7 +169,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow215]
 module = cropmod(sunflower) sunfsoil.par[BI734] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow215] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI734a]
 module = Screen  report.par[allexp]
 
@@ -186,7 +186,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow274]
 module = cropmod(sunflower) sunfsoil.par[BI734] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow274] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI734c]
 module = Screen  report.par[allexp]
 
@@ -204,7 +204,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow36]
 module = cropmod(sunflower) sunfsoil.par[BI734] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow36] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI734e]
 module = Screen  report.par[allexp]
 
@@ -221,7 +221,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow218]
 module = cropmod(sunflower) sunfsoil.par[BI745] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow218] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745a]
 module = Screen  report.par[allexp]
 
@@ -238,7 +238,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow277]
 module = cropmod(sunflower) sunfsoil.par[BI745] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow277] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745b]
 module = Screen  report.par[allexp]
 
@@ -255,7 +255,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow274]
 module = cropmod(sunflower) sunfsoil.par[BI745] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow274] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745c]
 module = Screen  report.par[allexp]
 
@@ -272,7 +272,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow333]
 module = cropmod(sunflower) sunfsoil.par[BI745] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow333] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745d]
 module = Screen  report.par[allexp]
 
@@ -288,7 +288,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow38]
 module = cropmod(sunflower) sunfsoil.par[BI745] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow38] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745e]
 module = Screen  report.par[allexp]
 
@@ -306,7 +306,7 @@ module = soiln2 SunfSoil.par[Biloela] SunfSoil.par[General] %apsuite\apsim\soiln
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow63]
 module = cropmod(sunflower) sunfsoil.par[BI745] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow63] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745f]
 module = Screen  report.par[allexp]
 
@@ -323,7 +323,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow267]
 module = cropmod(sunflower) sunfsoil.par[MVS3] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow267] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3d]
 module = Screen  report.par[allexp]
 
@@ -340,7 +340,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow267]
 module = cropmod(sunflower) sunfsoil.par[MVS3] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow267] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3i]
 module = Screen  report.par[allexp]
 
@@ -357,7 +357,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow267v5]
 module = cropmod(sunflower) sunfsoil.par[MVS3] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow267v5] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3dv53]
 module = Screen  report.par[allexp]
 
@@ -374,7 +374,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow267v5]
 module = cropmod(sunflower) sunfsoil.par[MVS3] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow267v5] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3iv53]
 module = Screen  report.par[allexp]
 
@@ -392,7 +392,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow350]
 module = cropmod(sunflower) sunfsoil.par[MVS4] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow350] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs4d]
 module = Screen  report.par[allexp]
 
@@ -409,7 +409,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow350]
 module = cropmod(sunflower) sunfsoil.par[MVS4] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow350] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs4i]
 module = Screen  report.par[allexp]
 
@@ -426,7 +426,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow21s5d]
 module = cropmod(sunflower) sunfsoil.par[MVS5] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow21s5d] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5d]
 module = Screen  report.par[allexp]
 
@@ -443,7 +443,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow21s5d]
 module = cropmod(sunflower) sunfsoil.par[MVS5] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow21s5d] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5i]
 module = Screen  report.par[allexp]
 
@@ -460,7 +460,7 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow21v53]
 module = cropmod(sunflower) sunfsoil.par[MVS5] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow21v53] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5dv53]
 module = Screen  report.par[allexp]
 
@@ -476,6 +476,6 @@ module = soiln2 SunfSoil.par[MYALLVALE] SunfSoil.par[General] %apsuite\apsim\soi
 module = residue2 SunfSoil.par[General] %apsuite\apsim\residue2\residue2.ini[standard]
 module = manager valid.man[allexp] valid.man[sow21v53]
 module = cropmod(sunflower) sunfsoil.par[MVS5] sunf.par[standard] %apsuite\apsim\sunflower\sunflower.ini[standard]
-module = fertiliz valid.man[allexp] valid.man[sow21v53] %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5iv53]
 module = Screen  report.par[allexp]
