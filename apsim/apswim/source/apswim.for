@@ -524,6 +524,14 @@ c     :              1.0d0)
      :              solute_exclusion_flag,
      :              numvals)
 
+      ! Read in flag for echoing incoming messages
+      call Read_char_var_optional (
+     :              init_section,
+     :              'echo_directives',
+     :              '(??)',
+     :              p_echo_directives,
+     :              numvals)
+
 
          ! Read in soil water characteristics for each node
          !            from parameter file
@@ -1178,6 +1186,7 @@ c      read(ret_string, *, iostat = err_code) rain
 *                       implicit none
 
 *   Changes:
+*       29/08/97 NIH check for output unknown solute for 'flow_' and others
 
 *   Calls:
 *       none
@@ -1208,7 +1217,6 @@ c      read(ret_string, *, iostat = err_code) rain
        double precision eo
        double precision h_mm
        double precision hmin_mm
-       double precision sol(0:M)   ! tempory solute profile array
        integer          solnum     ! solute number
        character        solname*20 ! name of solute
        integer          node       ! node number specifier
@@ -1220,6 +1228,10 @@ c      read(ret_string, *, iostat = err_code) rain
        logical          uflag      ! uptake flag
        double precision uptake(0:M)
        character        uunits*20  ! utake units
+       double precision flow_array(0:M)
+       character        flow_name*20 ! Name of flow
+       character        flow_units*20 !
+       logical          flow_found
 
 *   Constant values
 *      none
@@ -1368,25 +1380,6 @@ cnh      print*,TD_pevap
      :            '(mm)',
      :            eo)
 
-      else if (Variable_name .eq. 'csl1') then
-         do 101 node=0,M
-            sol(node) = csl(1,node)
-  101    continue
-         call respond2Get_double_array (
-     :            'csl1',
-     :            '(ppm)',
-     :            sol(0),
-     :            n+1)
-      else if (Variable_name .eq. 'csl2') then
-         do 102 node=0,M
-            sol(node) = csl(2,node)
-  102    continue
-         call respond2Get_double_array (
-     :            'csl2',
-     :            '(ppm)',
-     :            sol(0),
-     :            n+1)
-      !else if (Variable_name(:7).eq. 'uptake_') then
       else if (index (Variable_name, 'uptake_').eq.1) then
          call split_line (Variable_name(8:),uname,ucrop,'_')
          call apswim_get_uptake (ucrop, uname, uptake, uunits,uflag)
@@ -1399,25 +1392,35 @@ cnh      print*,TD_pevap
          else
             Call Message_Unused()
          endif
-      !else if (Variable_name(:6).eq. 'leach_') then
+
       else if (index(Variable_name,'leach_').eq.1) then
          solnum = apswim_solute_number (Variable_name(7:))
-         call respond2Get_double_var (
-     :            Variable_name,
-     :            '(kg/ha)',
-     :            TD_soldrain(solnum))
+         if (solnum.ne.0) then
+            call respond2Get_double_var (
+     :               Variable_name,
+     :               '(kg/ha)',
+     :               TD_soldrain(solnum))
+        else
+           ! Unknown solute - give no reply
+           call Message_Unused ()
+        endif
 
-      !else if (Variable_name(:5).eq. 'flow_') then
       else if (index(Variable_name,'flow_').eq.1) then
-         solnum = apswim_solute_number (Variable_name(6:))
-         do 103 node=0,n
-            dummy(node) = TD_sflow(solnum,node)
-  103    continue
-         call respond2Get_double_array (
+         flow_name = Variable_name(len('flow_')+1:)
+         call apswim_get_flow (flow_name
+     :                        ,flow_array
+     :                        ,flow_units
+     :                        ,flow_found)
+         if (flow_found) then
+            call respond2Get_double_array (
      :            Variable_name,
-     :            '(kg/ha)',
-     :            dummy(0),
+     :            flow_units,
+     :            flow_array(0),
      :            n+1)
+         else
+            Call Message_Unused()
+         endif
+
       else if (Variable_name.eq. 'flow') then
          call respond2Get_double_array (
      :            Variable_name,
@@ -5772,7 +5775,7 @@ cnh
 *                        sure day and year are up to date.
 *      21-06-96 NIH Changed extract calls to collect calls
 *   neilh - 22-07-1996 removed data_String from arguments
-
+*   neilh - 29-08-1997 added test for whether directives are to be echoed
 *   Calls:
 *   Popsr
 *   Pushsr
@@ -5814,8 +5817,12 @@ cnh
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
 
-      ! flag this event in output file
-      call write_string (LU_Scr_sum,'APSwim adding irrigation to log')
+      if (p_echo_directives.eq.'on') then
+         ! flag this event in output file
+         call write_string 
+     :      (LU_Scr_sum,'APSwim adding irrigation to log')
+      else
+      endif
 
       call collect_double_var (
      :                         'amount'
@@ -7281,7 +7288,7 @@ c      endif
 *   neilh - 29-05-1995 - Programmed and Specified
 *      21-06-96 NIH Changed extract calls to collect calls
 *   neilh - 22-07-1996 removed data_String from arguments
-
+*   neilh - 29-08-1997 added test for whether directives are to be echoed
 *   Calls:
 *   Pop_routine
 *   Push_routine
@@ -7294,6 +7301,7 @@ c      endif
 *     none
 
 *   Global variables
+      include 'const.inc'
       include 'apswim.inc'
       ! real  apswim_eqrain                     ! function
 
@@ -7315,6 +7323,12 @@ c      endif
 
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
+
+      if (p_echo_directives.eq.'on') then
+         ! flag this event in output file
+         call write_string (LU_Scr_sum,'APSwim responding to tillage')
+      else
+      endif
 
       ! all surface conditions decay to be calculated relative to now
       !tzero = t
@@ -11019,7 +11033,7 @@ c      pause
 
 *   Short description:
 *      Calculate the concentration of solute in water (ug/l).  Note that
-*      this routine is used to calculate output variables and input 
+*      this routine is used to calculate output variables and input
 *      variablesand so can be called at any time during the simulation.
 *      It therefore must use a solute profile obtained from the solute's
 *      owner module.  It therefore also follows that this routine cannot
@@ -11057,17 +11071,17 @@ c      pause
       include 'apswim.inc'
       double precision apswim_solve_freundlich
       integer          apswim_solute_number
-      
+
 *   Subroutine arguments
       character solname*(*)
       double precision conc_water_solute(0:n)
-      
+
 *   Internal variables
       integer          node
       double precision solute_n(0:M) ! solute at each node
       integer          solnum
       integer          numvals
-      
+
 *   Constant values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'apswim_conc_water_solute')
@@ -11165,7 +11179,7 @@ c      pause
       double precision apswim_solve_freundlich
       integer          apswim_solute_number
       double precision ddivide
-      
+
 *   Subroutine arguments
       character solname*(*)
       double precision conc_adsorb_solute(0:n)
@@ -11176,7 +11190,7 @@ c      pause
       integer          solnum
       integer          numvals
       double precision conc_water_solute ! (ug/g water)
-      
+
 *   Constant values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'apswim_conc_adsorb_solute')
@@ -11205,23 +11219,23 @@ c      pause
             do 50 node=0, n
                ! convert solute from kg/ha to ug/cc soil
                ! ug Sol    kg Sol    ug   ha(node)
-               ! ------- = ------- * -- * ------- 
-               ! cc soil   ha(node)  kg   cc soil 
+               ! ------- = ------- * -- * -------
+               ! cc soil   ha(node)  kg   cc soil
 
                solute_n(node) = solute_n(node)
      :                        * 1d9             ! ug/kg
      :                        / (dx(node)*1d8)  ! cc soil/ha
-     
+
                conc_water_solute = apswim_solve_freundlich
      :                                             (node
      :                                             ,solnum
      :                                             ,solute_n(node))
 
-               conc_adsorb_solute(node) = 
+               conc_adsorb_solute(node) =
      :           ddivide(solute_n(node) - conc_water_solute * th(node)
      :                  ,rhob(node)
      :                  ,0d0)
-     
+
    50       continue
 
          else
@@ -11231,6 +11245,91 @@ c      pause
      :         //solname)
          endif
 
+      call pop_routine (myname)
+      return
+      end
+* ====================================================================
+      subroutine apswim_get_flow (flow_name, flow_array, flow_units
+     :                           ,flow_flag)
+* ====================================================================
+
+*   Short description:
+
+*   Assumptions:
+*      None
+
+*   Notes:
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*   neilh - 29-08-1997 - Programmed and Specified
+
+*   Calls:
+*   Popsr
+*   Pushsr
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Global variables
+      include 'apswim.inc'
+
+*   Subroutine arguments
+      double precision flow_array(0:n)
+      character        flow_name *(*)
+      character        flow_units*(*)
+      logical          flow_flag
+
+*   Internal variables
+      integer node
+      integer solnum
+
+*   Constant values
+      character myname*(*)               ! name of current procedure
+      parameter (myname = 'apswim_get_flow')
+
+*   Initial data values
+      ! set to false to start - if match is found it is
+      ! set to true.
+      flow_flag = .false. 
+      
+      flow_units = ' '
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+
+      call fill_double_array (flow_array(0), 0d0, n+1)
+
+      if (flow_name.eq.'water') then
+          flow_flag = .true.
+          flow_units = '(mm)'
+          do 40 node=0,n
+             flow_array(node) = TD_wflow(node)
+   40     continue
+
+      else
+         do 100 solnum = 1, num_solutes
+            if (solute_names(solnum).eq.flow_name) then
+               do 50 node=0,n
+                  flow_array(node) = TD_sflow(solnum,node)
+   50          continue
+               flow_flag = .true.
+               flow_units = '(kg/ha)'
+               goto 110
+            else
+            endif
+  100    continue
+  110    continue
+      endif
+      
       call pop_routine (myname)
       return
       end
