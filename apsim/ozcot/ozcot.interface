@@ -145,6 +145,7 @@
       <getVariableReg name="no3_min" type="no3_min"/>
       <setVariableReg name="no3" type="no3"/>
       <methodCallReg name="add_residue" type="add_residue"/>
+      <eventReg name="add_residue" type="add_residue"/>
       <respondToEventReg name="hail" type="hail"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
