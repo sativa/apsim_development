@@ -1,4 +1,5 @@
 #include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "ComponentAlias.h"
