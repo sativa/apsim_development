@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(millet)
-
-[Contents]
-millet.for = millet.for
-
-[APSBuild]
-binary = ..\lib\millet.dll
-lf90file = %apsuite\apsbuild\croptemplate.lf90
