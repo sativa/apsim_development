@@ -18,6 +18,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     to determine when the crop begins a new growth phase.
 *     The initial daily thermal time and height are also set.
 
+*+  Mission Statement
+*     Clculate the crop growth stages
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -91,6 +94,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     to determine when the crop begins a new growth phase.
 *     The initial daily thermal time and height are also set.
 
+*+  Mission Statement
+*     Initialise crop growth phases
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -161,6 +167,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *+  Purpose
 *       This routine calculates the daily change in canopy height.
 
+*+  Mission Statement
+*     Calulates daily change in canopy height
+
 *+  Changes
 *       060495 nih taken from template
 
@@ -209,6 +218,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
 *+  Purpose
 *       Plant root depth calculations
+
+*+  Mission Statement
+*     Calculates the plant root depth
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -269,6 +281,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *       The overall fractional effect of non-optimal N, Temperature, lodging
 *       and water logging conditions on radiation use efficiency.
 
+*+  Mission Statement
+*     Get the fractional effect of non-optimal N, Temperature and water on radiation use efficiency
+
 *+  Changes
 *       060495 nih taken from template
 *       170700 nih added lodging factor
@@ -319,6 +334,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *+  Purpose
 *       This routine returns the radiation intercepted by leaves (mj/m^2)
 
+*+  Mission Statement
+*     Light interception by the leaves
+
 *+  Changes
 *     060495 nih taken from template
 
@@ -368,6 +386,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *+  Purpose
 *       Simulate potential crop leaf area development - may be limited by
 *       DM production in subsequent routine
+
+*+  Mission Statement
+*     Get the potential leaf area development
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -424,6 +445,9 @@ c     :                    * g%swdef_expansion
 
 *+  Purpose
 *     Set the initial plant leaf area
+
+*+  Mission Statement
+*     Initialise plant leaf area
 
 *+  Changes
 *      240498 nih specified and programmed
@@ -495,6 +519,9 @@ c     :                    * g%swdef_expansion
 *+  Purpose
 *       Return the potential increase in leaf area development (mm^2)
 *       calculated on an individual leaf basis.
+
+*+  Mission Statement
+*     Calculate potential leaf area development based on individual leaves
 
 *+  Changes
 *     070495 nih taken from template
@@ -580,6 +607,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 *+  Purpose
 *       Return the leaf area (mm^2) of a specified leaf no.
 
+*+  Mission Statement
+*     Calculate the specific leaf area
+
 *+  Changes
 *       070495 nih taken from template
 
@@ -650,6 +680,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 *       Simulate actual crop leaf area development - checks that leaf area
 *       development matches DM production.
 
+*+  Mission Statement
+*     Calculate actual crop leaf area development
+
 *+  Changes
 *      070495 nih taken from template
 
@@ -706,6 +739,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *+  Purpose
 *       Return the fractional death of oldest green leaf.
+
+*+  Mission Statement
+*     Return fractional death of oldest green leaf
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -784,6 +820,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *+  Purpose
 *       Derives seneseced plant dry matter (g/m^2)
+
+*+  Mission Statement
+*     Calculate seneced plant dry matter
 
 *+  Changes
 *       070495 nih taken from template
@@ -886,6 +925,9 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
 *+  Purpose
 *       Derives leaf no from lai and leaf area
 
+*+  Mission Statement
+*     Get leaf number from LAI and leaf area
+
 *+  Changes
 *       070495 nih taken from template
 
@@ -947,6 +989,9 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
 *+  Purpose
 *       Derives seneseced plant nitrogen (g N/m^2)
 
+*+  Mission Statement
+*     Calculate senesced plant nitrogen
+
 *+  Changes
 *       070495 nih taken from template
 
@@ -993,6 +1038,9 @@ cnh what checks are there that there is enough N in plant to provide this
 
 *+  Purpose
 *       Simulate plant detachment.
+
+*+  Mission Statement
+*     Calculate plant detachment
 
 *+  Changes
 *      091294 jngh specified and programmed
@@ -1089,6 +1137,9 @@ cnh what checks are there that there is enough N in plant to provide this
 *+  Purpose
 *       Initialise plant weights and plant weight minimums
 *       at required instances.
+
+*+  Mission Statement
+*     Get initial plant weights and plant weight minimums
 
 *+  Changes
 *     060495 nih taken from template
@@ -1190,6 +1241,9 @@ cnh     NO MINIMUMS SET AS YET
 *       Partitions assimilate between individual plant pools.  The rules
 *       for partitioning change with stage of crop growth.
 
+*+  Mission Statement
+*     Get the partition assimilate between individual plant pools
+
 *+  Changes
 *       060495 nih taken from template
 *       110196 nih added dlt_dm to argument list to make this routine
@@ -1245,6 +1299,9 @@ cnh     NO MINIMUMS SET AS YET
 *+  Purpose
 *     Calculate plant dry matter delta's due to retranslocation (g/m^2)
 
+*+  Mission Statement
+*     Calculate plant dry matter change due to retranslocation
+
 *+  Changes
 *       060495 nih taken from template
 
@@ -1298,6 +1355,9 @@ cnh     NO MINIMUMS SET AS YET
 
 *+  Purpose
 *     <insert here>
+
+*+  Mission Statement
+*     Get N retranslocation information
 
 *+  Changes
 *       060495 nih taken from template
@@ -1365,6 +1425,9 @@ cnh     NO MINIMUMS SET AS YET
 *+  Purpose
 *     Calculate N available for transfer (g/m^2)
 *     from each plant part.
+
+*+  Mission Statement
+*     Calculate N available for transfer
 
 *+  Notes
 *     NB. No translocation from roots.
@@ -1448,6 +1511,9 @@ cnh     NO MINIMUMS SET AS YET
 *       is affected.  Also minimum N concentration below which it is not
 *       allowed to fall.  These are analogous to the water concentrations
 *       of dul and ll.
+
+*+  Mission Statement
+*     Calculate critical N concentration below which plant growth affected
 
 *+  Changes
 *       070495 nih taken from template
@@ -1694,6 +1760,9 @@ cnh     NO MINIMUMS SET AS YET
 
 *+  Purpose
 *       Update states
+
+*+  Mission Statement
+*     Update states
 
 *+  Changes
 *      070495 nih taken from template
@@ -1983,6 +2052,9 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
 *+  Purpose
 *      Determine plant death in crop
 
+*+  Mission Statement
+*     Determine plant death 
+
 *+  Changes
 *       290994 jngh specified and programmed
 
@@ -2128,6 +2200,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *       Report occurence of event and the current status of specific
 *       variables.
 
+*+  Mission Statement
+*     Report event and current status of specific variables
+
 *+  Changes
 *     070495 nih taken from template
 
@@ -2245,6 +2320,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *+  Purpose
 *       Set plant nitrogen
 
+*+  Mission Statement
+*     Initialise plant nitrogen
+
 *+  Changes
 *     060495 nih taken from template
 
@@ -2304,6 +2382,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *       Return the minimum specific leaf area (mm^2/g)
 *       of a specified leaf no.
 
+*+  Mission Statement
+*     Calculate specific leaf area of a specific leaf number
+
 *+  Changes
 *       05/05/95 nih specified and programmed
 
@@ -2352,6 +2433,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *       Return the maximum specific leaf area (mm^2/g)
 *       of a specified leaf no.
 
+*+  Mission Statement
+*     Return maximum specific leaf area of a leaf number 
+
 *+  Changes
 *       05/05/95 nih specified and programmed
 
@@ -2387,6 +2471,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *+  Purpose
 *     <insert here>
+
+*+  Mission Statement
+*     Fraction of available soil water in profile
 
 *+  Changes
 *   neilh - 30-06-1995 - Programmed and Specified
@@ -2461,6 +2548,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *+  Purpose
 *     <insert here>
+
+*+  Mission Statement
+*     Calculate plant water content
 
 *+  Notes
 *   NIH - Eventually this routine will need to be broken down into
@@ -2561,6 +2651,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *     Returns the fraction of Cane C partioned to sucrose based
 *     upon severity of water stress(cell expansion)
 
+*+  Mission Statement
+*     Calculate fraction of Cane C partioned to sucrose
+
 *+  Changes
 *       240796 nih/mjr programmed and specified
 
@@ -2614,6 +2707,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *+  Purpose
 *       remove part of the green material as if grazed
+
+*+  Mission Statement
+*     Remove part of the green material like grazing
 
 *+  Changes
 *     050996 nih specified and programmed
@@ -2810,6 +2906,9 @@ c      call sugar_get_other_variables ()
 *+  Purpose
 *       Plant root depth calculations
 
+*+  Mission Statement
+*     Calculates the plant root depth
+
 *+  Changes
 *      250894 jngh specified and programmed
 
@@ -2854,6 +2953,9 @@ c      call sugar_get_other_variables ()
 
 *+  Purpose
 *       Plant root distribution calculations
+
+*+  Mission Statement
+*     Calculate plant root distribution
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -2916,6 +3018,9 @@ c      call sugar_get_other_variables ()
 
 *+  Purpose
 *       Plant water supply
+
+*+  Mission Statement
+*     Plant water supply
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -2993,6 +3098,9 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Purpose
 *       Plant water uptake
 
+*+  Mission Statement
+*     Get the plant water uptake
+
 *+  Changes
 *      250894 jngh specified and programmed
 
@@ -3051,6 +3159,9 @@ c+!!!!!!!!! check order dependency of deltas
 *+  Purpose
 *       Plant water demand
 
+*+  Mission Statement
+*     Calculate the plant water demand
+
 *+  Changes
 *      250894 jngh specified and programmed
 
@@ -3093,6 +3204,9 @@ c+!!!!!!!!! check order dependency of deltas
 
 *+  Purpose
 *       light supply
+
+*+  Mission Statement
+*     Seek the light intercepted by the leaves
 
 *+  Changes
 *      5/9/96 dph
@@ -3138,6 +3252,9 @@ c+!!!!!!!!! check order dependency of deltas
 
 *+  Purpose
 *       biomass light
+
+*+  Mission Statement
+*     Biomass radiation use efficiency
 
 *+  Changes
 *      5/9/96 dph
@@ -3214,6 +3331,9 @@ c+!!!!!!!!! check order dependency of deltas
 *       production for conditions where soil supply is non-limiting.
 *
 
+*+  Mission Statement
+*     Get the potential biomass production - non limiting
+
 *+  Changes
 *       060495 nih taken from template
 *       170700 nih added lodgine factor
@@ -3283,6 +3403,9 @@ cnh      call sugar_radn_int (radn_int)
 *       production for conditions where soil supply is non-limiting.
 *
 
+*+  Mission Statement
+*     Get the potential biomass production - non limiting
+
 *+  Changes
 *       060495 nih taken from template
 
@@ -3332,6 +3455,9 @@ cnh      call sugar_radn_int (radn_int)
 *       Calculate today's transpiration efficiency from min and max
 *       temperatures and converting mm water to g dry matter
 *       (g dm/m^2/mm water)
+
+*+  Mission Statement
+*     Calculate transpiration efficiency
 
 *+  Changes
 *      5/9/96 dph
@@ -3386,6 +3512,9 @@ cnh      call sugar_radn_int (radn_int)
 *+  Purpose
 *      Temperature stress factor for photosynthesis.
 
+*+  Mission Statement
+*     Get the temperature stress factor
+
 *+  Changes
 *     14-01-1997 - neilh - Programmed and Specified
 
@@ -3431,6 +3560,9 @@ cnh      call sugar_radn_int (radn_int)
 *+  Purpose
 *         Get current water stress factors (0-1)
 
+*+  Mission Statement
+*     Get the water stress factors for phenology
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -3472,6 +3604,9 @@ cnh      call sugar_radn_int (radn_int)
 *+  Purpose
 *         Get current water stress factors (0-1)
 
+*+  Mission Statement
+*     Get the water stress factors for photosynthesis
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -3510,6 +3645,9 @@ cnh      call sugar_radn_int (radn_int)
 
 *+  Purpose
 *         Get current water stress factors (0-1)
+
+*+  Mission Statement
+*     Get the water stress factors for expansion
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -3553,6 +3691,9 @@ c      real       mungb_swdef           ! function
 
 *+  Purpose
 *         Get current Nitrogen stress factors (0-1)
+
+*+  Mission Statement
+*     Get the Nitrogen stress factors for photosynthesis
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -3601,6 +3742,9 @@ c      real       mungb_swdef           ! function
 *+  Purpose
 *         Get current Nitrogen stress factors (0-1)
 
+*+  Mission Statement
+*     Get the Nitrogen stress factors for cell expansion
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -3648,6 +3792,9 @@ c      real       mungb_swdef           ! function
 
 *+  Purpose
 *     Canopy height.
+
+*+  Mission Statement
+*     Calculate canopy height
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -3699,6 +3846,9 @@ c      real       mungb_swdef           ! function
 
 *+  Purpose
 *       Simulate crop biomass processes.
+
+*+  Mission Statement
+*     Calculate crop biomass processes
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -3755,6 +3905,9 @@ c      real       mungb_swdef           ! function
 
 *+  Purpose
 *       Partition biomass.
+
+*+  Mission Statement
+*     Get biomass partitioning data
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -3868,6 +4021,9 @@ c      real       mungb_swdef           ! function
 *+  Purpose
 *       Partitions assimilate between individual plant pools.  The rules
 *       for partitioning change with stage of crop growth.
+
+*+  Mission Statement
+*     Calculate the partition assimilate between individual plant pools
 
 *+  Changes
 *       060495 nih taken from template
@@ -4045,6 +4201,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 *       Partitions assimilate between individual plant pools.  The rules
 *       for partitioning change with stage of crop growth.
 
+*+  Mission Statement
+*     Partition assimilate between individual plant pools
+
 *+  Changes
 *       060495 nih taken from template
 *       110196 nih added dlt_dm to argument list to make this routine
@@ -4098,6 +4257,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 *       Simulate potential stressed crop leaf area development - may
 *       be limited by DM production in subsequent routine
 
+*+  Mission Statement
+*     Calculate potential stressed leaf area development
+
 *+  Changes
 *      250894 jngh specified and programmed
 
@@ -4142,6 +4304,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 *+  Purpose
 *       Simulate actual crop leaf area development - checks that leaf area
 *       development matches DM production.
+
+*+  Mission Statement
+*      Get the actual leaf area development infomation
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -4190,6 +4355,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *+  Purpose
 *       Retranslocate biomass.
+
+*+  Mission Statement
+*     Get the biomass retranslocation information
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -4248,6 +4416,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *+  Purpose
 *       Return the fractional death of oldest green leaf.
+
+*+  Mission Statement
+*     Calculate the fractional death of oldest green leaf
 
 *+  Changes
 *     070495 nih taken from template
@@ -4340,6 +4511,9 @@ cnh Due to small rounding errors I will say that small errors are ok
 *       Return the lai that would senesce on the
 *       current day due to ageing
 
+*+  Mission Statement
+*     Calculate the LAI seneced due to ageing
+
 *+  Changes
 *     070495 nih taken from template
 
@@ -4412,6 +4586,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *+  Purpose
 *       Return the lai that senesces on the current day
 
+*+  Mission Statement
+*     Calculate leaf area the senesces for current day
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -4454,6 +4631,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       Simulate plant nitrogen senescence.
+
+*+  Mission Statement
+*     Get the senesced plant nitrogen content
 
 *+  Changes
 *      091294 jngh specified and programmed
@@ -4499,6 +4679,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       Simulate plant senescence.
+
+*+  Mission Statement
+*     Get the plant senecence information
 
 *+  Changes
 *      091294 jngh specified and programmed
@@ -4555,6 +4738,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *+  Purpose
 *       Simulate plant nitrogen senescence.
 
+*+  Mission Statement
+*     Calculate senesced root length
+
 *+  Changes
 *      091294 jngh specified and programmed
 
@@ -4601,6 +4787,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       Initialise plant nitrogen.
+
+*+  Mission Statement
+*     Get the initial plant nitrogen information
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -4651,6 +4840,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       Find nitrogen supply.
+
+*+  Mission Statement
+*     Get nitrogen supply
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -4713,6 +4905,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *+  Purpose
 *       Do nitrogen retranslocation.
 
+*+  Mission Statement
+*     Retranslocate N
+
 *+  Changes
 *      250894 jngh specified and programmed
 
@@ -4756,6 +4951,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       Find nitrogen demand.
+
+*+  Mission Statement
+*     Get nitrogen demand
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -4805,6 +5003,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       Find nitrogen uptake.
+
+*+  Mission Statement
+*     Get the nitrogen uptake information
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -4871,6 +5072,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *+  Purpose
 *       Find nitrogen partitioning.
 
+*+  Mission Statement
+*     Get the nitrogen partitioning information
+
 *+  Changes
 *      250894 jngh specified and programmed
 
@@ -4911,6 +5115,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
 *+  Purpose
 *       cleanup after crop processes
+
+*+  Mission Statement
+*     Cleanup after crop processes
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -5087,6 +5294,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 *+  Purpose
 *         Collect totals of crop variables for output
 
+*+  Mission Statement
+*     Collect totals of crop variables for output
+
 *+  Changes
 *     070495 nih taken from template
 
@@ -5169,6 +5379,9 @@ c     :                   * 0.5
 *+  Purpose
 *       bio transpiration efficiency
 
+*+  Mission Statement
+*     Get the plant water content
+
 *+  Changes
 *      5/9/96 dph
 
@@ -5233,6 +5446,9 @@ c     :                   * 0.5
 
 *+  Purpose
 *      Crop failure from lack of germination.
+
+*+  Mission Statement
+*     Crop death due to lack of germination
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -5303,6 +5519,9 @@ c         call sugar_kill_crop ()
 *+  Purpose
 *      Crop failure from lack of emergence.
 
+*+  Mission Statement
+*     Crop death due to lack of emergence
+
 *+  Changes
 *       290994 jngh specified and programmed
 *       110695 psc  added plant death from high soil temp
@@ -5365,6 +5584,9 @@ c         call sugar_kill_crop ()
 
 *+  Purpose
 *      Determine plant death from all leaf area senescing.
+
+*+  Mission Statement
+*     Crop death due to all leaf area senescing
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -5431,6 +5653,9 @@ c         call sugar_kill_crop ()
 *+  Purpose
 *      Determine actual plant death.
 
+*+  Mission Statement
+*     Crop death due to actual plant death
+
 *+  Changes
 *       290994 jngh specified and programmed
 *       110695 psc  added plant death from high soil temp
@@ -5488,6 +5713,9 @@ c         call sugar_kill_crop ()
 
 *+  Purpose
 *      Determine plant death from drought.
+
+*+  Mission Statement
+*     Crop death due to drought
 
 *+  Changes
 *       290994 jngh specified and programmed
@@ -5567,6 +5795,9 @@ c         call sugar_kill_crop ()
 *       Return actual plant nitrogen uptake to each plant part and from
 *       each soil layer.
 
+*+  Mission Statement
+*     Calculate nitrogen uptake to each plant part from soil
+
 *+  Changes
 *       060495 nih taken from template
 *       130396 nih added fix to stop N above critical conc evaporating
@@ -5633,6 +5864,9 @@ c         call sugar_kill_crop ()
 *+  Purpose
 *         Get current water stress factors (0-1)
 
+*+  Mission Statement
+*     Get the water stress factors for photosynthesis
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5687,6 +5921,9 @@ c      real       mungb_swdef           ! function
 *+  Purpose
 *         Get current water stress factors (0-1)
 
+*+  Mission Statement
+*     Get the water stress factors for stalk
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5738,6 +5975,9 @@ c      real       mungb_swdef           ! function
 *+  Purpose
 *         Get current temperature stress factors (0-1)
 
+*+  Mission Statement
+*     Get the temperature stress factors for photosynthesis
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5786,6 +6026,9 @@ cnh I made it a subroutine like all the rest
 *+  Purpose
 *         Get current temperature stress factors (0-1)
 
+*+  Mission Statement
+*     Get the temperature stress factors for stalk
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -5833,6 +6076,9 @@ cnh I made it a subroutine like all the rest
 *+  Purpose
 *         Get current effect of lodging on photosynthesis (0-1)
 
+*+  Mission Statement
+*     Get current effect of lodging on photosysnthesis
+
 *+  Changes
 *     170700 nih specified and programmed
 
@@ -5873,6 +6119,9 @@ cnh I made it a subroutine like all the rest
 
 *+  Purpose
 *         Get current Nitrogen stress factors (0-1)
+
+*+  Mission Statement
+*     Get the Nitrogen stress factors for stalk
 
 *+  Changes
 *     010994 jngh specified and programmed
@@ -5938,6 +6187,9 @@ cnh I made it a subroutine like all the rest
 *     photosynthesis and cell expansion are calculated from today's
 *     relative nutritional status between a critical and minimum
 *     leaf Nitrogen concentration.
+
+*+  Mission Statement
+*     Concentration of nitrogen in the leaves
 
 *+  Changes
 *     060495 nih taken from template
@@ -6060,6 +6312,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *+  Purpose
 *     <insert here>
 
+*+  Mission Statement
+*     Crop death due to lodging
+
 *+  Changes
 *     25-08-1997 - unknown - Programmed and Specified
 
@@ -6109,6 +6364,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
 *+  Purpose
 *       Set limit on SStem for start of sucrose partitioning
+
+*+  Mission Statement
+*     Minimum stuctural stem sucrose
 
 *+  Changes
 *      260897 nih specified and programmed
@@ -6163,6 +6421,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *+  Purpose
 *       Reallocate cabbage to cane as plant develops to maintain
 *       a fixed leaf:cabbage ratio
+
+*+  Mission Statement
+*     Get reallocation of cabbage to cane as plant develops
 
 *+  Notes
 *       NIH - Not a generic realloc routine but will do for now
@@ -6239,6 +6500,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *       Reallocate cabbage to cane as plant develops to maintain
 *       a fixed leaf:cabbage ratio
 
+*+  Mission Statement
+*     Calcuate reallocation of cabbage to cane
+
 *+  Notes
 *       NIH - Not a generic realloc routine but will do for now
 
@@ -6301,6 +6565,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *       This routine returns the increase in root depth.  The
 *       approach used here utilises a potential root front velocity
 *       affected by relative moisture content at the rooting front.
+
+*+  Mission Statement
+*     Gets the increase in plant root depth 
 
 *+  Notes
 *         there is a discrepency when the root crosses into another
@@ -6366,6 +6633,9 @@ cnh for rlv at initialisation.
 *+  Purpose
 *       bio transpiration efficiency
 
+*+  Mission Statement
+*     Calcuate biomass transpiration efficiency
+
 *+  Changes
 *      5/9/96 dph
 
@@ -6405,6 +6675,9 @@ cnh for rlv at initialisation.
 
 *+  Purpose
 *      Calculate Leaf Area Senescence
+
+*+  Mission Statement
+*     Get the seneced LA due to ageing
 
 *+  Changes
 *     24-04-1998 - NeilH - Programmed and Specified
@@ -6490,6 +6763,9 @@ cnh for rlv at initialisation.
 *+  Purpose
 *       Initialise leaf area.
 
+*+  Mission Statement
+*     Calculate the initial leaf area
+
 *+  Changes
 *     070495 nih taken from template
 
@@ -6529,6 +6805,9 @@ cnh for rlv at initialisation.
 *      Calculate an approximate nitrogen demand for today's growth.
 *      The estimate basically = n to fill the plant up to maximum
 *      nitrogen concentration.
+
+*+  Mission Statement
+*     Calculate nitrogen demand for growth
 
 *+  Changes
 *     14-05-1997 - huth - Programmed and Specified
@@ -6615,6 +6894,9 @@ cnh for rlv at initialisation.
 *       demand for Nitrogen for each plant pool occurs as the plant
 *       tries to maintain a critical nitrogen concentration in each
 *       plant pool.
+
+*+  Mission Statement
+*     Get the nitrogen demand for each plant part
 
 *+  Notes
 *           N demand consists of two components:
@@ -6740,6 +7022,9 @@ cnh conc for CANE.
 *+  Purpose
 *         Get current Nitrogen stress factors (0-1)
 
+*+  Mission Statement
+*     Get the Nitrogen stress factors for phenology
+
 *+  Changes
 *     010994 jngh specified and programmed
 
@@ -6810,6 +7095,9 @@ cnh conc for CANE.
 *+  Purpose
 *       Returns cumulative thermal time targets required for the
 *       individual growth stages.
+
+*+  Mission Statement
+*     Calculate the thermal time targets for individual growth stages
 
 *+  Changes
 *     060495 nih taken from template
@@ -6886,6 +7174,9 @@ cnh conc for CANE.
 *       Get the soil water availability factor (0-1), commonly
 *       called soil water deficit factor. 1 is no stress, 0 is full stress.
 
+*+  Mission Statement
+*     Calculates the soil water availability factor
+
 *+  Changes
 *       010994 jngh specified and programmed
 
@@ -6933,6 +7224,9 @@ cnh conc for CANE.
 
 *+  Purpose
 *       Leaf number development
+
+*+  Mission Statement
+*     Initialise leaf number development
 
 *+  Changes
 *      250894 jngh specified and programmed
@@ -6982,6 +7276,9 @@ cnh conc for CANE.
 
 *+  Purpose
 *       Leaf number development
+
+*+  Mission Statement
+*     Calculate leaf number development
 
 *+  Changes
 *      250894 jngh specified and programmed
