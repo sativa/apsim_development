@@ -13,6 +13,6 @@ simulation_end_year =     1988
   Module = clock    [test]      
 
   Module = report   report.par [general]     report.par [input]     report.par [met]      
-  Module = met      DALBY.MET [dalby]      
+  Module = met      %apsuite\apsim\met\sample\dalby.met[weather]      
   Module = manager  test.man [test]      
 
