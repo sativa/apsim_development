@@ -7,6 +7,7 @@
 #include <TAPSTable.h>
 #include <general\string_functions.h>
 #include <stdlib.h>
+#include "CropFields.h"
 // ------------------------------------------------------------------
 // This class keeps track of value for a given year, field and file
 // ------------------------------------------------------------------
@@ -34,8 +35,10 @@ class RotationValue
          }
 
    public:
-      RotationValue(void) : total(0.0), count(0), type(unknown) {}
+      RotationValue(void)
+         : total(0.0), count(0), type(unknown) {}
 
+      unsigned getCount(void) const {return count;}
       void addValue(const std::string& value)
          {
          discoverType(value);
@@ -74,7 +77,9 @@ class RotationValues
       typedef std::map<unsigned, FieldValues> YearValues;
       YearValues yearValues;
       std::vector<std::string> fieldsToAverage;
+      std::vector<std::string> fieldsDividedByNumFiles;
       std::vector<std::string> fieldNames;
+      CropFields cropFields;
 
       std::string getValue(const FileValues& fileValues, bool doAverage,
                            unsigned numDataBlocks) const;

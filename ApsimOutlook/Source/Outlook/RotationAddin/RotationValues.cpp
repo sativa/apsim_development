@@ -7,6 +7,7 @@
 #include <general\stristr.h>
 #include <general\path.h>
 #include <general\ini_file.h>
+#include <general\stl_functions.h>
 #include <assert.h>
 
 #pragma package(smart_init)
@@ -24,13 +25,17 @@ string RotationValues::getValue(const FileValues& fileValues,
                                 unsigned numDataBlocks) const
    {
    float total = 0.0;
+   unsigned numValues = 0;
    for (FileValues::const_iterator fileI = fileValues.begin();
                                    fileI != fileValues.end();
                                    fileI++)
       {
       float value;
-      if (fileI->second.getValue(doAverage, value))
+      if (fileI->second.getValue(false, value))
+         {
          total += value;
+         numValues += fileI->second.getCount();
+         }
       else
          {
          string stringValue;
@@ -39,10 +44,20 @@ string RotationValues::getValue(const FileValues& fileValues,
          }
       }
    float returnValue = total;
-   if (numDataBlocks > 0)
-      returnValue /= numDataBlocks;
+   if (doAverage)
+      {
+      if (numValues > 0)
+         returnValue /= numValues;
+      else
+         returnValue = 0.0;
+      }
    else
-      returnValue = 0.0;
+      {
+      if (numDataBlocks > 0)
+         returnValue /= numDataBlocks;
+      else
+         returnValue = 0.0;
+      }
 
    static char buffer[20];
    sprintf(buffer, "%10.3f",returnValue);
@@ -55,28 +70,35 @@ string RotationValues::getValue(const FileValues& fileValues,
 // ------------------------------------------------------------------
 bool RotationValues::isAveragedField(const string& fieldName) const
    {
-   for (vector<string>::const_iterator fieldI = fieldsToAverage.begin();
-                                       fieldI != fieldsToAverage.end();
-                                       fieldI++)
+   if (cropFields.isCropField(fieldName))
+      return true;
+
+   // Look in fieldsToAverage first.
+   vector<string>::const_iterator fieldI = find_if(fieldsToAverage.begin(),
+                                                   fieldsToAverage.end(),
+                                                   CaseInsensitiveStringComparison(fieldName));
+   if (fieldI != fieldsToAverage.end())
+      return true;
+
+   else
       {
-      string field = *fieldI;
-      bool doAverage = false;
-      if (field[0] == '*')
-         doAverage = (stristr((char*) fieldName.c_str(),
-                              field.substr(1, field.length()-1).c_str()) != NULL);
-      else
-         doAverage = Str_i_Eq(fieldName, field);
-      if (doAverage)
-         return true;
+      // Make sure name is in fieldsDividedByNumFiles.
+      fieldI = find_if(fieldsDividedByNumFiles.begin(),
+                       fieldsDividedByNumFiles.end(),
+                       CaseInsensitiveStringComparison(fieldName));
+      if (fieldI == fieldsDividedByNumFiles.end())
+         throw runtime_error("Cannot find field: " + fieldName + "\n"
+                             "in the rotation.ini [fields] section.  All field names\n"
+                             "must be listed in this file.");
+      return false;
       }
-   return false;
    }
 
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
 RotationValues::RotationValues(const vector<string>& fields)
-   : fieldNames(fields)
+   : fieldNames(fields), cropFields(NULL)
    {
    Path iniPath(Application->ExeName.c_str());
    iniPath.Append_path("rotationaddin");
@@ -85,8 +107,11 @@ RotationValues::RotationValues(const vector<string>& fields)
    ini.Set_file_name(iniPath.Get_path().c_str());
 
    string st;
-   ini.Read("fields", "averaged_fields", st);
+   ini.Read("fields", "fields_averaged", st);
    Split_string(st, ",", fieldsToAverage);
+
+   ini.Read("fields", "fields_divided_by_num_files", st);
+   Split_string(st, ",", fieldsDividedByNumFiles);
    }
 // ------------------------------------------------------------------
 // Add a rotation value for a particular year, field and file.
@@ -103,39 +128,46 @@ void RotationValues::writeToDataset(const string& rotationName, TAPSTable& data,
                                     unsigned firstYear, unsigned lastYear,
                                     unsigned numDataBlocks) const
    {
-   // output a single data block containing all years and all averaged
-   // numerical field values.  Only consider years that are covered by
-   // all datablocks (remember, each data block is offset by a year).
-   for (int year = firstYear; year <= lastYear; year++)
+   try
       {
-      YearValues::const_iterator yearValueI = yearValues.find(year);
-      if (yearValueI == yearValues.end())
+      // output a single data block containing all years and all averaged
+      // numerical field values.  Only consider years that are covered by
+      // all datablocks (remember, each data block is offset by a year).
+      for (int year = firstYear; year <= lastYear; year++)
          {
-         TAPSRecord newRecord;
-         newRecord.setFieldValue("Simulation" ,rotationName);
-         data.storeRecord(newRecord);
-         }
-      else
-         {
-         const FieldValues& fieldValues = yearValueI->second;
-         TAPSRecord newRecord;
-         for (FieldValues::const_iterator fieldValueI = fieldValues.begin();
-                                          fieldValueI != fieldValues.end();
-                                          fieldValueI++)
+         YearValues::const_iterator yearValueI = yearValues.find(year);
+         if (yearValueI == yearValues.end())
             {
-            const FileValues& fileValues = fieldValueI->second;
-            string name = fieldNames[fieldValueI->first];
-            string value;
-            if (fieldValueI->first == 0)
-               value = rotationName;
-            else if (stristr((char*)name.c_str(), "year") != NULL)
-               value = IntToStr(year).c_str();
-            else
-               value = getValue(fileValues, isAveragedField(name), numDataBlocks);
-            newRecord.setFieldValue(addPerYearToFieldName(name), value);
+            TAPSRecord newRecord;
+            newRecord.setFieldValue("Simulation" ,rotationName);
+            data.storeRecord(newRecord);
             }
-         data.storeRecord(newRecord);
+         else
+            {
+            const FieldValues& fieldValues = yearValueI->second;
+            TAPSRecord newRecord;
+            for (FieldValues::const_iterator fieldValueI = fieldValues.begin();
+                                             fieldValueI != fieldValues.end();
+                                             fieldValueI++)
+               {
+               const FileValues& fileValues = fieldValueI->second;
+               string name = fieldNames[fieldValueI->first];
+               string value;
+               if (fieldValueI->first == 0)
+                  value = rotationName;
+               else if (stristr((char*)name.c_str(), "year") != NULL)
+                  value = IntToStr(year).c_str();
+               else
+                  value = getValue(fileValues, isAveragedField(name), numDataBlocks);
+               newRecord.setFieldValue(addPerYearToFieldName(name), value);
+               }
+            data.storeRecord(newRecord);
+            }
          }
+      }
+   catch (const std::runtime_error& error)
+      {
+      ::MessageBox(NULL, error.what(), "Rotation Error", MB_ICONSTOP | MB_OK);
       }
    }
 
