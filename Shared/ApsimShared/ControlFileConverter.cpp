@@ -178,6 +178,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = executeAddParamFileToModule(arguments) || ok;
       else if (routineName == "RemovePeriodsInReportAndTracker")
          ok = removePeriodsInReportAndTracker(arguments) || ok;
+      else if (routineName == "ReworkTrackerVariables")
+         ok = ReworkTrackerVariables(arguments) || ok;
 
       if (!ok)
          return false;
@@ -690,7 +692,7 @@ bool ControlFileConverter::removePeriodsInReportAndTracker(const string& argumen
          }
       }
 
-   // change report variables first.
+   // change tracker variables.
    bool someHaveChanged2 = false;
    instanceNames.erase(instanceNames.begin(), instanceNames.end());
    con->getInstances(conSection, "tracker", instanceNames);
@@ -714,4 +716,63 @@ bool ControlFileConverter::removePeriodsInReportAndTracker(const string& argumen
 
    return (someHaveChanged || someHaveChanged2);
    }
+//---------------------------------------------------------------------------
+// Rework the tracker variables to new format.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::ReworkTrackerVariables(const string& arguments) throw(runtime_error)
+   {
+   // change tracker variables.
+   vector<string> instanceNames;
+   con->getInstances(conSection, "tracker", instanceNames);
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      {
+      vector<string> variables;
+      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
+      for (unsigned v = 0; v != variables.size(); v++)
+         {
+         StringTokenizer tokenizer(variables[v]);
+         string stat = tokenizer.nextToken();
+         string word = tokenizer.nextToken();
+         string variable = tokenizer.nextToken();
+         string eventName, startPeriod, endPeriod, as;
+         word = tokenizer.nextToken();
+         while (word != "")
+            {
+            if (Str_i_Eq(word, "since"))
+               {
+               startPeriod = tokenizer.nextToken();
+               endPeriod = "now";
+               }
+            else if (Str_i_Eq(word, "between"))
+               {
+               startPeriod = tokenizer.nextToken();
+               string and = tokenizer.nextToken();
+               endPeriod = tokenizer.nextToken();
+               }
+            else if (Str_i_Eq(word, "on"))
+               eventName = tokenizer.nextToken();
+            else if (Str_i_Eq(word, "as"))
+               as = tokenizer.nextToken();
+            word = tokenizer.nextToken();
+            }
+         if (Str_i_Eq(eventName, "prepare"))
+            eventName = "start_of_day";
+         if (Str_i_Eq(eventName, "post"))
+            eventName = "end_of_day";
 
+         variables[v] = stat + " of " + variable;
+         if (eventName != "")
+            variables[v] += " on " + eventName;
+         if (startPeriod != "")
+            variables[v] += " from " + startPeriod + " to " + endPeriod;
+         if (as != "")
+            variables[v] += " as " + as;
+         }
+
+      if (variables.size() > 0)
+         con->setParameterValues(conSection, instanceNames[i], "variable",
+                                 "", variables);
+      }
+
+   return (instanceNames.size() > 0);
+   }
