@@ -1,4 +1,4 @@
-C     Last change:  E    29 Nov 2000   12:03 pm
+C     Last change:  E    15 Dec 2000   12:35 pm
 
 *     ===========================================================
       subroutine cproc_transp_eff_co2(svp_fract,
@@ -1623,7 +1623,8 @@ c scc end of changes for tpla (more below)
       subroutine zadok_stage_decimal_code(
      .          emerg,
      .          now,
-     .          zadok_stage_code_list,
+     .          max_stage,
+     .          zadok_code_list,
      .          current_stage,
      .          phase_tt,
      .          tt_tot,
@@ -1641,7 +1642,8 @@ c scc end of changes for tpla (more below)
 *+  Sub-Program Arguments
       INTEGER    emerg
       INTEGER    now
-      real       zadok_stage_code_list(*)
+      INTEGER    max_stage
+      real       zadok_code_list(*)
       real       current_stage
       real       phase_tt(*)
       real       tt_tot(*)
@@ -1664,6 +1666,7 @@ c scc end of changes for tpla (more below)
       REAL    leaf_no_now
       REAL    tt_frac
       REAL    zk_dist
+      REAL    zk_sum
 
 
 
@@ -1702,17 +1705,32 @@ c scc end of changes for tpla (more below)
 
           end if
 
+          ! stage_code = 1   2   3    4      5     6     7    8    9    10   11   12
+          ! Zadok_stage= 0   5  10   10     15    40    60   71   87    90   93  100
+
           !Flag leaf  to maturity
           if (current_stage .ge.6.0 .and. current_stage.lt.12.0 ) then
+
+             zk_sum = sum_real_array (zadok_code_list, max_stage)
+
+             if (zk_sum .lt. 80.0) then
+                 zadok_code_list( 6) =  40.0
+                 zadok_code_list( 7) =  60.0
+                 zadok_code_list( 8) =  71.0
+                 zadok_code_list( 9) =  87.0
+                 zadok_code_list(10) =  90.0
+                 zadok_code_list(11) =  93.0
+                 zadok_code_list(12) = 100.0
+             end if
 
              istage = INT(current_stage)
              tt_frac = divide(tt_tot(istage), phase_tt(istage), 1.0)
              tt_frac = MIN(1.0, tt_frac)
 
-             zk_dist = zadok_stage_code_list(istage+1)
-     :               - zadok_stage_code_list(istage)
+             zk_dist = zadok_code_list(istage+1)
+     :               - zadok_code_list(istage)
 
-             zadok_stage = zadok_stage_code_list(istage)
+             zadok_stage = zadok_code_list(istage)
      :                   + zk_dist * tt_frac
            end if
 
