@@ -90,7 +90,7 @@ XMLNode& XMLNode::operator= (const XMLNode& rhs)
 //---------------------------------------------------------------------------
 string XMLNode::getName(void) const
    {
-   if (node != NULL)
+   if (node != NULL && node->type != XML_CDATA_SECTION_NODE)
       return (char*) node->name;
    else
       return "";
