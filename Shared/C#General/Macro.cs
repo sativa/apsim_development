@@ -44,6 +44,7 @@ namespace CSGeneral
 			AliasNodes[0] = MacroValues;
 
 			string Contents = MacroContents;
+            ParseIncludes(ref Contents);
 			ParseComments(ref Contents);
 
 			Contents = ParseForEach(Contents, MacroValues, AliasNames, AliasNodes);
@@ -482,6 +483,34 @@ namespace CSGeneral
 				PosComment = Contents.IndexOf("[comment]");
 				}
 			}
+		//---------------------------------------------------------------
+		// Parse all comment statements and remove.
+		//---------------------------------------------------------------
+		void ParseIncludes(ref string Contents)
+		{
+			const string opentext = "[include]";
+			const string closetext = "[endinclude]";
+
+			int PosInclude = Contents.IndexOf(opentext);
+			while (PosInclude != -1)
+			{
+				PosInclude = AdjustStartPos(Contents, PosInclude);
+				int PosEndInclude = Contents.IndexOf(closetext);
+				if (PosEndInclude == -1)
+					throw new Exception("Cannot find matching [endinclude] macro");
+				PosEndInclude = AdjustEndPos(Contents, PosEndInclude);
+				string filename = Contents.Substring(PosInclude+opentext.Length, PosEndInclude-PosInclude-opentext.Length-closetext.Length-2);
+				filename = filename.Replace("%apsuite",APSIMSettings.ApsimDirectory());
+				string oldtext = Contents.Substring(PosInclude,PosEndInclude-PosInclude);
+				if (!File.Exists(filename))
+   				   throw new Exception("file not found: "+filename);
+                StreamReader sr=new StreamReader(filename);
+                string newtext = sr.ReadToEnd();
+                
+				Contents = Contents.Replace(oldtext,newtext);
+				PosInclude = Contents.IndexOf("[include]");
+			}
+		}
 		//---------------------------------------------------------------
 		// Evaluate the specified IF macro. Return true if it equates
 		// to true.
