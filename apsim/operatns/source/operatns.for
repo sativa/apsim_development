@@ -148,9 +148,9 @@
      :     access='direct', recl= record_length, iostat=iostatus)
  
       if (iostatus.eq.0) then
-         call operatns_read_section ('prepare',prepare_phase)
+         call operatns_read_section ('start_of_day',prepare_phase)
          call operatns_read_section ('process',process_phase)
-         call operatns_read_section ('post',post_phase)
+         call operatns_read_section ('end_of_day',post_phase)
          call operatns_sort_data ()
          call operatns_list ()
  
@@ -308,6 +308,7 @@
       include   'error.pub'
       include   'read.pub'
       include   'apsimengine.pub'
+      include   'componentinterface.inc'
 
 *+  Sub-Program Arguments
       character  section*(*)           ! section names
@@ -320,6 +321,7 @@
 *     240395 jngh changed to read from section
 *     050895 nih  upgraded to allow operations to be assigned to phase.
 *                 Routine used to be called operatns_concat_files.
+*     101100 dph  changed to use text object instead of memo object
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
@@ -329,26 +331,21 @@
       character  Line*(record_length) ! line from an operations file
 *      integer    recno                ! record number for direct
                                       ! access file
-      integer memo_object             ! C++ memo object
+      integer rule_object             ! C++ rule object
       logical ok                      ! created object ok?
       integer Line_number             ! line number
-      character module_name*50        ! name of module
       integer num_lines               ! number of lines in memo
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call Get_current_module (module_name)
-
-      call Memo_Create(memo_object)
-      ok = ApsimSystem_Data_Get(
-     .    Trim(module_name) // '.' // section, memo_object)
- 
-      if (ok) then
-         num_lines = Memo_GetLineCount(memo_object)
-         do 100 Line_number = 0, num_lines-1
-            call Memo_GetLine(memo_object, line_number, Line)
+      rule_object = component_getrule(componentData, section)
+      if (rule_object .ne. 0) then
+         num_lines = rule_getActionLineCount(rule_object)
          
+         do 100 Line_number = 0, num_lines-1
+            call rule_getActionLine(rule_object, Line_number, Line)
+
             ! remove any comments
             if (index(Line, '!') .gt. 0) then
                Line(index(Line, '!'):) = Blank
@@ -375,8 +372,6 @@
       else
       endif
 
-      call Memo_Free (memo_object)
- 
       call pop_routine (my_name)
       return
       end
