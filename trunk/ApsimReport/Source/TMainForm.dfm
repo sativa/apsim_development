@@ -158,13 +158,10 @@ object MainForm: TMainForm
         Caption = '-'
       end
       object Save1: TMenuItem
-        Caption = 'Save'
-        ImageIndex = 2
-        OnClick = SaveExecute
+        Action = Save
       end
       object SaveAs1: TMenuItem
-        Caption = 'SaveAs'
-        OnClick = SaveAsExecute
+        Action = SaveAs
       end
       object SaveEnvironment1: TMenuItem
         Action = SaveEnvironment
@@ -186,8 +183,7 @@ object MainForm: TMainForm
         Caption = '-'
       end
       object Exit1: TMenuItem
-        Caption = 'Exit'
-        OnClick = ExitExecute
+        Action = Exit
       end
     end
     object Edit1: TMenuItem
@@ -1079,30 +1075,30 @@ object MainForm: TMainForm
     Left = 368
     Top = 40
     object New: TAction
-      Caption = 'New...'
+      Caption = '&New...'
       Hint = 'Create a new report'
       ImageIndex = 0
       OnExecute = NewExecute
     end
     object Open: TAction
-      Caption = 'Open'
+      Caption = '&Open'
       Hint = 'Open an existing report'
       ImageIndex = 1
       OnExecute = OpenExecute
     end
     object Save: TAction
-      Caption = 'Save'
+      Caption = '&Save'
       Hint = 'Save report'
       ImageIndex = 2
       OnExecute = SaveExecute
     end
     object SaveAs: TAction
-      Caption = 'SaveAs'
+      Caption = 'Save&As'
       Hint = 'Save report under new name'
       OnExecute = SaveAsExecute
     end
     object Exit: TAction
-      Caption = 'Exit'
+      Caption = 'E&xit'
       Hint = 'Exit'
       OnExecute = ExitExecute
     end
