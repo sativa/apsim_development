@@ -4164,39 +4164,155 @@ c     he should have. Any ideas? Perhaps
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
+
+* ====================================================================
+* Globals
+         g%rain = 0.0                         ! precipitation (mm/d)
+         g%radn = 0.0                         ! solar radiation (mj/m^2/day)
+         g%mint = 0.0                         ! minimum air temperature (oC)
+         g%maxt = 0.0                         ! maximum air temperature (oC)
+         g%cover_surface_extra = 0.0          ! extra surface cover (0-1)
+         g%cover_surface_runoff = 0.0         ! effective total cover (0-1)
+         g%cover_tot(:) = 0.0                 ! total canopy cover of crops (0-1)
+         g%cover_green(:) = 0.0               ! green canopy cover of crops (0-1)
+         g%canopy_height(:) = 0.0             ! canopy heights of each crop (mm)
+         g%num_crops = 0                      ! number of crops ()
+         g%year = 0                           ! year
+         g%day  = 0                           ! day of year
+         g%sumes1 = 0.0                       ! cumulative soil evaporation in stage 1 (mm)
+         g%sumes2 = 0.0                       ! cumulative soil evaporation in stage 2 (mm)
+         g%t = 0.0                            ! time after 2nd-stage soil evaporation
+                                              ! begins (d)
+         g%solute_min(:,:) = 0.0              ! minimum allowable solute
+                                              ! in soil (kg/ha)
+         g%solute (:, :) = 0.0                ! solute in each layer (kg/ha)
+         g%dlt_solute (:, :) = 0.0            ! change in solute each in 
+                                              ! layer (kg n/ha)
+         g%solute_leach (:,:) = 0.0           ! amount of solute leached
+                                              ! from each layer (kg/ha)
+         g%solute_up (:,:) = 0.0              ! amount of solute upped
+                                              ! from each layer (kg/ha)
+                                              ! nih - I dont like these
+                                              ! names.
+         g%irrigation_solute(:) = 0.0         ! amount of solute in
+                                              ! irrigation water (kg/ha)
+         g%num_solutes = 0                    ! number of solutes in
+                                              ! APSIM ()
+         g%num_irrigation_solutes = 0         ! number of solutes traced
+                                              ! in irrigation water
+
+         g%residue_cover = 0.0                ! residue cover reduces  cn2_bare
+         g%eo = 0.0                           ! potential evapotranspiration (mm)
+         g%eos = 0.0                          ! pot sevap after modification for green cover &
+                                              ! residue wt
+         g%cn2_new = 0.0                      ! New cn2  after modification for crop
+                                              ! cover &
+                                              ! residue cover
+         g%air_dry_dep(:) = 0.0               ! air dry soil water content (mm
+                                              ! water)
+         g%bd(:) = 0.0                        ! moist bulk density of soil (g/cm^3)
+         g%dul_dep (:) = 0.0                  ! drained upper limit soil water content
+                                              ! for each soil layer (mm water)
+         g%ll15_dep (:) = 0.0                 ! 15 bar lower limit of extractable
+                                              ! soil water for each soil layer
+                                              ! (mm water)
+         g%sat_dep (:) = 0.0                  ! saturated water content for layer l
+                                              ! (mm water)
+         g%flow (:) = 0.0                     ! depth of water moving from layer l+1
+                                              ! into layer l because of unsaturated
+                                              ! flow; positive value indicates upward
+                                              ! movement into layer l, negative value
+                                              ! indicates downward movement (mm) out of
+                                              ! layer l
+         g%flux (:) = 0.0                     ! initially, water moving downward into
+                                              ! layer l (mm), then water moving downward
+                                              ! out of layer l (mm)
+         g%sw_dep (:) = 0.0                   ! soil water content of layer l (mm)
+         g%es_layers(:) = 0.0                 ! actual soil evaporation (mm)
+
+         g%drain = 0.0                        ! drainage rate from bottom layer (cm/d)
+         g%infiltration = 0.0                 ! infiltration (mm)
+         g%runoff = 0.0                       ! runoff (mm)
+         g%irrigation = 0.0                   ! irrigation (mm)
+         g%obsrunoff = 0.0                    ! observed runoff (mm)
+         g%tillage_cn_red = 0.0               ! reduction in CN due to tillage ()
+         g%tillage_cn_rain = 0.0              ! cumulative rainfall below which 
+                                              ! tillage reduces CN (mm)
+         g%tillage_rain_sum = 0.0             ! cumulative rainfall for 
+                                              ! tillage CN reduction (mm)
+         g%obsrunoff_found = .false.          ! whether obserevd runoff was returned from system
+         g%obsrunoff_name = ' '               ! system name of observed runoff
+
+c        Zeroed in zero_module_links routine
+c         g%solute_names(:) = ' '              ! names of solutes in the
+c                                              ! soil system that will
+c                                              ! be leached by soilwat2
+c         g%solute_owners(:) = ' '             ! names of owner module for each
+c                                              ! solutes in the system
+c         g%solute_mobility (:) = ' '
+c
+c         g%crop_module(:) = ' '               ! list of modules 
+                                              ! replying
+         g%num_canopy_fact = 0                ! number of canopy factors read ()
+         g%inf_pool = 0.0                     ! infiltration pool to be evap at reset sumes
+         g%sumes_last = 0.0                   ! sumes before inf reset
+         g%sumes = 0.0                        ! summed es 
+         g%sumes_yest = 0.0                   ! yesterdays sumes
+         g%sumeos = 0.0                       ! summed eos 
+         g%sumeos_last = 0.0                  ! sumeos before inf reset
+         g%eo_system = 0.0                    ! eo from somewhere else in the system
+         g%eo_source = ' '                    ! system variable name of external eo source
+
+* ====================================================================
+* Parameters
+         p%dlayer (:) = 0.0                   ! thickness of soil layer i (mm)
+         p%swcon (:) = 0.0                    ! soil water conductivity constant (1/d)
+                                              ! ie day**-1 for each soil layer
+         p%cn2_bare = 0.0                     ! curve number input used to calculate
+                                              ! daily g_runoff
+         p%cn_cov = 0.0                       ! cover at which c_cn_red occurs
+         p%cn_red = 0.0                       ! maximum reduction in p_cn2_bare due to cover
+         p%cona = 0.0                         ! stage 2 drying coefficient
+         p%diffus_const = 0.0                 ! diffusivity constant for soil testure
+         p%diffus_slope = 0.0                 ! slope for diffusivity/soil water content
+                                              ! relationship
+         p%salb = 0.0                         ! bare soil albedo (unitless)
+         p%u = 0.0                            ! upper limit of stage 1 soil evaporation
+                                              ! (mm)
+         p%insoil = 0.0                       ! switch describing initial soil water
+         p%max_evap = 0.0                     ! maximum daily evaporation for rickert
+         p%beta = 0.0                         ! beta for b&s model
+
+* ====================================================================
+* Constants             
+         c%hydrol_effective_depth = 0.0       ! hydrologically effective depth for
+                                              ! runoff (mm)
+         c%mobile_solutes(:) = ' '            ! names of all possible
+                                              ! mobile solutes
+         c%immobile_solutes(:) = ' '          ! names of all possible
+                                              ! immobile solutes
+         c%min_crit_temp = 0.0                ! temperature below which eeq decreases (oC)
+         c%max_crit_temp = 0.0                ! temperature above which eeq increases (oC)
+         c%max_albedo = 0.0                   ! maximum bare ground soil albedo (0-1)
+         c%A_to_evap_fact = 0.0               ! factor to convert "A" to coefficient
+                                              ! in Adam's type residue effect on Eos
+         c%canopy_eos_coef = 0.0              ! coef in cover Eos reduction eqn
+         c%sw_top_crit = 0.0                  ! critical sw ratio in top layer
+                                              ! below which stage 2 evaporation occurs
+         c%sumes1_max = 0.0                   ! upper limit of sumes1
+         c%sumes2_max = 0.0                   ! upper limit of sumes2
+         c%Solute_flux_eff = 0.0              ! efficiency of moving solute with flux (0-1)
+         c%Solute_flow_eff = 0.0              ! efficiency of moving solute with flow (0-1)
+         c%gravity_gradient = 0.0             ! gradient due to hydraulic differentials
+                                              ! (0-1)
+         c%specific_bd = 0.0                  ! specific bulk density (g/cc)
+         c%canopy_fact(:) = 0.0               ! canopy factors for cover runoff effect ()
+         c%canopy_fact_height(:) = 0.0        ! heights for canopy factors (mm)
+         c%canopy_fact_default = 0.0          ! default canopy factor in absence of height ()
+         c%evap_method = 0                    ! actual soil evaporation model being used
+
+
  
-          !  zero pools etc.
- 
-      call soilwat2_zero_daily_variables ()
- 
-      call fill_real_array (g%air_dry_dep , 0.0, max_layer)
-      call fill_real_array (g%dul_dep     , 0.0, max_layer)
-      call fill_real_array (g%ll15_dep    , 0.0, max_layer)
-      call fill_real_array (g%sat_dep     , 0.0, max_layer)
-      call fill_real_array (g%sw_dep      , 0.0, max_layer)
-      call fill_real_array (g%bd          , 0.0, max_layer)
-      call fill_real_array (c%canopy_fact , 0.0, max_coeffs)
-      call fill_real_array (c%canopy_fact_height , 0.0, max_coeffs)
- 
-      c%canopy_fact_default = 0.0
-      g%num_canopy_fact    = 0
-      g%sumes1             = 0.0
-      g%sumes2             = 0.0
-      g%t                  = 0.0
-      g%obsrunoff_name     = blank
- 
-      g%inf_pool           = 0.0
-      g%sumes              = 0.0
-      g%sumes_last         = 0.0
-      g%sumes_yest         = 0.0
-      g%sumeos_last        = 0.0
-      g%eo_source          = blank
-      g%tillage_rain_sum   = 0.0
-      g%tillage_cn_rain    = 0.0
-      g%tillage_cn_red     = 0.0
-      g%irrigation         = 0.0
-      g%cover_surface_extra = 0.0
-      g%cover_surface_runoff = 0.0
  
       call pop_routine (my_name)
       return
