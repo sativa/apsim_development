@@ -1,9 +1,0 @@
-[apsim.sample_apswim]  
-  Module = clock    apswim.par [sample]      
-  Module = report   apswim.par [sample]      
-  Module = met      SAMPLE.MET [sample]      
-  Module = manager  apswim.par [sample]      
-  Module = apswim   apswim.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
-  Module = solute   apswim.par [sample]     %apsuite\apsim\solute\solute.ini [standard]      
-
-

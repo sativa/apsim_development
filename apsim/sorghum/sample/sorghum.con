@@ -1,8 +1,0 @@
-[apsim.sorghum_sample]  
-  Module = clock    sorghum.par [sample]       
-  Module = report   sorghum.par [sample]      
-  Module = met      %apsuite\apsim\met\sample\dalby.met [weather] 
-  Module = manager  sorghum.par [sample]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\soilwat2.ini [standard]   %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]
-  Module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]       %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
-  Module = sorghum  sorghum.par [sample] %apsuite\apsim\sorghum\sorghum.ini [standard]
