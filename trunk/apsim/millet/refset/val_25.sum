@@ -139,7 +139,7 @@
           millet harvest
           millet kill_crop
           millet end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller0_finished = 2
           endif
           if (millet1.stage_name = 'harvest_ripe' and millet1.plant_status = 'alive') or
@@ -148,7 +148,7 @@
           millet1 harvest
           millet1 kill_crop
           millet1 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller1_finished = 2
           endif
           if (millet2.stage_name = 'harvest_ripe' and millet2.plant_status = 'alive') or
@@ -157,7 +157,7 @@
           millet2 harvest
           millet2 kill_crop
           millet2 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller2_finished = 2
           endif
           if (millet3.stage_name = 'harvest_ripe' and millet3.plant_status = 'alive') or
@@ -166,7 +166,7 @@
           millet3 harvest
           millet3 kill_crop
           millet3 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller3_finished = 2
           endif
           if (millet4.stage_name = 'harvest_ripe' and millet4.plant_status = 'alive') or
@@ -175,7 +175,7 @@
           millet4 harvest
           millet4 kill_crop
           millet4 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller4_finished = 2
           endif
           if (millet5.stage_name = 'harvest_ripe' and millet5.plant_status = 'alive') or
@@ -184,7 +184,7 @@
           millet5 harvest
           millet5 kill_crop
           millet5 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller5_finished = 2
           endif
      if (tiller0_finished = 2 and tiller1_finished = 2 and tiller2_finished = 2) and

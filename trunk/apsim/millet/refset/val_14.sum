@@ -132,7 +132,7 @@
           millet harvest
           millet kill_crop
           millet end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller0_finished = 2
           endif
           if (millet1.stage_name = 'harvest_ripe' and millet1.plant_status = 'alive') or
@@ -141,7 +141,7 @@
           millet1 harvest
           millet1 kill_crop
           millet1 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller1_finished = 2
           endif
           if (millet2.stage_name = 'harvest_ripe' and millet2.plant_status = 'alive') or
@@ -150,7 +150,7 @@
           millet2 harvest
           millet2 kill_crop
           millet2 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller2_finished = 2
           endif
           if (millet3.stage_name = 'harvest_ripe' and millet3.plant_status = 'alive') or
@@ -159,7 +159,7 @@
           millet3 harvest
           millet3 kill_crop
           millet3 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller3_finished = 2
           endif
           if (millet4.stage_name = 'harvest_ripe' and millet4.plant_status = 'alive') or
@@ -168,7 +168,7 @@
           millet4 harvest
           millet4 kill_crop
           millet4 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller4_finished = 2
           endif
           if (millet5.stage_name = 'harvest_ripe' and millet5.plant_status = 'alive') or
@@ -177,7 +177,7 @@
           millet5 harvest
           millet5 kill_crop
           millet5 end_crop
-          residue2 tillage_type = burn
+          residue2 tillage type = burn
           tiller5_finished = 2
           endif
      if (tiller0_finished = 2 and tiller1_finished = 2 and tiller2_finished = 2) and
@@ -914,7 +914,14 @@
                                                 root residue =  455.4 kg/ha
                                                 root N =    4.8 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
+   MANAGER:
            Manager sending message :- millet3 harvest
    MILLET3:
       
@@ -980,12 +987,18 @@
                                                 root residue =  277.1 kg/ha
                                                 root N =    2.9 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 30 August 1986 (Day of year=242):
    MILLET1:
        stage    8.0 start_grain_fill
                            biomass =           171.9070       lai =     1.142365    
-                           stover N conc =    1.783023       extractable sw =    125.3982
+                           stover N conc =    1.783037       extractable sw =    125.2011
 2 September 1986 (Day of year=245):
    MILLET4:
       plant_kill. 100% failure because of barreness.
@@ -1057,7 +1070,13 @@
                                                 root residue =   88.2 kg/ha
                                                 root N =    0.9 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 3 September 1986 (Day of year=246):
    MILLET5:
       plant_kill. 100% failure because of barreness.
@@ -1129,26 +1148,32 @@
                                                 root residue =   46.6 kg/ha
                                                 root N =    0.5 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 17 September 1986 (Day of year=260):
    MILLET:
        stage    9.0 end_grain_fill
                            biomass =           1300.036       lai =     1.971868    
-                           stover N conc =    1.056289       extractable sw =    98.26299
+                           stover N conc =    1.056433       extractable sw =    95.72917
 19 September 1986 (Day of year=262):
    MILLET:
        stage   10.0 maturity
                            biomass =           1342.085       lai =     1.831804    
-                           stover N conc =    1.034287       extractable sw =    89.79939
+                           stover N conc =    1.034447       extractable sw =    87.16304
 20 September 1986 (Day of year=263):
    MILLET:
        stage   11.0 harvest_ripe
                            biomass =           1342.085       lai =    0.2400875e-02
-                           stover N conc =    1.122804       extractable sw =    83.54301
+                           stover N conc =    1.122978       extractable sw =    80.85661
    MILLET1:
        stage    9.0 end_grain_fill
                            biomass =           221.5308       lai =    0.3753084    
-                           stover N conc =    1.669044       extractable sw =    83.54301
+                           stover N conc =    1.669932       extractable sw =    80.85661
    MANAGER:
            Manager sending message :- millet harvest
    MILLET:
@@ -1166,9 +1191,9 @@
        senesced above ground biomass (kg/ha) =    1990.9
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  24.3
-       grain N percent =      1.50            total N content (kg/ha) =    130.33
+       grain N percent =      1.50            total N content (kg/ha) =    130.35
        grain N uptake (kg/ha) =     44.09     senesced N content (kg/ha) =      1.99
-       green N content (kg/ha) =     84.25    dead N content (kg/ha) =      0.00
+       green N content (kg/ha) =     84.27    dead N content (kg/ha) =      0.00
       
       
       
@@ -1214,21 +1239,27 @@
    MILLET:
           ended. Yield (dw) =     0.0
                                                 straw residue =10481.5 kg/ha
-                                                straw N =   86.2 kg/ha
+                                                straw N =   86.3 kg/ha
                                                 root residue = 2875.8 kg/ha
                                                 root N =   30.5 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 21 September 1986 (Day of year=264):
    MILLET1:
        stage   10.0 maturity
                            biomass =           226.3630       lai =    0.3349866    
-                           stover N conc =    1.637836       extractable sw =    82.81104
+                           stover N conc =    1.638709       extractable sw =    77.86852
 22 September 1986 (Day of year=265):
    MILLET1:
        stage   11.0 harvest_ripe
                            biomass =           226.3630       lai =    0.2399921e-02
-                           stover N conc =    1.837150       extractable sw =    81.53043
+                           stover N conc =    1.838135       extractable sw =    73.58960
    MANAGER:
            Manager sending message :- millet1 harvest
    MILLET1:
@@ -1246,9 +1277,9 @@
        senesced above ground biomass (kg/ha) =     917.3
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  20.3
-       grain N percent =      1.39            total N content (kg/ha) =     25.65
+       grain N percent =      1.39            total N content (kg/ha) =     25.66
        grain N uptake (kg/ha) =      7.00     senesced N content (kg/ha) =      0.92
-       green N content (kg/ha) =     17.73    dead N content (kg/ha) =      0.00
+       green N content (kg/ha) =     17.74    dead N content (kg/ha) =      0.00
       
       
       
@@ -1294,11 +1325,17 @@
    MILLET1:
           ended. Yield (dw) =     0.0
                                                 straw residue = 1760.3 kg/ha
-                                                straw N =   18.6 kg/ha
+                                                straw N =   18.7 kg/ha
                                                 root residue =  890.1 kg/ha
                                                 root N =    9.4 kg/ha
    MANAGER:
-           Manager sending message :- residue2 tillage_type = burn
+           Manager sending message :- residue2 tillage type = burn
+   RESIDUE2:
+      
+          - Reading residue tillage info
+      Residue removed using burn                          
+                                              Fraction Incorporated =     1.00
+                                              Incorporated Depth    =     0.00
 30 September 1986 (Day of year=273):
    CLOCK:
       Simulation is terminating due to end criteria being met.
