@@ -4,6 +4,8 @@
 
 #include "RotAddIn.h"
 #include "TRotationForm.h"
+#include "CropFields.h"
+#include "RotationValues.h"
 #include <general\math_functions.h>
 #include <general\string_functions.h>
 #include <general\path.h>
@@ -23,6 +25,14 @@ using namespace std;
 extern "C" ToolBarAddInBase* _export __stdcall createToolBarAddIn(const string& parameters)
    {
    return new RotationAddIn(parameters);
+   }
+
+// ------------------------------------------------------------------
+// Exported function for that gives a source dataset to an addin.
+// ------------------------------------------------------------------
+extern "C" void _export __stdcall setSourceData(RotationAddIn* addIn, TAPSTable* source)
+   {
+   addIn->setSource(source);
    }
 
 // ------------------------------------------------------------------
@@ -98,121 +108,146 @@ void __fastcall RotationAddIn::buttonClick(TObject* Sender)
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    This class is a helper class to keep track of all the field
-//    values for a given year and then to calculate an average when
-//    asked to do so.
-
-//  Changes:
-//    DPH 9/8/2001
+// Set the source data set.
 // ------------------------------------------------------------------
-class YearValues
+void RotationAddIn::setSource(TAPSTable* s)
+   {
+   source = s;
+   partitionFilesIntoRotations();
+   }
+
+// ------------------------------------------------------------------
+// Return a list of rotation names to caller
+// ------------------------------------------------------------------
+void RotationAddIn::getRotationNames(vector<string>& rotationNames) const
+   {
+   for (Rotations::const_iterator rotationI = rotations.begin();
+                                  rotationI != rotations.end();
+                                  rotationI++)
+      rotationNames.push_back(rotationI->first);
+   }
+
+// ------------------------------------------------------------------
+// Return the data block names for a given rotation.  Returns true
+// if ok.
+// ------------------------------------------------------------------
+bool RotationAddIn::getRotation(const std::string& name, DataBlockNames& dataBlockNames) const
+   {
+   Rotations::const_iterator rotI = rotations.find(name);
+   if (rotI != rotations.end())
+      {
+      copy(rotI->second.begin(), rotI->second.end(),
+           inserter(dataBlockNames, dataBlockNames.begin()));
+      return true;
+      }
+   return false;
+   }
+// ------------------------------------------------------------------
+// Return the data block names for a given rotation.
+// ------------------------------------------------------------------
+void RotationAddIn::addRotation(const std::string& name, const DataBlockNames& dataBlockNames)
+   {
+   rotations.insert(Rotations::value_type(name, dataBlockNames));
+   }
+// ------------------------------------------------------------------
+// The class responsible for calculating a 'score' by comparing a base
+// data block name to another datablock name.
+// ------------------------------------------------------------------
+class ScoreNameAgainst
    {
    private:
-      class FieldValue
-         {
-         private:
-            string stringValue;
-            double numericalValue;
-            unsigned int count;
-            enum FieldValueType {str, numerical, unknown};
-            FieldValueType type;
-         public:
-            FieldValue(void) : type(unknown), count(0) { }
-
-            void clear(void)
-               {
-               count = 0;
-               numericalValue = 0;
-               }
-            bool isString(void) {return type == str;}
-            void addValue(const string& value)
-               {
-               if (type == unknown)
-                  {
-                  char* endptr;
-                  numericalValue = strtod(value.c_str(), &endptr);
-                  if (*endptr == 0)
-                     type = numerical;
-                  else
-                     {
-                     type = str;
-                     stringValue = value;
-                     }
-                  }
-               else if (type == numerical)
-                  {
-                  char* endptr;
-                  numericalValue += strtod(value.c_str(), &endptr);
-                  }
-               count++;
-               }
-            double getValue(bool doTotal)
-               {
-               if (type == numerical)
-                  {
-                  if (count == 0)
-                     return 0.0;
-                  else
-                     {
-                     if (doTotal)
-                        return numericalValue;
-                     else
-                        return numericalValue / count;
-                     }
-                  }
-               else
-                  return MAXDOUBLE;
-               }
-            string getValue(void)
-               {
-               if (type == str)
-                  return stringValue;
-               else
-                  return "";
-               }
-         };
-
-      typedef map<unsigned, FieldValue> FieldValues;
-
-      vector<FieldValues> values;
+      const string baseName;
    public:
-      YearValues(void) { }
+      ScoreNameAgainst(const string& basename) : baseName(basename) { }
+      unsigned scoreAgainst(const string& name)
+         {
+         unsigned index = 0;
+         while (baseName[index] != '\0' &&
+                name[index] != '\0' &&
+                baseName[index] == name[index])
+            index++;
 
-      void addValue(unsigned int simIndex, unsigned int fieldIndex, const string& value)
-         {
-         while (values.size() <= simIndex)
-            values.push_back(FieldValues());
-         values[simIndex][fieldIndex].addValue(value);
+         // see if 2 strings are identical
+         if (baseName[index] == '\0' && name[index] == '\0')
+            return index;
+
+         // go back to the previous space ie. only consider whole words that
+         // match.
+         while (index > 0 && baseName[index] != ' ')
+            index--;
+         return index;
          }
-      string getValue(bool doTotal, unsigned int fieldIndex)
+      bool operator()(const string& dataBlockName1, const string& dataBlockName2)
          {
-         // loop through all simulations.
-         int count = 0;
-         double total = 0.0;
-         for (unsigned int simIndex = 0; simIndex < values.size(); simIndex++)
-            {
-            if (values[simIndex][fieldIndex].isString())
-               return values[simIndex][fieldIndex].getValue();
-            else
-               {
-               double value = values[simIndex][fieldIndex].getValue(doTotal);
-               if (value != MAXDOUBLE)
-                  {
-                  total += value;
-                  count++;
-                  }
-               }
-            }
-         char buffer[20];
-         if (count == 0)
-            sprintf(buffer, "%10.3f", 0.0);
-         else
-            sprintf(buffer, "%10.3f", total / count);
-         return &buffer[0];
+         return (scoreAgainst(dataBlockName1) < scoreAgainst(dataBlockName2));
          }
    };
+// ------------------------------------------------------------------
+// Partition all datablock names into rotations by using a scoring
+// algorithm that compares datablock names to each other.
+// ------------------------------------------------------------------
+void RotationAddIn::partitionFilesIntoRotations(void)
+   {
+   clearRotations();
+   if (source != NULL)
+      {
+      vector<string> unknownDataBlocks;
+      vector<string> dataBlockNames;
+      source->getAllDataBlockNames(dataBlockNames);
 
+      vector<string>::iterator dataBlockI = dataBlockNames.begin();
+      while (dataBlockI != dataBlockNames.end())
+         {
+         string rotationName = *dataBlockI;
+         dataBlockI = dataBlockNames.erase(dataBlockI);
+
+         // work out which data blocks belong to this rotation by finding
+         // the highest scoring datablock name and then including it and all
+         // other datablock names with that score.
+
+         vector<string> rotationDataBlocks;
+         rotationDataBlocks.push_back(rotationName);
+
+         ScoreNameAgainst baseName(rotationName);
+         vector<string>::iterator rotationBlockI
+            = max_element(dataBlockNames.begin(), dataBlockNames.end(), baseName);
+         unsigned score = baseName.scoreAgainst(*rotationBlockI);
+
+         // only assume we have a match if the score is greater than
+         // an arbitary value of 5.  Otherwise add this base data block
+         // to an 'unknown files' rotation.
+         if (score >= 5)
+            {
+            // go find all datablock names with our score.  When found, remove
+            // them from the datablocknames list and include them in the
+            // rotationdatablocks list.
+            rotationBlockI = dataBlockNames.begin();
+            while (rotationBlockI != dataBlockNames.end())
+               {
+               if (baseName.scoreAgainst(*rotationBlockI) == score)
+                  {
+                  rotationDataBlocks.push_back(*rotationBlockI);
+                  rotationBlockI = dataBlockNames.erase(rotationBlockI);
+                  }
+               else
+                  rotationBlockI++;
+               }
+            // Remove all characters after the score position.  Assumes the
+            // score is actually a character position within the string.
+            rotationName.erase(score);
+
+            // store this rotation
+            addRotation(rotationName, rotationDataBlocks);
+            }
+         else
+            unknownDataBlocks.push_back(rotationName);
+         }
+
+      // if we have unknown data blocks then create an unknown files rotation.
+      if (unknownDataBlocks.size() > 0)
+         addRotation("Unknown files", unknownDataBlocks);
+      }
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //    given the source data object, and the list of user selected
@@ -230,13 +265,15 @@ void RotationAddIn::doCalculations(TAPSTable& data)
       Screen->Cursor = crHourGlass;
 
       TAPSTable* destData = new TAPSTable(NULL);
+      destData->beginStoringData();
 
-      bool ok = data.first();
-      while (ok)
-         ok = processRotation(data, *destData);
+      for (Rotations::iterator rotationI = rotations.begin();
+                               rotationI != rotations.end();
+                               rotationI++)
+         processRotation(data, *destData, rotationI);
 
+      destData->endStoringData();
       data.storeData(*destData);
-
       delete destData;
 
       needsUpdating = false;
@@ -253,7 +290,9 @@ void RotationAddIn::doCalculations(TAPSTable& data)
 //  Changes:
 //    DPH 9/8/2001
 // ------------------------------------------------------------------
-bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
+bool RotationAddIn::processRotation(TAPSTable& data,
+                                    TAPSTable& destData,
+                                    Rotations::iterator rotationI)
    {
    // get a list of all fieldnames.
    vector<string> fieldNames;
@@ -262,231 +301,77 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
    // get the name of the year field.
    string yearFieldName = data.getYearFieldName();
 
-   // get rotation name we're to process.
-   string rotationName = data.getDataBlockName();
-
-   // go get a list of all crops (e.g. nw and so)
-   getCropNames(fieldNames);
+   // get the rotation name
+   string rotationName = rotationI->first;
 
    // setup some storage for our values indexed by year.
-   typedef map<int, YearValues> Values;
-   Values values;
+   RotationValues values(fieldNames);
 
    int firstYear = 0;
    int lastYear = 10000;
 
+   CropFields cropFields;
+
    // loop through all data blocks, all records within a datablock
    // and all fields in each record.
-   unsigned int numDataBlocks = 0;
-   bool ok = true;
+   unsigned numDataBlocks = 0;
+   bool ok = data.first();
    while (ok)
       {
-      int firstDataBlockYear = StrToInt(data.begin()->getFieldValue(yearFieldName).c_str());
-      int lastDataBlockYear = 0;
-      for (vector<TAPSRecord>::const_iterator recordI = data.begin();
-                                              recordI != data.end();
-                                              recordI++)
+      if (find(rotationI->second.begin(),
+               rotationI->second.end(),
+               data.begin()->getFieldValue("Simulation")) != rotationI->second.end())
          {
-         int year = StrToInt(recordI->getFieldValue(yearFieldName).c_str());
-         lastDataBlockYear = max(lastDataBlockYear, year);
+         int firstDataBlockYear = StrToInt(data.begin()->getFieldValue(yearFieldName).c_str());
+         int lastDataBlockYear = 0;
 
-         for (vector<string>::iterator fieldI = fieldNames.begin();
-                                       fieldI != fieldNames.end();
-                                       fieldI++)
+         for (vector<TAPSRecord>::const_iterator recordI = data.begin();
+                                                 recordI != data.end();
+                                                 recordI++)
             {
-            string value = recordI->getFieldValue(*fieldI);
-            bool addToRecords = false;
+            int year = StrToInt(recordI->getFieldValue(yearFieldName).c_str());
+            lastDataBlockYear = max(lastDataBlockYear, year);
 
-            // For crop variables where the crop was sown in the
-            // current year, add the value to our Values container.
-            // For non-crop variables always add the value to our Values
-            // container.
-            if (isCropVariable(*fieldI))
-               addToRecords = cropWasSown(*recordI, *fieldI);
-            else
-               addToRecords = true;
-
-            if (addToRecords)
+            for (vector<string>::iterator fieldI = fieldNames.begin();
+                                          fieldI != fieldNames.end();
+                                          fieldI++)
                {
-               if (values.find(year) == values.end())
-                  values.insert(Values::value_type(year, YearValues()));
-               values[year].addValue(numDataBlocks,
-                                     fieldI - fieldNames.begin(),
-                                     value);
+               string value = recordI->getFieldValue(*fieldI);
+               bool addToRecords = false;
+
+               // For crop variables where the crop was sown in the
+               // current year, add the value to our Values container.
+               // For non-crop variables always add the value to our Values
+               // container.
+               if (cropFields.isCropField(*fieldI))
+                  addToRecords = cropFields.cropWasSown(*recordI, *fieldI);
+               else
+                  addToRecords = true;
+
+               if (addToRecords)
+                  {
+                  unsigned fieldNum = fieldI - fieldNames.begin();
+                  values.addValue(year, fieldNum, numDataBlocks, value);
+                  }
                }
             }
+         firstYear = max(firstYear, firstDataBlockYear);
+         lastYear = min(lastYear, lastDataBlockYear);
+         numDataBlocks++;
          }
 
-      firstYear = max(firstYear, firstDataBlockYear);
-      lastYear = min(lastYear, lastDataBlockYear);
-
-      numDataBlocks++;
       ok = data.next();
       }
 
-   // output a single data block containing all years and all averaged
-   // numerical field values.  Only consider years that are covered by
-   // all datablocks (remember, each data block is offset by a year).
-   destData.beginStoringData();
-   destData.clearRecords();
-   for (Values::iterator valueI = values.begin();
-                         valueI != values.end();
-                         valueI++)
-      {
-      if (valueI->first >= firstYear && valueI->first <= lastYear)
-         {
-         TAPSRecord newRecord;
-         for (vector<string>::iterator fieldI = fieldNames.begin();
-                                       fieldI != fieldNames.end();
-                                       fieldI++)
-            {
-            unsigned int fieldIndex = fieldI - fieldNames.begin();
-            if (fieldIndex == 0)
-               newRecord.setFieldValue("Simulation", rotationName);
-            else
-               newRecord.setFieldValue
-                  (*fieldI, valueI->second.getValue(doTotalVariable(*fieldI),
-                                                                    fieldIndex));
-            }
-         destData.storeRecord(newRecord);
-         }
-      }
+   // Tell values to do its output.
+   values.writeToDataset(rotationName, destData, firstYear, lastYear);
+
+   // Give all field names to destination dataset.
    for (vector<string>::iterator fieldI = fieldNames.begin();
                                  fieldI != fieldNames.end();
                                  fieldI++)
       destData.addField(*fieldI);
    destData.markFieldAsAPivot("Simulation");
 
-   destData.endStoringData();
    return ok;
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    Return a list of crop names by looking through the field names
-//    passed in.  The algorithm uses a list of crop acronyms read in
-//    from the rotation .ini file.  If it finds one of these at the
-//    start of a field name then it is added to the list of crops.
-
-//  Changes:
-//    DPH 9/8/2001
-// ------------------------------------------------------------------
-void RotationAddIn::getCropNames(std::vector<std::string>& fieldNames)
-   {
-   // get a list of all recognised crop acronyms
-   string crop_acronym_string;
-   ini.Read("crops", "crop_acronyms", crop_acronym_string);
-   vector<string> crop_acronyms;
-   Split_string(crop_acronym_string, " ", crop_acronyms);
-
-   for (vector<string>::iterator fieldI = fieldNames.begin();
-                                 fieldI != fieldNames.end();
-                                 fieldI++)
-      {
-      for (vector<string>::iterator acronymI = crop_acronyms.begin();
-                                  acronymI != crop_acronyms.end();
-                                  acronymI++)
-         {
-         string acronym_ = *acronymI + "_";
-         if (fieldI->find(acronym_) == 0
-             && find(cropNames.begin(), cropNames.end(), *acronymI) == cropNames.end())
-            {
-            // found one - store the acronym.
-            cropNames.push_back(*acronymI);
-            }
-         }
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    Return true if the specified field is a crop field.
-
-//  Changes:
-//    DPH 9/8/2001
-// ------------------------------------------------------------------
-bool RotationAddIn::isCropVariable(const string& fieldName) const
-   {
-   unsigned posUnderscore = fieldName.find("_");
-   if (posUnderscore != string::npos)
-      {
-      return (find(cropNames.begin(), cropNames.end(),
-                   fieldName.substr(0, posUnderscore)) != cropNames.end());
-      }
-   else
-      return false;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    Return true if the specified crop was actually sown
-//    for the current record.  A crop is sown if:
-//       there is a least 1 non zero value in the fields for this crop OR
-//       the crop_fail field (if it exists) has a 'yes' in it.
-
-//  Changes:
-//    DPH 9/8/2001
-// ------------------------------------------------------------------
-bool RotationAddIn::cropWasSown(const TAPSRecord& recordI, const std::string& fieldName) const
-   {
-   unsigned posUnderscore = fieldName.find("_");
-   if (posUnderscore != string::npos)
-      {
-      string crop_acronym = fieldName.substr(0, posUnderscore);
-      string failedFieldName = fieldName.substr(0, posUnderscore) + "_fail";
-      string failedValue = recordI.getFieldValue(failedFieldName);
-      return (Str_i_Eq(failedValue, "yes") || CropHasNonZeroValue(recordI, crop_acronym));
-      }
-   else
-      return false;
-   }
-
-// ------------------------------------------------------------------
-// Return true if there is any field for the specified crop, in the
-// specified record that has a non zero value.
-// ------------------------------------------------------------------
-bool RotationAddIn::CropHasNonZeroValue(const TAPSRecord& recordI,
-                                        const string& crop_acronym) const
-   {
-   vector<string> fieldNames = recordI.getFieldNames();
-   for (vector<string>::iterator fieldI = fieldNames.begin();
-                                 fieldI != fieldNames.end();
-                                 fieldI++)
-      {
-      string acronym_ = crop_acronym + "_";
-      if (fieldI->find(acronym_) == 0)
-         {
-         string Value = recordI.getFieldValue(*fieldI);
-         if (Is_numerical(Value.c_str()))
-            return (StrToFloat(Value.c_str()) != 0.0);
-         }
-      }
-   return false;
-   }
-// ------------------------------------------------------------------
-// Return true if the specified field should be totalled within a year.
-// Return false if the specified field should be averaged within a year.
-// ------------------------------------------------------------------
-bool RotationAddIn::doTotalVariable(const std::string& fieldName)
-   {
-   string st;
-   ini.Read("fields", "averaged_fields", st);
-   vector<string> fields;
-   Split_string(st, " ", fields);
-   for (vector<string>::iterator fieldI = fields.begin();
-                                 fieldI != fields.end();
-                                 fieldI++)
-      {
-      string field = *fieldI;
-      bool doAverage = false;
-      if (field[0] == '*')
-         doAverage = (stristr((char*) fieldName.c_str(),
-                              field.substr(1, field.length()-1).c_str()) != NULL);
-      else
-         doAverage = Str_i_Eq(fieldName, field);
-      if (doAverage)
-         return false;
-      }
-   return true;
-   }
-

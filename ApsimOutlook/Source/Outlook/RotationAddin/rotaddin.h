@@ -4,6 +4,9 @@
 
 #include "ToolBarAddIn.h"
 #include <general\ini_file.h>
+#include <vector>
+#include <string>
+#include <map>
 // ------------------------------------------------------------------
 //  Short description:
 //    this class encapsulates a crop rotation addin
@@ -13,6 +16,32 @@
 // ------------------------------------------------------------------
 class RotationAddIn : public ToolBarAddInBase
    {
+   private:
+      bool needsUpdating;
+      bool rotationAnalysisOn;
+      std::vector<std::string> cropNames;
+      TToolButton* rotationButton;
+      Graphics::TBitmap* glyph;
+      TToolBar* Toolbar;
+      Ini_file ini;
+      typedef std::vector<std::string> DataBlockNames;
+      typedef std::map<std::string, DataBlockNames> Rotations;
+      Rotations rotations;
+      TAPSTable* source;
+
+      void __fastcall buttonClick(TObject* Sender);
+      const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const {return NULL;}
+
+      void partitionFilesIntoRotations(void);
+      bool processRotation(TAPSTable& data,
+                           TAPSTable& destData,
+                           Rotations::iterator rotationI);
+      void getCropNames(std::vector<std::string>& fieldNames);
+      bool isCropVariable(const string& fieldName) const;
+      bool cropWasSown(const TAPSRecord& recordI, const std::string& crop_acronym) const;
+      bool CropHasNonZeroValue(const TAPSRecord& recordI, const std::string& crop_acronym) const;
+      bool doTotalVariable(const std::string& fieldName);
+
    public:
       RotationAddIn(const std::string& parameters);
       ~RotationAddIn(void);
@@ -35,24 +64,18 @@ class RotationAddIn : public ToolBarAddInBase
       void setRotationAnalysisOn(bool on) {rotationAnalysisOn = on;}
       bool getRotationAnalysisOn(void) {return rotationAnalysisOn;}
 
-   private:
-      bool needsUpdating;
-      bool rotationAnalysisOn;
-      std::vector<std::string> cropNames;
-      TToolButton* rotationButton;
-      Graphics::TBitmap* glyph;
-      TToolBar* Toolbar;
-      Ini_file ini;
+      // Each file is categorised as belonging to a particular named rotation.
+      // These methods allow callers to manipulate which files belong to which
+      // rotations.
+      int getNumRotations(void) const {return rotations.size();}
+      void getRotationNames(std::vector<std::string>& names) const;
+      void clearRotations(void) {rotations.erase(rotations.begin(), rotations.end());}
+      bool getRotation(const std::string& name, DataBlockNames& dataBlockNames) const;
+      void addRotation(const std::string& name, const DataBlockNames& dataBlockNames);
 
-      void __fastcall buttonClick(TObject* Sender);
-      const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const {return NULL;}
+      // set the source dataset.
+      void setSource(TAPSTable* s);
 
-      bool processRotation(TAPSTable& data, TAPSTable& destData);
-      void getCropNames(std::vector<std::string>& fieldNames);
-      bool isCropVariable(const string& fieldName) const;
-      bool cropWasSown(const TAPSRecord& recordI, const std::string& fieldName) const;
-      bool CropHasNonZeroValue(const TAPSRecord& recordI, const std::string& crop_acronym) const;
-      bool doTotalVariable(const std::string& fieldName);
    };
 
 #endif
