@@ -9,16 +9,17 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\Tracker.dll
 
-OBJFILES=Tracker.obj TrackerComponent.obj
+OBJFILES=Tracker.obj TrackerVariable.obj TrackerComponent.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\Protocol\Protocol.lib
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
 
