@@ -1,6 +1,6 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Sample  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 version = 3.3
-[apsim.sample_soilph]    
+[apsim.sample_soilph]
 
 
 title = sample run
@@ -12,7 +12,8 @@ module = manager  soilph.par [sample]
 module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]      %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = soiln2   %apsuite\apsim\SOILN2\sample\SOILN2.par [black_earth]          %apsuite\apsim\SOILN2\SOILN2.INI [standard]
 module = residue2 %apsuite\apsim\residue2\sample\residue2.par [wheat_residue]    %apsuite\apsim\residue2\residue2.ini [standard]
-module = nwheat   %apsuite\apsim\nwheat\sample\nwheat.par [sample]               %apsuite\apsim\nwheat\nwheat.INI [standard]
+!module = plant(wheat)   %apsuite\apsim\wheat\sample\wheat.par [sample]           %apsuite\apsim\wheat\wheat.INI [standard]
+module = C:\data\APS\apswork\apsim\Cohort\cohort2\Plant\lib\plant.dll(wheat)   %apsuite\apsim\wheat\sample\wheat.par [sample]           %apsuite\apsim\wheat\wheat.INI [standard]
 module = accum    soilph.par [sample]
 module = fertiliz                                                                %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = soilph   soilph.par [sample]                                            %apsuite\apsim\soilph\soilph.ini [standard]
