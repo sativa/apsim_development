@@ -2,7 +2,10 @@
 
 #include <vcl.h>
 #include <windows.h>
+#include "TDirectory_select_form.h"
+
 #pragma hdrstop
+
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
 //   static version of the RunTime Library:
@@ -27,7 +30,17 @@
 #pragma argsused
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
 {
-   return 1;
+   try
+   {
+//      Application->Initialize();
+//      Application->CreateForm(__classid(TDirectory_select_form),&Directory_select_form);
+      return 1;
+   }
+   catch (Exception &exception)
+   {
+      Application->ShowException(&exception);
+      return 0;
+   }
 }
 //---------------------------------------------------------------------------
  
