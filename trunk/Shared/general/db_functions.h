@@ -6,6 +6,8 @@
 #include <db.hpp>
 #include <stdexcept>
 
+namespace Adodb {
+   class TADOConnection; }
 //---------------------------------------------------------------------------
 // Adds the specified fields to the specified dataset.
 // Does NOT removes any existing fields of the dataset
@@ -70,34 +72,42 @@ void appendDBRecord(TDataSet* dataset,
                     std::vector<std::string>& fieldValues) throw(std::runtime_error);
 
 //---------------------------------------------------------------------------
-// Return a DB value to caller - as a string.
+// Return a DB value to caller - as a string. Missing values will be a
+// blank string.
 //---------------------------------------------------------------------------
-string getDBValue(TDataSet* dataset, const std::string& fieldName)
-   {
-   if (dataset->FieldValues[fieldName.c_str()].IsNull())
-      return "";
-   else
-      return AnsiString(dataset->FieldValues[fieldName.c_str()]).c_str();
-   }
+string getDBValue(TDataSet* dataset, const std::string& fieldName);
+
 //---------------------------------------------------------------------------
-// Return a DB value to caller - as a string.
+// Return a DB value to caller - as a double. To test for a missing value
+// call isMissing function.
 //---------------------------------------------------------------------------
-double getDBDouble(TDataSet* dataset, const std::string& fieldName)
-   {
-   if (dataset->FieldValues[fieldName.c_str()].IsNull())
-      return 0;
-   else
-      return dataset->FieldValues[fieldName.c_str()];
-   }
+double getDBDouble(TDataSet* dataset, const std::string& fieldName);
+
 //---------------------------------------------------------------------------
-// Return a DB value to caller - as a string.
+// Return a DB value to caller - as an unsigned. To test for a missing value
+// call isMissing function.
 //---------------------------------------------------------------------------
-double getDBUnsigned(TDataSet* dataset, const std::string& fieldName)
-   {
-   if (dataset->FieldValues[fieldName.c_str()].IsNull())
-      return 0;
-   else
-      return dataset->FieldValues[fieldName.c_str()];
-   }
+unsigned getDBUnsigned(TDataSet* dataset, const std::string& fieldName);
+
+//---------------------------------------------------------------------------
+// Return true if value is missing.
+//---------------------------------------------------------------------------
+bool isMissing(double value);
+
+//---------------------------------------------------------------------------
+// Return true if value is missing.
+//---------------------------------------------------------------------------
+bool isMissing(unsigned value);
+
+// ------------------------------------------------------------------
+// Execute the specified query.
+// ------------------------------------------------------------------
+void executeQuery(Adodb::TADOConnection* connection, const string& sql);
+
+// ------------------------------------------------------------------
+// Run the specified query. Caller should delete the returned query
+// when done.
+// ------------------------------------------------------------------
+TDataSet* runQuery(Adodb::TADOConnection* connection, const string& sql);
 
 #endif

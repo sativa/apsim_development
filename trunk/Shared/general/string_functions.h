@@ -107,6 +107,17 @@ void Build_string (container& words, const char* separators, std::string& text)
       }
    }
 
+// ------------------------------------------------------------------
+// builds up a string from a container of items.
+// ------------------------------------------------------------------
+template <class T>
+std::string buildString(std::vector<T>& values, const char* separators)
+   {
+   std::ostringstream st;
+   std::ostream_iterator<T, char> out(st, separators);
+   std::copy(values.begin(), values.end(), out);
+   return st.str();
+   }
 
 // ------------------------------------------------------------------
 //  Short description:
