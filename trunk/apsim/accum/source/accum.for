@@ -16,9 +16,11 @@
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
+         allocate(id)
          allocate(g)
 
       else
+         deallocate(id)
          deallocate(g)
 
       end if
@@ -48,7 +50,7 @@
 
 *- Implementation Section ----------------------------------
 
-      call do_registrations()
+      call do_registrations(id)
 
       return
       end
@@ -123,7 +125,7 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. postId) then
+      if (eventID .eq. id%post) then
          call Accum_get_other_variables()
 
       else
