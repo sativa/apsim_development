@@ -22,6 +22,7 @@ TrackerVariable::TrackerVariable(protocol::Component* p, const string& fullName)
    count = 0;
    last = 0;
    inWindow = false;
+   sinceComponentID = 0;
    parse(fullName);
    }
 // ------------------------------------------------------------------
@@ -175,9 +176,18 @@ void TrackerVariable::doRegistrations(void)
                                             nullDDML);
       }
    if (since != "")
+      {
+      unsigned posPeriod = since.find('.');
+      if (posPeriod != string::npos)
+         {
+         string sinceComponentName = since.substr(0, posPeriod);
+         parent->componentNameToID(sinceComponentName.c_str(), sinceComponentID);
+         since.erase(0, posPeriod+1);
+         }
       sinceID = parent->addRegistration(protocol::respondToEventReg,
                                         since.c_str(),
                                         nullDDML);
+      }
 
    nameID = parent->addRegistration(protocol::respondToGetReg,
                                     name.c_str(),
@@ -195,7 +205,9 @@ void TrackerVariable::respondToEvent(unsigned fromID, unsigned eventID)
    {
    if (eventID == onID)
       doSample();
-   else if (eventID == startPeriodID || eventID == sinceID)
+   else if (eventID == startPeriodID)
+      onStartPeriod();
+   else if (eventID == sinceID && (sinceComponentID == 0 || sinceComponentID == fromID))
       onStartPeriod();
    else if (eventID == endPeriodID)
       onEndPeriod();
