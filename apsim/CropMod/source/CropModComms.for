@@ -3170,6 +3170,8 @@ c        end if
       call push_routine (my_name)
       call print_routine (my_name)
 
+      call publish_null(id%harvesting)
+
           ! crop harvested. Report status
 
       yield = (g_dm_green(grain) + g_dm_dead(grain))
@@ -3411,7 +3413,6 @@ c        end if
       call print_routine (my_name)
 
       if (g%plant_status.ne.status_out) then
-         call publish_null(id%harvesting)
 
          g%plant_status = status_out
          g%current_stage = real (plant_end)
