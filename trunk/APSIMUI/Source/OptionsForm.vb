@@ -153,7 +153,7 @@ Public Class OptionsForm
         'OpenFileDialog
         '
         Me.OpenFileDialog.DefaultExt = "*.xml"
-        Me.OpenFileDialog.Filter = "toolbox files (*.xml)|*.xml|All Files (*.*)|*.*"
+        Me.OpenFileDialog.Filter = "toolbox files (*.xml; *.soils)|*.xml;*.soils|All Files (*.*)|*.*"
         '
         'SaveFileDialog
         '
