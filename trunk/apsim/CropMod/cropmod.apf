@@ -4,13 +4,6 @@ Dependency = %licensed(CropMod)
 [Contents]
 Executable    = lib\lib.apf
 Source        = source\source.apf
-Documentation = docs\docs.apf
-Sample        = sample\sample.apf
-automated apsim run.run = automated apsim run.run
 
 [contacts]
 contact = Enli Wang - Module Developer; mailto:WangE@dpi.qld.gov.au
-
-[References]
-wheat.ini = Wheat.ini
-sunf.ini  = sunf.ini
