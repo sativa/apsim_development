@@ -1323,9 +1323,9 @@ module StringModule
       return
       end subroutine
 
-* ====================================================================
+! ====================================================================
       subroutine get_char_variable(line, key, value)
-* ====================================================================
+! ====================================================================
       use ComponentcInterfaceModule
       use DataStrModule
       implicit none
@@ -1360,11 +1360,11 @@ module StringModule
   999 continue
 
       return
-      end
+      end subroutine
       
-c*******************************************************************************************
+!*******************************************************************************************
       subroutine get_real_variable(line,key,value)
-* ====================================================================
+! ====================================================================
       use ComponentcInterfaceModule
       use DataStrModule
       implicit none
@@ -1380,11 +1380,11 @@ c*******************************************************************************
       call string_to_real_Var(char_value,value,numvals)
 
       return
-      end
+      end subroutine
 
-* ====================================================================
+! ====================================================================
       subroutine get_integer_variable(line,key,value)
-* ====================================================================
+! ====================================================================
       use ComponentcInterfaceModule
       use DataStrModule
       implicit none
@@ -1400,7 +1400,7 @@ c*******************************************************************************
       call string_to_integer_Var(char_value,value,numvals)
 
       return
-      end
+      end subroutine
 
       
 end module StringModule
