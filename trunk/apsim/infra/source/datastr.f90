@@ -1739,7 +1739,7 @@ module DataStrModule
       end subroutine
 
 ! ====================================================================
-      subroutine get_char_variable(line, key, value)
+      logical function get_char_variable(line, key, value, optval)
 ! ====================================================================
       use ComponentcInterfaceModule
       implicit none
@@ -1748,36 +1748,57 @@ module DataStrModule
       character value*(*)
 !      character , intent(in)::line*(*)
       character line*(*)
-
+      logical,optional :: optval
+      logical ok
+      logical isoptional
+      
       character next_key*32
       character next_value*100
       character units*32
       character temp_line*200
 
       temp_line = line
-
-  100 continue
-        call get_next_variable (temp_line,next_key,next_value)
-
+      
+      if (present (optval)) then 
+         isoptional = optval
+      else
+         isoptional = .false.
+      endif
+      
+      call get_next_variable (temp_line,next_key,next_value)
+      do while (next_key.ne.' ')
+        print *, 'next_key, key'
+        print *, next_key, key
+        pause
         if (next_key .eq. key) then
-            value = next_value
-            call split_off_units(value,units)
-            goto 999
-        elseif (next_key.eq.' ') then
-            call error ('variable not found',.true.)
-            goto 999
+           value = next_value
+           call split_off_units(value,units)
+           ok = .true.
+           goto 999
+        else
+           call get_next_variable (temp_line,next_key,next_value)
+           ! still looking for keys?
         endif
-
-      goto 100
-
+      enddo
+      
+      if (isoptional) then
+         !  carry on the value is optional
+      else
+         call error (trim(key) // ' : variable not found',.true.)
+      endif  
+      ok = .false.
 
   999 continue
-
+  
+      get_char_variable = ok
+      print *,'key,temp_optval'
+      print *,key,isoptional
+      pause
       return
-      end subroutine
+      end function
 
 !*******************************************************************************************
-      subroutine get_real_variable(line,key,value)
+      logical function get_real_variable(line,key,value,optval)
 ! ====================================================================
       use ComponentcInterfaceModule
       implicit none
@@ -1785,18 +1806,23 @@ module DataStrModule
       character key*(*)
       real value
       character line*(*)
+      logical,optional :: optval
+      logical ok
 
       character char_value*32
       integer   numvals
 
-      call get_char_variable(line,key,char_value)
-      call string_to_real_Var(char_value,value,numvals)
+      ok = get_char_variable(line,key,char_value,optval)
+      if (ok) then
+         call string_to_real_Var(char_value,value,numvals)
+      endif
+      get_real_variable = ok
 
       return
-      end subroutine
+      end function
 
 ! ====================================================================
-      subroutine get_integer_variable(line,key,value)
+      logical function get_integer_variable(line,key,value,optval)
 ! ====================================================================
       use ComponentcInterfaceModule
       implicit none
@@ -1804,15 +1830,19 @@ module DataStrModule
       character key*(*)
       integer value
       character line*(*)
-
+      logical,optional :: optval
+      logical ok
+      
       character char_value*32
       integer   numvals
 
-      call get_char_variable(line,key,char_value)
-      call string_to_integer_Var(char_value,value,numvals)
-
+      ok = get_char_variable(line,key,char_value,optval)
+      if (ok) then
+         call string_to_integer_Var(char_value,value,numvals)
+      endif
+      get_integer_variable = ok
       return
-      end subroutine
+      end function
 
 
 end module DataStrModule
