@@ -331,7 +331,7 @@ class APSIMMilletExternal
     maxt                    : APSIMReal             = Maximum ambient temperature, (oC), GET !, c%maxt_lb, c%maxt_ub
     mint                    : APSIMReal             = Minimum ambient temperature, (oC), GET !, c%mint_lb, c%mint_ub
     radn                    : APSIMReal             = Incident radiation, (Mj/m^2), GET !, c%radn_lb, c%radn_ub
-    soil_temp               : APSIMReal             = Rainfall, (oC), GET_OPT, 0.0, 80.0
+    maxt_soil_surface       : APSIMReal             = Maximum soil surface temperature, (oC), GET_OPT, 0.0, 80.0
     dlayer                  : APSIMRealArray        = Thickness of each layer of soil profile, (mm), GET !, c%dlayer_lb, c%dlayer_ub
     cover_green_sum         : APSIMRealArray        = moist, (g/cm^3), GET_OPT, 0.0, 1.0
     dul_dep                 : APSIMRealArray        = drained upper limit soil water content for each soil layer, (mm), GET !, c%dul_dep_lb, c%dul_dep_ub
