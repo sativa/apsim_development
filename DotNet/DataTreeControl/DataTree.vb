@@ -2,6 +2,7 @@ Imports General
 Imports System.Xml
 Imports System.Collections.Specialized
 Imports System.Windows.Forms
+Imports System.Drawing
 
 Public Class DataTree
     Inherits System.Windows.Forms.UserControl
@@ -192,4 +193,36 @@ Public Class DataTree
             TreeView.LabelEdit = Value
         End Set
     End Property
+
+    Private Sub TreeView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragEnter
+        If AllowDrop = True Then
+            e.Effect = DragDropEffects.Copy
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+
+    Private Sub TreeView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragDrop
+        Try
+            Dim pt As Point
+            Dim DestinationNode As TreeNode
+            pt = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
+            DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
+            '        'MsgBox(DestinationNode.Text)
+            '        'MsgBox(DestinationNode.FullPath)
+            '        'MsgBox(e.Data.GetData(DataFormats.Text))
+            Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
+            Dim NewData As New APSIMData(NewDataString)
+            TreeData.FindChild(DestinationNode.FullPath).Add(NewData)
+            FillTree()
+            'DestinationNode.Nodes.Add(NewData.n)
+
+
+            '        UpdateMainForm()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+
+    End Sub
 End Class
