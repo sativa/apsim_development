@@ -579,7 +579,7 @@ void __fastcall  TMDIChild::ToolBarAddInButtonClick(TObject* Sender)
    if (i != Toolbar_events.end())
    {
       ToolBarAddInBase* addin = (*i).getToolBarAddIn();
-      addin->setScenarios(scenarios);
+      addin->setWorkingData(scenarios, working);
       TNotifyEvent trueOnClick = (*i).getEvent();
       trueOnClick(Sender);
    }
