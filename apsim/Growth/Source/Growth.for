@@ -324,6 +324,9 @@
       call Growth_read_init_param (section_name)
       call Growth_read_param ()
 
+      ! Ensure dlayer etc is here
+      call Growth_get_other_variables ()
+
       call Growth_initial_calculations ()
 
       g%plant_status = status_alive
@@ -373,7 +376,7 @@
       implicit none
 
 *+  Purpose
-*     Kick off the model.
+*     Kill off the model.
 
 *+  Changes
 *     <insert here>
@@ -455,7 +458,7 @@
 
 
       call crop_root_incorp (g%root_mass * kg2gm/ha2sm
-     :                      ,g%root_mass * g%root_n * kg2gm/ha2sm
+     :                      ,g%root_n * kg2gm/ha2sm
      :                      ,g%dlayer
      :                      ,g%root_length
      :                      ,g%root_depth
@@ -786,6 +789,13 @@
      :               variable_name     ! variable name
      :              ,'()'              ! variable units
      :              ,c%crop_type)      ! variable
+
+      elseif (variable_name .eq. 'plant_status') then
+
+         call respond2get_char_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%plant_status)      ! variable
 
 
       elseif (variable_name .eq. 'dlt_an_green') then
@@ -2449,7 +2459,6 @@ c   Needs to wait until we put reads into create phase
       call push_routine (myname)
 
       if (g%plant_status .eq. status_alive) then
-
           call Growth_get_other_variables ()
           g%age = g%age + 1.0/365.25
 
@@ -2595,9 +2604,8 @@ cvs      num_layers = count_of_real_vals(g%root_length, max_layer)
      :                                 - uptake
   200 continue
 
-          remaining_uptake = remaining_uptake + !add because dlt is -ve
-     :              sum_real_array (delta, num_layers)
-
+      remaining_uptake = remaining_uptake + !add because dlt is -ve
+     :          sum_real_array (delta, num_layers)
       if (remaining_uptake.gt.tolerence) then
          call Growth_uptake(remaining_uptake
      :                    ,remaining_available
@@ -2648,7 +2656,6 @@ cvs      num_layers = count_of_real_vals(g%root_length, max_layer)
 
       ! Send back update to Soil Water to owner module
       ! ----------------------------------------------
-
       call set_real_array (unknown_module
      :                    , 'dlt_sw_dep'
      :                    , '(mm)'
