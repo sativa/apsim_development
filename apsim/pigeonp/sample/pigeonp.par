@@ -1,74 +1,42 @@
+[sample.report.parameters]
+title = pigeonp Sample Simulation
+screen_output = on
+outputfile  = pigeonp.out /overwrite
+summaryfile = pigeonp.sum /overwrite
 
-[cultivar.pigeonp.medium_duration]    ! uses ST 1 phenology
+module_names=    clock clock
+variable_names=  day   year     
+variable_alias=  -     -      
 
-hi_incr                  =    0.003  (1/days)        ! 0.005 - rate of HI increase (optional)
-hi_max_pot               =    0.4    ()             ! [GOL - RADHA#3maximum harvest index potential
-height_max               = 1750.0    (mm)           ! maximum canopy height
+module_names=    pigeonp pigeonp pigeonp
+variable_names=  lai      biomass  green_biomass
+variable_alias=  -        -        -     
+units=           -         -       -     
 
-head_grain_no_max        =    0      (grains/head)   ! potential grains per head [Jones & Carberry, 1994]
-grain_gth_rate           =    0      (mg/grain/d)    ! potential grain growth rate [Jones & Carberry, 1994] 
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_day =  270
+start_year = 1988
+end_day =  120
+end_year = 1989
 
-photoperiod_base         = 11.4      (h)            ! [GJO - RADHA#1]- base photoperiod
-photoperiod_crit         = 13.2      (h)            ! no effect - critical photoperiod
-photoperiod_marginal     =  0.2      (h)            ! margin around critical photoperiod
-                                                    !  where phenology is delayed (hours)
-est_days_emerg_to_init   =   40.0    (d)            ! estimated days from emergence to floral init.
-tt_emerg_to_endjuv       =  272.0    (oCd)          ! 240 TT from emergence to floral_initiation 
-pp_endjuv_to_init        =  917.0    (oCd/h)        ! 600.0 photoperiod sensitivity
-tt_init_to_flower        =  203.0    (oCd)          ! 1000 TT from initiation to flowering
-tt_flower_to_start_grain =  100.0    (oCd)          ! 100 TT from flowering to start grain fill 
-tt_flower_to_maturity    =  900.0    (oCd)          ! [GOL] TT from flowering to maturity 
-tt_maturity_to_ripe      =   36.0    (oCd)          ! [GOL] TT from maturity to harvest ripe
+[sample.manager.start_of_day]
 
+if day = 290 and year  = 1988 then
+   pigeonp sow crop_type = pigeonpea, cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
 
-[cultivar.pigeonp.short_duration]       !   ICPL87
+elseif day = 115 and year = 1989 then
+   pigeonp harvest
+   pigeonp end_crop   
 
-hi_incr                  =    0.0117 (1/days)        ! [GOL - RADHA#3] rate of HI increase (optional)
-hi_max_pot               =    0.6   ()             ! [GOL - RADHA#3maximum harvest index potential
-height_max               = 1750.0    (mm)           ! maximum canopy height
+endif
 
-head_grain_no_max        =    0      (grains/head)   ! potential grains per head [Jones & Carberry, 1994]
-grain_gth_rate           =    0      (mg/grain/d)    ! potential grain growth rate [Jones & Carberry, 1994] 
-     
-
-photoperiod_base         = 12.8      (h)            ! [GJO - RADHA#1]- base photoperiod
-photoperiod_crit         = 13.5      (h)            ! no effect - critical photoperiod
-photoperiod_marginal     =  0.2      (h)            ! margin around critical photoperiod
-                                                    !  where phenology is delayed (hours)
-est_days_emerg_to_init   =   20.0      (d)             ! estimated days from emergence to floral init.
-tt_emerg_to_endjuv       =  718.0    (oCd)          ! [GOL - RADHA#1] TT from emergence to floral_initiation 
-pp_endjuv_to_init        =  900.0    (oCd/h)        ! [GOL - RADHA#1] photoperiod sensitivity
-tt_init_to_flower        =   10.0    (oCd)          ! [GOL] TT from initiation to flowering
-tt_flower_to_start_grain =  100.0    (oCd)          ! [GOL] TT from flowering to start grain fill 
-tt_flower_to_maturity    =  600.0    (oCd)          ! [GOL] TT from flowering to maturity 
-tt_maturity_to_ripe      =   36.0    (oCd)          ! [GOL] TT from maturity to harvest ripe
+[sample.manager.end_of_day]
+report do_output
 
 
-[cultivar.pigeonp.extrashort_duration]       !  
+[sample.pigeonp.parameters]
 
-hi_incr                  =    0.0127 (1/days)        ! [GOL - RADHA#3] rate of HI increase (optional)
-hi_max_pot               =    0.6   ()             ! [GOL - RADHA#3maximum harvest index potential
-height_max               = 1750.0    (mm)           ! maximum canopy height
-
-head_grain_no_max        =    0      (grains/head)   ! potential grains per head [Jones & Carberry, 1994]
-grain_gth_rate           =    0      (mg/grain/d)    ! potential grain growth rate [Jones & Carberry, 1994] 
-     
-
-photoperiod_base         = 12.8      (h)            ! [GJO - RADHA#1]- base photoperiod
-photoperiod_crit         = 13.5      (h)            ! no effect - critical photoperiod
-photoperiod_marginal     =  0.2      (h)            ! margin around critical photoperiod
-                                                    !  where phenology is delayed (hours)
-est_days_emerg_to_init   =   20.0      (d)             ! estimated days from emergence to floral init.
-tt_emerg_to_endjuv       =  800.0    (oCd)          ! [GOL - RADHA#1] TT from emergence to floral_initiation 
-pp_endjuv_to_init        =   10.0    (oCd/h)        ! [GOL - RADHA#1] photoperiod sensitivity
-tt_init_to_flower        =   10.0    (oCd)          ! [GOL] TT from initiation to flowering
-tt_flower_to_start_grain =   20.0    (oCd)          ! [GOL] TT from flowering to start grain fill 
-tt_flower_to_maturity    =  700.0    (oCd)          ! [GOL] TT from flowering to maturity 
-tt_maturity_to_ripe      =   36.0    (oCd)          ! [GOL] TT from maturity to harvest ripe
-
-
-
-
-
-
-
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
