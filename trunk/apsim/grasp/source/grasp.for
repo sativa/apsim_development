@@ -3768,6 +3768,11 @@ cpdev. One of these is right. I don't know which...
      :        'dead_stem',
      :        '(kg/ha)', g%dm_dead(stem))
 
+      elseif (variable_name .eq. 'detachment') then
+         call respond2get_real_var (
+     :        'detachment',
+     :        '(kg/ha)', g%litter)
+
       elseif (variable_name .eq. 'basal_area') then
          call respond2get_real_var (
      :        'basal_area',
