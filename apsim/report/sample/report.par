@@ -32,7 +32,7 @@ end_date=9/4/1988
 
 
 [sample.manager.end_of_day]  
-if days_since_last_report = 5 then
+if report1.days_since_last_report = 5 then
    report1 do_output
    report2 do_output
 endif
