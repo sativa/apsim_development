@@ -58,18 +58,18 @@ namespace test
 		public void TestForEach()
 			{
 			const string Template = 
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[simulation.name] [s.name] [crop.name]\n" +
-				"[endfor]\n" + 
-				"[endfor]\n"; 
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[simulation.name] [s.name] [crop.name]\r\n" +
+				"[endfor]\r\n" + 
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
 			Assert.AreEqual(Result, 
-				"s soil1 sorghum\n" +
-				"s soil1 wheat\n" +
-				"s soil2 sorghum\n");
+				"s soil1 sorghum\r\n" +
+				"s soil1 wheat\r\n" +
+				"s soil2 sorghum\r\n");
 			}
 		// -------------------------------------------
 		// Test of foreach but writing to files rather
@@ -79,22 +79,22 @@ namespace test
 		public void TestForEachWritesFiles()
 			{
 			const string Template = 
-				"[file test.txt]\n" +
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[simulation.name] [s.name] [crop.name]\n" +
-				"[endfor]\n" + 
-				"[endfor]\n" +
-				"[endfile]\n";
+				"[file test.txt]\r\n" +
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[simulation.name] [s.name] [crop.name]\r\n" +
+				"[endfor]\r\n" + 
+				"[endfor]\r\n" +
+				"[endfile]\r\n";
 
 			Macro macro = new Macro();
 			macro.Go(new APSIMData(Values), Template, "");
 			StreamReader i = new StreamReader("test.txt");
 			string Result = i.ReadToEnd();
 			Assert.AreEqual(Result, 
-				"s soil1 sorghum\n" +
-				"s soil1 wheat\n" +
-				"s soil2 sorghum\n");
+				"s soil1 sorghum\r\n" +
+				"s soil1 wheat\r\n" +
+				"s soil2 sorghum\r\n");
 			i.Close();
 			File.Delete("test.txt");
 			}
@@ -105,14 +105,14 @@ namespace test
 		public void TestBadForEachThrows()
 			{
 			const string Template = 
-				"[for each simulation.soil as s]\n" +
-				"[endfor]\n"; 
+				"[for each simulation.soil as s]\r\n" +
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
 			Assert.AreEqual(Result, 
-				"[for each simulation.soil as s]\n" +
-				"[endfor]\n");
+				"[for each simulation.soil as s]\r\n" +
+				"[endfor]\r\n");
 			}
 		// -------------------------------------------
 		// Test badly formatted foreach macro #2
@@ -122,8 +122,8 @@ namespace test
 		public void TestBadForEachThrows2()
 			{
 			const string Template = 
-				"[foreach soil as s]\n" +
-				"[endfor]\n"; 
+				"[foreach soil as s]\r\n" +
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
@@ -136,8 +136,8 @@ namespace test
 		public void TestBadForEachThrows3()
 			{
 			const string Template = 
-				"[foreach simulation.soil as]\n" +
-				"[endfor]\n"; 
+				"[foreach simulation.soil as]\r\n" +
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
@@ -150,10 +150,10 @@ namespace test
 		public void TestMissingEndForThrows()
 			{
 			const string Template = 
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[simulation.name] [s.name] [crop.name]\n" +
-				"[endfor]\n"; 
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[simulation.name] [s.name] [crop.name]\r\n" +
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
@@ -165,18 +165,18 @@ namespace test
 		public void TestBadMacroIgnored()
 			{
 			const string Template = 
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[invalid.name] [s.name] [crop.name]\n" +
-				"[endfor]\n" +
-				"[endfor]\n"; 
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[invalid.name] [s.name] [crop.name]\r\n" +
+				"[endfor]\r\n" +
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
 			Assert.AreEqual(Result, 
-				"[invalid.name] soil1 sorghum\n" +
-				"[invalid.name] soil1 wheat\n" +
-				"[invalid.name] soil2 sorghum\n");
+				"[invalid.name] soil1 sorghum\r\n" +
+				"[invalid.name] soil1 wheat\r\n" +
+				"[invalid.name] soil2 sorghum\r\n");
 			}
 		// -------------------------------------------
 		// Test that global macros work
@@ -197,19 +197,19 @@ namespace test
 		public void TestIfMacro()
 			{
 			const string Template = 
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[if [s.name] = soil1]\n" +
-						"[simulation.name] [s.name] [crop.name]\n" +
-				"[endif]\n" +
-				"[endfor]\n" + 
-				"[endfor]\n"; 
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[if [s.name] = soil1]\r\n" +
+						"[simulation.name] [s.name] [crop.name]\r\n" +
+				"[endif]\r\n" +
+				"[endfor]\r\n" + 
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
 			Assert.AreEqual(Result, 
-				"s soil1 sorghum\n" +
-				"s soil1 wheat\n");
+				"s soil1 sorghum\r\n" +
+				"s soil1 wheat\r\n");
 			}
 		// -------------------------------------------
 		// Test that if macros throw #1
@@ -219,13 +219,13 @@ namespace test
 		public void TestIfMacroThrows1()
 			{
 			const string Template = 
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[if [s.name] = soil1]\n" +
-						"[simulation.name] [s.name] [crop.name]\n" +
-				"[end if]\n" +
-				"[endfor]\n" + 
-				"[endfor]\n"; 
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[if [s.name] = soil1]\r\n" +
+						"[simulation.name] [s.name] [crop.name]\r\n" +
+				"[end if]\r\n" +
+				"[endfor]\r\n" + 
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
@@ -238,13 +238,13 @@ namespace test
 		public void TestIfMacroThrows2()
 			{
 			const string Template = 
-				"[foreach simulation.soil as s]\n" +
-				"[foreach s.crop]\n" +
-				"[if ([s.name] = soil1)]\n" +
-						"[simulation.name] [s.name] [crop.name]\n" +
-				"[end if]\n" +
-				"[endfor]\n" + 
-				"[endfor]\n"; 
+				"[foreach simulation.soil as s]\r\n" +
+				"[foreach s.crop]\r\n" +
+				"[if ([s.name] = soil1)]\r\n" +
+						"[simulation.name] [s.name] [crop.name]\r\n" +
+				"[end if]\r\n" +
+				"[endfor]\r\n" + 
+				"[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
@@ -257,33 +257,33 @@ namespace test
 		public void TestWhiteSpace()
 		{
 			const string input=
-      "<simulations name='Untitled Simulation Set'>\n"+
-      "   <simulation name='Untitled'>\n"+
-      "      <outputfile name='outputfile'>\n"+
-      "         <filename name='filename'>sample.out</filename>\n"+
-      "         <frequency name='frequency'>End_of_day</frequency>\n"+
-      "         <variable name='year' module='clock' description='Year'/>\n"+
-      "         <variable name='day' module='clock' description='Day'/>\n"+
-      "         <event name='start_of_day' description='Start of daily simulation time step'/>\n"+
-      "      </outputfile>\n"+
-      "   </simulation>\n"+
+      "<simulations name='Untitled Simulation Set'>\r\n"+
+      "   <simulation name='Untitled'>\r\n"+
+      "      <outputfile name='outputfile'>\r\n"+
+      "         <filename name='filename'>sample.out</filename>\r\n"+
+      "         <frequency name='frequency'>End_of_day</frequency>\r\n"+
+      "         <variable name='year' module='clock' description='Year'/>\r\n"+
+      "         <variable name='day' module='clock' description='Day'/>\r\n"+
+      "         <event name='start_of_day' description='Start of daily simulation time step'/>\r\n"+
+      "      </outputfile>\r\n"+
+      "   </simulation>\r\n"+
 	  "</simulations>";
       
 			const string Template = 
-					  "[foreach simulations.simulation as sim]\r\n"+
-					  "[foreach sim.outputfile as out]\r\n" +
-					  "[foreach out.variable as var]\r\n" +
-  					  "   [var.name]\r\n" +
-					  "[endfor]\r\n" + 
-					  "   hello\r\n"+
-					  "[endfor]\r\n"+ 
-					  "[endfor]\r\n"; 
+					  "[foreach simulations.simulation as sim]\r\r\n"+
+					  "[foreach sim.outputfile as out]\r\r\n" +
+					  "[foreach out.variable as var]\r\r\n" +
+  					  "   [var.name]\r\r\n" +
+					  "[endfor]\r\r\n" + 
+					  "   hello\r\r\n"+
+					  "[endfor]\r\r\n"+ 
+					  "[endfor]\r\r\n"; 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(input), Template);
 			Assert.AreEqual(Result, 
-				"   year\r\n" +
-				"   day\r\n" +
-				"   hello\r\n") ;				
+				"   year\r\r\n" +
+				"   day\r\r\n" +
+				"   hello\r\r\n") ;				
 
 		}
 
@@ -294,20 +294,20 @@ namespace test
 		public void TestComment()
 		{
 			const string Template = 
-					  "[foreach simulation.soil as s]\n" +
-					  "[foreach s.crop]\n" +
-					  "[comment] hello [endcomment]\n"+
-					  "[if [s.name] = soil1]\n" +
-					  "[simulation.name] [s.name] [crop.name]\n" +
-					  "[endif]\n" +
-					  "[endfor]\n" + 
-					  "[endfor]\n"; 
+					  "[foreach simulation.soil as s]\r\n" +
+					  "[foreach s.crop]\r\n" +
+					  "[comment] hello [endcomment]\r\n"+
+					  "[if [s.name] = soil1]\r\n" +
+					  "[simulation.name] [s.name] [crop.name]\r\n" +
+					  "[endif]\r\n" +
+					  "[endfor]\r\n" + 
+					  "[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
 			Assert.AreEqual(Result, 
-				"s soil1 sorghum\n" +
-				"s soil1 wheat\n");
+				"s soil1 sorghum\r\n" +
+				"s soil1 wheat\r\n");
 		}
 		// -------------------------------------------
 		// Test that macros work with a comment
@@ -316,18 +316,15 @@ namespace test
 		public void TestDataPath()
 		{
 			const string Template = 
-					  "[foreach simulation.soil as s]\n" +
-					  "[foreach s.crop as crop]\n" +
-					  "[s.crop.name]\n" +
-					  "[endfor]\n" + 
-					  "[endfor]\n"; 
+					  "[foreach simulation.soil as s]\r\n" +
+					  "[s.sorghum.1.ll]\r\n" +
+					  "[endfor]\r\n"; 
 
 			Macro macro = new Macro();
 			string Result = macro.Go(new APSIMData(Values), Template);
 			Assert.AreEqual(Result, 
-				"sorghum\n" +
-				"wheat\n"+
-				"sorghum\n");
+				"0.23\r\n" +
+				"0.19\r\n");
 		}
 
 		}
