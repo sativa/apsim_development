@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "DBSimulation.h"
@@ -7,6 +8,7 @@
 #include <general\db_functions.h>
 #include <general\string_functions.h>
 #include <general\stristr.h>
+#include <general\inifile.h>
 #include <sstream>
 #include <assert.h>
 #pragma package(smart_init)
@@ -366,7 +368,7 @@ void DBSimulation::getFactors(vector<string>& names, vector<string>& values) con
    for (unsigned int i = 0; i < titleBits.size(); i++)
       {
       string name, value;
-      Get_keyname_and_value (titleBits[i].c_str(), name, value);
+      getKeyNameAndValue(titleBits[i], name, value);
       if (name == "")
          {
          name = "Simulation";

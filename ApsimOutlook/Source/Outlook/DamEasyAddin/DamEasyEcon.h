@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
-#ifndef DAMEASYH
-#define DAMEASYH
+#ifndef DamEasyEconH
+#define DamEasyEconH
 //---------------------------------------------------------------------------
 #include <SysUtils.hpp>
 #include <Controls.hpp>
@@ -16,6 +16,7 @@
 #include "AddCostsBenefits.h"
 #include "..\Scenario.h"
 #include "DEEconConfig.h"
+#include <ApsimShared\ApsimSettings.h>
 
 using std::vector;
 // ------------------------------------------------------------------
@@ -58,6 +59,7 @@ class DamEasyEcon : public AddInBase
                                   const std::vector<Scenario*>& selectedScenarios);
 
    private:
+      ApsimSettings settings;
       void Read_inifile_settings (void);
       string Get_descriptor_value(string Descriptor, string Item);
 		void getAllFactorValues(const std::string& factorName,

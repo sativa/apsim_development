@@ -1,15 +1,15 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "RotationValues.h"
 #include <general\stristr.h>
 #include <general\path.h>
-#include <general\ini_file.h>
 #include <general\stl_functions.h>
 #include <assert.h>
 #include <sstream>
+#include <iterator>
 
 #pragma package(smart_init)
 using namespace std;
@@ -100,17 +100,11 @@ bool RotationValues::isAveragedField(const string& fieldName) const
 RotationValues::RotationValues(const vector<string>& fields)
    : fieldNames(fields), cropFields(NULL)
    {
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Append_path("rotationaddin");
-   iniPath.Set_name("rotationaddin.ini");
-   Ini_file ini;
-   ini.Set_file_name(iniPath.Get_path().c_str());
-
    string st;
-   ini.Read("fields", "fields_averaged", st);
+   settings.read("fields|fields_averaged", st);
    Split_string(st, ",", fieldsToAverage);
 
-   ini.Read("fields", "fields_divided_by_num_files", st);
+   settings.read("fields|fields_divided_by_num_files", st);
    Split_string(st, ",", fieldsDividedByNumFiles);
    }
 // ------------------------------------------------------------------
@@ -131,7 +125,7 @@ void RotationValues::writeToDataset(const string& rotationName, TAPSTable& data,
    // output a single data block containing all years and all averaged
    // numerical field values.  Only consider years that are covered by
    // all datablocks (remember, each data block is offset by a year).
-   for (int year = firstYear; year <= lastYear; year++)
+   for (unsigned year = firstYear; year <= lastYear; year++)
       {
       YearValues::const_iterator yearValueI = yearValues.find(year);
       if (yearValueI == yearValues.end())

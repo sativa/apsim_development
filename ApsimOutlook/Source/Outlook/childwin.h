@@ -26,11 +26,12 @@
 #include "TAPSTable.h"
 #include "TAPSTable_2_TDataSet.h"
 #include "TAnalysis_panel.h"
-#include "MemTable.hpp"
 #include "TChartSettingsForm.h"
 #include "kbmMemTable.hpp"
 #include "Scenarios.h"
 #include "ToolBarAddIn.h"
+#include <DB.hpp>
+#include <ApsimShared\ApsimSettings.h>
 
 class AddInEventMap;  // see bottom of page for class definition
 // a random comment of the day.
@@ -101,6 +102,7 @@ private:
    static TToolBar* Toolbar;
    TChartSettingsForm* Settings_form;
    Scenarios* scenarios;
+   ApsimSettings settings;
    static std::vector<ToolBarAddInBase*> addIns;
    static std::vector<HINSTANCE> dllHandles;
 
@@ -149,8 +151,8 @@ class AddInEventMap
    public:
       AddInEventMap(TControl* Control, TNotifyEvent Event, ToolBarAddInBase* Addin)
          : control(Control), event(Event), addin(Addin)   {};
-      operator!= (TControl* rhs)
-         {  return rhs != control;    };
+      operator== (TControl* rhs)
+         {  return rhs == control;    };
       TNotifyEvent getEvent()
          {  return event;  };
       ToolBarAddInBase* getToolBarAddIn()

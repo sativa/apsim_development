@@ -1,4 +1,5 @@
 //---------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -9,7 +10,6 @@
 #include <general\date_class.h>
 #include <general\vcl_functions.h>
 #include <general\path.h>
-#include <general\ini_file.h>
 #include <assert.h>
 #include <editchar.hpp>
 #include <TProbability_panel.h>
@@ -25,7 +25,6 @@
 #pragma link "TAPSTable"
 #pragma link "TAPSTable_2_TDataSet"
 #pragma link "TAuto_size_panel"
-#pragma link "MemTable"
 #pragma link "kbmMemTable"
 #pragma resource "*.dfm"
 
@@ -68,7 +67,7 @@ __fastcall TMDIChild::~TMDIChild()
          delete ptr;
          }
       while (!dllHandles.empty()) {
-         HINSTANCE dllHandle = dllHandles.back();
+//         HINSTANCE dllHandle = dllHandles.back();
          //FreeLibrary(dllHandle);
          dllHandles.pop_back();
          }
@@ -106,7 +105,7 @@ void __fastcall TMDIChild::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormResize(TObject *Sender)
    {
-   if (true /*WindowState == wsMaximized*/)
+//   if (true /*WindowState == wsMaximized*/)
       {
       Settings_form->Left = ClientWidth - 250;
       Settings_form->Top = 0;
@@ -284,10 +283,10 @@ void TMDIChild::Hook_panel_to_this_form (void)
 
       Path p(Application->ExeName.c_str());
       p.Set_extension(".ini");
-      Ini_file Ini;
-      Ini.Set_file_name(p.Get_path().c_str());
       string Option;
-      Ini.Read (OPTIONS_SECTION, "colour_background", Option);
+
+      static const char* COLOUR_KEY = "Options|colour_background";
+      settings.read(COLOUR_KEY, Option);
       Analysis_panel->Colour_background = !Str_i_Eq(Option, "off");
       }
    }
@@ -490,16 +489,14 @@ void TMDIChild::loadAllToolbarAddIns(void)
    Path iniPath(Application->ExeName.c_str());
    iniPath.Set_extension(".ini");
 
-   Ini_file ini;
-   ini.Set_file_name(iniPath.Get_path().c_str());
-   list<string> addInFileNames;
-   ini.Read_list("ToolBarAddins", "addin", addInFileNames);
+   vector<string> addInFileNames;
+   settings.read("ToolBarAddins|addin", addInFileNames);
 
    // Loop through all filenames, load the DLL, call the DLL to create an
    // instance of an AddInBase and store in our list of addins.
-   for (list<string>::iterator a = addInFileNames.begin();
-                               a != addInFileNames.end();
-                               a++)
+   for (vector<string>::iterator a = addInFileNames.begin();
+                                 a != addInFileNames.end();
+                                 a++)
       {
       // look for add in parameters after a space.
       unsigned int posSpace = (*a).find(" ");

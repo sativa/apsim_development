@@ -1,13 +1,13 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "TSkin.h"
-#include "TSplashForm.h"
+#include "TOutlookSplashForm.h"
 #include "Main.h"
 #include "about.h"
 #include <general\path.h>
-#include <general\ini_file.h>
 
 #pragma package(smart_init)
 TSkin* Skin;
@@ -56,28 +56,22 @@ TSkin::~TSkin(void)
 // ------------------------------------------------------------------
 void TSkin::DisplaySplashScreen(void)
    {
-   // open skin .ini file
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file Skin;
-   Skin.Set_file_name (p.Get_path().c_str());
-
    // read splash screen
-   Skin.Read("skin", "splashscreen", BitmapName);
+   settings.read("skin|splashscreen", BitmapName);
    if (BitmapName != "" && FileExists(BitmapName.c_str()))
       {
       string backdrop;
-      Skin.Read("skin", "Backdrop", backdrop);
+      settings.read("skin|Backdrop", backdrop);
       if (backdrop == "on")
          {
          showBackdrop = true;
          }
       else
          {
-         SplashForm = new TSplashForm(NULL);
-         SplashForm->Image1->Picture->LoadFromFile(BitmapName.c_str());
+         OutlookSplashForm = new TOutlookSplashForm(NULL);
+         OutlookSplashForm->Image1->Picture->LoadFromFile(BitmapName.c_str());
          Application->ProcessMessages();
-         SplashForm->Show();
+         OutlookSplashForm->Show();
          }
       }
    }
@@ -93,11 +87,6 @@ void TSkin::DisplaySplashScreen(void)
 // ------------------------------------------------------------------
 void TSkin::InitApplication(void)
    {
-   // open skin .ini file
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file Skin;
-   Skin.Set_file_name (p.Get_path().c_str());
    string St;
 
    // show backdrop if required
@@ -105,7 +94,7 @@ void TSkin::InitApplication(void)
       MainForm->MDIWallpaper1->Picture->LoadFromFile(BitmapName.c_str());
 
    // read title
-   Skin.Read("skin", "title", St);
+   settings.read("skin|title", St);
    if (St != "")
       {
       Application->Title = St.c_str();
@@ -113,7 +102,7 @@ void TSkin::InitApplication(void)
       }
 
    // read icon
-   Skin.Read("skin", "icon", St);
+   settings.read("skin|icon", St);
    if (St != "" && FileExists(St.c_str()))
       {
       Icon = new TIcon;
@@ -122,27 +111,23 @@ void TSkin::InitApplication(void)
       }
 
    // read help about
-   Skin.Read("skin", "helpabout", St);
+   settings.read("skin|helpabout", St);
    if (St != "" && FileExists(St.c_str()))
       AboutBox->Image1->Picture->LoadFromFile(St.c_str());
 
    // read evaluation
-   Skin.Read("skin", "evaluation", St);
-   if (St != "")
-      MainForm->StrHolder1->Strings->Strings[0] = St.c_str();
-   else
+   settings.read("skin|evaluation", evaluation);
+   if (evaluation == "")
       {
       delete MainForm->Evaluate1;
       MainForm->Evaluate_button->Visible = false;
       }
 
    // read help file
-   Skin.Read("skin", "helpfile", St);
-   if (St != "")
-      MainForm->StrHolder1->Strings->Strings[1] = St.c_str();
+   settings.read("skin|helpfile", helpFile);
 
    // read version
-   Skin.Read("skin", "version", St);
+   settings.read("skin|version", St);
    if (St != "")
       AboutBox->VersionLabel->Caption = St.c_str();
 
@@ -151,4 +136,21 @@ void TSkin::InitApplication(void)
 //   if (St != "")
 //      MainForm->SOI_button->Visible = Str_i_Eq(St, "on");
    }
-   
+// ------------------------------------------------------------------
+// display the evaluation page.
+// ------------------------------------------------------------------
+void TSkin::displayEvaluation(void)
+   {
+   ShellExecute (MainForm->Handle, "open",
+                 evaluation.c_str(), NULL, "", SW_SHOW);
+
+   }
+// ------------------------------------------------------------------
+// display the help page.
+// ------------------------------------------------------------------
+void TSkin::displayHelp(void)
+   {
+   ShellExecute (MainForm->Handle, "open",
+                 helpFile.c_str(), NULL, "", SW_SHOW);
+   }
+

@@ -11,11 +11,9 @@
 #include <Grids.hpp>
 #include <Buttons.hpp>
 #include <Mask.hpp>
-#include "PSCFltBox.hpp"
-#include "psccontrols.hpp"
-#include "PSCListBox.hpp"
 #include <ComCtrls.hpp>
-#include <general\ini_file.h>
+#include "flt_box.hpp"
+#include <general\inifile.h>
 #include <vector>
 class FiltAddIn;
 //---------------------------------------------------------------------------
@@ -53,7 +51,7 @@ __published:	// IDE-managed Components
    void __fastcall FilterCombo5Change(TObject *Sender);
    void __fastcall FilterBox5Change(TObject *Sender);
 private:	// User declarations
-   Ini_file ini;
+   IniFile ini;
    TComboBox* activeCombo;
    bool inFormShow;
    void addToVectorIfUnique(std::vector<std::string>& strings, const std::string& st);

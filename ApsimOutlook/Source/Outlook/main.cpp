@@ -1,4 +1,5 @@
 //---------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -6,19 +7,17 @@
 #include "About.h"
 #include "TDrill_down_form.h"
 #include <general\vcl_functions.h>
-#include <general\ini_file.h>
 #include <general\path.h>
 #include <dos.h>
 #include <shellapi.h>
 #include "TSkin.h"
 #include "TSimulation_database.h"
-#include <aps\apsuite.h>
 #include <general\stream_functions.h>
+#include <ApsimShared\ApsimDirectories.h>
 #include <sstream>
 #include <ole2.h>
 using namespace std;
 //---------------------------------------------------------------------
-#pragma link "StrHlder"
 #pragma link "MDIWallp"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
@@ -176,8 +175,7 @@ void __fastcall TMainForm::FileNewMenuClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::HelpContentsMenuClick(TObject *Sender)
    {
-   ShellExecute (this->Handle, "open",
-                 StrHolder1->Strings->Strings[1].c_str(), NULL, "", SW_SHOW);
+   Skin->displayHelp();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
@@ -204,8 +202,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Evaluate(TObject *Sender)
    {
-   ShellExecute (this->Handle, "open",
-                 StrHolder1->Strings->Strings[0].c_str(), NULL, "", SW_SHOW);
+   Skin->displayEvaluation();
    }
 //---------------------------------------------------------------------
 void AddToOpenDialog (TOpenDialog* OpenDialog, TStringList* files)
@@ -287,8 +284,8 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    {
    // create a new temporary mdb file in the apswork directory to contain
    // our files.
-   string sourceMDB = APSDirectories().Get_home() + "\\ApsimOutlook\\new.mdb";
-   string destinationMDB = APSDirectories().Get_working() + "\\temp.mdb";
+   string sourceMDB = getAppHomeDirectory() + "\\new.mdb";
+   string destinationMDB = Path::getTempFolder().Get_path() + "\\temp.mdb";
    CopyFile(sourceMDB.c_str(), destinationMDB.c_str(), false);
    SetFileAttributes(destinationMDB.c_str(), FILE_ATTRIBUTE_NORMAL);
 
@@ -304,12 +301,9 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    OpenDialog->FileName = destinationMDB.c_str();
 
    // go give the default database name to the add-in via the .ini file.
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name(iniPath.Get_path().c_str());
+   ApsimSettings settings;
    string originalContents;
-   ini.Read_section_contents("addins", originalContents);
+   settings.readSection("addins", originalContents);
    string contents = originalContents;
    To_lower(contents);
 
@@ -320,11 +314,11 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       // add the destination MDB to the .ini file so that the DBaddin
       // can pick it up.
       contents.insert(posAddIn+11, " " + destinationMDB);
-      ini.Write_section_contents("addins", contents);
+      settings.writeSection("addins", contents);
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
 
       // now remove our modification to the .ini file.
-      ini.Write_section_contents("addins", originalContents);
+      settings.writeSection("addins", originalContents);
       }
    else
       ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");
@@ -345,7 +339,6 @@ unsigned TMainForm::findDBAddInLine(const string& contents)
       pos++;
       }
    while (true);
-   return string::npos;
    }
 
 //---------------------------------------------------------------------------

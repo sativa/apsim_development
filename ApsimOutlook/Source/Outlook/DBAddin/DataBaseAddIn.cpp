@@ -1,10 +1,11 @@
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <general\pch.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "DataBaseAddIn.h"
 #include <general\stl_functions.h>
-#include <general\ini_file.h>
+#include <general\inifile.h>
 #include <general\path.h>
 #include <dialogs.hpp>
 #include <assert.h>
@@ -495,15 +496,9 @@ void DatabaseAddIn::readAllImages(void)
    {
    static const char* BITMAPS_SECTION = "bitmaps";
 
-   // locate and open our ini file.
-   Path iniPath (Application->ExeName.c_str());
-   iniPath.Set_extension (".ini");
-   Ini_file ini;
-   ini.Set_file_name (iniPath.Get_path().c_str());
-
    // read in all bitmaps.
    string bitmapSectionContents;
-   ini.Read_section_contents (BITMAPS_SECTION, bitmapSectionContents);
+   settings.readSection(BITMAPS_SECTION, bitmapSectionContents);
 
    // loop through all lines in section.
    istringstream in (bitmapSectionContents.c_str());
@@ -512,7 +507,7 @@ void DatabaseAddIn::readAllImages(void)
    while (!in.eof())
       {
       string factorName, bitmapName;
-      Get_keyname_and_value (line.c_str(), factorName, bitmapName);
+      getKeyNameAndValue(line, factorName, bitmapName);
       Path bitmapPath(Application->ExeName.c_str());
       bitmapPath.Set_name (bitmapName.c_str());
       To_lower(factorName);

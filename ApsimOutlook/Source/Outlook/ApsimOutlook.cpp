@@ -1,29 +1,21 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
-#include "TSplashForm.h"
+
+#include "TOutlookSplashForm.h"
 #include "TSkin.h"
-USERES("ApsimOutlook.res");
 USEFORM("about.cpp", AboutBox);
-USEFORM("ChildWin.cpp", MDIChild);
-USEFORM("Main.cpp", MainForm);
+USEFORM("childwin.cpp", MDIChild);
+USEFORM("main.cpp", MainForm);
 USEFORM("TChartSettingsForm.cpp", ChartSettingsForm);
 USEFORM("TDrill_down_form.cpp", Drill_down_form);
 USEFORM("TPreferences_form.cpp", Preferences_form);
-USEUNIT("TSkin.cpp");
-USEFORM("TSplashForm.cpp", SplashForm);
 USEFORM("TTabRenameForm.cpp", TabRenameForm);
 USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
-USELIB("aps32.lib");
-USEUNIT("Scenarios.cpp");
-USEUNIT("factor.cpp");
-USEUNIT("Scenario.cpp");
-USEUNIT("AddIn.cpp");
-USE("ApsimOutlook.todo", ToDo);
-USEUNIT("ToolBarAddIn.cpp");
-USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
 USEFORM("POPUPFORMUNIT.cpp", PopupForm);
 USEFORM("TValueSelectPopup.cpp", ValueSelectPopup);
+USEFORM("TOutlookSplashForm.cpp", OutlookSplashForm);
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
@@ -45,6 +37,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
        Application->CreateForm(__classid(TDrill_down_form), &Drill_down_form);
        Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
        Application->CreateForm(__classid(TTabRenameForm), &TabRenameForm);
+       Application->CreateForm(__classid(TOutlookSplashForm), &OutlookSplashForm);
        Application->Run();
    }
    catch (Exception &exception)

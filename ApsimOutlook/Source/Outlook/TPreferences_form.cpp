@@ -1,19 +1,20 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "TPreferences_form.h"
-#include <general\ini_file.h>
 #include <general\path.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "ToolEdit"
+#pragma link "AdvEdBtn"
+#pragma link "AdvEdit"
+#pragma link "AdvFileNameEdit"
 #pragma resource "*.dfm"
 TPreferences_form *Preferences_form;
 
-static const char* SOI_SECTION = "soi";
-static const char* SOI_FILE_KEY_WORD = "soi file";
-static const char* OPTIONS_SECTION = "options";
+static const char* SOI_KEY = "soi|soi file";
+static const char* COLOUR_KEY = "options|colour_background";
 //---------------------------------------------------------------------------
 __fastcall TPreferences_form::TPreferences_form(TComponent* Owner)
    : TForm(Owner)
@@ -23,16 +24,12 @@ __fastcall TPreferences_form::TPreferences_form(TComponent* Owner)
 void __fastcall TPreferences_form::FormShow(TObject *Sender)
    {
    // read a list of directory names from .ini file.
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file Ini;
-   Ini.Set_file_name(p.Get_path().c_str());
    string SOI_file_name;
-   Ini.Read (SOI_SECTION, SOI_FILE_KEY_WORD, SOI_file_name);
+   settings.read (SOI_KEY, SOI_file_name);
    File_name_edit->Text = SOI_file_name.c_str();
 
    string St;
-   Ini.Read (OPTIONS_SECTION, "colour_background", St);
+   settings.read (COLOUR_KEY, St);
    ColourBackgroundCheckbox->Checked = !Str_i_Eq(St, "off");
    }
 //---------------------------------------------------------------------------
@@ -42,15 +39,11 @@ void __fastcall TPreferences_form::FormClose(TObject *Sender,
    if (ModalResult == mrOk)
       {
       // read a list of directory names from .ini file.
-      Path p(Application->ExeName.c_str());
-      p.Set_extension(".ini");
-      Ini_file Ini;
-      Ini.Set_file_name(p.Get_path().c_str());
-      Ini.Write (SOI_SECTION, SOI_FILE_KEY_WORD, File_name_edit->Text.c_str());
+      settings.write(SOI_KEY, File_name_edit->Text.c_str());
       if (ColourBackgroundCheckbox->Checked)
-         Ini.Write(OPTIONS_SECTION, "colour_background", "on");
+         settings.write(COLOUR_KEY, "on");
       else
-         Ini.Write(OPTIONS_SECTION, "colour_background", "off");
+         settings.write(COLOUR_KEY, "off");
 
      }
    }

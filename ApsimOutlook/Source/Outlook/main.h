@@ -21,7 +21,6 @@
 #include <DBTables.hpp>
 #include <ToolWin.hpp>
 #include <ImgList.hpp>
-#include "StrHlder.hpp"
 #include <DdeMan.hpp>
 #include "MDIWallp.hpp"
 
@@ -77,7 +76,6 @@ __published:
         TToolButton *Properties_button;
         TToolButton *ToolButton5;
         TToolButton *Select_simulation_button;
-   TStrHolder *StrHolder1;
    TDdeServerConv *ApsimOutlook;
    TTimer *Timer1;
    TMDIWallpaper *MDIWallpaper1;

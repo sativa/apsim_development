@@ -7,7 +7,7 @@
 #include "ToolBarAddIn.h"
 #include "AddCostsBenefits.h"
 #include "DEEconConfig.h"
-
+#include <ApsimShared\ApsimSettings.h>
 
 class DEToolBar : public ToolBarAddInBase
 {
@@ -34,6 +34,7 @@ class DEToolBar : public ToolBarAddInBase
 
 
    private:
+      ApsimSettings settings;
       double Salvage_rate;
       std::string Base_case;
       int Investment_period;

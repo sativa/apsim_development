@@ -1,11 +1,10 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "DEEconConfig.h"
 #include <general\path.h>
-#include <general\ini_file.h>
 
 //---------------------------------------------------------------------------
 
@@ -81,23 +80,7 @@ DEEconConfig& DEEconConfig::operator=(const DEEconConfig& rhs)
    return *this;
 }
 
-string DEEconConfig::File_name;
-
-bool DEEconConfig::setIOFile(const string& file_name)
-{
-   // check that the file exists, returns false if not
-   Path p(file_name.c_str());
-   if (!p.Exists())
-      return false;
-   else
-   {
-      // set File_name
-      File_name = file_name;
-      return true;
-   }
-}
-
-string& DEEconConfig::getName()
+string DEEconConfig::getName() const
 {
    return Name;
 }
@@ -105,9 +88,6 @@ string& DEEconConfig::getName()
 
 void DEEconConfig::writeToFile() const
 {
-   // open the file
-   Ini_file ini(File_name.c_str());
-
    string section_name = SECTION_PREFIX + this->Name;
    // delete any duplicate entry
 //   ini.Delete_section(section_name.c_str());
@@ -140,7 +120,7 @@ void DEEconConfig::writeToFile() const
    section += "Calc_tax                     = "; section += FloatToStr(Calc_tax).c_str(); section += "\n";
    section += "Starting_year                = "; section += FloatToStr(Starting_year).c_str(); section += "\n";
 
-   ini.Write_section_contents(section_name.c_str(), section);
+   settings.writeSection(section_name, section);
 
    /*
    ini.Write(section_name.c_str(), "OFWS_construction_cost       ", FloatToStr(OFWS_construction_cost).c_str());
@@ -172,55 +152,54 @@ bool DEEconConfig::readFromFile(const string& name)
 {
    // find the relevant file section - if not found return false
    string section_name = string(SECTION_PREFIX) + name;
-   Ini_file ini(File_name.c_str());
    string value;
-   ini.Read(section_name.c_str(), "OFWS_construction_cost", value);
+   settings.read(section_name + "|" + "OFWS_construction_cost", value);
    if (value == "")  // then the section does not exist
       return false;
 
    // read variable values and assign
    OFWS_construction_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "OFWS_pump_cost", value);
+   settings.read(section_name + "|" + "OFWS_pump_cost", value);
    OFWS_pump_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Reticulation_cost", value);
+   settings.read(section_name + "|" + "Reticulation_cost", value);
    Reticulation_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Storage_pumping_cost", value);
+   settings.read(section_name + "|" + "Storage_pumping_cost", value);
    Storage_pumping_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Allocation_price", value);
+   settings.read(section_name + "|" + "Allocation_price", value);
    Allocation_price = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "OOA_price", value);
+   settings.read(section_name + "|" + "OOA_price", value);
    OOA_price = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Sugar_price", value);
+   settings.read(section_name + "|" + "Sugar_price", value);
    Sugar_price = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "CCS", value);
+   settings.read(section_name + "|" + "CCS", value);
    CCS = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Irrigation_operating_cost", value);
+   settings.read(section_name + "|" + "Irrigation_operating_cost", value);
    Irrigation_operating_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Cash_cost", value);
+   settings.read(section_name + "|" + "Cash_cost", value);
    Cash_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Overhead_cost", value);
+   settings.read(section_name + "|" + "Overhead_cost", value);
    Overhead_cost = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Harvesting_and_levies", value);
+   settings.read(section_name + "|" + "Harvesting_and_levies", value);
    Harvesting_and_levies = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Inflation_input_rate", value);
+   settings.read(section_name + "|" + "Inflation_input_rate", value);
    Inflation_input_rate = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Inflation_cane_rate", value);
+   settings.read(section_name + "|" + "Inflation_cane_rate", value);
    Inflation_cane_rate = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Payment_constant", value);
+   settings.read(section_name + "|" + "Payment_constant", value);
    Payment_constant = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Repayment_time", value);
+   settings.read(section_name + "|" + "Repayment_time", value);
    Repayment_time = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Interest_rate", value);
+   settings.read(section_name + "|" + "Interest_rate", value);
    Interest_rate = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Investment_rate", value);
+   settings.read(section_name + "|" + "Investment_rate", value);
    Investment_rate = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Num_partners", value);
+   settings.read(section_name + "|" + "Num_partners", value);
    Num_partners = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Upfront", value);
+   settings.read(section_name + "|" + "Upfront", value);
    Upfront = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Calc_tax", value);
+   settings.read(section_name + "|" + "Calc_tax", value);
    Calc_tax = StrToFloat(value.c_str());
-   ini.Read(section_name.c_str(), "Starting_year", value);
+   settings.read(section_name + "|" + "Starting_year", value);
    Starting_year = StrToFloat(value.c_str());
 
    Name = name;
@@ -230,18 +209,18 @@ bool DEEconConfig::readFromFile(const string& name)
 void DEEconConfig::deleteFromFile() const
 {
    string section_name = string(SECTION_PREFIX) + Name;
-   Ini_file ini(File_name.c_str());
-   ini.Delete_section(section_name.c_str());
+   settings.deleteSection(section_name);
 }
 
 bool DEEconConfig::editName(const std::string& new_name)
 {
+return true;
 /*
    string new_section_name = string(SECTION_PREFIX) + new_name;
    // check to see if new_name already exists - if so, return false
    list<string> section_names;
    Ini_file ini(File_name.c_str());
-   ini.Read_section_names(section_names);
+   settings.Read_section_names(section_names);
    list<string>::iterator found_pos = find(section_names.begin(),
                                            section_names.end(),new_section_name);
    if (found_pos != section_names.end())
@@ -249,7 +228,7 @@ bool DEEconConfig::editName(const std::string& new_name)
 
    // else change name to new_name
    string old_section_name = string(SECTION_PREFIX) + Name;
-   ini.Delete_section(old_section_name.c_str());
+   settings.Delete_section(old_section_name.c_str());
    Name = new_name;
    this->writeToFile();
    return true;

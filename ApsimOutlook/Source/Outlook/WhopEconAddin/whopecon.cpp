@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -11,22 +11,22 @@
 #include "WheatMatrix.h"
 #include "TWEValueSelectionForm.h"
 #include <general\path.h>
-#include <general\ini_file.h>
 #include <general\stl_functions.h>
 #include <general\string_functions.h>
 #include <sstream>
 #include "SeedWeight.h"
 #include "CropFields.h"
 #include "EconConfigData.h"
-
+#include <iterator>
+#include <ApsimShared\ApsimDirectories.h>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 #define WHOPECON_SECTION "WhopEcon"
 #define WHOPECON_FACTOR_NAME "Econ Config"
-#define ECON_DB_NAME "Econ Database"
-#define BITMAP_NAME_KEY "bitmap"
+#define ECON_DB_NAME "WhopEcon|Econ Database"
+#define BITMAP_NAME_KEY "WhopEcon|bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
 #define WHOPECON_FIELDS "Crops"
 // ------------------------------------------------------------------
@@ -76,10 +76,9 @@ WhopEcon::WhopEcon(const string& parameters)
    // read settings from ini
    Read_inifile_settings();
 
-   Path bitmap_path(Application->ExeName.c_str());
-   bitmap_path.Set_name (Econ_bitmap_name.c_str());
+   string bitmap_path = getAppHomeDirectory() + "\\" + Econ_bitmap_name;
    Graphics::TBitmap* bitmap = new Graphics::TBitmap;
-   bitmap->LoadFromFile(bitmap_path.Get_path().c_str());
+   bitmap->LoadFromFile(bitmap_path.c_str());
 
    // get a default econ config name
    AnsiString default_config_name;
@@ -161,17 +160,12 @@ TValueSelectionForm*  WhopEcon::getUIForm(const string& factorName,
 // ------------------------------------------------------------------
 void WhopEcon::Read_inifile_settings (void)
 {
-   Path p(Application->ExeName.c_str());
-   p.Set_extension(".ini");
-   Ini_file ini;
-   ini.Set_file_name (p.Get_path().c_str());
-
    // read all defaults.
    string st;
-   ini.Read (WHOPECON_SECTION, BITMAP_NAME_KEY, st);
+   settings.read (BITMAP_NAME_KEY, st);
    Econ_bitmap_name = st;
-   ini.Read (WHOPECON_SECTION, ECON_DB_NAME, st);
-   Econ_DB_name = p.Get_directory() +  "\\"  +  st;
+   settings.read (ECON_DB_NAME, st);
+   Econ_DB_name = getAppHomeDirectory() +  "\\"  +  st;
    EconForm->DBFileName = Econ_DB_name.c_str();
 
 }

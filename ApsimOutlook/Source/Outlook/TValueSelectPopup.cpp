@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -20,7 +20,7 @@ __fastcall TValueSelectPopup::TValueSelectPopup(TComponent* Owner)
 void __fastcall TValueSelectPopup::ListViewCompare(TObject *Sender,
       TListItem *Item1, TListItem *Item2, int Data, int &Compare)
 {
-   if (ListView->SortType == stData)  // would use the Data parameter, but the SortType
+   if (ListView->SortType == Listactns::stData)  // would use the Data parameter, but the SortType
                                       // is not working as specced in helpfile
    {
       float i1, i2;
@@ -67,7 +67,7 @@ void __fastcall TValueSelectPopup::FormShow(TObject *Sender)
       NewItem->Caption = (*i).c_str();
       NewItem->Checked = ((*i) == CurrentValue);
       }
-   if (ListView->SortType == stData)
+   if (ListView->SortType == Listactns::stData)
       ListView->AlphaSort();
    ListView->UpdateItems (0, ListView->Items->Count);
 
@@ -87,9 +87,9 @@ TSortType TValueSelectPopup::WhatSortType(vector<string>& items)
       numerical = numerical && thisItemIsNumerical;
       }
    if (numerical)
-      return stData;
+      return Listactns::stData;
    else
-      return stNone;
+      return Listactns::stNone;
 }
 
 
