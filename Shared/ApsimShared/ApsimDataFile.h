@@ -67,6 +67,7 @@ class __declspec(dllexport) ApsimDataFile
       // constructor.
       //---------------------------------------------------------------------------
       ApsimDataFile(void) { }
+      ~ApsimDataFile(void) {close();}
 
       //---------------------------------------------------------------------------
       // Open the data file.

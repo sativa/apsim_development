@@ -32,7 +32,7 @@ void ApsimDataFileWriter::open(const std::string& file,
 //---------------------------------------------------------------------------
 void ApsimDataFileWriter::close(void)
    {
-   if (out)
+   if (out.is_open())
       {
       if (!haveWritenHeadings)
          {
