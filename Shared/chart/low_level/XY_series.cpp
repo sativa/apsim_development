@@ -72,7 +72,7 @@ void XY_series::Design (TChart* TChart_ptr)
       {
       Outline.Set_TChartpen(Line_series_ptr->Pointer->Pen);
       Outline.Set_TChartpen(Line_series_ptr->LinePen);
-      Line_series_ptr->SeriesColor = TColor(Outline.Colour);
+      Line_series_ptr->SeriesColor = COLORREF(Outline.Colour);
       if (Marker_style == None)
          {
          Line_series_ptr->Pointer->Visible = false;
