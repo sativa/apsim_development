@@ -60,15 +60,15 @@ void TScreenForm::simulationHasFinished(void)
    settings.read("apsim|MoreRunsToGo", moreToGo);
    string quiet;
    settings.read("apsim|Quiet", quiet);
-   if (moreToGo == "false" && quiet == "false")
+   if (moreToGo == "true" || quiet == "true")
+      settings.write("apsim|NextWasClicked", "true");
+   else
       {
       CancelButton->Caption = "Close";
       CancelButton->Default = true;
       CancelButton->SetFocus();
       settings.write("apsim|NextWasClicked", "false");
       }
-   else
-      settings.write("apsim|NextWasClicked", "true");
 
    PauseButton->Enabled = false;
    FinishedLabel->Visible = true;

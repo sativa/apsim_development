@@ -30,6 +30,7 @@ class __declspec(dllexport) ApsimSettings
 
       // Write a setting for the specified key.
       void write(const std::string& key, const std::string& value);
+      void write(const std::string& key, const char* value) {write(key, string(value));}
       void write(const std::string& key, int value);
       void write(const std::string& key, bool value);
       void write(const std::string& key, double value);
