@@ -1,0 +1,13 @@
+[general]
+name = canopy module
+
+[Binaries]
+binary=canopy
+
+[canopy]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\canopy.for
+target  = lib\canopy.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp

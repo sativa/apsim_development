@@ -1,0 +1,13 @@
+[general]
+name = accum module
+
+[Binaries]
+binary=accum
+
+[accum]
+compiler_switches = %apsuite\apsim\infra\lf90.fig
+source  = source\accum.for
+target  = lib\accum.dll
+include = %apsuite\apsim\infra\
+
+import  = %apsuite\apsim\infra\lib\APSinfra.imp
