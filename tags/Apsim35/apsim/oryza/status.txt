@@ -1,0 +1,20 @@
+What's been done:
+ - Implemented sow & harvest routines, 
+ - added 'oryza_zero_harvest_variables' which resets most of the state variables, ie just about everything that is not set by NewProfile events. This gets called at the end of a harvest operation, and should leave in a 'fresh' state for the next crop.
+ - removed 'save' statements to save local variables between calls - save will not work with multiple instantiations, eg intercropping or multi-paddock simulations. (not complete yet)
+ - Cleaned up interface file
+ - finish removing saves 
+ - properly connect to soilwater & nitrogen modules (ie set_other_variables()) *done, but needs check*
+ - check no water & nitrogen uptake when dead.
+ - clean up redundant globals/parameters. 
+ - Put descriptions of each parameter/global beside their definition in each common block, eg: 
+...
+       real COLDTT  ! Accumulated cold degree days (degree days)
+...
+ - separate constants/species/cultivar parameters in oryza_read_cultivar_params()
+
+Still to be done:
+ - Build comprehensive test set (ie. both real data and 'problem' runs - try and deliberately crash the model)
+ - Run with the compiler's "uninitialised variable" checking.
+ - Write a program to translate a FSE oryza simulation to apsim con/par/met
+ 

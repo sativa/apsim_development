@@ -1,0 +1,29 @@
+[sample.report.parameters]
+outputfile = PatchInput.out
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = patch.patch_rain
+
+[sample.clock.parameters]
+start_date=1/1/1988
+end_date=31/1/1989
+
+[sample.manager.end_of_day]
+report do_output
+
+[sample.SummaryFile.parameters]
+summaryfile=PatchInput.sum
+
+[sample.Screen.parameters]
+screen_output=on
+
+[sample2.report.parameters]
+outputfile = PatchInput2.out
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = patch.patch_rain
+
+[sample2.SummaryFile.parameters]
+summaryfile=PatchInput2.sum

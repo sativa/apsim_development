@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(soiln2)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+soiln2.for = soiln2.for
+
+[APSBuild]
+binary = ..\lib\soiln2.dll
+compilerfile = release.compile

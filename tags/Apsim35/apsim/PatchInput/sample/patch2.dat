@@ -1,0 +1,11 @@
+[test.patch.data]
+allow_sparse_data = true
+patch_all_years = true
+
+date       patch_rain
+  ()         (mm)
+1987-12-30     55
+1987-12-31     66
+1988-1-2       77
+1988-1-3       88
+

@@ -1,0 +1,843 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM Fertiliz Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM Fertiliz Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>User Input Files</H2>
+<ul><li>The Constants File
+
+<ul><li><A HREF = "#standard.fertiliz.calcite_ca"> standard calcite_ca </A>
+
+<li><A HREF = "#standard.fertiliz.calcite_fine"> standard calcite_fine </A>
+
+<li><A HREF = "#standard.fertiliz.dolomite"> standard dolomite </A>
+
+<li><A HREF = "#standard.fertiliz.NO3_N"> standard NO3_N </A>
+
+<li><A HREF = "#standard.fertiliz.NH4_N"> standard NH4_N </A>
+
+<li><A HREF = "#standard.fertiliz.NH4NO3"> standard NH4NO3 </A>
+
+<li><A HREF = "#standard.fertiliz.urea_N"> standard urea_N </A>
+
+<li><A HREF = "#standard.fertiliz.urea_no3"> standard urea_no3 </A>
+
+<li><A HREF = "#standard.fertiliz.urea"> standard urea </A>
+
+<li><A HREF = "#standard.fertiliz.nh4so4_n"> standard nh4so4_n </A>
+
+<li><A HREF = "#standard.fertiliz.rock_p"> standard rock_p </A>
+
+<li><A HREF = "#standard.fertiliz.banded_p"> standard banded_p </A>
+
+<li><A HREF = "#standard.fertiliz.broadcast_p"> standard broadcast_p </A>
+
+</ul></ul>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Fertiliz Module"> APSIM Fertiliz Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "fertiliz_int.pdf"> fertiliz_int.pdf </A>
+<br>
+<A HREF = "fertiliz_science.pdf"> fertiliz_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Fertiliz Module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#fertiliz_send_my_variable"> fertiliz_send_my_variable </A>
+
+<li><A HREF = "#fertiliz_zero_variables"> fertiliz_zero_variables </A>
+
+<li><A HREF = "#fertiliz_init"> fertiliz_init </A>
+
+<ul><li><A HREF = "#fertiliz_read_param"> fertiliz_read_param </A>
+
+</ul><li><A HREF = "#fertiliz_ontick"> fertiliz_ontick </A>
+
+<li><A HREF = "#fertiliz_get_other_variables"> fertiliz_get_other_variables </A>
+
+<li><A HREF = "#fertiliz_schedule"> fertiliz_schedule </A>
+
+<ul><li><A HREF = "#fertiliz_apply"> fertiliz_apply </A>
+
+</ul><li><A HREF = "#fertiliz_fertilize"> fertiliz_fertilize </A>
+
+<ul><li><A HREF = "#fertiliz_apply"> fertiliz_apply </A>
+
+</ul><li><A HREF = "#fertiliz_set_my_variable"> fertiliz_set_my_variable </A>
+
+<ul><li><A HREF = "#fertiliz_apply"> fertiliz_apply </A>
+
+</ul><li><A HREF = "#fertiliz_onnew_profile"> fertiliz_onnew_profile </A>
+
+</ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Fertiliz Module"> APSIM Fertiliz Module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the fertiliz module.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#fertiliz_send_my_variable"> Provide information to requesting module </A><br>
+
+</blockquote>else if (action.=.action_create) then<br>
+
+<blockquote><A HREF = "#fertiliz_zero_variables"> Initialise module state variables </A><br>
+
+</blockquote>else if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#fertiliz_init"> Initialise the module state </A><br>
+
+</blockquote>else if (action.=.event_tick) then<br>
+
+<blockquote><A HREF = "#fertiliz_ontick"> Update internal time record and reset daily state variables. </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#fertiliz_get_other_variables"> Get required state variables from other modules </A><br>
+
+<A HREF = "#fertiliz_schedule"> Check the internal fertilizer schedule </A><br>
+
+</blockquote>else if (action.=.'apply'.or.action.=.'fertilize') then<br>
+
+<blockquote><A HREF = "#fertiliz_get_other_variables"> Get required state variables from other modules </A><br>
+
+<A HREF = "#fertiliz_fertilize"> Apply the specified fertilizer </A><br>
+
+</blockquote>else if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#fertiliz_get_other_variables"> Get required state variables from other modules </A><br>
+
+<A HREF = "#fertiliz_set_my_variable"> Set an internal variable as requested </A><br>
+
+</blockquote>else if (action.=.event_new_profile) then<br>
+
+<blockquote><A HREF = "#fertiliz_onnew_profile"> Update internal soil layer structure with new data </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_send_my_variable">  </A>
+<H2>Fertiliz Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'fertilizer') then<br>
+
+<blockquote>Supply fert_applied to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_zero_variables">  </A>
+<H2>Fertiliz Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+day = 0<br>
+
+year = 0<br>
+
+fert_applied = 0 . 0<br>
+
+Fill dlayer with 0 . 0<br>
+
+Fill fert_day with 0<br>
+
+Fill fert_year with 0<br>
+
+Fill fert_type with ' '<br>
+
+Fill fert_depth with 0 . 0<br>
+
+Fill fert_amount with 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_init">  </A>
+<H2>Fertiliz Init</H2>
+<br>
+<H3><CENTER>Initialise fertiliz module   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+event_string = ' initialising '<br>
+
+Write a string to a file<br>
+
+<A HREF = "#fertiliz_read_param"> Read module parameters </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_read_param">  </A>
+<H2>Fertiliz Read Param</H2>
+<br>
+<H3><CENTER>get fertiliser schedule to apply   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read fert_day from file (Lower Bound = numdays, Upper Bound = 1) <I>(OPTIONAL)</I><br>
+
+Read fert_year from file (Lower Bound = numvals, Upper Bound = 1800) <I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.numdays) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read fert_amount from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.numdays) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read fert_type from file <I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.numdays) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read fert_depth from file (Lower Bound = numvals, Upper Bound = 0 . 0) <I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.numdays) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Write a string to a file<br>
+
+string = '               fertiliser schedule (kg / ha ))<br>
+
+Write a string to a file<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+nfert = count_of_integer_vals (fert_day, max_fert)<br>
+
+if (nfert.=.0) then<br>
+
+<blockquote>string = '      no fertiliser schedule is used'<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+<blockquote>string = '      day  year  amount    type'<br>
+
+Write a string to a file<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+For each k from 1 to nfert<br>
+
+<blockquote>write (to string)  fert_day (k) , fert_year (k) , fert_amount (k) , fert_type (k)<br>
+
+Write a string to a file<br>
+
+</blockquote>next<br>
+
+</blockquote>endif<br>
+
+string = '     -----------------------------------------------'<br>
+
+Write a string to a file<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_ontick">  </A>
+<H2>Fertiliz Ontick</H2>
+<br>
+<H3><CENTER>Update internal time record and reset daily state variables.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+handler_ontick<I><SUB> day, year, temp1, temp2</SUB></I><br>
+
+fert_applied = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_get_other_variables">  </A>
+<H2>Fertiliz Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_schedule">  </A>
+<H2>Fertiliz Schedule</H2>
+<br>
+<H3><CENTER>fertiliser management.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+nfert = count_of_integer_vals (fert_day, max_fert)<br>
+
+if (nfert.&gt;.0) then<br>
+
+<blockquote>For each fertno from 1 to nfert<br>
+
+<blockquote>if (day.=.fert_day (fertno).and.year.=.fert_year (fertno)) then<br>
+
+<blockquote><A HREF = "#fertiliz_apply"> Pass the fertilizer information to other modules </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_apply">  </A>
+<H2>Fertiliz Apply</H2>
+<br>
+<H3><CENTER>apply fertiliser as directed   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (amount.&gt;.0.0) then<br>
+
+<blockquote>Write a string to a file<br>
+
+layer = get_cumulative_index_real (depth, dlayer, maximum number of layers)<br>
+
+Read full_name from file<br>
+
+Read components from file<br>
+
+Read fraction from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+For each counter from 1 to numvals<br>
+
+<blockquote>Get array from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0e30)<I>(OPTIONAL)</I><br>
+
+if (array_size.&gt;.0) then<br>
+
+<blockquote>get_posting_module<I><SUB> owner_module</SUB></I><br>
+
+Fill delta_array with 0 . 0<br>
+
+delta_array<I><SUB> layer</SUB></I> = amount * fraction<I><SUB> counter</SUB></I><br>
+
+<br>
+
+dlt_name = 'dlt_' / / components<I><SUB> counter</SUB></I><br>
+
+Supply delta_array to the messaging system using the name dlt_name<br>
+
+action_send<I><SUB> owner_module, action_set_variable, dlt_name</SUB></I><br>
+
+<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+</blockquote>next<br>
+
+fert_applied = fert_applied + amount<br>
+
+write (to string)  amount , ' of ' , trim (full_name) , ' , trim (type) , ')' , new_line , 'added at depth ' , depth , ' (layer) , layer , ')'<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_fertilize">  </A>
+<H2>Fertiliz Fertilize</H2>
+<br>
+<H3><CENTER>This routine deciphers the data string and applies the fertiliser.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get amount from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get depth from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals_depth.=.0) then<br>
+
+<blockquote>depth = 0 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Get type from the message<br>
+
+if ((numvals_type.=.0).or.(numvals_amount.=.0)) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+<blockquote><A HREF = "#fertiliz_apply"> Pass the fertilizer information to other modules </A><br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_set_my_variable">  </A>
+<H2>Fertiliz Set My Variable</H2>
+<br>
+<H3><CENTER>set a variable in this module as requested by another.   </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (index (variable_name, 'fert_').=.1) then<br>
+
+<blockquote>type = variable_name<I><SUB> len ('fert_') + 1 :</SUB></I><br>
+
+Get amount from the message (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+<A HREF = "#fertiliz_apply"> Pass the fertilizer information to other modules </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "fertiliz_onnew_profile">  </A>
+<H2>Fertiliz Onnew Profile</H2>
+<br>
+<H3><CENTER>Update internal soil layer structure with new data  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get dlayer from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.calcite_ca"> Standard Calcite_ca </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  Ca as finely ground Agricultural Lime ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  CaCO3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD> The weight of the Ca component of the lime.</TD><TD>   1.0    ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.calcite_fine"> Standard Calcite_fine </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  finely ground Agricultural Lime ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  CaCO3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD> The weight of the Ca component of the calcite.</TD><TD>   0.4    ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.dolomite"> Standard Dolomite </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  finely ground dolomite ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  CaCO3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD> The weight of the Ca component of the dolomite</TD><TD>   0.22    ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.NO3_N"> Standard No3_n </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  N as nitrate ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  no3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   1.0 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.NH4_N"> Standard Nh4_n </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  N as ammonium ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  nh4 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   1.0 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.NH4NO3"> Standard Nh4no3 </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  ammonium nitrate ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  nh4  no3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>    0.5  0.5 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.urea_N"> Standard Urea_n </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  N as urea ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  urea ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   1.0 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.urea_no3"> Standard Urea_no3 </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  N as urea ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  urea no3 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   0.50 0.50 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.urea"> Standard Urea </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  Urea ferilizer ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  Urea ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   0.46 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.nh4so4_n"> Standard Nh4so4_n </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  ammonium sulphate ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  nh4 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   1.0 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.rock_p"> Standard Rock_p </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  Rock Phosphorus ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  rock_p labile_p ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   0.8     0.2 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.banded_p"> Standard Banded_p </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  Banded Phosphorus ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  banded_p ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   1.0 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.fertiliz.broadcast_p"> Standard Broadcast_p </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "full_name"> full_name </A></TD><TD></TD><TD>  Broadcast Phosporus ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "components"> components </A></TD><TD></TD><TD>  labile_p ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "fraction"> fraction </A></TD><TD></TD><TD>   1.0 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<br>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:Neil.Huth@tag.csiro.au"> Neil Huth - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 12/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 

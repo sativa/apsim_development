@@ -1,0 +1,18 @@
+
+version = 3.5
+[apsim.mungbean]
+module = clock               sample.man [all]       %apsuite\apsim\clock\clock.ini [standard]
+module = report             report.par [mungbean]     report.par [mungbeanF]    report.par  [all]
+module = input(met)          gatton.met [weather]
+module = manager           sample.man [mungbean]
+module = irrigate
+module = fertiliz                                 %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = soilwat2         soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2             soil.par   [sample]   %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = residue2         soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
+module = soilp               soil.par   [sample]  %apsuite\apsim\soilp\soilp.ini [standard]
+module = plant(mungbean)     soil.par   [sample]     mungbean.ini [standard]
+module = SummaryFile   sample.man [mungbean]
+module = Screen             sample.man [all]
+!module = log debug.par[debug]
+

@@ -1,0 +1,148 @@
+
+
+#file Session$.par
+
+[Treatment$.Screen.parameters]
+screen_output=on
+
+
+[Treatment$.clock.parameters]
+start_date = StartDate$			! dd/mm/yyyy
+end_date = EndDate$			! dd/mm/yyyy
+
+
+[Treatment$.summaryfile.parameters]
+summaryfile = Treatment$.sum
+
+[Treatment$.report.parameters]
+outputfile = Treatment$.out
+
+[Treatment$.manager.end_of_day]
+report do_output
+
+[Treatment$.operatns.parameters]
+
+PlantingYear$ PlantingDay$ Crop$ sow plants = Population$ , sowing_depth = sowing_depth$, row_spacing = 250, cultivar = Cultivar$
+
+! SoilInitYear$ SoilInitDay$ soilwat2 set sw    =  Isw$
+! SoilInitYear$ SoilInitDay$ soiln2 set no3ppm  =  Ino3ppm$
+
+#for_each Fertilize
+FertYear$ FertDay$ fertiliz apply amount = FertAmt$ (Units$), type = no3_n, depth = FertDepth$  (mm)
+#endfor
+
+#for_each Irrigate
+IrrigYear$ IrrigDay$ irrigate apply amount =  IrrigAmt$ (mm)
+#endfor
+#endfile
+
+
+#file Session$.con
+
+
+version=3.2
+[APSIM.Treatment$]
+title =Treatment$ ExpDescription$ PlantingDate$ #for_each Design Factor$=Level$ #endfor
+module=clock    Session$.par[Treatment$] %apsuite\apsim\clock\clock.ini[standard]
+module=report   Session$.par[Treatment$] report.par[Standard]
+module=Input(Met)      MetFile$.met[weather]
+module=manager  Session$.par[Treatment$]
+module=operatns Session$.par[Treatment$]
+module=irrigate
+module=fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module=soilwat2 %apsuite\apsim\soilwat2\soilwat2.ini[standard]  Session$.sol[SoilType$] Session$.sol[Field$]  Session$.init[Treatment$]
+module=soiln2   %apsuite\apsim\soiln2\soiln2.ini[standard]      Session$.sol[SoilType$] Session$.sol[Field$]  Session$.init[Treatment$]
+module=residue2 %apsuite\apsim\residue2\residue2.ini[standard]  Session$.sol[SoilField$]
+module=plant(Crop$) %apsuite\apsim\Crop$\Crop$.ini[standard] Session$.sol[SoilField$]
+module = summaryfile Session$.par[Treatment$]
+module = Screen Session$.par[Treatment$]
+#endfile
+
+!.........................................................................
+
+#file Session$.sol
+#if u$
+
+[SoilType$.soilwat2.parameters]
+insoil = 2.0
+runoff_filename         = blank
+u                       = u$
+salb                    = salb$
+cona                    = cona$
+!hydrol_effective_depth  = hydrol_effective_depth$   (mm)
+!cn_canopy_fact          = cn_canopy_fact$
+cn_cov                  = cn_cov$
+diffus_const            = diffus_const$
+diffus_slope            = diffus_slope$
+cn2_bare                = cn2_bare$
+cn_red                  = cn_red$
+
+!.........................................................................
+
+[SoilType$.soiln2.parameters]
+!amp               = amp$
+!tav               = tav$
+!dmod              = dmod$
+soil_cn           = soil_cn$
+root_cn           = root_cn$
+root_wt           = root_wt$
+
+enr_a_coeff       = 1.0
+enr_b_coeff       = 1.0
+profile_reduction = off
+
+#endif
+
+
+#if dlayer$
+
+[SoilField$.soilwat2.parameters]
+dlayer      =  dlayer$
+ll15        =  ll15$
+dul         =  dul$
+sat         =  sat$
+!sw          =  Isw$
+bd          =  bd$
+swcon       =  swcon$
+air_dry     =  air_dry$
+
+
+[SoilField$.soiln2.parameters]
+dlayer     =   dlayer$
+oc         =   oc$
+ph         =   ph$
+!no3ppm      =  Ino3ppm$
+!nh4ppm     =   nh4ppm$
+bd         =   bd$
+fbiom      =   fbiom$
+finert     =   finert$
+
+
+[SoilField$.Crop$.parameters]
+ll  =      ll$
+kl  =      kl$
+xf  =      xf$
+
+[SoilField$.residue2.parameters]
+pot_decomp_rate   =     0.1
+residue_wt        =  500.0
+residue_cnr       =    80.0
+residue_type      =  wheat
+!report_additions  =  yes
+
+!.........................................................................
+
+#endif
+
+#endfile
+
+#file Session$.init
+
+[Treatment$.soilwat2.parameters]
+sw = Isw$
+
+[Treatment$.soiln2.parameters]
+no3ppm      =  Ino3ppm$
+nh4ppm     =   Inh4ppm$
+
+#endfile
