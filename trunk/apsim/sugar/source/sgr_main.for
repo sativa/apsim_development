@@ -1,9 +1,802 @@
-!      include 'sugar.inc'
+      module SugarModule
+
+      Use CropLibrary
+
+
+!     ================================================================
+!      sugar_array_sizes
+!     ================================================================
+
+!   Short description:
+!      array size_of settings
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      290393 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+
+      integer    max_leaf              ! maximum number of plant leaves
+      parameter (max_leaf = 200)
+
+      integer    max_layer             ! Maximum number of layers in soil
+      parameter (max_layer = 100)
+
+      integer    max_table             ! Maximum size_of of tables
+      parameter (max_table = 10)
+
+
+!     ================================================================
+!      sugar_crop status
+!     ================================================================
+
+!   Short description:
+!      crop status names
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      290393 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+
+         ! crop status
+
+      character  crop_alive*(*)
+      parameter (crop_alive = 'alive')
+
+      character  crop_dead*(*)
+      parameter (crop_dead = 'dead')
+
+      character  crop_out*(*)
+      parameter (crop_out = 'out')
+
+
+
+!     ================================================================
+!      sugar_processes_for_stress
+!     ================================================================
+
+!   Short description:
+!      Process names used for stress
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      290393 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+
+      integer    photo                 ! photosynthesis flag
+      parameter (photo = 1)
+
+      integer    expansion             ! cell expansion flag
+      parameter (expansion = 2)
+
+      integer    pheno                 ! phenological flag
+      parameter (pheno = 3)
+
+!      integer    grain_conc            ! grain concentration flag
+!      parameter (grain_conc = 4)
+
+
+!     ================================================================
+!      sugar_ plant parts
+!     ================================================================
+
+!   Short description:
+!      plant part names
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      290393 jngh
+!      181099 jngh added part names.
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+
+      integer    root                  ! root
+      parameter (root = 1)
+
+      integer    leaf                  ! leaf
+      parameter (leaf = 2)
+
+      integer    sstem                 ! structural stem
+      parameter (sstem = 3)
+
+      integer    cabbage               ! cabbage
+      parameter (cabbage = 4)
+
+      integer    sucrose               ! grain
+      parameter (sucrose = 5)
+
+      integer    max_part              ! number of plant parts
+      parameter (max_part = 5)
+
+!     ================================================================
+!     sugar_phenological_names
+!     ================================================================
+
+!   Short description:
+!      Define crop phenological stage and phase names
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!      290393 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   constant values
+
+            ! administration
+
+      integer    max_stage             ! number of growth stages
+      parameter (max_stage = 6)
+
+      integer    now                   ! at this point in time ()
+      parameter (now = max_stage+1)
+
+            ! mechanical operations
+
+      integer    crop_end              ! crop_end stage
+      parameter (crop_end = 6)
+      integer    fallow                ! fallow phase
+      parameter (fallow = crop_end)
+
+      integer    sowing                ! Sowing stage
+      parameter (sowing = 1)
+      integer    sow_to_sprouting           ! seed sow_to_germ phase
+      parameter (sow_to_sprouting = sowing)
+
+      integer    sprouting             ! Germination stage
+      parameter (sprouting = 2)
+      integer    sprouting_to_emerg    ! sprouting_to_emerg elongation phase
+      parameter (sprouting_to_emerg = sprouting)
+
+      integer    emerg                 ! Emergence stage
+      parameter (emerg = 3)
+      integer    emerg_to_begcane      ! emergence to start of cane growth
+      parameter (emerg_to_begcane = emerg)
+
+      integer    begcane                !
+      parameter (begcane = 4)
+      integer    begcane_to_flowering   !
+      parameter (begcane_to_flowering = begcane)
+
+      integer    flowering              !
+      parameter (flowering = 5)
+      integer    flowering_to_crop_end  !
+      parameter (flowering_to_crop_end = flowering)
+
+
+      character part_name(max_part)*(10)
+      data part_name /'root', 'leaf', 'sstem', 'cabbage', 'sucrose'/
+
+!     ================================================================
+!     Sugar Globals
+!     ================================================================
+      Type SugarGlobals
+      character  crop_status*5       ! status of crop
+      character  crop_cultivar*20    ! cultivar name
+      real       sowing_depth        ! sowing depth (mm)
+      integer    year                ! year
+      integer    day_of_year         ! day of year
+      real       sw_avail_fac_deepest_layer
+      real       temp_stress_photo
+      real       temp_stress_stalk
+      real       swdef_expansion
+      real       swdef_stalk
+      real       swdef_photo
+      real       swdef_pheno
+      real       swdef_fixation
+      real       nfact_expansion
+      real       nfact_stalk
+      real       nfact_photo
+      real       nfact_pheno
+      real       lodge_redn_photo
+      real       lodge_redn_sucrose
+      real       lodge_redn_green_leaf
+      real       sucrose_fraction    ! fraction of cane C going to sucrose
+      real       oxdef_photo
+      real       fr_intc_radn        ! fraction of radiation intercepted by
+                                       ! canopy
+      real       latitude            ! latitude (degrees, negative for
+                                       ! southern hemisphere)
+      real       radn                ! solar radiation (Mj/m^2/day)
+      real       eo                  ! potential evapotranspiration (mm)
+      real       mint                ! minimum air temperature (oC)
+      real       maxt                ! maximum air temperature (oC)
+      real       cnd_photo (max_stage)      ! cumulative nitrogen stress type
+                                              ! 1
+      real       cswd_photo (max_stage)     ! cumulative water stress type 1
+      real       cswd_expansion (max_stage) ! cumulative water stress type 2
+      real       cswd_pheno (max_stage)     ! cumulative water stress type 3
+      real       dlt_tt              ! daily thermal time (growing deg day)
+      real       tt_tot(max_stage)   ! the sum of growing degree days for a
+                                       ! phenological stage (oC d)
+      real       phase_tt(max_stage) ! Cumulative growing degree days
+                                       ! required for each stage (deg days)
+!      real       dlt_tt_curv         ! daily thermal time (growing deg day)
+!      real       tt_curv_tot(max_stage)  ! the sum of growing degree days for
+                                           ! a phenological stage (oC d)
+!      real       phase_tt_curv(max_stage) ! Cumulative growing degree days
+                                       ! required for each stage (deg days)
+!      real       dlt_tt_other        ! daily thermal time (growing deg day)
+!      real       tt_other_tot(max_stage)  ! the sum of growing degree days
+                                            ! for a phenological stage (oC d)
+!      real       phase_tt_other(max_stage) ! Cumulative growing degree days
+                                       ! required for each stage (deg days)
+!      real       heat_stress_tt(max_stage) ! heat stress cumulation in each
+                                             ! phase
+!      real       dlt_heat_stress_tt  ! change in heat stress accumulation
+      real       dlt_stage           ! change in stage number
+      real       current_stage       ! current phenological stage
+      real       previous_stage      ! previous phenological stage
+      real       days_tot (max_stage) ! duration of each phase (days)
+      real       dlt_canopy_height   ! change in canopy height (mm)
+      real       canopy_height       ! canopy height (mm)
+      real       phase_devel         ! development of current phase ()
+      integer    ratoon_no
+      real       plants              ! Plant density (plants/m^2)
+      real       dlt_plants          ! change in Plant density (plants/m^2)
+      real       initial_plant_density !sowing density (plants/m^2)
+      real       dlt_root_depth      ! increase in root depth (mm)
+      real       root_depth          ! depth of roots (mm)
+      logical lodge_flag
+      real rue
+      real       uptake_water(max_layer) ! sw uptake as provided by another
+                                           ! module in APSIM (mm)
+      integer    num_uptake_water      ! number of layers in uptake_water()
+      integer    num_layers            ! number of layers in profile ()
+      real         transpiration_tot ! cumulative transpiration (mm)
+      real         N_uptake_tot      ! cumulative total N uptake (g/m^2)
+      real         N_demand_tot      ! sum of N demand since last output
+                                       ! (g/m^2)
+      real         N_conc_act_stover_tot  ! sum of tops actual N concentration
+                                            ! (g N/g biomass)
+      real         N_conc_crit_stover_tot ! sum of tops critical N
+                                            ! concentration (g N/g biomass)
+      real         N_uptake_stover_tot    ! sum of tops N uptake (g N/m^2)
+      real         lai_max                ! maximum lai - occurs at flowering
+      integer      isdate                 ! flowering day number
+      integer      mdate                  ! maturity day number
+      real         dm_graze               ! dm removed by grazing
+      real         n_graze                ! N removed by grazing
+
+      real     plant_wc(max_part)
+      real     dlt_plant_wc(max_part)
+      character uptake_source*5
+      real       dlayer (max_layer)    ! thickness of soil layer I (mm)
+      real       dlt_sw_dep(max_layer) ! water uptake in each layer (mm water)
+      real       sat_dep (max_layer)    !
+      real       dul_dep (max_layer)   ! drained upper limit soil water
+                                         ! content for soil layer L (mm water)
+      real       ll15_dep (max_layer)    !
+      real       sw_dep (max_layer)    ! soil water content of layer L (mm)
+      real       st (max_layer)
+      real       sw_demand             ! total crop demand for water (mm)
+      real       sw_demand_te          ! sw demand calculated from TE
+      real       sw_avail_pot(max_layer) ! potential extractable soil water
+                                           ! (mm)
+      real       sw_avail(max_layer)   ! actual extractable soil water (mm)
+      real       sw_supply (max_layer) ! potential water to take up (supply)
+                                         ! from current soil water (mm)
+      real       dlt_root_length(max_layer)
+      real       dlt_root_length_senesced(max_layer)
+      real       root_length (max_layer)
+      real       dlt_plants_death_drought
+      real       dlt_plants_failure_leaf_sen
+      real       dlt_plants_failure_emergence
+      real       dlt_plants_failure_germ
+      real       dlt_plants_death_lodging
+      real       dlt_dm              ! the daily biomass production (g/m^2)
+      real       dlt_dm_green(max_part) ! plant biomass growth (g/m^2)
+      real       dlt_dm_green_pot(max_part) ! plant biomass growth (g/m^2)
+      real       dlt_dm_senesced(max_part) ! plant biomass senescence
+                                             ! (g/m^2)
+      real       dlt_dm_realloc (max_part)
+      real       dlt_dm_detached(max_part) ! plant biomass detached
+                                             ! (g/m^2)
+      real       dlt_dm_dead_detached(max_part) ! plant biomass detached
+                                                  ! from dead plant (g/m^2)
+      real       dlt_dm_green_retrans(max_part) ! plant biomass
+                                                  ! retranslocated (g/m^2)
+      real       dm_stress_max(max_stage) ! sum of maximum daily stress on
+                                            ! dm production per phase
+      real       dlt_dm_stress_max   ! maximum daily stress on dm
+                                       ! production (0-1)
+      real       dm_green_demand(max_part) ! biomass demand of the plant
+                                             ! parts (g/m^2)
+      real       dm_dead(max_part)   ! dry wt of dead plants (g/m^2)
+      real       dm_green(max_part)  ! live plant dry weight (biomass)
+                                       ! (g/m^2)
+      real       dm_senesced(max_part) ! senesced plant dry wt (g/m^2)
+      real       dm_plant_top_tot(max_stage) ! total carbohydrate production
+                                         ! in tops per stage (g/plant)
+      real       partition_xs        ! dm used in partitioning that was
+                                       ! excess to plant demands.(g/m^2)
+      real       partition_xs_pot    ! dm used in partitioning that was
+                                       ! excess to plant demands.(g/m^2)
+      real       dlt_dm_pot_rue
+      real       dlt_dm_pot_te
+      real       dlt_dm_pot_rue_pot
+      real       radn_int
+      real       transp_eff
+      real       min_sstem_sucrose
+      real       dlt_min_sstem_sucrose
+      real       slai                ! area of leaf that senesces from plant
+      real       dlt_slai            ! area of leaf that senesces from plant
+      real       dlt_lai             ! actual change in live plant lai
+      real       dlt_lai_pot         ! potential change in live plant lai
+      real       dlt_lai_stressed    ! potential change in live plant lai
+                                       ! after stresses applied
+      real       lai                 ! live plant green lai
+      real       tlai_dead              ! total lai of dead plants
+      real       dlt_slai_detached      ! plant senesced lai detached
+      real       dlt_tlai_dead_detached ! plant lai detached from dead plant
+      real       dlt_tlai_dead          ! plant lai change in dead plant
+      real       dlt_slai_age           ! senesced lai from age
+      real       dlt_slai_light         ! senesced lai from light
+      real       dlt_slai_water         ! senesced lai from water
+      real       dlt_slai_frost         ! senesced lai from frost
+      real       sla_min                ! minimum specific leaf area (mm2/g)
+      real       leaf_no(max_stage)  ! number of fully expanded leaves ()
+      real       node_no(max_stage)
+      real       node_no_dead(max_stage) ! no of dead leaves ()
+      real       dlt_leaf_no         ! fraction of oldest leaf expanded ()
+      real       dlt_node_no
+      real       dlt_node_no_dead    ! fraction of oldest green leaf
+                                       ! senesced ()
+      real       leaf_no_final       ! total number of leaves the plant
+                                       ! produces
+      real       leaf_area(max_leaf) ! leaf area of each leaf (mm^2)
+      real       leaf_dm(max_leaf)   ! dry matter of each leaf (g)
+      real       node_no_detached    ! no of dead leaves detached from records
+!      real       lai_equilib_light(366) ! lai threshold for light senescence
+!      real       lai_equilib_water(366) ! lai threshold for water senescence
+      real       N_demand (max_part)   ! plant nitrogen demand (g/m^2)
+      real       N_max(max_part)       ! max nitrogen demand(g/m^2)
+      real       dlt_N_green(max_part) ! actual N uptake into plant
+                                         ! (g/m^2)
+      real       dlt_N_senesced(max_part) ! actual N loss with senesced
+                                            ! plant (g/m^2)
+      real       dlt_n_realloc (max_part)
+      real       dlt_N_detached(max_part) ! actual N loss with detached
+                                            ! plant (g/m^2)
+      real       dlt_N_dead_detached(max_part) ! actual N loss with detached
+                                         ! dead plant (g/m^2)
+      real       N_dead(max_part)      ! plant N content of dead plants
+                                         ! (g N/m^2)
+      real       N_green(max_part)     ! plant nitrogen content (g N/m^2)
+      real       N_senesced(max_part)  ! plant N content of senesced plant
+                                         ! (g N/m^2)
+      real       dlt_N_retrans(max_part) ! nitrogen retranslocated out from
+                                           ! parts to grain (g/m^2)
+      real       dlt_NO3gsm(max_layer) ! actual NO3 uptake from soil (g/m^2)
+      real       NO3gsm (max_layer)  ! nitrate nitrogen in layer L (g N/m^2)
+      real       NO3gsm_min(max_layer) ! minimum allowable NO3 in soil (g/m^2)
+      real       uptake_no3(max_layer) ! uptake of no3 as provided by another
+                                         ! module in APSIM (kg/ha)
+      real       NO3gsm_diffn_pot(max_layer) ! potential NO3 (supply) from
+                                         ! soil (g/m^2), by diffusion
+      real       NO3gsm_mflow_avail(max_layer) ! potential NO3 (supply) from
+                                         ! soil (g/m^2) by mass flow
+      real       n_fix_pot
+      integer    num_uptake_no3        ! number of layers in uptake_no3 ()
+      real       N_conc_crit(max_part) ! critical N concentration (g N/g
+                                         ! biomass)
+      real       N_conc_max(max_part) ! max N concentration (g N/g
+                                         ! biomass)
+      real       N_conc_min(max_part) ! minimum N concentration (g N/g
+                                        ! biomass)
+
+      real       dm_plant_min(max_part) ! minimum weight of each plant part
+                                       ! (g/plant)
+
+      End Type SugarGlobals
+!     ================================================================
+!     Sugar Parameters
+!     ================================================================
+      Type SugarParameters
+      real
+     :         tt_emerg_to_begcane
+     :        ,tt_begcane_to_flowering
+     :        ,tt_flowering_to_crop_end
+
+!      real       hi_incr             ! harvest index increment per day ()
+!      real       hi_max_pot          ! maximum harvest index (g grain/
+                                       ! g biomass)
+!      real       tpla_prod_coef      ! curvature coefficient for leaf area
+                                       ! production function (1/oC)
+!      real       tpla_inflection     ! inflection point of leaf area
+                                       ! production
+                                       ! function (oC)
+!      real       tiller_no_fertile   ! no of tillers that produce a head  ()
+!      real       spla_prod_coef      ! curvature coefficient for leaf area
+                                       ! senescence function (1/oC)
+!      real       spla_intercept      ! intercept of regression for calculating
+                                       ! inflection point of senescence function
+                                       ! (oC)
+
+      real       kl(max_layer)         ! root length density factor for water
+      real       xf(max_layer)         ! eXtension rate Factor (0-1)
+      real       ll_dep(max_layer)     ! lower limit of plant-extractable
+                                         ! soil water for soil layer L (mm)
+      real       eo_crop_factor
+
+      End Type SugarParameters
+!     ================================================================
+!     Sugar Constants
+!     ================================================================
+      Type SugarConstants
+      character  stage_names(max_stage)*32 ! full names of stages for
+                                             ! reporting
+      character  crop_type*50        ! crop type
+      real       x_sw_ratio (max_table)
+      real       y_sw_fac_root (max_table)
+      real       x_sw_demand_ratio (max_table)
+      real       x_demand_ratio_stalk (max_table)
+      real       y_swdef_leaf (max_table)
+      real       y_swdef_stalk (max_table)
+      real       x_sw_avail_ratio (max_table)
+      real       y_swdef_pheno (max_table)
+      real       k_nfact_photo
+      real       k_nfact_expansion
+      real       k_nfact_stalk
+      real       k_nfact_pheno
+      integer    num_sw_ratio
+      integer    num_sw_demand_ratio
+      integer    num_demand_ratio_Stalk
+      integer    num_sw_avail_ratio
+      real       leaf_no_crit        ! critical number of leaves below
+                                       ! which portion of the crop may
+                                       ! die due to water stress
+      real       tt_emerg_limit      ! maximum degree days allowed for
+                                       ! emergence to take place (deg day)
+      real       days_germ_limit     ! maximum days allowed after sowing
+                                       ! for germination to take place (days)
+      real       swdf_pheno_limit    ! critical cumulative phenology
+                                       ! water stress above which the crop
+                                       ! fails (unitless)
+      real       swdf_photo_limit    ! critical cumulative photosynthesis
+                                       ! water stress above which the crop
+                                       ! partly fails (unitless)
+      real       swdf_photo_rate     ! rate of plant reduction with
+                                       ! photosynthesis water stress
+      real       initial_root_depth  ! initial depth of roots (mm)
+      real       sla_max(max_table)  ! maximum specific leaf area for
+                                       ! new leaf area (mm^2/g)
+      real       sla_min(max_table)  ! minimum specific leaf area for
+                                       ! new leaf area (mm^2/g)
+      real       sla_lfno(max_table) !
+!      real       tiller_coef         ! exponent_of for determining leaf
+                                       ! area on each additional tiller
+!      real       main_stem_coef      ! exponent_of for determining leaf
+                                       ! area on main culm
+      real       initial_tpla        ! initial plant leaf area (mm^2)
+      real       x_stem_wt(max_table)
+      real       y_height (max_table)
+      real       svp_fract           ! fraction of distance between svp at
+                                       ! min temp and svp at max temp where
+                                       ! average svp during transpiration
+                                       ! lies. (0-1)
+      real       eo_crop_factor_default
+      real       transp_eff_cf(max_stage)! transpiration efficiency coefficient
+                                       ! to convert vpd to
+                                       ! transpiration efficiency (kpa)
+                                       ! although this is expressed as a
+                                       ! pressure it is really in the form
+                                       ! kpa*g carbo per m^2 / g water per m^2
+                                       ! and this can be converted to
+                                       ! kpa*g carbo per m^2 / mm water
+                                       ! because 1g water = 1 cm^3 water
+      real       n_fix_rate(max_stage)
+      real       pesw_germ           ! plant extractable soil water in
+                                       ! seedling layer inadequate for
+                                       ! germination (mm/mm)
+      real       fasw_emerg(max_table)
+      real       rel_emerg_rate(max_table)
+!      real       grain_N_conc_min    ! minimum nitrogen concentration of
+                                       ! grain
+
+!      real       seed_wt_min         ! minimum grain weight (g/kernel)
+!      real       growth_rate_min     ! minimum rate of photosynthesis
+                                       ! below which there is no grain
+                                       ! produced (g/plant)
+
+!      real       growth_rate_crit    ! threshold  rate of photosynthesis
+                                       ! below which heat stress has no
+                                       ! effect (g/plant).  This is also
+                                       ! the rate at which the grains/plant
+                                       ! is half of the maximum grains.
+      real       leaf_no_at_emerg    ! leaf number at emergence ()
+      real       NO3_diffn_const     ! time constant for uptake by
+                                       ! diffusion (days). H van Keulen &
+                                       ! NG Seligman. Purdoe 1987. This is the
+                                       ! time it would take to take up by
+                                       ! diffusion the current amount of N if
+                                       ! it wasn't depleted between time steps
+      real       shoot_lag           ! minimum growing degree days for
+                                       ! germination (deg days)
+      real       shoot_rate          ! growing deg day increase with depth
+                                       ! for germination (deg day/mm depth)
+      real       y_leaves_per_node(max_table)
+      real       y_node_app_rate(max_table)
+      real       x_node_no_app(max_table)
+      real       x_node_no_leaf(max_table)
+      real       dm_leaf_init        ! leaf growth before emergence (g/plant)
+      real       dm_root_init        ! root growth before emergence (g/plant)
+      real       dm_sstem_init       ! stem growth before emergence (g/plant)
+      real       dm_cabbage_init     ! cabbage "    "        "        "
+      real       dm_sucrose_init     ! sucrose "    "        "        "
+      real       leaf_cabbage_ratio  ! ratio of leaf wt to cabbage wt ()
+      real       cabbage_sheath_fr   ! fraction of cabbage that is leaf sheath(0-1)
+!      real       leaf_init_rate      ! growing degree days to initiate each le
+                                       ! primordium until fl_initling (deg day)
+!      real       leaf_no_seed        ! number of leaf primordia present in
+                                       ! seed
+      real       dm_root_sen_frac    ! fraction of root dry matter
+                                       ! senescing each day (0-1)
+      real       dead_detach_frac(max_part) ! fraction of dead plant parts
+                                              ! detaching each day (0-1)
+      real       sen_detach_frac(max_part)  ! fraction of senesced dry matter
+                                        ! detaching from live plant each
+                                        ! day (0-1)
+      real       minsw               ! lowest acceptable value for ll
+!      real       hi_min              ! minimum harvest index (g grain/
+                                       ! g biomass)
+!      real       sfac_slope          ! soil water stress factor slope
+!      real       tfac_slope          ! temperature stress factor slope
+      real       lai_sen_light       ! critical lai above which light
+!      real       sw_fac_max          ! soil water stress factor maximum
+!      real       temp_fac_min        ! temperature stress factor minimum
+                                       ! optimum temp
+      real       frost_kill          ! temperature threshold for leaf death
+                                       ! (oC)
+!      real       spla_slope          ! regression slope for calculating
+                                       ! inflection point for leaf senescence
+!      real       sen_light_time_const ! delay factor for light senescence
+!      real       sen_water_time_const ! delay factor for water senescence
+!      real       sen_threshold       ! supply:demand ratio for onset of
+                                       ! water senescence
+!      real       sen_radn_crit       ! radiation level for onset of light
+                                       ! senescence
+      real       sen_rate_water      ! slope in linear eqn
+                                       ! relating soil water
+                                       ! stress during photosynthesis
+                                       ! to leaf senesense rate
+      real       sen_light_slope     ! slope of linear relationship
+                                       ! between lai and
+                                       ! light competition factor for
+                                       ! determining leaf senesence rate.
+      real       frost_temp(max_table)
+      real       frost_fraction(max_table)
+      real       oxdef_photo_rtfr(max_table)
+      real       oxdef_photo(max_table)
+      integer    num_frost_temp
+      integer    num_oxdef_photo
+      integer    num_stress_factor_Stalk
+!      real grn_water_cont            ! water content of grain g/g
+!      real frac_stem2flower          ! fraction of dm allocated_z to stem
+                                       ! that goes to developing head
+!      real partition_rate_leaf       ! rate coefficient of sigmoidal
+                                       ! function between leaf partition
+                                       ! fraction and internode no**2 (0-1)
+!      real stem_trans_frac           ! fraction of stem used in translocat
+                                       ! to grain
+!      real leaf_trans_frac           ! fraction of leaf used in translocat
+                                       ! to grain
+!      real htstress_coeff            ! coeff for conversion of heat stress
+                                       ! during flowering to
+                                       ! heat stress factor on grain number
+                                       ! development.
+!      real dead_lfno(max_table)
+!      real dead_lfno_tt(max_table)
+      real green_leaf_no
+      real cane_Fraction
+      real sucrose_fraction_stalk(max_Table)
+      real stress_factor_stalk(max_table)
+      real sucrose_delay
+      real min_sstem_sucrose
+      real min_sstem_sucrose_redn
+      integer num_dead_lfno
+      real       leaf_no_correction  ! corrects for other growing leaves
+      real       leaf_size(max_table)
+      real       leaf_size_no(max_table)
+      integer    num_leaf_size
+      real       tillerf_leaf_size(max_table)
+      real       tillerf_leaf_size_no(max_table)
+      integer    num_tillerf_leaf_size
+      real       x_ave_temp(max_table)  ! critical temperatures for
+                                          ! photosynthesis (oC)
+      real       x_ave_temp_stalk(max_table)
+
+      real       y_stress_photo(max_table) ! Factors for critical temperatures
+                                          ! (0-1)
+      real       y_stress_stalk(max_table) ! Factors for critical temperatures
+                                          ! (0-1)
+      real       x_temp(max_table)      ! temperature table for photosynthesis
+                                          ! degree days
+      real       y_tt(max_table)        ! degree days
+!nh      real       x_swdef_cellxp(max_table)
+!nh      real       y_sw_fac_sucrose(max_table)
+      real       stress_lodge(max_table) !(0-1)
+      real       death_fr_lodge(max_table) !(0-1)
+      real       lodge_redn_photo
+      real       lodge_redn_sucrose
+      real       lodge_redn_green_leaf
+      real      x_plant_rld (max_table)
+      real      y_rel_root_rate (max_table)
+      integer    num_temp               ! size_of of table
+      integer    num_ave_temp           ! size_of of critical temperature
+                                          ! table
+      integer    num_ave_temp_stalk     ! size_of of critical temperature
+                                          ! table
+      integer    num_factors            ! size_of of table
+!      integer    num_temp_other          !
+      integer    num_node_no_app
+      integer    num_node_no_leaf
+      integer    num_sla_lfno
+      integer    num_x_swdef_cellxp
+      integer    num_stress_lodge
+      integer    num_fasw_emerg
+      integer    num_plant_rld
+      integer    num_stem_wt
+      real       tt_emerg_to_begcane_ub         ! upper limit
+      real       tt_begcane_to_flowering_ub
+      real       tt_flowering_to_crop_end_ub      ! upper limit
+      real       ll_ub               ! upper limit of lower limit (mm/mm)
+      real       kl_ub               ! upper limit of water uptake factor
+      real       sw_dep_ub           ! upper limit of soilwater depth (mm)
+      real       sw_dep_lb           ! lower limit of soilwater depth (mm)
+      real       NO3_ub              ! upper limit of soil NO3 (kg/ha)
+      real       NO3_lb              ! lower limit of soil NO3 (kg/ha)
+      real       NO3_min_ub          ! upper limit of minimum soil NO3 (kg/ha)
+      real       NO3_min_lb          ! lower limit of minimum soil NO3 (kg/ha)
+      real       leaf_no_min         ! lower limit of leaf number ()
+      real       leaf_no_max         ! upper limit of leaf number ()
+      real    latitude_ub            ! upper limit of latitude for model (oL)
+      real    latitude_lb            ! lower limit of latitude for model(oL)
+      real    maxt_ub                ! upper limit of maximum temperature (oC)
+      real    maxt_lb                ! lower limit of maximum temperature (oC)
+      real    mint_ub                ! upper limit of minimum temperature (oC)
+      real    mint_lb                ! lower limit of minimum temperature (oC)
+      real    radn_ub                ! upper limit of solar radiation (Mj/m^2)
+      real    radn_lb                ! lower limit of solar radiation (Mj/M^2)
+      real    dlayer_ub              ! upper limit of layer depth (mm)
+      real    dlayer_lb              ! lower limit of layer depth (mm)
+      real    dul_dep_ub             ! upper limit of dul (mm)
+      real    dul_dep_lb             ! lower limit of dul (mm)
+      character n_supply_preference*20
+      real     cane_dmf_min(max_table)
+      real     cane_dmf_max(max_table)
+      real     cane_dmf_tt(max_table)
+      real     cane_dmf_rate
+      integer  num_cane_dmf
+      real       N_conc_crit_root     ! critical N concentration of root
+                                        ! (g N/g biomass)
+      real       N_conc_min_root      ! minimum N concentration of root
+                                        ! (g N/g biomass)
+      real       x_stage_code(max_stage) ! stage table for N concentrations
+                                           ! (g N/g biomass)
+      real       y_n_conc_crit_leaf(max_stage) ! critical N concentration of
+                                                 ! leaf (g N/g biomass)
+      real       y_n_conc_min_leaf(max_stage) ! minimum N concentration of
+                                                ! leaf (g N/g biomass)
+      real       y_n_conc_crit_cane(max_stage) ! critical N concentration of
+                                                 ! stem (g N/g biomass)
+      real       y_n_conc_min_cane(max_stage) ! minimum N concentration of
+                                                ! flower (g N/g biomass)
+      real       y_n_conc_crit_cabbage(max_stage) ! critical N concentration of
+                                                 ! flower(g N/g biomass)
+      real       y_n_conc_min_cabbage(max_stage) ! minimum N concentration of
+                                                ! stem (g N/g biomass)
+      real       N_root_init_conc     ! initial root N concentration (gN/gdm)
+      real       N_sstem_init_conc    ! initial stem N concentration (gN/gdm)
+      real       N_leaf_init_conc     ! initial leaf N concentration (gN/gdm)
+      real       N_cabbage_init_conc  !    "   cabbage    "            "
+      real       N_leaf_sen_conc      ! N concentration of senesced leaf
+                                        ! (gN/gdm)
+      real       N_cabbage_sen_conc   ! N concentration of senesced cabbage
+                                        ! (gN/gdm)
+      real       N_root_sen_conc      ! N concentration of senesced root
+                                        ! (gN/gdm)
+      integer    num_N_conc_stage     ! no of values in stage table
+      real       extinction_coef     ! radiation extinction coefficient ()
+      real       extinction_coef_dead ! radiation extinction coefficient ()
+                                        ! of dead leaves
+      real       rue(max_stage)      ! radiation use efficiency (g dm/mj)
+      real       root_depth_rate(max_stage) ! root growth rate potential
+                                              ! (mm depth/day)
+      real       ratio_root_shoot(max_stage) ! root:shoot ratio of new dm ()
+      real       root_die_back_fr    ! fraction of roots that dies back at
+                                       ! harvest (0-1)
+      real       specific_root_length ! length of root per unit wt (mm/g)
+      real       stage_code_list(max_stage) ! list of stage numbers
+      real       twilight            ! twilight in angular distance between
+                                       ! sunset and end of twilight - altitude
+                                       ! of sun. (deg)
+
+
+      End Type SugarConstants
+
+      ! instance variables.
+      type (sugarGlobals), pointer :: g
+      type (sugarParameters), pointer :: p
+      type (sugarConstants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type sugarDataPtr
+         type (sugarGlobals), pointer ::    gptr
+         type (sugarParameters), pointer :: pptr
+         type (sugarConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type sugarDataPtr
+      type (sugarDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+      include 'sugar.for'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -25,12 +818,12 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -50,12 +843,12 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -75,12 +868,12 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 *     ================================================================
       subroutine Main (action, data_string)
 *     ================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -195,14 +988,14 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_process ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -291,14 +1084,14 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_harvest ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -313,11 +1106,6 @@
 *     070495 nih taken from template
 *     191099 jngh changed to sugar_Send_Crop_Chopped_Event
 *     101100 dph  added eventInterface parameter to crop_root_incorp
-
-*+  Calls
-                                       ! lu_scr_sum
-*
-      character  string_concat*50      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -602,14 +1390,14 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_zero_all_globals ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -960,11 +1748,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 *     ===========================================================
       subroutine sugar_zero_variables ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -992,12 +1780,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sugar_zero_soil_globals ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1031,13 +1819,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine sugar_zero_daily_variables ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1117,14 +1905,14 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_init ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1165,14 +1953,14 @@ cnh     :                 ' Initialising')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_start_crop ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1187,9 +1975,6 @@ cnh     :                 ' Initialising')
 *     041095 nih changed start of ratton crop from emergence to sprouting
 *     060696 nih changed extract routines to collect routine calls
 *                removed datastring from argument list
-
-*+  Calls
-      character string_concat*50       ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1281,14 +2066,14 @@ cnh     :                 ' Initialising')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_read_cultivar_params (section_name)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1399,14 +2184,14 @@ cnh     :                 ' Initialising')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_read_root_params ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1418,9 +2203,6 @@ cnh     :                 ' Initialising')
 
 *+  Changes
 *       060495 nih taken from template
-
-*+  Calls
-                                       ! lu_scr_sum, Err_User
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1490,7 +2272,7 @@ cnh     :                 ' Initialising')
      :                     , 'rlv', max_layer, '()'
      :                     , rlv, num_layers
      :                     , 0.0, 20.0)
-      call fill_real_array (g%root_depth, 0.0, max_layer)
+      call fill_real_array (g%root_length, 0.0, max_layer)
       do 1001 layer = 1, num_layers
          g%root_length(layer) = rlv(layer)*g%dlayer(layer)
 1001  continue
@@ -1559,7 +2341,7 @@ cnh     :                 ' Initialising')
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1632,14 +2414,14 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_end_crop ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1767,14 +2549,14 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine sugar_get_met_variables ()
 *     ================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1830,12 +2612,12 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ================================================================
       subroutine sugar_get_soil_variables ()
 *     ================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1959,14 +2741,14 @@ c     :                                    , -10., 80.)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine sugar_set_other_variables ()
 *     ================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2018,14 +2800,14 @@ c      call sugar_update_other_variables ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===============================================================
       subroutine sugar_set_my_variable (Variable_name)
 *     ===============================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2103,14 +2885,14 @@ c      call sugar_update_other_variables ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine sugar_send_my_variable (variable_name)
 *     ================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2125,10 +2907,6 @@ c      call sugar_update_other_variables ()
 
 *+  Changes
 *      060495 nih - taken from template
-
-*+  Calls
-      real       sugar_profile_fasw    ! function
-cbak
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2407,7 +3185,7 @@ c I removed this NIH
          call respond2get_real_var (variable_name
      :                             , '(g/m^2)'
      :                             , biomass)
- 
+
 
       elseif (variable_name .eq. 'green_biomass') then
          ! Add dead pool for lodged crops
@@ -2748,7 +3526,7 @@ c      call sugar_nit_stress_expansion (1)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2847,14 +3625,14 @@ c      call sugar_nit_stress_expansion (1)
       call pop_routine (my_name)
 
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine sugar_read_constants ()
 *     ===========================================================
-            use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3030,14 +3808,14 @@ c      call sugar_nit_stress_expansion (1)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_zero_globals ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3114,14 +3892,14 @@ cnh      g%initial_plant_density = 0.0
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_zero_parameters ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3153,14 +3931,14 @@ cnh      c%crop_type = ' '
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sugar_prepare ()
 * ====================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3214,14 +3992,14 @@ cnh      c%crop_type = ' '
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_read_crop_constants (section_name)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3814,14 +4592,14 @@ cnh      c%crop_type = ' '
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_update_other_variables ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3890,14 +4668,14 @@ cnh      c%crop_type = ' '
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_hill_up ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4030,14 +4808,14 @@ cnh      c%crop_type = ' '
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sugar_lodge ()
 * ====================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4062,12 +4840,12 @@ cnh      c%crop_type = ' '
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sugar_ONtick ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4100,7 +4878,7 @@ cnh      c%crop_type = ' '
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 * ====================================================================
       subroutine sugar_Send_Crop_Chopped_Event (crop_type
      :                                           , dm_type
@@ -4180,8 +4958,9 @@ cnh      c%crop_type = ' '
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
+      end module sugarModule
 
 
