@@ -4,13 +4,14 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\APSIMOutlook\WhopEconAddin\WhopEconAddin.dll"/>
-    <OBJFILES value="WhopEconAddin.obj Crop.obj DataForm.obj Econ.obj WheatMatrix.obj About.obj 
+    <OBJFILES value="WhopEconAddin.obj Crop.obj DataForm.obj Econ.obj About.obj 
       ..\TVALUESELECTIONFORM.obj TWEValueSelectionForm.obj WhopEcon.obj 
-      ..\Scenario.obj"/>
+      ..\Scenario.obj WheatMatrix.obj SeedWeight.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) Crop.dfm DataForm.dfm Econ.dfm WheatMatrix.dfm About.dfm 
-      ..\TVALUESELECTIONFORM.dfm TWEValueSelectionForm.dfm"/>
+    <RESDEPEN value="$(RESFILES) Crop.dfm DataForm.dfm Econ.dfm About.dfm 
+      ..\TVALUESELECTIONFORM.dfm TWEValueSelectionForm.dfm WheatMatrix.dfm 
+      SeedWeight.dfm"/>
     <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot; &quot;C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib&quot;"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib Vcldb50.lib vclx50.lib vclbde50.lib vcldbx50.lib vclado50.lib 
@@ -31,8 +32,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="WhopEconAddin.bpf"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports"/>
-    <LIBPATH value="..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports"/>
+    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;K:\Components\Data\;K:\;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports"/>
+    <LIBPATH value="..\;..;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;K:\Components\General\;j:\RX\Units\;j:\ThirdParty\;$(BCB)\imports"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>

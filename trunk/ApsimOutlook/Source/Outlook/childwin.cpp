@@ -173,6 +173,7 @@ void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
    bool ok;
    Drill_down_form = new TDrill_down_form(this);
    Drill_down_form->scenarios = scenarios;
+   Drill_down_form->SetPresentationFonts(Large_fonts);
    ok = (Drill_down_form->ShowModal() == mrOk);
    delete Drill_down_form;
 
