@@ -129,8 +129,8 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                       if (ch == ']')
                          {
                          state = READ_PARAM_FILE;
-                         Strip(paramFile, " ");
-                         Strip(section, " ");
+                         stripLeadingTrailing(paramFile, " ");
+                         stripLeadingTrailing(section, " ");
                          if (paramFile.length() == 0)
                             paramFile = controlFileName;
                          else if (removeMacros)

@@ -63,7 +63,7 @@ bool Scenario::setFactorValue(const string& factorName,
 void Scenario::getFactorNames(vector<string>& factorNames) const
    {
    for_each(factors.begin(), factors.end(),
-            GetNameFunction<vector<string>, Factor >(factorNames));
+            GetName<Factor>(factorNames));
    }
 //---------------------------------------------------------------------------
 // Return a state string to caller.
@@ -95,7 +95,7 @@ void Scenario::setState(const string& state)
    string factorState = tokenizer.nextToken(";");
    while (factorState != "")
       {
-      Strip(factorState, " ");
+      stripLeadingTrailing(factorState, " ");
       factors.push_back(Factor(factorState));
       factorState = tokenizer.nextToken(";");
       }
