@@ -44,11 +44,17 @@ class CropFields
       // Return true if the specified field is a crop field.
       bool isCropField(const std::string& fieldName) const;
 
-      // Return true if the specified crop was actually sown
+      // Return true if the crop for the specified field was actually sown
       // for the current record.  A crop is sown if:
       //    there is a least 1 non zero value in the fields for this crop OR
       //    the crop_fail field (if it exists) has a 'yes' in it.
-      bool cropWasSown(const TAPSRecord& recordI, const std::string& crop_acronym) const;
+      bool cropWasSown(const TAPSRecord& recordI, const std::string& fieldName) const;
+
+      // Return true if the crop for the specified acronym was actually sown
+      // for the current record.  A crop is sown if:
+      //    there is a least 1 non zero value in the fields for this crop OR
+      //    the crop_fail field (if it exists) has a 'yes' in it.
+      bool cropWasSownByAcronym(const TAPSRecord& recordI, const string& cropAcronym) const;
 
       // Return a field name for the specified crop and the specified
       // field identifier.
