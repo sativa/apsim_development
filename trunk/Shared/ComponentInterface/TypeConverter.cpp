@@ -254,50 +254,6 @@ class DoubleFromSingle : public TypeConverter
          return new DoubleFromSingle;
          }
    } doubleFromSingle;
-class StringFromSingleA : public TypeConverter
-   {
-   public:
-      void doConvert(MessageData& messageData)
-         {
-         unsigned int numValues;
-         messageData >> numValues;
-         unsigned pos = 4;
-         for (unsigned int v = 0; v < numValues; v++)
-            {
-            float value;
-            messageData >> value;
-            sprintf(&buffer[pos], "%10.3f", value);
-            pos += 10;
-            }
-         bufferMessageData << pos;
-         }
-      virtual TypeConverter* clone(void)
-         {
-         return new StringFromSingleA;
-         }
-   } stringFromSingleA;
-class StringFromDoubleA : public TypeConverter
-   {
-   public:
-      void doConvert(MessageData& messageData)
-         {
-         unsigned int numValues;
-         messageData >> numValues;
-         unsigned pos = 4;
-         for (unsigned int v = 0; v < numValues; v++)
-            {
-            double value;
-            messageData >> value;
-            sprintf(&buffer[pos], "%10.3f", value);
-            pos += 10;
-            }
-         bufferMessageData << numValues;
-         }
-      virtual TypeConverter* clone(void)
-         {
-         return new StringFromDoubleA;
-         }
-   } stringFromDoubleA;
 
 class StringFromString : public TypeConverter
    {
@@ -334,6 +290,28 @@ class ArrayFromScalar : public TypeConverter
          return newConverter;
          }
    } arrayFromScalar;
+class ScalarFromArray : public TypeConverter
+   {
+   public:
+      ScalarFromArray(void) : doDelete(false) {}
+      ~ScalarFromArray(void) {if (doDelete) delete baseConverter;}
+      TypeConverter* baseConverter;
+      bool doDelete;
+      void doConvert(MessageData& messageData)
+         {
+         unsigned numvals;
+         messageData >> numvals;
+         if (numvals > 0)
+            baseConverter->doConvert(messageData);
+         }
+      virtual TypeConverter* clone(void)
+         {
+         ScalarFromArray* newConverter = new ScalarFromArray;
+         newConverter->baseConverter = baseConverter->clone();
+         newConverter->doDelete = true;
+         return newConverter;
+         }
+   } scalarFromArray;
 class ArrayFromArray : public TypeConverter
    {
    public:
@@ -372,13 +350,6 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 /*    char*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
 /*    string*/  {  NULL,    NULL,  &stringFromInt4,   NULL, &stringFromSingle,   &stringFromDouble, &stringFromBoolean, &stringFromChar,&stringFromString},
      };
-
-static TypeConverter* arrayToStringConversionMatrix[9] =  {
-//                                             SOURCE (FROM)
-//                 int1      int2    int4    int8   single                double            boolean     char    string
-/*    string*/     NULL,    NULL,   NULL,   NULL,  &stringFromSingleA, &stringFromDoubleA,   NULL,      NULL,   NULL
-     };
-
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -437,8 +408,13 @@ bool protocol::getTypeConverter(Component* parent,
                if (Aconverter->baseConverter != NULL)
                   converter = Aconverter;
                }
-            else if (destTypeCode == DTstring)
-               converter = arrayToStringConversionMatrix[sourceTypeCode];
+            else
+               {
+               ScalarFromArray* Aconverter = &scalarFromArray;
+               Aconverter->baseConverter = scalarConversionMatrix[destTypeCode][sourceTypeCode];
+               if (Aconverter->baseConverter != NULL)
+                  converter = Aconverter;
+               }
             }
          else
             {
