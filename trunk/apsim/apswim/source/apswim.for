@@ -121,6 +121,9 @@
       if (eventID.eq.TickId) then
          call apswim_OnTick(variant)
 
+      elseif (eventID .eq. DoSoilWaterBalanceId) then
+         call apswim_DoSoilWaterBalance ()
+         
       elseif (eventID .eq. SolutesChangedId) then
          call apswim_OnSolutesChanged (variant)
 
@@ -158,10 +161,7 @@
 
 !- Implementation Section ----------------------------------
 
-      if (methodID .eq. DoSoilWaterBalanceId) then
-         call apswim_DoSoilWaterBalance ()
-
-      else if (methodID .eq. ResetId) then
+      if (methodID .eq. ResetId) then
          call apswim_reset ()
 
       else if (methodID .eq. Sum_ReportId) then
@@ -1217,6 +1217,48 @@
       found = get_radn(radnId, g%radn)
       found = get_maxt (maxtId,g%maxt)
       found = get_mint (mintId, g%mint)
+
+      if (p%rainfall_source .eq. 'apsim') then
+         call apswim_get_rain_variables ()
+
+      else
+         call apswim_read_logfile (
+     :                             LUNrain
+     :                            ,g%year
+     :                            ,g%day
+     :                            ,g%apsim_time
+     :                            ,g%apsim_timestep
+     :                            ,g%SWIMRainTime
+     :                            ,g%SWIMRainAmt
+     :                            ,g%SWIMRainNumPairs
+     :                            ,SWIMLogSize)
+
+      endif
+
+      call apswim_recalc_eqrain()
+
+      if (p%evap_source .eq. 'apsim') then
+         call apswim_get_obs_evap_variables ()
+
+      else if ((p%evap_source .eq. 'calc')
+     :        .or.(p%evap_source .eq. 'sum_demands')) then
+         ! I need a cumulative eo curve from Priestly taylor
+         ! method for these pot. evap methods.
+         call apswim_calc_evap_variables ()
+
+      else
+         call apswim_read_logfile (
+     :                             LUNevap
+     :                            ,g%year
+     :                            ,g%day
+     :                            ,g%apsim_time
+     :                            ,g%apsim_timestep
+     :                            ,g%SWIMEvapTime
+     :                            ,g%SWIMEvapAmt
+     :                            ,g%SWIMEvapNumPairs
+     :                            ,SWIMLogSize)
+
+      endif
 
       return
       end
@@ -3902,7 +3944,7 @@ cnh       double precision table_slscr(nsol)
 
             call apswim_freundlich (node,solnum,g%csl(solnum,node)
      :                    ,Ctot,dCtot)
-
+                        
             ! Note:- Sometimes small numerical errors can leave
             ! -ve concentrations.  Set conc to zero in these cases.
 
@@ -3957,9 +3999,9 @@ cnh       double precision table_slscr(nsol)
             SoluteProfiles(solnum)%layer(layer)%amount = Ctot
    50    continue
          SoluteProfiles(solnum)%name = p%solute_names(solnum)
-
+         SoluteProfiles(solnum)%NumLayers = p%n+1
   100 continue
-
+      
       call publish_SoluteProfile (SoluteFluxesCalculatedID
      :                                    , SoluteProfiles
      :                                    , p%num_solutes
@@ -4317,7 +4359,7 @@ cnh    character string_concat*(strsize)      ! function
       found = get_rain_time (rain_timeId, time)
 
       found = get_rain_durn (rain_durnId, duration, .true.)
-
+      
       if (.not.found) then
 
          found = get_rain_int (rain_intId, intensity, .true.)
@@ -6840,6 +6882,7 @@ c      pause
       do 100 counter = 1, NumSolutesChanged
          solnum = apswim_solute_number (SoluteProfilesChanged(counter)
      :                                 %name)
+
          call apswim_conc_water_solute
      :            (solnum
      :            , SoluteProfilesChanged(counter)%name
