@@ -66,10 +66,10 @@ bool ApsimRegistrationData::isOfType(const std::string& type) const
       }
    }
 // ------------------------------------------------------------------
-// return the alias of the registration.
+// return the internal name of the registration.
 // ------------------------------------------------------------------
-std::string ApsimRegistrationData::getAlias(void) const
+std::string ApsimRegistrationData::getInternalName(void) const
    {
-   return node.getAttribute("alias");
+   return node.getAttribute("internalName");
    }
 
