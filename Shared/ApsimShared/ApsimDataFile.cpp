@@ -35,6 +35,13 @@ void ApsimDataFile::open(const std::string& file)
    haveFoundDate = false;
    }
 //---------------------------------------------------------------------------
+// close the datafile.
+//---------------------------------------------------------------------------
+void ApsimDataFile::close(void)
+   {
+   in.close();
+   }
+//---------------------------------------------------------------------------
 // retrieve the next line from the input stream.
 //---------------------------------------------------------------------------
 istream& ApsimDataFile::getline(string& line)

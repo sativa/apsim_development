@@ -71,6 +71,7 @@ class __declspec(dllexport) ApsimDataFile
       // Open the data file.
       //---------------------------------------------------------------------------
       void open(const std::string& fileName);
+      void close(void);
 
       //---------------------------------------------------------------------------
       // constant iterators
