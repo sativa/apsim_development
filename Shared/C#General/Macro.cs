@@ -318,12 +318,22 @@ namespace CSGeneral
 				{
 				int PosEndMacro = Contents.IndexOf(']', PosStartMacro);
 				string Macro = Contents.Substring(PosStartMacro+1, PosEndMacro-PosStartMacro-1);
+				int PosPeriod = Macro.IndexOf(".");
+				if (PosPeriod != -1)
+					{
+					string MacroFirstBit = Macro.Substring(0, PosPeriod);
+					if (MacroFirstBit == Values.Name)
+						Macro = Macro.Substring(PosPeriod+1);
+					}
 
 				try
 					{
 					string Value = GetValueFromNode(Values, Macro);
-					Contents = Contents.Remove(PosStartMacro, Macro.Length+2);
-					Contents = Contents.Insert(PosStartMacro, Value);
+					if (Value != "")
+						{
+						Contents = Contents.Remove(PosStartMacro, PosEndMacro-PosStartMacro-1+2);
+						Contents = Contents.Insert(PosStartMacro, Value);
+						}
 					}
 				catch (Exception)
 					{
@@ -349,7 +359,8 @@ namespace CSGeneral
 			try
 				{
 				Value = Child.Attribute(Macro);
-				return Value;
+				if (Value != "")
+					return Value;
 				}
 			catch (Exception)
 				{ }
