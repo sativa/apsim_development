@@ -334,9 +334,9 @@ void ApsimControlFile::getParameterFiles(const string& instanceName,
       if (doAdd)
          {
          if (constants)
-            doAdd = Str_i_Eq(paramFile->sectionName, "standard");
+            doAdd = (ExtractFileExt(paramFile->fileName.c_str()) == ".ini");
          else
-            doAdd = !Str_i_Eq(paramFile->sectionName, "standard");
+            doAdd = (ExtractFileExt(paramFile->fileName.c_str()) != ".ini");
          }
       if (doAdd && oneFilePerInstance)
          doAdd = (find(instancesSoFar.begin(), instancesSoFar.end(),
@@ -639,7 +639,7 @@ void ApsimControlFile::setVersionNumber(const std::string& fileName,
    if (getSectionName(line) != "")
       controlOut << line << endl;
    controlOut << out.str();
-   }
+   }         
 // ------------------------------------------------------------------
 // Get a parameter file from the control file - any module will do.
 // Also return a section name.
