@@ -40,6 +40,7 @@ static const char* BITMAPS_SECTION = "bitmaps";
 __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
    : TForm(Owner)
    {
+   weAreExpanding = false;
    }
 
 // ------------------------------------------------------------------
@@ -219,7 +220,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
    int y = ScenarioTree->ClientOrigin.y + Y;
 
    TTreeNode* node = ScenarioTree->GetNodeAt(X, Y);
-   if (node != NULL && Button == mbLeft)
+   if (!weAreExpanding && node != NULL && Button == mbLeft)
       {
       ScenarioTree->Selected = node;
       if (node->Parent != NULL)
@@ -255,6 +256,7 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
          ValueSelectPopup->Show();
          }
       }
+   weAreExpanding = false;
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ShowAllButtonClick(TObject *Sender)
@@ -298,6 +300,19 @@ void __fastcall TDrill_down_form::ScenarioTreeEdited(TObject *Sender,
 void __fastcall TDrill_down_form::AddInLabelClick(TObject *Sender)
    {
    scenarios->showUI();
+   }
+//---------------------------------------------------------------------------
+
+void __fastcall TDrill_down_form::ScenarioTreeCollapsing(TObject *Sender,
+      TTreeNode *Node, bool &AllowCollapse)
+   {
+   weAreExpanding = true;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::ScenarioTreeExpanding(TObject *Sender,
+      TTreeNode *Node, bool &AllowExpansion)
+   {
+   weAreExpanding = true;
    }
 //---------------------------------------------------------------------------
 
