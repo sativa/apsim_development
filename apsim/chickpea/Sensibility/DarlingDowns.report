@@ -200,6 +200,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra1500HighNProb.onSourceDataChanged'
       'Gunnedah1500Prob.onSourceDataChanged'
+      'Dalby1500Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
     sortFields = 'year'
     filenames.Strings = (
@@ -269,6 +270,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra600LowNProb.onSourceDataChanged'
       'Walgett600Prob.onSourceDataChanged'
+      'Roma600Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
     sortFields = 'year'
     filenames.Strings = (
@@ -338,6 +340,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Warra1500LowNProb.onSourceDataChanged'
       'Walgett1500Prob.onSourceDataChanged'
+      'Roma1500Prob.onSourceDataChanged'
       'Graph2.afterDataRefresh')
     sortFields = 'year'
     filenames.Strings = (
@@ -500,8 +503,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 169
-  Top = 43
+  Left = 158
+  Top = 63
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -565,7 +568,7 @@ object Page1: TQuickRep
     BandType = rbTitle
     object Graph1: TGraph
       Left = 28
-      Top = 251
+      Top = 256
       Width = 487
       Height = 236
       Frame.Color = clBlack
@@ -577,7 +580,7 @@ object Page1: TQuickRep
       Size.Values = (
         892.02380952381
         105.833333333333
-        948.720238095238
+        967.619047619048
         1840.74404761905)
       title = ' '
       leftAxisTitle = 'Cumulative Probability (%)'
@@ -598,7 +601,7 @@ object Page1: TQuickRep
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 6000
+        BottomAxis.Maximum = 4500
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Yield (kg/ha)'
@@ -706,7 +709,7 @@ object Page1: TQuickRep
     object Text1: TText
       Left = 45
       Top = 96
-      Width = 447
+      Width = 461
       Height = 152
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -718,7 +721,7 @@ object Page1: TQuickRep
         574.52380952381
         170.089285714286
         362.857142857143
-        1689.55357142857)
+        1742.47023809524)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -731,8 +734,8 @@ object Page1: TQuickRep
       Font.Style = []
       Lines.Strings = (
         
-          'These simulations compare predictions with District Agronomists'#39 +
-          ' estimate of average yields'
+          'These simulations compare predictions with agronomists'#39' estimate' +
+          's of average yields'
         
           ' at Dalby and Roma for average or ideal sowing moisture conditio' +
           'ns.'
@@ -740,19 +743,36 @@ object Page1: TQuickRep
         
           'A chickpea crop sown on differing depths of wet soil with profil' +
           'e PAWC of 130 mm at Roma '
-        'and  400mm at Dalby.  Sown mid May.'
+        'and  290mm at Dalby.  Sown mid May.'
         ''
-        'Average Yields for ???????????????')
+        
+          'Yields at Roma should vary from 0 - 2.5 t/ha with a median of ap' +
+          'proximately 1.0 t/ha.'
+        
+          'Yields at Dalby should vary up to 3 - 3.5 t/ha.  A full profile ' +
+          'should result in at least 1.5 t/ha'
+        
+          'with a median of 2.5 t/ha.  A half profile should result in at l' +
+          'east 0.5 t/ha with a median of 1.5 t/ha.'
+        ''
+        
+          'The slope of the relationship between yield and transpiration sh' +
+          'ould be 10-15 kg/ha/mm.')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = 
-        'These simulations compare predictions with District Agronomists'#39 +
-        ' estimate of average yields'#13#10' at Dalby and Roma for average or i' +
-        'deal sowing moisture conditions.'#13#10#13#10'A chickpea crop sown on diff' +
-        'ering depths of wet soil with profile PAWC of 130 mm at Roma '#13#10'a' +
-        'nd  400mm at Dalby.  Sown mid May.'#13#10#13#10'Average Yields for ???????' +
-        '????????'#13#10
+        'These simulations compare predictions with agronomists'#39' estimate' +
+        's of average yields'#13#10' at Dalby and Roma for average or ideal sow' +
+        'ing moisture conditions.'#13#10#13#10'A chickpea crop sown on differing de' +
+        'pths of wet soil with profile PAWC of 130 mm at Roma '#13#10'and  290m' +
+        'm at Dalby.  Sown mid May.'#13#10#13#10'Yields at Roma should vary from 0 ' +
+        '- 2.5 t/ha with a median of approximately 1.0 t/ha.'#13#10'Yields at D' +
+        'alby should vary up to 3 - 3.5 t/ha.  A full profile should resu' +
+        'lt in at least 1.5 t/ha'#13#10'with a median of 2.5 t/ha.  A half prof' +
+        'ile should result in at least 0.5 t/ha with a median of 1.5 t/ha' +
+        '.'#13#10#13#10'The slope of the relationship between yield and transpirati' +
+        'on should be 10-15 kg/ha/mm.'#13#10
       FontSize = 12
     end
     object Text2: TText
@@ -835,7 +855,7 @@ object Page1: TQuickRep
         LeftAxis.AxisValuesFormat = '###0.###'
         LeftAxis.LabelsFont.Height = -19
         LeftAxis.LabelsSeparation = 100
-        LeftAxis.Maximum = 6000
+        LeftAxis.Maximum = 4500
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
         LeftAxis.Title.Caption = 'Yield (kg/ha)'
