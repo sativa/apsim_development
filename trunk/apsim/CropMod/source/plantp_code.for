@@ -1178,7 +1178,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       call push_routine (myname)
 
       if (g%phosphorus_aware) then
-         dlt_dm_P(1:g%num_parts) = chop_fr_green(1:g%num_parts)
+         dlt_dm_P(1:g%num_parts) = (chop_fr_green(1:g%num_parts)
      :                      * g%part_p_green(1:g%num_parts)
      :                      * fraction_to_residue(1:g%num_parts)
      :                   +
@@ -1188,7 +1188,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                   +
      :                    chop_fr_dead(1:g%num_parts)
      :                      * g%part_p_dead(1:g%num_parts)
-     :                      * fraction_to_residue(1:g%num_parts)
+     :                      * fraction_to_residue(1:g%num_parts))
      :              * gm2kg/sm2ha
 
          dlt_residue_p = sum(dlt_dm_P(1:g%num_parts))
@@ -1287,7 +1287,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :                   , dlt_fom_P
      :                   , num_layers)
 
-!       call event_send(ACTION_incorp_fom_p)
+       call event_send(ACTION_incorp_fom_p)
 
 !      call EI_BroadcastAction     (EventInterface
 !     :                            ,ACTION_incorp_fom_p
