@@ -866,7 +866,7 @@ c     be removed. FIXME!
      :     max_layer)
 
 !      sw_demand_tot = grasp_sw_pot () * g%swi_total
-      sw_demand_tot = g%dlt_dm / grasp_transp_eff ()
+      sw_demand_tot = divide(g%dlt_dm, grasp_transp_eff (), 0.0)
 
       do 2000 layer = 1, deepest_layer
          dlt_sw_dep(layer) = -1.0 * sw_demand_tot *
@@ -4958,11 +4958,11 @@ c     :                    , 0.0, 10000.0)
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
 
