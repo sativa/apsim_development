@@ -1,0 +1,1053 @@
+Version = 2.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 865
+  ClientWidth = 1384
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Warra600HighN: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Dalby600Prob.onSourceDataChanged'
+      'Warra600HighNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Warra600HighN.out')
+    Left = 170
+    Top = 157
+  end
+  object Warra600HighNProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Warra600HighN
+    fieldName = 'yield'
+    Left = 304
+    Top = 160
+  end
+  object Warra1500HighN: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra1500HighNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Warra1500HighN.out')
+    Left = 171
+    Top = 223
+  end
+  object Warra600LowN: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra600LowNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Warra600LowN.out')
+    Left = 176
+    Top = 320
+  end
+  object Warra1500LowN: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftInteger
+      end
+      item
+        Name = 'year'
+        DataType = ftInteger
+      end
+      item
+        Name = 'in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eff_in_crop_rain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'hi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nhi'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'esw'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Warra1500LowNProb.onSourceDataChanged')
+    filenames.Strings = (
+      'Warra1500LowN.out')
+    Left = 192
+    Top = 408
+  end
+  object Warra1500HighNProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Warra1500HighN
+    fieldName = 'yield'
+    Left = 304
+    Top = 232
+  end
+  object Warra600LowNProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Warra600LowN
+    fieldName = 'yield'
+    Left = 312
+    Top = 328
+  end
+  object Warra1500LowNProb: TProbability
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Probability'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortFields = 'Series;Probability'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Warra1500LowN
+    fieldName = 'yield'
+    Left = 322
+    Top = 418
+  end
+end
+object Page1: TQuickRep
+  Left = 411
+  Top = 186
+  Width = 397
+  Height = 561
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 50
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 397
+    Height = 561
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2100.79166666667)
+    BandType = rbTitle
+    object Graph1: TGraph
+      Left = 23
+      Top = 202
+      Width = 324
+      Height = 174
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        920.75
+        121.708333333333
+        1068.91666666667
+        1714.5)
+      title = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.LabelsFont.Height = -19
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMaximum = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.LabelsFont.Height = -19
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.Maximum = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.Brush.Color = clWhite
+        Legend.Brush.Style = bsClear
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 90
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 44
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series2: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra600HighNProb
+          SeriesColor = clRed
+          Title = '600 mm High N'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series3: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra1500HighNProb
+          SeriesColor = clGreen
+          Title = '1500 mm High N'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series4: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra600LowNProb
+          SeriesColor = clYellow
+          Title = '600 mm Low N'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+        object Series1: TLineSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra1500LowNProb
+          SeriesColor = clBlue
+          Title = '1500 mm Low N'
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'Probability'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 27
+      Top = 37
+      Width = 343
+      Height = 131
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        693.208333333333
+        142.875
+        195.791666666667
+        1815.04166666667)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Simulations to be compared to Warra long term trial yields.'
+        ''
+        
+          'A wheat crop sown on 600 or 1500 mm of wet soil with either 10 o' +
+          'r 75 kg/ha of N applied at sowing.'
+        
+          'Soil PAWC of 200mm (Properties from Dr M Probert).  Starting soi' +
+          'l NO3 of 44 kg/ha '
+        '(similar to Trial'#39's 0N treatments).  Sown mid May.'
+        ''
+        'Predicted Wheat Yields should '
+        '1) never exceed 4.5 t/ha for the high N treatments.'
+        ' and 2 t/ha for the low N treatments.'
+        
+          '2) get down to below 1 t/ha for low sowing PAWC and 2 t/ha for h' +
+          'igh sowing PAWC'
+        'Predicted Grain N% should'
+        
+          '1) Decrease from 3% at 1 t/ha to 2% at 4.5 t/ha for the High N c' +
+          'onditions.'
+        
+          '2) Decrease from 2.5 % at 1 t/ha to 1.5% at 2 t/ha  for the Low ' +
+          'N conditions.')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 
+        'Simulations to be compared to Warra long term trial yields.'#13#10#13#10'A' +
+        ' wheat crop sown on 600 or 1500 mm of wet soil with either 10 or' +
+        ' 75 kg/ha of N applied at sowing.'#13#10'Soil PAWC of 200mm (Propertie' +
+        's from Dr M Probert).  Starting soil NO3 of 44 kg/ha '#13#10'(similar ' +
+        'to Trial'#39's 0N treatments).  Sown mid May.'#13#10#13#10'Predicted Wheat Yie' +
+        'lds should '#13#10'1) never exceed 4.5 t/ha for the high N treatments.' +
+        #13#10' and 2 t/ha for the low N treatments.'#13#10'2) get down to below 1 ' +
+        't/ha for low sowing PAWC and 2 t/ha for high sowing PAWC'#13#10'Predic' +
+        'ted Grain N% should'#13#10'1) Decrease from 3% at 1 t/ha to 2% at 4.5 ' +
+        't/ha for the High N conditions.'#13#10'2) Decrease from 2.5 % at 1 t/h' +
+        'a to 1.5% at 2 t/ha  for the Low N conditions.'#13#10
+      FontSize = 12
+    end
+    object Text2: TText
+      Left = 44
+      Top = 14
+      Width = 34
+      Height = 26
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        137.583333333333
+        232.833333333333
+        74.0833333333333
+        179.916666666667)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Arial'
+      Font.Style = [fsBold, fsUnderline]
+      Lines.Strings = (
+        'Warra')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Warra'#13#10
+      FontSize = 18
+    end
+    object Graph2: TGraph
+      Left = 31
+      Top = 370
+      Width = 324
+      Height = 174
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        920.75
+        164.041666666667
+        1957.91666666667
+        1714.5)
+      title = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.LabelsFont.Height = -19
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.LabelsFont.Height = -19
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.Brush.Color = clWhite
+        Legend.Brush.Style = bsClear
+        Legend.CustomPosition = True
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 90
+        Legend.LegendStyle = lsSeries
+        Legend.Top = 44
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object LineSeries1: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra600HighN
+          SeriesColor = clRed
+          Title = '600 mm High N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries2: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra1500HighN
+          SeriesColor = clGreen
+          Title = '1500 mm High N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries3: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra600LowN
+          SeriesColor = clYellow
+          Title = '600 mm Low N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries4: TPointSeries
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.Warra1500LowN
+          SeriesColor = clBlue
+          Title = '1500 mm Low N'
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'yield'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'n_conc_grain'
+        end
+      end
+    end
+  end
+end
