@@ -176,7 +176,7 @@ variable = millet3.lai as lai3
 variable = millet4.lai as lai4
 variable = millet5.lai as lai5
 [pat77_rf.operatns.parameters]    
-285  1977  fertiliz apply amount = 25.6 (kg/ha), depth=10(mm), type=no3_n () !160 kg @ 16N:45P
+285  1977  fertiliz apply amount = 25.6 (kg/ha), depth=10(mm), type=no3_n  !160 kg @ 16N:45P
 286  1977  millet sow plants =  26.7, sowing_depth = 30, cultivar = bj104  !for BK560
 287  1977  soilwat2 set sw =  0.166  0.190  0.197  0.203  0.189  0.197  0.208
 288  1977  irrigate apply amount = 15 (mm)
@@ -184,7 +184,7 @@ variable = millet5.lai as lai5
 299  1977  irrigate apply amount = 20 (mm)
 
 [pat77_irr.operatns.parameters]    
-285  1977  fertiliz apply amount = 25.6 (kg/ha), depth=10(mm), type=no3_n () !160 kg @ 16N:45P
+285  1977  fertiliz apply amount = 25.6 (kg/ha), depth=10(mm), type=no3_n  !160 kg @ 16N:45P
 286  1977  millet sow plants =  26.7, sowing_depth = 30, cultivar = bj104  !for BK560
 287  1977  soilwat2 set sw =  0.166  0.190  0.197  0.203  0.189  0.197  0.208
 288  1977  irrigate apply amount = 15 (mm)
@@ -196,66 +196,66 @@ variable = millet5.lai as lai5
 
 [pat78.operatns.parameters]    
 176  1978  millet sow plants =  22.2, sowing_depth = 30, cultivar = bj104 !for BK 560
-188  1978  fertiliz apply amount = 80 (kg/ha), depth=10(mm), type=no3_n ()                         
-209  1978  fertiliz apply amount = 80 (kg/ha), depth=10(mm), type=no3_n ()                         
+188  1978  fertiliz apply amount = 80 (kg/ha), depth=10(mm), type=no3_n                          
+209  1978  fertiliz apply amount = 80 (kg/ha), depth=10(mm), type=no3_n                          
 
 [pat82_d1.operatns.parameters]    
 170  1982  millet sow plants =  5.0, sowing_depth = 30, cultivar = bj104
-185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can ()                        
-192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can ()                        
+185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can                         
+192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can                         
 
 [pat82_d2.operatns.parameters]    
 170  1982  millet sow plants =  14.9, sowing_depth = 30, cultivar = bj104
-185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can ()                        
-192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can ()                        
+185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can                         
+192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can                         
 
 [pat82_d3.operatns.parameters]    
 170  1982  millet sow plants =  28.8, sowing_depth = 30, cultivar = bj104
-185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can ()                        
-192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can ()                        
+185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can                         
+192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can                         
 
 [pat82_d4.operatns.parameters]    
 170  1982  millet sow plants =  40, sowing_depth = 30, cultivar = bj104
-185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can ()                        
-192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can ()                        
+185  1982  fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can                         
+192  1982  fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can                         
 
 [pat85.operatns.parameters]    
-171  1985  fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=NO3_N ()                        
+171  1985  fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=NO3_N                         
 172  1985  millet sow plants =  9.0, sowing_depth = 30, cultivar = bj104
-196  1985  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+196  1985  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 200  1985  irrigate apply amount = 15 (mm) ! 15 used approx. as amount not known
 233  1985  irrigate apply amount = 15 (mm) ! 15 used approx. as amount not known
 
 [pat86_d1.operatns.parameters]    
-169  1986  fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=urea ()
+169  1986  fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=urea 
 170  1986  millet sow plants =  4.5, sowing_depth = 30, cultivar = bj104
 182  1986  irrigate apply amount = 15 (mm) ! 15 used approx. as amount not known
-204  1986  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type= urea ()
+204  1986  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type= urea 
 239  1986  irrigate apply amount = 15 (mm) ! 15 used approx. as amount not known
 
 [pat86_d2.operatns.parameters]    
-169  1986  fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=urea ()
+169  1986  fertiliz apply amount = 40 (kg/ha), depth=10(mm), type=urea 
 170  1986  millet sow plants = 12, sowing_depth = 30, cultivar = bj104
 182  1986  irrigate apply amount = 15 (mm) ! 15 used approx. as amount not known
-204  1986  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea ()
+204  1986  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea 
 239  1986  irrigate apply amount = 15 (mm) ! 15 used approx. as amount not known
 
 [pat94_wrajpop.operatns.parameters]    
-161  1994  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap()!best guess for date and amount 
+161  1994  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap!best guess for date and amount 
 166  1994  millet sow plants =  6.7, sowing_depth = 30, cultivar = wrajpop
-188  1994  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+188  1994  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 
 [pat94_rcbic911.operatns.parameters]    
-161  1994  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap()!best guess for date and amount 
+161  1994  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap!best guess for date and amount 
 166  1994  millet sow plants =  6.7, sowing_depth = 30, cultivar = rcbic911
-188  1994  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+188  1994  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 
 [pat95_wrajpop.operatns.parameters]    
 171  1995  millet sow plants =  6.7, sowing_depth = 30, cultivar = wrajpop
 174  1995  soilwat2 set sw = 0.168   0.197   0.226   0.257   0.257   0.190 0.190
 174  1995  soiln2 set no3ppm= 6 16 11  4  2  2  2 ! last layer not observed
 174  1995  soiln2 set nh4ppm= 3  2  3  4  10 5  5 ! last layer not observed 
-192  1995  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+192  1995  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 249  1995  soilwat2 set sw = 0.140   0.197   0.277   0.271   0.222   0.205 0.205
 249  1995  soiln2 set no3ppm= 1  1  1  2  3  3  3   ! last layer not observed
 249  1995  soiln2 set nh4ppm= 9  4  8  5  5  5  5   ! last layer not observed
@@ -265,19 +265,19 @@ variable = millet5.lai as lai5
 174  1995  soilwat2 set sw = 0.168   0.197   0.226   0.257   0.257   0.190 0.190
 174  1995  soiln2 set no3ppm= 6 16 11  4  2  2  2 ! last layer not observed
 174  1995  soiln2 set nh4ppm= 3  2  3  4 10  5  5 ! last layer not observed 
-192  1995  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+192  1995  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 249  1995  soilwat2 set sw = 0.140   0.197   0.277   0.271   0.222   0.205 0.205
 249  1995  soiln2 set no3ppm= 1  1  1  2  3  3   3   ! last layer not observed
 249  1995  soiln2 set nh4ppm= 9  4  8  5  5  5   5   ! last layer not observed
 
 [pat97_bj104.operatns.parameters]    
-182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap()
+182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap
 183  1997  millet sow plants =  7.5, sowing_depth = 30, cultivar = bj104
 !189  1997  soiln2 set oc=   0.48    0.53    0.49    0.42    0.30    0.18    0.18
 189  1997  soiln2 set nh4ppm=   24.9    14.1    13.00   13.10   10.75   11.80   11.80
 189  1997  soiln2 set no3ppm=   3.0     8.1     1.80    0.10    0.10    0.10    0.10
 189  1997  soilwat2 set sw = 0.235   0.250   0.249   0.194   0.196   0.240   0.240
-211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 !225  1997  soiln2 set oc=   0.94    0.62    0.53    0.44    0.30    0.26    0.26
 225  1997  soiln2 set nh4ppm=   16.1    14.7    17.10   13.40   13.65   11.00   11.00
 225  1997  soiln2 set no3ppm=   0.1     0.1     0.25    0.50    0.25    0.50    0.50
@@ -288,13 +288,13 @@ variable = millet5.lai as lai5
 255  1997  soilwat2 set sw = 0.263   0.270   0.277   0.202   0.217   0.231   0.236
 
 [pat97_hhb67.operatns.parameters]    
-182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap()
+182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap
 183  1997  millet sow plants =  7.5, sowing_depth = 30, cultivar = hhb67
 !189  1997  soiln2 set oc=   0.48    0.53    0.49    0.42    0.30    0.18    0.18
 189  1997  soiln2 set nh4ppm=   24.9    14.1    13.00   13.10   10.75   11.80   11.80
 189  1997  soiln2 set no3ppm=   3.0     8.1     1.80    0.10    0.10    0.10    0.10
 189  1997  soilwat2 set sw = 0.235   0.250   0.249   0.194   0.196   0.240   0.240
-211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 !225  1997  soiln2 set oc=   0.94    0.62    0.53    0.44    0.30    0.26    0.26
 225  1997  soiln2 set nh4ppm=   16.1    14.7    17.10   13.40   13.65   11.00   11.00
 225  1997  soiln2 set no3ppm=   0.1     0.1     0.25    0.50    0.25    0.50    0.50
@@ -305,13 +305,13 @@ variable = millet5.lai as lai5
 255  1997  soilwat2 set sw = 0.263   0.270   0.277   0.202   0.217   0.231   0.236
 
 [pat97_rcbic911.operatns.parameters]    
-182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap()
+182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap
 183  1997  millet sow plants =  7.5, sowing_depth = 30, cultivar = rcbic911
 !189  1997  soiln2 set oc=   0.48    0.53    0.49    0.42    0.30    0.18    0.18
 189  1997  soiln2 set nh4ppm=   24.9    14.1    13.00   13.10   10.75   11.80   11.80
 189  1997  soiln2 set no3ppm=   3.0     8.1     1.80    0.10    0.10    0.10    0.10
 189  1997  soilwat2 set sw = 0.235   0.250   0.249   0.194   0.196   0.240   0.240
-211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 !225  1997  soiln2 set oc=   0.94    0.62    0.53    0.44    0.30    0.26    0.26
 225  1997  soiln2 set nh4ppm=   16.1    14.7    17.10   13.40   13.65   11.00   11.00
 225  1997  soiln2 set no3ppm=   0.1     0.1     0.25    0.50    0.25    0.50    0.50
@@ -322,13 +322,13 @@ variable = millet5.lai as lai5
 255  1997  soilwat2 set sw = 0.263   0.270   0.277   0.202   0.217   0.231   0.236
 
 [pat97_wrajpop.operatns.parameters]    
-182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap()
+182  1997  fertiliz apply amount = 150 (kg/ha), depth=10(mm), type=dap
 183  1997  millet sow plants =  7.5, sowing_depth = 30, cultivar = wrajpop
 !189  1997  soiln2 set oc=   0.48    0.53    0.49    0.42    0.30    0.18    0.18
 189  1997  soiln2 set nh4ppm=   24.9    14.1    13.00   13.10   10.75   11.80   11.80
 189  1997  soiln2 set no3ppm=   3.0     8.1     1.80    0.10    0.10    0.10    0.10
 189  1997  soilwat2 set sw = 0.235   0.250   0.249   0.194   0.196   0.240   0.240
-211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea()                        
+211  1997  fertiliz apply amount = 100 (kg/ha), depth=10(mm), type=urea                        
 !225  1997  soiln2 set oc=   0.94    0.62    0.53    0.44    0.30    0.26    0.26
 225  1997  soiln2 set nh4ppm=   16.1    14.7    17.10   13.40   13.65   11.00   11.00
 225  1997  soiln2 set no3ppm=   0.1     0.1     0.25    0.50    0.25    0.50    0.50
@@ -346,7 +346,7 @@ variable = millet5.lai as lai5
 [jod95_n0.operatns.parameters]    
 181  1995  soiln2 set nh4ppm=   4.95    3.65    2.31    2.31    3.62    3.22    2.54
 181  1995  soiln2 set no3ppm=   10.23   5.64    2.31    2.31    1.32    1.29    1.10
-187  1995  fertiliz apply amount = 0 (kg/ha), depth=70(mm), type=no3_n ()                        
+187  1995  fertiliz apply amount = 0 (kg/ha), depth=70(mm), type=no3_n                         
 209  1995  soilwat2 set sw =   0.158   0.130   0.177   0.147   0.162   0.162   0.119 
 212  1995  soilwat2 set sw =   0.168   0.140   0.172   0.137   0.142   0.151   0.143 
 215  1995  soilwat2 set sw =   0.103   0.110   0.146   0.126   0.137   0.149   0.151 
@@ -377,7 +377,7 @@ variable = millet5.lai as lai5
 [jod95_n20.operatns.parameters]    
 181  1995  soiln2 set nh4ppm=   4.95    3.65    2.31    2.31    3.62    3.22    2.54
 181  1995  soiln2 set no3ppm=   10.23   5.64    2.31    2.31    1.32    1.29    1.10
-187  1995  fertiliz apply amount = 20 (kg/ha), depth=70(mm), type=no3_n ()                        
+187  1995  fertiliz apply amount = 20 (kg/ha), depth=70(mm), type=no3_n                         
 209  1995  soilwat2 set sw =   0.117   0.132   0.173   0.155   0.163   0.158   0.113 
 212  1995  soilwat2 set sw =   0.157   0.142   0.174   0.149   0.151   0.152   0.134 
 215  1995  soilwat2 set sw =   0.092   0.114   0.147   0.130   0.141   0.150   0.137 
@@ -408,7 +408,7 @@ variable = millet5.lai as lai5
 [jod95_n40.operatns.parameters]    
 181  1995  soiln2 set nh4ppm=   4.95    3.65    2.31    2.31    3.62    3.22    2.54
 181  1995  soiln2 set no3ppm=   10.23   5.64    2.31    2.31    1.32    1.29    1.10
-187  1995  fertiliz apply amount = 40 (kg/ha), depth=70(mm), type=no3_n ()                        
+187  1995  fertiliz apply amount = 40 (kg/ha), depth=70(mm), type=no3_n                         
 209  1995  soilwat2 set sw =   0.136   0.126   0.167   0.147   0.160   0.160   0.125 
 212  1995  soilwat2 set sw =   0.168   0.135   0.163   0.136   0.144   0.150   0.148 
 215  1995  soilwat2 set sw =   0.100   0.102   0.139   0.119   0.134   0.146   0.150 
@@ -447,7 +447,7 @@ variable = millet5.lai as lai5
 !(note increase of no3 day 201 compared to NO3 day 180 for even zero N treatment)
 !180  1996  soiln2 set nh4 =   3.80    5.20    8.87    8.87    13.22   5.26    22.4
 180  1996  soiln2 set no3 =   5.25    5.94    8.42    8.42    8.32    10.43   45.8
-183  1996  fertiliz apply amount = 0 (kg/ha), depth=70(mm), type=no3_n ()                        
+183  1996  fertiliz apply amount = 0 (kg/ha), depth=70(mm), type=no3_n                         
 190  1996  soilwat2 set sw =   0.0645  0.0992  0.1099  0.1054  0.1152  0.1188  0.091
 197  1996  soilwat2 set sw =   0.0545  0.0886  0.1036  0.0991  0.1085  0.1148  0.099
 199  1996  soilwat2 set sw =   0.1601  0.1022  0.1005  0.0985  0.1065  0.1112  0.097
@@ -499,7 +499,7 @@ variable = millet5.lai as lai5
 !(note increase of no3 day 201 compared to NO3 day 180 for even zero N treatment)
 !180  1996  soiln2 set nh4 =   3.80    5.20    8.87    8.87    13.22   5.26    22.4
 180  1996  soiln2 set no3 =   5.25    5.94    8.42    8.42    8.32    10.43   45.8
-183  1996  fertiliz apply amount = 20 (kg/ha), depth=70(mm), type=no3_n ()                        
+183  1996  fertiliz apply amount = 20 (kg/ha), depth=70(mm), type=no3_n                         
 190  1996  soilwat2 set sw =   0.0713  0.1006  0.1152  0.1108  0.1135  0.1176  0.095
 197  1996  soilwat2 set sw =   0.0558  0.0916  0.1090  0.1045  0.1097  0.1127  0.103
 199  1996  soilwat2 set sw =   0.1511  0.1000  0.1086  0.1061  0.1081  0.1116  0.105
@@ -553,7 +553,7 @@ variable = millet5.lai as lai5
 !180  1996  soiln2 set no3 =   7.00    7.00    4.20    2.80    2.80     2.80    8.40
 !180  1996  soiln2 set nh4 =   3.80    5.20    8.87    8.87    13.22   5.26    22.4
 180  1996  soiln2 set no3 =   5.25    5.94    8.42    8.42    8.32    10.43   45.8
-183  1996  fertiliz apply amount = 40 (kg/ha), depth=70(mm), type=no3_n ()                        
+183  1996  fertiliz apply amount = 40 (kg/ha), depth=70(mm), type=no3_n                         
 190  1996  soilwat2 set sw =   0.0714  0.1004  0.1140  0.1067  0.1177  0.1201  0.106
 197  1996  soilwat2 set sw =   0.0512  0.0919  0.1063  0.1016  0.1119  0.1129  0.111
 199  1996  soilwat2 set sw =   0.1542  0.1050  0.1057  0.0982  0.1083  0.1136  0.112
