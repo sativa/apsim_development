@@ -24,7 +24,7 @@
 USEUNIT("ReportComponent.cpp");
 USEUNIT("..\..\infra\engine\APSIMComponentInterface.cpp");
 USELIB("..\..\infra\engine\APSIMEngine.lib");
-USEUNIT("..\..\..\shared\general\string_functions.cpp");
+USEUNIT("k:\general\string_functions.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
    {
