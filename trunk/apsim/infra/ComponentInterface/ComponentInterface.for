@@ -41,6 +41,7 @@
       implicit none
       dll_export Init
       include 'const.inc'
+      include 'action.inc'
       include 'ComponentInterface.inc'
 
 !+ Sub-Program Arguments
@@ -63,7 +64,7 @@
       call SwapInstance(anInstanceNo)
       
       ! call the init routine.
-      call Main (MES_Init, "")
+      call Main (ACTION_Init, "")
 
       return
       end
