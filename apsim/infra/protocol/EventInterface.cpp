@@ -224,12 +224,12 @@ extern "C" _export void __stdcall ei_registersubscribedevent
 //    DPH 21/5/98
 
 // ------------------------------------------------------------------
-//extern "C" _export void __stdcall LOADER_CHANGECOMPONENTORDER
-//   (char* FComponents, int* NumElements, long For_st_len)
-//   {
-//   vector<string> Components;
-//   FArray2CArray (FComponents, Components, For_st_len, *NumElements);
-//   ApsimSystem().Loader.ChangeComponentOrder(Components);
-//   }
+extern "C" _export void __stdcall ei_changecomponentorder
+   (EventInterface** EI, char* FComponents, int* NumElements, long For_st_len)
+   {
+   vector<string> components;
+   FStrings(FComponents, For_st_len, *NumElements, *NumElements).toC(components);
+   (*EI)->changeComponentOrder(components);
+   }
 
 

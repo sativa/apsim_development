@@ -6,6 +6,7 @@
 #include "Event.h"
 #include <general\stl_functions.h>
 #include <list>
+#include <vector>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -111,6 +112,11 @@ class ICoordinator : virtual public IComponent
 
       // APSIM kludge - used for getvariable and setvariable - remove!
       bool componentResponded;
+
+      // reorder the component's - used for competition.
+      // will eventually be removed.
+      virtual void changeComponentOrder(std::vector<std::string>& componentsToChange) = 0;
+
 
    };
 

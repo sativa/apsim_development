@@ -5,6 +5,7 @@
 #include "component.h"
 #include <list>
 #include <map>
+#include <vector>
 class EventRegistration;
 
 typedef std::list<PROTOCOLComponent*> ComponentList;
@@ -57,6 +58,10 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
       // register an interest in an event.
       virtual void registerSubscribedEvent(FString& eventName,
                                            FString& componentName);
+
+      // reorder the component's - used for competition.
+      // will eventually be removed.
+      void changeComponentOrder(std::vector<std::string>& componentsToChange);
 
       // start and end the simulation.
       virtual void start(void);
