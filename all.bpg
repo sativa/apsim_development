@@ -17,7 +17,7 @@ PROJECTS = general.lib ApsimShared.dll SEGReport.bpl StandardControls.dll \
   apsdata.bpl ApsimOutlook.exe dbaddin.dll DamEasyAddin.dll FilterAddIn.dll \
   RotationAddIn.dll soiaddin.dll WhopEconAddin.dll OutlookManager.exe \
   FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll \
-  SendToExcel.exe
+  SendToExcel.exe ApsimContextMenu.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -171,6 +171,10 @@ icons.dll: ShellExt\source\icons.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 SendToExcel.exe: ShellExt\source\SendToExcel.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ApsimContextMenu.dll: ShellExt\source\ApsimContextMenu.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
