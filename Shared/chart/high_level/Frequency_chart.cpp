@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "Frequency_chart.h"
 #include <chart\high_level\bar_format.h>
 #include <strstrea.h>

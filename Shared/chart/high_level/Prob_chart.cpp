@@ -1,7 +1,11 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "Prob_chart.h"
 #include <chart\high_level\scatter_format.h>
 #include <strstrea.h>
-
+#include <algorithm>
 // ------------------------------------------------------------------
 //  Short description:
 //    constructor

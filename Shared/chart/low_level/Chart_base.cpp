@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "drawable.h"
 
 #include "Chart_base.h"
@@ -122,8 +126,8 @@ void Chart_base::Print (void)
 // ------------------------------------------------------------------
 void Chart_base::Print_preview (void)
    {
-   if (Visible)
-      ChartPreview(Parent_form, TChart_ptr);
+//   if (Visible)
+//      ChartPreview(Parent_form, TChart_ptr);
    }
 
 // ------------------------------------------------------------------

@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "bar_format.h"
 #include <chart\low_level\bar_series.h>
 

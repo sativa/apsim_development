@@ -1,3 +1,7 @@
+#include <general\pch.h>
+#include <vcl.h>
+#pragma hdrstop
+
 #include "depth_chart.h"
 #include <chart\high_level\scatter_format.h>
 
