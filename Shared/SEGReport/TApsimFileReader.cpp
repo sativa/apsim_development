@@ -175,15 +175,6 @@ void TApsimFileReader::readApsimHeader(istream& in,
          {
          foundHeadings = true;
          Split_string(previousLine, " ", fieldNames);
-
-         // check for duplicate fields
-         vector<string> temp;
-         copy(fieldNames.begin(), fieldNames.end(), back_inserter(temp));
-         sort(temp.begin(), temp.end());
-         if (unique(temp.begin(), temp.end()) != temp.end())
-            throw runtime_error("Non-unique column names encountered.  "
-                        "An APSIM output file must not have two columns with "
-                        "the same name.");
          }
       previousLine = line;
       }
