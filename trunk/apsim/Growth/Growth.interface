@@ -14,7 +14,7 @@
       <eventReg name="new_canopy" type="new_canopy"/>
       <eventReg name="new_crop" type="new_crop"/>
       <EventReg name="incorp_fom" type="incorp_fom"/>
-      <EventReg name="add_residue" type="add_residue"/>
+      <EventReg name="crop_chopped" type="crop_chopped"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
       <respondToEventReg name="prepare" type="prepare"/>
