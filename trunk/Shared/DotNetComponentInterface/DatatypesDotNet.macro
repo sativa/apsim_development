@@ -6,37 +6,91 @@
 #include "Interfaces.h"
 #include "Utility.h"
 #include <string>
+using namespace System::Reflection;
 
 #for_each structure
 //-------------------- structure.name type
+#if (structure.array = T)
+[DefaultMemberAttribute(S"value")]
+#endif
 public __gc class structure.name : public IEventData
 
    {
    public:
-      #for_each structure.field
-      #if (field.ctype = std::string)
-      String* field.name;
-      #else
-      field.ctype field.name;
+      #if (structure.array = T)
+      structure.name() : values(NULL) { }
+      structure.name(int numElements) : values(new Value*[numElements]) { }
+      __gc struct Value
+         {
       #endif
-      #endfor
+         #for_each structure.field
+         #if (field.ctype = std::string)
+         String* field.name;
+         #elseif (field.isStructure = T)
+         field.ctype* field.name;
+         #else
+         field.ctype field.name;
+         #endif
+         #endfor
+      #if (structure.array = T)
+         };
+		__property Value* get_value(int index) { return values[index]; }
+		__property void set_value(int index, Value* value) { values[index] = value; }
+		__property int get_Count() { return values->Count; }
+      #endif
+
 		__delegate void EventHandler(structure.name* handler);
 		EventHandler* handler;
       void pack(Message& message)
          {
+         #if (structure.array = T)
+         ::pack(message, values->Count);
+         for (int i = 0; i != values->Count; i++)
+            {
+            #for_each structure.field
+            #if (field.isStructure = T)
+            values[i]->field.name->pack(message);
+            #elseif (field.ctype <> char*)
+            ::pack(message, values[i]->field.name);
+            #endif
+            #endfor
+            }
+         #else
          #for_each structure.field
-         #if (field.ctype <> char*)
+         #if (field.isStructure = T)
+         field.name->pack(message);
+         #elseif (field.ctype <> char*)
          ::pack(message, field.name);
          #endif
          #endfor
+         #endif
          }
       void unpack(Message& message)
          {
+         #if (structure.array = T)
+         int count;
+         ::unpack(message, count);
+         values = new Value*[count];
+         for (int i = 0; i != values->Count; i++)
+            {
+            values[i] = new Value;
+            #for_each structure.field
+            #if (field.isStructure = T)
+            field.name->unpack(message);
+            #elseif (field.ctype <> char*)
+            ::unpack(message, values[i]->field.name);
+            #endif
+            #endfor
+            }
+         #else
          #for_each structure.field
-         #if (field.ctype <> char*)
+         #if (field.isStructure = T)
+         field.name->unpack(message);
+         #elseif (field.ctype <> char*)
          ::unpack(message, field.name);
          #endif
          #endfor
+         #endif
          }
       #if (structure.message <> T)
       const char* ddml()
@@ -50,6 +104,10 @@ structure.dotnetddml;
 		}
 
       #endif
+   #if (structure.array = T)
+   private:
+      Value* values[];
+   #endif
    };
 #endfor
 

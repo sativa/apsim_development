@@ -19,6 +19,30 @@
       <field name="endsecpart" kind="double" description="Fraction of a second of the end of the timestep (0-1)"/>
    </type>
 
+   <type name="SoilWaterProfileLayer" array="T">
+      <element>
+      <field name="thickness" kind="single" units="mm"/>
+      <field name="BulkDensity" kind="single" units="g/cc"/>
+      <field name="SatDepth" kind="single" units="mm"/>
+      <field name="DULDepth" kind="single" units="mm"/>
+      <field name="LL15Depth" kind="single" units="mm"/>
+      <field name="AirDryDepth" kind="single" units="mm"/>
+      <field name="SWDepth" kind="single" units="mm"/>
+      </element>
+   </type>
+
+   <type name="SoilWaterBalance">
+      <field name="infiltration" kind="single"/>
+      <field name="drainage" kind="single"/>
+      <field name="evaporation" kind="single"/>
+      <field name="LateralFlowLayer" array="T">
+         <element>
+         <field name="thickness" kind="single"/>
+         <field name="amount" kind="single"/>
+         </element>
+      </field>
+   </type>
+
    <event name="Tick" type="Time"/>
 
 
