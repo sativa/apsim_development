@@ -1,0 +1,11 @@
+[Dependencies]
+Dependency = %licensed_source(micromet)
+
+[Contents]
+ComponentInterface.f90 = ComponentInterface.f90
+micromet.for = micromet.for
+
+[APSBuild]
+binary = ..\lib\micromet.dll
+compilerfile=release.compile
+

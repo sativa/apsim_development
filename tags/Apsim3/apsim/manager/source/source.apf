@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(manager)
+
+[Contents]
+ComponentInterface.f90 = ComponentInterface.f90
+manager.for = manager.for
+
+[APSBuild]
+binary = ..\lib\manager.dll
+compilerfile=release.compile

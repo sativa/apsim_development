@@ -1,0 +1,11 @@
+USEFORM("crop.cpp", CropForm);
+USEFORM("dataform.cpp", DATA); /* TDataModule: File Type */
+USEFORM("econ.cpp", EconForm);
+USEFORM("about.cpp", AboutBox);
+USEFORM("WheatMatrix.cpp", WheatMatrixForm);
+USEFORM("SeedWeight.cpp", SeedWeightsForm);
+//---------------------------------------------------------------------------
+This file is used by the project manager only and should be treated like the project file
+
+
+DllEntryPoint

@@ -1,0 +1,11 @@
+version=3.0
+
+[sample]
+title=tracker Sample Simulation
+module = clock    tracker.par [sample] %apsuite\apsim\clock\clock2.ini [standard]
+module = report   tracker.par [sample]
+module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = tracker tracker.par [sample]
+module = manager  tracker.par [sample]
+module = screen tracker.par [sample]
+module = summaryfile tracker.par [sample]

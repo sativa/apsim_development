@@ -1,0 +1,12 @@
+[Dependencies]
+Dependency = %licensed_source(maize)
+
+[Contents]
+maize.for    = maize.for
+ComponentInterface.f90 = ComponentInterface.f90
+
+
+
+[APSBuild]
+binary = ..\lib\maize.dll
+compilerfile = release.compile

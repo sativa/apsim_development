@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(grasp)
+
+[Contents]
+ComponentInterface.f90 = ComponentInterface.f90
+grasp.for = grasp.for
+
+[APSBuild]
+binary = ..\lib\grasp.dll
+compilerfile=release.compile

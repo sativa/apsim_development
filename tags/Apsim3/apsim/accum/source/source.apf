@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(accum)
+
+[Contents]
+accum.for = accum.for
+ComponentInterface.f90 = ComponentInterface.f90
+
+[APSBuild]
+binary = ..\lib\accum.dll
+compilerfile=debug.compile

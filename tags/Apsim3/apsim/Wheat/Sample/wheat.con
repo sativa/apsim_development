@@ -1,0 +1,13 @@
+version = 3.0
+[apsim.wheat_sample]
+title=WHEAT SAMPLE Simulation
+screen_output=on
+module = clock           wheat.par [sample]
+module = report          wheat.par [sample]
+module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager         wheat.par [sample]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = cropmod(wheat)  wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = Screen          wheat.par[sample]
+module = SummaryFile     wheat.par[sample]

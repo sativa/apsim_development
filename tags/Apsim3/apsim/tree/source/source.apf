@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(tree)
+
+[Contents]
+componentinterface.f90 = componentinterface.f90
+tree.for = tree.for
+
+[APSBuild]
+binary = ..\lib\tree.dll
+compilerfile = release.compile

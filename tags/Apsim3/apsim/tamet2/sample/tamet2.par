@@ -1,0 +1,48 @@
+! Generic report parameters
+[sample.report.parameters]
+
+
+variable = clock.year
+variable = clock.day
+[Tamet2_dalby.report.parameters]
+
+outputfile =tamet2.out
+
+[Tamet2_dalby.clock.parameters]  
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=30/4/1990     ! dd/mm/yyyy
+
+
+[sample.manager.init]
+dummy = 0
+
+[sample.tamet2.parameters]
+dis_evap = 14.0 (mm)
+dish_evap = -8.5 (mm)   ! evap is high with rain
+disvh_evap = -12.0 (mm) ! evap is v high with rain
+dis_maxt_dry_season = 10.0 (oC) ! maxt   lat -18 to -11, jun to sept
+dis_maxt_other = 20.0 (oC) ! maxt
+dis_mint = 23.0 (oC)     ! mint
+Maxt_to_minT = 2.0  (oC)
+rain_lb = 0.0    (mm)
+rain_ub = 999.9  (mm)
+gauge_capacity = 203.2 (mm)
+maxt_lb = 4.0    (oC)
+maxt_ub = 50.0   (oC)
+mint_lb = -12.5  (oC)
+mint_ub = 32.0   (oC)
+evap_lb = 0.0    (mm)
+evap_ub = 20.0   (mm)
+wind_lb = 2.0    (km)
+wind_ub = 800.0  (km)
+radn_lb = 0.10   ()
+radn_ub = 1.12   ()
+radn_low = 0.65  ()
+radn_vlow = 0.2  ()
+
+[sample.summaryfile.parameters]
+summaryfile=tamet2.sum
+
+[sample.screen.parameters]
+screen_output=on

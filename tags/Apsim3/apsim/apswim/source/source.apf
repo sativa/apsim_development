@@ -1,0 +1,11 @@
+[Dependencies]
+Dependency = %licensed_source(apswim)
+
+[Contents]
+ComponentInterface.f90 = ComponentInterface.f90
+apswim.for = apswim.for
+
+
+[APSBuild]
+binary = ..\lib\apswim.dll
+compilerfile=release.compile

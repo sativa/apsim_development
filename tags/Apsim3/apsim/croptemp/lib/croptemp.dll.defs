@@ -1,0 +1,3150 @@
+*     ===========================================================
+      subroutine crop_dm_pot_rue (current_stage, rue,radn_int,
+     .          temp_stress_photo, nfact_photo, dlt_dm_pot)
+*     ===========================================================
+       dll_export crop_dm_pot_rue
+ 
+*+  Sub-Program Arguments
+       real current_stage
+       real rue(*)
+       real radn_int
+       real temp_stress_photo
+       real nfact_photo
+       real dlt_dm_pot           ! (OUTPUT) potential dry matter
+                                       ! (carbohydrate) production (g/m^2)
+ 
+*+  Purpose
+*       Potential biomass (carbohydrate) production from
+*       photosynthesis (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_dm_senescence0(num_part, root, leaf, stem,
+     :                dm_leaf_sen_frac, dm_root_sen_frac,
+     :               dlt_dm_green , dlt_dm_green_retrans,
+     :               dlt_lai, dlt_slai, dm_green, lai,
+     :               dlt_dm_senesced)
+*     ===========================================================
+      dll_export crop_dm_senescence0
+ 
+*+  Sub-Program Arguments
+      integer num_part                 ! (INPUT) number of plant parts
+      integer root                     ! (INPUT) number of plant root part
+      integer leaf                     ! (INPUT) number for plant leaf part
+      integer stem                     ! (INPUT) number for plant stem part
+      REAL       dm_leaf_sen_frac      ! (INPUT)  fraction of senescing leaf dry
+      REAL       dm_root_sen_frac      ! (INPUT)  fraction of root dry matter se
+      REAL       dlt_dm_green(*)       ! (INPUT)  plant biomass growth (g/m^2)
+      REAL       dlt_dm_green_retrans(*) ! (INPUT)  plant biomass retranslocated
+      REAL       dlt_lai               ! (INPUT)  actual change in live plant la
+      REAL       dlt_slai              ! (INPUT)  area of leaf that senesces fro
+      REAL       dm_green(*)           ! (INPUT)  live plant dry weight (biomass
+      REAL       lai                   ! (INPUT)  live plant green lai
+      real       dlt_dm_senesced(*)    ! (OUTPUT) actual biomass senesced
+                                       ! from plant parts (g/m^2)
+ 
+*+  Purpose
+*       Derives seneseced plant dry matter (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_dm_dead_detachment(num_part, dead_detach_frac,
+     :               dm_dead, dlt_dm_dead_detached)
+*     ===========================================================
+      dll_export crop_dm_dead_detachment
+ 
+*+  Sub-Program Arguments
+      INTEGER num_part
+      REAL       dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts det
+      REAL       dm_dead(*)          ! (INPUT)  dry wt of dead plants (g/m^2)
+      real       dlt_dm_dead_detached(*)   ! (OUTPUT) change in dm of dead plant
+ 
+*+  Purpose
+*      Plant dry matter loss from dead plants
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_dm_senescence1 (num_part
+     :                               , max_Table
+     :                               , independant_variable
+     :                               , c_x_dm_sen_frac
+     :                               , c_y_dm_sen_frac
+     :                               , c_num_dm_sen_frac
+     :                               , g_dm_green
+     :                               , g_dlt_dm_green
+     :                               , g_dlt_dm_green_retrans
+     :                               , dlt_dm_senesced)
+*     ===========================================================
+      dll_export cproc_dm_senescence1
+ 
+*+  Sub-Program Arguments
+      integer num_part                 ! (INPUT) number of plant parts
+      integer max_table                ! (INPUT) max lookup length
+      REAL       independant_variable  ! (INPUT) independant variable which
+                                       ! is said to drive senescence.
+      REAL       c_x_dm_sen_frac(max_table, num_part)
+                                       ! (INPUT)  lookup for independant variabl
+      REAL       c_y_dm_sen_frac(max_table, num_part)
+                                       ! (INPUT)  fraction of  material senescin
+      INTEGER    c_num_dm_sen_frac(*)      ! (INPUT)  fraction of  material sene
+      REAL       g_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       g_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
+      REAL       G_dlt_dm_green_retrans(*) ! (INPUT)  plant biomass retranslocat
+      real       dlt_dm_senesced(*)    ! (OUTPUT) actual biomass senesced
+                                       ! from plant parts (g/m^2)
+ 
+*+  Purpose
+*       Derives seneseced plant dry matter (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_dm_retranslocate1
+     :               (
+     :                G_current_stage
+     :              , start_grnfil
+     :              , end_grnfil
+     :              , grain_part_no
+     :              , max_part
+     :              , supply_pools
+     :              , num_supply_pools
+     :              , G_dlt_dm_grain_demand
+     :              , G_dlt_dm_green
+     :              , G_dm_green
+     :              , G_dm_plant_min
+     :              , G_plants
+     :              , dm_retranslocate
+     :               )
+*     ===========================================================
+      dll_export cproc_dm_retranslocate1
+ 
+*+  Sub-Program Arguments
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      INTEGER    start_grnfil          ! (INPUT)
+      INTEGER    end_grnfil            ! (INPUT)
+      INTEGER    grain_part_no         ! (INPUT)
+      INTEGER    max_part              ! (INPUT)
+      INTEGER    supply_pools(*)       ! (INPUT)
+      INTEGER    num_supply_pools      ! (INPUT)
+      REAL       G_dlt_dm_grain_demand ! (INPUT)  grain dm demand (g/m^2)
+      REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_dm_plant_min(*)     ! (INPUT)  minimum weight of each plant p
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      real       dm_retranslocate(*)   ! (INPUT) actual change in plant part
+                                       ! weights due to translocation (g/m^2)
+ 
+*+  Purpose
+*     Calculate plant dry matter delta's due to retranslocation
+*     to grain (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_dm_detachment1( max_part
+     :                              , c_sen_detach_frac
+     :                              , g_dm_senesced
+     :                              , g_dlt_dm_detached
+     :                              , c_dead_detach_frac
+     :                              , g_dm_dead
+     :                              , g_dlt_dm_dead_detached)
+*     ===========================================================
+      dll_export cproc_dm_detachment1
+ 
+*+  Sub-Program Arguments
+      integer max_part
+      real    c_sen_detach_frac
+      real    g_dm_senesced (*)
+      real    g_dlt_dm_detached (*)
+      real    c_dead_detach_frac (*)
+      real    g_dm_dead (*)
+      real    g_dlt_dm_dead_detached (*)
+ 
+*+  Purpose
+*       Simulate plant detachment.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_bio_yieldpart_demand1
+     :               (
+     :                G_current_stage
+     :              , start_stress_stage
+     :              , start_grainfill_stage
+     :              , end_grainfill_stage
+     :              , yield_part
+     :              , root_part
+     :              , max_part
+     :              , G_dlt_dm
+     :              , G_dm_green
+     :              , G_dm_senesced
+     :              , G_days_tot
+     :              , G_dm_stress_max
+     :              , P_hi_incr
+     :              , P_x_hi_max_pot_stress
+     :              , P_y_hi_max_pot
+     :              , P_num_hi_max_pot
+     :              , dlt_dm_yieldpart_demand
+     :               )
+*     ===========================================================
+      dll_export cproc_bio_yieldpart_demand1
+ 
+*+  Sub-Program Arguments
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      INTEGER    Start_Stress_Stage    ! (INPUT)
+      INTEGER    Start_Grainfill_stage ! (INPUT)
+      INTEGER    End_Grainfill_Stage   ! (INPUT)
+      INTEGER    Yield_part            ! (INPUT)
+      INTEGER    Root_part             ! (INPUT)
+      INTEGER    max_part              ! (INPUT)
+      REAL       G_dlt_dm              ! (INPUT)  the daily biomass production (
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_dm_senesced(*)      ! (INPUT)  senesced plant dry wt (g/m^2)
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_dm_stress_max(*)    ! (INPUT)  sum of maximum daily stress on
+      REAL       P_hi_incr             ! (INPUT)  harvest index increment per da
+      REAL       P_x_hi_max_pot_stress(*) ! (INPUT) Potential Max HI Stress dete
+      REAL       P_y_hi_max_pot(*)     ! (INPUT) Potential Max HI
+      INTEGER    P_num_hi_max_pot      ! (INPUT) Number of lookup pairs
+      real       dlt_dm_yieldpart_demand ! (OUTPUT) grain dry matter
+                                       ! potential (g/m^2)
+ 
+*+  Purpose
+*        Find grain demand for carbohydrate using harvest index (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_yieldpart_demand_stress1
+     :               (
+     :                G_nfact_photo
+     :              , G_swdef_photo
+     :              , G_temp_stress_photo
+     :              , dlt_dm_stress_max
+     :               )
+*     ===========================================================
+      dll_export cproc_yieldpart_demand_stress1
+ 
+*+  Sub-Program Arguments
+      REAL       G_nfact_photo         ! (INPUT)
+      REAL       G_swdef_photo         ! (INPUT)
+      REAL       G_temp_stress_photo   ! (INPUT)
+      real       dlt_dm_stress_max     ! (OUTPUT) max daily stress (0-1)
+ 
+*+  Purpose
+*        Find maximum stress on daily dm production (0-1)
+ 
+*+  Assumptions
+*       Here we assume that the soil water stress factor has included stress
+*       factors that reduce RUE. The stress returned from here is the
+*       maximum stress experienced relative to all factors non limiting.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_bio_init1
+     :               (
+     :                C_dm_init
+     :              , init_stage
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_plants
+     :              , max_part
+     :              , g_dm_green
+     :               )
+*     ===========================================================
+      dll_export cproc_bio_init1
+ 
+*+  Sub-Program Arguments
+      REAL       C_dm_init(*)          ! (INPUT)
+      INTEGER    init_stage            ! (INPUT)
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      real       g_dm_green(*)         ! (INPUT/OUTPUT) plant part weights
+                                       ! (g/m^2)
+      integer    max_part              ! (INPUT)
+ 
+*+  Purpose
+*       Initialise plant weights at a specified growth stage
+*       at required instances.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_lai_equilib_water(day_of_year, year,
+     :           extinction_coef, rue, cover_green,
+     :           current_stage, num_layer,
+     :           dlayer, lai, nfact_photo, radn, radn_int,
+     :           root_depth, sw_supply, temp_stress_photo,
+     :           transp_eff, lai_equilib_water)
+*     ===========================================================
+      dll_export crop_lai_equilib_water
+ 
+*+  Sub-Program Arguments
+      INTEGER day_of_year          ! (INPUT)  day of year
+      INTEGER year                 ! (INPUT)  year
+      REAL    extinction_coef      ! (INPUT)  radiation extinction coefficient (
+      REAL    rue(*)               ! (INPUT)  radiation use efficiency (g dm/mj)
+      REAL    cover_green          ! (INPUT)  fraction of radiation reaching the
+      REAL    current_stage        ! (INPUT)  current phenological stage
+      INTEGER num_layer            ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)            ! (INPUT)  thickness of soil layer I (mm)
+      REAL    lai                  ! (INPUT)  live plant green lai
+      REAL    nfact_photo          ! (INPUT)
+      REAL    radn                 ! (INPUT)  solar radiation (Mj/m^2/day)
+      REAL    radn_int             ! (INPUT)  radn intercepted by leaves (mj/m^2
+      REAL    root_depth           ! (INPUT)  depth of roots (mm)
+      REAL    sw_supply(*)         ! (INPUT)  potential water to take up (supply
+      REAL    temp_stress_photo    ! (INPUT)
+      REAL    transp_eff           ! (INPUT)  transpiration efficiency (g dm/m^2
+      real    lai_equilib_water(*) ! (INPUT/OUTPUT) lai threshold for water sene
+ 
+*+  Purpose
+*       Return the lai threshold for water induced senescence.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_lai_equilib_light (
+     .          radn_int,
+     .          cover_green,
+     .          sen_radn_crit,
+     .          extinction_coef,
+     .          lai,
+     .          day_of_year,
+     .          year,
+     .          lai_eqlb_light)
+*     ===========================================================
+      dll_export crop_lai_equilib_light
+ 
+*+  Sub-Program Arguments
+       real radn_int
+       real cover_green
+       real sen_radn_crit
+       real extinction_coef
+       real lai
+       integer day_of_year
+       integer year
+       real lai_eqlb_light(*)  ! (IN/OUT) lai threshold for light senescence
+ 
+*+  Purpose
+*       Return the lai threshold for light induced senescence.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_leaf_area_sen_frost1(frost_temp,
+     :                frost_fraction, num_frost_temp, lai,
+     :                mint, plants, min_tpla, dlt_slai_frost)
+*     ===========================================================
+      dll_export crop_leaf_area_sen_frost1
+ 
+*+  Sub-Program Arguments
+      REAL    frost_temp(*)     ! (INPUT)
+      REAL    frost_fraction(*) ! (INPUT)
+      INTEGER num_frost_temp    ! (INPUT)
+      REAL    lai               ! (INPUT)  live plant green lai
+      REAL    mint              ! (INPUT)  minimum air temperature (oC)
+      REAL    plants            ! (INPUT)
+      REAL    min_tpla          ! (INPUT)
+      real    dlt_slai_frost    ! (OUTPUT) lai frosted today
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day from low temperatures
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_leaf_area_sen_water2(day_of_year, year,
+     :           sen_threshold, sen_water_time_const,
+     :           num_layer, dlayer, lai, lai_equilib_water,
+     :           root_depth, sw_demand, sw_supply, dlt_slai_water)
+*     ===========================================================
+      dll_export crop_leaf_area_sen_water2
+ 
+*+  Sub-Program Arguments
+      INTEGER day_of_year              ! (INPUT)  day of year
+      INTEGER year                     ! (INPUT)  year
+      REAL    sen_threshold            ! (INPUT)  supply:demand ratio for onset
+      REAL    sen_water_time_const     ! (INPUT)  delay factor for water senesce
+      INTEGER num_layer                ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)                ! (INPUT)  thickness of soil layer I (mm)
+      REAL    lai                      ! (INPUT)  live plant green lai
+      REAL    lai_equilib_water(*)     ! (INPUT)  lai threshold for water senesc
+      REAL    root_depth               ! (INPUT)  depth of roots (mm)
+      REAL    sw_demand                ! (INPUT)  total crop demand for water (m
+      REAL    sw_supply(*)             ! (INPUT)  potential water to take up (su
+      REAL    dlt_slai_water           ! (OUTPUT) water stress senescense
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day from water stress
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_leaf_area_sen_light2 (radn_int, radn,
+     .          sen_radn_crit, year, day_of_year,
+     .          lai_equilib_light, lai, sen_light_time_const,
+     .          dlt_slai_light)
+*     ===========================================================
+      dll_export crop_leaf_area_sen_light2
+ 
+*+  Sub-Program Arguments
+       real radn_int
+       real radn
+       real sen_radn_crit
+       integer year
+       integer day_of_year
+       real lai_equilib_light(*)
+       real lai
+       real sen_light_time_const
+       real dlt_slai_light        ! (OUTPUT) lai senesced by low light
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day from low light
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_leaf_area_sen_age1
+     :               (
+     :                emergence
+     :              , this_stage
+     :              , g_dlt_lai_stressed
+     :              , G_dlt_leaf_no
+     :              , G_dlt_leaf_no_dead
+     :              , G_lai
+     :              , G_leaf_area
+     :              , G_leaf_no_dead
+     :              , G_plants
+     :              , G_slai
+     :              , c_min_tpla
+     :              , dlt_slai_age
+     :               )
+*     ===========================================================
+      dll_export crop_leaf_area_sen_age1
+ 
+*+  Sub-Program Arguments
+      INTEGER    emergence             ! (INPUT) emergence stage no.
+      INTEGER    this_stage            ! (INPUT) This current stage
+      REAL       g_dlt_lai_stressed         ! (INPUT)  potential change in live
+      REAL       G_dlt_leaf_no         ! (INPUT)  actual fraction of oldest leaf
+      REAL       G_dlt_leaf_no_dead    ! (INPUT)  fraction of oldest green leaf
+      REAL       G_lai                 ! (INPUT)  live plant green lai
+      REAL       G_leaf_area(*)        ! (INPUT)  leaf area of each leaf (mm^2)
+      REAL       G_leaf_no_dead(*)     ! (INPUT)  no of dead leaves ()
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      REAL       G_slai                ! (INPUT)  area of leaf that senesces fro
+      REAL       c_min_tpla            ! (INPUT)
+      real       dlt_slai_age          ! (OUTPUT) new senesced lai from
+                                       ! phasic devel.
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day due to ageing
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_leaf_area_sen_light1 (
+     .          lai_sen_light,
+     .          sen_light_slope,
+     .          lai,
+     .          plants,
+     .          min_tpla,
+     .          dlt_slai_light)
+*     ===========================================================
+      dll_export crop_leaf_area_sen_light1
+ 
+*+  Sub-Program Arguments
+       real lai_sen_light
+       real sen_light_slope
+       real lai
+       real plants
+       real min_tpla
+       real dlt_slai_light        ! (OUTPUT) lai senesced by low light
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day due to light competition
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_leaf_area_sen_water1(sen_rate_water,
+     :           lai, swdef_photo, plants, min_tpla,dlt_slai_water)
+*     ===========================================================
+      dll_export crop_leaf_area_sen_water1
+ 
+*+  Sub-Program Arguments
+      REAL sen_rate_water       ! (INPUT)  slope in linear eqn relating soil wat
+      REAL lai                  ! (INPUT)  live plant green lai
+      REAL swdef_photo          ! (INPUT)
+      REAL plants               ! (INPUT)
+      REAL min_tpla             ! (INPUT)
+      REAL dlt_slai_water       ! (OUTPUT) water stress senescense
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day due to water stress
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_sen1
+     :               (
+     :                emergence
+     :              , this_stage
+     :              , g_dlt_lai_stressed
+     :              , G_dlt_leaf_no
+     :              , G_dlt_leaf_no_dead
+     :              , G_lai
+     :              , G_leaf_area
+     :              , G_leaf_no_dead
+     :              , G_plants
+     :              , G_slai
+     :              , c_min_tpla
+     :              , g_dlt_slai_age
+     :              , C_lai_sen_light
+     :              , C_sen_light_slope
+     :              , g_dlt_slai_light
+     :              , c_sen_rate_water
+     :              , g_swdef_photo
+     :              , g_dlt_slai_water
+     :              , c_x_temp_senescence
+     :              , c_y_senescence_fac
+     :              , c_num_temp_senescence
+     :              , g_mint
+     :              , g_dlt_slai_frost
+     :              , g_dlt_slai
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_area_sen1
+ 
+*+  Sub-Program Arguments
+      INTEGER    emergence             ! (INPUT) emergence stage no.
+      INTEGER    this_stage            ! (INPUT) This current stage
+      REAL       g_dlt_lai_stressed         ! (INPUT)  potential change in live
+      REAL       G_dlt_leaf_no         ! (INPUT)  actual fraction of oldest leaf
+      REAL       G_dlt_leaf_no_dead    ! (INPUT)  fraction of oldest green leaf
+      REAL       G_lai                 ! (INPUT)  live plant green lai
+      REAL       G_leaf_area(*)        ! (INPUT)  leaf area of each leaf (mm^2)
+      REAL       G_leaf_no_dead(*)     ! (INPUT)  no of dead leaves ()
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      REAL       G_slai                ! (INPUT)  area of leaf that senesces fro
+      REAL       c_min_tpla            ! (INPUT)
+      real       g_dlt_slai_age        ! (OUTPUT) new senesced lai from
+                                       ! phasic devel.
+      REAL       C_lai_sen_light       ! (INPUT)
+      REAL       C_sen_light_slope     ! (INPUT)
+      REAL       g_dlt_slai_light      ! (OUTPUT)
+      REAL       c_sen_rate_water      ! (INPUT)
+      REAL       g_swdef_photo         ! (INPUT)
+      REAL       g_dlt_slai_water      ! (OUTPUT)
+      REAL       c_x_temp_senescence(*)! (INPUT)
+      REAL       c_y_senescence_fac(*) ! (INPUT)
+      INTEGER    c_num_temp_senescence ! (INPUT)
+      REAL       g_mint                ! (INPUT)
+      REAL       g_dlt_slai_frost      ! (OUTPUT)
+      REAL       g_dlt_slai            ! (OUTPUT)
+ 
+*+  Purpose
+*       Return the lai that would senesce on the
+*       current day.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_init1
+     :               (
+     :                C_initial_tpla
+     :              , init_stage
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_plants
+     :              , lai
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_area_init1
+ 
+*+  Sub-Program Arguments
+      REAL       C_initial_tpla        ! (INPUT)  initial plant leaf area (mm^2)
+      INTEGER    init_stage            ! (INPUT)  initialisation stage
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      real       lai                   ! (OUTPUT) total plant leaf area
+ 
+*+  Purpose
+*       Initialise leaf area.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_lai_detachment1 (leaf
+     :                             , c_sen_detach_frac
+     :                             , g_slai
+     :                             , g_dlt_slai_detached
+     :                             , c_dead_detach_frac
+     :                             , g_tlai_dead
+     :                             , g_dlt_tlai_dead_detached)
+ 
+*     ===========================================================
+      dll_export cproc_lai_detachment1
+ 
+*+  Sub-Program Arguments
+      integer leaf
+      real    c_sen_detach_frac(*)
+      real    g_slai
+      real    g_dlt_slai_detached
+      real    c_dead_detach_frac(*)
+      real    g_tlai_dead
+      real    g_dlt_tlai_dead_detached
+ 
+*+  Purpose
+*       Simulate plant detachment.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_canopy_height
+     :               (
+     :                G_canopy_height
+     :              , p_x_stem_wt
+     :              , p_y_height
+     :              , p_num_stem_wt
+     :              , G_dm_green
+     :              , G_plants
+     :              , stem
+     :              , dlt_canopy_height
+     :               )
+*     ===========================================================
+      dll_export cproc_canopy_height
+ 
+*+  Sub-Program Arguments
+      REAL       G_canopy_height       ! (INPUT)  canopy height (mm)
+      REAL       p_x_stem_wt(*)
+      REAL       p_y_height(*)
+      INTEGER    p_num_stem_wt
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      integer    stem                  ! (INPUT)  plant part no for stem
+      real       dlt_canopy_height     ! (INPUT) canopy height change (mm)
+ 
+*+  Purpose
+*       Get change in plant canopy height
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_no_init1
+     :               (
+     :                C_leaf_no_at_emerg
+     :              , G_current_stage
+     :              , emerg
+     :              , G_days_tot
+     :              , leaf_no
+     :              , node_no
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_no_init1
+ 
+*+  Sub-Program Arguments
+      REAL       C_leaf_no_at_emerg    ! (INPUT)  leaf number at emergence ()
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      real       leaf_no(*)            ! (OUTPUT) initial leaf number
+      real       node_no(*)            ! (OUTPUT) initial node number
+      integer    emerg                 ! (INPUT)  emergence stage no
+ 
+*+  Purpose
+*       Return the the initial number of leaves.
+ 
+*+  Notes
+*    NIH - I would prefer to use leaf_no_at_init and init_stage
+*          for routine parameters for generalisation
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_no_pot1
+     :               (
+     :                C_x_node_no_app
+     :              , C_y_node_app_rate
+     :              , c_num_node_no_app
+     :              , c_x_node_no_leaf
+     :              , C_y_leaves_per_node
+     :              , c_num_node_no_leaf
+     :              , G_current_stage
+     :              , start_node_app
+     :              , end_node_app
+     :              , emerg
+     :              , G_days_tot
+     :              , G_dlt_tt
+     :              , G_node_no
+     :              , dlt_leaf_no_pot
+     :              , dlt_node_no_pot
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_no_pot1
+ 
+*+  Sub-Program Arguments
+      REAL       C_x_node_no_app(*)    !(INPUT)
+      REAL       C_y_node_app_rate(*)  !(INPUT)
+      INTEGER    c_num_node_no_app     ! (INPUT)
+      REAL       c_x_node_no_leaf(*)   ! (INPUT)
+      REAL       C_y_leaves_per_node(*)! (INPUT)
+      INTEGER    c_num_node_no_leaf    ! (INPUT)
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      INTEGER    start_node_app        ! (INPUT)  stage of start of leaf appeara
+      INTEGER    end_node_app          ! (INPUT)  stage of end of leaf appearanc
+      INTEGER    emerg                 ! (INPUT)  emergence stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_dlt_tt              ! (INPUT)  daily thermal time (growing de
+      REAL       G_node_no(*)          ! (INPUT)  number of fully expanded nodes
+      real       dlt_leaf_no_pot       ! (OUTPUT) new fraction of oldest
+                                       ! expanding leaf
+      real       dlt_node_no_pot       ! (OUTPUT) new fraction of oldest
+                                       ! expanding node on main stem
+ 
+*+  Purpose
+*       Return the fractional increase in emergence of the oldest
+*       expanding leaf and nodes.  Nodes can initiate from a user-defined
+*       starting stage and leaves from emergence.  The initiation of both
+*       leaves and nodes finishes at a user-defined end stage.
+*       Note ! this does not take account of the other younger leaves
+*       that are currently expanding
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_pot1
+     :               (
+     :                C_x_node_no
+     :              , C_y_leaf_size
+     :              , c_num_node_no
+     :              , g_node_no
+     :              , c_node_no_correction
+     :              , start_node_app
+     :              , now
+     :              , G_dlt_leaf_no_pot
+     :              , G_plants
+     :              , dlt_lai_pot
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_area_pot1
+ 
+*+  Sub-Program Arguments
+      REAL       C_x_node_no(*)        ! (INPUT)  node number for lookup
+      REAL       C_y_leaf_size(*)      ! (INPUT)  leaf size for lookup
+      INTEGER    C_num_node_no         ! (INPUT)  lookup table size
+      REAL       G_node_no(*)          ! (INPUT)  node number
+      REAL       C_node_no_correction  ! (INPUT)  corrects for other growing lea
+      INTEGER    start_node_app        ! (INPUT)  stage of start of leaf init
+      INTEGEr    now                   ! (INPUT)  current stage
+      REAL       G_dlt_leaf_no_pot     ! (INPUT)  potential fraction of oldest l
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      real       dlt_lai_pot           ! (OUTPUT) change in leaf area
+ 
+*+  Purpose
+*       Return the potential increase in leaf area development (mm^2)
+*       calculated on an individual leaf basis, limited by temperature
+*       only.
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_leaf_area_stressed1 (
+     :                                       g_dlt_lai_pot
+     :                                      ,g_swdef_expansion
+     :                                      ,g_nfact_expansion
+     :                                      ,g_dlt_lai_stressed
+     :                                      )
+* ====================================================================
+      dll_export cproc_leaf_area_stressed1
+ 
+*+  Sub-Program Arguments
+       real g_dlt_lai_pot
+       real g_swdef_expansion
+       real g_nfact_expansion
+       real g_dlt_lai_stressed
+ 
+*+  Purpose
+*     Calculate the biomass non-limiting leaf area development from the 
+*     potential developmental rate and the stress factors for water and nitrogen.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_actual1
+     :               (
+     :                C_x_lai
+     :              , C_y_sla_max
+     :              , C_num_lai
+     :              , dlt_dm_leaf
+     :              , G_dlt_lai
+     :              , g_dlt_lai_stressed
+     :              , G_lai
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_area_actual1
+ 
+*+  Sub-Program Arguments
+      REAL       c_x_lai(*)
+      REAL       c_y_sla_max(*)
+      REAL       c_num_lai
+      REAL       dlt_dm_leaf           ! (INPUT)  leaf biomass growth (g/m^2)
+      REAL       G_dlt_lai             ! (INPUT)  actual change in live plant la
+      REAL       g_dlt_lai_stressed         ! (INPUT)  potential change in live
+      REAL       G_lai                 ! (INPUT)  live plant green lai
+ 
+*+  Purpose
+*       Simulate actual crop leaf area development - checks that leaf area
+*       development matches DM production.
+*       Maximum Specific Leaf area changes as a function of LAI.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_no_actual1
+     :               (
+     :                C_num_lai_ratio
+     :              , C_x_lai_ratio
+     :              , C_y_leaf_no_frac
+     :              , G_dlt_lai
+     :              , g_dlt_lai_stressed
+     :              , G_dlt_leaf_no
+     :              , G_dlt_leaf_no_pot
+     :              , G_dlt_node_no
+     :              , G_dlt_node_no_pot
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_no_actual1
+ 
+*+  Sub-Program Arguments
+      INTEGER    C_num_lai_ratio       ! (INPUT)  number of ratios in table ()
+      REAL       C_x_lai_ratio(*)      ! (INPUT)  ratio table for critical leaf
+      REAL       C_y_leaf_no_frac(*)   ! (INPUT)  reduction in leaf appearance (
+      REAL       G_dlt_lai             ! (INPUT)  actual change in live plant la
+      REAL       g_dlt_lai_stressed         ! (INPUT)  potential change in live
+      REAL       G_dlt_leaf_no         ! (INPUT)  actual fraction of oldest leaf
+      REAL       G_dlt_leaf_no_pot     ! (INPUT)  potential fraction of oldest l
+      REAL       G_dlt_node_no         ! (INPUT)  actual fraction of oldest node
+      REAL       G_dlt_node_no_pot     ! (INPUT)  pot fraction of oldest node
+ 
+*+  Purpose
+*       Simulate actual leaf number increase as limited by dry matter
+*       production.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_leaf_no_pot2
+     :               (
+     :                C_x_node_no_app
+     :              , C_y_node_app_rate
+     :              , C_y_leaves_per_node
+     :              , c_num_node_no_app
+     :              , G_current_stage
+     :              , start_node_app
+     :              , end_node_app
+     :              , emerg
+     :              , G_days_tot
+     :              , G_dlt_tt
+     :              , G_node_no
+     :              , dlt_leaf_no_pot
+     :              , dlt_node_no_pot
+     :               )
+*     ===========================================================
+      dll_export cproc_leaf_no_pot2
+ 
+*+  Sub-Program Arguments
+      REAL       C_x_node_no_app(*)    !(INPUT)
+      REAL       C_y_node_app_rate(*)  !(INPUT)
+      REAL       C_y_leaves_per_node(*)! (INPUT)
+      INTEGER    c_num_node_no_app     ! (INPUT)
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      INTEGER    start_node_app        ! (INPUT)  stage of start of leaf appeara
+      INTEGER    end_node_app          ! (INPUT)  stage of end of leaf appearanc
+      INTEGER    emerg                 ! (INPUT)  emergence stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_dlt_tt              ! (INPUT)  daily thermal time (growing de
+      REAL       G_node_no(*)          ! (INPUT)  number of fully expanded nodes
+      real       dlt_leaf_no_pot       ! (OUTPUT) new fraction of oldest
+                                       ! expanding leaf
+      real       dlt_node_no_pot       ! (OUTPUT) new fraction of oldest
+                                       ! expanding node on main stem
+ 
+*+  Purpose
+*       Return the fractional increase in emergence of the oldest
+*       expanding leaf and nodes.  Nodes can initiate from a user-defined
+*       starting stage and leaves from emergence.  The initiation of both
+*       leaves and nodes finishes at a user-defined end stage.
+*       Note ! this does not take account of the other younger leaves
+*       that are currently expanding
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_root_incorp (
+     :                             dlt_dm_root
+     :                            ,dlt_N_root
+     :                            ,g_dlayer
+     :                            ,g_root_length
+     :                            ,g_root_depth
+     :                            ,c_crop_type
+     :                            ,max_layer
+     :                            )
+*     ===========================================================
+      dll_export crop_root_incorp
+ 
+*+  Sub-Program Arguments
+      real       dlt_dm_root           ! (INPUT) new root residue dm (g/m^2)
+      real       dlt_N_root            ! (INPUT) new root residue N (g/m^2)
+      real       g_dlayer(*)           ! (INPUT) layer thicknesses (mm)
+      real       g_root_length(*)      ! (INPUT) layered root length (mm)
+      real       g_root_depth          ! (INPUT) root depth (mm)
+      character  c_crop_type*(*)       ! (INPUT) crop type
+      integer    max_layer             ! (INPUT) maximum no of soil layers
+ 
+*+  Purpose
+*       Calculate and provide root matter incorporation information
+*       to the APSIM messaging system.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_top_residue (
+     .                             c_crop_type
+     .                            ,dlt_residue_weight
+     .                            ,dlt_residue_N)
+*     ===========================================================
+      dll_export crop_top_residue
+ 
+*+  Sub-Program Arguments
+      character c_crop_type*(*)
+      real       dlt_residue_weight    ! (INPUT) new surface residue (g/m^2)
+      real       dlt_residue_N         ! (INPUT) new surface residue N (g/m^2)
+ 
+*+  Purpose
+*       Add residue to residue pool
+ 
+      end
+
+
+
+*     ===========================================================
+      logical function crop_my_type (c_crop_type)
+*     ===========================================================
+      dll_export crop_my_type
+ 
+*+  Sub-Program Arguments
+      character c_crop_type*(*)
+ 
+*+  Purpose
+*       Returns true if 'type' is equal to the crop type or is absent.
+ 
+*+  Assumptions
+*       If type is not specified, it is assumed the message was addressed
+*        directly to the module.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine crop_get_ext_uptakes (uptake_source
+     :                                ,crop_type
+     :                                ,uptake_type
+     :                                ,unit_conversion_factor
+     :                                ,uptake_lbound
+     :                                ,uptake_ubound
+     :                                ,uptake_array
+     :                                ,max_layer
+     :                                )
+* ====================================================================
+      dll_export crop_get_ext_uptakes
+ 
+*+  Sub-Program Arguments
+      character uptake_source*(*)   !(INPUT) uptake flag
+      character crop_type*(*)       !(INPUT) crop type name
+      character uptake_type*(*)     !(INPUT) uptake name
+      real      unit_conversion_factor!(INPUT) unit conversion factor
+      real      uptake_lbound       !(INPUT) uptake lower limit
+      real      uptake_ubound       !(INPUT) uptake upper limit
+      real      uptake_array(*)     !(OUTPUT) crop uptake array
+      integer   max_layer           !(INPUT) max layer number
+ 
+*+  Purpose
+*      Ask swim for uptakes of water or solute
+ 
+*+  Notes
+*      Bounds should probably be passed in when crops decide what
+*      these should be (ie when ini files have limits for uptake
+*      in them)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_failure_germination(sowing, germ, now,
+     :                days_germ_limit, current_stage, days_tot,
+     :                plants, dlt_plants)
+*     ===========================================================
+      dll_export crop_failure_germination
+ 
+*+  Sub-Program Arguments
+      integer sowing
+      integer germ
+      integer now
+      REAL       days_germ_limit     ! (INPUT)  maximum days allowed after sowing for germination to take place (days)
+      REAL       current_stage       ! (INPUT)  current phenological stage
+      REAL       days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       plants              ! (INPUT)  Plant density (plants/m^2)
+      real       dlt_plants            ! (OUTPUT) change in plant number
+ 
+*+  Purpose
+*      Crop failure from lack of germination.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_failure_emergence(germ, emerg, now,
+     :                tt_emerg_limit, current_stage, plants,
+     :                tt_tot, dlt_plants)
+*     ===========================================================
+      dll_export crop_failure_emergence
+ 
+*+  Sub-Program Arguments
+      integer germ
+      integer emerg
+      integer now
+      REAL       tt_emerg_limit      ! (INPUT)  maximum degree days allowed for emergence to take place (deg day)
+      REAL       current_stage       ! (INPUT)  current phenological stage
+      REAL       plants              ! (INPUT)  Plant density (plants/m^2)
+      REAL       tt_tot(*)           ! (INPUT)  the sum of growing degree days for a phenological stage (oC d)
+      real       dlt_plants            ! (OUTPUT) change in plant number
+ 
+*+  Purpose
+*      Crop failure from lack of emergence.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_N_Conc_Ratio(leaf,stem,dm_green,n_conc_crit,
+     :                       n_conc_min, n_green, N_conc_ratio)
+*     ===========================================================
+      dll_export crop_n_conc_ratio
+ 
+*+  Sub-Program Arguments
+      integer leaf
+      integer stem
+      REAL       dm_green(*)         ! (INPUT)  live plant dry weight (biomass)
+      REAL       n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/g
+      REAL       n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g b
+      REAL       n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^2)
+      real       N_conc_ratio          ! (OUTPUT) available N as fraction of N c
+ 
+*+  Purpose
+*   Calculate the fractional position of leaf and stem nitrogen concentration
+*   between the minimum and critical concentrations.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_nfact_photo(leaf,stem,dm_green, n_conc_crit
+     :              , n_conc_min, n_green, n_fact_photo,nfact)
+*     ===========================================================
+      dll_export crop_nfact_photo
+ 
+*+  Sub-Program Arguments
+      integer leaf
+      integer stem
+      REAL       dm_green(*)         ! (INPUT)  live plant dry weight (biomass)
+      REAL       n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/g
+      REAL       n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g b
+      REAL       n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^2)
+      REAL       n_fact_photo        ! (INPUT)  multipler for N deficit effect o
+      real       nfact                 ! (OUTPUT) N stress factor
+ 
+*+  Purpose
+*     The concentration of Nitrogen in leaves is used to derive a
+*     series of Nitrogen stress indices.  The stress indices for
+*     photosynthesis and cell expansion are calculated from today's
+*     relative nutritional status between a critical and minimum
+*     leaf Nitrogen concentration.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_nfact_pheno(leaf, stem, dm_green, n_conc_crit
+     :              , n_conc_min, n_green, n_fact_pheno, nfact)
+*     ===========================================================
+      dll_export crop_nfact_pheno
+ 
+*+  Sub-Program Arguments
+      integer leaf
+      integer stem
+      REAL       dm_green(*)         ! (INPUT)  live plant dry weight (biomass) (g/m^2)
+      REAL       n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/g biomass)
+      REAL       n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g biomass)
+      REAL       n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^2)
+      REAL       n_fact_pheno        ! (INPUT)  multipler for N deficit effect on phenology
+      real       nfact                 ! (OUTPUT) N stress factor
+ 
+*+  Purpose
+*     The concentration of Nitrogen in leaves is used to derive a
+*     series of Nitrogen stress indices.  The stress indices for
+*     photosynthesis and cell expansion are calculated from today's
+*     relative nutritional status between a critical and minimum
+*     leaf Nitrogen concentration.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_nfact_grain_conc(leaf, stem, dm_green,
+     :           n_conc_crit, n_conc_min, n_green, nfact)
+*     ===========================================================
+      dll_export crop_nfact_grain_conc
+ 
+*+  Sub-Program Arguments
+      integer leaf
+      integer stem
+      REAL       dm_green(*)         ! (INPUT)  live plant dry weight (biomass) (g/m^2)
+      REAL       n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/g biomass)
+      REAL       n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g biomass)
+      REAL       n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^2)
+      real       nfact                 ! (OUTPUT) N stress factor
+ 
+*+  Purpose
+*     The concentration of Nitrogen in leaves is used to derive a
+*     series of Nitrogen stress indices.  The stress indices for
+*     photosynthesis and cell expansion are calculated from today's
+*     relative nutritional status between a critical and minimum
+*     leaf Nitrogen concentration.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_nfact_expansion(leaf, dm_green,
+     .                     N_conc_crit,
+     .                     N_conc_min,
+     .                     N_green,
+     .                     N_fact_expansion,
+     .                     nfact)
+*     ===========================================================
+      dll_export crop_nfact_expansion
+ 
+*+  Sub-Program Arguments
+      integer leaf
+      real       dm_green(*)         ! (INPUT) live plant dry weight (biomass)
+                                       ! (g/m^2)
+      real       N_conc_crit(*)      ! (INPUT)  critical N concentration (g N/
+                                       ! biomass)
+      real       N_conc_min(*)       ! (INPUT) minimum N concentration (g N/g
+                                       ! biomass)
+      real       N_green(*)          ! (INPUT) plant nitrogen content (g N/m^2
+      real       N_fact_expansion    ! (INPUT) multipler for N deficit effect
+                                       ! leaf expansion
+      real       nfact                 ! (OUTPUT) stress factor
+ 
+*+  Purpose
+*   Calculate Nitrogen stress factor for photosynthesis
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_N_dead_detachment(num_part, dead_detach_frac
+     :              , n_dead, dlt_N_dead_detached)
+*     ===========================================================
+      dll_export crop_n_dead_detachment
+ 
+*+  Sub-Program Arguments
+      integer num_part
+      REAL    dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts detaching each day (0-1)
+      REAL    n_dead(*)           ! (INPUT)  plant N content of dead plants (g N/m^2)
+      real    dlt_N_dead_detached(*)   ! (OUTPUT) change in dm of dead
+                                          ! plants (g/m^2)
+*+  Purpose
+*      Plant Nitrogen loss from dead plants
+ 
+      end
+
+
+
+*     ===========================================================
+      real function crop_N_dlt_grain_conc(grain,
+     :                sfac_slope
+     :              , sw_fac_max
+     :              , temp_fac_min
+     :              , tfac_slope
+     :              , maxt
+     :              , mint
+     :              , nfact_grain_conc
+     :              , n_conc_crit
+     :              , n_conc_min
+     :              , swdef_expansion)
+*     ===========================================================
+      dll_export crop_n_dlt_grain_conc
+ 
+*+  Sub-Program Arguments
+      integer    grain
+      REAL       sfac_slope          ! (INPUT)  soil water stress factor slope
+      REAL       sw_fac_max          ! (INPUT)  soil water stress factor maximum
+      REAL       temp_fac_min        ! (INPUT)  temperature stress factor minimum optimum temp
+      REAL       tfac_slope          ! (INPUT)  temperature stress factor slope
+      REAL       maxt                ! (INPUT)  maximum air temperature (oC)
+      REAL       mint                ! (INPUT)  minimum air temperature (oC)
+      REAL       nfact_grain_conc    ! (INPUT)
+      REAL       n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/g biomass)
+      REAL       n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g biomass)
+      REAL       swdef_expansion     ! (INPUT)
+ 
+*+  Purpose
+*     Calculate the nitrogen concentration required to meet the increase
+*     from daily grain growth (0-1)
+ 
+*+  Notes
+*     First, two factors are calculated and used to estimate the
+*     effects of mean temperature and drought stress on the N
+*     concentration in grain growth for the day.  High temperature
+*     or drought stress can cause the factors to exceed 1.
+*     N deficiency can cause nfac < 1.  The net effect of these
+*     equations is to allow grain nitrogen concentration to range
+*     from less than .01 when N deficiency is severe to about .018
+*     when adequate N is available but high temperature or drought
+*     stress limit grain growth.
+*     Here, optimum N concentration = 1.7%
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_N_retrans_avail(num_part, root, grain,
+     :           g_N_conc_min, g_dm_green,g_N_green, N_avail)
+*     ===========================================================
+      dll_export crop_n_retrans_avail
+ 
+*+  Sub-Program Arguments
+       integer num_part
+       integer root
+       integer grain
+       real g_N_conc_min(*)
+       real g_dm_green(*)
+       real g_N_green(*)
+       real N_avail(*)
+ 
+*+  Purpose
+*     Calculate N available for transfer to grain (g/m^2)
+*     from each plant part.  By definition, available grain N
+*     is set to 0.
+ 
+*+  Notes
+*     N available for translocation to the grain is the sum of
+*     N available in the stover.
+*     N available in stover is the difference of its N content
+*     and the minimum it's allowed to fall to.
+*     NB. No translocation from roots.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_N_senescence1 (num_part
+     :                              , c_n_sen_conc
+     :                              , g_dlt_dm_senesced
+     :                              , g_n_green
+     :                              , g_dm_green
+     :                              , dlt_N_senesced)
+*     ===========================================================
+      dll_export cproc_n_senescence1
+ 
+*+  Sub-Program Arguments
+      integer num_part            ! (INPUT) number of plant part
+      REAL    c_n_sen_conc(*)     ! (INPUT)  N concentration of senesced materia
+                                  !         (g/m^2)
+      REAL    g_dlt_dm_senesced(*)! (INPUT)  plant biomass senescence (g/m^2)
+      REAL    g_n_green(*)        ! (INPUT) nitrogen in plant material (g/m^2)
+      REAL    g_dm_green(*)       ! (INPUT) plant material (g/m^2)
+      real    dlt_N_senesced(*)   ! (OUTPUT) actual nitrogen senesced
+                                  !          from plant parts (g/m^2)
+ 
+*+  Purpose
+*       Derives seneseced plant nitrogen (g N/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_N_uptake1
+     :               (
+     :                C_no3_diffn_const
+     :              , G_dlayer
+     :              , max_layer
+     :              , G_no3gsm_diffn_pot
+     :              , G_no3gsm_mflow_avail
+     :              , G_N_fix_pot
+     :              , c_n_supply_preference
+     :              , G_n_demand
+     :              , G_n_max
+     :              , max_part
+     :              , G_root_depth
+     :              , dlt_NO3gsm
+     :               )
+*     ===========================================================
+      dll_export cproc_n_uptake1
+ 
+*+  Sub-Program Arguments
+      REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      INTEGER    max_layer             ! (INPUT)  max number of soil layers
+      REAL       G_no3gsm_diffn_pot(*) ! (INPUT)  potential NO3 (supply) from so
+      REAL       G_no3gsm_mflow_avail(*) ! (INPUT)  potential NO3 (supply) from
+      REAL       G_N_Fix_Pot           ! (INPUT) potential N fixation (g/m2)
+      CHARACTER  c_n_supply_preference*(*) !(INPUT)
+      REAL       G_n_demand(*)         ! (INPUT)  critical plant nitrogen demand
+      INTEGER    max_part              ! (INPUT)  number of plant parts
+      REAL       G_n_max(*)            ! (INPUT)  maximum plant nitrogen demand
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      real       dlt_NO3gsm(*)         ! (OUTPUT) actual plant N uptake
+                                       ! from NO3 in each layer (g/m^2)
+ 
+*+  Purpose
+*       Return actual plant nitrogen uptake from
+*       each soil layer.
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_n_supply1 (
+     :            g_dlayer
+     :          , max_layer
+     :          , g_dlt_sw_dep
+     :          , g_NO3gsm
+     :          , g_NO3gsm_min
+     :          , g_root_depth
+     :          , g_sw_dep
+     :          , g_NO3gsm_mflow_avail
+     :          , g_sw_avail
+     :          , g_NO3gsm_diffn_pot
+     :          , G_current_stage
+     :          , C_n_fix_rate
+     :          , fixation_determinant
+     :          , G_swdef_fixation
+     :          , g_N_fix_pot
+     :          )
+* ====================================================================
+      dll_export cproc_n_supply1
+ 
+*+  Sub-Program Arguments
+      real g_dlayer(*)             ! (INPUT)
+      integer max_layer            ! (INPUT)
+      real g_dlt_sw_dep(*)         ! (INPUT)
+      real g_NO3gsm(*)             ! (INPUT)
+      real g_NO3gsm_min(*)         ! (INPUT)
+      real g_root_depth            ! (INPUT)
+      real g_sw_dep(*)             ! (INPUT)
+      real g_NO3gsm_mflow_avail(*) ! (OUTPUT)
+      real g_sw_avail(*)           ! (INPUT)
+      real g_NO3gsm_diffn_pot(*)   ! (OUTPUT)
+      real G_current_stage         ! (INPUT)
+      real C_n_fix_rate(*)         ! (INPUT)
+      real fixation_determinant    ! (INPUT)
+      real G_swdef_fixation        ! (INPUT)
+      real g_N_fix_pot             ! (INPUT)
+ 
+*+  Purpose
+*      Calculate nitrogen supplys from soil and fixation
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_N_mass_flow1(num_layer, dlayer, dlt_sw_dep,
+     :               no3gsm, no3gsm_min, root_depth, sw_dep,
+     :               NO3gsm_mflow_pot)
+*     ===========================================================
+      dll_export crop_n_mass_flow1
+ 
+*+  Sub-Program Arguments
+      INTEGER num_layer        ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)         ! (INPUT)  thickness of soil layer I (mm)
+      REAL    dlt_sw_dep(*)     ! (INPUT)  water uptake in each layer (mm water)
+      REAL    no3gsm(*)         ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
+      REAL    no3gsm_min(*)     ! (INPUT)  minimum allowable NO3 in soil (g/m^2)
+      REAL    root_depth        ! (INPUT)  depth of roots (mm)
+      REAL    sw_dep(*)         ! (INPUT)  soil water content of layer L (mm)
+      real NO3gsm_mflow_pot(*) ! (OUTPUT) potential plant NO3
+                                              ! uptake (supply) g/m^2,
+                                              ! by mass flow
+ 
+*+  Purpose
+*       Return potential nitrogen uptake (supply) by mass flow (water
+*       uptake) (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_N_diffusion1 (num_layer, dlayer, no3gsm,
+     :               no3gsm_min, root_depth, sw_avail,
+     :               sw_avail_pot, NO3gsm_diffn_pot)
+*     ===========================================================
+      dll_export crop_n_diffusion1
+ 
+*+  Sub-Program Arguments
+      INTEGER num_layer           ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL    no3gsm(*)           ! (INPUT)  nitrate nitrogen in layer L (g N/m^
+      REAL    no3gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^
+      REAL    root_depth          ! (INPUT)  depth of roots (mm)
+      REAL    sw_avail(*)         ! (INPUT)  actual extractable soil water (mm)
+      REAL    sw_avail_pot(*)     ! (INPUT)  potential extractable soil water (m
+      real    NO3gsm_diffn_pot(*) ! (OUTPUT) potential plant NO3
+                                              ! uptake (supply) g/m^2,
+                                              !  by diffusion
+ 
+*+  Purpose
+*       Return potential nitrogen uptake (supply) by diffusion
+*       for a plant (g/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_N_fixation_pot1
+     :               (
+     :                G_current_stage
+     :              , C_n_fix_rate
+     :              , fixation_determinant
+     :              , G_swdef_fixation
+     :              , N_fix_pot
+     :               )
+*     ===========================================================
+      dll_export crop_n_fixation_pot1
+ 
+*+  Sub-Program Arguments
+      REAL       G_Current_stage       ! (INPUT) Current stage
+      REAL       C_n_fix_rate(*)       ! (INPUT)  potential rate of N fixation (
+      REAL       fixation_determinant  ! (INPUT)
+      REAL       G_swdef_fixation      ! (INPUT)
+      real       N_fix_pot                   ! (OUTPUT) N fixation potential (g/
+ 
+*+  Purpose
+*           calculate the quantity of atmospheric nitrogen fixed
+*          per unit carbohydrate per day (mgN_fixed/g plant)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_N_demand1
+     :               (
+     :                max_part
+     :              , demand_parts
+     :              , num_demand_parts
+     :              , G_dlt_dm
+     :              , G_dlt_dm_green
+     :              , G_dlt_dm_pot_rue
+     :              , G_dlt_n_retrans
+     :              , G_dm_green
+     :              , G_n_conc_crit
+     :              , G_n_conc_max
+     :              , G_n_green
+     :              , N_demand, N_max
+     :               )
+*     ===========================================================
+      dll_export cproc_n_demand1
+ 
+*+  Sub-Program Arguments
+      INTEGER    max_part              ! (INPUT)
+      INTEGER    demand_parts (*)      ! (INPUT)
+      INTEGER    num_demand_parts      ! (INPUT)
+      REAL       G_dlt_dm              ! (INPUT)  the daily biomass production (
+      REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
+      REAL       G_dlt_dm_pot_rue      ! (INPUT)  potential dry matter productio
+      REAL       G_dlt_n_retrans(*)    ! (INPUT)  nitrogen retranslocated out fr
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/
+      REAL       G_n_conc_max(*)       ! (INPUT)  maximum N concentration (g N/g
+      REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^
+      real       N_demand (*)          ! (OUTPUT) critical plant nitrogen demand
+                                       ! (g/m^2)
+      real       N_max (*)             ! (OUTPUT) max plant nitrogen demand
+                                       ! (g/m^2)
+ 
+*+  Purpose
+*       Return plant nitrogen demand for each plant component
+ 
+*+  Notes
+*           Nitrogen required for grain growth has already been removed
+*           from the stover.  Thus the total N demand is the sum of the
+*           demands of the stover and roots.  Stover N demand consists of
+*           two components:
+*           Firstly, the demand for nitrogen by the potential new growth.
+*           Secondly, the demand due to the difference between
+*           the actual N concentration and the critical N concentration
+*           of the tops (stover), which can be positive or negative
+*
+*           NOTE that this routine will not work if the root:shoot ratio
+*           is broken. - NIH
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_N_init1
+     :               (
+     :                C_n_init_conc
+     :              , max_part
+     :              , init_Stage
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_dm_green
+     :              , N_green
+     :               )
+*     ===========================================================
+      dll_export cproc_n_init1
+ 
+*+  Sub-Program Arguments
+      REAL       C_n_init_conc(*)      ! (INPUT)  initial N concentration (
+      INTEGER    max_part
+      INTEGER    init_Stage
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      real       N_green(*)            ! plant nitrogen (g/m^2)
+ 
+*+  Purpose
+*   Initialise plant Nitrogen pools
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_n_detachment1( max_part
+     :                              , c_sen_detach_frac
+     :                              , g_n_senesced
+     :                              , g_dlt_n_detached
+     :                              , c_dead_detach_frac
+     :                              , g_n_dead
+     :                              , g_dlt_n_dead_detached)
+*     ===========================================================
+      dll_export cproc_n_detachment1
+ 
+*+  Sub-Program Arguments
+      integer max_part
+      real    c_sen_detach_frac
+      real    g_n_senesced (*)
+      real    g_dlt_n_detached (*)
+      real    c_dead_detach_frac (*)
+      real    g_n_dead (*)
+      real    g_dlt_n_dead_detached (*)
+ 
+*+  Purpose
+*       Simulate plant Nitrogen detachment.
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_n_supply2 (
+     :            g_dlayer
+     :          , max_layer
+     :          , g_dlt_sw_dep
+     :          , g_NO3gsm
+     :          , g_NO3gsm_min
+     :          , g_root_depth
+     :          , g_sw_dep
+     :          , g_NO3gsm_mflow_avail
+     :          , g_sw_avail
+     :          , g_sw_avail_pot
+     :          , g_NO3gsm_diffn_pot
+     :          , G_current_stage
+     :          , C_n_fix_rate
+     :          , fixation_determinant
+     :          , G_swdef_fixation
+     :          , g_N_fix_pot
+     :          )
+* ====================================================================
+      dll_export cproc_n_supply2
+ 
+*+  Sub-Program Arguments
+      real g_dlayer(*)             ! (INPUT)
+      integer max_layer            ! (INPUT)
+      real g_dlt_sw_dep(*)         ! (INPUT)
+      real g_NO3gsm(*)             ! (INPUT)
+      real g_NO3gsm_min(*)         ! (INPUT)
+      real g_root_depth            ! (INPUT)
+      real g_sw_dep(*)             ! (INPUT)
+      real g_NO3gsm_mflow_avail(*) ! (OUTPUT)
+      real g_sw_avail(*)           ! (INPUT)
+      real g_sw_avail_pot(*)       ! (INPUT)
+      real g_NO3gsm_diffn_pot(*)   ! (OUTPUT)
+      real G_current_stage         ! (INPUT)
+      real C_n_fix_rate(*)         ! (INPUT)
+      real fixation_determinant    ! (INPUT)
+      real G_swdef_fixation        ! (INPUT)
+      real g_N_fix_pot             ! (INPUT)
+ 
+*+  Purpose
+*      Calculate nitrogen supplys from soil and fixation
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_N_demand2
+     :               (
+     :                max_part
+     :              , demand_parts
+     :              , num_demand_parts
+     :              , G_dlt_dm_green
+     :              , G_dlt_n_retrans
+     :              , G_dm_green
+     :              , G_n_conc_crit
+     :              , G_n_conc_max
+     :              , G_n_green
+     :              , N_demand, N_max
+     :               )
+*     ===========================================================
+      dll_export cproc_n_demand2
+ 
+*+  Sub-Program Arguments
+      INTEGER    max_part              ! (INPUT)
+      INTEGER    demand_parts (*)      ! (INPUT)
+      INTEGER    num_demand_parts      ! (INPUT)
+      REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
+      REAL       G_dlt_n_retrans(*)    ! (INPUT)  nitrogen retranslocated out fr
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/
+      REAL       G_n_conc_max(*)       ! (INPUT)  maximum N concentration (g N/g
+      REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^
+      real       N_demand (*)          ! (OUTPUT) critical plant nitrogen demand
+                                       ! (g/m^2)
+      real       N_max (*)             ! (OUTPUT) max plant nitrogen demand
+                                       ! (g/m^2)
+ 
+*+  Purpose
+*       Return plant nitrogen demand for each plant component
+ 
+*+  Notes
+*           Nitrogen required for grain growth has already been removed
+*           from the stover.  Thus the total N demand is the sum of the
+*           demands of the stover and roots.  Stover N demand consists of
+*           two components:
+*           Firstly, the demand for nitrogen by the new growth.
+*           Secondly, the demand due to the difference between
+*           the actual N concentration and the critical N concentration
+*           of the tops (stover), which can be positive or negative
+*
+*           NOTE that this routine will not work if the root:shoot ratio
+*           is broken. - NIH
+ 
+      end
+
+
+
+*     ===========================================================
+      real function crop_stage_code (
+     .          c_stage_code_list,
+     .          g_tt_tot,
+     .          g_phase_tt,
+     .          stage_no, stage_table, numvals,
+     .          max_stage)
+*     ===========================================================
+      dll_export crop_stage_code
+ 
+*+  Sub-Program Arguments
+       real c_stage_code_list(*)
+       real g_tt_tot(*)
+       real g_phase_tt(*)
+*
+      real       stage_no              ! (INPUT) stage number to convert
+      real       stage_table(*)        ! (INPUT) table of stage codes
+      integer    numvals               ! (INPUT) size_of of table
+      integer    max_stage             ! (INPUT) max stage number
+ 
+*+  Purpose
+*       Return an interpolated stage code from a table of stage_codes
+*       and a nominated stage number. Returns 0 if the stage number is not
+*       found. Interpolation is done on thermal time.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_thermal_time
+     :               (
+     :                C_num_temp
+     :              , C_x_temp
+     :              , C_y_tt
+     :              , G_current_stage
+     :              , G_maxt
+     :              , G_mint
+     :              , start_stress_stage
+     :              , end_stress_stage
+     :              , G_nfact_pheno
+     :              , G_swdef_pheno
+     :              , g_dlt_tt
+     :               )
+*     ===========================================================
+      dll_export crop_thermal_time
+ 
+*+  Sub-Program Arguments
+      INTEGER    C_num_temp            ! (INPUT)  size_of table
+      REAL       C_x_temp(*)           ! (INPUT)  temperature table for photosyn
+      REAL       C_y_tt(*)             ! (INPUT)  degree days
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_maxt                ! (INPUT)  maximum air temperature (oC)
+      REAL       G_mint                ! (INPUT)  minimum air temperature (oC)
+      INTEGER    start_stress_stage    ! (INPUT)
+      INTEGER    end_stress_stage      ! (INPUT)
+      REAL       G_nfact_pheno         ! (INPUT)
+      REAL       G_swdef_pheno         ! (INPUT)
+      real       g_dlt_tt              ! (OUTPUT) daily thermal time (oC)
+ 
+*+  Purpose
+*     Growing degree day (thermal time) is calculated.
+ 
+*+  Notes
+*     Eight interpolations of the air temperature are
+*     calculated using a three-hour correction factor.
+*     For each air three-hour air temperature, a value of growing
+*     degree day is calculated.  The eight three-hour estimates
+*     are then averaged to obtain the daily value of growing degree
+*     days.
+ 
+      end
+
+
+
+*     ===========================================================
+      real function crop_phase_tt
+     :               (
+     :                G_dlt_tt
+     :              , G_phase_tt
+     :              , G_tt_tot
+     :              , stage_no
+     :               )
+*     ===========================================================
+      dll_export crop_phase_tt
+ 
+*+  Sub-Program Arguments
+      REAL       G_dlt_tt              ! (INPUT)  daily thermal time (growing de
+      REAL       G_phase_tt(*)         ! (INPUT)  Cumulative growing degree days
+      REAL       G_tt_tot(*)           ! (INPUT)  the sum of growing degree days
+      real       stage_no              ! (INPUT) stage number
+ 
+*+  Purpose
+*       Return fraction of thermal time we are through the current
+*       phenological phase (0-1)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_devel
+     :               (
+     :                G_current_stage
+     :              , max_stage
+     :              , G_phase_devel
+     :              , dlt_stage, current_stage
+     :               )
+*     ===========================================================
+      dll_export crop_devel
+ 
+*+  Sub-Program Arguments
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      INTEGER    max_stage             ! (INPUT)
+      REAL       G_phase_devel         ! (INPUT)  development of current phase (
+      real       dlt_stage             ! (OUTPUT) change in growth stage
+      real       current_stage         ! (OUTPUT) new stage no.
+ 
+*+  Purpose
+*     Determine the curent stage of development.
+ 
+      end
+
+
+
+*     ===========================================================
+      real function crop_germination
+     :               (
+     :                sowing_stage
+     :              , germ_stage
+     :              , C_pesw_germ
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_dlayer
+     :              , max_layer
+     :              , G_sowing_depth
+     :              , G_sw_dep
+     :              , P_ll_dep
+     :              , current_stage
+     :               )
+*     ===========================================================
+      dll_export crop_germination
+ 
+*+  Sub-Program Arguments
+      INTEGER    sowing_stage          ! (INPUT)
+      INTEGER    germ_stage            ! (INPUT)
+      REAL       C_pesw_germ           ! (INPUT)  plant extractable soil water i
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      INTEGER    max_layer             ! (INPUT)
+      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
+      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
+      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
+      real       current_stage         ! (OUTPUT) phenological stage number
+ 
+*+  Purpose
+*      Determine germination based on soil water availability
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_phase_devel
+     :               (
+     :                sowing_stage
+     :              , germ_stage
+     :              , end_development_stage
+     :              , C_pesw_germ
+     :              , C_fasw_emerg
+     :              , c_rel_emerg_rate
+     :              , c_num_fasw_emerg
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_dlayer
+     :              , max_layer
+     :              , G_sowing_depth
+     :              , G_sw_dep
+     :              , g_dul_dep
+     :              , P_ll_dep
+     :              , G_dlt_tt
+     :              , G_phase_tt
+     :              , G_tt_tot
+     :              , phase_devel
+     :               )
+*     ===========================================================
+      dll_export crop_phase_devel
+ 
+*+  Sub-Program Arguments
+      INTEGER    sowing_Stage          ! (INPUT)
+      INTEGER    germ_Stage            ! (INPUT)
+      INTEGER    end_development_stage ! (INPUT)
+      REAL       C_pesw_germ           ! (INPUT)  plant extractable soil water i
+      REAL       C_fasw_emerg(*)       ! (INPUT)
+      REAL       c_rel_emerg_rate(*)   ! (INPUT)
+      INTEGER    c_num_fasw_emerg      ! (INPUT)
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      INTEGER    max_layer             ! (INPUT)
+      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
+      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
+      REAL       G_dul_dep(*)          ! (INPUT)
+      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
+      REAL       G_dlt_tt              ! (INPUT)  daily thermal time (growing de
+      REAL       G_phase_tt(*)         ! (INPUT)  Cumulative growing degree days
+      REAL       G_tt_tot(*)           ! (INPUT)  the sum of growing degree days
+      real       phase_devel           ! (OUTPUT) fraction of current phase
+                                       ! elapsed ()
+ 
+*+  Purpose
+*     Determine the fraction of current phase elapsed ().
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_phenology1 (
+     :                             g_previous_stage
+     :                            ,g_current_stage
+     :                            ,sowing_stage
+     :                            ,germ_stage
+     :                            ,end_development_stage
+     :                            ,start_stress_stage
+     :                            ,end_stress_stage
+     :                            ,max_stage
+     :                            ,C_num_temp
+     :                            ,C_x_temp
+     :                            ,C_y_tt
+     :                            ,G_maxt
+     :                            ,G_mint
+     :                            ,G_nfact_pheno
+     :                            ,G_swdef_pheno
+     :                            ,C_pesw_germ
+     :                            ,C_fasw_emerg
+     :                            ,c_rel_emerg_rate
+     :                            ,c_num_fasw_emerg
+     :                            ,G_dlayer
+     :                            ,max_layer
+     :                            ,G_sowing_depth
+     :                            ,G_sw_dep
+     :                            ,g_dul_dep
+     :                            ,P_ll_dep
+     :                            ,g_dlt_tt
+     :                            ,G_phase_tt
+     :                            ,g_phase_devel
+     :                            ,g_dlt_stage
+     :                            ,g_tt_tot
+     :                            ,g_days_tot
+     :                            )
+*     ===========================================================
+      dll_export cproc_phenology1
+ 
+*+  Sub-Program Arguments
+      real     g_previous_stage
+      real     g_current_stage
+      integer  sowing_stage
+      integer  germ_stage
+      integer  end_development_stage
+      integer  start_stress_stage
+      integer  end_stress_stage
+      integer  max_stage
+      integer  C_num_temp
+      real     C_x_temp(*)
+      real     C_y_tt(*)
+      real     G_maxt
+      real     G_mint
+      real     G_nfact_pheno
+      real     G_swdef_pheno
+      real     C_pesw_germ
+      REAL     C_fasw_emerg(*)       ! (INPUT)
+      REAL     c_rel_emerg_rate(*)   ! (INPUT)
+      INTEGER  c_num_fasw_emerg      ! (INPUT)
+      real     G_dlayer(*)
+      integer  max_layer
+      real     G_sowing_depth
+      real     G_sw_dep(*)
+      real     G_dul_dep(*)
+      real     P_ll_dep(*)
+      real     g_dlt_tt
+      real     G_phase_tt(*)
+      real     g_phase_devel
+      real     g_dlt_stage
+      real     g_tt_tot(*)
+      real     g_days_tot(*)
+ 
+*+  Purpose
+*     Use temperature, photoperiod and genetic characteristics
+*     to determine when the crop begins a new growth phase.
+*     The initial daily thermal time and height are also set.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_germ_dlt_tt
+     :               (
+     :                C_fasw_emerg
+     :              , c_rel_emerg_rate
+     :              , c_num_fasw_emerg
+     :              , G_current_stage
+     :              , germ_phase
+     :              , G_dlayer
+     :              , max_layer
+     :              , G_sowing_depth
+     :              , G_sw_dep
+     :              , P_ll_dep
+     :              , g_dul_dep
+     :              , g_dlt_tt
+     :               )
+*     ===========================================================
+      dll_export crop_germ_dlt_tt
+ 
+*+  Sub-Program Arguments
+      REAL       C_fasw_emerg(*)       ! (INPUT)  plant extractable soil water i
+      REAL       c_rel_emerg_rate(*)   ! (INPUT)
+      INTEGER    c_num_fasw_emerg      ! (INPUT)
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      INTEGER    germ_phase            ! (INPUT)
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      INTEGER    max_layer             ! (INPUT)
+      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
+      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
+      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
+      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit(mm)
+      real       g_dlt_tt
+ 
+*+  Purpose
+*      Calculate change in phase thermal time as influenced by stress
+ 
+      end
+
+
+
+*     ===========================================================
+      real function crop_sw_avail_fac(num_sw_ratio, x_sw_ratio,
+     :              y_sw_fac_root, dul_dep, sw_dep, ll_dep, layer)
+*     ===========================================================
+      dll_export crop_sw_avail_fac
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_sw_ratio        ! (INPUT)
+      REAL       x_sw_ratio(*)       ! (INPUT)
+      REAL       y_sw_fac_root(*)    ! (INPUT)
+      REAL       dul_dep(*)          ! (INPUT) drained upper limit for layer L (mm water)
+      REAL       sw_dep(*)           ! (INPUT) soil water content of layer L (mm)
+      REAL       ll_dep(*)           ! (INPUT) lower limit of plant-extractable soil
+                                     ! water for soil layer L (mm)
+      INTEGER    layer               ! (INPUT) soil profile layer number
+ 
+*+  Purpose
+*      Get the soil water availability factor in a layer.  For a layer,
+*      it is 1.0 unless the plant-extractable soil water declines
+*      below a fraction of plant-extractable soil water capacity for
+*      that layer.
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine crop_root_length_init (
+     :                stage_to_init
+     :               ,g_current_stage
+     :               ,g_days_tot
+     :               ,root_wt
+     :               ,c_specific_root_length
+     :               ,g_root_depth
+     :               ,g_dlayer
+     :               ,g_root_length
+     :               ,max_layer)
+* ====================================================================
+      dll_export crop_root_length_init
+ 
+*+  Sub-Program Arguments
+      integer stage_to_init
+      real    g_current_stage
+      real    g_days_tot(*)
+      real    g_dlayer(*)
+      real    root_wt
+      real    c_specific_root_length
+      real    g_root_length(*)
+      real    g_root_Depth
+      integer max_layer
+ 
+*+  Purpose
+*     Initialise crop root length to expected values at emergence
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_root_length_senescence1
+     :               (
+     :                C_specific_root_length
+     :              , G_dlayer
+     :              , G_dlt_root_dm_senesced
+     :              , G_root_length
+     :              , G_root_depth
+     :              , G_dlt_root_length_senesced
+     :              , max_layer
+     :               )
+* ====================================================================
+      dll_export cproc_root_length_senescence1
+ 
+*+  Sub-Program Arguments
+      REAL       C_specific_root_length ! (INPUT)  length of root per unit wt (m
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_dlt_root_dm_senesced ! (INPUT)  plant biomass senescence
+                                        ! (g/m^2)
+      REAL       G_root_length(*)       ! (INPUT)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      REAL       G_dlt_root_length_senesced (*) ! (OUTPUT) root length lost
+                                       ! from each layer (mm/mm^2)
+      INTEGER    max_layer             ! (INPUT)  maximum layer number
+ 
+*+  Purpose
+*     Calculate root length senescence based upon changes in senesced root
+*     biomass and the specific root length.
+ 
+*+  Notes
+*   nih - I know there is a simpler way of doing this but if we make the
+*         calculation of senescence rate more complex this aproach will
+*         automatically handle it.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_root_depth1 (
+     :                              g_dlayer
+     :                             ,C_num_sw_ratio
+     :                             ,C_x_sw_ratio
+     :                             ,C_y_sw_fac_root
+     :                             ,G_dul_dep
+     :                             ,G_sw_dep
+     :                             ,P_ll_dep
+     :                             ,C_root_depth_rate
+     :                             ,G_current_stage
+     :                             ,p_xf
+     :                             ,g_dlt_root_depth
+     :                             ,g_root_depth
+     :                             )
+*     ===========================================================
+      dll_export cproc_root_depth1
+ 
+*+  Sub-Program Arguments
+      real    g_dlayer(*)             ! (INPUT)  layer thicknesses (mm)
+      integer C_num_sw_ratio          ! (INPUT) number of sw lookup pairs
+      real    C_x_sw_ratio(*)         ! (INPUT) sw factor lookup x
+      real    C_y_sw_fac_root(*)      ! (INPUT) sw factor lookup y
+      real    G_dul_dep(*)            ! (INPUT) DUL (mm)
+      real    G_sw_dep(*)             ! (INPUT) SW (mm)
+      real    P_ll_dep(*)             ! (INPUT) LL (mm)
+      real    C_root_depth_rate(*)    ! (INPUT) root front velocity (mm)
+      real    G_current_stage         ! (INPUT) current growth stage
+      real    p_xf(*)                 ! (INPUT) exploration factor
+      real    g_dlt_root_depth        ! (OUTPUT) increase in rooting depth (mm)
+      real    g_root_Depth            ! (OUTPUT) root depth (mm)
+ 
+*+  Purpose
+*       Calculate plant rooting depth through time
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_root_depth_increase
+     :               (
+     :                C_root_depth_rate
+     :              , G_current_stage
+     :              , G_dlayer
+     :              , G_root_depth
+     :              , G_sw_avail_fac_deepest_layer
+     :              , p_xf
+     :              , dlt_root_depth
+     :               )
+*     ===========================================================
+      dll_export crop_root_depth_increase
+ 
+*+  Sub-Program Arguments
+      REAL       C_root_depth_rate(*)  ! (INPUT)  root growth rate potential (mm
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      REAL       G_sw_avail_fac_deepest_layer ! (INPUT)
+      REAL       P_XF (*)              ! (INPUT) eXploration Factor (0-1)
+      real       dlt_root_depth        ! (OUTPUT) increase in root depth (mm)
+ 
+*+  Purpose
+*       Return the increase in root depth (mm)
+ 
+*+  Notes
+*         there is a discrepency when the root crosses into another
+*         layer. - cr380
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_root_depth_init1
+     :               (
+     :                initial_root_depth
+     :              , current_stage
+     :              , initialisation_stage
+     :              , days_tot
+     :              , root_depth
+     :               )
+*     ===========================================================
+      dll_export cproc_root_depth_init1
+ 
+*+  Sub-Program Arguments
+      REAL       initial_root_depth  ! (INPUT)  initial depth of roots (mm)
+      REAL       current_stage       ! (INPUT)  current phenological stage
+      REAL       initialisation_stage! (INPUT)  stage at which to initialise
+      REAL       days_tot(*)         ! (INPUT)  duration of each phase (days)
+      real       root_depth          ! (OUTPUT) initial root depth (mm)
+ 
+*+  Purpose
+*       Return the initial root depth (mm)
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_root_length_init1 (
+     :                stage_to_init
+     :               ,g_current_stage
+     :               ,g_days_tot
+     :               ,root_wt
+     :               ,c_specific_root_length
+     :               ,g_root_depth
+     :               ,g_dlayer
+     :               ,g_root_length
+     :               ,max_layer)
+* ====================================================================
+      dll_export cproc_root_length_init1
+ 
+*+  Sub-Program Arguments
+      integer stage_to_init
+      real    g_current_stage
+      real    g_days_tot(*)
+      real    g_dlayer(*)
+      real    root_wt
+      real    c_specific_root_length
+      real    g_root_length(*)
+      real    g_root_Depth
+      integer max_layer
+ 
+*+  Purpose
+*     Initialise crop root length to expected values at emergence
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_root_length_growth1
+     :               (
+     :                C_specific_root_length
+     :              , G_dlayer
+     :              , G_dlt_root_wt
+     :              , G_dlt_root_length
+     :              , G_dlt_root_depth
+     :              , G_root_depth
+     :              , G_root_length
+     :              , g_plants
+     :              , P_xf
+     :              , C_num_sw_ratio
+     :              , C_x_sw_ratio
+     :              , C_y_sw_fac_root
+     :              , c_x_plant_rld
+     :              , c_y_rel_root_rate
+     :              , c_num_plant_rld
+     :              , G_dul_dep
+     :              , G_sw_dep
+     :              , P_ll_dep
+     :              , max_layer
+     :               )
+* ====================================================================
+      dll_export cproc_root_length_growth1
+ 
+*+  Sub-Program Arguments
+      REAL       C_specific_root_length ! (INPUT) length of root per unit wt (mm
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_dlt_root_wt         ! (INPUT)  plant root biomass growth (g/m
+      REAL       G_dlt_root_length(*)  ! (OUTPUT) increase in root length (mm/mm
+      REAL       G_dlt_root_depth      ! (INPUT)  increase in root depth (mm)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      REAL       g_root_length(*)      ! (INPUT)
+      REAL       g_plants              ! (INPUT)
+      REAL       P_xf(*)               ! (INPUT)  eXtension rate Factor (0-1)
+      INTEGER    C_num_sw_ratio        ! (INPUT)
+      REAL       C_x_sw_ratio(*)       ! (INPUT)
+      REAL       C_y_sw_fac_root(*)    ! (INPUT)
+      REAL       c_x_plant_rld (*)     ! (INPUT)
+      REAL       c_y_rel_root_rate(*)  ! (INPUT)
+      INTEGER    c_num_plant_rld       ! (INPUT)
+      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit soil water
+      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
+      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
+      INTEGER    max_layer             ! (INPUT)  maximum number of soil laye
+ 
+*+  Purpose
+*   Calculate the increase in root length density in each rooted
+*   layer based upon soil hospitality, moisture and fraction of
+*   layer explored by roots.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_root_dist
+     :               (
+     :                G_dlayer
+     :              , G_root_length
+     :              , G_root_depth
+     :              , root_array
+     :              , root_sum
+     :              , max_layer
+     :               )
+*     ===========================================================
+      dll_export crop_root_dist
+ 
+*+  Sub-Program Arguments
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_length(*)      ! (INPUT)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      real       root_array(*)         ! (OUTPUT) array to contain
+                                       ! distributed material
+      real       root_sum              ! (INPUT) Material to be distributed
+      integer    max_layer             ! (INPUT) max number of soil layers
+ 
+*+  Purpose
+*       Distribute root material over profile based upon root
+*       length distribution.
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine crop_root_redistribute (root_length
+     :                 ,root_depth_old,dlayer_old,nlayr_old
+     :                 ,root_depth_new,dlayer_new,nlayr_new)
+* ====================================================================
+      dll_export crop_root_redistribute
+ 
+*+  Sub-Program Arguments
+      real   root_length(*) ! root length (mm/mm^2)
+      real   root_depth_old ! old root depth (mm)
+      real   dlayer_old(*)  ! old soil profile layers (mm)
+      integer nlayr_old     ! number of old soil profile layers
+      real   root_depth_new ! new root depth (mm)
+      real   dlayer_new(*)  ! new soil profile layers (mm)
+      integer nlayr_new     ! number of new soil profile layers
+ 
+*+  Purpose
+*      Map root length density distribution into a new layer structure
+*      after reduction is profile depth due to erosion.
+ 
+*+  Assumptions
+*      That the new profile is shallower and the roots are at the
+*      bottom of the old profile.
+ 
+*+  Notes
+*      Remapping is achieved by first constructing a map of
+*      cumulative root length vs depth that is 'squashed'
+*      to the new profile depth.
+*      The new values of root length per layer can be linearly
+*      interpolated back from this shape taking into account
+*      the rescaling of the profile.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_temperature_stress_photo (num_ave_temp
+     :                ,x_ave_temp,y_stress_photo, maxt, mint,
+     :                temp_stress_photo)
+*     ===========================================================
+      dll_export crop_temperature_stress_photo
+ 
+*+  Sub-Program Arguments
+      INTEGER num_ave_temp        ! (INPUT)  size_of critical temperature table
+      REAL    x_ave_temp(*)       ! (INPUT)  critical temperatures for photosynthesis (oC)
+      REAL    y_stress_photo(*)   ! (INPUT)  Factors for critical temperatures (0-1)
+      REAL    maxt                ! (INPUT)  maximum air temperature (oC)
+      REAL    mint                ! (INPUT)  minimum air temperature (oC)
+      REAL    temp_stress_photo   ! (OUTPUT) photosynthetic reduction factor for
+                                  ! temperature stress (0-1)
+ 
+*+  Purpose
+*       photosynthetic reduction factor for temperature stress (0-1)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_radn_int0(cover_green,
+     :                          fr_intc_radn, radn, radn_int)
+*     ===========================================================
+      dll_export crop_radn_int0
+ 
+*+  Sub-Program Arguments
+      REAL cover_green           ! (INPUT)  fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy (0-1)
+      REAL fr_intc_radn          ! (INPUT)  fraction of radiation intercepted by canopy
+      REAL radn                  ! (INPUT)  solar radiation (Mj/m^2/day)
+      REAL radn_int              ! (OUTPUT) radiation intercepted by leaves (mj/m^2)
+ 
+*+  Purpose
+*       Radiation intercepted by leaves (mj/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_radn_int1(extinction_coef, fr_intc_radn,
+     :                          lai, radn, radn_int)
+*     ===========================================================
+      dll_export crop_radn_int1
+ 
+*+  Sub-Program Arguments
+      REAL extinction_coef       ! (INPUT)  radiation extinction coefficient ()
+      REAL fr_intc_radn          ! (INPUT)  fraction of radiation intercepted by canopy
+      REAL lai                   ! (INPUT)  live plant green lai
+      REAL radn                  ! (INPUT)  solar radiation (Mj/m^2/day)
+      REAL radn_int              ! (OUTPUT) radiation intercepted by leaves (mj/m^2)
+ 
+*+  Purpose
+*       This routine returns the radiation intercepted by leaves (mj/m^2)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_store_value(day_of_year, year, array, value)
+*     ===========================================================
+      dll_export crop_store_value
+ 
+*+  Sub-Program Arguments
+      INTEGER day_of_year    ! (INPUT)  day of year
+      INTEGER year           ! (INPUT)  year
+      REAL    array(*)       ! (OUTPUT) storage array
+      REAL    value          ! (INPUT) value to be stored
+ 
+*+  Purpose
+*       Stores a value in an annual circular array
+ 
+      end
+
+
+
+*     ===========================================================
+      real function crop_running_ave(day_of_year, year,
+     :                               array, number_of_days)
+*     ===========================================================
+      dll_export crop_running_ave
+ 
+*+  Sub-Program Arguments
+      INTEGER day_of_year        ! (INPUT)  day of year
+      INTEGER year               ! (INPUT)  year
+      real    array(*)           ! (INPUT) array to use for average
+      integer number_of_days     ! (INPUT) number of days to average over
+ 
+*+  Purpose
+*       return the running average of an array over the last specified
+*       number of days.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_real_var (section_names
+     :                                ,number_of_sections
+     :                                ,variable_name
+     :                                ,units
+     :                                ,variable
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      dll_export search_read_real_var
+ 
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character variable_name*(*)      ! variable to search for
+      character units*(*)              ! required units of variable
+      real      variable               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+ 
+*+  Purpose
+*      Read a real value from input files using a list of possible sections
+*      for the search.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_real_array (section_names
+     :                                ,number_of_sections
+     :                                ,array_name
+     :                                ,array_size
+     :                                ,units
+     :                                ,array
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      dll_export search_read_real_array
+ 
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character array_name*(*)         ! variable to search for
+      integer   array_size             ! max. size of array
+      character units*(*)              ! required units of variable
+      real      array(*)               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+ 
+*+  Purpose
+*      Read an array from input files using a list of possible sections
+*      for the search.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_char_array (section_names
+     :                                ,number_of_sections
+     :                                ,array_name
+     :                                ,array_size
+     :                                ,units
+     :                                ,array
+     :                                ,numvals)
+* ====================================================================
+      dll_export search_read_char_array
+ 
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character array_name*(*)         ! variable to search for
+      integer   array_size             ! max. size of array
+      character units*(*)              ! required units of variable
+      character array(*)*(*)           ! variable value to return
+      integer   numvals                ! number of values returned
+ 
+*+  Purpose
+*      Read an array from input files using a list of possible sections
+*      for the search.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_char_var (section_names
+     :                                ,number_of_sections
+     :                                ,variable_name
+     :                                ,units
+     :                                ,variable
+     :                                ,numvals)
+* ====================================================================
+      dll_export search_read_char_var
+ 
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character variable_name*(*)      ! variable to search for
+      character units*(*)              ! required units of variable
+      character variable*(*)           ! variable value to return
+      integer   numvals                ! number of values returned
+ 
+*+  Purpose
+*      Read a char value from input files using a list of possible sections
+*      for the search.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_integer_var (section_names
+     :                                ,number_of_sections
+     :                                ,variable_name
+     :                                ,units
+     :                                ,variable
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      dll_export search_read_integer_var
+ 
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character variable_name*(*)      ! variable to search for
+      character units*(*)              ! required units of variable
+      integer   variable               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+ 
+*+  Purpose
+*      Read a real value from input files using a list of possible sections
+*      for the search.
+ 
+      end
+
+
+
+* ====================================================================
+      subroutine search_read_integer_array (section_names
+     :                                ,number_of_sections
+     :                                ,array_name
+     :                                ,array_size
+     :                                ,units
+     :                                ,array
+     :                                ,numvals
+     :                                ,lower
+     :                                ,upper)
+* ====================================================================
+      dll_export search_read_integer_array
+ 
+*+  Sub-Program Arguments
+      character section_names(*)*(*)   ! list of sections to search
+      integer   number_of_sections     ! number of sections to search
+      character array_name*(*)         ! variable to search for
+      integer   array_size             ! max. size of array
+      character units*(*)              ! required units of variable
+      integer   array(*)               ! variable value to return
+      integer   numvals                ! number of values returned
+      real      lower                  ! lower bound of variable value
+      real      upper                  ! upper bound of variable value
+ 
+*+  Purpose
+*      Read an array from input files using a list of possible sections
+*      for the search.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_pool_fraction_delta (num_part
+     :                                 , fraction
+     :                                 , pool
+     :                                 , dlt_pool)
+*     ===========================================================
+      dll_export crop_pool_fraction_delta
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_part      ! (INPUT)  number of plant parts
+      REAL       fraction(*)   ! (INPUT)  fraction of pools to detach
+      REAL       pool(*)       ! (INPUT)  plant pool for detachment (g/m^2)
+      real       dlt_pool(*)   ! (OUTPUT) change in plant pool
+ 
+*+  Purpose
+*      Multiply plant pool array by a part fraction array.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_part_fraction_delta (part_no
+     :                                , fraction
+     :                                , part
+     :                                , dlt_part)
+*     ===========================================================
+      dll_export crop_part_fraction_delta
+ 
+*+  Sub-Program Arguments
+      integer    part_no
+      REAL       fraction(*)     ! (INPUT)  fraction for each part
+      REAL       part            ! (INPUT)  part value to use
+      real       dlt_part        ! (OUTPUT) change in part
+ 
+*+  Purpose
+*      Calculate change in a particular plant pool
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_sw_avail(num_layer, dlayer, root_depth, sw_dep,
+     :                         ll_dep, sw_avail)
+*     ===========================================================
+      dll_export crop_sw_avail
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_layer        ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)        ! (INPUT)  thickness of soil layer I (mm)
+      REAL       root_depth       ! (INPUT)  depth of roots (mm)
+      REAL       sw_dep(*)        ! (INPUT)  soil water content of layer L (mm)
+      REAL       ll_dep(*)        ! (INPUT)  lower limit of plant-extractable
+                                  ! soil water for soil layer L (mm)
+      real       sw_avail(*)      ! (OUTPUT) crop water potential uptake
+                                  ! for each full layer (mm)
+ 
+*+  Purpose
+*       Return actual water available for extraction from each layer in the
+*       soil profile by the crop (mm water)
+ 
+*+  Notes
+*       see cr474 for limitations and potential problems.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_sw_supply(num_layer, dlayer, root_depth, sw_dep,
+     :                          kl, ll_dep, sw_supply)
+*     ===========================================================
+      dll_export crop_sw_supply
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_layer       ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)       ! (INPUT)  thickness of soil layer I (mm)
+      REAL       root_depth      ! (INPUT)  depth of roots (mm)
+      REAL       sw_dep(*)       ! (INPUT)  soil water content of layer L (mm)
+      REAL       kl(*)           ! (INPUT)  root length density factor for water
+      REAL       ll_dep(*)       ! (INPUT)  lower limit of plant-extractable soi
+      real       sw_supply(*)    ! (OUTPUT) potential crop water uptake
+                                 ! from each layer (mm) (supply to roots)
+ 
+*+  Purpose
+*       Return potential water uptake from each layer of the soil profile
+*       by the crop (mm water). This represents the maximum amount in each
+*       layer regardless of lateral root distribution but takes account of
+*       root depth in bottom layer.
+ 
+*+  Notes
+*      This code still allows water above dul to be taken - cnh
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_sw_uptake0(num_layer,dlayer,root_depth,sw_demand,
+     :                          sw_supply, dlt_sw_dep)
+*     ===========================================================
+      dll_export crop_sw_uptake0
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_layer       ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)       ! (INPUT)  thickness of soil layer I (mm)
+      REAL       root_depth      ! (INPUT)  depth of roots (mm)
+      REAL       sw_demand       ! (INPUT)  total crop demand for water (mm)
+      REAL       sw_supply(*)    ! (INPUT)  potential water to take up (supply) from current soil water (mm)
+      real       dlt_sw_dep (*)  ! (OUTPUT) root water uptake (mm)
+ 
+*+  Purpose
+*       Returns actual water uptake from each layer of the soil
+*       profile by the crop (mm).
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_swdef_expansion(num_sw_demand_ratio,
+     :           x_sw_demand_ratio, y_swdef_leaf,
+     :           num_layer, dlayer,root_depth, sw_demand,
+     :           sw_supply, swdef)
+*     ===========================================================
+      dll_export crop_swdef_expansion
+ 
+*+  Sub-Program Arguments
+      INTEGER num_sw_demand_ratio  ! (INPUT)
+      REAL    x_sw_demand_ratio(*) ! (INPUT)
+      REAL    y_swdef_leaf(*)      ! (INPUT)
+      INTEGER num_layer            ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)            ! (INPUT)  thickness of soil layer I (mm)
+      REAL    root_depth           ! (INPUT)  depth of roots (mm)
+      REAL    sw_demand            ! (INPUT)  total crop demand for water (mm)
+      REAL    sw_supply(*)         ! (INPUT)  potential water to take up (supply) from current soil water (mm)
+      REAL    swdef                ! (OUTPUT) sw stress factor (0-1)
+ 
+*+  Purpose
+*       Get the soil water availability factor (0-1), commonly
+*       called soil water deficit factor. 1 is no stress, 0 is full stress.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_swdef_photo(num_layer, dlayer, root_depth,
+     :                            sw_demand,sw_supply, swdef)
+*     ===========================================================
+      dll_export crop_swdef_photo
+ 
+*+  Sub-Program Arguments
+      INTEGER num_layer          ! (INPUT)  number of layers in profile
+      REAL dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL root_depth          ! (INPUT)  depth of roots (mm)
+      REAL sw_demand           ! (INPUT)  total crop demand for water (mm)
+      REAL sw_supply(*)        ! (INPUT)  potential water to take up (supply) from current soil water (mm)
+      REAL swdef                 ! (OUTPUT) sw stress factor (0-1)
+ 
+*+  Purpose
+*       Get the soil water availability factor (0-1), commonly
+*       called soil water deficit factor. 1 is no stress, 0 is full stress.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_swdef_pheno(num_sw_avail_ratio,
+     :           x_sw_avail_ratio, y_swdef_pheno, num_layer,
+     :           dlayer, root_depth, sw_avail, sw_avail_pot,
+     :           swdef)
+*     ===========================================================
+      dll_export crop_swdef_pheno
+ 
+*+  Sub-Program Arguments
+      INTEGER num_sw_avail_ratio  ! (INPUT)
+      REAL    x_sw_avail_ratio(*) ! (INPUT)
+      REAL    y_swdef_pheno(*)    ! (INPUT)
+      INTEGER num_layer           ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL    root_depth          ! (INPUT)  depth of roots (mm)
+      REAL    sw_avail(*)         ! (INPUT)  actual extractable soil water (mm)
+      REAL    sw_avail_pot(*)     ! (INPUT)  potential extractable soil water (mm)
+      REAL    swdef               ! (OUTPUT) sw stress factor (0-1)
+ 
+*+  Purpose
+*       Get the soil water availability factor (0-1), commonly
+*       called soil water deficit factor. 1 is no stress, 0 is full stress.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_swdef_fixation(num_sw_avail_fix,
+     :           x_sw_avail_fix, y_swdef_fix, num_layer,
+     :           dlayer, root_depth, sw_avail, sw_avail_pot, swdef)
+*     ===========================================================
+      dll_export crop_swdef_fixation
+ 
+*+  Sub-Program Arguments
+      INTEGER num_sw_avail_fix      ! (INPUT)
+      REAL    x_sw_avail_fix(*)     ! (INPUT)
+      REAL    y_swdef_fix(*)        ! (INPUT)
+      INTEGER num_layer             ! (INPUT)  number of layers in profile
+      REAL    dlayer(*)             ! (INPUT)  thickness of soil layer I (mm)
+      REAL    root_depth            ! (INPUT)  depth of roots (mm)
+      REAL    sw_avail(*)           ! (INPUT)  actual extractable soil water (mm)
+      REAL    sw_avail_pot(*)       ! (INPUT)  potential extractable soil water (mm)
+      real    swdef                 ! (OUTPUT) sw stress factor (0-1)
+ 
+*+  Purpose
+*       Get the soil water availability factor (0-1), commonly
+*       called soil water deficit factor. 1 is no stress, 0 is full stress.
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine crop_oxdef_photo1
+     :               (
+     :                C_num_oxdef_photo
+     :              , C_oxdef_photo
+     :              , C_oxdef_photo_rtfr
+     :              , G_ll15_dep
+     :              , G_sat_dep
+     :              , G_sw_dep
+     :              , G_dlayer
+     :              , G_root_length
+     :              , G_root_depth
+     :              , max_layer
+     :              , oxdef_photo
+     :               )
+* ====================================================================
+      dll_export crop_oxdef_photo1
+ 
+*+  Sub-Program Arguments
+      INTEGER    C_num_oxdef_photo     ! (INPUT)
+      REAL       C_oxdef_photo(*)      ! (INPUT)
+      REAL       C_oxdef_photo_rtfr(*) ! (INPUT)
+      REAL       G_ll15_dep(*)         ! (INPUT)
+      REAL       G_sat_dep(*)          ! (INPUT)
+      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_length(*)      ! (INPUT)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      INTEGER    max_layer             ! (INPUT)
+      real       oxdef_photo           ! (OUTPUT)
+ 
+*+  Purpose
+*   Calculate 0-1 factor for water logging effect on growth
+ 
+      end
+
+
+
+* ====================================================================
+       subroutine cproc_sw_supply1 (
+     :                            C_sw_lb
+     :                           ,G_dlayer
+     :                           ,P_ll_dep
+     :                           ,G_dul_dep
+     :                           ,G_sw_dep
+     :                           ,max_layer
+     :                           ,g_root_depth
+     :                           ,p_kl
+     :                           ,g_sw_avail
+     :                           ,g_sw_avail_pot
+     :                           ,g_sw_supply
+     :                           )
+* ====================================================================
+      dll_export cproc_sw_supply1
+ 
+*+  Sub-Program Arguments
+      real    C_sw_lb            ! (INPUT)
+      real    G_dlayer (*)       ! (INPUT)
+      real    P_ll_dep (*)       ! (INPUT)
+      real    G_dul_dep (*)      ! (INPUT)
+      real    G_sw_dep (*)       ! (INPUT)
+      integer max_layer          ! (INPUT)
+      real    g_root_depth       ! (INPUT)
+      real    p_kl (*)           ! (INPUT)
+      real    g_sw_avail (*)     ! (OUTPUT)
+      real    g_sw_avail_pot (*) ! (OUTPUT)
+      real    g_sw_supply (*)    ! (OUTPUT)
+ 
+*+  Purpose
+*     Calculate the crop water supply based on the KL approach.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_sw_avail_pot(num_layer, dlayer, dul_dep,
+     :                             root_depth, ll_dep, sw_avail_pot)
+*     ===========================================================
+      dll_export crop_sw_avail_pot
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_layer        ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)        ! (INPUT)  thickness of soil layer I (mm)
+      REAL       dul_dep(*)       ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
+      REAL       root_depth       ! (INPUT)  depth of roots (mm)
+      REAL       ll_dep(*)        ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
+      REAL       sw_avail_pot(*)  ! (OUTPUT) crop water potential uptake for each full layer (mm)
+ 
+*+  Purpose
+*       Return potential water uptake from each layer in the soil profile
+*       by the crop (mm water) from a fully wet profile
+ 
+*+  Notes
+*       see cr474 for limitations and potential problems.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_sw_uptake1(num_layer,dlayer,root_depth,sw_demand,
+     :                          sw_supply, dlt_sw_dep)
+*     ===========================================================
+      dll_export cproc_sw_uptake1
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_layer       ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)       ! (INPUT)  thickness of soil layer I (mm)
+      REAL       root_depth      ! (INPUT)  depth of roots (mm)
+      REAL       sw_demand       ! (INPUT)  total crop demand for water (mm)
+      REAL       sw_supply(*)    ! (INPUT)  potential water to take up (supply)
+      real       dlt_sw_dep (*)  ! (OUTPUT) root water uptake (mm)
+ 
+*+  Purpose
+*       Returns actual water uptake from each layer of the soil
+*       profile by the crop (mm).
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_sw_demand1(dlt_dm_pot_rue, transp_eff, sw_demand)
+*     ===========================================================
+      dll_export cproc_sw_demand1
+ 
+*+  Sub-Program Arguments
+      REAL dlt_dm_pot_rue    ! (INPUT)  potential dry matter production with opt
+      REAL transp_eff        ! (INPUT)  transpiration efficiency (g dm/m^2/mm wa
+      real sw_demand         ! (OUTPUT) crop water demand (mm)
+ 
+*+  Purpose
+*       Return crop water demand from soil by the crop (mm)
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_transp_eff1(svp_fract, transp_eff_cf,
+     :                 current_stage,maxt, mint, transp_eff)
+*     ===========================================================
+      dll_export cproc_transp_eff1
+ 
+*+  Sub-Program Arguments
+      REAL       svp_fract     ! (INPUT)  fraction of distance between svp at mi
+      REAL       transp_eff_cf(*) ! (INPUT)  transpiration efficiency coefficien
+      REAL       current_stage ! (INPUT)
+      REAL       maxt          ! (INPUT)  maximum air temperature (oC)
+      REAL       mint          ! (INPUT)  minimum air temperature (oC)
+      REAL       transp_eff    ! (OUTPUT)
+ 
+*+  Purpose
+*       Calculate today's transpiration efficiency from min and max
+*       temperatures and converting mm water to g dry matter
+*       (g dm/m^2/mm water)
+ 
+*+  Assumptions
+*       the temperatures are > -237.3 oC for the svp function.
+ 
+*+  Notes
+*       Average saturation vapour pressure for ambient temperature
+*       during transpiration is calculated as part-way between that
+*       for minimum temperature and that for the maximum temperature.
+*       Tanner & Sinclair (1983) used .75 and .67 of the distance as
+*       representative of the positive net radiation (rn).  Daily SVP
+*       should be integrated from about 0900 hours to evening when Radn
+*       becomes negative.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine cproc_bio_water1(num_layer, dlayer, root_depth,
+     :                          sw_supply, transp_eff, dlt_dm_pot_te)
+*     ===========================================================
+      dll_export cproc_bio_water1
+ 
+*+  Sub-Program Arguments
+      INTEGER    num_layer       ! (INPUT)  number of layers in profile
+      REAL       dlayer(*)       ! (INPUT)  thickness of soil layer I (mm)
+      REAL       root_depth      ! (INPUT)  depth of roots (mm)
+      REAL       sw_supply(*)    ! (INPUT)  potential water to take up (supply)
+      REAL       transp_eff      ! (INPUT)  transpiration efficiency (g dm/m^2/m
+      real       dlt_dm_pot_te   !(OUTPUT) potential dry matter production
+                                 ! by transpiration (g/m^2)
+ 
+*+  Purpose
+*   Calculate the potential biomass production based upon today's water supply.
+ 
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_check_sw(minsw, dlayer, dul_dep, max_layer,
+     :                         sw_dep, ll_dep)
+*     ===========================================================
+      dll_export crop_check_sw
+ 
+*+  Sub-Program Arguments
+      REAL       minsw             ! (INPUT)  lowest acceptable value for ll
+      REAL       dlayer(*)         ! (INPUT)  thickness of soil layer I (mm)
+      REAL       dul_dep(*)        ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
+      INTEGER    max_layer         ! (INPUT)  number of layers in profile ()
+      REAL       sw_dep(*)         ! (INPUT)  soil water content of layer L (mm)
+      REAL       ll_dep(*)         ! (INPUT)  lower limit of plant-extractable soil water
+                                   !          for soil layer L (mm)
+ 
+*+  Purpose
+*       Check validity of soil water parameters for all soil profile layers.
+ 
+*+  Notes
+*           Reports an error if
+*           - ll_dep and dul_dep are not in ascending order
+*           - ll is below c_minsw
+*           - sw < c_minsw
+ 
+      end
+
+
+
