@@ -574,14 +574,14 @@ void getKeyNameAndValue(const std::string& line,
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------
-string singleQuoted(const string& st)
+std::string singleQuoted(const std::string& st)
    {
    return "'" + st + "'";
    }
 // ------------------------------------------------------------------
 // double quote the string passed in.
 // ------------------------------------------------------------------
-string doubleQuoted(const string& st)
+std::string doubleQuoted(const std::string& st)
    {
    return "\"" + st + "\"";
    }
