@@ -37,6 +37,11 @@ void Run_apsim (const char* RunFilename)
          // get name of control file.
          string ControlFilename = Run.Simulations.Get_filename();
 
+         // delete any existing log file.
+         Path LogPath(ControlFilename.c_str());
+         LogPath.Set_extension(".log");
+         DeleteFile(LogPath.Get_path().c_str());
+
          // change the current working directory to that of the
          // control file.
          Path ControlPath(ControlFilename.c_str());
