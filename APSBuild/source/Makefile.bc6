@@ -13,7 +13,9 @@ BCB = $(MAKEDIR)\..
 DTOBJECTS=CreateDataTypesSource.obj CreateSource.obj CreateDataTypesF90.obj
 CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
 
-LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\general\general_vcl.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
 USERDEFINES =
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
