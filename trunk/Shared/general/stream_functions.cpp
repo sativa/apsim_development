@@ -1,4 +1,5 @@
 #include <general\stream_functions.h>
+#include <strstrea.h>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -58,4 +59,53 @@ char Read_token(istream& In_stream,
    return Ch[0];
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     Read in entire contents of a stream and return to caller.
+
+//  Notes:
+//     I have used the non-standard read_file method of the string
+//     class. If we ever move to the STL version of string then
+//     this routine will have to be re-worked.
+
+//  Changes:
+//    DPH 8/10/97
+
+// ------------------------------------------------------------------
+void Read_stream(istream& In_stream, string& Contents)
+   {
+   Contents.read_file (In_stream);
+   }
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//     write contents of input stream to output stream converting
+//     to CSV (comma separated values)
+
+//  Notes:
+//     assumes that input and output streams are both open.
+
+//  Changes:
+//    DPH 8/10/97
+
+// ------------------------------------------------------------------
+void Convert_2_CSV(istream& In_stream, ostream& Out_stream)
+   {
+   string Variable;
+   string Line;
+   while (In_stream)
+      {
+      Line.read_line(In_stream);
+
+      istrstream Line_stream((char*) Line.c_str());
+      Line_stream >> Variable;
+      while (Variable.length() > 0)
+         {
+         Out_stream << Variable << ',';
+         Line_stream >> Variable;
+         }
+      Out_stream << endl;
+      }
+   }
 

@@ -17,8 +17,7 @@ void Get_directory_listing (const char* Directory_name,
                             unsigned int Attribute)
    {
    Path p;
-   Dir_list.erase(Dir_list.begin(), Dir_list.end());
-
+   
    struct ffblk ffblk;
    int done;
    p.Set_path (Directory_name);
@@ -33,4 +32,39 @@ void Get_directory_listing (const char* Directory_name,
       done = findnext(&ffblk);
       }
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      locate a file and return it's full absolute path name
+
+//  Notes:
+//      search file passed in should not contain any directory info.
+
+//  Changes:
+//    DPH 11/6/1997
+
+// ------------------------------------------------------------------
+string Locate_file (list<string>& Search_directories,
+                    const char* Search_file)
+   {
+   Path p;
+   bool found = false;
+
+   // loop through all directories.
+   for (list<string>::iterator Iter = Search_directories.begin();
+                               Iter != Search_directories.end() && !found;
+                               Iter++)
+      {
+      p.Set_directory ( (*Iter).c_str() );
+      p.Set_name (Search_file);
+      struct ffblk ffblk;
+      found = (findfirst(p.Get_path().c_str(), &ffblk, FA_NORMAL) == false);
+      }
+
+   if (found)
+      return p.Get_path();
+   else
+      return "";
+   }
+
 

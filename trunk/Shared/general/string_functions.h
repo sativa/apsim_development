@@ -2,6 +2,8 @@
 #define STRING_FUNCTIONS_H
 
 #include <general\mystring.h>
+#include <general\mylist.h>
+#include <algorith>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -194,6 +196,128 @@ int Locate_string (const char* Search_string, StringContainer& words)
    if (!Found)
       indx = -1;
    return indx;
+   }
+
+#ifdef __WIN32__
+// ------------------------------------------------------------------
+//  Short description:
+//     generic "for_each" function for removing a substring from all
+//     strings in a given stl container.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class Arg >
+class remove_substring : private std::unary_function < Arg, void >
+   {
+   private:
+      string Substring;
+   public:
+      remove_substring( const char* sub ) : Substring ( sub ) { }
+      void operator(  ) ( Arg & x ) { x.remove(x.find(Substring)); }
+    };
+
+// ------------------------------------------------------------------
+//  Short description:
+//     generic "for_each" function for appending a substring to all
+//     strings in a given stl container.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class Arg >
+class append_substring : private std::unary_function < Arg, void >
+   {
+   private:
+      string Substring;
+   public:
+      append_substring( const char* sub ) : Substring ( sub ) { }
+      void operator(  ) ( Arg & x ) { x.append(Substring)); }
+    };
+
+// ------------------------------------------------------------------
+//  Short description:
+//     generic "for_each" function for appending a substring to all
+//     strings in a given stl container.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class Arg >
+class prepend_substring : private std::unary_function < Arg, void >
+   {
+   private:
+      string Substring;
+   public:
+      prepend_substring( const char* sub ) : Substring ( sub ) { }
+      void operator(  ) ( Arg & x ) { x.prepend(Substring)); }
+    };
+#endif
+
+// ------------------------------------------------------------------
+//  Short description:
+//     function that takes a string of numbers and returns a
+//     stl container of doubles.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container_type>
+void String_2_double_container (const char* Numbers,
+                                container_type& container)
+   {
+   container.erase (container.begin(), container.end());
+   list<string> string_container;
+   string Number_string(Numbers);
+   Split_string (Number_string, " ", string_container);
+   for (list<string>::iterator Iter = string_container.begin();
+                               Iter != string_container.end();
+                               Iter++)
+      {
+      container.push_back (atof ( (*Iter).c_str() ));
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     function that takes a container of numbers and converts to a string.
+
+//  Notes:
+
+//  Changes:
+//    DPH 28/10/97
+
+// ------------------------------------------------------------------
+template < class container_type>
+void Double_container_2_string (container_type& container,
+                                string& Numbers,
+                                int precision)
+   {
+   ostrstream number_stream;
+   number_stream.setf(ios::fixed, ios::floatfield);
+   number_stream.precision (precision);
+
+   list<string> string_container;
+   for (container_type::iterator Iter = container.begin();
+                                 Iter != container.end();
+                                 Iter++)
+      number_stream << *Iter << ' ';
+
+   number_stream << ends;
+   Numbers = number_stream.str();
+   delete number_stream.str();
    }
 
 #endif

@@ -20,4 +20,19 @@ void Get_directory_listing (const char* Directory_name,
                             list<string>& Dir_list,
                             unsigned int Attribute = FA_NORMAL);
 
+// ------------------------------------------------------------------
+//  Short description:
+//      locate a file and return it's full absolute path name
+
+//  Notes:
+//      search file passed in should not contain any directory info.
+
+//  Changes:
+//    DPH 11/6/1997
+
+// ------------------------------------------------------------------
+string Locate_file (list<string>& Search_directories,
+                    const char* Search_file);
+
+
 #endif
