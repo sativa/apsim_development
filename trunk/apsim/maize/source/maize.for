@@ -1,10 +1,11 @@
-C     Last change:  E    16 Nov 1999    3:05 pm
-      include 'Maize.inc'
+
+C     Last change:  E    20 Dec 2000    1:35 pm
+
 
 *     ===========================================================
       subroutine Maize_water_stress(Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -79,7 +80,7 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *     ===========================================================
       subroutine Maize_bio_actual (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -145,8 +146,8 @@ C     Last change:  E    16 Nov 1999    3:05 pm
      .                    dm_green, dm_plant_min)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -226,7 +227,7 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *     ===========================================================
       subroutine Maize_bio_grain_demand (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -360,7 +361,7 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *     ===========================================================
       subroutine Maize_bio_TE (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -412,7 +413,7 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *     ===========================================================
       subroutine Maize_bio_partition (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'data.pub'                          
@@ -488,8 +489,8 @@ C     Last change:  E    16 Nov 1999    3:05 pm
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -555,7 +556,8 @@ c Changed by SCC/GLH. Gatton data indicates stem growth also
 c occurs before FI!
  
          dlt_dm_green(leaf) = g_dlt_dm
- 
+
+
          internode_no = sum_between (emerg, now, g_leaf_no)
          partition_coef_leaf = 1.0
      :            /(1.0 + c_partition_rate_leaf * internode_no**2)
@@ -569,7 +571,8 @@ c occurs before FI!
  
          dlt_dm_green(stem) = g_dlt_dm
      :                    - dlt_dm_green(leaf)
- 
+
+
       elseif (stage_is_between (floral_init, flag_leaf
      :                        , g_current_stage)) then
  
@@ -672,8 +675,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! mg2gm
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -802,8 +805,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          dlt_dm_stress_max)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'error.pub'                         
+      include 'CropDefCons.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_swdef_photo
@@ -859,8 +862,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          g_nfact_grain_conc)
 *     ===========================================================
       implicit none
-      include    'maizcons.inc'
-      include 'data.pub'                          
+      include    'CropDefCons.inc'
+      include 'data.pub'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
 
@@ -934,7 +937,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *     ===========================================================
       subroutine Maize_bio_retrans (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_biom.pub'                      
@@ -1000,7 +1003,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *     ===========================================================
       subroutine Maize_detachment(option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -1066,7 +1069,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *     ===========================================================
       subroutine Maize_plant_death (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_fail.pub'                      
@@ -1256,8 +1259,8 @@ cnh     .          dlt_plants
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -1315,8 +1318,8 @@ cnh     .          dlt_plants
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -1384,8 +1387,8 @@ cnh     .          dlt_plants
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1473,8 +1476,8 @@ cnh     .          dlt_plants
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1553,8 +1556,8 @@ cnh     .          dlt_plants
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1634,8 +1637,8 @@ cnh     .          dlt_plants
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'error.pub'                         
+      include 'CropDefCons.inc'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real g_dlt_plants_all
@@ -1683,8 +1686,8 @@ cnh     .          dlt_plants
      .          killfr)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -1885,8 +1888,8 @@ cSCC/JNGH changed le to lt
 *     ===========================================================
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -2053,8 +2056,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -2154,8 +2157,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      .          grain_num)
 *     ===========================================================
       implicit none
-      include    'maizcons.inc'
-      include 'science.pub'                       
+      include    'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
@@ -2289,70 +2292,12 @@ c     :                           , 'grain_no_fract')
 
 
 
-*     ===========================================================
-      subroutine Maize_cover1 (
-     .          g_row_spacing,
-     .          c_x_row_spacing,
-     .          c_y_extinct_coef,
-     .          c_num_row_spacing,
-     .          cover_leaf,
-     .          lai)
-*     ===========================================================
-      implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-       real g_row_spacing
-*
-      real       cover_leaf            ! (OUTPUT) fraction of radn that is
-                                       !  intercepted by leaves (0-1)
-      real       lai                   ! (INPUT) leaf area index ()
-      real       c_x_row_spacing(*)    ! (INPUT) rowspace array for extinction_coef lookup
-      real       c_y_extinct_coef(*)   ! (INPUT) extinction_coef lookup values
-      integer    c_num_row_spacing     ! number of values in the lookup table
-
-*+  Purpose
-*       'Cover' by leaves (0-1) . Fraction of radiation reaching the
-*       canopy, intercepted by the leaves of the canopy. Extinction
-*       coefficient is a function of row spacing.
-
-*+  Mission statement
-*       Calculate crop cover using %6
-
-*+  Changes
-*   03-11-2000  - Don Gaydon - simplified cover calculation by removing need for 
-*                              extinction coefficient 'adjustment' parameter
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_cover1')
-
-*+  Local Variables
-      real       extinct_coef                ! extinction coefficient
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      extinct_coef = linear_interp_real (g_row_spacing
-     :                                   ,c_x_row_spacing
-     :                                   ,c_y_extinct_coef
-     :                                   ,c_num_row_spacing)
- 
- 
-      cover_leaf = 1.0 - exp (-extinct_coef * lai)
- 
-      call pop_routine (my_name)
-      return
-      end
-
 
 
 * ====================================================================
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'data.pub'                          
@@ -2533,8 +2478,8 @@ c     :                           , 'grain_no_fract')
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -2606,7 +2551,7 @@ c     :                           , 'grain_no_fract')
 *     ===========================================================
       subroutine Maize_leaf_actual(Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'data.pub'                          
@@ -2649,8 +2594,7 @@ c     :                           , 'grain_no_fract')
      :              , g%dlt_lai_stressed
      :              , g%lai
      :               )
- 
- 
+
 c         call maize_leaf_area1 (
 c     .          g%current_stage,
 c     .          g%dlt_lai,
@@ -2671,7 +2615,7 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_area_potential (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -2743,7 +2687,8 @@ c     .          interp_sla_max)
      .          g%plants,
      .          g%swdef_expansion,
      .          g%dlt_lai_pot) ! individual leaf approach
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -2757,7 +2702,7 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_area_stressed (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -2797,6 +2742,8 @@ c     .          interp_sla_max)
  
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
+
  
       call pop_routine (my_name)
       return
@@ -2819,8 +2766,8 @@ c     .          interp_sla_max)
  
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -2911,7 +2858,7 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_no_init (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -2961,7 +2908,7 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_area_init (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -2996,7 +2943,8 @@ c     .          interp_sla_max)
      :              , g%plants
      :              , g%lai
      :              )
- 
+
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -3010,7 +2958,7 @@ c     .          interp_sla_max)
 *     ===========================================================
       subroutine Maize_leaf_no_pot (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -3117,8 +3065,8 @@ c     .          interp_sla_max)
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -3297,8 +3245,8 @@ c     .          interp_sla_max)
      .          dlt_leaf_no)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -3405,7 +3353,7 @@ cSCC normal leaf app rate
 *     ===========================================================
       subroutine Maize_nit_retrans (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -3478,8 +3426,8 @@ cSCC normal leaf app rate
      .          dlt_N_retrans)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'crp_nitn.pub'                      
       include 'error.pub'                         
 
@@ -3614,7 +3562,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_demand (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_nitn.pub'                      
@@ -3685,7 +3633,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_uptake (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -3781,8 +3729,8 @@ csc  true....
      .          N_conc_min)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'crp_phen.pub'                      
+      include 'CropDefCons.inc'
+      include 'crp_phen.pub'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -3928,7 +3876,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_stress(Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_nitn.pub'                      
@@ -3994,7 +3942,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_init (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_nitn.pub'                      
@@ -4045,7 +3993,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_supply (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -4117,7 +4065,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_nit_partition (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -4173,8 +4121,8 @@ csc  true....
      .                     )
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
       include 'science.pub'                         
 
@@ -4270,7 +4218,7 @@ csc  true....
 *     ===========================================================
       subroutine Maize_phenology (option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_phen.pub'                      
@@ -4358,7 +4306,7 @@ c (how do we do this w. TPLA approach?)
 *     ===========================================================
       subroutine Maize_height (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -4410,7 +4358,7 @@ c (how do we do this w. TPLA approach?)
 *     ===========================================================
       subroutine Maize_phenology_init (option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -4499,8 +4447,8 @@ c (how do we do this w. TPLA approach?)
      .          phase_tt)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -4655,7 +4603,7 @@ cjh
 *     ===========================================================
       subroutine Maize_leaf_area_sen_actual (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -4703,7 +4651,7 @@ cjh
 *     ===========================================================
       subroutine Maize_leaf_death (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -4762,8 +4710,8 @@ cjh
      .          dlt_leaf_no_dead)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -4833,7 +4781,7 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       subroutine Maize_sen_bio (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_biom.pub'                      
@@ -4887,7 +4835,7 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       subroutine Maize_sen_nit (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_nitn.pub'                      
@@ -4936,7 +4884,7 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       subroutine Maize_leaf_area_sen (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_cnpy.pub'                      
@@ -5105,8 +5053,8 @@ cpsc need to develop leaf senescence functions for crop
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -5489,8 +5437,8 @@ cglh
      .          g_dm_senesced)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'data.pub'                          
+      include 'CropDefCons.inc'
+      include 'data.pub'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5748,8 +5696,8 @@ cglh
      .          g_day_of_year)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -5927,8 +5875,8 @@ cpsc  add above
       implicit none
       include   'const.inc'            ! new_line, blank,
       include   'convert.inc'
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -6045,8 +5993,8 @@ cpsc  add above
      .          root_array, root_sum)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -6119,8 +6067,8 @@ cpsc  add above
       implicit none
       include   'const.inc'            ! all_active_modules
       include   'convert.inc'
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'intrface.pub'                      
       include 'postbox.pub'                   
       include 'error.pub'                         
@@ -6210,7 +6158,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_root_depth (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_root.pub'                      
@@ -6265,7 +6213,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_water_supply (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -6321,7 +6269,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_water_demand (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_watr.pub'                      
@@ -6368,7 +6316,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_water_uptake (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'science.pub'                       
@@ -6452,7 +6400,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_light_supply (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_util.pub'                      
@@ -6495,7 +6443,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_transpiration_eff (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include     'const.inc'
       include 'crp_watr.pub'                      
@@ -6547,7 +6495,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_bio_RUE (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_biom.pub'                      
@@ -6583,7 +6531,7 @@ cpsc  add above
      .          g%temp_stress_photo,
      .          min(g%nfact_photo,g%pfact_photo),
      .          g%dlt_dm_light)
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -6597,7 +6545,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_temp_stress(Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_temp.pub'                      
@@ -6641,7 +6589,7 @@ cpsc  add above
 *     ===========================================================
       subroutine maize_sen_root_length (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_root.pub'                      
@@ -6692,7 +6640,7 @@ cpsc  add above
 *     ===========================================================
       subroutine maize_root_dist (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'crp_root.pub'                      
@@ -6756,7 +6704,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_root_depth_init (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_root.pub'                      
@@ -6817,7 +6765,7 @@ cpsc  add above
 *     ===========================================================
       subroutine Maize_root_length_init (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'crp_root.pub'                      
@@ -6869,7 +6817,7 @@ cpsc  add above
 * ====================================================================
       subroutine Maize_P_uptake (Option)
 * ====================================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'convert.inc'
@@ -6944,8 +6892,8 @@ cpsc  add above
      .          P_conc_min)
 *     ===========================================================
       implicit none
-      include   'maizcons.inc'
-      include 'science.pub'                       
+      include 'CropDefCons.inc'
+      include 'science.pub'
       include 'data.pub'                          
       include 'error.pub'                         
       include 'crp_phen.pub'                      
@@ -7104,7 +7052,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_photo (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'error.pub'                         
@@ -7151,7 +7099,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_pheno (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'error.pub'                         
@@ -7198,7 +7146,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine maize_p_stress_expansion (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'error.pub'                         
@@ -7249,7 +7197,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *   Short description:
 *         Get current P stress factors (0-1)
  
-      use MaizeModule
+      use CropModModule
       implicit none
 
 *+  Purpose
@@ -7302,7 +7250,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 * ====================================================================
        subroutine maize_P_demand_est (Option)
 * ====================================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -7434,7 +7382,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 * ====================================================================
        subroutine maize_P_conc (Option)
 * ====================================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include 'const.inc'
       include 'error.pub'                         
@@ -7477,7 +7425,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     ===========================================================
       subroutine Maize_Phos_init (Option)
 *     ===========================================================
-      use MaizeModule
+      use CropModModule
       implicit none
       include   'const.inc'
       include 'error.pub'                         
