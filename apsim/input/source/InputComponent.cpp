@@ -63,27 +63,20 @@ void InputComponent::doInit1(const FString& sdml)
    else
       daylengthID = 0;
 
-   try
-      {
-      fileName = componentData->getProperty("parameters", "filename");
-      if (fileName == "")
-         throw runtime_error("Cannot find a filename parameter for module: "
-                             + string(name));
-      data = new ApsimDataFile(fileName);
+   fileName = componentData->getProperty("parameters", "filename");
+   if (fileName == "")
+      throw runtime_error("Cannot find a filename parameter for module: "
+                          + string(name));
+   data = new ApsimDataFile(fileName);
 
-      readConstants();
-      readHeadings();
-      dateFieldsOk();
+   readConstants();
+   readHeadings();
+   dateFieldsOk();
 
-      // read in a line from the file so that the fields know what data
-      // type they're dealing with.
-      readLineFromFile();
-      checkForSparseData();
-      }
-   catch (const runtime_error& errormsg)
-      {
-      error(errormsg.what(), true);
-      }
+   // read in a line from the file so that the fields know what data
+   // type they're dealing with.
+   readLineFromFile();
+   checkForSparseData();
    }
 // ------------------------------------------------------------------
 // INIT 2 - temporary
