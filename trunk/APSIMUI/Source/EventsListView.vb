@@ -45,11 +45,13 @@ Public Class EventsListView
         'ListView
         '
         Me.ListView.AllowDrop = True
+        Me.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NameColumn, Me.ModuleColumn, Me.DescriptionColumn})
         Me.ListView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ListView.Location = New System.Drawing.Point(0, 0)
+        Me.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.ListView.Location = New System.Drawing.Point(0, 23)
         Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(648, 336)
+        Me.ListView.Size = New System.Drawing.Size(648, 313)
         Me.ListView.TabIndex = 0
         Me.ListView.View = System.Windows.Forms.View.Details
         '
@@ -68,17 +70,19 @@ Public Class EventsListView
         Me.DescriptionColumn.Text = "Description"
         Me.DescriptionColumn.Width = 366
         '
-        'ReportVariablesListView
+        'EventsListView
         '
         Me.Controls.Add(Me.ListView)
-        Me.Name = "ReportVariablesListView"
+        Me.Name = "EventsListView"
         Me.Size = New System.Drawing.Size(648, 336)
+        Me.Controls.SetChildIndex(Me.ListView, 0)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
     Overrides Sub fill()
+        CaptionLabel.Text = "Events (output frequency)"
         ListView.Items.Clear()
         For Each child As String In MyData.ChildList("event")
             Dim item As New ListViewItem

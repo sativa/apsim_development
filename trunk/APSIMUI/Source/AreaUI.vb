@@ -1,8 +1,13 @@
 Imports System.Collections
 Imports System.Collections.Specialized
+Imports System.IO
+Imports System.Convert
+Imports CSGeneral
+Imports VBGeneral
+
 Public Class areaui
     Inherits BaseUI
-    '    Private ListView As New ListView
+
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -12,7 +17,7 @@ Public Class areaui
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-
+        HelpLabel.Text = "This screen shows all components in the paddock. A background bitmap can be added by right clicking above. Components can be double clicked to edit them."
     End Sub
 
     'Form overrides dispose to clean up the component list.
@@ -31,117 +36,171 @@ Public Class areaui
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents LargeImageList As System.Windows.Forms.ImageList
     Friend WithEvents ListView As System.Windows.Forms.ListView
+    Friend WithEvents ListViewContextMenu As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
+    Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(areaui))
-        Me.LargeImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ListView = New System.Windows.Forms.ListView
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ListViewContextMenu = New System.Windows.Forms.ContextMenu
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem
+        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.SuspendLayout()
-        '
-        'LargeImageList
-        '
-        Me.LargeImageList.ImageSize = New System.Drawing.Size(32, 32)
-        Me.LargeImageList.ImageStream = CType(resources.GetObject("LargeImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.LargeImageList.TransparentColor = System.Drawing.Color.Transparent
         '
         'ListView
         '
+        Me.ListView.Alignment = System.Windows.Forms.ListViewAlignment.Default
         Me.ListView.AllowDrop = True
-        Me.ListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListView.LargeImageList = Me.LargeImageList
-        Me.ListView.Location = New System.Drawing.Point(8, 8)
+        Me.ListView.AutoArrange = False
+        Me.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.ListView.ContextMenu = Me.ListViewContextMenu
+        Me.ListView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ListView.Location = New System.Drawing.Point(0, 23)
+        Me.ListView.MultiSelect = False
         Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(868, 608)
+        Me.ListView.Size = New System.Drawing.Size(940, 522)
         Me.ListView.TabIndex = 0
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Width = -2
+        '
+        'ListViewContextMenu
+        '
+        Me.ListViewContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem1})
+        '
+        'MenuItem1
+        '
+        Me.MenuItem1.Index = 0
+        Me.MenuItem1.Text = "Load picture"
+        '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.DefaultExt = "jpg"
+        Me.OpenFileDialog.Filter = """JPG files|*.jpg|BMP files|*.bmp|All files|*.*"
+        Me.OpenFileDialog.Title = "Select a picture to load"
         '
         'areaui
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(883, 625)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(940, 585)
         Me.Controls.Add(Me.ListView)
         Me.Name = "areaui"
+        Me.Controls.SetChildIndex(Me.ListView, 0)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
 
-    Private Sub areaui_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        '        Me.Controls.Add(ListView)
-        '       With ListView
-        '      .Left = 10
-        '     .Top = 10
-        '    .Width = ListView.Parent.Width - 20
-        '   .Height = ListView.Parent.Height - 20
-        '  .Anchor = AnchorStyles.Bottom Or AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        ' .View = View.LargeIcon
-        '.LargeImageList = LargeImageList
-        '.AutoArrange = True
-        '.Visible = True
-        ' .Enabled = True
-        'End With
-    End Sub
+    ' ----------------------------------
+    ' Refresh the listview
+    ' ----------------------------------
     Overrides Sub refresh()
         MyBase.Refresh()
-
         ListView.Clear()
-        '        Dim AreaList As New StringCollection
-        '        APSIMFile.GetChildListByType(DataPath, "area", AreaList)
-        '        Dim AreaName As String
-        '        For Each AreaName In AreaList
-        '        Dim item As New ListViewItem(AreaName, 0)
-        '        item.ImageIndex = 0
-        '        ListView.Items.Add(item)
-        '        Next
+        ListView.LargeImageList = UIManager.LargeImageList
 
-        Dim ChildList As New StringCollection
-        ChildList = MyData.ChildList
-
+        ' Add an item for all children of this system.
+        Dim ChildList As StringCollection = UIManager.GetUserVisibleComponents(MyData, "MainTreeComponents")
         Dim ChildName As String
         For Each ChildName In ChildList
+            'create new item
             Dim item As New ListViewItem(ChildName, 0)
-            item.ImageIndex = 0
+            item.ImageIndex = UIManager.LargeImageIndex(MyData.Child(ChildName).Type)
             ListView.Items.Add(item)
+
+            ' try and position this new item.
+            Dim child As APSIMData = MyData.Child(ChildName)
+            Dim x As String = child.Attribute("x")
+            Dim y As String = child.Attribute("y")
+            If x <> "" And y <> "" Then
+                CSGeneral.ListViewAPI.SetItemPosition(ListView, item.Index, Convert.ToInt32(x), Convert.ToInt32(y))
+            End If
+
         Next
 
+        ' Put up a background bitmap on listview.
+        Dim BitmapNode As APSIMData = MyData.Child("bitmap")
+        If Not IsNothing(BitmapNode) Then
+            Dim TempFileName As String = Path.GetTempPath() + "\\apsimui.jpg"
+            Dim b As Bitmap = CSUtility.DecodeStringToBitmap(BitmapNode.Value)
+            b.Save(TempFileName)
+            CSGeneral.ListViewAPI.SetListViewImage(ListView, TempFileName, ImagePosition.TopLeft)
+        End If
+
     End Sub
 
 
+    ' ---------------------------------------------------------
+    ' User has double clicked an item - show user interface
+    ' for that item.
+    ' ---------------------------------------------------------
     Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
-        Try
-            Dim item As ListViewItem
-            For Each item In ListView.SelectedItems
-                
-                'UIManager.ShowUI(APSIMData.Child(item.Text))
-            Next
-        Catch ex As Exception
-            MsgBox("Error loading user interface", MsgBoxStyle.Critical, "Error")
-        End Try
+        UIManager.ShowUI(MyData.Child(ListView.SelectedItems.Item(0).Text))
     End Sub
 
 
-    Private Sub ListView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragDrop
-        '        Dim datastring As String = e.Data.GetData(DataFormats.Text)
-        '        Dim APSIMdata As New APSIMData
-        '        APSIMdata.Data = datastring
-        '        Dim caption As String = data.RootPath
-        '        Dim item As New ListViewItem(caption, 0)
-        '        ListView.Items.Add(item)
-        '        UIManager.AddComponent(DataPath, datastring)
-    End Sub
+    ' ------------------------------------------------
+    ' User has selected an item on the 
+    ' context menu.
+    ' ------------------------------------------------
+    Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem1.Click
+        If OpenFileDialog.ShowDialog = DialogResult.OK Then
+            Dim FileName As String = OpenFileDialog.FileName
+            CSGeneral.ListViewAPI.SetListViewImage(ListView, FileName, ImagePosition.TopLeft)
 
-    Private Sub ListView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragEnter
-        If (e.Data.GetDataPresent(DataFormats.Text)) Then
-            e.Effect = DragDropEffects.Copy
+            Dim BitmapNode As APSIMData = MyData.Child("bitmap")
+            If IsNothing(BitmapNode) Then
+                BitmapNode = New APSIMData("bitmap", "bitmap")
+            End If
 
-        Else
-            e.Effect = DragDropEffects.None
+            Dim b As New Bitmap(FileName)
+            BitmapNode.Value = CSUtility.EncodeBitmapToString(b)
+            MyData.Add(BitmapNode)
+
         End If
     End Sub
 
+
+    ' --------------------------------------------------------
+    ' User is trying to initiate a drag - allow drag operation
+    ' --------------------------------------------------------
+    Private Sub ListView_ItemDrag(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemDragEventArgs) Handles ListView.ItemDrag
+        ListView.DoDragDrop(ListView.SelectedItems, DragDropEffects.Move)
+    End Sub
+
+
+    ' --------------------------------------------------
+    ' User is dragging an item
+    ' --------------------------------------------------
+    Private Sub ListView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragEnter
+        Dim i As Integer
+        For i = 0 To e.Data.GetFormats().Length - 1
+            If e.Data.GetFormats()(i).Equals("System.Windows.Forms.ListView+SelectedListViewItemCollection") Then
+                'The data from the drag source is moved to the target.
+                e.Effect = DragDropEffects.Move
+            End If
+        Next
+    End Sub
+
+
+    ' -------------------------------------------------
+    ' User has dropped selected items.
+    ' -------------------------------------------------
+    Private Sub ListView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragDrop
+        'Convert the mouse coordinates to client coordinates.
+        Dim p As Point = ListView.PointToClient(New Point(e.X, e.Y))
+
+        For Each item As ListViewItem In ListView.SelectedItems
+            CSGeneral.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
+            Dim child As APSIMData = MyData.Child(item.Text)
+            child.SetAttribute("x", p.X.ToString)
+            child.SetAttribute("y", p.Y.ToString)
+        Next
+    End Sub
 End Class

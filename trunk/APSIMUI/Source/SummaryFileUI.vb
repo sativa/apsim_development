@@ -57,9 +57,9 @@ Public Class SummaryFileUI
         Me.SummaryFileTextBox.AutoSize = False
         Me.SummaryFileTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.SummaryFileTextBox.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.SummaryFileTextBox.Location = New System.Drawing.Point(96, 8)
+        Me.SummaryFileTextBox.Location = New System.Drawing.Point(112, 32)
         Me.SummaryFileTextBox.Name = "SummaryFileTextBox"
-        Me.SummaryFileTextBox.Size = New System.Drawing.Size(664, 24)
+        Me.SummaryFileTextBox.Size = New System.Drawing.Size(705, 28)
         Me.SummaryFileTextBox.TabIndex = 0
         Me.SummaryFileTextBox.Text = ""
         '
@@ -69,9 +69,9 @@ Public Class SummaryFileUI
         Me.BrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BrowseButton.ImageIndex = 0
         Me.BrowseButton.ImageList = Me.ImageList
-        Me.BrowseButton.Location = New System.Drawing.Point(772, 8)
+        Me.BrowseButton.Location = New System.Drawing.Point(832, 32)
         Me.BrowseButton.Name = "BrowseButton"
-        Me.BrowseButton.Size = New System.Drawing.Size(80, 24)
+        Me.BrowseButton.Size = New System.Drawing.Size(96, 28)
         Me.BrowseButton.TabIndex = 1
         Me.BrowseButton.Text = "Browse"
         Me.BrowseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -84,9 +84,9 @@ Public Class SummaryFileUI
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(8, 11)
+        Me.Label1.Location = New System.Drawing.Point(8, 32)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(80, 16)
+        Me.Label1.Size = New System.Drawing.Size(96, 18)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Summary File:"
         '
@@ -96,10 +96,10 @@ Public Class SummaryFileUI
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RichTextBox.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RichTextBox.Location = New System.Drawing.Point(0, 40)
+        Me.RichTextBox.Location = New System.Drawing.Point(0, 64)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(860, 543)
+        Me.RichTextBox.Size = New System.Drawing.Size(940, 1088)
         Me.RichTextBox.TabIndex = 3
         Me.RichTextBox.Text = ""
         '
@@ -110,13 +110,17 @@ Public Class SummaryFileUI
         '
         'SummaryFileUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(860, 584)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(940, 545)
         Me.Controls.Add(Me.RichTextBox)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.BrowseButton)
         Me.Controls.Add(Me.SummaryFileTextBox)
         Me.Name = "SummaryFileUI"
+        Me.Controls.SetChildIndex(Me.SummaryFileTextBox, 0)
+        Me.Controls.SetChildIndex(Me.BrowseButton, 0)
+        Me.Controls.SetChildIndex(Me.Label1, 0)
+        Me.Controls.SetChildIndex(Me.RichTextBox, 0)
         Me.ResumeLayout(False)
 
     End Sub
@@ -129,6 +133,7 @@ Public Class SummaryFileUI
             Dim filename As String = GetValue("filename")
             SummaryFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
+            HelpLabel.Text = "Enter the name of the summary file in the edit box at the top. The contents of the file will be displayed in the large window above."
 
 
             If File.Exists(filename) Then

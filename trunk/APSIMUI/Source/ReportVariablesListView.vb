@@ -47,12 +47,14 @@ Public Class ReportVariablesListView
         'ListView
         '
         Me.ListView.AllowDrop = True
+        Me.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.AliasColumn, Me.ModuleColumn, Me.NameColumn, Me.DescriptionColumn})
         Me.ListView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.ListView.LabelEdit = True
-        Me.ListView.Location = New System.Drawing.Point(0, 0)
+        Me.ListView.Location = New System.Drawing.Point(0, 23)
         Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(648, 336)
+        Me.ListView.Size = New System.Drawing.Size(648, 313)
         Me.ListView.TabIndex = 0
         Me.ListView.View = System.Windows.Forms.View.Details
         '
@@ -81,12 +83,14 @@ Public Class ReportVariablesListView
         Me.Controls.Add(Me.ListView)
         Me.Name = "ReportVariablesListView"
         Me.Size = New System.Drawing.Size(648, 336)
+        Me.Controls.SetChildIndex(Me.ListView, 0)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
     Overrides Sub fill()
+        CaptionLabel.Text = "Output variables"
         ListView.Items.Clear()
         For Each child As String In MyData.ChildList("variable")
             Dim item As New ListViewItem

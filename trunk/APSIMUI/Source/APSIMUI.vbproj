@@ -88,12 +88,6 @@
                     HintPath = "..\..\Bin\AxInterop.SHDocVw.dll"
                 />
                 <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Bin\VBGeneral.dll"
-                    Private = "True"
-                />
-                <Reference
                     Name = "CSGeneral"
                     AssemblyName = "CSGeneral"
                     HintPath = "..\..\Bin\CSGeneral.dll"
@@ -108,6 +102,12 @@
                     Name = "accllistbar"
                     AssemblyName = "acclListBar"
                     HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\accllistbar.dll"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Bin\VBGeneral.dll"
+                    Private = "False"
                 />
             </References>
             <Imports>
@@ -195,16 +195,6 @@
                 <File
                     RelPath = "DocumentationUI.resx"
                     DependentUpon = "DocumentationUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "EnhancedListView.vb"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EnhancedListView.resx"
-                    DependentUpon = "EnhancedListView.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -318,16 +308,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "OldOutputFileUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OldOutputFileUI.resx"
-                    DependentUpon = "OldOutputFileUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "OptionsForm.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -345,16 +325,6 @@
                 <File
                     RelPath = "OutputFileUI.resx"
                     DependentUpon = "OutputFileUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OutputUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OutputUI.resx"
-                    DependentUpon = "OutputUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

@@ -42,7 +42,8 @@ Public Class MetUI
     Friend WithEvents FileContentsTab As System.Windows.Forms.TabPage
     Friend WithEvents GraphTab As System.Windows.Forms.TabPage
     Friend WithEvents RichTextBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents MetGraphControl As APSIMUI.MetGraphControl
+    Friend WithEvents MetGraphControl1 As APSIMUI.MetGraphControl
+    Friend WithEvents FileMissingLabel As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetUI))
@@ -56,7 +57,8 @@ Public Class MetUI
         Me.FileContentsTab = New System.Windows.Forms.TabPage
         Me.RichTextBox = New System.Windows.Forms.RichTextBox
         Me.GraphTab = New System.Windows.Forms.TabPage
-        Me.MetGraphControl = New APSIMUI.MetGraphControl
+        Me.MetGraphControl1 = New APSIMUI.MetGraphControl
+        Me.FileMissingLabel = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.FileContentsTab.SuspendLayout()
         Me.GraphTab.SuspendLayout()
@@ -69,9 +71,9 @@ Public Class MetUI
         Me.MetFileTextBox.AutoSize = False
         Me.MetFileTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.MetFileTextBox.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.MetFileTextBox.Location = New System.Drawing.Point(80, 8)
+        Me.MetFileTextBox.Location = New System.Drawing.Point(104, 32)
         Me.MetFileTextBox.Name = "MetFileTextBox"
-        Me.MetFileTextBox.Size = New System.Drawing.Size(842, 24)
+        Me.MetFileTextBox.Size = New System.Drawing.Size(729, 28)
         Me.MetFileTextBox.TabIndex = 0
         Me.MetFileTextBox.Text = ""
         '
@@ -81,9 +83,9 @@ Public Class MetUI
         Me.BrowseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BrowseButton.ImageIndex = 0
         Me.BrowseButton.ImageList = Me.ImageList
-        Me.BrowseButton.Location = New System.Drawing.Point(930, 8)
+        Me.BrowseButton.Location = New System.Drawing.Point(840, 32)
         Me.BrowseButton.Name = "BrowseButton"
-        Me.BrowseButton.Size = New System.Drawing.Size(80, 24)
+        Me.BrowseButton.Size = New System.Drawing.Size(96, 28)
         Me.BrowseButton.TabIndex = 1
         Me.BrowseButton.Text = "Browse"
         Me.BrowseButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -96,9 +98,9 @@ Public Class MetUI
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(8, 11)
+        Me.Label1.Location = New System.Drawing.Point(16, 32)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(72, 16)
+        Me.Label1.Size = New System.Drawing.Size(86, 18)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Weather File:"
         '
@@ -114,18 +116,18 @@ Public Class MetUI
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl.Controls.Add(Me.FileContentsTab)
         Me.TabControl.Controls.Add(Me.GraphTab)
-        Me.TabControl.Location = New System.Drawing.Point(0, 40)
+        Me.TabControl.Location = New System.Drawing.Point(0, 96)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(1010, 448)
+        Me.TabControl.Size = New System.Drawing.Size(936, 872)
         Me.TabControl.TabIndex = 4
         '
         'FileContentsTab
         '
         Me.FileContentsTab.Controls.Add(Me.RichTextBox)
-        Me.FileContentsTab.Location = New System.Drawing.Point(4, 22)
+        Me.FileContentsTab.Location = New System.Drawing.Point(4, 25)
         Me.FileContentsTab.Name = "FileContentsTab"
-        Me.FileContentsTab.Size = New System.Drawing.Size(1002, 422)
+        Me.FileContentsTab.Size = New System.Drawing.Size(928, 843)
         Me.FileContentsTab.TabIndex = 0
         Me.FileContentsTab.Text = "FileContents"
         '
@@ -136,36 +138,54 @@ Public Class MetUI
         Me.RichTextBox.Location = New System.Drawing.Point(0, 0)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(1002, 422)
+        Me.RichTextBox.Size = New System.Drawing.Size(928, 843)
         Me.RichTextBox.TabIndex = 4
         Me.RichTextBox.Text = ""
         '
         'GraphTab
         '
-        Me.GraphTab.Controls.Add(Me.MetGraphControl)
-        Me.GraphTab.Location = New System.Drawing.Point(4, 22)
+        Me.GraphTab.Controls.Add(Me.MetGraphControl1)
+        Me.GraphTab.Location = New System.Drawing.Point(4, 25)
         Me.GraphTab.Name = "GraphTab"
-        Me.GraphTab.Size = New System.Drawing.Size(1002, 422)
+        Me.GraphTab.Size = New System.Drawing.Size(90, 432)
         Me.GraphTab.TabIndex = 1
         Me.GraphTab.Text = "Graph"
         '
-        'MetGraphControl
+        'MetGraphControl1
         '
-        Me.MetGraphControl.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.MetGraphControl.Location = New System.Drawing.Point(0, 0)
-        Me.MetGraphControl.Name = "MetGraphControl"
-        Me.MetGraphControl.Size = New System.Drawing.Size(1002, 422)
-        Me.MetGraphControl.TabIndex = 0
+        Me.MetGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.MetGraphControl1.Location = New System.Drawing.Point(0, 0)
+        Me.MetGraphControl1.Name = "MetGraphControl1"
+        Me.MetGraphControl1.Size = New System.Drawing.Size(90, 432)
+        Me.MetGraphControl1.TabIndex = 0
+        '
+        'FileMissingLabel
+        '
+        Me.FileMissingLabel.AutoSize = True
+        Me.FileMissingLabel.ForeColor = System.Drawing.Color.Red
+        Me.FileMissingLabel.Location = New System.Drawing.Point(104, 64)
+        Me.FileMissingLabel.Name = "FileMissingLabel"
+        Me.FileMissingLabel.Size = New System.Drawing.Size(626, 18)
+        Me.FileMissingLabel.TabIndex = 5
+        Me.FileMissingLabel.Text = "The specified meteorological data file does not exist at the given location.  Ple" & _
+        "ase check file specification."
+        Me.FileMissingLabel.Visible = False
         '
         'MetUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1018, 488)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(940, 545)
+        Me.Controls.Add(Me.FileMissingLabel)
         Me.Controls.Add(Me.TabControl)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.BrowseButton)
         Me.Controls.Add(Me.MetFileTextBox)
         Me.Name = "MetUI"
+        Me.Controls.SetChildIndex(Me.MetFileTextBox, 0)
+        Me.Controls.SetChildIndex(Me.BrowseButton, 0)
+        Me.Controls.SetChildIndex(Me.Label1, 0)
+        Me.Controls.SetChildIndex(Me.TabControl, 0)
+        Me.Controls.SetChildIndex(Me.FileMissingLabel, 0)
         Me.TabControl.ResumeLayout(False)
         Me.FileContentsTab.ResumeLayout(False)
         Me.GraphTab.ResumeLayout(False)
@@ -182,19 +202,17 @@ Public Class MetUI
             MetFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
 
-            MetGraphControl.Data = Mydata
 
             If File.Exists(filename) Then
                 Dim text As String
                 Dim sr As StreamReader = New StreamReader(filename)
                 text = sr.ReadToEnd
                 RichTextBox.Text = text
+                FileMissingLabel.Visible = False
             Else
-                MsgBox("The specified meteorological data file does not exist at the given location.  Please check file specification.", MsgBoxStyle.Critical, "File does not exist.")
+                FileMissingLabel.Visible = True
 
             End If
-
-
 
         Catch E As Exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Met UI")

@@ -39,10 +39,10 @@ Public Class LogicUI
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.InitTab = New System.Windows.Forms.TabPage
-        Me.StartOfDayTab = New System.Windows.Forms.TabPage
-        Me.EndOfDayTab = New System.Windows.Forms.TabPage
         Me.InitTextBox = New System.Windows.Forms.RichTextBox
+        Me.StartOfDayTab = New System.Windows.Forms.TabPage
         Me.StartOfDayTextBox = New System.Windows.Forms.RichTextBox
+        Me.EndOfDayTab = New System.Windows.Forms.TabPage
         Me.EndOfDayTextBox = New System.Windows.Forms.RichTextBox
         Me.TabControl.SuspendLayout()
         Me.InitTab.SuspendLayout()
@@ -59,72 +59,73 @@ Public Class LogicUI
         Me.TabControl.Location = New System.Drawing.Point(0, 0)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(1072, 705)
+        Me.TabControl.Size = New System.Drawing.Size(940, 668)
         Me.TabControl.TabIndex = 0
         '
         'InitTab
         '
         Me.InitTab.Controls.Add(Me.InitTextBox)
-        Me.InitTab.Location = New System.Drawing.Point(4, 22)
+        Me.InitTab.Location = New System.Drawing.Point(4, 25)
         Me.InitTab.Name = "InitTab"
-        Me.InitTab.Size = New System.Drawing.Size(1064, 679)
+        Me.InitTab.Size = New System.Drawing.Size(932, 639)
         Me.InitTab.TabIndex = 0
         Me.InitTab.Text = "Initialisation"
-        '
-        'StartOfDayTab
-        '
-        Me.StartOfDayTab.Controls.Add(Me.StartOfDayTextBox)
-        Me.StartOfDayTab.Location = New System.Drawing.Point(4, 22)
-        Me.StartOfDayTab.Name = "StartOfDayTab"
-        Me.StartOfDayTab.Size = New System.Drawing.Size(1064, 679)
-        Me.StartOfDayTab.TabIndex = 1
-        Me.StartOfDayTab.Text = "Start Of Day"
-        '
-        'EndOfDayTab
-        '
-        Me.EndOfDayTab.Controls.Add(Me.EndOfDayTextBox)
-        Me.EndOfDayTab.Location = New System.Drawing.Point(4, 22)
-        Me.EndOfDayTab.Name = "EndOfDayTab"
-        Me.EndOfDayTab.Size = New System.Drawing.Size(1064, 679)
-        Me.EndOfDayTab.TabIndex = 2
-        Me.EndOfDayTab.Text = "End Of Day"
         '
         'InitTextBox
         '
         Me.InitTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.InitTextBox.Location = New System.Drawing.Point(0, 0)
         Me.InitTextBox.Name = "InitTextBox"
-        Me.InitTextBox.Size = New System.Drawing.Size(1064, 679)
+        Me.InitTextBox.Size = New System.Drawing.Size(932, 639)
         Me.InitTextBox.TabIndex = 0
         Me.InitTextBox.Text = ""
         Me.InitTextBox.WordWrap = False
+        '
+        'StartOfDayTab
+        '
+        Me.StartOfDayTab.Controls.Add(Me.StartOfDayTextBox)
+        Me.StartOfDayTab.Location = New System.Drawing.Point(4, 25)
+        Me.StartOfDayTab.Name = "StartOfDayTab"
+        Me.StartOfDayTab.Size = New System.Drawing.Size(1278, 784)
+        Me.StartOfDayTab.TabIndex = 1
+        Me.StartOfDayTab.Text = "Start Of Day"
         '
         'StartOfDayTextBox
         '
         Me.StartOfDayTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.StartOfDayTextBox.Location = New System.Drawing.Point(0, 0)
         Me.StartOfDayTextBox.Name = "StartOfDayTextBox"
-        Me.StartOfDayTextBox.Size = New System.Drawing.Size(1064, 679)
+        Me.StartOfDayTextBox.Size = New System.Drawing.Size(1278, 784)
         Me.StartOfDayTextBox.TabIndex = 1
         Me.StartOfDayTextBox.Text = ""
         Me.StartOfDayTextBox.WordWrap = False
+        '
+        'EndOfDayTab
+        '
+        Me.EndOfDayTab.Controls.Add(Me.EndOfDayTextBox)
+        Me.EndOfDayTab.Location = New System.Drawing.Point(4, 25)
+        Me.EndOfDayTab.Name = "EndOfDayTab"
+        Me.EndOfDayTab.Size = New System.Drawing.Size(1278, 784)
+        Me.EndOfDayTab.TabIndex = 2
+        Me.EndOfDayTab.Text = "End Of Day"
         '
         'EndOfDayTextBox
         '
         Me.EndOfDayTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.EndOfDayTextBox.Location = New System.Drawing.Point(0, 0)
         Me.EndOfDayTextBox.Name = "EndOfDayTextBox"
-        Me.EndOfDayTextBox.Size = New System.Drawing.Size(1064, 679)
+        Me.EndOfDayTextBox.Size = New System.Drawing.Size(1278, 784)
         Me.EndOfDayTextBox.TabIndex = 2
         Me.EndOfDayTextBox.Text = ""
         Me.EndOfDayTextBox.WordWrap = False
         '
         'LogicUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(1072, 705)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(940, 668)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "LogicUI"
+        Me.Controls.SetChildIndex(Me.TabControl, 0)
         Me.TabControl.ResumeLayout(False)
         Me.InitTab.ResumeLayout(False)
         Me.StartOfDayTab.ResumeLayout(False)
@@ -140,6 +141,7 @@ Public Class LogicUI
         InitTextBox.Text = Replace(GetValue("init"), "[cr]", vbCrLf)
         StartOfDayTextBox.Text = Replace(GetValue("startofday"), "[cr]", vbCrLf)
         EndOfDayTextBox.Text = Replace(GetValue("endofday"), "[cr]", vbCrLf)
+        HelpLabel.Text = "Enter you management logic into the edit box above."
     End Sub
 
 

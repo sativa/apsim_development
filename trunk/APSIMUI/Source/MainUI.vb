@@ -25,12 +25,16 @@ Public Class MainUI
         InitializeComponent()
 
         'Add any initialization after the InitializeComponent() call
-        HelpBrowser.Navigate("c:\development\docs\documentation.xml")
+        Dim settings As New APSIMSettings
+        Dim documentationFile As String = settings.GetSetting("apsimui", "docfile")
+        HelpBrowser.Navigate(documentationFile)
 
         ' Tell the UI manager where everything is
         MainUImanager.UIPanel = UIPanel
         MainUImanager.SimulationExplorer = SimulationExplorer
         MainUImanager.MainForm = Me
+        SimulationExplorer.UIManager = MainUImanager
+        SimulationExplorer.Caption = "Simulation"
 
         'Event Handlers
         AddHandler SimulationExplorer.DataSelectedEvent, AddressOf OnDataSelected
@@ -106,10 +110,6 @@ Public Class MainUI
     Friend WithEvents MenuItem5 As System.Windows.Forms.MenuItem
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
-    Friend WithEvents DataTree1 As DataTree
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
-    Friend WithEvents SimulationExplorer As DataTree
-    Friend WithEvents UIPanel As System.Windows.Forms.Panel
     Friend WithEvents EmailButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents NewsButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents SeparatorButton As System.Windows.Forms.ToolBarButton
@@ -124,6 +124,9 @@ Public Class MainUI
     Friend WithEvents HelpMenuChange As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem10 As System.Windows.Forms.MenuItem
+    Friend WithEvents SimulationExplorer As APSIMUI.DataTree
+    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
+    Friend WithEvents UIPanel As System.Windows.Forms.Panel
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -193,7 +196,6 @@ Public Class MainUI
         Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.DataTree1 = New APSIMUI.DataTree
         Me.SimulationExplorer = New APSIMUI.DataTree
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
@@ -354,9 +356,9 @@ Public Class MainUI
         '
         'StatusBar1
         '
-        Me.StatusBar1.Location = New System.Drawing.Point(0, 467)
+        Me.StatusBar1.Location = New System.Drawing.Point(0, 539)
         Me.StatusBar1.Name = "StatusBar1"
-        Me.StatusBar1.Size = New System.Drawing.Size(960, 22)
+        Me.StatusBar1.Size = New System.Drawing.Size(1152, 25)
         Me.StatusBar1.TabIndex = 0
         Me.StatusBar1.Text = "StatusBar1"
         '
@@ -369,7 +371,7 @@ Public Class MainUI
         Me.ToolBar1.Location = New System.Drawing.Point(0, 0)
         Me.ToolBar1.Name = "ToolBar1"
         Me.ToolBar1.ShowToolTips = True
-        Me.ToolBar1.Size = New System.Drawing.Size(960, 36)
+        Me.ToolBar1.Size = New System.Drawing.Size(1152, 36)
         Me.ToolBar1.TabIndex = 1
         Me.ToolBar1.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -519,9 +521,9 @@ Public Class MainUI
         'HorizontalSplitter
         '
         Me.HorizontalSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 262)
+        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 302)
         Me.HorizontalSplitter.Name = "HorizontalSplitter"
-        Me.HorizontalSplitter.Size = New System.Drawing.Size(960, 5)
+        Me.HorizontalSplitter.Size = New System.Drawing.Size(1152, 6)
         Me.HorizontalSplitter.TabIndex = 10
         Me.HorizontalSplitter.TabStop = False
         '
@@ -530,9 +532,9 @@ Public Class MainUI
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowsertoolBar)
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowser)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 267)
+        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 308)
         Me.HelpBrowserPanel.Name = "HelpBrowserPanel"
-        Me.HelpBrowserPanel.Size = New System.Drawing.Size(960, 200)
+        Me.HelpBrowserPanel.Size = New System.Drawing.Size(1152, 231)
         Me.HelpBrowserPanel.TabIndex = 11
         '
         'HelpBrowsertoolBar
@@ -546,7 +548,7 @@ Public Class MainUI
         Me.HelpBrowsertoolBar.Location = New System.Drawing.Point(0, 0)
         Me.HelpBrowsertoolBar.Name = "HelpBrowsertoolBar"
         Me.HelpBrowsertoolBar.ShowToolTips = True
-        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(960, 20)
+        Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(1152, 23)
         Me.HelpBrowsertoolBar.TabIndex = 9
         Me.HelpBrowsertoolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
@@ -568,58 +570,48 @@ Public Class MainUI
         '
         'HelpBrowser
         '
-        Me.HelpBrowser.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.HelpBrowser.ContainingControl = Me
+        Me.HelpBrowser.Dock = System.Windows.Forms.DockStyle.Fill
         Me.HelpBrowser.Enabled = True
-        Me.HelpBrowser.Location = New System.Drawing.Point(0, 24)
+        Me.HelpBrowser.Location = New System.Drawing.Point(0, 0)
         Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.HelpBrowser.Size = New System.Drawing.Size(964, 180)
+        Me.HelpBrowser.Size = New System.Drawing.Size(1152, 231)
         Me.HelpBrowser.TabIndex = 8
         '
         'SaveFileDialog
         '
         Me.SaveFileDialog.Filter = "XML Files|*.xml|All Files|*.*"
         '
-        'DataTree1
-        '
-        Me.DataTree1.LabelEdit = False
-        Me.DataTree1.Location = New System.Drawing.Point(0, 0)
-        Me.DataTree1.Name = "DataTree1"
-        Me.DataTree1.Size = New System.Drawing.Size(344, 488)
-        Me.DataTree1.TabIndex = 0
-        '
         'SimulationExplorer
         '
-        Me.SimulationExplorer.AllowDrop = True
         Me.SimulationExplorer.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SimulationExplorer.LabelEdit = True
+        Me.SimulationExplorer.LabelEdit = False
         Me.SimulationExplorer.Location = New System.Drawing.Point(0, 36)
         Me.SimulationExplorer.Name = "SimulationExplorer"
-        Me.SimulationExplorer.Size = New System.Drawing.Size(240, 226)
-        Me.SimulationExplorer.TabIndex = 13
+        Me.SimulationExplorer.Size = New System.Drawing.Size(216, 266)
+        Me.SimulationExplorer.TabIndex = 19
+        Me.SimulationExplorer.UIManager = Nothing
         '
         'Splitter1
         '
-        Me.Splitter1.Location = New System.Drawing.Point(240, 36)
+        Me.Splitter1.Location = New System.Drawing.Point(216, 36)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(5, 226)
-        Me.Splitter1.TabIndex = 14
+        Me.Splitter1.Size = New System.Drawing.Size(3, 266)
+        Me.Splitter1.TabIndex = 20
         Me.Splitter1.TabStop = False
         '
         'UIPanel
         '
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UIPanel.Location = New System.Drawing.Point(245, 36)
+        Me.UIPanel.Location = New System.Drawing.Point(219, 36)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(715, 226)
-        Me.UIPanel.TabIndex = 15
+        Me.UIPanel.Size = New System.Drawing.Size(933, 266)
+        Me.UIPanel.TabIndex = 21
         '
         'MainUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(960, 489)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(1152, 564)
         Me.Controls.Add(Me.UIPanel)
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.SimulationExplorer)
@@ -950,5 +942,9 @@ Public Class MainUI
         Catch ex As Exception
 
         End Try
+    End Sub
+
+    Private Sub UIPanel_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs)
+
     End Sub
 End Class
