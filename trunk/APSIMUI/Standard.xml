@@ -1,5 +1,7 @@
 <toolbox name="Standard">
   <area name="paddock" />
+  <folder name="folder">
+  </folder>
   <clock name="clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
     <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
@@ -49,7 +51,7 @@
         <property name="surface_up" value="2" type="text" description="Enter upper limit of sw in top layer (0-2) (mm esw/mm soil) : " />
       </category>
       <category name="Sowing parameters">
-        <property name="crop" value="wheat" type="modulename" moduletype="crop" description="Enter name of crop to sow : " />
+        <property name="crop" value="wheat" type="modulename" moduletype="Crop" description="Enter name of crop to sow : " />
         <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -110,10 +112,70 @@
     <height name="height">1000.</height>
     <Frgr name="Frgr">1.0</Frgr>
   </slurp>
-  <plant>
-    <type name="type">wheat</type>
-  </plant>
-  <ozcot name="cotton"/>
+  <crops>
+    <type>standard_crops</type>
+    <plant name="canola">
+      <type name="type">canola</type>
+    </plant>
+    <plant name="chickpea">
+      <type name="type">chickpea</type>
+    </plant>
+    <plant name="cowpea">
+      <type name="type">cowpea</type>
+    </plant>
+    <plant name="fababean">
+      <type name="type">fababean</type>
+    </plant>
+    <plant name="fieldpea">
+      <type name="type">fieldpea</type>
+    </plant>
+    <plant name="lablab">
+      <type name="type">lablab</type>
+    </plant>
+    <plant name="lucerne">
+      <type name="type">lucerne</type>
+    </plant>
+    <plant name="lupin">
+      <type name="type">lupin</type>
+    </plant>
+    <plant name="maize">
+      <type name="type">maize</type>
+    </plant>
+    <plant name="mucuna">
+      <type name="type">mucuna</type>
+    </plant>
+    <plant name="mungbean">
+      <type name="type">mungbean</type>
+    </plant>
+    <plant name="navybean">
+      <type name="type">navybean</type>
+    </plant>
+    <plant name="peanut">
+      <type name="type">peanut</type>
+    </plant>
+    <plant name="pigeonp">
+      <type name="type">pigeonp</type>
+    </plant>
+    <plant name="sorghum">
+      <type name="type">sorghum</type>
+    </plant>
+    <plant name="soybean">
+      <type name="type">soybean</type>
+    </plant>
+    <plant name="stylo">
+      <type name="type">stylo</type>
+    </plant>
+    <plant name="sunflower">
+      <type name="type">sunflower</type>
+    </plant>
+    <plant name="weed">
+      <type name="type">weed</type>
+    </plant>
+    <plant name="wheat">
+      <type name="type">wheat</type>
+    </plant>
+  </crops>
+  <ozcot name="cotton" />
   <outputfiledescription name="My Variables">
     <variables>
       <variable alias="year" name="year" module="clock" description="Year" />
@@ -158,11 +220,11 @@
     </sheep>
   </stock>
   <surfaceom name="wheat residue">
-     <PoolName>wheat_stubble</PoolName>
-     <type>wheat</type>
-     <mass>1000.</mass>
-     <cnr>80.0</cnr>
-     <standing_fraction>0.0</standing_fraction>
+    <PoolName>wheat_stubble</PoolName>
+    <type>wheat</type>
+    <mass>1000.</mass>
+    <cnr>80.0</cnr>
+    <standing_fraction>0.0</standing_fraction>
   </surfaceom>
   <vinelogic name="vinelogic">
     <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
