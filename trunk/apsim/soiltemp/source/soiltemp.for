@@ -1,9 +1,132 @@
+      module SoilTempModule
+! ====================================================================
+!     soilTemp constants
+! ====================================================================
+
+!   Short Description:
+!      general variables used in soiltemp module
+
+!   Notes:
+
+!   attributes:
+!      version:         any hardware/fortran77
+!      extensions:      long names <= 20 chars.
+!                       lowercase
+!                       underscore
+!                       inline comments
+
+!   Changes:
+!      1/6/94  vos programmed
+
+! ----------------------- Declaration section ------------------------
+      integer    max_layer                ! Maximum no of soil layers.
+      parameter (max_layer = 100)
+
+      integer    max_node                ! Maximum no of nodes.
+      parameter (max_node = max_layer + 3)
+
+      character  module_name*(*)       ! name of this module
+      parameter (module_name='soiltemp')
+
+      real        pi
+      parameter   (pi = 3.141592654)
+
+      real        t_abs                 !0 C in Kelvin (K)
+      parameter   (t_abs = 273.2)
+
+      real        lambda
+      parameter   (lambda = 2.465e6)   !latent heat of vapourisation for water (
+
+! ====================================================================
+      type SoilTempGlobals
+
+         integer*4 time
+
+         integer  nz                     ! number of nodes
+         integer  num_layer              ! numbr of soil layers in profile
+         real  dt_max
+         real  dt
+         real  C1(max_node)              !soil solids thermal conductivity parameter
+         real  C2(max_node)              !soil solids thermal conductivity parameter
+         real  C3(max_node)              !soil solids thermal conductivity parameter
+         real  C4(max_node)              !soil solids thermal conductivity parameter
+         real  heat_store(max_node)      !heat storage
+         real  t(0:max_node)             !soil temperature
+         real  therm_cond(0:max_node)    !thermal conductivity
+         real  tn(0:max_node)            !soil temperature at the end of this iteration
+         real  z(0:max_node)             ! node depths - get from water module, metres
+         real airt
+         real maxt_yesterday
+         real mint_yesterday
+         real soil_temp(max_node)        !average soil temperature
+         real mint_soil(max_node)        !minimum soil temperature
+         real maxt_soil(max_node)        !maximum soil temperature
+
+
+      end type SoilTempGlobals
+! ====================================================================
+      type SoilTempExternals
+         real t_ave                       !annual average soil temperature
+         real  timestep
+         real dlayer(max_layer)
+         real  sw(max_layer)              !volumetric water content
+         real  rhob(max_node)
+         real maxt_time                   !in hours
+         real mint
+         real maxt
+         real eos
+         real es
+      end type SoilTempExternals
+! ====================================================================
+      type SoilTempParameters
+         real  clay(max_layer)
+
+      end type SoilTempParameters
+! ====================================================================
+      type SoilTempConstants
+         real  nu                         !forward/backward differencing
+         real  vol_spec_heat_clay         !(Joules*m-3*K-1)
+         real  vol_spec_heat_om           !(Joules*m-3*K-1)
+         real  vol_spec_heat_water        !(Joules*m-3*K-1)
+
+      end type SoilTempConstants
+! ====================================================================
+
+      ! instance variables.
+      type (SoilTempGlobals), pointer :: g
+      type (SoilTempExternals), pointer :: e
+      type (SoilTempParameters), pointer :: p
+      type (SoilTempConstants), pointer :: c
+
+      save g
+      save p
+      save c
+      save e
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
+      type SoilTempDataPtr
+         type (SoilTempGlobals), pointer ::    gptr
+         type (SoilTempExternals), pointer ::  eptr
+         type (SoilTempParameters), pointer :: pptr
+         type (SoilTempConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type SoilTempDataPtr
+
+      type (SoilTempDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      save Instances
+
+      contains
+
+
 
  !     ===========================================================
       Recursive
      :subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -26,13 +149,12 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       Recursive
      :subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -53,13 +175,12 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       Recursive
      :subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -80,13 +201,12 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 * ====================================================================
       Recursive
      :subroutine Main (Action, Data_string)
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -103,7 +223,7 @@
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 
 *+  Constant Values
       character*(*) myname                 ! Name of this procedure
@@ -114,43 +234,43 @@
       if (Action.eq.ACTION_Init) then
          call soiltemp_zero_variables ()
          call soiltemp_Init ()
- 
+
       elseif (Action.eq.ACTION_Prepare) then
          call soiltemp_prepare ()
- 
+
       else if (Action.eq.ACTION_Process) then
          call soiltemp_process ()
 !         call soiltemp_set_other_variables ()
- 
+
       else if (Action.eq.ACTION_Get_variable) then
          call soiltemp_Send_my_variable (Data_string)
- 
+
 !      else if (Action.eq.ACTION_Set_variable) then
 !         call soiltemp_Set_my_variable (data_string)
- 
+
 !      elseif (Action.eq.ACTION_Post) then
                ! do any post processing
 !         call soiltemp_post ()
- 
+
 !      elseif (action.eq.ACTION_event) then
 !               ! act upon an event
 !         call soiltemp_capture_event ('data')
- 
+
 !      elseif (Action.eq.ACTION_End_run) then
                ! clean up at end of run
 !         call soiltemp_end_run ()
       elseif (Action.eq.ACTION_Create) then
          call soilTemp_zero_all_globals ()
- 
+
       else
          ! Don't use message
          call Message_unused ()
- 
+
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -158,7 +278,6 @@
       Recursive
      :subroutine soiltemp_Init ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -180,32 +299,31 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
       ! Notify system that we have initialised
- 
-      Event_string = 'Initialising : ' 
+
+      Event_string = 'Initialising : '
       call write_string (Event_string)
- 
+
       ! Get all constants from parameter file
- 
+
       call soiltemp_get_ini_variables ()
- 
+
       call soiltemp_read_constants ()
- 
+
       ! Get all parameters from parameter file
- 
+
       call soiltemp_read_param ()
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 *     ================================================================
       Recursive
      :subroutine soiltemp_process ()
 *     ================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -227,24 +345,23 @@
 
 *+  Local Variables
       integer i
-      real soiltemp_InterpTemp
       integer*4 time
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
-      g%mint_yesterday = e%mint 
-      g%maxt_yesterday = e%maxt 
+      g%mint_yesterday = e%mint
+      g%maxt_yesterday = e%maxt
       call soiltemp_get_other_variables ()
-   
+
 !zero the different temperatures
       do i=1,g%nz
          g%mint_soil(i) = 0.0
          g%maxt_soil(i) = 0.0
          g%soil_temp(i) = 0.0
       enddo
- 
+
 !calculate dt and the number it iterations
       g%dt = e%timestep/48.0    !seconds  dt is real
       do time = nint(g%dt), nint(e%timestep), nint(g%dt)
@@ -263,21 +380,21 @@
          endif
 
          g%tn(0) = g%airt
- 
+
          call soiltemp_heat(g%heat_store)
- 
+
          call soiltemp_therm(g%therm_cond)
- 
+
          call soiltemp_thomas()
- 
+
          call soiltemp_update()
- 
+
       enddo
 
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -285,7 +402,6 @@
       Recursive
      :subroutine soiltemp_heat (l_heat_store)
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -316,15 +432,15 @@
             l_heat_store(i)=(   c%vol_spec_heat_clay*(1-porosity)  +
      :                     c%vol_spec_heat_water*e%sw(i)           )
          enddo
- 
+
 !the Campbell version
 !            l_heat_store(i)=(   c%vol_spec_heat_clay*(1-porosity)  +
 !     :                     c%vol_spec_heat_water*e%sw(i)           )
 !     :      *(g%z(i+1)-g%z(i-1))/(2*real(g%dt))
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -332,7 +448,6 @@
       Recursive
      :subroutine soiltemp_therm (l_therm_cond)
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -379,10 +494,10 @@
             l_therm_cond(i)= l_therm_cond(i)* d1/(d_sum)
      :                     + l_therm_cond(i+1)* d2/(d_sum)
          enddo
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -390,12 +505,11 @@
       Recursive
      :subroutine soiltemp_thomas ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
 *+  Purpose
-*     Numerical solution of the differential equations. Solves the 
+*     Numerical solution of the differential equations. Solves the
 *     tri_diagonal matrix using the Thomas algorithm, Thomas, L.H. (1946)
 *     "Elliptic problems in linear difference equations over a network"
 *     Watson Sci Comput. Lab. Report., (Columbia University, New York)"
@@ -421,13 +535,13 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       therm(0) = g%therm_cond(0)
       do i = 1,g%nz
          heat(i) = g%heat_store(i) * 0.5 * (g%z(i+1) - g%z(i-1)) / g%dt   !rate of heat
          therm(i) = g%therm_cond(i) / (g%z(i+1)-g%z(i))     !convert to thermal conduc
       enddo
- 
+
 !My version
       a(1) = 0.0
       b(1) =   c%nu * therm(1)
@@ -469,7 +583,7 @@
      :       + g%t(g%nz) * heat(g%nz)
      :       + g%t(g%nz+1) * (1-c%nu) * therm(g%nz)
      :       + therm(g%nz) * c%nu * g%tn(g%nz+1)
- 
+
 ! the Thomas algorithm
          do i=1,g%nz-1
             cc(i)=cc(i)/b(i)
@@ -481,11 +595,11 @@
          do i = g%nz-1,1,-1
             g%tn(i)=d(i)-cc(i)*g%tn(i+1)
          enddo
- 
- 
+
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -493,7 +607,6 @@
       Recursive
      :subroutine soiltemp_update ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -517,11 +630,11 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       do i=0,g%nz+1
          g%t(i) = g%tn(i)
       enddo
- 
+
 !set the min & max to soil temperature if this is the first iteration
       if (int(g%time) .lt. g%dt*1.2) then
          do i=1,g%nz
@@ -529,16 +642,16 @@
             g%maxt_soil(i) = g%t(i)
          enddo
       endif
- 
+
       do i=1,g%nz
          if (g%t(i) .lt. g%mint_soil(i)) g%mint_soil(i) = g%t(i)
          if (g%t(i) .gt. g%maxt_soil(i)) g%maxt_soil(i) = g%t(i)
          g%soil_temp(i) = g%soil_temp(i) + g%t(i)/48.0
       enddo
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -546,7 +659,6 @@
       Recursive
      :subroutine soiltemp_zero_all_globals ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -565,34 +677,34 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
          g%time = 0
          g%nz          = 0
          g%num_layer   = 0
          g%dt_max      = 0.0
          g%dt          = 0.0
-         g%C1(:)       = 0.0       
-         g%C2(:)       = 0.0       
-         g%C3(:)       = 0.0       
-         g%C4(:)       = 0.0       
-         g%heat_store(:)  = 0.0    
-         g%t(:)           = 0.0  
-         g%therm_cond(:)  = 0.0  
-         g%tn(:)          = 0.0  
-         g%z(:)           = 0.0  
+         g%C1(:)       = 0.0
+         g%C2(:)       = 0.0
+         g%C3(:)       = 0.0
+         g%C4(:)       = 0.0
+         g%heat_store(:)  = 0.0
+         g%t(:)           = 0.0
+         g%therm_cond(:)  = 0.0
+         g%tn(:)          = 0.0
+         g%z(:)           = 0.0
          g%airt           = 0.0
          g%maxt_yesterday = 0.0
          g%mint_yesterday = 0.0
-         g%soil_temp(:)   = 0.0     
-         g%mint_soil(:)   = 0.0     
-         g%maxt_soil(:)   = 0.0   
+         g%soil_temp(:)   = 0.0
+         g%mint_soil(:)   = 0.0
+         g%maxt_soil(:)   = 0.0
 
-         e%t_ave       = 0.0              
+         e%t_ave       = 0.0
          e%timestep    = 0.0
          e%dlayer(:)   = 0.0
-         e%sw(:)       = 0.0      
+         e%sw(:)       = 0.0
          e%rhob(:)     = 0.0
-         e%maxt_time   = 0.0              
+         e%maxt_time   = 0.0
          e%mint        = 0.0
          e%maxt        = 0.0
          e%eos         = 0.0
@@ -601,22 +713,21 @@
          p%clay(:)              = 0.0
 
          c%nu                   = 0.0
-         c%vol_spec_heat_clay   = 0.0  
-         c%vol_spec_heat_om     = 0.0  
-         c%vol_spec_heat_water  = 0.0  
+         c%vol_spec_heat_clay   = 0.0
+         c%vol_spec_heat_om     = 0.0
+         c%vol_spec_heat_water  = 0.0
 
 
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 * ====================================================================
       Recursive
      :subroutine soiltemp_zero_variables ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -635,13 +746,13 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !      call fill_real_array(???,?value?,?size?)
- 
+
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 
 
 
@@ -649,7 +760,6 @@
       Recursive
      :subroutine soiltemp_prepare ()
 *     ================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -667,14 +777,14 @@
       parameter (myname = 'soiltemp_prepare')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
       call soiltemp_zero_daily_variables ()
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -682,7 +792,6 @@
       Recursive
      :subroutine soiltemp_get_other_variables ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -705,7 +814,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !t_ave = annual average temperture
       call get_real_var (
      :      unknown_module ! module that responds (not used)
@@ -715,8 +824,8 @@
      :          ,numvals             ! number of values returned
      :          ,-30.0                  !lower
      :          ,40.0)                 !upper
- 
- 
+
+
 !timestep
       call get_real_var (
      :      unknown_module ! module that responds (not used)
@@ -747,7 +856,7 @@
       g%z(1) = 0.0
          g%z(2) = 0.5*e%dlayer(1) /1000.0
       do i=2,g%nz
-         g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0         
+         g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0
       enddo
       g%z(g%nz+1) = g%z(g%nz) + 10.0 !add 2 meters - should always be enough to assume c
       e%dlayer(g%num_layer+1) = 10.0 - 0.5*e%dlayer(g%num_layer)
@@ -767,7 +876,7 @@
        !cjh do i=1,g%nz
        !cjh    e%sw(i) = 0.25
        !cjh enddo
- 
+
 !rhob(i)
       call get_real_array (
      :      unknown_module ! module that responds (not used)
@@ -781,8 +890,8 @@
       if (numvals.ne.g%num_layer) call fatal_error(ERR_USER,
      :'All soil variables must have the same number of layers')
       e%rhob(g%nz) = e%rhob(numvals)
- 
- 
+
+
 !maxt_time time at which get maximum temperature (min)
       call get_real_var_optional (
      :           unknown_module         ! section header
@@ -792,7 +901,7 @@
      :          ,numvals             ! number of values returned
      :          ,0.0                  !lower
      :          ,24.0)                 !upper
- 
+
 !mint
       call get_real_var (
      :      unknown_module ! module that responds (not used)
@@ -811,7 +920,7 @@
      :     ,numvals         ! number of values returned
      :     ,-100.0            ! lower limit for bound checking
      :     ,100.0)           ! upper limit for bound checking
- 
+
 !eos
       call get_real_var_optional (
      :      unknown_module ! module that responds (not used)
@@ -822,7 +931,7 @@
      :     ,0.0            ! lower limit for bound checking
      :     ,100.0)           ! upper limit for bound checking
       if (numvals .eq. 0) e%eos =0.0
- 
+
 !es
       call get_real_var_optional (
      :      unknown_module ! module that responds (not used)
@@ -833,10 +942,10 @@
      :     ,0.0            ! lower limit for bound checking
      :     ,100.0)           ! upper limit for bound checking
       if (numvals .eq. 0) e%es = 0.0
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -844,10 +953,9 @@
       Recursive
      :subroutine soiltemp_Send_my_variable (Variable_name)
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
- 
+
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -860,7 +968,7 @@
 
 *+  Changes
 *    ????
-*    070896 jngh added message_unused call at end
+*    070896 jngh added message_unused call at end subroutine
 *                changed all literals of first argument in Respond2Get
 *                to variable_name
 
@@ -874,7 +982,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !final_soil_temp(0:max_layer)
       if (variable_name .eq. 'final_soil_temp') then
          do i=1,g%num_layer
@@ -891,7 +999,7 @@
      :               variable_name            ! variable name
      :              ,'(oC)'           ! variable units
      :              ,g%t(1)              ! variable
-     :              )             
+     :              )
 !soil_temp
       elseif (variable_name .eq. 'ave_soil_temp') then
          do i=1,g%num_layer
@@ -908,7 +1016,7 @@
      :               variable_name            ! variable name
      :              ,'(oC)'           ! variable units
      :              ,g%soil_temp(1)              ! variable
-     :              )            
+     :              )
 !mint_soil
       elseif (variable_name .eq. 'mint_soil') then
          do i=1,g%num_layer
@@ -966,19 +1074,18 @@
 
       else
          call Message_unused ()
- 
+
       endif
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine soiltemp_read_param ()
 *     ===========================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -1005,9 +1112,9 @@
       integer i
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
- 
+
 !clay(i) = 0.12
       call read_real_array (
      :           section_name         ! section header
@@ -1027,8 +1134,8 @@
          g%c3(i) = 1.0 + 2.6* 1/(sqrt(p%clay(i)))  !c  is the water content where co
          g%c4(i) = 0.03 + 0.1 * e%rhob(i)**2  !D  assume mineral soil particle d
       enddo
- 
- 
+
+
 !t(i) = initial temperature - if not there then set to average temperature
       call read_real_array_optional (
      :           section_name         ! section header
@@ -1057,7 +1164,7 @@
          g%t(0) = e%t_ave
          g%tn(0) = e%t_ave
        endif
- 
+
 !therm_cond(0) = 20.0 ! boundary layer condictance W m-2 K-1
       call read_real_var (
      :           section_name         ! section header
@@ -1068,18 +1175,17 @@
      :          ,0.0                  !lower
      :          ,100.0)                 !upper
       g%therm_cond(0) = temp
- 
- 
+
+
       call pop_routine  (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine soiltemp_read_constants ()
 *     ===========================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -1103,9 +1209,9 @@
       integer    numvals               ! number of values read
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
-  
+
 !nu = 0.6 - forward or backward difference
       call read_real_var (
      :           section_name         ! section header
@@ -1142,10 +1248,10 @@
      :          ,numvals             ! number of values returned
      :          ,1e6                  !lower
      :          ,1e7)                 !upper
- 
+
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -1153,7 +1259,6 @@
       Recursive
      :subroutine soiltemp_zero_daily_variables ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -1172,12 +1277,12 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !      call fill_real_array(???,?value?,?size?)
       call pop_routine (myname)
- 
+
       return
-      end
+      end subroutine
 *====================================================================
       Recursive
      :real function soiltemp_InterpTemp (
@@ -1227,7 +1332,7 @@
       parameter (pi = 3.14159)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (myname)
 
       p_time = time / 24.0
@@ -1250,13 +1355,12 @@
       call pop_routine (myname)
 
       return
-      end
+      end function
 
 * ====================================================================
       Recursive
      :subroutine soiltemp_get_ini_variables ()
 * ====================================================================
-      use SoilTempModule
       Use infrastructure
       implicit none
 
@@ -1279,7 +1383,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 !t_ave = annual average temperture
       call get_real_var (
      :      unknown_module ! module that responds (not used)
@@ -1289,8 +1393,8 @@
      :          ,numvals             ! number of values returned
      :          ,-30.0                  !lower
      :          ,40.0)                 !upper
- 
- 
+
+
 !timestep
       call get_real_var (
      :      unknown_module ! module that responds (not used)
@@ -1322,7 +1426,7 @@
       g%z(1) = 0.0
          g%z(2) = 0.5*e%dlayer(1) /1000.0
       do i=2,g%nz
-         g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0         
+         g%z(i+1) = (sum(e%dlayer(1:i-1)) + 0.5 * e%dlayer(i) ) /1000.0
       enddo
       g%z(g%nz+1) = g%z(g%nz) + 10.0 !add 2 meters - should always be enough to assume c
       e%dlayer(g%num_layer+1) = 10.0 - 0.5*e%dlayer(g%num_layer)
@@ -1338,11 +1442,12 @@
      :     ,2.65)           ! upper limit for bound checking
       if (numvals.ne.g%num_layer) call fatal_error(ERR_USER,
      :'All soil variables must have the same number of layers')
- 
+
       e%rhob(g%nz) = e%rhob(numvals)
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
+      end module SoilTempModule
