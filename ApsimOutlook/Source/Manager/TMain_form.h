@@ -20,6 +20,7 @@
 #include "Grids.hpp"
 #include "TSimulation_database.h"
 #include <Db.hpp>
+#include <ADODB.hpp>
 
 //----------------------------------------------------------------------------
 class TMain_form : public TForm
@@ -35,14 +36,14 @@ __published:
 	TStatusBar *StatusBar;
    TDBGrid *Simulation_name_grid;
    TDataSource *DataSource1;
-   TTable *Index_table;
    TLabel *Prompt_label;
    TMenuItem *N2;
    TMenuItem *Import_simulation_menu;
    TOpenDialog *Simulation_open_dialog;
    TMenuItem *Import_simulation_using_filespec_menu;
-   TSimulation_database *Simulation_database;
    TMenuItem *Batchimportusingfilespec1;
+   TADOTable *Index_table;
+   TSimulation_database *Simulation_database;
 	void __fastcall ShowHint(TObject *Sender);
 	void __fastcall Exit(TObject *Sender);
 	void __fastcall Open_database(TObject *Sender);

@@ -36,6 +36,7 @@
 #include "TDamEasy.h"
 #include "TChartSettingsForm.h"
 #include "TGM_analysis.h"
+#include "kbmMemTable.hpp"
 //----------------------------------------------------------------------------
 class TMDIChild : public TForm
 {

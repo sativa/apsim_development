@@ -35,6 +35,7 @@
 #pragma link "MemTable"
 #pragma link "TGM_analysis"
 #pragma link "TGM_analysis"
+#pragma link "kbmMemTable"
 #pragma resource "*.dfm"
 
 static const char* SOI_SECTION = "soi";
