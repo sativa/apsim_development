@@ -693,6 +693,7 @@ Public Class MainUI
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(filename))
                 SimulationExplorer.Data = SimulationFile.data
                 UpdateMainForm()
+
             End If
 
 
@@ -723,6 +724,7 @@ Public Class MainUI
     End Sub
     Private Sub UpdateMainForm()
         Me.Text = SimulationFile.Filename
+        SimulationExplorer.UIManager.ApsimFileName = SimulationFile.Filename
     End Sub
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
         End
