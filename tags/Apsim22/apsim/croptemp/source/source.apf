@@ -1,0 +1,18 @@
+[Dependencies]
+Dependency = %licensed_source(croptemp)
+
+[Contents]
+crp_biom.for = crp_biom.for
+crp_cnpy.for = crp_cnpy.for
+crp_comm.for = crp_comm.for
+crp_fail.for = crp_fail.for
+crp_nitn.for = crp_nitn.for
+crp_phen.for = crp_phen.for
+crp_root.for = crp_root.for
+crp_temp.for = crp_temp.for
+crp_util.for = crp_util.for
+crp_watr.for = crp_watr.for
+
+[APSBuild]
+binary = ..\lib\croptemp.dll
+moduletype=iscroptemplate
