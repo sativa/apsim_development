@@ -4,6 +4,8 @@
 #pragma hdrstop
 
 #include "TValueSelectPopup.h"
+#include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\ApsimDirectories.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "POPUPFORMUNIT"
@@ -71,6 +73,16 @@ void __fastcall TValueSelectPopup::FormShow(TObject *Sender)
       ListView->AlphaSort();
    ListView->UpdateItems (0, ListView->Items->Count);
 
+   // load the picture - if any.
+   string fileName;
+   ApsimSettings settings;
+   settings.read("Bitmaps|" + factorName, fileName);
+   if (fileName != "")
+      fileName = getAppHomeDirectory() + "\\" + fileName;
+   if (fileName == "" || !FileExists(fileName.c_str()))
+      Image->Picture->Assign(&TPicture());
+   else
+      Image->Picture->LoadFromFile(fileName.c_str());
 
 }
 //---------------------------------------------------------------------------

@@ -13,7 +13,7 @@ inherited ValueSelectPopup: TValueSelectPopup
     Left = 0
     Top = 0
     Width = 203
-    Height = 206
+    Height = 184
     Align = alClient
     BorderStyle = bsNone
     Checkboxes = True
@@ -34,16 +34,16 @@ inherited ValueSelectPopup: TValueSelectPopup
   end
   object Panel1: TPanel
     Left = 0
-    Top = 206
+    Top = 184
     Width = 203
-    Height = 31
+    Height = 53
     Align = alBottom
     BevelOuter = bvNone
     Color = clWindow
     TabOrder = 1
     OnMouseDown = FormMouseDown
     object applyLabel: TLabel
-      Left = 16
+      Left = 40
       Top = 8
       Width = 35
       Height = 13
@@ -58,8 +58,8 @@ inherited ValueSelectPopup: TValueSelectPopup
       OnClick = applyLabelClick
     end
     object applyToAllLabel: TLabel
-      Left = 96
-      Top = 8
+      Left = 40
+      Top = 24
       Width = 61
       Height = 13
       Cursor = crHandPoint
@@ -71,6 +71,12 @@ inherited ValueSelectPopup: TValueSelectPopup
       Font.Style = [fsUnderline]
       ParentFont = False
       OnClick = applyToAllLabelClick
+    end
+    object Image: TImage
+      Left = 144
+      Top = 2
+      Width = 50
+      Height = 50
     end
   end
 end
