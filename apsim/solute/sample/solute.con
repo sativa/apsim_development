@@ -1,8 +1,0 @@
-[apsim.sample_solute]  
-  Module = clock    solute.par [sample]      
-  Module = report   solute.par [sample]      
-  Module = met      ..\..\met\SAMPLE\DALBY.MET [weather]      
-  Module = manager  solute.par [sample]      
-  Module = fertiliz ..\..\fertiliz\fertiliz.ini [standard]      
-  Module = soilwat2 ..\..\soilwat2\sample\soilwat2.par [black_earth]     ..\..\soilwat2\soilwat2.ini [standard]      
-  Module = solute   solute.par [sample]     ..\solute.ini [standard]      
