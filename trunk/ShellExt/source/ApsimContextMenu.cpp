@@ -38,7 +38,7 @@ string getApsimVersion(void)
 //---------------------------------------------------------------------------
 // generated with CoCreateGuid()
 //---------------------------------------------------------------------------
-const char *szCLSID = "{5637FAA5-A5A4-42DD-A9F2-AE08F204B5AB}";
+const char *szCLSID = "{5637FAA5-A5A4-42DD-A9F2-AE08F204B5";
 
 __declspec(dllexport) HRESULT STDMETHODCALLTYPE DllCanUnloadNow(void)
    {
@@ -51,6 +51,12 @@ __declspec(dllexport) HRESULT STDMETHODCALLTYPE DllCanUnloadNow(void)
 string getKey(void)
    {
    return "Apsim" + getApsimVersion();
+   }
+string getClsid(void)
+   {
+   string version = getApsimVersion();
+   replaceAll(version, ".", "");
+   return szCLSID + version + "}";
    }
 //---------------------------------------------------------------------------
 // create a CClassFactory object
@@ -98,7 +104,7 @@ __declspec(dllexport) HRESULT STDMETHODCALLTYPE DllRegisterServer(void)
                      &hKey,
                      &unused) == ERROR_SUCCESS)
       {
-      if(RegCreateKey(hKey, szCLSID, &hKey) == ERROR_SUCCESS)
+      if(RegCreateKey(hKey, getClsid().c_str(), &hKey) == ERROR_SUCCESS)
          {
          RegSetValueEx(hKey,
                          NULL,
@@ -143,8 +149,8 @@ __declspec(dllexport) HRESULT STDMETHODCALLTYPE DllRegisterServer(void)
                        NULL,
                        0,
                        REG_SZ,
-                       (BYTE*)szCLSID,
-                       strlen(szCLSID) + 1);
+                       (BYTE*)getClsid().c_str(),
+                       strlen(getClsid().c_str()) + 1);
 
          RegCloseKey(hKey);
          hRes = S_OK;
@@ -164,8 +170,8 @@ __declspec(dllexport) HRESULT STDMETHODCALLTYPE DllUnregisterServer(void)
    HKEY hKey;
    DWORD keys = 0, size = 0;
    LONG res = ERROR_SUCCESS;
-   char *szCLSIDkey = new char[7+strlen(szCLSID)];
-   wsprintf(szCLSIDkey, "CLSID\\%s", szCLSID);
+   char *szCLSIDkey = new char[7+strlen(getClsid().c_str())];
+   wsprintf(szCLSIDkey, "CLSID\\%s", getClsid().c_str());
 
    if(RegOpenKeyEx(HKEY_CLASSES_ROOT,
                  "*\\shellex\\ContextMenuHandlers",
@@ -218,7 +224,7 @@ __declspec(dllexport) HRESULT STDMETHODCALLTYPE DllUnregisterServer(void)
                          &hKey) == ERROR_SUCCESS)
 
             {
-            res = RegDeleteKey(hKey, szCLSID);
+            res = RegDeleteKey(hKey, getClsid().c_str());
             RegCloseKey(hKey);
             }
          }
