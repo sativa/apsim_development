@@ -492,8 +492,6 @@ void PlantP::prepare (float growth_stage
 
       if (g.phosphorus_aware == true)
       {
-         zero_daily_variables();
-
          PlantP_demand(growth_stage, part_wts, dlt_dm_pot);
          PlantP_Stress(growth_stage, part_wts);
       }
@@ -786,7 +784,12 @@ void PlantP::zero_daily_variables ()
       push_routine (my_name);
 
       fill_real_array (g.dlt_part_p_green, 0.0, max_part);
-      fill_real_array (g.dlt_part_p_green, 0.0, max_part);
+      fill_real_array (g.dlt_part_p_dead, 0.0, max_part);
+      fill_real_array (g.dlt_part_p_sen, 0.0, max_part);
+      fill_real_array (g.dlt_part_p_det, 0.0, max_part);
+      fill_real_array (g.dlt_part_p_dead_det, 0.0, max_part);
+      fill_real_array (g.dlt_part_p_retrans, 0.0, max_part);
+      fill_real_array (g.part_demand, 0.0, max_part);
       g.pfact_photo        = 1.0;
       g.pfact_expansion    = 1.0;
       g.pfact_pheno        = 1.0;

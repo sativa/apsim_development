@@ -852,9 +852,11 @@ void Plant::sendStageMessage(const char *what)
 // Field a Prepare message
 void Plant::doPrepare(unsigned &, protocol::Variant &)
   {
+    plant_zero_daily_variables ();
+    phosphorous->zero_daily_variables();
+
     if (g.plant_status == alive)
      {
-     plant_zero_daily_variables ();
      plant_get_other_variables ();     // request and receive variables from owner-modules
      plant_prepare ();                 // do crop preparation
      }
