@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
@@ -110,7 +110,7 @@
                     chickpea sow plants = 25, sowing_depth = 80, cultivar = amethyst
                  endif
               endif
-              residue2 tillage type = planter ()
+              surfaceom tillage type = planter ()
               crop_in = 1
               system_fallow = 0
               days_since_wheat = day - wht_win1
@@ -135,7 +135,7 @@
                  sor_fert = srg_fert_target - rz_no3
                  fertiliz.fert_no3_n = sor_fert
               endif
-              residue2 tillage type = planter ()
+              surfaceom tillage type = planter ()
               crop_in = 1
               system_fallow = 0
               if day <= srg_win3 then
@@ -353,30 +353,29 @@
             CONA:                     5.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  10.0000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  2.00000000
+                            C:N =  100.000000
+      Lying cellulose mass =  7.00000000
+                            C:N =  100.000000
+      Lying lignin mass =  1.00000000
+                            C:N =  100.000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-                10.0     0.0     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100   100.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -462,9 +461,9 @@
         maximum of sorghum.yield on end_of_day from reported to now as sor_yield
         sum of sorghum.ep on end_of_day from reported to now as sor_ep
         maximum of sorghum.lai on end_of_day from reported to now as sor_laimax
-        average of residue2.residue_wt on end_of_day from reported to now as avg_residue
-        maximum of residue2.residue_wt on end_of_day from reported to now as max_residue
-        minimum of residue2.residue_wt on end_of_day from reported to now as min_residue
+        average of surfaceom.surfaceom_wt on end_of_day from reported to now as avg_residue
+        maximum of surfaceom.surfaceom_wt on end_of_day from reported to now as max_residue
+        minimum of surfaceom.surfaceom_wt on end_of_day from reported to now as min_residue
         sum of met.rain on end_of_day from reported to now as annual_rainfall
         sum of soilwat2.runoff on end_of_day from reported to now as annual_runoff
         sum of soilwat2.es on end_of_day from reported to now as annual_es
@@ -582,8 +581,8 @@
        123.59 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1958(Day of year=140), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1958(Day of year=140), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1958(Day of year=140), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -767,8 +766,8 @@
        167.42 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 30 October 1959(Day of year=303), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-30 October 1959(Day of year=303), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+30 October 1959(Day of year=303), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -958,11 +957,11 @@
 31 May 1961(Day of year=151), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-       148.09 of n as nitrate (no3_n)
+       148.08 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 31 May 1961(Day of year=151), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-31 May 1961(Day of year=151), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+31 May 1961(Day of year=151), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1009,7 +1008,7 @@
       flowering day          =  278                           stover (kg/ha)         =     6423.7
       maturity day           =  312                           grain yield (kg/ha)    =     1959.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2239.8
-      grain wt (g)           =    0.021                       grains/m^2             =   9128.741
+      grain wt (g)           =    0.021                       grains/m^2             =   9128.744
       grains/plant           =   91.3                         maximum lai            =      6.319
       total above ground biomass (kg/ha)    =     8383.6
       live above ground biomass (kg/ha)     =     8383.6
@@ -1142,11 +1141,11 @@
 27 October 1962(Day of year=300), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-        81.47 of n as nitrate (no3_n)
+        81.48 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 27 October 1962(Day of year=300), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-27 October 1962(Day of year=300), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+27 October 1962(Day of year=300), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1163,11 +1162,11 @@
 17 November 1962(Day of year=321), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.348896       lai =    0.1057975
-                          stover N conc =    3.727323       extractable sw =    65.31712
+                          stover N conc =    3.727320       extractable sw =    65.31712
 30 November 1962(Day of year=334), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           60.38088       lai =    0.8223118
-                          stover N conc =    2.554086       extractable sw =    85.10430
+                          stover N conc =    2.554085       extractable sw =    85.10430
 26 December 1962(Day of year=360), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           336.3016       lai =     2.808460
@@ -1338,8 +1337,8 @@
        133.32 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1964(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1964(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1964(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1522,8 +1521,8 @@
         92.74 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 11 December 1965(Day of year=345), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-11 December 1965(Day of year=345), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+11 December 1965(Day of year=345), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1536,40 +1535,40 @@
 20 December 1965(Day of year=354), sorghum: 
       stage    3.0 emergence
                           biomass =           1.300000       lai =    0.1300000E-02
-                          stover N conc =    2.525000       extractable sw =    50.21859
+                          stover N conc =    2.525000       extractable sw =    50.21861
 28 December 1965(Day of year=362), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.333964       lai =    0.8595553E-01
-                          stover N conc =    4.381557       extractable sw =    51.72638
+                          stover N conc =    4.381557       extractable sw =    51.72639
 12 January 1966(Day of year=12), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           54.80894       lai =    0.8647581
-                          stover N conc =    3.001379       extractable sw =    41.54076
+                          biomass =           54.80896       lai =    0.8647581
+                          stover N conc =    3.001378       extractable sw =    41.54078
 5 February 1966(Day of year=36), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           148.8649       lai =     1.119197
                           stover N conc =    2.043729       extractable sw =    16.81011
 22 February 1966(Day of year=53), sorghum: 
       stage    7.0 flowering
-                          biomass =           178.0840       lai =    0.5729711
-                          stover N conc =    1.638566       extractable sw =    9.969009
+                          biomass =           178.0840       lai =    0.5729710
+                          stover N conc =    1.638567       extractable sw =    9.969009
 23 February 1966(Day of year=54), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           179.1683       lai =    0.5332829
-                          stover N conc =    1.622393       extractable sw =    9.599121
+                          stover N conc =    1.622394       extractable sw =    9.599121
 3 April 1966(Day of year=93), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           212.2689       lai =    0.1667502
-                          stover N conc =    1.261359       extractable sw =    6.376797
+                          biomass =           212.2689       lai =    0.1667501
+                          stover N conc =    1.261359       extractable sw =    6.376820
 5 April 1966(Day of year=95), sorghum: 
       stage   10.0 maturity
-                          biomass =           213.1785       lai =    0.1667502
-                          stover N conc =    1.253583       extractable sw =    4.460945
+                          biomass =           213.1785       lai =    0.1667501
+                          stover N conc =    1.253583       extractable sw =    4.460968
 6 April 1966(Day of year=96), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           213.1785       lai =     0.000000
-                          stover N conc =    1.341745       extractable sw =    4.155113
+                          stover N conc =    1.341745       extractable sw =    4.155128
 7 April 1966(Day of year=97), manager: 
      Manager sending message :- sorghum harvest
 7 April 1966(Day of year=97), sorghum: 
@@ -1610,8 +1609,8 @@
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.6149326   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.7250823   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.6149325   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.7250822   nitrogen stress 2 =       0.0000000
      
      
      
@@ -1628,8 +1627,8 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.5220661   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.6213883   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.5220658   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6213880   nitrogen stress 2 =       0.0000000
 7 April 1966(Day of year=97), manager: 
      Manager sending message :- sorghum kill_crop
 7 April 1966(Day of year=97), sorghum: 
@@ -1715,8 +1714,8 @@
         45.89 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 May 1967(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 May 1967(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 May 1967(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1763,7 +1762,7 @@
       flowering day          =  276                           stover (kg/ha)         =     5023.8
       maturity day           =  309                           grain yield (kg/ha)    =     1971.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2253.5
-      grain wt (g)           =    0.025                       grains/m^2             =   7817.103
+      grain wt (g)           =    0.025                       grains/m^2             =   7817.102
       grains/plant           =   78.2                         maximum lai            =      4.789
       total above ground biomass (kg/ha)    =     6995.5
       live above ground biomass (kg/ha)     =     6995.5
@@ -1899,8 +1898,8 @@
         73.53 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 27 October 1968(Day of year=301), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-27 October 1968(Day of year=301), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+27 October 1968(Day of year=301), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1920,33 +1919,33 @@
                           stover N conc =    3.519818       extractable sw =    65.23973
 1 December 1968(Day of year=336), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           66.23533       lai =    0.8294988
-                          stover N conc =    2.458066       extractable sw =    78.37069
+                          biomass =           66.23532       lai =    0.8294987
+                          stover N conc =    2.458066       extractable sw =    78.37068
 25 December 1968(Day of year=360), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           331.8331       lai =     2.755917
-                          stover N conc =    1.806806       extractable sw =    85.81190
+                          stover N conc =    1.806806       extractable sw =    85.81188
 4 January 1969(Day of year=4), sorghum: 
       stage    7.0 flowering
                           biomass =           454.8137       lai =     2.672641
                           stover N conc =    1.519141       extractable sw =    124.8642
 6 January 1969(Day of year=6), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           482.9567       lai =     2.647321
+                          biomass =           482.9566       lai =     2.647321
                           stover N conc =    1.427197       extractable sw =    112.2876
 4 February 1969(Day of year=35), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           748.1622       lai =     1.415196
-                          stover N conc =   0.9085516       extractable sw =    43.49331
+                          biomass =           748.1620       lai =     1.415196
+                          stover N conc =   0.8753628       extractable sw =    43.49331
 6 February 1969(Day of year=37), sorghum: 
       stage   10.0 maturity
-                          biomass =           756.1309       lai =     1.296285
-                          stover N conc =   0.8932425       extractable sw =    40.65253
+                          biomass =           756.1307       lai =     1.296285
+                          stover N conc =   0.8962225       extractable sw =    40.65253
 7 February 1969(Day of year=38), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           756.1309       lai =     0.000000
-                          stover N conc =    1.026070       extractable sw =    39.31066
+                          biomass =           756.1306       lai =     0.000000
+                          stover N conc =    1.029334       extractable sw =    39.31066
 8 February 1969(Day of year=39), manager: 
      Manager sending message :- sorghum harvest
 8 February 1969(Day of year=39), sorghum: 
@@ -1957,7 +1956,7 @@
       flowering day  =    4                  stover (kg/ha) =    4138.7
       maturity day        =   37             grain yield (kg/ha) =    3422.6
       grain % water content   =   13.0       grain yield wet (kg/ha) =    3934.1
-      grain wt (g) =     0.020               grains/m^2   = 17548.311
+      grain wt (g) =     0.020               grains/m^2   = 17548.305
       grains/head =2699.7                    maximum lai = 2.789
       total above ground biomass (kg/ha) =    7561.3
       live above ground biomass (kg/ha) =    7561.3
@@ -1965,9 +1964,9 @@
       senesced above ground biomass (kg/ha) =    1530.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  15.8
-      grain N percent =      1.16            total N content (kg/ha) =     75.93
-      grain N uptake (kg/ha) =     39.64     senesced N content (kg/ha) =     14.04
-      green N content (kg/ha) =     22.24    dead N content (kg/ha) =      0.00
+      grain N percent =      1.16            total N content (kg/ha) =     76.17
+      grain N uptake (kg/ha) =     39.87     senesced N content (kg/ha) =     14.09
+      green N content (kg/ha) =     22.21    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -1987,14 +1986,14 @@
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.2314533   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2999317   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2314534   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2999318   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.3548933   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3963216   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.3548934   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3963217   nitrogen stress 2 =       0.0000000
      
      
      
@@ -2111,8 +2110,8 @@
        161.16 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 1 December 1971(Day of year=335), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-1 December 1971(Day of year=335), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+1 December 1971(Day of year=335), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2304,8 +2303,8 @@
         67.23 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 21 July 1973(Day of year=202), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 July 1973(Day of year=202), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 July 1973(Day of year=202), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2488,8 +2487,8 @@
        120.70 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 4 November 1974(Day of year=308), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-4 November 1974(Day of year=308), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+4 November 1974(Day of year=308), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2502,15 +2501,15 @@
 15 November 1974(Day of year=319), sorghum: 
       stage    3.0 emergence
                           biomass =           1.300000       lai =    0.1300000E-02
-                          stover N conc =    2.525000       extractable sw =    47.06396
+                          stover N conc =    2.525000       extractable sw =    47.06393
 26 November 1974(Day of year=330), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.745122       lai =    0.9289041E-01
-                          stover N conc =    3.985406       extractable sw =    101.8879
+                          stover N conc =    3.985407       extractable sw =    101.8879
 14 December 1974(Day of year=348), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           72.31950       lai =    0.8567873
-                          stover N conc =    2.461818       extractable sw =    99.81527
+                          stover N conc =    2.461819       extractable sw =    99.81527
 8 January 1975(Day of year=8), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           301.9650       lai =     2.451081
@@ -2681,8 +2680,8 @@
        160.27 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 June 1976(Day of year=176), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 June 1976(Day of year=176), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 June 1976(Day of year=176), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2729,7 +2728,7 @@
       flowering day          =  294                           stover (kg/ha)         =     5625.2
       maturity day           =  330                           grain yield (kg/ha)    =     3541.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4047.0
-      grain wt (g)           =    0.039                       grains/m^2             =   9018.172
+      grain wt (g)           =    0.039                       grains/m^2             =   9018.173
       grains/plant           =   90.2                         maximum lai            =      2.945
       total above ground biomass (kg/ha)    =     9166.3
       live above ground biomass (kg/ha)     =     9166.3
@@ -2865,8 +2864,8 @@
        123.34 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 8 January 1978(Day of year=8), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-8 January 1978(Day of year=8), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+8 January 1978(Day of year=8), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3058,8 +3057,8 @@
        143.71 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 23 June 1979(Day of year=174), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-23 June 1979(Day of year=174), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+23 June 1979(Day of year=174), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3242,8 +3241,8 @@
         91.88 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 28 October 1980(Day of year=302), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-28 October 1980(Day of year=302), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+28 October 1980(Day of year=302), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3260,18 +3259,18 @@
 17 November 1980(Day of year=322), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.531765       lai =    0.9767044E-01
-                          stover N conc =    3.775863       extractable sw =    69.98939
+                          stover N conc =    3.775864       extractable sw =    69.98939
 29 November 1980(Day of year=334), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           51.87034       lai =    0.8016737
-                          stover N conc =    2.798204       extractable sw =    91.31431
+                          stover N conc =    2.798205       extractable sw =    91.31431
 24 December 1980(Day of year=359), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           323.5455       lai =     2.652574
-                          stover N conc =    1.908823       extractable sw =    67.12501
+                          stover N conc =    1.908823       extractable sw =    67.12498
 1 January 1981(Day of year=1), sorghum: 
       stage    7.0 flowering
-                          biomass =           416.6396       lai =     2.652574
+                          biomass =           416.6395       lai =     2.652574
                           stover N conc =    1.617685       extractable sw =    135.0745
 2 January 1981(Day of year=2), sorghum: 
       stage    8.0 start_grain_fill
@@ -3280,16 +3279,16 @@
 1 February 1981(Day of year=32), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           770.7150       lai =     1.417128
-                          stover N conc =   0.8063734       extractable sw =    52.58270
+                          stover N conc =   0.8063734       extractable sw =    52.58271
 2 February 1981(Day of year=33), sorghum: 
       stage   10.0 maturity
                           biomass =           776.8182       lai =     1.349857
-                          stover N conc =   0.7959797       extractable sw =    50.89319
+                          stover N conc =   0.7959797       extractable sw =    50.89320
 3 February 1981(Day of year=34), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           776.8182       lai =     0.000000
-                          stover N conc =   0.9136905       extractable sw =    49.26530
+                          stover N conc =   0.9136905       extractable sw =    49.26532
 4 February 1981(Day of year=35), manager: 
      Manager sending message :- sorghum harvest
 4 February 1981(Day of year=35), sorghum: 
@@ -3300,7 +3299,7 @@
       flowering day  =    1                  stover (kg/ha) =    4159.6
       maturity day        =   33             grain yield (kg/ha) =    3608.6
       grain % water content   =   13.0       grain yield wet (kg/ha) =    4147.8
-      grain wt (g) =     0.022               grains/m^2   = 16611.525
+      grain wt (g) =     0.022               grains/m^2   = 16611.523
       grains/head =2555.6                    maximum lai = 2.883
       total above ground biomass (kg/ha) =    7768.2
       live above ground biomass (kg/ha) =    7768.2
@@ -3336,7 +3335,7 @@
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.3701395   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.3701396   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.4907146   nitrogen stress 2 =       0.0000000
      
      
@@ -3348,8 +3347,8 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.3476290   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4267381   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.3476289   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.4267379   nitrogen stress 2 =       0.0000000
 4 February 1981(Day of year=35), manager: 
      Manager sending message :- sorghum kill_crop
 4 February 1981(Day of year=35), sorghum: 
@@ -3454,8 +3453,8 @@
        139.60 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 27 October 1983(Day of year=300), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-27 October 1983(Day of year=300), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+27 October 1983(Day of year=300), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3647,8 +3646,8 @@
        147.46 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 13 July 1985(Day of year=194), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-13 July 1985(Day of year=194), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+13 July 1985(Day of year=194), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3831,8 +3830,8 @@
        118.35 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 15 November 1986(Day of year=319), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-15 November 1986(Day of year=319), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+15 November 1986(Day of year=319), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3849,7 +3848,7 @@
 10 December 1986(Day of year=344), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.945192       lai =    0.8974407E-01
-                          stover N conc =    3.887667       extractable sw =    89.37169
+                          stover N conc =    3.887667       extractable sw =    89.37170
 25 December 1986(Day of year=359), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           73.90787       lai =    0.9427518
@@ -4024,8 +4023,8 @@
        122.74 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1988(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1988(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1988(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4208,8 +4207,8 @@
        127.00 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 8 November 1989(Day of year=312), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-8 November 1989(Day of year=312), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+8 November 1989(Day of year=312), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4401,8 +4400,8 @@
        102.49 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 May 1991(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 May 1991(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 May 1991(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4585,8 +4584,8 @@
         74.68 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 31 October 1992(Day of year=305), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-31 October 1992(Day of year=305), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+31 October 1992(Day of year=305), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4599,40 +4598,40 @@
 14 November 1992(Day of year=319), sorghum: 
       stage    3.0 emergence
                           biomass =           1.300000       lai =    0.1300000E-02
-                          stover N conc =    2.525000       extractable sw =    45.09319
+                          stover N conc =    2.525000       extractable sw =    45.09325
 22 November 1992(Day of year=327), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           5.927110       lai =    0.9286836E-01
-                          stover N conc =    4.240690       extractable sw =    70.98591
+                          stover N conc =    4.240690       extractable sw =    70.98602
 8 December 1992(Day of year=343), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           59.92776       lai =    0.8115661
-                          stover N conc =    2.580567       extractable sw =    61.54757
+                          stover N conc =    2.580567       extractable sw =    61.54768
 1 January 1993(Day of year=1), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           225.7182       lai =     1.534041
-                          stover N conc =    2.096381       extractable sw =    27.24876
+                          biomass =           225.7185       lai =     1.534044
+                          stover N conc =    2.096381       extractable sw =    27.24883
 10 January 1993(Day of year=10), sorghum: 
       stage    7.0 flowering
-                          biomass =           257.0725       lai =     1.057184
-                          stover N conc =    1.710698       extractable sw =    21.71278
+                          biomass =           257.0729       lai =     1.057185
+                          stover N conc =    1.710697       extractable sw =    21.71281
 12 January 1993(Day of year=12), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           262.0023       lai =    0.9228501
-                          stover N conc =    1.630079       extractable sw =    20.26954
+                          biomass =           262.0027       lai =    0.9228518
+                          stover N conc =    1.630078       extractable sw =    20.26956
 9 February 1993(Day of year=40), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           310.7563       lai =    0.3648990
-                          stover N conc =    1.216895       extractable sw =    8.298546
+                          biomass =           310.7569       lai =    0.3648997
+                          stover N conc =    1.216894       extractable sw =    8.298546
 11 February 1993(Day of year=42), sorghum: 
       stage   10.0 maturity
-                          biomass =           312.3778       lai =    0.3195562
-                          stover N conc =    1.210037       extractable sw =    7.845566
+                          biomass =           312.3784       lai =    0.3195569
+                          stover N conc =    1.210036       extractable sw =    7.845566
 12 February 1993(Day of year=43), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           312.3778       lai =     0.000000
-                          stover N conc =    1.342988       extractable sw =    7.628647
+                          biomass =           312.3784       lai =     0.000000
+                          stover N conc =    1.342987       extractable sw =    7.628647
 13 February 1993(Day of year=44), manager: 
      Manager sending message :- sorghum harvest
 13 February 1993(Day of year=44), sorghum: 
@@ -4643,7 +4642,7 @@
       flowering day  =   10                  stover (kg/ha) =    2050.2
       maturity day        =   42             grain yield (kg/ha) =    1073.6
       grain % water content   =   13.0       grain yield wet (kg/ha) =    1234.1
-      grain wt (g) =     0.016               grains/m^2   =  6809.527
+      grain wt (g) =     0.016               grains/m^2   =  6809.553
       grains/head =1047.6                    maximum lai = 2.488
       total above ground biomass (kg/ha) =    3123.8
       live above ground biomass (kg/ha) =    3123.8
@@ -4673,26 +4672,26 @@
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.4256321   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4846080   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.4256312   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.4846072   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.7025135   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.8178054   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.7025132   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.8178045   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flowering
-      water stress 1 =       0.7693737   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.8243228   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.7693706   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.8243250   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.6913688   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.8156582   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.6913689   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.8156583   nitrogen stress 2 =       0.0000000
 13 February 1993(Day of year=44), manager: 
      Manager sending message :- sorghum kill_crop
 13 February 1993(Day of year=44), sorghum: 
@@ -4797,8 +4796,8 @@
         32.82 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 28 October 1995(Day of year=301), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-28 October 1995(Day of year=301), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+28 October 1995(Day of year=301), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4819,7 +4818,7 @@
 1 December 1995(Day of year=335), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           47.87497       lai =    0.8384501
-                          stover N conc =    3.073092       extractable sw =    125.7340
+                          stover N conc =    3.073091       extractable sw =    125.7340
 27 December 1995(Day of year=361), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           462.2440       lai =     3.371347
@@ -4990,8 +4989,8 @@
        176.69 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1997(Day of year=140), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1997(Day of year=140), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1997(Day of year=140), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5038,7 +5037,7 @@
       flowering day          =  271                           stover (kg/ha)         =     4532.0
       maturity day           =  309                           grain yield (kg/ha)    =     2939.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3359.6
-      grain wt (g)           =    0.044                       grains/m^2             =   6613.986
+      grain wt (g)           =    0.044                       grains/m^2             =   6613.985
       grains/plant           =   66.1                         maximum lai            =      3.541
       total above ground biomass (kg/ha)    =     7471.6
       live above ground biomass (kg/ha)     =     7471.6
@@ -5171,11 +5170,11 @@
 27 October 1998(Day of year=300), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-       124.10 of n as nitrate (no3_n)
+       124.11 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 27 October 1998(Day of year=300), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-27 October 1998(Day of year=300), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+27 October 1998(Day of year=300), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5188,40 +5187,40 @@
 8 November 1998(Day of year=312), sorghum: 
       stage    3.0 emergence
                           biomass =           1.300000       lai =    0.1300000E-02
-                          stover N conc =    2.525000       extractable sw =    49.55447
+                          stover N conc =    2.525000       extractable sw =    49.55451
 18 November 1998(Day of year=322), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           7.309550       lai =    0.9848204E-01
-                          stover N conc =    3.510749       extractable sw =    87.39554
+                          biomass =           7.309549       lai =    0.9848204E-01
+                          stover N conc =    3.510743       extractable sw =    87.39555
 6 December 1998(Day of year=340), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           71.18838       lai =    0.8444499
-                          stover N conc =    2.342541       extractable sw =    113.8791
+                          stover N conc =    2.342539       extractable sw =    113.8791
 28 December 1998(Day of year=362), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           335.5154       lai =     2.813929
-                          stover N conc =    1.812514       extractable sw =    76.71992
+                          biomass =           335.5154       lai =     2.813930
+                          stover N conc =    1.812515       extractable sw =    76.71994
 5 January 1999(Day of year=5), sorghum: 
       stage    7.0 flowering
-                          biomass =           421.9987       lai =     2.736501
-                          stover N conc =    1.581218       extractable sw =    93.07972
+                          biomass =           421.9987       lai =     2.736502
+                          stover N conc =    1.581218       extractable sw =    93.07974
 7 January 1999(Day of year=7), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           444.8630       lai =     2.706590
-                          stover N conc =    1.496361       extractable sw =    82.99442
+                          stover N conc =    1.496361       extractable sw =    82.99444
 8 February 1999(Day of year=39), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           683.3625       lai =     1.294909
-                          stover N conc =    1.014895       extractable sw =    60.94853
+                          biomass =           682.8090       lai =     1.294909
+                          stover N conc =   0.9122355       extractable sw =    60.94855
 10 February 1999(Day of year=41), sorghum: 
       stage   10.0 maturity
-                          biomass =           697.5969       lai =     1.157728
-                          stover N conc =   0.9871069       extractable sw =    60.33257
+                          biomass =           695.7415       lai =     1.157728
+                          stover N conc =   0.8885324       extractable sw =    60.45632
 11 February 1999(Day of year=42), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           697.5968       lai =     0.000000
-                          stover N conc =    1.137806       extractable sw =    56.85085
+                          biomass =           695.7415       lai =     0.000000
+                          stover N conc =    1.028635       extractable sw =    57.12961
 12 February 1999(Day of year=43), manager: 
      Manager sending message :- sorghum harvest
 12 February 1999(Day of year=43), sorghum: 
@@ -5229,20 +5228,20 @@
      
      
      flowering (DAS) =  71                  maturity (DAS)  = 107
-      flowering day  =    5                  stover (kg/ha) =    3766.5
+      flowering day  =    5                  stover (kg/ha) =    3748.0
       maturity day        =   41             grain yield (kg/ha) =    3209.4
       grain % water content   =   13.0       grain yield wet (kg/ha) =    3689.0
       grain wt (g) =     0.018               grains/m^2   = 17783.086
       grains/head =2735.9                    maximum lai = 2.846
-      total above ground biomass (kg/ha) =    6976.0
-      live above ground biomass (kg/ha) =    6976.0
-      green above ground biomass (kg/ha) =    5392.9
+      total above ground biomass (kg/ha) =    6957.4
+      live above ground biomass (kg/ha) =    6957.4
+      green above ground biomass (kg/ha) =    5374.3
       senesced above ground biomass (kg/ha) =    1583.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  15.8
-      grain N percent =      1.32            total N content (kg/ha) =     77.92
-      grain N uptake (kg/ha) =     42.36     senesced N content (kg/ha) =     16.56
-      green N content (kg/ha) =     19.00    dead N content (kg/ha) =      0.00
+      grain N percent =      1.17            total N content (kg/ha) =     71.63
+      grain N uptake (kg/ha) =     37.56     senesced N content (kg/ha) =     16.35
+      green N content (kg/ha) =     17.72    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -5263,35 +5262,35 @@
      
       stress indices for floral_initiation
       water stress 1 =       0.2966188   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3598358   nitrogen stress 2 =       0.0000000
+      water stress 2 =       0.3598357   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.2598532   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.2598531   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.3542190   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flowering
-      water stress 1 =       0.4785241   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.4785240   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.5671318   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.5236278   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.6303414   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.5204504   nitrogen stress 1 =       0.0045845
+      water stress 2 =       0.6284189   nitrogen stress 2 =       0.0000000
 12 February 1999(Day of year=43), manager: 
      Manager sending message :- sorghum kill_crop
 12 February 1999(Day of year=43), sorghum: 
-         kill. Standing above-ground dm =  3766.5 (kg/ha)
+         kill. Standing above-ground dm =  3748.0 (kg/ha)
 12 February 1999(Day of year=43), manager: 
      Manager sending message :- sorghum end_crop
 12 February 1999(Day of year=43), sorghum: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 3766.5 kg/ha
-                                               straw N =   35.6 kg/ha
+                                               straw residue = 3748.0 kg/ha
+                                               straw N =   34.1 kg/ha
                                                straw P =    0.0 kg/ha
                                                root residue = 1784.3 kg/ha
                                                root N =    3.5 kg/ha
@@ -5383,11 +5382,11 @@
 10 November 2001(Day of year=314), fertiliz: 
      
         - Reading Fertiliser Type Parameters
-       158.55 of n as nitrate (no3_n)
+       158.65 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 10 November 2001(Day of year=314), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-10 November 2001(Day of year=314), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+10 November 2001(Day of year=314), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5404,36 +5403,36 @@
 2 December 2001(Day of year=336), sorghum: 
       stage    4.0 end_of_juvenile
                           biomass =           7.226300       lai =    0.9830835E-01
-                          stover N conc =    3.873491       extractable sw =    106.9235
+                          stover N conc =    3.873515       extractable sw =    106.9235
 16 December 2001(Day of year=350), sorghum: 
       stage    5.0 floral_initiation
                           biomass =           56.81765       lai =    0.8952416
-                          stover N conc =    2.863546       extractable sw =    122.5776
+                          stover N conc =    2.863522       extractable sw =    122.5776
 8 January 2002(Day of year=8), sorghum: 
       stage    6.0 flag_leaf
                           biomass =           304.4886       lai =     2.735177
-                          stover N conc =    1.913545       extractable sw =    77.02859
+                          stover N conc =    1.913526       extractable sw =    77.02859
 17 January 2002(Day of year=17), sorghum: 
       stage    7.0 flowering
                           biomass =           368.7722       lai =     2.408285
-                          stover N conc =    1.663156       extractable sw =    60.70143
+                          stover N conc =    1.663132       extractable sw =    60.70143
 18 January 2002(Day of year=18), sorghum: 
       stage    8.0 start_grain_fill
                           biomass =           375.4167       lai =     2.408285
-                          stover N conc =    1.632058       extractable sw =    58.82562
+                          stover N conc =    1.632034       extractable sw =    58.82562
 19 February 2002(Day of year=50), sorghum: 
       stage    9.0 end_grain_fill
                           biomass =           555.1237       lai =     1.336560
-                          stover N conc =    1.055667       extractable sw =    32.36324
+                          stover N conc =    1.055120       extractable sw =    32.36324
 21 February 2002(Day of year=52), sorghum: 
       stage   10.0 maturity
                           biomass =           563.2480       lai =     1.199406
-                          stover N conc =    1.032612       extractable sw =    30.45028
+                          stover N conc =    1.075369       extractable sw =    30.45028
 22 February 2002(Day of year=53), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           563.2480       lai =     0.000000
-                          stover N conc =    1.222519       extractable sw =    29.55202
+                          stover N conc =    1.270982       extractable sw =    29.55202
 23 February 2002(Day of year=54), manager: 
      Manager sending message :- sorghum harvest
 23 February 2002(Day of year=54), sorghum: 
@@ -5452,9 +5451,9 @@
       senesced above ground biomass (kg/ha) =    1406.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  16.1
-      grain N percent =      1.23            total N content (kg/ha) =     68.10
-      grain N uptake (kg/ha) =     34.17     senesced N content (kg/ha) =     16.43
-      green N content (kg/ha) =     17.50    dead N content (kg/ha) =      0.00
+      grain N percent =      1.29            total N content (kg/ha) =     70.15
+      grain N uptake (kg/ha) =     35.76     senesced N content (kg/ha) =     16.44
+      green N content (kg/ha) =     17.95    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -5492,7 +5491,7 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.6195803   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.6195732   nitrogen stress 1 =       0.0000207
       water stress 2 =       0.7209294   nitrogen stress 2 =       0.0000000
 23 February 2002(Day of year=54), manager: 
      Manager sending message :- sorghum kill_crop
@@ -5503,7 +5502,7 @@
 23 February 2002(Day of year=54), sorghum: 
          ended. Yield (dw) =     0.0
                                                straw residue = 2864.8 kg/ha
-                                               straw N =   33.9 kg/ha
+                                               straw N =   34.4 kg/ha
                                                straw P =    0.0 kg/ha
                                                root residue = 1519.1 kg/ha
                                                root N =    3.0 kg/ha
