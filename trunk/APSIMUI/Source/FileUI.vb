@@ -66,7 +66,7 @@ Public Class FileUI
         Me.RichTextBox.Location = New System.Drawing.Point(0, 55)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(937, 456)
+        Me.RichTextBox.Size = New System.Drawing.Size(937, 431)
         Me.RichTextBox.TabIndex = 3
         Me.RichTextBox.Text = ""
         Me.RichTextBox.WordWrap = False
@@ -128,7 +128,7 @@ Public Class FileUI
         'FileUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(937, 551)
+        Me.ClientSize = New System.Drawing.Size(937, 526)
         Me.Controls.Add(Me.RichTextBox)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "FileUI"
@@ -147,7 +147,7 @@ Public Class FileUI
             Dim filename As String = GetValue("filename")
             SummaryFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)
-            HelpLabel.Text = "Enter the name of the summary file in the edit box at the top. The contents of the file will be displayed in the large window above."
+            HelpLabel.Text = "Enter the name of the file in the edit box at the top. The contents of the file will be displayed in the large window above."
 
 
             If File.Exists(filename) Then
@@ -156,6 +156,7 @@ Public Class FileUI
                 text = sr.ReadToEnd
                 RichTextBox.Text = text
             Else
+                RichTextBox.Text = ""
                 ' It may be that the summary file is not yet created so let's not put out the error just yet
                 'MsgBox("The specified summary data file does not exist at the given location.  Please check file specification.", MsgBoxStyle.Critical, "File does not exist.")
 
@@ -165,12 +166,11 @@ Public Class FileUI
         End Try
 
     End Sub
-    Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    Private Sub BrowseButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
         Try
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 SummaryFileTextBox.Text = OpenFileDialog.FileName
-                MyData.Child("filename").Value = SummaryFileTextBox.Text
-                Me.Refresh()
             Else
             End If
         Catch ex As Exception
@@ -189,9 +189,8 @@ Public Class FileUI
         End Try
     End Sub
 
-
-
-    Private Sub SummaryFileUI_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+    Private Sub SummaryFileTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles SummaryFileTextBox.TextChanged
+        MyData.Child("filename").Value = SummaryFileTextBox.Text
+        Me.Refresh()
     End Sub
 End Class
