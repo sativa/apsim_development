@@ -16,6 +16,18 @@ Public Class APSIMData
         data.LoadXml(XMLString)
         Node = data.DocumentElement
     End Sub
+    Sub New(ByVal type As String, ByVal name As String)
+        Dim XMLString As String
+        XMLString = "<" + type + " name = """ + name + """></" + type + ">"
+        Dim data As New XmlDocument
+        data.LoadXml(XMLString)
+        Node = data.DocumentElement
+    End Sub
+    ReadOnly Property Parent() As APSIMData
+        Get
+            Return New APSIMData(Node.ParentNode)
+        End Get
+    End Property
     Function Child(ByVal ChildName As String) As APSIMData
         Dim found As Boolean = False
         Dim FoundNode As XmlNode
@@ -30,7 +42,8 @@ Public Class APSIMData
         If found Then
             Return New APSIMData(FoundNode)
         Else
-            Throw New Exception("Cannot find child " + ChildName)
+            Return Nothing
+            'Throw New Exception("Cannot find child " + ChildName)
         End If
     End Function
     Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
@@ -112,11 +125,16 @@ Public Class APSIMData
         End Get
     End Property
     Public Sub Add(ByVal Data As APSIMData)
-        Dim NewName As String = UniqueName(Data.Name, ChildList)
-        Data.Name = NewName
+        If IsNothing(Data) Then
+            ' Do Nothin
+        Else
+            Dim NewName As String = UniqueName(Data.Name, ChildList)
+            Data.Name = NewName
 
-        Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-        Node.AppendChild(newnode)
+            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+            Node.AppendChild(newnode)
+        End If
+
     End Sub
     Public Sub Delete(ByVal ChildName As String)
         Node.RemoveChild(Child(ChildName).Node)
@@ -134,7 +152,8 @@ Public Class APSIMData
             If counter = 1 Then
                 NewName = ProposedName
             Else
-                NewName = ProposedName + "(" + Trim(Str(counter)) + ")"
+                'NewName = ProposedName + "(" + Trim(Str(counter)) + ")"
+                NewName = ProposedName + "{" + Trim(Str(counter)) + "}"
             End If
             For Each name As String In UsedNames
                 If name = NewName Then
@@ -163,6 +182,14 @@ Public Class APSIMData
         End Set
     End Property
 
-
+    ReadOnly Property Children() As Collection
+        Get
+            Dim ChildCollection As New Collection
+            For Each child As String In ChildList()
+                ChildCollection.Add(Me.Child(child))
+            Next
+            Return ChildCollection
+        End Get
+    End Property
 
 End Class

@@ -298,6 +298,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "MicrometUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MicrometUI.resx"
+                    DependentUpon = "MicrometUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "OldOutputFileUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -375,6 +385,16 @@
                 <File
                     RelPath = "SimulationUI.resx"
                     DependentUpon = "SimulationUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SlurpUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SlurpUI.resx"
+                    DependentUpon = "SlurpUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
