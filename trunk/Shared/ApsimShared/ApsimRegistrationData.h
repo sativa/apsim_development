@@ -17,6 +17,7 @@ class __declspec(dllexport) ApsimRegistrationData
       std::string getType(void) const;
       std::string getDataTypeName(void) const;
       bool isOfType(const std::string& type) const;
+      std::string getAlias(void) const;
 
    private:
       XMLNode node;

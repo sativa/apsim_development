@@ -32,7 +32,7 @@ class __declspec(dllexport) ApsimDataTypeData
       typedef TreeNodeAliasIterator< TreeNodeIterator<XMLNode>, ApsimDataTypeData> iterator;
       iterator begin() const {return iterator(TreeNodeIterator<XMLNode>(node.begin()));}
       iterator end() const   {return iterator(TreeNodeIterator<XMLNode>(node.end()));}
-
+      std::string getTypeString(void) const;
    private:
       XMLNode node;
    };

@@ -16,7 +16,7 @@
 // constructor
 // ------------------------------------------------------------------
 ApsimComponentData::ApsimComponentData(const std::string& xml)
-   : node(NULL, NULL)
+   : node(NULL, NULL), dataTypesFile(NULL)
    {
    xmlDoc = new XMLDocument(xml, true);
    node = xmlDoc->documentElement();
@@ -25,7 +25,7 @@ ApsimComponentData::ApsimComponentData(const std::string& xml)
 // constructor
 // ------------------------------------------------------------------
 ApsimComponentData::ApsimComponentData(const XMLNode& n)
-   : node(n), xmlDoc(NULL)
+   : node(n), xmlDoc(NULL), dataTypesFile(NULL)
    {
    XMLNode::iterator initData = find_if(node.begin(),
                                         node.end(),
@@ -39,6 +39,7 @@ ApsimComponentData::ApsimComponentData(const XMLNode& n)
 ApsimComponentData::~ApsimComponentData()
    {
    delete xmlDoc;
+   delete dataTypesFile;
    }
 // ------------------------------------------------------------------
 // Return name of component to caller.
@@ -338,9 +339,9 @@ ApsimDataTypeData ApsimComponentData::getDataType
       if (i != types->end())
          return ApsimDataTypeData(*i);
       }
-
-   throw runtime_error("Cannot find a data type: " + name
-                       + " in component: " + getName());
+   if (dataTypesFile == NULL)
+      dataTypesFile = new ApsimDataTypesFile;
+   return dataTypesFile->getDataType(name);
    }
 
 // ------------------------------------------------------------------

@@ -48,14 +48,40 @@ class Coordinator : public protocol::Component
       virtual void onRequestComponentIDMessage(unsigned int fromID, protocol::RequestComponentIDData& data);
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, protocol::QueryInfoData& queryInfo);
       virtual void onRequestSetValueMessage(unsigned int fromID, protocol::RequestSetValueData& setValueData);
-      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void onApsimChangeOrderData(protocol::MessageData& messageData);
+      virtual void onQuerySetValueMessage(unsigned fromID, protocol::QuerySetValueData& querySetData);
+
+
+      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
+      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+      virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
 
       void addComponent(const std::string& name,
                         const std::string& executable,
                         const std::string& sdml);
       unsigned int getComponentID(const std::string& name);
 
+      // ------------------------------------------------------------------
+      // Send queryValue messages to all subscribed components.  The toID
+      // is used so that the receiving component can send a returnValue
+      // message straight back to the originating module.  The fromID
+      // can be different to the toID in a multi-paddock simulation where
+      // the parent PM may be simply routing a queryValue message on behalf
+      // of the originating component.
+      // ------------------------------------------------------------------
+      void sendQueryValueMessage(unsigned ourComponentID,
+                                 unsigned foreignComponentID,
+                                 unsigned ourRegID,
+                                 unsigned foreignRegID);
+      // ------------------------------------------------------------------
+      // Send a querySetValueMessage
+      // ------------------------------------------------------------------
+      void sendQuerySetValueMessage(unsigned ourComponentID,
+                                    unsigned foreignComponentID,
+                                    unsigned ourRegID,
+                                    unsigned foreignRegID,
+                                    protocol::Variant& variant);
 
       PMRegistrationItem* findRegistration(const std::string& name,
                                            protocol::RegistrationType type);
@@ -68,9 +94,23 @@ class Coordinator : public protocol::Component
       void pollComponentsForGetVariable(PMRegistrationItem& registrationItem);
       void pollComponentsForSetVariable(PMRegistrationItem& registrationItem,
                                         unsigned fromID,
-                                        protocol::RequestSetValueData& setValueData);
+                                        unsigned ourRegID,
+                                        protocol::Variant& variant);
+
       void publishEventsInOrder(unsigned int fromID,
                                 protocol::PublishEventData& publishEventData,
                                 PMRegistrationItem* registrationItem);
+
+      // ------------------------------------------------------------------
+      // Register a property for our child components
+      // ------------------------------------------------------------------
+      unsigned addInternalRegistration(unsigned fromID,
+                                       protocol::RegistrationType kind,
+                                       const std::string& name,
+                                       const std::string& typeString,
+                                       unsigned foreignID = 0);
+
+      void readAllRegistrations(void);
+
    };
 #endif

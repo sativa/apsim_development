@@ -22,30 +22,14 @@ ApsimSimulationFile::ApsimSimulationFile(void)
 ApsimSimulationFile::ApsimSimulationFile(const string& filename) throw (std::runtime_error)
    : fileName(filename)
    {
-   try
-      {
-      xmlDoc = new XMLDocument(filename);
-      }
-   catch (...)
-      {
-      delete xmlDoc;
-      throw;
-      }
+   xmlDoc = new XMLDocument(filename);
    }
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
 ApsimSimulationFile::ApsimSimulationFile(const string& xml, bool dummy) throw (std::runtime_error)
    {
-   try
-      {
-      xmlDoc = new XMLDocument(xml, dummy);
-      }
-   catch (...)
-      {
-      delete xmlDoc;
-      throw;
-      }
+   xmlDoc = new XMLDocument(xml, dummy);
    }
 // ------------------------------------------------------------------
 // Destructor

@@ -92,4 +92,13 @@ std::string ApsimDataTypeData::getUpperBound(void) const
    {
    return node.getAttribute("upper_bound");
    }
+// ------------------------------------------------------------------
+// Return full type string.
+// ------------------------------------------------------------------
+std::string ApsimDataTypeData::getTypeString(void) const
+   {
+   string st;
+   node.writeXML(st);
+   return st;
+   }
 

@@ -65,4 +65,11 @@ bool ApsimRegistrationData::isOfType(const std::string& type) const
       throw msg;
       }
    }
+// ------------------------------------------------------------------
+// return the alias of the registration.
+// ------------------------------------------------------------------
+std::string ApsimRegistrationData::getAlias(void) const
+   {
+   return node.getAttribute("alias");
+   }
 
