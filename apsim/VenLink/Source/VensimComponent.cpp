@@ -69,7 +69,7 @@ VensimComponent::~VensimComponent(void)
 void VensimComponent::doInit1(const FString& sdml)
    {
    Component::doInit1(sdml);
-   processID = addRegistration(respondToEventReg, "prepare", "");   // XX Astounding!! XX
+   processID = addRegistration(RegistrationType::respondToEvent, "prepare", "");   // XX Astounding!! XX
    }
 
 // ------------------------------------------------------------------
@@ -183,7 +183,7 @@ void VensimComponent::registerModelVariables(void)
       {
       string nameWithUnderscore = names[variable];
       Replace_all(nameWithUnderscore, " ", "_");
-      unsigned id = addRegistration(respondToGetSetReg,
+      unsigned id = addRegistration(RegistrationType::respondToGetSet,
                                     nameWithUnderscore.c_str(),
                                     floatDDML);
       variables.insert(VariableMap::value_type(id, names[variable]));

@@ -102,18 +102,18 @@ void ScreenComponent::doInit1(const FString& sdml)
    static const char* doubleDDML = "<type kind=\"double\"\\>";
    static const char* stringDDML = "<type kind=\"string\"\\>";
 
-   tickID = addRegistration(respondToEventReg, "tick", timeTypeDDML);
-   prepareID = addRegistration(respondToEventReg, "prepare", "");
-   titleID = addRegistration(getVariableReg, "title", stringDDML);
-   externalErrorID = addRegistration(respondToEventReg, "error", "");
-   startDateID = addRegistration(getVariableReg, "simulation_start_date", doubleDDML);
-   endDateID = addRegistration(getVariableReg, "simulation_end_date", doubleDDML);
+   tickID = addRegistration(RegistrationType::respondToEvent, "tick", timeTypeDDML);
+   prepareID = addRegistration(RegistrationType::respondToEvent, "prepare", "");
+   titleID = addRegistration(RegistrationType::get, "title", stringDDML);
+   externalErrorID = addRegistration(RegistrationType::respondToEvent, "error", "");
+   startDateID = addRegistration(RegistrationType::get, "simulation_start_date", doubleDDML);
+   endDateID = addRegistration(RegistrationType::get, "simulation_end_date", doubleDDML);
 
    screenOutput = Str_i_Eq(componentData->getProperty("parameters", "screen_output"), "on");
    if (screenOutput)
       {
 //      ScreenForm->Height = 466;
-      summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
+      summaryFileWriteID = addRegistration(RegistrationType::respondToEvent, "summaryFileWrite", "");
       }
    }
 // ------------------------------------------------------------------

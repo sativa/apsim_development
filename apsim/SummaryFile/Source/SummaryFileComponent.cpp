@@ -75,13 +75,13 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    // do registrations.
    static const char* stringDDML = "<type kind=\"string\"\\>";
    static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";
-   summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
-   tickID = addRegistration(respondToEventReg, "tick", timeTypeDDML);
-   prepareID = addRegistration(respondToEventReg, "prepare", "");
-   externalErrorID = addRegistration(respondToEventReg, "error", "");
-   summaryFileID = addRegistration(respondToGetReg, "summaryFile", stringDDML);
-   titleID = addRegistration(getVariableReg, "title", stringDDML);
-   componentsID = addRegistration(getVariableReg, "components", stringArrayDDML);
+   summaryFileWriteID = addRegistration(RegistrationType::respondToEvent, "summaryFileWrite", "");
+   tickID = addRegistration(RegistrationType::respondToEvent, "tick", timeTypeDDML);
+   prepareID = addRegistration(RegistrationType::respondToEvent, "prepare", "");
+   externalErrorID = addRegistration(RegistrationType::respondToEvent, "error", "");
+   summaryFileID = addRegistration(RegistrationType::respondToGet, "summaryFile", stringDDML);
+   titleID = addRegistration(RegistrationType::get, "title", stringDDML);
+   componentsID = addRegistration(RegistrationType::get, "components", stringArrayDDML);
 
    // read in and open our file.
    fileName = componentData->getProperty("parameters", "summaryfile");

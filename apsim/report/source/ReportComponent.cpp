@@ -51,7 +51,7 @@ Field::Field (protocol::Component* p,
          }
 
       // at this stage simply register an interest in the variable.
-      variableID = parent->addRegistration(protocol::getVariableReg,
+      variableID = parent->addRegistration(RegistrationType::get,
                                            VariableName.c_str(),
                                            stringArrayType,
                                            "",
@@ -317,15 +317,15 @@ void ReportComponent::doInit1(const FString& sdml)
    {
    Component::doInit1(sdml);
    static const char* stringDDML = "<type kind=\"string\"\\>";
-   titleID = addRegistration(getVariableReg, "title", stringDDML);
-   summaryFileID = addRegistration(getVariableReg, "summaryFile", stringDDML);
-   repEventID = addRegistration(respondToEventReg, "report", "");
-   doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
-   doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
-   daysSinceLastReportVariableID = addRegistration(respondToGetReg,
+   titleID = addRegistration(RegistrationType::get, "title", stringDDML);
+   summaryFileID = addRegistration(RegistrationType::get, "summaryFile", stringDDML);
+   repEventID = addRegistration(RegistrationType::respondToEvent, "report", "");
+   doOutputID = addRegistration(RegistrationType::respondToEvent, "do_output", "");
+   doEndDayOutputID = addRegistration(RegistrationType::respondToEvent, "do_end_day_output", "");
+   daysSinceLastReportVariableID = addRegistration(RegistrationType::respondToGet,
                                                    "days_since_last_report",
                                                    daysSinceLastReportType);
-   reportedID = addRegistration(eventReg, "reported", "<type/>");
+   reportedID = addRegistration(RegistrationType::event, "reported", "<type/>");
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -363,7 +363,7 @@ void ReportComponent::doInit2(void)
          {
          string name = "   " + frequencies[f];
          writeString(name.c_str());
-         frequencyIds.push_back(addRegistration(respondToEventReg, frequencies[f].c_str(), ""));
+         frequencyIds.push_back(addRegistration(RegistrationType::respondToEvent, frequencies[f].c_str(), ""));
          }
 
       // get format specifier.
@@ -403,25 +403,6 @@ void ReportComponent::doInit2(void)
       error(err.what(), true);
       }
    }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     perform the specified action.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/7/99
-
-// ------------------------------------------------------------------
-void ReportComponent::respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant)
-   {
-   if (methodID == doOutputID)
-      WriteLineOfOutput();
-   else if (methodID == doEndDayOutputID)
-      OutputOnThisDay = true;
-   }
-
 // ------------------------------------------------------------------
 //  Short description:
 //    Event handler.
@@ -442,6 +423,10 @@ void ReportComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
          WriteLineOfOutput();
       OutputOnThisDay = false;
       }
+   else if (eventID == doOutputID)
+      WriteLineOfOutput();
+   else if (eventID == doEndDayOutputID)
+      OutputOnThisDay = true;
    else
       {
       if (find(frequencyIds.begin(), frequencyIds.end(), eventID) != frequencyIds.end())
