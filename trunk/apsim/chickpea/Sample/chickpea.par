@@ -8,9 +8,7 @@ variable = clock.year
 variable = chickpea.lai
 variable = chickpea.biomass
 variable = chickpea.green_biomass
-variable = chickpea.ep
-variable = chickpea.sw_uptake()
-variable = chickpea.sw_uptake
+
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=9/5/1988
