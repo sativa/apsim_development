@@ -1168,6 +1168,7 @@
  
 *+ Changes
 *     DPH 17/5/96
+*     dph 13/6/00 Fixed defect - added ok=.true.
  
 *+ Calls
       dll_import assign_string
@@ -1197,6 +1198,7 @@
       else if (Module_name .eq. All_active_modules) then
         call Loader_SendActionToAllComps (ACTION_Get_variable, 
      .                                    Our_variable_name)
+        ok = .true.
          
       else
          ok = Loader_SendAction (Module_name, 
