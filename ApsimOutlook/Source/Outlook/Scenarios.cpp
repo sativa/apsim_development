@@ -276,6 +276,27 @@ void Scenarios::loadAllAddIns(void)
          (*a).erase(posSpace);
          }
       HINSTANCE dllHandle = LoadLibrary( (*a).c_str() );
+      // give an intelligent error msg if this fails...
+      if (dllHandle == NULL) {
+         PVOID pMsgBuf;
+         FormatMessage(
+           FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+           NULL,
+           GetLastError(),
+           MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+           (PTSTR) &pMsgBuf,
+           0,
+           NULL
+         );
+         // display the string
+         Application->MessageBox(
+           reinterpret_cast <PCHAR> (pMsgBuf),
+           "GetLastError",
+           MB_ICONINFORMATION
+         );
+         // free the buffer
+         LocalFree(pMsgBuf);
+      }
       if (dllHandle != NULL)
          {
          dllHandles.push_back(dllHandle);
