@@ -2,7 +2,7 @@
 wet_soil_depth = 300
 
 [400mm.soilwat2.parameters]
-wet_soil_depth = 300
+wet_soil_depth = 400
 
 [600mm.soilwat2.parameters]
 wet_soil_depth = 600
@@ -74,6 +74,12 @@ wet_soil_depth = 1500
 
 [BrownVertosol.Wheat.parameters]
    ! Predicted values: false
+   ll  = 0.200   0.220   0.240   0.260   0.280        ! Crop lower limits for each layer
+   kl  = 0.1     0.1    0.08    0.06    0.04        ! Water Extraction parameter (0-1)
+   xf  = 1       1       1       1       1        ! Root Exploration factor (0-1)
+
+[BrownVertosol.chickpea.parameters]
+! Assume same as for wheat
    ll  = 0.200   0.220   0.240   0.260   0.280        ! Crop lower limits for each layer
    kl  = 0.1     0.1    0.08    0.06    0.04        ! Water Extraction parameter (0-1)
    xf  = 1       1       1       1       1        ! Root Exploration factor (0-1)
