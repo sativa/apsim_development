@@ -95,6 +95,31 @@ unsigned int Field::getWidth(void)
 
 // ------------------------------------------------------------------
 //  Short description:
+//     write and format a string.
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/7/99
+
+// ------------------------------------------------------------------
+void Field::WriteString (ostream& out, const string& st)
+   {
+   if (CSVFormat)
+      {
+      string strippedst = st;
+      Strip(strippedst," ");
+      out << strippedst << ',';
+      }
+   else
+      {
+      out.width(getWidth());
+      out << truncateSt(st, getWidth()-1);
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //     truncate the specified string so that it fits in a field.
 
 //  Notes:
@@ -128,22 +153,15 @@ void Field::writeHeading (ostream& out)
       FieldName = VariableName;
 
    if (NumElements <= 1)
-      {
-      out.width(getWidth());
-      out << truncateSt(FieldName, getWidth()-1);
-      if (CSVFormat)
-         out << ',';
-      }
+      WriteString(out, FieldName);
+
    else
       {
       string ThisFieldName;
       for (unsigned int elem = 1; elem <= NumElements; elem++)
          {
-         out.width(getWidth());
          ThisFieldName = FieldName + "(" + IntToStr(elem).c_str() + ")";
-         out << truncateSt(ThisFieldName, getWidth()-1);
-         if (CSVFormat)
-            out << ',';
+         WriteString(out, ThisFieldName);
          }
       }
    }
@@ -161,12 +179,7 @@ void Field::writeHeading (ostream& out)
 void Field::writeUnits (ostream& out)
    {
    for (unsigned int elem = 1; elem <= max((unsigned)1, NumElements); elem++)
-      {
-      out.width(getWidth());
-      out << truncateSt(VariableUnits, getWidth()-1);
-      if (CSVFormat)
-         out << ',';
-      }
+      WriteString(out, VariableUnits);
    }
 
 // ------------------------------------------------------------------
@@ -185,25 +198,19 @@ void Field::writeValue(ostream& out)
 
    if (VariableFound)
       {
+      string value;
       // write all values.
       for (unsigned int i = 0; i < NumElements; i++)
          {
-         out.width(getWidth());
          if (i < Values.size())
-            out << truncateSt(Values[i], getWidth()-1);
+            value = Values[i];
          else
-            out << "????";
-         if (CSVFormat)
-            out << ',';
+            value = "????";
+         WriteString(out,value);
          }
       }
    else
-      {
-      out.width(getWidth());
-      out << "????";
-      if (CSVFormat)
-         out << ',';
-      }
+      WriteString(out,"????");
    }
 
 // ------------------------------------------------------------------
