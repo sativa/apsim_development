@@ -251,7 +251,7 @@
           ---------------------------------------------------------
 
 ------- cowpea Initialisation -------------------------------------------------
-      Initialising
+      initialising
 
 ------- sunflower Initialisation ----------------------------------------------
       Initialising, V1.0 2000.01.21
@@ -327,210 +327,189 @@
 10 January 1988(Day of year=10), manager: 
      Manager sending message :- cowpea sow  cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 10 January 1988(Day of year=10), cowpea: 
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for plant(cowpea)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = banjo
-         est_days_emerg_to_init     =       20
-         cum_vernal_days            =     0.00  100.00
-         tt_emerg_to_endjuv         =   552.00  552.00
-         x_pp_endjuv_to_init        =    13.30   18.00
-         y_tt_endjuv_to_init        =     0.00  229.00
-         x_pp_init_to_flower        =     1.00   24.00
-         y_tt_init_to_flower        =    20.00   20.00
-         x_pp_flower_to_start_grain =     1.00   24.00
-         y_tt_flower_to_start_grain =   100.00  100.00
-         x_pp_start_to_end_grain    =     1.00   24.00
-         y_tt_start_to_end_grain    =   280.00  280.00
-         tt_end_grain_to_maturity   =     20.0
-         tt_maturity_to_ripe        =      5.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01400 0.01400
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.40    0.40
-         x_stem_wt                  =     0.00   15.00
-         y_height                   =     0.00 1000.00
+        cultivar                   = banjo
+        est_days_emerg_to_init     =       20
+        cum_vernal_days            =       0.00     100.00
+        tt_emerg_to_endjuv         =     552.00     552.00
+        x_pp_endjuv_to_init        =      13.30      18.00
+        y_tt_endjuv_to_init        =       0.00     229.00
+        x_pp_init_to_flower        =       1.00      24.00
+        y_tt_init_to_flower        =      20.00      20.00
+        x_pp_flower_to_start_grain =       1.00      24.00
+        y_tt_flower_to_start_grain =     100.00     100.00
+        x_pp_start_to_end_grain    =       1.00      24.00
+        y_tt_start_to_end_grain    =     280.00     280.00
+        tt_end_grain_to_maturity   =      20.00
+        tt_maturity_to_ripe        =       5.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0140     0.0140
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.40       0.40
+        x_stem_wt                  =       0.00      15.00
+        y_height                   =       0.00    1000.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-          150.0     0.060          0.230       1.000
-          150.0     0.060          0.240       0.600
-          300.0     0.060          0.240       0.450
-          300.0     0.060          0.250       0.220
-          300.0     0.060          0.260       0.100
-          300.0     0.060          0.270       0.080
-          300.0     0.020          0.280       0.050
+         150.0     0.060          0.230       1.000
+         150.0     0.060          0.240       0.600
+         300.0     0.060          0.240       0.450
+         300.0     0.060          0.250       0.220
+         300.0     0.060          0.260       0.100
+         300.0     0.060          0.270       0.080
+         300.0     0.020          0.280       0.050
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to 100.0 times Eo
-     
+     (Crop factor for bounding water use is set to 100.0 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-             10   40.0   25.0  500.0   0.0   0.0  banjo
+             10   40.0   25.0  500.0   0.0   0.0 banjo
          ------------------------------------------------
-     
      
 11 January 1988(Day of year=11), sunflower: 
       stage    2.0 germination
 11 January 1988(Day of year=11), cowpea: 
-      stage    2.0 germination
+      stage 2.0 germination
 15 January 1988(Day of year=15), sunflower: 
       stage    3.0 emergence
                           biomass =           1.000000       lai =    0.2000000E-02
                           stover N conc =    5.000000       extractable sw =    50.70226
 16 January 1988(Day of year=16), cowpea: 
-      stage    3.0 emergence
-                          biomass =          0.7500000       lai =    0.2000000E-01
-                          stover N conc =    6.000000       extractable sw =    59.14351
+      stage 3.0 emergence
+                     biomass =           0.75 (kg/ha)   lai          =   0.020 (m^2/m^2)
+                     stover N conc =     6.00 (%)     extractable sw =   59.14 (mm)
 26 January 1988(Day of year=26), sunflower: 
       stage    4.0 end_of_juvenile
-                          biomass =           8.106302       lai =    0.6130844E-01
-                          stover N conc =    4.019365       extractable sw =    127.7505
+                          biomass =           8.106303       lai =    0.6130843E-01
+                          stover N conc =    4.019364       extractable sw =    127.7505
 16 February 1988(Day of year=47), sunflower: 
       stage    5.0 floral_initiation
-                          biomass =           143.1960       lai =     1.235530
-                          stover N conc =    3.490324       extractable sw =    211.1011
+                          biomass =           143.1960       lai =     1.235531
+                          stover N conc =    3.490323       extractable sw =    211.1011
 23 February 1988(Day of year=54), cowpea: 
-      stage    4.0 end_of_juvenile
-                          biomass =           97.30328       lai =     1.561005
-                          stover N conc =    2.979402       extractable sw =    159.2026
+      stage 4.0 end_of_juvenile
+                     biomass =          97.30 (kg/ha)   lai          =   1.561 (m^2/m^2)
+                     stover N conc =     2.98 (%)     extractable sw =  159.20 (mm)
 25 February 1988(Day of year=56), cowpea: 
-      stage    5.0 floral_initiation
-                          biomass =           101.1847       lai =     1.614046
-                          stover N conc =    2.898204       extractable sw =    148.9225
+      stage 5.0 floral_initiation
+                     biomass =         101.18 (kg/ha)   lai          =   1.614 (m^2/m^2)
+                     stover N conc =     2.90 (%)     extractable sw =  148.92 (mm)
 26 February 1988(Day of year=57), cowpea: 
-      stage    6.0 flowering
-                          biomass =           102.1485       lai =     1.620640
-                          stover N conc =    2.878558       extractable sw =    147.1629
+      stage 6.0 flowering
+                     biomass =         102.15 (kg/ha)   lai          =   1.621 (m^2/m^2)
+                     stover N conc =     2.88 (%)     extractable sw =  147.16 (mm)
 5 March 1988(Day of year=65), cowpea: 
-      stage    7.0 start_grain_fill
-                          biomass =           113.0362       lai =     1.659181
-                          stover N conc =    2.670143       extractable sw =    173.1622
+      stage 7.0 start_grain_fill
+                     biomass =         113.04 (kg/ha)   lai          =   1.659 (m^2/m^2)
+                     stover N conc =     2.67 (%)     extractable sw =  173.16 (mm)
 27 March 1988(Day of year=87), sunflower: 
       stage    6.0 flag_leaf
-                          biomass =           488.3629       lai =     2.061993
+                          biomass =           488.3632       lai =     2.061993
                           stover N conc =    1.482826       extractable sw =    150.4648
 28 March 1988(Day of year=88), sunflower: 
       stage    7.0 flowering
-                          biomass =           500.1235       lai =     2.053478
-                          stover N conc =    1.454126       extractable sw =    145.5597
+                          biomass =           500.1236       lai =     2.053478
+                          stover N conc =    1.454127       extractable sw =    145.5597
 30 March 1988(Day of year=90), cowpea: 
-      stage    8.0 end_grain_fill
-                          biomass =           143.4860       lai =    0.8775995
-                          stover N conc =    2.052796       extractable sw =    95.81517
+      stage 8.0 end_grain_fill
+                     biomass =         143.49 (kg/ha)   lai          =   0.878 (m^2/m^2)
+                     stover N conc =     2.05 (%)     extractable sw =   95.82 (mm)
 1 April 1988(Day of year=92), cowpea: 
-      stage    9.0 maturity
-                          biomass =           143.7819       lai =    0.7701495
-                          stover N conc =    2.040841       extractable sw =    128.0348
+      stage 9.0 maturity
+                     biomass =         143.78 (kg/ha)   lai          =   0.770 (m^2/m^2)
+                     stover N conc =     2.04 (%)     extractable sw =  128.03 (mm)
 1 April 1988(Day of year=92), sunflower: 
       stage    8.0 start_grain_fill
-                          biomass =           534.6161       lai =     1.988533
+                          biomass =           534.6163       lai =     1.988533
                           stover N conc =    1.395013       extractable sw =    167.0365
 2 April 1988(Day of year=93), cowpea: 
-      stage   10.0 harvest_ripe
-                          biomass =           143.7819       lai =     0.000000
-                          stover N conc =    2.062540       extractable sw =    141.9202
+      stage 10.0 harvest_ripe
+                     biomass =         143.78 (kg/ha)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.06 (%)     extractable sw =  141.92 (mm)
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea harvest
 3 April 1988(Day of year=94), cowpea: 
      
-     
-     
-      flowering day  =   57                  stover (kg/ha) =    1052.6
-      maturity day        =   92             grain yield (kg/ha) =     385.2
-      grain % water content   =   12.0       grain yield wet (kg/ha) =     437.7
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 1.672
-      total above ground biomass (kg/ha) =    1437.8
-      live above ground biomass (kg/ha) =    1437.8
-      green above ground biomass (kg/ha) =     866.1
-      senesced above ground biomass (kg/ha) =     571.7
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =   8.1
-      grain N percent =      4.50            total N content (kg/ha) =     38.69
-      grain N uptake (kg/ha) =     17.33     senesced N content (kg/ha) =     11.43
-      green N content (kg/ha) =      9.92    dead N content (kg/ha) =      0.00
-     
-     
+      flowering day          =   57                           stover (kg/ha)         =     1052.6
+      maturity day           =   92                           grain yield (kg/ha)    =      385.2
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      437.7
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/head            =    0.0                         maximum lai            =      1.672
+      total above ground biomass (kg/ha)    =     1437.8
+      live above ground biomass (kg/ha)     =     1437.8
+      green above ground biomass (kg/ha)    =      866.1
+      senesced above ground biomass (kg/ha) =      571.7
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =    8.1
+      grain N percent        =       4.50                     total N content (kg/ha)=      38.69
+      grain N uptake (kg/ha) =      17.33                     senesced N content (kg/ha)=   11.43
+      green N content (kg/ha)=       9.92                     dead N content (kg/ha) =       0.00
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0189075
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0268875
-     
-     
+         water stress 1 =  0.000     nitrogen stress 1 =  0.019
+         water stress 2 =  0.000     nitrogen stress 2 =  0.027
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
+         water stress 1 =  0.000     nitrogen stress 1 =  0.000
+         water stress 2 =  0.000     nitrogen stress 2 =  0.000
      
       stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
+         water stress 1 =  0.000     nitrogen stress 1 =  0.000
+         water stress 2 =  0.000     nitrogen stress 2 =  0.000
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
+         water stress 1 =  0.000     nitrogen stress 1 =  0.000
+         water stress 2 =  0.000     nitrogen stress 2 =  0.000
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+         water stress 1 =  0.000     nitrogen stress 1 =  0.000
+         water stress 2 =  0.000     nitrogen stress 2 =  0.000
      
-      Crop harvested.
-                                               tops residue = 1052.6 kg/ha
-                                               tops N =   21.4 kg/ha
-                                               root residue =   84.9 kg/ha
-                                               root N =    1.3 kg/ha
+     Crop harvested.
+         tops residue =  1052.62 kg/ha
+         tops N       =  21.35 kg/ha
+         root residue =  84.91 kg/ha
+         root N       =  1.27 kg/ha
      
+         tops removed =  385.20 kg/ha
+         tops N removed= 17.33 kg/ha
+         root removed =  0.00 kg/ha
+         root N removed= 0.00 kg/ha
      
-                                               tops removed =  385.2 kg/ha
-                                               tops N removed =   17.3 kg/ha
-                                               root removed =    0.0 kg/ha
-                                               root N removed =    0.0 kg/ha
 3 April 1988(Day of year=94), manager: 
      Manager sending message :- cowpea end_crop
 3 April 1988(Day of year=94), cowpea: 
-         Crop ended. Yield (dw) =     0.0
-                                               straw residue =    0.0 kg/ha
-                                               straw N =    0.0 kg/ha
-                                               root residue =  853.3 kg/ha
-                                               root N =   12.8 kg/ha
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         straw residue =     0.0 kg/ha
+         straw N =           0.0 kg/ha
+         root residue =    853.3 kg/ha
+         root N =           12.8 kg/ha
 29 April 1988(Day of year=120), sunflower: 
       stage    9.0 end_grain_fill
-                          biomass =           709.5599       lai =    0.5067315
-                          stover N conc =    1.277298       extractable sw =    219.7502
+                          biomass =           709.5601       lai =    0.5067309
+                          stover N conc =    1.277298       extractable sw =    219.7501
 1 May 1988(Day of year=122), sunflower: 
       stage   10.0 maturity
-                          biomass =           717.5920       lai =    0.2455283
-                          stover N conc =    1.295167       extractable sw =    216.4039
+                          biomass =           717.5922       lai =    0.2455279
+                          stover N conc =    1.295168       extractable sw =    216.4039
 2 May 1988(Day of year=123), sunflower: 
       stage   11.0 harvest_ripe
-                          biomass =           717.5920       lai =     0.000000
-                          stover N conc =    1.319922       extractable sw =    214.6719
+                          biomass =           717.5922       lai =     0.000000
+                          stover N conc =    1.319923       extractable sw =    214.6718
 3 May 1988(Day of year=124), manager: 
      Manager sending message :- sunflower harvest
 3 May 1988(Day of year=124), sunflower: 
@@ -556,38 +535,38 @@
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0064772
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1853313
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0064773
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1853314
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0372092
-      water stress 2 =       0.0668704   nitrogen stress 2 =       0.2285541
+      water stress 2 =       0.0668705   nitrogen stress 2 =       0.2285541
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4932972
-      water stress 2 =       0.0347665   nitrogen stress 2 =       0.5946377
+      water stress 2 =       0.0347666   nitrogen stress 2 =       0.5946378
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3764026
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3764024
       water stress 2 =       0.3381814   nitrogen stress 2 =       0.5011220
      
      
      
       stress indices for flowering
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.3689860
-      water stress 2 =       0.3512558   nitrogen stress 2 =       0.4951889
+      water stress 2 =       0.3512559   nitrogen stress 2 =       0.4951888
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2470669
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3976535
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2470668
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3976533
 3 May 1988(Day of year=124), manager: 
      Manager sending message :- sunflower end_crop
 3 May 1988(Day of year=124), sunflower: 
