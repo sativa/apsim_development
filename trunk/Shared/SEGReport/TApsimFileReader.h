@@ -41,6 +41,9 @@ class TApsimFileReader : public TSEGTable
       // report directory.  Used by ApsimFileReader to use relative paths.
       virtual void setReportDirectory(AnsiString reportDir);
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
+
    __published:
       __property TStrings* filenames = {read=files, write=setFileNames};
    };

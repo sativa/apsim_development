@@ -26,6 +26,9 @@ class TProbability : public TSEGTable
       __fastcall TProbability(TComponent* owner);
       __fastcall ~TProbability();
 
+      virtual void setProperty(const std::string& propertyName,
+                               const std::string& propertyValue);
+
    __published:
       __property bool exceedence = {read=isExceedence, write=setExceedence};
       __property AnsiString fieldName = {read=fieldNameToAnalyse, write=setFieldName};

@@ -73,4 +73,13 @@ void TFilter::storeRecords(void) throw(runtime_error)
       source->Filter = "";
       }
    }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TFilter::setProperty(const std::string& propertyName,
+                          const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "filter"))
+      filter = propertyValue.c_str();
+   }
 

@@ -6,6 +6,7 @@
 #include "TExcel.h"
 #include <general\db_functions.h>
 #include <general\vcl_functions.h>
+#include <general\string_functions.h>
 #include <general\excel.h>
 
 TExcelApplication *ExcelApp;
@@ -130,5 +131,16 @@ void TExcel::storeRecords(void) throw(runtime_error)
       ExcelApp->Disconnect();
       delete ExcelApp;
       }
+   }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TExcel::setProperty(const std::string& propertyName,
+                         const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "filename"))
+      fileName = propertyValue.c_str();
+   else if (Str_i_Eq(propertyName, "pagename"))
+      pageName = propertyValue.c_str();
    }
 

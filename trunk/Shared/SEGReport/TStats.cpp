@@ -6,6 +6,7 @@
 #include "TStats.h"
 #include <general\db_functions.h>
 #include <general\math_functions.h>
+#include <general\string_functions.h>
 
 using namespace std;
 #pragma package(smart_init)
@@ -139,5 +140,14 @@ void TStats::storeRecords(void) throw(runtime_error)
          }
       source->cancelSeries();
       }
+   }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TStats::setProperty(const std::string& propertyName,
+                         const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "fieldname"))
+      fieldName = propertyValue.c_str();
    }
 
