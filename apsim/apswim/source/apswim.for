@@ -267,6 +267,7 @@
          double precision hysdry(0:M)
 
          logical crops_found
+         double precision psix(MV)
 
       End Type APSwimGlobals
 ! =====================================================================
@@ -1680,6 +1681,13 @@ cnh      print*,g%TD_pevap
          else
             Call Message_Unused()
          endif
+
+      else if (index (Variable_name, 'psix').eq.1) then
+            call respond2Get_double_array (
+     :            Variable_name,
+     :            'cm',
+     :            g%psix,
+     :            mv)
 
       else if (index(Variable_name,'leach_').eq.1) then
          solnum = apswim_solute_number (Variable_name(7:))
@@ -3224,29 +3232,31 @@ cnh            g%dt=max(g%dt,p%dtmin)
             g%dt=min(g%dt,p%dtmax)
             g%dt=max(g%dt,p%dtmin)
 
+cnh Commented out until fully tested need for constraining timestep to within Eo boundaries.
+!            if(sum(g%pep(1:g%num_crops)).gt.0.0) then
+!               ! there are crops requiring water. Therefore do not step past the start and end
+!               ! of daily ET period.
+!               ! need to limit timestep to not step past a point on the evap or rainfall log
+!c               LogTime = NextLogTime(g%SWIMRainTime,g%SWIMRainNumPairs)
+!c               g%dt=min(g%dt,LogTime-g%t)
+!                LogTime = NextLogTime(g%SWIMEvapTime,g%SWIMEvapNumPairs)
+!                !g%dt=min(g%dt,LogTime-g%t)
+!
+!               if (g%res.eq.0d0) then
+!                  ! last step was night time - better check if we are starting a new day and
+!                  ! allow for change in evaporation rates
+!                  qmax=max(qmax,
+!     :             (apswim_cevap(g%t+g%dt)-apswim_cevap(g%t+g%dt))/g%dt)
+!               endif
+!               if (qmax.gt.0) then
+!                  !g%dt=min(g%dt,ddivide(p%dw,qmax,0.d0))
+!               else
+!                  ! No Evap so no change to dt required
+!               endif
+!            endif
+!cnh            g%dt = dubound(g%dt,timestep_remaining)
 
-            if(sum(g%pep(1:g%num_crops)).gt.0.0) then
-               ! there are crops requiring water. Therefore do not step past the start and end
-               ! of daily ET period.
-               ! need to limit timestep to not step past a point on the evap or rainfall log
-c               LogTime = NextLogTime(g%SWIMRainTime,g%SWIMRainNumPairs)
-c               g%dt=min(g%dt,LogTime-g%t)
-                LogTime = NextLogTime(g%SWIMEvapTime,g%SWIMEvapNumPairs)
-                g%dt=min(g%dt,LogTime-g%t)
 
-               if (g%res.eq.0d0) then
-                  ! last step was night time - better check if we are starting a new day and
-                  ! allow for change in evaporation rates
-                  qmax=max(qmax,
-     :             (apswim_cevap(g%t+g%dt)-apswim_cevap(g%t+g%dt))/g%dt)
-               endif
-               if (qmax.gt.0) then
-                  g%dt=ddivide(p%dw,qmax,0.d0)
-               else
-                  ! No Evap so no change to dt required
-               endif
-            endif
-cnh            g%dt = dubound(g%dt,timestep_remaining)
          end if
 
 
@@ -3883,6 +3893,7 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
    63          continue
                g%pwuptake(vegnum,node) = 0d0
                g%pwuptakepot(vegnum,node) = 0d0
+               g%psix(vegnum) = 0d0
    62       continue
    61    continue
 
