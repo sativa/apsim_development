@@ -184,15 +184,16 @@ void WhopEcon::Read_inifile_settings (void)
    EconForm->DBFileName = Econ_DB_name.c_str();
 
    ini.Read(WHOPECON_FIELDS, CROPID, st);
-   CropID = st;
+   Split_string(st, ",", CropIDs);
    ini.Read(WHOPECON_FIELDS, PROTEINID, st);
-   ProteinID = st;
+   Split_string(st, ",", ProteinIDs);
    ini.Read(WHOPECON_FIELDS, YIELDID, st);
-   YieldID = st;
+   Split_string(st, ",", YieldIDs);
    ini.Read(WHOPECON_FIELDS, NRATEID, st);
-   NRateID = st;
+   Split_string(st, ",", NRateIDs);
    ini.Read(WHOPECON_FIELDS, PLANTRATEID, st);
-   PlantRateID = st;
+   Split_string(st, ",", PlantRateIDs);
+
 }
 
 
@@ -217,7 +218,7 @@ void WhopEcon::doCalculations(TAPSTable& data,
    // economic configuration
    data.markFieldAsAPivot(WHOPECON_FACTOR_NAME);
 
-   vector<string> econ_config_names;              
+   vector<string> econ_config_names;
    bool ok = data.first();
    while (ok)
    {
@@ -266,11 +267,11 @@ void WhopEcon::doCalculations(TAPSTable& data,
       for (record = data.begin(); record != data.end(); record++)
       {
          //AnsiString Crop = record->getFieldValue("Crop").c_str();
-         AnsiString Crop = getStringFromRecord(*record, CropID).c_str();
+         AnsiString Crop = getStringFromRecord(record, CropIDs).c_str();
          // wheat price has to be recalculated for every simulation (protein)
          if(Crop == "Wheat"){
             //float Protein = StrToFloat(record->getFieldValue("Protein").c_str());
-            float Protein = getFloatFromRecord(*record, ProteinID);
+            float Protein = getFloatFromRecord(record, ProteinIDs);
             Price = GetPrice(ConfigIndex,Crop,&HarvestLoss,Protein);   // price in $/t
             // if price < 0 then no crop of this name in this scenario
             //if(Price < 0){
@@ -296,10 +297,14 @@ void WhopEcon::doCalculations(TAPSTable& data,
          LastCrop = Crop;
 
          //float Yield = StrToFloat(record->getFieldValue("Yield (kg/ha)").c_str()) * (1 - HarvestLoss/100);
-         float Yield = getFloatFromRecord(*record, YieldID);
-         float Return = Price * Yield / 1000.0;   // in $/ha
-         float NRate = getFloatFromRecord(*record, NRateID);
-         float PlantingRate = getFloatFromRecord(*record, PlantRateID);
+         float Yield = getFloatFromRecord(record, YieldIDs);
+         float Return;
+         if (Crop == "Cotton")
+            Return = Price * Yield;       // $/bale * bale/ha = $/ha
+         else
+            Return = Price * Yield / 1000.0;  // $/tonne * kg/ha / 1000 = $/ha
+         float NRate = getFloatFromRecord(record, NRateIDs);
+         float PlantingRate = getFloatFromRecord(record, PlantRateIDs);
          float UnitCost = CalcUnitCost(NRate,SeedWt,PlantingRate);
          float Cost = AreaCost + UnitCost + CropCost;
 
@@ -320,25 +325,25 @@ void WhopEcon::doCalculations(TAPSTable& data,
    Screen->Cursor = savedCursor;
 }
 
-float WhopEcon::getFloatFromRecord(TAPSRecord& record, string ID)
+float WhopEcon::getFloatFromRecord(const TAPSRecord* record, vector<string>& IDs)
 {
-   string temp = getStringFromRecord(record, ID);
-   if (temp == "")
+   string temp = getStringFromRecord(record, IDs);
+
+   if (temp == "")  // then none of the known field names were found.
+      // could throw an error here.
       return 0.0;
+
    else
    {
       char *endptr;
-      strtod(temp.c_str(), &endptr);
-      if (*endptr == '\0')
+      strtod(temp.c_str(), &endptr);  // check for a valid float
+      if (*endptr == '\0')   // then this is a fully valid float
          return StrToFloat(temp.c_str());
-      else if (*endptr == *(temp.begin())) {  //then this is a non-floating pt field
-         ShowMessage("An entry in field " + AnsiString(ID.c_str()) +
-                     " of your current dataset was not a valid" +
-                     " floating point number. Using" +
-                     " the value 0 in its place.");
+      else if (*endptr == *(temp.begin())) {  // then this is a non-floating pt field
          return 0.0;
       }
-      else { // strip off non-float bits of string
+      else { // part of the string can be parsed as a float - strip off non-float
+             // bits of the string
          Replace_all(temp, endptr, "");
          return StrToFloat(temp.c_str());
       }
@@ -346,14 +351,17 @@ float WhopEcon::getFloatFromRecord(TAPSRecord& record, string ID)
    }
 }
 
-string WhopEcon::getStringFromRecord(TAPSRecord& record, string ID)
+string WhopEcon::getStringFromRecord(const TAPSRecord* record, vector<string>& IDs)
 {
-   string temp = record.getFieldValue(ID);
-   if (temp == "")
-      ShowMessage("The field " + AnsiString(ID.c_str()) + " was not found in the"
-                  + " current dataset. Please update your *.ini file in the field_ID"
-                  + " section to include "
-                  + " a field name that is present in your current dataset.");
+   string temp;
+   for (vector<string>::const_iterator ID = IDs.begin(); ID != IDs.end(); ID++) {
+      temp = record->getFieldValue(*ID);
+      if (temp != "")
+         break;
+   }
+   if (temp == "") {
+      // could throw an error here
+   }
    return temp;
 }
 
@@ -416,7 +424,9 @@ float ProteinAdj(float Protein)
       }
       DATA->WheatMatrix->Next();
    }
-
+   // if we get to here, Protein input was higher than anything in WheatMatrix,
+   // so we return 0
+   return 0.0;
 }
 //----------------------------------------------------------------------------
 
@@ -473,6 +483,7 @@ float CalcUnitCost(float NRate, float SeedWt, float PlantingRate)
       }
       else if(Operation == "Nitrogen Application *"){
          if(Units == "tonne")Factor = 0.001;
+         else if(Units == "kg") Factor = 1;
          else Factor = 0;
          UnitCost += Cost * Factor * NRate;
       }
@@ -484,7 +495,7 @@ float CalcUnitCost(float NRate, float SeedWt, float PlantingRate)
    }
    return UnitCost;
 
-}                        
+}
 
 
 
