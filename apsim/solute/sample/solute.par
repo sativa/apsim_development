@@ -25,3 +25,9 @@ report do_output
 solute_names =  br cl   
 br =  100 0 0 0 0 0 0 0 (kg/ha)   ! Initial Br profile
 cl =   0 0 0 0 0 0 0 0 (kg/ha)   ! Initial Cl profile
+
+[sample.summaryfile.parameters]
+summaryfile=Solute.sum
+
+[sample.screen.parameters]
+screen_output=on
