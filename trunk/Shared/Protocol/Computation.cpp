@@ -1,9 +1,7 @@
 #include <windows.h>
-#pragma hdrstop
 
 #include "Computation.h"
 #include "Transport.h"
-#include <windows.h>
 #include <list>
 #include <functional>
 #include <general\path.h>

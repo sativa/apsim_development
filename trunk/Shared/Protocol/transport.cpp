@@ -1,5 +1,4 @@
-#include <windows.h>
-#pragma hdrstop
+#include <stdlib.h>
 
 #include "Transport.h"
 #include <ComponentInterface\Interfaces.h>

@@ -18,6 +18,7 @@ OBJECTS = ProtocolManager.obj Coordinator.obj \
 	Registrations.obj
 RESFILES = 
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
+   $(APSROOT)\Shared\general\general_vcl.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
