@@ -91,13 +91,18 @@
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\Bin\VBGeneral.dll"
-                    Private = "False"
+                    Private = "True"
                 />
                 <Reference
                     Name = "CSGeneral"
                     AssemblyName = "CSGeneral"
                     HintPath = "..\..\Bin\CSGeneral.dll"
                     Private = "False"
+                />
+                <Reference
+                    Name = "scpl"
+                    AssemblyName = "scpl"
+                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\scpl.dll"
                 />
             </References>
             <Imports>
