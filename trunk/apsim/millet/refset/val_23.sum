@@ -318,6 +318,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -389,450 +390,483 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 July 1997 (Day of year=182):
-      Sending apply message to fertiliz
-     
-        - Reading Fertiliser Type Parameters
-       150.00 of di-ammonium phosphate (dap)
-                                              added at depth   10.00 (layer   1)
+   OPERATNS:
+       Sending apply message to fertiliz
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        150.00 of di-ammonium phosphate (dap)
+                                               added at depth   10.00 (layer   1)
 2 July 1997 (Day of year=183):
-      Sending sow message to millet
-     Sow
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            183   30.0    7.5    0.8 bj104
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = bj104
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   225.0
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  3300.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    66.1
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   OPERATNS:
+       Sending sow message to millet
+   MILLET:
+      Sow
+      
+      
+      
+                       Crop Sowing Data
           ------------------------------------------------
-     
-     
-     
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             183   30.0    7.5    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   225.0
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  3300.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
 3 July 1997 (Day of year=184):
-      stage    2.0 germination
+   MILLET:
+       stage    2.0 germination
 5 July 1997 (Day of year=186):
-      stage    3.0 emergence
-                          biomass =          0.5250000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.399999       extractable sw =    12.68722
+   MILLET:
+       stage    3.0 emergence
+                           biomass =          0.5250000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.399999       extractable sw =    12.68722
 8 July 1997 (Day of year=189):
-      Sending set message to soiln2
-      Sending set message to soiln2
-      Sending set message to soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.235000      in layer   1
-              is above saturation of     0.216000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.250000      in layer   2
-              is above saturation of     0.240000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.249000      in layer   3
-              is above saturation of     0.234000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error               
-                      -------------------              
-     
-     Module name = soilwat2
-     
-     Call stack  = soilwat2_set_my_variable
-                   soilwat2
-                   operatns_schedule
-                   operatns
-                   clock_timestep_loop
-     
-     Internal error:
-     
-      soil water of     0.240000      in layer   6
-              is above saturation of     0.237000
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   OPERATNS:
+       Sending set message to soiln2
+       Sending set message to soiln2
+       Sending set message to soilwat2
+   SOILWAT2:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.235000      in layer   1
+               is above saturation of     0.216000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.250000      in layer   2
+               is above saturation of     0.240000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.249000      in layer   3
+               is above saturation of     0.234000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = soilwat2
+      
+      Call stack  = soilwat2_set_my_variable
+                    soilwat2
+                    operatns_schedule
+                    operatns
+                    clock_timestep_loop
+      
+      Internal error:
+      
+       soil water of     0.240000      in layer   6
+               is above saturation of     0.237000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 14 July 1997 (Day of year=195):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            195    7.5    0.0    0.0    0.8 bj104
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = bj104
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   128.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2900.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    66.1
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET1:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             195    7.5    0.0    0.0    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   128.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2900.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
 15 July 1997 (Day of year=196):
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.400000       extractable sw =    4.672297
+   MILLET1:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.400000       extractable sw =    4.672297
 16 July 1997 (Day of year=197):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            197    7.5    0.0    0.0    0.8 bj104
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = bj104
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   118.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2900.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    66.1
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET2:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.400000       extractable sw =    3.678414
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             197    7.5    0.0    0.0    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   118.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2900.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.400000       extractable sw =    3.678414
 18 July 1997 (Day of year=199):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            199    7.5    0.0    0.0    0.8 bj104
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = bj104
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =   108.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2900.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    66.1
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET3:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    4.0 end_of_juvenile
-                          biomass =           3.622349       lai =    0.5231187e-01
-                          stover N conc =    3.058597       extractable sw =    37.15386
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1500000e-02
-                          stover N conc =    4.400000       extractable sw =    1.930515
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             199    7.5    0.0    0.0    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =   108.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2900.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
+   MILLET:
+       stage    4.0 end_of_juvenile
+                           biomass =           3.622349       lai =    0.5231187e-01
+                           stover N conc =    3.058452       extractable sw =    37.15386
+   MILLET3:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1500000e-02
+                           stover N conc =    4.400000       extractable sw =    1.930515
 20 July 1997 (Day of year=201):
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            201    7.5    0.0    0.0    0.8 bj104
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = bj104
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    98.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2900.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    66.1
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET4:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             201    7.5    0.0    0.0    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    98.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2900.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
 21 July 1997 (Day of year=202):
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1425000e-02
-                          stover N conc =    4.400000       extractable sw =   0.0000000
-     Initiate
-     
-     
-     
-                      Crop Initiate Data
-         ------------------------------------------------
-        Initiate   Axes   DM      N   Spacing Cultivar
-         Day no    m^2 g/plant g/plant   m      Name
-         ------------------------------------------------
-            202    7.5    0.0    0.0    0.8 bj104
-         ------------------------------------------------
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = bj104
-         est_days_emerg_to_init  =      17
-         tt_emerg_to_endjuv       =    88.5
-         pp_endjuv_to_initp       =   164.0
-         tt_flower_to_maturity    =   457.0
-         head_grain_no_max        =  2900.0
-         grain_gth_rate           =     0.6
-         tt_flag_to_flower        =    66.1
-         tt_flower_to_start_grain =    80.0
-         tt_maturity_to_ripe      =     1.0
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-         ------------------------------------------------
-           Layer depth  Kl factor   Lower limit
-              (mm)         ()        (mm/mm)
-         ------------------------------------------------
-             150.000       0.120       0.066
-             150.000       0.120       0.090
-             300.000       0.120       0.117
-             300.000       0.100       0.123
-             300.000       0.060       0.129
-             300.000       0.055       0.137
-             300.000       0.030       0.148
+   MILLET4:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1425000e-02
+                           stover N conc =    4.400000       extractable sw =   0.0000000
+   MILLET5:
+      Initiate
+      
+      
+      
+                       Crop Initiate Data
           ------------------------------------------------
-     
-     
-     
-      stage    5.0 floral_initiation
-                          biomass =           7.932461       lai =    0.1067593    
-                          stover N conc =    2.665158       extractable sw =    33.49121
+         Initiate   Axes   DM      N   Spacing Cultivar
+          Day no    m^2 g/plant g/plant   m      Name
+          ------------------------------------------------
+             202    7.5    0.0    0.0    0.8 bj104
+          ------------------------------------------------
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = bj104
+          est_days_emerg_to_init  =      17
+          tt_emerg_to_endjuv       =    88.5
+          pp_endjuv_to_initp       =   164.0
+          tt_flower_to_maturity    =   457.0
+          head_grain_no_max        =  2900.0
+          grain_gth_rate           =     0.6
+          tt_flag_to_flower        =    66.1
+          tt_flower_to_start_grain =    80.0
+          tt_maturity_to_ripe      =     1.0
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+          ------------------------------------------------
+            Layer depth  Kl factor   Lower limit
+               (mm)         ()        (mm/mm)
+          ------------------------------------------------
+              150.000       0.120       0.066
+              150.000       0.120       0.090
+              300.000       0.120       0.117
+              300.000       0.100       0.123
+              300.000       0.060       0.129
+              300.000       0.055       0.137
+              300.000       0.030       0.148
+           ------------------------------------------------
+      
+      
+      
+   MILLET:
+       stage    5.0 floral_initiation
+                           biomass =           7.932461       lai =    0.1067593    
+                           stover N conc =    2.665061       extractable sw =    33.49121
 22 July 1997 (Day of year=203):
-      stage    3.0 emergence
-                          biomass =          0.1500000e-01   lai =    0.1425000e-02
-                          stover N conc =    4.400000       extractable sw =   0.0000000
+   MILLET5:
+       stage    3.0 emergence
+                           biomass =          0.1500000e-01   lai =    0.1425000e-02
+                           stover N conc =    4.400000       extractable sw =   0.0000000
 23 July 1997 (Day of year=204):
-      stage    4.0 end_of_juvenile
-                          biomass =           1.660053       lai =    0.5057522e-01
-                          stover N conc =    2.345088       extractable sw =    9.740542
+   MILLET1:
+       stage    4.0 end_of_juvenile
+                           biomass =           1.660053       lai =    0.5057522e-01
+                           stover N conc =    2.345055       extractable sw =    9.740542
 24 July 1997 (Day of year=205):
-     plant_kill.   1% failure because of water stress.
-     plant_kill.   1% failure because of water stress.
-     plant_kill.   0% failure because of water stress.
+   MILLET2:
+      plant_kill.   1% failure because of water stress.
+   MILLET3:
+      plant_kill.   1% failure because of water stress.
+   MILLET4:
+      plant_kill.   0% failure because of water stress.
 25 July 1997 (Day of year=206):
-      stage    5.0 floral_initiation
-                          biomass =           3.196562       lai =    0.9267542e-01
-                          stover N conc =    2.375447       extractable sw =    31.68915
+   MILLET1:
+       stage    5.0 floral_initiation
+                           biomass =           3.196562       lai =    0.9267542e-01
+                           stover N conc =    2.375426       extractable sw =    31.68915
 28 July 1997 (Day of year=209):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.8831947       lai =    0.2578366e-01
-                          stover N conc =    2.396230       extractable sw =    31.31610
+   MILLET2:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.8831947       lai =    0.2578366e-01
+                           stover N conc =    2.396220       extractable sw =    31.31610
 29 July 1997 (Day of year=210):
-      stage    4.0 end_of_juvenile
-                          biomass =          0.2723494       lai =    0.9521245e-02
-                          stover N conc =    2.051066       extractable sw =    31.09874
+   MILLET5:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.2723494       lai =    0.9521245e-02
+                           stover N conc =    2.051064       extractable sw =    31.09874
 30 July 1997 (Day of year=211):
-      Sending apply message to fertiliz
-     
-        - Reading Fertiliser Type Parameters
-       100.00 of urea ferilizer (urea)
-                                              added at depth   10.00 (layer   1)
-      stage    5.0 floral_initiation
-                          biomass =           1.586837       lai =    0.4830020e-01
-                          stover N conc =    2.067015       extractable sw =    27.61230
-      stage    4.0 end_of_juvenile
-                          biomass =          0.8137925       lai =    0.2641657e-01
-                          stover N conc =    2.019348       extractable sw =    27.56483
-      stage    4.0 end_of_juvenile
-                          biomass =          0.3494377       lai =    0.1191991e-01
-                          stover N conc =    2.053413       extractable sw =    27.53887
+   OPERATNS:
+       Sending apply message to fertiliz
+   FERTILIZ:
+      
+         - Reading Fertiliser Type Parameters
+        100.00 of urea ferilizer (urea)
+                                               added at depth   10.00 (layer   1)
+   MILLET2:
+       stage    5.0 floral_initiation
+                           biomass =           1.586837       lai =    0.4830020e-01
+                           stover N conc =    2.067008       extractable sw =    27.61230
+   MILLET3:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.8137925       lai =    0.2641657e-01
+                           stover N conc =    2.019340       extractable sw =    27.56483
+   MILLET4:
+       stage    4.0 end_of_juvenile
+                           biomass =          0.3494377       lai =    0.1191991e-01
+                           stover N conc =    2.053406       extractable sw =    27.53887
 31 July 1997 (Day of year=212):
-      stage    5.0 floral_initiation
-                          biomass =          0.4433595       lai =    0.1499357e-01
-                          stover N conc =    2.036161       extractable sw =    26.34486
-     Simulation is terminating due to end criteria being met.
+   MILLET5:
+       stage    5.0 floral_initiation
+                           biomass =          0.4433595       lai =    0.1499357e-01
+                           stover N conc =    2.036153       extractable sw =    26.34486
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
