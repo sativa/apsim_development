@@ -487,5 +487,23 @@ class GetAttribute
          C.push_back(t.getAttribute(attributeName));
          }
    };
+//---------------------------------------------------------------------------
+// predicate to create a vector of strings that has a particular extension.
+//---------------------------------------------------------------------------
+template <class CT>
+class MatchPartialStringAndStore
+   {
+   private:
+      CT& matchingFiles;
+      const string extensionToMatch;
+   public:
+      MatchPartialStringAndStore(const string& extension, CT& matchingfiles)
+         : extensionToMatch(extension), matchingFiles(matchingfiles) { }
+      void operator() (const string& st)
+         {
+         if (stristr(st.c_str(), extensionToMatch.c_str()) != NULL)
+            matchingFiles.push_back(st);
+         }
+   };
 
 #endif
