@@ -103,6 +103,9 @@ class APSIMCropModPublic
    ratio_root_shoot    : APSIMRealArray = Biomass root/shoot ratio in different stages,    (),    READ
    grn_water_cont      : APSIMReal      = water content of grain,                          (g/g), READ
 
+   x_shoot_nc_trans    : APSIMRealArray = nitrogen concentration of the stover - optional,                  (g/g), READ
+   y_stem_trans_frac = : APSIMRealArray = fraction of stem biomass for retranlsocation to grain - optional, ()   , READ
+
    !------------------------------
    !LEAF/STEM/POD AREA GROWTH
    sla_min             : APSIMReal      = minimum specific leaf area for new leaf area, (mm^2/g),     READ
