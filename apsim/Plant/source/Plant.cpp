@@ -1043,24 +1043,25 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-        legnew_bio_yieldpart_demand1(c.twilight
-            , g.day_of_year
-            , g.latitude
-            , yield_parts
-            , num_yield_parts
-            , root
-            , max_part
-            , g.dlt_dm
-            , g.dm_green
-            , g.dm_senesced
-            , p.x_pp_hi_incr
-            , p.y_hi_incr
-            , p.num_pp_hi_incr
-            , p.x_hi_max_pot_stress
-            , p.y_hi_max_pot
-            , p.num_hi_max_pot
-            , g.grain_energy
-            , &g.dlt_dm_grain_demand);
+        fruit->legnew_bio_yieldpart_demand1(c.twilight
+                                          , g.day_of_year
+                                          , g.latitude
+                                          , yield_parts
+                                          , num_yield_parts
+                                          , root
+                                          , max_part
+                                          , g.dlt_dm
+                                          , g.dm_green
+                                          , g.dm_senesced
+                                          , g.dm_stress_max.getAverage()
+                                          , p.x_pp_hi_incr
+                                          , p.y_hi_incr
+                                          , p.num_pp_hi_incr
+                                          , p.x_hi_max_pot_stress
+                                          , p.y_hi_max_pot
+                                          , p.num_hi_max_pot
+                                          , g.grain_energy
+                                          , &g.dlt_dm_grain_demand);
 
         }
     else if (option == 2)
@@ -1138,10 +1139,10 @@ void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-        legnew_bio_grain_oil (
-            c.grain_oil_conc
-            , c.carbo_oil_conv_ratio
-            , &g.grain_energy);
+        fruit->legnew_bio_grain_oil (
+                                    c.grain_oil_conc
+                                    , c.carbo_oil_conv_ratio
+                                    , &g.grain_energy);
         }
     else
         {
@@ -1167,26 +1168,62 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
     push_routine (my_name);
 
     if (option == 1)
-        {
-        legnew_dm_partition1 (c.frac_leaf[(int)phenology->stageNumber()-1]
-                              , c.frac_pod[(int)phenology->stageNumber()-1]
-                              , g.grain_energy
-                              , c.grain_oil_conc
+    {
+        double dlt_dm_veg = g.dlt_dm;
+        double dlt_dm_fruit = 0.0;
+        float dlt_dm_green_fruit[max_part];
+
+        float dm_yield_demand_fruit = fruit->dm_yield_demand (c.frac_pod[(int)phenology->stageNumber()-1]
+                                                            , g.grain_energy
+                                                            , dlt_dm_veg
+                                                            , dlt_dm_fruit
+                                                            , g.dlt_dm_grain_demand
+                                                            );
+
+        legnew_dm_partition1_test (c.frac_leaf[(int)phenology->stageNumber()-1]
                               , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
                               , c.sla_min
                               , g.dlt_dm
-                              , g.dlt_dm_grain_demand
                               , g.dlt_lai_stressed
-                              , &g.dlt_dm_oil_conv
+                              , dm_yield_demand_fruit
+                              , &dlt_dm_fruit
                               , g.dlt_dm_green);
+
+        fruit->dm_partition1 (c.frac_pod[(int)phenology->stageNumber()-1]
+                             , g.grain_energy
+                             , c.grain_oil_conc
+                             , dlt_dm_fruit
+                             , g.dlt_dm_grain_demand
+                             , &g.dlt_dm_oil_conv
+                             , dlt_dm_green_fruit
+                             );
+        for (int part=pod; part< max_part; part++)
+        {
+            g.dlt_dm_green[part] = dlt_dm_green_fruit[part];     // FIXME - remove this when it beocmes proper class
+
+        }
+
+//        legnew_dm_partition1 (c.frac_leaf[(int)phenology->stageNumber()-1]
+//                              , c.frac_pod[(int)phenology->stageNumber()-1]
+//                              , g.grain_energy
+//                              , c.grain_oil_conc
+//                              , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
+//                              , c.sla_min
+//                              , g.dlt_dm
+//                              , g.dlt_dm_grain_demand
+//                              , g.dlt_lai_stressed
+//                              , &g.dlt_dm_oil_conv
+//                              , g.dlt_dm_green);
+//
 //fprintf(stdout, "%d,%f,%f,%f\n", g.day_of_year,
 //        g.dlt_dm,
 //        c.frac_leaf[(int)phenology->stageNumber()-1],
 //        c.frac_pod[(int)phenology->stageNumber()-1]);
-        }
+
+    }
     else if (option == 2)
-        {
-        legnew_dm_partition2(phenology->stageNumber()
+    {
+       legnew_dm_partition2 (phenology->stageNumber()
                              , c.x_stage_no_partition
                              , c.y_frac_leaf
                              , c.y_frac_pod
@@ -2677,7 +2714,7 @@ void Plant::plant_nit_grain_demand (int Option)
    {
    if (Option == 1)
       {
-      plant_grain_n_demand1(c.sfac_slope
+      fruit->plant_grain_n_demand1(c.sfac_slope
                             , c.sw_fac_max
                             , c.temp_fac_min
                             , c.tfac_slope
@@ -5424,152 +5461,100 @@ void Plant::legnew_n_partition
 
 
 //+  Purpose
-//       Calculate grain oil factors
-
-//+  Mission statement
-//        Calculate grain oil factors
-
-//+  Changes
-//      141100 jngh specified and programmed
-void Plant::legnew_bio_grain_oil (
-     float  c_grain_oil_conc          // (INPUT) fractional oil content of grain (0-1)
-    ,float  c_carbo_oil_conv_ratio    // (INPUT) Carbohydrate:oil conversion ratio (>= 1.0)
-    ,float  *grain_energy              // (OUTPUT) multiplier of grain weight to account
-    ) {                               // for seed energy content (>= 1.0)
-
-//+  Constant Values
-    const char*  my_name = "legnew_bio_grain_oil" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
-    *grain_energy = 1.0 + c_grain_oil_conc * (c_carbo_oil_conv_ratio - 1.0);
-
-    bound_check_real_var (parent,*grain_energy
-                          , 1.0
-                          , 2.0
-                          , "grain_energy");
-
-    pop_routine (my_name);
-    return;
-    }
-
-
-//+  Purpose
-//        Find grain demand for carbohydrate using harvest index (g/m^2)
+//       Partitions new dm (assimilate) between plant components (g/m^2)
 
 //+  Mission Statement
-//   Calculate yield component biomass demand using harvest index increments
+//     Partitions new biomass between plant components
 
 //+  Changes
-//     010994 jngh specified and programmed
-void Plant::legnew_bio_yieldpart_demand1
-    (float c_twilight                          // (INPUT)  twilight in angular distance b
-    ,int   g_day_of_year                       // (INPUT)  day of year
-    ,float g_latitude                          // (INPUT)  latitude (degrees, negative fo
-    ,int  *yield_parts                         // (INPUT)
-    ,int   num_yield_parts                     // (INPUT)
-    ,int   root_part                           // (INPUT)
-    ,int   max_part                            // (INPUT)
-    ,float g_dlt_dm                            // (INPUT)  the daily biomass production (
-    ,float *g_dm_green                         // (INPUT)  live plant dry weight (biomass
-    ,float *g_dm_senesced                      // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float *p_x_pp_hi_incr                     // (INPUT)
-    ,float *p_y_hi_incr                        // (INPUT)  harvest index increment per da
-    ,int   p_num_pp_hi_incr                    // (INPUT)
-    ,float *p_x_hi_max_pot_stress              // (INPUT) Potential Max HI Stress dete
-    ,float *p_y_hi_max_pot                     // (INPUT) Potential Max HI
-    ,int   p_num_hi_max_pot                    // (INPUT) Number of lookup pairs
-    ,float g_grain_energy                      // (INPUT)
-    ,float *dlt_dm_yieldpart_demand             // (OUTPUT) grain dry matter potential (g/m^2)
-    ) {
-
-//+  Constant Values
-    const char*  my_name = "legnew_bio_yieldpart_demand1" ;
+//       010994 jngh specified and programmed
+//       250495 psc  modified dlt_dm_green(grain) to account for barren heads
+//       180597 mjr  modified to account for partitioning to leaf during grainfil
+//                     and partitioning to energy pool
+void Plant::legnew_dm_partition1_test
+                                     (
+                                       float  c_frac_leaf                   // (INPUT)  fraction of remaining dm allocated to leaf
+                                     , float  c_ratio_root_shoot            // (INPUT)  root:shoot ratio of new dm ()
+                                     , float  c_sla_min                     // (INPUT)  minimum specific leaf area for
+                                     , double  g_dlt_dm                      // (INPUT)  the daily biomass production (
+                                     , float  g_dlt_lai_stressed            // (INPUT)  potential change in live
+                                     , float g_dlt_dm_yield_demand
+                                     , double *dlt_dm_fruit
+                                     , float *dlt_dm_green                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
+                                     )
+{
 
 //+  Local Variables
-    float ave_stress;                             // average dm_stress from flowering to gra
-    float dlt_dm_yield;                           // grain demand for carbohydrate (g/m^2)
-    float dlt_dm_yield_unadj;                     // grain demand for carbohydrate, unadjusted
-// for energy conversion (g/m^2)
-    float dm_tops;                                // drymatter of tops (g/m^2)
-    float harvest_index;                          // last harvest index (g grain/g biomass)
-    float hi_max_pot;                             // max potential HI due to stress
-    float dm_tops_new;                            // new drymatter  tops (g/m^2)
-    float harvest_index_new;                      // next harvest index (g grain/g biomass)
-    float dm_grain_new;                           // new drymatter grain (g/m^2)
-    float dm_green_yield_parts;                   // dry matter of yield parts (g/m^2)
-    float energy_adjust;                          // adjustment for energy used in oil conversion.
-    int   indx;                                   // loop index
-    float hi_incr;                                // harvest index increment per day
-    float photoperiod;                            // hours of photosynthetic light (hours)
+    double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
+    double dlt_dm_leaf_max;                        // max increase in leaf dm (g/m^2)
+    double dm_remaining;                           // interim dm pool for partitioning
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
+         // Root must be satisfied. The roots don't take any of the
+         // carbohydrate produced - that is for tops only.  Here we assume
+         // that enough extra was produced to meet demand. Thus the root
+         // growth is not removed from the carbo produced by the model.
 
-    if (phenology->inPhase("grainfill"))
+          // first we zero all plant component deltas
+    fill_real_array (dlt_dm_green, 0.0, max_part);
+
+         // now we get the root delta for all stages - partition scheme
+         // specified in coeff file
+    dlt_dm_green[root] = c_ratio_root_shoot * g_dlt_dm;
+
+         // now distribute the assimilate to plant parts
+    if (g_dlt_dm_yield_demand >= g_dlt_dm)
         {
-
-        ave_stress = divide (g.dm_stress_max.getSum(),
-                             g.dm_stress_max.getN(),
-                             1.0);
-        hi_max_pot = linear_interp_real(ave_stress
-                                        ,p_x_hi_max_pot_stress
-                                        ,p_y_hi_max_pot
-                                        ,p_num_hi_max_pot);
-
-        photoperiod = day_length (g_day_of_year, g_latitude, c_twilight);
-
-        hi_incr = linear_interp_real(photoperiod
-                                    ,p_x_pp_hi_incr
-                                    ,p_y_hi_incr
-                                    ,p_num_pp_hi_incr);
-
-    // effective grain filling period
-
-        dm_tops = sum_real_array (g_dm_green, max_part)
-                         - g_dm_green[root_part]
-                         + sum_real_array (g_dm_senesced, max_part)
-                         - g_dm_senesced[root_part];
-        dm_green_yield_parts = 0.0;
-
-        for (indx = 0; indx < num_yield_parts; indx++)
-            {
-            dm_green_yield_parts = dm_green_yield_parts
-                         + g_dm_green[yield_parts[indx]];
-            }
-        harvest_index = divide (dm_green_yield_parts, dm_tops, 0.0);
-        dm_tops_new = dm_tops + g_dlt_dm;
-
-        harvest_index_new = u_bound (harvest_index + hi_incr, hi_max_pot);
-
-        dm_grain_new = dm_tops_new * harvest_index_new;
-        dlt_dm_yield_unadj = dm_grain_new - dm_green_yield_parts;
-
-    // adjust for grain energy
-
-        dlt_dm_yield_unadj = bound (dlt_dm_yield_unadj, 0.0, dm_grain_new);
-
-        energy_adjust = divide (g_grain_energy
-                                , 1.0 + harvest_index_new*(g_grain_energy - 1.0)
-                                , 0.0);
-
-        dlt_dm_yield = dlt_dm_yield_unadj * energy_adjust;
-    //jh         dlt_dm_yield = dlt_dm_yield_unadj
+            // reproductive demand exceeds supply - distribute assimilate to those parts only
+        *dlt_dm_fruit = g_dlt_dm;
+        dlt_dm_green[stem] = 0.0;
+        dlt_dm_green[leaf] = 0.0;
         }
     else
         {
-        // we are out of grain fill period
-        dlt_dm_yield = 0.0;
+            // more assimilate than needed for reproductive parts
+            // distribute to all parts
+
+            // satisfy reproductive demands
+
+            // distribute remainder to vegetative parts
+        *dlt_dm_fruit = g_dlt_dm_yield_demand;
+        dm_remaining = g_dlt_dm - g_dlt_dm_yield_demand;
+        dlt_dm_green[leaf] = c_frac_leaf * dm_remaining;
+
+            // limit the delta leaf area to maximum
+        dlt_dm_leaf_max = divide (g_dlt_lai_stressed, c_sla_min * smm2sm, 0.0);
+        dlt_dm_green[leaf] = u_bound (dlt_dm_green[leaf], dlt_dm_leaf_max);
+
+        dm_remaining = dm_remaining - dlt_dm_green[leaf];
+        dlt_dm_green[stem] = dm_remaining;
         }
 
+         // do mass balance check - roots are not included
+    dlt_dm_green_tot = sum_real_array (dlt_dm_green, max_part)
+                          - dlt_dm_green[root]
+                          + *dlt_dm_fruit;
 
-    *dlt_dm_yieldpart_demand = dlt_dm_yield;
-
-    pop_routine (my_name);
-    return;
+    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+    {
+         string msg = "dlt_dm_green_tot mass balance is off: "
+                    + ftoa(dlt_dm_green_tot, ".6")
+                    + " vs "
+                    + ftoa(g_dlt_dm, ".6");
+      parent->warningError(msg.c_str());
     }
+
+         // check that deltas are in legal range
+    bound_check_real_array (parent, dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
+//            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
+
+    return;
+}
+
 
 
 
@@ -5646,9 +5631,9 @@ void Plant::legnew_dm_partition1
         dm_pod_demand = g_dlt_dm * c_frac_pod;
         }
     yield_demand = dm_pod_demand
-      + dm_meal_demand
-      + dm_oil_demand
-      + dm_oil_conv_demand;
+                 + dm_meal_demand
+                 + dm_oil_demand
+                 + dm_oil_conv_demand;
 
     // now distribute the assimilate to plant parts
     if (yield_demand >= g_dlt_dm)
@@ -7282,68 +7267,6 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
       pop_routine (my_name);
   }
 
-//  Purpose
-//    Calculate plant n demand
-//
-//  Mission Statement
-//    Calculate plant n demand
-void Plant::plant_grain_n_demand1(float c_sfac_slope            //   (INPUT)  soil water stress factor slope
-                                , float c_sw_fac_max            //   (INPUT)  soil water stress factor maxim
-                                , float c_temp_fac_min          //   (INPUT)  temperature stress factor mini
-                                , float c_tfac_slope            //   (INPUT)  temperature stress factor slop
-                                , float g_maxt                  //   (INPUT)  maximum air temperature (oC)
-                                , float g_mint                  //   (INPUT)  minimum air temperature (oC)
-                                , float g_nfact_grain_conc      //   (INPUT)
-                                , float *g_n_conc_crit          //   (INPUT)  critical N concentration (g N/
-                                , float g_swdef_expansion       //   (INPUT)
-                                , float *g_n_conc_min           //   (INPUT)  minimum N concentration (g N/g
-                                , float *g_dlt_dm_green         //   (INPUT)  plant biomass growth (g/m^2)
-                                , float *g_dlt_dm_green_retrans //   (INPUT)  plant biomass growth (g/m^2)
-                                , float *g_dm_green             //   (INPUT)  live plant dry weight (biomass
-                                , float *g_n_conc_max           //   (INPUT)  maximum N concentration (g N/g
-                                , float *g_n_green              //   (INPUT)  plant nitrogen content (g N/m^
-                                , float *grain_n_demand)        //   grain N demand (g/m^2)
-  {
-      const char *my_name = "plant_grain_n_demand1";
-
-      float   n_avail[max_part];     // N available for transfer to grain
-                                     // (g/m^2)
-      float   n_avail_stover;        // total N available in stover
-                                     // (g/m^2)
-      float   n_potential;           // maximum grain N demand (g/m^2)
-      int     part;                  // plant part number
-
-
-      push_routine (my_name);
-
-
-      *grain_n_demand = (g_dlt_dm_green[meal] + g_dlt_dm_green_retrans[meal])
-             * crop_n_dlt_grain_conc(meal,
-                            c_sfac_slope
-                          , c_sw_fac_max
-                          , c_temp_fac_min
-                          , c_tfac_slope
-                          , g_maxt
-                          , g_mint
-                          , g_nfact_grain_conc
-                          , g_n_conc_crit
-                          , g_n_conc_min
-                          , g_swdef_expansion);
-
-
-      n_potential  = (g_dm_green[meal]
-                     + g_dlt_dm_green[meal]
-                     + g_dlt_dm_green_retrans[meal])
-               * g_n_conc_max[meal];
-
-
-      *grain_n_demand = u_bound (*grain_n_demand
-                                , n_potential - g_n_green[meal]);
-
-      pop_routine (my_name);
-   }
-
-
 
 
 
@@ -8398,12 +8321,12 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
            {
            // Calculate Root Die Back
            dlt_n_sen =  g.dm_green[part]
-           * c.root_die_back_fr
-           * c.n_sen_conc[part];
+                     * c.root_die_back_fr
+                     * c.n_sen_conc[part];
            g.n_senesced[part] = g.n_senesced[part]
-           + dlt_n_sen;
-           g.n_green[part]= g.n_green[part]
-           - dlt_n_sen;
+                              + dlt_n_sen;
+           g.n_green[part] = g.n_green[part]
+                           - dlt_n_sen;
            }
        else if (part == leaf)
            {
@@ -8411,9 +8334,9 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
            n_init = dm_init * c.n_init_conc[part];
 
            g.n_dead[part] = g.n_dead[part]
-           + g.n_green[part]
-           + g.n_senesced[part]
-           - n_init;
+                          + g.n_green[part]
+                          + g.n_senesced[part]
+                          - n_init;
            g.n_dead[part] = l_bound (g.n_dead[part], 0.0);
            g.n_green[part] = n_init;
            g.n_senesced[part] = 0.0;
@@ -8421,8 +8344,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
        else
            {
            g.n_dead[part] = g.n_dead[part]
-           + g.n_green[part]
-           + g.n_senesced[part];
+                          + g.n_green[part]
+                          + g.n_senesced[part];
            g.n_green[part] = 0.0;
            g.n_senesced[part] = 0.0;
            }
@@ -8442,9 +8365,9 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
             {
             dm_init = c.dm_init [part] * g.plants;
             g.dm_dead[part] = g.dm_dead[part]
-                                 + g.dm_green[part]
-                                 + g.dm_senesced[part]
-                                 - dm_init;
+                            + g.dm_green[part]
+                            + g.dm_senesced[part]
+                            - dm_init;
             g.dm_dead[part] = l_bound (g.dm_dead[part], 0.0);
             g.dm_green[part] = dm_init;
             g.dm_senesced[part] = 0.0;
@@ -8452,8 +8375,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         else
             {
             g.dm_dead[part] = g.dm_dead[part]
-                                 + g.dm_green[part]
-                                 + g.dm_senesced[part];
+                            + g.dm_green[part]
+                            + g.dm_senesced[part];
             g.dm_green[part] = 0.0;
             g.dm_senesced[part] = 0.0;
             }
@@ -8493,31 +8416,31 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     // now update new canopy covers
 
     legnew_cover_leaf_pod (g.row_spacing
-                           ,c.x_row_spacing
-                           ,c.y_extinct_coef
-                           ,c.num_row_spacing
-                           ,c.extinct_coef_pod
-                           ,canopy_fac
-                           ,g.lai
-                           ,g.pai
-                           ,&g.lai_canopy_green
-                           ,&g.cover_green
-                           ,&g.cover_pod);
+                           , c.x_row_spacing
+                           , c.y_extinct_coef
+                           , c.num_row_spacing
+                           , c.extinct_coef_pod
+                           , canopy_fac
+                           , g.lai
+                           , g.pai
+                           , &g.lai_canopy_green
+                           , &g.cover_green
+                           , &g.cover_pod);
 
     legnew_cover (g.row_spacing
-                  ,c.x_row_spacing
-                  ,c.y_extinct_coef_dead
-                  ,c.num_row_spacing
-                  ,canopy_fac
-                  ,g.slai
-                  ,&g.cover_sen);
+                  , c.x_row_spacing
+                  , c.y_extinct_coef_dead
+                  , c.num_row_spacing
+                  , canopy_fac
+                  , g.slai
+                  , &g.cover_sen);
     legnew_cover (g.row_spacing
-                  ,c.x_row_spacing
-                  ,c.y_extinct_coef_dead
-                  ,c.num_row_spacing
-                  ,canopy_fac
-                  ,g.tlai_dead
-                  ,&g.cover_dead);
+                  , c.x_row_spacing
+                  , c.y_extinct_coef_dead
+                  , c.num_row_spacing
+                  , canopy_fac
+                  , g.tlai_dead
+                  , &g.cover_dead);
     for (int node =0; node < max_node; node++)
         {
         g.leaf_no[node] = 0.0;
@@ -8904,7 +8827,6 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                 dlt_dm_crop[part] = dlt_dm_removed * gm2kg/sm2ha;
                 dlt_dm_n[part] = dlt_n_removed * gm2kg/sm2ha;
 
-
                 g.dm_dead[part] = g.dm_dead[part] - dltDmDead[part];
                 g.dm_senesced[part] =  g.dm_senesced[part] - dltDmSenesced[part];
                 g.dm_green[part] = g.dm_green[part] - dltDmGreen[part];
@@ -9077,9 +8999,12 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     float dlt_lai_tot = dlt_lai + dlt_slai;
 
     plant_leaf_detachment (g.leaf_area
-                            , dlt_lai_tot
+                            , dlt_slai
                             , g.plants, max_node);
 
+    plant_leaf_removal_top (g.leaf_area
+                            , dlt_lai
+                            , g.plants, (int)g.node_no);
 
     g.canopy_width = g.canopy_width * (1.0 - chop_fr_green[stem]);
 
@@ -9125,6 +9050,48 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                   , canopy_fac
                   ,g.tlai_dead
                   ,&g.cover_dead);
+
+         // calc new node number
+     for (int node = max_node - 1; node >= 0; node--)
+      {
+         if (!reals_are_equal(g.leaf_area[node], 0.0, 1.0E-4))    // Slop?
+//         if (g.leaf_area[node] > 0.0)
+         {
+            g.node_no = (float)node;  //FIXME - need adjustment for leafs remaining in for this node
+            break;
+         }
+      }
+
+
+//     float oldDmStem = divide (g.dm_senesced[stem], (1.0 - chop_fr_sen[part]), 0.0)
+//                       + divide (g.dm_green[stem], (1.0 - chop_fr_green[part]), 0.0);
+//     float newDmStem = g.dm_senesced[stem] + g.dm_green[stem];
+//     float dltNodeNo = divide (newDmStem, oldDmStem, 0.0);
+//     g.node_no -= dltNodeNo;
+
+     int newNodeNo = 1.0 + g.node_no;
+
+         // calc new leaf number
+     for (int node = newNodeNo - 1; node < max_node; node++)
+      {
+         g.leaf_no[node] = 0.0;
+         g.leaf_no_dead[node] = 0.0;
+      }
+
+//         // clac new leaf area
+//      float newLeafAreaPlant = divide (g.lai, g.plants, 0.0);
+//      float leafAreaRemovedWithNodes = 0.0
+//      float oldLeafAreaPlant = sum_real_array (g.leaf_area, max_node);
+//
+//      for (int node = newNodeNo - 1; node < max_node; node++)
+//      {
+//         leafAreaRemovedWithNodes += g.leaf_area[node];
+//         g.leaf_area[node] = 0.0;
+//      }
+//
+//      leafDmRemovedWithNodes = divide (leafAreaRemovedWithNodes,
+
+
 
 //    fill_real_array (g.leaf_no, 0.0, max_node);
 //    fill_real_array (g.leaf_no_dead, 0.0, max_node);
@@ -10040,6 +10007,7 @@ void Plant::plant_init (void)
        }
 
     phosphorus->doInit(parent, c.crop_type, c.part_names);
+    fruit->doInit(parent, phenology);
 
     pop_routine (my_name);
     return;

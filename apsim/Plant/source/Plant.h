@@ -419,31 +419,16 @@ class Plant : public plantInterface {
     ,float  *dlt_n_green
     ,float  *n_fix_uptake
     ) ;
-  void legnew_bio_grain_oil (
-     float  c_grain_oil_conc
-    ,float  c_carbo_oil_conv_ratio
-    ,float  *grain_energy
-    );
-  void legnew_bio_yieldpart_demand1
-    (float c_twilight
-    ,int   g_day_of_year
-    ,float g_latitude
-    ,int  *yield_parts
-    ,int   num_yield_parts
-    ,int   root_part
-    ,int   max_part
-    ,float g_dlt_dm
-    ,float *g_dm_green
-    ,float *g_dm_senesced
-    ,float *p_x_pp_hi_incr
-    ,float *p_y_hi_incr
-    ,int   p_num_pp_hi_incr
-    ,float *p_x_hi_max_pot_stress
-    ,float *p_y_hi_max_pot
-    ,int   p_num_hi_max_pot
-    ,float g_grain_energy
-    ,float *dlt_dm_yieldpart_demand
-    ) ;
+
+  void legnew_dm_partition1_test (float c_frac_leaf
+                              , float c_ratio_root_shoot
+                              , float c_sla_min
+                              , double g_dlt_dm
+                              , float g_dlt_lai_stressed
+                              , float dm_yield_demand_fruit
+                              , double *dlt_dm_fruit
+                              , float *g_dlt_dm_green);
+
   void legnew_dm_partition1
     (
      float  c_frac_leaf
@@ -571,23 +556,6 @@ class Plant : public plantInterface {
                         ,float* dlt_n_senesced_retrans //
                         ,float* dlt_n_senesced);        //  (OUTPUT) actual nitrogen senesced
                                                        //    from plant parts (g/m^2)
-
-void plant_grain_n_demand1(float C_sfac_slope            //   (INPUT)  soil water stress factor slope
-                           , float C_sw_fac_max            //   (INPUT)  soil water stress factor maxim
-                           , float C_temp_fac_min          //   (INPUT)  temperature stress factor mini
-                           , float C_tfac_slope            //   (INPUT)  temperature stress factor slop
-                           , float G_maxt                  //   (INPUT)  maximum air temperature (oC)
-                           , float G_mint                  //   (INPUT)  minimum air temperature (oC)
-                           , float G_nfact_grain_conc      //   (INPUT)
-                           , float *G_n_conc_crit          //   (INPUT)  critical N concentration (g N/
-                           , float G_swdef_expansion       //   (INPUT)
-                           , float *G_n_conc_min           //   (INPUT)  minimum N concentration (g N/g
-                           , float *G_dlt_dm_green         //   (INPUT)  plant biomass growth (g/m^2)
-                           , float *G_dlt_dm_green_retrans //   (INPUT)  plant biomass growth (g/m^2)
-                           , float *G_dm_green             //   (INPUT)  live plant dry weight (biomass
-                           , float *G_n_conc_max           //   (INPUT)  maximum N concentration (g N/g
-                           , float *G_n_green              //   (INPUT)  plant nitrogen content (g N/m^
-                           , float *grain_n_demand);        //   grain N demand (g/m^2)
 
   void plant_grain_n_demand2(
       float     g_grain_no,
