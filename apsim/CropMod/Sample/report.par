@@ -3,183 +3,48 @@
 
 !-------------Each treatment unique ----------------------------------------------
 
-[wheat.report1.parameters]
+[wheat.report.parameters]
 title         =  WHEAT SAMPLE Simulation - N120
-outputfile    =  WHEAT1.out  /overwrite
+outputfile    =  WHEAT.out  /overwrite
 summaryfile   =  WHEAT.sum  /overwrite
 
-[wheat.report2.parameters]
-outputfile    =  WHEAT2.out  /overwrite
 
 
-[sunf.report1.parameters]
+[sunf.report.parameters]
 title         =  SUNF SAMPLE SIMULATION
-outputfile    =  SUNF1.out  /overwrite
+outputfile    =  SUNF.out  /overwrite
 summaryfile   =  SUNF.sum  /overwrite
 
-[SUNF.report2.parameters]
-outputfile    =  SUNF2.out  /overwrite
 
 
+[wheat.report.parameters]
+module_names   =    clock clock wheat    wheat wheat  wheat      wheat     wheat      wheat   wheat              wheat
+variable_names =    year  day   das_int  stage lai    biomass_wt grain_wt  biomass_n  grain_n tiller_no_fertile  root_depth
+variable_alias =    -     -     das       -     -     biomass    grain     biomass_n  grain_n tillers            rootdepth
+units          =    -     -     -         -     -     -          -         -          -       -                  -          
 
-
-[wheat.report1.parameters]
-
-!DRY MATTER PRODUCTION
-module_names   =    clock clock wheat    wheat wheat  wheat      wheat
-variable_names =    year  day   das_int  stage lai    biomass_wt grain_wt
-variable_alias =    -     -     das       -     -     biomass    grain
-units          =    -     -     -         -     -     -          -
-
-!N CONTENTS
-module_names   =  wheat      wheat
-variable_names =  biomass_n  grain_n
-variable_alias =  biomass_n  grain_n
-units          =  -          -
-
-!Leaves, tillers and root depth
-module_names   =  wheat       wheat              wheat
-variable_names =  leaf_no     tiller_no_fertile  root_depth
-variable_alias =  leaves      tillers            rootdepth
-         units =  -           -                  -
-
-!Water and nitrogen
-module_names   =  wheat       wheat      wheat   wheat
-variable_names =  esw_profile sw_supply  cep     n_supply_soil
-variable_alias =  esw         sw_supply  cep     n_sup_soil
-         units =  -           -          -       -
-
-!Stress factors
 module_names   =   wheat       wheat       wheat       wheat         wheat       wheat       wheat       wheat
 variable_names =   swdef_pheno swdef_photo swdef_expan swdef_tiller  nfact_pheno nfact_photo nfact_expan nfact_tiller
 variable_alias =   ws_pheno    ws_photo    ws_expan    ws_tiller     Ns_pheno    Ns_photo    Ns_expan    Ns_tiller
          units =   -           -           -           -             -           -           -           -               
 
 
-[sunf.report1.parameters]
+[sunf.report.parameters]
+module_names   =    clock clock sunf     sunf  sunf   sunf       sunf      sunf       sunf     sunf               sunf
+variable_names =    year  day   das_int  stage lai    biomass_wt grain_wt  biomass_n  grain_n  tiller_no_fertile  root_depth
+variable_alias =    -     -     das       -     -     biomass    grain     biomass_n  grain_n  tillers            rootdepth
+units          =    -     -     -         -     -     -          -         -          -        -                  -         
 
-!DRY MATTER PRODUCTION
-module_names   =    clock clock sunf     sunf  sunf   sunf       sunf
-variable_names =    year  day   das_int  stage lai    biomass_wt grain_wt
-variable_alias =    -     -     das       -     -     biomass    grain
-units          =    -     -     -         -     -     -          -
-
-!N CONTENTS
-module_names   =  sunf       sunf
-variable_names =  biomass_n  grain_n
-variable_alias =  biomass_n  grain_n
-units          =  -          -
-
-!Leaves, tillers and root depth
-module_names   =   sunf       sunf               sunf
-variable_names =  leaf_no     tiller_no_fertile  root_depth
-variable_alias =  leaves      tillers            rootdepth
-         units =  -           -                  -
-
-!Water and nitrogen
-module_names   =  sunf         sunf       sunf   sunf
-variable_names =  esw_profile  sw_supply  cep     n_supply_soil
-variable_alias =  esw          sw_supply  cep     n_sup_soil
-         units =  -            -          -       -
-
-!Stress factors
 module_names   =   sunf        sunf        sunf        sunf          sunf        sunf        sunf        sunf
 variable_names =   swdef_pheno swdef_photo swdef_expan swdef_tiller  nfact_pheno nfact_photo nfact_expan nfact_tiller
 variable_alias =   ws_pheno    ws_photo    ws_expan    ws_tiller     Ns_pheno    Ns_photo    Ns_expan    Ns_tiller
          units =   -           -           -           -             -           -           -           -               
 
 
-[Sample.report2.parameters]
-
-!Soil water
-module_names   =    clock clock  soilwat2 soilwat2  soilwat2 soilwat2  soilwat2
-variable_names =    year  day    esw        sw      es       runoff    drain
-variable_alias =    -     -      esw        -       -        -         -
-units          =    -     -      -          -       -        -         -
-
-!Soil Nitrogen
-module_names =    soiln2   soiln2
-variable_names =  no3      nh4
-variable_alias =  -        -
-         units =  -        -
-
-
-
-
-
-
-
-
-
-!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-!THIS PART IS REMAINED FOR CHOICE OF DIFFERENT VARIABLES
-!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-!TOTALS
-!module_names   =    clock  wheat   wheat  wheat wheat wheat      wheat     wheat      wheat   wheat  !wheat       wheat
-!variable_names =    year   das_int stage  lai   slai  biomass_wt grain_wt  biomass_n  grain_n cep    !lf_no_final tiller_no_fertile
-!variable_alias =     -     -       -      -     -     biomass    yield     biom_N     grain_n transp !leaves      tillers
-!         units =     -     -       -      -     -     -          -         -          -       -      !-           -
-
-!variable_names =    year   das_int stage lai   dlt_lai dlt_slai dlt_slai_age dlt_slai_light dlt_slai_water dlt_slai_nitrogen
-!variable_alias =     -     -       -     -     dlai    dslai    age          light          water          nitrogen
-!         units =     -     -       -     -     -       -        -            -              -              -
-
-!module_names   =    clock  wheat   wheat wheat       wheat              wheat wheat   wheat    wheat      wheat
-!variable_names =    year   das_int stage lf_no_final tiller_no_fertile  lai   dlt_lai dlt_slai biomass_wt grain_wt
-!variable_alias =     -     -       -     leaves      tiller             -     dlai    dslai    biomass    grain
-!         units =     -     -       -     -           -                  -     -       -        -          -
-
-!module_names   =    clock  wheat   wheat wheat       wheat              wheat wheat   wheat    wheat      wheat
-!variable_names =    year   das_int stage lf_no_final tiller_no_fertile  lai   dlt_lai dlt_slai biomass_wt grain_wt
-!variable_alias =     -     -       -     leaves      tiller             -     dlai    dslai    biomass    grain
-!         units =     -     -       -     -           -                  -     -       -        -          -
-
-!module_names =   clock   clock
-!variable_names =  year    day
-!variable_alias =   -        -
-!         units =   -        -
-
-
-!module_names   = met     met    wheat    wheat         wheat    wheat         wheat
-!variable_names = maxt    mint   vpd_enli transp_eff    dlt_dm   dlt_dm_water  dlt_dm_light
-!variable_alias = -       -        -       -             -       -             -
-!units          = -       -        -       -             -       -             -
-
-!module_names   = wheat    wheat wheat wheat   wheat    wheat   wheat      wheat     wheat    wheat    wheat    wheat    wheat    wheat    wheat    wheat
-!variable_names = das_int  stage lai   dlt_lai dlt_slai dlt_tt  biomass_wt grain_wt  leaf_wt  dleaf_wt tleaf_wt stem_wt  root_wt  droot_wt troot_wt sla
-!variable_alias = das       -     -     -       -         -     biomass    grain     gleaf    dleaf    leaf_tot   -        -       -       -        -
-!units          = -         -     -     -       -         -         -          -        -       -         -        -       -       -        -
-
-
-!module_names =   soilwat2  !soilwat2 soilwat2  soilwat2
-!variable_names =   sw      ! es      runoff    drain
-!variable_alias =   -       ! -        -         -
-!         units =   -       ! -        -         -
-
-!module_names =    soiln2   soiln2
-!variable_names =  no3ppm   nh4ppm
-!variable_alias =    -        -
-!         units =    -        -
-
-
-!N DEMANDS
-!module_names   =    clock  wheat   wheat wheat   wheat   wheat    wheat    wheat
-!variable_names =    year   das_int stage leaf_nd stem_nd root_nd  grain_nd flower_nd
-!variable_alias =     -     -       -     -        -      -        -        -
-!         units =     -     -       -     -        -      -        -        -
-
-
-!LAI DEVELOPMENT
-!module_names   =    clock  wheat   wheat  wheat wheat wheat       wheat        wheat    wheat        wheat           wheat           wheat
-!variable_names =    year   das_int stage  lai   slai  swdef_expan nfact_expan  dlt_slai dlt_slai_age dlt_slai_light  dlt_slai_water  dlt_slai_nitrogen
-!variable_alias =     -     -       -      -     -      -            -           -       slaiA        slaiL           slaiw           slain
-!         units =     -     -       -      -     -      -     -      -           -       -            -               -              -
-
-!ROOT LENGTH DENSITY
-!module_names   =    clock  clock wheat   wheat wheat      wheat
-!variable_names =    year   day   das_int stage root_depth rlv
-!variable_alias =     -     -     -       -     root       rlv
-!         units =     -     -     -       -     -          -
-
+[all.report.parameters]
+module_names   =   soilwat2 soilwat2  soilwat2 soilwat2  soilwat2 soiln2   soiln2
+variable_names =   esw        sw()    es       runoff    drain    no3()    nh4()
+variable_alias =   esw        -       -        -         -        -        -
+units          =   -          -       -        -         -        -        -     
 
 

@@ -31,8 +31,7 @@ end_year   = 1992
 [wheat.manager.end_of_day]
 
        if (wheat.stage >= 0 and wheat.stage <12 ) then
-            report1 do_output
-            report2 do_output
+            report do_output
        endif
 
 
@@ -110,8 +109,7 @@ end_year   = 1992
 [sunf.manager.end_of_day]
 
        if (sunf.stage >= 0 and sunf.stage <12 ) then
-            report1 do_output
-            report2 do_output
+            report do_output
        endif
 
 
