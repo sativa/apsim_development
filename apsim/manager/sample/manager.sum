@@ -61,13 +61,13 @@
         met set rain = rain_amount
      endif
      report do_output
-     Manager creating a new local variable : fixed_rain = no
-     Manager creating a new local variable : rain_amount =     0.00000000000000
+     Manager creating a new local string variable : fixed_rain = no
+     Manager creating a new local real variable : rain_amount =     0.00000000000000
 ------- Start of simulation  --------------------------------------------------
 1 January 1988(Day of year=1), manager: 
-     Manager creating a new local variable : avtemp =     25.1999988500000
-     Manager creating a new local variable : avtempi =     25.0000000000000
-     Manager creating a new local variable : feb_or_not =     0.00000000000000
+     Manager creating a new local real variable : avtemp =     25.1999988500000
+     Manager creating a new local real variable : avtempi =     25.0000000000000
+     Manager creating a new local real variable : feb_or_not =     0.00000000000000
 10 January 1988(Day of year=10), operatns: 
       Sending set message to manager
       Sending set message to manager
