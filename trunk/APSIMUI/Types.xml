@@ -5,7 +5,6 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\layout_center32.png</LargeIcon>
       <SmallIcon>Images\layout_center16.png</SmallIcon>
@@ -37,7 +36,6 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\layout_center32.png</LargeIcon>
       <SmallIcon>Images\layout_center16.png</SmallIcon>
@@ -50,7 +48,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>images\wheat.jpg</Image>
-      <Documentation>../apsim/clock/docs/clock_science.html</Documentation>
+      <Documentation>../apsim/clock/docs/clock_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\clock32.png</LargeIcon>
       <SmallIcon>Images\clock16.png</SmallIcon>
@@ -78,7 +76,6 @@
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\document_edit32.png</LargeIcon>
       <SmallIcon>Images\document_edit16.png</SmallIcon>
@@ -92,7 +89,7 @@
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/report/docs/report_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\table_selection_column32.png</LargeIcon>
       <SmallIcon>Images\table_selection_column16.png</SmallIcon>
@@ -107,7 +104,7 @@
       <UItype>met</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/met/docs/met_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
       <SmallIcon>Images\thermometer16.png</SmallIcon>
@@ -128,7 +125,7 @@
       <UItype>logic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/manager/docs/manager_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\lightbulb_on32.png</LargeIcon>
       <SmallIcon>Images\lightbulb_on16.png</SmallIcon>
@@ -143,7 +140,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/irrigate/docs/irrigate_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\drink_blue32.png</LargeIcon>
       <SmallIcon>Images\drink_blue16.png</SmallIcon>
@@ -167,7 +164,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>images\debug32.png</LargeIcon>
       <SmallIcon>images\debug16.png</SmallIcon>
@@ -185,7 +182,8 @@
       <UItype>soil</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Water">../apsim/soilwat2/docs/soilwat2_science.htm</Documentation>
+      <Documentation2 name="Nitrogen">../apsim/soiln2/docs/soiln2_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\shovel32.bmp</LargeIcon>
       <SmallIcon>Images\shovel16.bmp</SmallIcon>
@@ -249,7 +247,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/soilp/docs/soilp_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -271,7 +269,8 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/apswim/docs/apswim_science.htm</Documentation>
+      <Documentation2 name="Technical specification">../apsim/apswim/docs/SWIMv21UserManual.pdf</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\shovel32.bmp</LargeIcon>
       <SmallIcon>Images\shovel16.bmp</SmallIcon>
@@ -286,7 +285,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/log/docs/log.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\debug32.png</LargeIcon>
       <SmallIcon>Images\debug16.png</SmallIcon>
@@ -301,7 +300,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/micromet/docs/micromet_science.pdf</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
       <SmallIcon>Images\thermometer16.png</SmallIcon>
@@ -316,7 +315,8 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Component description">../apsim/stock/docs/Stock Component Description.htm</Documentation>
+      <Documentation2 name="Component drivers">../apsim/stock/docs/Stock Component Drivers.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\stock32.bmp</LargeIcon>
       <SmallIcon>Images\stock16.bmp</SmallIcon>
@@ -332,7 +332,6 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\stock32.bmp</LargeIcon>
       <SmallIcon>Images\stock16.bmp</SmallIcon>
@@ -351,7 +350,6 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cow32.bmp</LargeIcon>
       <SmallIcon>Images\cow16.bmp</SmallIcon>
@@ -363,7 +361,6 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\sheep32.bmp</LargeIcon>
       <SmallIcon>Images\sheep16.bmp</SmallIcon>
@@ -375,7 +372,6 @@
       <UItype>outputfiledescription</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -387,7 +383,7 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/manager/docs/manager_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\manager32.png</LargeIcon>
       <SmallIcon>Images\manager16.png</SmallIcon>
@@ -402,7 +398,6 @@
       <UItype>rule</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\question_and_answer32.png</LargeIcon>
       <SmallIcon>Images\question_and_answer16.png</SmallIcon>
@@ -415,7 +410,6 @@
       <UItype>vinelogic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\grape32.jpg</LargeIcon>
       <SmallIcon>Images\grape16.jpg</SmallIcon>
@@ -430,7 +424,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/surfaceom/docs/surfaceom_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes32.png</SmallIcon>
@@ -445,7 +439,6 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\folder_closed32.png</LargeIcon>
       <SmallIcon>Images\folder_closed16.png</SmallIcon>
@@ -457,7 +450,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation>../apsim/erosion/docs/erosion_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -476,7 +469,6 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -535,7 +527,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Canola.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Canola">../apsim/canola/docs/canola_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -551,7 +544,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Chickpea.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Chickpea">../apsim/chickpea/docs/chickpea_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -567,7 +561,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Cowpea.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Cowpea">../apsim/cowpea/docs/cowpea_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -583,7 +578,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\FabaBean.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -599,7 +594,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\fieldpea.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Fieldpea">../apsim/fieldpea/docs/Working science document for fieldpea module.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -615,7 +611,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lablab.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Lablab">../apsim/lablab/docs/Working science document for lablab module.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -632,7 +629,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lucerne.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Lucerne">../apsim/lucerne/docs/lucerne_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -648,7 +646,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lupin.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Lupin">../apsim/lupin/docs/lupin_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -664,7 +663,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\maize.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Maize">../apsim/maize/docs/maize_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -726,7 +725,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mucuna.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -742,7 +741,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Mungbean">../apsim/mungbean/docs/lmungbean_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -758,7 +758,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphicsnavybean.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -774,7 +774,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\cottton.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Ozcot">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -802,7 +802,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\peanut.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Peanut">../apsim/peanut/docs/peanut_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -818,7 +819,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Pigeonpea">../apsim/pigeonp/docs/pigeonpea_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -834,7 +836,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Slurp">../apsim/slurp/docs/slurp_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -852,7 +854,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\sorghum.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Sorghum">../apsim/sorghum/docs/sorghum_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -867,7 +869,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\soybean.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Soybean">../apsim/soybean/docs/soybean_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -883,7 +886,7 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\stylo.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -899,7 +902,7 @@
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>Images\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Sugar">../apsim/sugar/docs/sugar_science.htm</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -953,7 +956,6 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\sunflower.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -1014,7 +1016,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\weed.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Weed">../apsim/weed/docs/weed_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -1030,7 +1033,8 @@
       <UItype>crop</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\wheat.jpg</Image>
-      <Documentation>www.apsim.info</Documentation>
+      <Documentation name="Wheat">../apsim/wheat/docs/wheat_science.htm</Documentation>
+      <Documentation2 name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation2>
       <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -1042,6 +1046,113 @@
      </drops>
       <variables link="plant.xml"/>
    </wheat>
+
+   <accum>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/accum/docs/accum_science.htm</Documentation>
+   </accum>
+   <canopy>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/canopy/docs/canopy_science.htm</Documentation>
+   </canopy>
+   <growth>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/growth/docs/growth_science.htm</Documentation>
+   </growth>
+   <input>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/input/docs/input_science.htm</Documentation>
+   </input>
+   <map>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/map/docs/map_science.htm</Documentation>
+   </map>
+   <millet>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/millet/docs/millet_science.htm</Documentation>
+   </millet>
+   <operatns>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/operatns/docs/operatns_science.htm</Documentation>
+   </operatns>
+   <PatchInput>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/PatchInput/docs/PatchInput_science.htm</Documentation>
+   </PatchInput>
+   <report>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/report/docs/report_science.htm</Documentation>
+   </report>
+   <SiloInput>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/SiloInput/docs/SiloInput.htm</Documentation>
+   </SiloInput>
+   <soi>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/soi/docs/soi_science.htm</Documentation>
+   </soi>
+   <soilph>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/soilph/docs/soil_ph.htm</Documentation>
+   </soilph>
+   <soilph>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/soilph/docs/soil_ph.htm</Documentation>
+   </soilph>
+   <soiltemp>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/soiltemp/docs/soiltemp_science.htm</Documentation>
+   </soiltemp>
+   <solute>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/solute/docs/solute.htm</Documentation>
+   </solute>
+   <surface>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/surface/docs/surface_science.htm</Documentation>
+   </surface>
+   <sysbal>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/sysbal/docs/sysbal science.txt</Documentation>
+   </sysbal>
+   <tcllink>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+   </tcllink>
+   <tracker>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/tracker/docs/tracker.htm</Documentation>
+   </tracker>
+   <venlink>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/venlink/docs/Guide to linking APSIM with the VENSIM.htm</Documentation>
+   </venlink>
+   <WaterSupply>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
+      <Documentation>../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
+   </WaterSupply>
+
 
 </Types>
 
