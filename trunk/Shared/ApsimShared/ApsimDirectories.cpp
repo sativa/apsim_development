@@ -36,15 +36,15 @@ string _export getApsimDirectory(void) throw(runtime_error)
 // ------------------------------------------------------------------
 std::string _export getAppHomeDirectory(void) throw(std::runtime_error)
    {
-   string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
-   try
+   string apsimDir = getApsimDirectory();
+   string versionIni = apsimDir + "\\version.ini";
+   if (FileExists(versionIni.c_str()))
       {
-      return getApsimDirectory() + "\\" + applicationName;
+      string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
+      return apsimDir + "\\" + applicationName;
       }
-   catch (const exception& error)
-      {
-      return Path(Application->ExeName.c_str()).Get_directory();
-      }
+   else
+      return apsimDir;
    }
 
 // ------------------------------------------------------------------
