@@ -689,6 +689,7 @@ void PlantFruit::legnew_dm_retranslocate1
     ,int    meal                          // (INPUT)
     ,int    oil                           // (INPUT)
     ,int    max_part                      // (INPUT)
+    ,float  g_dlt_dm_retrans_to_fruit     // (INPUT)
     ,int    *supply_pools                 // (INPUT)
     ,int    num_supply_pools              // (INPUT)
     ,float  g_dlt_dm_grain_demand         // (INPUT)  grain dm demand (g/m^2)
@@ -760,7 +761,7 @@ void PlantFruit::legnew_dm_retranslocate1
                                    + dm_oil_demand_differential
                                    + dm_oil_conv_demand_differential;
 
-        demand_differential = yield_demand_differential;
+        demand_differential = yield_demand_differential - g_dlt_dm_retrans_to_fruit;
 
             // get available carbohydrate from supply pools
         for (counter = 0; counter < num_supply_pools; counter++ )
@@ -777,7 +778,7 @@ void PlantFruit::legnew_dm_retranslocate1
            demand_differential = demand_differential - dlt_dm_retrans_part;
         }
 
-        dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate, max_part));
+        dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate, max_part)) + g_dlt_dm_retrans_to_fruit;
 
             // now distribute retranslocate to demand sinks.
 
@@ -813,10 +814,10 @@ void PlantFruit::legnew_dm_retranslocate1
     }
 
     // now check that we have mass balance
-    if (!reals_are_equal(-1.0 * sum_real_array (dm_retranslocate, max_part), *dm_oil_conv_retranslocate))
+    if (!reals_are_equal(-1.0 * (sum_real_array (dm_retranslocate, max_part) - g_dlt_dm_retrans_to_fruit), *dm_oil_conv_retranslocate))
     {
-      string msg = "dm_retranslocate mass balance is off: "
-                 + ftoa(sum_real_array (dm_retranslocate, max_part), ".6")
+      string msg = "dm_retranslocate mass balance of fruit is off: "
+                 + ftoa(sum_real_array (dm_retranslocate, max_part) - g_dlt_dm_retrans_to_fruit, ".6")
                  + " vs "
                  + ftoa(*dm_oil_conv_retranslocate, ".6");
       parentPlant->warningError(msg.c_str());

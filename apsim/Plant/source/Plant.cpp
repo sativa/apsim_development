@@ -1300,7 +1300,7 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
                     , &g.dlt_dm_retrans_to_fruit
                     , g.dlt_dm_green_retrans
                      );
-         g.dlt_dm_supply_to_fruit += g.dlt_dm_retrans_to_fruit;
+//         g.dlt_dm_supply_to_fruit += g.dlt_dm_retrans_to_fruit;
 
 //        legnew_dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
 //                                 , g.grain_energy
@@ -1436,6 +1436,7 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
                                  , meal
                                  , oil
                                  , max_part
+                                 , g.dlt_dm_retrans_to_fruit    // this may need to be redone when fruit becomes true class
                                  , supply_pools_by_fruit
                                  , num_supply_pools_by_fruit
                                  , g.dlt_dm_grain_demand
