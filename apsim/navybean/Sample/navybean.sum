@@ -150,6 +150,7 @@
      
      
      
+           TAV and AMP supplied externally
      
      
      
@@ -196,151 +197,167 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 25 November 1988 (Day of year=330):
-          Manager sending message :- navybean sow cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
-         ------------------------------------------------
-         Cultivar                 = rainbird
-         est_days_emerg_to_init  =      20
-         tt_emerg_to_endjuv       =   340.0
-         photoperiod      =    5.00  17.00
-         phase_tt_init      =   50.00  50.00
-         tt_flower_to_maturity    =   500.0
-         tt_init_to_flower        =    25.0
-         tt_flower_to_start_grain =    30.0
-         tt_maturity_to_ripe      =     5.0
-         hi_incr                  =     0.0
-         x_hi_max_pot_stress =    0.00   0.80   1.00
-         y_hi_max_pot        =    0.45   0.45   0.45
-         x_stem_wt      =    0.00  50.00
-         y_height      =    0.001000.00
-         ------------------------------------------------
-     
-     
-     
-     
-        - Reading root profile parameters
-     
-     
-     
-                         Root Profile
-     ---------------------------------------------------
-          Layer       Kl           Lower    Exploration
-          Depth     Factor         Limit      Factor
-          (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
-          150.0     0.080          0.230       1.000
-          150.0     0.080          0.240       1.000
-          300.0     0.080          0.240       1.000
-          300.0     0.080          0.250       1.000
-          300.0     0.050          0.260       1.000
-          300.0     0.030          0.270       1.000
-          300.0     0.010          0.280       1.000
-     ---------------------------------------------------
-     
-     
-     
-     
-     
-     
-                      Crop Sowing Data
-         ------------------------------------------------
-         Sowing  Depth Plants Spacing Cultivar
-         Day no   mm     m^2     m     Name
-         ------------------------------------------------
-            330   40.0   25.0  500.0 rainbird
-         ------------------------------------------------
+   MANAGER:
+           Manager sending message :- navybean sow cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
+   NAVYBEAN:
+      Sow
+      
+       - Reading constants for plant
+      
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar                 = rainbird
+          est_days_emerg_to_init  =      20
+          tt_emerg_to_endjuv       =   340.0
+          photoperiod      =    5.00  17.00
+          phase_tt_init      =   50.00  50.00
+          tt_flower_to_maturity    =   500.0
+          tt_init_to_flower        =    25.0
+          tt_flower_to_start_grain =    30.0
+          tt_maturity_to_ripe      =     5.0
+          hi_incr                  =     0.0
+          x_hi_max_pot_stress =    0.00   0.80   1.00
+          y_hi_max_pot        =    0.45   0.45   0.45
+          x_stem_wt      =    0.00  50.00
+          y_height      =    0.001000.00
+          ------------------------------------------------
+      
+      
+      
+      
+         - Reading root profile parameters
+      
+      
+      
+                          Root Profile
+      ---------------------------------------------------
+           Layer       Kl           Lower    Exploration
+           Depth     Factor         Limit      Factor
+           (mm)         ()        (mm/mm)       (0-1)
+      ---------------------------------------------------
+           150.0     0.080          0.230       1.000
+           150.0     0.080          0.240       1.000
+           300.0     0.080          0.240       1.000
+           300.0     0.080          0.250       1.000
+           300.0     0.050          0.260       1.000
+           300.0     0.030          0.270       1.000
+           300.0     0.010          0.280       1.000
+      ---------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m^2     m     Name
+          ------------------------------------------------
+             330   40.0   25.0  500.0 rainbird
+          ------------------------------------------------
 26 November 1988 (Day of year=331):
-      stage    2.0 germination
+   NAVYBEAN:
+       stage    2.0 germination
 30 November 1988 (Day of year=335):
-      stage    3.0 emergence
-                          biomass =           2.500000       lai =    0.8500000e-01
-                          stover N conc =    6.000000       extractable sw =    23.20686
+   NAVYBEAN:
+       stage    3.0 emergence
+                           biomass =           2.500000       lai =    0.8500000e-01
+                           stover N conc =    6.000000       extractable sw =    23.20686
 31 December 1988 (Day of year=366):
-      stage    4.0 end_of_juvenile
-                          biomass =           251.0593       lai =     4.553534    
-                          stover N conc =    3.600655       extractable sw =    146.8080
+   NAVYBEAN:
+       stage    4.0 end_of_juvenile
+                           biomass =           251.0593       lai =     4.553534    
+                           stover N conc =    3.600655       extractable sw =    146.8080
 4 January 1989 (Day of year=4):
-      stage    5.0 floral_initiation
-                          biomass =           321.2463       lai =     5.653954    
-                          stover N conc =    3.267932       extractable sw =    171.1195
+   NAVYBEAN:
+       stage    5.0 floral_initiation
+                           biomass =           321.2463       lai =     5.653954    
+                           stover N conc =    3.267932       extractable sw =    171.1195
 7 January 1989 (Day of year=7):
-      stage    6.0 flowering
-                          biomass =           367.6975       lai =     6.180287    
-                          stover N conc =    3.001861       extractable sw =    169.6765
+   NAVYBEAN:
+       stage    6.0 flowering
+                           biomass =           367.6975       lai =     6.180287    
+                           stover N conc =    3.001861       extractable sw =    169.6765
 9 January 1989 (Day of year=9):
-      stage    7.0 start_grain_fill
-                          biomass =           406.2654       lai =     6.469130    
-                          stover N conc =    2.917795       extractable sw =    153.3420
+   NAVYBEAN:
+       stage    7.0 start_grain_fill
+                           biomass =           406.2654       lai =     6.469130    
+                           stover N conc =    2.918241       extractable sw =    153.3420
 20 February 1989 (Day of year=51):
-      stage    8.0 end_grain_fill
-                          biomass =           802.6444       lai =    0.8045578    
-                          stover N conc =    1.250228       extractable sw =    32.13272
+   NAVYBEAN:
+       stage    8.0 end_grain_fill
+                           biomass =           802.6725       lai =    0.8047264    
+                           stover N conc =    1.250236       extractable sw =    32.13041
 22 February 1989 (Day of year=53):
-      stage    9.0 maturity
-                          biomass =           805.6370       lai =    0.3021889    
-                          stover N conc =    1.273987       extractable sw =    126.1337
+   NAVYBEAN:
+       stage    9.0 maturity
+                           biomass =           805.6656       lai =    0.3023345    
+                           stover N conc =    1.273639       extractable sw =    126.1315
 23 February 1989 (Day of year=54):
-      stage   10.0 harvest_ripe
-                          biomass =           805.6370       lai =    0.0000000    
-                          stover N conc =    1.286661       extractable sw =    124.7991
+   NAVYBEAN:
+       stage   10.0 harvest_ripe
+                           biomass =           805.6656       lai =    0.7152557e-06
+                           stover N conc =    1.286303       extractable sw =    124.7969
 24 February 1989 (Day of year=55):
-          Manager sending message :- navybean harvest
-     
-     
-     
-      flowering day  =    7                  stover (kg/ha) =    5225.4
-      maturity day        =   53             grain yield (kg/ha) =    2830.9
-      grain % water content   =   12.0       grain yield wet (kg/ha) =    3217.0
-      grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 6.864
-      total above ground biomass (kg/ha) =    8056.4
-      live above ground biomass (kg/ha) =    8056.4
-      green above ground biomass (kg/ha) =    5005.7
-      senesced above ground biomass (kg/ha) =    3050.6
-      dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  24.5
-      grain N percent =      2.85            total N content (kg/ha) =    139.12
-      grain N uptake (kg/ha) =     80.63     senesced N content (kg/ha) =     30.51
-      green N content (kg/ha) =     27.98    dead N content (kg/ha) =      0.00
-     
-     
-     
-      stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0035976
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0502141
-     
-     
-     
-      stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for floral_initiation
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
-     
-     
-     
-      stress indices for start_grain_fill
-      water stress 1 =       0.3460172   nitrogen stress 1 =       0.2077945
-      water stress 2 =       0.4261663   nitrogen stress 2 =       0.3442726
-          Manager sending message :- navybean end_crop
-         ended. Yield (dw) =     0.0
-                                               straw residue =    0.0 kg/ha
-                                               straw N =    0.0 kg/ha
-                                               root residue = 2778.7 kg/ha
-                                               root N =   41.9 kg/ha
+   MANAGER:
+           Manager sending message :- navybean harvest
+   NAVYBEAN:
+      
+      
+      
+       flowering day  =    7                  stover (kg/ha) =    5225.6
+       maturity day        =   53             grain yield (kg/ha) =    2831.0
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    3217.1
+       grain wt (g) =     0.000               grains/m^2   =     0.000
+       grains/head =   0.0                    maximum lai = 6.864
+       total above ground biomass (kg/ha) =    8056.7
+       live above ground biomass (kg/ha) =    8056.7
+       green above ground biomass (kg/ha) =    5005.9
+       senesced above ground biomass (kg/ha) =    3050.7
+       dead above ground biomass (kg/ha) =       0.0
+       number of leaves =  24.5
+       grain N percent =      2.85            total N content (kg/ha) =    139.14
+       grain N uptake (kg/ha) =     80.66     senesced N content (kg/ha) =     30.51
+       green N content (kg/ha) =     27.98    dead N content (kg/ha) =      0.00
+      
+      
+      
+       stress indices for emergence
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0035948
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0501814
+      
+      
+      
+       stress indices for end_of_juvenile
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for floral_initiation
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for flowering
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+      
+      
+      
+       stress indices for start_grain_fill
+       water stress 1 =       0.3461830   nitrogen stress 1 =       0.2073699
+       water stress 2 =       0.4263320   nitrogen stress 2 =       0.3438536
+   MANAGER:
+           Manager sending message :- navybean end_crop
+   NAVYBEAN:
+          ended. Yield (dw) =     0.0
+                                                straw residue =    0.0 kg/ha
+                                                straw N =    0.0 kg/ha
+                                                root residue = 2778.7 kg/ha
+                                                root N =   41.9 kg/ha
 1 March 1989 (Day of year=60):
-     Simulation is terminating due to end criteria being met.
+   CLOCK:
+      Simulation is terminating due to end criteria being met.
