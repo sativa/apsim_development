@@ -242,7 +242,7 @@
  
       call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
-     :                        , amount)
+     :                        , amount*p%irrigation_efficiency)
  
       call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
@@ -254,6 +254,7 @@
  
       do 200 solnum = 1, g%num_solutes
          if (numvals_solute(solnum) .ne.0) then
+            ! NOTE - solutes NOT lost due to inefficiency!!!!!
             call post_real_var   (g%solute_names(solnum)
      :                           ,'(kg/ha)'
      :                           , solute(solnum))
@@ -265,7 +266,11 @@
  
       call delete_postbox ()
  
-      g%irrigation_applied = g%irrigation_applied + amount
+      g%irrigation_applied = g%irrigation_applied 
+     :                     + amount * p%irrigation_efficiency
+      g%irrigation_tot = g%irrigation_tot + amount
+      g%irrigation_loss = g%irrigation_loss 
+     :                  + amount * (1. - p%irrigation_efficiency)
  
       call pop_routine (my_name)
       return
@@ -610,6 +615,17 @@
 
       endif
 
+      call read_real_var_optional (
+     :           section_name          ! Section header
+     :         , 'irrigation_efficiency' ! Keyword
+     :         , '(0-1)'               ! Units
+     :         , p%irrigation_efficiency ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 1.0)                 ! Upper Limit for bound checking
+      if (numvals.eq.0) then
+         p%irrigation_efficiency = 1.0
+      endif
 
       call pop_routine (my_name)
       return
@@ -794,6 +810,18 @@
      :                              variable_name
      :                            , '(mm)'
      :                            , g%irrigation_applied)
+
+      elseif (Variable_name .eq. 'irrig_tot') then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '()'                    ! units
+     :              , g%irrigation_tot)       ! array
+
+      elseif (Variable_name .eq. 'irrig_loss') then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '()'                    ! units
+     :              , g%irrigation_loss)       ! array
  
       elseif (Variable_name .eq. 'automatic_irrigation') then
          call respond2get_char_var (
@@ -966,6 +994,16 @@
      :              , 1000.)            ! upper limit for bounds checking
 
          call irrigate_set_amount(amount)
+     
+      elseif (Variable_name .eq. 'irrigation_efficiency') then
+ 
+         call collect_real_var (
+     :                variable_name            ! array name
+     :              , '(mm)'                   ! units
+     :              , p%irrigation_efficiency  ! array
+     :              , numvals                  ! number of elements returned
+     :              , 0.0                      ! lower limit for bounds checking
+     :              , 1.)                      ! upper limit for bounds checking
 
       elseif (Variable_name .eq. 'allocation') then
  
@@ -1097,7 +1135,7 @@
      :                     .and.
      :         g%year.eq.p%year(irigno))
      :      then
-               amount = p%amount(irigno) * effirr
+               amount = p%amount(irigno) 
  
                if (p%time(irigno).eq.blank) then
                   MyTime = p%default_time
@@ -1116,7 +1154,7 @@
  
                call post_real_var   (DATA_irrigate_amount
      :                              ,'(mm)'
-     :                              , amount)
+     :                              , amount*p%irrigation_efficiency)
  
                call post_real_var   (DATA_irrigate_duration
      :                              ,'(min)'
@@ -1127,6 +1165,7 @@
      :                              , mytime)
  
                do 200 solnum = 1, g%num_solutes
+                  ! NOTE - solutes NOT lost due to inefficiency!!!!!
                      call post_real_var (g%solute_names(solnum)
      :                    ,'(kg/ha)'
      :                    , g%irrigation_solutes(solnum, irigno))
@@ -1136,7 +1175,12 @@
  
                call delete_postbox ()
  
-               g%irrigation_applied = g%irrigation_applied + amount
+               g%irrigation_applied = g%irrigation_applied 
+     :                              + amount * p%irrigation_efficiency
+               g%irrigation_tot = g%irrigation_tot + amount
+               g%irrigation_loss = g%irrigation_loss
+     :                        + amount * (1. - p%irrigation_efficiency)
+
                g%irr_pointer = irigno + 1
  
             else
@@ -1194,7 +1238,7 @@
       call irrigate_fasw (avail_fr, swdef)
 
       if (avail_fr.lt.p%crit_fr_asw) then
-         amount = divide (swdef, effirr, 0.0)
+         amount = divide (swdef, p%irrigation_efficiency, 0.0)
  
          call irrigate_check_allocation(amount)
 
@@ -1204,7 +1248,7 @@
  
          call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
-     :                        , amount)
+     :                        , amount*p%irrigation_efficiency)
  
          call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
@@ -1228,7 +1272,12 @@
          call event_send(EVENT_irrigated) 
          call delete_postbox ()
  
-         g%irrigation_applied = g%irrigation_applied + amount
+         g%irrigation_applied = g%irrigation_applied 
+     :                        + amount * p%irrigation_efficiency
+         g%irrigation_tot = g%irrigation_tot + amount
+         g%irrigation_loss = g%irrigation_loss 
+     :                     + amount * (1. - p%irrigation_efficiency)
+
  
       else
           ! soil not dry enough to require irrigation
@@ -1274,6 +1323,9 @@
       call handler_ONtick(g%day, g%year, temp1, temp2)
  
       g%irrigation_applied = 0.0
+      g%irrigation_tot = 0.0
+      g%irrigation_loss = 0.0
+
       g%carry_over = 0.0
  
       call pop_routine (my_name)
@@ -1382,7 +1434,6 @@
       parameter (my_name = 'irrigate_set_amount')
  
 *+  Local Variables
-      real actual_amount
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -1390,13 +1441,11 @@
 
          call irrigate_check_allocation(amount)
 
-         actual_amount = amount * effirr
-
          call new_postbox ()
  
          call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
-     :                        , actual_amount)
+     :                        , amount*p%irrigation_efficiency)
  
          call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
@@ -1410,7 +1459,12 @@
          call event_send(EVENT_irrigated) 
          call delete_postbox ()
  
-         g%irrigation_applied = g%irrigation_applied + amount
+         g%irrigation_applied = g%irrigation_applied 
+     :                        + amount * p%irrigation_efficiency
+         g%irrigation_tot = g%irrigation_tot + amount
+         g%irrigation_loss = g%irrigation_loss 
+     :                     + amount * (1. - p%irrigation_efficiency)
+
       else
          call fatal_error (ERR_User,'negative irrigation amount')
       endif
