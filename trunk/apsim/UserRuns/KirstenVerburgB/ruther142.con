@@ -1,6 +1,6 @@
-version = 3.2
+version = 3.3
 [apsim.rutherglenCC]
-module = clock     ruther142.par [early]
+module = clock   ruther142.par [early] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [CC]
 module = report (report2)   report4.par [dailyL]  ruther142.par [dailyCC]
 module = input(met)       082039new.met [longterm]
@@ -11,7 +11,7 @@ module = fertiliz  ruther142.par [fert]   %apsuite\apsim\fertiliz\fertiliz.ini [
 module = soilwat2  ruther142.par [all]    %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = residue2  ruther142.par [all]    %apsuite\apsim\residue2\residue2.ini [standard]
 module = soiln2    ruther142.par [all]    %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = cropmod(wheat)     ruther142.par [all]    wheat_KV1.ini [standard]   
+module = cropmod(wheat)     ruther142.par [all]    wheat_KV1.ini [standard]
 module = plant(lucerne)   ruther142.par [all]    %apsuite\apsim\lucerne\lucerne.ini [standard]
 module = plant(canola)    ruther142.par [all]    %apsuite\apsim\canola\canola.ini [standard]
 module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [standard]
@@ -25,7 +25,7 @@ module = tracker(tracker2)   ruther142.par [early]
 
 title = Continous Cropping plots
 [apsim.rutherglenCL]
-module = clock     ruther142.par [early]
+module = clock   ruther142.par [early] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [CL]
 module = report (report2)   report4.par [dailyL]  ruther142.par [dailyCL]
 module = input(met)       082039new.met [longterm]
@@ -48,7 +48,7 @@ module = tracker(tracker2)   ruther142.par[early]
 
 title = Continous Lucerne plots
 [apsim.rutherglen2L95]
-module = clock     ruther142.par [early]
+module = clock   ruther142.par [early] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [2L95]
 module = report (report2)   report4.par [dailyL]  ruther142.par [daily2L95]
 module = input(met)       082039new.met [longterm]
@@ -71,7 +71,7 @@ module = tracker(tracker2)   ruther142.par[early]
 
 title = 2 Years Lucerne Harvested 1995 plots
 [apsim.rutherglen2L96]
-module = clock     ruther142.par [late]
+module = clock   ruther142.par [late] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [2L96]
 module = report (report2)   report4.par [dailyL]  ruther142.par [daily2L96]
 module = input(met)       082039new.met [longterm]
@@ -94,7 +94,7 @@ module = tracker(tracker2)   ruther142.par[early]
 
 title = 2 Years Lucerne Harvested 1996 plots
 [apsim.rutherglen3L96]
-module = clock     ruther142.par [early]
+module = clock   ruther142.par [early] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [3L96]
 module = report (report2)   report4.par [dailyL]  ruther142.par [daily3L96]
 module = input(met)       082039new.met [longterm]
@@ -117,7 +117,7 @@ module = tracker(tracker2)   ruther142.par[early]
 
 title = 3 Years Lucerne Harvested 1996 plots
 [apsim.rutherglen3L97]
-module = clock     ruther142.par [late]
+module = clock   ruther142.par [late] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [3L97]
 module = report (report2)   report4.par [dailyL]  ruther142.par [daily3L97]
 module = input(met)       082039new.met [longterm]
@@ -140,7 +140,7 @@ module = tracker(tracker2)   ruther142.par[early]
 
 title = 3 Years Lucerne Harvested 1997 plots
 [apsim.rutherglen4L97]
-module = clock     ruther142.par [early]
+module = clock   ruther142.par [early] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [4L97]
 module = report (report2)   report4.par [dailyL]  ruther142.par [daily4L97]
 module = input(met)       082039new.met [longterm]
