@@ -8,11 +8,11 @@
 
 
 //===========================================================================
-void crop_sw_avail(int   num_layer,     // (INPUT)  number of layers in profile                                        
-                   float *dlayer,            // (INPUT)  thickness of soil layer I (mm)                                     
-                   float root_depth,        // (INPUT)  depth of roots (mm)                                                
-                   float *sw_dep,            // (INPUT)  soil water content of layer L (mm)                                 
-                   float *ll_dep,            // (INPUT)  lower limit of plant-extractable  soil water for soil layer L (mm) 
+void crop_sw_avail(int   num_layer,     // (INPUT)  number of layers in profile
+                   float *dlayer,            // (INPUT)  thickness of soil layer I (mm)
+                   float root_depth,        // (INPUT)  depth of roots (mm)
+                   float *sw_dep,            // (INPUT)  soil water content of layer L (mm)
+                   float *ll_dep,            // (INPUT)  lower limit of plant-extractable  soil water for soil layer L (mm)
                    float *sw_avail)          // (OUTPUT) crop water potential uptake  for each full layer (mm)
 //===========================================================================
 
@@ -194,23 +194,29 @@ void crop_swdef_expansion(int   num_sw_demand_ratio,   //  (INPUT)
 *       010994 jngh specified and programmed
 *       970216 slw generalised to avoid common blocks , added num_layer parameter
 */
-   {
+{
    //  Local Variables
    int deepest_layer;            // deepest layer in which the roots are growing
    float sw_demand_ratio;        // water supply:demand ratio
    float sw_supply_sum;          // total supply over profile (mm)
 
    // Implementation Section ----------------------------------
-   deepest_layer = find_layer_no(root_depth, dlayer, num_layer);
+   if (sw_demand > 0.0)
+   {
+      deepest_layer = find_layer_no(root_depth, dlayer, num_layer);
 
-   // get potential water that can be taken up when profile is full
+      // get potential water that can be taken up when profile is full
 
-   sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
-   sw_demand_ratio = divide (sw_supply_sum, sw_demand, 10.0);
-   *swdef = linear_interp_real (sw_demand_ratio, x_sw_demand_ratio,
-                                y_swdef_leaf, num_sw_demand_ratio);
+      sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
+      sw_demand_ratio = divide (sw_supply_sum, sw_demand, 10.0);
+      *swdef = linear_interp_real (sw_demand_ratio, x_sw_demand_ratio,
+                                   y_swdef_leaf, num_sw_demand_ratio);
    }
-
+   else
+   {
+      *swdef = 1.0;
+   }
+}
 
 //========================================================================
 void crop_swdef_photo(int   num_layer,    //(INPUT)  number of layers in profile
@@ -232,19 +238,26 @@ void crop_swdef_photo(int   num_layer,    //(INPUT)  number of layers in profile
 *       010994 jngh specified and programmed
 *       970216 slw generalised to avoid common blocks , added num_layer parameter
 */
-   {
+{
    //  Local Variables
    int deepest_layer;      // deepest layer in which the roots are growing
    float sw_demand_ratio;  // water supply:demand ratio
    float sw_supply_sum;    // total supply over profile (mm)
    // Implementation Section ----------------------------------
-   deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
+   if (root_depth > 0.0)
+   {
+      deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
 
-   //get potential water that can be taken up when profile is full
-   sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
-   sw_demand_ratio = divide (sw_supply_sum, sw_demand, 1.0);
-   *swdef = bound (sw_demand_ratio , 0.0, 1.0);
+      //get potential water that can be taken up when profile is full
+      sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
+      sw_demand_ratio = divide (sw_supply_sum, sw_demand, 1.0);
+      *swdef = bound (sw_demand_ratio , 0.0, 1.0);
    }
+   else
+   {
+      *swdef = 1.0;
+   }
+}
 
 
 //=========================================================================
@@ -272,21 +285,28 @@ void crop_swdef_pheno(int    num_sw_avail_ratio,        // (INPUT)
 *       010994 jngh specified and programmed
 *       970216 slw generalised to avoid common blocks , added num_layer parameter
 */
-   {
+{
    //  Local Variables
    int deepest_layer;         // deepest layer in which the roots are growing
    float sw_avail_ratio;      // water availability ratio
    float sw_avail_pot_sum;    // potential extractable soil water (mm)
    float sw_avail_sum;        // actual extractable soil water (mm)
 
-   deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
-   sw_avail_pot_sum = sum_real_array (sw_avail_pot, deepest_layer+1);
-   sw_avail_sum = sum_real_array (sw_avail, deepest_layer+1);
-   sw_avail_ratio = divide (sw_avail_sum, sw_avail_pot_sum, 1.0);
-   sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0);
-   *swdef = linear_interp_real(sw_avail_ratio, x_sw_avail_ratio,
-                               y_swdef_pheno, num_sw_avail_ratio);
+   if (root_depth > 0.0)
+   {
+      deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
+      sw_avail_pot_sum = sum_real_array (sw_avail_pot, deepest_layer+1);
+      sw_avail_sum = sum_real_array (sw_avail, deepest_layer+1);
+      sw_avail_ratio = divide (sw_avail_sum, sw_avail_pot_sum, 1.0);
+      sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0);
+      *swdef = linear_interp_real(sw_avail_ratio, x_sw_avail_ratio,
+                                  y_swdef_pheno, num_sw_avail_ratio);
    }
+   else
+   {
+      *swdef = 1.0;
+   }
+}
 
 //==========================================================================
 void crop_swdef_fixation(int  num_sw_avail_fix,      // (INPUT)
@@ -313,7 +333,7 @@ void crop_swdef_fixation(int  num_sw_avail_fix,      // (INPUT)
 *       010994 jngh specified and programmed
 *       970216 slw generalised to avoid common blocks , added num_layer parameter
 */
-   {
+{
    //  Local Variables
    int deepest_layer;        // deepest layer in which the roots are growing
    float sw_avail_ratio;     // water availability ratio
@@ -321,30 +341,36 @@ void crop_swdef_fixation(int  num_sw_avail_fix,      // (INPUT)
    float sw_avail_sum;       // actual extractable soil water (mm)
 
    // Implementation Section ----------------------------------
-   deepest_layer = find_layer_no(root_depth, dlayer, num_layer);
+   if (root_depth > 0.0)
+   {
+      deepest_layer = find_layer_no(root_depth, dlayer, num_layer);
 
-   // get potential water that can be taken up when profile is full
-   sw_avail_pot_sum = sum_real_array(sw_avail_pot, deepest_layer+1);
-   sw_avail_sum = sum_real_array(sw_avail, deepest_layer+1);
-   sw_avail_ratio = divide(sw_avail_sum, sw_avail_pot_sum, 1.0);
-   sw_avail_ratio = bound(sw_avail_ratio , 0.0, 1.0);
-   *swdef = linear_interp_real(sw_avail_ratio, x_sw_avail_fix, y_swdef_fix,
-                               num_sw_avail_fix);
+      // get potential water that can be taken up when profile is full
+      sw_avail_pot_sum = sum_real_array(sw_avail_pot, deepest_layer+1);
+      sw_avail_sum = sum_real_array(sw_avail, deepest_layer+1);
+      sw_avail_ratio = divide(sw_avail_sum, sw_avail_pot_sum, 1.0);
+      sw_avail_ratio = bound(sw_avail_ratio , 0.0, 1.0);
+      *swdef = linear_interp_real(sw_avail_ratio, x_sw_avail_fix, y_swdef_fix,
+                                  num_sw_avail_fix);
    }
-
+   else
+   {
+      *swdef = 1.0;
+   }
+}
 
 //===========================================================================
-void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)                                       
-                       float *C_oxdef_photo,      //  (INPUT)                                       
-                       float *C_oxdef_photo_rtfr, //  (INPUT)                                       
-                       float *G_ll15_dep,         //  (INPUT)                                       
-                       float *G_sat_dep,          //  (INPUT)                                       
-                       float *G_sw_dep,           //  (INPUT)  soil water content of layer L        
-                       float *G_dlayer,           //  (INPUT)  thickness of soil layer I (mm)       
-                       float *G_root_length,      //  (INPUT)                                       
-                       float G_root_depth,        //  (INPUT)  depth of roots (mm)                  
-                       int   max_layer,           //  (INPUT)                                       
-                       float *oxdef_photo)        //  (OUTPUT)                                      
+void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
+                       float *C_oxdef_photo,      //  (INPUT)
+                       float *C_oxdef_photo_rtfr, //  (INPUT)
+                       float *G_ll15_dep,         //  (INPUT)
+                       float *G_sat_dep,          //  (INPUT)
+                       float *G_sw_dep,           //  (INPUT)  soil water content of layer L
+                       float *G_dlayer,           //  (INPUT)  thickness of soil layer I (mm)
+                       float *G_root_length,      //  (INPUT)
+                       float G_root_depth,        //  (INPUT)  depth of roots (mm)
+                       int   max_layer,           //  (INPUT)
+                       float *oxdef_photo)        //  (OUTPUT)
 //===========================================================================
 
 /*  Purpose
@@ -358,7 +384,10 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
 *       neilh - 18-11-1997 - adapted from sugar model
 *
 */
+{
+   if (G_root_depth > 0.0)
    {
+
    //  Local Variables
    int layer;
    int num_root_layers;
@@ -385,6 +414,11 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
                                      C_num_oxdef_photo);
    delete [] root_fr;
    }
+   else
+   {
+      *oxdef_photo = 1.0;
+   }
+}
 
 
 //============================================================================

@@ -66,7 +66,7 @@ void legnew_n_senescence1
 void crop_n_conc_ratio(const int leaf,         //IN
                        const int stem,         //IN
                        float *dm_green,         //(INPUT)  live plant dry weight (biomass)
-                       float *N_conc_crit,      //(INPUT)  critical N concentration (g N/g 
+                       float *N_conc_crit,      //(INPUT)  critical N concentration (g N/g
                        float *N_conc_min,       //(INPUT)  minimum N concentration (g N/g b
                        float *N_green,          //(INPUT)  plant nitrogen content (g N/m^2)
                        float *N_conc_ratio)     //(OUTPUT) available N as fraction of N c
@@ -84,7 +84,7 @@ void crop_n_conc_ratio(const int leaf,         //IN
 *     090695 psc  added N_fact for phenology & externalise multipliers for ndef
 *     970314 slw extracted this common code from nitrogen stress routines
 */
-   {
+{
    //  Local Variables
    float N_conc_stover;          // tops (stover) actual N concentration
                                  // (0-1)
@@ -109,38 +109,45 @@ void crop_n_conc_ratio(const int leaf,         //IN
    dm_stover = dm_green[leaf] + dm_green[stem];
    N_stover = N_green[leaf] + N_green[stem];
 
-   N_conc_stover = divide (N_stover, dm_stover, 0.0);
+   if (dm_stover > 0.0)
+   {
+      N_conc_stover = divide (N_stover, dm_stover, 0.0);
 
-   // calculate critical N concentrations
-   N_leaf_crit = N_conc_crit[leaf] * dm_green[leaf];
-   N_stem_crit = N_conc_crit[stem] * dm_green[stem];
-   N_stover_crit = N_leaf_crit + N_stem_crit;
+      // calculate critical N concentrations
+      N_leaf_crit = N_conc_crit[leaf] * dm_green[leaf];
+      N_stem_crit = N_conc_crit[stem] * dm_green[stem];
+      N_stover_crit = N_leaf_crit + N_stem_crit;
 
-   N_conc_stover_crit = divide (N_stover_crit, dm_stover, 0.0);
+      N_conc_stover_crit = divide (N_stover_crit, dm_stover, 0.0);
 
-   // calculate minimum N concentrations
+      // calculate minimum N concentrations
 
-   N_leaf_min = N_conc_min[leaf] * dm_green[leaf];
-   N_stem_min = N_conc_min[stem] * dm_green[stem];
-   N_stover_min = N_leaf_min + N_stem_min;
+      N_leaf_min = N_conc_min[leaf] * dm_green[leaf];
+      N_stem_min = N_conc_min[stem] * dm_green[stem];
+      N_stover_min = N_leaf_min + N_stem_min;
 
-   N_conc_stover_min = divide (N_stover_min, dm_stover, 0.0);
+      N_conc_stover_min = divide (N_stover_min, dm_stover, 0.0);
 
-   //calculate shortfall in N concentrations
-   dividend =  N_conc_stover - N_conc_stover_min;
-   divisor =   N_conc_stover_crit - N_conc_stover_min;
-   *N_conc_ratio = divide (dividend, divisor, 0.0);
+      //calculate shortfall in N concentrations
+      dividend =  N_conc_stover - N_conc_stover_min;
+      divisor =   N_conc_stover_crit - N_conc_stover_min;
+      *N_conc_ratio = divide (dividend, divisor, 1.0);
    }
+   else
+   {
+      *N_conc_ratio = 1.0;
+   }
+}
 
 
 //=========================================================================
-void crop_nfact_photo(const int leaf, 
+void crop_nfact_photo(const int leaf,
                       const int stem,
                       float *dm_green,       //(INPUT)  live plant dry weight (biomass)
                       float *n_conc_crit,    //(INPUT)  critical N concentration (g N/g
                       float *n_conc_min,     //(INPUT)  minimum N concentration (g N/g b
                       float *n_green,        //(INPUT)  plant nitrogen content (g N/m^2)
-                      float n_fact_photo,   //(INPUT)  multipler for N deficit effect o 
+                      float n_fact_photo,   //(INPUT)  multipler for N deficit effect o
                       float *nfact)          //(OUTPUT) N stress factor
 //=========================================================================
 
@@ -175,7 +182,7 @@ void crop_nfact_pheno(const int leaf,        //IN
                       float *n_conc_crit,    //(INPUT)  critical N concentration (g N/g
                       float *n_conc_min,     //(INPUT)  minimum N concentration (g N/g b
                       float *n_green,        //(INPUT)  plant nitrogen content (g N/m^2)
-                      float n_fact_pheno,    //(INPUT)  multipler for N deficit effect on phenology 
+                      float n_fact_pheno,    //(INPUT)  multipler for N deficit effect on phenology
                       float *nfact)          //(OUTPUT) N stress factor
 //========================================================================
 /*  Purpose
@@ -202,12 +209,12 @@ void crop_nfact_pheno(const int leaf,        //IN
    }
 
 //===========================================================================
-void crop_nfact_grain_conc(const int leaf, 
+void crop_nfact_grain_conc(const int leaf,
                            const int stem,
-                           float *dm_green,         //(INPUT)  live plant dry weight (biomass)              
-                           float *n_conc_crit,      //(INPUT)  critical N concentration (g N/g              
-                           float *n_conc_min,       //(INPUT)  minimum N concentration (g N/g b             
-                           float *n_green,          //(INPUT)  plant nitrogen content (g N/m^2)             
+                           float *dm_green,         //(INPUT)  live plant dry weight (biomass)
+                           float *n_conc_crit,      //(INPUT)  critical N concentration (g N/g
+                           float *n_conc_min,       //(INPUT)  minimum N concentration (g N/g b
+                           float *n_green,          //(INPUT)  plant nitrogen content (g N/m^2)
                            float *nfact)            //(OUTPUT) N stress factor
 //===========================================================================
 
@@ -232,13 +239,13 @@ void crop_nfact_grain_conc(const int leaf,
 
 
 //==========================================================================
-void crop_nfact_expansion(const int leaf, 
+void crop_nfact_expansion(const int leaf,
                           float *dm_green,         //(INPUT) live plant dry weight (biomass)  (g/m^2)
-                          float *N_conc_crit,      //(INPUT)  critical N concentration (g N/ biomass)                               
-                          float *N_conc_min,       // (INPUT) minimum N concentration (g N/g biomass) 
-                          float *N_green,          // (INPUT) plant nitrogen content (g N/m^2 
-                          float N_fact_expansion, //(INPUT) multipler for N deficit effect leaf expansion 
-                          float *nfact)            //(OUTPUT) stress factor 
+                          float *N_conc_crit,      //(INPUT)  critical N concentration (g N/ biomass)
+                          float *N_conc_min,       // (INPUT) minimum N concentration (g N/g biomass)
+                          float *N_green,          // (INPUT) plant nitrogen content (g N/m^2
+                          float N_fact_expansion, //(INPUT) multipler for N deficit effect leaf expansion
+                          float *nfact)            //(OUTPUT) stress factor
 //==========================================================================
 
 /*  Purpose
@@ -253,7 +260,7 @@ void crop_nfact_expansion(const int leaf,
 *     010994 jngh specified and programmed
 *     090695 psc  added N_fact for phenology & externalise multipliers for ndef
 *     970318 slw split from sorg_nfact
-*                                 ! 
+*                                 !
 */
    {
    //  Local Variables
@@ -270,37 +277,44 @@ void crop_nfact_expansion(const int leaf,
    // Implementation Section ----------------------------------
 
    // calculate actual N concentrations
-   N_conc_leaf = divide (N_green[leaf], dm_green[leaf], 0.0);
+   if (dm_green[leaf] > 0.0)
+   {
+      N_conc_leaf = divide (N_green[leaf], dm_green[leaf], 0.0);
 
-   // calculate critical N concentrations
-   N_leaf_crit = N_conc_crit[leaf] * dm_green[leaf];
-   N_conc_leaf_crit = divide (N_leaf_crit, dm_green[leaf], 0.0);
+      // calculate critical N concentrations
+      N_leaf_crit = N_conc_crit[leaf] * dm_green[leaf];
+      N_conc_leaf_crit = divide (N_leaf_crit, dm_green[leaf], 0.0);
 
-   // calculate minimum N concentrations
-   N_leaf_min = N_conc_min[leaf] * dm_green[leaf];
-   N_conc_leaf_min = divide (N_leaf_min, dm_green[leaf], 0.0);
+      // calculate minimum N concentrations
+      N_leaf_min = N_conc_min[leaf] * dm_green[leaf];
+      N_conc_leaf_min = divide (N_leaf_min, dm_green[leaf], 0.0);
 
-   // calculate shortfall in N concentrations
-   dividend = N_conc_leaf - N_conc_leaf_min;
-   divisor = N_conc_leaf_crit - N_conc_leaf_min;
+      // calculate shortfall in N concentrations
+      dividend = N_conc_leaf - N_conc_leaf_min;
+      divisor = N_conc_leaf_crit - N_conc_leaf_min;
 
-   N_conc_ratio_leaf = divide (dividend, divisor, 0.0);
+      N_conc_ratio_leaf = divide (dividend, divisor, 1.0);
 
-   // calculate 0-1 N deficiency factors
+      // calculate 0-1 N deficiency factors
 
-//scc Thought I'd better put this in (it's in sugar module)
-//scc This does not work properly, because the ratio takes no account of
-//the fact that we might be trying to grow a huge amount of leaf today
-//Run this on leaf instead of stover (like Sugar model)
+   //scc Thought I'd better put this in (it's in sugar module)
+   //scc This does not work properly, because the ratio takes no account of
+   //the fact that we might be trying to grow a huge amount of leaf today
+   //Run this on leaf instead of stover (like Sugar model)
 
-   N_def = N_fact_expansion * N_conc_ratio_leaf;
-   *nfact = bound (N_def, 0.0, 1.0);
+      N_def = N_fact_expansion * N_conc_ratio_leaf;
+      *nfact = bound (N_def, 0.0, 1.0);
    }
+   else
+   {
+      *nfact = 1.0;
+   }
+}
 
 //============================================================================
-void crop_n_detachment(const int num_part, 
+void crop_n_detachment(const int num_part,
                        const int root,
-                       const int leaf, 
+                       const int leaf,
                        float dm_leaf_detach_frac,  // (INPUT)  fraction of senesced leaf dry matter detaching from live plant each day (0-1)
                        float *dlt_N_senesced,      //  (INPUT)  actual N loss with senesced plant (g/m^2)
                        float *dlt_N_detached)      // (OUTPUT) actual nitrogen senesced  from plant parts (g/m^2)
@@ -349,9 +363,9 @@ void crop_n_dead_detachment(int num_part,
 *
 *  Sub-Program Arguments
 *      int *num_part
-*      float *dead_detach_frac(*) ! 
-*      float *n_dead(*)           ! 
-*      float *dlt_N_dead_detached(*)   ! 
+*      float *dead_detach_frac(*) !
+*      float *n_dead(*)           !
+*      float *dlt_N_dead_detached(*)   !
 */
    {
    for(int part = 0; part < num_part; part++)
@@ -424,11 +438,11 @@ float crop_n_dlt_grain_conc(const int grain,
 
 
 //===========================================================================
-void crop_n_retrans_avail(const int num_part, 
+void crop_n_retrans_avail(const int num_part,
                           const int root,
-                          const int grain, 
-                          float *g_N_conc_min, 
-                          float *g_dm_green, 
+                          const int grain,
+                          float *g_N_conc_min,
+                          float *g_dm_green,
                           float *g_N_green,
                           float *N_avail)
 //===========================================================================
@@ -507,11 +521,11 @@ void cproc_n_senescence1 (const int num_part,         //(INPUT) number of plant 
 //===========================================================================
 void cproc_n_uptake1(float C_no3_diffn_const,   //(INPUT)  time constant for uptake by di
                      float *G_dlayer,            //(INPUT)  thickness of soil layer I (mm)//
-                     const int max_layer,        // INPUT)  max number of soil layers 
+                     const int max_layer,        // INPUT)  max number of soil layers
                      float *G_no3gsm_diffn_pot,  //(INPUT)  potential NO3 (supply) from so
                      float *G_no3gsm_mflow_avail,// (INPUT)  potential NO3 (supply) from
-                     float G_n_fix_pot,         //(INPUT) potential N fixation (g/m2) 
-                     const char *C_n_supply_preference, //(INPUT) 
+                     float G_n_fix_pot,         //(INPUT) potential N fixation (g/m2)
+                     const char *C_n_supply_preference, //(INPUT)
                      float *G_n_demand,                //(INPUT)  critical plant nitrogen demand
                      float *G_n_max,                   //(INPUT)  maximum plant nitrogen demand
                      const int max_part,              //(INPUT)  number of plant parts
@@ -635,13 +649,13 @@ void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
                       float G_root_depth,                // (INPUT)
                       float *G_sw_dep,                   // (INPUT)
                       float *G_NO3gsm_mflow_avail,       // (OUTPUT)
-                      float *G_sw_avail,                 // (INPUT) 
+                      float *G_sw_avail,                 // (INPUT)
                       float *G_NO3gsm_diffn_pot,         // (OUTPUT)
-                      float G_current_stage,             // (INPUT) 
-                      float *C_n_fix_rate,               // (INPUT) 
-                      float fixation_determinant,       // (INPUT) 
-                      float G_swdef_fixation,           // (INPUT) 
-                      float *G_N_fix_pot)                // (INPUT) 
+                      float G_current_stage,             // (INPUT)
+                      float *C_n_fix_rate,               // (INPUT)
+                      float fixation_determinant,       // (INPUT)
+                      float G_swdef_fixation,           // (INPUT)
+                      float *G_N_fix_pot)                // (INPUT)
 //=========================================================================
 /*  Purpose
 *      Calculate nitrogen supplies from soil and fixation
@@ -665,14 +679,14 @@ void cproc_n_supply1 (float *G_dlayer,                   // (INPUT)
    }
 
 //=============================================================================
-void crop_n_mass_flow1(const int num_layer,          // (INPUT)  number of layers in profile           
-                       float *dlayer,                // (INPUT)  thickness of soil layer I (mm)        
-                       float *dlt_sw_dep,            // (INPUT)  water uptake in each layer (mm water) 
-                       float *no3gsm,                // (INPUT)  nitrate nitrogen in layer L (g N/m^2) 
-                       float *no3gsm_min,            // (INPUT)  minimum allowable NO3 in soil (g/m^2) 
-                       float root_depth,             // (INPUT)  depth of roots (mm)                   
-                       float *sw_dep,                // (INPUT)  soil water content of layer L (mm)    
-                       float *NO3gsm_mflow_pot)      // (OUTPUT) potential plant NO3 uptake (supply) g/m^2 by mass flow                 
+void crop_n_mass_flow1(const int num_layer,          // (INPUT)  number of layers in profile
+                       float *dlayer,                // (INPUT)  thickness of soil layer I (mm)
+                       float *dlt_sw_dep,            // (INPUT)  water uptake in each layer (mm water)
+                       float *no3gsm,                // (INPUT)  nitrate nitrogen in layer L (g N/m^2)
+                       float *no3gsm_min,            // (INPUT)  minimum allowable NO3 in soil (g/m^2)
+                       float root_depth,             // (INPUT)  depth of roots (mm)
+                       float *sw_dep,                // (INPUT)  soil water content of layer L (mm)
+                       float *NO3gsm_mflow_pot)      // (OUTPUT) potential plant NO3 uptake (supply) g/m^2 by mass flow
 //=============================================================================
 
 /*  Purpose
@@ -714,14 +728,14 @@ void crop_n_mass_flow1(const int num_layer,          // (INPUT)  number of layer
 
 
 //=============================================================================
-void crop_n_diffusion1 (const int num_layer,      // (INPUT)  number of layers in profile           
-                        float *dlayer,            // (INPUT)  thickness of soil layer I (mm)        
-                        float *no3gsm,            // (INPUT)  nitrate nitrogen in layer L (g N/m^   
-                        float *no3gsm_min,        // (INPUT)  minimum allowable NO3 in soil (g/m^   
-                        float root_depth,         // (INPUT)  depth of roots (mm)                   
-                        float *sw_avail,          // (INPUT)  actual extractable soil water (mm)    
-                        float *sw_avail_pot,      // (INPUT)  potential extractable soil water (m   
-                        float *NO3gsm_diffn_pot)  // (OUTPUT) potential plant NO3 by diffusion      
+void crop_n_diffusion1 (const int num_layer,      // (INPUT)  number of layers in profile
+                        float *dlayer,            // (INPUT)  thickness of soil layer I (mm)
+                        float *no3gsm,            // (INPUT)  nitrate nitrogen in layer L (g N/m^
+                        float *no3gsm_min,        // (INPUT)  minimum allowable NO3 in soil (g/m^
+                        float root_depth,         // (INPUT)  depth of roots (mm)
+                        float *sw_avail,          // (INPUT)  actual extractable soil water (mm)
+                        float *sw_avail_pot,      // (INPUT)  potential extractable soil water (m
+                        float *NO3gsm_diffn_pot)  // (OUTPUT) potential plant NO3 by diffusion
 //=============================================================================
 
 /*  Purpose
@@ -766,11 +780,11 @@ void crop_n_diffusion1 (const int num_layer,      // (INPUT)  number of layers i
    }
 
 //===========================================================================
-void crop_n_fixation_pot1( float G_current_stage,              // (INPUT) Current stage                     
-                           float *C_n_fix_rate,                // (INPUT)  potential rate of N fixation (   
-                           float fixation_determinant,         // (INPUT)                                   
-                           float G_swdef_fixation,             // (INPUT)                                   
-                           float *N_fix_pot)                   // (OUTPUT) N fixation potential (g/         
+void crop_n_fixation_pot1( float G_current_stage,              // (INPUT) Current stage
+                           float *C_n_fix_rate,                // (INPUT)  potential rate of N fixation (
+                           float fixation_determinant,         // (INPUT)
+                           float G_swdef_fixation,             // (INPUT)
+                           float *N_fix_pot)                   // (OUTPUT) N fixation potential (g/
 //===========================================================================
 
 /*  Purpose
@@ -803,12 +817,12 @@ void cproc_n_demand1(const int max_part,          // (INPUT)
                      float *G_dlt_n_retrans,       // (INPUT)  nitrogen retranslocated out fr
                      float *G_dm_green,            // (INPUT)  live plant dry weight (biomass
                      float *G_n_conc_crit,         // (INPUT)  critical N concentration (g N/
-                     float *G_n_conc_max,          // (INPUT)  maximum N concentration (g N/g    
-                     float *G_n_green,             // (INPUT)  plant nitrogen content (g N/m^    
-                     float *N_demand,             // (OUTPUT) critical plant nitrogen demand g/m^2)     
-                     float *N_max)                // (OUTPUT) max plant nitrogen demand  (g/m^2)       
+                     float *G_n_conc_max,          // (INPUT)  maximum N concentration (g N/g
+                     float *G_n_green,             // (INPUT)  plant nitrogen content (g N/m^
+                     float *N_demand,             // (OUTPUT) critical plant nitrogen demand g/m^2)
+                     float *N_max)                // (OUTPUT) max plant nitrogen demand  (g/m^2)
 //============================================================================
-                                                                                      
+
 /*  Purpose
 *       Return plant nitrogen demand for each plant component
 *
@@ -901,12 +915,12 @@ void cproc_n_demand1(const int max_part,          // (INPUT)
 
 //==========================================================================
 void cproc_n_init1(float *C_n_init_conc,  // (INPUT)  initial N concentration (
-                   int    max_part, 
-                   int    init_stage, 
-                   float G_current_stage, // (INPUT)  current phenological stage    
-                   float *G_days_tot,     // (INPUT)  duration of each phase (days) 
+                   int    max_part,
+                   int    init_stage,
+                   float G_current_stage, // (INPUT)  current phenological stage
+                   float *G_days_tot,     // (INPUT)  duration of each phase (days)
                    float *G_dm_green,     // (INPUT)  live plant dry weight (biomass
-                   float *N_green)        // plant nitrogen (g/m^2)                 
+                   float *N_green)        // plant nitrogen (g/m^2)
 //===========================================================================
 
 /*  Purpose
@@ -936,11 +950,11 @@ void cproc_n_init1(float *C_n_init_conc,  // (INPUT)  initial N concentration (
 
 //==========================================================================
 void cproc_n_detachment1(const int max_part,
-                         float *c_sen_detach_frac, 
-                         float *g_n_senesced, 
+                         float *c_sen_detach_frac,
+                         float *g_n_senesced,
                          float *g_dlt_n_detached,
-                         float *c_dead_detach_frac, 
-                         float *g_n_dead, 
+                         float *c_dead_detach_frac,
+                         float *g_n_dead,
                          float *g_dlt_n_dead_detached)
 //==========================================================================
 
@@ -964,22 +978,22 @@ void cproc_n_detachment1(const int max_part,
 
 
 //=========================================================================
-void cproc_n_supply2 (float *g_dlayer,                // (INPUT) 
-                      const int max_layer,            // (INPUT) 
-                      float *g_dlt_sw_dep,            // (INPUT) 
-                      float *g_NO3gsm,                // (INPUT) 
-                      float *g_NO3gsm_min,            // (INPUT) 
-                      float g_root_depth,             // (INPUT) 
-                      float *g_sw_dep,                // (INPUT) 
+void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
+                      const int max_layer,            // (INPUT)
+                      float *g_dlt_sw_dep,            // (INPUT)
+                      float *g_NO3gsm,                // (INPUT)
+                      float *g_NO3gsm_min,            // (INPUT)
+                      float g_root_depth,             // (INPUT)
+                      float *g_sw_dep,                // (INPUT)
                       float *g_NO3gsm_mflow_avail,    // (OUTPUT)
-                      float *g_sw_avail,              // (INPUT) 
-                      float *g_sw_avail_pot,          // (INPUT) 
+                      float *g_sw_avail,              // (INPUT)
+                      float *g_sw_avail_pot,          // (INPUT)
                       float *g_NO3gsm_diffn_pot,      // (OUTPUT)
-                      float g_current_stage,          // (INPUT) 
-                      float *c_n_fix_rate,             // (INPUT) 
-                      float fixation_determinant,     // (INPUT) 
-                      float g_swdef_fixation,        // (INPUT) 
-                      float *g_N_fix_pot)             // (INPUT) 
+                      float g_current_stage,          // (INPUT)
+                      float *c_n_fix_rate,             // (INPUT)
+                      float fixation_determinant,     // (INPUT)
+                      float g_swdef_fixation,        // (INPUT)
+                      float *g_N_fix_pot)             // (INPUT)
 //=========================================================================
 
 /*  Purpose
