@@ -3,6 +3,9 @@
 #pragma hdrstop
 
 #include "ReportComponent.h"
+#include <ComponentInterface\MessageDataExt.h>
+#include <ComponentInterface\FStringExt.h>
+#include <ApsimShared\ApsimComponentData.h>
 #include <general\math_functions.h>
 #include <general\stl_functions.h>
 #include <general\StringTokenizer.h>
@@ -64,7 +67,7 @@ bool Field::getValues(void)
    if (ok)
       {
       variant->unpack(values);
-      unit = variant->getType().getUnit().asString();
+      unit = asString(variant->getType().getUnit());
       }
    else
       unit = "(?)";

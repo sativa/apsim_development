@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "SummaryFileComponent.h"
+#include <ComponentInterface\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <general\date_class.h>
 #include <sstream>
@@ -107,7 +108,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
       FString errorMessage;
       variant.unpack(isFatal);
       variant.unpack(errorMessage);
-      string componentName = errorMessage.asString();
+      string componentName = asString(errorMessage);
       unsigned int posComponentName = componentName.find("Component name: ");
       if (posComponentName != string::npos)
          {
@@ -139,13 +140,13 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
       if (componentName != previousComponentName.c_str())
          {
          out << endl;
-         out << "------- " << componentName
+         out << "------- " << asString(componentName)
              << " Initialisation ";
          out.width(79-24-componentName.length());
          out.fill('-');
          out << '-' << endl;
          out.fill(' ');
-         previousComponentName = componentName.asString();
+         previousComponentName = asString(componentName);
          indentation = 5;
          }
       }
@@ -162,9 +163,9 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
          date.Set((unsigned long) currentDate);
          date.Write(out);
 
-         out << ", " << componentName << ": " << endl;
+         out << ", " << asString(componentName) << ": " << endl;
          previousDate = currentDate;
-         previousComponentName = componentName.asString();
+         previousComponentName = asString(componentName);
          indentation = 5;
          }
       }
@@ -177,7 +178,7 @@ void SummaryFileComponent::writeLine(const FString& componentName, const FString
       if (posCR == MAXINT)
          posCR = lines.length();
       out << setw(indentation) << ' ';
-      out << lines.substr(posStart, posCR-posStart) << endl;
+      out << asString(lines.substr(posStart, posCR-posStart)) << endl;
       posStart = posCR + 1;
       }
    while (posCR < lines.length());

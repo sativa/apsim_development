@@ -2,6 +2,7 @@
 #pragma hdrstop
 
 #include "Coordinator.h"
+#include <ComponentInterface\FStringExt.h>
 #include <ComponentInterface\messages.h>
 #include <assert.h>
 #include <general\stl_functions.h>
@@ -315,7 +316,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
    else
       {
       ComponentAlias::Registrations* registrations = components[fromID]->getRegistrationsForKind(registerData.kind);
-      PMRegistrationItem* regItem = new PMRegistrationItem(registerData.name.asString(),
+      PMRegistrationItem* regItem = new PMRegistrationItem(asString(registerData.name),
                                                            registerData.destID,
                                                            registerData.kind,
                                                            fromID,
@@ -448,17 +449,17 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
    {
    PMRegistrationItem* reg = NULL;
    if (queryInfo.kind == respondToGetInfo)
-      reg = findRegistration(queryInfo.name.asString(), respondToGetReg);
+      reg = findRegistration(asString(queryInfo.name), respondToGetReg);
    else if (queryInfo.kind == respondToSetInfo)
-      reg = findRegistration(queryInfo.name.asString(), respondToSetReg);
+      reg = findRegistration(asString(queryInfo.name), respondToSetReg);
    else if (queryInfo.kind == respondToMethodInfo)
-      reg = findRegistration(queryInfo.name.asString(), respondToMethodCallReg);
+      reg = findRegistration(asString(queryInfo.name), respondToMethodCallReg);
    else if (queryInfo.kind == componentInfo)
       {
-      unsigned int componentID = componentNameToID(queryInfo.name.asString());
+      unsigned int componentID = componentNameToID(asString(queryInfo.name));
       string fqn = name;
       fqn += ".";
-      fqn += queryInfo.name.asString();
+      fqn += asString(queryInfo.name);
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
@@ -475,7 +476,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       fqn += ".";
       fqn += components[reg->componentID]->getName();
       fqn += ".";
-      fqn += queryInfo.name.asString();
+      fqn += asString(queryInfo.name);
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,

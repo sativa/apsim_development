@@ -2,7 +2,7 @@
 #ifndef MessageH
 #define MessageH
 #include <mem.h>
-#include <string>
+
 namespace protocol
    {
 

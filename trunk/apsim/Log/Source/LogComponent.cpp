@@ -4,6 +4,7 @@
 
 #include "LogComponent.h"
 #include <ComponentInterface\transport.h>
+#include <ComponentInterface\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <general\string_functions.h>
 #include <sstream>
@@ -185,8 +186,8 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          messageData >> registerData;
          out << " kind=\"" << RegistrationKindNames[registerData.kind] << "\"";
          out << " regID=\"" << registerData.ID << "\"";
-         out << " name=\"" << registerData.name << "\"";
-         out << " type=\"" << registerData.type << "\"";
+         out << " name=\"" << asString(registerData.name) << "\"";
+         out << " type=\"" << asString(registerData.type) << "\"";
          break;
          }
       case protocol::GetValue:
@@ -211,7 +212,7 @@ void LogComponent::storeRegistration(const Message* message)
    RegisterData registerData;
    messageData >> registerData;
    components[message->from].registrations.insert(
-      Registrations::value_type(registerData.ID, registerData.name.asString()));
+      Registrations::value_type(registerData.ID, asString(registerData.name)));
    }
 // ------------------------------------------------------------------
 //  Short description:

@@ -1,10 +1,10 @@
-#include <general\pch.h>
+#include <windows.h>
 #pragma hdrstop
 
 #include "Message.h"
 #include "Alloc.h"
 #include <windows.h>
-#include <string>
+
 using namespace std;
 namespace protocol {
 
