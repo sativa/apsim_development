@@ -11,19 +11,19 @@
 
      Version                = 3.6
      Title                  =
-     Component DLL          = c:\progra~1\apsim36\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\clock\lib\clock.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\report\lib\report.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\input\lib\input.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\manager\lib\manager.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\soilp\lib\soilp.dll
-     Component DLL          = c:\progra~1\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -310,15 +310,6 @@
          - Module is set Phosphorus aware
      
          - Reading constants
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     crit_residue_wt =    0.2000000E+09
-             exceeds upper limit of   0.1000000E+08
-     Component name: residue2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
      
          - Reading parameters
      
@@ -488,20 +479,20 @@
                      stover N conc =     6.00 (%)     extractable sw =   34.65 (mm)
 6 January 1993(Day of year=6), navybean: 
       stage 4.0 end_of_juvenile
-                     biomass =          56.40 (g/m^2)   lai          =   1.055 (m^2/m^2)
+                     biomass =          56.41 (g/m^2)   lai          =   1.055 (m^2/m^2)
                      stover N conc =     3.62 (%)     extractable sw =  141.17 (mm)
 11 January 1993(Day of year=11), navybean: 
       stage 5.0 floral_initiation
-                     biomass =          81.06 (g/m^2)   lai          =   1.499 (m^2/m^2)
-                     stover N conc =     3.19 (%)     extractable sw =  151.56 (mm)
+                     biomass =          81.07 (g/m^2)   lai          =   1.499 (m^2/m^2)
+                     stover N conc =     3.19 (%)     extractable sw =  151.55 (mm)
 13 January 1993(Day of year=13), navybean: 
       stage 6.0 flowering
                      biomass =          99.51 (g/m^2)   lai          =   1.730 (m^2/m^2)
-                     stover N conc =     2.87 (%)     extractable sw =  153.87 (mm)
+                     stover N conc =     2.87 (%)     extractable sw =  153.85 (mm)
 15 January 1993(Day of year=15), navybean: 
       stage 7.0 start_grain_fill
                      biomass =         123.19 (g/m^2)   lai          =   1.996 (m^2/m^2)
-                     stover N conc =     2.76 (%)     extractable sw =  146.22 (mm)
+                     stover N conc =     2.76 (%)     extractable sw =  146.20 (mm)
 24 February 1993(Day of year=55), navybean: 
       stage 8.0 end_grain_fill
                      biomass =         346.38 (g/m^2)   lai          =   0.580 (m^2/m^2)
@@ -512,34 +503,34 @@
                      stover N conc =     2.26 (%)     extractable sw =  122.29 (mm)
 28 February 1993(Day of year=59), navybean: 
       stage 10.0 harvest_ripe
-                     biomass =         349.68 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         350.30 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.37 (%)     extractable sw =  122.13 (mm)
 1 March 1993(Day of year=60), manager: 
      Manager sending message :- navybean harvest
 1 March 1993(Day of year=60), navybean: 
      
-      flowering day          =   13                           stover (kg/ha)         =     2297.6
+      flowering day          =   13                           stover (kg/ha)         =     2303.8
       maturity day           =   58                           grain yield (kg/ha)    =     1199.2
       grain % water content  =   12.0                         grain yield wet (kg/ha)=     1362.7
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/head            =    0.0                         maximum lai            =      2.892
-      total above ground biomass (kg/ha)    =     3496.8
-      live above ground biomass (kg/ha)     =     3496.8
-      green above ground biomass (kg/ha)    =     2347.0
+      grains/plant           =    0.0                         maximum lai            =      2.892
+      total above ground biomass (kg/ha)    =     3503.0
+      live above ground biomass (kg/ha)     =     3503.0
+      green above ground biomass (kg/ha)    =     2353.2
       senesced above ground biomass (kg/ha) =     1149.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =    9.2
-      DM Root:Shoot ratio    =    0.248                       Harvest Index          =      0.343
-      Stover C:N ratio       =   23.738                       Root C:N ratio         =     26.375
-      grain N percent        =       3.50                     total N content (kg/ha)=      80.69
+      DM Root:Shoot ratio    =    0.248                       Harvest Index          =      0.342
+      Stover C:N ratio       =   23.724                       Root C:N ratio         =     26.375
+      grain N percent        =       3.50                     total N content (kg/ha)=      80.81
       grain N uptake (kg/ha) =      41.97                     senesced N content (kg/ha)=   11.50
-      green N content (kg/ha)=      27.22                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      27.35                     dead N content (kg/ha) =       0.00
       grain P percent        =       0.36                     total P content (kg/ha)=       7.67
-      grain P uptake (kg/ha) =       4.34                     senesced P content (kg/ha)=    1.51
-      green P content (kg/ha)=       1.82                     dead P content (kg/ha) =       0.00
+      grain P uptake (kg/ha) =       4.34                     senesced P content (kg/ha)=    1.57
+      green P content (kg/ha)=       1.76                     dead P content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.032        0.038
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.007
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.000        0.000        0.000        0.000
          flowering            to start_grain_fill        0.000        0.000        0.000        0.003
@@ -547,8 +538,8 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2297.63                    0.00
-                          N  (kg/ha) =                 38.72                    0.00
+                          DM (kg/ha) =               2303.83                    0.00
+                          N  (kg/ha) =                 38.84                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1199.18                    0.00
@@ -563,9 +554,9 @@
 1 March 1993(Day of year=60), navybean: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.00                  867.16
+                          DM (kg/ha) =                  0.00                  867.17
                           N  (kg/ha) =                  0.00                   13.15
-                          P  (kg/ha) =                                          0.00
+                          P  (kg/ha) =                                          1.21
      
 1 May 1993(Day of year=121), manager: 
      Manager sending message :- residue2 tillage  type = chisel
