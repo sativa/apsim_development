@@ -1891,7 +1891,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //        if (phenology->inPhase("leaf_senescence"))
         if (phenology->inPhase("above_ground"))
            g.dlt_plants_failure_leaf_sen =
-                  crop_failure_leaf_sen(parent, g.lai-g.dlt_slai, g.plants);
+                  crop_failure_leaf_sen(parent, g.lai, g.plants);
         else
            g.dlt_plants_failure_leaf_sen = 0.0;
 
