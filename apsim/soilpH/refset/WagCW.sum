@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\soilph\refset\csu-cw.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\soilph\refset\csu-cw.sim
      Title                  = Continuous wheat Wagga
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -36,13 +35,52 @@
      Time step =           = 1440 (mins)
 
 ------- REPORT Initialisation ------------------------------------------------
-     Output file = wagcw.out
+     Output file = WagCW.out
      Format = normal
-     Module_names = clock clock clock clock met met met manager nwheat nwheat nwheat nwheat nwheat nwheat nwheat nwheat met nwheat soilwat2 soilwat2 soilwat2 soilwat2 soilwat2 soilwat2 soiln2 soiln2 soiln2 soilwat2 soilwat2 soilph soilph soiln2 soiln2 residue2 residue2 residue2 soilph soilph soilph soilph soilph soilph soilph 
-     Variable_names = day month year today.dd/mm/yyyy avg@maxt avg@mint avg@radn crop_in emer_date anth_date mat_date lai yield tops_biom plantn root_wt sum@rain sum@ep() sw_dep() sum@es sum@runoff sum@drain sum@eo sw urea nh4 no3 sum@no3_leach sum@nh4_leach sum@no3_uptake_equiv sum@nh4_uptake_equiv sum@dnit sum@dlt_n_min residue_n residue_wt residue_cover phca sum@dlt_acid_n_cycle sum@acid_excretion_root sum@ash_alk_wt_incorp sum@dlt_acid_org_c_cycle sum@h_equiv_flow_net phbc 
-     Variable_alias = - - - date - - - - - - - lai yield tops_biom plantn root_wt rain ep sw_dep es runoff drain eo - - - - no3_leach nh4_leach no3_uptake nh4_uptake dnit dlt_n_min - - - ph acid_add_N rt_excr ash_alk - - - 
-     Units =                                            
-     
+     Output variables:
+        clock.day
+        clock.month
+        clock.year
+        clock.today.dd/mm/yyyy (alias: date)
+        met.avg@maxt
+        met.avg@mint
+        met.avg@radn
+        manager.crop_in
+        nwheat.emer_date
+        nwheat.anth_date
+        nwheat.mat_date
+        nwheat.lai (alias: lai)
+        nwheat.yield (alias: yield)
+        nwheat.tops_biom (alias: tops_biom)
+        nwheat.plantn (alias: plantn)
+        nwheat.root_wt (alias: root_wt)
+        met.sum@rain (alias: rain)
+        nwheat.sum@ep() (alias: ep)
+        soilwat2.sw_dep() (alias: sw_dep)
+        soilwat2.sum@es (alias: es)
+        soilwat2.sum@runoff (alias: runoff)
+        soilwat2.sum@drain (alias: drain)
+        soilwat2.sum@eo (alias: eo)
+        soilwat2.sw
+        soiln2.urea
+        soiln2.nh4
+        soiln2.no3
+        soilwat2.sum@no3_leach (alias: no3_leach)
+        soilwat2.sum@nh4_leach (alias: nh4_leach)
+        soilph.sum@no3_uptake_equiv (alias: no3_uptake)
+        soilph.sum@nh4_uptake_equiv (alias: nh4_uptake)
+        soiln2.sum@dnit (alias: dnit)
+        soiln2.sum@dlt_n_min (alias: dlt_n_min)
+        residue2.residue_n
+        residue2.residue_wt
+        residue2.residue_cover
+        soilph.phca (alias: ph)
+        soilph.sum@dlt_acid_n_cycle (alias: acid_add_N)
+        soilph.sum@acid_excretion_root (alias: rt_excr)
+        soilph.sum@ash_alk_wt_incorp (alias: ash_alk)
+        soilph.sum@dlt_acid_org_c_cycle
+        soilph.sum@h_equiv_flow_net
+        soilph.phbc
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\soilph\refset\072150.met
@@ -547,8 +585,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -1019,8 +1057,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -1655,8 +1693,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -2277,8 +2315,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -2920,8 +2958,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -3647,8 +3685,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -4150,8 +4188,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -4611,8 +4649,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -4953,8 +4991,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -5568,8 +5606,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -5966,8 +6004,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -6429,8 +6467,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -7086,8 +7124,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -7827,8 +7865,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -8435,8 +8473,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -9155,8 +9193,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -9868,8 +9906,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -10553,8 +10591,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -11266,8 +11304,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -12046,8 +12084,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -12586,8 +12624,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -13131,8 +13169,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -13832,8 +13870,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -14286,8 +14324,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -14938,8 +14976,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -15422,8 +15460,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -16233,8 +16271,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -16731,8 +16769,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -17038,8 +17076,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -17779,8 +17817,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -18401,8 +18439,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -19093,8 +19131,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -19673,8 +19711,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -20064,8 +20102,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -20686,8 +20724,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -21378,8 +21416,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -22217,8 +22255,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -22713,8 +22751,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -23433,8 +23471,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
@@ -24230,8 +24268,8 @@
        sowing  depth g%plants  cultivar
                 mm     m^2     name
                 40.0  100.0 janz
-      
-      
+       
+       
        cultivar parameters
        cultivar      p1v        p1d       grnmx     grnrat     stmmx
       janz           0.008     0.007    25.000     2.300     1.220
