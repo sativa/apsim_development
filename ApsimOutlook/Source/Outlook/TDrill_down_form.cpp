@@ -5,6 +5,8 @@
 #include "TDrill_down_form.h"
 #include "TValueSelectionForm.h"
 #include "TTabRenameForm.h"
+#include "TValueSelectPopup.h"
+
 #include <general\vcl_functions.h>
 #include <general\math_functions.h>
 #include <general\string_functions.h>
@@ -15,7 +17,11 @@
 #include <strstream>
 //---------------------------------------------------------------------------
 #pragma link "Grids"
+#pragma link "paramtreeview"
 #pragma resource "*.dfm"
+
+using namespace std;
+
 TDrill_down_form *Drill_down_form;
 
 static const char* BITMAPS_SECTION = "bitmaps";
@@ -45,14 +51,87 @@ __fastcall TDrill_down_form::TDrill_down_form(TComponent* Owner)
 //    DPH 29/6/98
 
 // ------------------------------------------------------------------
-void TDrill_down_form::Create_tabs (void)
+void TDrill_down_form::refreshScenarioTree (void)
    {
+   ScenarioTree->BeginUpdate();
+
+   //capture important state information about the present tree
+   AnsiString previous;
+   vector<AnsiString> expandedNodes;
+   if (ScenarioTree->Selected != NULL)
+      {
+      if (ScenarioTree->Selected->Level > 0)
+         previous = ScenarioTree->Selected->Parent->Text;
+      else
+         previous = ScenarioTree->Selected->Text;
+
+      // capture the expanded state of every scenario name
+      TTreeNode* node = ScenarioTree->Items->Item[0];
+      while (node != NULL)
+         {
+         if (node->Expanded)
+            expandedNodes.push_back(node->Text);
+         node = node->getNextSibling();
+         }
+      }
+   else
+      previous = "";
+
+   ScenarioTree->Items->Clear();
    vector<string> Names;
    scenarios->getScenarioNames(Names);
-   Stl_2_tstrings (Names, Tab_control->Tabs);
+   for (vector<string>::iterator i = Names.begin(); i!=Names.end(); i++)
+      {
+      AnsiString nameString = "<B>" + AnsiString(i->c_str()) + "</B>";
+      TTreeNode* newScen = ScenarioTree->Items->Add(NULL, nameString);
+      vector<string> factorNames;
+      scenarios->getFactorNames(factorNames);
+      scenarios->setCurrentScenario(*i);
+      for (vector<string>::iterator j = factorNames.begin(); j!=factorNames.end(); j++)
+         {
+         AnsiString valueString = j->c_str();
+         valueString += " = <U><A href=\"";
+         valueString += j->c_str();
+         valueString += "\">";
+         string factorValue;
+         Graphics::TBitmap* temp;
+         scenarios->getFactorAttributes(*j, factorValue, temp);
+         valueString += factorValue.c_str();
+         valueString += "</A></U>";
+         ScenarioTree->Items->AddChild(newScen, valueString);
+         }
 
-   string current = scenarios->getCurrentScenario();
-   Tab_control->TabIndex = Tab_control->Tabs->IndexOf(current.c_str());
+      }
+
+   // highlight the logically 'current' scenario; ie. the first scenario closest
+   // to the node previously highlighted
+   int index;
+   for (index = 0; index < ScenarioTree->Items->Count; index++)
+      {
+      if (ScenarioTree->Items->Item[index]->Level == 0 &&
+          ScenarioTree->Items->Item[index]->Text.Pos(previous) > 0)
+         break;
+      }
+   if (index < ScenarioTree->Items->Count)
+      ScenarioTree->Selected = ScenarioTree->Items->Item[index];
+   else
+      ScenarioTree->Items->Item[0]->Selected = true;
+
+   ScenarioTree->Selected->Expanded = true;
+
+   // expand any other nodes that were previously expanded
+   for (int j = 0; j < expandedNodes.size(); j++)
+      {
+      TTreeNode* n = ScenarioTree->Items->Item[0];
+      while (n != NULL)
+         {
+         if (find(expandedNodes.begin(), expandedNodes.end(), n->Text) != expandedNodes.end())
+            n->Expanded = true;
+         n = n->getNextSibling();
+         }
+      }
+
+   ScenarioTree->EndUpdate();
    }
 
 // ------------------------------------------------------------------
@@ -68,12 +147,8 @@ void TDrill_down_form::Create_tabs (void)
 // ------------------------------------------------------------------
 void TDrill_down_form::Refresh (void)
    {
-   Create_tabs();
-   RefreshScrollBox();
-   if (Tab_control->Tabs->Count == 1)
-      Delete1->Enabled = false;
-   else
-      Delete1->Enabled = true;
+   refreshScenarioTree();
+//   RefreshScrollBox();
    }
 
 // ------------------------------------------------------------------
@@ -87,7 +162,7 @@ void TDrill_down_form::Refresh (void)
 //    DPH 1/6/99 changed to a scroll box instead of a grid.
 
 // ------------------------------------------------------------------
-void TDrill_down_form::RefreshScrollBox (void)
+/*void TDrill_down_form::RefreshScrollBox (void)
    {
    vector<string> Factor_names;
 
@@ -108,30 +183,8 @@ void TDrill_down_form::RefreshScrollBox (void)
 
    }
 
+*/
 
-
-// ------------------------------------------------------------------
-//  Short description:
-//    Form has been resized.  Refresh everything.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-
-// ------------------------------------------------------------------
-void __fastcall TDrill_down_form::FormResize(TObject *Sender)
-   {
-   static const int BUTTON_HEIGHT = 60;
-
-   for (int i = 0; i < ScrollBox->ControlCount; i++)
-      {
-      ScrollBox->Controls[i]->Left = 0;
-      ScrollBox->Controls[i]->Top = i * BUTTON_HEIGHT;
-      ScrollBox->Controls[i]->Width = ScrollBox->ClientWidth;
-      ScrollBox->Controls[i]->Height = BUTTON_HEIGHT;
-      }
-   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -145,7 +198,10 @@ void __fastcall TDrill_down_form::FormResize(TObject *Sender)
 // ------------------------------------------------------------------
 void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    {
+   ValueSelectPopup = new TValueSelectPopup(this);
+
    Refresh();
+//   ScenarioTree->Items->Item[1]->Expanded = true;
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -161,61 +217,11 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
 void __fastcall TDrill_down_form::FormClose(TObject *Sender,
       TCloseAction &Action)
    {
+   delete ValueSelectPopup;
 //   if (ModalResult != mrOk)
 //      Restore_simulations();
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    user has clicked a button.  Go display all values.
-
-//  Notes:
-
-//  Changes:
-//    DPH 1/6/99
-
-// ------------------------------------------------------------------
-void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
-   {
-   TSpeedButton* Button = dynamic_cast<TSpeedButton*> (Sender);
-
-   // get identifier from button.
-   string Factor_name = Button->Caption.c_str();
-   Factor_name.erase (Factor_name.find(" - "));
-
-   string Factor_value;
-   Graphics::TBitmap* temp;
-   scenarios->getFactorAttributes(Factor_name, Factor_value, temp);
-
-   TValueSelectionForm* ValSelectionForm  =
-                                scenarios->getUIForm(Factor_name,Application->MainForm) ;
-   if (ValSelectionForm == NULL)
-      ValSelectionForm = ValueSelectionForm;
-
-   // delete old selections.
-   ValSelectionForm->SelectedItems.erase(ValSelectionForm->SelectedItems.begin(),
-                                           ValSelectionForm->SelectedItems.end());
-
-   // get a list of identifier values that the user can select from.
-   scenarios->getFactorValues(Factor_name, ValSelectionForm->SelectedItems);
-   ValSelectionForm->CurrentValue = Factor_value;
-
-   // put identifier into listview.
-   ValSelectionForm->ListView->Columns->Items[0]->Caption = Factor_name.c_str();
-
-   // display form.
-   if (ValSelectionForm->ShowModal() == mrOk)
-      {
-      // User has clicked ok.  Create the multiple simulations.
-      if (ValSelectionForm->ChangeCurrentRadio->Checked)
-         scenarios->createScenariosFromCurrent
-            (Factor_name.c_str(), ValSelectionForm->SelectedItems);
-      else
-         scenarios->createScenarioPermutation
-            (Factor_name.c_str(), ValSelectionForm->SelectedItems);
-      Refresh();
-      }
-   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -227,12 +233,12 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
 //    DPH 29/6/98
 
 // ------------------------------------------------------------------
-void __fastcall TDrill_down_form::Tab_controlChange(TObject *Sender)
+/*void __fastcall TDrill_down_form::Tab_controlChange(TObject *Sender)
    {
    scenarios->setCurrentScenario(Tab_control->Tabs->Strings[Tab_control->TabIndex].c_str());
    Refresh();
    }
-
+*/
 // ------------------------------------------------------------------
 //  Short description:
 //    save all simulations
@@ -261,49 +267,6 @@ void __fastcall TDrill_down_form::Tab_controlChange(TObject *Sender)
       }
    }
 */
-// ------------------------------------------------------------------
-//  Short description:
-//    restore all simulations
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-
-// ------------------------------------------------------------------
-/*void TDrill_down_form::Restore_simulations (void)
-   {
-   Simulations->Selected_simulations->Clear();
-
-   for (list<TSimulation>::iterator i = Saved_simulations.begin();
-                                    i != Saved_simulations.end();
-                                    i++)
-      Simulations->Select_simulation(*i);
-   }
-*/
-// ------------------------------------------------------------------
-//  Short description:
-//    change the font settings on form.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/6/98
-
-// ------------------------------------------------------------------
-void TDrill_down_form::SetPresentationFonts(bool LargeFonts)
-   {
-   if (LargeFonts)
-      {
-      ScrollBox->Font->Size = 14;
-      ValueSelectionForm->ListView->Font->Size = 14;
-      }
-   else
-      {
-      ScrollBox->Font->Size = 10;
-      ValueSelectionForm->ListView->Font->Size = 8;
-      }
-   }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
    {
@@ -312,8 +275,106 @@ void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
    Refresh();
    }
 //---------------------------------------------------------------------------
-void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
+/*void __fastcall TDrill_down_form::Delete1Click(TObject *Sender)
    {
+   // delete the current simulation and tab name.
+   scenarios->deleteCurrentScenario();
+   Tab_control->Tabs->Delete(Tab_control->TabIndex);
+   refreshScenarioTree();
+   Tab_controlChange(Sender);
+   }*/
+//---------------------------------------------------------------------------
+
+
+void __fastcall TDrill_down_form::ScenarioTreeParamClick(TObject *Sender,
+      TTreeNode *ANode, AnsiString href, AnsiString &value)
+{
+   AnsiString plainText = ANode->Parent->Text;
+   plainText = plainText.SubString(4, plainText.Length()-7);
+   scenarios->setCurrentScenario(plainText.c_str());
+   // get identifier from button.
+   string Factor_name = href.c_str();
+
+   string Factor_value;
+   Graphics::TBitmap* temp;
+   scenarios->getFactorAttributes(Factor_name, Factor_value, temp);
+
+   // delete old selections.
+   ValueSelectPopup->SelectedItems.erase(ValueSelectPopup->SelectedItems.begin(),
+                                           ValueSelectPopup->SelectedItems.end());
+
+   // get a list of identifier values that the user can select from.
+   scenarios->getFactorValues(Factor_name, ValueSelectPopup->SelectedItems);
+   ValueSelectPopup->CurrentValue = Factor_value;
+   ValueSelectPopup->factorName = Factor_name;
+
+   // put identifier into listview.
+   ValueSelectPopup->ListView->Columns->Items[0]->Caption = Factor_name.c_str();
+
+   // display popup.
+   ValueSelectPopup->OnClose = popupClose;
+
+   ValueSelectPopup->Left = mouseDownX;
+   ValueSelectPopup->Top = mouseDownY;
+   if (ValueSelectPopup->Left + ValueSelectPopup->Width > Screen->Width)
+      ValueSelectPopup->Left = mouseDownX - ValueSelectPopup->Width;
+   if (ValueSelectPopup->Top + ValueSelectPopup->Height > Screen->Height)
+      ValueSelectPopup->Top = mouseDownY - ValueSelectPopup->Height - 10;
+
+   ValueSelectPopup->Show();
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDrill_down_form::popupClose(System::TObject* Sender, TCloseAction &Action)
+   {
+   ValueSelectPopup->FormClose(Sender, Action);
+   if (ValueSelectPopup->applied)
+      {
+      ValueSelectPopup->applied = false; //flag has been used- turn it off
+      scenarios->createScenariosFromCurrent
+         (ValueSelectPopup->factorName.c_str(), ValueSelectPopup->SelectedItems);
+      Refresh();
+      }
+   else if (ValueSelectPopup->appliedToAll)
+      {
+      ValueSelectPopup->appliedToAll = false; //flag has been used- turn it off
+      scenarios->createScenarioPermutation
+         (ValueSelectPopup->factorName.c_str(), ValueSelectPopup->SelectedItems);
+      Refresh();
+      }
+   }
+
+
+void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+{
+   mouseDownX = ScenarioTree->ClientOrigin.x + X;
+   mouseDownY = ScenarioTree->ClientOrigin.y + Y;
+
+   TTreeNode* hitNode = ScenarioTree->GetNodeAt(X, Y);
+   if (hitNode && hitNode->Level == 0)
+      {
+      ScenarioTree->Selected = hitNode;
+      scenarios->setCurrentScenario(hitNode->
+                              Text.SubString(4, hitNode->Text.Length()-7).c_str());
+      if (Button == mbRight)
+         {
+         //show popup menu
+         }
+      else if (Button == mbLeft)
+         {
+         //expand the node
+         hitNode->Expanded = !hitNode->Expanded;
+         }
+      }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
+{
+
    // rename the current simulation and tab name.
    string new_name = scenarios->getCurrentScenario();
    TabRenameForm->EditBox->Text = new_name.c_str();
@@ -323,25 +384,31 @@ void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
       scenarios->renameCurrentScenario(TabRenameForm->EditBox->Text.c_str());
       Refresh();
       }
-   }
+
+}
 //---------------------------------------------------------------------------
+
+
+void __fastcall TDrill_down_form::ShowAllButtonClick(TObject *Sender)
+{
+   ScenarioTree->FullExpand();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDrill_down_form::HideAllButtonClick(TObject *Sender)
+{
+   ScenarioTree->FullCollapse();   
+}
+//---------------------------------------------------------------------------
+
 void __fastcall TDrill_down_form::Delete1Click(TObject *Sender)
-   {
+{
    // delete the current simulation and tab name.
-   scenarios->deleteCurrentScenario();
-   Tab_control->Tabs->Delete(Tab_control->TabIndex);
-   Create_tabs();
-   Tab_controlChange(Sender);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TDrill_down_form::Tab_controlMouseDown(TObject *Sender,
-      TMouseButton Button, TShiftState Shift, int X, int Y)
-   {
-   // select the clicked tab.
-   if (Button == mbRight)
-      Tab_control->Perform(WM_LBUTTONDOWN,
-                           MK_LBUTTON,
-                           MAKELPARAM(X, Y));
-   }
+   if (scenarios->count() == 1)
+      scenarios->deleteAllScenarios(true);
+   else
+      scenarios->deleteCurrentScenario();
+   Refresh();
+}
 //---------------------------------------------------------------------------
 

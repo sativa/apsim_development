@@ -127,7 +127,7 @@ private:
    void pointToolBarToThisInstance();
 
    void __fastcall  ToolBarAddInButtonClick(TObject* Sender);
-   void giveAllDataToToolBarAddIns(void);
+
 
 
 

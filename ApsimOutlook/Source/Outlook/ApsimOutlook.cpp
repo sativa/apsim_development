@@ -21,10 +21,9 @@ USEUNIT("Scenario.cpp");
 USEUNIT("AddIn.cpp");
 USE("ApsimOutlook.todo", ToDo);
 USEUNIT("ToolBarAddIn.cpp");
-USEUNIT("K:\general\string_functions.cpp");
-USEUNIT("K:\general\ini_file.cpp");
-USEUNIT("K:\general\path.cpp");
-USEUNIT("K:\general\stream_functions.cpp");
+USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
+USEFORM("POPUPFORMUNIT.cpp", PopupForm);
+USEFORM("TValueSelectPopup.cpp", ValueSelectPopup);
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
@@ -46,7 +45,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
        Application->CreateForm(__classid(TDrill_down_form), &Drill_down_form);
        Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
        Application->CreateForm(__classid(TTabRenameForm), &TabRenameForm);
-       Application->CreateForm(__classid(TValueSelectionForm), &ValueSelectionForm);
        Application->Run();
    }
    catch (Exception &exception)

@@ -177,18 +177,17 @@ void TMDIChild::Enable_options(void)
 void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
    {
    bool ok;
-//   Drill_down_form = new TDrill_down_form(this);
+   Drill_down_form = new TDrill_down_form(this);
    Drill_down_form->scenarios = scenarios;
-   Drill_down_form->SetPresentationFonts(Large_fonts);
+//   Drill_down_form->SetPresentationFonts(Large_fonts);
    ok = (Drill_down_form->ShowModal() == mrOk);
-//   delete Drill_down_form;
+   delete Drill_down_form;
 
    if (ok)
       {
       scenarios->getAllData(AllData);
       Force_refresh();
       Display_settings();
-      giveAllDataToToolBarAddIns();
       }
    }
 //---------------------------------------------------------------------------
@@ -246,8 +245,9 @@ void TMDIChild::Force_refresh()
    for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
          t != addIns.end(); t++)
    {
+      (*t)->setWorkingData(scenarios, working);
       (*t)->doCalculations(*working);
-   }
+   }                                     
 
    if (Analysis_panel != NULL)
    {
@@ -599,26 +599,4 @@ void __fastcall TMDIChild::FormActivate(TObject *Sender)
    Enable_options();
 }
 //---------------------------------------------------------------------------
-// Give the AllData dataset to the tool bar add-ins so that they can
-// optionally use the information on their properties form.  E.g. the
-// rotations add-in needs to display the block names on its form so
-// that the user can see & manipulate which block name belongs to which
-// rotation.  A bit of a hack really, but this will all change when
-// SEGReport comes on line.
-//---------------------------------------------------------------------------
-void TMDIChild::giveAllDataToToolBarAddIns(void)
-   {
-   vector<HINSTANCE>::iterator handleI = dllHandles.begin();
-   vector<ToolBarAddInBase*>::iterator addInI = addIns.begin();
-   while (handleI != dllHandles.end() && addInI != addIns.end())
-      {
-      void __stdcall (*setSourceDataProc) (ToolBarAddInBase* addIn, TAPSTable* allData);
-      (FARPROC) setSourceDataProc = GetProcAddress(*handleI, "setSourceData");
-      if (setSourceDataProc != NULL)
-         setSourceDataProc(*addInI, AllData);
 
-      handleI++;
-      addInI++;
-      }
-   }
-   
