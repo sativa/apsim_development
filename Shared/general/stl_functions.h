@@ -5,6 +5,7 @@
 #include <functional>
 #include <general\string_functions.h>
 #include <general\stristr.h>
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    locates an object in a container and returns the numerical
@@ -74,6 +75,30 @@ void Destroy_pointers (CT& container, const T )
 		delete Ptr;
 		}
    }
+
+
+template <class T>
+class delete_this
+{
+  public:
+     T operator() (T item)
+     {
+       delete item;
+       return 0; // set item to NULL
+     }
+};
+
+
+template <template <class A> class container_type, class T>
+void delete_container(container_type<T> &sequence)
+{
+  transform(sequence.begin(),
+            sequence.end(),
+            sequence.begin(),
+            delete_this<T>());
+  sequence.clear();
+}
+
 
 template <class CT, class T>
 class string2double_and_store : public std::unary_function<T, void>
@@ -351,7 +376,7 @@ class PEqualToFileName
 class PartialStringComparison
    {
    private:
-      const std::string& st;
+      const string& st;
    public:
       PartialStringComparison(const std::string& s)
          : st(s) {}
