@@ -2369,10 +2369,10 @@ cejvo
      :                               , num_layers)
  
       elseif (variable_name .eq. 'das') then
-         call respond2get_real_var (variable_name
+         call respond2get_integer_var (variable_name
      :                             , '(days)'
-     :                             , sum_between (sowing, now
-     :                                          , g%days_tot))
+     :                             , nint(sum_between (sowing, now
+     :                                          , g%days_tot)))
  
             ! plant nitrogen
  
