@@ -46,6 +46,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
    string instanceName;
    string paramFile;
    string section;
+   bool foundAFile = false;
 
    // setup state names
    static const int READ_MODULE_NAME = 0;
@@ -78,6 +79,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                          instanceName += ch;
                       break;
          case READ_PARAM_FILE :
+                      foundAFile = true;
                       if (ch == '(')
                          state = READ_INSTANTIATION;
                       else if (ch == '[')
@@ -126,6 +128,16 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                       break;
          }
       currentPos++;
+      }
+   if (!foundAFile && moduleName != "")
+      {
+      ParamFile p;
+      p.moduleName = moduleName;
+      if (instanceName.length() == 0)
+       instanceName = moduleName;
+      p.instanceName = instanceName;
+      paramFiles.push_back(p);
+      return;
       }
    if (state != READ_PARAM_FILE)
       throw runtime_error("Invalid control file line: " + moduleLine);
@@ -321,7 +333,9 @@ void ApsimControlFile::getParameterFiles(const string& moduleName,
                                           paramFile != parFiles.end();
                                           paramFile++)
       {
-      bool doAdd = (moduleName == "" || Str_i_Eq(paramFile->moduleName, moduleName));
+      bool doAdd = (paramFile->fileName != "");
+      if (doAdd)
+         doAdd = (moduleName == "" || Str_i_Eq(paramFile->moduleName, moduleName));
       if (doAdd)
          {
          if (constants)
@@ -404,6 +418,17 @@ std::string ApsimControlFile::createSIM(const string& configurationFile) const t
 
    createServices(simulation, configuration);
 
+   vector<ParamFile> modules;
+   parseControlSection(fileName, section, modules);
+   for (vector<ParamFile>::iterator m = modules.begin();
+                                    m != modules.end();
+                                    m++)
+      {
+      ApsimComponentData component = simulation.addComponent(m->instanceName);
+      component.setExecutableFileName
+         (configuration.getDllForComponent(m->moduleName));
+      }
+
    // Get a complete list of files and sections we're to convert.
    vector<ApsimParameterFile> paramFiles;
    getParameterFiles("", paramFiles);
@@ -414,9 +439,6 @@ std::string ApsimControlFile::createSIM(const string& configurationFile) const t
                                              paramFile != paramFiles.end();
                                              paramFile++)
       {
-      ApsimComponentData component = simulation.addComponent(paramFile->getInstanceName());
-      component.setExecutableFileName
-         (configuration.getDllForComponent(paramFile->getModuleName()));
       paramFile->importIntoSIM(simulation);
       }
    simulation.write();
