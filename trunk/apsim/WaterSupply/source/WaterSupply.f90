@@ -213,7 +213,7 @@ subroutine WaterSupply_read_parameters ()
       dummy = string_concat('init_',g%solute_names(i))
       default_name = string_concat(dummy,'_conc')
       g%solute_conc(i) = 0.0
-      call read_real_var_optional (section_name, default_name, '(ppm)', g%solute_conc(i), numvals, 0.0, 10000.0)               
+      call read_real_var_optional (section_name, default_name, '(ppm)', g%solute_conc(i), numvals, 0.0, 10000.0)
    end do
 
    !********************************************************************************************
@@ -262,7 +262,7 @@ subroutine WaterSupply_read_constants ()
        p%source_type.eq.'dam_exc'.or. &
        p%source_type.eq.'sump') then
 
-      call read_real_var (Storage_geometry, p%source_type, '()', c%b, numvals, 0.0, 10.0)               
+      call read_real_var (Storage_geometry, p%source_type, '()', c%b, numvals, 0.0, 10.0)
       if (numvals.ne.1) then
          ! We have dodgy data
          string = 'Incorrect storage geometry data provided for '//p%source_type
@@ -446,8 +446,8 @@ subroutine WaterSupply_runoff ()
          external_runoff = 0.0
       endif
 
-      call get_real_var        (unknown_module,'runoff','(mm)',runoff,numvals,0.0,1000.0)              
-      call get_real_var        (unknown_module,'crop_area','(ha)',crop_area,numvals,0.0,100000.0)            
+      call get_real_var        (unknown_module,'runoff','(mm)',runoff,numvals,0.0,1000.0)
+      call get_real_var        (unknown_module,'crop_area','(ha)',crop_area,numvals,0.0,100000.0)
       if(numvals.eq.0) then
           call fatal_error (err_user, 'Irrigation area not provided in MANAGER')
       endif
@@ -588,7 +588,7 @@ subroutine WaterSupply_check_allocation ()
    if (p%source_type.eq.'bore'.or. &
        p%source_type.eq.'river') then
 
-      call get_integer_var        (unknown_module,'day','',day,numvals,0,366)           
+      call get_integer_var        (unknown_module,'day','',day,numvals,0,366)
 
       ! check if today is the allocation renewal day
       if (day.eq.p%renewal_day) then
@@ -798,7 +798,7 @@ subroutine WaterSupply_ONgimme_water ()
    call post_real_var ('water_supplied', '(Ml)', water_supplied)
    call post_real_array ('solute_concentrations_supplied','(ppm)', g%solute_conc, g%num_solutes)
 
-   call Action_send(water_requester,'water_supplied')
+   call Event_send_directed(water_requester,'water_supplied')
 
    call delete_postbox()
 
@@ -909,7 +909,7 @@ subroutine WaterSupply_ONwater_supplied ()
            ,water_still_needed ,' ML of water'
            call write_string (err_string)
       else
-           call Action_send(g%top_up_source(g%source_counter),'gimme_water')
+           call Event_send_directed(g%top_up_source(g%source_counter),'gimme_water')
       endif
 
       call delete_postbox()
@@ -980,7 +980,7 @@ subroutine WaterSupply_ONtop_up ()
    call post_char_var ('water_requester', '()', water_requester)
    call post_real_var ('amount', '(Ml)', top_up_required)
    g%source_counter = 1
-   call Action_send(g%top_up_source(1),'gimme_water')
+   call Event_send_directed(g%top_up_source(1),'gimme_water')
    call delete_postbox()
 
    call pop_routine (my_name)
