@@ -325,15 +325,6 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
-   // If this is a getVariableReg then see if we have already registered this name.
-   // If so then return the registration id.
-   if (kind == getVariableReg || kind == setVariableReg)
-      {
-      unsigned id = getRegistrationID(kind, name);
-      if (id != 0)
-         return id;
-      }
-
    // Not already registered - register now.
    static char regName[200];
    strncpy(regName, name.f_str(), name.length());
@@ -359,6 +350,15 @@ unsigned Component::addRegistration(RegistrationType kind,
          regName[componentNameOrID.length() + name.length() + 1] = 0;
          }
       }
+   // If this is a getVariableReg then see if we have already registered this name.
+   // If so then return the registration id.
+   if (kind == getVariableReg || kind == setVariableReg)
+      {
+      unsigned id = getRegistrationID(kind, regName);
+      if (id != 0)
+         return id;
+      }
+
    RegistrationItem* newRegistration = new RegistrationItem
          (this, kind, regName, type);
    unsigned id = (unsigned) newRegistration;
