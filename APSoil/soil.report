@@ -6,17 +6,17 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 885
-  ClientWidth = 1269
+  ClientHeight = 862
+  ClientWidth = 1107
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
+  Font.Height = -10
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   object data: TApsimFileReader
     Active = True
     DesignActivation = True
@@ -66,16 +66,16 @@ object data: TForm
     addToToolBar = True
     groupByFields = 'Series'
     filenames.Strings = (
-      '..\Shared\Soil\soil.out')
+      'soil.out')
     Left = 80
     Top = 35
   end
 end
 object Page1: TQuickRep
-  Left = 0
+  Left = 34
   Top = 0
-  Width = 992
-  Height = 1403
+  Width = 794
+  Height = 1123
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -120,8 +120,8 @@ object Page1: TQuickRep
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 992
-    Height = 1403
+    Width = 794
+    Height = 1123
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -133,13 +133,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2099.73333333333)
+      2100.79166666667)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 20
-      Top = 134
-      Width = 936
-      Height = 624
+      Left = 16
+      Top = 107
+      Width = 749
+      Height = 499
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -197,7 +197,7 @@ object Page1: TQuickRep
         TopAxis.AxisValuesFormat = '###0.###'
         TopAxis.ExactDateTime = False
         TopAxis.Grid.Visible = False
-        TopAxis.Increment = 5
+        TopAxis.Increment = 0.05
         TopAxis.LabelsFont.Height = -20
         TopAxis.LabelsSeparation = 100
         TopAxis.MinorTicks.Visible = False
@@ -215,11 +215,13 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = data.data
-          Title = '$seriesName'
-          LinePen.Width = 3
+          SeriesColor = clBlue
+          Title = '(DUL)'
+          LinePen.Width = 2
           Pointer.InflateMargins = True
+          Pointer.Pen.Color = clWhite
           Pointer.Style = psRectangle
-          Pointer.Visible = False
+          Pointer.Visible = True
           XValues.Name = 'X'
           XValues.Order = loAscending
           XValues.ValueSource = 'water'
@@ -233,50 +235,13 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = data.data
-          SeriesColor = clGreen
-          Title = 'Sorghum'
-          LinePen.Width = 3
+          SeriesColor = clRed
+          Title = '(LL15)'
+          LinePen.Width = 2
           Pointer.InflateMargins = True
+          Pointer.Pen.Color = clWhite
           Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'water'
-          YValues.Name = 'Y'
-          YValues.Order = loAscending
-          YValues.ValueSource = 'Depth'
-        end
-        object Series3: TLineSeries
-          Tag = 2
-          HorizAxis = aTopAxis
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = data.data
-          SeriesColor = clYellow
-          Title = '_DUL'
-          LinePen.Width = 3
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'water'
-          YValues.Name = 'Y'
-          YValues.Order = loAscending
-          YValues.ValueSource = 'Depth'
-        end
-        object Series4: TLineSeries
-          Tag = 3
-          HorizAxis = aTopAxis
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = data.data
-          SeriesColor = clBlue
-          Title = '_LL15'
-          LinePen.Width = 3
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
+          Pointer.Visible = True
           XValues.Name = 'X'
           XValues.Order = loAscending
           XValues.ValueSource = 'water'
@@ -287,10 +252,10 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 47
-      Top = 24
-      Width = 915
-      Height = 30
+      Left = 38
+      Top = 19
+      Width = 732
+      Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -309,7 +274,7 @@ object Page1: TQuickRep
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -20
+      Font.Height = -16
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
