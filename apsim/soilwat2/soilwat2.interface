@@ -84,7 +84,6 @@
       <read name="canopy_fact_default" type="canopy_fact_default" readable="T"/>
       <read name="act_evap_method" type="act_evap_method" readable="T"/>
       <respondToMethodCallReg name="tillage" type="tillage"/>
-      <respondToMethodCallReg name="sysinit" type="sysinit"/>
       <respondToMethodCallReg name="reset" type="reset"/>
       <respondToMethodCallReg name="sum_report" type="sum_report"/>
       <respondToMethodCallReg name="evap_init" type="evap_init"/>
