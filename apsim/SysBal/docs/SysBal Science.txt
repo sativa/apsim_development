@@ -45,6 +45,7 @@
      :           + rock_p()
      :           + unavail_p()
      :           + labile_p()
+     :           + banded_p()
 
       state_surface = surfaceom_p
 
@@ -82,8 +83,7 @@
                    + dlt_hum_c_atm()
                    + dlt_biom_c_atm()
 
-      loss_crop    = dlt_dm_oil_conv         * gm2kg/sm2ha * 0.4
-                   + dlt_dm_oil_conv_retrans * gm2kg/sm2ha * 0.4
+      loss_crop    = dlt_dm_oil_conv_retrans * gm2kg/sm2ha * 0.4
 
       loss_surface = dlt_res_c_atm
 
@@ -114,8 +114,7 @@
      :          + dlt_hum_c_atm() / 0.4
      :          + dlt_biom_c_atm() / 0.4
 
-      loss_crop    = dlt_dm_oil_conv         * gm2kg/sm2ha
-     :             + dlt_dm_oil_conv_retrans * gm2kg/sm2ha
+      loss_crop    = dlt_dm_oil_conv_retrans * gm2kg/sm2ha
 
       loss_surface = dlt_res_c_atm / 0.4
 
