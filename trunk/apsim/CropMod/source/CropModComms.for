@@ -685,7 +685,7 @@ cjh      endif
       REAL       plant_p_max
       REAL       pconc
       REAL       value
-      REAL       ep
+      REAL       ep(max_layer)
 
       REAL       no3_uptake(max_layer)
       REAL       nh4_uptake(max_layer)
@@ -1387,11 +1387,15 @@ cjh      endif
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
-         ep = -sum(g%dlt_sw_dep(1:num_layers))
+         ep(:) = -1.0*g%dlt_sw_dep(1:num_layers)
 
-         call respond2get_real_var (variable_name
+!         call respond2get_real_var (variable_name
+!     :                               , '(mm)'
+!     :                               , ep)
+         call respond2get_real_array (variable_name
      :                               , '(mm)'
-     :                               , ep)
+     :                               , ep
+     :                               , num_layers)
 
       elseif (variable_name .eq. 'transpiration') then
          deepest_layer = find_layer_no (g%root_depth, g%dlayer
