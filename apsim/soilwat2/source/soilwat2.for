@@ -5,6 +5,7 @@
 !     ===========================================================
       use Soilwat2Module
       use LateralModule
+      use EvapModule      
       implicit none
  
 !+  Sub-Program Arguments
@@ -24,7 +25,7 @@
       allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
       call LateralAllocInstance (InstanceName, InstanceNo)
-
+      call EvapAllocInstance (InstanceName, InstanceNo)
  
       return
       end
@@ -34,6 +35,7 @@
 !     ===========================================================
       use Soilwat2Module
       use LateralModule
+      use EvapModule      
       implicit none
  
 !+  Sub-Program Arguments
@@ -51,6 +53,7 @@
       deallocate (Instances(anInstanceNo)%pptr)
       deallocate (Instances(anInstanceNo)%cptr)
       call  LateralFreeInstance (anInstanceNo)
+      call EvapFreeInstance (anInstanceNo)      
       return
       end
      
@@ -58,7 +61,9 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use Soilwat2Module
-      use LateralModule      
+      use LateralModule 
+      use EvapModule      
+           
       implicit none
  
 !+  Sub-Program Arguments
@@ -76,6 +81,8 @@
       p => Instances(anInstanceNo)%pptr
       c => Instances(anInstanceNo)%cptr
       call LateralSwapInstance (anInstanceNo)
+      call EvapSwapInstance (anInstanceNo)
+      
       return
       end
 
@@ -208,7 +215,10 @@
          call soilwat2_sum_report ()
 
       else if (action.eq.ACTION_post) then
- 
+
+      else if (action.eq.ACTION_create) then
+         call soilwat2_create()
+
       else if (action.eq.'evap_init') then
          call soilwat2_evap_init ()
  
@@ -1058,6 +1068,7 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
       subroutine soilwat2_soil_evaporation (es, eos, eos_max)
 *     ===========================================================
       use Soilwat2Module
+      use EvapModule
       implicit none
       include   'const.inc'
       include   'error.pub'
@@ -1107,6 +1118,14 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
  
       else if (c%evap_method .eq. rickert_method) then
          call soilwat2_rickert_evaporation (es, eos)
+
+      else if (c%evap_method .eq. rwc_method) then
+         call Evap_process(g%sw_dep
+     :                    ,g%pond
+     :                    ,g%infiltration
+     :                    ,g%eo
+     :                    ,eos
+     :                    ,es)
  
       else
  
@@ -2576,6 +2595,9 @@ cjh
  
       else if (evap_method .eq. 'rickert') then
          c%evap_method = rickert_method
+
+      else if (evap_method .eq. 'rwc') then
+         c%evap_method = rwc_method
  
       else
          c%evap_method = -1  ! Force error somewhere later..
@@ -2592,6 +2614,8 @@ cjh
       subroutine soilwat2_soil_property_param ()
 *     ===========================================================
       use Soilwat2Module
+      use EvapModule
+     
       implicit none
       include   'const.inc'
       include 'read.pub'
@@ -2772,6 +2796,12 @@ cjh
  
          p%max_evap = 0.0
       endif
+
+      if (c%evap_method .eq. rwc_method) then
+         call Evap_read()
+      else
+      endif
+
  
       call read_char_var_optional (section_name
      :                   ,'eo_source', '()'
@@ -3206,9 +3236,12 @@ c       be set to '1' in all layers by default
       subroutine soilwat2_evap_init
 *     ===========================================================
       use Soilwat2Module
+      use EvapModule
+      
       implicit none
       include   'const.inc'
       include 'error.pub'
+      include 'data.pub'      
  
 *+  Purpose
 *     Wrapper for evaporation methods
@@ -3222,6 +3255,9 @@ c       be set to '1' in all layers by default
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name = 'soilwat2_evap_init')
+
+*+  Local Variables
+      integer num_layers
  
 *- Implementation Section ----------------------------------
  
@@ -3240,6 +3276,11 @@ c       be set to '1' in all layers by default
  
       else if (c%evap_method .eq. rickert_method) then
          call soilwat2_rickert_init ()
+
+      else if (c%evap_method .eq. rwc_method) then
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
+
+         call Evap_init(num_layers,p%dlayer,g%air_dry_dep,g%dul_dep)
  
       else
          call fatal_error(err_user,
@@ -5703,6 +5744,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
          write (line, '(7x, a, f8.2, a)') 'Max daily evaporation:',
      :        p%max_evap, ' (mm)'
          call write_string (line)
+
+      else if (c%evap_method .eq. rwc_method) then
+         line = '      Using Relative Water Content evaporation method'
+         call write_string (line)
+ 
+         call write_string (line)
  
       else
          line = '     Using unknown evaporation method!'
@@ -6668,4 +6715,36 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       return
       end
 
+* ====================================================================
+       subroutine soilwat2_create ()
+* ====================================================================
+      use Soilwat2Module
+      use EvapModule
+      implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Purpose
+*     Create
+
+*+  Mission statement
+*     Create
+
+*+  Changes
+*   neilh - 04-01-2002 - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat_create')
+
+*+  Local Variables
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      call Evap_create()
+      
+      call pop_routine (myname)
+      return
+      end
 
