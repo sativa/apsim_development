@@ -24,6 +24,7 @@ class __declspec(dllexport) ApsimSimulationFile
       std::string getName(void) const;
       std::string getExecutableFileName(void) const;
       std::string getTitle(void) const;
+      bool doPrintReport(void) const;
       void setFileName(const std::string& file) {fileName = file;}
       void setName(const std::string& name);
       void setExecutableFileName(const std::string& executableFileName);

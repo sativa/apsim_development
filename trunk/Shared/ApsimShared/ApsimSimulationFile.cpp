@@ -53,6 +53,13 @@ string ApsimSimulationFile::getName(void) const
    return xmlDoc->documentElement().getAttribute("name");
    }
 // ------------------------------------------------------------------
+// Return true if the printreport = T attribute is turned on.
+// ------------------------------------------------------------------
+bool ApsimSimulationFile::doPrintReport(void) const
+   {
+   return Str_i_Eq(xmlDoc->documentElement().getAttribute("printReport"), "T"); 
+   }
+// ------------------------------------------------------------------
 // Return the executable filename
 // ------------------------------------------------------------------
 string ApsimSimulationFile::getExecutableFileName(void) const
