@@ -241,12 +241,18 @@
 *                   and addition of solutes in irrigation water.
 *       270897 pdev Cleaned up. Runoff, solute handing in separate subroutines.
 *       021199 jngh added call to cover_surface_runoff
+*       041200 dsg  added ponding and impermeable soil layer features
  
+*+  Calls
+      real  soilwat_water_table  !  function
+
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
       parameter (my_name = 'soilwat2_process')
  
 *+  Local Variables
+      real       extra_runoff          ! water backed up from flux calculations
+                                       ! that was unable to enter profile
       integer    layer                 ! layer number counter variable
       integer    num_layers            ! number of layers
  
@@ -262,8 +268,18 @@
  
       call soilwat2_cover_surface_runoff (g%cover_surface_runoff)
  
-      call soilwat2_runoff (g%rain, g%runoff)
- 
+      call soilwat2_runoff (g%rain, g%runoff_pot)
+
+      ! DSG  041200
+      ! g%runoff_pot is the runoff which would have occurred without 
+      ! ponding.  g%runoff is the ammended runoff after taking any 
+      ! ponding into account
+
+      g%pond = g%pond + g%runoff_pot
+      g%runoff = max(g%pond - p%max_pond, 0.0)
+      g%pond = min (g%pond, p%max_pond)
+
+
       call soilwat2_infiltration (g%infiltration)
  
             ! all infiltration and solutes(from irrigation)
@@ -286,7 +302,15 @@
  
             ! drainage
             ! get flux
-      call soilwat2_drainage (g%flux)
+
+      call soilwat2_drainage (g%flux,extra_runoff)
+
+      g%pond = min (extra_runoff, p%max_pond)
+      g%runoff = g%runoff + extra_runoff - g%pond
+      g%infiltration = g%infiltration - extra_runoff
+      g%sw_dep(1) = g%sw_dep(1) - extra_runoff
+
+
  
             ! move water down
       call move_down_real (g%flux, g%sw_dep, num_layers)
@@ -321,6 +345,14 @@
       do 2000 layer = 1,num_layers
          call soilwat2_check_profile (layer)
 2000  continue
+
+      g%water_table = soilwat_water_table()
+ 
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
+
+      do 5000 layer = 1,num_layers
+         g%sws(layer) = divide (g%sw_dep(layer),p%dlayer(layer), 0.0)
+5000  continue
  
             ! now move the solutes with flow
       call soilwat2_move_solute_up ()
@@ -1712,7 +1744,7 @@ c     should suffice.
  
  
 *     ===========================================================
-      subroutine soilwat2_drainage (flux)
+      subroutine soilwat2_drainage (flux,extra_runoff)
 *     ===========================================================
       use Soilwat2Module
       implicit none
@@ -1721,6 +1753,7 @@ c     should suffice.
  
 *+  Sub-Program Arguments
       real       flux (*)              ! (output) water moving out of
+      real       extra_runoff          ! (output) water to add to runoff
                                        ! layer (mm)
  
 *+  Purpose
@@ -1746,7 +1779,13 @@ c     should suffice.
       parameter (my_name = 'soilwat2_drainage')
  
 *+  Local Variables
+
+      real       add                   ! water to add to layer
+      real       backup                ! water to backup
       real       excess                ! amount above saturation(overflow)(mm)
+      real       new_sw_dep(max_layer) ! record of results of sw calculations
+                                       ! ensure mass balance. (mm)
+      integer    l                     ! counter
       integer    layer                 ! counter for layer no.
       integer    num_layers            ! number of layers
       real       w_drain               ! water draining by gravity (mm)
@@ -1761,7 +1800,8 @@ c     should suffice.
                 ! flux into layer 1 = infiltration (mm).
  
       w_in = 0.0
- 
+      extra_runoff = 0.0 
+
                 ! calculate drainage and water
                 ! redistribution.
  
@@ -1792,11 +1832,59 @@ c     should suffice.
             w_drain = 0.0
          endif
  
+
+
+
              ! get water draining out of layer (mm)
+
+      
+
+         if (excess.gt.0.0) then
  
-         w_out = excess + w_drain
-         flux(layer) = w_out
+            if (p%mwcon(layer).ge.1.0) then
+               ! all this excess goes on down so do nothing
+               w_out = excess + w_drain
+               new_sw_dep(layer)=g%sw_dep(layer) + w_in - w_out
+               flux(layer) = w_out
  
+            else
+               ! Calculate amount of water to backup and push down
+ 
+               ! Firstly top up this layer (to saturation)
+               add = min (excess, w_drain)
+               excess = excess - add
+               new_sw_dep(layer) = g%sat_dep(layer) - w_drain + add
+ 
+               ! partition between flow back up and flow down
+               backup = (1. - p%mwcon(layer))*excess
+               excess = p%mwcon(layer) * excess
+ 
+               w_out = excess + w_drain
+               flux(layer) = w_out
+ 
+               ! now back up to saturation for this layer up out of the
+               ! backup water keeping account for reduction of actual
+               ! flow rates (flux) for N movement.
+ 
+               do 100 l=layer-1,1,-1
+                  flux(l) = flux(l) - backup
+                  add = min(g%sat_dep(l) - new_sw_dep(l),backup)
+                  new_sw_dep(l) = new_sw_dep(l) + add
+                  backup = backup - add
+  100          continue
+               extra_runoff = extra_runoff + backup
+
+ 
+            endif
+ 
+         else
+            ! there is no excess so do nothing
+            w_out = w_drain
+            flux(layer) = w_out
+            new_sw_dep(layer) = g%sw_dep(layer) + w_in - w_out
+ 
+         endif
+
              ! drainage out of this layer goes into next layer down
  
          w_in = w_out
@@ -1969,8 +2057,15 @@ cjh          flow_max is -ve, resulting in sw > sat.
          sum_inverse_dlayer = divide (1.0, dlayer1, 0.0)
      :                      + divide (1.0, dlayer2, 0.0)
          flow_max = divide ((sw2 - sw1 - swg), sum_inverse_dlayer, 0.0)
+
+         if (g%sw_dep(layer).gt.g%dul_Dep(layer)) then
+            flow(layer) = 0.0
  
-         if (flow(layer) .lt. 0.0) then
+         elseif (g%sw_dep(next_layer).gt.g%dul_Dep(next_layer)) then
+            flow(layer) = 0.0
+
+ 
+         elseif (flow(layer) .lt. 0.0) then
             ! flow is down to layer below
             ! check capacity of layer below for holding water from this layer
             ! and the ability of this layer to supply the water
@@ -2528,6 +2623,12 @@ cjh
      :                   , p%cn_cov, numvals
      :                   , 0.0, 1.0)
  
+      call read_real_var_optional (section_name
+     :                   , 'max_pond', '()'
+     :                   , p%max_pond, numvals
+     :                   , 0.0, 1000.0)
+
+
       call read_real_var (section_name
      :                   , 'salb', '()'
      :                   , p%salb, numvals
@@ -2690,6 +2791,12 @@ cjh
      :                     , 'swcon', max_layer, '()'
      :                     , p%swcon, numvals
      :                     , 0.0, 1000.0)
+
+      call read_real_array_optional (section_name
+     :                     , 'mwcon', max_layer, '()'
+     :                     , p%mwcon, numvals
+     :                     , 0.0, 1000.0)
+
  
       call read_real_array ( section_name
      :                     , 'bd', max_layer, '(g/cc)'
@@ -3952,6 +4059,9 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
  
       else if (variable_name .eq. 'runoff') then
          call respond2get_real_var (variable_name, '(mm)', g%runoff)
+
+      else if (variable_name .eq. 'pond') then
+         call respond2get_real_var ('pond', '(mm)', g%pond)
  
       else if (variable_name .eq. 'drain') then
          call respond2get_real_var (variable_name, '(mm)', g%drain)
@@ -4155,6 +4265,16 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
          else
             call Message_unused ()
          endif
+
+      else if (variable_name .eq. 'water_table') then
+         call respond2get_real_var ('water_table','(mm)',g%water_table)
+ 
+      else if (variable_name .eq. 'sws') then
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
+         call respond2get_real_array ('sws', '(mm/mm)'
+     :                               , g%sws, num_layers)
+
+
       else
          ! not my variable
  
@@ -4471,6 +4591,7 @@ c         g%crop_module(:) = ' '               ! list of modules
       g%drain              = 0.0
       g%infiltration       = 0.0
       g%runoff             = 0.0
+      g%runoff_pot         = 0.0
       g%num_crops          = 0
       g%obsrunoff          = 0.0
       g%obsrunoff_found    = .false.
@@ -5516,15 +5637,28 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
       parameter (my_name = 'soilwat2_infiltration')
+
+*+  Local Variables
+      
+      real       infiltration_1    ! amount of infiltration from rain, irrigation - runoff
+      real       infiltration_2    ! amount of infiltration from ponding
+
+
  
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
- 
-            ! infiltration (mm) = (g%rain+irrigation) - g%runoff
-            ! Note: no irrigation runs off.
- 
-      infiltration =  g%irrigation + g%rain - g%runoff
+
+    ! DSG 041200
+    ! with the addition of the ponding feature, irrigation is now 
+    ! considered as consisting of two components - that from the rain + 
+    ! irrigation and that from ponding.
+
+      infiltration_1 = (g%irrigation + g%rain) -  g%runoff_pot
+      infiltration_2 = g%pond
+      g%infiltration =  infiltration_1 + infiltration_2
+
+      g%pond = 0.0
  
       call pop_routine (my_name)
       return
@@ -5965,3 +6099,63 @@ cnh      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, temp1)
       call pop_routine (myname)
       return
       end
+
+c
+* ====================================================================
+       real function soilwat_water_table ()
+* ====================================================================
+      use Soilwat2Module
+      implicit none
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*   neilh - 28-03-1996 - Programmed and Specified
+
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'soilwat_water_table')
+
+*+  Local Variables
+      integer layer
+      integer num_layers
+      integer sat_layer
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
+ 
+      do 100 layer = 1, num_layers
+         if (reals_are_equal(g%sw_dep(layer),g%sat_dep(layer))) then
+            sat_layer = layer
+            goto 200
+         else
+            sat_layer = 0
+         endif
+  100 continue
+  200 continue
+      if (sat_layer.eq.0) then
+         soilwat_water_table = 10000.
+ 
+      elseif (sat_layer.eq.1) then
+         soilwat_water_table = 0.0
+      else
+         if (g%sw_dep(sat_layer-1).gt.g%dul_dep(sat_layer-1)) then
+            soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
+     :         -  divide (g%sw_dep(sat_layer-1)-g%dul_dep(sat_layer-1)
+     :                   ,g%sat_Dep(sat_layer-1)-g%dul_dep(sat_layer-1)
+     :                   ,0.0) * p%dlayer(sat_layer-1)
+         else
+            soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
+         endif
+      endif
+ 
+      call pop_routine (myname)
+      return
+      end
+
+
