@@ -9,6 +9,6 @@ Module = report   report.par[output_vars] [title0]
 Module = input    dalby.met[weather]
 Module = accum    accum.par[accum]
 Module = manager  accum.man[general]
-Module = soilwat  soil.wat[pawc210] ..\..\inifiles\soilwat.ini[calibration]
+Module = soilwat  soil.wat[pawc210] \apsuite\apsim\soilwat\soilwat.ini [standard]
 
 
