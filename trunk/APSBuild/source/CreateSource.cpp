@@ -25,7 +25,7 @@ std::string ddmlKindToCPP(const std::string& kind)
    else if (Str_i_Eq(kind, "char"))
       return "char";
    else if (Str_i_Eq(kind, "string"))
-      return "FString";
+      return "std::string";
    else
       return kind;
    }
@@ -49,13 +49,24 @@ std::string ddmlKindToFOR(const std::string& kind)
    else
       return kind;
    }
+std::string indent(int indentLevel)
+   {
+   return "   \"" + string(indentLevel*3, ' ');
+   }
 // ------------------------------------------------------------------
 // convert a DDML string to a C formatted string
 // ------------------------------------------------------------------
-std::string ddmlToCPP(const ApsimDataTypeData& dataType)
+std::string ddmlToCPP(const ApsimDataTypeData& dataType,
+                      bool isType = true,
+                      int indentLevel = 0)
    {
    string st;
-   st = "   \"<type name=\\\"" + dataType.getName() + "\\\"";
+   if (isType)
+      st = indent(indentLevel) + "<type";
+   else
+      st = indent(indentLevel) + "<field";
+   if (dataType.isStructure())
+      st += " name = \\\"" + dataType.getName() + "\\\"";
 
    if (dataType.isArray())
       st += " array=\\\"T\\\"";
@@ -71,7 +82,8 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType)
    ApsimDataTypeData thisNode = dataType;
    if (dataType.isArray())
       {
-      st += "   \"   <element>\" \\\n";
+      indentLevel++;
+      st += indent(indentLevel) + "<element>\" \\\n";
       thisNode = *dataType.begin();
       }
 
@@ -79,16 +91,26 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType)
                                     field != thisNode.end();
                                     field++)
       {
-      st += "   \"   <field name=\\\"" + field->getName()
-          + "\\\" kind=\\\"" + field->getKind() + "\\\"";
-      if (field->isArray())
-         st += " array=\\\"T\\\"";
-
-      st += "/>\" \\\n";
+      if (field->isStructure())
+         st += ddmlToCPP(*field, false, indentLevel+1) + " \\\n";
+      else
+         {
+         st += indent(indentLevel+1) + "<field name=\\\"" + field->getName()
+             + "\\\" kind=\\\"" + field->getKind() + "\\\"";
+         if (field->isArray())
+            st += " array=\\\"T\\\"";
+         st += "/>\" \\\n";
+         }
       }
    if (dataType.isArray())
-      st += "   \"   </element>\" \\\n";
-   st += "   \"</type>\"";
+      {
+      st += indent(indentLevel) + "</element>\" \\\n";
+      indentLevel--;
+      }
+   if (isType)
+      st += indent(indentLevel) + "</type>\"";
+   else
+      st += indent(indentLevel) + "</field>\"";
    return st;
    }
 // ------------------------------------------------------------------
@@ -97,7 +119,9 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType)
 std::string ddmlToFOR(const ApsimDataTypeData& dataType)
    {
    string st;
-   st = "      '<type name=\"" + dataType.getName() + "\"";
+   st = "      '<type";
+   if (dataType.isStructure())
+      st += " name=\"" + dataType.getName() + "\"";
 
    if (dataType.isArray())
       st += " array=\"T\"";
