@@ -15,6 +15,17 @@
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
+ApsimComponentData::ApsimComponentData(void)
+   : node(NULL, NULL), dataTypesFile(NULL)
+   {
+   xmlDoc = new XMLDocument();
+   xmlDoc->setRootNode("component");
+   node = xmlDoc->documentElement();
+   node.appendChild("initdata");
+   }
+// ------------------------------------------------------------------
+// constructor
+// ------------------------------------------------------------------
 ApsimComponentData::ApsimComponentData(const std::string& xml)
    : node(NULL, NULL), dataTypesFile(NULL)
    {
@@ -40,6 +51,19 @@ ApsimComponentData::~ApsimComponentData()
    {
    delete xmlDoc;
    delete dataTypesFile;
+   }
+// ------------------------------------------------------------------
+// Copy all nodes from destination component.
+// ------------------------------------------------------------------
+void ApsimComponentData::copyAllFrom(ApsimComponentData& from)
+   {
+   eraseNodes(node, "initdata");
+   node.copyFrom(from.getInitData());
+   XMLNode::iterator initData = find_if(node.begin(),
+                                        node.end(),
+                                        EqualToName<XMLNode>("initdata"));
+   if (initData == node.end())
+      node.appendChild("initdata");
    }
 // ------------------------------------------------------------------
 // Return name of component to caller.
