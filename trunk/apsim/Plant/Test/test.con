@@ -38,3 +38,16 @@ module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[st
 module = SummaryFile  test.par[test3]
 module = Screen  test.par[all]
 
+[APSIM.test4_chickpea]
+title=Test kill_stem before sowing
+module = clock      test.par[all] %apsuite\apsim\clock\clock.ini[standard]
+module = report     test.par[test4]  test.par[all]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    test.par[test4]   test.par[all]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[standard]
+module = SummaryFile  test.par[test4]
+module = Screen  test.par[all]
+
