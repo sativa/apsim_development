@@ -95,7 +95,7 @@ extern const char *First_active_module;
       const float hr2s    = 60.0*60.0;          // hours to seconds
       const float s2hr    = 1.0/hr2s;           // seconds to hours
 
-// An "external" function. 
+// An "external" function.
 class externalFunction {
  protected:
      std::string xName, yName, xUnits, yUnits;
@@ -103,19 +103,19 @@ class externalFunction {
    externalFunction() {};
    ~externalFunction() {};
 
-   void read(PlantComponent *P, const string &section, 
-                     const char *xname, const char * xunits, float x0, float x1, 
+   void read(PlantComponent *P, const string &section,
+                     const char *xname, const char * xunits, float x0, float x1,
                      const char *yname, const char * yunits, float y0, float y1)
       {
       vector<string> t;
       t.push_back(section);
       search(P, t, xname, xunits, x0, x1, yname, yunits, y0, y1);
-      };               
-   virtual void search(PlantComponent *P, vector<string> &sections, 
-                       const char *xname, const char * xunits, float x0, float x1, 
+      };
+   virtual void search(PlantComponent *P, vector<string> &sections,
+                       const char *xname, const char * xunits, float x0, float x1,
                        const char *yname, const char * yunits, float y0, float y1)
       {
-      xName = string(xname); yName = string(yname); 
+      xName = string(xname); yName = string(yname);
       xUnits = string(xunits); yUnits = string(yunits);
       };
    virtual std::string description(void);
@@ -127,13 +127,13 @@ class externalFunction {
 
 // Implement stick (linear interpolation) functions
 class interpolationFunction : public externalFunction
-{ 
+{
  private:
    vector<float> x;
    vector<float> y;
- public:	
-   void search(PlantComponent *P, vector<string> &sections, 
-             const char *xName, const char * xunits, float x0, float x1, 
+ public:
+   void search(PlantComponent *P, vector<string> &sections,
+             const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
    float value(float v);
    vector<float> xVal() const {
@@ -147,13 +147,13 @@ class interpolationFunction : public externalFunction
 
 // Implement table lookup functions
 class lookupFunction : public externalFunction
-{ 
+{
  private:
    vector<float> x;
    vector<float> y;
- public:	
-   void search(PlantComponent *P, vector<string> &sections, 
-             const char *xName, const char * xunits, float x0, float x1, 
+ public:
+   void search(PlantComponent *P, vector<string> &sections,
+             const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
    float value(float v);
    vector<float> xVal() const {
@@ -169,19 +169,20 @@ class lookupFunction : public externalFunction
 // A class that observes things. Mostly report-related.
 class observer {
 	protected:
-     int n;
+        int n;
 	  float *myLocation, mySum;
    public:
      observer() {};
      virtual ~observer() {};
      void setup(float *loc) {
-     	  myLocation = loc; 
+     	  myLocation = loc;
      	  mySum = 0.0; n= 0;
-     }; 
+     };
      virtual void update(void) = 0;
      void reset(void) {mySum = 0.0; n = 0;};
      float getSum(void) {return mySum;};
      float getN(void) {return n;};
+     float getAverage(void) {return (n > 0 ? mySum/(float)n : 1.0);};
 };
 
 // Keep track of state variable
@@ -207,13 +208,13 @@ class stageSubject {
      	  for (std::list<observer*>::iterator o = observers.begin();
      	       o !=  observers.end();
      	       o++)
-     	      (*o)->update(); 
+     	      (*o)->update();
      };
      void reset(){
      	  for (std::list<observer*>::iterator o = observers.begin();
      	       o !=  observers.end();
      	       o++)
-     	      (*o)->reset(); 
+     	      (*o)->reset();
      };
 };
 
@@ -596,7 +597,7 @@ void cproc_leaf_no_pot1 (float *c_x_node_no_app,            // (INPUT)
                          bool   inNodeFormationPhase,
                          bool   inEmergenceDay,
                          float  node_no_now,                // (INPUT) current number of nodes
-                         float  g_dlt_tt,                   // (input) 
+                         float  g_dlt_tt,                   // (input)
                          float *dlt_leaf_no_pot,            // (OUTPUT) new fraction of oldest expanding leaf
                          float *dlt_node_no_pot);            // (OUTPUT) new fraction of oldest expanding node on main stem
 
@@ -705,9 +706,14 @@ void cproc_leaf_area_pot_bellshapecurve (int  begin_stage,             //
                                          float *dlt_lai_pot);           // (OUTPUT) change in leaf area
 
 void plant_leaf_detachment (float *leaf_area
-			      ,float dlt_slai_detached
-			      ,float plants, int max_node);
+			        , float dlt_slai_detached
+			        , float plants
+			        , int max_node);
 
+void plant_leaf_removal_top (float *leaf_area
+                           , float dlt_lai_removed
+                           , float plants
+                           , int last_node);
 //---------------------------------------------------------------------------
 void legnew_cover_leaf_pod (
      float g_row_spacing
@@ -757,12 +763,12 @@ void legnew_cover_leaf_pod (
 //---------------------------------------------------------------------------
 
 
-float crop_failure_germination(commsInterface *, 
+float crop_failure_germination(commsInterface *,
                               int days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days)
-                              int daysInStage,        // (Input) days we have spent in current stage 
+                              int daysInStage,        // (Input) days we have spent in current stage
                               float plants);         // (INPUT)  Plant density (plants/m^2)
 
-float crop_failure_emergence(commsInterface *, 
+float crop_failure_emergence(commsInterface *,
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day)
                              float ttInStage,         // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
                              float plants);           // (INPUT)  Plant density (plants/m^2)
