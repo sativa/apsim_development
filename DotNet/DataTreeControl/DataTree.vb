@@ -118,7 +118,7 @@ Public Class DataTree
                         addthis = True
                         openindex = 0
                         closedindex = 1
-                    Case "soil", "tracker", "area", "crop"
+                    Case "tracker", "sheep", "stock"
                         addthis = True
                         openindex = 2
                         closedindex = 3
@@ -138,6 +138,26 @@ Public Class DataTree
                         addthis = True
                         openindex = 7
                         closedindex = 7
+                    Case "component"
+                        addthis = True
+                        openindex = 8
+                        closedindex = 8
+                    Case "variable"
+                        addthis = True
+                        openindex = 9
+                        closedindex = 9
+                    Case "area"
+                        addthis = True
+                        openindex = 10
+                        closedindex = 10
+                    Case "crop"
+                        addthis = True
+                        openindex = 11
+                        closedindex = 11
+                    Case "soil"
+                        addthis = True
+                        openindex = 12
+                        closedindex = 12
 
                     Case Else
                         addthis = False
