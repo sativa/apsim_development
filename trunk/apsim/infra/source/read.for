@@ -46,7 +46,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter (variable_name)
+      return_string = read_parameter (variable_name, section_name)
  
       if (return_string .ne. blank) then
          call string_to_real_var
@@ -110,7 +110,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter (variable_name)
+      return_string = read_parameter (variable_name, section_name)
  
       if (return_string .ne. blank) then
          call string_to_integer_var
@@ -173,7 +173,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter(variable_name)
+      return_string = read_parameter(variable_name, section_name)
  
       if (return_string .ne. blank) then
          call string_to_double_var
@@ -234,7 +234,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter (variable_name)
+      return_string = read_parameter (variable_name, section_name)
  
       if (return_string .ne. blank) then
          call string_to_logical_var
@@ -284,14 +284,11 @@
 *+ Constant Values
  
 *+ Local Variables
-      character return_string*(function_string_len)
-                                       ! String returned from read_file_string
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter(variable_name)
-      variable = return_string
-      if (return_string .eq. blank) then
+      variable = read_parameter(variable_name, section_name)
+      if (variable .eq. blank) then
          numvals = 0
  
       else
@@ -352,6 +349,7 @@
 *- Implementation Section ----------------------------------
 
       if (read_parameter_optional (variable_name, 
+     .                             section_name,
      .                             return_string,
      .                             return_units)) then
          call string_to_real_var
@@ -415,6 +413,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name,
      .                             return_string,
      .                             return_units)) then
          call string_to_integer_var
@@ -480,6 +479,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name,
      .                             return_string,
      .                             return_units)) then
          call string_to_double_var
@@ -540,6 +540,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name,
      .                             return_string,
      .                             return_units)) then
          call string_to_logical_var
@@ -592,15 +593,14 @@
 *+ Constant Values
  
 *+ Local Variables
-      character return_string*(function_string_len)
-                                       ! String returned from read_file_string
       character return_units*(100)
                                        ! Units returned from read_file_string
  
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
-     .                             return_string,
+     .                             section_name,
+     .                             variable,
      .                             return_units)) then
          numvals = 1
  
@@ -660,7 +660,7 @@
  
 *- Implementation Section ----------------------------------
 
-      return_string = Read_parameter (variable_name)
+      return_string = Read_parameter (variable_name, section_name)
       if (return_string .ne. Blank) then
          call string_to_real_array
      .      (return_string, variable, size_of, numvals)
@@ -721,7 +721,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name)
+      return_string = Read_parameter (variable_name, section_name)
       if (return_string .ne. Blank) then
          call string_to_integer_array
      .      (return_string, variable, size_of, numvals)
@@ -781,7 +781,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name)
+      return_string = Read_parameter (variable_name, section_name)
       if (return_string .ne. Blank) then
          call string_to_double_array
      .      (return_string, variable, size_of, numvals)
@@ -837,7 +837,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name)
+      return_string = Read_parameter (variable_name, section_name)
       if (return_string .ne. Blank) then
          call string_to_logical_array
      .      (return_string, variable, size_of, numvals)
@@ -891,7 +891,7 @@
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name)
+      return_string = Read_parameter (variable_name, section_name)
       if (return_string .ne. Blank) then
          call string_to_char_array
      .      (return_string, variable, size_of, numvals)
@@ -951,6 +951,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name, 
      .                             return_string,
      .                             return_units)) then
          call string_to_real_array
@@ -1018,6 +1019,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name, 
      .                             return_string,
      .                             return_units)) then
          call string_to_integer_array
@@ -1085,6 +1087,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name, 
      .                             return_string,
      .                             return_units)) then
          call string_to_double_array
@@ -1148,6 +1151,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name, 
      .                             return_string,
      .                             return_units)) then
          call string_to_logical_array
@@ -1209,6 +1213,7 @@
 *- Implementation Section ----------------------------------
  
       if (read_parameter_optional (variable_name, 
+     .                             section_name, 
      .                             return_string,
      .                             return_units)) then
          call string_to_char_array
@@ -1224,13 +1229,15 @@
  
 * ====================================================================
        logical function Read_parameter_optional 
-     .     (Parameter_name, Parameter_value, Parameter_units)
+     .  (Parameter_name, Section_name, Parameter_value, Parameter_units)
 * ====================================================================
       implicit none
       dll_export Read_parameter_optional
+      include 'const.inc'
  
 *+ Sub-Program Arguments
       character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
+      character Section_name*(*)       ! (INPUT) name of section to retrieve from
       character Parameter_value*(*)    ! (OUTPUT) value of parameter
       character Parameter_units*(*)    ! (OUTPUT) units of parameter
 
@@ -1247,6 +1254,7 @@
 *+ Calls
       dll_import push_routine
       dll_import pop_routine
+      dll_import lower_case
       dll_import Loader_GetCurrentComponent
       dll_import PROPERTY_CREATE
       dll_import PROPERTY_FREE
@@ -1255,6 +1263,8 @@
       dll_import APSIMSYSTEM_DATA_GET
       
       logical APSIMSYSTEM_DATA_GET     ! function
+      character Lower_case*(Function_string_len)
+                                       ! function
  
 *+ Constant Values
       character myname*(*)             ! Name of this routine
@@ -1274,7 +1284,8 @@
       call Loader_GetCurrentComponent (Current_module)
       
       ! Work out the name of the property we want to retrieve.
-      property_name = Trim(Current_module) // "." // Parameter_name
+      property_name = Trim(Current_module) // "." // Trim(Section_name)
+     .                                     // "." // Parameter_name
 
       ! go get property if possible.
       call Property_Create (property)
@@ -1284,9 +1295,14 @@
          call Property_GetValue (property, Parameter_value)
          call Property_GetUnits (property, Parameter_units)
 
+         ! make value lowercase
+         Parameter_value = Lower_case(Parameter_value)
+
+         ! signal that all went ok.
          Read_parameter_optional = .true.
 
       else
+         ! couldn't find property.  Signal that all is not ok.
          Parameter_value = " "
          Read_parameter_optional = .false.
       endif
@@ -1304,7 +1320,8 @@
       end
 
 * ====================================================================
-       character*(*) function Read_parameter (Parameter_name)
+       character*(*) function Read_parameter 
+     .     (Parameter_name, Section_name)
 * ====================================================================
       implicit none
       dll_export Read_parameter
@@ -1312,6 +1329,7 @@
 
 *+ Sub-Program Arguments
       character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
+      character Section_name*(*)       ! (INPUT) name of section to retrieve from
  
 *+ Purpose
 *     Retrieve a parameter from system with the specified name.  Calls
@@ -1345,6 +1363,7 @@
       call push_routine(myname)
  
       if (Read_parameter_optional(Parameter_name, 
+     .                            Section_name, 
      .                            Parameter_value,
      .                            Parameter_units)) then
          Read_parameter = Parameter_value
@@ -1355,8 +1374,11 @@
          msg =
      .      'Cannot find a parameter in any of the files/sections'//
      .      new_line//
-     .      'specified in the control file.  Parameter name = '//
-     .      Parameter_name
+     .      'specified in the control file.'//
+     .      new_line//
+     .      'Parameter name = ' // Parameter_name//
+     .      new_line//
+     .      'Section name = ' // Section_name
  
          call fatal_error(err_user, msg)
  

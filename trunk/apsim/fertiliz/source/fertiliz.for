@@ -1,13 +1,85 @@
-*     ===========================================================
-      subroutine APSIM_fertiliz (Action, Data_string)
-*     ===========================================================
+C     Last change:  IH   27 Sep 1999    3:34 pm
+
+      include  'Fertiliz.inc'            ! Global constant definitions
+
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use FertilizModule
       implicit none
-      dll_export apsim_fertiliz
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+c     allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use FertilizModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+c     deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use FertilizModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+c     c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
+
+*     ===========================================================
+      subroutine Main (Action, Data_string)
+*     ===========================================================
+      use FertilizModule
+      implicit none
+
+      include   'action.inc'
+
       include   'const.inc'            ! Global constant definitions
       include   'event.inc'
-      include   'fertiliz.inc'         ! fertiliz common block
+c     include   'fertiliz.inc'         ! fertiliz common block
       include 'string.pub'
-      include 'engine.pub'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -35,12 +107,12 @@
       call push_routine (my_name)
  
          ! initialise error flags
-      call set_warning_off ()
+C      call set_warning_off ()
 
-      if (Action.eq.MES_Get_variable) then
+      if (Action.eq.ACTION_Get_variable) then
          call fertiliz_Send_my_variable (Data_string)
   
-      else if (Action.eq.MES_Init) then
+      else if (Action.eq.ACTION_Init) then
  
          call fertiliz_zero_variables ()
          call fertiliz_Init ()
@@ -48,7 +120,7 @@
       else if (Action.eq.EVENT_tick) then
          call fertiliz_ONtick()
  
-      else if (Action.eq.MES_Process) then
+      else if (Action.eq.ACTION_Process) then
  
          call fertiliz_get_other_variables ()
          call fertiliz_schedule ()
@@ -57,7 +129,7 @@
          call fertiliz_get_other_variables ()
          call fertiliz_fertilize ()
  
-      else if (Action .eq. MES_Set_variable) then
+      else if (Action .eq. ACTION_Set_variable) then
          call fertiliz_set_my_variable (Data_string)
  
       else
@@ -75,9 +147,10 @@
 *     ===========================================================
       subroutine fertiliz_fertilize ()
 *     ===========================================================
+      use FertilizModule
       implicit none
       include   'const.inc'            ! Global constant definitions
-      include   'fertiliz.inc'         ! fertiliz common block
+c     include   'fertiliz.inc'         ! fertiliz common block
       include 'intrface.pub'
       include 'error.pub'
  
@@ -154,9 +227,9 @@
 *     ===========================================================
       subroutine fertiliz_Init ()
 *     ===========================================================
+      use FertilizModule
       implicit none
-      include   'fertiliz.inc'         ! fertiliz model common
-      include 'write.pub'
+c     include   'fertiliz.inc'         ! fertiliz model common
       include 'error.pub'
  
 *+  Purpose
@@ -183,7 +256,7 @@
          ! Notify system that we have initialised
  
       Event_string = ' Initialising '
-      call report_event (Event_string)
+      call Write_string (Event_string)
  
          ! Get all parameters from parameter file
  
@@ -198,8 +271,9 @@
 *     ===========================================================
       subroutine fertiliz_zero_variables ()
 *     ===========================================================
+      use FertilizModule
       implicit none
-      include    'fertiliz.inc'        ! fertiliz common block
+c     include    'fertiliz.inc'        ! fertiliz common block
       include 'data.pub'
       include 'error.pub'
  
@@ -219,17 +293,17 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      g_day = 0
-      g_year = 0
-      g_fert_applied = 0.0
- 
-      call fill_real_array (g_dlayer, 0.0, max_layer)
-      call fill_real_array (g_fert_amount, 0.0, max_fert)
-      call fill_integer_array (g_fert_day, 0, max_fert)
-      call fill_integer_array (g_fert_year, 0, max_fert)
-      call fill_char_array (g_fert_type, ' ', max_fert)
-      call fill_real_array (g_fert_depth, 0.0, max_fert)
- 
+      g%day = 0
+      g%year = 0
+      g%fert_applied = 0.0
+
+      call fill_real_array    (g%dlayer, 0.0, max_layer)
+      call fill_integer_array (p%fert_day, 0, max_fert)
+      call fill_integer_array (p%fert_year, 0, max_fert)
+      call fill_char_array    (p%fert_type, ' ', max_fert)
+      call fill_real_array    (p%fert_depth, 0.0, max_fert)
+      call fill_real_array    (p%fert_amount, 0.0, max_fert)
+
       call pop_routine (my_name)
       return
       end
@@ -239,9 +313,10 @@
 *     ===========================================================
       subroutine fertiliz_get_other_variables ()
 *     ===========================================================
+      use FertilizModule
       implicit none
       include   'const.inc'            ! Constant definitions
-      include   'fertiliz.inc'         ! fertiliz common block
+c     include   'fertiliz.inc'         ! fertiliz common block
       include 'intrface.pub'
       include 'error.pub'
  
@@ -269,7 +344,7 @@
      :    , 'dlayer'        ! Variable Name
      :    , max_layer       ! Array size_of
      :    , '(mm)'          ! Units                (Not Used)
-     :    , g_dlayer        ! Variable
+     :    , g%dlayer        ! Variable
      :    , numvals         ! Number of values returned
      :    , 0.0             ! Lower Limit for bound checking
      :    , 1000.0)         ! Upper Limit for bound checking
@@ -283,9 +358,9 @@
 *     ===========================================================
       subroutine fertiliz_Send_my_variable (Variable_name)
 *     ===========================================================
+      use FertilizModule
       implicit none
-      include   'fertiliz.inc'         ! fertiliz Common block
-      include 'engine.pub'
+c     include   'fertiliz.inc'         ! fertiliz Common block
       include 'intrface.pub'
       include 'error.pub'
  
@@ -313,8 +388,8 @@
          call respond2get_real_var (
      :                              variable_name
      :                            , '(kg/ha)'
-     :                            , g_fert_applied)
- 
+     :                            , g%fert_applied)
+
       else
          call Message_unused ()
       endif
@@ -328,16 +403,17 @@
 *     ===========================================================
       subroutine fertiliz_apply (amount, depth, type)
 *     ===========================================================
+      use FertilizModule
       implicit none
+      include   'ACTION.inc'
       include   'const.inc'
-      include   'fertiliz.inc'
+c     include   'fertiliz.inc'
       include 'string.pub'
-      include 'engine.pub'
       include 'data.pub'
       include 'intrface.pub'
       include 'read.pub'
-      include 'write.pub'
       include 'error.pub'
+      include 'Postbox.pub'
  
 *+  Sub-Program Arguments
       real       amount                !
@@ -385,11 +461,11 @@
  
       if (amount.gt.0.0) then
  
-         call write_string (lu_scr_sum
-     :            ,new_line//'   - Reading Fertiliser Type Parameters')
+         call write_string (new_line//
+     :   '   - Reading Fertiliser Type Parameters')
  
             ! find the layer that the fertilizer is to be added to.
-         layer = get_cumulative_index_real (depth, g_dlayer, max_layer)
+         layer = get_cumulative_index_real (depth, g%dlayer, max_layer)
  
          call read_char_var (
      :           type                 ! Section header
@@ -429,7 +505,7 @@
      :       , array_size           ! Number of values returned
      :       , 0.0                  ! Lower Limit for bound checking
      :       , 1.0e30)              ! Upper Limit for bound checking
- 
+
             if (array_size .gt. 0) then
                   ! this variable is being tracked - send the delta to it
  
@@ -445,8 +521,8 @@
      :                    , '(kg/ha)'
      :                    , delta_array
      :                    , array_size)
-               call message_send_immediate (unknown_module
-     :                                     ,MES_set_variable
+               call Action_send (Owner_module
+     :                                     ,ACTION_set_variable
      :                                     ,dlt_name)
                call delete_postbox()
  
@@ -456,8 +532,8 @@
  
   100    continue
  
-         g_fert_applied = g_fert_applied + amount
- 
+         g%fert_applied = g%fert_applied + amount
+
          write (string, '(1x, f7.2, 6a, 41x, a, f7.2, a, i3, a)')
      :             amount,
      :             ' of ',
@@ -472,7 +548,7 @@
      :             layer,
      :             ')'
  
-        call report_event (string)
+        call Write_string (string)
  
       else
             ! we have no fertiliser applied
@@ -487,8 +563,9 @@
 *     ===========================================================
       subroutine fertiliz_schedule ()
 *     ===========================================================
+      use FertilizModule
       implicit none
-      include   'fertiliz.inc'
+c     include   'fertiliz.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -513,21 +590,21 @@
  
       call push_routine (myname)
  
-      nfert = count_of_integer_vals (g_fert_day, max_fert)
- 
+      nfert = count_of_integer_vals (p%fert_day, max_fert)
+
       if (nfert.gt.0) then
  
              ! we have a schedule.  see if we have fertiliser today.
  
          do 1000 fertno = 1, nfert
-            if (g_day .eq. g_fert_day(fertno) .and.
-     :          g_year .eq. g_fert_year(fertno)) then
- 
+            if (g%day .eq. p%fert_day(fertno) .and.
+     :          g%year .eq. p%fert_year(fertno)) then
+
                call fertiliz_apply (
-     :                               g_fert_amount(fertno)
-     :                             , g_fert_depth(fertno)
-     :                             , g_fert_type(fertno)  )
- 
+     :                               p%fert_amount(fertno)
+     :                             , p%fert_depth(fertno)
+     :                             , p%fert_type(fertno)  )
+
             else
             endif
 1000     continue
@@ -544,12 +621,12 @@
 *     ===========================================================
       subroutine fertiliz_read_param ()
 *     ===========================================================
+      use FertilizModule
       implicit none
       include 'const.inc'
-      include 'fertiliz.inc'
+c     include 'fertiliz.inc'
       include 'data.pub'
       include 'read.pub'
-      include 'write.pub'
       include 'error.pub'
  
 *+  Purpose
@@ -581,8 +658,8 @@
  
       call push_routine (myname)
  
-      call write_string (lu_scr_sum
-     :                 ,new_line//'   - Reading Parameters')
+      call write_string (new_line//
+     :     '   - Reading Parameters')
  
  
       ! Read in fertiliser schedule from parameter file
@@ -592,7 +669,7 @@
      :         , 'day'                ! Keyword
      :         , max_fert             ! array size_of
      :         , '()'                 ! Units
-     :         , g_fert_day           ! Array
+     :         , p%fert_day           ! Array
      :         , numdays              ! Number of values returned
      :         , 1                    ! Lower Limit for bound checking
      :         , 366)                 ! Upper Limit for bound checking
@@ -602,7 +679,7 @@
      :         , 'year'               ! Keyword
      :         , max_fert             ! array size_of
      :         , '()'                 ! Units
-     :         , g_fert_year          ! Array
+     :         , p%fert_year          ! Array
      :         , numvals              ! Number of values returned
      :         , 1800                 ! Lower Limit for bound checking
      :         , 2000)                ! Upper Limit for bound checking
@@ -618,7 +695,7 @@
      :         , 'amount'             ! Keyword
      :         , max_fert             ! array size_of
      :         , '(kg/ha)'            ! Units
-     :         , g_fert_amount        ! Array
+     :         , p%fert_amount        ! Array
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1000.0)              ! Upper Limit for bound checking
@@ -633,7 +710,7 @@
      :         , 'type'               ! Keyword
      :         , max_fert             ! array size_of
      :         , '()'                 ! Units
-     :         , g_fert_type          ! Array
+     :         , p%fert_type          ! Array
      :         , numvals)             ! Number of values returned
          if (numvals.ne.numdays) then
             call fatal_error(err_user,
@@ -646,7 +723,7 @@
      :         , 'depth'              ! Keyword
      :         , max_fert             ! array size_of
      :         , '(mm)'               ! Units
-     :         , g_fert_depth         ! Array
+     :         , p%fert_depth         ! Array
      :         , numvals              ! Number of values returned
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 1000.0)               ! Upper Limit for bound checking
@@ -658,42 +735,42 @@
  
              ! report fertiliser settings
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       string = '               Fertiliser Schedule (kg/ha)'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       string = '     -----------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
  
-      nfert = count_of_integer_vals (g_fert_day, max_fert)
- 
+      nfert = count_of_integer_vals (p%fert_day, max_fert)
+
       if (nfert.eq.0) then
          string = '      No fertiliser schedule is used'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       else
  
          string = '      day  year  amount    type'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          string = '     -----------------------------------------------'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          do 1000 k = 1, nfert
  
             write (string, '(5x, i4, 1x, i5, f8.1, 1x, a40)')
-     :          g_fert_day(k), g_fert_year(k), g_fert_amount(k),
-     :          g_fert_type(k)
-            call write_string (lu_scr_sum, string)
+     :          p%fert_day(k), p%fert_year(k), p%fert_amount(k),
+     :          p%fert_type(k)
+            call write_string (string)
  
 1000     continue
  
       endif
  
       string = '     -----------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       call pop_routine (myname)
       return
@@ -704,8 +781,9 @@
 *     ===========================================================
       subroutine fertiliz_ONtick ()
 *     ===========================================================
+      use FertilizModule
       implicit none
-      include   'fertiliz.inc'
+c     include   'fertiliz.inc'
       include 'error.pub'
       include 'event.pub'
  
@@ -734,10 +812,10 @@
       ! Note that time and timestep information is not required
       ! and so dummy variables are used in their place.
 
-      call handler_ONtick(g_day, g_year, temp1, temp2)
+      call handler_ONtick(g%day, g%year, temp1, temp2)
 
-      g_fert_applied = 0.0
- 
+      g%fert_applied = 0.0
+
       call pop_routine (myname)
       return
       end
@@ -747,9 +825,9 @@
 * ====================================================================
       subroutine fertiliz_set_my_variable (variable_name)
 * ====================================================================
+      use FertilizModule
       implicit none
-      include   'fertiliz.inc'
-      include 'engine.pub'
+c     include   'fertiliz.inc'
       include 'intrface.pub'
       include 'error.pub'
  

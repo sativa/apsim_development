@@ -2123,6 +2123,8 @@
       call Respond2Post_integer_var
      .   (Variable_name, Units, Variable, Numvals,
      .    Lower_limit, Upper_limit, No_zero_numvals, 1)
+     
+     
       call Delete_postbox ()
  
       call pop_routine(This_routine)

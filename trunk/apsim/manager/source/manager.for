@@ -173,10 +173,6 @@
          integer num_local_variables    ! Number of local variables.
          integer token_array2(Max_tokens)
                                        ! Second array for tokens.
-         integer start_day_index1       ! index into token array for start of day 1 (BLANK keyword)
-         integer start_day_index2       ! index into token array for start of day 2 ('start_of_day')
-         integer end_day_index          ! index into token array for end of day
-
          integer init_index             ! index into token array for 'init' keyword
          integer prepare_index          ! index into token array for 'prepare' keyword
          integer process_index          ! index into token array for 'process' keyword
@@ -407,7 +403,7 @@
       g%lines_been_read = .false.
  
       msg = 'Manager rules:'
-      call Write_string(LU_Summary_file, msg)
+      call Write_string(msg)
  
       call Manager_read_rules ()
  
@@ -502,10 +498,6 @@
  
       call fill_integer_array (g%token_array2, 0, Max_tokens)
  
-      g%start_day_index1         = 0
-      g%start_day_index2         = 0
-      g%end_day_index            = 0
- 
       g%init_index               = 0
       g%prepare_index            = 0
       g%process_index            = 0
@@ -553,61 +545,51 @@
       ! Set the read flag so that the next call to manager_read_line
       ! will restart the reading routine.
  
-      call Memo_Create(g%lines)
  
       ! Go tokenize the parameter file.
- 
-!      g%start_token = 1
-!      g%start_day_index1 = 1
-!      g%current_section = Blank
-!      call Tokenize (g%token_array, g%token_array2, max_tokens)
  
       g%start_token = g%last_token + 2
       g%init_index = g%start_token
       g%current_section = 'init'
+      call Memo_Create(g%lines)
       ok = ApsimSystem_Data_Get(
      .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
       g%num_lines = Memo_GetLineCount(g%lines)
       g%line_number = 0
       call Tokenize (g%token_array, g%token_array2, max_tokens)
- 
-!      g%start_token = g%last_token + 2
-!      g%start_day_index2 = g%start_token
-!      g%current_section = 'start_of_day'
-!      call Tokenize (g%token_array, g%token_array2, max_tokens)
+      call Memo_Free (g%lines)
  
       g%start_token = g%last_token + 2
       g%prepare_index = g%start_token
       g%current_section = 'prepare'
+      call Memo_Create(g%lines)
       ok = ApsimSystem_Data_Get(
      .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
       g%num_lines = Memo_GetLineCount(g%lines)
       g%line_number = 0
       call Tokenize (g%token_array, g%token_array2, max_tokens)
+      call Memo_Free (g%lines)
  
       g%start_token = g%last_token + 2
       g%process_index = g%start_token
       g%current_section = 'process'
+      call Memo_Create(g%lines)
       ok = ApsimSystem_Data_Get(
      .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
       g%num_lines = Memo_GetLineCount(g%lines)
       g%line_number = 0
       call Tokenize (g%token_array, g%token_array2, max_tokens)
- 
-!      g%start_token = g%last_token + 2
-!      g%end_day_index = g%start_token
-!      g%current_section = 'end_of_day'
-!      call Tokenize (g%token_array, g%token_array2, max_tokens)
+      call Memo_Free (g%lines)
  
       g%start_token = g%last_token + 2
       g%post_index = g%start_token
       g%current_section = 'post'
+      call Memo_Create(g%lines)
       ok = ApsimSystem_Data_Get(
      .    Trim(g%Instance_name) // '.' // g%current_section, g%lines)
       g%num_lines = Memo_GetLineCount(g%lines)
       g%line_number = 0
       call Tokenize (g%token_array, g%token_array2, max_tokens)
-
       call Memo_Free (g%lines)
       
       ok = ok    ! stops compiler warning
@@ -676,12 +658,6 @@
  
       ! Go call the parsing routine.
  
-      g%start_token = g%start_day_index1
-      call Parse (g%token_array, g%token_array2)
- 
-      g%start_token = g%start_day_index2
-      call Parse (g%token_array, g%token_array2)
- 
       g%start_token = g%prepare_index
       call Parse (g%token_array, g%token_array2)
  
@@ -748,9 +724,6 @@
       call push_routine (my_name)
  
       ! Go call the parsing routine.
-      g%start_token = g%end_day_index
-      call Parse (g%token_array, g%token_array2)
- 
       g%start_token = g%post_index
       call Parse (g%token_array, g%token_array2)
  
@@ -850,6 +823,7 @@
       include 'read.pub'                          
       include 'error.pub'                         
       include 'apsimengine.pub'
+      include 'string.pub'
 
 !+  Sub-Program Arguments
       character Line*(*)               ! (OUTPUT) Line read from file
@@ -864,6 +838,9 @@
 !     DPH 6/7/95   Added code to set g%lines_been_read to .true.
 !                  Added code to write all lines to summary file
 !     DPH 30/8/99  Changed to call MEMO C++ object instead of Read_next_param_section
+
+!+  Calls
+      character Lower_case*(Function_string_len)
 
 !+  Constant Values
       character  my_name*(*)           ! name of this procedure
@@ -881,6 +858,7 @@
          
       else 
          call Memo_GetLine(g%lines, g%line_number, Line)
+         Line = lower_case(Line)
 
          ! advance line number
          g%line_number = g%line_number + 1
@@ -896,7 +874,7 @@
          g%lines_been_read = .true.
  
          ! Echo all lines to summary file
-         call Write_string(LU_Summary_file, Line)
+         call Write_string(Line)
          
       endif
  
@@ -1150,7 +1128,7 @@
      .              'Manager creating a new local variable : ',
      .               trim(variable_name),
      .               ' = 0'
-                  call Write_string (0, str)
+                  call Write_string (str)
  
                else
                   ! Found variable elsewhere in APSIM
@@ -1245,7 +1223,7 @@
      .            trim(variable_name),
      .            ' = ',
      .            trim(Variable_value)
-               call Write_string (LU_scr_sum, str)
+               call Write_string (str)
  
             else
                call set_char_var(Unknown_module,
@@ -1268,7 +1246,7 @@
      .      ' = ',
      .      trim(Variable_value)
  
-         call Write_string (0, str)
+         call Write_string (str)
       endif
  
       return
@@ -1337,7 +1315,7 @@
      .      ' Day= ', Day, ' Year =  ', Year,
      .      '     Manager sending message :- ', Action_string
  
-         call Write_string(LU_Summary_file, Data_string)
+         call Write_string(Data_string)
       endif
  
       call split_line (Action_string, Module_name, Data_string, Blank)

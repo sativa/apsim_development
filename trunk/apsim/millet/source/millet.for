@@ -10,7 +10,7 @@
 !     "millet_m".  Named constants and variables can have global scope,
 !     and common blocks are therefore no longer needed.  The
 !     terminating "end" statement that was used to terminate FORTRAN 77
-!     subprograms has now been replaced with "end subroutine" or "end
+!     subprograms has now been replaced with "end" or "end
 !     function" as appropriate.  
 !  
 !  *  Some FORTRAN 90 types have been defined:-
@@ -91,660 +91,85 @@
 !     pipelines that do nothing but pass their arguments onto routines that
 !     may not be dll exported, millet(), millet_alloc() and millet_free().
 
+      include 'Millet.inc'
 
-
-   ! This is a FORTRAN 90 module.
-      module millet_m
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use MilletModule
       implicit none
-      private
  
-   ! Only these things can be known outside of the module.
-      public millet_t
-      public millet
-      public millet_alloc
-      public millet_free
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
  
-   ! Constants here are known throughout the module.
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use MilletModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use MilletModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
+
+*     ================================================================
+      subroutine Main (action, data_string)
+*     ================================================================
+      use MilletModule
+      implicit none
       include 'const.inc'
-
-
-*     ================================================================
-*      millet_array_sizes
-*     ================================================================
- 
-*   Short description:
-*      array size_of settings
- 
-*   Changes:
-*      290393 jngh
- 
-      integer    max_leaf              ! maximum number of plant leaves
-      parameter (max_leaf = 30)
- 
-      integer    max_layer             ! Maximum number of layers in soil
-      parameter (max_layer = 11)
- 
-      integer    max_table             ! Maximum size_of of tables
-      parameter (max_table = 10)
- 
- 
-*     ================================================================
-*      millet_crop status
-*     ================================================================
- 
-*   Short description:
-*      crop status names
- 
-*   Changes:
-*      290393 jngh
- 
-         ! crop status
- 
-      character  status_alive*(*)
-      parameter (status_alive = 'alive')
- 
-      character  status_dead*(*)
-      parameter (status_dead = 'dead')
- 
-      character  status_out*(*)
-      parameter (status_out = 'out')
- 
-      character  class_main*(*)
-      parameter (class_main = 'main')
- 
-      character  class_tiller*(*)
-      parameter (class_tiller = 'tiller')
- 
-      character  name_main*(*)
-      parameter (name_main = 'millet')
- 
-*     ================================================================
-*      millet_processes_for_stress
-*     ================================================================
- 
-*   Short description:
-*      Process names used for stress
- 
-*   Changes:
-*      290393 jngh
- 
-      integer    photo                 ! photosynthesis flag
-      parameter (photo = 1)
- 
-      integer    expansion             ! cell expansion flag
-      parameter (expansion = 2)
- 
-      integer    pheno                 ! phenological flag
-      parameter (pheno = 3)
- 
-      integer    grain_conc            ! grain concentration flag
-      parameter (grain_conc = 4)
- 
-      integer    fixation              ! N fixation flag
-      parameter (fixation = 5)
- 
-*     ================================================================
-*      millet_ plant parts
-*     ================================================================
- 
-*   Short description:
-*      plant part names
- 
-*   Changes:
-*      290393 jngh
- 
-      integer    root                  ! root
-      parameter (root = 1)
- 
-      integer    leaf                  ! leaf
-      parameter (leaf = 2)
- 
-      integer    stem                  ! stem
-      parameter (stem = 3)
- 
-      integer    tiller                ! tiller
-      parameter (tiller = 4)
- 
-      integer    flower                ! flower
-      parameter (flower = 5)
- 
-      integer    grain                 ! grain
-      parameter (grain = 6)
- 
-      integer    max_part              ! number of plant parts
-      parameter (max_part = 6)
- 
-*     ================================================================
-*     millet_phenological_names
-*     ================================================================
- 
-*   Short description:
-*      Define crop phenological stage and phase names
- 
-*   Changes:
-*      290393 jngh
- 
-            ! administration
- 
-      integer    max_stage             ! number of growth stages
-      parameter (max_stage = 12)
- 
-      integer    now                   ! at this point in time ()
-      parameter (now = max_stage+1)
- 
-            ! mechanical operations
- 
-      integer    plant_end              ! plant_end stage
-      parameter (plant_end = 12)
-      integer    fallow                ! fallow phase
-      parameter (fallow = plant_end)
- 
-      integer    sowing                ! Sowing stage
-      parameter (sowing = 1)
-      integer    sow_to_germ           ! seed sow_to_germ phase
-      parameter (sow_to_germ = sowing)
- 
-      integer    germ                  ! Germination stage
-      parameter (germ = 2)
-      integer    germ_to_emerg         ! germ_to_emerg elongation phase
-      parameter (germ_to_emerg = germ)
- 
-      integer    emerg                 ! Emergence stage
-      parameter (emerg = 3)
-      integer    emerg_to_endjuv       ! basic vegetative phase
-      parameter (emerg_to_endjuv = emerg)
- 
-      integer    endjuv                ! End of emerg_to_endjuv stage
-      parameter (endjuv = 4)
-      integer    endjuv_to_init        ! Photoperiod sensitive phase
-      parameter (endjuv_to_init = endjuv)
- 
-      integer    floral_init           ! Floral (Tassel) initiation stage
-      parameter (floral_init = 5)
-      integer    init_to_flag          ! flower development phase
-      parameter (init_to_flag = floral_init)
- 
-      integer    flag_leaf             ! end of leaf appearance stage
-      parameter (flag_leaf = 6)
-      integer    flag_to_flower        ! head (tassel) emergence phase
-      parameter (flag_to_flower = flag_leaf)
- 
-      integer    flowering             ! flowering (Silking) stage
-      parameter (flowering = 7)
-      integer    flower_to_start_grain ! grain development phase
-      parameter (flower_to_start_grain = flowering)
- 
-      integer    start_grain_fill      ! start of linear grain filling stage
-      parameter (start_grain_fill = 8)
-      integer    start_to_end_grain    ! linear grain filling phase
-      parameter (start_to_end_grain = start_grain_fill)
- 
-      integer    end_grain_fill        ! End of linear (effective) grain filling
-                                       ! stage
-      parameter (end_grain_fill = 9)
-      integer    end_grain_to_maturity ! End of effective grain filling
-      parameter (end_grain_to_maturity = end_grain_fill)
- 
-      integer    maturity              ! physiological maturity (black layer)
-                                       ! stage
-      parameter (maturity = 10)
-      integer    maturity_to_ripe      ! grain dry down phase
-      parameter (maturity_to_ripe = maturity)
- 
-      integer    harvest_ripe          ! harvest ripe stage
-      parameter (harvest_ripe = 11)
-      integer    ripe_to_harvest       ! harvest ready phase (waiting for
-                                       ! harvest
-      parameter (ripe_to_harvest = harvest_ripe) ! by manager)
-
-
-
-      type constant_t
-         sequence
-         real       a_const             ! leaf area breadth intercept
-         real       a_slope1            ! leaf area breadth slope1
-         real       a_slope2            ! leaf area breadth slope2
-         real       amax                    ! Maximum temperature to flowering
-         real       amin                    ! Base temperature to flowering
-         real       aopt                    ! Optimum temperature to flowering
-         real       aoptr                   ! Optimum rate to flowering
-         real       b_const             ! leaf area skewness intercept
-         real       b_slope1            ! leaf area skewness slope1
-         real       b_slope2            ! leaf area skewness slope2
-         real       barren_crit         ! fraction of maximum grains per plant below which barrenness occurs (0-1)
-         character  crop_type*50        ! crop type
-         real       days_germ_limit     ! maximum days allowed after sowing for germination to take place (days)
-         real       dead_detach_frac(max_part) ! fraction of dead plant parts detaching each day (0-1)
-         real    dlayer_lb              ! lower limit of layer depth (mm)
-         real    dlayer_ub              ! upper limit of layer depth (mm)
-         real       dm_leaf_detach_frac  ! fraction of senesced leaf dry matter detaching from live plant each day (0-1)
-         real       dm_leaf_init        ! leaf growth before emergence (g/plant)
-         real       dm_leaf_sen_frac    ! fraction of senescing leaf dry matter remaining in leaf (0-1)
-         real       dm_root_init        ! root growth before emergence (g/plant)
-         real       dm_root_sen_frac    ! fraction of root dry matter senescing each day (0-1)
-         real       dm_stem_init        ! stem growth before emergence (g/plant)
-         real       dm_tiller_crit      ! critical dry matter required for a new tiller to become independent
-         real    dul_dep_lb             ! lower limit of dul (mm)
-         real    dul_dep_ub             ! upper limit of dul (mm)
-         real       extinction_coef     ! radiation extinction coefficient ()
-         real       extinction_coef_change ! (=X) effect of row spacing on extinction coef i.e. k=exp(X*RS)
-         real       extinction_coef_dead ! radiation extinction coefficient () of dead leaves
-         real frac_flower2grain         ! fraction of dm allocated to flower relative to grain                            
-         real frac_leaf_post_flower     ! fraction of dm allocated to leaves after flowering
-         real frac_leaf_pre_flower      ! fraction of dm allocated to leaves prior to flowering
-         real frac_stem2flower          ! fraction of dm allocated_z to stem that goes to developing head
-         real       frost_kill          ! temperature threshold for leaf death (oC)
-         real       grain_gth_rate_ub             ! upper limit
-         real       grain_N_conc_min    ! minimum nitrogen concentration of grain
-         real grn_water_cont            ! water content of grain g/g
-         real       growth_rate_crit    ! threshold  rate of photosynthesis below which heat stress has no effect (g/plant).  This is also the rate at which the grains/plant is half of the maximum grains.
-         real       growth_rate_min     ! minimum rate of photosynthesis below which there is no grain produced (g/plant)
-         real       head_grain_no_crit  ! grains per plant minimum which all heads are barren
-         real       head_grain_no_max_ub          ! upper limit
-         real       height_max          ! maximum canopy height (mm)
-         real       height_stem_slope   ! rate of height growth (mm/g/stem)
-         real       hi_min              ! minimum harvest index (g grain/ g biomass)
-         real htstress_coeff            ! coeff for conversion of heat stress during flowering to heat stress factor on grain number development.
-         real       imax                    ! Maximum temperature to fl_init
-         real       imin                    ! Base temperature   to fl_init
-         real       initial_root_depth  ! initial depth of roots (mm)
-         real       initial_tpla        ! initial plant leaf area (mm^2)
-         real       iopt                    ! Optimum temperature to fl_init
-         real       ioptr                   ! Optimum rate  to fl_init
-         real       kl_ub               ! upper limit of water uptake factor
-         real       lai_sen_light       ! critical lai above which light
-         real    latitude_lb            ! lower limit of latitude for model(oL)
-         real    latitude_ub            ! upper limit of latitude for model (oL)
-         real       leaf_app_rate1      ! thermal time required to develop a leaf ligule for first leaves (deg day).
-         real       leaf_app_rate2      ! thermal time required to develop a leaf ligule for later leaves (deg day).
-         real       leaf_init_rate      ! growing degree days to initiate each le primordium until fl_initling (deg day)
-         real       leaf_no_at_emerg    ! leaf number at emergence ()
-         real       leaf_no_correction  ! corrects for other growing leaves
-         real       leaf_no_crit        ! critical number of leaves below which portion of the crop may die due to water stress
-         real leaf_no_dead_const        ! dead leaf no intercept
-         real leaf_no_dead_slope        ! dead leaf no slope
-         real leaf_no_dead_slope1       ! dead leaf no slope
-         real leaf_no_dead_slope2       ! dead leaf no slope
-         real       leaf_no_diff        ! GD
-         real       leaf_no_max         ! upper limit of leaf number ()
-         real       leaf_no_min         ! lower limit of leaf number ()
-         real       leaf_no_rate_change ! leaf no at which change from rate1 to rate2 for leaf appearance
-         real       leaf_no_seed        ! number of leaf primordia present in seed
-         real       leaf_size_average   ! average leaf size (mm2)
-         real       leaf_size_endjuv    ! early leaf size (mm2)
-         real leaf_trans_frac           ! fraction of leaf used in translocat to grain
-         real       ll_ub               ! upper limit of lower limit (mm/mm)
-         real       main_stem_coef      ! exponent_of for determining leaf area on main culm
-         real    maxt_lb                ! lower limit of maximum temperature (oC)
-         real    maxt_ub                ! upper limit of maximum temperature (oC)
-         real       minsw               ! lowest acceptable value for ll
-         real    mint_lb                ! lower limit of minimum temperature (oC)
-         real    mint_ub                ! upper limit of minimum temperature (oC)
-         real       N_conc_crit_grain    ! critical N concentration of grain (g N/g biomass)
-         real       N_conc_crit_root     ! critical N concentration of root (g N/g biomass)
-         real       N_conc_max_grain     ! maximum N concentration of grain (g N/g biomass)
-         real       N_conc_max_root      ! maximum N concentration of root (g N/g biomass)
-         real       N_conc_min_grain     ! minimum N concentration of grain (g N/g biomass)
-         real       N_conc_min_root      ! minimum N concentration of root (g N/g biomass)
-         real       N_fact_pheno         ! multipler for N deficit effect on     phenology       
-         real       N_fact_photo         ! multipler for N deficit effect on photosynthesis
-         real       N_fix_rate          ! potential rate of N fixation (g N fixed per g above ground biomass
-         real       N_leaf_init_conc     ! initial leaf N concentration (gN/gdm)
-         real       N_leaf_sen_conc      ! N concentration of senesced leaf (gN/gdm)
-         real       N_root_init_conc     ! initial root N concentration (gN/gdm)
-         real       N_root_sen_conc      ! N concentration of senesced root (gN/gdm)
-         real       N_stem_init_conc     ! initial stem N concentration (gN/gdm)
-         real       NO3_diffn_const     ! time constant for uptake by diffusion (days). H van Keulen & NG Seligman. Purdoe 1987. This is the time it would take to take up by diffusion the current amount of N if it wasn't depleted between time steps
-         real       NO3_lb              ! lower limit of soil NO3 (kg/ha)
-         real       NO3_min_lb          ! lower limit of minimum soil NO3 (kg/ha)
-         real       NO3_min_ub          ! upper limit of minimum soil NO3 (kg/ha)
-         real       NO3_ub              ! upper limit of soil NO3 (kg/ha)
-         integer    num_ave_temp           ! size_of critical temperature table
-         integer    num_factors            ! size_of table
-         integer    num_lai
-         integer    num_lai_ratio             ! number of ratios in table ()
-         integer    num_N_conc_stage     ! no of values in stage table
-         integer    num_row_spacing      ! no of values
-         integer    num_sw_avail_fix
-         integer    num_sw_avail_ratio
-         integer    num_sw_demand_ratio
-         integer    num_sw_ratio
-         integer    num_temp               ! size_of table
-         integer    num_temp_grain         ! size_of table
-         integer    num_temp_other         !
-         integer    num_temp_senescence ! number of temperatures in senescence table
-         integer    num_tiller_no_next  ! number in table ()
-         integer    num_weighted_temp      ! size of table 
-         real partition_rate_leaf       ! rate coefficient of sigmoidal function between leaf partition fraction and internode no**2 (0-1)
-         real       pesw_germ           ! plant extractable soil water in seedling layer inadequate for germination (mm/mm)
-         real       photo_tiller_crit   ! critical daylength (h) to amend c%y_tiller_tt
-         real       photoperiod_base    ! lower threshold of hours of light (hours)
-         real       photoperiod_crit    ! critical threshold of hours of light (hours)
-         real       pp_endjuv_to_init_ub           ! upper limit
-         real    radn_lb                ! lower limit of solar radiation (Mj/M^2)
-         real    radn_ub                ! upper limit of solar radiation (Mj/m^2)
-         real       ratio_root_shoot(max_stage) ! root:shoot ratio of new dm ()
-         real       root_depth_rate(max_stage) ! root growth rate potential (mm depth/day)
-         real       root_extinction        ! extinction coef to distribute roots down profile
-         real       row_spacing_default ! default row spacing for calculating k (m)
-         real       rue(max_stage)      ! radiation use efficiency (g dm/mj)
-         real       seed_wt_min         ! minimum grain weight (g/kernel)
-         real       sen_light_slope     ! slope of linear relationship between lai and light competition factor for determining leaf senesence rate.
-         real       sen_light_time_const ! delay factor for light senescence
-         real       sen_radn_crit       ! radiation level for onset of light senescence
-         real       sen_rate_water      ! slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate
-         real       sen_threshold       ! supply:demand ratio for onset of water senescence
-         real       sen_water_time_const ! delay factor for water senescence
-         real       sfac_slope          ! soil water stress factor slope
-         real       shoot_lag           ! minimum growing degree days for germination (deg days)
-         real       shoot_rate          ! growing deg day increase with depth for germination (deg day/mm depth)
-         real       sla_max             ! maximum specific leaf area for new leaf area (mm^2/g)
-         real       sla_min             ! minimum specific leaf area for new leaf area (mm^2/g)
-         real       spla_slope          ! regression slope for calculating inflection point for leaf senescence
-         real       stage_code_list(max_stage) ! list of stage numbers
-         character  stage_names(max_stage)*32 ! full names of stages for reporting
-         real stem_trans_frac           ! fraction of stem used in translocat to grain
-         real       svp_fract           ! fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies. (0-1)
-         real       sw_dep_lb           ! lower limit of soilwater depth (mm)
-         real       sw_dep_ub           ! upper limit of soilwater depth (mm)
-         real       sw_fac_max          ! soil water stress factor maximum
-         real       swdf_grain_min      ! minimum of water stress factor
-         real       swdf_pheno_limit    ! critical cumulative phenology water stress above which the crop fails (unitless)
-         real       swdf_photo_limit    ! critical cumulative photosynthesis water stress above which the crop partly fails (unitless)
-         real       swdf_photo_rate     ! rate of plant reduction with photosynthesis water stress
-         real       temp_fac_min        ! temperature stress factor minimum optimum temp
-         real temp_grain_crit_stress    ! temperature above which heat stress occurs
-         real       tfac_slope          ! temperature stress factor slope
-         character  tiller_appearance*2 ! method of tiller appearance
-         real       tiller_appearance_slope     ! relationship between tiller appearance and plant density
-         real       tiller_coef         ! exponent_of for determining leaf area on each additional tiller
-         integer    tiller_no_pot       ! potential number of tillers ()
-         real       transp_eff_cf       ! transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa) although this is expressed as a pressure it is really in the form kpa*g carbo per m^2 / g water per m^2 and this can be converted to kpa*g carbo per m^2 / mm water because 1g water = 1 cm^3 water
-         real       tt_emerg_limit      ! maximum degree days allowed for emergence to take place (deg day)
-         real       tt_emerg_to_endjuv_ub         ! upper limit
-         real       tt_flag_to_flower_ub          ! upper limit
-         real       tt_flower_to_maturity_ub      ! upper limit
-         real       tt_flower_to_start_grain_ub   ! upper limit
-         real       tt_maturity_to_ripe_ub        ! upper limit
-         real       twilight            ! twilight in angular distance between sunset and end of twilight - altitude of sun. (deg)
-         real       x0_const            ! largest leaf no intercept
-         real       x0_slope            ! largest leaf no slope
-         real       x_ave_temp(max_table)  ! critical temperatures for photosynthesis (oC)
-         real       x_lai(max_table)     ! LAI for interpolating SLA_max
-         real       x_lai_ratio(max_table)    ! ratio table for critical leaf size below which leaf number is reduced ()
-         real       x_row_spacing(max_table)       ! row spacing for interpolating k (m)
-         real       x_stage_code(max_stage) ! stage table for N concentrations (g N/g biomass)
-         real       x_sw_avail_fix (max_table)
-         real       x_sw_avail_ratio (max_table)
-         real       x_sw_demand_ratio (max_table)
-         real       x_sw_ratio (max_table)
-         real       x_temp(max_table)      ! temperature table for photosynthesis degree days
-         real       x_temp_grain(max_table) ! critical temperatures controlling grain fill rates (oC)
-         real       x_temp_other(max_table) !
-         real       x_temp_senescence(max_table) ! temperature senescence table (oC)
-         real       x_tiller_no_next(max_table) ! tiller table for determining tt for tiller appearance rate ()
-         real       x_weighted_temp(max_table) ! temperature table for poor establishment
-         real       y_extinct_coef(max_table)      ! interpolated k
-         real       y_extinct_coef_dead(max_table) ! interpolated k
-         real       y_grain_rate(max_table) ! Relative grain fill rates for critical temperatures (0-1)
-         real       y_leaf_no_frac(max_table) ! reduction in leaf appearance ()
-         real       y_n_conc_crit_flower(max_stage) ! critical N concentration of flower(g N/g biomass)
-         real       y_n_conc_crit_leaf(max_stage) ! critical N concentration of leaf (g N/g biomass)
-         real       y_n_conc_crit_stem(max_stage) ! critical N concentration of stem (g N/g biomass)
-         real       y_n_conc_max_flower(max_stage) ! maximum N concentration of flower (g N/g biomass)
-         real       y_n_conc_max_leaf(max_stage) ! maximum N concentration of leaf (g N/g biomass)
-         real       y_n_conc_max_stem(max_stage) ! maximum N concentration of stem (g N/g biomass)
-         real       y_n_conc_min_flower(max_stage) ! minimum N concentration of flower (g N/g biomass)
-         real       y_n_conc_min_leaf(max_stage) ! minimum N concentration of leaf (g N/g biomass)
-         real       y_n_conc_min_stem(max_stage) ! minimum N concentration of stem (g N/g biomass)
-         real       y_plant_death(max_table)   ! index of plant death
-         real       y_senescence_fac(max_table)  ! temperature factor senescence table (0-1)
-         real       y_sla_max(max_table) ! interpolated SLA_max (mm2/g)
-         real       y_stress_photo(max_table) ! Factors for critical temperatures (0-1)
-         real       y_sw_fac_root (max_table)
-         real       y_swdef_fix (max_table)
-         real       y_swdef_leaf (max_table)
-         real       y_swdef_pheno (max_table)
-         real       y_tiller_tt(max_table)      ! thermal time for theoretical  tiller appearance rate (oCd) at plant density = 0
-         real       y_tt(max_table)        ! degree days
-         real       y_tt_other(max_table)   !
-      end type constant_t
- 
- 
-      type global_t
-         sequence
-         real       canopy_height       ! canopy height (mm)
-         real       cnd_grain_conc (max_stage) ! cumulative nitrogen stress type 2
-         real       cnd_photo (max_stage)      ! cumulative nitrogen stress type 1
-         real       cover_dead          ! fraction of radiation reaching the canopy that is intercepted by the dead leaves of the dead canopy (0-1)
-         real       cover_green         ! fraction of radiation reaching the canopy that is intercepted by the green leaves of the canopy (0-1)
-         real       cover_green_sum     ! summation of green cover from all modules
-         real       cover_sen           ! fraction of radiation reaching the canopy that is intercepted by the senesced leaves of the canopy (0-1)
-         real       cswd_expansion (max_stage) ! cumulative water stress type 2
-         real       cswd_pheno (max_stage)     ! cumulative water stress type 3
-         real       cswd_photo (max_stage)     ! cumulative water stress type 1
-         character  cultivar*20         ! name of cultivar
-         real       current_stage       ! current phenological stage
-         integer    day_of_year         ! day of year
-         real       daylength_at_emerg  ! daylength at emergence (h)
-         real       days_tot (max_stage) ! duration of each phase (days)
-         real       dlayer (max_layer)    ! thickness of soil layer I (mm)
-         real       dlt_canopy_height   ! change in canopy height (mm)
-         real       dlt_dm              ! the daily biomass production (g/m^2)
-         real       dlt_dm_dead_detached(max_part) ! plant biomass detached from dead plant (g/m^2)
-         real       dlt_dm_detached(max_part) ! plant biomass detached (g/m^2)
-         real       dlt_dm_grain_demand ! grain dm demand (g/m^2)
-         real       dlt_dm_green(max_part) ! plant biomass growth (g/m^2)
-         real       dlt_dm_green_retrans(max_part) ! plant biomass retranslocated (g/m^2)
-         real       dlt_dm_senesced(max_part) ! plant biomass senescence (g/m^2)
-         real       dlt_dm_stress_max   ! maximum daily stress on dm production (0-1)
-         real       dlt_heat_stress_tt  ! change in heat stress accumulation
-         real       dlt_lai             ! actual change in live plant lai
-         real       dlt_lai_pot         ! potential change in live plant lai
-         real       dlt_leaf_no         ! actual fraction of oldest leaf expanded ()
-         real       dlt_leaf_no_dead    ! fraction of oldest green leaf senesced ()
-         real       dlt_leaf_no_pot     ! potential fraction of oldest leaf expanded ()
-         real       dlt_N_dead_detached(max_part) ! actual N loss with detached dead plant (g/m^2)
-         real       dlt_N_detached(max_part) ! actual N loss with detached plant (g/m^2)
-         real       dlt_N_green(max_part) ! actual N uptake into plant (g/m^2)
-         real       dlt_N_retrans(max_part) ! nitrogen retranslocated out from parts to grain (g/m^2)
-         real       dlt_N_senesced(max_part) ! actual N loss with senesced plant (g/m^2)
-         real       dlt_NO3gsm(max_layer) ! actual NO3 uptake from soil (g/m^2)
-         real       dlt_plants          ! change in Plant density (plants/m^2)
-         real       dlt_root_depth      ! increase in root depth (mm)
-         real       dlt_slai            ! area of leaf that senesces from plant
-         real       dlt_slai_detached      ! plant senesced lai detached
-         real       dlt_stage           ! change in stage number
-         real       dlt_sw_dep(max_layer) ! water uptake in each layer (mm water)
-         real       dlt_tiller_no       ! fraction of new tiller ()
-         real       dlt_tlai_dead_detached ! plant lai detached from dead plant
-         real       dlt_tt              ! daily thermal time (growing deg day)
-         real       dlt_tt_curv         ! daily thermal time (growing deg day)
-         real       dlt_tt_other        ! daily thermal time (growing deg day)
-         real       dm_dead(max_part)   ! dry wt of dead plants (g/m^2)
-         real       dm_green(max_part)  ! live plant dry weight (biomass) (g/m^2)
-         real       dm_green_demand(max_part) ! biomass demand of the plant parts (g/m^2)
-         real       dm_plant_min(max_part) ! minimum weight of each plant part (g/plant)
-         real       dm_plant_top_tot(max_stage) ! total carbohydrate production in tops per stage (g/plant)
-         real       dm_senesced(max_part) ! senesced plant dry wt (g/m^2)
-         real       dm_stress_max(max_stage) ! sum of maximum daily stress on dm production per phase
-         real       dm_tiller_independence ! new tiller DM (g/m^2)
-         real       dul_dep (max_layer)   ! drained upper limit soil water content for soil layer L (mm water)
-         real       fr_intc_radn        ! fraction of radiation intercepted by canopy
-         real       grain_no            ! grain number (grains/plant)
-         real       heat_stress_tt(max_stage) ! heat stress cumulation in each phase
-         integer      isdate                 ! flowering day number
-         real       lai                 ! live plant green lai
-         real       lai_equilib_light(366) ! lai threshold for light senescence
-         real       lai_equilib_water(366) ! lai threshold for water senescence
-         real         lai_max                ! maximum lai - occurs at flowering
-         real       latitude            ! latitude (degrees, negative for southern hemisphere)
-         real       leaf_area(max_leaf) ! leaf area of each leaf (mm^2)
-         real       leaf_no(max_stage)  ! number of fully expanded leaves ()
-         real       leaf_no_dead(max_stage) ! no of dead leaves ()
-         real       leaf_no_dead_const2 ! intercept for second slope of seneced leaf number (after flag leaf stage)
-         real       leaf_no_effective   ! number of leaves the plant produced # fully expanded leaves plus corr. factor
-         real       leaf_no_final       ! total number of leaves the plant produces
-         real       leaf_no_ref         ! total no of leaves the main shoot produces GD
-         real       leaf_no_total       ! gd
-         real       lf_no_dead_at_flaglf ! senesced leaf number at flag leaf
-         real       maxt                ! maximum air temperature (oC)
-         integer      mdate                  ! maturity day number
-         real       mint                ! minimum air temperature (oC)
-         real         N_conc_act_stover_tot  ! sum of tops actual N concentration (g N/g biomass)
-         real       N_conc_crit(max_part) ! critical N concentration (g N/g biomass)
-         real         N_conc_crit_stover_tot ! sum of tops critical N concentration (g N/g biomass)
-         real       N_conc_max(max_part)  ! maximum N concentration (g N/g biomass)
-         real       N_conc_min(max_part) ! minimum N concentration (g N/g biomass)
-         real       N_dead(max_part)      ! plant N content of dead plants (g N/m^2)
-         real       N_demand (max_part)   ! critical plant nitrogen demand (g/m^2)
-         real         N_demand_tot      ! sum of N demand since last output (g/m^2)
-         real       N_green(max_part)     ! plant nitrogen content (g N/m^2)
-         real       N_max (max_part)      ! maximum plant nitrogen demand (g/m^2)
-         real       N_senesced(max_part)  ! plant N content of senesced plant (g N/m^2)
-         real       N_tiller_independence  ! new tiller N (g/m^2)
-         real         N_uptake_grain_tot     ! sum of grain N uptake (g N/m^2)
-         real         N_uptake_stover_tot    ! sum of tops N uptake (g N/m^2)
-         real         N_uptake_tot      ! cumulative total N uptake (g/m^2)
-         real       NO3gsm (max_layer)  ! nitrate nitrogen in layer L (g N/m^2)
-         real       NO3gsm_min(max_layer) ! minimum allowable NO3 in soil (g/m^2)
-         integer    num_layers            ! number of layers in profile ()
-         real       phase_tt(max_stage) ! Cumulative growing degree days required for each stage (deg days)
-         real       phase_tt_curv(max_stage) ! Cumulative growing degree days required for each stage (deg days)
-         real       phase_tt_other(max_stage) ! Cumulative growing degree days required for each stage (deg days)
-         character  plant_status*5      ! status of crop
-         real       plants              ! Plant density (plants/m^2)
-         real       previous_stage      ! previous phenological stage
-         real       radn                ! solar radiation (Mj/m^2/day)
-         real       root_depth          ! depth of roots (mm)
-         real       row_spacing         ! row spacing (m) [optional]
-         real       slai                ! area of leaf that senesces from plant
-         real       soil_temp(366)      ! soil surface temperature (oC)
-         real       sowing_depth        ! sowing depth (mm)
-         character  stem_class*10       ! main stem or tiller
-!           character  last_mdl_name*10 ! last name of THIS data for debugging.
-         real       sw_avail(max_layer)   ! actual extractable soil water (mm)
-         real       sw_avail_pot(max_layer) ! potential extractable soil water (mm)
-         real       sw_demand             ! total crop demand for water (mm)
-         real       sw_dep (max_layer)    ! soil water content of layer L (mm)
-         real       sw_supply (max_layer) ! potential water to take up (supply) from current soil water (mm)
-         integer    tiller_independence ! tiller ready to become independent (0/1)
-         real       tiller_no(max_stage)  ! number of tillers ()
-         real       tlai_dead              ! total lai of dead plants
-         real         transpiration_tot ! cumulative transpiration (mm)
-         real       tt_curv_tot(max_stage)  ! the sum of growing degree days for a phenological stage (oC d)
-         real       tt_other_tot(max_stage)  ! the sum of growing degree days for a phenological stage (oC d)
-         real       tt_tot(max_stage)   ! the sum of growing degree days for a phenological stage (oC d)
-         real       y_tiller_tt_adj(max_table)  ! thermal time for tiller appearance rate (oCd)
-         integer    year                ! year
-      end type global_t
- 
- 
-      type parameter_t
-         sequence
-         integer    est_days_emerg_to_init ! estimated days from emergence to floral initiation
-         real       grain_gth_rate      ! potential grain growth rate (G3) (mg/grain/day)
-         real       head_grain_no_max   ! maximum kernel number (was G2) (grains/plant)
-         real       hi_incr             ! harvest index increment per day ()
-         real       hi_max_pot          ! maximum harvest index (g grain/ g biomass)
-         real       kl(max_layer)         ! root length density factor for water
-         real       ll_dep(max_layer)     ! lower limit of plant-extractable soil water for soil layer L (mm)
-         real       pp_endjuv_to_init   ! Photoperiod sensitivity coefficient (dtt/hr)
-         real       spla_intercept      ! intercept of regression for calculating inflection point of senescence function (oC)
-         real       spla_prod_coef      ! curvature coefficient for leaf area senescence function (1/oC)
-         real       tiller_no_fertile   ! no of tillers that produce a head  ()
-         real       tpla_inflection     ! inflection point of leaf area production function (oC)
-         real       tpla_prod_coef      ! curvature coefficient for leaf area production function (1/oC)
-         real       tt_emerg_to_endjuv  ! Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv) (deg day)
-         real       tt_flag_to_flower   ! growing deg days for head emergence phase (deg day).
-         real       tt_flower_to_maturity ! Growing degree days to complete grainfill (silking to maturity) (deg day)
-         real       tt_flower_to_start_grain ! growing degree-days for flower_to_start_grain
-         real       tt_maturity_to_ripe ! growing deg day required to for grain dry down (deg day)
-         real       y0_const            ! largest leaf area intercept
-         real       y0_slope            ! largest leaf area slope
-      end type parameter_t
- 
-
-! "this" will be of type ponter to millet_t.  millet_t has been
-!  declared public at the beginning of its module, but outsiders neen
-!  not know about what is inside, so its members are private.  
-      type millet_t
-         private   
-         sequence
-         type(constant_t), pointer :: c
-         type(global_t), pointer :: g
-         type(parameter_t), pointer :: p
-      end type millet_t
- 
- 
-! Here are the global variables.
-      type(constant_t), pointer :: c
-      type(global_t), pointer :: g
-      type(parameter_t), pointer :: p
- 
- 
-      contains
-
-
-
-
-*     ===========================================================
-      subroutine millet_alloc (this)
-*     ===========================================================
-      implicit none
- 
-*+  Sub-Program Arguments
-      type(millet_t), pointer :: this
- 
-*+  Purpose
-*      Module instantiation routine.
- 
-*- Implementation Section ----------------------------------
- 
-      allocate(this)
-      allocate(this%c)
-      allocate(this%g)
-      allocate(this%p)
- 
-      return
-      end subroutine
-
-
-
-*     ===========================================================
-      subroutine millet_free (this)
-*     ===========================================================
-      implicit none
- 
-*+  Sub-Program Arguments
-      type(millet_t), pointer :: this
- 
-*+  Purpose
-*      Module instantiations routine.
- 
-*- Implementation Section ----------------------------------
- 
-      deallocate(this%c)
-      deallocate(this%g)
-      deallocate(this%p)
-      deallocate(this)
- 
-      return
-      end subroutine
-
-
-
-*     ================================================================
-      subroutine millet (this, action, data_string)
-*     ================================================================
-      implicit none
+      include 'action.inc'
       include 'string.pub'                        
-      include 'engine.pub'                        
       include 'error.pub'                         
-      include 'write.pub'                         
  
 *+  Sub-Program Arguments
-      type(millet_t), pointer :: this  ! (IN-OUT)  The module instance.
       character  action*(*)            ! (INPUT) Message action to perform
       character  data_string*(*)       ! (INPUT) Message data
  
@@ -758,42 +183,27 @@
 *      220696 jngh added message_unused to else
 *      190599 jngh removed reference to version and mes_presence
  
+*+  Calls
+      logical millet_my_type
+
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
-      parameter (my_name='millet')
+      parameter (my_name='Millet_main')
  
 *+  Local Variables
       character  module_name*8         ! module name
  
-   ! Global variables from previous recursion held in local variabls
-   ! for restoration before returning.
-      type(constant_t), pointer :: orig_c
-      type(global_t), pointer :: orig_g
-      type(parameter_t), pointer :: orig_p
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-   ! Save away the globals from previous recursion for restoration before return.
-      orig_c=>c
-      orig_g=>g
-      orig_p=>p
- 
-   ! Assign the globals for this APSIM module instantiation.
-      c=>this%c
-      g=>this%g
-      p=>this%p
- 
-         ! initialise error flags
-      call set_warning_off ()
- 
       call get_current_module (module_name)
  
-!        call write_string(LU_scr_sum,'millet('// module_name // ' '
+!        call write_string('millet('// module_name // ' '
 !       :         // g%last_mdl_name //' ' //g%stem_class//action)
 !        g%last_mdl_name = module_name
       
-      if (action.eq.mes_init) then
+      if (action.eq.ACTION_init) then
             ! zero pools
          call millet_zero_variables ()
             ! Get constants
@@ -803,17 +213,17 @@
             ! request and receive variables from owner-modules
          call millet_get_other_variables ()
  
-      elseif (action.eq.mes_set_variable) then
+      elseif (action.eq.ACTION_set_variable) then
             ! respond to request to reset variable values - from modules
          call millet_set_my_variable (data_string)
  
-      elseif (action.eq.mes_get_variable) then
+      elseif (action.eq.ACTION_get_variable) then
             ! respond to request for variable values - from modules
          call millet_send_my_variable (Data_string)
  
-      elseif (action.eq.mes_prepare) then
+      elseif (action.eq.ACTION_prepare) then
             ! do nothing
-      elseif (action.eq.mes_sow) then
+      elseif (action.eq.ACTION_sow) then
  
          if (millet_my_type ()) then
  
@@ -832,7 +242,7 @@
             call message_unused ()
          endif
  
-      elseif (action.eq.mes_initiate_crop) then
+      elseif (action.eq.ACTION_initiate_crop) then
  
          if (millet_my_type ()) then
  
@@ -851,7 +261,7 @@
             call message_unused ()
          endif
  
-      elseif (action.eq.mes_process) then
+      elseif (action.eq.ACTION_process) then
          if (g%plant_status.ne.status_out) then
             call millet_zero_daily_variables ()
                ! request and receive variables from owner-modules
@@ -866,7 +276,7 @@
                ! set class
             call millet_set_my_class (module_name)
          endif
-      elseif (action.eq.mes_harvest) then
+      elseif (action.eq.ACTION_harvest) then
          if (millet_my_type ()) then
                ! harvest crop - turn into residue
               call millet_harvest ()
@@ -875,7 +285,7 @@
             call message_unused ()
          endif
  
-      elseif (action.eq.mes_end_crop) then
+      elseif (action.eq.ACTION_end_crop) then
          if (millet_my_type ()) then
                ! end crop - turn into residue
             call millet_end_crop ()
@@ -884,7 +294,7 @@
             call message_unused ()
          endif
  
-      elseif (action.eq.mes_kill_crop) then
+      elseif (action.eq.ACTION_kill_crop) then
          if (millet_my_type ()) then
                ! kill crop - die
             call millet_kill_crop ()
@@ -897,14 +307,9 @@
          call message_unused ()
       endif
  
-! Restore the globals from previous recursion.
-      c=>orig_c
-      g=>orig_g
-      p=>orig_p
- 
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
@@ -912,6 +317,7 @@
 *     ===========================================================
       subroutine millet_process ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
  
@@ -965,13 +371,14 @@ c+!!!!!!!!! check order dependency of deltas
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dead ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -992,17 +399,18 @@ c+!!!!!!!!! check order dependency of deltas
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_harvest ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
  
 *+  Purpose
@@ -1105,74 +513,74 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
       N_total = N_grain + N_stover
  
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       write (string, '(a,i4,t40,a,f10.1)')
      :            ' flowering day  = ',g%isdate
      :          , ' stover (kg/ha) =',stover
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,i4,t40,a,f10.1)')
      :            ' maturity day        = ', g%mdate
      :          , ' grain yield (kg/ha) =', yield
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f6.1,t40,a,f10.1)')
      :            ' grain % water content   = ', c%grn_water_cont
      :                                         * fract2pcnt
      :          , ' grain yield wet (kg/ha) =', yield_wet
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.3,t40,a,f10.3)')
      :            ' grain wt (g) =', grain_wt
      :          , ' grains/m^2   =', g%grain_no
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f6.1,t40,a,f6.3)')
      :            ' grains/head =', head_grain_no
      :          , ' maximum lai =', g%lai_max
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.1)')
      :            ' total above ground biomass (kg/ha) =', dm
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.1)')
      :         ' live above ground biomass (kg/ha) =', biomass_green
      :                                               + biomass_senesced
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.1)')
      :            ' green above ground biomass (kg/ha) =', biomass_green
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.1)')
      :      ' senesced above ground biomass (kg/ha) =', biomass_senesced
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.1)')
      :            ' dead above ground biomass (kg/ha) =', biomass_dead
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f6.1)')
      :            ' number of leaves =', leaf_no
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.2,t40,a,f10.2)')
      :            ' grain N percent =', N_grain_conc_percent
      :          , ' total N content (kg/ha) =', N_total
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.2,t40,a,f10.2)')
      :            ' grain N uptake (kg/ha) =', N_grain
      :          , ' senesced N content (kg/ha) =', N_senesced
  
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(a,f10.2,t40,a,f10.2)')
      :            ' green N content (kg/ha) =', N_green
      :          , ' dead N content (kg/ha) =', N_dead
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       do 2000 phase = emerg_to_endjuv, start_to_end_grain
          si1 = divide (g%cswd_photo(phase)
@@ -1184,21 +592,21 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
          si5 = divide (g%cnd_grain_conc(phase)
      :               , g%days_tot(phase), 0.0)
  
-         call write_string (lu_scr_sum, new_line//new_line)
+         call write_string (new_line//new_line)
  
          write (string,'(2a)')
      :         ' stress indices for ', c%stage_names(phase)
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          write (string,'(2(a, f16.7))')
      :         ' water stress 1 =', si1
      :         , '   nitrogen stress 1 =', si4
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          write (string,'(2(a, f16.7))')
      :         ' water stress 2 =', si2
      :         , '   nitrogen stress 2 =', si5
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
 2000  continue
  
       g%dm_green(grain) = 0.0
@@ -1209,13 +617,14 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_zero_variables ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -1357,13 +766,14 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_zero_daily_variables ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -1430,15 +840,15 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_init ()
 *     ===========================================================
+      use MilletModule
       implicit none
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -1456,7 +866,7 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
  
       call push_routine (my_name)
  
-      call report_event (' Initialising: ')
+      call Write_string (' Initialising: ')
  
            ! initialize crop variables
  
@@ -1467,16 +877,17 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_start_crop ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'intrface.pub'                      
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -1504,7 +915,7 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
 !         call get_current_module (module_name)
 !         write(*,*) 'len_trim', len_trim(module_name)
  
-      call report_event ( 'Sow')
+      call Write_string ( 'Sow')
  
 cjh      if (data_record.ne.blank) then
  
@@ -1530,30 +941,30 @@ cjh      if (data_record.ne.blank) then
  
              ! report
  
-         call write_string (lu_scr_sum, new_line//new_line)
+         call write_string (new_line//new_line)
  
          string = '                 Crop Sowing Data'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          string = '    ------------------------------------------------'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
 !cpsc
-         call write_string (lu_scr_sum
-     :                    , '    Sowing  Depth Plants Spacing Cultivar')
+         call write_string (
+     :                     '    Sowing  Depth Plants Spacing Cultivar')
 !cpsc
-         call write_string (lu_scr_sum
-     :                    , '    Day no   mm     m^2     m     Name   ')
+         call write_string (
+     :                     '    Day no   mm     m^2     m     Name   ')
  
          string = '    ------------------------------------------------'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
 !cpsc
          write (string, '(3x, i7, 3f7.1, 1x, a10)')
      :                   g%day_of_year, g%sowing_depth
      :                 , g%plants, g%row_spacing, g%cultivar
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          string = '    ------------------------------------------------'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
                  ! get cultivar parameters
  
@@ -1573,17 +984,18 @@ cjh      endif
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_initiate ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'data.pub'                          
       include 'intrface.pub'                      
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -1607,7 +1019,7 @@ cjh      endif
  
       call push_routine (my_name)
  
-      call report_event ( 'Initiate')
+      call Write_string ( 'Initiate')
  
 cjh      if (data_record.ne.blank) then
  
@@ -1639,28 +1051,28 @@ cjh      if (data_record.ne.blank) then
  
              ! report
  
-         call write_string (lu_scr_sum, new_line//new_line)
+         call write_string (new_line//new_line)
  
          string = '                 Crop Initiate Data'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          string = '    ------------------------------------------------'
-         call write_string (lu_scr_sum, string)
-         call write_string (lu_scr_sum
-     :            , '   Initiate   Axes   DM      N   Spacing Cultivar')
-         call write_string (lu_scr_sum
-     :            , '    Day no    m^2 g/plant g/plant   m      Name  ')
+         call write_string (string)
+         call write_string (
+     :             '   Initiate   Axes   DM      N   Spacing Cultivar')
+         call write_string (
+     :             '    Day no    m^2 g/plant g/plant   m      Name  ')
  
          string = '    ------------------------------------------------'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
          write (string, '(3x, i7, 4f7.1, 1x, a10)')
      :                   g%day_of_year
      :                 , g%plants, c%dm_leaf_init, N_tiller_plant
      :                 , g%row_spacing, g%cultivar
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
          string = '    ------------------------------------------------'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
                  ! get cultivar parameters
  
@@ -1690,16 +1102,17 @@ cjh      endif
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_read_cultivar_params ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'read.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -1722,8 +1135,8 @@ cjh      endif
  
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum
-     :                 ,new_line//'   - Reading Cultivar Parameters')
+      call write_string (
+     :                 new_line//'   - Reading Cultivar Parameters')
  
          ! TEMPLATE OPTION
          !   millet_leaf_area_devel_plant
@@ -1836,117 +1249,118 @@ cgd   Eriks modifications for Leaf Area
              ! report
  
       string = '    ------------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x,2a)')
      :                'Cultivar                 = ', g%cultivar
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, i7)')
      :                'est_days_emerg_to_init  = '
      :               , p%est_days_emerg_to_init
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_emerg_to_endjuv       = '
      :               , p%tt_emerg_to_endjuv
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'pp_endjuv_to_initp       = '
      :               , p%pp_endjuv_to_init
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_flower_to_maturity    = '
      :               , p%tt_flower_to_maturity
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'head_grain_no_max        = '
      :               , p%head_grain_no_max
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'grain_gth_rate           = '
      :               , p%grain_gth_rate
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_flag_to_flower        = '
      :               , p%tt_flag_to_flower
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_flower_to_start_grain = '
      :               , p%tt_flower_to_start_grain
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       write (string, '(4x, a, f7.1)')
      :                'tt_maturity_to_ripe      = '
      :               , p%tt_maturity_to_ripe
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'hi_incr                  = '
       !:               , p%hi_incr
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'hi_max_pot                   = '
       !:               , p%hi_max_pot
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'tpla_prod_coef           = '
       !:               , p%tpla_prod_coef
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'tpla_inflection          = '
       !:               , p%tpla_inflection
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'tiller_no_fertile        = '
       !:               , p%tiller_no_fertile
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'spla_prod_coef           = '
       !:               , p%spla_prod_coef
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
          ! TEMPLATE OPTION
       ! write (string, '(4x, a, f7.1)')
       !:                'spla_intercept           = '
       !:               , p%spla_intercept
-      ! call write_string (lu_scr_sum, string)
+      ! call write_string (string)
  
       string = '    ------------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_read_root_params ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'data.pub'                          
       include 'read.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -1978,8 +1392,8 @@ cgd   Eriks modifications for Leaf Area
  
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum
-     :                  ,new_line
+      call write_string (
+     :                  new_line
      :                  //'   - Reading root profile parameters')
  
          !       millet_sw_supply
@@ -2002,49 +1416,50 @@ cgd   Eriks modifications for Leaf Area
  
  
           ! report
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       write (string,'(4x, a)') '                Root Profile'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       string = '    ------------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       string = '      Layer depth  Kl factor   Lower limit'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       string = '         (mm)         ()        (mm/mm)'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       string = '    ------------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
       do 2000 layer = 1, num_layers
          write (string,'(3x, 3f12.3)')
      :            g%dlayer(layer)
      :          , p%kl(layer)
      :          , ll(layer)
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
 2000  continue
  
       string = '     ------------------------------------------------'
-      call write_string (lu_scr_sum, string)
+      call write_string (string)
  
-      call write_string (lu_scr_sum, new_line//new_line)
+      call write_string (new_line//new_line)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_end_crop ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -2078,7 +1493,7 @@ cgd   Eriks modifications for Leaf Area
          yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
          write (string, '(3x, a, f7.1)')
      :                  ' ended. Yield (dw) = ', yield
-         call report_event (string)
+         call Write_string (string)
  
              ! now do post harvest processes
  
@@ -2128,20 +1543,21 @@ cgd   Eriks modifications for Leaf Area
      :                  , '  root N = '
      :                  , N_root * gm2kg /sm2ha, ' kg/ha'
  
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       else
       endif
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_store_value (array, value)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'date.pub'                          
       include 'error.pub'                         
@@ -2174,17 +1590,18 @@ cgd   Eriks modifications for Leaf Area
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ================================================================
       subroutine millet_get_other_variables ()
 *     ================================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include   'convert.inc'
       include 'data.pub'                          
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -2219,17 +1636,19 @@ cgd   Eriks modifications for Leaf Area
       call push_routine (my_name)
  
             ! date
- 
+
       call get_integer_var (unknown_module, 'day', '()'
      :                                    , g%day_of_year, numvals
      :                                    , 1, 366)
- 
+
       call get_integer_var (unknown_module, 'year', '()'
      :                                    , g%year, numvals
      :                                    , min_year, max_year)
  
                                ! canopy
+ 
       call get_current_module (module_name)
+
       call get_real_var_optional (unknown_module
      :                           , 'fr_intc_radn_'//module_name
      :                           , '()'
@@ -2344,19 +1763,22 @@ c+!!!!!!!! what to do if no waterbalance variables found
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ================================================================
       subroutine millet_set_other_variables ()
 *     ================================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
+      include 'action.inc'
       include   'convert.inc'
       include 'data.pub'                          
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'postbox.pub'
 
 *+  Purpose
 *      Set the value of a variable or array in other module/s.
@@ -2396,25 +1818,25 @@ c+!!!! perhaps we should get number of layers at init and keep it
       call post_real_array ('dlt_sw_dep', '(mm)'
      :                    , g%dlt_sw_dep, num_layers)
  
-      call message_send_immediate (unknown_module
-     :                               ,Mes_set_variable
+      call Action_send (unknown_module
+     :                               ,ACTION_set_variable
      :                               ,'dlt_no3')
-      call message_send_immediate (unknown_module
-     :                               ,Mes_set_variable
+      call Action_send (unknown_module
+     :                               ,ACTION_set_variable
      :                               ,'dlt_sw_dep')
       call delete_postbox()
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===============================================================
       subroutine millet_set_my_variable (Variable_name)
 *     ===============================================================
+      use MilletModule
       implicit none
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -2468,18 +1890,18 @@ cused for validation of leaf area model only
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ================================================================
       subroutine millet_send_my_variable (variable_name)
 *     ================================================================
+      use MilletModule
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
       include 'science.pub'                       
       include 'data.pub'                          
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -2496,6 +1918,9 @@ cused for validation of leaf area model only
 *      220696 jngh added message_unused to else
 
 *+  Calls
+      real  MILLET_SWDEF
+      real  millet_nfact
+      real  millet_N_fixation
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3048,13 +2473,14 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       logical function millet_my_type ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'intrface.pub'                      
       include 'error.pub'                         
@@ -3092,16 +2518,17 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_read_constants ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'read.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -3128,8 +2555,8 @@ cejvo
  
       call push_routine (my_name)
  
-      call write_string (lu_scr_sum
-     :                  ,new_line//'    - Reading constants')
+      call write_string (
+     :                  new_line//'    - Reading constants')
  
       call read_char_var (section_name
      :                     , 'crop_type', '()'
@@ -4243,14 +3670,16 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_swdef (type)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4339,13 +3768,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_biomass ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -4389,13 +3819,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_init (dm_green, dm_plant_min)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -4463,13 +3894,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_grain_no (grain_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -4580,13 +4012,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_heat_stress (dlt_tt_heat_stress)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -4617,13 +4050,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_production (dlt_dm)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'science.pub'                       
@@ -4640,6 +4074,7 @@ cpsc
 *       090994 jngh specified and programmed
 
 *+  Calls
+      real  millet_transp_eff
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -4673,13 +4108,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_partition (dlt_dm_green)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -4856,13 +4292,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_partition_leg (dlt_dm_green)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -4986,13 +4423,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_grain (dlt_dm_grain_demand)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'          ! mg2gm
       include 'science.pub'                       
@@ -5010,6 +4448,8 @@ cpsc
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
+      real  millet_dm_grain_max
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5072,13 +4512,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_grain_hi (dlt_dm_grain_demand)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -5150,13 +4591,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_stress_max (dlt_dm_stress_max)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5175,6 +4617,8 @@ cpsc
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real   millet_rue_reduction
+      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5189,13 +4633,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_dm_grain_max ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5207,6 +4652,7 @@ cpsc
 *       141093 jngh specified and programmed
 
 *+  Calls
+      real  millet_N_dlt_grain_conc
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5231,13 +4677,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_retranslocate (dm_retranslocate)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -5343,13 +4790,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_detachment ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5376,13 +4824,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_detachment (dlt_dm_detached)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5415,13 +4864,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_slai_detachment (dlt_slai_detached)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5447,13 +4897,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_detachment (dlt_N_detached)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5486,13 +4937,14 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_plant_death ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5514,17 +4966,18 @@ cpsc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_plants (dlt_plants)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'science.pub'                       
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -5539,6 +4992,7 @@ cpsc
 *       100795 jngh moved millet_kill crop to end of routine
 
 *+  Calls
+      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5576,7 +5030,7 @@ cpsc
      :                  ,'         germination within'
      :                  , c%days_germ_limit
      :                  , ' days of sowing'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       elseif (stage_is_between (germ, emerg, g%current_stage)
      :       .and. sum_between (germ, now, g%tt_tot)
@@ -5586,7 +5040,7 @@ cpsc
  
          write (string, '(a)')
      :                 ' failed emergence due to deep planting'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       elseif (reals_are_equal (g%lai, 0.0)
      :       .and. stage_is_between (floral_init, plant_end
@@ -5596,7 +5050,7 @@ cpsc
  
          write (string, '(3a)')
      :                ' crop failure because of total leaf senescence.'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       elseif (stage_is_between (emerg, flag_leaf, g%current_stage)
      :       .and. cswd_pheno.ge.c%swdf_pheno_limit) then
@@ -5607,7 +5061,7 @@ cpsc
      :                 '         crop failure because of prolonged'
      :                ,new_line
      :                ,'         phenology delay through water stress.'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       else
          dlt_plants_all = 0.0
@@ -5628,7 +5082,7 @@ cjh
      :          , nint (killfr*100.0)
      :          , '% failure because of high soil surface temperatures.'
  
-            call report_event (string)
+            call Write_string (string)
  
          else
                   ! do nothing
@@ -5652,7 +5106,7 @@ cjh
      :         , nint (killfr*100.0)
      :         , '% failure because of water stress.'
  
-         call report_event (string)
+         call Write_string (string)
  
       else
          dlt_plants_water = 0.0
@@ -5670,7 +5124,7 @@ cjh
      :            , nint (killfr*100.0)
      :            , '% failure because of barreness.'
  
-         call report_event (string)
+         call Write_string (string)
  
          else
                   ! do nothing
@@ -5683,7 +5137,7 @@ cjh
  
          write (string, '(3a)')
      :                ' crop killed because of external action.'
-         call write_string (lu_scr_sum, string)
+         call write_string (string)
  
       else
          dlt_plants_barren = 0.0
@@ -5702,13 +5156,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_plants_temp (killfr)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -5751,13 +5206,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_plants_barren (killfr)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -5814,14 +5270,16 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_check_grain_no ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -5859,13 +5317,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_dead_detachment (dlt_dm_dead_detached)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5897,13 +5356,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tlai_dead_detachment (dlt_tlai_dead_detached)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5929,13 +5389,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_dead_detachment (dlt_N_dead_detached)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -5967,17 +5428,17 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_kill_crop ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -6017,20 +5478,21 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
          write (string, '(3x, a, f7.1, a)')
      :                  ' millet_kill. Standing above-ground dm = '
      :                  , biomass, ' (kg/ha)'
-         call report_event (string)
+         call Write_string (string)
  
       else
       endif
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_potential ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -6063,13 +5525,14 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_init (lai)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -6099,13 +5562,14 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero 
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_no_final (leaf_no_final)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -6209,13 +5673,14 @@ cgd
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_appearance (dlt_leaf_no_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -6288,13 +5753,14 @@ cgd
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_devel (dlt_lai_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'data.pub'                          
@@ -6311,6 +5777,8 @@ cgd
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
+      real  millet_leaf_size
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6340,13 +5808,14 @@ cgd
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_devel_leg (dlt_lai_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -6363,6 +5832,7 @@ cgd
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6392,13 +5862,14 @@ cgd
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_leaf_size (leaf_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6456,13 +5927,14 @@ cgd
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_devel_plant (dlt_lai_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -6480,6 +5952,7 @@ cgd
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6520,13 +5993,14 @@ cgd
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -6604,13 +6078,14 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_no_init (leaf_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -6644,13 +6119,14 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_nitrogen ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -6674,13 +6150,14 @@ cejvo
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_retranslocate (dlt_N_retrans)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6697,6 +6174,7 @@ cejvo
 *       080994 jngh specified and programmed
 
 *+  Calls
+      real  millet_N_dlt_grain_conc
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6782,13 +6260,14 @@ cgol correct N retranslocation rounding error
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_retrans_avail (N_avail)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -6836,13 +6315,14 @@ cgol correct N retranslocation rounding error
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_N_dlt_grain_conc ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -6866,6 +6346,8 @@ cgol correct N retranslocation rounding error
 *       090994 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
+      real  millet_nfact
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6908,13 +6390,14 @@ cjh   the crit and thus the N conc of the grain can exceed N critical.
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_demand (N_demand, N_max)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -7051,13 +6534,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_uptake (dlt_NO3gsm, dlt_N_green)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -7079,6 +6563,7 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
 *       150995 psc  milletpea + fixation
 
 *+  Calls
+      real  millet_N_fixation
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -7254,13 +6739,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_mass_flow (NO3gsm_mflow_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -7317,13 +6803,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_diffusion (NO3gsm_diffn_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -7381,13 +6868,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_N_fixation ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -7400,6 +6888,7 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
 *       240595  psc   specified
 
 *+  Calls
+      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)                 ! name of subroutine
@@ -7421,7 +6910,7 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
@@ -7430,6 +6919,7 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
      :                              , N_conc_max
      :                              , N_conc_min)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -7454,6 +6944,7 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
 *       080994 jngh specified and programmed
 
 *+  Calls
+      real  millet_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -7540,14 +7031,16 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_nfact (type)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -7655,13 +7148,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_init (N_green)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -7695,13 +7189,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_phenology ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -7762,13 +7257,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tt (dlt_tt)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -7792,6 +7288,8 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
 *       090695 psc  added N_fact for phenology stress
 
 *+  Calls
+      real  millet_swdef
+      real  millet_nfact
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -7820,13 +7318,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tt_curv (dlt_tt_curv)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'science.pub'                       
@@ -7846,6 +7345,7 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
 *       150994 glh specified and programmed
 
 *+  Calls
+      real  millet_swdef
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -7882,13 +7382,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (myname)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tt_other (dlt_tt_other)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -7924,13 +7425,14 @@ cjhtest         dlt_dm_pot(part) = g%dlt_dm_green(part)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_phenology_init (phase_tt)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -8035,13 +7537,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_devel (dlt_stage, current_stage)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -8091,13 +7594,14 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_phase_devel (phase_devel)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -8113,6 +7617,8 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_phase_tt
+      real  millet_germination
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8138,13 +7644,14 @@ cjh         phase_devel = 0.0
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_germination (current_stage)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'science.pub'                       
@@ -8205,13 +7712,14 @@ cjh         phase_devel = 0.0
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       real function millet_phase_tt (stage_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8243,13 +7751,14 @@ cjh  changed 0.0 to 1.0
      :                       , g%phase_tt(phase), 1.0)
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       real function millet_phase_tt_curv (stage_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8282,13 +7791,14 @@ cjh  changed 0.0 to 1.0
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       real function millet_phase_tt_other (stage_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8321,13 +7831,14 @@ cjh  changed 0.0 to 1.0
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_canopy_height (dlt_canopy_height)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -8369,13 +7880,14 @@ cjh  changed 0.0 to 1.0
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_senescence ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -8408,13 +7920,14 @@ cjh  changed 0.0 to 1.0
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_death (dlt_leaf_no_dead)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -8544,13 +8057,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_death_leg (dlt_leaf_no_dead)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -8602,13 +8116,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_lai_equilib_water (lai_equilib_water)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -8627,6 +8142,8 @@ cccc
 *     040895 jngh corrected for intercropping
 
 *+  Calls
+      real   millet_rue_reduction
+      real  millet_transp_eff
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -8682,13 +8199,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_lai_equilib_light (lai_equilib_light)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -8736,13 +8254,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen (dlt_slai)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -8803,13 +8322,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_age (dlt_slai_age)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'data.pub'                          
@@ -8865,13 +8385,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_age_leg (dlt_slai_age)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'data.pub'                          
@@ -8926,13 +8447,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_age1 (dlt_slai_age)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -8989,13 +8511,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_water (dlt_slai_water)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9011,6 +8534,7 @@ cccc
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9037,13 +8561,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_water1 (dlt_slai_water)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -9060,6 +8585,7 @@ cccc
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_running_ave
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9104,13 +8630,14 @@ cccc
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_light (dlt_slai_light)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9154,13 +8681,14 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_light1 (dlt_slai_light)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9176,6 +8704,7 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 *     010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_running_ave
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9221,13 +8750,14 @@ c+!!!!!!!!
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_frost (dlt_slai_frost)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -9268,13 +8798,14 @@ c+!!!!!!!!
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_leaf_area_sen_frost1 (dlt_slai_frost)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9310,13 +8841,14 @@ c+!!!!!!!!
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_running_ave (array, number_of_days)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -9356,13 +8888,14 @@ c+!!!!!!!!
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_senescence (dlt_dm_senesced)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9421,13 +8954,14 @@ c+!!!!!!!!
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_N_senescence (dlt_N_senesced)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9461,13 +8995,14 @@ c+!!!!!!!!
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_update ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'science.pub'                       
@@ -9481,6 +9016,8 @@ c+!!!!!!!!
 *      250894 jngh specified and programmed
 
 *+  Calls
+      real  millet_swdef
+      real  millet_nfact
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -9722,13 +9259,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_check_bounds ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -9926,13 +9464,14 @@ cjh
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_totals ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -10053,18 +9592,19 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_event ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include   'convert.inc'
       include 'science.pub'                       
       include 'data.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -10106,7 +9646,7 @@ cpsc  add above
      :                   ' stage '
      :                  , c%stage_code_list(stage_no)
      :                  , c%stage_names(stage_no)
-         call report_event (string)
+         call Write_string (string)
  
          biomass = sum_real_array (g%dm_green, max_part)
      :           - g%dm_green(root)
@@ -10144,7 +9684,7 @@ cpsc  add above
      :            , N_green_conc_percent
      :            , '   extractable sw ='
      :            , pesw_tot
-            call write_string (lu_scr_sum, string)
+            call write_string (string)
          else
          endif
  
@@ -10153,13 +9693,14 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_cover (cover, extinction_coef, lai)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -10202,13 +9743,14 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_root_distrib (root_array, root_sum)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -10264,18 +9806,21 @@ cpsc  add above
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_top_residue (dlt_residue_weight, dlt_residue_N)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
+      include 'action.inc'
       include   'convert.inc'
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       real       dlt_residue_weight    ! (INPUT) new surface residue (g/m^2)
@@ -10327,7 +9872,7 @@ cjh     :                               , string)
      :                        ,'(kg/ha)'
      :                        ,dlt_residue_N * gm2kg /sm2ha)
  
-         call message_send_immediate (
+         call Action_send (
      :                              unknown_module
      :                            , 'add_residue'
      :                            , Blank
@@ -10341,19 +9886,22 @@ cjh     :                               , string)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_root_incorp (dlt_dm_root, dlt_N_root)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
+      include 'action.inc'
       include   'convert.inc'
       include 'science.pub'                       
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       real       dlt_dm_root           ! (INPUT) new root residue dm (g/m^2)
@@ -10380,7 +9928,7 @@ cjh     :                               , string)
       real       dlt_N_incorp(max_layer)  ! root residue N (kg/ha)
 *
 cjh      integer    layer                 ! layer number
-cjh      character  string*(mes_data_size) ! output string
+cjh      character  string*(ACTION_data_size) ! output string
 
 *- Implementation Section ----------------------------------
  
@@ -10428,7 +9976,7 @@ cjh     :                               , string)
      :                        ,dlt_n_incorp
      :                        ,deepest_layer)
  
-         call message_send_immediate (
+         call Action_send (
      :                              unknown_module
      :                            , 'incorp_fom'
      :                            , Blank
@@ -10442,14 +9990,16 @@ cjh     :                               , string)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_stage_code (stage_no, stage_table, numvals)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -10531,14 +10081,16 @@ cjh     :                               , string)
       call pop_routine (my_name)
  
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tillering ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -10578,13 +10130,14 @@ cjh     :                               , string)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tiller_appearance_tt (dlt_tiller_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -10701,13 +10254,14 @@ cgol bounds added to tiller number determination
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_tiller_appearance_dm (dlt_tiller_no)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -10754,7 +10308,7 @@ cgol bounds added to tiller number determination
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
@@ -10763,6 +10317,7 @@ cgol bounds added to tiller number determination
      :                                    , dm_tiller_independence
      :                                    , N_tiller_independence)
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'
       include 'data.pub'                          
@@ -10819,7 +10374,7 @@ cgol bounds added to tiller number determination
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
@@ -10827,12 +10382,15 @@ cgol bounds added to tiller number determination
       subroutine millet_tiller_initiate (dm_tiller_independence
      :                                , N_tiller_independence)
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
+      include 'action.inc'
       include 'string.pub'                        
       include 'data.pub'                          
       include 'intrface.pub'                      
-      include 'engine.pub'                        
       include 'error.pub'                         
+      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       real       dm_tiller_independence ! (INPUT) new tiller DM (g/m^2)
@@ -10895,7 +10453,7 @@ cjh     :         , ', row_spacing = ', g%row_spacing   , '(m)'
 cjh     :         , ', cultivar = '   , g%cultivar
  
 cjh            call message_pass_to_module (tiller_module
-cjh     :                                  , Mes_initiate_crop
+cjh     :                                  , ACTION_initiate_crop
 cjh     :                                  , string)
  
             call New_postbox ()
@@ -10920,9 +10478,9 @@ cjh     :                                  , string)
      :                        ,'()'
      :                        ,g%cultivar)
  
-            call message_send_immediate (
+            call Action_send (
      :                              tiller_module
-     :                            , Mes_initiate_crop
+     :                            , ACTION_initiate_crop
      :                            , Blank
      :                            )
  
@@ -10941,13 +10499,14 @@ cjh     :                                  , string)
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_transpiration ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -10978,13 +10537,14 @@ c+!!!!!!!!! check order dependency of deltas
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_root_depth (dlt_root_depth)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11004,6 +10564,7 @@ c+!!!!!!!!! check order dependency of deltas
 *      250894 jngh specified and programmed
 
 *+  Calls
+      real  millet_sw_avail_fac
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -11062,13 +10623,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_sw_avail_fac (layer)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11110,13 +10672,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_sw_avail_pot (sw_avail_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11167,13 +10730,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_sw_avail (sw_avail)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11223,13 +10787,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_sw_demand (sw_demand)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11244,6 +10809,7 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
 *       010994 jngh specified and programmed
 
 *+  Calls
+      real  millet_transp_eff
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -11267,13 +10833,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_dm_potential (dlt_dm_pot)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -11289,6 +10856,7 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
 *       090994 jngh specified and programmed
 
 *+  Calls
+      real  millet_rue_reduction
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -11317,13 +10885,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_rue_reduction ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11336,6 +10905,7 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
 *       090994 jngh specified and programmed
 
 *+  Calls
+      real  millet_nfact
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -11366,13 +10936,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_radn_int (radn_int)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'data.pub'                          
       include 'error.pub'                         
@@ -11408,13 +10979,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       real function millet_transp_eff ()
 *     ===========================================================
+      use MilletModule
       implicit none
       include   'convert.inc'          ! g2mm, mb2kpa
       include 'data.pub'                          
@@ -11469,13 +11041,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end function
+      end
 
 
 
 *     ===========================================================
       subroutine millet_sw_supply (sw_supply)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11530,13 +11103,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_sw_uptake (dlt_sw_dep)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'data.pub'                          
@@ -11609,14 +11183,16 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_check_sw ()
 *     ===========================================================
+      use MilletModule
       implicit none
+      include 'const.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -11690,13 +11266,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_root_depth_init (root_depth)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'science.pub'                       
       include 'error.pub'                         
@@ -11731,13 +11308,14 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
 
 *     ===========================================================
       subroutine millet_set_my_class (module_name)
 *     ===========================================================
+      use MilletModule
       implicit none
       include 'error.pub'                         
 
@@ -11766,9 +11344,7 @@ cglh     :  .and. days_after_flowering.lt.c%root_depth_lag_end) then
  
       call pop_routine (my_name)
       return
-      end subroutine
+      end
 
 
-!  This is a FORTRAN 90 module.
-      end module
 

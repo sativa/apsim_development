@@ -1,21 +1,84 @@
-* ====================================================================
-       subroutine APSIM_frmrpt(Action, Data)
-* ====================================================================
+      include 'frmrpt.inc'
+      
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use FrmrptModule
       implicit none
-      dll_export apsim_frmrpt
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use FrmrptModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use FrmrptModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+ 
+      return
+      end
+
+
+* ====================================================================
+       subroutine Main(Action, Data)
+* ====================================================================
+      use FrmrptModule
+      implicit none
       include 'const.inc'             ! Global common block
-      include 'frmrpt.inc'               ! input common
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
+      include 'action.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -32,11 +95,11 @@
 
 *- Implementation Section ----------------------------------
  
-      if (Action.eq.MES_Init) then
+      if (Action.eq.ACTION_Init) then
          call frmrpt_read_param()
          call frmrpt_init()
  
-      else if (Action.eq.MES_Process) then
+      else if (Action.eq.ACTION_Process) then
          call frmrpt_update_sumvars()
          call frmrpt_report_counts()
  
@@ -46,7 +109,7 @@
       else if (Action.eq.'clear') then
          call frmrpt_clear_vars(data)
  
-      else if (Action.eq.MES_End_run) then
+      else if (Action.eq.ACTION_End_run) then
          call frmrpt_end_run()
  
       else
@@ -62,19 +125,17 @@
 *     ===========================================================
       subroutine frmrpt_end_run()
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Purpose
 *     Frees resources at end of run.
@@ -92,8 +153,8 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      do 110, i_frm=1, p_nforms
-         close(g_out_file_unt(i_frm))
+      do 110, i_frm=1, p%nforms
+         close(g%out_file_unt(i_frm))
 110   continue
  
       call pop_routine (my_name)
@@ -105,19 +166,17 @@
 * ====================================================================
        subroutine frmrpt_Init ()
 * ====================================================================
+      use FrmrptModule
       implicit none
-       include 'frmrpt.inc'             ! input common block
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Purpose
 *      Initialise FrmRpt module.
@@ -129,6 +188,9 @@
 *+  Constant Values
       character This_routine*(*)       ! Name of this routine
       parameter (This_routine='frmrpt_init')
+      
+      integer LU_BASE
+      parameter (LU_BASE=70)
 
 *+  Local Variables
       integer i_var  ! Loop counters.
@@ -140,40 +202,40 @@
       call push_routine(This_routine)
  
 *  Initialise summation storage.
-      g_nvars = 0
+      g%nvars = 0
       do 110, i_var=1, max_vars
-         g_val_nelem(i_var) = 0
-         g_var_day_cnt(i_var) = 0
-         call fill_real_array(g_values(1,i_var), 0.0, max_elems)
+         g%val_nelem(i_var) = 0
+         g%var_day_cnt(i_var) = 0
+         call fill_real_array(g%values(1,i_var), 0.0, max_elems)
 110   continue
- 
-      do 150, i_frm=1, p_nforms
-         g_day_count(i_frm) = p_report_start(i_frm)
+
+      do 150, i_frm=1, p%nforms
+         g%day_count(i_frm) = p%report_start(i_frm)
  
 *  Open output files and create summation vars.
       ! Open output file.
-         g_out_file_unt(i_frm) = get_logical_unit()
-         call frmrpt_assert(g_out_file_unt(i_frm).ge.1,
+         g%out_file_unt(i_frm) = LU_BASE + i_frm
+         call frmrpt_assert(g%out_file_unt(i_frm).ge.1,
      :                        'out_file_unt.ge.1')
-         open(iostat=err_ret, file=p_out_file_name(i_frm),
-     :            status='unknown', unit=g_out_file_unt(i_frm),
+         open(iostat=err_ret, file=p%out_file_name(i_frm),
+     :            status='unknown', unit=g%out_file_unt(i_frm),
      :            carriagecontrol='fortran')
          call frmrpt_assert(err_ret.eq.0, 
-     :            'Error opening file ' // p_out_file_name(i_frm))
-         write(g_out_file_unt(i_frm), '(1H $)') 
+     :            'Error opening file ' // p%out_file_name(i_frm))
+         write(g%out_file_unt(i_frm), '(1H $)') 
  
       ! Open form file.
-         frm_file_unt = get_logical_unit()
+         frm_file_unt = LU_FORM_FILE
          call frmrpt_assert(frm_file_unt.ge.1, 'form_file_unt.ge.1')
-         open(iostat=err_ret, file=p_form_file_name(i_frm),
+         open(iostat=err_ret, file=p%form_file_name(i_frm),
      :            status='old', unit=frm_file_unt)
          call frmrpt_assert(err_ret.eq.0, 
-     :            'Error opening file ' // p_form_file_name(i_frm))
+     :            'Error opening file ' // p%form_file_name(i_frm))
  
       ! Look over form, creating any summation variables.
          call frmrpt_prcss_frm(.false.,
-     :            frm_file_unt, g_out_file_unt(i_frm),
-     :            p_escape_char(i_frm), i_frm)
+     :            frm_file_unt, g%out_file_unt(i_frm),
+     :            p%escape_char(i_frm), i_frm)
    
       ! Finished with form file.
          close(frm_file_unt)
@@ -189,21 +251,19 @@
 *     ===========================================================
       subroutine frmrpt_read_param()
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include   'const.inc'
       include   'convert.inc'
-      include   'frmrpt.inc'            ! soilph model common block
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -224,51 +284,50 @@
 *- Implementation Section ----------------------------------
       call push_routine(my_name)
  
-      call write_string(lu_scr_sum
-     :                 ,new_line//'   - Reading Parameters')
+      call write_string(new_line//'   - Reading Parameters')
  
 *  Handles.
       call read_char_array(section, 'handle', max_files,
-     :                  '()', p_handle, p_nforms)
+     :                  '()', p%handle, p%nforms)
  
 *  File names.
       call read_char_array(section, 'form_file', max_files,
-     :                  '()', p_form_file_name, numvals)
-      call frmrpt_assert(numvals.eq.p_nforms,
+     :                  '()', p%form_file_name, numvals)
+      call frmrpt_assert(numvals.eq.p%nforms,
      :   'No of form_file differs from no of handles')
  
       call read_char_array(section, 'out_file', max_files,
-     :                    '()', p_out_file_name, numvals)
-      call frmrpt_assert(numvals.eq.p_nforms,
+     :                    '()', p%out_file_name, numvals)
+      call frmrpt_assert(numvals.eq.p%nforms,
      :   'No of out_file differs from no of handles')
  
 *  Escape characters.
       call read_char_array_optional(section, 'escape_char', max_files,
-     :                  '()', p_escape_char, numvals)
+     :                  '()', p%escape_char, numvals)
       if (numvals .eq. 0)  then
-         call fill_char_array(p_escape_char, '$', p_nforms)
+         call fill_char_array(p%escape_char, '$', p%nforms)
       else
-         call frmrpt_assert(numvals.eq.p_nforms,
+         call frmrpt_assert(numvals.eq.p%nforms,
      :     'No of esacpe_char differs from no of handles')
       end if
  
 *  Reporting frequency.
       call read_integer_array_optional(section, 'report_days',
      :                         max_files, '()',
-     :                         p_report_days, numvals, 0, 30000)
+     :                         p%report_days, numvals, 0, 30000)
       if (numvals .eq. 0)  then
-         call fill_integer_array(p_report_days, 0, p_nforms)
-         call fill_integer_array(p_report_start, 0, p_nforms)
+         call fill_integer_array(p%report_days, 0, p%nforms)
+         call fill_integer_array(p%report_start, 0, p%nforms)
       else
-         call frmrpt_assert(numvals.eq.p_nforms,
+         call frmrpt_assert(numvals.eq.p%nforms,
      :     'No of report_days differs from no of handles')
          call read_integer_array_optional(section, 'report_start',
      :                         max_files, '()',
-     :                         p_report_start, numvals, 0, 30000)
+     :                         p%report_start, numvals, 0, 30000)
          if (numvals .eq. 0) then
-            call fill_integer_array(p_report_start, 1, p_nforms)
+            call fill_integer_array(p%report_start, 1, p%nforms)
          else
-            call frmrpt_assert(numvals.eq.p_nforms,
+            call frmrpt_assert(numvals.eq.p%nforms,
      :         'No of report_start differs from no of handles')
          end if
       end if
@@ -282,19 +341,17 @@
 *     ===========================================================
       subroutine frmrpt_report_counts()
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Purpose
 *     Look at days past for given forms and report if it is time.
@@ -314,25 +371,25 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      do 110 i_frm=1, p_nforms
+      do 110 i_frm=1, p%nforms
  
       ! Decrement day counts.  If any get to zero, then generate output.
-         g_day_count(i_frm) = g_day_count(i_frm) - 1
-         if (g_day_count(i_frm) .eq. 0)  then
-            g_day_count(i_frm) = p_report_days(i_frm)
+         g%day_count(i_frm) = g%day_count(i_frm) - 1
+         if (g%day_count(i_frm) .eq. 0)  then
+            g%day_count(i_frm) = p%report_days(i_frm)
  
          ! Open form file.
-            frm_file_unt = get_logical_unit()
+            frm_file_unt = LU_FORM_FILE
             call frmrpt_assert(frm_file_unt.ge.1, 'form_file_unt.ge.1')
-            open(iostat=err_ret, file=p_form_file_name(i_frm),
+            open(iostat=err_ret, file=p%form_file_name(i_frm),
      :               status='old', unit=frm_file_unt)
             call frmrpt_assert(err_ret.eq.0, 
-     :            'Error opening file ' // p_form_file_name(i_frm))
+     :            'Error opening file ' // p%form_file_name(i_frm))
             
          ! Look over form, generating output.
             call frmrpt_prcss_frm(.true.,
-     :            frm_file_unt, g_out_file_unt(i_frm),
-     :            p_escape_char(i_frm), i_frm)
+     :            frm_file_unt, g%out_file_unt(i_frm),
+     :            p%escape_char(i_frm), i_frm)
             
          ! Finished with form file.
             close(frm_file_unt)
@@ -350,19 +407,17 @@
 *     ===========================================================
       subroutine frmrpt_do_output(handle)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) handle
@@ -385,22 +440,23 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      hndl_ndx = find_string_in_array(handle, p_handle, p_nforms)
+      print *, 'handle=',handle
+      hndl_ndx = find_string_in_array(handle, p%handle, p%nforms)
  
       if (hndl_ndx .gt. 0) then
  
       ! Open form file.
-         frm_file_unt = get_logical_unit()
+         frm_file_unt = LU_FORM_FILE
          call frmrpt_assert(frm_file_unt.ge.1, 'form_file_unt.ge.1')
-         open(iostat=err_ret, file=p_form_file_name(hndl_ndx),
+         open(iostat=err_ret, file=p%form_file_name(hndl_ndx),
      :            status='old', unit=frm_file_unt)
          call frmrpt_assert(err_ret.eq.0, 
-     :            'Error opening file ' // p_form_file_name(hndl_ndx))
+     :            'Error opening file ' // p%form_file_name(hndl_ndx))
          
       ! Look over form, generating output.
          call frmrpt_prcss_frm(.true.,
-     :            frm_file_unt, g_out_file_unt(hndl_ndx),
-     :            p_escape_char(hndl_ndx), hndl_ndx)
+     :            frm_file_unt, g%out_file_unt(hndl_ndx),
+     :            p%escape_char(hndl_ndx), hndl_ndx)
  
       ! Finished with form file.
          close(frm_file_unt)
@@ -421,20 +477,18 @@
 *     ===========================================================
       subroutine frmrpt_update_sumvars()
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include   'const.inc'
-      include   'frmrpt.inc'            ! soilph common block
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Purpose
 *     Get the values of variables to be summed from other modules.
@@ -454,16 +508,16 @@
 *- Implementation Section ----------------------------------
       call push_routine(my_name)
  
-      do 110, i_var=1, g_nvars
-         call frmrpt_get_var(g_mdlnames(i_var), g_varnames(i_var),
+      do 110, i_var=1, g%nvars
+         call frmrpt_get_var(g%mdlnames(i_var), g%varnames(i_var),
      :                     vals, max_elems, num_vals)
-         if (num_vals .gt. g_val_nelem(i_var))  then
-            g_val_nelem(i_var) = num_vals
+         if (num_vals .gt. g%val_nelem(i_var))  then
+            g%val_nelem(i_var) = num_vals
          end if
          if (num_vals .gt. 0)  then
-            call add_real_array(vals, g_values(1,i_var), num_vals)
+            call add_real_array(vals, g%values(1,i_var), num_vals)
          end if
-         g_var_day_cnt(i_var) = g_var_day_cnt(i_var) + 1
+         g%var_day_cnt(i_var) = g%var_day_cnt(i_var) + 1
 110   continue
  
       call pop_routine(my_name)
@@ -477,20 +531,18 @@
      :                     frm_file_unt, out_file_unt,
      :                     escape_char, frm_ndx)
 *     ===============================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer frm_file_unt  ! The current form file.
@@ -584,20 +636,18 @@
       subroutine frmrpt_prcss_frm_wd(word, is_show, out_file_unt,
      :                              frm_ndx)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
@@ -660,19 +710,17 @@
       subroutine frmrpt_do_var(func, mdl, var, out_file_unt,
      :                        frm_ndx)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
@@ -716,19 +764,18 @@
 *     ===========================================================
       subroutine frmrpt_get_var(mdl, var, vals, max_vals, num_vals)
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) var
@@ -762,19 +809,17 @@
 *     ===========================================================
       subroutine frmrpt_show_var(vals, num_vals, out_file_unt)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer out_file_unt  ! The unit for output for the current form file.
@@ -813,20 +858,18 @@
 *     ===========================================================
       subroutine frmrpt_create_sumvar(mdl, var, frm_ndx)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) mdl
@@ -851,10 +894,10 @@
       call push_routine (my_name)
  
       var_ndx = 0
-      do 110, i_var=1, g_nvars
-         if (g_varnames(i_var).eq.var .and.
-     :                  g_mdlnames(i_var).eq.mdl .and.
-     :                  g_frm_ndx(i_var).eq.frm_ndx)  then
+      do 110, i_var=1, g%nvars
+         if (g%varnames(i_var).eq.var .and.
+     :                  g%mdlnames(i_var).eq.mdl .and.
+     :                  g%frm_ndx(i_var).eq.frm_ndx)  then
             var_ndx = i_var
             goto 120
          end if
@@ -862,14 +905,14 @@
 120   continue
  
       if (var_ndx .eq. 0)  then
-         if (g_nvars .eq. max_vars)  then
+         if (g%nvars .eq. max_vars)  then
             call fatal_error(err_user, 'too many summation vars')
          else
-            g_nvars = g_nvars+1
-            g_varnames(g_nvars) = var
-            g_mdlnames(g_nvars) = mdl
-            g_frm_ndx(g_nvars) = frm_ndx
-            g_val_nelem(g_nvars) = 0
+            g%nvars = g%nvars+1
+            g%varnames(g%nvars) = var
+            g%mdlnames(g%nvars) = mdl
+            g%frm_ndx(g%nvars) = frm_ndx
+            g%val_nelem(g%nvars) = 0
          end if
       end if
  
@@ -883,20 +926,18 @@
       subroutine frmrpt_get_sumvar(func, mdl, var, frm_ndx,
      :                              vals, max_vals, num_vals)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) func
@@ -926,10 +967,10 @@
       call push_routine (my_name)
  
       var_ndx = 0
-      do 110, i_var=1, g_nvars
-         if (g_varnames(i_var).eq.var .and.
-     :                  g_mdlnames(i_var).eq.mdl .and.
-     :                  g_frm_ndx(i_var).eq.frm_ndx)  then
+      do 110, i_var=1, g%nvars
+         if (g%varnames(i_var).eq.var .and.
+     :                  g%mdlnames(i_var).eq.mdl .and.
+     :                  g%frm_ndx(i_var).eq.frm_ndx)  then
             var_ndx = i_var
             goto 120
          end if
@@ -939,13 +980,13 @@
       if (var_ndx .eq. 0)  then
          num_vals = 0
       else
-         num_vals = g_val_nelem(var_ndx)
-         call frmrpt_copy_real_arr(vals, g_values(1,var_ndx), num_vals)
+         num_vals = g%val_nelem(var_ndx)
+         call frmrpt_copy_real_arr(vals, g%values(1,var_ndx), num_vals)
          if (func .eq. 'sum') then
             ! Its fine already.
          else if (func .eq. 'avg') then
             call frmrpt_vec_scalar_mul(vals, num_vals,
-     :                           1.0/g_var_day_cnt(var_ndx))
+     :                           1.0/g%var_day_cnt(var_ndx))
          else
             call fatal_error(ERR_USER, 'No such @function as '//func)
             num_vals = 0
@@ -961,20 +1002,18 @@
 *     ===========================================================
       subroutine frmrpt_clear_vars(data)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) data
@@ -1007,24 +1046,24 @@
       call push_routine (my_name)
  
       call frmrpt_clr_var_prse(handle, module, varname, data)
-      hndl_ndx = find_string_in_array(handle, p_handle, p_nforms)
+      hndl_ndx = find_string_in_array(handle, p%handle, p%nforms)
       call frmrpt_assert(hndl_ndx .gt. 0,
      :         'No such file handle as "' // handle // '"' )
  
       if (varname .eq. BLANK) then
  
-         do 120, i_var=1, g_nvars
-            if (g_frm_ndx(i_var) .eq. hndl_ndx)  then
+         do 120, i_var=1, g%nvars
+            if (g%frm_ndx(i_var) .eq. hndl_ndx)  then
                call frmrpt_clear_var(i_var)
             end if
 120      continue
  
       else
  
-         do 130, i_var=1, g_nvars
-            if (g_frm_ndx(i_var) .eq. hndl_ndx
-     :              .AND.   g_varnames(i_var) .eq. varname
-     :              .AND.   g_mdlnames(i_var) .eq. module)  then
+         do 130, i_var=1, g%nvars
+            if (g%frm_ndx(i_var) .eq. hndl_ndx
+     :              .AND.   g%varnames(i_var) .eq. varname
+     :              .AND.   g%mdlnames(i_var) .eq. module)  then
                call frmrpt_clear_var(i_var)
             end if
 130      continue
@@ -1040,19 +1079,17 @@
 *     ===========================================================
       subroutine frmrpt_clear_var(var_ndx)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer var_ndx
@@ -1070,9 +1107,9 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call fill_real_array(g_values(1,var_ndx), 0.0, max_elems)
-      g_var_day_cnt(var_ndx) = 0
-      g_val_nelem(var_ndx) = 0
+      call fill_real_array(g%values(1,var_ndx), 0.0, max_elems)
+      g%var_day_cnt(var_ndx) = 0
+      g%val_nelem(var_ndx) = 0
  
       call pop_routine (my_name)
       return
@@ -1083,20 +1120,18 @@
 *     ===========================================================
       subroutine frmrpt_clr_var_prse(handle, module, varname, in_str)
 *     ===========================================================
+      use FrmrptModule
       implicit none
-      include 'frmrpt.inc'
       include 'const.inc'
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character*(*) handle    ! (OUT) output file handle.
@@ -1156,18 +1191,17 @@
 *     ===========================================================
       subroutine frmrpt_prtrv(unt, vec, nvars)
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer unt, nvars
@@ -1218,19 +1252,18 @@
 *     ===========================================================
       subroutine frmrpt_assert(IsOK, WhatChkd)
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include 'const.inc'              ! ERR_internal
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       character  WhatChkd*(*)     ! What test did pass or fail.
@@ -1263,18 +1296,17 @@
 *     ===========================================================
       subroutine frmrpt_copy_real_arr(dest, src, n)
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer n      ! (IN) Size of 'dest' and 'src'.
@@ -1310,18 +1342,17 @@
 *     ===========================================================
       subroutine frmrpt_vec_scalar_mul(vec, n, mul)
 *     ===========================================================
+      use FrmrptModule
       implicit none
       include 'data.pub'
       include 'datastr.pub'
       include 'date.pub'
-      include 'engine.pub'
       include 'error.pub'
       include 'intrface.pub'
       include 'license.pub'
       include 'read.pub'
       include 'science.pub'
       include 'string.pub'
-      include 'write.pub'
 
 *+  Sub-Program Arguments
       integer n      ! (IN) Size of 'vec'.

@@ -24,11 +24,6 @@ void Run_apsim (const char* RunFilename)
 
    else
       {
-      // This is the global APSIM System object.
-      // Pass a reference to the Engine DLL.
-      APSIMSystem* GlobalApsimSystem = new APSIMSystem;
-      setApsimSystem(*GlobalApsimSystem);
-
       APSIM_run_collection Run_collection (RunPath.Get_path().c_str());
 
       list<string> SimulationNames;
@@ -59,6 +54,12 @@ void Run_apsim (const char* RunFilename)
                                      sim != SectionNames.end();
                                      sim++)
             {
+            // This is the global APSIM System object.
+            // Pass a reference to the Engine DLL.
+            APSIMSystem* GlobalApsimSystem = new APSIMSystem;
+            setApsimSystem(*GlobalApsimSystem);
+
+            // Go RUN APSIM!!
             string Errors;
             if (!ApsimSystem().Init(*Run.Simulations.Get( (*sim).c_str()), Run.Configuration, Errors))
                {
@@ -73,9 +74,11 @@ void Run_apsim (const char* RunFilename)
                }
             else
                ApsimSystem().Go();
+
+            // delete entire APSIM system.  Good for a cleanup.   
+            delete GlobalApsimSystem;
             }
          }
-      delete GlobalApsimSystem;
       }
    }
 

@@ -1,4 +1,70 @@
 ! ====================================================================
+      subroutine UseInstance(anInstanceNo)
+! ====================================================================
+      implicit none
+      dll_export Create
+      include 'const.inc'
+      include 'ComponentInterface.inc'
+
+!+ Sub-Program Arguments
+      integer anInstanceNo            ! (INPUT) the particular instance number
+                                      !         of this computation
+
+!+ Purpose
+!      swaps the specified instance number into memory.
+ 
+!+  Mission Statement
+ 
+!+ Changes
+!      DPH 14/7/99
+
+!+ Calls
+ 
+!- Implementation Section ----------------------------------
+
+      CurrentInstanceIndex = CurrentInstanceIndex + 1
+      if (CurrentInstanceIndex .gt. MAX_NUM_INSTANCE_NOS) then
+         call Fatal_error (ERR_Internal, 
+     .      'Too many instances in component interface')
+      else
+         InstanceNoStack(CurrentInstanceIndex) = anInstanceNo
+         call SwapInstance(anInstanceNo)
+      endif
+
+      return
+      end 
+
+! ====================================================================
+      subroutine RestoreInstance()
+! ====================================================================
+      implicit none
+      dll_export Create
+      include 'const.inc'
+      include 'ComponentInterface.inc'
+
+!+ Sub-Program Arguments
+
+!+ Purpose
+!      restores the previous instance
+ 
+!+  Mission Statement
+ 
+!+ Changes
+!      DPH 14/7/99
+
+!+ Calls
+ 
+!- Implementation Section ----------------------------------
+
+      CurrentInstanceIndex = CurrentInstanceIndex - 1
+      if (CurrentInstanceIndex .gt. 0) then
+         call SwapInstance(InstanceNoStack(CurrentInstanceIndex))
+      endif
+
+      return
+      end 
+
+! ====================================================================
       recursive subroutine Create 
      .   (aName, anInstanceNo, aCallBack, aCompUnit, ID)
 ! ====================================================================
@@ -28,6 +94,8 @@
  
 !- Implementation Section ----------------------------------
 
+      CurrentInstanceIndex = 0
+
       ! allocate an instance of the data
       call AllocInstance(aName, anInstanceNo)
 
@@ -56,16 +124,19 @@
 !+ Changes
 !      DPH 14/7/99
 
-!+ Calls
+!+ Local variables
  
 !- Implementation Section ----------------------------------
 
       ! swap in the proper instance.
-      call SwapInstance(anInstanceNo)
+      call UseInstance (anInstanceNo) 
       
       ! call the init routine.
       call Main (ACTION_Init, "")
 
+      ! restore existing instance
+      call RestoreInstance()
+      
       return
       end
       
@@ -130,20 +201,23 @@
 !+ Constant Values
  
 !+ Local Variables
-      character DataString*(100)       ! FORTRAN version of C data string
+      character DataString*(500)       ! FORTRAN version of C data string
  
 !- Implementation Section ----------------------------------
 
       call CString2FString(apData, DataString)      
 
       ! swap in the proper instance.
-      call SwapInstance(anInstanceNo)
+      call UseInstance (anInstanceNo) 
 
       MessageUsed = .true.
       call Main (anAction, DataString)
       if (MessageUsed) then
          call Loader_MessageUsed()
       endif
+
+      ! restore existing instance
+      call RestoreInstance()
       
       return
       end
@@ -269,14 +343,13 @@
       end
 
 ! ====================================================================
-       subroutine Write_string (Unit_number, String)
+       subroutine Write_string (String)
 ! ====================================================================
       implicit none
        include 'const.inc'             ! Constant definitions
  
 !+ Sub-Program Arguments
        character String*(*)            ! (INPUT) String to write out.
-       integer Unit_number             ! (INPUT) Unit number to write to.
  
 !+ Purpose
 !      Write a string with new_line delimiters to the logical unit
@@ -317,6 +390,7 @@
 ! ====================================================================
       implicit none
       include 'ComponentInterface.inc'
+      include 'const.inc'
  
 !+ Sub-Program Arguments
       character ModuleName*(*)          ! (INPUT) the module name
@@ -331,10 +405,17 @@
  
 !+ Calls
       dll_import Loader_SendAction
+      dll_import Loader_SendActionToFirstComp
  
 !- Implementation Section ----------------------------------
 
-      call Loader_SendAction (ModuleName, ActionName, Dat);
+      if (ModuleName .eq. Unknown_module) then
+         call Loader_SendActionToFirstComp (ActionName, Dat)
+      else if (ModuleName .eq. All_active_modules) then
+         call Loader_SendActionToAllComps (Actionname, Dat)
+      else
+         call Loader_SendAction (ModuleName, ActionName, Dat);
+      endif
       return
       end
 
@@ -381,6 +462,6 @@
  
 !- Implementation Section ----------------------------------
 
-      call Loader_SendEvent (EventName);
+      call Loader_SendEvent (EventName)
       return
       end
