@@ -187,6 +187,11 @@ void appendDBRecord(TDataSet* dataset,
             dataset->FieldValues[fieldNames[fieldI].c_str()] = fieldValues[fieldI].c_str();
          }
       }
+   catch (const Exception& err)
+      {
+      dataset->Post();
+      throw runtime_error(err.Message.c_str());
+      }
    catch (...)
       {
       dataset->Post();
