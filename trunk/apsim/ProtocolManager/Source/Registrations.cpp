@@ -96,6 +96,11 @@ class Registration
       RegistrationType getType(void) const {return type;}
 
       //---------------------------------------------------------------------------
+      // Set type
+      //---------------------------------------------------------------------------
+      void setType(RegistrationType t) {type = t;}
+
+      //---------------------------------------------------------------------------
       // Return true if this registration is a method call.
       //---------------------------------------------------------------------------
       bool isMethodCall()
@@ -513,7 +518,18 @@ void Registrations::resolve(Registration& reg,  RegComponent* component, unsigne
       for (Components::iterator c = components.begin();
                                 c != components.end();
                                 c++)
-         c->second->findSubs(reg, component, regId);
+         {
+         if (reg.getType() == respondToGetSetReg)
+            {
+            reg.setType(respondToGetReg);
+            c->second->findSubs(reg, component, regId);
+            reg.setType(respondToSetReg);
+            c->second->findSubs(reg, component, regId);
+            reg.setType(respondToGetSetReg);
+            }
+         else
+            c->second->findSubs(reg, component, regId);
+         }
       }
    else
       {
