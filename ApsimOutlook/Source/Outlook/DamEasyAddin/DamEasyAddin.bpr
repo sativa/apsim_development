@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="DamEasyAddin.dll"/>
+    <PROJECT value="..\..\..\DamEasyAddin\DamEasyAddin.dll"/>
     <OBJFILES value="DamEasyAddin.obj TDamEasy_form.obj DamEasyEcon.obj 
       ..\TVALUESELECTIONFORM.obj TDEValueSelectionForm.obj ..\scenario.obj 
       DEEconConfig.obj DEToolBar.obj AddCostsBenefits.obj ..\Scenarios.obj"/>
@@ -76,20 +76,21 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=13
-Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Count=14
+Item0=..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
 Item1=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\..\..\..\Shared\Components\General;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
 Item2=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\..\..\..\Shared\Components\General;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
 Item3=C:\Program Files\Borland\CBuilder5\Projects;..\;..\..\..\..\Shared\Components\General;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
 Item4=..\..\..\..\Shared\Components\General;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item5=..\..\..\..\Shared\Components\General;..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item6=..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item7=..\;..\DBAddin;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item8=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item9=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item10=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item11=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item12=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl
+Item5=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item6=..\..\..\..\Shared\Components\General;..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item7=..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item8=..\;..\DBAddin;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item9=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item10=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item11=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item12=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item13=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=10
@@ -111,6 +112,10 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\..\..\DamEasyAddin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
