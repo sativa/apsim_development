@@ -44,6 +44,8 @@ __published:
    TMenuItem *Batchimportusingfilespec1;
    TADOTable *Index_table;
    TSimulation_database *Simulation_database;
+   TMenuItem *Options1;
+   TMenuItem *Checkforduplicatesimulations;
 	void __fastcall ShowHint(TObject *Sender);
 	void __fastcall Exit(TObject *Sender);
 	void __fastcall Open_database(TObject *Sender);
@@ -51,12 +53,18 @@ __published:
    void __fastcall Import_simulation(TObject *Sender);
    void __fastcall Import_simulation_using_filespec(TObject *Sender);
    void __fastcall Batchimportusingfilespec1Click(TObject *Sender);
+   void __fastcall FormShow(TObject *Sender);
+   void __fastcall CheckforduplicatesimulationsClick(TObject *Sender);
 private:
+   TProgressBar* ProgressBar;
    void __fastcall Show_hide_controls(void);
    void __fastcall Import_files (TStringList* files);
    void Import_files_using_filespec (const char* Database_file_name,
                                      const char* Directory,
                                      const char* File_spec);
+   void __fastcall ShowProgress
+      (TObject *Sender, AnsiString& CurrentFileName, int CurrentFileNumber,
+       int TotalFileNumber);
 public:
 	virtual __fastcall TMain_form(TComponent *AOwner);
 };
