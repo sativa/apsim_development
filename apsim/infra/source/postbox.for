@@ -1740,6 +1740,7 @@
       dll_export respond2post_char_postbox
       include 'const.inc'              ! constant definitions
       include 'postbox.inc'
+      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1979,6 +1980,7 @@
       dll_export respond2post_double_postbox
       include 'const.inc'              ! constant definitions
       include 'postbox.inc'
+      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
