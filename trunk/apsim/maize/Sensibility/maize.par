@@ -14,7 +14,7 @@ variable = clock.year
 variable = maize.lai
 variable = maize.biomass
 variable = maize.yield
-variable = tracker.sum_ep
+variable = tracker.ep
 
 [sensibility.clock.parameters]
 ! Start and end date of run (day number of year and year)
@@ -53,4 +53,4 @@ summaryfile=roma1500.sum
 screen_output=on
 
 [sensibility.tracker.parameters]
-variable = sum of maize.ep since reported as sum_ep on process
+variable = sum of maize.ep() since reported as ep on process
