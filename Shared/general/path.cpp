@@ -134,7 +134,7 @@ string Path::Get_path(void)
 //    DPH 13/5/1997 - reworked to use standard template library.
 
 // ------------------------------------------------------------------
-string Path::Get_full_path(void)
+string Path::Get_full_path(void) const
    {
    string Return_string;
    if (!Is_empty())
@@ -313,7 +313,7 @@ void Path::Set_path (const string& New_path)
 //    DPH 13/5/1997 - reworked to use standard template library.
 
 // ------------------------------------------------------------------
-bool Path::Is_empty(void)
+bool Path::Is_empty(void) const
    {
    return (Directory.length() == 0);
    }

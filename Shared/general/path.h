@@ -41,7 +41,7 @@ class Path
       std::string Get_name_without_ext(void);
 		std::string Get_extension(void);
       std::string Get_path(void);
-      std::string Get_full_path (void);              // always returns a full absolute path.
+      std::string Get_full_path (void) const;              // always returns a full absolute path.
 
       void Set_drive(const char* New_drive);
       void Set_directory(const char* New_directory);
@@ -49,7 +49,7 @@ class Path
       void Set_extension(const char* New_extension);
       void Set_path(const std::string& New_path);
 
-      bool Is_empty(void);
+      bool Is_empty(void) const;
       bool Exists(void);
       void Change_directory(void);
 
