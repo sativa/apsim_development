@@ -1003,8 +1003,10 @@ Public Class MainUI
         SimulationExplorer.UIManager.SaveDocument()
         Dim SimFiles As StringCollection = MakeSimFiles()
         For Each simfile As String In SimFiles
-            Dim CommandLine As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe /run """ + simfile + """"
-            Dim ID As Integer = Shell(CommandLine, AppWinStyle.NormalFocus)
+            If Path.GetExtension(simfile) = ".sim" Then
+                Dim CommandLine As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe /run """ + simfile + """"
+                Dim ID As Integer = Shell(CommandLine, AppWinStyle.NormalFocus)
+            End If
         Next
     End Sub
 
