@@ -313,7 +313,7 @@ class APSIMMaizeExternal
   maxt                    : APSIMReal           = Maximum temperature, (oC), GET
   mint                    : APSIMReal           = Minimum temperature, (oC), GET
   radn                    : APSIMReal           = Incoming solar radiation, (MJ/m2), GET
-  soil_temp               : APSIMReal           = Soil temperature, (oC), GET, 0.0, 80.0
+  maxt_soil_surface       : APSIMReal           = Maximum Soil surface temperature, (oC), GET, 0.0, 80.0
   eo                      : APSIMReal           = Potential evapotranspiration (Priestley-Taylor), (mm/d), GET, 0.0, 20.0
   fr_intc_radn_nnnn       : APSIMReal           = Fraction of intercepted radiation from module nnnn, (), GET, 0.0, 1.0
   dlayer                  : APSIMRealArray      = Depth of soil layer, (mm), GET
