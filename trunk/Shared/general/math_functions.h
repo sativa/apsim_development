@@ -406,6 +406,49 @@ void GENERAL_EXPORT Round_using_magnitude (double& Value, bool Round_up);
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Round_to_nearest (double& Value, double Nearest, bool Round_up);
 
+// ------------------------------------------------------------------
+//  Short description:
+//    convert a container of strings to a container of doubles.
+
+//  Notes:
+//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+template <class container1, class container2>
+void StringContainerToDoubleContainer (container1& StringContainer,
+                                       container2& DoubleContainer)
+   {
+   DoubleContainer.erase(DoubleContainer.begin(), DoubleContainer.end());
+   for (container1::iterator i = StringContainer.begin();
+                             i != StringContainer.end();
+                             i++)
+      DoubleContainer.push_back ( atof( (*i).c_str() ));
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//    convert a container of doubles to a container of strings.
+
+//  Notes:
+//    eg.  if Value = 369 and Nearest = 200 Rounds down to 200 Rounds up to 400
+
+//  Changes:
+//    DPH 6/8/98
+
+// ------------------------------------------------------------------
+template <class container1, class container2>
+void DoubleContainerToStringContainer (container1& DoubleContainer,
+                                       container2& StringContainer)
+   {
+   StringContainer.erase(StringContainer.begin(), StringContainer.end());
+   for (container1::iterator i = DoubleContainer.begin();
+                             i != DoubleContainer.end();
+                             i++)
+      DoubleContainer.push_back (ftoa(*i, 3));
+   }
+
 #endif
 
 
