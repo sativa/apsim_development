@@ -47,4 +47,9 @@ extern "C" _export void __stdcall viewFiles(const char* csvFiles);
 //---------------------------------------------------------------------------
 extern "C" _export void __stdcall apsimReportFiles(const char* csvFiles);
 
+//---------------------------------------------------------------------------
+// Open an interface file.
+//---------------------------------------------------------------------------
+extern "C" _export void __stdcall interfaceFiles(const char* csvFiles);
+
 #endif
