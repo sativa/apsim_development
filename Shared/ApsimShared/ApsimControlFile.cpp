@@ -668,6 +668,10 @@ IniFile* ApsimControlFile::getParFile(const std::string& parFileName) const
       if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
          return openedParFiles[i];
       }
+   if (!Path(filePath).Exists())
+      throw runtime_error("The control file has referenced a non-existant file.\n"
+                          "File = " + filePath);
+
    if (Path(filePath).Get_extension() != ".met" &&
        Path(filePath).Get_extension() != ".soi")
       {
@@ -1061,6 +1065,11 @@ void ApsimControlFile::enumerateParametersForInstance(const std::string& section
                {
                vector<string> paramFileSections;
                getParFileSectionsMatching(par, paramFiles[p], paramFileSections);
+               if (paramFileSections.size() == 0)
+                  throw runtime_error(string("No matching sections were found in parameter file.")
+                                      + "\nSection name = " + paramFiles[p].sectionName
+                                      + "\nFile name = " + par->getFileName()
+                                      + "\nInstance name = " + paramFiles[p].instanceName);
                for (unsigned s = 0; s != paramFileSections.size(); s++)
                   callback(par, paramFileSections[s]);
                }
