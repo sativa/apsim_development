@@ -17,7 +17,7 @@
    <component name="clock" executable="c:\development\apsim\clock\lib\clock.dll">
       <initdata>
          <constants name="standard">
-            <property name="timestep_events">prepare process post report</property>
+            <property name="timestep_events">prepare process post</property>
          </constants>
          <parameters name="early">
             <property name="start_date">1/1/1993</property>
@@ -384,6 +384,7 @@
             <property name="peanut">0.0002</property>
             <property name="mucuna">0.0002</property>
             <property name="lablab">0.0002</property>
+            <property name="fieldpea">0.0002</property>
             <property name="pnut">0.0002</property>
             <property name="grass">0.0004</property>
             <property name="weed">0.0004</property>
@@ -1626,6 +1627,48 @@
             <property name="x_stem_wt">0      2</property>
             <property name="y_height">0      500</property>
          </aquarius>
+         <dingxi name="standard">
+            <property name="x_pp_hi_incr">1      24</property>
+            <property name="y_hi_incr">0.0001 0.0001</property>
+            <property name="x_hi_max_pot_stress">0.0 1.0</property>
+            <property name="y_hi_max_pot">0.5 0.5</property>
+            <property name="cum_vernal_days">0        100</property>
+            <property name="tt_emerg_to_endjuv">700       700</property>
+            <property name="est_days_emerg_to_init">30</property>
+            <property name="x_pp_endjuv_to_init">12.3  14.0</property>
+            <property name="y_tt_endjuv_to_init">260   100</property>
+            <property name="x_pp_init_to_flower">12.3   14.0   15.0</property>
+            <property name="y_tt_init_to_flower">660    660    600</property>
+            <property name="x_pp_flower_to_start_grain">1      24</property>
+            <property name="y_tt_flower_to_start_grain">100.0   100</property>
+            <property name="x_pp_start_to_end_grain">1      24</property>
+            <property name="y_tt_start_to_end_grain">9400    9400</property>
+            <property name="tt_end_grain_to_maturity">500.0</property>
+            <property name="tt_maturity_to_ripe">5.0</property>
+            <property name="x_stem_wt">0      5</property>
+            <property name="y_height">0      5000</property>
+         </dingxi>
+         <Longdong name="standard">
+            <property name="x_pp_hi_incr">1      24</property>
+            <property name="y_hi_incr">0.0001 0.0001</property>
+            <property name="x_hi_max_pot_stress">0.0 1.0</property>
+            <property name="y_hi_max_pot">0.5 0.5</property>
+            <property name="cum_vernal_days">0        100</property>
+            <property name="tt_emerg_to_endjuv">700       700</property>
+            <property name="est_days_emerg_to_init">30</property>
+            <property name="x_pp_endjuv_to_init">12.3  14.0</property>
+            <property name="y_tt_endjuv_to_init">260   100</property>
+            <property name="x_pp_init_to_flower">12.3   14.0   15.0</property>
+            <property name="y_tt_init_to_flower">660    660    600</property>
+            <property name="x_pp_flower_to_start_grain">1      24</property>
+            <property name="y_tt_flower_to_start_grain">100.0   100</property>
+            <property name="x_pp_start_to_end_grain">1      24</property>
+            <property name="y_tt_start_to_end_grain">9400    9400</property>
+            <property name="tt_end_grain_to_maturity">500.0</property>
+            <property name="tt_maturity_to_ripe">5.0</property>
+            <property name="x_stem_wt">0      5</property>
+            <property name="y_height">0      5000</property>
+         </Longdong>
          <parameters name="all">
             <property name="uptake_source">calc</property>
             <property name="ll">0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22</property>
@@ -2057,6 +2100,38 @@
    <component name="weed" executable="c:\development\apsim\plant\lib\plant.dll">
       <initdata>
          <constants name="standard">
+            <property name="stress_determinants">leaf stem</property>
+            <property name="yield_parts">meal oil</property>
+            <property name="retrans_parts">leaf stem</property>
+            <property name="pfact_photo_slope">1.0</property>
+            <property name="pfact_expansion_slope">2.5</property>
+            <property name="pfact_pheno_slope">6</property>
+            <property name="pfact_grain_slope">20</property>
+            <property name="x_p_stage_code">3       4      5      6      7      8      10</property>
+            <property name="y_p_conc_max_leaf">0.0045  0.0045 0.004  0.0025 0.0025 0.0024 0.0024</property>
+            <property name="y_p_conc_min_leaf">0.003   0.003  0.0029 0.0011 0.0011 0.0008 0.0006</property>
+            <property name="y_p_conc_sen_leaf">0.0005  0.0005 0.0005 0.0005 0.0005 0.0005 0.0005</property>
+            <property name="y_p_conc_max_stem">0.0045   0.0045 0.003  0.0011  0.001  0.0007 0.0007</property>
+            <property name="y_p_conc_min_stem">0.003    0.003  0.002  0.0006 0.0006 0.0002 0.0002</property>
+            <property name="y_p_conc_sen_stem">0.0002  0.0002 0.0002 0.0002 0.0002 0.0002 0.0002</property>
+            <property name="y_p_conc_max_root">0.0010  0.0010 0.0010 0.0010 0.0010 0.0010 0.0010</property>
+            <property name="y_p_conc_min_root">0.0010  0.0010 0.0010 0.0010 0.0010 0.0010 0.0010</property>
+            <property name="y_p_conc_sen_root">0.0010  0.0010 0.0010 0.0010 0.0010 0.0010 0.0010</property>
+            <property name="y_p_conc_max_pod">0.0045  0.0045  0.003  0.0011  0.001  0.0007 0.0007</property>
+            <property name="y_p_conc_min_pod">0.003   0.003   0.002  0.0006 0.0006 0.0002 0.0002</property>
+            <property name="y_p_conc_sen_pod">0.0002  0.0002 0.0002 0.0002 0.0002 0.0002 0.0002</property>
+            <property name="y_p_conc_max_meal">0.001   0.001  0.001  0.001  0.001  0.0030  0.0030</property>
+            <property name="y_p_conc_min_meal">0.001   0.001  0.001  0.001  0.001  0.0015  0.0015</property>
+            <property name="y_p_conc_sen_meal">0.001   0.001  0.001  0.001  0.001  0.0015  0.0015</property>
+            <property name="y_p_conc_max_oil">0.001   0.001  0.001  0.001  0.001  0.001  0.001</property>
+            <property name="y_p_conc_min_oil">0.001   0.001  0.001  0.001  0.001  0.001  0.001</property>
+            <property name="y_p_conc_sen_oil">0.001   0.001  0.001  0.001  0.001  0.001  0.001</property>
+            <property name="p_conc_init_leaf">0.004</property>
+            <property name="p_conc_init_stem">0.004</property>
+            <property name="p_conc_init_root">0.001</property>
+            <property name="p_conc_init_pod">0.002</property>
+            <property name="p_conc_init_meal">0.0025</property>
+            <property name="p_conc_init_oil">0.0</property>
             <property name="crop_type">weed</property>
             <property name="default_crop_class">plant</property>
             <property name="part_names">root leaf stem pod meal oil</property>
@@ -2544,7 +2619,7 @@
             <property name="x_sw_avail_fix">0.0  0.50  0.95  1.0</property>
             <property name="y_swdef_fix">1.0  1.0   1.0   1.0</property>
             <property name="n_stress_option">2</property>
-            <property name="n_stress_start_stage">4.1</property>
+            <property name="n_stress_start_stage">4.3</property>
             <property name="N_fact_photo">1.5</property>
             <property name="N_fact_expansion">1.0</property>
             <property name="N_fact_pheno">100</property>
@@ -2672,6 +2747,10 @@
             <property name="vern_sens">2.5</property>
             <property name="photop_sens">4.0</property>
          </sunbri>
+         <pasture name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="grains_per_gram_stem">0.0</property>
+         </pasture>
          <kulin name="standard">
             <property name="derived_from">base_cultivar</property>
             <property name="phyllochron">100.0</property>
@@ -2702,6 +2781,18 @@
             <property name="vern_sens">2.0</property>
             <property name="photop_sens">4.0</property>
          </rongotea>
+         <xifeng24 name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="startgf_to_mat">650</property>
+            <property name="vern_sens">2.0</property>
+            <property name="photop_sens">2.0</property>
+            <property name="potential_grain_filling_rate">0.0025</property>
+         </xifeng24>
+         <dingxi24 name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">0.5</property>
+            <property name="photop_sens">1.0</property>
+         </dingxi24>
          <hartog_wet name="standard">
             <property name="derived_from">base_cultivar</property>
          </hartog_wet>
@@ -2713,6 +2804,21 @@
             <property name="vern_sens">2.5</property>
             <property name="photop_sens">3.5</property>
          </gatton_hartog>
+         <yitpi name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </yitpi>
+         <mitre name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </mitre>
+         <h45 name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </h45>
          <parameters name="all">
             <property name="uptake_source">calc</property>
             <property name="ll">0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22</property>
