@@ -785,7 +785,8 @@ Public Class MainUI
             'OpenNewFile()
         ElseIf args.Length = 1 Then
             If args(0).Length() > 0 Then
-                OpenAPSIMFile(args(0))
+                Dim FileName As String = args(0).Replace("""", "")
+                OpenAPSIMFile(FileName)
             End If
         Else
             MsgBox("cannot handle > 1 command line arguments", MsgBoxStyle.Critical, "Error")
