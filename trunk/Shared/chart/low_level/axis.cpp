@@ -50,6 +50,14 @@ void Axis::Design(TChart* TChart_ptr)
       case Bottom : Axis_ptr = TChart_ptr->BottomAxis;  break;
       };
 
+
+   double min, max;
+   Axis_ptr->CalcMinMax(min, max);
+   if (max-min < 1 && !Increment_fixed)
+      {
+      Increment_fixed = true;
+      Increment = 0.1;
+      }
    if (Minimum_fixed)
       {
       Axis_ptr->Minimum = Minimum;
