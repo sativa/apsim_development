@@ -1,12 +1,12 @@
-version = 2.2
-[apsim.sample_fertiliz]  
+[apsim.sample_fertiliz]
+version=3.0
 title=Fertiliz Sample Simulation
+summaryfile=fertiliz.sum
+screen_output=on
 module = clock    fertiliz.par [sample]
 module = report   fertiliz.par [sample]
-module = input(met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = Input(Met) %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
 module = manager  fertiliz.par [sample]
-module = fertiliz fertiliz.par [sample]     %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = SummaryFile  fertiliz.par[sample]
-module = Screen  fertiliz.par[sample]
+module = fertiliz fertiliz.par [sample]  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth] %apsuite\apsim\soiln2\soiln2.ini [standard]

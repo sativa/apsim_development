@@ -1,14 +1,14 @@
 ! Tillage testing. Look for changes in cn (thus runoff) from tillage ops.
 
-version = 2.2
-[apsim.Eo.sample]  
+[apsim.Eo.sample]
 
-! Generic report parameters
+
+version=3.0
 title=eo sample
-module = clock eo.par[sample]
-module = report eo.par[sample]
-module = input(met) COOPR96.MET[CPRL96_shifted]
-module = manager sample.man[sample]
-module = eo eo.par[sample] %apsuite\apsim\eo\eo.ini[standard]
-module = SummaryFile  eo.par[sample]
-module = Screen  eo.par[sample]
+summaryfile=eo.sum
+screen_output=on
+module = clock    sample.man [sample]
+module = report   sample.man [sample]
+module = Input(Met)      COOPR96.MET [CPRL96_shifted]
+module = manager  sample.man [sample]
+module = eo       eo.par [sample]     %apsuite\apsim\eo\eo.ini [standard]
