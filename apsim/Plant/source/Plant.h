@@ -389,16 +389,6 @@ class Plant : public plantInterface {
                               float mint,                //!daily min temp (C)
                               float *modifier);           //!modifier (-)
 
-  void plant_n_conc_grain_limits(float  c_n_conc_crit_grain
-				 ,float  c_n_conc_max_grain
-				 ,float  c_n_conc_min_grain
-				 ,float  *g_dlt_dm_green_retrans
-				 ,float  *g_dlt_dm_green
-				 ,float  *g_dm_green
-				 ,float  *n_conc_crit
-				 ,float  *n_conc_max
-				 ,float  *n_conc_min) ;
-
   void plant_n_conc_limits (float  c_n_conc_crit_meal
 			     ,float  c_n_conc_crit_root
 			     ,float  c_n_conc_max_meal
@@ -569,7 +559,6 @@ class Plant : public plantInterface {
     (
      float c_leaf_trans_frac
     ,float c_stem_trans_frac
-    ,float  c_pod_trans_frac
     ,float  g_plants
     ,float *dm_green
     ,float *dm_plant_min
