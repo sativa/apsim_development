@@ -64,6 +64,8 @@ class ReportComponent : public protocol::Component
       int DaysSinceLastReport;
       bool CSVFormat;
 
+      unsigned titleID;
+      unsigned summaryFileID;
       unsigned repEventID;
       unsigned doOutputID;
       unsigned doEndDayOutputID;
