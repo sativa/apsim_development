@@ -933,8 +933,8 @@ cnh         if(g%psi(p%n).ge.0.)then
       if (p%ibbc.eq.1) then
          ! water table boundary condition
          solute_bbc = constant_conc
-      else if (((p%ibbc.eq.0).or.(p%ibbc.eq.4)
-     :          .and.(g%q(p%n+1).lt.0))) then
+      else if (((p%ibbc.eq.0).or.(p%ibbc.eq.4))
+     :         .and.(g%q(p%n+1).lt.0)) then
          ! you have a gradient with flow upward
          solute_bbc = constant_conc
       else
