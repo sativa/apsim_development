@@ -23,8 +23,9 @@
 //    creates an instance of the add-in and return a pointer to it.
 //    Outlook will delete the add-in automatically when required.
 //    For example:
-//       extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
+//       extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters bool& success)
 //          {
+//          success = true;
 //          return new MyAddIn;
 //          }
 
