@@ -185,10 +185,18 @@ void __fastcall TMainForm::FileOpenDatasetMenuClick(TObject *Sender)
 void __fastcall TMainForm::HelpContentsMenuClick(TObject *Sender)
    {
    Path p (Application->ExeName.c_str());
-   p.Set_extension(".hlp");
+   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
+      {
+      string manual = p.Get_directory() + "\\manual\\default.htm";
+      ShellExecute (this->Handle, "open", manual.c_str(), NULL, "", SW_SHOW);
+      }
+   else
+      {
+      p.Set_extension(".hlp");
 
-   string CommandLine = "winhlp32.exe " + p.Get_directory() + "\\docs\\" + p.Get_name();
-   WinExec (CommandLine.c_str(), SW_SHOW);
+      string CommandLine = "winhlp32.exe " + p.Get_directory() + "\\docs\\" + p.Get_name();
+      WinExec (CommandLine.c_str(), SW_SHOW);
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
