@@ -53,17 +53,18 @@ SOIToolBar::SOIToolBar(const string& parameters)
    string bitmap_name;
    ini.Read (SOI_SECTION, "toolbitmap", bitmap_name);
 
+   // get stuff from ini file like image name
+   Path path(Application->ExeName.c_str());
+   path.Set_name (bitmap_name.c_str());
+   glyph = new Graphics::TBitmap;
+   glyph->LoadFromFile(path.Get_path().c_str());
+
    FPhase_month = 1;
    string data_file;
    ini.Read (SOI_SECTION, "soi file", data_file);
-   FSOI_data_file = data_file.c_str();
+   FSOI_data_file = AnsiString(path.Get_directory().c_str()) + "\\"
+                                        +  AnsiString(data_file.c_str());
 
-
-   // get stuff from ini file like image name
-   Path bitmap_path(Application->ExeName.c_str());
-   bitmap_path.Set_name (bitmap_name.c_str());
-   glyph = new Graphics::TBitmap;
-   glyph->LoadFromFile(bitmap_path.Get_path().c_str());
 
    SOI_form = new TSOI_form(Application->MainForm);
    SOI_form->SOI_ptr = this;
