@@ -1492,10 +1492,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Units*100              ! Units
       character Variable_values*1000   ! Our variable values
 
-      integer MAX_ARRAY_SIZE
-      parameter (MAX_ARRAY_SIZE = 200)
+      integer MAX_CHAR_ARRAY_SIZE
+      parameter (MAX_CHAR_ARRAY_SIZE = 200)
 
-      character array(MAX_ARRAY_SIZE)*1000
+      character array(MAX_CHAR_ARRAY_SIZE)*1000
       integer numvals
 
 *- Implementation Section ----------------------------------
@@ -1524,7 +1524,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          ! otherwise store in variable and send as char var
          call String_to_char_array(Variable_values
      :                              , array
-     :                              , MAX_ARRAY_SIZE
+     :                              , MAX_CHAR_ARRAY_SIZE
      :                              , numvals)
          if (numvals > 1) then
             call Post_char_array (Variable_name
