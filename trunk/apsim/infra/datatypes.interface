@@ -1308,23 +1308,26 @@
 !      <field name="AshAlk"  kind="single" units="kg/ha"/>
 !   </type>
 
+
+!dsg 021203  This structure is an array of soil layers which contains the layer's thickness
+!            and the fpool additions to that layer.  Sent by SurfOM to SOILN2 and SOILP as part 
+!            of the 'FreshOrganicMatterIncorporated' Event
+
    <type name="FPoolProfileLayer" array="T">
-      <element>
-      <field name="name" kind="string"/>
-      <field name="layer" array="T">
          <element>
          <field name="thickness" kind="single" units = "mm"/>
-         <field name="FOM" >
-            <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="FPool" array="T">
+            <element>
             <field name="C"       kind="single" units="kg/ha"/>
             <field name="N"       kind="single" units="kg/ha"/>
             <field name="P"       kind="single" units="kg/ha"/>
             <field name="AshAlk"  kind="single" units="kg/ha"/>
+            </element>
          </field>
          </element>
-      </field>
-      </element>
+
    </type>
+
 
 !dsg 030702 for each residue instance, the array allows SOILN2 to fill "ActualResidueDecomCalc"
 !   for all the system residues and it also allows a residue instance to send data for, say, "woody"
