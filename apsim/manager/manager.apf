@@ -1,5 +1,5 @@
 [general]
-name = Manager module
+name = Manager
 
 [Binaries]
 binary=manager
@@ -7,6 +7,6 @@ binary=manager
 [manager]
 compiler_switches = %apsuite\apsim\infra\lf90.fig
 source  = source\manager.for
-target  = lib\apsmanager.dll
+target  = lib\manager.dll
 include = %apsuite\apsim\infra\
 import  = %apsuite\apsim\infra\lib\APSinfra.imp

@@ -1,5 +1,5 @@
 [general]
-name = MET module
+name = MET
 
 [Binaries]
 binary=met
@@ -7,6 +7,6 @@ binary=met
 [met]
 compiler_switches = %apsuite\apsim\infra\lf90.fig
 source  = source\met.for
-target  = lib\apsmet.dll
+target  = lib\met.dll
 include = %apsuite\apsim\infra\
 import  = %apsuite\apsim\infra\lib\APSinfra.imp
