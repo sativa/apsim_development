@@ -30,6 +30,7 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (c%crop_type.eq.'wheat') then
@@ -95,6 +96,7 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
         if (c%crop_type .eq. 'wheat') then
@@ -154,6 +156,7 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (g%plant_status.eq.status_alive) then
 
@@ -237,10 +240,11 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 
 
       !SECTION 9: PLANT P RELATIONS
-      call Phosphorus_initialisation  (GetSwitchCode(c%phos_switch,1))
-      call Phosphorus_demand          (GetSwitchCode(c%phos_switch,2))
-      call Phosphorus_uptake          (GetSwitchCode(c%phos_switch,3))
-      call Phosphorus_stress          (GetSwitchCode(c%phos_switch,4))
+         call PlantP_Process(g%current_stage
+     :                      ,g%dm_green
+     :                      ,g%dm_senesced
+     :                      ,g%dlt_dm_senesced
+     :                      ,g%dlt_dm_detached)
 
 
       !SECTION 9: DEATH of PLANTS (cf. plant part pools)
@@ -303,6 +307,7 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if ((Option.eq.1).or.(Option.eq.2)) then
@@ -400,6 +405,7 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if ((Option.eq.1).or.(Option.eq.2)) then
@@ -511,6 +517,7 @@ c     integer    deepest_layer
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (p%uptake_source .eq. 'apsim') then
          call crop_get_ext_uptakes(
@@ -581,6 +588,7 @@ c      REAL    deepest_layer
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
        if (p%uptake_source .eq. 'apsim') then
@@ -713,6 +721,7 @@ c      REAL    deepest_layer
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
       if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
@@ -814,6 +823,7 @@ c      REAL    deepest_layer
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (option .eq. 1) then       !NEW OPTION
 
@@ -875,6 +885,7 @@ c      REAL    deepest_layer
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
 c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
@@ -1189,7 +1200,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
      :                            ,c%y_tt
      :                            ,g%maxt
      :                            ,g%mint
-     :                            ,g%nfact_pheno
+     :                            ,min(g%nfact_pheno
+     :                                ,PlantP_Pfact_Pheno())
      :                            ,g%swdef_pheno
      :                            ,c%pesw_germ
      :                            ,c%fasw_emerg
@@ -1356,6 +1368,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (Option .eq. 1) then
@@ -1453,7 +1466,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
      .                     rue_used,
      .                     g%radn_int,
      .                     g%temp_stress_photo,
-     .                     g%nfact_photo,
+     .                     min(g%nfact_photo
+     .                        ,PlantP_pfact_photo()),
      .                     co2_modifier,
      .                     g%dlt_dm_light)
 
@@ -1575,6 +1589,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option .eq. 1) then
         ! use whichever is limiting
@@ -1691,6 +1706,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option .eq. 1).OR.(Option .eq. 2)) then
         ! use whichever is limiting
@@ -1757,6 +1773,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.1) then
 
@@ -1889,6 +1906,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
 
@@ -2074,7 +2092,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
      :        , c%sfac_slope
      :        , g%N_conc_crit
      :        , g%swdef_photo
-     :        , g%pfact_grain
+     :        , PlantP_pfact_grain()
      :        , g%swdef_expansion
      :        , g%nfact_grain_conc
      :    , g%dlt_dm_grain_demand)
@@ -2138,6 +2156,7 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option .eq. 1) then
 
@@ -2463,6 +2482,7 @@ c      REAL grain_now
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (Option.eq.1) then
@@ -2569,6 +2589,7 @@ c      REAL grain_now
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -2890,6 +2911,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -2940,6 +2962,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option .eq. 1) then
 
@@ -3342,6 +3365,7 @@ c      REAL sla_est
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if ((Option.eq.1).or.(Option.eq.2)) then
@@ -3426,7 +3450,8 @@ c      endif
          call cproc_leaf_area_stressed1 (
      :                       g%dlt_lai_pot
      :                      ,g%swdef_expansion
-     :                      ,g%nfact_expansion
+     :                      ,min(g%nfact_expansion
+     :                          ,PlantP_pfact_expansion())
      :                      ,g%dlt_lai_stressed
      :                      )
 
@@ -3475,6 +3500,7 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -3522,6 +3548,7 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -3567,6 +3594,7 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.1) then
 
@@ -3643,6 +3671,7 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -3694,6 +3723,7 @@ c      endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -3774,6 +3804,7 @@ c      endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
 
@@ -4256,6 +4287,7 @@ c       end do
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (Option.eq.1) then
@@ -4349,6 +4381,7 @@ c       end do
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
 
@@ -4413,6 +4446,7 @@ c       end do
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (Option.eq.3) then
@@ -4697,6 +4731,7 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if ((Option.eq.1).or.(Option.eq.2).or.(Option.eq.3)) then
@@ -4799,6 +4834,7 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (p%uptake_source .eq. 'apsim') then
          ! do nothing here for now
@@ -4979,6 +5015,7 @@ c     :          )
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.2) then
 
@@ -5127,6 +5164,7 @@ c       DATA b/0.,0.,0./
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
 
@@ -5676,6 +5714,7 @@ c     :               )
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.1) then
 
@@ -5834,64 +5873,11 @@ c         g%nfact_tiller = g%nfact_expansion
       end subroutine
 
 
-
-
 *     ===========================================================
-      subroutine Phosphorus_initialisation(Option)
+      subroutine Phosphorus_demand (Option)
 *     ===========================================================
-            Use infrastructure
-      implicit none
 
-*+  Sub-Program Arguments
-      integer    Option                ! (INPUT) option number
-
-*+  Purpose
-*     Get current Nitrogen stress factors (0-1)
-
-*+  Local variables
-       REAL rue_red_fac
-       REAL sla_est
-
-*+  Changes
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Phosphorus_initialisation')
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-      if (Option.eq.1) then
-
-         call Maize_P_init (
-     :          emerg
-     :        , g%current_stage
-     :        , g%days_tot
-     :        , g%dm_green
-     :        , max_part
-     :        , g%p_conc_max
-     :        , g%plant_p
-     :               )
-
-      else if (Option.eq.0) then
-
-         !This module is excluded from the model
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
-
-*     ===========================================================
-      subroutine Phosphorus_demand(Option)
-*     ===========================================================
-            Use infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5913,6 +5899,7 @@ c         g%nfact_tiller = g%nfact_expansion
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.1) then
 
@@ -5958,9 +5945,9 @@ c         g%nfact_tiller = g%nfact_expansion
 
 
 *     ===========================================================
-      subroutine Phosphorus_uptake(Option)
+      subroutine Phosphorus_uptake (Option)
 *     ===========================================================
-            Use infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5986,6 +5973,7 @@ c         g%nfact_tiller = g%nfact_expansion
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.1) then
 
@@ -6025,9 +6013,9 @@ c         g%nfact_tiller = g%nfact_expansion
 
 
 *     ===========================================================
-      subroutine Phosphorus_stress(Option)
+      subroutine Phosphorus_stress (Option)
 *     ===========================================================
-            Use infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -6053,63 +6041,64 @@ c         g%nfact_tiller = g%nfact_expansion
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (Option.eq.1) then
 
 
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , max_part
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_photo
-     :              , g%pfact_photo
-     :               )
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , max_part
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_pheno
-     :              , g%pfact_pheno
-     :               )
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , max_part
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_expansion
-     :              , g%pfact_expansion
-     :               )
-
-
-
-         call maize_pfact
-     :               (
-     :                g%dm_green
-     :              , g%dm_dead
-     :              , g%dm_senesced
-     :              , max_part
-     :              , g%P_conc_max
-     :              , g%P_conc_min
-     :              , g%plant_p
-     :              , c%k_pfact_grain
-     :              , g%pfact_grain
-     :               )
+!!         call maize_pfact
+!!     :               (
+!!     :                g%dm_green
+!!     :              , g%dm_dead
+!!     :              , g%dm_senesced
+!!     :              , max_part
+!!     :              , g%P_conc_max
+!!     :              , g%P_conc_min
+!!     :              , g%plant_p
+!!     :              , c%k_pfact_photo
+!!     :              , g%pfact_photo
+!!     :               )
+!!
+!!         call maize_pfact
+!!     :               (
+!!     :                g%dm_green
+!!     :              , g%dm_dead
+!!     :              , g%dm_senesced
+!!     :              , max_part
+!!     :              , g%P_conc_max
+!!     :              , g%P_conc_min
+!!     :              , g%plant_p
+!!     :              , c%k_pfact_pheno
+!!     :              , g%pfact_pheno
+!!     :               )
+!!
+!!         call maize_pfact
+!!     :               (
+!!     :                g%dm_green
+!!     :              , g%dm_dead
+!!     :              , g%dm_senesced
+!!     :              , max_part
+!!     :              , g%P_conc_max
+!!     :              , g%P_conc_min
+!!     :              , g%plant_p
+!!     :              , c%k_pfact_expansion
+!!     :              , g%pfact_expansion
+!!     :               )
+!!
+!!
+!!
+!!         call maize_pfact
+!!     :               (
+!!     :                g%dm_green
+!!     :              , g%dm_dead
+!!     :              , g%dm_senesced
+!!     :              , max_part
+!!     :              , g%P_conc_max
+!!     :              , g%P_conc_min
+!!     :              , g%plant_p
+!!     :              , c%k_pfact_grain
+!!     :              , g%pfact_grain
+!!     :               )
 
 
       !EW added the following
@@ -6318,6 +6307,7 @@ c         g%nfact_tiller = g%nfact_expansion
        subroutine Simulation_Prepare ()
 * ====================================================================
             Use infrastructure
+
       implicit none
 
 
@@ -6362,10 +6352,9 @@ c         g%nfact_tiller = g%nfact_expansion
 
         endif
 
-
-        call Phosphorus_initialisation  (GetSwitchCode(c%phos_switch,1))
-        call Phosphorus_demand          (GetSwitchCode(c%phos_switch,2))
-        call Phosphorus_stress          (GetSwitchCode(c%phos_switch,4))
+         call PlantP_prepare(g%current_stage
+     :                      ,g%dm_green
+     :                      ,g%dlt_dm_light)
 
 
       else

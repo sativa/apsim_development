@@ -3,10 +3,11 @@
       use croplibrary
 
       contains
-                       
-      include 'cropmodcomms.for'                 
+
+      include 'cropmodcomms.for'
       include 'cropmodtree.for'
       include 'maize.for'
+      include 'plantp_code.for'
       include 'process.for'
       include 'sorg.for'
       include 'sunf.for'

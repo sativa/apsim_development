@@ -228,6 +228,7 @@ C     Last change:  E    14 Sep 2001    1:00 pm
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       p_phyllochron = c_leaf_app_rate1
       leaf_no_now   = sum_between(emerg, now, g_leaf_no)
@@ -487,6 +488,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 * On the sowing day, calculate the tt for emergence
       if (on_day_of (sowing, g_current_stage, g_days_tot)) then
@@ -641,6 +643,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! initialisations - set up dry matter for leaf, stem, flower, grain! and root
 
@@ -785,6 +788,7 @@ c    :               + c_dm_stem_init * g_plants
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (stage_is_between(start_leaf_init_stage,
@@ -874,6 +878,7 @@ c    :               + c_dm_stem_init * g_plants
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       if (stage_is_between(start_leaf_init,end_leaf_init,current_stage)
@@ -965,6 +970,7 @@ c     :                            , 'leaf_no_final')
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 cglh uses sowing, not emerg to calc leaf no.
 
@@ -1083,6 +1089,7 @@ c     :  leaf_no_now
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
           !Crop not in the field
           if (current_stage .lt.1.0 .and. current_stage.gt.12.0) then
@@ -1205,6 +1212,7 @@ c     :  leaf_no_now
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       !WHEAT CROP
@@ -1353,6 +1361,7 @@ c        endif
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
             ! get potential N uptake (supply) from the root profile.
             ! get totals for diffusion and mass flow.
@@ -1635,6 +1644,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       ! only take the layers in which roots occur
       deepest_layer = find_layer_no(root_depth, dlayer, max_layer)
@@ -1735,6 +1745,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       ! only take the layers in which roots occur
       deepest_layer = find_layer_no(root_depth, dlayer, max_layer)
@@ -1810,6 +1821,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       current_phase = int(current_stage)
 
@@ -1940,6 +1952,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
             ! get potential N uptake (supply) from the root profile.
             ! get totals for diffusion and mass flow.
@@ -2145,6 +2158,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       dlt_dm_yield = 0.0
@@ -2246,6 +2260,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       dlt_n_yield = 0.0
@@ -2363,6 +2378,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       dlt_dm_yield = 0.0
@@ -2467,6 +2483,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       dlt_n_yield = 0.0
@@ -2544,6 +2561,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((bio_temp_opt .LE. bio_temp_min) .OR.
      :    (bio_temp_opt .GE. bio_temp_max) .OR.
@@ -2617,6 +2635,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if ((bio_temp_opt .LE. bio_temp_min) .OR.
      :    (bio_temp_opt .GE. bio_temp_max) .OR.
@@ -2887,6 +2906,7 @@ c      dll_export crop_dm_pot_rue_wang
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       usrue = rue * co2_modifier *
      .              min(temp_stress_photo, nfact_photo)
@@ -2955,6 +2975,7 @@ c      dll_export crop_dm_pot_rue_wang
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       !Calculate progress towards vernalisation. No vernalization below
       !0C and above 15 C. Progress towards full vernalisation is a linear
@@ -3047,6 +3068,7 @@ c      dll_export crop_dm_pot_rue_wang
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       primordia_no = 2.0*Leaf_no_now + 4.0
 
@@ -3178,6 +3200,7 @@ c     REAL       root_fr
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       current_stage = int (g_current_stage)
@@ -3427,6 +3450,7 @@ c     :        - g_dlt_dm_green(root)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 cscc Need to work this out. If you use sowing, not emerg. then the
 c leaf no. appears to be underestimated. Maybe it double counts leaf no.
@@ -3541,6 +3565,7 @@ cSCC normal leaf app rate
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       grain_N_demand = g_dlt_dm_grain * cproc_N_dlt_grain_conc(
      .                                      c_sfac_slope,
@@ -3632,6 +3657,7 @@ cSCC normal leaf app rate
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       ave_temp = (g_maxt + g_mint) /2.0
 
@@ -3702,6 +3728,7 @@ c+!!!!!!!!!! return to orig cm
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       call crop_N_retrans_avail (max_part, root, grain,

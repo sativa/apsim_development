@@ -88,6 +88,7 @@ C     Last change:  E     1 Oct 2001   11:38 am
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 ! set estimates of phase thermal time targets at germination
 
@@ -242,6 +243,7 @@ cjh
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
           ! set total leaf number
 
@@ -340,6 +342,7 @@ cjh
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! initialise plant weight
          ! initialisations - set up dry matter for leaf, stem, flower, grain
@@ -410,6 +413,7 @@ cjh
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
             ! high temperature stress reduces grain no via 'htsf'
 
@@ -499,6 +503,7 @@ cjh
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! ------------- find actual grain uptake ---------------
 
@@ -656,6 +661,7 @@ c     :                           , 'grain_no_fract')
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (stage_is_between (start_grain_fill, end_grain_fill
      :                    , g_current_stage)) then
@@ -683,7 +689,7 @@ c     :                           , 'grain_no_fract')
          sw_def_fac = (c_swdf_grain_min
      :              + (1.0 - c_swdf_grain_min) * g_swdef_photo)
 
-         fract_of_optimum = rgfill * sw_def_fac * g_pfact_grain
+         fract_of_optimum = rgfill * sw_def_fac !!* g_pfact_grain
 
             ! now calculate the grain growth demand for the day in g/m^2
 
@@ -777,6 +783,7 @@ c     :                           , 'grain_no_fract')
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call crop_N_retrans_avail (max_part, root, grain
      :        , g_N_conc_min
@@ -858,6 +865,7 @@ c     :                           , 'grain_no_fract')
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
@@ -1016,6 +1024,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 cpsc need to develop leaf senescence functions for crop
 
@@ -1083,6 +1092,7 @@ cpsc need to develop leaf senescence functions for crop
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       cswd_pheno = sum_between (emerg, flag_leaf, g_cswd_pheno)
 
@@ -1149,6 +1159,7 @@ cpsc need to develop leaf senescence functions for crop
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (on_day_of (start_grain_fill
      :             , g_current_stage, g_days_tot)) then
@@ -1225,6 +1236,7 @@ cpsc need to develop leaf senescence functions for crop
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call maize_check_grain_no (
      :          c_head_grain_no_crit,
@@ -1292,6 +1304,7 @@ cpsc need to develop leaf senescence functions for crop
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (c_head_grain_no_crit .gt. p_head_grain_no_max * c_barren_crit
      :   .and. p_head_grain_no_max .gt. 0.0) then
@@ -1357,6 +1370,7 @@ cpsc need to develop leaf senescence functions for crop
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (on_day_of (init_stage, g_current_stage, g_days_tot)) then
          biomass = sum_real_array (g_dm_green, max_part)
@@ -1427,6 +1441,7 @@ cpsc need to develop leaf senescence functions for crop
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! calculate potential new shoot and root growth
 
@@ -1504,6 +1519,7 @@ cpsc need to develop leaf senescence functions for crop
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (stage_is_between (emerg, maturity, g_current_stage)) then
 
@@ -1542,83 +1558,84 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       return
       end subroutine
 
-*     ===========================================================
-      subroutine maize_pfact
-     :               (
-     :                G_dm_green
-     :              , G_dm_dead
-     :              , G_dm_senesced
-     :              , max_part
-     :              , G_p_conc_max
-     :              , G_p_conc_min
-     :              , G_plant_p
-     :              , k_pfact
-     :              , pfact
-     :               )
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
-      REAL       G_dm_dead(*)     ! (INPUT)  dead plant biomass (g/m2)
-      REAL       G_dm_senesced(*) ! (INPUT)  senesced plant biomass (g/m2)
-      INTEGER    max_part         ! (INPUT)  number of plant parts
-      REAL       G_p_conc_max     ! (INPUT)  max P conc (g N/g biomass)
-      REAL       G_p_conc_min     ! (INPUT)  min P conc (g N/g biomass)
-      REAL       G_plant_p        ! (INPUT)  plant P content (g N/m^2)
-      REAL       k_pfact          ! (INPUT)  k value for stress factor
-      real      pfact             ! (OUTPUT) P stress factor
-
-*+  Purpose
-*     The concentration of P in the entire plant is used to derive a
-*     series of Phosphorus stress indices.  The stress indices for
-*     today's growth are calculated from yesterday's
-*     relative nutritional status between a critical and minimum
-*     total plant Phosphorus concentration.
-
-*+  Mission Statement
-*      Calculate P stress indicies
-
-*+   Changes
-*     270697 nih
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_pfact')
-
-*+  Local Variables
-      real       biomass               ! total crop biomass
-      real       P_conc                ! actual P concentration (g/g)
-
-      real       P_def                 ! P factor (0-1)
-      real       P_conc_ratio          ! available P as fraction of P capacity
-                                       ! (0-1)
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-         ! calculate actual P conc
-      biomass    =  sum_real_array (g_dm_green, max_part)
-     :           +  sum_real_array (g_dm_senesced, max_part)
-     :           +  sum_real_array (g_dm_dead, max_part)
-
-      P_conc = divide (g_plant_p, biomass, 0.0)
-
-      P_conc_ratio = divide ((P_conc - g_P_conc_min)
-     :                      ,(g_P_conc_max - g_P_conc_min)
-     :                      , 0.0)
-
-         ! calculate 0-1 P deficiency factors
-
-      P_def = k_pfact * P_conc_ratio
-      pfact = bound (P_def, 0.0, 1.0)
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
+!!*     ===========================================================
+!!      subroutine maize_pfact
+!!     :               (
+!!     :                G_dm_green
+!!     :              , G_dm_dead
+!!     :              , G_dm_senesced
+!!     :              , max_part
+!!     :              , G_p_conc_max
+!!     :              , G_p_conc_min
+!!     :              , G_plant_p
+!!     :              , k_pfact
+!!     :              , pfact
+!!     :               )
+!!*     ===========================================================
+!!      Use infrastructure
+!!      implicit none
+!!
+!!*+  Sub-Program Arguments
+!!      REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
+!!      REAL       G_dm_dead(*)     ! (INPUT)  dead plant biomass (g/m2)
+!!      REAL       G_dm_senesced(*) ! (INPUT)  senesced plant biomass (g/m2)
+!!      INTEGER    max_part         ! (INPUT)  number of plant parts
+!!      REAL       G_p_conc_max     ! (INPUT)  max P conc (g N/g biomass)
+!!      REAL       G_p_conc_min     ! (INPUT)  min P conc (g N/g biomass)
+!!      REAL       G_plant_p        ! (INPUT)  plant P content (g N/m^2)
+!!      REAL       k_pfact          ! (INPUT)  k value for stress factor
+!!      real      pfact             ! (OUTPUT) P stress factor
+!!
+!!*+  Purpose
+!!*     The concentration of P in the entire plant is used to derive a
+!!*     series of Phosphorus stress indices.  The stress indices for
+!!*     today's growth are calculated from yesterday's
+!!*     relative nutritional status between a critical and minimum
+!!*     total plant Phosphorus concentration.
+!!
+!!*+  Mission Statement
+!!*      Calculate P stress indicies
+!!
+!!*+   Changes
+!!*     270697 nih
+!!
+!!*+  Constant Values
+!!      character  my_name*(*)           ! name of procedure
+!!      parameter (my_name = 'maize_pfact')
+!!
+!!*+  Local Variables
+!!      real       biomass               ! total crop biomass
+!!      real       P_conc                ! actual P concentration (g/g)
+!!
+!!      real       P_def                 ! P factor (0-1)
+!!      real       P_conc_ratio          ! available P as fraction of P capacity
+!!                                       ! (0-1)
+!!
+!!*- Implementation Section ----------------------------------
+!!
+!!      call push_routine (my_name)
+!!      call print_routine (my_name)
+!!
+!!         ! calculate actual P conc
+!!      biomass    =  sum_real_array (g_dm_green, max_part)
+!!     :           +  sum_real_array (g_dm_senesced, max_part)
+!!     :           +  sum_real_array (g_dm_dead, max_part)
+!!
+!!      P_conc = divide (g_plant_p, biomass, 0.0)
+!!
+!!      P_conc_ratio = divide ((P_conc - g_P_conc_min)
+!!     :                      ,(g_P_conc_max - g_P_conc_min)
+!!     :                      , 0.0)
+!!
+!!         ! calculate 0-1 P deficiency factors
+!!
+!!      P_def = k_pfact * P_conc_ratio
+!!      pfact = bound (P_def, 0.0, 1.0)
+!!
+!!      call pop_routine (my_name)
+!!      return
+!!      end subroutine
+!!
 
 * ====================================================================
        subroutine maize_nit_demand_est (Option)
@@ -1740,6 +1757,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call write_string (new_line//'    - Reading constants')
 
@@ -2593,48 +2611,48 @@ c     :                    , 0.0, 100.0)
      :                   , c%N_fact_expansion, numvals
      :                   , 0.0, 100.0)
 
-      ! Phosphorus
-      ! ----------
-
-      call read_real_array (section_name
-     :                     , 'p_stage_code', max_stage, '()'
-     :                     , c%p_stage_code, c%num_P_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_array (section_name
-     :                     , 'p_conc_max', max_stage, '()'
-     :                     , c%p_conc_max, c%num_P_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_array (section_name
-     :                     , 'p_conc_min', max_stage, '()'
-     :                     , c%p_conc_min, c%num_P_conc_stage
-     :                     , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_photo', '()'
-     :                   , c%k_pfact_photo, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_pheno', '()'
-     :                   , c%k_pfact_pheno, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_expansion', '()'
-     :                   , c%k_pfact_expansion, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'k_pfact_grain', '()'
-     :                   , c%k_pfact_grain, numvals
-     :                   , 0.0, 100.0)
-
-      call read_real_var (section_name
-     :                   , 'p_uptake_factor', '()'
-     :                   , c%p_uptake_factor, numvals
-     :                   , 0.0, 10.0)
+!!      ! Phosphorus
+!!      ! ----------
+!!
+!!      call read_real_array (section_name
+!!     :                     , 'p_stage_code', max_stage, '()'
+!!     :                     , c%p_stage_code, c%num_P_conc_stage
+!!     :                     , 0.0, 100.0)
+!!
+!!      call read_real_array (section_name
+!!     :                     , 'p_conc_max', max_stage, '()'
+!!     :                     , c%p_conc_max, c%num_P_conc_stage
+!!     :                     , 0.0, 100.0)
+!!
+!!      call read_real_array (section_name
+!!     :                     , 'p_conc_min', max_stage, '()'
+!!     :                     , c%p_conc_min, c%num_P_conc_stage
+!!     :                     , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_photo', '()'
+!!     :                   , c%k_pfact_photo, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_pheno', '()'
+!!     :                   , c%k_pfact_pheno, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_expansion', '()'
+!!     :                   , c%k_pfact_expansion, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'k_pfact_grain', '()'
+!!     :                   , c%k_pfact_grain, numvals
+!!     :                   , 0.0, 100.0)
+!!
+!!      call read_real_var (section_name
+!!     :                   , 'p_uptake_factor', '()'
+!!     :                   , c%p_uptake_factor, numvals
+!!     :                   , 0.0, 10.0)
 
          !    Maize_rue_reduction
 
@@ -2815,6 +2833,7 @@ c     :                    , 0.0, 100.0)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       call write_string (
      :                 new_line//'   - Reading Cultivar Parameters')
@@ -3016,6 +3035,7 @@ c     :                    , 0.0, 100.0)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
          call cproc_dm_retranslocate1
