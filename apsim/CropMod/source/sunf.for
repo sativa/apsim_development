@@ -1,6 +1,6 @@
 C     Last change:  E    24 May 2000   12:25 pm
 
-       INCLUDE 'CropMod.inc'
+!       INCLUDE 'CropMod.inc'
 
 
 *=======================================================================
