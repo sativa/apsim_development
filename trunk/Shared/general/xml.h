@@ -26,8 +26,12 @@ class XMLDocument
       void write(const std::string& fileName) const;
       void writeXML(std::string& xml) const;
       XMLNode documentElement(void);
+
+      void setDirty(bool d) {dirty = d;}
+      bool isDirty(void) const {return dirty;}
    private:
       XMLDocumentImpl* docImpl;
+      mutable bool dirty;
 
       void throwParseError(void) const throw(std::runtime_error);
    };
@@ -37,8 +41,8 @@ class XMLDocument
 class XMLNode
    {
    public:
-      XMLNode(Msxml2_tlb::IXMLDOMNode* n)
-         : node(n) { }
+      XMLNode(XMLDocument* doc, Msxml2_tlb::IXMLDOMNode* n)
+         : parent(doc), node(n) { }
 
       std::string getName(void) const;
       std::string getAttribute(const std::string& attributeName) const;
@@ -56,6 +60,7 @@ class XMLNode
       void writeXML(std::string& xml) const;
 
    private:
+      XMLDocument* parent;
       Msxml2_tlb::IXMLDOMNode* node;
 
       XMLNode getNextSibling(void) const;

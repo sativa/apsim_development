@@ -16,7 +16,7 @@
 struct XMLDocumentImpl
    {
    Msxml2_tlb::TCOMIXMLDOMDocument xmlDoc;
-   XMLDocumentImpl(Msxml2_tlb::TCOMIXMLDOMDocument d)
+   XMLDocumentImpl(const Msxml2_tlb::TCOMIXMLDOMDocument& d)
       : xmlDoc(d) { }
    };
 
@@ -67,11 +67,12 @@ void formatXML(std::string& xml)
 //---------------------------------------------------------------------------
 XMLDocument::XMLDocument(const std::string& rootNodeName)
    {
-   docImpl = new XMLDocumentImpl(ComsDOMDocument::Create());
+   docImpl = new XMLDocumentImpl(CoDOMDocument40::Create());
    docImpl->xmlDoc->appendChild
       (docImpl->xmlDoc->createProcessingInstruction(L"xml", L"version='1.0'"));
    docImpl->xmlDoc->documentElement
       = docImpl->xmlDoc->createElement(asVariant(rootNodeName));
+   dirty = true;
    }
 //---------------------------------------------------------------------------
 // destructor
@@ -92,6 +93,7 @@ void XMLDocument::read(const std::string& fileName) throw (runtime_error)
    docImpl->xmlDoc->load(asVariant(fileName), &isSuccessful);
    if (!isSuccessful)
       throwParseError();
+
    }
 //---------------------------------------------------------------------------
 // read in contents of document.
@@ -100,6 +102,7 @@ void XMLDocument::readXML(const std::string& xml) throw (runtime_error)
    {
    // Start with an emty DOM
    docImpl->xmlDoc->loadXML(asVariant(xml));
+   dirty = false;
    }
 //---------------------------------------------------------------------------
 // write the contents of this document to the specified file.
@@ -110,6 +113,7 @@ void XMLDocument::write(const std::string& fileName) const
    writeXML(xml);
    ofstream out(fileName.c_str());
    out << xml;
+   dirty = false;
    }
 //---------------------------------------------------------------------------
 // write the contents of this document to the specified string.
@@ -144,7 +148,7 @@ void XMLDocument::throwParseError(void) const throw(runtime_error)
 //---------------------------------------------------------------------------
 XMLNode XMLDocument::documentElement(void)
    {
-   return XMLNode(docImpl->xmlDoc->documentElement);
+   return XMLNode(this, docImpl->xmlDoc->documentElement);
    }
 //---------------------------------------------------------------------------
 // return the name of the node.
@@ -160,7 +164,7 @@ string XMLNode::getName(void) const
 // Return an attribute of the node.
 // ------------------------------------------------------------------
 string XMLNode::getAttribute(const std::string& attributeName) const
-   {                       
+   {
    if (node != NULL)
       {
       Variant value;
@@ -205,6 +209,7 @@ void XMLNode::setAttribute(const string& attributeName,
          }
 
       attribute->set_text(asVariant(attributeValue));
+      parent->setDirty(true);
       }
    }
 // ------------------------------------------------------------------
@@ -220,6 +225,7 @@ void XMLNode::setValue(const std::string& value, bool asCData)
       }
    else
       node->set_text(asVariant(value));
+   parent->setDirty(true);
    }
 // ------------------------------------------------------------------
 // Add a child node to this node.  If alwaysAppend = true then
@@ -238,7 +244,8 @@ XMLNode XMLNode::appendChild(const std::string& nodeName, bool alwaysAppend)
    Msxml2_tlb::IXMLDOMElement* childNode = node->get_ownerDocument()
                               ->createElement(asVariant(nodeName));
    node->appendChild(childNode);
-   return XMLNode(childNode);
+   parent->setDirty(true);
+   return XMLNode(parent, childNode);
    }
 // ------------------------------------------------------------------
 // Delete a child node from this node.
@@ -247,7 +254,10 @@ void XMLNode::deleteChild(const std::string& nodeName)
    {
    iterator child = find_if(begin(), end(), EqualToName<XMLNode>(nodeName));
    if (child != end())
+      {
       node->removeChild(child->node);   // presumably we don't have to delete the child.
+      parent->setDirty(true);
+      }
    }
 // ------------------------------------------------------------------
 // Return the next sibling.
@@ -255,9 +265,9 @@ void XMLNode::deleteChild(const std::string& nodeName)
 XMLNode XMLNode::getNextSibling(void) const
    {
    if (node != NULL)
-      return XMLNode(node->nextSibling);
+      return XMLNode(parent, node->nextSibling);
    else
-      return XMLNode(NULL);
+      return XMLNode(parent, NULL);
    }
 // ------------------------------------------------------------------
 // Return an iterator to the first child node.
@@ -265,16 +275,16 @@ XMLNode XMLNode::getNextSibling(void) const
 XMLNode::iterator XMLNode::begin() const
    {
    if (node != NULL)
-      return XMLNode::iterator(XMLNode(node->firstChild));
+      return XMLNode::iterator(XMLNode(parent, node->firstChild));
    else
-      return XMLNode(NULL);
+      return XMLNode(parent, NULL);
    }
 // ------------------------------------------------------------------
 // Return an iterator to the last child node.
 // ------------------------------------------------------------------
 XMLNode::iterator XMLNode::end() const
    {
-   return XMLNode::iterator(XMLNode(NULL));
+   return XMLNode::iterator(XMLNode(parent, NULL));
    }
 //---------------------------------------------------------------------------
 // write the contents of this node to the specified string.
