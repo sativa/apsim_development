@@ -226,6 +226,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          character     expression_sub_array(Variable_maximum)*
      .                                       (Buffer_size)
          character     and_or_array(Variable_maximum)*(Buffer_size)
+         logical       isLiteral
 
       end type ManagerData
 
@@ -861,7 +862,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ====================================================================
        subroutine Manager_new_local_variable(Variable_name,
-     .                                       Variable_value)
+     .                                       Variable_value,
+     .                                       isString)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -869,6 +871,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to store
       character Variable_value*(*)     ! (INPUT) Variable value to store
+      logical isString                 ! (INPUT) value should be treated as a string.
 
 !+  Purpose
 !     Add a new local variable to list.
@@ -897,7 +900,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Fatal_error(ERR_user, str)
 
       else
-         if (Variable_value .eq. ' ') then
+         if (isString .or. Variable_value .eq. ' ') then
             read_status = Not_ok
          else
             read (Variable_value, '(g25.0)',
@@ -1107,7 +1110,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
                ! variable not already defined.  Add variable to list.
 
                if (Numvals .eq. 0) then
-                  call manager_new_local_variable(variable_name, '0')
+                  call manager_new_local_variable
+     .                (variable_name, '0', .false.)
                   Variable_value = '0'
                   write (str, '(4a)' )
      .              'Manager creating a new local variable : ',
@@ -1134,7 +1138,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Parse_set_variable (Variable_Name, Variable_Value)
+       subroutine Parse_set_variable 
+     .           (Variable_Name, Variable_Value, isString)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -1142,6 +1147,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Sub-Program Arguments
       character     Variable_Name*(*)  ! (INPUT) name of variable
       character     Variable_Value*(*) ! (INPUT) value of variable to set
+      logical       isString           ! (INPUT) value should be treated as a string 
 
 !+  Purpose
 !     The parsing routine has requested a set variable
@@ -1168,6 +1174,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer modNameID                ! ID for module.
       integer regID
       logical ok
+      integer read_status
+      real realValue
+
+      integer, parameter :: Ok_status=0
+      integer, parameter :: Not_ok=1
 
 !- Implementation Section ----------------------------------
       variable_name = lower_case(variable_name)
@@ -1199,7 +1210,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                ! Add variable to local variable list.
 
                call manager_new_local_variable(variable_name,
-     .              Variable_value)
+     .              Variable_value, isString)
 
                write (str, '(4a)' )
      .           'Manager creating a new local variable : ',
@@ -1215,6 +1226,28 @@ C     Last change:  P    25 Oct 2000    9:26 am
                Is_apsim_variable = .true.
             endif
          else
+            ! make sure this value matches the type
+            if (g%local_variable_is_real(variable_index)) then
+               read (Variable_value, '(g25.0)'
+     .             , iostat=read_status) realValue
+               if (read_status.ne.OK_status) then
+                 write(str, '(12a)')
+     .           'Cannot change the type of a manager local variable.',
+     .           new_line,
+     .           'Type is being changed from a real to a string.',
+     .           new_line,
+     .           'Variable name: ', 
+     .           Trim(Variable_name),
+     .           new_line,
+     .           'Existing value: ', 
+     .           Trim(g%local_variable_values(variable_index)),
+     .           new_line,
+     .           'New value: ',
+     .           Trim(Variable_value)
+    
+                 call error(str, .true.)
+               endif
+            endif
             call assign_string (
      :           g%local_variable_values(Variable_index)
      :         , Variable_value)
@@ -1762,6 +1795,8 @@ c      end subroutine
 
 !- Implementation Section ----------------------------------
 
+       g%isLiteral = .false.
+
        call   Get_next_token(Token_array, Token_array2)
        g%number_expressions = 1
        call assign_string (g%expression_array(g%number_expressions)
@@ -1784,7 +1819,8 @@ c      end subroutine
 
        if (g%all_ok .eq. YES) then
               call assign_string (Variable_value, g%expression_result)
-              call   Parse_set_variable(Variable_Name, Variable_Value)
+              call   Parse_set_variable(Variable_Name, Variable_Value,
+     .                                  g%isLiteral)
        endif
 
        return
@@ -2540,7 +2576,8 @@ c      end subroutine
        elseif (g%token .eq. C_LITERAL) then
           call   push_stack(g%buffer)
 
-          call   Get_sub_token
+          call   Get_sub_token  
+          g%isLiteral = .true.
 
        endif
 
