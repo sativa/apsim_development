@@ -217,7 +217,7 @@ void Field::writeTo(ostream& out, const string& value)
 void Field::calcFieldWidth(protocol::Variant* variant, bool ok)
    {
    if (!ok)
-      fieldWidth = 6;
+      fieldWidth = 15;
    else if (variant->getType().getCode() == DTint4)
       fieldWidth = 10;
    else
