@@ -282,7 +282,7 @@ void WhopEcon::doCalculations(TAPSTable& data,
                   // Calculate a return for this crop and store it as a new field
                   // for this crop.
                   float ret = cropData->calculateReturn(yield, protein);
-                  string returnFieldName = "Return-" + cropName + " ($/ha)";
+                  string returnFieldName = *cropAcronymI + "_Return($ per ha)";
                   record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
                   gmReturn += ret;
 
@@ -312,16 +312,16 @@ void WhopEcon::doCalculations(TAPSTable& data,
             }
 
          // create new columns for cost, return, gm and gm split by crop
-         record->setFieldValue("Cost ($/ha)", FloatToStr(gmCost).c_str());
-         record->setFieldValue("Return ($/ha)", FloatToStr(gmReturn).c_str());
-         record->setFieldValue("GM ($/ha)", FloatToStr(gmReturn - gmCost).c_str());
+         record->setFieldValue("Cost($ per ha)", FloatToStr(gmCost).c_str());
+         record->setFieldValue("Return($ per ha)", FloatToStr(gmReturn).c_str());
+         record->setFieldValue("GM($ per ha)", FloatToStr(gmReturn - gmCost).c_str());
 
          // tell 'data' about the new GM fields.
          if (!haveInformedDataOfNewFields)
             {
-            data.addField("Cost ($/ha)");
-            data.addField("Return ($/ha)");
-            data.addField("GM ($/ha)");
+            data.addField("Cost($ per ha)");
+            data.addField("Return($ per ha)");
+            data.addField("GM($ per ha)");
             haveInformedDataOfNewFields = true;
             }
          }
