@@ -65,7 +65,7 @@
          soiln set no3 = 13.000  20.000  37.000  33.000  14.000  19.000  29.000
        endif
        if (day = 280) then
-           ozcot sow 4 5 2.0 12.0
+           ozcot sow cultivar = siok, sowing_depth = 5 (mm), row_spacing = 2.0 (m), plants_pm = 12.0 ()
        endif
         report do_output
         if (day = 1 and year = 1995) then
@@ -217,20 +217,71 @@
 
 ------- OZCOT Initialisation -------------------------------------------------
      Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.289
+           30.0          0.276
+           30.0          0.296
+           30.0          0.324
+           30.0          0.353
+           30.0          0.428
+     ------------------------
+     
+     
+     
 ------- Start of simulation  --------------------------------------------------
 22 September 1995 (Day of year=265):
    MANAGER:
       Manager creating a new local variable : yield_acre =     0.00000000000000
 7 October 1995 (Day of year=280):
    MANAGER:
-           Manager sending message :- ozcot sow 4 5 2.0 12.0
+           Manager sending message :- ozcot sow cultivar = siok, sowing_depth = 5 (mm), row_spacing = 2.0 (m), plants_pm = 12.0 ()
    OZCOT:
-      sow
-       sowing  depth plants row sp
-       g%day no   mm     m^2    m
-          280    5.0   12.0    2.0
+      Sow
       
-      sow
+         - Reading Cultivar Parameters
+          ------------------------------------------------
+          Cultivar   = siok
+          percent_L  =    0.42
+          scboll     =     4.5
+          respcon    =   0.016
+          sqcon      =   0.023
+          fcutout    =  0.5411
+          flai       =     0.5
+          ddisq      =   420.0
+          ------------------------------------------------
+      
+      
+      
+      
+      
+      
+                       Crop Sowing Data
+          ------------------------------------------------
+          Sowing  Depth Plants Spacing Cultivar
+          Day no   mm     m       m     Name
+          ------------------------------------------------
+             280    5.0   12.0    2.0 siok
+          ------------------------------------------------
+25 April 1996 (Day of year=116):
+   OZCOT:
+          First defoliant spray  201 days from sowing.
+5 May 1996 (Day of year=126):
+   OZCOT:
+          First Picking  211 days from sowing.
+          There are sufficient bolls for a Second Picking.
 19 May 1996 (Day of year=140):
    CLOCK:
       Simulation is terminating due to end criteria being met.
