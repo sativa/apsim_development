@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(soilwat2)
-
-[Contents]
-soilwat2.for = soilwat2.for
-
-[APSBuild]
-binary = ..\lib\soilwat2.dll
-lf90file = %apsuite\apsbuild\module.lf90
