@@ -1,5 +1,5 @@
 ##################################################
-#file %apsuite\shared\componentinterface\datatypes.h
+#file ..\shared\componentinterface\datatypes.h
 #ifndef DataTypesH
 #define DataTypesH
 #include <ComponentInterface\MessageData.h>
@@ -51,7 +51,7 @@ inline unsigned int memorySize(const structure.nameType& data)
 } // protocol
 #endfile
 ##################################################
-#file %apsuite\shared\componentinterface\datatypes.cpp
+#file ..\shared\componentinterface\datatypes.cpp
 #include "DataTypes.h"
 #include "FortranComponent.h"
 const unsigned max_array_size = 100;
@@ -161,7 +161,7 @@ extern "C" void __stdcall unpack_structure.name(protocol::Variant* variant, prot
 
 #endfile
 ##################################################
-#file %apsuite\apsim\infra\source\datatypes.f90
+#file ..\apsim\infra\source\datatypes.f90
 module dataTypes
    character(len=*), parameter :: nullTypeDDML = '<type/>'
    integer, parameter :: max_array_size = 100
@@ -192,7 +192,7 @@ end module dataTypes
 #endfile
 
 ##################################################
-#file %apsuite\apsim\infra\source\datatypesinterface.f90
+#file ..\apsim\infra\source\datatypesinterface.f90
 module dataTypesInterface
    interface
 
