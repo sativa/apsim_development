@@ -7,12 +7,6 @@ include base.interface
 ;    Methods which other components may call
 ;    Events which other components may trap (or subscribe to)
 ; -----------------------------------------------------------
-class APSIMSoilwat2TillageMethod
-  type : string
-  cn_red : real
-  cn_rain : real
-end
-
 class APSIMSoilwat2Public
    es                      : APSIMReal         = Evaporation, (mm), GET
    eo                      : APSIMReal         = Potential evapotranspiration, (mm), GET
@@ -68,7 +62,7 @@ class APSIMSoilwat2Public
    dlt_sw                  : APSIMRealArray    = dlt_sw temporary array, (), SET, -1.0, 1.0
    dlt_sw_dep              : APSIMRealArray    = dlt_sw_dep temporary array, (), SET, -10000.0, 10000.0
    dlt_dlayer              : APSIMRealArray    = dlt_dlayer temporary array, (), SET, -10000.0, 10000.0
-   cn2_bare                : APSIMReal         = Curve number input used to calculate daily runoff, (), SET, 0.0, 100.0, (), SET, -10000.0, 10000.0
+   cn2_bare                : APSIMReal         = Curve number input used to calculate daily runoff, (), SET, 0.0, 100.0
    cn_cov                  : APSIMReal         = Cover at which curve number reduction occurs, (), SET, 0.0, 1.0
    cn_red                  : APSIMReal         = Maximum reduction in p_cn2_bare due to cover, (), SET
 
