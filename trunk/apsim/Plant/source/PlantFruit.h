@@ -210,6 +210,34 @@ class PlantFruit
 
                void nit_init (void);
 
+               void n_retranslocate( float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
+                                   , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
+                                   , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
+                                   , float  g_grain_n_demand            //  INPUT
+                                   , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+                                   );
+
+               void N_retrans_avail(const int meal
+                                  , float *g_N_conc_min
+                                  , float *g_dm_green
+                                  , float *g_N_green
+                                  , float *N_avail);
+
+                void n_demand(const int max_part,           // (INPUT)
+                              int   *demand_parts,          // (INPUT)
+                              const int num_demand_parts,   // (INPUT)
+                              float G_dlt_dm_veg,           // (INPUT)  the daily biomass production (g/m^2)
+                              float *G_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)
+                              float G_dlt_dm_pot_rue,       // (INPUT)  potential dry matter production from pods (g/m^2)
+                              float G_dlt_dm_pot_rue_veg,   // (INPUT)  potential dry matter production from veg (g/m^2)
+                              float *G_dlt_n_retrans,       // (INPUT)  nitrogen retranslocated out from plant parts (g/m^2)
+                              float *G_dm_green,            // (INPUT)  live plant dry weight (biomass g/m^2)
+                              float *G_n_conc_crit,         // (INPUT)  critical N concentration (g N/g dm)
+                              float *G_n_conc_max,          // (INPUT)  maximum N concentration (g N/g dm)
+                              float *G_n_green,             // (INPUT)  plant nitrogen content (g N/m^2)
+                              float *N_demand,              // (OUTPUT) critical plant nitrogen demand (g/m^2)
+                              float *N_max);                 // (OUTPUT) max plant nitrogen demand (g/m^2)
+
 #if TEST_PlantFruit
 		virtual ~PlantFruit();							// destructor
 #else
