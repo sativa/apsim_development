@@ -152,6 +152,7 @@ void Chart_base::Copy_to_clipboard (void)
 
 //  Changes:
 //    DPH 4/2/1997
+//    dph 20/1/98 changed default position of legend to top.
 
 // ------------------------------------------------------------------
 void Chart_base::Design(void)
@@ -164,6 +165,7 @@ void Chart_base::Design(void)
    TChart_ptr->Title->Text->Add(Title.Text.c_str());
    TChart_ptr->View3D = Is_3D;
    TChart_ptr->Legend->LegendStyle = lsSeries;
+   TChart_ptr->Legend->Alignment = laTop;
 
    // create an x axis and a y axis title
    string bottom_axis_title;
