@@ -4,6 +4,8 @@
 
 #include <general\xml.h>
 #include <vector>
+#include "ApsimRegistrationData.h"
+#include "ApsimDataTypeData.h"
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).
@@ -38,6 +40,12 @@ class __declspec(dllexport) ApsimComponentData
       void getRuleNames(std::vector<std::string>& names) const;
       std::string getRule(const std::string& name) const;
       void addRule(const std::string& name, const std::string& rule);
+
+      // registration methods.
+      typedef TreeNodeAliasIterator< TreeNodeIterator<XMLNode>, ApsimRegistrationData> RegIterator;
+      RegIterator regBegin(void) const;
+      RegIterator regEnd(void) const;
+      ApsimDataTypeData getDataType(const std::string& name) const throw(std::runtime_error);
 
    private:
       XMLDocument* xmlDoc;

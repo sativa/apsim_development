@@ -216,6 +216,50 @@ std::string ApsimComponentData::getXML(void) const
    return xml;
    }
 // ------------------------------------------------------------------
+// Return an iterator to the first registration
+// ------------------------------------------------------------------
+ApsimComponentData::RegIterator ApsimComponentData::regBegin(void) const
+   {
+   XMLNode::iterator i = find_if(node.begin(),
+                                 node.end(),
+                                 EqualToName<XMLNode>("registrations"));
+   if (i != node.end())
+      return i->begin();
+   else
+      return regEnd();
+   }
+// ------------------------------------------------------------------
+// Return an iterator to the last registration
+// ------------------------------------------------------------------
+ApsimComponentData::RegIterator ApsimComponentData::regEnd(void) const
+   {
+   return RegIterator(node.end());
+   }
+
+//---------------------------------------------------------------------------
+// Return a specific data type to caller.  Will throw if that type doesn't
+// exist.
+//---------------------------------------------------------------------------
+ApsimDataTypeData ApsimComponentData::getDataType
+   (const string& name) const throw(runtime_error)
+   {
+   XMLNode::iterator types = find_if(node.begin(),
+                                     node.end(),
+                                     EqualToName<XMLNode>("types"));
+   if (types != node.end())
+      {
+      XMLNode::iterator i = find_if(types->begin(),
+                                    types->end(),
+                                    NodeEquals<XMLNode>("type", name));
+      if (i != types->end())
+         return ApsimDataTypeData(*i);
+      }
+
+   throw runtime_error("Cannot find a data type: " + name
+                       + " in component: " + getName());
+   }
+
+// ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // constructor
