@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "VensimComponent.h"
+#include <ComponentInterface\MessageDataExt.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimComponentData.h>
 
@@ -161,8 +162,9 @@ void VensimComponent::respondToGet(unsigned int& fromID, protocol::QueryValueDat
 bool VensimComponent::respondToSet(unsigned int& fromID, QuerySetValueData& setValueData)
    {
    string name = variables[setValueData.ID];
-   float value;
-   setValueData.variant.unpack(value);
+   string stringValue;
+   setValueData.variant.unpack(stringValue);
+   float value = StrToFloat(stringValue.c_str());
 
    string command = "SIMULATE>SETVAL|" + name + " = " + ftoa(value, 5);
    if (vensim_command(command.c_str()) == 0)
