@@ -275,7 +275,7 @@ cum_leach180 = cum_leach180 + apswim.flow_no3(15)
 sw_dep_90180 = (0.5 * sw_dep(11)) + sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15)
 
 !net drainage past 120 cm - counting water uptake from below as negative drainage
-T            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
+T            = weed1.ep + lucerne.ep + canola.ep + lupin.ep + wheat.ep + weed2.ep + weed3.ep
 ET           = apswim.es + T
 sw_dep_120    = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)+ sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11) + sw_dep(12)
 netdrain120    = met.rain - ET - (sw_dep_120 - oldsw_dep_120)
@@ -293,7 +293,7 @@ cum_leach180 = cum_leach180 + apswim.flow_no3(18)
 sw_dep_90180 = (0.5 * sw_dep(11)) + sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15) + sw_dep(16) + sw_dep(17) + sw_dep(18)
 
 !net drainage past 120 cm - counting water uptake from below as negative drainage
-T            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
+T            = weed1.ep + lucerne.ep + canola.ep + lupin.ep + wheat.ep + weed2.ep + weed3.ep
 ET           = apswim.es + T
 sw_dep_120    = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)+ sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11) + sw_dep(12)
 netdrain120    = (met.rain + irrigate.irrigation) - ET - (sw_dep_120 - oldsw_dep_120)
@@ -305,7 +305,7 @@ cum_rain     = cum_rain + met.rain + irrigate.irrigation
 
 [all.manager.end_of_day]
 !water balance terms
-T            = weed1.ep() + lucerne.ep() + canola.ep() + lupin.ep() - wheat.ep() + weed2.ep() + weed3.ep()
+T            = weed1.ep + lucerne.ep + canola.ep + lupin.ep + wheat.ep + weed2.ep + weed3.ep
 ET           = apswim.es + T
 drain_25     = apswim.flow(6)
 drain_90     = 0.5* apswim.flow(10)+ 0.5* apswim.flow(11)
@@ -1901,14 +1901,14 @@ variable = sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne.dlt_
 variable = sum of lupin.dlt_n_fixed since report1.reported as sum@lupin.dlt_n_fixed on process
 [all.tracker2.parameters]
 variable = sum of met.rain since report2.reported as sum@met.rain on process
-variable = sum of wheat.ep() since report2.reported as sum@wheat.ep[] on process
-variable = sum of lucerne.ep() since report2.reported as sum@lucerne.ep[] on process
-variable = sum of canola.ep() since report2.reported as sum@canola.ep[] on process
-variable = sum of lupin.ep() since report2.reported as sum@lupin.ep[] on process
+variable = sum of wheat.ep since report2.reported as sum@wheat.ep on process
+variable = sum of lucerne.ep since report2.reported as sum@lucerne.ep on process
+variable = sum of canola.ep since report2.reported as sum@canola.ep on process
+variable = sum of lupin.ep since report2.reported as sum@lupin.ep on process
 variable = sum of manager.T since report2.reported as sum@manager.T on process
 variable = sum of manager.ET since report2.reported as sum@manager.ET on process
-variable = sum of weed1.ep() since report2.reported as sum@weed1.ep[] on process
-variable = sum of weed2.ep() since report2.reported as sum@weed2.ep[] on process
+variable = sum of weed1.ep since report2.reported as sum@weed1.ep on process
+variable = sum of weed2.ep since report2.reported as sum@weed2.ep on process
 variable = sum of apswim.es since report2.reported as sum@apswim.es on process
 variable = sum of apswim.runoff since report2.reported as sum@apswim.runoff on process
 variable = sum of apswim.drain since report2.reported as sum@apswim.drain on process
