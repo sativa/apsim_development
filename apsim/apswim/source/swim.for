@@ -308,6 +308,9 @@ cnh
             do 65 j=0,p%n
                g%pwuptake(i,j) = g%pwuptake(i,j) + g%qr(j,i)*g%dt*10d0
                                              ! cm -> mm __/
+               g%pwuptakepot(i,j)=g%pwuptakepot(i,j)
+     :                           +g%qrpot(j,i)*g%dt*10d0
+                                        ! cm -> mm __/
 65          continue
 70       continue
 
@@ -1537,11 +1540,13 @@ c      parameter (gr=1.4d-7)
 *
       do 10 i=0,p%n
          tqex(i)=0.
+         g%qexpot(i) = 0.
          do 10 j=1,3
          tqexp(j,i)=0.
 cnh
         do 5 k=1,g%nveg
            g%qr(i,k) = 0d0
+           g%qrpot(i,k) = 0d0
  5      continue
 cnh
 10    continue
@@ -1609,6 +1614,12 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
                else
                   g%qr(i,iveg)=0.
                end if
+               if (ttr.gt.0) then
+                  g%qrpot(i,iveg) = g_(i)*(tpsi(i)-g%psimin(iveg))
+                  g%qexpot(i)=g%qexpot(i)+g%qrpot(i,iveg)
+               else
+                  g%qrpot(i,iveg) = 0d0
+               endif
 50          continue
          end if
 100   continue
