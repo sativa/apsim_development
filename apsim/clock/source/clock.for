@@ -29,9 +29,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
       end type ClockData
 
       ! instance variables.
-      common /InstancePointers/ g,p,c
+      common /InstancePointers/ g,p,c,ID
       save InstancePointers
       type (ClockData),pointer :: g
+      type (IDsType), pointer :: ID
 
       ! Constant values
       integer mins_in_day
@@ -77,7 +78,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
 !- Implementation Section ----------------------------------
 
-      call do_registrations()
+      call do_registrations(ID)
 
       g%end_current_run = .false.
       return
@@ -479,66 +480,66 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       call day_of_year_to_date (g%day, g%year, thisdate)
 
-      if (variable_info%id .eq. dayId) then
+      if (variable_info%id .eq. ID%day) then
          call return_day(variable_info, g%day)
 
-      else if (variable_info%id .eq. yearId) then
+      else if (variable_info%id .eq. ID%year) then
          call return_year(variable_info, g%year)
 
-      else if (variable_info%id .eq. timestepId) then
+      else if (variable_info%id .eq. ID%timestep) then
          call return_timestep(variable_info, g%timestep)
 
-      else if (variable_info%id .eq. day_Of_MonthId) then
+      else if (variable_info%id .eq. ID%day_Of_Month) then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g%current_date)
          call return_day_of_month(variable_info, thisdate(1))
 
-      else if (variable_info%id .eq. monthId) then
+      else if (variable_info%id .eq. ID%month) then
          call jday_to_date (thisdate(1), thisdate(2), thisdate(3),
      .                      g%current_date)
          call return_month(variable_info, thisdate(2))
 
-      else if (variable_info%id .eq. start_WeekId) then
+      else if (variable_info%id .eq. ID%start_Week) then
          Logical_to_return = Start_week (g%day, g%year)
          call return_start_week(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. end_WeekId) then
+      else if (variable_info%id .eq. ID%end_Week) then
          Logical_to_return = End_week (g%day, g%year)
          call return_end_week(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. start_MonthId) then
+      else if (variable_info%id .eq. ID%start_Month) then
          Logical_to_return = Start_month (g%day, g%year)
          call return_start_month(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. end_MonthId) then
+      else if (variable_info%id .eq. ID%end_Month) then
          Logical_to_return = End_month (g%day, g%year)
          call return_end_month(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. end_YearId) then
+      else if (variable_info%id .eq. ID%end_Year) then
          Logical_to_return = End_year (g%day, g%year)
          call return_end_year(variable_info, Logical_to_return)
 
-      else if (variable_info%id .eq. todayId) then
+      else if (variable_info%id .eq. ID%today) then
          call return_today(variable_info,
      .         Date_to_jday(thisdate(1), thisdate(2), thisdate(3)))
 
-      else if (variable_info%id .eq. today_dayId) then
+      else if (variable_info%id .eq. ID%today_day) then
          call return_today_day(variable_info, thisdate(1))
 
-      else if (variable_info%id .eq. today_monthId) then
+      else if (variable_info%id .eq. ID%today_month) then
          call return_today_month(variable_info, thisdate(2))
 
-      else if (variable_info%id .eq. today_yearId) then
+      else if (variable_info%id .eq. ID%today_year) then
          call return_today_year(variable_info, thisdate(3))
 
-      else if (variable_info%id .eq. today_day_Of_YearId) then
+      else if (variable_info%id .eq. ID%today_day_Of_Year) then
          call return_today_day_of_year(variable_info, g%day)
 
-      else if (variable_info%id .eq. today_month_StrId) then
+      else if (variable_info%id .eq. ID%today_month_Str) then
          call return_today_month_str(variable_info,
      .         Get_month_string(thisdate(2)))
 
-      else if (variable_info%id .eq. today_ddmmId) then
+      else if (variable_info%id .eq. ID%today_ddmm) then
          write (str, '(i2,a,i2)')
      .        thisdate(1), '/', thisdate(2)
 
@@ -551,7 +552,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call return_today_ddmm(variable_info, str)
 
-      else if (variable_info%id .eq. today_ddmmyyyyId) then
+      else if (variable_info%id .eq. ID%today_ddmmyyyy) then
          write (str, '(i2,a,i2,a,i4)')
      .        thisdate(1), '/', thisdate(2), '/', thisdate(3)
 
@@ -564,7 +565,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          endif
          call return_today_ddmmyyyy(variable_info, str)
 
-      else if (variable_info%id .eq. today_dd_mmm_yyyyId) then
+      else if (variable_info%id .eq. ID%today_dd_mmm_yyyy) then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '_', Get_month_string(thisdate(2)),
      .        '_', thisdate(3)
@@ -575,7 +576,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_dd_mmm_yyyy(variable_info, str)
 
-      else if (variable_info%id .eq. today_ddmmmyyyyId) then
+      else if (variable_info%id .eq. ID%today_ddmmmyyyy) then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '/', Get_month_string(thisdate(2)),
      .        '/', thisdate(3)
@@ -586,7 +587,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_ddmmmyyyy(variable_info, str)
 
-      else if (variable_info%id .eq. today_dd_mmmId) then
+      else if (variable_info%id .eq. ID%today_dd_mmm) then
          write (str, '(i2,a,a)')
      .        thisdate(1), '_', Get_month_string(thisdate(2))
 
@@ -596,42 +597,42 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
          call return_today_dd_mmm(variable_info, str)
 
-      else if (variable_info%id .eq. timeId) then
+      else if (variable_info%id .eq. ID%time) then
          time = clock_get_time()
          call return_time(variable_info, time)
 
-      else if (variable_info%id .eq. time_stringId) then
+      else if (variable_info%id .eq. ID%time_string) then
          time_string = clock_time_string()
          call return_time_string(variable_info, time_string)
 
-      else if (variable_info%id .eq. simulation_Start_DayId) then
+      else if (variable_info%id .eq. ID%simulation_Start_Day) then
          call jday_to_day_of_year (g%Start_date
      .                            ,doy
      .                            ,year)
          call return_simulation_start_day(variable_info, doy)
 
-      else if (variable_info%id .eq. simulation_Start_YearId) then
+      else if (variable_info%id .eq. ID%simulation_Start_Year) then
          call jday_to_day_of_year (g%Start_date
      .                            ,doy
      .                            ,year)
          call return_simulation_start_year(variable_info, year)
 
-      else if (variable_info%id .eq. simulation_End_DayId) then
+      else if (variable_info%id .eq. ID%simulation_End_Day) then
          call jday_to_day_of_year (g%End_date
      .                            ,doy
      .                            ,year)
          call return_simulation_end_day(variable_info, doy)
 
-      else if (variable_info%id .eq. simulation_End_YearId) then
+      else if (variable_info%id .eq. ID%simulation_End_Year) then
          call jday_to_day_of_year (g%End_date
      .                            ,doy
      .                            ,year)
          call return_simulation_end_year(variable_info, year)
 
-      else if (variable_info%id .eq. simulation_Start_DateId) then
+      else if (variable_info%id .eq. ID%simulation_Start_Date) then
          call return_simulation_start_date(variable_info, g%start_date)
 
-      else if (variable_info%id .eq. simulation_End_DateId) then
+      else if (variable_info%id .eq. ID%simulation_End_Date) then
          call return_simulation_end_date(variable_info, g%end_date)
 
       endif
@@ -826,7 +827,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       call push_routine (This_routine)
 
       tick = Clock_get_time()
-      call publish_time(tickId, tick, .false.)
+      call publish_time(ID%tick, tick, .false.)
 
       call pop_routine (This_routine)
 
