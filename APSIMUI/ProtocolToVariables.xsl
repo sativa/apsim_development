@@ -3,7 +3,6 @@
 
 <xsl:output method="xml"/>
 <xsl:template match="describecomp">
-   <components>
       <component name="{@name}">
          <variables>
    <xsl:apply-templates select="property"/>
@@ -12,7 +11,6 @@
    <xsl:apply-templates select="event"/>
          </events>
       </component>
-   </components>
 
 </xsl:template>
 
