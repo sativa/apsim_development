@@ -328,57 +328,82 @@ bool protocol::getTypeConverter(Component* parent,
                                 Type& destType,
                                 TypeConverter*& converter)
    {
+   return getTypeConverter(parent, name,
+                           sourceType.getCode(), destType.getCode(),
+                           sourceType.isArray(), destType.isArray(),
+                           converter);
+   }
+
+// ------------------------------------------------------------------
+// Return a data type converter if possible or NULL if none
+// available.
+// ------------------------------------------------------------------
+bool protocol::getTypeConverter(Component* parent,
+                                const FString& name,
+                                protocol::DataTypeCode sourceTypeCode,
+                                protocol::DataTypeCode destTypeCode,
+                                bool isSourceArray,
+                                bool isDestArray,
+                                TypeConverter*& converter)
+   {
    converter = NULL;
-   if (sourceType.getCode() == DTunknown && destType.getCode() == DTunknown)
+   if (sourceTypeCode == DTunknown && destTypeCode == DTunknown)
       converter = NULL;
    else
       {
-      if (sourceType.getCode() == destType.getCode() &&
-          sourceType.isArray() == destType.isArray() &&
-          sourceType.getCode() != DTunknown)
+      if (sourceTypeCode == destTypeCode &&
+          isSourceArray == isDestArray &&
+          sourceTypeCode != DTunknown)
          converter = NULL;
       else
          {
-         if (sourceType.getCode() == DTunknown || destType.getCode() == DTunknown)
+         if (sourceTypeCode == DTunknown || destTypeCode == DTunknown)
             converter = NULL;
 
-         else if (sourceType.isArray())
+         else if (isSourceArray)
             {
             // source is an array - we support only array to array converters.
             // or array to string converters.
-            if (destType.isArray())
+            if (isDestArray)
                {
                ArrayFromArray* Aconverter = &arrayFromArray;
-               Aconverter->baseConverter = scalarConversionMatrix[destType.getCode()][sourceType.getCode()];
+               Aconverter->baseConverter = scalarConversionMatrix[destTypeCode][sourceTypeCode];
                if (Aconverter->baseConverter != NULL)
                   converter = Aconverter;
                }
-            else if (destType.getCode() == DTstring)
-               converter = arrayToStringConversionMatrix[sourceType.getCode()];
+            else if (destTypeCode == DTstring)
+               converter = arrayToStringConversionMatrix[sourceTypeCode];
             }
          else
             {
             // source is a scalar - we support scalar to arrays and normal
             // scalar to scalar.
-            if (destType.isArray())
+            if (isDestArray)
                {
                ArrayFromScalar* Aconverter = &arrayFromScalar;
-               Aconverter->baseConverter = scalarConversionMatrix[destType.getCode()][sourceType.getCode()];
+               Aconverter->baseConverter = scalarConversionMatrix[destTypeCode][sourceTypeCode];
                if (Aconverter->baseConverter != NULL)
                   converter = Aconverter;
                }
             else
-               converter = scalarConversionMatrix[destType.getCode()][sourceType.getCode()];
+               converter = scalarConversionMatrix[destTypeCode][sourceTypeCode];
             }
 
          if (converter == NULL)
             {
+            FString sourceTypeString = Type::codeToString(sourceTypeCode);
+            FString destTypeString = Type::codeToString(destTypeCode);
+
             char msg[300];
             strcpy(msg, "Cannot create a type converter.");
             strcat(msg, "\nSource type: ");
-            strncat(msg, sourceType.getTypeString().f_str(), sourceType.getTypeString().length());
+            strncat(msg, sourceTypeString.f_str(), sourceTypeString.length());
+            if (isSourceArray)
+               strcat(msg, " array");
             strcat(msg, "\nDestination type: ");
-            strncat(msg, destType.getTypeString().f_str(), destType.getTypeString().length());
+            strncat(msg, destTypeString.f_str(), destTypeString.length());
+            if (isDestArray)
+               strcat(msg, " array");
             strcat(msg, "\nVariable name: ");
             strncat(msg, name.f_str(), name.length());
             parent->error(msg, true);
@@ -390,6 +415,7 @@ bool protocol::getTypeConverter(Component* parent,
       }
    return true;
    }
+
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl
 

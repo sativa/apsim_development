@@ -149,67 +149,23 @@ void Component::messageToLogic(Message* message)
                                  messageData >> queryData;
                                  onQueryValueMessage(message->from, queryData);
                                  break;}
+      case RequestSetValue:     {RequestSetValueData setValueData;
+                                 messageData >> setValueData;
+                                 onRequestSetValueMessage(message->from, setValueData);
+                                 break;}
       case QuerySetValue:       {QuerySetValueData querySetData;
                                  messageData >> querySetData;
-                                 TypeConverter* conv;
-                                 RegistrationItem* regItem = (RegistrationItem*) querySetData.ID;
-                                 bool ok = getTypeConverter
-                                    (this,
-                                     regItem->getName(),
-                                     querySetData.variant.getType(),
-                                     regItem->getType(),
-                                     conv);
-                                 if (ok)
-                                    {
-                                    querySetData.variant.setTypeConverter(conv);
-                                    ok = respondToSet(message->from, querySetData);
-                                    delete conv;
-                                    }
-
+                                 bool ok = respondToSet(message->from, querySetData);
                                  sendMessage(newNotifySetValueSuccessMessage
                                                 (componentID,
                                                  querySetData.replyToID,
                                                  querySetData.replyID,
                                                  ok));
                                  break;}
-      case RequestSetValue:     {if (message->to == 0)   // dph fix this mess up.
-                                    {
-                                    RequestSetValueData setValueData;
-                                    messageData >> setValueData;
-                                    onRequestSetValueMessage(message->from, setValueData);
-                                    break;
-                                    }
-                                 else
-                                    {
-                                    QuerySetValueData querySetData;
-                                    messageData >> querySetData.ID;
-                                    messageData >> querySetData.variant;
-                                    querySetData.replyToID = message->from;
-                                    querySetData.replyID = querySetData.ID;
-                                    TypeConverter* conv;
-                                    RegistrationItem* regItem = (RegistrationItem*) querySetData.ID;
-                                    bool ok = getTypeConverter
-                                       (this,
-                                        regItem->getName(),
-                                        querySetData.variant.getType(),
-                                        regItem->getType(),
-                                        conv);
-                                    if (ok)
-                                       {
-
-                                       querySetData.variant.setTypeConverter(conv);
-                                       ok = respondToSet(message->from, querySetData);
-                                       delete conv;
-                                       }
-
-                                    sendMessage(newNotifySetValueSuccessMessage
-                                                   (componentID,
-                                                    querySetData.replyToID,
-                                                    querySetData.replyID,
-                                                    ok));
-                                    break;
-                                    }
-                                 }
+      case NotifySetValueSuccess:{NotifySetValueSuccessData notifySetValueSuccess;
+                                 messageData >> notifySetValueSuccess;
+                                 setVariableSuccess = notifySetValueSuccess.success;
+                                 break;}
       case QueryInfo:           {QueryInfoData queryInfo;
                                  messageData >> queryInfo;
                                  onQueryInfoMessage(message->from, message->messageID, queryInfo);
@@ -218,10 +174,6 @@ void Component::messageToLogic(Message* message)
                                  messageData >> returnData;
                                  ((RegistrationItem*) returnData.ID)->addReturnValueMessage(message->from,
                                                                                      returnData);
-                                 break;}
-      case NotifySetValueSuccess:{NotifySetValueSuccessData notifySetValueSuccess;
-                                 messageData >> notifySetValueSuccess;
-                                 setVariableSuccess = notifySetValueSuccess.success;
                                  break;}
       case NotifyTermination:   {notifyTermination();
                                  break;}
@@ -259,11 +211,24 @@ void Component::messageToLogic(Message* message)
                                  messageData >> completeData;
                                  onCompleteMessage(completeData);
                                  break;}
-      case ApsimQuery:          {ApsimQueryData apsimQueryData;
-                                 messageData >> apsimQueryData;
-                                 onApsimQuery(apsimQueryData);
+      case ApsimGetQuery:       {ApsimGetQueryData apsimGetQueryData;
+                                 messageData >> apsimGetQueryData;
+                                 onApsimGetQuery(apsimGetQueryData);
                                  break;}
-
+      case ApsimSetQuery:       {ApsimSetQueryData apsimSetQueryData;
+                                 messageData >> apsimSetQueryData;
+                                 bool ok = onApsimSetQuery(apsimSetQueryData);
+                                 if (ok)
+                                    {
+                                    sendMessage(newNotifySetValueSuccessMessage
+                                                   (componentID,
+                                                    apsimSetQueryData.replyToID,
+                                                    apsimSetQueryData.replyID,
+                                                    ok));
+                                    addRegistration(protocol::respondToSetReg,
+                                                    apsimSetQueryData.name, " ");
+                                    }
+                                 break;}
       }
 
    // if acknowledgement is required, then give it.
@@ -362,7 +327,7 @@ unsigned Component::addRegistration(RegistrationType kind,
    {
    // If this is a getVariableReg then see if we have already registered this name.
    // If so then return the registration id.
-   if (kind == getVariableReg)
+   if (kind == getVariableReg || kind == setVariableReg)
       {
       unsigned id = getRegistrationID(kind, name);
       if (id != 0)

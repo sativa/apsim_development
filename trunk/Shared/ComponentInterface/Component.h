@@ -146,7 +146,8 @@ class Component
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, QueryInfoData& queryInfo) { }
       virtual void onQueryValueMessage(unsigned int fromID, QueryValueData& queryData);
       virtual void onCompleteMessage(CompleteData& completeData);
-      virtual void onApsimQuery(ApsimQueryData& apsimQueryData) { }
+      virtual void onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData) { }
+      virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
 
       // Send a message
       void sendMessage(Message* message)

@@ -68,6 +68,8 @@ class Type
          }
       FString& getTypeString(void) {return type;}
 
+      static FString codeToString(DataTypeCode code);
+
    private:
       FString type;
       DataTypeCode code;

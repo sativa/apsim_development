@@ -3,7 +3,6 @@
 
 #include "message.h"
 #include "variant.h"
-
 namespace protocol {
 
 // --------------- NO DATA structure ------------
@@ -507,24 +506,51 @@ inline Message* newTerminateSimulationMessage(unsigned int from,
    return constructMessage(TerminateSimulation, from, to, false, 0);
    }
 
-// -------------- ApsimQuery -------------
-struct ApsimQueryData
+// -------------- ApsimGetQuery -------------
+struct ApsimGetQueryData
    {
    FString name;
    };
-inline MessageData& operator>> (MessageData& messageData, ApsimQueryData& data)
+inline MessageData& operator>> (MessageData& messageData, ApsimGetQueryData& data)
    {
    messageData >> data.name;
    return messageData;
    }
-inline Message* newApsimQueryMessage(unsigned int from,
-                                     unsigned int to,
-                                     const FString& name)
+inline Message* newApsimGetQueryMessage(unsigned int from,
+                                        unsigned int to,
+                                        const FString& name)
    {
-   Message* msg = constructMessage(ApsimQuery, from, to, false,
+   Message* msg = constructMessage(ApsimGetQuery, from, to, false,
                                    memorySize(name));
    MessageData messageData(msg);
    messageData << name;
+   return msg;
+   }
+// -------------- ApsimSetQuery -------------
+struct ApsimSetQueryData
+   {
+   FString name;
+   unsigned int replyToID;
+   unsigned int replyID;
+   Variant variant;
+   };
+inline MessageData& operator>> (MessageData& messageData, ApsimSetQueryData& data)
+   {
+   messageData >> data.name >> data.replyToID >> data.replyID >> data.variant;
+   return messageData;
+   }
+inline Message* newApsimSetQueryMessage(unsigned int from,
+                                        unsigned int to,
+                                        const FString& regName,
+                                        unsigned replyToID,
+                                        unsigned replyID,
+                                        Variant& variant)
+   {
+   Message* msg = constructMessage(ApsimSetQuery, from, to, false,
+                                   memorySize(regName) + memorySize(replyToID) +
+                                   memorySize(replyID) + memorySize(variant));
+   MessageData messageData(msg);
+   messageData << regName << replyToID << replyID << variant;
    return msg;
    }
 

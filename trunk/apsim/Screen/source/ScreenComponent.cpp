@@ -121,7 +121,7 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       if (startDateJDay == 0)
          getStartEndDate();
 
-      protocol::ApsimVariant apsimVariant(variant);
+      protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
       apsimVariant.get("jday", protocol::DTdouble, jday);
       currentDate = jday;

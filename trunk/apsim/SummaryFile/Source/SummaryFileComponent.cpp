@@ -91,7 +91,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
    {
    if (eventID == tickID)
       {
-      protocol::ApsimVariant apsimVariant(variant);
+      protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
       apsimVariant.get("jday", protocol::DTdouble, jday);
       currentDate = jday;

@@ -62,6 +62,9 @@ class Coordinator : public protocol::Component
       void resolveRegistration(PMRegistrationItem* reg);
       void fixupRegistrationIDs(const protocol::RegistrationType& type);
       void fixupRegistrationID(PMRegistrationItem& registrationItem);
-      void pollComponentsForVariable(PMRegistrationItem& registrationItem);
+      void pollComponentsForGetVariable(PMRegistrationItem& registrationItem);
+      void pollComponentsForSetVariable(PMRegistrationItem& registrationItem,
+                                        unsigned fromID,
+                                        protocol::RequestSetValueData& setValueData);
    };
 #endif

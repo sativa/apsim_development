@@ -21,11 +21,15 @@ class Variant
    {
    public:
       Variant(void) : newDataPtr(NULL), typeConverter(NULL) { }
+
+      // this constructor is needed for storing a copy of a variant in a
+      // variants class.
       Variant(const Variant& from)
          : typeConverter(NULL)
          {
          copyFrom(from);
          }
+
       ~Variant(void) {delete [] newDataPtr;}
       Variant& operator= (const Variant& rhs)
          {
@@ -33,7 +37,8 @@ class Variant
          copyFrom(rhs);
          return *this;
          }
-      bool isValid(void) {return ourMessageData.isValid();}
+
+      bool isValid(void) {return messageData.isValid();}
       Type& getType(void) {return type;}
       unsigned getFromId(void) {return fromId;}
       void setFromId(unsigned id) {fromId = id;}
@@ -42,61 +47,68 @@ class Variant
       void unpack(T& obj)
          {
          if (typeConverter != NULL)
-            typeConverter->getValue(ourMessageData, obj);
+            typeConverter->getValue(messageData, obj);
 
          else
-            ourMessageData >> obj;
+            messageData >> obj;
          }
       void setTypeConverter(TypeConverter* typeconv)
          {
          typeConverter = typeconv;
          }
 
-      void copyTo(MessageData& messageData) const
+      void aliasTo(Variant& variant)
          {
-         messageData << type;
-         // just copy the data part of the variable
-         messageData.copyFrom(ourMessageData.ptr(),
-                              ourMessageData.dataSize()-memorySize(type));
+         messageData = MessageData(variant.messageData.ptr(), variant.messageData.bytesUnRead());
          }
-      void initFrom(MessageData& messageData)
+      void aliasTo(MessageData& fromMessageData)
          {
-         ourMessageData = messageData.newMessageDataFromCurrent();
-         ourMessageData >> type;
+         // extract the type and simply alias to the remaining unread bytes.
+         fromMessageData >> type;
+         messageData = MessageData(fromMessageData.ptr(), fromMessageData.bytesUnRead());
          }
-      const MessageData& getMessageData(void) const {return ourMessageData;}
+      void writeTo(MessageData& toMessageData) const
+         {
+         // write type and then the data.
+         toMessageData << type;
+         toMessageData.copyFrom(messageData.start(), messageData.totalBytes());
+         }
+      unsigned size(void) const {return memorySize(type) + messageData.totalBytes();}
+      const MessageData& getMessageData(void) const {return messageData;}
 
    private:
       char* newDataPtr;
       Type type;
-      MessageData ourMessageData;
+      MessageData messageData;
       TypeConverter* typeConverter;
       unsigned fromId;
 
       void copyFrom(const Variant& from)
          {
-         newDataPtr = new char[from.ourMessageData.dataSize()];
-         from.ourMessageData.copyTo(newDataPtr);
-         ourMessageData = MessageData(newDataPtr, from.ourMessageData.dataSize());
-         ourMessageData >> type;
+         newDataPtr = new char[from.messageData.totalBytes()+1];
+         messageData = MessageData(newDataPtr, from.messageData.totalBytes());
+         messageData.copyFrom(from.messageData.start(), from.messageData.totalBytes());
+         messageData.reset();
+         type = from.type;
+         typeConverter = NULL;
          }
 
    };
 
 inline MessageData& operator>> (MessageData& messageData, Variant& value)
    {
-   value.initFrom(messageData);
+   value.aliasTo(messageData);
    return messageData;
    }
 
 inline MessageData& operator<< (MessageData& messageData, const Variant& value)
    {
-   value.copyTo(messageData);
+   value.writeTo(messageData);
    return messageData;
    }
 inline unsigned int memorySize(Variant& value)
    {
-   return value.getMessageData().dataSize();
+   return value.size();
    }
 
 } // namespace protocol

@@ -445,7 +445,7 @@ void Coordinator::onGetValueMessage(unsigned int fromID, GetValueData& getValueD
       // apsim hack to poll modules for variables.  This is because we haven't
       // yet got all the .interface files up to date.
       if (registrationItem.interestedItems.size() == 0)
-         pollComponentsForVariable(registrationItem);
+         pollComponentsForGetVariable(registrationItem);
 
       for (PMRegistrationItem::InterestedItems::iterator
                                      interestI = registrationItem.interestedItems.begin();
@@ -528,7 +528,13 @@ void Coordinator::onRequestSetValueMessage(unsigned int fromID,
    {
    ComponentAlias::Registrations& registrations = *components[fromID]->getRegistrationsForKind(protocol::setVariableReg);
    PMRegistrationItem& registrationItem = *registrations[setValueData.ID];
-   if (registrationItem.interestedItems.size() == 1)
+
+   // apsim hack to poll modules for variables.  This is because we haven't
+   // yet got all the .interface files up to date.
+   if (registrationItem.interestedItems.size() == 0)
+      pollComponentsForSetVariable(registrationItem, fromID, setValueData);
+
+   else if (registrationItem.interestedItems.size() == 1)
       sendMessage(newQuerySetValueMessage(componentID,
                                           registrationItem.interestedItems[0]->componentID,
                                           registrationItem.interestedItems[0]->registrationID,
@@ -723,18 +729,18 @@ void Coordinator::fixupRegistrationID(PMRegistrationItem& registrationItem)
       }
    }
 // ------------------------------------------------------------------
-// apsim hack to poll modules for variables.  This is because we haven't
+// apsim hack to poll modules for gettable variables.  This is because we haven't
 // yet got all the .interface files up to date.
 // ------------------------------------------------------------------
-void Coordinator::pollComponentsForVariable(PMRegistrationItem& registrationItem)
+void Coordinator::pollComponentsForGetVariable(PMRegistrationItem& registrationItem)
    {
    static unsigned lastModuleID = 0;
 
    // try the last responding module first
    if (lastModuleID != NULL)
-      sendMessage(newApsimQueryMessage(componentID,
-                                       lastModuleID,
-                                       registrationItem.getName().c_str()));
+      sendMessage(newApsimGetQueryMessage(componentID,
+                                          lastModuleID,
+                                          registrationItem.getName().c_str()));
 
    // if we still don't have any registrations then loop through all modules.
    if (registrationItem.interestedItems.size() == 0)
@@ -743,8 +749,49 @@ void Coordinator::pollComponentsForVariable(PMRegistrationItem& registrationItem
                                 i != components.end();
                                 i++)
          {
-         sendMessage(newApsimQueryMessage(componentID, i->second->ID,
-                                          registrationItem.getName().c_str()));
+         sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
+                                             registrationItem.getName().c_str()));
+         if (registrationItem.interestedItems.size() != 0)
+            {
+            lastModuleID = i->second->ID;
+            return;
+            }
+         }
+      }
+   }
+
+// ------------------------------------------------------------------
+// apsim hack to poll modules for settable variables.  This is because we haven't
+// yet got all the .interface files up to date.
+// ------------------------------------------------------------------
+void Coordinator::pollComponentsForSetVariable(PMRegistrationItem& registrationItem,
+                                               unsigned fromID,
+                                               RequestSetValueData& setValueData)
+   {
+   static unsigned lastModuleID = 0;
+
+   // try the last responding module first
+   if (lastModuleID != NULL)
+      sendMessage(newApsimSetQueryMessage(componentID,
+                                          lastModuleID,
+                                          registrationItem.getName().c_str(),
+                                          fromID,
+                                          setValueData.ID,
+                                          setValueData.variant));
+
+   // if we still don't have any registrations then loop through all modules.
+   if (registrationItem.interestedItems.size() == 0)
+      {
+      for (Components::iterator i = components.begin();
+                                i != components.end();
+                                i++)
+         {
+         sendMessage(newApsimSetQueryMessage(componentID,
+                                             i->second->ID,
+                                             registrationItem.getName().c_str(),
+                                             fromID,
+                                             setValueData.ID,
+                                             setValueData.variant));
          if (registrationItem.interestedItems.size() != 0)
             {
             lastModuleID = i->second->ID;

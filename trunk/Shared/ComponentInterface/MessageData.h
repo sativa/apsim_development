@@ -3,6 +3,7 @@
 #define MessageDataH
 #include <ApsimShared\fstring.h>
 #include "message.h"
+//#include "debughook.h"
 
 namespace protocol {
 
@@ -55,28 +56,35 @@ class MessageData
    private:
       const char* startBuffer;
       char* currentPtr;
-      unsigned int numBytesData;
+      unsigned int bufferSize;
    public:
-      MessageData(void) : startBuffer(NULL), currentPtr(NULL) { }
+      MessageData(void) : startBuffer(NULL), currentPtr(NULL), bufferSize(0) { }
       MessageData(char* dataPtr, unsigned int numBytes)
          : startBuffer((char*)dataPtr),
            currentPtr(dataPtr),
-           numBytesData(numBytes)
+           bufferSize(numBytes)
          {
          }
       MessageData(Message* msg)
          : startBuffer((char*)msg->dataPtr),
            currentPtr(msg->dataPtr),
-           numBytesData(msg->nDataBytes)
+           bufferSize(msg->nDataBytes)
          {
          }
 
       void reset(void) {currentPtr = (char*)startBuffer;}
-      bool isValid(void) const {return (startBuffer != NULL && currentPtr != NULL
-                                        && (unsigned)(currentPtr-startBuffer) < numBytesData);}
+      bool isValid(void) const
+         {
+         return (startBuffer != NULL && currentPtr != NULL
+                 && bytesRead() < totalBytes());}
       char* ptr(void) const {return currentPtr;}
+      const char* start(void) const {return startBuffer;}
       void seek(char* ptr) {currentPtr = ptr;}
-      unsigned int dataSize(void) const {return numBytesData;}
+      unsigned totalBytes(void)  const {return bufferSize;}
+      unsigned bytesRead(void)   const {return currentPtr-startBuffer;}
+      unsigned bytesUnRead(void) const
+         {return totalBytes()-bytesRead();}
+
       void movePtrBy(unsigned int numBytes)
          {
          currentPtr += numBytes;
@@ -85,20 +93,6 @@ class MessageData
          {
          memcpy(currentPtr, from, numBytes);
          currentPtr += numBytes;
-         }
-      void copyFrom(const MessageData& from)
-         {
-         memcpy(currentPtr, from.startBuffer, from.numBytesData);
-         currentPtr += from.numBytesData;
-         }
-      void copyTo(char* destination) const
-         {
-         // assumes that destination is big enough to hold all data.
-         memcpy(destination, startBuffer, numBytesData);
-         }
-      MessageData newMessageDataFromCurrent(void)
-         {
-         return MessageData(currentPtr, numBytesData - (currentPtr - startBuffer));
          }
 
       // boolean
@@ -272,6 +266,13 @@ inline MessageData& operator<< (MessageData& messageData, const FStrings& string
       messageData << strings.getString(i);
 
    return messageData;
+   }
+inline unsigned int memorySize(const FStrings& strings)
+   {
+   unsigned size = 4;
+   for (unsigned int i = 0; i < strings.getNumElements(); i++)
+      size += memorySize(strings.getString(i));
+   return size;
    }
 
 // restore the warnings about "Functions containing for are not expanded inline.

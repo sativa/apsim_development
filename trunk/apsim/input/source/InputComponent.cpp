@@ -357,7 +357,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    {
    if (eventID == tickID)
       {
-      protocol::ApsimVariant apsimVariant(variant);
+      protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
       apsimVariant.get("jday", protocol::DTdouble, jday);
 
@@ -413,7 +413,7 @@ inline unsigned int memorySize(const NewMet& newmet)
 }; // protocol
 void InputComponent::publishNewMetEvent(void)
    {
-   protocol::ApsimVariant variant;
+   protocol::ApsimVariant variant(this);
    float maxt, mint, radn, rain, vp;
    getVariableValue("maxt", maxt);
    getVariableValue("mint", mint);

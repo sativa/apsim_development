@@ -28,7 +28,6 @@ enum MessageType
    PublishEvent = 18,
    QueryInfo = 19,
    QueryType = 20,
-   QuerySetValue = 40,
    QueryValue = 21,
    Register = 22,
    ReinstateCheckpoint = 23,
@@ -40,7 +39,9 @@ enum MessageType
    ReturnType = 29,
    ReturnValue = 30,
    TerminateSimulation = 31,
-   ApsimQuery = 41
+   QuerySetValue = 40,
+   ApsimGetQuery = 41,
+   ApsimSetQuery = 42
    };
 
 
