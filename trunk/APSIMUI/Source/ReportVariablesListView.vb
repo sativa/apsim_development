@@ -270,10 +270,10 @@ Public Class ReportVariablesListView
             AddHandler row.Cells(2).EnteringEdit, AddressOf Me.CellEnteringEdit
             AddHandler row.Cells(3).EnteringEdit, AddressOf Me.CellEnteringEdit
             AddHandler row.Cells(4).EnteringEdit, AddressOf Me.CellEnteringEdit
+            row.EndEdit()
         Next
 
         AddBlankRow()
-        row = VariablesList.DataRows.AddNew()   ' Not sure why this extra row is needed.
         InFill = False
     End Sub
 
@@ -297,6 +297,7 @@ Public Class ReportVariablesListView
             AddHandler row.Cells(2).EnteringEdit, AddressOf Me.CellEnteringEdit
             AddHandler row.Cells(3).EnteringEdit, AddressOf Me.CellEnteringEdit
             AddHandler row.Cells(4).EnteringEdit, AddressOf Me.CellEnteringEdit
+            row.EndEdit()
         End If
     End Sub
 
@@ -390,7 +391,7 @@ Public Class ReportVariablesListView
             ' The mouse has moved!
             If (Math.Abs(m_mouseLocation.X - e.X) > 3 Or Math.Abs(m_mouseLocation.Y - e.Y) > 3) Then
                 Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-                Dim RowNumber As Integer = Row.Index + 1
+                Dim RowNumber As Integer = Row.Index
 
                 Dim VariablesNode As APSIMData = MyData.Child("variables")
                 Dim DataString As String = VariablesNode.Children()(RowNumber).XML
@@ -430,7 +431,7 @@ Public Class ReportVariablesListView
     Private Sub VariablesList_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles VariablesList.DragDrop
         Dim DataCell As Xceed.Grid.DataCell = VariablesList.GetVisualGridElementAtPoint(VariablesList.PointToClient(New Point(e.X, e.Y)))
         Dim DataRow As Xceed.Grid.DataRow = DataCell.ParentRow
-        Dim RowNumber As Integer = DataRow.Index + 1
+        Dim RowNumber As Integer = DataRow.Index
 
         Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
         Dim NewData As New APSIMData(NewDataString)
@@ -445,7 +446,7 @@ Public Class ReportVariablesListView
             End If
             If Not m_mouseLocation.IsEmpty() Then
                 Dim Row As Xceed.Grid.DataRow = VariablesList.CurrentCell.ParentRow
-                Dim SourceRowNumber As Integer = Row.Index + 1
+                Dim SourceRowNumber As Integer = Row.Index
                 Dim ChildToDelete As String = VariablesNode.Children()(SourceRowNumber).Name
                 VariablesNode.Delete(ChildToDelete)
                 m_mouseLocation = Point.Empty
