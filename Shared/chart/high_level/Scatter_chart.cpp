@@ -32,7 +32,9 @@ void Scatter_chart::Add_xy (const char* X_field_name,
                             X_axis_link_enum X_axis_link,
                             Y_axis_link_enum Y_axis_link,
                             Format_base* Format_ptr,
-                            const char* Title)
+                            const char* Title,
+                            bool Accumulate_x,
+                            bool Accumulate_y)
    {
    // assign a default scatter format if caller didn't supply one.
    Format_base* New_format;
@@ -56,6 +58,8 @@ void Scatter_chart::Add_xy (const char* X_field_name,
                 X_axis_link,
                 Y_axis_link,
                 New_format,
-                New_title.c_str());
+                New_title.c_str(),
+                Accumulate_x,
+                Accumulate_y);
    }
 
