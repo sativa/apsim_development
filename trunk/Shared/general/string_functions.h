@@ -530,13 +530,15 @@ void getAttributeNameAndValue(const std::string& line,
 template <class CT>
 void getAttributesFromLine(const std::string& line, CT& names, CT& values)
    {
-   while (unsigned posEquals = line.find("=", posEquals) != std::string::npos)
+   unsigned posEquals = line.find("=");
+   while (posEquals != std::string::npos)
       {
       std::string name;
       std::string value;
       getAttributeNameAndValue(line, posEquals, name, value);
       names.push_back(name);
       values.push_back(value);
+      posEquals = line.find("=", posEquals+1);
       }
    }
 
