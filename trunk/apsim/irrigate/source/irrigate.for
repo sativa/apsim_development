@@ -124,6 +124,7 @@
       include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
+      include 'write.pub'
  
 *+  Purpose
 *      This routine responds to an irrigate message from another
@@ -139,6 +140,7 @@
 *                 removed data string from argument
 *                 implemented postbox method for data transfer
 *     110996 nih  added increment for g_irr_applied
+*      160399 nih  added irrigation allocation
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -173,6 +175,8 @@
      :                   , 'Irrigation amount not specified correctly')
       endif
  
+      call irrigate_check_allocation(amount)
+
       Call collect_real_var_optional (
      :                       'duration'
      :                     , '(min)'
@@ -369,6 +373,14 @@
      :       , p_asw_depth
       endif
       call write_String (LU_Summary_file, string)
+
+      if (p_irrigation_allocation .eq. 'on') then
+         call write_String (LU_Summary_file,
+     :        '      Irrigation Allocation Budget (Enabled)')
+      else
+         call write_String (LU_Summary_file,
+     :        '      Irrigation Allocation Budget (Disabled)')
+      endif
  
       string = '     -----------------------------------------------'
       call write_string (lu_scr_sum, string)
@@ -596,7 +608,38 @@
          endif
       else
       endif
- 
+
+      call read_char_var_optional (
+     :           section_name            ! Section header
+     :         , 'irrigation_allocation' ! Keyword
+     :         , '()'                    ! Units
+     :         , p_irrigation_allocation ! Variable
+     :         , numvals)                ! Number of values returned
+
+      if (p_irrigation_allocation .eq. 'on') then
+
+         call read_real_var (
+     :           section_name         ! Section header
+     :         , 'allocation'         ! Keyword
+     :         , '(mm)'               ! Units
+     :         , g_allocation         ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 10000.)              ! Upper Limit for bound checking
+
+         if (p_manual_irrigation.eq.'on') then
+            call fatal_error (Err_user,
+     :         ' Cannot have irrigation allocation enabled '//
+     :         ' when using manual irrigation')            
+         else
+         endif
+
+      else
+         g_allocation = 0.0
+
+      endif
+
+
       call pop_routine (my_name)
       return
       end
@@ -634,6 +677,8 @@
       g_year = 0
       g_day = 0
       g_irrigation_applied = 0.0
+      g_allocation = 0.0
+      g_carry_over = 0.0
  
       call fill_integer_array (p_day, 0, max_irrigs)
       call fill_integer_array (p_year, 0, max_irrigs)
@@ -650,6 +695,7 @@
  
       p_automatic_irrigation = 'off'
       p_manual_irrigation = 'off'
+      p_irrigation_allocation = 'off'
       p_asw_depth = -1.0
       p_crit_fr_asw = -1.0
       p_default_time = ' '
@@ -813,6 +859,18 @@
      :                variable_name           ! variable name
      :              , '(mm)'                  ! units
      :              , p_asw_depth)            ! array
+
+      elseif (Variable_name .eq. 'allocation') then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(mm)'                  ! units
+     :              , g_allocation)           ! array
+
+      elseif (Variable_name .eq. 'carry_over') then
+         call respond2get_real_var (
+     :                variable_name           ! variable name
+     :              , '(mm)'                  ! units
+     :              , g_carry_over)           ! array
  
       else
          call Message_unused ()
@@ -876,6 +934,10 @@
      :         'Cannot initiate manual irrigation because its'//
      :         ' configuration parameters are not set.')
  
+            elseif (p_irrigation_allocation .eq. 'on') then
+               call fatal_error (Err_user,
+     :         'Cannot initiate manual irrigation'//
+     :         ' when irrigation allocation is being used.')
             else
             endif
          else
@@ -930,6 +992,27 @@
      :              , 1000.)            ! upper limit for bounds checking
 
          call irrigate_set_amount(amount)
+
+      elseif (Variable_name .eq. 'allocation') then
+ 
+         if (p_irrigation_allocation .eq. 'on') then
+
+            g_carry_over = g_allocation
+
+            call collect_real_var (
+     :                variable_name     ! array name
+     :              , '(mm)'            ! units
+     :              , g_allocation      ! array
+     :              , numvals           ! number of elements returned
+     :              , 0.0               ! lower limit for bounds checking
+     :              , 10000.)           ! upper limit for bounds checking
+
+         else
+               call fatal_error (Err_user,
+     :            'Cannot set allocation amount'//
+     :            ' when irrigation allocation is not being used.')
+
+         endif
 
       else
             ! Don't know this variable name
@@ -1106,6 +1189,7 @@
       include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
+      include 'write.pub'
  
 *+  Purpose
 *       Automatic irrigation management.
@@ -1119,6 +1203,7 @@
 *      021195 jngh changed message_pass_to_module to message_send_immediate
 *      060696 jngh implemented postbox method for data transfer
 *      110996 nih  added increment for g_irr_applied
+*      160399 nih  added irrigation allocation
  
 *+  Constant Values
       character  my_name*(*)           ! name of this module
@@ -1137,7 +1222,7 @@
                                        ! specified depth (mm)
       real       excess_fr             ! fraction of excess depth below specifie
                                        ! in last layer (mm)
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
@@ -1169,6 +1254,8 @@ cnh note that results may be strange if swdep < ll15
       if (avail_fr.lt.p_crit_fr_asw) then
          amount = divide (swdef, effirr, 0.0)
  
+         call irrigate_check_allocation(amount)
+
          call new_postbox ()
  
             ! send message regardless of fatal error - will stop anyway
@@ -1238,6 +1325,7 @@ cnh note that results may be strange if swdep < ll15
       call push_routine (my_name)
  
       g_irrigation_applied = 0.0
+      g_carry_over = 0.0
  
       call pop_routine (my_name)
       return
@@ -1312,6 +1400,7 @@ cnh note that results may be strange if swdep < ll15
       include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
+      include 'write.pub'
 
 *+  Sub-Program Arguments
       real amount ! (INPUT)
@@ -1324,7 +1413,8 @@ cnh note that results may be strange if swdep < ll15
  
 *+  Changes
 *     091298 nih  created
- 
+*     160399 nih  added irrigation allocation
+  
 *+  Constant Values
       character  my_name*(*)           ! name of this procedure
       parameter (my_name = 'irrigate_set_amount')
@@ -1336,8 +1426,10 @@ cnh note that results may be strange if swdep < ll15
       call push_routine (my_name)
       if (amount.ge.0.) then
 
+         call irrigate_check_allocation(amount)
+
          actual_amount = amount * effirr
- 
+
          call new_postbox ()
  
          call post_real_var   ('amount'
@@ -1369,3 +1461,55 @@ cnh note that results may be strange if swdep < ll15
       end
   
  
+*     ===========================================================
+      subroutine irrigate_check_allocation (amount)
+*     ===========================================================
+      implicit none
+      include   'irrigate.inc'
+      include 'error.pub'
+      include 'write.pub'
+
+*+  Sub-Program Arguments
+      real amount
+ 
+*+  Purpose
+*     Check that an amount of irrigation meets allocation budget
+ 
+*+  Mission Statement
+*     Check amount with allocation budget
+ 
+*+  Changes
+*     <insert here>
+
+*+  Local Variables
+      character ReportString*200   ! simple reporting string
+ 
+*+  Constant Values
+      character*(*) my_name            ! name of current procedure
+      parameter (my_name = 'irrigate_check_allocation')
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+      if (p_irrigation_allocation.eq.'on') then
+
+         if (amount.gt.g_allocation) then
+
+            write(ReportString,'(1x,A,f6.2,A,f6.2,A)')
+     :       ' Irrigation of ',amount
+     :       ,' mm reduced to remaining allocation of '
+     :       ,g_allocation, ' mm'
+
+            call Report_Event (ReportString)
+            amount = g_allocation
+         else
+         endif
+
+         g_allocation = g_allocation - amount
+
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
