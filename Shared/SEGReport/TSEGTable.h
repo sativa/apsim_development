@@ -37,6 +37,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       TStringList* subscriptionComponents;
       bool addToToolbar;
       AnsiString sortFieldNames;
+      bool inForceRefresh;
 
       typedef std::vector<TDataSetNotifyEvent> SubscriptionEvents;
       SubscriptionEvents subscriptionEvents;

@@ -25,6 +25,7 @@ __fastcall TSEGTable::TSEGTable(TComponent* Owner)
    source = NULL;
    subscriptionComponents = new TStringList;
    addToToolbar = false;
+   inForceRefresh = false;
    }
 // ------------------------------------------------------------------
 // destructor
@@ -72,7 +73,6 @@ void TSEGTable::refresh (void)
 // ------------------------------------------------------------------
 void TSEGTable::forceRefresh(bool displayError)
    {
-   static bool inForceRefresh = false;
    if (!ComponentState.Contains(csLoading) && !inForceRefresh)
       {
       inForceRefresh = true;
