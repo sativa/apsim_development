@@ -75,7 +75,8 @@ void __fastcall TRunForm::Page2Show(TObject *Sender)
       converter.convert(controlFileName);
       Path log(controlFileName);
       log.Set_extension(".conversions");
-      StatusList->Items->LoadFromFile(log.Get_path().c_str());
+      if (FileExists(log.Get_path().c_str()))
+         StatusList->Items->LoadFromFile(log.Get_path().c_str());
       }
    catch (const runtime_error& error)
       {
