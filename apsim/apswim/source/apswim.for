@@ -15,11 +15,13 @@
 !- Implementation Section ----------------------------------
 
       if (doAllocate) then
+         allocate(id)
          allocate(g)
          allocate(p)
          allocate(c)
 
       else
+         deallocate(id)
          deallocate(g)
          deallocate(p)
          deallocate(c)
@@ -43,7 +45,7 @@
 
 !- Implementation Section ----------------------------------
 
-      call do_registrations()
+      call do_registrations(id)
 
       call apswim_zero_module_links()
       call apswim_zero_variables()
@@ -118,22 +120,22 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID.eq.TickId) then
+      if (eventID.eq.id%Tick) then
          call apswim_OnTick(variant)
 
-      elseif (eventID .eq. DoSoilWaterBalanceId) then
+      elseif (eventID .eq. id%DoSoilWaterBalance) then
          call apswim_DoSoilWaterBalance ()
 
-      elseif (eventID .eq. SolutesChangedId) then
+      elseif (eventID .eq. id%SolutesChanged) then
          call apswim_OnSolutesChanged (variant)
 
-      else if (eventID .eq. CropWaterDemandCalculatedId) then
+      else if (eventID .eq. id%CropWaterDemandCalculated) then
          call apswim_OnCropWaterDemandCalculated (fromID,variant)
 
-      else if (eventID .eq. SurfaceWaterChangedId) then
+      else if (eventID .eq. id%SurfaceWaterChanged) then
          call apswim_OnSurfaceWaterChanged (variant)
 
-      else if (eventID .eq. EosCalculatedId) then
+      else if (eventID .eq. id%EosCalculated) then
          call apswim_OnEosCalculated (variant)
 
       else
@@ -161,13 +163,13 @@
 
 !- Implementation Section ----------------------------------
 
-      if (methodID .eq. ResetId) then
+      if (methodID .eq. id%Reset) then
          call apswim_reset ()
 
-      else if (methodID .eq. SumReportId) then
+      else if (methodID .eq. id%SumReport) then
          call apswim_sum_report ()
 
-      else if (methodID .eq. tillageId) then
+      else if (methodID .eq. id%tillage) then
          call apswim_tillage ()
 
       else
@@ -256,19 +258,19 @@
 
 *- Implementation Section ----------------------------------
 
-      if (Variable_info%id .eq. dlayerId) then
+      if (Variable_info%id .eq. id%dlayer) then
          call return_dlayer (Variable_info,
      :            real(g%dlayer),
      :            p%n+1)
-      else if (Variable_info%id .eq. bdId) then
+      else if (Variable_info%id .eq. id%bd) then
          call return_bd (Variable_info,
      :            real(p%rhob),
      :            p%n+1)
-      else if (Variable_info%id .eq. swId) then
+      else if (Variable_info%id .eq. id%sw) then
          call return_sw (Variable_info,
      :            real(g%th),
      :            p%n+1)
-      else if (Variable_info%id .eq. sw_depId) then
+      else if (Variable_info%id .eq. id%sw_dep) then
          do 11 node=0,p%n
             dummy(node) = g%th(node)*g%dlayer(node)
    11    continue
@@ -276,51 +278,51 @@
      :            real(dummy),
      :            p%n+1)
 
-      else if (Variable_info%id .eq. ll15Id) then
+      else if (Variable_info%id .eq. id%ll15) then
          call return_ll15 (Variable_info,
      :            real(g%LL15),
      :            p%n+1)
-      else if (Variable_info%id .eq. ll15_depId) then
+      else if (Variable_info%id .eq. id%ll15_dep) then
          do 12 node=0,p%n
             dummy(node) = g%LL15(node)*g%dlayer(node)
    12    continue
          call return_ll15_dep (Variable_info,
      :            real(dummy),
      :            p%n+1)
-      else if (Variable_info%id .eq. dulId) then
+      else if (Variable_info%id .eq. id%dul) then
          call return_dul (Variable_info,
      :            real(g%DUL),
      :            p%n+1)
-      else if (Variable_info%id .eq. dul_depId) then
+      else if (Variable_info%id .eq. id%dul_dep) then
          do 13 node=0,p%n
             dummy(node) = g%DUL(node)*g%dlayer(node)
    13    continue
          call return_dul_dep (Variable_info,
      :            real(dummy),
      :            p%n+1)
-      else if (Variable_info%id .eq. satId) then
+      else if (Variable_info%id .eq. id%sat) then
          call return_sat (Variable_info,
      :            real(g%SAT),
      :            p%n+1)
-      else if (Variable_info%id .eq. sat_depId) then
+      else if (Variable_info%id .eq. id%sat_dep) then
          do 14 node=0,p%n
             dummy(node) = g%SAT(node)*g%dlayer(node)
    14    continue
          call return_sat_dep (Variable_info,
      :            real(dummy),
      :            p%n+1)
-      else if (Variable_info%id .eq. wpId) then
+      else if (Variable_info%id .eq. id%wp) then
          call return_wp (Variable_info,
      :            real(g%wp))
-      else if (Variable_info%id .eq. pId) then
+      else if (Variable_info%id .eq. id%p) then
          call return_p (Variable_info,
      :            real(g%p),
      :            p%n+1)
-      else if (Variable_info%id .eq. psiId) then
+      else if (Variable_info%id .eq. id%psi) then
          call return_psi (Variable_info,
      :            g%psi,
      :            p%n+1)
-      else if ((Variable_info%id .eq. rainId).and.
+      else if ((Variable_info%id .eq. id%rain).and.
      :         (p%rainfall_source .ne. 'apsim')) then
 
          start_of_day = apswim_time (g%year,g%day,
@@ -335,11 +337,11 @@
 
          call return_daily_rain (Variable_info,
      :            real(daily_rain))
-      else if (Variable_info%id .eq. runoffId) then
+      else if (Variable_info%id .eq. id%runoff) then
          call return_runoff (Variable_info,
      :            real(g%TD_runoff))
 
-      else if (Variable_info%id .eq. infiltrationId) then
+      else if (Variable_info%id .eq. id%infiltration) then
 
          infiltration = max(0d0
      :                     ,g%TD_wflow(0) + g%TD_evap)
@@ -347,20 +349,20 @@
          call return_infiltration (Variable_info,
      :            real(infiltration))
 
-      else if (Variable_info%id .eq. esId) then
+      else if (Variable_info%id .eq. id%es) then
          call return_es (Variable_info,
      :            real(g%TD_evap))
-      else if (Variable_info%id .eq. eosId) then
+      else if (Variable_info%id .eq. id%eos) then
          call return_eos (Variable_info,
      :            real(g%TD_pevap))
 
-      else if (Variable_info%id .eq. drainId) then
+      else if (Variable_info%id .eq. id%drain) then
          call return_drain (Variable_info,
      :            real(g%TD_drain))
 
 !      else if ((Variable_info%id .eq. eoId).and.
 !     :         (p%evap_source .ne. 'apsim')) then
-      else if (Variable_info%id .eq. eoId) then
+      else if (Variable_info%id .eq. id%eo) then
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -373,18 +375,18 @@
          call return_eo (Variable_info,
      :            real(eo))
 
-      else if (Variable_info%id.eq. flowId) then
+      else if (Variable_info%id.eq. id%flow) then
          ! Flow represents flow downward out of a layer
          ! and so start at node 1 (not 0)
          call return_flow (Variable_info,
      :            real(g%TD_wflow),
      :            p%n+1)
 
-      else if (Variable_info%id .eq. salbId) then
+      else if (Variable_info%id .eq. id%salb) then
          call return_salb(Variable_info,
      :            p%salb)
 
-      else if (Variable_info%id .eq. hminId) then
+      else if (Variable_info%id .eq. id%hmin) then
          if (p%isbc.eq.2) then
             hmin_mm =g%hmin * 10d0
          else
@@ -394,32 +396,32 @@
          call return_hmin (Variable_info,
      :            real(hmin_mm))
 
-      else if (Variable_info%id .eq. hId) then
+      else if (Variable_info%id .eq. id%h) then
          h_mm = g%h * 10.d0
          call return_h (Variable_info,
      :            real(h_mm))
 
-      else if (Variable_info%id .eq. sconId) then
+      else if (Variable_info%id .eq. id%scon) then
 
          call return_scon (Variable_info,
      :            real(g%gsurf))
 
-      else if (Variable_info%id .eq. scon_minId) then
+      else if (Variable_info%id .eq. id%scon_min) then
 
          call return_scon_min (Variable_info,
      :            real(p%g0))
 
-      else if (Variable_info%id .eq. scon_maxId) then
+      else if (Variable_info%id .eq. id%scon_max) then
 
          call return_scon_max (Variable_info,
      :            real(p%g1))
 
-      else if (Variable_info%id .eq. drId) then
+      else if (Variable_info%id .eq. id%dr) then
          dr=(apswim_crain(g%t) - apswim_crain(g%t-g%dt))*10d0
          call return_dr (Variable_info,
      :            real(dr))
 
-      else if (Variable_info%id .eq. dtId) then
+      else if (Variable_info%id .eq. id%dt) then
          call return_dt (Variable_info,
      :            real(g%dt*60d0))
 
@@ -468,17 +470,17 @@
 
 *- Implementation Section ----------------------------------
 
-      if (VariableID .eq. swId) then
+      if (VariableID .eq. id%sw) then
 
          call Unpack_sw (Variant, theta, numvals)
          call apswim_reset_water_balance (1, dble(theta))
 
-      else if (VariableID .eq. psiId) then
+      else if (VariableID .eq. id%psi) then
 
          call Unpack_psi (Variant, suction, numvals)
          call apswim_reset_water_balance (2,suction)
 
-      elseif (VariableID .eq. sconId) then
+      elseif (VariableID .eq. id%scon) then
          call Unpack_scon (Variant, temp)
          g%gsurf = temp
          if ((g%gsurf.gt.p%g1).or.(g%gsurf.lt.p%g0)) then
@@ -489,7 +491,7 @@
             ! it is OK - keep going
          endif
 
-      elseif (VariableID .eq. bbc_potentialId) then
+      elseif (VariableID .eq. id%bbc_potential) then
 
          call Unpack_bbc_potential (Variant, p%constant_potential)
          if (p%ibbc.ne.1) then
@@ -498,7 +500,7 @@
      :         ('Bottom boundary condition now constant potential')
          endif
 
-      elseif (VariableID .eq. bbc_gradientId) then
+      elseif (VariableID .eq. id%bbc_gradient) then
 
          call Unpack_bbc_gradient (Variant, p%constant_gradient)
          if (p%ibbc.ne.0) then
@@ -635,8 +637,8 @@
 
 ! ------------ GET CURRENT TIME ---------------------------
 
-      found = get_day (dayId, g%day)
-      found = get_year (yearId, g%year)
+      found = get_day (id%day, g%day)
+      found = get_year (id%year, g%year)
 
       g%apsim_time = '00:00' ! assume init at start of day
 
@@ -1216,9 +1218,9 @@
 
 *- Implementation Section ----------------------------------
 
-      found = get_radn(radnId, g%radn)
-      found = get_maxt (maxtId,g%maxt)
-      found = get_mint (mintId, g%mint)
+      found = get_radn(id%radn, g%radn)
+      found = get_maxt (id%maxt,g%maxt)
+      found = get_mint (id%mint, g%mint)
 
       if (p%rainfall_source .eq. 'apsim') then
          call apswim_get_rain_variables ()
@@ -4168,7 +4170,7 @@ cnh    character string_concat*(strsize)      ! function
 *- Implementation Section ----------------------------------
 
 
-      found = get_cover_tot_sum (cover_tot_sumId, g%crop_cover)
+      found = get_cover_tot_sum (id%cover_tot_sum, g%crop_cover)
 
       return
       end
@@ -4357,14 +4359,14 @@ cnh    character string_concat*(strsize)      ! function
 
 *- Implementation Section ----------------------------------
 
-      found = get_rain (rainId, amount)
-      found = get_rain_time (rain_timeId, time)
+      found = get_rain (id%rain, amount)
+      found = get_rain_time (id%rain_time, time)
 
-      found = get_rain_durn (rain_durnId, duration, .true.)
+      found = get_rain_durn (id%rain_durn, duration, .true.)
 
       if (.not.found) then
 
-         found = get_rain_int (rain_intId, intensity, .true.)
+         found = get_rain_int (id%rain_int, intensity, .true.)
 
          if (.not.found) then
             call error (
@@ -4816,7 +4818,7 @@ cnh    character string_concat*(strsize)      ! function
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      ok = get_cover_green_sum (cover_green_sumId, cover_green_sum)
+      ok = get_cover_green_sum (id%cover_green_sum, cover_green_sum)
 
       call pop_routine (myname)
       return
@@ -4863,11 +4865,11 @@ cnh    character string_concat*(strsize)      ! function
 
          ! calculate evaporation for entire timestep
 
-         ok = get_eo_time(eo_timeId, time)
+         ok = get_eo_time(id%eo_time, time)
          time_of_day = apswim_time_to_mins (time)
          Time_mins = apswim_time (g%year,g%day,time_of_day)
 
-         ok = get_eo_durn(eo_durnId,duration)
+         ok = get_eo_durn(id%eo_durn,duration)
 
          call apswim_get_green_cover (g%cover_green_sum)
          call apswim_pot_evapotranspiration (Amount)
@@ -5724,9 +5726,9 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
 
-      found = get_obs_eo (obs_eoId, amount)
-      found = get_eo_time (eo_timeId, time)
-      found = get_eo_durn (eo_durnId, duration)
+      found = get_obs_eo (id%obs_eo, amount)
+      found = get_eo_time (id%eo_time, time)
+      found = get_eo_durn (id%eo_durn, duration)
 
       time_of_day = apswim_time_to_mins (time)
       Time_mins = apswim_time (g%year,g%day,time_of_day)
@@ -6754,7 +6756,7 @@ c      pause
 
 
       found = get_residue_cover (
-     :           residue_coverId,
+     :           id%residue_cover,
      :           g%residue_cover,
      :           .true.)   ! optional data
 
@@ -7116,7 +7118,7 @@ c      pause
 
 
       found = get_interception (
-     :           interceptionId,
+     :           id%interception,
      :           intercep,
      :           .true.)    ! optional data
 
