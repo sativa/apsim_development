@@ -301,56 +301,45 @@ void __fastcall TMainForm::MRUFileListMRUItemClick(TObject *Sender,
 void TMainForm::processCommandLine(AnsiString commandLine)
    {
    vector<string> commandWords;
-   Split_string(commandLine.c_str(), " ", commandWords);
+   SplitStringHonouringQuotes(commandLine.c_str(), " ", commandWords);
    if (commandWords.size() >= 1)
       {
       string reportFileName = commandWords[0];
       open(reportFileName.c_str());
       if (commandWords.size() >= 2)
          {
-         string outputFileName = Path(reportFileName).Get_name();
-         string extension = "." + commandWords[1];
-         if (commandWords.size() >= 3)
+         string outputFileName = commandWords[1];
+
+         for (unsigned i = 2; i != commandWords.size(); i++)
             {
-            // get the first file reader and pass the output file to it.
-            TComponent* reportComp = getComponent<TComponent> (SEGReport1, "Report");
-            TApsimFileReader* reader = NULL;
-            for (int componentI = 0; componentI < reportComp->ComponentCount && reader == NULL; componentI++)
-               reader = dynamic_cast<TApsimFileReader*> (reportComp->Components[componentI]);
-            if (reader != NULL)
+            replaceAll(commandWords[i], "\"", "");
+            unsigned posPeriod = commandWords[i].find('.');
+            if (posPeriod != string::npos)
                {
-               outputFileName = Path(commandWords[2]).Get_name();
-               unsigned posAsterisk = outputFileName.find('*');
-               if (posAsterisk != string::npos)
-                  outputFileName.erase(posAsterisk);
-
-               TStringList* fileNames = new TStringList;
-               for (unsigned i = 2; i != commandWords.size(); i++)
+               string objectName = commandWords[i].substr(0, posPeriod);
+               string propertyLine = commandWords[i].substr(posPeriod+1);
+               string propertyName, propertyValue;
+               unsigned posEquals = propertyLine.find('=');
+               if (posEquals != string::npos)
                   {
-                  Path p(commandWords[i]);
-                  vector<string> files;
-                  getDirectoryListing(p.Get_directory(),
-                                      p.Get_name(),
-                                      files,
-                                      FA_NORMAL,
-                                      true);
-                  for (unsigned i = 0; i != files.size(); i++)
-                     fileNames->Add(files[i].c_str());
+                  propertyName = propertyLine.substr(0, posEquals);
+                  propertyValue = propertyLine.substr(posEquals+1);
+
+                  // get the first file reader and pass the output file to it.
+                  TComponent* reportComp = getComponent<TComponent> (SEGReport1, "Report");
+                  TSEGTable* object = getComponent<TSEGTable> (reportComp, objectName.c_str());
+                  if (object != NULL)
+                     object->setProperty(propertyName, propertyValue);
                   }
-
-               reader->filenames = fileNames;
-               delete fileNames;
-
-               SEGReport1->refresh();
                }
             }
-         Path outputPath(reportFileName);
-         outputPath.Set_name(outputFileName.c_str());
-         outputPath.Set_extension(extension.c_str());
-         save(outputPath.Get_path().c_str());
+
+         SEGReport1->refresh();
+         save(outputFileName.c_str());
          Close();
          }
       }
    }
 //---------------------------------------------------------------------------
+
 
