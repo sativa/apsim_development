@@ -4187,6 +4187,7 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
 *       190595 jngh added bulk density
 *       201099 dph  zeroed g%irrigation
 *       240800 jngh moved rain, eadn, mint, maxt, day and year to separate s/r
+*       250800 jngh removed g%num_solutes
  
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4221,8 +4222,9 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
                                               ! names.
          g%irrigation_solute(:) = 0.0         ! amount of solute in
                                               ! irrigation water (kg/ha)
-         g%num_solutes = 0                    ! number of solutes in
-                                              ! APSIM ()
+!        Zeroed in zero_module_links routine
+!         g%num_solutes = 0                    ! number of solutes in
+!                                              ! APSIM ()
          g%num_irrigation_solutes = 0         ! number of solutes traced
                                               ! in irrigation water
 
@@ -4377,7 +4379,7 @@ c         g%crop_module(:) = ' '               ! list of modules
       call pop_routine (my_name)
       return
       end 
- 
+
 *     ===========================================================
       subroutine soilwat2_zero_event_data ()
 *     ===========================================================
