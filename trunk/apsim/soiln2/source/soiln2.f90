@@ -1765,10 +1765,11 @@ subroutine soiln2_init_calc ()
    deepest_layer = get_cumulative_index_real (g%root_depth, g%dlayer, max_layer)
 
    cum_depth = 0.0
-
+   previous_cum_depth = 0.0
+   
    do layer = 1,deepest_layer
       cum_depth = cum_depth + g%dlayer(layer)
-      factor=min(g%dlayer(layer),divide((g%root_depth - previous_cum_depth),g%dlayer(layer),0.0))
+      factor=min(1.0,divide((g%root_depth - previous_cum_depth),g%dlayer(layer),0.0))
       root_distrib(layer) = exp (-3.0*min(1.0,cum_depth/g%root_depth))*factor
       previous_cum_depth = cum_depth
    end do
@@ -2992,6 +2993,7 @@ subroutine soiln2_process ()
    call soiln2_min_residues (g%dlt_res_C_decomp,g%dlt_res_N_decomp,g%dlt_res_c_biom,g%dlt_res_c_hum,g%dlt_res_c_atm,g%dlt_res_nh4_min,g%dlt_res_no3_min)
 
    g%hum_c = g%hum_c+ sum (g%dlt_res_c_hum(:,:), dim = residue_dim)
+
    g%biom_c = g%biom_c+ sum (g%dlt_res_c_biom(:,:), dim = residue_dim)
 
    do layer = 1, num_layers
