@@ -914,9 +914,11 @@ void Plant::doEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
   }
 
 // Field a class change event
-void Plant::doAutoClassChange(unsigned &id, unsigned &, protocol::Variant &v)
+void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol::Variant &v)
   {
-  string ps = IDtoAction[id];
+  string ps = IDtoAction[eventId];
+  //printf("got '%s' from %d\n",ps.c_str(),eventId); 
+  
   plant_auto_class_change(ps.c_str());
   }
 
@@ -12181,6 +12183,7 @@ void Plant::registerClassActions(void)
       id = parent->addEvent(i->c_str(), protocol::respondToMethodCallReg, fn);
 
       IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
+      //printf("registered '%s' as %d\n",i->c_str(),id); 
       }
    }
 
