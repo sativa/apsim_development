@@ -21,9 +21,8 @@
 //   If your DLL uses the dynamic version of the RTL, you do not need to
 //   explicitly add MEMMGR.LIB as this will be done implicitly for you
 //---------------------------------------------------------------------------
-USELIB("C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib");
-USELIB("..\general\general.lib");
-USELIB("..\data\data.lib");
+USELIB("general.lib");
+USELIB("data.lib");
 USEUNIT("low_level\XY_series.cpp");
 USEUNIT("low_level\Bar_series.cpp");
 USEUNIT("low_level\Brush.cpp");
