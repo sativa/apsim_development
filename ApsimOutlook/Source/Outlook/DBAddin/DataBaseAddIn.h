@@ -17,11 +17,17 @@
 class DatabaseAddIn : public AddInBase
    {
    public:
-      DatabaseAddIn(const std::string& parameters, bool& success);
+      DatabaseAddIn(void) { };
       ~DatabaseAddIn(void);
+
+      // set any startup parameters.
+      virtual void setStartupParameters(const std::string& parameters);
 
       // return a default scenario to caller.
       virtual Scenario getDefaultScenario(void) const;
+
+      // return true if the simulation is valid.  False otherwise.
+      virtual bool isScenarioValid(Scenario& scenario) const;
 
       // make the scenario passed in a valid one.  This may mean adding
       // extra factors to the scenario or changing existing factors.
@@ -37,8 +43,7 @@ class DatabaseAddIn : public AddInBase
       // given the source data object, and the list of user selected
       // scenarios, perform all calculations and store all new data
       // in the returned TAPSTable.
-      virtual void doCalculations(TAPSTable& data,
-                                  const std::vector<Scenario*>& selectedScenarios);
+      virtual void doCalculations(TAPSTable& data, const Scenario&);
    private:
       typedef std::vector<DBSimulation*> SimulationContainer;
       typedef std::map<std::string, Graphics::TBitmap*> ImageMap;
@@ -46,12 +51,13 @@ class DatabaseAddIn : public AddInBase
       ImageMap images;
       ApsimSettings settings;
 
-      void askUserForMDBs(bool& success);
-      void askUserForDataSets(bool& success);
-      void readAllDatabases(std::vector<std::string>& databaseFilenames, bool& success);
+      void askUserForMDBs(void);
+      void askUserForDataSets(void);
+      void readAllDatabases(std::vector<std::string>& databaseFilenames);
       void readDatabase(const std::string& databaseFileName);
       Scenario convertSimulationToScenario(const DBSimulation& simulation,
-                                           const std::string& scenarioName)const;
+                                           const std::string& scenarioName,
+                                           const std::string& econFactorValue) const;
       void readAllImages(void);
       const Graphics::TBitmap* getImageForFactor(const std::string& factorName) const;
    };

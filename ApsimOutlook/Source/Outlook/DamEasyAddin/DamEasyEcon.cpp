@@ -29,29 +29,23 @@ using namespace std;
 //    DAH 20/4/01
 
 // ------------------------------------------------------------------
-extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bool& success)
+extern "C" AddInBase* _export __stdcall createAddIn()
    {
-   // will be called with begin
-   // and end years from the database
-   success = true;
-   return new DamEasyEcon(parameters);
+   return new DamEasyEcon();
+   }
+// ------------------------------------------------------------------
+// Exported function to delete the specified addin.
+// ------------------------------------------------------------------
+extern "C" void _export __stdcall deleteAddIn(AddInBase* addin)
+   {
+   delete addin;
    }
 
 
 // ------------------------------------------------------------------
-//  Short description:
-//      constructor
-
-//  Notes:
-
-//  Changes:
-//    DPH 15/12/99
-//    DAH 31/10/00   added the concept of upfront costs as an
-//                   option (vs. loan option)
-//    DAH 29/04/01   changed to Addin framework (vs. APSTable derived)
-
+// set any startup parameters.
 // ------------------------------------------------------------------
-DamEasyEcon::DamEasyEcon(const string& parameters)
+void DamEasyEcon::setStartupParameters(const std::string& parameters)
    {
    // handle parameter string
    vector<string> begin_and_end_years;
@@ -66,12 +60,22 @@ DamEasyEcon::DamEasyEcon(const string& parameters)
    bitmap->LoadFromFile(bitmap_path.Get_path().c_str());
 
    string default_config_name = Econ_configs[0].getName();
-   Factor econ(bitmap,DE_ECON_FACTOR_NAME,default_config_name.c_str(),this);
+   Factor econ(DE_ECON_FACTOR_NAME,default_config_name.c_str());
    factors.push_back(econ);
    }
 
 DamEasyEcon::~DamEasyEcon(void) { }
 
+// return true if the simulation is valid.  False otherwise.
+bool DamEasyEcon::isScenarioValid(Scenario& scenario) const
+   {
+   string econName = scenario.getFactorValue(DE_ECON_FACTOR_NAME);
+
+   vector<string> econConfigs;
+   getAllFactorValues("", econConfigs);
+   return (find(econConfigs.begin(), econConfigs.end(),
+                econName) != econConfigs.end());
+   }
 
 void DamEasyEcon::makeScenarioValid(Scenario& scenario,
                                         const std::string factor_name) const {}
@@ -190,7 +194,7 @@ string DamEasyEcon::Get_descriptor_value(string Descriptor, string Item)
 //                    Base case dependent stuff.
 // ------------------------------------------------------------------
 void DamEasyEcon::doCalculations(TAPSTable& data,
-                                  const std::vector<Scenario*>& selectedScenarios)
+                                  const Scenario& selectedScenarios)
 {  }
 
 

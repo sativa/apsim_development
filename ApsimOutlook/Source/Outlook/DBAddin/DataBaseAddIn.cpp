@@ -12,20 +12,22 @@
 #include <sstream>
 #include "TDirectory_select_form.h"
 
+#define ECON_FACTOR_NAME "Econ Config"
+
 using namespace std;
 // ------------------------------------------------------------------
-//  Short description:
-//    Exported function for created an instance of this add-in
-
-//  Changes:
-//    DPH 5/4/01
-
+// Exported function for created an instance of this add-in
 // ------------------------------------------------------------------
-extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bool& success)
+extern "C" AddInBase* _export __stdcall createAddIn(void)
    {
-   DatabaseAddIn* dbAddIn = new DatabaseAddIn(parameters, success);
-   //return new DatabaseAddIn(parameters);
-   return dbAddIn;
+   return new DatabaseAddIn();
+   }
+// ------------------------------------------------------------------
+// Exported function to delete the specified addin.
+// ------------------------------------------------------------------
+extern "C" void _export __stdcall deleteAddIn(AddInBase* addin)
+   {
+   delete addin;
    }
 
 // ------------------------------------------------------------------
@@ -58,9 +60,7 @@ string createPartialTitle(const Scenario& scenario,
       {
       if (upToButNotIncluding &&  (*f) == factorName)
          return partialTitle;
-      string factorValue;
-      Graphics::TBitmap* factorBitmap;
-      scenario.getFactorAttributes(*f, factorValue, factorBitmap);
+      string factorValue = scenario.getFactorValue(*f);
       if (partialTitle.length() > 0)
          partialTitle += ";";
       if (*f == "Simulation")
@@ -101,48 +101,15 @@ class GetFactorValue
          if (simulation->partialTitleCompare(partialTitle))
             {
             string factorValue = simulation->getFactorValue(factorName);
-            if (find(Container.begin(), Container.end(), factorValue)
-                == Container.end())
+            if (factorValue != "" &&
+                find(Container.begin(), Container.end(), factorValue) == Container.end())
                Container.push_back(factorValue);
             }
          };
    };
-
 // ------------------------------------------------------------------
 //  Short description:
-//    A function class to read in all data for each scenario.
-//    passed in.
-
-//  Changes:
-//    DPH 5/4/01
-
-// ------------------------------------------------------------------
-class ReadData
-   {
-   private:
-      TAPSTable& data;
-      TCursor savedCursor;
-      vector<DBSimulation*>& simulations;
-   public:
-      ReadData(vector<DBSimulation*>& sims, TAPSTable& d)
-         : simulations(sims),
-           data(d)
-         {
-         }
-      void operator() (const Scenario* scenario)
-         {
-         string title = createPartialTitle(*scenario, "");
-         vector<DBSimulation*>::iterator s = Pfind(simulations.begin(),
-                                                   simulations.end(),
-                                                   title);
-         assert (s != simulations.end());
-         (*s)->readData(data, scenario->getName());
-         }
-   };
-
-// ------------------------------------------------------------------
-//  Short description:
-//    constructor
+// set any startup parameters.
 
 //  Notes:
 
@@ -150,17 +117,17 @@ class ReadData
 //    DPH 24/9/98
 
 // ------------------------------------------------------------------
-DatabaseAddIn::DatabaseAddIn(const string& parameters, bool& success)
+void DatabaseAddIn::setStartupParameters(const std::string& parameters)
    {
    if (parameters == "")
-      askUserForMDBs(success);
+      askUserForMDBs();
    else if (parameters.find("datasetsON") != string::npos)
-      askUserForDataSets(success);
+      askUserForDataSets();
    else
       {
       vector<string> filenames;
       Split_string(parameters, " ", filenames);
-      readAllDatabases(filenames, success);
+      readAllDatabases(filenames);
       }
    readAllImages();
    }
@@ -200,7 +167,7 @@ DatabaseAddIn::~DatabaseAddIn(void)
 //    DPH 24/9/98
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::askUserForMDBs(bool& success)
+void DatabaseAddIn::askUserForMDBs()
    {
    TOpenDialog* OpenDialog = new TOpenDialog(NULL);
    OpenDialog->Filter = "MDB files (*.mdb)|*.MDB";
@@ -210,25 +177,28 @@ void DatabaseAddIn::askUserForMDBs(bool& success)
       {
       vector<string> databaseFilenames;
       TStrings_2_stl(OpenDialog->Files, databaseFilenames);
-      readAllDatabases(databaseFilenames, success);
+      readAllDatabases(databaseFilenames);
       }
    else
-      success = false;
+      throw runtime_error("User hit cancel.");
    }
 
 
 
-void DatabaseAddIn::askUserForDataSets(bool& success)
+void DatabaseAddIn::askUserForDataSets(void)
    {
    Directory_select_form = new TDirectory_select_form(Application->MainForm);
    if (Directory_select_form->ShowModal() == mrOk)
       {
       vector<string> databaseFilenames;
       TStrings_2_stl(Directory_select_form->SelectedMDBs, databaseFilenames);
-      readAllDatabases(databaseFilenames, success);
+      readAllDatabases(databaseFilenames);
       }
    else
-      success = false;
+      {
+      delete Directory_select_form;
+      throw runtime_error("User hit cancel.");
+      }
    delete Directory_select_form;
    }
 
@@ -245,17 +215,14 @@ void DatabaseAddIn::askUserForDataSets(bool& success)
 //    DPH 4/4/2001 - moved from TSimulations_from_mdb.cpp
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames, bool& success)
+void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames)
    {
-//   simulations.erase(simulations.begin(), simulations.end());
    delete_container(simulations);
 
    for (vector<string>::iterator db = databaseFilenames.begin();
                                  db != databaseFilenames.end();
                                  db++)
       readDatabase(*db);
-
-   success = true;
    }
 
 // ------------------------------------------------------------------
@@ -326,7 +293,7 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
 Scenario DatabaseAddIn::getDefaultScenario(void) const
    {
    if (simulations.size() > 0)
-      return convertSimulationToScenario(*(simulations[0]), "");
+      return convertSimulationToScenario(*(simulations[0]), "", "");
 
    else
       {
@@ -334,7 +301,18 @@ Scenario DatabaseAddIn::getDefaultScenario(void) const
       return Scenario("", dummy);
       }
    }
+// ------------------------------------------------------------------
+// return true if the simulation is valid.  False otherwise.
+// ------------------------------------------------------------------
+bool DatabaseAddIn::isScenarioValid(Scenario& scenario) const
+   {
+   string titleToFind = createPartialTitle(scenario, ECON_FACTOR_NAME, true);
 
+   SimulationContainer::const_iterator sim = Pfind(simulations.begin(),
+                                                   simulations.end(),
+                                                   titleToFind);
+   return (sim != simulations.end());
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //    make the scenario passed in a valid one.  This may mean adding
@@ -349,6 +327,8 @@ Scenario DatabaseAddIn::getDefaultScenario(void) const
 // ------------------------------------------------------------------
 void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string factorName) const
    {
+   string econFactorValue = scenario.getFactorValue(ECON_FACTOR_NAME);
+
    string titleToFind = createPartialTitle(scenario, factorName, false);
    SimulationContainer::const_iterator closestSimulation = simulations.begin();
    unsigned int closestRank = 0;
@@ -366,24 +346,25 @@ void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string fact
    // try and make this simulation even closer by substituting factor values
    // AFTER the factorName passed in, from the scenario passed in
    // into this closestSimulation.
-   vector<Factor> factorsToFind, closestFactors;
-   scenario.getFactors(factorsToFind);
-   (*closestSimulation)->getFactors(closestFactors);
-   vector<Factor>::const_iterator f = find(closestFactors.begin(),
-                                           closestFactors.end(),
+   vector<string> factorsNamesToFind, closestFactorNames;
+   scenario.getFactorNames(factorsNamesToFind);
+
+   (*closestSimulation)->getFactorNames(closestFactorNames);
+   vector<string>::const_iterator f = find(closestFactorNames.begin(),
+                                           closestFactorNames.end(),
                                            factorName);
-   if (f != closestFactors.end())
+   if (f != closestFactorNames.end())
       f++;
-   while (f != closestFactors.end())
+   while (f != closestFactorNames.end())
       {
       // see if this factor is one we're supposed to find.
-      vector<Factor>::const_iterator factorToFind = find(factorsToFind.begin(),
-                                                         factorsToFind.end(),
-                                                         f->getName());
+      vector<string>::const_iterator factorToFind = find(factorsNamesToFind.begin(),
+                                                         factorsNamesToFind.end(),
+                                                         *f);
       bool closerSimulationWasFound = false;
-      if (factorToFind != factorsToFind.end())
+      if (factorToFind != factorsNamesToFind.end())
          {
-         string titleToTry = titleToFind + ";" + f->getName() + "=" + factorToFind->getValue();
+         string titleToTry = titleToFind + ";" + *f + "=" + scenario.getFactorValue(*f);
          SimulationContainer::const_iterator closerSimulation = find_if
             (simulations.begin(), simulations.end(), PartialTitleFindIf(titleToTry));
          if (closerSimulation != simulations.end())
@@ -394,21 +375,13 @@ void DatabaseAddIn::makeScenarioValid(Scenario& scenario, const std::string fact
             }
          }
       if (!closerSimulationWasFound)
-         titleToFind += ";" + f->getName() + "=" + f->getValue();
+         titleToFind += ";" + *f + "=" + scenario.getFactorValue(*f);
       f++;
       }
-   scenario = convertSimulationToScenario(**closestSimulation, scenario.getName());
+   scenario = convertSimulationToScenario(**closestSimulation,
+                                          scenario.getName(),
+                                          econFactorValue);
    }
-/*   // Go find the closest matching simulation to the one passed in.
-   FindClosestScenario findClosest(scenario, createPartialTitle(scenario, factorName));
-   findClosest = for_each(simulations.begin(), simulations.end(),
-                          findClosest);
-
-   // return the closest matching scenario.
-   const DBSimulation* closestSimulation = findClosest.getClosestSimulation();
-   scenario = convertSimulationToScenario(*closestSimulation, scenario.getName());
-*/   
-
 // ------------------------------------------------------------------
 //  Short description:
 //      return a list of possible legal values for the specified identifier
@@ -443,20 +416,20 @@ void DatabaseAddIn::getFactorValues(const Scenario& scenario,
 //    dph 5/4/2001 pulled from the old TSelected_simulations.cpp and modified
 
 // ------------------------------------------------------------------
-void DatabaseAddIn::doCalculations(TAPSTable& data,
-                                   const vector<Scenario*>& selectedScenarios)
+void DatabaseAddIn::doCalculations(TAPSTable& data, const Scenario& scenario)
    {
-   data.beginStoringData();
-   data.clearFields();
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
 
-   ReadData readData(simulations, data);
-   for_each(selectedScenarios.begin(), selectedScenarios.end(), readData);
+   string title = createPartialTitle(scenario, ECON_FACTOR_NAME);
+   vector<DBSimulation*>::iterator s = Pfind(simulations.begin(),
+                                             simulations.end(),
+                                             title);
+   assert (s != simulations.end());
+   (*s)->readData(data, scenario.getName());
 
    data.addSortField(data.getYearFieldName());
 
-   data.endStoringData();
    Screen->Cursor = savedCursor;
    }
 
@@ -469,18 +442,18 @@ void DatabaseAddIn::doCalculations(TAPSTable& data,
 
 // ------------------------------------------------------------------
 Scenario DatabaseAddIn::convertSimulationToScenario
-   (const DBSimulation& simulation, const std::string& scenarioName) const
+   (const DBSimulation& simulation,
+    const std::string& scenarioName,
+    const std::string& econFactorValue) const
    {
+   vector<string> names;
    vector<Factor> factors;
-   simulation.getFactors(factors);
+   simulation.getFactorNames(names);
+   for (unsigned i = 0; i != names.size(); i++)
+      factors.push_back(Factor(names[i], simulation.getFactorValue(names[i])));
+   if (econFactorValue != "")
+      factors.push_back(Factor(ECON_FACTOR_NAME, econFactorValue));
 
-   for (vector<Factor>::iterator f = factors.begin();
-                                 f != factors.end();
-                                 f++)
-      {
-      (*f).setAddIn(this);
-      (*f).setImage(getImageForFactor( (*f).getName() ));
-      }
    return Scenario(scenarioName, factors);
    }
 

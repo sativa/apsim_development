@@ -19,6 +19,7 @@
 #include "EconConfigData.h"
 #include <iterator>
 #include <ApsimShared\ApsimDirectories.h>
+#include <general\db_functions.h>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -30,34 +31,25 @@
 #define SIMULATION_FACTOR_NAME "Simulation"
 #define WHOPECON_FIELDS "Crops"
 // ------------------------------------------------------------------
-//  Short description:
-//    Exported function for created an instance of this add-in
-
-//  Changes:
-//    DAH 29/8/01 created
-
+// Exported function for created an instance of this add-in
 // ------------------------------------------------------------------
-extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bool& success)
+extern "C" AddInBase* _export __stdcall createAddIn()
    {
-   // will be called with begin
-   // and end years from the database
-   success = true; // this line may require more thought later, ie, success should really
-                   // be indicated by the WhopEcon constructor
-   return new WhopEcon(parameters);
+   return new WhopEcon();
+   }
+// ------------------------------------------------------------------
+// Exported function to delete the specified addin.
+// ------------------------------------------------------------------
+extern "C" void _export __stdcall deleteAddIn(AddInBase* addin)
+   {
+   delete addin;
    }
 
 
 // ------------------------------------------------------------------
-//  Short description:
-//      constructor
-
-//  Notes:
-
-//  Changes:
-//    DAH 29/08/01   created
-
+// set any startup parameters.
 // ------------------------------------------------------------------
-WhopEcon::WhopEcon(const string& parameters)
+void WhopEcon::setStartupParameters(const std::string& parameters)
    {
    static bool firstTime = true;
    if (firstTime)
@@ -91,7 +83,7 @@ WhopEcon::WhopEcon(const string& parameters)
    EconForm->CloseEconDB();
 
    // create a factor with the default name
-   Factor econ(bitmap,WHOPECON_FACTOR_NAME,default_config_name.c_str(),this);
+   Factor econ(WHOPECON_FACTOR_NAME,default_config_name.c_str());
    factors.push_back(econ);
    }
 
@@ -111,6 +103,23 @@ WhopEcon::~WhopEcon(void)
    SeedWeightsForm = NULL;
    }
 
+// return true if the simulation is valid.  False otherwise.
+bool WhopEcon::isScenarioValid(Scenario& scenario) const
+   {
+   string econName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
+
+   EconForm->OpenEconDB();
+   DATA->Scenario->First();
+   bool found = false;
+   while (!DATA->Scenario->Eof && !found)
+      {
+      AnsiString name = DATA->Scenario->FieldValues["ScenarioName"];
+      found = (name == econName.c_str());
+      DATA->Scenario->Next();
+      }
+   EconForm->CloseEconDB();
+   return found;
+   }
 
 void WhopEcon::makeScenarioValid(Scenario& scenario,
                                      const std::string factor_name) const {}
@@ -125,20 +134,22 @@ Scenario WhopEcon::getDefaultScenario(void) const {
 void WhopEcon::getFactorValues(const Scenario& scenario,
                                    const std::string& factorName,
                                    std::vector<std::string>& factorValues) const
-{
-   TListItems* config_names;
-   EconForm->OpenEconDB();
-   DATA->Scenario->First();
-   while (!DATA->Scenario->Eof)
    {
-      AnsiString name = DATA->Scenario->FieldValues["ScenarioName"];
-      factorValues.push_back(name.c_str());
-      DATA->Scenario->Next();
+   if (factorName == WHOPECON_FACTOR_NAME)
+      {
+      TListItems* config_names;
+      EconForm->OpenEconDB();
+      DATA->Scenario->First();
+      while (!DATA->Scenario->Eof)
+         {
+         AnsiString name = DATA->Scenario->FieldValues["ScenarioName"];
+         factorValues.push_back(name.c_str());
+         DATA->Scenario->Next();
+         }
+      EconForm->CloseEconDB();
+      }
    }
-   EconForm->CloseEconDB();
-}
-
-
+   
 TValueSelectionForm*  WhopEcon::getUIForm(const string& factorName,
                                                              TComponent* Owner) const{
    if ( WEValueSelectionForm == NULL)
@@ -180,8 +191,7 @@ void WhopEcon::Read_inifile_settings (void)
 //  Created:   DAH   7/9/01   Adapted from G. McLean's WhopEcon and Dameasy
 //                            doCalculations routine
 // ------------------------------------------------------------------
-void WhopEcon::doCalculations(TAPSTable& data,
-                              const vector<Scenario*>& selectedScenarios)
+void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
    {
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
@@ -189,9 +199,6 @@ void WhopEcon::doCalculations(TAPSTable& data,
    // Flag for determining if we need to tell 'data' about the new fields
    // we're about to create.
    bool haveInformedDataOfNewFields = false;
-
-   // Comments displayed at end of this routine.  Used for warning messages.
-   warnings.erase(warnings.begin(), warnings.end());
 
    // go thru the table 'data' and add a new factor field to reflect the
    // economic configuration
@@ -209,15 +216,10 @@ void WhopEcon::doCalculations(TAPSTable& data,
 
    while (ok)
       {
-      string econConfigName;
       // find the corresponding Scenario and the economic configuration name
       // that is used for this data block.
       string rec_name = data.begin()->getFieldValue(SIMULATION_FACTOR_NAME);
-      vector<Scenario*>::const_iterator scenarioI =
-            find_if(selectedScenarios.begin(),selectedScenarios.end(),
-                    PEqualToName<Scenario>(rec_name));
-      Graphics::TBitmap* bitmap;
-      (*scenarioI)->getFactorAttributes(WHOPECON_FACTOR_NAME, econConfigName, bitmap);
+      string econConfigName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
 
       // get a list of crops that have variables on the current record.
       CropFields cropFields(data.begin());
@@ -289,11 +291,8 @@ void WhopEcon::doCalculations(TAPSTable& data,
                   gmCost += cropData->calculateCost(nitrogenRate, plantingRate);
 
                   // tell 'data' about the new crop fields.
-                  if (!haveInformedDataOfNewFields)
-                     {
-                     data.addField(wetYieldFieldName);
-                     data.addField(returnFieldName);
-                     }
+                  data.addField(wetYieldFieldName);
+                  data.addField(returnFieldName);
                   }
                else
                   {
@@ -320,18 +319,8 @@ void WhopEcon::doCalculations(TAPSTable& data,
       ok = data.next();
       }
 
-   data.endStoringData();
    EconForm->CloseEconDB();
    Screen->Cursor = savedCursor;
-
-   if (warnings.size() > 0)
-      {
-      ostringstream messageStream;
-      ostream_iterator<string, char> out(messageStream, "\n");
-      copy(warnings.begin(), warnings.end(), out);
-      Application->MessageBox(messageStream.str().c_str(), "Gross margin warnings...",
-                              MB_ICONINFORMATION | MB_OK);
-      }
    }
 
 //---------------------------------------------------------------------------
@@ -342,4 +331,25 @@ void WhopEcon::addWarning(const string& msg)
    warnings.insert(msg.c_str());
    }
 
+//---------------------------------------------------------------------------
+// gives the add-in the chance to return any information to the
+// 'displaySettings' window e.g. warnings, errors etc.
+//---------------------------------------------------------------------------
+string WhopEcon::getDisplaySettings(void)
+   {
+   string returnString;
+
+   if (warnings.size() > 0)
+      {
+      ostringstream messageStream;
+      ostream_iterator<string, char> out(messageStream, "\r\n");
+      copy(warnings.begin(), warnings.end(), out);
+      returnString = messageStream.str();
+      }
+
+   // Comments displayed at end of this routine.  Used for warning messages.
+   warnings.erase(warnings.begin(), warnings.end());
+
+   return returnString;
+   }
 

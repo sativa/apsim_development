@@ -81,25 +81,27 @@ __fastcall TMDIChild::~TMDIChild()
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormShow(TObject *Sender)
    {
-   bool success;
-   scenarios = new Scenarios(success);
-   // Create child settings window.
-   Settings_form = new TChartSettingsForm(this);
-   Settings_form->Parent = this;
-   Settings_form->Show();
-   Settings_form->OnClose = On_settings_form_close;
-
-   // could load the toolbar addins here
-   // for each toolbar addin, add a divider, and place the buttons after it
-   if (numObjects == 1)
-      loadAllToolbarAddIns();
-
-   if (success)
+   try
       {
+      scenarios = new Scenarios();
+
+      // Create child settings window.
+      Settings_form = new TChartSettingsForm(this);
+      Settings_form->Parent = this;
+      Settings_form->Show();
+      Settings_form->OnClose = On_settings_form_close;
+
+      // could load the toolbar addins here
+      // for each toolbar addin, add a divider, and place the buttons after it
+      if (numObjects == 1)
+         loadAllToolbarAddIns();
+
       SelectSimulations(NULL);
       }
-   else
-      this->Close();
+   catch (const exception& error)
+      {
+      Close();
+      }
    }
 
 //---------------------------------------------------------------------------
@@ -383,25 +385,21 @@ void TMDIChild::Display_settings(void)
    {
    Settings_form->Settings_list->Text = "";
 
-   vector<string> Simulation_names;
-   scenarios->getScenarioNames(Simulation_names);
+   vector<string> scenarioNames;
+   scenarios->getScenarioNames(scenarioNames);
 
    string Text;
-   for (vector<string>::iterator i = Simulation_names.begin();
-                                 i != Simulation_names.end();
-                                 i++)
+   for (vector<string>::iterator scenario = scenarioNames.begin();
+                                 scenario != scenarioNames.end();
+                                 scenario++)
       {
-      scenarios->setCurrentScenario(*i);
-
       // build up a factor string.
       vector<string> factors;
-      scenarios->getFactorNames(factors);
-      Text += *i + ":";
+      scenarios->getFactorNames(*scenario, factors);
+      Text += *scenario + ":";
       for (unsigned int i = 0; i < factors.size(); i++)
          {
-         string value;
-         Graphics::TBitmap* bitmap;
-         scenarios->getFactorAttributes(factors[i], value, bitmap);
+         string value = scenarios->getFactorValue(*scenario, factors[i]);
 
          Text += "\r\n";
          Text += "   " + factors[i] + "=" + value;
@@ -409,6 +407,7 @@ void TMDIChild::Display_settings(void)
 
       Text += "\r\n\r\n";
       }
+   Text += scenarios->getDisplaySettings();
    Settings_form->Settings_list->Text = Text.c_str();
    }
 //---------------------------------------------------------------------------

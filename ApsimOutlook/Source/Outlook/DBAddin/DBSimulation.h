@@ -35,9 +35,9 @@ class DBSimulation
       ~DBSimulation (void);
 
       // return true if this simulation equals the specified scenario.
-      bool operator!= (const std::string& rhsTitle) const
+      bool operator== (const std::string& rhsTitle) const
          {
-         return (strcmpi(title, rhsTitle.c_str()) != 0);
+         return (stricmp(title, rhsTitle.c_str()) == 0);
          }
 
       bool partialTitleCompare(const char* partialTitle) const
@@ -50,7 +50,7 @@ class DBSimulation
                          TDataSet* indexTable);
 
       // return a container of factors that represents this simulation.
-      void getFactors(std::vector<Factor>& factors) const;
+      void getFactorNames(std::vector<string>& factorNames) const;
 
       // return a value for a specified factor.
       std::string getFactorValue(const std::string& factorName) const;

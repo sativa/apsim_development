@@ -9,60 +9,52 @@
 #include "factor.h"
 #include "TValueSelectionForm.h"
 // ------------------------------------------------------------------
-//  Short description:
-//      This class encapsulates a single scenario.  A Scenario has
-//      a name and 1 or more factors.
-
-//  Changes:
-//    DPH 4/4/01 - modified slightly from Dene Hughes.
-
+// This class encapsulates a single scenario.  A Scenario has
+// a name and 1 or more factors.
 // ------------------------------------------------------------------
-class Scenario {
+class Scenario
+   {
    public:
+      Scenario(void) { }
+      Scenario(const std::string& state);
       Scenario(const std::string& name, const std::vector<Factor>& factors);
-      Scenario(const Scenario& from);
 
-      ~Scenario();
-
-      Scenario& operator=(const Scenario& rhs);
+      // addition operator
+      Scenario& operator+ (const Scenario& rhs)
+         {
+         copy(rhs.factors.begin(), rhs.factors.end(),
+              back_inserter(factors));
+         return *this;
+         }
+      bool operator==(const std::string& rhsName) const
+         {
+         return (strcmpi(name.c_str(), rhsName.c_str()) == 0);
+         }
 
       // get and set name.
-      void setName(const std::string& new_name);
-      std::string getName(void) const;
-
-      // return a copy of all factors.
-      void getFactors(std::vector<Factor>& copyOfFactors) const;
+      void setName(const std::string& new_name) {name = new_name;}
+      std::string getName(void) const {return name;}
 
       // return a list of all factor names.
       void getFactorNames(std::vector<std::string>& factorNames) const;
 
-      // return attributes for a given factor
-      void getFactorAttributes(const std::string& factorName,
-                               std::string&       factorValue,
-                               const Graphics::TBitmap*& factorBitmap) const;
-
-      // get a factor value.
-      string getFactorValue(const std::string& factor_name);
+      // return a factor value for a given factor name
+      std::string getFactorValue(const std::string& factorName) const;
 
       // set a factor value.  Return false if factor not found.
-      bool setFactorValue(const std::string& factor_name,
-                          const std::string& factor_value);
+      bool setFactorValue(const std::string& factorName,
+                          const std::string& factorValue);
 
-      // return a list of factor values for the specified factor.
-      void getFactorValues(const std::string& factor_name,
-                           std::vector<std::string>& values);
-
-      TValueSelectionForm*  getUIForm(const std::string& factor_name, TComponent* Owner);
-
-      Scenario createScenarioForAddIn(const AddInBase* addIn);
+      // Return a state string to caller.
+      std::string getState(void) const;
 
    private:
       typedef std::vector<Factor> FactorContainer;
       std::string name;
       FactorContainer factors;
 
-      void makeUsValid(const std::string factor_name);
-};
+      void setState(const std::string& state);
+   };
 
 //---------------------------------------------------------------------------
 #endif

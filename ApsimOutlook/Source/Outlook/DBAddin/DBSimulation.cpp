@@ -285,12 +285,10 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
 //    DPH 5/4/01
 
 // ------------------------------------------------------------------
-void DBSimulation::getFactors(std::vector<Factor>& factors) const
+void DBSimulation::getFactorNames(std::vector<string>& factorNames) const
    {
-   vector<string> factorNames, factorValues;
+   vector<string> factorValues;
    getFactors(factorNames, factorValues);
-   for (unsigned int i = 0; i < factorNames.size(); i++)
-      factors.push_back(Factor(NULL, factorNames[i], factorValues[i], NULL));
    }
 
 // ------------------------------------------------------------------
@@ -338,6 +336,8 @@ string DBSimulation::getFactorValue(const string& factorName) const
       {
       string searchString = factorName + "=";
       char* posFactor = stristr(title, searchString.c_str());
+      if (posFactor == NULL)
+         return "";
       posFactor += searchString.length();
       char* posSemiColon = strchr(posFactor, ';');
       if (posSemiColon == NULL)
