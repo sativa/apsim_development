@@ -47,7 +47,7 @@
       dll_export copy_real_array
  
 *+  Sub-Program Arguments
-      integer n      ! (IN) Size of 'dest' and 'src'.
+      integer n      ! (IN) Size of "dest" and "src".
       real dest(n)   ! (OUT) Destination array.
       real src(n)   ! (IN) Source array.
  
@@ -58,8 +58,8 @@
 *     Copies array.
  
 *+  Definition
-*     Copies each of the "n" elements of 'src' to its
-*     corresponding element in 'dest'.  
+*     Copies each of the "n" elements of "src" to its
+*     corresponding element in "dest".  
  
 *+  Changes
 *     030998 sb created
@@ -95,9 +95,9 @@
       dll_export array_val_mul
  
 *+  Sub-Program Arguments
-      integer n      ! (IN) Size of 'vec'.
-      real vec(n)    ! (INOUT) Vector to be multipied by 'mul'.
-      real mul       ! (IN) Value that 'vec' gets mutiplied by.
+      integer n      ! (IN) Size of "vec".
+      real vec(n)    ! (INOUT) Vector to be multipied by "mul".
+      real mul       ! (IN) Value that "vec" gets mutiplied by.
  
 *+  Mission statement
 *     Multipy each of the %2 elements of %1 by %3
@@ -152,8 +152,8 @@
 *     Prints out real array.
  
 *+  Definition
-*     Prints out array 'vec' to logical unit no 'unt'.
-*     'vec' has 'nvars' elements.
+*     Prints out array "vec" to logical unit no "unt".
+*     "vec" has "nvars" elements.
  
 *+  Changes
 *     040998 sb created
