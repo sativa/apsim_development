@@ -10,15 +10,16 @@
 class ApsimLicence
    {
    protected:
+      std::string fileName;
       bool isValid;
 
       bool convertToASCII(unsigned char *binaryImage, long sizeOfBinaryImage);
       void convertToBinary(unsigned char *ASCIIImage, long sizeOfBinaryImage);
 
    public:
-      ApsimLicence(void);
-      void read(const std::string& fileName) throw(runtime_error);
-      void write(const std::string& fileName);
+      ApsimLicence(const std::string& filename);
+      void read(void) throw(std::runtime_error);
+      void write(void);
       bool isLicenced(const std::string& module);
       bool isSource(const std::string& module);
 
@@ -30,8 +31,13 @@ class ApsimLicence
       void setLocation(const std::string& location);
       void addModule(const string& moduleName, bool source, bool licenced) throw(std::runtime_error);
 
+      std::string getDetails(void);
+      std::string getAllDetails(void);
    };
 
-
+// ------------------------------------------------------------------
+// Return the user's apsim licence.
+// ------------------------------------------------------------------
+ApsimLicence getApsimKey(void) throw(std::runtime_error);
 #endif
 

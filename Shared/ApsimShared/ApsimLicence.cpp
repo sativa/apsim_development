@@ -3,8 +3,13 @@
 #pragma hdrstop
 
 #include "ApsimLicence.h"
-#include <fstream.h>
+#include "ApsimDirectories.h"
+#include <fstream>
+#include <sstream>
 #include <general\string_functions.h>
+
+static const char* indent = "<IND x=\"90\">";
+static const char* lf = "<BR>";
 
 struct Key_struct
    {
@@ -25,8 +30,12 @@ struct Key_struct
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
-ApsimLicence::ApsimLicence(void)
+ApsimLicence::ApsimLicence(const string& filename)
+   : fileName(filename)
    {
+   if (!FileExists(filename.c_str()))
+      throw runtime_error("Cannot find APSIM licence key file: " + filename);
+      
    keyInfo.numModules = 0;
    strcpy(keyInfo.moduleList, "");
    strcpy(keyInfo.applications, "");
@@ -127,7 +136,7 @@ void ApsimLicence::convertToBinary(unsigned char *ASCIIImage, long sizeOfBinaryI
 // ------------------------------------------------------------------
 // Read the license file.  Will throw if licence is invalid.
 // ------------------------------------------------------------------
-void ApsimLicence::read(const string& fileName) throw(runtime_error)
+void ApsimLicence::read(void) throw(runtime_error)
    {
    ifstream in(fileName.c_str(), ios::binary);
    in.read( (char*) &keyInfo, sizeof(keyInfo));
@@ -137,7 +146,7 @@ void ApsimLicence::read(const string& fileName) throw(runtime_error)
 // ------------------------------------------------------------------
 // Write the license file
 // ------------------------------------------------------------------
-void ApsimLicence::write (const string& fileName)
+void ApsimLicence::write (void)
    {
    ofstream out(fileName.c_str(), ios::binary);
    convertToBinary((unsigned char*) &keyInfo, sizeof(keyInfo));
@@ -233,5 +242,52 @@ void ApsimLicence::addModule(const string& moduleName, bool source, bool licence
       }
    else
       throw runtime_error("Too many modules in key.");
+   }
+// ------------------------------------------------------------------
+// return licence details (name & organisation) as a HTML formatted string.
+// ------------------------------------------------------------------
+string ApsimLicence::getDetails(void)
+   {
+   ostringstream details;
+
+   // write name.
+   details << "<B>Name:</B>" << indent << getName() << lf;
+
+   // write organisation.
+   details << "<B>Organisation:</B>" << indent << getOrganisation() << lf;
+   return details.str();
+   }
+// ------------------------------------------------------------------
+// return all licence details as a HTML formatted string.
+// ------------------------------------------------------------------
+string ApsimLicence::getAllDetails(void)
+   {
+   ostringstream details;
+   // write location
+   details << "<B>Location:</B>" << indent << getLocation() << lf;
+
+   // write modules
+   details << "<B>Modules:</B>";
+   vector<string> modules;
+   Split_string(keyInfo.moduleList, " ", modules);
+   for (vector<string>::iterator moduleI = modules.begin();
+                                 moduleI != modules.end();
+                                 moduleI++)
+      {
+      details << indent << *moduleI;
+      if (isSource(*moduleI))
+         details << "(source)";
+      details << lf;
+      }
+   return getDetails() + details.str();
+   }
+// ------------------------------------------------------------------
+// Return the user's apsim licence.
+// ------------------------------------------------------------------
+ApsimLicence getApsimKey(void) throw(runtime_error)
+   {
+   ApsimLicence key(getApsimDirectory() + "\\apsim.key");
+   key.read();
+   return key;
    }
 
