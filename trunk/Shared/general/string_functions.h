@@ -6,8 +6,6 @@
 #include <list>
 #include <algorith>
 #include <functional>
-using std::string;
-using std::list;
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -20,7 +18,7 @@ using std::list;
 
 // ------------------------------------------------------------------
 template <class container>
-void Split_string (const string& text, const char* separators, container& words)
+void Split_string (const std::string& text, const char* separators, container& words)
    {
    words.erase(words.begin(), words.end());
 
@@ -40,6 +38,52 @@ void Split_string (const string& text, const char* separators, container& words)
 
 // ------------------------------------------------------------------
 //  Short description:
+//     This method splits values on a comma but also honours double quotes
+//     ensuring something in double quotes is never split.
+
+//  Notes:
+//     eg: if text = value1, "value 2, 2a", value3
+//     then: words[0] = value1
+//           words[1] = value2, 2a
+//           words[2] = value3
+
+//  Changes:
+//    DPH 21/7/2000
+
+// ------------------------------------------------------------------
+template <class container>
+void SplitStringHonouringQuotes(const std::string& text,
+                                const char* separators,
+                                container& words) throw(std::string)
+   {
+   words.erase(words.begin(), words.end());
+
+   std::string separatorsAndQuote = separators + std::string("\"");
+   std::string separatorsAndSpace = separators + std::string(" ");
+	int n = text.length();
+   int start, stop;
+
+   start = text.find_first_not_of(separatorsAndSpace);
+
+   while ((start >= 0) && (start < n))
+      {
+      if (text[start] == '\"')
+         {
+         stop = text.find("\"", start+1);
+         if (stop == std::string::npos)
+            throw std::string("Mismatched quotes in string: " + text);
+         stop++;
+         }
+      else
+         stop = text.find_first_of(separatorsAndQuote, start);
+		if ((stop < 0) || (stop > n)) stop = n;
+		words.push_back(text.substr(start, stop - start));
+		start = text.find_first_not_of(separatorsAndSpace, stop+1);
+		}
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //    builds up a string from a list of words.
 
 //  Notes:
@@ -50,7 +94,7 @@ void Split_string (const string& text, const char* separators, container& words)
 
 // ------------------------------------------------------------------
 template <class container>
-void Build_string (container& words, const char* separators, string& text)
+void Build_string (container& words, const char* separators, std::string& text)
    {
    text = "";
    for (container ::iterator Iter = words.begin();
@@ -75,7 +119,7 @@ void Build_string (container& words, const char* separators, string& text)
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Get_section_name (const char* line);
+std::string GENERAL_EXPORT Get_section_name (const char* line);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -89,7 +133,7 @@ string GENERAL_EXPORT Get_section_name (const char* line);
 //    dph 17/9/1997 changed "string& line" to "const char* line"
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name);
+std::string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -101,7 +145,7 @@ string GENERAL_EXPORT Get_key_value (const char* line, const char* Key_name);
 //    DPH 24/9/97
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_keyname_and_value (const char* line, string& Key_name, string& Key_value);
+void GENERAL_EXPORT Get_keyname_and_value (const char* line, std::string& Key_name, std::string& Key_value);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -125,7 +169,7 @@ void GENERAL_EXPORT Strip (char* text, const char* separators);
 //    DPH 17/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strip (string& text, const char* separators);
+void GENERAL_EXPORT Strip (std::string& text, const char* separators);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -149,7 +193,7 @@ bool GENERAL_EXPORT Is_numerical (const char* Text);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT To_upper (string& St);
+void GENERAL_EXPORT To_upper (std::string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -161,7 +205,7 @@ void GENERAL_EXPORT To_upper (string& St);
 //    DPH 29/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT To_lower (string& St);
+void GENERAL_EXPORT To_lower (std::string& St);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -225,19 +269,19 @@ int Locate_string (const char* Search_string, StringContainer& words)
 
 // ------------------------------------------------------------------
 template <class Container >
-class remove_substring_and_copy : private std::unary_function < string, void >
+class remove_substring_and_copy : private std::unary_function < std::string, void >
    {
    private:
       Container& container;
-      string Substring;
+      std::string Substring;
    public:
       remove_substring_and_copy( const char* sub, Container& c )
          : Substring ( sub ), container(c) { }
-      void operator(  ) ( const string& x )
+      void operator(  ) ( const std::string& x )
          {
-         string new_st(x);
+         std::string new_st(x);
          size_t pos = new_st.find(Substring);
-         if (pos != string::npos)
+         if (pos != std::string::npos)
             new_st.erase(pos);
          container.push_back (new_st);
          }
@@ -255,17 +299,17 @@ class remove_substring_and_copy : private std::unary_function < string, void >
 
 // ------------------------------------------------------------------
 template < class Container >
-class append_substring_and_copy : private std::unary_function < string, void >
+class append_substring_and_copy : private std::unary_function < std::string, void >
    {
    private:
       Container& container;
-      string Substring;
+      std::string Substring;
    public:
       append_substring_and_copy( const char* sub, Container& c )
          : Substring (sub), container(c) { }
-      void operator(  ) ( const string& x )
+      void operator(  ) ( const std::string& x )
          {
-         string new_st(x);
+         std::string new_st(x);
          new_st.append(Substring);
          container.push_back (new_st);
          }
@@ -283,15 +327,15 @@ class append_substring_and_copy : private std::unary_function < string, void >
 
 // ------------------------------------------------------------------
 template < class Container >
-class prepend_substring_and_copy : private std::unary_function <string, void >
+class prepend_substring_and_copy : private std::unary_function <std::string, void >
    {
    private:
       Container& container;
-      string Substring;
+      std::string Substring;
    public:
       prepend_substring_and_copy( const char* sub, Container& c )
          : Substring (sub), container(c) { }
-      void operator() (const string& x)
+      void operator() (const std::string& x)
          {
          container.push_back (Substring + x);
          }
@@ -314,10 +358,10 @@ void String_2_double_container (const char* Numbers,
                                 container_type& container)
    {
    container.erase (container.begin(), container.end());
-   list<string> string_container;
-   string Number_string(Numbers);
+   std::list<std::string> string_container;
+   std::string Number_string(Numbers);
    Split_string (Number_string, " ", string_container);
-   for (list<string>::iterator Iter = string_container.begin();
+   for (std::list<std::string>::iterator Iter = string_container.begin();
                                Iter != string_container.end();
                                Iter++)
       {
@@ -337,14 +381,14 @@ void String_2_double_container (const char* Numbers,
 // ------------------------------------------------------------------
 template < class container_type>
 void Double_container_2_string (container_type& container,
-                                string& Numbers,
+                                std::string& Numbers,
                                 int precision)
    {
    ostrstream number_stream;
    number_stream.setf(ios::fixed, ios::floatfield);
    number_stream.precision (precision);
 
-   list<string> string_container;
+   std::list<std::string> string_container;
    for (container_type::iterator Iter = container.begin();
                                  Iter != container.end();
                                  Iter++)
@@ -366,7 +410,7 @@ void Double_container_2_string (container_type& container,
 //    DPH 17/3/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string);
+void GENERAL_EXPORT Replace_all (std::string& St, const char* Sub_string, const char* Replacement_string);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -379,7 +423,7 @@ void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char*
 //    dph 27/3/98 changed NPOS to string::npos in line with standard.
 
 // ------------------------------------------------------------------
-string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
+std::string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -391,7 +435,7 @@ string GENERAL_EXPORT ftoa(double Float, int Num_decplaces);
 //    SB ???
 
 // ------------------------------------------------------------------
-int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b);
+int GENERAL_EXPORT Str_i_Cmp(const std::string &a, const std::string &b);
 #define Str_i_Eq(a,b)  (!Str_i_Cmp((a),(b)))
 
 // ------------------------------------------------------------------
@@ -419,7 +463,7 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 //    DPH 4/1/1999
 
 // ------------------------------------------------------------------
-void Get_words_from_double_null_term (char* St, list<string>& Words);
+void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
 
 #endif
 

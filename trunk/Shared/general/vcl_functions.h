@@ -6,11 +6,8 @@
 #include "Grids.hpp"
 #include <fstream.h>
 #include <vcl\db.hpp>
-
 #include <oleauto.h>
 #include <vector>
-//using std::vector;
-
 // ------------------------------------------------------------------
 //  Short description:
 //     Copy contents from a VCL TStrings object to a STL container.
@@ -64,7 +61,7 @@ void Stl_2_tstrings (STL_container& ls, TStrings* VCL_list)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, istream& csv_stream);
+void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, std::istream& csv_stream);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -76,7 +73,7 @@ void GENERAL_EXPORT Grid_input_from_csv (TStringGrid* grid, istream& csv_stream)
 //    DPH 18/4/1997
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, ostream& csv_stream);
+void GENERAL_EXPORT Grid_output_to_csv (TStringGrid* grid, std::ostream& csv_stream);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -279,7 +276,7 @@ void GENERAL_EXPORT OleVariantInit (VARIANT& OleVariant, int NumElements, VARTYP
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Doubles_to_olevariant (vector<double>& StlArray, VARIANT& OleVariant);
+void GENERAL_EXPORT Doubles_to_olevariant (std::vector<double>& StlArray, VARIANT& OleVariant);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -292,7 +289,7 @@ void GENERAL_EXPORT Doubles_to_olevariant (vector<double>& StlArray, VARIANT& Ol
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, vector<double>& StlArray);
+void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, std::vector<double>& StlArray);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -305,6 +302,6 @@ void GENERAL_EXPORT Olevariant_to_doubles (VARIANT& OleVariant, vector<double>& 
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant);
+void GENERAL_EXPORT Strings_to_olevariant (std::vector<string>& StlArray, VARIANT& OleVariant);
 
 #endif

@@ -1,10 +1,10 @@
 #include <general\path.h>
-
+#include <windows.h>
 #include <dir.h>
 #include <io.h>
 #include <fcntl.h>
 #include <direct.h>
-
+using namespace std;
 // ------------------------------------------------------------------
 //  Short description:
 //    Return the drive string
