@@ -77,11 +77,11 @@ struct Fstructure.nameType
    {
    #for_each structure.field
    #if (field.isArrayAndStructure = T)
-   field.ctypeType field.name[max_array_size];
+   Ffield.ctypeType field.name[max_array_size];
    #elseif (field.array = T)
    field.ctype field.name[max_array_size];
    #elseif (field.isStructure = T)
-   field.ctypeType field.name;
+   Ffield.ctypeType field.name;
    #elseif (field.ctype = FString)
    char field.name[max_array_size];
    #else
