@@ -3,7 +3,6 @@ C     Last change:  E     6 Aug 2001    3:00 pm
 *     ===========================================================
       subroutine crop_process ()
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -170,12 +169,11 @@ cew    if (g%plant_status.eq.status_alive) then
       call pop_routine (my_name)
  
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine crop_read_cultivar_params (cultivar)
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -477,11 +475,10 @@ cSCC changed lower limit from 0 to -1000
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 *     ===========================================================
       subroutine crop_read_constants ()
 *     ===========================================================
-      use CropModModule
       Use infrastructure
       implicit none
 
@@ -1516,7 +1513,7 @@ c     :                    , 0.0, 100.0)
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 * ====================================================================
@@ -1549,7 +1546,7 @@ c     :                    , 0.0, 100.0)
  
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 

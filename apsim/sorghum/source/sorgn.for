@@ -5,7 +5,6 @@ C     Last change:  E    24 Aug 2001    1:02 pm
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export sorg_nfact_photo
 
 *+  Sub-Program Arguments
       integer leaf
@@ -51,7 +50,7 @@ cew   SLN = n_green(leaf)/lai
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 !      if(g_lai .gt. 0.0)then
 !         SLN = (G_n_green(leaf))/g_lai
@@ -68,7 +67,6 @@ cew   SLN = n_green(leaf)/lai
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export cproc_n_senescence1
 
 *+  Sub-Program Arguments
       integer num_part            ! (INPUT) number of plant part
@@ -137,7 +135,7 @@ cew   SLN = n_green(leaf)/lai
   100 continue
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
@@ -153,7 +151,6 @@ cew   SLN = n_green(leaf)/lai
 *     ===========================================================
       Use infrastructure
       implicit none
-      dll_export sorg_N_init1
 
 *+  Sub-Program Arguments
       REAL       C_n_init_conc(*)      ! (INPUT)  initial N concentration (
@@ -195,7 +192,7 @@ cew   SLN = n_green(leaf)/lai
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -224,7 +221,6 @@ cew   SLN = n_green(leaf)/lai
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 
@@ -384,7 +380,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
 
@@ -406,9 +402,8 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
-!      dll_export sorg_N_uptake2
+!
 
 *+  Sub-Program Arguments
       REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
@@ -544,7 +539,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -568,9 +563,8 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
-      dll_export sorg_N_partition1
+
 
 *+  Sub-Program Arguments
         ! DEMAND
@@ -607,7 +601,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -638,7 +632,6 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 *     ===========================================================
       Use infrastructure
-      Use CropDefCons
       implicit none
 
 *+  Sub-Program Arguments
@@ -818,5 +811,5 @@ cew   SLN = LeafN/lai
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
