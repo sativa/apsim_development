@@ -60,6 +60,9 @@ string ReportMacros::evaluateMacro(TComponent* owner, const string& macro, const
 //---------------------------------------------------------------------------
 AnsiString ReportMacros::doReplacement(TComponent* owner, AnsiString text)
    {
+   // find data component on owner.
+   TForm* data = getComponent<TForm>(owner, "data");
+
    componentNames.erase(componentNames.begin(), componentNames.end());
 
    string st = text.c_str();
@@ -73,7 +76,7 @@ AnsiString ReportMacros::doReplacement(TComponent* owner, AnsiString text)
          {
          string macroName = st.substr(posMacro, posOpenBracket-posMacro);
          string arguments = st.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-         string value = evaluateMacro(owner, macroName, arguments);
+         string value = evaluateMacro(data, macroName, arguments);
          if (value != "")
             st.replace(posMacro, posCloseBracket-posMacro+1, value);
          }
