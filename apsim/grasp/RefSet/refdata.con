@@ -47,7 +47,7 @@
   Module = report   [gmtb0]      
   Module = met      GMTAPSIM.DAT [weather]      
   Module = manager  [all]      
-  Module = apswim   [gmtb0]     \apsuite\apsim\apswim\apswim.ini [standard]      
+  Module = apswim   [gmtb0]     %apsuite\apsim\apswim\apswim.ini [standard]      
   Module = grasp    [all]     [step8]     [swim]     ..\grasp.ini [standard]      
   Module = residue2 [gmtb0]     residue2.ini [standard]      
   Module = surface  [gmtb0]      
