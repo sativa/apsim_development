@@ -2850,6 +2850,7 @@ c      call sugar_get_other_variables ()
       include   'sugar.inc'
       include 'crp_watr.pub'                      
       include 'error.pub'                         
+      include 'crp_comm.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2889,17 +2890,21 @@ c+!!!!!!!!! check order dependency of deltas
      :                       )
  
          if (g_uptake_source.eq.'apsim') then
- 
             ! Use the water uptake values given by some other
             ! module in the APSIM system. (eg APSWIM)
-            If (g_num_uptake_water.gt.0) then
-               do 100 layer = 1, g_num_uptake_water
-                  g_sw_supply (layer) =        g_uptake_water(layer)
-  100          continue
-            else
-               call Fatal_Error (Err_Internal,
-     :             'No soil water uptake information has been provided')
-            endif
+            ! KEEP other variables calculated above.
+
+            call crop_get_ext_uptakes(
+     :                 g_uptake_source   ! uptake flag
+     :                ,c_crop_type       ! crop type
+     :                ,'water'           ! uptake name
+     :                ,1.0               ! unit conversion factor
+     :                ,0.0               ! uptake lbound
+     :                ,100.0             ! uptake ubound
+     :                ,g_sw_supply       ! uptake array
+     :                ,max_layer         ! array dim
+     :                )
+         else 
          endif
  
  
@@ -2921,6 +2926,7 @@ c+!!!!!!!!! check order dependency of deltas
       include   'sugar.inc'
       include 'crp_watr.pub'                      
       include 'error.pub'                         
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2953,16 +2959,12 @@ c+!!!!!!!!! check order dependency of deltas
      :                            ,g_dlt_sw_dep)
  
          else
-            ! Use the water uptake values given by some other
-            ! module in the APSIM system. (eg APSWIM)
-            If (g_num_uptake_water.gt.0) then
-               do 100 layer = 1, g_num_uptake_water
-                  g_dlt_sw_dep(layer) = -1.0 * g_uptake_water(layer)
-  100          continue
-            else
-               call Fatal_Error (Err_Internal,
-     :             'No soil water uptake information has been provided')
-            endif
+            ! Use the water uptake values already given by some other
+            ! module in the APSIM system. (eg APSWIM)            
+            do 100 layer = 1, g_num_layers
+               g_dlt_sw_dep(layer) = -1.0 * g_sw_supply(layer)
+  100       continue
+
          endif
  
       else
