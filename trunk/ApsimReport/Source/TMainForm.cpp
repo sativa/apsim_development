@@ -402,8 +402,8 @@ void TMainForm::processCommandLine(AnsiString commandLine)
                   propertyValue = propertyLine.substr(posEquals+1);
 
                   // get the first file reader and pass the output file to it.
-                  TComponent* reportComp = getComponent<TComponent> (ReportForm->Report, "Report");
-                  TSEGTable* object = getComponent<TSEGTable> (reportComp, objectName.c_str());
+                  TComponent* dataComp = getComponent<TComponent> (ReportForm, "Data");
+                  TSEGTable* object = getComponent<TSEGTable> (dataComp, objectName.c_str());
                   if (object != NULL)
                      object->setProperty(propertyName, propertyValue);
                   }
