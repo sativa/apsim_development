@@ -379,14 +379,17 @@ void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
+// Changes:
+//    DAH - 10/8/2000:  saved and restored cursor
    {
+   TCursor Saved_Cursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
    if (!Excel->IsCreated() || !Excel->Visible)
       Excel->CreateExcelInstance();
 
    Excel->DataSetToExcel (APSTable_2_TDataSet);
    Excel->Visible = true;
-   Screen->Cursor = crArrow;
+   Screen->Cursor = Saved_Cursor;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SOIToggle(TObject *Sender)
