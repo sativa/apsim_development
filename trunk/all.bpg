@@ -9,14 +9,14 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = general.lib ApsimShared.dll SEGReport.bpl ApsimReport.exe \
-  ApsimContextMenu.dll APSBuild.exe CreateComponentInterfaceSource.exe APSRun.exe \
-  ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll Log.dll \
-  SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll VenLink.dll \
-  APSGeneral.bpl apsdata.bpl ApsimOutlook.exe dbaddin.dll FilterAddIn.dll \
-  RotationAddIn.dll soiaddin.dll WhopEconAddin.dll OutlookManager.exe \
-  FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll \
-  Misc.dll SoilWater.dll TemplatePacks.dll data.dll chart.dll apsvis.exe
+PROJECTS = general.lib ApsimShared.dll SEGReport.bpl ComponentInterface.lib \
+  Protocol.dll GrossMarginCalculator.dll Soil.dll APSGeneral.bpl apsdata.bpl \
+  data.dll chart.dll Test.dll ApsimReport.exe ApsimContextMenu.dll APSBuild.exe \
+  CreateComponentInterfaceSource.exe APSRun.exe apsim.exe ProtocolManager.dll \
+  Log.dll SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll VenLink.dll \
+  ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
+  WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
+  SoilWater.dll TemplatePacks.dll apsvis.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -121,18 +121,6 @@ OutlookManager.exe: ApsimOutlook\Source\Manager\OutlookManager.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
-FilterBarPackage.bpl: APSoil\Source\FilterBar\FilterBarPackage.bpk
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-SoilAPI.dll: APSoil\Source\SoilAPI\SoilAPI.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-import.exe: APSoil\Source\Import_HTML\import.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
 apsoil.exe: APSoil\Source\apsoil.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
@@ -178,6 +166,14 @@ apsvis.exe: apsvis\source\apsvis.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 VenLink.dll: apsim\VenLink\Source\VenLink.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+GrossMarginCalculator.dll: Shared\GrossMarginCalculator\GrossMarginCalculator.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Soil.dll: Shared\Soil\Soil.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
