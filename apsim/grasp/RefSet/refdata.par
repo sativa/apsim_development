@@ -34,10 +34,6 @@ variable = grasp.max_n_avail()
 variable = clock.today.dd/mm/yyyy as date
 !               [water_uptake.uptake_water_grass]
 variable = manager.transpiration
-!variable = apswim.sw_dep
-variable = grasp.swi()
-variable = grasp.tsdm
-variable = canopy.cover_tot_all
 
 [ep-on.report.parameters]
 outputfile =ep-on.out

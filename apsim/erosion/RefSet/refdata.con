@@ -1,9 +1,9 @@
 ! gmtb0[a-d] give each model driven by single/split equations under soilwat.
 ! gmtb0e gives eroding profile.
-! gmtb0s gives swim/surface. 
+! gmtb0s gives swim/surface.
 
 version = 2.2
-[apsim.gmtb0a.control]  
+[apsim.gmtb0a.control]
 
 title=Greenmount B0_SOILWAT
 module = clock refdata.par[gmtb0]
@@ -16,7 +16,7 @@ module = residue2 refdata.par[gmtb0] %apsuite\apsim\residue2\residue2.ini[standa
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0a]
 module = Screen  refdata.par[gmtb0]
-[apsim.gmtb0b.control]  
+[apsim.gmtb0b.control]
 
 title=Greenmount B0_SOILWAT
 module = clock refdata.par[gmtb0]
@@ -30,7 +30,7 @@ module = residue2 refdata.par[gmtb0] %apsuite\apsim\residue2\residue2.ini[standa
 module = grasp refdata.par[gmtb0] grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0b]
 module = Screen  refdata.par[gmtb0]
-[apsim.gmtb0c.control]  
+[apsim.gmtb0c.control]
 
 title=Greenmount B0_SOILWAT
 module = clock refdata.par[gmtb0]
@@ -44,11 +44,8 @@ module = residue2 refdata.par[gmtb0] %apsuite\apsim\residue2\residue2.ini[standa
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0c]
 module = Screen  refdata.par[gmtb0]
-[apsim.gmtb0d.control]  
+[apsim.gmtb0d.control]
 
-! NB. Grasp goes into a tailspin when all profile diappears - ignore messages from bound ().
-!     This will also throw report into chaos when a profile layer disappears.
-!     There's a silly message from input at the end of the summary file. Is it a bug???
 title=Greenmount B0_SOILWAT
 module = clock refdata.par[gmtb0]
 module = report refdata.par[gmtb0] refdata.par[gmtb0d]
@@ -61,8 +58,11 @@ module = residue2 refdata.par[gmtb0] %apsuite\apsim\residue2\residue2.ini[standa
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0d]
 module = Screen  refdata.par[gmtb0]
-[apsim.gmtb0e.control]  
 
+! NB.
+!     This will throw report into chaos when a profile layer disappears.
+!     There's a silly message from input at the end of the summary file. Is it a bug???
+[apsim.gmtb0e.control]
 title=Greenmount B0_SOILWAT
 module = clock refdata.par[gmtb0]
 module = report refdata.par[gmtb0] refdata.par[gmtb0e]
@@ -75,16 +75,7 @@ module = residue2 refdata.par[gmtb0] %apsuite\apsim\residue2\residue2.ini[standa
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0e]
 module = Screen  refdata.par[gmtb0]
-[apsim.gmtb0s.control]  
-
-
-
-
-
-
-
-
-
+[apsim.gmtb0s.control]
 
 title=Greenmount B0_SWIM
 module = clock    gmtswim.par [gmtb0]
@@ -101,8 +92,3 @@ module = surface  gmtswim.par [gmtb0]
 module = canopy
 module = SummaryFile  gmtswim.par[gmtb0]
 module = Screen  gmtswim.par[gmtb0]
-
-   
-   
-
-
