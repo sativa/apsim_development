@@ -3946,6 +3946,7 @@ c     :                                         - g%dlt_stiller_no
 
       ! transfer plant leaf area
       g%lai = g%lai + g%dlt_lai - g%dlt_slai
+      if (g%lai .le. 1.0e-6) g%lai = 0.0
       g%slai = g%slai + g%dlt_slai - g%dlt_slai_detached
 
       dlt_lai_dead  = g%lai  * dying_fract
