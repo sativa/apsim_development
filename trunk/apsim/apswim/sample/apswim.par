@@ -163,10 +163,10 @@ storage =     .10   ! (cm water/cm of +ve Psi)
 
 [sample.apswim.crop]  
    ! ------------------------------------------
-crop_name =                  wheat sugar   tree   
+crop_name =                 wheat   sugar   tree   
    ! ------------------------------------------
-min_xylem_potential =      -1500. -1500. -1500.   
-root_radius =                 1      1      1   
+min_xylem_potential =      -15000. -15000. -15000. (cm)
+root_radius =                 1      1      1      (mm)
 root_conductance =         1.4d-7 1.4d-7 1.4d-7   
    ! ------------------------------------------
 
