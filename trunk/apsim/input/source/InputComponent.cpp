@@ -137,6 +137,7 @@ bool InputComponent::readHeadings(void)
       {
       string msg = "Cannot find field names or units in input file: " + fileName;
       error(msg.c_str(), true);
+      return false;
       }
    else
       {
@@ -157,6 +158,7 @@ bool InputComponent::readHeadings(void)
                      data->getFieldValue(fieldI),
                      arraySpec, true, isArray);
          }
+      return true;
       }
    }
 
