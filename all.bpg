@@ -32,7 +32,7 @@ DataControls.dll: Shared\SEGReport\DataControls\DataControls.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
-ApsimReport.exe: ApsimReport\ApsimReport.bpr
+ApsimReport.exe: ApsimReport\source\ApsimReport.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
