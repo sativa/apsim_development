@@ -84,6 +84,8 @@ __published:	// IDE-managed Components
    TEdit *Investment_rate_box;
    TLabel *Label35;
    TCheckBox *Tax_yes_no;
+   TLabel *Label15;
+   TEdit *Payment_constant_box;
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Repayment_time_boxExit(TObject *Sender);
