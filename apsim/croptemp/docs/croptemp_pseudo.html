@@ -1,0 +1,4032 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The Crop Routine Library</TITLE>
+<FONT SIZE = 7><B><CENTER>The Crop Routine Library</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#Crop Library"> Crop Library </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><font size="5"><strong><u>What is the Crop Template?</u></strong></font><br>
+</p>
+
+<p>The Crop Template is a suite of crop growth modelling
+algorithms available to crop model developers within the APSIM
+framework. All algorithms are self-contained program units
+available for use by direct calling within any APSIM crop model.</p>
+
+<p><font size="5"><strong><u>What are the benefits of this
+approach</u></strong></font><br>
+<font size="1"></font></p>
+
+<ol>
+    <li>Increased maintainability - centralisation of crop logic
+        and algorithms allows maintainence at one point to flow
+        through to all models making use of that program unit.</li>
+    <li>Increased functionality - Larger building blocks allow
+        faster development of more powerful models.</li>
+    <li>Increased resusability - A greater availability of new
+        science to model developers aids speed of technology
+        transfer.</li>
+    <li>Increased possibilitites - for software design extraction
+        and developement.</li>
+    <li>Reduced support costs - Higher reuse of code leads to
+        reduction in documentation and support staff training.</li>
+</ol>
+
+<p>&nbsp;</p>
+</body>
+</html>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>Crop Library</H2>
+<ul><li><A HREF = "#crop_failure_germination"> crop_failure_germination </A>
+
+<li><A HREF = "#crop_failure_emergence"> crop_failure_emergence </A>
+
+<li><A HREF = "#crop_temperature_stress_photo"> crop_temperature_stress_photo </A>
+
+<li><A HREF = "#crop_sw_uptake0"> crop_sw_uptake0 </A>
+
+<li><A HREF = "#crop_swdef_expansion"> crop_swdef_expansion </A>
+
+<li><A HREF = "#crop_swdef_photo"> crop_swdef_photo </A>
+
+<li><A HREF = "#crop_swdef_pheno"> crop_swdef_pheno </A>
+
+<li><A HREF = "#crop_swdef_fixation"> crop_swdef_fixation </A>
+
+<li><A HREF = "#crop_oxdef_photo1"> crop_oxdef_photo1 </A>
+
+<ul><li><A HREF = "#crop_root_dist"> crop_root_dist </A>
+
+</ul><li><A HREF = "#cproc_sw_supply1"> cproc_sw_supply1 </A>
+
+<ul><li><A HREF = "#crop_check_sw"> crop_check_sw </A>
+
+<li><A HREF = "#crop_sw_avail_pot"> crop_sw_avail_pot </A>
+
+<li><A HREF = "#crop_sw_avail"> crop_sw_avail </A>
+
+<li><A HREF = "#crop_sw_supply"> crop_sw_supply </A>
+
+</ul><li><A HREF = "#cproc_sw_uptake1"> cproc_sw_uptake1 </A>
+
+<li><A HREF = "#cproc_sw_demand1"> cproc_sw_demand1 </A>
+
+<li><A HREF = "#cproc_transp_eff1"> cproc_transp_eff1 </A>
+
+<li><A HREF = "#cproc_bio_water1"> cproc_bio_water1 </A>
+
+<li><A HREF = "#crop_nfact_photo"> crop_nfact_photo </A>
+
+<ul><li><A HREF = "#crop_n_conc_ratio"> crop_n_conc_ratio </A>
+
+</ul><li><A HREF = "#crop_nfact_pheno"> crop_nfact_pheno </A>
+
+<ul><li><A HREF = "#crop_n_conc_ratio"> crop_n_conc_ratio </A>
+
+</ul><li><A HREF = "#crop_nfact_grain_conc"> crop_nfact_grain_conc </A>
+
+<ul><li><A HREF = "#crop_n_conc_ratio"> crop_n_conc_ratio </A>
+
+</ul><li><A HREF = "#crop_nfact_expansion"> crop_nfact_expansion </A>
+
+<li><A HREF = "#crop_n_detachment"> crop_n_detachment </A>
+
+<li><A HREF = "#crop_n_dead_detachment"> crop_n_dead_detachment </A>
+
+<li><A HREF = "#crop_n_dlt_grain_conc"> crop_n_dlt_grain_conc </A>
+
+<li><A HREF = "#crop_n_retrans_avail"> crop_n_retrans_avail </A>
+
+<li><A HREF = "#cproc_n_senescence1"> cproc_n_senescence1 </A>
+
+<li><A HREF = "#cproc_n_uptake1"> cproc_n_uptake1 </A>
+
+<li><A HREF = "#cproc_n_supply1"> cproc_n_supply1 </A>
+
+<ul><li><A HREF = "#crop_n_mass_flow1"> crop_n_mass_flow1 </A>
+
+<li><A HREF = "#crop_n_diffusion1"> crop_n_diffusion1 </A>
+
+<li><A HREF = "#crop_n_fixation_pot1"> crop_n_fixation_pot1 </A>
+
+</ul><li><A HREF = "#cproc_n_demand1"> cproc_n_demand1 </A>
+
+<li><A HREF = "#cproc_n_init1"> cproc_n_init1 </A>
+
+<li><A HREF = "#cproc_n_detachment1"> cproc_n_detachment1 </A>
+
+<ul><li><A HREF = "#crop_pool_fraction_delta"> crop_pool_fraction_delta </A>
+
+</ul><li><A HREF = "#cproc_n_supply2"> cproc_n_supply2 </A>
+
+<ul><li><A HREF = "#crop_n_mass_flow1"> crop_n_mass_flow1 </A>
+
+<li><A HREF = "#crop_n_diffusion1"> crop_n_diffusion1 </A>
+
+<li><A HREF = "#crop_n_fixation_pot1"> crop_n_fixation_pot1 </A>
+
+</ul><li><A HREF = "#cproc_n_demand2"> cproc_n_demand2 </A>
+
+<li><A HREF = "#crop_stage_code"> crop_stage_code </A>
+
+<li><A HREF = "#cproc_phenology1"> cproc_phenology1 </A>
+
+<ul><li><A HREF = "#crop_thermal_time"> crop_thermal_time </A>
+
+<li><A HREF = "#crop_phase_devel"> crop_phase_devel </A>
+
+<ul><li><A HREF = "#crop_germination"> crop_germination </A>
+
+<li><A HREF = "#crop_phase_tt"> crop_phase_tt </A>
+
+<li><A HREF = "#crop_germ_dlt_tt"> crop_germ_dlt_tt </A>
+
+</ul><li><A HREF = "#crop_devel"> crop_devel </A>
+
+</ul><li><A HREF = "#crop_lai_equilib_water"> crop_lai_equilib_water </A>
+
+<ul><li><A HREF = "#crop_store_value"> crop_store_value </A>
+
+</ul><li><A HREF = "#crop_lai_equilib_light"> crop_lai_equilib_light </A>
+
+<ul><li><A HREF = "#crop_store_value"> crop_store_value </A>
+
+</ul><li><A HREF = "#crop_leaf_area_sen_water2"> crop_leaf_area_sen_water2 </A>
+
+<ul><li><A HREF = "#crop_running_ave"> crop_running_ave </A>
+
+</ul><li><A HREF = "#crop_leaf_area_sen_light2"> crop_leaf_area_sen_light2 </A>
+
+<ul><li><A HREF = "#crop_running_ave"> crop_running_ave </A>
+
+</ul><li><A HREF = "#cproc_leaf_area_sen1"> cproc_leaf_area_sen1 </A>
+
+<ul><li><A HREF = "#crop_leaf_area_sen_age1"> crop_leaf_area_sen_age1 </A>
+
+<li><A HREF = "#crop_leaf_area_sen_light1"> crop_leaf_area_sen_light1 </A>
+
+<li><A HREF = "#crop_leaf_area_sen_water1"> crop_leaf_area_sen_water1 </A>
+
+<li><A HREF = "#crop_leaf_area_sen_frost1"> crop_leaf_area_sen_frost1 </A>
+
+</ul><li><A HREF = "#cproc_leaf_area_init1"> cproc_leaf_area_init1 </A>
+
+<li><A HREF = "#cproc_lai_detachment1"> cproc_lai_detachment1 </A>
+
+<ul><li><A HREF = "#crop_part_fraction_delta"> crop_part_fraction_delta </A>
+
+</ul><li><A HREF = "#cproc_canopy_height"> cproc_canopy_height </A>
+
+<li><A HREF = "#cproc_leaf_no_init1"> cproc_leaf_no_init1 </A>
+
+<li><A HREF = "#cproc_leaf_no_pot1"> cproc_leaf_no_pot1 </A>
+
+<li><A HREF = "#cproc_leaf_area_pot1"> cproc_leaf_area_pot1 </A>
+
+<li><A HREF = "#cproc_leaf_area_stressed1"> cproc_leaf_area_stressed1 </A>
+
+<li><A HREF = "#cproc_leaf_area_actual1"> cproc_leaf_area_actual1 </A>
+
+<li><A HREF = "#cproc_leaf_no_actual1"> cproc_leaf_no_actual1 </A>
+
+<li><A HREF = "#cproc_leaf_no_pot2"> cproc_leaf_no_pot2 </A>
+
+<li><A HREF = "#crop_root_length_init"> crop_root_length_init </A>
+
+<li><A HREF = "#cproc_root_length_senescence1"> cproc_root_length_senescence1 </A>
+
+<ul><li><A HREF = "#crop_root_dist"> crop_root_dist </A>
+
+</ul><li><A HREF = "#cproc_root_depth1"> cproc_root_depth1 </A>
+
+<ul><li><A HREF = "#crop_sw_avail_fac"> crop_sw_avail_fac </A>
+
+<li><A HREF = "#crop_root_depth_increase"> crop_root_depth_increase </A>
+
+</ul><li><A HREF = "#cproc_root_depth_init1"> cproc_root_depth_init1 </A>
+
+<li><A HREF = "#cproc_root_length_init1"> cproc_root_length_init1 </A>
+
+<li><A HREF = "#cproc_root_length_growth1"> cproc_root_length_growth1 </A>
+
+<ul><li><A HREF = "#crop_sw_avail_fac"> crop_sw_avail_fac </A>
+
+</ul><li><A HREF = "#crop_root_redistribute"> crop_root_redistribute </A>
+
+<li><A HREF = "#crop_radn_int0"> crop_radn_int0 </A>
+
+<li><A HREF = "#crop_radn_int1"> crop_radn_int1 </A>
+
+<li><A HREF = "#search_read_real_var"> search_read_real_var </A>
+
+<li><A HREF = "#search_read_real_array"> search_read_real_array </A>
+
+<li><A HREF = "#search_read_char_array"> search_read_char_array </A>
+
+<li><A HREF = "#search_read_char_var"> search_read_char_var </A>
+
+<li><A HREF = "#search_read_integer_var"> search_read_integer_var </A>
+
+<li><A HREF = "#search_read_integer_array"> search_read_integer_array </A>
+
+<li><A HREF = "#crop_dm_pot_rue"> crop_dm_pot_rue </A>
+
+<li><A HREF = "#crop_dm_senescence0"> crop_dm_senescence0 </A>
+
+<li><A HREF = "#crop_dm_dead_detachment"> crop_dm_dead_detachment </A>
+
+<li><A HREF = "#cproc_dm_senescence1"> cproc_dm_senescence1 </A>
+
+<li><A HREF = "#cproc_dm_retranslocate1"> cproc_dm_retranslocate1 </A>
+
+<li><A HREF = "#cproc_dm_detachment1"> cproc_dm_detachment1 </A>
+
+<ul><li><A HREF = "#crop_pool_fraction_delta"> crop_pool_fraction_delta </A>
+
+</ul><li><A HREF = "#cproc_bio_yieldpart_demand1"> cproc_bio_yieldpart_demand1 </A>
+
+<li><A HREF = "#cproc_yieldpart_demand_stress1"> cproc_yieldpart_demand_stress1 </A>
+
+<li><A HREF = "#cproc_bio_init1"> cproc_bio_init1 </A>
+
+<li><A HREF = "#crop_root_incorp"> crop_root_incorp </A>
+
+<ul><li><A HREF = "#crop_root_dist"> crop_root_dist </A>
+
+</ul><li><A HREF = "#crop_top_residue"> crop_top_residue </A>
+
+<li><A HREF = "#crop_my_type"> crop_my_type </A>
+
+<li><A HREF = "#crop_get_ext_uptakes"> crop_get_ext_uptakes </A>
+
+</ul>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "Crop Library"> Crop Library </A></BIG></H2>
+<A NAME = "crop_failure_germination">  </A>
+<H2>Crop Failure Germination</H2>
+<br>
+<H3><CENTER>Crop failure from lack of germination.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (sowing is between germ and current_stage.and.<FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>sowing</SUP><SUB>now</SUB> days_tot.>=.days_germ_limit) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>plants = - plants<br>
+
+write (to string)  ' crop failure because of lack of' , new_line , '         germination within' , days_germ_limit , ' days of sowing'<br>
+
+Write a string to a file<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>plants = 0 . 0<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_failure_emergence">  </A>
+<H2>Crop Failure Emergence</H2>
+<br>
+<H3><CENTER>Crop failure from lack of emergence.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (germ is between emerg and current_stage.and.<FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>germ</SUP><SUB>now</SUB> tt_tot.>.tt_emerg_limit) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>plants = - plants<br>
+
+write (to string)  ' failed emergence due to deep planting'<br>
+
+Write a string to a file<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>plants = 0 . 0<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_temperature_stress_photo">  </A>
+<H2>Crop Temperature Stress Photo</H2>
+<br>
+<H3><CENTER>photosynthetic reduction factor for temperature stress (0-1)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+ave_temp = (maxt+mint) / 2 . 0<br>
+
+temp_stress_photo = A linearly interpolated value based upon ave_temp (where X = x_ave_temp, Y = y_stress_photo)..<br>
+
+temp_stress_photo = temp_stress_photo constrained between 0 . 0 and 1 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_sw_uptake0">  </A>
+<H2>Crop Sw Uptake0</H2>
+<br>
+<H3><CENTER>Returns actual water uptake from each layer of the soil profile by the crop (mm).  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+if (sw_supply_sum.<=.0.0.or.sw_demand.<=.0.0) then<br>
+
+<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw_dep with 0 . 0<br>
+
+</dl>else<br>
+
+<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw_dep with 0 . 0<br>
+
+if (sw_demand.<.sw_supply_sum) then<br>
+
+<dl>For each layer from 1 to deepest_layer<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>sw_dep<I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I> / sw_supply_sum * sw_demand<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+<dl>For each layer from 1 to deepest_layer<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>sw_dep<I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+</dl>endif<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_swdef_expansion">  </A>
+<H2>Crop Swdef Expansion</H2>
+<br>
+<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+sw_demand_ratio = sw_supply_sum / sw_demand<br>
+
+swdef = A linearly interpolated value based upon sw_demand_ratio (where X = x_sw_demand_ratio, Y = y_swdef_leaf)..<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_swdef_photo">  </A>
+<H2>Crop Swdef Photo</H2>
+<br>
+<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+sw_demand_ratio = sw_supply_sum / sw_demand<br>
+
+swdef = sw_demand_ratio constrained between 0 . 0 and 1 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_swdef_pheno">  </A>
+<H2>Crop Swdef Pheno</H2>
+<br>
+<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_avail_pot_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail_pot<br>
+
+sw_avail_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail<br>
+
+sw_avail_ratio = sw_avail_sum / sw_avail_pot_sum<br>
+
+sw_avail_ratio = sw_avail_ratio constrained between 0 . 0 and 1 . 0<br>
+
+swdef = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_avail_ratio, Y = y_swdef_pheno)..<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_swdef_fixation">  </A>
+<H2>Crop Swdef Fixation</H2>
+<br>
+<H3><CENTER>Get the soil water availability factor (0-1), commonly called soil water deficit factor. 1 is no stress, 0 is full stress.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_avail_pot_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail_pot<br>
+
+sw_avail_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_avail<br>
+
+sw_avail_ratio = sw_avail_sum / sw_avail_pot_sum<br>
+
+sw_avail_ratio = sw_avail_ratio constrained between 0 . 0 and 1 . 0<br>
+
+swdef = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_avail_fix, Y = y_swdef_fix)..<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_oxdef_photo1">  </A>
+<H2>Crop Oxdef Photo1</H2>
+<br>
+<H3><CENTER>Calculate 0-1 factor for water logging effect on growth  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+tot_root_fr = 1 . 0<br>
+
+<A HREF = "#crop_root_dist"> Distribute tot_root_fr over the profile according to root distribution </A><br>
+
+num_root_layers = number of elements in root_fr<br>
+
+wet_root_fr = 0 . 0<br>
+
+For each layer from 1 to num_root_layers<br>
+
+<dl>wfps = sw_dep<I><SUB> layer</SUB></I> - ll15_dep<I><SUB> layer</SUB></I> / sat_dep<I><SUB> layer</SUB></I> - ll15_dep<I><SUB> layer</SUB></I><br>
+
+wfps = wfps constrained between 0 . 0 and 1 . 0<br>
+
+wet_root_fr = wet_root_fr + wfps * root_fr<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+oxdef_photo = A linearly interpolated value based upon wet_root_fr (where X = <A HREF = "#oxdef_photo_rtfr"> oxdef_photo_rtfr </A>, Y = <A HREF = "#oxdef_photo"> oxdef_photo </A>)..<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_root_dist">  </A>
+<H2>Crop Root Dist</H2>
+<br>
+<H3><CENTER>Distribute root material over profile based upon root length distribution.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill root_array with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+root_length_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> root_length<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>root_array<I><SUB> layer</SUB></I> = root_sum * root_length<I><SUB> layer</SUB></I> / root_length_sum<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_sw_supply1">  </A>
+<H2>Cproc Sw Supply1</H2>
+<br>
+<H3><CENTER>Calculate the crop water supply based on the KL approach.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_check_sw"> Check validity of soil water parameters for all soil profile layers. </A><br>
+
+<A HREF = "#crop_sw_avail_pot"> Calculate the potentially (or maximum) available soil water </A><br>
+
+<A HREF = "#crop_sw_avail"> Calculate the available soil water </A><br>
+
+<A HREF = "#crop_sw_supply"> Calculate today's soil water supply </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_check_sw">  </A>
+<H2>Crop Check Sw</H2>
+<br>
+<H3><CENTER>Check validity of soil water parameters for all soil profile layers.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+num_layers = number of elements in dlayer<br>
+
+For each layer from 1 to num_layers<br>
+
+<dl>sw = sw_dep<I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+
+dul = dul_dep<I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+
+ll = ll_dep<I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+
+if (ll.<.minsw) then<br>
+
+<dl>write (to err_messg)  ' lower limit of ' , ll , ' in layer ' , layer , new_line , '         is below acceptable value of ' , minsw<br>
+
+Print a warning error<br>
+
+</dl>else<br>
+
+endif<br>
+
+if (dul.<=.ll) then<br>
+
+<dl>write (to err_messg)  ' drained upper limit of ' , dul , ' in layer ' , layer , new_line , '         is at or below lower limit of ' , ll<br>
+
+Print a warning error<br>
+
+</dl>else<br>
+
+endif<br>
+
+if (sw.<.minsw) then<br>
+
+<dl>write (to err_messg)  ' soil water of ' , sw , ' in layer ' , layer , new_line , '         is below acceptable value of ' , minsw<br>
+
+Print a warning error<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_sw_avail_pot">  </A>
+<H2>Crop Sw Avail Pot</H2>
+<br>
+<H3><CENTER>Return potential water uptake from each layer in the soil profile by the crop (mm water) from a fully wet profile  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill sw_avail_pot with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>sw_avail_pot<I><SUB> layer</SUB></I> = dul_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+sw_avail_pot<I><SUB> deepest_layer</SUB></I> = sw_avail_pot<I><SUB> deepest_layer</SUB></I> * proportion of layer deepest_layer explored by roots<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_sw_avail">  </A>
+<H2>Crop Sw Avail</H2>
+<br>
+<H3><CENTER>Return actual water available for extraction from each layer in the soil profile by the crop (mm water)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill sw_avail with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>sw_avail<I><SUB> layer</SUB></I> = sw_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
+
+sw_avail<I><SUB> layer</SUB></I> = sw_avail<I><SUB> layer</SUB></I> constrained above 0 . 0<br>
+
+</dl>next<br>
+
+sw_avail<I><SUB> deepest_layer</SUB></I> = sw_avail<I><SUB> deepest_layer</SUB></I> * proportion of layer deepest_layer explored by roots<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_sw_supply">  </A>
+<H2>Crop Sw Supply</H2>
+<br>
+<H3><CENTER>Return potential water uptake from each layer of the soil profile by the crop (mm water). This represents the maximum amount in each layer regardless of lateral root distribution but takes account of root depth in bottom layer.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill sw_supply with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>sw_avail = (sw_dep<I><SUB> layer</SUB></I>-ll_dep<I><SUB> layer</SUB></I>)<br>
+
+sw_supply<I><SUB> layer</SUB></I> = sw_avail * kl<I><SUB> layer</SUB></I><br>
+
+sw_supply<I><SUB> layer</SUB></I> = sw_supply<I><SUB> layer</SUB></I> constrained above 0 . 0<br>
+
+</dl>next<br>
+
+sw_supply<I><SUB> deepest_layer</SUB></I> = sw_supply<I><SUB> deepest_layer</SUB></I> * proportion of layer deepest_layer explored by roots<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_sw_uptake1">  </A>
+<H2>Cproc Sw Uptake1</H2>
+<br>
+<H3><CENTER>Returns actual water uptake from each layer of the soil profile by the crop (mm).  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+if (sw_supply_sum.<=.0.0.or.sw_demand.<=.0.0) then<br>
+
+<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw_dep with 0 . 0<br>
+
+</dl>else<br>
+
+<dl>Fill <FONT FACE = "SYMBOL">D</FONT>sw_dep with 0 . 0<br>
+
+if (sw_demand.<.sw_supply_sum) then<br>
+
+<dl>For each layer from 1 to deepest_layer<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>sw_dep<I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I> / sw_supply_sum * sw_demand<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+<dl>For each layer from 1 to deepest_layer<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>sw_dep<I><SUB> layer</SUB></I> = - sw_supply<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+</dl>endif<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_sw_demand1">  </A>
+<H2>Cproc Sw Demand1</H2>
+<br>
+<H3><CENTER>Return crop water demand from soil by the crop (mm)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+sw_demand = <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue / transp_eff<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_transp_eff1">  </A>
+<H2>Cproc Transp Eff1</H2>
+<br>
+<H3><CENTER>Calculate today's transpiration efficiency from min and max temperatures and converting mm water to g dry matter (g dm/m^2/mm water)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+current_phase = int (current_stage)<br>
+
+vpd = svp_fract * (svp<I><SUB> maxt</SUB></I>-svp<I><SUB> mint</SUB></I>)<br>
+
+transp_eff = transp_eff_cf<I><SUB> current_phase</SUB></I> / vpd / g2mm<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_bio_water1">  </A>
+<H2>Cproc Bio Water1</H2>
+<br>
+<H3><CENTER>Calculate the potential biomass production based upon today's water supply.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_pot_te = sw_supply_sum * transp_eff<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_nfact_photo">  </A>
+<H2>Crop Nfact Photo</H2>
+<br>
+<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a series of Nitrogen stress indices.  The stress indices for photosynthesis and cell expansion are calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_n_conc_ratio"> Calculate N concentration ratio for leaf and stem </A><br>
+
+n_def = n_fact_photo * n_conc_ratio<br>
+
+nfact = n_def constrained between 0 . 0 and 1 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_conc_ratio">  </A>
+<H2>Crop N Conc Ratio</H2>
+<br>
+<H3><CENTER>Calculate the fractional position of leaf and stem nitrogen concentration between the minimum and critical concentrations.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+dm_stover = dm_green<I><SUB> leaf</SUB></I> + dm_green<I><SUB> stem</SUB></I><br>
+
+n_stover = n_green<I><SUB> leaf</SUB></I> + n_green<I><SUB> stem</SUB></I><br>
+
+n_conc_stover = n_stover / dm_stover<br>
+
+n_leaf_crit = n_conc_crit<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
+
+n_stem_crit = n_conc_crit<I><SUB> stem</SUB></I> * dm_green<I><SUB> stem</SUB></I><br>
+
+n_stover_crit = n_leaf_crit + n_stem_crit<br>
+
+n_conc_stover_crit = n_stover_crit / dm_stover<br>
+
+n_leaf_min = n_conc_min<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
+
+n_stem_min = n_conc_min<I><SUB> stem</SUB></I> * dm_green<I><SUB> stem</SUB></I><br>
+
+n_stover_min = n_leaf_min + n_stem_min<br>
+
+n_conc_stover_min = n_stover_min / dm_stover<br>
+
+n_conc_ratio = (n_conc_stover-n_conc_stover_min) / (n_conc_stover_crit-n_conc_stover_min)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_nfact_pheno">  </A>
+<H2>Crop Nfact Pheno</H2>
+<br>
+<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a series of Nitrogen stress indices.  The stress indices for photosynthesis and cell expansion are calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_n_conc_ratio"> Calculate N concentration ratio for leaf and stem </A><br>
+
+n_def = n_fact_pheno * n_conc_ratio<br>
+
+nfact = n_def constrained between 0 . 0 and 1 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_nfact_grain_conc">  </A>
+<H2>Crop Nfact Grain Conc</H2>
+<br>
+<H3><CENTER>The concentration of Nitrogen in leaves is used to derive a series of Nitrogen stress indices.  The stress indices for photosynthesis and cell expansion are calculated from today's relative nutritional status between a critical and minimum leaf Nitrogen concentration.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_n_conc_ratio"> Calculate N concentration ratio for leaf and stem </A><br>
+
+nfact = n_conc_ratio constrained between 0 . 0 and 1 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_nfact_expansion">  </A>
+<H2>Crop Nfact Expansion</H2>
+<br>
+<H3><CENTER>Calculate Nitrogen stress factor for photosynthesis  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+n_conc_leaf = n_green<I><SUB> leaf</SUB></I> / dm_green<I><SUB> leaf</SUB></I><br>
+
+n_leaf_crit = n_conc_crit<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
+
+n_conc_leaf_crit = n_leaf_crit / dm_green<I><SUB> leaf</SUB></I><br>
+
+n_leaf_min = n_conc_min<I><SUB> leaf</SUB></I> * dm_green<I><SUB> leaf</SUB></I><br>
+
+n_conc_leaf_min = n_leaf_min / dm_green<I><SUB> leaf</SUB></I><br>
+
+n_conc_ratio_leaf = (n_conc_leaf-n_conc_leaf_min) / (n_conc_leaf_crit-n_conc_leaf_min)<br>
+
+n_def = n_fact_expansion * n_conc_ratio_leaf<br>
+
+nfact = n_def constrained between 0 . 0 and 1 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_detachment">  </A>
+<H2>Crop N Detachment</H2>
+<br>
+<H3><CENTER>Calculate today's Nitrogen lost from senesced pools due to detachment  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>n_detached with 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_detached<I><SUB> leaf</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> leaf</SUB></I> * dm_leaf_detach_frac<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_detached<I><SUB> root</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> root</SUB></I><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_dead_detachment">  </A>
+<H2>Crop N Dead Detachment</H2>
+<br>
+<H3><CENTER>Plant Nitrogen loss from dead plants  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each part from 1 to num_part<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>n_dead_detached<I><SUB> part</SUB></I> = n_dead<I><SUB> part</SUB></I> * dead_detach_frac<I><SUB> part</SUB></I><br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_dlt_grain_conc">  </A>
+<H2>Crop N Dlt Grain Conc</H2>
+<br>
+<H3><CENTER>Calculate the nitrogen concentration required to meet the increase from daily grain growth (0-1)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+ave_temp = (maxt+mint) / 2 . 0<br>
+
+n_grain_temp_fac = temp_fac_min + tfac_slope * ave_temp<br>
+
+n_grain_sw_fac = sw_fac_max - sfac_slope * swdef_expansion<br>
+
+n_conc_pot = n_conc_min<I><SUB> grain</SUB></I> + (n_conc_crit<I><SUB> grain</SUB></I>-n_conc_min<I><SUB> grain</SUB></I>) * nfact_grain_conc<br>
+
+crop_n_dlt_grain_conc = n_conc_pot * maximum of (n_grain_temp_fac, n_grain_sw_fac)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_retrans_avail">  </A>
+<H2>Crop N Retrans Avail</H2>
+<br>
+<H3><CENTER>Calculate N available for transfer to grain (g/m^2) from each plant part.  By definition, available grain N is set to 0.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each part from 1 to num_part<br>
+
+<dl>n_min = n_conc_min<I><SUB> part</SUB></I> * dm_green<I><SUB> part</SUB></I><br>
+
+n_avail<I><SUB> part</SUB></I> = n_green<I><SUB> part</SUB></I> - n_min constrained above 0 . 0<br>
+
+</dl>next<br>
+
+n_avail<I><SUB> grain</SUB></I> = 0 . 0<br>
+
+n_avail<I><SUB> root</SUB></I> = 0 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_senescence1">  </A>
+<H2>Cproc N Senescence1</H2>
+<br>
+<H3><CENTER>Derives seneseced plant nitrogen (g N/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each part from 1 to num_part<br>
+
+<dl>green_n_conc = n_green<I><SUB> part</SUB></I> / dm_green<I><SUB> part</SUB></I><br>
+
+sen_n_conc = minimum of (<A HREF = "#n_sen_conc"> n_sen_conc </A><I><SUB> part</SUB></I>, green_n_conc)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> part</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> part</SUB></I> * sen_n_conc<br>
+
+<FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> part</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>n_senesced<I><SUB> part</SUB></I> constrained above n_green<I><SUB> part</SUB></I><br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_uptake1">  </A>
+<H2>Cproc N Uptake1</H2>
+<br>
+<H3><CENTER>Return actual plant nitrogen uptake from each soil layer.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>no3gsm_diffn_avail<I><SUB> layer</SUB></I> = no3gsm_diffn_pot<I><SUB> layer</SUB></I> - no3gsm_mflow_avail<I><SUB> layer</SUB></I><br>
+
+no3gsm_diffn_avail<I><SUB> layer</SUB></I> = no3gsm_diffn_avail<I><SUB> layer</SUB></I> constrained above 0 . 0<br>
+
+</dl>next<br>
+
+no3gsm_mflow_supply = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> no3gsm_mflow_avail<br>
+
+no3gsm_diffn_supply = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> no3gsm_diffn_avail<br>
+
+n_demand = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> n_demand<br>
+
+n_max = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> n_max<br>
+
+if (no3gsm_mflow_supply.>=.n_demand) then<br>
+
+<dl>no3gsm_mflow = no3gsm_mflow_supply<br>
+
+no3gsm_mflow = no3gsm_mflow constrained above n_max<br>
+
+no3gsm_diffn = 0 . 0<br>
+
+</dl>else<br>
+
+<dl>no3gsm_mflow = no3gsm_mflow_supply<br>
+
+if (<A HREF = "#n_supply_preference"> n_supply_preference </A>.=.'active') then<br>
+
+<dl>no3gsm_diffn = n_demand - no3gsm_mflow constrained between 0 . 0 and no3gsm_diffn_supply<br>
+
+</dl>elseif (<A HREF = "#n_supply_preference"> n_supply_preference </A>.=.'fixation') then<br>
+
+<dl>no3gsm_diffn = n_demand - no3gsm_mflow - n_fix_pot constrained between 0 . 0 and no3gsm_diffn_supply<br>
+
+</dl>else<br>
+
+<dl>Report a fatal error<br>
+
+</dl>endif<br>
+
+no3gsm_diffn = no3gsm_diffn / <A HREF = "#no3_diffn_const"> no3_diffn_const </A><br>
+
+</dl>endif<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>no3gsm with 0 . 0<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>mflow_fract = no3gsm_mflow_avail<I><SUB> layer</SUB></I> / no3gsm_mflow_supply<br>
+
+diffn_fract = no3gsm_diffn_avail<I><SUB> layer</SUB></I> / no3gsm_diffn_supply<br>
+
+no3gsm_uptake = no3gsm_mflow * mflow_fract + no3gsm_diffn * diffn_fract<br>
+
+<FONT FACE = "SYMBOL">D</FONT>no3gsm<I><SUB> layer</SUB></I> = - no3gsm_uptake<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_supply1">  </A>
+<H2>Cproc N Supply1</H2>
+<br>
+<H3><CENTER>Calculate nitrogen supplys from soil and fixation  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_n_mass_flow1"> Calculate crop nitrogen supply from mass flow, no3gsm_mflow_avail. </A><br>
+
+<A HREF = "#crop_n_diffusion1"> Calculate crop nitrogen supply from active uptake, no3gsm_diffn_pot. </A><br>
+
+<A HREF = "#crop_n_fixation_pot1"> Calculate crop nitrogen supply from fixation, %8. </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_mass_flow1">  </A>
+<H2>Crop N Mass Flow1</H2>
+<br>
+<H3><CENTER>Return potential nitrogen uptake (supply) by mass flow (water uptake) (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill no3gsm_mflow_pot with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>no3_conc = no3gsm<I><SUB> layer</SUB></I> / sw_dep<I><SUB> layer</SUB></I><br>
+
+no3gsm_mflow = no3_conc * (-<FONT FACE = "SYMBOL">D</FONT>sw_dep<I><SUB> layer</SUB></I>)<br>
+
+no3gsm_mflow_pot<I><SUB> layer</SUB></I> = no3gsm_mflow constrained above no3gsm<I><SUB> layer</SUB></I> - no3gsm_min<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+format (1x, 5f10 . 6)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_diffusion1">  </A>
+<H2>Crop N Diffusion1</H2>
+<br>
+<H3><CENTER>Return potential nitrogen uptake (supply) by diffusion for a plant (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill no3gsm_diffn_pot with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>sw_avail_fract = sw_avail<I><SUB> layer</SUB></I> / sw_avail_pot<I><SUB> layer</SUB></I><br>
+
+sw_avail_fract = sw_avail_fract constrained between 0 . 0 and 1 . 0<br>
+
+no3gsm_diffn = sw_avail_fract * no3gsm<I><SUB> layer</SUB></I><br>
+
+no3gsm_diffn_pot<I><SUB> layer</SUB></I> = no3gsm_diffn constrained above no3gsm<I><SUB> layer</SUB></I> - no3gsm_min<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_n_fixation_pot1">  </A>
+<H2>Crop N Fixation Pot1</H2>
+<br>
+<H3><CENTER>calculate the quantity of atmospheric nitrogen fixed per unit carbohydrate per day (mgN_fixed/g plant)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+current_phase = int (current_stage)<br>
+
+n_fix_pot = <A HREF = "#n_fix_rate"> n_fix_rate </A><I><SUB> current_phase</SUB></I> * fixation_determinant * swdef_fixation<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_demand1">  </A>
+<H2>Cproc N Demand1</H2>
+<br>
+<H3><CENTER>Return plant nitrogen demand for each plant component  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill n_demand with 0 . 0<br>
+
+Fill n_max with 0 . 0<br>
+
+For each counter from 1 to num_demand_parts<br>
+
+<dl>part = demand_parts<I><SUB> counter</SUB></I><br>
+
+part_fract = <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I> / <FONT FACE = "SYMBOL">D</FONT>dm<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_pot = <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue * part_fract<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_pot = <FONT FACE = "SYMBOL">D</FONT>dm_pot constrained between 0 . 0 and <FONT FACE = "SYMBOL">D</FONT>dm_pot_rue<br>
+
+if (dm_green<I><SUB> part</SUB></I>.>.0.0) then<br>
+
+<dl>n_crit = dm_green<I><SUB> part</SUB></I> * n_conc_crit<I><SUB> part</SUB></I><br>
+
+n_potential = dm_green<I><SUB> part</SUB></I> * n_conc_max<I><SUB> part</SUB></I><br>
+
+n_demand_old = n_crit - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+
+n_max_old = n_potential - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+
+n_demand_new = <FONT FACE = "SYMBOL">D</FONT>dm_pot * n_conc_crit<I><SUB> part</SUB></I><br>
+
+n_max_new = <FONT FACE = "SYMBOL">D</FONT>dm_pot * n_conc_max<I><SUB> part</SUB></I><br>
+
+n_demand<I><SUB> part</SUB></I> = n_demand_old + n_demand_new<br>
+
+n_max<I><SUB> part</SUB></I> = n_max_old + n_max_new<br>
+
+n_demand<I><SUB> part</SUB></I> = n_demand<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+
+n_max<I><SUB> part</SUB></I> = n_max<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+
+</dl>else<br>
+
+<dl>n_demand<I><SUB> part</SUB></I> = 0 . 0<br>
+
+n_max<I><SUB> part</SUB></I> = 0 . 0<br>
+
+</dl>endif<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_init1">  </A>
+<H2>Cproc N Init1</H2>
+<br>
+<H3><CENTER>Initialise plant Nitrogen pools  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of init_stage) then<br>
+
+<dl>For each part from 1 to max_part<br>
+
+<dl>n_green<I><SUB> part</SUB></I> = <A HREF = "#n_init_conc"> n_init_conc </A><I><SUB> part</SUB></I> * dm_green<I><SUB> part</SUB></I><br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_detachment1">  </A>
+<H2>Cproc N Detachment1</H2>
+<br>
+<H3><CENTER>Simulate plant Nitrogen detachment.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in n_senesced based on fractional decay rates. </A><br>
+
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in n_dead based on fractional decay rates. </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_pool_fraction_delta">  </A>
+<H2>Crop Pool Fraction Delta</H2>
+<br>
+<H3><CENTER>Multiply plant pool array by a part fraction array.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each part from 1 to num_part<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>pool<I><SUB> part</SUB></I> = pool<I><SUB> part</SUB></I> * fraction<I><SUB> part</SUB></I><br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_supply2">  </A>
+<H2>Cproc N Supply2</H2>
+<br>
+<H3><CENTER>Calculate nitrogen supplys from soil and fixation  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_n_mass_flow1"> Calculate crop nitrogen supply from mass flow, no3gsm_mflow_avail. </A><br>
+
+<A HREF = "#crop_n_diffusion1"> Calculate crop nitrogen supply from active uptake, no3gsm_diffn_pot. </A><br>
+
+<A HREF = "#crop_n_fixation_pot1"> Calculate crop nitrogen supply from fixation, %8. </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_n_demand2">  </A>
+<H2>Cproc N Demand2</H2>
+<br>
+<H3><CENTER>Return plant nitrogen demand for each plant component  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill n_demand with 0 . 0<br>
+
+Fill n_max with 0 . 0<br>
+
+For each counter from 1 to num_demand_parts<br>
+
+<dl>part = demand_parts<I><SUB> counter</SUB></I><br>
+
+if (dm_green<I><SUB> part</SUB></I>.>.0.0) then<br>
+
+<dl>n_crit = dm_green<I><SUB> part</SUB></I> * n_conc_crit<I><SUB> part</SUB></I><br>
+
+n_potential = dm_green<I><SUB> part</SUB></I> * n_conc_max<I><SUB> part</SUB></I><br>
+
+n_demand_old = n_crit - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+
+n_max_old = n_potential - (n_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>n_retrans<I><SUB> part</SUB></I>)<br>
+
+n_demand_new = <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I> * n_conc_crit<I><SUB> part</SUB></I><br>
+
+n_max_new = <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I> * n_conc_max<I><SUB> part</SUB></I><br>
+
+n_demand<I><SUB> part</SUB></I> = n_demand_old + n_demand_new<br>
+
+n_max<I><SUB> part</SUB></I> = n_max_old + n_max_new<br>
+
+n_demand<I><SUB> part</SUB></I> = n_demand<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+
+n_max<I><SUB> part</SUB></I> = n_max<I><SUB> part</SUB></I> constrained above 0 . 0<br>
+
+</dl>else<br>
+
+<dl>n_demand<I><SUB> part</SUB></I> = 0 . 0<br>
+
+n_max<I><SUB> part</SUB></I> = 0 . 0<br>
+
+</dl>endif<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_stage_code">  </A>
+<H2>Crop Stage Code</H2>
+<br>
+<H3><CENTER>Return an interpolated stage code from a table of stage_codes and a nominated stage number. Returns 0 if the stage number is not found. Interpolation is done on thermal time.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (numvals.>=.2) then<br>
+
+<dl>this_stage = stage number of stage_table<I><SUB> 1</SUB></I><br>
+
+For each i from 2 to numvals<br>
+
+<dl>next_stage = stage number of stage_table<I><SUB> i</SUB></I><br>
+
+if (this_stage is between next_stage and stage_no) then<br>
+
+<dl>tt_tot = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>this_stage</SUP><SUB>next_stage</SUB> tt_tot<br>
+
+phase_tt = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>this_stage</SUP><SUB>next_stage</SUB> phase_tt<br>
+
+fraction_of = tt_tot / phase_tt<br>
+
+x_stage_code = stage_table<I><SUB> i - 1</SUB></I> + (stage_table<I><SUB> i</SUB></I>-stage_table<I><SUB> i - 1</SUB></I>) * fraction_of<br>
+
+goto 2000<br>
+
+</dl>else<br>
+
+<dl>x_stage_code = 0 . 0<br>
+
+this_stage = next_stage<br>
+
+</dl>endif<br>
+
+</dl>next<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+<dl>x_stage_code = 0 . 0<br>
+
+write (to error_message)  'invalid lookup table - number of values =' , numvals<br>
+
+Print a warning error<br>
+
+</dl>endif<br>
+
+crop_stage_code = x_stage_code<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_phenology1">  </A>
+<H2>Cproc Phenology1</H2>
+<br>
+<H3><CENTER>Use temperature, photoperiod and genetic characteristics to determine when the crop begins a new growth phase. The initial daily thermal time and height are also set.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+previous_stage = current_stage<br>
+
+<A HREF = "#crop_thermal_time"> Calculate today's thermal time, <A HREF = "#num_temp"> num_temp </A>1. </A><br>
+
+<A HREF = "#crop_phase_devel"> Determine the progress through the current growth stage. </A><br>
+
+<A HREF = "#crop_devel"> Determine the current stage of crop development. </A><br>
+
+Accumulate <FONT FACE = "SYMBOL">D</FONT>tt (in array tt_tot)<br>
+
+Accumulate 1 . 0 (in array days_tot)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_thermal_time">  </A>
+<H2>Crop Thermal Time</H2>
+<br>
+<H3><CENTER>Growing degree day (thermal time) is calculated.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+dly_therm_time = temperature factor (based on 3hourly estimates)<br>
+
+if (start_stress_stage is between end_stress_stage and current_stage) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>tt = dly_therm_time * minimum of (swdef_pheno, nfact_pheno)<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>tt = dly_therm_time<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_phase_devel">  </A>
+<H2>Crop Phase Devel</H2>
+<br>
+<H3><CENTER>Determine the fraction of current phase elapsed ().  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (sowing_stage is between germ_stage and current_stage) then<br>
+
+<dl>phase_devel = <A HREF = "#crop_germination"> Determine germination based upon soil moisture status. </A><br>
+
+</dl>elseif (germ_stage is between end_development_stage and current_stage) then<br>
+
+<dl><A HREF = "#crop_germ_dlt_tt"> Calculate emergence adjusted thermal time (based on moisture status) </A><br>
+
+phase_devel = <A HREF = "#crop_phase_tt"> the fractional progress through growth stage current_stage </A><br>
+
+</dl>else<br>
+
+<dl>phase_devel = mod (current_stage, 1 . 0)<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_germination">  </A>
+<H2>Crop Germination</H2>
+<br>
+<H3><CENTER>Determine germination based on soil water availability  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (sowing_stage is between germ_stage and current_stage) then<br>
+
+<dl>layer_no_seed = layer number corresponding to sowing_depth<br>
+
+pesw_seed = sw_dep<I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> p_ll_dep </A><I><SUB> layer_no_seed</SUB></I> / dlayer<I><SUB> layer_no_seed</SUB></I><br>
+
+if (pesw_seed.>.<A HREF = "#pesw_germ"> pesw_germ </A>.and..not.on the first day of sowing_stage) then<br>
+
+<dl>crop_germination = 1 . 0 + mod (current_stage, 1 . 0)<br>
+
+</dl>else<br>
+
+<dl>crop_germination = 0 . 999<br>
+
+</dl>endif<br>
+
+</dl>else<br>
+
+<dl>crop_germination = 0 . 0<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_phase_tt">  </A>
+<H2>Crop Phase Tt</H2>
+<br>
+<H3><CENTER>Return fraction of thermal time we are through the current phenological phase (0-1)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+phase = int (stage_no)<br>
+
+crop_phase_tt = tt_tot<I><SUB> phase</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>tt / phase_tt<I><SUB> phase</SUB></I><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_germ_dlt_tt">  </A>
+<H2>Crop Germ Dlt Tt</H2>
+<br>
+<H3><CENTER>Calculate change in phase thermal time as influenced by stress  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+current_phase = int (current_stage)<br>
+
+if (current_phase.=.germ_phase) then<br>
+
+<dl>layer_no_seed = layer number corresponding to sowing_depth<br>
+
+fasw_seed = sw_dep<I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> p_ll_dep </A><I><SUB> layer_no_seed</SUB></I> / dul_dep<I><SUB> layer_no_seed</SUB></I> - <A HREF = "#ll_dep"> p_ll_dep </A><I><SUB> layer_no_seed</SUB></I><br>
+
+fasw_seed = fasw_seed constrained between 0 . 0 and 1 . 0<br>
+
+rel_emerg_rate = A linearly interpolated value based upon fasw_seed (where X = <A HREF = "#fasw_emerg"> fasw_emerg </A>, Y = <A HREF = "#rel_emerg_rate"> rel_emerg_rate </A>)..<br>
+
+<FONT FACE = "SYMBOL">D</FONT>tt = <FONT FACE = "SYMBOL">D</FONT>tt * rel_emerg_rate<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>tt = <FONT FACE = "SYMBOL">D</FONT>tt<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_devel">  </A>
+<H2>Crop Devel</H2>
+<br>
+<H3><CENTER>Determine the curent stage of development.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+new_stage = aint (current_stage) + phase_devel<br>
+
+<FONT FACE = "SYMBOL">D</FONT>stage = new_stage - current_stage<br>
+
+if (phase_devel.>=.1.0) then<br>
+
+<dl>current_stage = aint (current_stage + 1 . 0)<br>
+
+if (int (current_stage).=.max_stage) then<br>
+
+<dl>current_stage = 1 . 0<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>else<br>
+
+<dl>current_stage = new_stage<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_lai_equilib_water">  </A>
+<H2>Crop Lai Equilib Water</H2>
+<br>
+<H3><CENTER>Return the lai threshold for water induced senescence.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+stage_no = int (current_stage)<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_transp = sw_supply_sum * transp_eff<br>
+
+rue_reduction = minimum of (temp_stress_photo, nfact_photo)<br>
+
+lrue = rue<I><SUB> stage_no</SUB></I> * rue_reduction<br>
+
+Check that lrue lies between 0 . 0 and rue<I><SUB> stage_no</SUB></I><br>
+
+radn_canopy = radn_int / cover_green<br>
+
+sen_radn_crit = <FONT FACE = "SYMBOL">D</FONT>dm_transp / lrue<br>
+
+intc_crit = sen_radn_crit / radn_canopy<br>
+
+if (intc_crit.<.1.0) then<br>
+
+<dl>lai_equilib_water_today = - <I>log</I><SUB>e</SUB>(1 . 0 - intc_crit) / extinction_coef<br>
+
+</dl>else<br>
+
+<dl>lai_equilib_water_today = lai<br>
+
+</dl>endif<br>
+
+<A HREF = "#crop_store_value"> Store lai_equilib_water_today in a historical record </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_store_value">  </A>
+<H2>Crop Store Value</H2>
+<br>
+<H3><CENTER>Stores a value in an annual circular array  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+array<I><SUB> day_of_year</SUB></I> = value<br>
+
+if (day_of_year.=.365.and.leap_year<I><SUB> year - 1</SUB></I>) then<br>
+
+<dl>array<I><SUB> 366</SUB></I> = 0 . 0<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_lai_equilib_light">  </A>
+<H2>Crop Lai Equilib Light</H2>
+<br>
+<H3><CENTER>Return the lai threshold for light induced senescence.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+radn_canopy = radn_int / cover_green<br>
+
+trans_crit = sen_radn_crit / radn_canopy<br>
+
+if (trans_crit.>.0.0) then<br>
+
+<dl>lai_eqlb_light_today = - <I>log</I><SUB>e</SUB>(trans_crit) / extinction_coef<br>
+
+</dl>else<br>
+
+<dl>lai_eqlb_light_today = lai<br>
+
+</dl>endif<br>
+
+<A HREF = "#crop_store_value"> Store lai_eqlb_light_today in a historical record </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_leaf_area_sen_water2">  </A>
+<H2>Crop Leaf Area Sen Water2</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day from water stress  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_supply_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> sw_supply<br>
+
+sw_demand_ratio = sw_supply_sum / sw_demand<br>
+
+if (sw_demand_ratio.<.sen_threshold) then<br>
+
+<dl>ave_lai_equilib_water = <A HREF = "#crop_running_ave"> Calculate the average of lai_equilib_water over the previous 10 days. </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_water = (lai-ave_lai_equilib_water) / sen_water_time_const<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_water = <FONT FACE = "SYMBOL">D</FONT>slai_water constrained above 0 . 0<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>slai_water = 0 . 0<br>
+
+</dl>endif<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_water = <FONT FACE = "SYMBOL">D</FONT>slai_water constrained between 0 . 0 and lai<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_running_ave">  </A>
+<H2>Crop Running Ave</H2>
+<br>
+<H3><CENTER>return the running average of an array over the last specified number of days.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+start_day = year offset by - number_of_days days<br>
+
+crop_running_ave = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_day</SUP><SUB>day_of_year</SUB> array / real (abs (number_of_days))<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_leaf_area_sen_light2">  </A>
+<H2>Crop Leaf Area Sen Light2</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day from low light  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+radn_transmitted = radn - radn_int<br>
+
+if (radn_transmitted.<.sen_radn_crit) then<br>
+
+<dl>ave_lai_equilib_light = <A HREF = "#crop_running_ave"> Calculate the average of lai_equilib_light over the previous 10 days. </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_light = lai - ave_lai_equilib_light / sen_light_time_const<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_light = <FONT FACE = "SYMBOL">D</FONT>slai_light constrained above 0 . 0<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>slai_light = 0 . 0<br>
+
+</dl>endif<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_light = <FONT FACE = "SYMBOL">D</FONT>slai_light constrained between 0 . 0 and lai<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_area_sen1">  </A>
+<H2>Cproc Leaf Area Sen1</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_leaf_area_sen_age1"> Calculate today's leaf area senescence due to aging. </A><br>
+
+<A HREF = "#crop_leaf_area_sen_light1"> Calculate today's leaf area senescence due to light competition. </A><br>
+
+<A HREF = "#crop_leaf_area_sen_water1"> Calculate today's leaf area senescence due to water stress. </A><br>
+
+<A HREF = "#crop_leaf_area_sen_frost1"> Calculate today's leaf area senescence due to frost </A><br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai = maximum of (<FONT FACE = "SYMBOL">D</FONT>slai_age, <FONT FACE = "SYMBOL">D</FONT>slai_light, <FONT FACE = "SYMBOL">D</FONT>slai_water, <FONT FACE = "SYMBOL">D</FONT>slai_frost)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_leaf_area_sen_age1">  </A>
+<H2>Crop Leaf Area Sen Age1</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day due to ageing  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+leaf_no_dead = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>emergence</SUP><SUB>this_stage</SUB> leaf_no_dead + <FONT FACE = "SYMBOL">D</FONT>leaf_no_dead<br>
+
+dying_leaf = int (1 . 0 + leaf_no_dead)<br>
+
+area_sen_dying_leaf = mod (leaf_no_dead, 1 . 0) * leaf_area<I><SUB> dying_leaf</SUB></I><br>
+
+slai_age = (<FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>dying_leaf - 1</SUB> leaf_area+area_sen_dying_leaf) * smm2sm * plants<br>
+
+min_lai = <A HREF = "#min_tpla"> min_tpla </A> * plants * smm2sm<br>
+
+max_sen = lai - min_lai constrained above 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_age = slai_age - slai constrained between 0 . 0 and max_sen<br>
+
+if (<FONT FACE = "SYMBOL">D</FONT>leaf_no . > . 0 .) slai_age = <FONT FACE = "SYMBOL">D</FONT>lai_stressed / plants * 10000 . / <FONT FACE = "SYMBOL">D</FONT>leaf_no<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_leaf_area_sen_light1">  </A>
+<H2>Crop Leaf Area Sen Light1</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day due to light competition  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (lai.>.lai_sen_light) then<br>
+
+<dl>slai_light_fac = sen_light_slope * (lai-lai_sen_light)<br>
+
+</dl>else<br>
+
+<dl>slai_light_fac = 0 . 0<br>
+
+</dl>endif<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_light = lai * slai_light_fac<br>
+
+min_lai = min_tpla * plants * smm2sm<br>
+
+max_sen = lai - min_lai constrained above 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_light = <FONT FACE = "SYMBOL">D</FONT>slai_light constrained between 0 . 0 and max_sen<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_leaf_area_sen_water1">  </A>
+<H2>Crop Leaf Area Sen Water1</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day due to water stress  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+slai_water_fac = sen_rate_water * (1.0-swdef_photo)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_water = lai * slai_water_fac<br>
+
+min_lai = min_tpla * plants * smm2sm<br>
+
+max_sen = lai - min_lai constrained above 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_water = <FONT FACE = "SYMBOL">D</FONT>slai_water constrained between 0 . 0 and max_sen<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_leaf_area_sen_frost1">  </A>
+<H2>Crop Leaf Area Sen Frost1</H2>
+<br>
+<H3><CENTER>Return the lai that would senesce on the current day from low temperatures  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+sen_fac_temp = A linearly interpolated value based upon mint (where X = frost_temp, Y = frost_fraction)..<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_low_temp = sen_fac_temp * lai<br>
+
+min_lai = min_tpla * plants * smm2sm<br>
+
+max_sen = lai - min_lai constrained above 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>slai_frost = <FONT FACE = "SYMBOL">D</FONT>slai_low_temp constrained between 0 . 0 and max_sen<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_area_init1">  </A>
+<H2>Cproc Leaf Area Init1</H2>
+<br>
+<H3><CENTER>Initialise leaf area.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of init_stage) then<br>
+
+<dl>lai = <A HREF = "#initial_tpla"> initial_tpla </A> * smm2sm * plants<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_lai_detachment1">  </A>
+<H2>Cproc Lai Detachment1</H2>
+<br>
+<H3><CENTER>Simulate plant detachment.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_part_fraction_delta"> Calculate change in slai for leaf based on fractional decay rates. </A><br>
+
+<A HREF = "#crop_part_fraction_delta"> Calculate change in tlai_dead for leaf based on fractional decay rates. </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_part_fraction_delta">  </A>
+<H2>Crop Part Fraction Delta</H2>
+<br>
+<H3><CENTER>Calculate change in a particular plant pool  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<FONT FACE = "SYMBOL">D</FONT>part = part * fraction<I><SUB> part_no</SUB></I><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_canopy_height">  </A>
+<H2>Cproc Canopy Height</H2>
+<br>
+<H3><CENTER>Get change in plant canopy height  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+dm_stem_plant = dm_green<I><SUB> stem</SUB></I> / plants<br>
+
+new_height = A linearly interpolated value based upon dm_stem_plant (where X = <A HREF = "#x_stem_wt"> p_x_stem_wt </A>, Y = <A HREF = "#y_height"> p_y_height </A>)..<br>
+
+<FONT FACE = "SYMBOL">D</FONT>canopy_height = new_height - canopy_height<br>
+
+<FONT FACE = "SYMBOL">D</FONT>canopy_height = <FONT FACE = "SYMBOL">D</FONT>canopy_height constrained above 0 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_no_init1">  </A>
+<H2>Cproc Leaf No Init1</H2>
+<br>
+<H3><CENTER>Return the the initial number of leaves.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of emerg) then<br>
+
+<dl>leaf_no<I><SUB> emerg</SUB></I> = <A HREF = "#leaf_no_at_emerg"> leaf_no_at_emerg </A><br>
+
+node_no<I><SUB> emerg</SUB></I> = <A HREF = "#leaf_no_at_emerg"> leaf_no_at_emerg </A><br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_no_pot1">  </A>
+<H2>Cproc Leaf No Pot1</H2>
+<br>
+<H3><CENTER>Return the fractional increase in emergence of the oldest expanding leaf and nodes.  Nodes can initiate from a user-defined starting stage and leaves from emergence.  The initiation of both leaves and nodes finishes at a user-defined end stage. Note ! this does not take account of the other younger leaves that are currently expanding  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+node_no_now = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_node_app</SUP><SUB>end_node_app</SUB> node_no<br>
+
+node_app_rate = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_app"> x_node_no_app </A>, Y = <A HREF = "#y_node_app_rate"> y_node_app_rate </A>)..<br>
+
+leaves_per_node = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_leaf"> x_node_no_leaf </A>, Y = <A HREF = "#y_leaves_per_node"> y_leaves_per_node </A>)..<br>
+
+if (start_node_app is between end_node_app and current_stage) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = <FONT FACE = "SYMBOL">D</FONT>tt / node_app_rate<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = 0 . 0<br>
+
+</dl>endif<br>
+
+if (on the first day of emerg) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+
+</dl>elseif (emerg is between end_node_app and current_stage) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = <FONT FACE = "SYMBOL">D</FONT>node_no_pot * leaves_per_node<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_area_pot1">  </A>
+<H2>Cproc Leaf Area Pot1</H2>
+<br>
+<H3><CENTER>Return the potential increase in leaf area development (mm^2) calculated on an individual leaf basis, limited by temperature only.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+node_no_now = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_node_app</SUP><SUB>now</SUB> node_no + <A HREF = "#node_no_correction"> node_no_correction </A><br>
+
+leaf_size = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no"> x_node_no </A>, Y = <A HREF = "#y_leaf_size"> y_leaf_size </A>)..<br>
+
+<FONT FACE = "SYMBOL">D</FONT>lai_pot = <FONT FACE = "SYMBOL">D</FONT>leaf_no_pot * leaf_size * smm2sm * plants<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_area_stressed1">  </A>
+<H2>Cproc Leaf Area Stressed1</H2>
+<br>
+<H3><CENTER>Calculate the biomass non-limiting leaf area development from the potential developmental rate and the stress factors for water and nitrogen.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<FONT FACE = "SYMBOL">D</FONT>lai_stressed = <FONT FACE = "SYMBOL">D</FONT>lai_pot * minimum of (swdef_expansion, nfact_expansion)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_area_actual1">  </A>
+<H2>Cproc Leaf Area Actual1</H2>
+<br>
+<H3><CENTER>Simulate actual crop leaf area development - checks that leaf area development matches DM production. Maximum Specific Leaf area changes as a function of LAI.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+sla_max = A linearly interpolated value based upon lai (where X = <A HREF = "#x_lai"> x_lai </A>, Y = <A HREF = "#y_sla_max"> y_sla_max </A>)..<br>
+
+<FONT FACE = "SYMBOL">D</FONT>lai_carbon = <FONT FACE = "SYMBOL">D</FONT>dm_leaf * sla_max * smm2sm<br>
+
+<FONT FACE = "SYMBOL">D</FONT>lai = minimum of (<FONT FACE = "SYMBOL">D</FONT>lai_stressed, <FONT FACE = "SYMBOL">D</FONT>lai_carbon)<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_no_actual1">  </A>
+<H2>Cproc Leaf No Actual1</H2>
+<br>
+<H3><CENTER>Simulate actual leaf number increase as limited by dry matter production.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+lai_ratio = <FONT FACE = "SYMBOL">D</FONT>lai / <FONT FACE = "SYMBOL">D</FONT>lai_stressed<br>
+
+leaf_no_frac = A linearly interpolated value based upon lai_ratio (where X = <A HREF = "#x_lai_ratio"> x_lai_ratio </A>, Y = <A HREF = "#y_leaf_no_frac"> y_leaf_no_frac </A>)..<br>
+
+<FONT FACE = "SYMBOL">D</FONT>leaf_no = <FONT FACE = "SYMBOL">D</FONT>leaf_no_pot * leaf_no_frac<br>
+
+if (<FONT FACE = "SYMBOL">D</FONT>leaf_no.<.<FONT FACE = "SYMBOL">D</FONT>node_no_pot) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>node_no = <FONT FACE = "SYMBOL">D</FONT>leaf_no<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>node_no = <FONT FACE = "SYMBOL">D</FONT>node_no_pot<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_leaf_no_pot2">  </A>
+<H2>Cproc Leaf No Pot2</H2>
+<br>
+<H3><CENTER>Return the fractional increase in emergence of the oldest expanding leaf and nodes.  Nodes can initiate from a user-defined starting stage and leaves from emergence.  The initiation of both leaves and nodes finishes at a user-defined end stage. Note ! this does not take account of the other younger leaves that are currently expanding  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+node_no_now = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_node_app</SUP><SUB>end_node_app</SUB> node_no<br>
+
+node_app_rate = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_app"> x_node_no_app </A>, Y = <A HREF = "#y_node_app_rate"> y_node_app_rate </A>)..<br>
+
+leaves_per_node = A linearly interpolated value based upon node_no_now (where X = <A HREF = "#x_node_no_app"> x_node_no_app </A>, Y = <A HREF = "#y_leaves_per_node"> y_leaves_per_node </A>)..<br>
+
+if (start_node_app is between end_node_app and current_stage) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = <FONT FACE = "SYMBOL">D</FONT>tt / node_app_rate<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>node_no_pot = 0 . 0<br>
+
+</dl>endif<br>
+
+if (on the first day of emerg) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+
+</dl>elseif (emerg is between end_node_app and current_stage) then<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = <FONT FACE = "SYMBOL">D</FONT>node_no_pot * leaves_per_node<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>leaf_no_pot = 0 . 0<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_root_length_init">  </A>
+<H2>Crop Root Length Init</H2>
+<br>
+<H3><CENTER>Initialise crop root length to expected values at emergence  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of stage_to_init) then<br>
+
+<dl>initial_root_length = root_wt / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+
+rld = initial_root_length / root_depth<br>
+
+num_root_layers = layer number corresponding to root_depth<br>
+
+Fill root_length with 0 . 0<br>
+
+For each layer from 1 to num_root_layers<br>
+
+<dl>root_length<I><SUB> layer</SUB></I> = rld * dlayer<I><SUB> layer</SUB></I> * proportion of layer num_root_layers explored by roots<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_root_length_senescence1">  </A>
+<H2>Cproc Root Length Senescence1</H2>
+<br>
+<H3><CENTER>Calculate root length senescence based upon changes in senesced root biomass and the specific root length.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>root_length_senesced with 0 . 0<br>
+
+senesced_length = <FONT FACE = "SYMBOL">D</FONT>root_dm_senesced / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+
+<A HREF = "#crop_root_dist"> Distribute senesced_length over the profile according to root distribution </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_root_depth1">  </A>
+<H2>Cproc Root Depth1</H2>
+<br>
+<H3><CENTER>Calculate plant rooting depth through time  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+sw_avail_fac_deepest_layer = <A HREF = "#crop_sw_avail_fac"> Determine root hospitality factor for moisture (for layer deepest_layer) </A><br>
+
+<A HREF = "#crop_root_depth_increase"> Calculate the increase in rooting depth. </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_sw_avail_fac">  </A>
+<H2>Crop Sw Avail Fac</H2>
+<br>
+<H3><CENTER>Get the soil water availability factor in a layer.  For a layer, it is 1.0 unless the plant-extractable soil water declines below a fraction of plant-extractable soil water capacity for that layer.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+pesw = sw_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
+
+pesw_capacity = dul_dep<I><SUB> layer</SUB></I> - ll_dep<I><SUB> layer</SUB></I><br>
+
+sw_avail_ratio = pesw / pesw_capacity<br>
+
+crop_sw_avail_fac = A linearly interpolated value based upon sw_avail_ratio (where X = x_sw_ratio, Y = y_sw_fac_root)..<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_root_depth_increase">  </A>
+<H2>Crop Root Depth Increase</H2>
+<br>
+<H3><CENTER>Return the increase in root depth (mm)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+current_layer = layer number corresponding to root_depth<br>
+
+current_phase = int (current_stage)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>root_depth = <A HREF = "#root_depth_rate"> root_depth_rate </A><I><SUB> current_phase</SUB></I> * sw_avail_fac_deepest_layer * <A HREF = "#xf"> p_xf </A><I><SUB> current_layer</SUB></I><br>
+
+deepest_layer = number of elements in <A HREF = "#xf"> p_xf </A><br>
+
+root_depth_max = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>deepest_layer</SUB> dlayer<br>
+
+<FONT FACE = "SYMBOL">D</FONT>root_depth = <FONT FACE = "SYMBOL">D</FONT>root_depth constrained above root_depth_max - root_depth<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_root_depth_init1">  </A>
+<H2>Cproc Root Depth Init1</H2>
+<br>
+<H3><CENTER>Return the initial root depth (mm)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of initialisation_stage) then<br>
+
+<dl>root_depth = initial_root_depth<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_root_length_init1">  </A>
+<H2>Cproc Root Length Init1</H2>
+<br>
+<H3><CENTER>Initialise crop root length to expected values at emergence  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of stage_to_init) then<br>
+
+<dl>initial_root_length = root_wt / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+
+rld = initial_root_length / root_depth<br>
+
+num_root_layers = layer number corresponding to root_depth<br>
+
+Fill root_length with 0 . 0<br>
+
+For each layer from 1 to num_root_layers<br>
+
+<dl>root_length<I><SUB> layer</SUB></I> = rld * dlayer<I><SUB> layer</SUB></I> * proportion of layer num_root_layers explored by roots<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_root_length_growth1">  </A>
+<H2>Cproc Root Length Growth1</H2>
+<br>
+<H3><CENTER>Calculate the increase in root length density in each rooted layer based upon soil hospitality, moisture and fraction of layer explored by roots.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (max_layer.>.crop_max_layer) then<br>
+
+<dl>Report a fatal error<br>
+
+</dl>else<br>
+
+<dl>Fill <FONT FACE = "SYMBOL">D</FONT>root_length with 0 . 0<br>
+
+deepest_layer = layer number corresponding to root_depth + <FONT FACE = "SYMBOL">D</FONT>root_depth<br>
+
+rlv_factor_tot = 0 . 0<br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl>rld = root_length<I><SUB> layer</SUB></I> / dlayer<I><SUB> layer</SUB></I><br>
+
+plant_rld = rld / plants<br>
+
+branching_factor = A linearly interpolated value based upon plant_rld (where X = <A HREF = "#x_plant_rld"> x_plant_rld </A>, Y = <A HREF = "#y_rel_root_rate"> y_rel_root_rate </A>)..<br>
+
+rlv_factor<I><SUB> layer</SUB></I> = <A HREF = "#crop_sw_avail_fac"> Determine root hospitality factor for moisture (for layer layer) </A> * branching_factor * <A HREF = "#xf"> p_xf </A><I><SUB> layer</SUB></I> * dlayer<I><SUB> layer</SUB></I> / root_depth<br>
+
+rlv_factor<I><SUB> layer</SUB></I> = rlv_factor<I><SUB> layer</SUB></I> constrained above 1e - 6<br>
+
+rlv_factor_tot = rlv_factor_tot + rlv_factor<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+<FONT FACE = "SYMBOL">D</FONT>length_tot = <FONT FACE = "SYMBOL">D</FONT>root_wt / sm2smm * <A HREF = "#specific_root_length"> specific_root_length </A><br>
+
+For each layer from 1 to deepest_layer<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>root_length<I><SUB> layer</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>length_tot * rlv_factor<I><SUB> layer</SUB></I> / rlv_factor_tot<br>
+
+</dl>next<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_root_redistribute">  </A>
+<H2>Crop Root Redistribute</H2>
+<br>
+<H3><CENTER>Map root length density distribution into a new layer structure after reduction is profile depth due to erosion.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+nlayr_rt_old = layer number corresponding to root_depth_old<br>
+
+nlayr_rt_new = layer number corresponding to root_depth_new<br>
+
+pro_red_fr = root_depth_new / root_depth_old<br>
+
+cum_root_depth<I><SUB> 1</SUB></I> = 0 . 0<br>
+
+cum_root_length<I><SUB> 1</SUB></I> = 0 . 0<br>
+
+For each layer from 1 to nlayr_rt_old<br>
+
+<dl>if (layer.=.nlayr_rt_old) then<br>
+
+<dl>cum_root_depth<I><SUB> layer + 1</SUB></I> = root_depth_old * pro_red_fr<br>
+
+</dl>else<br>
+
+<dl>cum_root_depth<I><SUB> layer + 1</SUB></I> = cum_root_depth<I><SUB> layer</SUB></I> + dlayer_old<I><SUB> layer</SUB></I> * pro_red_fr<br>
+
+</dl>endif<br>
+
+cum_root_length<I><SUB> layer + 1</SUB></I> = cum_root_length<I><SUB> layer</SUB></I> + root_length<I><SUB> layer</SUB></I><br>
+
+</dl>next<br>
+
+Fill root_length with 0 . 0<br>
+
+For each layer from 1 to nlayr_rt_new<br>
+
+<dl>layer_bottom = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>layer</SUB> dlayer_new<br>
+
+layer_top = layer_bottom - dlayer_new<I><SUB> layer</SUB></I><br>
+
+cum_root_top = A linearly interpolated value based upon layer_top (where X = cum_root_depth, Y = cum_root_length)..<br>
+
+cum_root_bottom = A linearly interpolated value based upon layer_bottom (where X = cum_root_depth, Y = cum_root_length)..<br>
+
+root_length<I><SUB> layer</SUB></I> = cum_root_bottom - cum_root_top<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_radn_int0">  </A>
+<H2>Crop Radn Int0</H2>
+<br>
+<H3><CENTER>Radiation intercepted by leaves (mj/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (fr_intc_radn = 0 . 0) then<br>
+
+<dl>radn_int = cover_green * radn<br>
+
+</dl>else<br>
+
+<dl>radn_int = fr_intc_radn * radn<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_radn_int1">  </A>
+<H2>Crop Radn Int1</H2>
+<br>
+<H3><CENTER>This routine returns the radiation intercepted by leaves (mj/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (fr_intc_radn = 0 . 0) then<br>
+
+<dl>cover = 1 . 0 - <I><BIG>e</BIG></I><SUP>- extinction_coef * lai</SUP><br>
+
+radn_int = cover * radn<br>
+
+</dl>else<br>
+
+<dl>radn_int = fr_intc_radn * radn<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "search_read_real_var">  </A>
+<H2>Search Read Real Var</H2>
+<br>
+<H3><CENTER>Read a real value from input files using a list of possible sections for the search.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each counter from 1 to number_of_sections<br>
+
+<dl>Read variable from file (Lower Bound = lower, Upper Bound = upper) <I>(OPTIONAL)</I><br>
+
+if (numvals.>.0) then<br>
+
+<dl>goto 200<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+Report a fatal error<br>
+
+</dl>next<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "search_read_real_array">  </A>
+<H2>Search Read Real Array</H2>
+<br>
+<H3><CENTER>Read an array from input files using a list of possible sections for the search.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each counter from 1 to number_of_sections<br>
+
+<dl>Read array from file (Lower Bound = numvals, Upper Bound = lower) <I>(OPTIONAL)</I><br>
+
+if (numvals.>.0) then<br>
+
+<dl>goto 200<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+Report a fatal error<br>
+
+</dl>next<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "search_read_char_array">  </A>
+<H2>Search Read Char Array</H2>
+<br>
+<H3><CENTER>Read an array from input files using a list of possible sections for the search.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each counter from 1 to number_of_sections<br>
+
+<dl>Read array from file <I>(OPTIONAL)</I><br>
+
+if (numvals.>.0) then<br>
+
+<dl>goto 200<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+Report a fatal error<br>
+
+</dl>next<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "search_read_char_var">  </A>
+<H2>Search Read Char Var</H2>
+<br>
+<H3><CENTER>Read a char value from input files using a list of possible sections for the search.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each counter from 1 to number_of_sections<br>
+
+<dl>Read variable from file <I>(OPTIONAL)</I><br>
+
+if (numvals.>.0) then<br>
+
+<dl>goto 200<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+Report a fatal error<br>
+
+</dl>next<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "search_read_integer_var">  </A>
+<H2>Search Read Integer Var</H2>
+<br>
+<H3><CENTER>Read a real value from input files using a list of possible sections for the search.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each counter from 1 to number_of_sections<br>
+
+<dl>Read variable from file (Lower Bound = lower, Upper Bound = upper) <I>(OPTIONAL)</I><br>
+
+if (numvals.>.0) then<br>
+
+<dl>goto 200<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+Report a fatal error<br>
+
+</dl>next<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "search_read_integer_array">  </A>
+<H2>Search Read Integer Array</H2>
+<br>
+<H3><CENTER>Read an array from input files using a list of possible sections for the search.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each counter from 1 to number_of_sections<br>
+
+<dl>Read array from file (Lower Bound = numvals, Upper Bound = lower) <I>(OPTIONAL)</I><br>
+
+if (numvals.>.0) then<br>
+
+<dl>goto 200<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>next<br>
+
+Report a fatal error<br>
+
+</dl>next<br>
+
+<br>
+
+</dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_dm_pot_rue">  </A>
+<H2>Crop Dm Pot Rue</H2>
+<br>
+<H3><CENTER>Potential biomass (carbohydrate) production from photosynthesis (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+current_phase = int (current_stage)<br>
+
+usrue = rue<I><SUB> current_phase</SUB></I> * minimum of (temp_stress_photo, nfact_photo)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_pot = usrue * radn_int<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_dm_senescence0">  </A>
+<H2>Crop Dm Senescence0</H2>
+<br>
+<H3><CENTER>Derives seneseced plant dry matter (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>dm_senesced with 0 . 0<br>
+
+lai_today = lai + <FONT FACE = "SYMBOL">D</FONT>lai<br>
+
+if (<FONT FACE = "SYMBOL">D</FONT>slai.<.lai_today) then<br>
+
+<dl>dm_green_leaf_today = dm_green<I><SUB> leaf</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> leaf</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green_retrans<I><SUB> leaf</SUB></I><br>
+
+sla_today = lai_today / dm_green_leaf_today<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_senescing = <FONT FACE = "SYMBOL">D</FONT>slai / sla_today<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>dm_senescing = dm_green<I><SUB> leaf</SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> leaf</SUB></I><br>
+
+</dl>endif<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> leaf</SUB></I> = <FONT FACE = "SYMBOL">D</FONT>dm_senescing * dm_leaf_sen_frac<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> stem</SUB></I> = - (<FONT FACE = "SYMBOL">D</FONT>dm_senescing-<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> leaf</SUB></I>)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> root</SUB></I> = dm_green<I><SUB> root</SUB></I> * dm_root_sen_frac<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_dm_dead_detachment">  </A>
+<H2>Crop Dm Dead Detachment</H2>
+<br>
+<H3><CENTER>Plant dry matter loss from dead plants  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each part from 1 to num_part<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>dm_dead_detached<I><SUB> part</SUB></I> = dm_dead<I><SUB> part</SUB></I> * dead_detach_frac<I><SUB> part</SUB></I><br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_dm_senescence1">  </A>
+<H2>Cproc Dm Senescence1</H2>
+<br>
+<H3><CENTER>Derives seneseced plant dry matter (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+For each part from 1 to num_part<br>
+
+<dl>fraction_senescing = A linearly interpolated value based upon independant_variable (where X = <A HREF = "#x_dm_sen_frac"> x_dm_sen_frac </A><I><SUB> 1, part</SUB></I>, Y = <A HREF = "#y_dm_sen_frac"> y_dm_sen_frac </A><I><SUB> 1, part</SUB></I>)..<br>
+
+fraction_senescing = fraction_senescing constrained between 0 . 0 and 1 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_senesced<I><SUB> part</SUB></I> = (dm_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> part</SUB></I>+<FONT FACE = "SYMBOL">D</FONT>dm_green_retrans<I><SUB> part</SUB></I>) * fraction_senescing<br>
+
+</dl>next<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_dm_retranslocate1">  </A>
+<H2>Cproc Dm Retranslocate1</H2>
+<br>
+<H3><CENTER>Calculate plant dry matter delta's due to retranslocation to grain (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Fill dm_retranslocate with 0 . 0<br>
+
+if (start_grnfil is between end_grnfil and current_stage) then<br>
+
+<dl>if (<FONT FACE = "SYMBOL">D</FONT>dm_grain_demand.>.<FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> grain_part_no</SUB></I>) then<br>
+
+<dl>dm_grain_differential = <FONT FACE = "SYMBOL">D</FONT>dm_grain_demand - <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> grain_part_no</SUB></I><br>
+
+For each counter from 1 to num_supply_pools<br>
+
+<dl>dm_part_pot = dm_green<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> + <FONT FACE = "SYMBOL">D</FONT>dm_green<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I><br>
+
+dm_part_avail = dm_part_pot - dm_plant_min<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> * plants<br>
+
+dm_part_avail = dm_part_avail constrained above 0 . 0<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_retrans_part = minimum of (dm_grain_differential, dm_part_avail)<br>
+
+dm_grain_differential = dm_grain_differential - <FONT FACE = "SYMBOL">D</FONT>dm_retrans_part<br>
+
+dm_retranslocate<I><SUB> supply_pools<I><SUB> counter</SUB></I></SUB></I> = - <FONT FACE = "SYMBOL">D</FONT>dm_retrans_part<br>
+
+</dl>next<br>
+
+dm_retranslocate<I><SUB> grain_part_no</SUB></I> = - <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_retranslocate<br>
+
+</dl>else<br>
+
+<dl>Fill dm_retranslocate with 0 . 0<br>
+
+</dl>endif<br>
+
+</dl>else<br>
+
+<dl>Fill dm_retranslocate with 0 . 0<br>
+
+</dl>endif<br>
+
+mass_balance = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_retranslocate<br>
+
+Check that mass_balance lies between 0 . 0 and 0 . 0<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_dm_detachment1">  </A>
+<H2>Cproc Dm Detachment1</H2>
+<br>
+<H3><CENTER>Simulate plant detachment.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in dm_senesced based on fractional decay rates. </A><br>
+
+<A HREF = "#crop_pool_fraction_delta"> Calculate change in dm_dead based on fractional decay rates. </A><br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_bio_yieldpart_demand1">  </A>
+<H2>Cproc Bio Yieldpart Demand1</H2>
+<br>
+<H3><CENTER>Find grain demand for carbohydrate using harvest index (g/m^2)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (start_grainfill_stage is between end_grainfill_stage and current_stage) then<br>
+
+<dl>stress_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_stress_stage</SUP><SUB>start_grainfill_stage</SUB> dm_stress_max<br>
+
+days_sum = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUP>start_stress_stage</SUP><SUB>start_grainfill_stage</SUB> days_tot<br>
+
+ave_stress = stress_sum / days_sum<br>
+
+hi_max_pot = A linearly interpolated value based upon ave_stress (where X = <A HREF = "#x_hi_max_pot_stress"> p_x_hi_max_pot_stress </A>, Y = <A HREF = "#y_hi_max_pot"> p_y_hi_max_pot </A>)..<br>
+
+dm_tops = <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_green - dm_green<I><SUB> root_part</SUB></I> + <FONT FACE = "SYMBOL">S</FONT><SUP>1</SUP><SUB>max_part</SUB> dm_senesced - dm_senesced<I><SUB> root_part</SUB></I><br>
+
+harvest_index = dm_green<I><SUB> yield_part</SUB></I> / dm_tops<br>
+
+dm_tops_new = dm_tops + <FONT FACE = "SYMBOL">D</FONT>dm<br>
+
+harvest_index_new = harvest_index + <A HREF = "#hi_incr"> p_hi_incr </A> constrained above hi_max_pot<br>
+
+dm_grain_new = dm_tops_new * harvest_index_new<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_yield = dm_grain_new - dm_green<I><SUB> yield_part</SUB></I><br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_yield = <FONT FACE = "SYMBOL">D</FONT>dm_yield constrained between 0 . 0 and dm_grain_new<br>
+
+</dl>else<br>
+
+<dl><FONT FACE = "SYMBOL">D</FONT>dm_yield = 0 . 0<br>
+
+</dl>endif<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_yieldpart_demand = <FONT FACE = "SYMBOL">D</FONT>dm_yield<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_yieldpart_demand_stress1">  </A>
+<H2>Cproc Yieldpart Demand Stress1</H2>
+<br>
+<H3><CENTER>Find maximum stress on daily dm production (0-1)  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+rue_reduction = minimum of (temp_stress_photo, nfact_photo)<br>
+
+<FONT FACE = "SYMBOL">D</FONT>dm_stress_max = swdef_photo * rue_reduction<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "cproc_bio_init1">  </A>
+<H2>Cproc Bio Init1</H2>
+<br>
+<H3><CENTER>Initialise plant weights at a specified growth stage at required instances.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (on the first day of init_stage) then<br>
+
+<dl>For each part from 1 to max_part<br>
+
+<dl>dm_green<I><SUB> part</SUB></I> = <A HREF = "#dm_init"> dm_init </A><I><SUB> part</SUB></I> * plants<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_root_incorp">  </A>
+<H2>Crop Root Incorp</H2>
+<br>
+<H3><CENTER>Calculate and provide root matter incorporation information to the APSIM messaging system.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (max_layer.>.crop_max_layer) then<br>
+
+<dl>Report a fatal error<br>
+
+</dl>else<br>
+
+<dl>if (<FONT FACE = "SYMBOL">D</FONT>dm_root.>.0.0) then<br>
+
+<dl><A HREF = "#crop_root_dist"> Distribute <FONT FACE = "SYMBOL">D</FONT>dm_root * gm2kg / sm2ha over the profile according to root distribution </A><br>
+
+Check that all <FONT FACE = "SYMBOL">D</FONT>dm_incorp lies between 0 . 0 and <FONT FACE = "SYMBOL">D</FONT>dm_root * gm2kg / sm2ha<br>
+
+<A HREF = "#crop_root_dist"> Distribute <FONT FACE = "SYMBOL">D</FONT>n_root * gm2kg / sm2ha over the profile according to root distribution </A><br>
+
+Check that all <FONT FACE = "SYMBOL">D</FONT>n_incorp lies between 0 . 0 and <FONT FACE = "SYMBOL">D</FONT>n_root * gm2kg / sm2ha<br>
+
+deepest_layer = layer number corresponding to root_depth<br>
+
+<br>
+
+Supply <A HREF = "#crop_type"> crop_type </A> to the messaging system using the name 'dlt_fom_type='<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>dm_incorp to the messaging system using the name 'dlt_fom_wt'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>n_incorp to the messaging system using the name 'dlt_fom_n'<br>
+
+message_send_immediate<I><SUB> unknown_module, 'incorp_fom', blank</SUB></I><br>
+
+<br>
+
+</dl>else<br>
+
+endif<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_top_residue">  </A>
+<H2>Crop Top Residue</H2>
+<br>
+<H3><CENTER>Add residue to residue pool  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if (<FONT FACE = "SYMBOL">D</FONT>residue_weight.>.0.0) then<br>
+
+<dl><br>
+
+Supply <A HREF = "#crop_type"> crop_type </A> to the messaging system using the name 'dlt_residue_type'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>residue_weight * gm2kg / sm2ha to the messaging system using the name 'dlt_residue_wt'<br>
+
+Supply <FONT FACE = "SYMBOL">D</FONT>residue_n * gm2kg / sm2ha to the messaging system using the name 'dlt_residue_n'<br>
+
+message_send_immediate<I><SUB> unknown_module, 'add_residue', blank</SUB></I><br>
+
+<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_my_type">  </A>
+<H2>Crop My Type</H2>
+<br>
+<H3><CENTER>Returns true if 'type' is equal to the crop type or is absent.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+Get crop_type from the message <I>(OPTIONAL)</I><br>
+
+if (crop_type.=.<A HREF = "#crop_type"> crop_type </A>.or.numvals.=.0) then<br>
+
+<dl>crop_my_type = . true .<br>
+
+</dl>else<br>
+
+<dl>crop_my_type = . false .<br>
+
+</dl>endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "crop_get_ext_uptakes">  </A>
+<H2>Crop Get Ext Uptakes</H2>
+<br>
+<H3><CENTER>Ask swim for uptakes of water or solute  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<dl><br>
+
+if ((uptake_source.=.'apsim').and.(crop_type.=/=.' ')) then<br>
+
+<dl>uptake_name = 'uptake_' + uptake_type<br>
+
+uptake_name = uptake_name + '_'<br>
+
+uptake_name = uptake_name + crop_type<br>
+
+Get uptake_array from the system (Lower Bound = uptake_lbound, Upper Bound = uptake_ubound)<br>
+
+For each layer from 1 to num_uptakes<br>
+
+<dl>uptake_array<I><SUB> layer</SUB></I> = uptake_array<I><SUB> layer</SUB></I> * unit_conversion_factor<br>
+
+</dl>next<br>
+
+</dl>else<br>
+
+endif<br>
+
+<br>
+
+</dl></dl>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<U>Module Developer</U><br>
+Name:    Dr Scott Chapman<br>
+E-mail:  <A HREF = "mailto: scott.chapman@tag.csiro.au"> scott.chapman@tag.csiro.au </A><br>
+WWW:     <A HREF = "#www.apsru.gov.au"> www.apsru.gov.au </A><br>
+<p>
+<U>Co-Module Developer</U><br>
+Name:    Dr Michael Robertson<br>
+E-mail:  <A HREF = "mailto: michael.robertson@tag.csiro.au"> michael.robertson@tag.csiro.au </A><br>
+WWW:     <A HREF = "#www.apsru.gov.au"> www.apsru.gov.au </A><br>
+<p>
+<U>Software Engineering Manager</U><br>
+Name:    Dr Brian Keating<br>
+E-mail:  <A HREF = "mailto: Brian.Keating@tag.csiro.au"> Brian.Keating@tag.csiro.au </A><br>
+WWW:     <A HREF = "#www.apsru.gov.au"> www.apsru.gov.au </A><br>
+<p>
+<U>Technical Support</U><br>
+Name:    Neil Huth<br>
+E-mail:  <A HREF = "mailto: Neil.Huth@tag.csiro.au"> Neil.Huth@tag.csiro.au </A><br>
+WWW:     <A HREF = "#www.apsru.gov.au"> www.apsru.gov.au </A><br>
+<p>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 12/6/98  APseudo Version:  1. 0 Rev.  0<br>
+<html>
+
+<body>
+
+<p><!--webbot bot="ImageMap" startspan rectangle=" (513,2) (635, 18)  APSeudo Documentation"
+rectangle=" (103,4) (204, 18)  Structure Charts"
+rectangle=" (14,3) (76, 18)  Top" src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640"
+height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" --><MAP NAME="FrontPageMap0"><AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top"><AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts"><AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top"></MAP><img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" alt="..\..\..\docs\shared\apseudopagebreak.jpg (5835 bytes)" border="0" usemap="#FrontPageMap0"><!--webbot bot="ImageMap"
+i-checksum="58234" endspan --></p>
+</body>
+</html>
