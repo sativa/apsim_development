@@ -1069,23 +1069,18 @@
          - Reading constants
      
          - Reading parameters
-      Residue name = wheat
-      Residue type = wheat
-      Overall mass =  10800.0000
-      Pot Decomposition Rate =  0.100000001
-      Standing carbohydrate mass =  0.00000000E+00
-                            C:N =  -NaN
-      Standing cellulose mass =  0.00000000E+00
-                            C:N =  -NaN
-      Standing lignin mass =  0.00000000E+00
-                            C:N =  -NaN
-      Lying carbohydrate mass =  2160.00000
-                            C:N =  70.0000000
-      Lying cellulose mass =  7560.00000
-                            C:N =  70.0000000
-      Lying lignin mass =  1080.00000
-                            C:N =  70.0000000
      
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat        10800.0  4320.0    61.7     0.0   0.995     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
      
 
 ------- soiln2 Initialisation -------------------------------------------------
@@ -1358,7 +1353,7 @@
          250.0     0.080          0.283       0.000
          -----------------------------------------------
          Extractable SW:   301mm in  6000mm total depth (  5%).
-         Crop factor for bounding water use is set to   1.1 times eo.
+         Crop factor for bounding water use is set to   1.5 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1383,12 +1378,12 @@
       Sending do_end_day_output message to report7
 19 June 1993(Day of year=170), wheat: 
       stage 3.0 emergence
-                     biomass =           0.97 (g/m^2)   lai          =   0.038 (m^2/m^2)
-                     stover N conc =     6.22 (%)    extractable sw =   24.69 (mm)
+                     biomass =           0.97 (g/m^2)   lai          =   0.042 (m^2/m^2)
+                     stover N conc =     5.85 (%)    extractable sw =   24.69 (mm)
 20 June 1993(Day of year=171), wheat: 
       stage 4.0 end_of_juvenile
-                     biomass =           1.08 (g/m^2)   lai          =   0.040 (m^2/m^2)
-                     stover N conc =     5.58 (%)    extractable sw =   24.32 (mm)
+                     biomass =           1.09 (g/m^2)   lai          =   0.044 (m^2/m^2)
+                     stover N conc =     5.30 (%)    extractable sw =   24.32 (mm)
 12 July 1993(Day of year=193), operatns: 
       Sending do_end_day_output message to report7
 21 July 1993(Day of year=202), operatns: 
@@ -1414,8 +1409,8 @@
       Sending do_end_day_output message to report7
 10 September 1993(Day of year=253), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         401.73 (g/m^2)   lai          =   5.434 (m^2/m^2)
-                     stover N conc =     2.56 (%)    extractable sw =  134.76 (mm)
+                     biomass =         403.37 (g/m^2)   lai          =   5.451 (m^2/m^2)
+                     stover N conc =     2.55 (%)    extractable sw =  134.83 (mm)
 22 September 1993(Day of year=265), operatns: 
       Sending do_end_day_output message to report4
       Sending do_end_day_output message to report7
@@ -1425,30 +1420,21 @@
       Sending do_end_day_output message to report4
 24 October 1993(Day of year=297), wheat: 
       stage 6.0 flowering
-                     biomass =        1212.26 (g/m^2)   lai          =   4.678 (m^2/m^2)
-                     stover N conc =     0.92 (%)    extractable sw =   84.90 (mm)
+                     biomass =        1209.38 (g/m^2)   lai          =   4.592 (m^2/m^2)
+                     stover N conc =     0.92 (%)    extractable sw =   79.79 (mm)
 26 October 1993(Day of year=299), operatns: 
       Sending do_end_day_output message to report7
 2 November 1993(Day of year=306), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1415.21 (g/m^2)   lai          =   3.781 (m^2/m^2)
-                     stover N conc =     0.54 (%)    extractable sw =   68.79 (mm)
+                     biomass =        1421.07 (g/m^2)   lai          =   3.764 (m^2/m^2)
+                     stover N conc =     0.53 (%)    extractable sw =   60.44 (mm)
 8 November 1993(Day of year=312), operatns: 
       Sending do_end_day_output message to report7
-20 November 1993(Day of year=324), wheat: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.030420
-     Component name: wheat
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 21 November 1993(Day of year=325), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.024157
+     dlt_n_green mass balance is off: 0.000000 vs 0.024989
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1457,7 +1443,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.026208
+     dlt_n_green mass balance is off: 0.000000 vs 0.026779
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1466,7 +1452,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.027718
+     dlt_n_green mass balance is off: 0.000000 vs 0.027262
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1475,7 +1461,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.025345
+     dlt_n_green mass balance is off: 0.000000 vs 0.024917
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1486,27 +1472,27 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.021712
+     dlt_n_green mass balance is off: 0.000000 vs 0.021503
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
 26 November 1993(Day of year=330), operatns: 
       Sending do_end_day_output message to report4
-27 November 1993(Day of year=331), wheat: 
+26 November 1993(Day of year=330), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.017390
+     dlt_n_green mass balance is off: 0.000000 vs 0.018897
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-28 November 1993(Day of year=332), wheat: 
+27 November 1993(Day of year=331), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.020409
+     dlt_n_green mass balance is off: 0.000000 vs 0.018590
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1515,7 +1501,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.022343
+     dlt_n_green mass balance is off: 0.000000 vs 0.014066
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1524,7 +1510,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.023560
+     dlt_n_green mass balance is off: 0.000000 vs 0.017490
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1533,7 +1519,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.024079
+     dlt_n_green mass balance is off: 0.000000 vs 0.019856
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1542,44 +1528,44 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.022594
+     dlt_n_green mass balance is off: 0.000000 vs 0.020329
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
 3 December 1993(Day of year=337), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1623.26 (g/m^2)   lai          =   0.707 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =   54.01 (mm)
+                     biomass =        1637.18 (g/m^2)   lai          =   0.699 (m^2/m^2)
+                     stover N conc =     0.29 (%)    extractable sw =   45.51 (mm)
 4 December 1993(Day of year=338), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.024719
+     dlt_n_green mass balance is off: 0.000000 vs 0.021789
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 9.0 maturity
-                     biomass =        1623.26 (g/m^2)   lai          =   0.634 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =   53.47 (mm)
+                     biomass =        1637.18 (g/m^2)   lai          =   0.623 (m^2/m^2)
+                     stover N conc =     0.29 (%)    extractable sw =   44.90 (mm)
 5 December 1993(Day of year=339), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.025520
+     dlt_n_green mass balance is off: 0.000000 vs 0.021586
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 10.0 harvest_ripe
-                     biomass =        1623.26 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.28 (%)    extractable sw =   53.35 (mm)
+                     biomass =        1637.18 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.28 (%)    extractable sw =   44.77 (mm)
 6 December 1993(Day of year=340), wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.026045
+     dlt_n_green mass balance is off: 0.000000 vs 0.021968
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1588,7 +1574,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.025879
+     dlt_n_green mass balance is off: 0.000000 vs 0.021881
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1597,7 +1583,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.025395
+     dlt_n_green mass balance is off: 0.000000 vs 0.021622
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1606,7 +1592,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_n_green mass balance is off: 0.000000 vs 0.024797
+     dlt_n_green mass balance is off: 0.000000 vs 0.021321
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1615,43 +1601,43 @@
       Sending harvest message to wheat
 10 December 1993(Day of year=344), wheat: 
      
-      flowering day          =  297                           stover (kg/ha)         =    11122.6
-      maturity day           =  338                           grain yield (kg/ha)    =     5110.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5840.0
-      grain wt (g)           =    0.029                       grains/m^2             =  17487.709
-      grains/plant           =   83.3                         maximum lai            =      6.123
-      total above ground biomass (kg/ha)    =    16232.6
-      live above ground biomass (kg/ha)     =    16232.6
-      green above ground biomass (kg/ha)    =    13424.8
-      senesced above ground biomass (kg/ha) =     2807.8
+      flowering day          =  297                           stover (kg/ha)         =    11153.0
+      maturity day           =  338                           grain yield (kg/ha)    =     5218.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     5964.3
+      grain wt (g)           =    0.030                       grains/m^2             =  17426.703
+      grains/plant           =   83.0                         maximum lai            =      6.125
+      total above ground biomass (kg/ha)    =    16371.8
+      live above ground biomass (kg/ha)     =    16371.8
+      green above ground biomass (kg/ha)    =    13558.9
+      senesced above ground biomass (kg/ha) =     2812.9
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   38.7
-      DM Root:Shoot ratio    =    0.146                       Harvest Index          =      0.315
-      Stover C:N ratio       =  118.646                       Root C:N ratio         =     37.711
-      grain N percent        =       1.56                     total N content (kg/ha)=     116.96
-      grain N uptake (kg/ha) =      79.46                     senesced N content (kg/ha)=   14.01
-      green N content (kg/ha)=      23.49                     dead N content (kg/ha) =       0.00
+      number of leaves       =   39.2
+      DM Root:Shoot ratio    =    0.145                       Harvest Index          =      0.319
+      Stover C:N ratio       =  118.381                       Root C:N ratio         =     37.660
+      grain N percent        =       1.51                     total N content (kg/ha)=     116.52
+      grain N uptake (kg/ha) =      78.83                     senesced N content (kg/ha)=   14.05
+      green N content (kg/ha)=      23.63                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.031        0.178
-         floral_initiation    to flowering               0.000        0.000        0.086        0.280
-         flowering            to start_grain_fill        0.000        0.036        0.000        0.224
-         start_grain_fill     to end_grain_fill          0.033        0.023        0.668        0.916
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.039        0.188
+         floral_initiation    to flowering               0.000        0.000        0.091        0.279
+         flowering            to start_grain_fill        0.000        0.129        0.000        0.229
+         start_grain_fill     to end_grain_fill          0.001        0.061        0.688        0.927
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11122.16                    0.00
-                          N  (kg/ha) =                 37.50                    0.00
+                          DM (kg/ha) =               11152.58                    0.00
+                          N  (kg/ha) =                 37.68                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5109.97                    0.00
-                          N  (kg/ha) =                 79.46                    0.00
+                          DM (kg/ha) =               5218.77                    0.00
+                          N  (kg/ha) =                 78.83                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.04 (g/m^2)   lai          =   0.042 (m^2/m^2)
-                     stover N conc =     0.49 (%)    extractable sw =   52.81 (mm)
+                     stover N conc =     0.50 (%)    extractable sw =   44.26 (mm)
 10 December 1993(Day of year=344), operatns: 
       Sending kill_crop message to wheat
 10 December 1993(Day of year=344), wheat: 
@@ -1661,8 +1647,8 @@
 10 December 1993(Day of year=344), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.44                 2369.51
-                          N  (kg/ha) =                  0.00                   25.13
+                          DM (kg/ha) =                  0.44                 2377.99
+                          N  (kg/ha) =                  0.00                   25.26
                           P  (kg/ha) =                                          0.00
      
 21 January 1994(Day of year=21), operatns: 
