@@ -41,7 +41,7 @@ bool getXLSRow(ExcelWorksheetPtr worksheet, int row, vector<string>& values)
    // get the number of columns.
    RangePtr usedRange = worksheet->get_UsedRange();
    RangePtr usedColumns = usedRange->Columns;
-   RangePtr usedRows = usedRange->Columns;
+   RangePtr usedRows = usedRange->Rows;
    int numCols = usedColumns->Count;
    int numRows = usedRows->Count;
 
