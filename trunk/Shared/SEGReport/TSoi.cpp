@@ -48,15 +48,19 @@ void __fastcall TSOI::setMonth(AnsiString month)
       if (LongMonthNames[soiMonth].AnsiCompareIC(month) == 0)
          break;
       }
-   if (soiMonth == 12)
+   if (month != soiMonth)
       {
-      soiMonth = 1;
-      ShowMessage("Invalid soi month: " + month);
-      }
-   else
-      {
-      soiMonth++;
-      refresh();
+      if (soiMonth == 12)
+         {
+         soiMonth = 1;
+         ShowMessage("Invalid soi month: " + month);
+         }
+      else
+         {
+         soiMonth++;
+         Active = false;
+         Active = true;
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -72,8 +76,72 @@ AnsiString __fastcall TSOI::getMonth(void)
 //---------------------------------------------------------------------------
 void __fastcall TSOI::setFilename(AnsiString filename)
    {
-   soiFilename = filename;
-   refresh();
+   if (soiFilename != filename)
+      {
+      soiFilename = filename;
+      Active = false;
+      Active = true;
+      }
+   }
+//---------------------------------------------------------------------------
+// Set negative phase.
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setNegativePhase(bool neg)
+   {
+   if (negativePhase != neg)
+      {
+      negativePhase = neg;
+      Active = false;
+      Active = true;
+      }
+   }
+//---------------------------------------------------------------------------
+// Set positive phase.
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setPositivePhase(bool pos)
+   {
+   if (positivePhase != pos)
+      {
+      positivePhase = pos;
+      Active = false;
+      Active = true;
+      }
+   }
+//---------------------------------------------------------------------------
+// Set the falling phase.
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setFallingPhase(bool fall)
+   {
+   if (fallingPhase != fall)
+      {
+      fallingPhase = fall;
+      Active = false;
+      Active = true;
+      }
+   }
+//---------------------------------------------------------------------------
+// Set the rising phase.
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setRisingPhase(bool ris)
+   {
+   if (risingPhase != ris)
+      {
+      risingPhase = ris;
+      Active = false;
+      Active = true;
+      }
+   }
+//---------------------------------------------------------------------------
+// Set the zero phase.
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setZeroPhase(bool zer)
+   {
+   if (zeroPhase != zer)
+      {
+      zeroPhase = zer;
+      Active = false;
+      Active = true;
+      }
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.
@@ -107,26 +175,21 @@ void TSOI::storeRecords(void) throw(runtime_error)
       source->First();
       while (!source->Eof)
          {
-         // add a new record that is identical to the current source record.
-         copyDBRecord(source, this);
-
-         int year = FieldValues[sowYearFieldName.c_str()];
+         int year = source->FieldValues[sowYearFieldName.c_str()];
          unsigned phase;
          string phaseName;
          getPhase(year, soiMonth, phase, phaseName);
-         Edit();
-         FieldValues[SOI_PHASE_FIELD_NAME] = phaseName.c_str();
-         FieldValues[SOI_PHASE_NUMBER_FIELD_NAME] = phase;
-         Post();
-         addFactorToSeriesName("soi phase=" + phaseName);
+         if (keepPhase(phase))
+            {
+            // add a new record that is identical to the current source record.
+            copyDBRecord(source, this);
 
-         // append an all years record.
-         copyDBRecord(source, this);
-         Edit();
-         FieldValues[SOI_PHASE_FIELD_NAME] = "All years";
-         FieldValues[SOI_PHASE_NUMBER_FIELD_NAME] = 0;
-         Post();
-         addFactorToSeriesName("soi phase=All years");
+            Edit();
+            FieldValues[SOI_PHASE_FIELD_NAME] = phaseName.c_str();
+            FieldValues[SOI_PHASE_NUMBER_FIELD_NAME] = phase;
+            Post();
+            addFactorToSeriesName("soi phase=" + phaseName);
+            }
 
          source->Next();
          }
@@ -197,8 +260,6 @@ void TSOI::readSoiData(void) throw (runtime_error)
          }
       }
    }
-
-
 // ------------------------------------------------------------------
 // Return an soi phase plus a string representation for the specified
 // year and month.  Throws runtime_error if not found.
@@ -224,5 +285,20 @@ void TSOI::getPhase(unsigned year, unsigned month,
          }
       }
    }
-
-
+// ------------------------------------------------------------------
+// Return true if we should keep the specified phase.
+// ------------------------------------------------------------------
+bool TSOI::keepPhase(unsigned phase)
+   {
+   if (negativePhase && phase == 1)
+      return true;
+   if (positivePhase && phase == 2)
+      return true;
+   if (fallingPhase && phase == 3)
+      return true;
+   if (risingPhase && phase == 4)
+      return true;
+   if (zeroPhase && phase == 5)
+      return true;
+   return false;
+   }
