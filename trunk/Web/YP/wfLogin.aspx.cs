@@ -29,6 +29,8 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.HyperLink hylWarning;
 		protected System.Web.UI.WebControls.Label lblFurtherDetails;
 		protected System.Web.UI.WebControls.HyperLink hylEmail;
+		protected System.Web.UI.WebControls.Label Label1;
+		protected System.Web.UI.WebControls.Button RegistrationButton;
 		protected System.Web.UI.WebControls.Image imgSide;
 
 		//---------------------------------------------------------------------
@@ -40,7 +42,7 @@ namespace YieldProphet
 			if (!IsPostBack)
 				{
 				imgSide.Height = Unit.Percentage(100);
-				Session["UserID"] = "0";
+				Session["UserName"] = "";
 				ClearFormInformation();
 				FunctionsClass.SetControlFocus("edtUserName", this);
 				}
@@ -63,6 +65,7 @@ namespace YieldProphet
 		private void InitializeComponent()
 		{    
 			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+			this.RegistrationButton.Click += new System.EventHandler(this.RegistrationButton_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -75,22 +78,24 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		private void btnLogin_Click(object sender, System.EventArgs e)
 			{
-			int iUserID = DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
-				InputValidationClass.ValidateString(edtPassword.Text));
-			ClearFormInformation();
-			if(iUserID != 0)
-				{
-				Session["UserID"] = iUserID.ToString();
-				if(ReportClass.DoesUsersReportDirectoryExisit(iUserID.ToString(), DateTime.Today.Year.ToString()) == false)
+
+				if(DataAccessClass.AuthenticateUser(InputValidationClass.ValidateString(edtUserName.Text),
+					InputValidationClass.ValidateString(edtPassword.Text)) == true)
 					{
-					ReportClass.CreateUsersReportDirectory(iUserID, DateTime.Today.Year.ToString()); 
+					DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(InputValidationClass.ValidateString(edtUserName.Text));
+					Session["UserName"] = dtUserDetails.Rows[0]["UserName"];
+					if(ReportClass.DoesUsersReportDirectoryExisit(Session["UserName"].ToString(), DateTime.Today.Year) == false)
+						{
+						ReportClass.CreateUsersReportDirectory(Session["UserName"].ToString(), DateTime.Today.Year); 
+						}
+					Response.Redirect("YieldProphet.htm");	
 					}
-				Response.Redirect("YieldProphet.htm");	
-				}
-			else
-				{
-				FunctionsClass.DisplayMessage(Page,"Incorrect Login Details.  All login details are case sensitive");
-				}	
+				else
+					{
+					FunctionsClass.DisplayMessage(Page,"Incorrect Login Details.  All login details are case sensitive");
+					ClearFormInformation();
+					}	
+		
 			}
 		//---------------------------------------------------------------------
 		//Clears the text from the two textboxes that contain the user's
@@ -101,5 +106,15 @@ namespace YieldProphet
 			edtPassword.Text = "";
 			edtUserName.Text = "";
 			}
+
+		//---------------------------------------------------------------------
+		// User has clicked on registration info button.
+		//---------------------------------------------------------------------
+		private void RegistrationButton_Click(object sender, System.EventArgs e)
+			{
+			Server.Transfer("wfRegForm1.aspx");
+			}
+
+
 		}//END OF CLASS
 	}//END OF NAMESPACE

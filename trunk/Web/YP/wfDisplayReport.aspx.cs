@@ -73,30 +73,12 @@ namespace YieldProphet
 				}*/
 				if(Session["SelectedReportName"].ToString() != "0")
 				{
-					string szImageLocation = "Reports\\"+SetUserID()+"\\"+
+					string szImageLocation = "Reports\\"+FunctionsClass.GetActiveUserName()+"\\"+
 						Session["SelectedReportYear"].ToString()+"\\"+
 						Session["SelectedReportName"].ToString()+".gif";
 					imgReport.ImageUrl = szImageLocation;
 				}
 			}
-		//-------------------------------------------------------------------------
-		//Determines which UserID to use, either the SelectedUserID or the 
-		//UserID.  This depends on whether it is the user viewing their own reports
-		//or it a user view their grower's reports
-		//-------------------------------------------------------------------------	
-		private string SetUserID()
-		{
-			string szUserID = "";
-			if(Session["SelectedUserID"].ToString() != "" && Session["SelectedUserID"].ToString() != "0")
-			{
-				szUserID = Session["SelectedUserID"].ToString();
-			}
-			else
-			{
-				szUserID = Session["UserID"].ToString();
-			}
-			return szUserID;
-		}
 	//----------------------------------------------------------------------------
 	}//END OF CLASS
 }//END OF NAMESPACE

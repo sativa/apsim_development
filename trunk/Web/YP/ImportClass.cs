@@ -18,18 +18,34 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a list of met stations
 		//-------------------------------------------------------------------------
-		public static void ImportMetStations(Page pgPageInfo, string szTableName, string szRegionID)
+		public static void ImportMetStations(Page pgPageInfo, string szRegionType)
 			{
 			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
-			UploadImportedMetStations(hpfImportedFile, pgPageInfo, szTableName, szRegionID);
+			UploadImportedMetStations(hpfImportedFile, pgPageInfo, szRegionType);
 			}
 		//-------------------------------------------------------------------------
 		//Imports a file that contains a list of soils
 		//-------------------------------------------------------------------------
-		public static void ImportSoils(Page pgPageInfo, string szTableName, string szRegionID)
+		public static void ImportSoils(Page pgPageInfo, string szRegionType)
 			{
 			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
-			UploadImportedSoils(hpfImportedFile, pgPageInfo, szTableName, szRegionID);
+			UploadImportedSoils(hpfImportedFile, pgPageInfo, szRegionType);
+			}
+		//-------------------------------------------------------------------------
+		//Imports a file that contains a list of cultivars
+		//-------------------------------------------------------------------------
+		public static void ImportCultivars(Page pgPageInfo, string szCropType)
+			{
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
+			UploadImportedCultivars(hpfImportedFile, pgPageInfo, szCropType);
+			}
+		//-------------------------------------------------------------------------
+		//Imports a file that contains a report template
+		//-------------------------------------------------------------------------
+		public static void ImportReportTemplate(Page pgPageInfo, string szReportType, string szTemplateType)
+			{
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo);
+			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szReportType, szTemplateType);
 			}
 		//-------------------------------------------------------------------------
 		//Checks to make sure that the a file has been selected for upload and
@@ -63,7 +79,7 @@ namespace YieldProphet
 		//Checks to make sure that the met file is in the correct format, and 
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
-		private static void UploadImportedMetStations(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szTableName, string szRegionID)
+		private static void UploadImportedMetStations(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType)
 			{
 			try
 				{
@@ -72,9 +88,13 @@ namespace YieldProphet
 				if(szContentType == "text/plain")
 					{
 					StreamReader strImportedFile = new StreamReader(hpfImportedFile.InputStream);
-					DataTable dtImportedTable = FillMetStationsDataTable(strImportedFile, szRegionID);
+					DataTable dtMetStations = FillMetStationsDataTable(strImportedFile, szRegionType);
 					//Sets the data to the selected region
-					DataAccessClass.InsertMulitpleRecords(dtImportedTable, szTableName);
+					foreach(DataRow drMetStation in dtMetStations.Rows)
+						{
+						DataAccessClass.InsertMetStation(drMetStation["Region"].ToString(), drMetStation["Name"].ToString(), 
+							Convert.ToInt32(drMetStation["StationNumber"].ToString()));
+						}
 					}
 				else
 					{
@@ -90,9 +110,12 @@ namespace YieldProphet
 		//Reads the met file and reads that data into a datatable which can be 
 		//inserted into a database
 		//-------------------------------------------------------------------------
-		private static DataTable FillMetStationsDataTable(StreamReader strImportedFile, string szRegionID)
+		private static DataTable FillMetStationsDataTable(StreamReader strImportedFile, string szRegionType)
 			{
-			DataTable dtMetStations = DataAccessClass.GetCompleteMetStationsTable("0");
+			DataTable dtMetStations = new DataTable();
+			dtMetStations.Columns.Add("Region");
+			dtMetStations.Columns.Add("Name");
+			dtMetStations.Columns.Add("StationNumber");
 			DataRow drMetStation;
 			string szMetStation;
 			string[] szMetStationParts;
@@ -107,7 +130,7 @@ namespace YieldProphet
 					szMetStationParts = szMetStation.Split(",".ToCharArray(), 2);
 					drMetStation["StationNumber"] = szMetStationParts[iNumberOrdinal];
 					drMetStation["Name"] = szMetStationParts[iNameOrdinal];
-					drMetStation["RegionID"] = szRegionID;
+					drMetStation["Region"] = szRegionType;
 					dtMetStations.Rows.Add(drMetStation);
 					}
 				}
@@ -119,7 +142,7 @@ namespace YieldProphet
 		//Checks to make sure that the soil file is in the correct format, and 
 		//if it is then upload the file.
 		//-------------------------------------------------------------------------
-		private static void UploadImportedSoils(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szTableName, string szRegionID)
+		private static void UploadImportedSoils(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szRegionType)
 			{
 			try
 				{
@@ -129,9 +152,77 @@ namespace YieldProphet
 					{
 					XmlParserContext context = new XmlParserContext(null, null, null, XmlSpace.None);
 					XmlTextReader xtrSoilSample = new XmlTextReader(hpfImportedFile.InputStream, XmlNodeType.Document, context);
-					DataTable dtImportedTable = FillSoilsDataTable(xtrSoilSample, szRegionID);
+					DataTable dtSoils = FillSoilsDataTable(xtrSoilSample, szRegionType);
 					//Sets the data to the selected region
-					DataAccessClass.InsertMulitpleRecords(dtImportedTable, szTableName);
+					foreach(DataRow drSoil in dtSoils.Rows)
+						{
+						DataAccessClass.InsertSoil(drSoil["Region"].ToString(), drSoil["Name"].ToString(), 
+							drSoil["Data"].ToString());
+						}
+					}
+				else
+					{
+					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
+					}
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
+				}
+			}
+		//-------------------------------------------------------------------------
+		//Reads the soil file and reads that data into a datatable which can be 
+		//inserted into a database
+		//-------------------------------------------------------------------------
+		private static DataTable FillSoilsDataTable(XmlTextReader xtrSoilSample, string szRegionType)
+			{
+			DataTable dtSoils = new DataTable();
+			dtSoils.Columns.Add("Name");
+			dtSoils.Columns.Add("Data");
+			dtSoils.Columns.Add("Region");
+			DataRow drSoil;
+			try
+				{
+				dtSoils.Rows.Clear();
+				
+				XmlDocument xmlDoc = new XmlDocument();
+				xmlDoc.Load(xtrSoilSample);
+				XmlNode xlnRoot = xmlDoc.DocumentElement;
+				XmlNode xlnCurrentNode = xlnRoot;
+
+				for(int iIndex = 0; iIndex < xlnRoot.ChildNodes.Count; iIndex++)
+					{
+					drSoil = dtSoils.NewRow();
+					xlnCurrentNode = xlnRoot.ChildNodes[iIndex];
+					drSoil["Name"] = xlnCurrentNode.Attributes[0].InnerText;
+					drSoil["Data"] = xlnCurrentNode.OuterXml;
+					drSoil["Region"] = szRegionType;
+					dtSoils.Rows.Add(drSoil);
+					}
+				}
+			catch(Exception)
+				{}
+			return dtSoils;
+			}
+		//-------------------------------------------------------------------------
+		//Checks to make sure that the cultivar file is in the correct format, and 
+		//if it is then upload the file.
+		//-------------------------------------------------------------------------
+		private static void UploadImportedCultivars(HttpPostedFile hpfImportedFile, Page pgPageInfo, string szCropType)
+			{
+			try
+				{
+				//Checks to make sure that the file is an xml file
+				string szContentType = hpfImportedFile.ContentType;
+				if(szContentType == "text/plain")
+					{
+					StreamReader strImportedFile = new StreamReader(hpfImportedFile.InputStream);
+					DataTable dtCrops = FillCultivarsDataTable(strImportedFile, szCropType);
+					//Sets the data to the selected region
+					foreach(DataRow drCrop in dtCrops.Rows)
+						{
+						DataAccessClass.InsertCultivar(drCrop["CropType"].ToString(), drCrop["Type"].ToString());
+						}
 					}
 				else
 					{
@@ -144,50 +235,70 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//Reads the soil file and reads that data into a datatable which can be 
+		//Reads the met file and reads that data into a datatable which can be 
 		//inserted into a database
 		//-------------------------------------------------------------------------
-		private static DataTable FillSoilsDataTable(XmlTextReader xtrSoilSample, string szRegionID)
-			{
-			DataTable dtSoils = DataAccessClass.GetCompleteSoilsTable("0");
-			DataRow drSoil;
+		private static DataTable FillCultivarsDataTable(StreamReader strImportedFile, string szCropType)
+		{
+			DataTable dtCultivars = new DataTable();
+			dtCultivars.Columns.Add("CropType");
+			dtCultivars.Columns.Add("Type");
+			DataRow drCultivars;
+			string szCultivar;
 			try
 				{
-				dtSoils.Rows.Clear();
-				
-				XmlDocument xmlDoc = new XmlDocument();
-				xmlDoc.Load(xtrSoilSample);
-				XmlNode xlnRoot = xmlDoc.DocumentElement;
-				XmlNode xlnCurrentNode = xlnRoot;
-				string szSoilName;
-				int iLengthOfSubString = 0;
-				int iStartOfSubStringIndex = 0;
-
-				for(int iIndex = 0; iIndex < xlnRoot.ChildNodes.Count; iIndex++)
+				dtCultivars.Rows.Clear();
+				while((szCultivar = strImportedFile.ReadLine()) != null)
 					{
-					drSoil = dtSoils.NewRow();
-					xlnCurrentNode = xlnRoot.ChildNodes[iIndex];
-					szSoilName = xlnCurrentNode.Attributes[0].InnerText;
-					if(szSoilName.StartsWith("Grower soil:") == true)
-						{
-						iStartOfSubStringIndex = szSoilName.IndexOf(":", 0, szSoilName.Length)+1;
-						iLengthOfSubString = (szSoilName.Length - iStartOfSubStringIndex);
-						drSoil["SpecificUserID"] = DataAccessClass.
-							GetIDOfGrower(szSoilName.Substring(iStartOfSubStringIndex, iLengthOfSubString)).ToString();
-						}
-					else
-						{
-						drSoil["SpecificUserID"] = "0";
-						}
-					drSoil["Name"] = szSoilName;
-					drSoil["Data"] = xlnCurrentNode.OuterXml;
-					drSoil["RegionID"] = szRegionID;
-					dtSoils.Rows.Add(drSoil);
+					drCultivars = dtCultivars.NewRow();
+					drCultivars["Type"] = dtCultivars;
+					drCultivars["CropType"] = szCropType;
+					dtCultivars.Rows.Add(drCultivars);
 					}
 				}
 			catch(Exception)
 				{}
-			return dtSoils;
+			return dtCultivars;
+			}
+		//-------------------------------------------------------------------------
+		//Checks to make sure that the cultivar file is in the correct format, and 
+		//if it is then upload the file.
+		//-------------------------------------------------------------------------
+		private static void UploadImportedReportTemplate(HttpPostedFile hpfImportedFile, Page pgPageInfo, 
+			string szReportType, string szTemplateType)
+		{
+			try
+			{
+				//Checks to make sure that the file is an xml file
+				string szContentType = hpfImportedFile.ContentType;
+				if(szContentType == "text/plain")
+				{
+					StreamReader strImportedFile = new StreamReader(hpfImportedFile.InputStream);
+					string szTemplateText = strImportedFile.ReadToEnd();
+					szTemplateText = SetUpTemplateTextForSaving(szTemplateText);
+					//Saves the template to the database
+					DataAccessClass.UpdateReportTypes(szTemplateText, szReportType, szTemplateType);		
+				}
+				else
+				{
+					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
+				}
+			}
+			catch(Exception)
+			{
+				FunctionsClass.DisplayMessage(pgPageInfo, "Error Importing File");
+			}
+		}
+
+		//-------------------------------------------------------------------------
+		//Set up the string for saving to the database by replacing the quote and
+		//double quote characters with place holders
+		//-------------------------------------------------------------------------
+		private static string SetUpTemplateTextForSaving(string szTemplateText)
+			{
+			szTemplateText = szTemplateText.Replace("'", "#Quote#");
+			szTemplateText = szTemplateText.Replace("\"", "#DQuote#");
+			return szTemplateText;
 			}
 		//-------------------------------------------------------------------------
 		}//END OF CLASS

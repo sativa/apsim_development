@@ -29,7 +29,7 @@ namespace YieldProphet
 		// YP/Reports/1/2005/  is the report directory for the user with the UserID 
 		// 1 and for the year 2005
 		//-------------------------------------------------------------------------
-		public static void CreateUsersReportDirectory(string szUserName, string szPassword)
+		public static void CreateUsersReportDirectory(string szUserName)
 			{	
 			try
 				{
@@ -40,8 +40,7 @@ namespace YieldProphet
 					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
 					}
 				//Creates the Users sub directory if it doesn't exist
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+
-					DataAccessClass.AuthenticateUser(szUserName, szPassword);
+				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
 				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
 					{
 					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
@@ -57,7 +56,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Creates a user directory for a given year, same format as above
 		//-------------------------------------------------------------------------
-		public static void CreateUsersReportDirectory(string szUserName, string szPassword, string szYear)
+		public static void CreateUsersReportDirectory(string szUserName, int iYear)
 			{	
 			try
 				{
@@ -68,43 +67,13 @@ namespace YieldProphet
 					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
 					}
 				//Creates the Users sub directory if it doesn't exist
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+
-					DataAccessClass.AuthenticateUser(szUserName, szPassword);
+				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName;
 				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
 					{
 					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
 					}
 				//Creates the user's report directory
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+szYear;
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
-					}
-				}
-			catch(Exception)
-				{}		
-			}
-		//-------------------------------------------------------------------------
-		//Takes a user ID and a year and creates a report directory, same format as above
-		//-------------------------------------------------------------------------
-		public static void CreateUsersReportDirectory(int iUserID, string szYear)
-			{	
-			try
-				{
-				string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
-				//Creates the Reports directory if it doesn't exist
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-					}
-				//Creates the Users sub directory if it doesn't exist
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+iUserID.ToString();
-				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
-					{
-					System.IO.Directory.CreateDirectory(szDirectoryLocaton);
-					}
-				//Creates the user's report directory
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+szYear;
+				szDirectoryLocaton = szDirectoryLocaton+"\\"+iYear.ToString();
 				if(System.IO.Directory.Exists(szDirectoryLocaton)==false)
 					{
 					System.IO.Directory.CreateDirectory(szDirectoryLocaton);	
@@ -117,13 +86,13 @@ namespace YieldProphet
 		//Takes a UserID and a year and checks if there is a report directory for the
 		//given values.
 		//-------------------------------------------------------------------------
-		public static bool DoesUsersReportDirectoryExisit(string szUserID, string szYear)
+		public static bool DoesUsersReportDirectoryExisit(string szUserName, int iYear)
 			{
 			bool bUsersReportDirectoryExists = false;
 			try
 				{
 				string szDirectoryLocaton = HttpContext.Current.Server.MapPath("/YP/")+"Reports";
-				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserID+"\\"+szYear;
+				szDirectoryLocaton = szDirectoryLocaton+"\\"+szUserName+"\\"+iYear.ToString();
 
 				bUsersReportDirectoryExists = System.IO.Directory.Exists(szDirectoryLocaton);
 				}
@@ -135,12 +104,12 @@ namespace YieldProphet
 		//Takes a userID and deletes the users report directory including all
 		//sub directories and files
 		//-------------------------------------------------------------------------
-		public static void DeleteUsersReportDirectory(string szUserID)
+		public static void DeleteUsersReportDirectory(string szUserName)
 			{			
 			try
 				{
 				string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
-				szFileLocation = szFileLocation+"Reports//"+szUserID;
+				szFileLocation = szFileLocation+"Reports//"+szUserName;
 				if(System.IO.Directory.Exists(szFileLocation))
 					{
 					System.IO.Directory.Delete(szFileLocation, true);
@@ -153,13 +122,13 @@ namespace YieldProphet
 		//Takes a UserID, a report name and a year a deletes the report found in
 		//that location.
 		//-------------------------------------------------------------------------
-		public static void DeleteReport(string szUserID, string szReportName, string szYear)
+		public static void DeleteReport(string szUserName, string szReportName, int iYear)
 		{
 			try
 				{
 				string szFileLocation = HttpContext.Current.Server.MapPath("/YP/");
-				szFileLocation = szFileLocation+"Reports//"+szUserID+
-					"//"+szYear+"//"+szReportName+".gif";
+				szFileLocation = szFileLocation+"Reports//"+szUserName+
+					"//"+iYear.ToString()+"//"+szReportName+".gif";
 				if(System.IO.File.Exists(szFileLocation))
 					{
 					System.IO.File.Delete(szFileLocation);
@@ -172,7 +141,7 @@ namespace YieldProphet
 		//Takes a UserID and a Year and returns all the report names from the
 		//directory found in that location.
 		//-------------------------------------------------------------------------
-		public static DataTable GetReportsOfUser(string szUserID, string szYear)
+		public static DataTable GetReportsOfUser(string szUserName, int iYear)
 			{
 			DataTable dtUsersReports = new DataTable("Reports");
 			dtUsersReports.Columns.Add("Name");
@@ -180,7 +149,7 @@ namespace YieldProphet
 				{
 				DataRow drUsersReport;
 				string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
-					szUserID+"//"+szYear+"//";
+					szUserName+"//"+iYear.ToString()+"//";
 				if(Directory.Exists(szDirectory) == true)
 					{
 					//Finds all the report files by looking for all .gif files
@@ -210,13 +179,13 @@ namespace YieldProphet
 		//with the new report name.
 		//-------------------------------------------------------------------------
 		public static bool RenameReport(string szOldReportName, 
-			string szNewReportName, string szUserID, string szYear)
+			string szNewReportName, string szUserName, int iYear)
 			{
 			bool bRenamedSuccessfully = false;
 			try
 				{
 				string szDirectory = HttpContext.Current.Server.MapPath("/YP/")+"Reports//"+
-					szUserID+"//"+szYear+"//";
+					szUserName+"//"+iYear.ToString()+"//";
 				if(Directory.Exists(szDirectory) == true)
 					{
 					if(szOldReportName == szNewReportName)
@@ -233,7 +202,7 @@ namespace YieldProphet
 							bRenamedSuccessfully = true;
 							//Then deletes the existing report leaving only the 
 							//newly named report.
-							DeleteReport(szUserID, szOldReportName, szYear);
+							DeleteReport(szUserName, szOldReportName, iYear);
 							}
 						}
 					}
@@ -252,7 +221,7 @@ namespace YieldProphet
 		//Takes a report type ID and a name to give the report and creates the
 		//files needed for a agronomic report to be generated
 		//-------------------------------------------------------------------------
-		public static StringCollection PrepareAgronomicReportFiles(string szReportTypeID, 
+		public static StringCollection PrepareAgronomicReportFiles(string szReportType, 
 			string szReportName)
 			{
 			StringCollection scAttachments = new StringCollection();
@@ -265,13 +234,11 @@ namespace YieldProphet
 					{
 					System.IO.Directory.CreateDirectory(szDirectoryLocation);
 					}
-				string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-				string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
 			
 				CreateAgronomicReportFile(szDirectoryLocation, 
-					szReportTypeID, szReportName, ref scAttachments);
+					szReportType, szReportName, ref scAttachments);
 				CreateAgronomicConParFiles(szDirectoryLocation, 
-					szReportTypeID, ref scAttachments);
+					szReportType, ref scAttachments);
 				CreateRainfallInformationFile(szDirectoryLocation, ref scAttachments);
 				CreateSoilFile(szDirectoryLocation, ref scAttachments);
 				}
@@ -283,12 +250,12 @@ namespace YieldProphet
 		//Creates the .report file for an agronomic report
 		//-----------------------------------------------------------------------
 		public static void CreateAgronomicReportFile(string szDirectoryLocation, 
-			string szReportTypeID, string szReportName, ref StringCollection scAttachments)
+			string szReportType, string szReportName, ref StringCollection scAttachments)
 			{
 			try
 				{
 				//Gets the report template from the database
-				string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportTypeID);
+				string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, "apsimreport");
 				//Removes any place holders stored in the report template
 				szReportTemplate = SetUpTemplateTextForSaveToFile(szReportTemplate);
 				//Gets the data for the template, in XML format
@@ -310,12 +277,12 @@ namespace YieldProphet
 		//Creates both the .con and .par file for an agronomic report
 		//-------------------------------------------------------------------------
 		public static void CreateAgronomicConParFiles(string szDirectoryLocation, 
-			string szReportTypeID, ref StringCollection scAttachments)
+			string szReportType, ref StringCollection scAttachments)
 			{
 			try
 				{		
 				//Gets the report template from the database
-				string szConParTemplate = DataAccessClass.GetReportTypeTemplateSecondary(szReportTypeID);
+				string szConParTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, "con/par");
 				//Removes any place holders stored in the report template
 				szConParTemplate = SetUpTemplateTextForSaveToFile(szConParTemplate);	
 				//Gets the data for the template, in XML format
@@ -339,10 +306,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static string CreateAgronomicReportXML(string szReportName)
 			{	
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName = dtUsersDetails.Rows[0]["Name"].ToString();
 			
 			XmlDocument xmlDocSoilSample = new XmlDocument();
 			xmlDocSoilSample.LoadXml("<Paddocks></Paddocks>"); 
@@ -375,21 +341,21 @@ namespace YieldProphet
 			xmlDocSoilSample.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocSoilSample.DocumentElement;
 			//Gets the data needed for the xml string
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szFertiliserTypeID = DataAccessClass.GetFertiliserTypeIDOfFertiliserType("Nitrogen").ToString();
-			string szSowDate = DataAccessClass.GetSowDateOfPaddock(szPaddockID);	
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
-			string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);	
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());	
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+			string szSowDate =  dtPaddocksDetails.Rows[0]["SowDate"].ToString();
 			string szSowDateFull = (DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null)).ToString("dd/MM/yyyy");
-			string szCultivar = DataAccessClass.GetCultivarTypeOfPaddock(szPaddockID);
+			string szCultivar =  dtPaddocksDetails.Rows[0]["CultivarType"].ToString();
 			string szYesterdayFull = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy");
-			string szMetStationName = DataAccessClass.GetMetStationNameOfPaddock(szPaddockID);
-			string szMetStationNumber = DataAccessClass.GetMetStationNumberOfPaddock(szPaddockID).ToString();
-			string szResetDateDayMonth = (DateTime.ParseExact(DataAccessClass.GetPaddocksSoilSampleDate(szPaddockID, "GridOne"), "yyyy-MM-dd", null)).ToString("dd-MMM");
+			string szMetStationName =  dtPaddocksDetails.Rows[0]["MetStationName"].ToString();
+			string szMetStationNumber = dtPaddocksDetails.Rows[0]["StationNumber"].ToString();
+			DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
+			string szResetDateDayMonth = (DateTime.ParseExact(dtSoilSample.Rows[0]["SampleDate"].ToString(), "yyyy-MM-dd", null)).ToString("dd-MMM");
 			string szSowDateDayMonth = (DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null)).ToString("dd-MMM");
 			string szYesterdayDayMonth = DateTime.Today.AddDays(-1).ToString("dd-MMM");
-			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications(szPaddockID, szFertiliserTypeID);
+			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", szPaddockName, FunctionsClass.GetActiveUserName());
 
 			XmlNode xmlPaddock = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "Paddock", "");  
 			XmlNode xmlPaddockAttribute = xmlDocSoilSample.CreateNode(XmlNodeType.Attribute, "name", "");
@@ -470,7 +436,7 @@ namespace YieldProphet
 		//Takes a report type ID and a name to give the report and creates the
 		//files needed for a climate report
 		//-------------------------------------------------------------------------
-		public static StringCollection PrepareClimateReportFiles(string szReportTypeID, string szReportName)
+		public static StringCollection PrepareClimateReportFiles(string szReportType, string szReportName)
 			{
 			StringCollection scAttachments = new StringCollection();
 			try
@@ -482,14 +448,11 @@ namespace YieldProphet
 					{
 					System.IO.Directory.CreateDirectory(szDirectoryLocation);
 					}
-				string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-				string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			
 
 				CreateClimateReportFile(szDirectoryLocation, 
-					szReportTypeID, szReportName, ref scAttachments);
+					szReportType, szReportName, ref scAttachments);
 				CreateClimateConParFiles(szDirectoryLocation, 
-					szReportTypeID, ref scAttachments);
+					szReportType, ref scAttachments);
 				CreateRainfallInformationFile(szDirectoryLocation, ref scAttachments);
 				CreateSoilFile(szDirectoryLocation, ref scAttachments);
 				}
@@ -501,12 +464,12 @@ namespace YieldProphet
 		//Creates the .report file for a climate report
 		//-----------------------------------------------------------------------
 		public static void CreateClimateReportFile(string szDirectoryLocation, 
-			string szReportTypeID, string szReportName, ref StringCollection scAttachments)
+			string szReportType, string szReportName, ref StringCollection scAttachments)
 			{
 			try
 				{
 				//Gets the report template from the database
-				string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportTypeID);
+				string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, "apsimreport");
 				//Removes any place holders stored in the report template
 				szReportTemplate = SetUpTemplateTextForSaveToFile(szReportTemplate);
 				//Gets the data for the template, in XML format
@@ -528,12 +491,12 @@ namespace YieldProphet
 		//Creates the .con and .par files for the climate report
 		//-------------------------------------------------------------------------
 		public static void CreateClimateConParFiles(string szDirectoryLocation, 
-			string szReportTypeID, ref StringCollection scAttachments)
+			string szReportType, ref StringCollection scAttachments)
 			{
 			try
 				{		
 				//Gets the report template from the database
-				string szConParTemplate = DataAccessClass.GetReportTypeTemplateSecondary(szReportTypeID);
+				string szConParTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, "con/par");
 				//Removes any place holders stored in the report template
 				szConParTemplate = SetUpTemplateTextForSaveToFile(szConParTemplate);	
 				//Gets the data for the template, in XML format
@@ -557,13 +520,13 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static string CreateClimateReportXML(string szReportName)
 			{	
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName = dtUsersDetails.Rows[0]["Name"].ToString();
+
 			DataTable dtClimateForcast = DataAccessClass.GetClimateForecast();
 			DateTime dtSOIMonth = new DateTime(1, Convert.ToInt32(dtClimateForcast.Rows[0]["SoiMonth"].ToString()), 1);
-			string szSOIPhase = DataAccessClass.GetSOIPhase(dtClimateForcast.Rows[0]["SoiPhase"].ToString());
+			string szSOIPhase = dtClimateForcast.Rows[0]["SoiPhase"].ToString();
 			
 			
 			XmlDocument xmlDocSoilSample = new XmlDocument();
@@ -633,21 +596,21 @@ namespace YieldProphet
 			xmlDocSoilSample.LoadXml("<Paddocks></Paddocks>"); 
 			XmlElement xmlRoot = xmlDocSoilSample.DocumentElement;
 			//Gets the data needed for the xml string
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szFertiliserTypeID = DataAccessClass.GetFertiliserTypeIDOfFertiliserType("Nitrogen").ToString();
-			string szSowDate = DataAccessClass.GetSowDateOfPaddock(szPaddockID);	
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
-			string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);	
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+			string szSowDate =  dtPaddocksDetails.Rows[0]["SowDate"].ToString();
 			string szSowDateFull = (DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null)).ToString("dd/MM/yyyy");
-			string szCultivar = DataAccessClass.GetCultivarTypeOfPaddock(szPaddockID);
+			string szCultivar =  dtPaddocksDetails.Rows[0]["CultivarType"].ToString();
 			string szYesterdayFull = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy");
-			string szMetStationName = DataAccessClass.GetMetStationNameOfPaddock(szPaddockID);
-			string szMetStationNumber = DataAccessClass.GetMetStationNumberOfPaddock(szPaddockID).ToString();
-			string szResetDateDayMonth = (DateTime.ParseExact(DataAccessClass.GetPaddocksSoilSampleDate(szPaddockID, "GridOne"), "yyyy-MM-dd", null)).ToString("dd-MMM");
+			string szMetStationName =  dtPaddocksDetails.Rows[0]["MetStationName"].ToString();
+			string szMetStationNumber = dtPaddocksDetails.Rows[0]["StationNumber"].ToString();
+			DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
+			string szResetDateDayMonth = (DateTime.ParseExact(dtSoilSample.Rows[0]["SampleDate"].ToString(), "yyyy-MM-dd", null)).ToString("dd-MMM");
 			string szSowDateDayMonth = (DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null)).ToString("dd-MMM");
 			string szYesterdayDayMonth = DateTime.Today.AddDays(-1).ToString("dd-MMM");
-			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications(szPaddockID, szFertiliserTypeID);
+			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", szPaddockName, FunctionsClass.GetActiveUserName());
 
 			XmlNode xmlPaddock = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "Paddock", "");  
 			XmlNode xmlPaddockAttribute = xmlDocSoilSample.CreateNode(XmlNodeType.Attribute, "name", "");
@@ -728,7 +691,7 @@ namespace YieldProphet
 		//Takes a report type ID and a name to give the report and creates the
 		//files needed for a climate report
 		//-------------------------------------------------------------------------
-		public static StringCollection PrepareNitrogenComparisonReportFiles(string szReportTypeID, string szReportName, 
+		public static StringCollection PrepareNitrogenComparisonReportFiles(string szReportType, string szReportName, 
 			DataTable dtScenarioOne, string szScenarioOneDescription,
 			DataTable dtScenarioTwo, string szScenarioTwoDescription,
 			DataTable dtScenarioThree, string szScenarioThreeDescription)
@@ -743,13 +706,11 @@ namespace YieldProphet
 					{
 					System.IO.Directory.CreateDirectory(szDirectoryLocation);
 					}
-				string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-				string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			
+
 				CreateNitrogenComparisonReportFile(szDirectoryLocation, 
-					szReportTypeID, szReportName, szScenarioThreeDescription, ref scAttachments);
+					szReportType, szReportName, szScenarioThreeDescription, ref scAttachments);
 				CreateNitrogenComparisonConParFiles(szDirectoryLocation, 
-					szReportTypeID, dtScenarioOne, szScenarioOneDescription, 
+					szReportType, dtScenarioOne, szScenarioOneDescription, 
 					dtScenarioTwo, szScenarioTwoDescription, dtScenarioThree, 
 					szScenarioThreeDescription, ref scAttachments);
 				CreateRainfallInformationFile(szDirectoryLocation, ref scAttachments);
@@ -763,13 +724,13 @@ namespace YieldProphet
 		//Creates the .report file for a nitrogen comparison report
 		//-----------------------------------------------------------------------
 		public static void CreateNitrogenComparisonReportFile(string szDirectoryLocation, 
-			string szReportTypeID, string szReportName, string szScenarioThreeDescription, 
+			string szReportType, string szReportName, string szScenarioThreeDescription, 
 			ref StringCollection scAttachments)
 			{
 			try
 				{
 				//Gets the report template from the database		
-				string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportTypeID);
+				string szReportTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, "apsimreport");
 				//Removes any place holders stored in the report template
 				szReportTemplate = SetUpTemplateTextForSaveToFile(szReportTemplate);
 				//Gets the data for the template, in XML format
@@ -791,14 +752,14 @@ namespace YieldProphet
 		///Creates the .con and .par files for a nitrogen comparison  report
 		//-------------------------------------------------------------------------
 		public static void CreateNitrogenComparisonConParFiles(string szDirectoryLocation, 
-			string szReportTypeID, DataTable dtScenarioOne, string szScenarioOneDescription,
+			string szReportType, DataTable dtScenarioOne, string szScenarioOneDescription,
 			DataTable dtScenarioTwo, string szScenarioTwoDescription, DataTable dtScenarioThree, 
 			string szScenarioThreeDescription, ref StringCollection scAttachments)
 			{
 			try
 				{		
 				//Gets the report template from the database
-				string szConParTemplate = DataAccessClass.GetReportTypeTemplateSecondary(szReportTypeID);
+				string szConParTemplate = DataAccessClass.GetReportTypeTemplate(szReportType, "con/par");
 				//Removes any place holders stored in the report template
 				szConParTemplate = SetUpTemplateTextForSaveToFile(szConParTemplate);	
 				//Gets the data for the template, in XML format
@@ -824,13 +785,13 @@ namespace YieldProphet
 		public static string CreateNitrogenComparisonReportXML(string szReportName, string szScenarioThreeDescription)
 			{	
 			//Gets the needed data
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName = dtUsersDetails.Rows[0]["Name"].ToString();
+
 			DataTable dtClimateForcast = DataAccessClass.GetClimateForecast();
 			DateTime dtSOIMonth = new DateTime(1, Convert.ToInt32(dtClimateForcast.Rows[0]["SoiMonth"].ToString()), 1);
-			string szSOIPhase = DataAccessClass.GetSOIPhase(dtClimateForcast.Rows[0]["SoiPhase"].ToString());
+			string szSOIPhase = dtClimateForcast.Rows[0]["SoiPhase"].ToString();
 			
 			
 			XmlDocument xmlDocSoilSample = new XmlDocument();
@@ -879,21 +840,21 @@ namespace YieldProphet
 			XmlElement xmlRoot = xmlDocSoilSample.DocumentElement;
 			
 			//Gets the needed data
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szFertiliserTypeID = DataAccessClass.GetFertiliserTypeIDOfFertiliserType("Nitrogen").ToString();
-			string szSowDate = DataAccessClass.GetSowDateOfPaddock(szPaddockID);
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
-			string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);	
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+			string szSowDate =  dtPaddocksDetails.Rows[0]["SowDate"].ToString();
 			string szSowDateFull = (DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null)).ToString("dd/MM/yyyy");
-			string szCultivar = DataAccessClass.GetCultivarTypeOfPaddock(szPaddockID);
+			string szCultivar =  dtPaddocksDetails.Rows[0]["CultivarType"].ToString();
 			string szYesterdayFull = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy");
-			string szMetStationName = DataAccessClass.GetMetStationNameOfPaddock(szPaddockID);
-			string szMetStationNumber = DataAccessClass.GetMetStationNumberOfPaddock(szPaddockID).ToString();
-			string szResetDateDayMonth = (DateTime.ParseExact(DataAccessClass.GetPaddocksSoilSampleDate(szPaddockID, "GridOne"), "yyyy-MM-dd", null)).ToString("dd-MMM");
+			string szMetStationName =  dtPaddocksDetails.Rows[0]["MetStationName"].ToString();
+			string szMetStationNumber = dtPaddocksDetails.Rows[0]["StationNumber"].ToString();
+			DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
+			string szResetDateDayMonth = (DateTime.ParseExact(dtSoilSample.Rows[0]["SampleDate"].ToString(), "yyyy-MM-dd", null)).ToString("dd-MMM");
 			string szSowDateDayMonth = (DateTime.ParseExact(szSowDate, "yyyy-MM-dd", null)).ToString("dd-MMM");
 			string szYesterdayDayMonth = DateTime.Today.AddDays(-1).ToString("dd-MMM");
-			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications(szPaddockID, szFertiliserTypeID);
+			DataTable dtFertiliserApplications = DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", szPaddockName, FunctionsClass.GetActiveUserName());
 
 			XmlNode xmlPaddock = xmlDocSoilSample.CreateNode(XmlNodeType.Element, "Paddock", "");  
 			XmlNode xmlPaddockAttribute = xmlDocSoilSample.CreateNode(XmlNodeType.Attribute, "name", "");
@@ -1059,18 +1020,19 @@ namespace YieldProphet
 			try
 				{
 				//Gets the data needed
-				string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-				string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-				string szUserName = DataAccessClass.GetNameOfUser(szUserID);
-				string szSoilID = DataAccessClass.GetSoilIDOfPaddock(szPaddockID).ToString();
-				string szCropType = DataAccessClass.GetCropTypeOfPaddock(szPaddockID);
+				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+				string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+				string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+				DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szPaddockName, FunctionsClass.GetActiveUserName());
+				string szCropType = dtPaddocksDetails.Rows[0]["CropType"].ToString();
 				//Gets the paddocks selected soil data in the form of an xml string and
 				//converts that data into a APSIMData variable
-				string szSoilXml = DataAccessClass.GetSoilData(szSoilID);
+				string szSoilXml = DataAccessClass.GetSoilData(dtPaddocksDetails.Rows[0]["SoilName"].ToString());
 				VBGeneral.APSIMData APSIMSoilData = new VBGeneral.APSIMData(szSoilXml);
 				Soil sPaddocksDefaultSoil = new Soil(APSIMSoilData);
 				//Gets the soil sample data from the first grid
-				string szSoilSampleOneXml = DataAccessClass.GetPaddocksSoilSampleData(szPaddockID, "GridOne");
+				DataTable dtSoilSampleOne = DataAccessClass.GetPaddocksSoilSample("GridOne", szPaddockName, FunctionsClass.GetActiveUserName());
+				string szSoilSampleOneXml = dtSoilSampleOne.Rows[0]["Data"].ToString();
 				if(szSoilSampleOneXml != "")
 					{
 					//Converts the soil sample data from the first grid into a APSIMData variable
@@ -1092,7 +1054,8 @@ namespace YieldProphet
 						}
 					}
 				//Gets the soil sample data from the second grid
-				string szSoilSampleTwoXml = DataAccessClass.GetPaddocksSoilSampleData(szPaddockID, "GridTwo");
+				DataTable dtSoilSampleTwo = DataAccessClass.GetPaddocksSoilSample("GridTwo", szPaddockName, FunctionsClass.GetActiveUserName());
+				string szSoilSampleTwoXml = dtSoilSampleOne.Rows[0]["Data"].ToString();
 				if(szSoilSampleTwoXml != "")
 					{
 					//Converts the soil sample data from the first grid into a APSIMData variable
@@ -1119,7 +1082,7 @@ namespace YieldProphet
 				}
 				//Gets the file template
 				string szSoilFileTemplate = CreateSoilFileTemplate();
-				szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUserName);
+				szSoilFileTemplate = szSoilFileTemplate.Replace("[soil.growername]", szUsersName);
 				szSoilFileTemplate = szSoilFileTemplate.Replace("[crop.name]", szCropType.ToLower());
 				Macro mcSoilFile = new Macro();
 				sPaddocksDefaultSoil.RoundResultsTo3DecimalPlaces();
@@ -1199,9 +1162,10 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static void CreateRainfallInformationFile(string szDirectoryLocation, ref StringCollection scAttachments)
 			{
-			string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-			string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-			string szUsersName = DataAccessClass.GetNameOfUser(szUserID);
+			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+			string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+			string szRainfallPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
+			DataTable dtPaddocksDetails = DataAccessClass.GetDetailsOfPaddock(szRainfallPaddockName, FunctionsClass.GetActiveUserName());
 			try
 			{
 				int iValueCount = 0;
@@ -1212,14 +1176,15 @@ namespace YieldProphet
 				string szFileLocation = szDirectoryLocation+"\\"+szUsersName+".rai";
 				System.IO.StreamWriter swReportFile = System.IO.File.CreateText(szFileLocation);
 				//Get the rain fall data from the database 
-				string szRainfallPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-				int iLinkedTemporalPaddockID = DataAccessClass.GetLinkedTemporalPaddockIDOfPaddock(szRainfallPaddockID);
-				if(iLinkedTemporalPaddockID > 0)
+				
+				string szLinkedTemporalPaddockName = dtPaddocksDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
+				if(szLinkedTemporalPaddockName != "")
 					{
-					szRainfallPaddockID = iLinkedTemporalPaddockID.ToString();
+					szRainfallPaddockName = szLinkedTemporalPaddockName;
 					}
-				string szTemporalEventTypeID = DataAccessClass.GetTemporalEventTypeIDOfTemporalEventType("patch_rain").ToString();
-				DataTable dtRainfall = DataAccessClass.GetPaddocksTemporalEventsInYear(szRainfallPaddockID, szTemporalEventTypeID, DateTime.Today.Year.ToString());
+				
+				DataTable dtRainfall = DataAccessClass.GetPaddocksTemporalEvents(szRainfallPaddockName, FunctionsClass.GetActiveUserName(), 
+					"patch_rain", DateTime.Today.Year.ToString()+"-01-01", DateTime.Today.Year.ToString()+"-12-31");
 				//Write the header information to the file
 				sbFileText.Append("[grower.Rainfall.data]\n");
 				sbFileText.Append("allow_sparse_data = false ()\n");

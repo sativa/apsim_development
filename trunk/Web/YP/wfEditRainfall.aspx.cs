@@ -40,6 +40,11 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.WebControls.Label lblTotalRainfall;
 		protected System.Web.UI.WebControls.TextBox edtTotalRainfall;
+		protected System.Web.UI.WebControls.Label lblCropManagement;
+		protected System.Web.UI.WebControls.Label lblName;
+		protected System.Web.UI.WebControls.TextBox edtTotalRainfallTwo;
+		protected System.Web.UI.WebControls.Label lblTotalRainfallTwo;
+		protected System.Web.UI.WebControls.Label lblRainfallManagement;
 		protected System.Web.UI.WebControls.DropDownList cboYear;
 	
 		//-------------------------------------------------------------------------
@@ -51,9 +56,10 @@ namespace YieldProphet
 				{
 				FunctionsClass.CheckSession();
 				FunctionsClass.CheckForVisitorLevelPriviledges();
+				DisplayGrowersName();
 				SetYearComboBoxToCurrentYear();
 				FillRainfallGrid();	
-				CalculateTotalRainfall();
+				CalculateTotalRainfalls();
 				btnSave.Style.Add("cursor", "hand");	
 				}
 			}
@@ -194,6 +200,23 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+		//-------------------------------------------------------------------------
+		//Gets the grower's name and the paddock's name and displays them on a label
+		//-------------------------------------------------------------------------
+		private void DisplayGrowersName()
+			{
+			try
+				{
+				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+				lblName.Text = dtUsersDetails.Rows[0]["Name"].ToString()+ 
+					" and paddock:  "+Session["SelectedPaddockName"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
 		//-------------------------------------------------------------------------
 		//Fills the rainfall grid with all the rainfall events stored in the
 		//database
@@ -201,42 +224,61 @@ namespace YieldProphet
 		private void FillRainfallGrid()
 			{
 			DataRow drRainfall;
-			//Creates a 31 blank rows in the dataset
-			for(int iIndex = 1; iIndex <= 31; iIndex++)
+			try
 				{
-				drRainfall = dsRainfall.Tables["Rainfall"].NewRow();
-				drRainfall["Day"] = iIndex.ToString();
-				dsRainfall.Tables["Rainfall"].Rows.Add(drRainfall);	
-				}	
-			string szTemporalTypeID = DataAccessClass.
-				GetTemporalEventTypeIDOfTemporalEventType("patch_rain").ToString();
-			//Gets all the rainfall events for the specified year and the specified paddock
-			DataTable dtUsersRainfall = DataAccessClass.
-				GetPaddocksTemporalEventsInYear(Session["SelectedPaddockID"].ToString(), 
-				szTemporalTypeID, cboYear.SelectedItem.Text);
-			DateTime dtRainfallDate;
-			//Adds rainfall events to the grid
-			foreach(DataRow drUsersRainfall in dtUsersRainfall.Rows)
-				{
-				dtRainfallDate = DateTime.ParseExact(drUsersRainfall["EventDate"].ToString(), "yyyy-MM-dd", null);
-				dsRainfall.Tables["Rainfall"].Rows[dtRainfallDate.Day-1][dtRainfallDate.Month] = Convert.ToDouble(drUsersRainfall["EventValue"].ToString());
+				//Creates a 31 blank rows in the dataset
+				for(int iIndex = 1; iIndex <= 31; iIndex++)
+					{
+					drRainfall = dsRainfall.Tables["Rainfall"].NewRow();
+					drRainfall["Day"] = iIndex.ToString();
+					dsRainfall.Tables["Rainfall"].Rows.Add(drRainfall);	
+					}	
+				DataTable dtUsersRainfall = DataAccessClass.
+					GetPaddocksTemporalEvents(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName(), "patch_rain",  
+					cboYear.SelectedItem.Text+"-01-01", cboYear.SelectedItem.Text+"-12-31");
+				DateTime dtRainfallDate;
+				//Adds rainfall events to the grid
+				foreach(DataRow drUsersRainfall in dtUsersRainfall.Rows)
+					{
+					dtRainfallDate = DateTime.ParseExact(drUsersRainfall["EventDate"].ToString(), "yyyy-MM-dd", null);
+					dsRainfall.Tables["Rainfall"].Rows[dtRainfallDate.Day-1][dtRainfallDate.Month] = 
+						Convert.ToDouble(drUsersRainfall["EventValue"].ToString());
+					}
+				this.DataBind();
 				}
-			this.DataBind();
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Calculates the total rainfall for the selected paddock and year.
 		//-------------------------------------------------------------------------
-		private void CalculateTotalRainfall()
+		private void CalculateTotalRainfalls()
 			{
-			DateTime dtStartDate = new DateTime(Convert.ToInt32(cboYear.SelectedItem.Text), 4, 1);
-			DateTime dtEndDate = new DateTime((Convert.ToInt32(cboYear.SelectedItem.Text)), 12, 31);	
+			try
+				{
+				DateTime dtStartDate = new DateTime(Convert.ToInt32(cboYear.SelectedItem.Text), 4, 1);
+				DateTime dtEndDate = new DateTime((Convert.ToInt32(cboYear.SelectedItem.Text)), 12, 31);	
 				
-			string szTemporalTypeID = DataAccessClass.
-				GetTemporalEventTypeIDOfTemporalEventType("patch_rain").ToString();
+				edtTotalRainfall.Text = DataAccessClass.
+					GetPaddocksTotalTemporalEventsValues(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName(), "patch_rain", 
+					dtStartDate.ToString("yyyy-MM-dd"), dtEndDate.ToString("yyyy-MM-dd")).ToString();
+
+				dtStartDate = new DateTime(Convert.ToInt32(cboYear.SelectedItem.Text), 1, 1);
+				dtEndDate = new DateTime((Convert.ToInt32(cboYear.SelectedItem.Text)), 12, 31);	
 				
-			edtTotalRainfall.Text = DataAccessClass.
-			GetPaddocksTotalTemporalEventsValues(Session["SelectedPaddockID"].ToString(), 
-				szTemporalTypeID, dtStartDate.ToShortDateString(),dtEndDate.ToShortDateString()).ToString();
+				edtTotalRainfallTwo.Text = DataAccessClass.
+					GetPaddocksTotalTemporalEventsValues(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName(), "patch_rain", 
+					dtStartDate.ToString("yyyy-MM-dd"), dtEndDate.ToString("yyyy-MM-dd")).ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//
@@ -244,17 +286,17 @@ namespace YieldProphet
 		private bool SaveRainfall()
 		{
 			bool bSaved = false;
-			if(FunctionsClass.IsGrowerOrHigher(Session["UserID"].ToString()) == true)
+			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
 				try
 					{
-					string szTemporalEventTypeID = DataAccessClass.GetTemporalEventTypeIDOfTemporalEventType("patch_rain").ToString();
 					Janus.Web.GridEX.GridEXRow grdRow;
 					DateTime dtRainfallDate;
 					int iYear = Convert.ToInt32(cboYear.SelectedItem.Text);
 					//Delete all records for this paddock in this year
-					DataAccessClass.DeleteAllPaddocksRainfallEventsInYear(Session["SelectedPaddockID"].ToString(), 
-						szTemporalEventTypeID, cboYear.SelectedItem.Text);
+					DataAccessClass.DeletePaddocksTemporalEvents(Session["SelectedPaddockName"].ToString(), 
+						FunctionsClass.GetActiveUserName(), "patch_rain",  
+						cboYear.SelectedItem.Text+"-01-01", cboYear.SelectedItem.Text+"-12-31");
 					//Save all the records as new records
 					for(int iRowIndex = 0; iRowIndex < grdRainfall.RowCount; iRowIndex++)
 						{
@@ -268,7 +310,8 @@ namespace YieldProphet
 									{
 									dtRainfallDate = new DateTime(iYear,iColumnIndex, iRowIndex+1);
 									DataAccessClass.InsertTemporalEvent(dtRainfallDate.ToString("yyyy-MM-dd"), 
-										grdRow.Cells[iColumnIndex].Text, szTemporalEventTypeID, Session["SelectedPaddockID"].ToString());
+										Convert.ToDouble(grdRow.Cells[iColumnIndex].Text), "patch_rain", 
+										Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 									}
 								}
 							}//Columns
@@ -341,33 +384,35 @@ namespace YieldProphet
 		private void cboYear_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillRainfallGrid();
-			CalculateTotalRainfall();
+			CalculateTotalRainfalls();
 			}
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
 		private void grdRainfall_LoadingRow_1(object sender, Janus.Web.GridEX.RowLoadEventArgs e)
 			{
-			int iYear = Convert.ToInt32(cboYear.SelectedItem.Text);
-			
-			if(e.Row.RowIndex == 28)
+			if(FunctionsClass.IsBrowserIE(Page))
 				{
-				if(!DateTime.IsLeapYear(iYear))
+				int iYear = Convert.ToInt32(cboYear.SelectedItem.Text);
+				if(e.Row.RowIndex == 28)
+					{
+					if(!DateTime.IsLeapYear(iYear))
+						{
+						e.Row.Cells[2].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+						}
+					}
+				if(e.Row.RowIndex == 29)
 					{
 					e.Row.Cells[2].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
 					}
-				}
-			if(e.Row.RowIndex == 29)
-				{
-				e.Row.Cells[2].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
-				}
-			if(e.Row.RowIndex == 30)
-				{
-				e.Row.Cells[2].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
-				e.Row.Cells[4].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
-				e.Row.Cells[6].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
-				e.Row.Cells[9].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
-				e.Row.Cells[11].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+				if(e.Row.RowIndex == 30)
+					{
+					e.Row.Cells[2].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+					e.Row.Cells[4].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+					e.Row.Cells[6].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+					e.Row.Cells[9].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+					e.Row.Cells[11].FormatStyle.BackColor = System.Drawing.Color.PaleGoldenrod;
+					}
 				}
 			}
 		//-------------------------------------------------------------------------

@@ -213,19 +213,25 @@ namespace YieldProphet
 			//Fills the soil sample two grid
 			FillSoilSampleTwoGrid();
 			//If ther is a soil sample record set the initial condition date
-			int iNumberOfSoilSamples = DataAccessClass.ReturnNumberOfSoilSamples(Session["SelectedPaddockID"].ToString(), "GridOne");
-			if(iNumberOfSoilSamples > 0)
+			try
 				{
-				string szInitialDate = DataAccessClass.GetPaddocksSoilSampleDate(Session["SelectedPaddockID"].ToString(), "GridOne");
-				cldInitialConditions.SelectedDate = DateTime.ParseExact(szInitialDate, "yyyy-MM-dd", null);
-				cldInitialConditions.VisibleDate = cldInitialConditions.SelectedDate;
+				DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", 
+					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+				if(dtSoilSample.Rows.Count > 0)
+					{
+					cldInitialConditions.SelectedDate = DateTime.ParseExact(dtSoilSample.Rows[0]["SampleDate"].ToString(), "yyyy-MM-dd", null);
+					cldInitialConditions.VisibleDate = cldInitialConditions.SelectedDate;
+					}
+				else
+					{
+					cldInitialConditions.SelectedDate = DateTime.Today;
+					cldInitialConditions.VisibleDate = DateTime.Today;
+					}
 				}
-			else
+			catch(Exception E)
 				{
-				cldInitialConditions.SelectedDate = DateTime.Today;
-				cldInitialConditions.VisibleDate = DateTime.Today;
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
-
 			}
 		//-------------------------------------------------------------------------
 		//Fills the form with the selected paddock's data from the database
@@ -234,19 +240,24 @@ namespace YieldProphet
 				{
 				try
 					{
+					DataTable dtPaddockDetails = 
+						DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+						FunctionsClass.GetActiveUserName());
 					//if a region has be previously saved it is set as the selected metstation.
-					int iRegionID = DataAccessClass.GetRegionIDOfPaddock(Session["SelectedPaddockID"].ToString());
-					if(iRegionID > 0)
-						{
-						cboRegion.SelectedValue = iRegionID.ToString();
-						}
+					cboRegion.SelectedValue = dtPaddockDetails.Rows[0]["RegionType"].ToString();
+				
+
+					//Fills the met stations combo box
+					FillMetStationCombo();
+					//Fills the soil types combo box
+					FillSoilTypeCombo();		
+
 					if(cboLinkedRainfall.Items.Count > 0)
 						{
 						//if a region has be previously saved it is set as the selected metstation.
-						int iLinkedRainfallPaddockID = DataAccessClass.GetLinkedTemporalPaddockIDOfPaddock(Session["SelectedPaddockID"].ToString());
-						if(iLinkedRainfallPaddockID > 0)
+						if(dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString() != "")
 							{
-							cboLinkedRainfall.SelectedValue = iLinkedRainfallPaddockID.ToString();
+							cboLinkedRainfall.SelectedItem.Text = dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
 							cboLinkedRainfall.Enabled = true;
 							chkLinkedRainfall.Checked = true;
 							}
@@ -261,32 +272,19 @@ namespace YieldProphet
 						chkLinkedRainfall.Enabled = false;
 						cboLinkedRainfall.Enabled = false;
 						}
-					//Fills the met stations combo box
-					FillMetStationCombo();
-					//Fills the soil types combo box
-					FillSoilTypeCombo();			
+	
 					//If a sub soil has be previously saved it is set as the selected sub soil.
-					int iSubSoilConstraintID = DataAccessClass.GetSubSoilConstraintTypeIDOfPaddock(Session["SelectedPaddockID"].ToString());
-					if(iSubSoilConstraintID > 0)
-						{
-						cboSubSoil.SelectedValue = iSubSoilConstraintID.ToString();
-						}
+					cboSubSoil.SelectedValue = dtPaddockDetails.Rows[0]["SubSoilConstraintType"].ToString();
+						
 					//if a met station has be previously saved it is set as the selected metstation.
-					int iMetStationID = DataAccessClass.GetMetStationIDOfPaddock(Session["SelectedPaddockID"].ToString());
-					if(iMetStationID > 0)
-						{
-						cboWeatherStation.SelectedValue = iMetStationID.ToString();
-						}
+					cboWeatherStation.SelectedValue = dtPaddockDetails.Rows[0]["MetStationName"].ToString();
+						
 					//if a soil type has be previously saved it is set as the selected soil type.
-					int iSoilID = DataAccessClass.GetSoilIDOfPaddock(Session["SelectedPaddockID"].ToString());
-					if(iSoilID > 0)
-						{
-						cboSoilType.SelectedValue = iSoilID.ToString();
-						}
+					cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
 					}
-				catch(Exception)
+				catch(Exception E)
 					{
-					FunctionsClass.DisplayMessage(Page, "Paddock information invalid");
+					FunctionsClass.DisplayMessage(Page, E.Message);
 					}
 				}
 		//-------------------------------------------------------------------------
@@ -294,20 +292,52 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void DisplayGrowersName()
 			{
-			int iUserID = DataAccessClass.GetUserIDOfPaddock(Session["SelectedPaddockID"].ToString());
-			lblName.Text = DataAccessClass.GetNameOfUser(iUserID.ToString())+ 
-				" and paddock: "+DataAccessClass.GetNameOfPaddock(Session["SelectedPaddockID"].ToString());
+			try
+				{
+				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+				lblName.Text = dtUsersDetails.Rows[0]["Name"].ToString()+ 
+					" and paddock:  "+Session["SelectedPaddockName"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Fills the regions combo box with all the regions from the database
 		//-------------------------------------------------------------------------
 		private void FillRegionCombo()
 			{
-			DataTable dtRegions = DataAccessClass.GetAllRegions();
-			cboRegion.DataSource = dtRegions;
-			cboRegion.DataTextField = "Type";
-			cboRegion.DataValueField = "ID";
-			cboRegion.DataBind();
+			try
+				{
+				DataTable dtRegions = DataAccessClass.GetAllRegions();
+				cboRegion.DataSource = dtRegions;
+				cboRegion.DataTextField = "Type";
+				cboRegion.DataValueField = "Type";
+				cboRegion.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
+		//-------------------------------------------------------------------------
+		//Fills the sub soil combo box with all the sub soils types form the database
+		//-------------------------------------------------------------------------
+		private void FillSubSoilCombo()
+			{
+			try
+				{
+				DataTable dtSubSoilConstraints = DataAccessClass.GetAllSubSoilConstraintTypes();
+				cboSubSoil.DataSource = dtSubSoilConstraints;
+				cboSubSoil.DataTextField = "Type";
+				cboSubSoil.DataValueField = "Type";
+				cboSubSoil.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Fills the met station combo box with all the met stations linked to the
@@ -318,12 +348,19 @@ namespace YieldProphet
 			//If a region is selected then fill the combo box
 			if(cboRegion.SelectedValue != null && cboRegion.SelectedValue != "")
 				{
-				string szSelectedRegionID = cboRegion.SelectedValue.ToString(); 
-				DataTable dtMetStations = DataAccessClass.GetMetStationsOfRegion(szSelectedRegionID);
-				cboWeatherStation.DataSource = dtMetStations;
-				cboWeatherStation.DataTextField = "Name";
-				cboWeatherStation.DataValueField = "ID";
-				cboWeatherStation.DataBind();
+				try
+					{
+					string szSelectedRegionID = cboRegion.SelectedValue.ToString(); 
+					DataTable dtMetStations = DataAccessClass.GetMetStationsOfRegion(szSelectedRegionID);
+					cboWeatherStation.DataSource = dtMetStations;
+					cboWeatherStation.DataTextField = "Name";
+					cboWeatherStation.DataValueField = "Name";
+					cboWeatherStation.DataBind();
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no region is selected then display and error to the user
 			else
@@ -340,13 +377,29 @@ namespace YieldProphet
 			//If a region is selected then fill the combo box
 			if(cboRegion.SelectedValue != null && cboRegion.SelectedValue != "")
 				{
-				int iPaddockUserID = DataAccessClass.GetUserIDOfPaddock(Session["SelectedPaddockID"].ToString());
-				string szSelectedRegionID = cboRegion.SelectedValue.ToString(); 
-				DataTable dtSoils = DataAccessClass.GetSoilsOfRegion(szSelectedRegionID, iPaddockUserID.ToString());
-				cboSoilType.DataSource = dtSoils;
-				cboSoilType.DataTextField = "Name";
-				cboSoilType.DataValueField = "ID";
-				cboSoilType.DataBind();
+				try
+					{
+					DataTable dtSoils = DataAccessClass.GetSoilsOfRegion(cboRegion.SelectedItem.Text);
+					DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+					foreach (DataRow drSoil in dtSoils.Rows)
+						{
+						if(drSoil["Name"].ToString().StartsWith("Grower soil:") == true)
+							{
+							if(drSoil["Name"].ToString().StartsWith("Grower soil:"+dtUsersDetails.Rows[0]["Name"].ToString()) == false)
+								{
+								drSoil.Delete();
+								}
+							}
+						}
+					cboSoilType.DataSource = dtSoils;
+					cboSoilType.DataTextField = "Name";
+					cboSoilType.DataValueField = "Name";
+					cboSoilType.DataBind();
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
+					}
 				}
 			//If no region is selected then display an error the user
 			else
@@ -359,12 +412,20 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillLinkedRainfallCombo()
 			{
-			int iPaddockUserID = DataAccessClass.GetUserIDOfPaddock(Session["SelectedPaddockID"].ToString());
-			DataTable dtPaddocks = DataAccessClass.GetAllPaddocksForTemporalLinking(Session["SelectedPaddockID"].ToString(), iPaddockUserID.ToString());
-			cboLinkedRainfall.DataSource = dtPaddocks;
-			cboLinkedRainfall.DataTextField = "Name";
-			cboLinkedRainfall.DataValueField = "ID";
-			cboLinkedRainfall.DataBind();
+			try
+				{
+				DataTable dtPaddocks = 
+					DataAccessClass.GetAllPaddocksForTemporalLinking(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				cboLinkedRainfall.DataSource = dtPaddocks;
+				cboLinkedRainfall.DataTextField = "Name";
+				cboLinkedRainfall.DataValueField = "Name";
+				cboLinkedRainfall.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Fills the first soil sample grid with data from the database
@@ -374,9 +435,14 @@ namespace YieldProphet
 			try
 				{
 				//Gets the data and converts it from xml format to a datatable
-				string szSoilSampleData =
-					DataAccessClass.GetPaddocksSoilSampleData(Session["SelectedPaddockID"].ToString(), "GridOne");
-				DataTable dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleOneDataToDataTable(szSoilSampleData);
+				DataTable dtPaddocksSoilSameple =
+					DataAccessClass.GetPaddocksSoilSample("GridOne", Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				DataTable dtSoilSampleFromDB = new DataTable();
+				if(dtPaddocksSoilSameple.Rows.Count > 0)
+				{
+					dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleOneDataToDataTable(dtPaddocksSoilSameple.Rows[0]["Data"].ToString());
+				}
 				
 				DataRow drSoilSampleLevel;
 				int iMaxNumberOfRows = 8;
@@ -398,9 +464,9 @@ namespace YieldProphet
 					}
 				this.DataBind();
 				}
-			catch(Exception)
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Soil sample information invalid");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -411,9 +477,15 @@ namespace YieldProphet
 			try
 				{
 				//Gets the data and converts it from xml format to a datatable
-				string szSoilSampleData =
-					DataAccessClass.GetPaddocksSoilSampleData(Session["SelectedPaddockID"].ToString(), "GridTwo");
-				DataTable dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleTwoDataToDataTable(szSoilSampleData);
+				DataTable dtPaddocksSoilSameple =
+					DataAccessClass.GetPaddocksSoilSample("GridTwo", Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+
+				DataTable dtSoilSampleFromDB = new DataTable();
+				if(dtPaddocksSoilSameple.Rows.Count > 0)
+				{
+					dtSoilSampleFromDB = SoilSampleClass.ConvertSoilSampleTwoDataToDataTable(dtPaddocksSoilSameple.Rows[0]["Data"].ToString());
+				}
 				
 				DataRow drSoilSampleLevel;
 				int iMaxNumberOfRows = 8;
@@ -436,21 +508,10 @@ namespace YieldProphet
 					}
 				this.DataBind();
 				}
-			catch(Exception)
+			catch(Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page, "Soil sample two information invalid");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
-			}
-		//-------------------------------------------------------------------------
-		//Fills the sub soil combo box with all the sub soils types form the database
-		//-------------------------------------------------------------------------
-		private void FillSubSoilCombo()
-			{
-			DataTable dtSubSoilConstraints = DataAccessClass.GetAllSubSoilConstraintTypes();
-			cboSubSoil.DataSource = dtSubSoilConstraints;
-			cboSubSoil.DataTextField = "Type";
-			cboSubSoil.DataValueField = "ID";
-			cboSubSoil.DataBind();
 			}
 		//-------------------------------------------------------------------------
 		//The paddocks settings are updated, but firstly a check is run to ensure that a
@@ -459,22 +520,29 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void SavePaddockSetup()
 			{
-			if(FunctionsClass.IsGrowerOrHigher(Session["UserID"].ToString()) == true)
+			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
 				//If a metstation and soil type are selected then save the record
 				if(cboWeatherStation.SelectedValue != "" && cboSoilType.SelectedValue != "")
 					{
-					string szLinkedTemporalPaddockID = "0";
+					string szLinkedTemporalPaddock = "";
 					if(chkLinkedRainfall.Checked == true)
-					{
-						szLinkedTemporalPaddockID = cboLinkedRainfall.SelectedValue;
-					}
-					
-					DataAccessClass.UpdatePaddockSettings(cboWeatherStation.SelectedValue.ToString(),  
-						cboSoilType.SelectedValue.ToString(), cboSubSoil.SelectedValue.ToString(),
-						szLinkedTemporalPaddockID, Session["SelectedPaddockID"].ToString());
-					SaveSoilSampleDetails();
-					Server.Transfer("wfEditPaddock.aspx");
+						{
+						szLinkedTemporalPaddock = cboLinkedRainfall.SelectedItem.Text;
+						}
+					try
+						{
+						DataAccessClass.UpdatePaddock("", "", cboWeatherStation.SelectedItem.Text,  
+							cboSoilType.SelectedItem.Text, cboSubSoil.SelectedItem.Text,
+							szLinkedTemporalPaddock, Session["SelectedPaddockName"].ToString(), 
+							FunctionsClass.GetActiveUserName());
+						SaveSoilSampleDetails();
+						Server.Transfer("wfEditPaddock.aspx");
+						}
+					catch(Exception E)
+						{
+						FunctionsClass.DisplayMessage(Page, E.Message);
+						}
 					}
 				//If either a metstation or a soil type are not selected display an 
 				//error message to the user.
@@ -498,40 +566,25 @@ namespace YieldProphet
 				//Saves the data from the first grid
 				string szSoilSampleData = SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable());
 				string szSoilSampleDate = cldInitialConditions.SelectedDate.ToString("yyyy-MM-dd");
-				int iSoilSampleOneTypeID = DataAccessClass.GetSoilSampleTypeID("GridOne");
 				//If the paddock doesn't have any soil sample one data stored, we insert the
 				//record into the table, it the paddock does have an existing soil sample one 
 				//we update the record
-				if(DataAccessClass.ReturnNumberOfSoilSamples(Session["SelectedPaddockID"].ToString(), "GridOne") == 0)
-					{
-					DataAccessClass.InsertSoilSample(szSoilSampleDate, szSoilSampleData, 
-						Session["SelectedPaddockID"].ToString(), iSoilSampleOneTypeID.ToString());
-					}
-				else
-					{
-					DataAccessClass.UpdateSoilSample(szSoilSampleDate, szSoilSampleData, 
-						Session["SelectedPaddockID"].ToString(), iSoilSampleOneTypeID.ToString());
-					}
+				DataAccessClass.SetSoilSample(szSoilSampleDate, szSoilSampleData, "GridOne", 
+					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+
 				//Saves teh data from the second grid
 				szSoilSampleData = SoilSampleClass.CreateSoilSampleTwoXmlFile(ReturnSoilSampleTwoDataTable());
 				szSoilSampleDate = cldInitialConditions.SelectedDate.ToString("yyyy-MM-dd");
-				int iSoilSampleTwoTypeID = DataAccessClass.GetSoilSampleTypeID("GridTwo");
 				//If the paddock doesn't have any soil sample two data stored, we insert the
 				//record into the table, it the paddock does have an existing soil sample two 
 				//we update the record
-				if(DataAccessClass.ReturnNumberOfSoilSamples(Session["SelectedPaddockID"].ToString(), "GridTwo") == 0)
-					{
-					DataAccessClass.InsertSoilSample(szSoilSampleDate, szSoilSampleData, 
-						Session["SelectedPaddockID"].ToString(), iSoilSampleTwoTypeID.ToString());
-					}
-				else
-					{
-					DataAccessClass.UpdateSoilSample(szSoilSampleDate, szSoilSampleData, 
-						Session["SelectedPaddockID"].ToString(), iSoilSampleTwoTypeID.ToString());
-					}
+				DataAccessClass.SetSoilSample(szSoilSampleDate, szSoilSampleData, "GridTwo", 
+					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 				}
-			catch(Exception)
-				{}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Returns the data from the first grid in the form of a datatable

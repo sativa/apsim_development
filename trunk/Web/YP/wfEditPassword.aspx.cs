@@ -79,8 +79,16 @@ namespace YieldProphet
 				//If both passwords are the same, save the new password into the database
 				if(edtPasswordOne.Text == edtPasswordTwo.Text)
 					{
-					DataAccessClass.SetPasswordOfUser(InputValidationClass.ValidateString(edtPasswordOne.Text), Session["UserID"].ToString());
-					Server.Transfer("wfEditUserDetails.aspx");
+					try
+						{
+						DataAccessClass.UpdateGrower("", "", InputValidationClass.ValidateString(edtPasswordOne.Text),
+							Session["UserName"].ToString());
+						Server.Transfer("wfEditUserDetails.aspx");
+						}
+					catch(Exception E)
+						{
+						FunctionsClass.DisplayMessage(Page, E.Message);
+						}
 					}
 				//If both passwords are not the same, then display an error to the user
 				else

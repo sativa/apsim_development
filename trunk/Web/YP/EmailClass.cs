@@ -59,12 +59,10 @@ namespace YieldProphet
 			string szBody = "";
 			try
 				{
-				string szPaddockID = HttpContext.Current.Session["SelectedPaddockID"].ToString();
-				string szUserID = DataAccessClass.GetUserIDOfPaddock(szPaddockID).ToString();
-				
-				string szUserName = DataAccessClass.GetUserNameOfUser(szUserID);
-				string szPaddockName = DataAccessClass.GetNameOfPaddock(szPaddockID);
-				string szUserEmail = DataAccessClass.GetEmailOfUser(szUserID);
+				DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
+				string szUsersName =  dtUsersDetails.Rows[0]["Name"].ToString();
+				string szUserEmail = dtUsersDetails.Rows[0]["Email"].ToString();
+				string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 				string szApplicationName = HttpContext.Current.Request.ApplicationPath;
 				//Remove the starting / character
 				//EG: /YieldProphet becomes YieldProphet
@@ -86,9 +84,9 @@ namespace YieldProphet
 				iLengthOfNewString = szApplicationFTP.IndexOf("/");
 				szApplicationFTP = szApplicationFTP.Remove(iLengthOfNewString, (szApplicationFTP.Length - iLengthOfNewString));
 				//Sets the directory to be that of the user
-				string szReportDirectory = "YP/Reports/"+szUserID+"/"+DateTime.Today.Year.ToString();
+				string szReportDirectory = "YP/Reports/"+FunctionsClass.GetActiveUserName()+"/"+DateTime.Today.Year.ToString();
 				
-				szBody = "username="+szUserName+"~~\r\n"+
+				szBody = "username="+FunctionsClass.GetActiveUserName()+"~~\r\n"+
 					"paddockname="+szPaddockName+"~~\r\n"+
 					"useremail="+szUserEmail+"~~\r\n"+
 					"applicationname="+szApplicationName+"~~\r\n"+

@@ -82,8 +82,16 @@ namespace YieldProphet
 				//that will stop a file from being created.
 				if(InputValidationClass.IsInputAValidFileLocationString(edtName.Text) == true)
 					{
-					DataAccessClass.SetNameOfUser(InputValidationClass.ValidateString(edtName.Text), Session["UserID"].ToString());
-					DataAccessClass.SetEmailOfUser(InputValidationClass.ValidateString(edtEmail.Text), Session["UserID"].ToString());
+					try
+						{
+
+						DataAccessClass.UpdateGrower(InputValidationClass.ValidateString(edtName.Text),
+							InputValidationClass.ValidateString(edtEmail.Text), "", Session["UserName"].ToString());
+						}
+					catch(Exception E)
+						{
+						FunctionsClass.DisplayMessage(Page, E.Message);
+						}
 					}
 				else
 					{
@@ -102,8 +110,16 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void FillForm()
 			{
-			edtName.Text = DataAccessClass.GetNameOfUser(Session["UserID"].ToString());
-			edtEmail.Text = DataAccessClass.GetEmailOfUser(Session["UserID"].ToString());
+			try
+				{
+				DataTable dtUserDetails = DataAccessClass.GetDetailsOfUser(Session["UserName"].ToString());
+				edtName.Text = dtUserDetails.Rows[0]["Name"].ToString();
+				edtEmail.Text = dtUserDetails.Rows[0]["Email"].ToString();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the password button, they are transfered to the 

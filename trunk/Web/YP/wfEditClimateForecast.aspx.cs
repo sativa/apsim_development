@@ -81,19 +81,25 @@ namespace YieldProphet
 		private void FillForm()
 			{
 			FillSOIPhasesCombo();
-			
-			DataTable dtClimateForecast = DataAccessClass.GetClimateForecast();
-			if(dtClimateForecast.Rows.Count > 0)
+			try
 				{
-				edtSOIDescription.Text = dtClimateForecast.Rows[0]["SoiDescription"].ToString();
-				edtAnalogueYearOne.Text = dtClimateForecast.Rows[0]["DavidsYearOne"].ToString();
-				edtAnalogueYearTwo.Text = dtClimateForecast.Rows[0]["DavidsYearTwo"].ToString();
-				edtAnalogueYearThree.Text = dtClimateForecast.Rows[0]["DavidsYearThree"].ToString();
-				edtAnalogueYearFour.Text = dtClimateForecast.Rows[0]["DavidsYearFour"].ToString();
-				edtAnalogueYearFive.Text = dtClimateForecast.Rows[0]["DavidsYearFive"].ToString();
-				edtDavidsDescription.Text = dtClimateForecast.Rows[0]["DavidsDescription"].ToString();
-				cboSOIMonth.SelectedValue = dtClimateForecast.Rows[0]["SoiMonth"].ToString();
-				cboSOIPhase.SelectedValue = dtClimateForecast.Rows[0]["SoiPhase"].ToString();
+				DataTable dtClimateForecast = DataAccessClass.GetClimateForecast();
+				if(dtClimateForecast.Rows.Count > 0)
+					{
+					edtSOIDescription.Text = dtClimateForecast.Rows[0]["SoiDescription"].ToString();
+					edtAnalogueYearOne.Text = dtClimateForecast.Rows[0]["DavidsYearOne"].ToString();
+					edtAnalogueYearTwo.Text = dtClimateForecast.Rows[0]["DavidsYearTwo"].ToString();
+					edtAnalogueYearThree.Text = dtClimateForecast.Rows[0]["DavidsYearThree"].ToString();
+					edtAnalogueYearFour.Text = dtClimateForecast.Rows[0]["DavidsYearFour"].ToString();
+					edtAnalogueYearFive.Text = dtClimateForecast.Rows[0]["DavidsYearFive"].ToString();
+					edtDavidsDescription.Text = dtClimateForecast.Rows[0]["DavidsDescription"].ToString();
+					cboSOIMonth.SelectedValue = dtClimateForecast.Rows[0]["SoiMonth"].ToString();
+					cboSOIPhase.SelectedValue = dtClimateForecast.Rows[0]["SoiPhase"].ToString();
+					}
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//---------------------------------------------------------------------------
@@ -104,7 +110,7 @@ namespace YieldProphet
 			DataTable dtSOIPhases = DataAccessClass.GetAllSOIPhases();
 			cboSOIPhase.DataSource = dtSOIPhases;
 			cboSOIPhase.DataTextField = "Type";
-			cboSOIPhase.DataValueField ="ID";
+			cboSOIPhase.DataValueField = "Type";
 			cboSOIPhase.DataBind();
 			}
 		//---------------------------------------------------------------------------
@@ -124,21 +130,17 @@ namespace YieldProphet
 				InputValidationClass.IsInputAPositiveInteger(edtAnalogueYearFour.Text) && 
 				InputValidationClass.IsInputAPositiveInteger(edtAnalogueYearFive.Text))
 				{
-				if(DataAccessClass.GetNumberOfClimateForecastRecords() > 0)
+				try
 					{
-					DataAccessClass.UpdateClimateForecast(cboSOIMonth.SelectedValue.ToString(), 
-						cboSOIPhase.SelectedValue.ToString(), edtAnalogueYearOne.Text, 
-						edtAnalogueYearTwo.Text, edtAnalogueYearThree.Text, edtAnalogueYearFour.Text,
-						edtAnalogueYearFive.Text, InputValidationClass.ValidateString(edtSOIDescription.Text), 
-							InputValidationClass.ValidateString(edtDavidsDescription.Text));
-					}
-				else
-					{
-					DataAccessClass.InsertClimateForecast(cboSOIMonth.SelectedValue.ToString(), 
-						cboSOIPhase.SelectedValue.ToString(), edtAnalogueYearOne.Text, 
+					DataAccessClass.SetClimateForecast(cboSOIMonth.SelectedValue, 
+						cboSOIPhase.SelectedItem.Text, edtAnalogueYearOne.Text, 
 						edtAnalogueYearTwo.Text, edtAnalogueYearThree.Text, edtAnalogueYearFour.Text,
 						edtAnalogueYearFive.Text, InputValidationClass.ValidateString(edtSOIDescription.Text), 
 						InputValidationClass.ValidateString(edtDavidsDescription.Text));
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
 					}
 				}
 			else

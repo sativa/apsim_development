@@ -25,9 +25,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Checks to see if the user is a visitor
 		//-------------------------------------------------------------------------
-		public static bool IsVisitor(string szUserID)
+		public static bool IsVisitor(string szUserName)
 			{
-			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserID);
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
 			bool bVisitor = false;
 			if(szAccessType == szVisitor)
 				{
@@ -38,9 +38,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Checks to see if the user has visitor priviledges or greater
 		//-------------------------------------------------------------------------
-		public static bool IsVisitorOrHigher(string szUserID)
+		public static bool IsVisitorOrHigher(string szUserName)
 			{
-			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserID);
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
 			bool bVisitor = false;
 			if(szAccessType == szAdministrator || szAccessType == szGrower ||
 				szAccessType == szConsultant || szAccessType == szVisitor)
@@ -52,9 +52,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Checks to see if the user has grower priviledges or greater
 		//-------------------------------------------------------------------------
-		public static bool IsGrowerOrHigher(string szUserID)
+		public static bool IsGrowerOrHigher(string szUserName)
 			{
-			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserID);
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
 			bool bGrower = false;
 			if(szAccessType == szAdministrator || szAccessType == szGrower ||
 				szAccessType == szConsultant)
@@ -66,9 +66,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Checks to see if the user has consultant priviledges or greater
 		//-------------------------------------------------------------------------
-		public static bool IsConsultantOrHigher(string szUserID)
+		public static bool IsConsultantOrHigher(string szUserName)
 			{
-			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserID);
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
 			bool bConsultant = false;
 			if(szAccessType == szAdministrator || szAccessType == szConsultant)
 				{
@@ -79,9 +79,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Checks to see if the user is an administrator
 		//-------------------------------------------------------------------------
-		public static bool IsAdministrator(string szUserID)
+		public static bool IsAdministrator(string szUserName)
 			{
-			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserID);
+			string szAccessType = DataAccessClass.GetAccessTypeOfUser(szUserName);
 			bool bAdministrator = false;
 			if(szAccessType == szAdministrator)
 				{
@@ -95,7 +95,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static void CheckForAdministratorLevelPriviledges()
 		{
-			if(IsAdministrator(HttpContext.Current.Session["UserID"].ToString()) == false)
+			if(IsAdministrator(HttpContext.Current.Session["UserName"].ToString()) == false)
 			{
 				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
 			}
@@ -106,7 +106,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static void CheckForConsultantLevelPriviledges()
 			{
-			if(IsConsultantOrHigher(HttpContext.Current.Session["UserID"].ToString()) == false)
+			if(IsConsultantOrHigher(HttpContext.Current.Session["UserName"].ToString()) == false)
 				{
 				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
 				}
@@ -117,7 +117,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static void CheckForGrowerLevelPriviledges()
 			{
-			if(IsGrowerOrHigher(HttpContext.Current.Session["UserID"].ToString()) == false)
+			if(IsGrowerOrHigher(HttpContext.Current.Session["UserName"].ToString()) == false)
 				{
 				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
 				}
@@ -128,7 +128,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static void CheckForVisitorLevelPriviledges()
 		{
-			if(IsVisitorOrHigher(HttpContext.Current.Session["UserID"].ToString()) == false)
+			if(IsVisitorOrHigher(HttpContext.Current.Session["UserName"].ToString()) == false)
 			{
 				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
 			}
@@ -142,7 +142,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		public static void CheckSession()
 			{
-			if(HttpContext.Current.Session== null || HttpContext.Current.Session["UserID"].ToString() == "0")
+			if(HttpContext.Current.Session== null || HttpContext.Current.Session["UserName"].ToString() == "0")
 				{
 				HttpContext.Current.Server.Transfer("wfSessionTimeOut.aspx");
 				}
@@ -189,6 +189,38 @@ namespace YieldProphet
 			pgCurrent.Controls.Add(new LiteralControl("<Script Language=javascript>"));
 			pgCurrent.Controls.Add(new LiteralControl("document.forms[0].elements['"+szControlName+"'].focus()"));
 			pgCurrent.Controls.Add(new LiteralControl("</Script>"));
+			}
+		//-------------------------------------------------------------------------
+		//Determines which UserID to use, either the SelectedUserID or the 
+		//UserID.  This depends on whether it is the user viewing their own reports
+		//or it a user view their grower's reports
+		//-------------------------------------------------------------------------	
+		public static string GetActiveUserName()
+			{
+			string szUserName = "";
+			if(HttpContext.Current.Session["SelectedUserName"].ToString() != "")
+				{
+				szUserName = HttpContext.Current.Session["SelectedUserName"].ToString();
+				}
+			else
+				{
+				szUserName = HttpContext.Current.Session["UserName"].ToString();
+				}
+			return szUserName;
+			}
+		//-------------------------------------------------------------------------
+		//Checks to see if the browser is IE
+		//-------------------------------------------------------------------------
+		public static bool IsBrowserIE(Page pgCurrent)
+			{
+			bool bIE = false;
+			HttpBrowserCapabilities bc;
+			bc = pgCurrent.Request.Browser;
+			if(bc.Browser == "IE")
+				{
+				bIE = true;
+				}
+			return bIE;
 			}
 		//-------------------------------------------------------------------------		
 		#endregion	

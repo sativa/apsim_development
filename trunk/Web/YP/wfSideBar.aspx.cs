@@ -67,7 +67,7 @@ namespace YieldProphet
 			{
 			if (!IsPostBack)
 				{
-				SetSideBarStyle(DataAccessClass.GetAccessTypeOfUser(Session["UserID"].ToString()));
+				SetSideBarStyle(DataAccessClass.GetAccessTypeOfUser(Session["UserName"].ToString()));
 				//Set the side panel to be the the height of the browser window
 				pnlSideBar.Height = Unit.Percentage(100);
 				DisplayUsersPaddocks();
@@ -153,19 +153,25 @@ namespace YieldProphet
 		public void DisplayUsersPaddocks()
 			{
 			//If the user is logged in correctly then fill the paddocks combo
-			if(Session != null && Session["UserID"].ToString() != "0")
+			if(Session != null && Session["UserName"].ToString() != "0")
 				{
-				DataTable dtPaddocks = DataAccessClass.GetPaddocksOfUser(Session["UserID"].ToString());
-				cboPaddocks.DataSource = dtPaddocks;
-				cboPaddocks.DataTextField = "Name";
-				cboPaddocks.DataValueField = "ID";
-				cboPaddocks.DataBind();
-				//Disables the View button if there are no paddocks to select
-				//This stops a bug from occuring (When the user presses the View
-				//button with no paddock selected the side bar is shown twice
-				if(cboPaddocks.Items.Count == 0)
+				try
 					{
-					btnView.Enabled = false;
+					DataTable dtPaddocks = DataAccessClass.GetPaddocksOfUser(Session["UserName"].ToString());
+					cboPaddocks.DataSource = dtPaddocks;
+					cboPaddocks.DataTextField = "Name";
+					cboPaddocks.DataBind();
+					//Disables the View button if there are no paddocks to select
+					//This stops a bug from occuring (When the user presses the View
+					//button with no paddock selected the side bar is shown twice
+					if(cboPaddocks.Items.Count == 0)
+						{
+						btnView.Enabled = false;
+						}
+					}
+				catch(Exception E)
+					{
+					FunctionsClass.DisplayMessage(Page, E.Message);
 					}
 				}	
 			//If they are not logged in correctly then send them to the session
@@ -180,7 +186,7 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void ViewReports()
 			{
-			Session["SelectedUserID"] = "0";
+			Session["SelectedUserName"] = "";
 			Server.Transfer("wfViewReports.aspx");
 			}
 		//-------------------------------------------------------------------------
@@ -190,13 +196,13 @@ namespace YieldProphet
 			{
 			//If a paddock is selected, set it in as a Session variable and transfer
 			//the user to the edit paddock page
-			if(cboPaddocks.SelectedValue != "" && cboPaddocks.SelectedValue != null)
+			if(cboPaddocks.SelectedItem.Text != "" && cboPaddocks.SelectedItem.Text != null)
 				{
-				Session["SelectedUserID"] = "0";
-				Session["SelectedPaddockID"] = cboPaddocks.SelectedValue.ToString();
+				Session["SelectedUserName"] = "";
+				Session["SelectedPaddockName"] = cboPaddocks.SelectedItem.Text;
 				Server.Transfer("wfEditPaddock.aspx");
 				}
-				//If no paddock is selected, display an error to the user
+			//If no paddock is selected, display an error to the user
 			else
 				{
 				FunctionsClass.DisplayMessage(Page,"No paddock selected");
@@ -234,8 +240,6 @@ namespace YieldProphet
 			{
 			ViewReports();
 			}
-
-		
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

@@ -73,24 +73,6 @@ namespace YieldProphet
 			}
 		}
 		//-------------------------------------------------------------------------
-		//Determines which UserID to use, either the SelectedUserID or the 
-		//UserID.  This depends on whether it is the user viewing their own reports
-		//or it a user view their grower's reports
-		//-------------------------------------------------------------------------	
-		private string SetUserID()
-		{
-			string szUserID = "";
-			if(Session["SelectedUserID"].ToString() != "" && Session["SelectedUserID"].ToString() != "0")
-			{
-				szUserID = Session["SelectedUserID"].ToString();
-			}
-			else
-			{
-				szUserID = Session["UserID"].ToString();
-			}
-			return szUserID;
-		}
-		//-------------------------------------------------------------------------
 		//The report is updated but firstly a check is made to ensure that
 		//the a report name has been entered, if it has then the the report
 		//is updated with the new name
@@ -107,8 +89,8 @@ namespace YieldProphet
 				if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 					{
 					if(ReportClass.RenameReport(Session["SelectedReportName"].ToString(), 
-						InputValidationClass.ValidateString(edtReportName.Text), SetUserID(), 
-						Session["SelectedReportYear"].ToString()) == false)
+						InputValidationClass.ValidateString(edtReportName.Text), FunctionsClass.GetActiveUserName(), 
+						Convert.ToInt32(Session["SelectedReportYear"].ToString())) == false)
 						{
 						FunctionsClass.DisplayMessage(Page, "Report name already exists");
 						}
