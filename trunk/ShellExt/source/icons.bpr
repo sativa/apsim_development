@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 # section.
 # ---------------------------------------------------------------------------
 
-VERSION = BCB.03
+VERSION = BCB.04.04
 # ---------------------------------------------------------------------------
 PROJECT = icons.dll
 OBJFILES = icons.obj
@@ -19,10 +19,10 @@ RESFILES =
 DEFFILE =
 RESDEPEN = $(RESFILES)
 LIBFILES =
-LIBRARIES = VCL35.lib
-SPARELIBS = VCL35.lib
-PACKAGES = bcbsmp35.bpi VCL35.bpi vclx35.bpi dclocx35.bpi Qrpt35.bpi vcldb35.bpi \
-  ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi vcldbx35.bpi jpegpkg.bpi
+LIBRARIES = vcl40.lib
+SPARELIBS = vcl40.lib
+PACKAGES = bcbsmp40.bpi vcl40.bpi vclx40.bpi dclocx40.bpi qrpt40.bpi vcldb40.bpi \
+  ibsmp40.bpi nmfast40.bpi inetdb40.bpi inet40.bpi vcldbx40.bpi jpegpkg.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;
 PATHASM = .;
@@ -30,20 +30,23 @@ PATHPAS = .;
 PATHRC = .;
 DEBUGLIBPATH = $(BCB)\lib\debug
 RELEASELIBPATH = $(BCB)\lib\release
+SYSDEFINES = NO_STRICT;_RTLDLL
+USERDEFINES =
 # ---------------------------------------------------------------------------
-CFLAG1 = -WD -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
-CFLAG2 = -D_RTLDLL -I$(BCB)\include;$(BCB)\include\vcl -H=$(BCB)\lib\vcl35.csm
-CFLAG3 = -Tkh30000
-PFLAGS = -D_RTLDLL \
-  -U..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -I$(BCB)\include;$(BCB)\include\vcl -$Y -$W -$O- -v -JPHN -M
-RFLAGS = -D_RTLDLL -i$(BCB)\include;$(BCB)\include\vcl
-AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /d_RTLDLL /mx /w2 /zd
+CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl -WD -Od -Hc -H=$(BCB)\lib\vcl40.csm -w -Ve \
+  -Tkh30000 -r- -a8 -k -y -v -vi- -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par \
+  -w-inl -Vx -tWM
+CFLAG2 =
+CFLAG3 =
+PFLAGS = -U..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -I$(BCB)\include;$(BCB)\include\vcl -$YD -$W -$O- -v -M -JPHNE
+RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /mx /w2 /zd /d_RTLDLL
 LFLAGS = -L..\..\shared\components\ui;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -aa -Tpd -x -Gn -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------
-ALLOBJ = c0d32.obj sysinit.obj $(OBJFILES)
+ALLOBJ = c0d32.obj Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
@@ -109,6 +112,13 @@ DebugSourceDirs=$(BCB)\source\vcl
 [Parameters]
 RunParams=
 HostApplication=
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+InMemoryExe=0
+ShowInfoMsgs=0
 
 !endif
 
