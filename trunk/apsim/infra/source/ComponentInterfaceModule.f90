@@ -15,7 +15,17 @@ module ComponentInterfaceModule
    integer, parameter :: respondToMethodInfo = 7
    integer, parameter :: componentInfo = 8
    integer, parameter :: methodCallInfo = 9
-
+                  
+   integer, parameter :: getVariableReg = 1
+   integer, parameter :: respondToGetReg = 2
+   integer, parameter :: setVariableReg = 8
+   integer, parameter :: respondToSetReg = 3
+   integer, parameter :: respondToGetSetReg = 4
+   integer, parameter :: eventReg = 5
+   integer, parameter :: respondToEventReg=6
+   integer, parameter :: methodCallReg = 9
+   integer, parameter :: respondToMethodCallReg=7
+                  
    interface
       function add_registration(kind, name, typeString, alias, componentNameOrID)
       ml_external add_registration
