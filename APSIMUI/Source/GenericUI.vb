@@ -21,10 +21,11 @@ Public Class GenericUI
 
     'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-        If Grid.CurrentCell.IsBeingEdited Then
-            Grid.CurrentCell.LeaveEdit(False)
+        If Not Grid.CurrentCell Is Nothing Then
+            If Grid.CurrentCell.IsBeingEdited Then
+                Grid.CurrentCell.LeaveEdit(False)
+            End If
         End If
-
         If disposing Then
             If Not (components Is Nothing) Then
                 components.Dispose()
@@ -287,8 +288,10 @@ Public Class GenericUI
     ' User is doing a run - make sure grid isn't in edit mode.
     ' -----------------------------------------------------------------------------
     Overrides Sub SaveToAPSIMFile()
-        If Grid.CurrentCell.IsBeingEdited Then
-            Grid.CurrentCell.LeaveEdit(True)
+        If Not Grid.CurrentCell Is Nothing Then
+            If Grid.CurrentCell.IsBeingEdited Then
+                Grid.CurrentCell.LeaveEdit(True)
+            End If
         End If
     End Sub
 End Class
