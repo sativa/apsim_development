@@ -235,7 +235,7 @@ if (crop_in = 0) THEN
             endif
          endif
 
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          days_since_wheat = day - wht_win1
@@ -276,7 +276,7 @@ if (crop_in = 0) THEN
             sor_fert = srg_fert_target - rz_no3
             fertiliz.fert_no3_n = sor_fert
          endif
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          if day <= srg_win3 then
@@ -370,7 +370,7 @@ if (crop_in = 0) THEN
             endif
          endif
 
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          days_since_wheat = day - wht_win1
@@ -411,7 +411,7 @@ if (crop_in = 0) THEN
             sor_fert = srg_fert_target - rz_no3
             fertiliz.fert_no3_n = sor_fert
          endif
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          if day <= srg_win3 then
@@ -505,7 +505,7 @@ if (crop_in = 0) THEN
             endif
          endif
 
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          days_since_wheat = day - wht_win1
@@ -546,7 +546,7 @@ if (crop_in = 0) THEN
             sor_fert = srg_fert_target - rz_no3
             fertiliz.fert_no3_n = sor_fert
          endif
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          if day <= srg_win3 then
@@ -640,7 +640,7 @@ if (crop_in = 0) THEN
             endif
          endif
 
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          days_since_wheat = day - wht_win1
@@ -681,7 +681,7 @@ if (crop_in = 0) THEN
             sor_fert = srg_fert_target - rz_no3
             fertiliz.fert_no3_n = sor_fert
          endif
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          if day <= srg_win3 then
@@ -775,7 +775,7 @@ if (crop_in = 0) THEN
             endif
          endif
 
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          days_since_wheat = day - wht_win1
@@ -816,7 +816,7 @@ if (crop_in = 0) THEN
             sor_fert = srg_fert_target - rz_no3
             fertiliz.fert_no3_n = sor_fert
          endif
-         residue2 tillage type = planter ()
+         surfaceom tillage type = planter ()
          crop_in = 1
          system_fallow = 0
          if day <= srg_win3 then
