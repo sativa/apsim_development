@@ -15,10 +15,7 @@
       bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi 
       visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
       inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi 
-      dbxcds.bpi bcb2kaxserver.bpi qrpt.bpi ibxpress.bpi nmfast.bpi indy.bpi 
-      APSGeneral.bpi kbmMemC6Run.bpi TeeDB.bpi Tee.bpi TeeUI.bpi TeeGL.bpi 
-      TeeQR.bpi TeePro.bpi TeeLanguage.bpi TMSC6.bpi APSData.bpi 
-      FilterBarPackage.bpi"/>
+      dbxcds.bpi bcb2kaxserver.bpi qrpt.bpi ibxpress.bpi nmfast.bpi indy.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -91,9 +88,10 @@ Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
 Item1=Shared\Test;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=$(BCB)\lib\obj;$(BCB)\lib
-Item1=Shared\Test;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=..\components\data;$(BCB)\Projects\Lib;..\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=Shared\Test;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -104,8 +102,9 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=1
-Item0=..\..\Bin
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
 
 [HistoryLists\hIBPIOutputDir]
 Count=1
@@ -129,7 +128,6 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=0
 
 [Language]
 ActiveLang=
