@@ -129,15 +129,11 @@ Public Class MainUI
     Friend WithEvents SeparatorButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents SimulationMenuRun As System.Windows.Forms.MenuItem
     Friend WithEvents HelpButtonMenu As System.Windows.Forms.ContextMenu
-    Friend WithEvents MenuItem6 As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem7 As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem8 As System.Windows.Forms.MenuItem
     Friend WithEvents HelpMenuContents As System.Windows.Forms.MenuItem
     Friend WithEvents HelpMenuNew As System.Windows.Forms.MenuItem
     Friend WithEvents HelpMenuDefect As System.Windows.Forms.MenuItem
     Friend WithEvents HelpMenuChange As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem10 As System.Windows.Forms.MenuItem
     Friend WithEvents ToolboxPanel As System.Windows.Forms.Panel
     Friend WithEvents SimulationPanel As System.Windows.Forms.Panel
     Friend WithEvents ToolboxMenuItem As System.Windows.Forms.MenuItem
@@ -148,6 +144,10 @@ Public Class MainUI
     Friend WithEvents ForwardButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents CloseButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ToolBoxSplitter As System.Windows.Forms.Splitter
+    Friend WithEvents ContentsMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents NewsMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents DefectMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents ChangeMenuItem As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -196,10 +196,10 @@ Public Class MainUI
         Me.NewsButton = New System.Windows.Forms.ToolBarButton
         Me.UIHelpButton = New System.Windows.Forms.ToolBarButton
         Me.HelpButtonMenu = New System.Windows.Forms.ContextMenu
-        Me.MenuItem6 = New System.Windows.Forms.MenuItem
-        Me.MenuItem7 = New System.Windows.Forms.MenuItem
-        Me.MenuItem8 = New System.Windows.Forms.MenuItem
-        Me.MenuItem10 = New System.Windows.Forms.MenuItem
+        Me.ContentsMenuItem = New System.Windows.Forms.MenuItem
+        Me.NewsMenuItem = New System.Windows.Forms.MenuItem
+        Me.DefectMenuItem = New System.Windows.Forms.MenuItem
+        Me.ChangeMenuItem = New System.Windows.Forms.MenuItem
         Me.ButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
@@ -484,27 +484,27 @@ Public Class MainUI
         '
         'HelpButtonMenu
         '
-        Me.HelpButtonMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem6, Me.MenuItem7, Me.MenuItem8, Me.MenuItem10})
+        Me.HelpButtonMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.ContentsMenuItem, Me.NewsMenuItem, Me.DefectMenuItem, Me.ChangeMenuItem})
         '
-        'MenuItem6
+        'ContentsMenuItem
         '
-        Me.MenuItem6.Index = 0
-        Me.MenuItem6.Text = "Contents"
+        Me.ContentsMenuItem.Index = 0
+        Me.ContentsMenuItem.Text = "Contents"
         '
-        'MenuItem7
+        'NewsMenuItem
         '
-        Me.MenuItem7.Index = 1
-        Me.MenuItem7.Text = "News (via APSIM.Info)"
+        Me.NewsMenuItem.Index = 1
+        Me.NewsMenuItem.Text = "News (via APSIM.Info)"
         '
-        'MenuItem8
+        'DefectMenuItem
         '
-        Me.MenuItem8.Index = 2
-        Me.MenuItem8.Text = "Report a problem (via APSIM.Info)"
+        Me.DefectMenuItem.Index = 2
+        Me.DefectMenuItem.Text = "Report a problem (via APSIM.Info)"
         '
-        'MenuItem10
+        'ChangeMenuItem
         '
-        Me.MenuItem10.Index = 3
-        Me.MenuItem10.Text = "Suggest a change (via APSIM.Info)"
+        Me.ChangeMenuItem.Index = 3
+        Me.ChangeMenuItem.Text = "Suggest a change (via APSIM.Info)"
         '
         'ButtonImageList
         '
@@ -1054,5 +1054,41 @@ Public Class MainUI
             Dim inifile As New APSIMSettings
             inifile.SetSetting("apsimui", "toolboxheight", Str(ToolboxPanel.Height))
         End If
+    End Sub
+
+    Private Sub HelpMenuContents_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuContents.Click
+        ShowHelpBrowser()
+        SimulationExplorer.UIManager.ShowHelp(APSIMSettings.ApsimDirectory + "\docs\documentation.xml")
+    End Sub
+
+    Private Sub HelpMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuNew.Click
+        ShowHelpBrowser()
+        SimulationExplorer.UIManager.ShowHelp("www.apsim.info")
+    End Sub
+
+    Private Sub HelpMenuDefect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuDefect.Click
+        ShowHelpBrowser()
+        SimulationExplorer.UIManager.ShowHelp("www.apsim.info/apsim/helpdesk/submit-defect.asp")
+    End Sub
+
+    Private Sub HelpMenuChange_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpMenuChange.Click
+        ShowHelpBrowser()
+        SimulationExplorer.UIManager.ShowHelp("www.apsim.info/apsim/helpdesk/submit-change.asp")
+    End Sub
+
+    Private Sub ContentsMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ContentsMenuItem.Click
+        HelpMenuContents_Click(sender, e)
+    End Sub
+
+    Private Sub NewsMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewsMenuItem.Click
+        HelpMenuNew_Click(sender, e)
+    End Sub
+
+    Private Sub DefectMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DefectMenuItem.Click
+        HelpMenuDefect_Click(sender, e)
+    End Sub
+
+    Private Sub ChangeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeMenuItem.Click
+        HelpMenuChange_Click(sender, e)
     End Sub
 End Class
