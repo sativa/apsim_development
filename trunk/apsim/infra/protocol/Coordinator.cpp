@@ -509,3 +509,61 @@ void PROTOCOLCoordinator::registerSubscribedEvent(FString& eventName,
    ptr->registerComponent(*componentI);
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     change the order of the specified components.
+
+//  Notes:
+//     Modules are swapped thus:
+//      e.g. if ComponentsToChange(1) = 'x',
+//              ComponentsToChange(2) = 'y',
+//              ComponentsToChange(3) = 'z'
+//         Then y will replace x, z will replace y, and x will replace z
+//         in the loader instantiation vector leaving: y, z, x
+
+//  Changes:
+//    DPH 4/10/99
+//    dph 18/1/01 moved from the old APSIMLoader.cpp to coordinator.cpp
+
+// ------------------------------------------------------------------
+void PROTOCOLCoordinator::changeComponentOrder(vector<string>& componentsToChange)
+   {
+//   string out;
+//   for (ComponentList::iterator i = components.begin(); i != components.end(); i++)
+//      out += (*i)->getName();
+   if (componentsToChange.size() > 0)
+      {
+      // work out the first component index - this is then the base component for
+      // all swaps.
+      ComponentList::iterator baseComponentI
+         = find_if(components.begin(),
+                   components.end(),
+                   PEqualToName<PROTOCOLComponent>(componentsToChange[0]));
+      if (baseComponentI == components.end())
+         throw string("The APSIM infrastructure cannot find component: "
+                      + componentsToChange[0] + ".\n"
+                      "Routine name: ChangeComponentOrder");
+
+      // for all other components swap with the base component.
+      for (unsigned int i = 1; i < componentsToChange.size(); i++)
+         {
+         ComponentList::iterator swapComponentI
+            = find_if(components.begin(),
+                      components.end(),
+                      PEqualToName<PROTOCOLComponent>(componentsToChange[i]));
+         if (swapComponentI == components.end())
+            throw string("The APSIM infrastructure cannot find component: "
+                         + componentsToChange[i] + ".\n"
+                         "Routine name: ChangeComponentOrder");
+
+         ComponentList::iterator baseComponentIPlus1 = baseComponentI;
+         baseComponentIPlus1++;
+         baseComponentI = swap_ranges(baseComponentI, baseComponentIPlus1, swapComponentI);
+         baseComponentI--;
+         }
+      }
+//   string out2;
+//   for (ComponentList::iterator i = components.begin(); i != components.end(); i++)
+//      out2 += (*i)->getName();
+   }
+

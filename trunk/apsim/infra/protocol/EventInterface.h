@@ -115,6 +115,14 @@ class EventInterface
          return coordinator->componentResponded;
          }
 
+      // reorder the component's - used for competition.
+      // will eventually be removed.
+      void changeComponentOrder(std::vector<std::string>& componentsToChange)
+         {
+         coordinator->changeComponentOrder(componentsToChange);
+         }
+
+
    private:
       std::string componentName;
       ICoordinator* coordinator;
