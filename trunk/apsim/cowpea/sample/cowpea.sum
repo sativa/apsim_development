@@ -20,7 +20,7 @@ latitude =  -27.11
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-cowpea sow crop_type = cowpea, cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 elseif day = 50 and year = 1989 then
 cowpea harvest
 cowpea end_crop
@@ -142,7 +142,7 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- cowpea sow crop_type = cowpea, cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 cowpea   - Sow
  
  - Reading constants for plant
@@ -196,32 +196,32 @@ report do_output
                      biomass =           10.15000       lai =    0.2000000
                      stover N conc =    6.000000       extractable sw =    23.17695
  day=  10 date= 10  1 1989 cowpea   -  stage    4.0 end_of_juvenile
-                     biomass =           420.5338       lai =     5.118013
+                     biomass =           420.5338       lai =     5.118012
                      stover N conc =    3.062184       extractable sw =    153.3391
  day=  15 date= 15  1 1989 cowpea   -  stage    5.0 floral_initiation
-                     biomass =           530.2544       lai =     6.095998
-                     stover N conc =    2.815298       extractable sw =    137.0054
+                     biomass =           530.2545       lai =     6.095997
+                     stover N conc =    2.815297       extractable sw =    137.0054
  day=  17 date= 17  1 1989 cowpea   -  stage    6.0 flowering
-                     biomass =           571.4462       lai =     6.337610
+                     biomass =           571.4462       lai =     6.337609
                      stover N conc =    2.784801       extractable sw =    156.0393
  day=  23 date= 23  1 1989 cowpea   -  stage    7.0 start_grain_fill
-                     biomass =           652.9243       lai =     6.186650
-                     stover N conc =    2.672744       extractable sw =    120.6873
+                     biomass =           652.9242       lai =     6.186649
+                     stover N conc =    2.672745       extractable sw =    120.6873
  day=  45 date= 14  2 1989 cowpea   -  stage    8.0 end_grain_fill
-                     biomass =           867.7928       lai =     1.974173
+                     biomass =           867.7927       lai =     1.974171
                      stover N conc =    2.245626       extractable sw =    67.62904
  day=  46 date= 15  2 1989 cowpea   -  stage    9.0 maturity
-                     biomass =           872.5905       lai =     1.749548
+                     biomass =           872.5904       lai =     1.749546
                      stover N conc =    2.271000       extractable sw =    63.78320
  day=  47 date= 16  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           872.5905       lai =    0.2621493
-                     stover N conc =    2.637034       extractable sw =    60.31710
+                     biomass =           872.5904       lai =    0.2621477
+                     stover N conc =    2.637035       extractable sw =    60.31710
  day=  48 date= 17  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           872.5906       lai =    0.2621489
-                     stover N conc =    2.637034       extractable sw =    59.55527
+                     biomass =           872.5903       lai =    0.2621477
+                     stover N conc =    2.637035       extractable sw =    59.55527
  day=  49 date= 18  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           872.5905       lai =    0.2621489
-                     stover N conc =    2.637035       extractable sw =    58.90530
+                     biomass =           872.5903       lai =    0.2621477
+                     stover N conc =    2.637034       extractable sw =    58.90530
  Day=  50 Year =  1989     Manager sending message :- cowpea harvest
  
  flowering day  =   17                  stover (kg/ha) =    6249.6
@@ -241,23 +241,23 @@ report do_output
  
  stress indices for emergence
  water stress 1 =       0.0070341   nitrogen stress 1 =       0.0041104
- water stress 2 =       0.0109706   nitrogen stress 2 =       0.0041104
+ water stress 2 =       0.0109707   nitrogen stress 2 =       0.0041104
  
  stress indices for end_of_juvenile
  water stress 1 =       0.0626286   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.1209494   nitrogen stress 2 =       0.0000000
+ water stress 2 =       0.1209495   nitrogen stress 2 =       0.0000000
  
  stress indices for floral_initiation
- water stress 1 =       0.1011650   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.1977189   nitrogen stress 2 =       0.0000000
+ water stress 1 =       0.1011653   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.1977193   nitrogen stress 2 =       0.0000000
  
  stress indices for flowering
- water stress 1 =       0.3512169   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4366894   nitrogen stress 2 =       0.0000000
+ water stress 1 =       0.3512170   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.4366895   nitrogen stress 2 =       0.0000000
  
  stress indices for start_grain_fill
- water stress 1 =       0.3714577   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4478144   nitrogen stress 2 =       0.0000000
+ water stress 1 =       0.3714576   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.4478145   nitrogen stress 2 =       0.0000000
  Day=  50 Year =  1989     Manager sending message :- cowpea end_crop
  day=  50 date= 19  2 1989 cowpea   -     ended. Yield (dw) =     0.0
                                           straw residue =    1.5 kg/ha
