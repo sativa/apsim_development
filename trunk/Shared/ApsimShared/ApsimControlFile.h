@@ -111,6 +111,14 @@ class __declspec(dllexport) ApsimControlFile
       void getInstances(const std::string& moduleName,
                         std::vector<std::string>& instanceNames) const;
 
+      // ------------------------------------------------------------------
+      // write new module= line to control file.
+      // ------------------------------------------------------------------
+      void addModuleLine(const std::string& moduleName,
+                         const std::string& instanceName,
+                         const std::string& fileName,
+                         const std::string& sectionName) const;
+
    private:
       string fileName;
       string section;

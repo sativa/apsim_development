@@ -59,7 +59,7 @@ ApsimSimulationFile::~ApsimSimulationFile(void)
 // ------------------------------------------------------------------
 void ApsimSimulationFile::run(const string& fileName, bool console)
    {
-   string commandLine = getApsimDirectory() + "\\bin\\apsim.exe ";
+   string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
    if (console)
       commandLine += "/console ";
    commandLine += "\"" + fileName + "\"";
