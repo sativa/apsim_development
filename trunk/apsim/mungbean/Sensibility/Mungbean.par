@@ -1,0 +1,56 @@
+[dalby300.report.parameters]
+outputfile  =Dalby300.out
+[dalby900.report.parameters]
+outputfile  =Dalby900.out
+[roma300.report.parameters]
+outputfile  =Roma300.out
+[roma900.report.parameters]
+outputfile  =Roma900.out
+
+[sensibility.report.parameters]
+
+variable = clock.day
+variable = clock.year
+variable = mungbean.lai
+variable = mungbean.biomass
+variable = mungbean.yield
+variable = tracker.sum_ep
+
+[sensibility.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1957
+end_date=21/12/2002
+
+[sensibility.manager.start_of_day]
+
+if today = date('1-dec') then
+   soilwat2 reset
+   soiln2 reset
+   residue2 reset
+   fertiliz apply amount = 100, type = no3_n, depth = 200.
+   mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
+endif
+
+[sensibility.manager.end_of_day]
+if mungbean.stage_name = 'harvest_ripe' or mungbean.plant_status = 'dead' then
+
+   report do_output
+   mungbean harvest
+   mungbean end_crop
+
+endif
+
+[Dalby300.SummaryFile.parameters]
+summaryfile=Dalby300.sum
+[Dalby900.SummaryFile.parameters]
+summaryfile=Dalby900.sum
+[Roma300.SummaryFile.parameters]
+summaryfile=Roma300.sum
+[Roma900.SummaryFile.parameters]
+summaryfile=roma900.sum
+
+[sensibility.Screen.parameters]
+screen_output=on
+
+[sensibility.tracker.parameters]
+variable = sum of mungbean.ep() since reported as sum_ep on process
