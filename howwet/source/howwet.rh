@@ -1,0 +1,245 @@
+//#if !defined(__howwet_rh)                // Sentry use file only if it's not already included.
+//#define __howwet_rh
+
+/*  Project howwet
+    APSRU
+    Copyright © 1995. All Rights Reserved.
+
+    SUBSYSTEM:    howwet.exe Application
+    FILE:         howwet.h
+    AUTHOR:
+
+
+    OVERVIEW
+    ========
+    Constant definitions for all resources defined in howwet.rc.
+*/
+
+
+//
+// IDHELP BorButton for BWCC dialogs.
+//
+//#define IDHELP                  998             // Id of help button
+
+
+//
+// Application specific definitions:
+//
+#define BITMAP_16	15
+#define BITMAP_12	12
+#define RIGHT_ARROW6	5505
+#define BITMAP_11	11
+#define BITMAP_OR2	204
+#define BITMAP_10	10
+#define BITMAP_OR	203
+#define BITMAP_14	14
+#define BITMAP_13	13
+#define RIGHT_ARROW5	5504
+#define DOWN_ARROW	5506
+#define RIGHT_ARROW4	5503
+#define BITMAP_9	9
+#define RIGHT_ARROW3	5502
+#define BITMAP_8	8
+#define RIGHT_ARROW2	5501
+#define RIGHT_ARROW1	5500
+#define IDD_EROSION_DLG	2
+#define BITMAP_7	7
+#define STOP_BUTTON	336
+#define RR_BUTTON	333
+#define FF_BUTTON	332
+#define REWIND_BUTTON	331
+#define FORWARD_BUTTON	330
+#define BITMAP_6	6
+#define BITMAP_5	5
+#define BITMAP_4	4
+#define BITMAP_3	3
+#define BITMAP_2	2
+#define BITMAP_1	1
+#define INFO1	307
+#define INFO2	308
+#define IDC_STATIC22	2198
+#define IDC_STATIC21	322
+#define INFO3	309
+#define INFO4	310
+#define INFO5	311
+#define INFO6	312
+#define INFO7	313
+#define INFO8	314
+#define INFO9	315
+#define INFO10	316
+#define INFO11	317
+#define PRINT  320
+#define RESTART 321
+#define BITMAP_STORM256	305
+#define BITMAP_STORM16 	306
+
+#define BITMAP_SUN	401
+#define BITMAP_RAIN	400
+#define PROFILE_BITMAP	4000
+#define ID_WATER_N_DLG	1
+#define IDC_INIT_DLG	218
+#define IDC_SO_WHAT_DLG	217
+#define IDC_NITROGEN_GRAPH	215
+#define IDC_CALENDER_DLG	214
+#define IDC_RAINANAL_DLG	213
+
+#define IDC_RESULT_TABLE	212
+#define ID_PLEASE_WAIT	211
+#define IDC_SHEET1	1010
+#define IDC_SOIL_CONDITIONS	206
+#define IDC_LOGO	202
+#define IDI_SDIAPPLICATION      1001            // Application icon
+#define IDC_FUNDED	201
+#define IDC_DESC	200
+#define IDC_CLIMATE  204
+#define ID_SOIL_TYPE_DIALOG      205
+
+#define SDI_MENU                100             // Menu resource ID and Accelerator IDs
+#define CM_SOILTYPE	101
+#define CM_SOIL_CONDITIONS	102
+#define CM_EXIT1	112
+#define CM_ABOUT_HOWWET	113
+#define CM_POPUPITEM1	18873
+#define CM_RAINFALL	51682
+#define CM_ITEM1	18873
+#define CM_EROSION_ESTIMATION	117
+#define CM_ANIMATED_PROFILE	116
+#define CM_WATERN_BALANCE	115
+#define CM_RAIN_AVERAGES	114
+#define CM_RAINFALL_CALENDER	111
+#define CM_NITROGEN_GRAPH	110
+#define CM_RAINFALL_ANALYSIS	109
+#define CM_SOIL_WATER_GRAPH	108
+#define CM_TABLE	107
+#define CM_DELETE_RAIN_RECORDS	106
+#define CM_ADD_TO_EXISTING_RAIN	105
+#define CM_CREATE_NEW_RAIN_STORE	104
+#define CM_CLIMATE	103
+
+//
+// CM_FILEnnnn commands (include\owl\editfile.rh except for CM_FILEPRINTPREVIEW)
+//
+
+
+//
+// Window commands (include\owl\window.rh)
+//
+
+
+//
+// CM_EDITnnnn commands (include\owl\window.rh)
+//
+#define CM_EDITUNDO             24321
+#define CM_EDITCUT              24322
+#define CM_EDITCOPY             24323
+#define CM_EDITPASTE            24324
+#define CM_EDITDELETE           24325
+#define CM_EDITCLEAR            24326
+
+
+//
+// Search menu commands (include\owl\editsear.rh)
+//
+#define CM_EDITFINDNEXT         24353
+
+
+//
+// Help menu commands.
+//
+//#define CM_HELPABOUT            2009
+
+
+//
+// About Dialogs
+//
+#define IDC_VERSION             22001
+
+
+//
+// OWL defined strings
+//
+
+// Statusbar
+#define IDS_MODES               32530
+#define IDS_MODESOFF            32531
+
+
+// EditFile
+#define IDS_UNTITLED            32550
+#define IDS_UNABLEREAD          32551
+#define IDS_UNABLEWRITE         32552
+#define IDS_FILECHANGED         32553
+#define IDS_FILEFILTER          32554
+                                
+// EditSearch                   
+#define IDS_CANNOTFIND          32540
+
+
+//
+// General & application exception messages (include\owl\except.rh)
+//
+#define IDS_UNKNOWNEXCEPTION    32767
+#define IDS_OWLEXCEPTION        32766
+#define IDS_OKTORESUME          32765
+#define IDS_UNHANDLEDXMSG       32764
+#define IDS_UNKNOWNERROR        32763
+#define IDS_NOAPP               32762
+#define IDS_OUTOFMEMORY         32761
+#define IDS_INVALIDMODULE       32760
+#define IDS_INVALIDMAINWINDOW   32759
+#define IDS_VBXLIBRARYFAIL      32758
+
+//
+// Owl 1 compatibility messages
+//
+//#define IDS_INVALIDWINDOW       32756
+//#define IDS_INVALIDCHILDWINDOW  32755
+//#define IDS_INVALIDCLIENTWINDOW 32754
+
+//
+// TXWindow messages
+//
+#define IDS_CLASSREGISTERFAIL   32749
+#define IDS_CHILDREGISTERFAIL   32748
+#define IDS_WINDOWCREATEFAIL    32747
+#define IDS_WINDOWEXECUTEFAIL   32746
+#define IDS_CHILDCREATEFAIL     32745
+
+#define IDS_MENUFAILURE         32744
+#define IDS_VALIDATORSYNTAX     32743
+#define IDS_PRINTERERROR        32742
+
+#define IDS_LAYOUTINCOMPLETE    32741
+#define IDS_LAYOUTBADRELWIN     32740
+
+//
+// TXGdi messages
+//
+#define IDS_GDIFAILURE          32739
+#define IDS_GDIALLOCFAIL        32738
+#define IDS_GDICREATEFAIL       32737
+#define IDS_GDIRESLOADFAIL      32736
+#define IDS_GDIFILEREADFAIL     32735
+#define IDS_GDIDELETEFAIL       32734
+#define IDS_GDIDESTROYFAIL      32733
+#define IDS_INVALIDDIBHANDLE    32732
+
+
+// TInputDialog DIALOG resource (include\owl\inputdia.rh)
+#define IDD_INPUTDIALOG         32514
+#define ID_PROMPT               4091
+#define ID_INPUT                4090
+
+
+// TSlider bitmaps (horizontal and vertical) (include\owl\slider.rh)
+
+
+// Validation messages (include\owl\validate.rh)
+#define IDS_VALPXPCONFORM       32520
+#define IDS_VALINVALIDCHAR      32521
+#define IDS_VALNOTINRANGE       32522
+#define IDS_VALNOTINLIST        32523
+#define IDC_ABOUT_DIALOG	2120
+
+
+//#endif         // __howwet_rh sentry.
