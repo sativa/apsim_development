@@ -6,9 +6,10 @@
 #include "TRotationForm.h"
 #include <general\math_functions.h>
 #include <general\string_functions.h>
-#include <general\ini_file.h>
 #include <general\path.h>
+#include <general\stristr.h>
 #include <map>
+#include <values.h>
 #pragma resource "Rotation.res"
 
 using namespace std;
@@ -35,6 +36,11 @@ RotationAddIn::RotationAddIn(const string& parameters)
    {
    needsUpdating = false;
    rotationAnalysisOn = false;
+
+   Path iniPath(Application->ExeName.c_str());
+   iniPath.Append_path("rotationaddin");
+   iniPath.Set_name("rotationaddin.ini");
+   ini.Set_file_name(iniPath.Get_path().c_str());
    }
 
 // ------------------------------------------------------------------
@@ -103,7 +109,6 @@ void __fastcall RotationAddIn::buttonClick(TObject* Sender)
 class YearValues
    {
    private:
-
       class FieldValue
          {
          private:
@@ -115,7 +120,12 @@ class YearValues
          public:
             FieldValue(void) : type(unknown), count(0) { }
 
-            unsigned int getCount(void) {return count;}
+            void clear(void)
+               {
+               count = 0;
+               numericalValue = 0;
+               }
+            bool isString(void) {return type == str;}
             void addValue(const string& value)
                {
                if (type == unknown)
@@ -137,46 +147,70 @@ class YearValues
                   }
                count++;
                }
-            string getValue(void)
+            double getValue(bool doTotal)
                {
                if (type == numerical)
                   {
                   if (count == 0)
-                     return "Divide by zero";
+                     return 0.0;
                   else
                      {
-                     char buffer[20];
-                     sprintf(buffer, "%10.3f", numericalValue / count);
-                     return buffer;
+                     if (doTotal)
+                        return numericalValue;
+                     else
+                        return numericalValue / count;
                      }
                   }
                else
+                  return MAXDOUBLE;
+               }
+            string getValue(void)
+               {
+               if (type == str)
                   return stringValue;
+               else
+                  return "";
                }
          };
 
-      vector<FieldValue> values;
+      typedef map<unsigned, FieldValue> FieldValues;
+
+      vector<FieldValues> values;
    public:
       YearValues(void) { }
 
-      void addValue(unsigned int valueIndex, const string& value)
+      void addValue(unsigned int simIndex, unsigned int fieldIndex, const string& value)
          {
-         for (unsigned i = values.size(); i <= valueIndex; i++)
-            values.push_back(FieldValue());
-         values[valueIndex].addValue(value);
+         while (values.size() <= simIndex)
+            values.push_back(FieldValues());
+         values[simIndex][fieldIndex].addValue(value);
          }
-      unsigned int getCount(void)
+      string getValue(bool doTotal, unsigned int fieldIndex)
          {
-         if (values.size() == 0)
-            return 0;
+         // loop through all simulations.
+         int count = 0;
+         double total = 0.0;
+         for (unsigned int simIndex = 0; simIndex < values.size(); simIndex++)
+            {
+            if (values[simIndex][fieldIndex].isString())
+               return values[simIndex][fieldIndex].getValue();
+            else
+               {
+               double value = values[simIndex][fieldIndex].getValue(doTotal);
+               if (value != MAXDOUBLE)
+                  {
+                  total += value;
+                  count++;
+                  }
+               }
+            }
+         char buffer[20];
+         if (count == 0)
+            sprintf(buffer, "%10.3f", 0.0);
          else
-            return values[0].getCount();
+            sprintf(buffer, "%10.3f", total / count);
+         return &buffer[0];
          }
-      string getValue(unsigned int valueIndex)
-         {
-         return values[valueIndex].getValue();
-         }
-
    };
 
 // ------------------------------------------------------------------
@@ -221,17 +255,6 @@ void RotationAddIn::doCalculations(TAPSTable& data)
 // ------------------------------------------------------------------
 bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
    {
-   // For the provide a concrete example consider this block of data.
-   // sow_year  residue_wt   nw_sowdate   nw_yield  nw_tops_biom  so_sowdate   so_biom
-   //   1957        18.856       0            0         0         01/11/1957   9925.227
-   //   1958      5404.098   01/06/1958    2645.035   762.648         0           0
-   //   1959      2656.253       0            0         0             0           0
-   //   1960        16.922       0            0         0         01/11/1959  11647.982
-   //   1961      5573.266   01/06/1961    2211.77    778.457         0           0
-   //   1962        16.833       0            0         0             0           0
-   //   1963         0.244       0            0         0         01/11/1962   9187.556
-   //   1964      8461.154   01/06/1964    2135.836   1059.699        0           0
-
    // get a list of all fieldnames.
    vector<string> fieldNames;
    data.getFieldNamesMinusPivots(fieldNames);
@@ -287,7 +310,9 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
                {
                if (values.find(year) == values.end())
                   values.insert(Values::value_type(year, YearValues()));
-               values[year].addValue(fieldI - fieldNames.begin(), value);
+               values[year].addValue(numDataBlocks,
+                                     fieldI - fieldNames.begin(),
+                                     value);
                }
             }
          }
@@ -319,7 +344,9 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
             if (fieldIndex == 0)
                newRecord.setFieldValue("Simulation", rotationName);
             else
-               newRecord.setFieldValue(*fieldI, valueI->second.getValue(fieldIndex));
+               newRecord.setFieldValue
+                  (*fieldI, valueI->second.getValue(doTotalVariable(*fieldI),
+                                                                    fieldIndex));
             }
          destData.storeRecord(newRecord);
          }
@@ -347,10 +374,6 @@ bool RotationAddIn::processRotation(TAPSTable& data, TAPSTable& destData)
 void RotationAddIn::getCropNames(std::vector<std::string>& fieldNames)
    {
    // get a list of all recognised crop acronyms
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Append_path("rotationaddin");
-   iniPath.Set_name("rotationaddin.ini");
-   Ini_file ini(iniPath.Get_path().c_str());
    string crop_acronym_string;
    ini.Read("crops", "crop_acronyms", crop_acronym_string);
    vector<string> crop_acronyms;
@@ -439,5 +462,31 @@ bool RotationAddIn::CropHasNonZeroValue(const TAPSRecord& recordI,
          }
       }
    return false;
+   }
+// ------------------------------------------------------------------
+// Return true if the specified field should be totalled within a year.
+// Return false if the specified field should be averaged within a year.
+// ------------------------------------------------------------------
+bool RotationAddIn::doTotalVariable(const std::string& fieldName)
+   {
+   string st;
+   ini.Read("fields", "averaged_fields", st);
+   vector<string> fields;
+   Split_string(st, " ", fields);
+   for (vector<string>::iterator fieldI = fields.begin();
+                                 fieldI != fields.end();
+                                 fieldI++)
+      {
+      string field = *fieldI;
+      bool doAverage = false;
+      if (field[0] == '*')
+         doAverage = (stristr((char*) fieldName.c_str(),
+                              field.substr(1, field.length()-1).c_str()) != NULL);
+      else
+         doAverage = Str_i_Eq(fieldName, field);
+      if (doAverage)
+         return false;
+      }
+   return true;
    }
 
