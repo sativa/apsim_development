@@ -4,7 +4,6 @@
 <component name="canopy">
    <registrations>
       <read name="intercrop" type="intercrop" readable="T"/>
-      <respondToGetReg name="fr_intc_radn_"ModuleName"" type="fr_intc_radn_"ModuleName""/>
       <respondToGetReg name="cover_tot_sum" type="cover_tot_sum"/>
       <respondToGetReg name="cover_tot_all" type="cover_tot_all"/>
       <respondToGetReg name="cover_height_all" type="cover_height_all"/>
