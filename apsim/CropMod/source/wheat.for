@@ -1,4 +1,4 @@
-C     Last change:  E    27 Aug 2001    4:55 pm
+C     Last change:  E    29 Aug 2001    9:19 pm
 
 *     ===========================================================
       subroutine Read_Constants_Wheat ()
@@ -3682,6 +3682,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
       include   'CropDefCons.inc'
       include 'data.pub'
       include 'error.pub'                         
+      include 'crp_nitn.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -3742,7 +3743,7 @@ c     g_accum_rad_10d = iw_rad_accum_10d(g_radn,g_current_stage)
      :                        , N_potential - g_N_green(grain))
  
    
-      call srop_N_retrans_avail (max_part, grain,
+      call crop_N_retrans_avail (max_part, grain,
      .          g_N_conc_min,
      .          g_dm_green,
      .          g_N_green,N_avail)  ! grain N potential (supply)
