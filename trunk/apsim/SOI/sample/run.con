@@ -1,9 +1,10 @@
-[apsim.SOI]    
-module = clock     run1.par [run1]  
-module = report    run1.par [run1]  
-module = met       028004.SG2 [weather]  
-module = manager   run1.man [run1]  
-module = soilwat2  run1.par [run1] %apsuite\apsim\soilwat2/soilwat2.ini [standard]  
-module = soiln2    run1.par [run1] %apsuite\apsim\soiln2/soiln2.ini [standard]  
-module = residue2  run1.par [run1] %apsuite\apsim\residue2/residue2.ini [standard]  
-module = soi       phases.soi [soi]  
+[apsim.SOI]
+version=2.2
+title= Goondiwindi may phase 4
+summaryfile=soi.sum
+module = clock      run1.par [run1]
+module = report     run1.par [run1]
+module = Input(Met) %apsuite\apsim\met\sample\goond.met [weather]
+module = manager    run1.man [run1]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soi       phases.soi [soi]
