@@ -11,31 +11,30 @@
 
      Version                = 3.6
      Title                  =
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\accum\lib\accum.dll
-     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
-     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim36\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\program files\apsim36\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\program files\apsim36\apsim\clock\lib\clock.dll
+     Component DLL          = c:\program files\apsim36\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim36\apsim\input\lib\input.dll
+     Component DLL          = c:\program files\apsim36\apsim\accum\lib\accum.dll
+     Component DLL          = c:\program files\apsim36\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\program files\apsim36\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\program files\apsim36\apsim\manager\lib\manager.dll
+     Component DLL          = c:\program files\apsim36\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\program files\apsim36\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\program files\apsim36\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
         process
         post
-        report
      Simulation start date =  1/01/1957
      Simulation end date   = 26/12/2001
      Time step =           = 1440 (mins)
@@ -571,7 +570,7 @@
       grain N uptake (kg/ha) =      19.72                     senesced N content (kg/ha)=   52.38
       green N content (kg/ha)=      47.30                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.117        0.433
          end_of_juvenile      to floral_initiation       0.000        0.000        0.780        0.890
          floral_initiation    to flowering               0.000        0.000        0.714        0.857
@@ -851,7 +850,7 @@
       grain N uptake (kg/ha) =      24.83                     senesced N content (kg/ha)=   49.47
       green N content (kg/ha)=      34.18                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.094        0.117        0.097        0.274
          end_of_juvenile      to floral_initiation       0.000        0.000        0.743        0.871
          floral_initiation    to flowering               0.000        0.000        0.769        0.885
@@ -1131,7 +1130,7 @@
       grain N uptake (kg/ha) =      18.74                     senesced N content (kg/ha)=   47.63
       green N content (kg/ha)=      48.16                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.040        0.067        0.080        0.281
          end_of_juvenile      to floral_initiation       0.000        0.000        0.746        0.873
          floral_initiation    to flowering               0.000        0.000        0.746        0.873
@@ -1411,7 +1410,7 @@
       grain N uptake (kg/ha) =      21.84                     senesced N content (kg/ha)=   53.42
       green N content (kg/ha)=      48.27                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.041        0.063        0.103        0.361
          end_of_juvenile      to floral_initiation       0.000        0.000        0.715        0.858
          floral_initiation    to flowering               0.000        0.000        0.776        0.888
@@ -1691,7 +1690,7 @@
       grain N uptake (kg/ha) =      17.44                     senesced N content (kg/ha)=   52.84
       green N content (kg/ha)=      53.02                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.093        0.122        0.082        0.283
          end_of_juvenile      to floral_initiation       0.000        0.000        0.770        0.885
          floral_initiation    to flowering               0.000        0.000        0.738        0.869
@@ -1971,7 +1970,7 @@
       grain N uptake (kg/ha) =      18.94                     senesced N content (kg/ha)=   49.35
       green N content (kg/ha)=      49.54                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.265        0.598
          end_of_juvenile      to floral_initiation       0.000        0.000        0.686        0.843
          floral_initiation    to flowering               0.000        0.000        0.760        0.880
@@ -2251,7 +2250,7 @@
       grain N uptake (kg/ha) =      25.51                     senesced N content (kg/ha)=   51.14
       green N content (kg/ha)=      42.76                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.027        0.032        0.022        0.271
          end_of_juvenile      to floral_initiation       0.000        0.000        0.672        0.834
          floral_initiation    to flowering               0.000        0.000        0.731        0.865
@@ -2531,7 +2530,7 @@
       grain N uptake (kg/ha) =      18.64                     senesced N content (kg/ha)=   49.08
       green N content (kg/ha)=      44.73                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.220        0.552
          end_of_juvenile      to floral_initiation       0.000        0.000        0.703        0.852
          floral_initiation    to flowering               0.000        0.000        0.754        0.877
@@ -2811,7 +2810,7 @@
       grain N uptake (kg/ha) =      25.59                     senesced N content (kg/ha)=   47.82
       green N content (kg/ha)=      37.35                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.285        0.351        0.029        0.029
          end_of_juvenile      to floral_initiation       0.010        0.013        0.666        0.779
          floral_initiation    to flowering               0.000        0.000        0.774        0.887
@@ -3091,7 +3090,7 @@
       grain N uptake (kg/ha) =      22.98                     senesced N content (kg/ha)=   52.51
       green N content (kg/ha)=      45.18                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.045        0.309
          end_of_juvenile      to floral_initiation       0.000        0.000        0.795        0.897
          floral_initiation    to flowering               0.000        0.000        0.758        0.879
@@ -3371,7 +3370,7 @@
       grain N uptake (kg/ha) =      20.29                     senesced N content (kg/ha)=   49.85
       green N content (kg/ha)=      43.98                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.122        0.152        0.033        0.197
          end_of_juvenile      to floral_initiation       0.000        0.000        0.760        0.880
          floral_initiation    to flowering               0.000        0.000        0.757        0.879
@@ -3651,7 +3650,7 @@
       grain N uptake (kg/ha) =      24.42                     senesced N content (kg/ha)=   53.65
       green N content (kg/ha)=      46.04                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.119        0.142        0.038        0.126
          end_of_juvenile      to floral_initiation       0.000        0.000        0.623        0.787
          floral_initiation    to flowering               0.000        0.000        0.777        0.889
@@ -3931,7 +3930,7 @@
       grain N uptake (kg/ha) =      14.41                     senesced N content (kg/ha)=   43.19
       green N content (kg/ha)=      49.23                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.399        0.475        0.041        0.041
          end_of_juvenile      to floral_initiation       0.042        0.054        0.581        0.680
          floral_initiation    to flowering               0.000        0.000        0.797        0.899
@@ -4211,7 +4210,7 @@
       grain N uptake (kg/ha) =      20.49                     senesced N content (kg/ha)=   52.47
       green N content (kg/ha)=      52.59                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.009        0.013        0.047        0.258
          end_of_juvenile      to floral_initiation       0.000        0.000        0.729        0.865
          floral_initiation    to flowering               0.000        0.000        0.723        0.861
@@ -4491,7 +4490,7 @@
       grain N uptake (kg/ha) =      18.15                     senesced N content (kg/ha)=   48.78
       green N content (kg/ha)=      53.10                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.298        0.377        0.019        0.019
          end_of_juvenile      to floral_initiation       0.048        0.061        0.565        0.676
          floral_initiation    to flowering               0.000        0.000        0.776        0.888
@@ -4771,7 +4770,7 @@
       grain N uptake (kg/ha) =      18.13                     senesced N content (kg/ha)=   47.73
       green N content (kg/ha)=      45.25                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.133        0.164        0.015        0.100
          end_of_juvenile      to floral_initiation       0.000        0.000        0.727        0.858
          floral_initiation    to flowering               0.000        0.000        0.771        0.885
@@ -5051,7 +5050,7 @@
       grain N uptake (kg/ha) =      23.61                     senesced N content (kg/ha)=   50.91
       green N content (kg/ha)=      38.09                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.043        0.068        0.100        0.387
          end_of_juvenile      to floral_initiation       0.000        0.000        0.790        0.895
          floral_initiation    to flowering               0.000        0.000        0.773        0.887
@@ -5331,7 +5330,7 @@
       grain N uptake (kg/ha) =      22.01                     senesced N content (kg/ha)=   50.88
       green N content (kg/ha)=      40.25                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.113        0.145        0.093        0.248
          end_of_juvenile      to floral_initiation       0.000        0.000        0.738        0.869
          floral_initiation    to flowering               0.000        0.000        0.715        0.857
@@ -5611,7 +5610,7 @@
       grain N uptake (kg/ha) =      23.33                     senesced N content (kg/ha)=   46.62
       green N content (kg/ha)=      46.77                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.223        0.282        0.003        0.003
          end_of_juvenile      to floral_initiation       0.132        0.161        0.517        0.648
          floral_initiation    to flowering               0.000        0.000        0.813        0.906
@@ -5891,7 +5890,7 @@
       grain N uptake (kg/ha) =      21.68                     senesced N content (kg/ha)=   51.63
       green N content (kg/ha)=      46.14                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.139        0.181        0.020        0.148
          end_of_juvenile      to floral_initiation       0.004        0.006        0.646        0.782
          floral_initiation    to flowering               0.000        0.000        0.730        0.865
@@ -6171,7 +6170,7 @@
       grain N uptake (kg/ha) =      13.43                     senesced N content (kg/ha)=   32.87
       green N content (kg/ha)=      54.48                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.332        0.388        0.027        0.027
          end_of_juvenile      to floral_initiation       0.493        0.574        0.000        0.067
          floral_initiation    to flowering               0.367        0.429        0.000        0.000
@@ -6451,7 +6450,7 @@
       grain N uptake (kg/ha) =      14.62                     senesced N content (kg/ha)=   40.14
       green N content (kg/ha)=      56.86                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.430        0.510        0.028        0.028
          end_of_juvenile      to floral_initiation       0.167        0.210        0.229        0.289
          floral_initiation    to flowering               0.000        0.000        0.841        0.920
@@ -6731,7 +6730,7 @@
       grain N uptake (kg/ha) =      19.37                     senesced N content (kg/ha)=   52.86
       green N content (kg/ha)=      51.10                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.187        0.236        0.035        0.059
          end_of_juvenile      to floral_initiation       0.000        0.000        0.659        0.765
          floral_initiation    to flowering               0.000        0.000        0.784        0.892
@@ -7011,7 +7010,7 @@
       grain N uptake (kg/ha) =      14.02                     senesced N content (kg/ha)=   46.07
       green N content (kg/ha)=      49.77                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.146        0.176        0.010        0.084
          end_of_juvenile      to floral_initiation       0.000        0.000        0.807        0.904
          floral_initiation    to flowering               0.000        0.000        0.786        0.893
@@ -7291,7 +7290,7 @@
       grain N uptake (kg/ha) =      19.10                     senesced N content (kg/ha)=   50.58
       green N content (kg/ha)=      48.30                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.371        0.656
          end_of_juvenile      to floral_initiation       0.000        0.000        0.676        0.838
          floral_initiation    to flowering               0.000        0.000        0.678        0.839
@@ -7571,7 +7570,7 @@
       grain N uptake (kg/ha) =      21.95                     senesced N content (kg/ha)=   55.14
       green N content (kg/ha)=      51.98                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.009        0.018        0.126        0.461
          end_of_juvenile      to floral_initiation       0.000        0.000        0.748        0.874
          floral_initiation    to flowering               0.000        0.000        0.683        0.841
@@ -7851,7 +7850,7 @@
       grain N uptake (kg/ha) =      26.91                     senesced N content (kg/ha)=   44.87
       green N content (kg/ha)=      39.45                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.652        0.735        0.000        0.000
          end_of_juvenile      to floral_initiation       0.097        0.117        0.263        0.359
          floral_initiation    to flowering               0.000        0.000        0.739        0.870
@@ -8131,7 +8130,7 @@
       grain N uptake (kg/ha) =      24.30                     senesced N content (kg/ha)=   53.42
       green N content (kg/ha)=      45.45                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.096        0.119        0.057        0.259
          end_of_juvenile      to floral_initiation       0.000        0.000        0.749        0.875
          floral_initiation    to flowering               0.000        0.000        0.709        0.855
@@ -8411,7 +8410,7 @@
       grain N uptake (kg/ha) =      25.51                     senesced N content (kg/ha)=   50.84
       green N content (kg/ha)=      42.87                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.238        0.291        0.029        0.042
          end_of_juvenile      to floral_initiation       0.000        0.000        0.646        0.786
          floral_initiation    to flowering               0.000        0.000        0.723        0.861
@@ -8691,7 +8690,7 @@
       grain N uptake (kg/ha) =      22.22                     senesced N content (kg/ha)=   52.23
       green N content (kg/ha)=      48.04                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.249        0.316        0.022        0.032
          end_of_juvenile      to floral_initiation       0.000        0.000        0.637        0.769
          floral_initiation    to flowering               0.000        0.000        0.786        0.893
@@ -8971,7 +8970,7 @@
       grain N uptake (kg/ha) =      22.86                     senesced N content (kg/ha)=   47.81
       green N content (kg/ha)=      42.40                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.281        0.355        0.026        0.026
          end_of_juvenile      to floral_initiation       0.000        0.000        0.635        0.776
          floral_initiation    to flowering               0.000        0.000        0.766        0.883
@@ -9251,7 +9250,7 @@
       grain N uptake (kg/ha) =      28.09                     senesced N content (kg/ha)=   50.83
       green N content (kg/ha)=      42.43                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.031        0.036        0.140        0.399
          end_of_juvenile      to floral_initiation       0.000        0.000        0.719        0.860
          floral_initiation    to flowering               0.000        0.000        0.700        0.850
@@ -9531,7 +9530,7 @@
       grain N uptake (kg/ha) =      19.10                     senesced N content (kg/ha)=   53.21
       green N content (kg/ha)=      56.50                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.024        0.043        0.079        0.333
          end_of_juvenile      to floral_initiation       0.000        0.000        0.777        0.889
          floral_initiation    to flowering               0.000        0.000        0.755        0.877
@@ -9811,7 +9810,7 @@
       grain N uptake (kg/ha) =      24.12                     senesced N content (kg/ha)=   54.29
       green N content (kg/ha)=      47.95                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.116        0.147        0.033        0.110
          end_of_juvenile      to floral_initiation       0.000        0.000        0.759        0.880
          floral_initiation    to flowering               0.000        0.000        0.747        0.873
@@ -10091,7 +10090,7 @@
       grain N uptake (kg/ha) =      20.68                     senesced N content (kg/ha)=   51.97
       green N content (kg/ha)=      46.52                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.008        0.014        0.080        0.368
          end_of_juvenile      to floral_initiation       0.000        0.000        0.760        0.880
          floral_initiation    to flowering               0.000        0.000        0.757        0.879
@@ -10371,7 +10370,7 @@
       grain N uptake (kg/ha) =      24.95                     senesced N content (kg/ha)=   54.87
       green N content (kg/ha)=      46.99                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.003        0.155        0.491
          end_of_juvenile      to floral_initiation       0.000        0.000        0.679        0.840
          floral_initiation    to flowering               0.000        0.000        0.723        0.862
@@ -10651,7 +10650,7 @@
       grain N uptake (kg/ha) =      26.72                     senesced N content (kg/ha)=   51.67
       green N content (kg/ha)=      40.33                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.257        0.314        0.007        0.007
          end_of_juvenile      to floral_initiation       0.000        0.000        0.719        0.851
          floral_initiation    to flowering               0.000        0.000        0.743        0.871
@@ -10931,7 +10930,7 @@
       grain N uptake (kg/ha) =      17.16                     senesced N content (kg/ha)=   49.14
       green N content (kg/ha)=      51.48                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.106        0.144        0.005        0.265
          end_of_juvenile      to floral_initiation       0.000        0.000        0.780        0.890
          floral_initiation    to flowering               0.000        0.000        0.757        0.879
@@ -11211,7 +11210,7 @@
       grain N uptake (kg/ha) =      22.58                     senesced N content (kg/ha)=   50.44
       green N content (kg/ha)=      44.58                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.053        0.080        0.104        0.399
          end_of_juvenile      to floral_initiation       0.000        0.000        0.790        0.895
          floral_initiation    to flowering               0.000        0.000        0.716        0.858
@@ -11491,7 +11490,7 @@
       grain N uptake (kg/ha) =      25.47                     senesced N content (kg/ha)=   46.66
       green N content (kg/ha)=      40.49                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.599        0.683        0.024        0.024
          end_of_juvenile      to floral_initiation       0.018        0.022        0.353        0.464
          floral_initiation    to flowering               0.000        0.000        0.736        0.868
@@ -11771,7 +11770,7 @@
       grain N uptake (kg/ha) =      20.07                     senesced N content (kg/ha)=   37.19
       green N content (kg/ha)=      55.81                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.244        0.299        0.045        0.058
          end_of_juvenile      to floral_initiation       0.455        0.527        0.000        0.015
          floral_initiation    to flowering               0.025        0.043        0.463        0.717
@@ -12051,7 +12050,7 @@
       grain N uptake (kg/ha) =      24.77                     senesced N content (kg/ha)=   47.47
       green N content (kg/ha)=      41.32                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.284        0.354        0.007        0.007
          end_of_juvenile      to floral_initiation       0.000        0.000        0.675        0.783
          floral_initiation    to flowering               0.000        0.000        0.761        0.881
@@ -12331,7 +12330,7 @@
       grain N uptake (kg/ha) =      28.15                     senesced N content (kg/ha)=   48.57
       green N content (kg/ha)=      35.60                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.033        0.042        0.284        0.453
          end_of_juvenile      to floral_initiation       0.000        0.000        0.767        0.883
          floral_initiation    to flowering               0.000        0.000        0.729        0.865
@@ -12611,7 +12610,7 @@
       grain N uptake (kg/ha) =      24.25                     senesced N content (kg/ha)=   49.43
       green N content (kg/ha)=      54.01                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.400        0.492        0.024        0.024
          end_of_juvenile      to floral_initiation       0.128        0.159        0.385        0.521
          floral_initiation    to flowering               0.000        0.000        0.698        0.849
@@ -12891,7 +12890,7 @@
       grain N uptake (kg/ha) =      20.55                     senesced N content (kg/ha)=   49.96
       green N content (kg/ha)=      46.05                     dead N content (kg/ha) =       0.00
      
-      Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.123        0.154        0.062        0.209
          end_of_juvenile      to floral_initiation       0.000        0.000        0.764        0.882
          floral_initiation    to flowering               0.000        0.000        0.741        0.871
