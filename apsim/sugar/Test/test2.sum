@@ -371,12 +371,12 @@
          - Reading constants
 ------- Start of simulation  --------------------------------------------------
 9 April 1980(Day of year=100), manager: 
-     Manager creating a new local real variable : soil_n =     1052.35488000000
-     Manager creating a new local real variable : resid_n =     4.87500000000000
+     Manager creating a new local real variable : soil_n =     1052.28428000000
+     Manager creating a new local real variable : resid_n =     4.94560013000000
      Manager creating a new local real variable : plant_n =     0.00000000000000
      Manager creating a new local real variable : leach_n =     0.00000000000000
      Manager creating a new local real variable : dnit_n =     0.00000000000000
-     Manager creating a new local real variable : total_n =     1057.22986000000
+     Manager creating a new local real variable : total_n =     1057.22990003000
      Manager creating a new local real variable : losses =     0.00000000000000
      Manager creating a new local real variable : bal_n =     1057.22986000000
      Manager creating a new local real variable : bal_n_old =     0.00000000000000
@@ -437,11 +437,11 @@
 27 May 1980(Day of year=148), sugar: 
       stage    3.0 emergence
                           biomass =           3.529999       lai =    0.1000000E-01
-                          stover N conc =    2.529744       extractable sw =    77.37340
+                          stover N conc =    2.529744       extractable sw =    77.55130
 25 October 1980(Day of year=299), sugar: 
       stage    4.0 begin_cane
-                          biomass =           2204.778       lai =     6.325956
-                          stover N conc =   0.7168847       extractable sw =    171.4466
+                          biomass =           2204.646       lai =     6.293204
+                          stover N conc =   0.6785887       extractable sw =    171.7891
 10 April 1981(Day of year=100), manager: 
      Manager sending message :- sugar lodge
 10 April 1981(Day of year=100), sugar: 
@@ -453,15 +453,15 @@
      
      
       flowering day  =    0
-      maximum lai = 6.848
-      total above ground biomass (kg/ha) =   82897.7
-      live above ground biomass (kg/ha) =   78971.4
-      green above ground biomass (kg/ha) =   74391.2
-      senesced above ground biomass (kg/ha) =    4580.1
-      dead above ground biomass (kg/ha) =    3926.3
+      maximum lai = 6.753
+      total above ground biomass (kg/ha) =   82376.6
+      live above ground biomass (kg/ha) =   78330.3
+      green above ground biomass (kg/ha) =   73787.6
+      senesced above ground biomass (kg/ha) =    4542.7
+      dead above ground biomass (kg/ha) =    4046.3
       number of leaves =  53.6
-      total N content (kg/ha) =    162.25    senesced N content (kg/ha) =     16.78
-      green N content (kg/ha) =    142.76    dead N content (kg/ha) =      2.72
+      total N content (kg/ha) =    156.19    senesced N content (kg/ha) =     16.64
+      green N content (kg/ha) =    136.93    dead N content (kg/ha) =      2.62
      
      
      
@@ -472,7 +472,7 @@
      
      
       stress indices for begin_cane
-      water stress 1 =    0.000000       nitrogen stress 1 =   0.3491757E-02
+      water stress 1 =    0.000000       nitrogen stress 1 =   0.1616533E-01
       water stress 2 =    0.000000
      
      
@@ -480,10 +480,10 @@
       stress indices for flowering
       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
       water stress 2 =    0.000000
-                                               straw residue =15824.2 kg/ha
-                                               straw N =   50.6 kg/ha
-                                               root residue = 1868.1 kg/ha
-                                               root N =    5.5 kg/ha
+                                               straw residue =15588.7 kg/ha
+                                               straw N =   48.1 kg/ha
+                                               root residue = 1850.6 kg/ha
+                                               root N =    5.2 kg/ha
      
          - Reading constants from ratoon_crop
      
@@ -504,10 +504,10 @@
 10 August 1981(Day of year=222), sugar: 
       stage    3.0 emergence
                           biomass =           3.529968       lai =    0.1000000E-01
-                          stover N conc =    2.529765       extractable sw =    217.3488
+                          stover N conc =    2.529765       extractable sw =    224.2995
 12 December 1981(Day of year=346), sugar: 
       stage    4.0 begin_cane
-                          biomass =           1807.040       lai =     6.483605
-                          stover N conc =   0.7194828       extractable sw =    247.7617
+                          biomass =           1807.089       lai =     6.485062
+                          stover N conc =   0.7201347       extractable sw =    256.4507
 10 April 1982(Day of year=100), clock: 
      Simulation is terminating due to end criteria being met.
