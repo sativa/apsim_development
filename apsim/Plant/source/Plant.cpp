@@ -8839,9 +8839,9 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     parent->writeString ("\nCrop harvested.");
     parent->writeString (string("    tops residue =  " + ftoa(dm_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    tops n       =  " + ftoa(n_residue, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    tops N       =  " + ftoa(n_residue, ".2") + " kg/ha").c_str());
     parent->writeString (string("    root residue =  " + ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root n       =  " + ftoa(n_root, ".2") + " kg/ha\n").c_str());
+    parent->writeString (string("    root N       =  " + ftoa(n_root, ".2") + " kg/ha\n").c_str());
 
     dm_removed = 0.0;
     for (part=0; part < max_part; part++)
@@ -8857,9 +8857,9 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     n_root  = 0.0;
 
     parent->writeString (string("    tops removed =  "+ ftoa(dm_removed, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    tops n removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    tops N removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
     parent->writeString (string("    root removed =  "+ ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root n removed= "+ ftoa(n_root, ".2") + " kg/ha\n").c_str());
+    parent->writeString (string("    root N removed= "+ ftoa(n_root, ".2") + " kg/ha\n").c_str());
 
     // put roots into root residue
 
@@ -12985,18 +12985,18 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.2f%20s%s%10.2f"
-             , " grain n percent        = ", n_grain_conc_percent, " "
-             , " total n content (kg/ha)= ", n_total);
+             , " grain N percent        = ", n_grain_conc_percent, " "
+             , " total N content (kg/ha)= ", n_total);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.2f%20s%s%8.2f"
-             , " grain n uptake (kg/ha) = ", n_grain, " "
-             , " senesced n content (kg/ha)=", n_senesced);
+             , " grain N uptake (kg/ha) = ", n_grain, " "
+             , " senesced N content (kg/ha)=", n_senesced);
     parent->writeString (msg);
 
     sprintf (msg, "%s%10.2f%20s%s%10.2f"
-             , " green n content (kg/ha)= ", n_green, " "
-             , " dead n content (kg/ha) = ", n_dead);
+             , " green N content (kg/ha)= ", n_green, " "
+             , " dead N content (kg/ha) = ", n_dead);
     parent->writeString (msg);
 
     for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++)
