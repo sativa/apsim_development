@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Dalby 1500mm wet soil
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -24,6 +24,11 @@
      Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  1/01/1957
      Simulation end date   = 21/12/2002
      Time step =           = 1440 (mins)
@@ -314,23 +319,23 @@
 6 August 1957(Day of year=218), chickpea: 
       stage    6.0 flowering
                           biomass =           55.30123       lai =    0.9933466
-                          stover N conc =    3.026816       extractable sw =    190.4181
+                          stover N conc =    3.026860       extractable sw =    190.4181
 8 September 1957(Day of year=251), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           262.2422       lai =     2.645703
-                          stover N conc =    1.829265       extractable sw =    132.6922
+                          stover N conc =    1.826991       extractable sw =    132.6922
 16 October 1957(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           489.8620       lai =    0.5893134
-                          stover N conc =    1.767998       extractable sw =    24.04244
+                          stover N conc =    1.758203       extractable sw =    24.04244
 19 October 1957(Day of year=292), chickpea: 
       stage    9.0 maturity
                           biomass =           493.0244       lai =    0.4669842
-                          stover N conc =    1.809922       extractable sw =    21.71850
+                          stover N conc =    1.797996       extractable sw =    21.71850
 20 October 1957(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           493.0244       lai =     0.000000
-                          stover N conc =    1.992112       extractable sw =    21.01485
+                          stover N conc =    1.831804       extractable sw =    21.01485
 20 October 1957(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1957(Day of year=293), chickpea: 
@@ -348,9 +353,9 @@
       senesced above ground biomass (kg/ha) =    1355.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 268.2
-      grain N percent =      3.60            total N content (kg/ha) =    107.40
-      grain N uptake (kg/ha) =     72.62     senesced N content (kg/ha) =      3.76
-      green N content (kg/ha) =     31.03    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    121.48
+      grain N uptake (kg/ha) =     72.62     senesced N content (kg/ha) =     20.33
+      green N content (kg/ha) =     28.53    dead N content (kg/ha) =      0.00
      
      
      
@@ -362,13 +367,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006892
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007026
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0009843
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0010084
      
      
      
@@ -384,7 +389,7 @@
      
       Crop harvested.
                                                tops residue = 2913.0 kg/ha
-                                               tops N =   34.8 kg/ha
+                                               tops N =   48.9 kg/ha
                                                root residue =   99.5 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -400,7 +405,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1000.2 kg/ha
-                                               root N =   15.4 kg/ha
+                                               root N =   15.3 kg/ha
 15 May 1958(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1958(Day of year=135), soilwat2: 
@@ -507,23 +512,23 @@
 29 July 1958(Day of year=210), chickpea: 
       stage    6.0 flowering
                           biomass =           36.16571       lai =    0.6903259
-                          stover N conc =    3.012628       extractable sw =    195.9462
+                          stover N conc =    3.012685       extractable sw =    195.9462
 31 August 1958(Day of year=243), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           218.9709       lai =     2.366228
-                          stover N conc =    1.813370       extractable sw =    172.4262
+                          stover N conc =    1.811217       extractable sw =    172.4262
 12 October 1958(Day of year=285), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           624.1915       lai =     2.391144
-                          stover N conc =    1.721958       extractable sw =    82.98979
+                          stover N conc =    1.721957       extractable sw =    82.98979
 16 October 1958(Day of year=289), chickpea: 
       stage    9.0 maturity
                           biomass =           661.5031       lai =     2.167677
-                          stover N conc =    1.719449       extractable sw =    62.56558
+                          stover N conc =    1.713126       extractable sw =    62.56558
 17 October 1958(Day of year=290), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           661.5031       lai =    0.4768372E-06
-                          stover N conc =    2.222509       extractable sw =    82.39465
+                          stover N conc =    1.783808       extractable sw =    82.39465
 17 October 1958(Day of year=290), manager: 
      Manager sending message :- chickpea harvest
 17 October 1958(Day of year=290), chickpea: 
@@ -541,9 +546,9 @@
       senesced above ground biomass (kg/ha) =    1304.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 274.8
-      grain N percent =      3.60            total N content (kg/ha) =    162.56
-      grain N uptake (kg/ha) =    108.12     senesced N content (kg/ha) =      3.16
-      green N content (kg/ha) =     51.29    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    168.84
+      grain N uptake (kg/ha) =    108.12     senesced N content (kg/ha) =     19.56
+      green N content (kg/ha) =     41.17    dead N content (kg/ha) =      0.00
      
      
      
@@ -555,7 +560,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000143
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000172
      
      
      
@@ -577,7 +582,7 @@
      
       Crop harvested.
                                                tops residue = 3611.8 kg/ha
-                                               tops N =   54.4 kg/ha
+                                               tops N =   60.7 kg/ha
                                                root residue =   93.2 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -692,7 +697,7 @@
 1 July 1959(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.534111       lai =    0.8079017E-01
-                          stover N conc =    4.616485       extractable sw =    145.2664
+                          stover N conc =    4.616241       extractable sw =    145.2664
 31 July 1959(Day of year=212), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           38.13110       lai =    0.7329134
@@ -700,11 +705,11 @@
 4 August 1959(Day of year=216), chickpea: 
       stage    6.0 flowering
                           biomass =           49.23960       lai =    0.9000312
-                          stover N conc =    3.005631       extractable sw =    193.8685
+                          stover N conc =    3.005657       extractable sw =    193.8685
 7 September 1959(Day of year=250), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           269.1617       lai =     2.621107
-                          stover N conc =    1.827403       extractable sw =    119.3961
+                          stover N conc =    1.824497       extractable sw =    119.3961
 17 October 1959(Day of year=290), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           597.9822       lai =     1.751445
@@ -716,7 +721,7 @@
 22 October 1959(Day of year=295), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           641.9295       lai =     0.000000
-                          stover N conc =    2.138528       extractable sw =    116.1746
+                          stover N conc =    1.759596       extractable sw =    116.1746
 22 October 1959(Day of year=295), manager: 
      Manager sending message :- chickpea harvest
 22 October 1959(Day of year=295), chickpea: 
@@ -734,9 +739,9 @@
       senesced above ground biomass (kg/ha) =    1398.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 283.5
-      grain N percent =      3.60            total N content (kg/ha) =    151.49
-      grain N uptake (kg/ha) =     99.79     senesced N content (kg/ha) =      3.60
-      green N content (kg/ha) =     48.10    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    160.34
+      grain N uptake (kg/ha) =     99.79     senesced N content (kg/ha) =     20.97
+      green N content (kg/ha) =     39.58    dead N content (kg/ha) =      0.00
      
      
      
@@ -748,7 +753,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001262
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001280
      
      
      
@@ -770,7 +775,7 @@
      
       Crop harvested.
                                                tops residue = 3647.4 kg/ha
-                                               tops N =   51.7 kg/ha
+                                               tops N =   60.5 kg/ha
                                                root residue =  104.9 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -893,43 +898,43 @@
 10 August 1960(Day of year=223), chickpea: 
       stage    6.0 flowering
                           biomass =           47.24565       lai =    0.8554535
-                          stover N conc =    3.005150       extractable sw =    200.9033
+                          stover N conc =    3.005168       extractable sw =    200.9033
 13 September 1960(Day of year=257), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           288.7625       lai =     2.592134
-                          stover N conc =    1.833904       extractable sw =    101.9443
+                          stover N conc =    1.830943       extractable sw =    101.9443
 21 October 1960(Day of year=295), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           499.2929       lai =    0.6943778
-                          stover N conc =    1.739652       extractable sw =    33.38120
+                          biomass =           499.2948       lai =    0.6943994
+                          stover N conc =    1.739652       extractable sw =    33.38357
 24 October 1960(Day of year=298), chickpea: 
       stage    9.0 maturity
-                          biomass =           512.6541       lai =    0.6943778
-                          stover N conc =    1.713201       extractable sw =    50.23697
+                          biomass =           512.6563       lai =    0.6943994
+                          stover N conc =    1.713202       extractable sw =    50.24100
 25 October 1960(Day of year=299), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           512.6541       lai =     0.000000
-                          stover N conc =    1.966716       extractable sw =    45.22178
+                          biomass =           512.6563       lai =    0.2384186E-06
+                          stover N conc =    1.749008       extractable sw =    45.22665
 25 October 1960(Day of year=299), manager: 
      Manager sending message :- chickpea harvest
 25 October 1960(Day of year=299), chickpea: 
      
      
      
-      flowering day  =  223                  stover (kg/ha) =    3084.3
+      flowering day  =  223                  stover (kg/ha) =    3084.4
       maturity day        =  298             grain yield (kg/ha) =    2042.2
       grain % water content   =   12.0       grain yield wet (kg/ha) =    2320.7
       grain wt (g) =     0.000               grains/m^2   =     0.000
       grains/head =   0.0                    maximum lai = 2.878
-      total above ground biomass (kg/ha) =    5126.5
-      live above ground biomass (kg/ha) =    5126.5
+      total above ground biomass (kg/ha) =    5126.6
+      live above ground biomass (kg/ha) =    5126.6
       green above ground biomass (kg/ha) =    3724.7
       senesced above ground biomass (kg/ha) =    1401.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 261.3
-      grain N percent =      3.60            total N content (kg/ha) =    110.45
-      grain N uptake (kg/ha) =     73.52     senesced N content (kg/ha) =      3.84
-      green N content (kg/ha) =     33.09    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    123.97
+      grain N uptake (kg/ha) =     73.52     senesced N content (kg/ha) =     21.03
+      green N content (kg/ha) =     29.43    dead N content (kg/ha) =      0.00
      
      
      
@@ -941,7 +946,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007179
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007271
      
      
      
@@ -958,12 +963,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.3947904   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4702679   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.3947829   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.4702597   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
-                                               tops residue = 3084.3 kg/ha
-                                               tops N =   36.9 kg/ha
+                                               tops residue = 3084.4 kg/ha
+                                               tops N =   50.5 kg/ha
                                                root residue =  101.6 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -979,7 +984,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1020.7 kg/ha
-                                               root N =   15.8 kg/ha
+                                               root N =   15.7 kg/ha
 15 May 1961(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1961(Day of year=135), soilwat2: 
@@ -1078,31 +1083,31 @@
 1 July 1961(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.030283       lai =    0.5597650E-01
-                          stover N conc =    4.725158       extractable sw =    140.6737
+                          stover N conc =    4.726562       extractable sw =    140.6737
 3 August 1961(Day of year=215), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           42.45785       lai =    0.7959243
-                          stover N conc =    3.139104       extractable sw =    213.5660
+                          stover N conc =    3.138786       extractable sw =    213.5660
 6 August 1961(Day of year=218), chickpea: 
       stage    6.0 flowering
                           biomass =           51.16500       lai =    0.9426672
-                          stover N conc =    2.996513       extractable sw =    206.6815
+                          stover N conc =    2.996512       extractable sw =    206.6815
 9 September 1961(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           285.4570       lai =     2.670416
-                          stover N conc =    1.807669       extractable sw =    123.1957
+                          stover N conc =    1.805042       extractable sw =    123.1957
 16 October 1961(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           559.8300       lai =     1.355628
-                          stover N conc =    1.733999       extractable sw =    42.60530
+                          stover N conc =    1.732336       extractable sw =    42.60530
 19 October 1961(Day of year=292), chickpea: 
       stage    9.0 maturity
                           biomass =           573.9275       lai =     1.225129
-                          stover N conc =    1.746991       extractable sw =    34.36692
+                          stover N conc =    1.723211       extractable sw =    34.36692
 20 October 1961(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           573.9275       lai =    0.1072884E-05
-                          stover N conc =    2.112393       extractable sw =    31.79057
+                          stover N conc =    1.776100       extractable sw =    31.79057
 20 October 1961(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1961(Day of year=293), chickpea: 
@@ -1120,9 +1125,9 @@
       senesced above ground biomass (kg/ha) =    1422.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 268.0
-      grain N percent =      3.60            total N content (kg/ha) =    129.00
-      grain N uptake (kg/ha) =     82.02     senesced N content (kg/ha) =      3.92
-      green N content (kg/ha) =     43.05    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    139.56
+      grain N uptake (kg/ha) =     82.02     senesced N content (kg/ha) =     21.34
+      green N content (kg/ha) =     36.20    dead N content (kg/ha) =      0.00
      
      
      
@@ -1134,13 +1139,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0016912
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0017003
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0009426
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0009577
      
      
      
@@ -1156,7 +1161,7 @@
      
       Crop harvested.
                                                tops residue = 3461.0 kg/ha
-                                               tops N =   47.0 kg/ha
+                                               tops N =   57.5 kg/ha
                                                root residue =  107.6 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -1271,7 +1276,7 @@
 29 June 1962(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.468052       lai =    0.7061906E-01
-                          stover N conc =    4.650022       extractable sw =    141.7626
+                          stover N conc =    4.649482       extractable sw =    141.7626
 28 July 1962(Day of year=209), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           38.57389       lai =    0.7294323
@@ -1279,23 +1284,23 @@
 31 July 1962(Day of year=212), chickpea: 
       stage    6.0 flowering
                           biomass =           47.39614       lai =    0.8674895
-                          stover N conc =    3.004907       extractable sw =    190.8127
+                          stover N conc =    3.004935       extractable sw =    190.8127
 5 September 1962(Day of year=248), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           265.3797       lai =     2.603949
-                          stover N conc =    1.826743       extractable sw =    122.2404
+                          stover N conc =    1.823514       extractable sw =    122.2404
 15 October 1962(Day of year=288), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           541.0836       lai =    0.8478962
-                          stover N conc =    1.963143       extractable sw =    19.45963
+                          stover N conc =    1.761808       extractable sw =    19.45963
 18 October 1962(Day of year=291), chickpea: 
       stage    9.0 maturity
                           biomass =           546.0068       lai =    0.6898404
-                          stover N conc =    1.895807       extractable sw =    17.23680
+                          stover N conc =    1.777794       extractable sw =    17.23680
 19 October 1962(Day of year=292), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           546.0068       lai =    0.2980232E-06
-                          stover N conc =    2.158936       extractable sw =    17.10926
+                          stover N conc =    1.820978       extractable sw =    17.10926
 19 October 1962(Day of year=292), manager: 
      Manager sending message :- chickpea harvest
 19 October 1962(Day of year=292), chickpea: 
@@ -1313,9 +1318,9 @@
       senesced above ground biomass (kg/ha) =    1414.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 278.3
-      grain N percent =      3.60            total N content (kg/ha) =    124.76
-      grain N uptake (kg/ha) =     84.27     senesced N content (kg/ha) =      3.69
-      green N content (kg/ha) =     36.80    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    136.53
+      grain N uptake (kg/ha) =     84.27     senesced N content (kg/ha) =     21.22
+      green N content (kg/ha) =     31.04    dead N content (kg/ha) =      0.00
      
      
      
@@ -1327,7 +1332,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001657
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001687
      
      
      
@@ -1349,7 +1354,7 @@
      
       Crop harvested.
                                                tops residue = 3119.1 kg/ha
-                                               tops N =   40.5 kg/ha
+                                               tops N =   52.3 kg/ha
                                                root residue =   99.4 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -1464,7 +1469,7 @@
 1 July 1963(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.340325       lai =    0.7238523E-01
-                          stover N conc =    4.680438       extractable sw =    146.4445
+                          stover N conc =    4.680093       extractable sw =    146.4445
 5 August 1963(Day of year=217), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           51.45258       lai =    0.9690433
@@ -1472,23 +1477,23 @@
 7 August 1963(Day of year=219), chickpea: 
       stage    6.0 flowering
                           biomass =           59.31606       lai =     1.071969
-                          stover N conc =    3.005100       extractable sw =    171.6735
+                          stover N conc =    3.005124       extractable sw =    171.6735
 8 September 1963(Day of year=251), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           280.8794       lai =     2.729645
-                          stover N conc =    1.805505       extractable sw =    140.4890
+                          stover N conc =    1.803234       extractable sw =    140.4890
 17 October 1963(Day of year=290), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           592.7483       lai =     1.177081
-                          stover N conc =    1.834642       extractable sw =    22.24099
+                          stover N conc =    1.760123       extractable sw =    22.24099
 20 October 1963(Day of year=293), chickpea: 
       stage    9.0 maturity
                           biomass =           598.4034       lai =    0.9360020
-                          stover N conc =    1.873978       extractable sw =    19.93924
+                          stover N conc =    1.757781       extractable sw =    19.93924
 21 October 1963(Day of year=294), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           598.4034       lai =    0.1788139E-06
-                          stover N conc =    2.174382       extractable sw =    19.24596
+                          stover N conc =    1.804180       extractable sw =    19.24596
 21 October 1963(Day of year=294), manager: 
      Manager sending message :- chickpea harvest
 21 October 1963(Day of year=294), chickpea: 
@@ -1506,9 +1511,9 @@
       senesced above ground biomass (kg/ha) =    1468.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 291.6
-      grain N percent =      3.60            total N content (kg/ha) =    137.76
-      grain N uptake (kg/ha) =     90.26     senesced N content (kg/ha) =      3.82
-      green N content (kg/ha) =     43.68    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    148.52
+      grain N uptake (kg/ha) =     90.26     senesced N content (kg/ha) =     22.02
+      green N content (kg/ha) =     36.24    dead N content (kg/ha) =      0.00
      
      
      
@@ -1520,7 +1525,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012822
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012975
      
      
      
@@ -1542,7 +1547,7 @@
      
       Crop harvested.
                                                tops residue = 3476.8 kg/ha
-                                               tops N =   47.5 kg/ha
+                                               tops N =   58.3 kg/ha
                                                root residue =  112.7 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -1558,7 +1563,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1132.5 kg/ha
-                                               root N =   17.4 kg/ha
+                                               root N =   17.3 kg/ha
 15 May 1964(Day of year=136), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1964(Day of year=136), soilwat2: 
@@ -1657,7 +1662,7 @@
 30 June 1964(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.961533       lai =    0.5938006E-01
-                          stover N conc =    4.767957       extractable sw =    155.7119
+                          stover N conc =    4.767662       extractable sw =    155.7119
 1 August 1964(Day of year=214), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           48.84842       lai =    0.9155512
@@ -1665,23 +1670,23 @@
 4 August 1964(Day of year=217), chickpea: 
       stage    6.0 flowering
                           biomass =           58.33569       lai =     1.038924
-                          stover N conc =    2.996081       extractable sw =    189.2314
+                          stover N conc =    2.996099       extractable sw =    189.2314
 8 September 1964(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           292.7484       lai =     2.774284
-                          stover N conc =    1.804375       extractable sw =    121.5532
+                          stover N conc =    1.802110       extractable sw =    121.5532
 17 October 1964(Day of year=291), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           681.2606       lai =     2.504754
-                          stover N conc =    1.731134       extractable sw =    181.4272
+                          stover N conc =    1.726095       extractable sw =    181.4272
 20 October 1964(Day of year=294), chickpea: 
       stage    9.0 maturity
                           biomass =           721.2721       lai =     2.406317
-                          stover N conc =    1.708352       extractable sw =    164.8556
+                          stover N conc =    1.703627       extractable sw =    164.8556
 21 October 1964(Day of year=295), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           721.2720       lai =    0.1668930E-05
-                          stover N conc =    2.223885       extractable sw =    159.0872
+                          stover N conc =    1.773434       extractable sw =    159.0872
 21 October 1964(Day of year=295), manager: 
      Manager sending message :- chickpea harvest
 21 October 1964(Day of year=295), chickpea: 
@@ -1699,9 +1704,9 @@
       senesced above ground biomass (kg/ha) =    1501.2
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 285.5
-      grain N percent =      3.60            total N content (kg/ha) =    171.73
-      grain N uptake (kg/ha) =    107.13     senesced N content (kg/ha) =      3.76
-      green N content (kg/ha) =     60.84    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    178.16
+      grain N uptake (kg/ha) =    107.13     senesced N content (kg/ha) =     22.52
+      green N content (kg/ha) =     48.52    dead N content (kg/ha) =      0.00
      
      
      
@@ -1713,7 +1718,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0027040
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0027430
      
      
      
@@ -1735,7 +1740,7 @@
      
       Crop harvested.
                                                tops residue = 4236.9 kg/ha
-                                               tops N =   64.6 kg/ha
+                                               tops N =   71.0 kg/ha
                                                root residue =  119.7 kg/ha
                                                root N =    1.0 kg/ha
      
@@ -1850,31 +1855,31 @@
 29 June 1965(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.481631       lai =    0.7804064E-01
-                          stover N conc =    4.638634       extractable sw =    168.1087
+                          stover N conc =    4.638357       extractable sw =    168.1087
 4 August 1965(Day of year=216), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           54.66793       lai =     1.018407
-                          stover N conc =    3.174609       extractable sw =    220.7173
+                          stover N conc =    3.174610       extractable sw =    220.7173
 7 August 1965(Day of year=219), chickpea: 
       stage    6.0 flowering
                           biomass =           65.05152       lai =     1.175537
-                          stover N conc =    3.008287       extractable sw =    215.0424
+                          stover N conc =    3.008312       extractable sw =    215.0424
 9 September 1965(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           281.7404       lai =     2.856905
-                          stover N conc =    1.820419       extractable sw =    181.2666
+                          stover N conc =    1.817093       extractable sw =    181.2666
 17 October 1965(Day of year=290), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           658.1010       lai =     1.970203
-                          stover N conc =    1.769379       extractable sw =    53.41208
+                          stover N conc =    1.750549       extractable sw =    53.41208
 20 October 1965(Day of year=293), chickpea: 
       stage    9.0 maturity
                           biomass =           682.3449       lai =     1.883816
-                          stover N conc =    1.741561       extractable sw =    66.73408
+                          stover N conc =    1.729382       extractable sw =    66.73408
 21 October 1965(Day of year=294), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           682.3448       lai =     0.000000
-                          stover N conc =    2.176774       extractable sw =    62.19687
+                          stover N conc =    1.794353       extractable sw =    62.19687
 21 October 1965(Day of year=294), manager: 
      Manager sending message :- chickpea harvest
 21 October 1965(Day of year=294), chickpea: 
@@ -1892,9 +1897,9 @@
       senesced above ground biomass (kg/ha) =    1531.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 301.5
-      grain N percent =      3.60            total N content (kg/ha) =    158.59
-      grain N uptake (kg/ha) =     99.72     senesced N content (kg/ha) =      3.98
-      green N content (kg/ha) =     54.89    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    167.94
+      grain N uptake (kg/ha) =     99.72     senesced N content (kg/ha) =     22.98
+      green N content (kg/ha) =     45.25    dead N content (kg/ha) =      0.00
      
      
      
@@ -1906,7 +1911,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012023
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0012208
      
      
      
@@ -1928,7 +1933,7 @@
      
       Crop harvested.
                                                tops residue = 4053.5 kg/ha
-                                               tops N =   58.9 kg/ha
+                                               tops N =   68.2 kg/ha
                                                root residue =  119.5 kg/ha
                                                root N =    1.0 kg/ha
      
@@ -2043,7 +2048,7 @@
 1 July 1966(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.450090       lai =    0.6650317E-01
-                          stover N conc =    4.661767       extractable sw =    144.0331
+                          stover N conc =    4.661684       extractable sw =    144.0331
 5 August 1966(Day of year=217), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           45.33715       lai =    0.8774698
@@ -2051,23 +2056,23 @@
 8 August 1966(Day of year=220), chickpea: 
       stage    6.0 flowering
                           biomass =           51.16154       lai =    0.9910730
-                          stover N conc =    3.008451       extractable sw =    178.1681
+                          stover N conc =    3.008489       extractable sw =    178.1681
 11 September 1966(Day of year=254), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           260.0730       lai =     2.619843
-                          stover N conc =    1.826017       extractable sw =    195.0508
+                          stover N conc =    1.823244       extractable sw =    195.0508
 21 October 1966(Day of year=294), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           697.0045       lai =     2.633390
-                          stover N conc =    1.727238       extractable sw =    77.17825
+                          stover N conc =    1.726718       extractable sw =    77.17825
 25 October 1966(Day of year=298), chickpea: 
       stage    9.0 maturity
                           biomass =           737.2146       lai =     2.424433
-                          stover N conc =    1.739747       extractable sw =    57.65490
+                          stover N conc =    1.726374       extractable sw =    57.65490
 26 October 1966(Day of year=299), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           737.2146       lai =    0.1430511E-05
-                          stover N conc =    2.268404       extractable sw =    53.91159
+                          stover N conc =    1.804257       extractable sw =    53.91159
 26 October 1966(Day of year=299), manager: 
      Manager sending message :- chickpea harvest
 26 October 1966(Day of year=299), chickpea: 
@@ -2085,9 +2090,9 @@
       senesced above ground biomass (kg/ha) =    1491.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 293.2
-      grain N percent =      3.60            total N content (kg/ha) =    179.81
-      grain N uptake (kg/ha) =    115.57     senesced N content (kg/ha) =      3.66
-      green N content (kg/ha) =     60.58    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    186.12
+      grain N uptake (kg/ha) =    115.57     senesced N content (kg/ha) =     22.37
+      green N content (kg/ha) =     48.18    dead N content (kg/ha) =      0.00
      
      
      
@@ -2099,7 +2104,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001503
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001526
      
      
      
@@ -2121,7 +2126,7 @@
      
       Crop harvested.
                                                tops residue = 4161.9 kg/ha
-                                               tops N =   64.2 kg/ha
+                                               tops N =   70.6 kg/ha
                                                root residue =  112.1 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -2137,7 +2142,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1127.1 kg/ha
-                                               root N =   17.2 kg/ha
+                                               root N =   17.1 kg/ha
 15 May 1967(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1967(Day of year=135), soilwat2: 
@@ -2236,31 +2241,31 @@
 29 June 1967(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           6.909515       lai =    0.4322178E-01
-                          stover N conc =    5.089964       extractable sw =    182.8866
+                          stover N conc =    5.089965       extractable sw =    182.8866
 31 July 1967(Day of year=212), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           33.27888       lai =    0.6363623
-                          stover N conc =    3.156006       extractable sw =    192.7921
+                          stover N conc =    3.155704       extractable sw =    192.7921
 4 August 1967(Day of year=216), chickpea: 
       stage    6.0 flowering
                           biomass =           41.81195       lai =    0.7824145
-                          stover N conc =    3.010298       extractable sw =    189.4530
+                          stover N conc =    3.010314       extractable sw =    189.4530
 10 September 1967(Day of year=253), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           270.4885       lai =     2.550890
-                          stover N conc =    1.820744       extractable sw =    146.6971
+                          stover N conc =    1.818161       extractable sw =    146.6972
 16 October 1967(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           543.6841       lai =     1.236997
-                          stover N conc =    1.728093       extractable sw =    62.92886
+                          biomass =           543.6843       lai =     1.236997
+                          stover N conc =    1.728093       extractable sw =    62.92889
 19 October 1967(Day of year=292), chickpea: 
       stage    9.0 maturity
-                          biomass =           560.1284       lai =     1.120017
-                          stover N conc =    1.753128       extractable sw =    50.78187
+                          biomass =           560.1285       lai =     1.120018
+                          stover N conc =    1.738259       extractable sw =    50.78191
 20 October 1967(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           560.1284       lai =    0.5960464E-06
-                          stover N conc =    2.101930       extractable sw =    61.40171
+                          biomass =           560.1285       lai =    0.1192093E-06
+                          stover N conc =    1.791884       extractable sw =    61.40176
 20 October 1967(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1967(Day of year=293), chickpea: 
@@ -2278,9 +2283,9 @@
       senesced above ground biomass (kg/ha) =    1422.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 259.3
-      grain N percent =      3.60            total N content (kg/ha) =    124.13
-      grain N uptake (kg/ha) =     78.14     senesced N content (kg/ha) =      3.77
-      green N content (kg/ha) =     42.21    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    135.46
+      grain N uptake (kg/ha) =     78.14     senesced N content (kg/ha) =     21.34
+      green N content (kg/ha) =     35.99    dead N content (kg/ha) =      0.00
      
      
      
@@ -2292,13 +2297,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006098
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006190
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0004680
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0004713
      
      
      
@@ -2309,12 +2314,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.2565193   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3084641   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2565191   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3084639   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3430.6 kg/ha
-                                               tops N =   46.0 kg/ha
+                                               tops N =   57.3 kg/ha
                                                root residue =  100.3 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -2437,23 +2442,23 @@
 12 August 1968(Day of year=225), chickpea: 
       stage    6.0 flowering
                           biomass =           53.07585       lai =    0.9936206
-                          stover N conc =    3.014800       extractable sw =    194.6738
+                          stover N conc =    3.014822       extractable sw =    194.6738
 15 September 1968(Day of year=259), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           258.8457       lai =     2.663757
-                          stover N conc =    1.826793       extractable sw =    146.9721
+                          stover N conc =    1.823543       extractable sw =    146.9721
 23 October 1968(Day of year=297), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           539.3118       lai =    0.8808145
-                          stover N conc =    1.853539       extractable sw =    24.06294
+                          stover N conc =    1.758425       extractable sw =    24.06294
 26 October 1968(Day of year=300), chickpea: 
       stage    9.0 maturity
                           biomass =           547.8328       lai =    0.7554596
-                          stover N conc =    1.832985       extractable sw =    21.24123
+                          stover N conc =    1.763117       extractable sw =    21.24123
 27 October 1968(Day of year=301), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           547.8328       lai =    0.5960464E-07
-                          stover N conc =    2.085856       extractable sw =    20.39595
+                          stover N conc =    1.803952       extractable sw =    20.39595
 27 October 1968(Day of year=301), manager: 
      Manager sending message :- chickpea harvest
 27 October 1968(Day of year=301), chickpea: 
@@ -2471,9 +2476,9 @@
       senesced above ground biomass (kg/ha) =    1434.3
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 288.1
-      grain N percent =      3.60            total N content (kg/ha) =    122.10
-      grain N uptake (kg/ha) =     80.62     senesced N content (kg/ha) =      3.84
-      green N content (kg/ha) =     37.64    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    134.69
+      grain N uptake (kg/ha) =     80.62     senesced N content (kg/ha) =     21.51
+      green N content (kg/ha) =     32.56    dead N content (kg/ha) =      0.00
      
      
      
@@ -2485,7 +2490,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0014712
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0014970
      
      
      
@@ -2507,7 +2512,7 @@
      
       Crop harvested.
                                                tops residue = 3239.0 kg/ha
-                                               tops N =   41.5 kg/ha
+                                               tops N =   54.1 kg/ha
                                                root residue =  101.9 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -2523,7 +2528,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1024.4 kg/ha
-                                               root N =   15.8 kg/ha
+                                               root N =   15.7 kg/ha
 15 May 1969(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1969(Day of year=135), soilwat2: 
@@ -2622,7 +2627,7 @@
 1 July 1969(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.009523       lai =    0.6519972E-01
-                          stover N conc =    4.761325       extractable sw =    154.7250
+                          stover N conc =    4.760808       extractable sw =    154.7250
 31 July 1969(Day of year=212), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           38.94533       lai =    0.7519423
@@ -2630,23 +2635,23 @@
 2 August 1969(Day of year=214), chickpea: 
       stage    6.0 flowering
                           biomass =           45.66105       lai =    0.8652240
-                          stover N conc =    3.023668       extractable sw =    194.9823
+                          stover N conc =    3.023713       extractable sw =    194.9823
 2 September 1969(Day of year=245), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           244.6588       lai =     2.632940
-                          stover N conc =    1.815746       extractable sw =    144.5770
+                          stover N conc =    1.812231       extractable sw =    144.5770
 15 October 1969(Day of year=288), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           666.6279       lai =     2.445057
-                          stover N conc =    1.729217       extractable sw =    112.9516
+                          stover N conc =    1.729218       extractable sw =    112.9516
 19 October 1969(Day of year=292), chickpea: 
       stage    9.0 maturity
                           biomass =           691.6271       lai =     2.445057
-                          stover N conc =    1.717144       extractable sw =    128.2134
+                          stover N conc =    1.717143       extractable sw =    128.2134
 20 October 1969(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           691.6271       lai =    0.4768372E-06
-                          stover N conc =    2.286390       extractable sw =    126.1900
+                          stover N conc =    1.798747       extractable sw =    126.1900
 20 October 1969(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1969(Day of year=293), chickpea: 
@@ -2664,9 +2669,9 @@
       senesced above ground biomass (kg/ha) =    1387.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 293.4
-      grain N percent =      3.60            total N content (kg/ha) =    172.23
-      grain N uptake (kg/ha) =    116.16     senesced N content (kg/ha) =      3.42
-      green N content (kg/ha) =     52.65    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    178.38
+      grain N uptake (kg/ha) =    116.16     senesced N content (kg/ha) =     20.81
+      green N content (kg/ha) =     41.42    dead N content (kg/ha) =      0.00
      
      
      
@@ -2678,7 +2683,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001624
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001655
      
      
      
@@ -2700,7 +2705,7 @@
      
       Crop harvested.
                                                tops residue = 3689.6 kg/ha
-                                               tops N =   56.1 kg/ha
+                                               tops N =   62.2 kg/ha
                                                root residue =  104.0 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -2815,7 +2820,7 @@
 1 July 1970(Day of year=182), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.758854       lai =    0.7871488E-01
-                          stover N conc =    4.566758       extractable sw =    145.6480
+                          stover N conc =    4.566494       extractable sw =    145.6480
 5 August 1970(Day of year=217), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           64.56772       lai =     1.127387
@@ -2823,23 +2828,23 @@
 8 August 1970(Day of year=220), chickpea: 
       stage    6.0 flowering
                           biomass =           73.37765       lai =     1.244685
-                          stover N conc =    3.028067       extractable sw =    165.4293
+                          stover N conc =    3.028094       extractable sw =    165.4293
 10 September 1970(Day of year=253), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           310.6233       lai =     2.837366
-                          stover N conc =    1.830366       extractable sw =    72.66157
+                          stover N conc =    1.815823       extractable sw =    72.66157
 18 October 1970(Day of year=291), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           576.9751       lai =     1.150978
-                          stover N conc =    1.802144       extractable sw =    23.25445
+                          biomass =           576.9765       lai =     1.150989
+                          stover N conc =    1.762070       extractable sw =    23.25465
 21 October 1970(Day of year=294), chickpea: 
       stage    9.0 maturity
-                          biomass =           587.4227       lai =     1.045912
-                          stover N conc =    1.754107       extractable sw =    54.23910
+                          biomass =           587.4241       lai =     1.045922
+                          stover N conc =    1.752782       extractable sw =    54.23927
 22 October 1970(Day of year=295), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           587.4227       lai =     0.000000
-                          stover N conc =    2.074905       extractable sw =    50.87163
+                          biomass =           587.4241       lai =    0.1192093E-06
+                          stover N conc =    1.805104       extractable sw =    50.87182
 22 October 1970(Day of year=295), manager: 
      Manager sending message :- chickpea harvest
 22 October 1970(Day of year=295), chickpea: 
@@ -2847,7 +2852,7 @@
      
      
       flowering day  =  220                  stover (kg/ha) =    3491.8
-      maturity day        =  294             grain yield (kg/ha) =    2382.4
+      maturity day        =  294             grain yield (kg/ha) =    2382.5
       grain % water content   =   12.0       grain yield wet (kg/ha) =    2707.3
       grain wt (g) =     0.000               grains/m^2   =     0.000
       grains/head =   0.0                    maximum lai = 3.018
@@ -2857,9 +2862,9 @@
       senesced above ground biomass (kg/ha) =    1494.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 289.0
-      grain N percent =      3.60            total N content (kg/ha) =    131.29
-      grain N uptake (kg/ha) =     85.77     senesced N content (kg/ha) =      4.09
-      green N content (kg/ha) =     41.43    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    144.24
+      grain N uptake (kg/ha) =     85.77     senesced N content (kg/ha) =     22.42
+      green N content (kg/ha) =     36.05    dead N content (kg/ha) =      0.00
      
      
      
@@ -2871,13 +2876,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0032059
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0032490
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000711
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000933
      
      
      
@@ -2888,17 +2893,17 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.2479905   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2989592   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2479884   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2989567   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3491.8 kg/ha
-                                               tops N =   45.5 kg/ha
+                                               tops N =   58.5 kg/ha
                                                root residue =  122.6 kg/ha
                                                root N =    1.0 kg/ha
      
      
-                                               tops removed = 2382.4 kg/ha
+                                               tops removed = 2382.5 kg/ha
                                                tops N removed =   85.8 kg/ha
                                                root removed =    0.0 kg/ha
                                                root N removed =    0.0 kg/ha
@@ -3008,7 +3013,7 @@
 6 July 1971(Day of year=187), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           9.449074       lai =    0.9596166E-01
-                          stover N conc =    4.473327       extractable sw =    169.4370
+                          stover N conc =    4.473073       extractable sw =    169.4370
 6 August 1971(Day of year=218), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           50.27681       lai =    0.9530980
@@ -3016,11 +3021,11 @@
 9 August 1971(Day of year=221), chickpea: 
       stage    6.0 flowering
                           biomass =           59.21232       lai =     1.106464
-                          stover N conc =    2.993977       extractable sw =    208.4317
+                          stover N conc =    2.994008       extractable sw =    208.4317
 11 September 1971(Day of year=254), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           265.8893       lai =     2.729330
-                          stover N conc =    1.815858       extractable sw =    197.5204
+                          stover N conc =    1.812862       extractable sw =    197.5204
 17 October 1971(Day of year=290), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           622.8079       lai =     2.471038
@@ -3028,11 +3033,11 @@
 21 October 1971(Day of year=294), chickpea: 
       stage    9.0 maturity
                           biomass =           666.6177       lai =     2.308571
-                          stover N conc =    1.761057       extractable sw =    68.67288
+                          stover N conc =    1.742456       extractable sw =    68.67288
 22 October 1971(Day of year=295), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           666.6177       lai =     0.000000
-                          stover N conc =    2.281588       extractable sw =    63.18232
+                          stover N conc =    1.823423       extractable sw =    63.18232
 22 October 1971(Day of year=295), manager: 
      Manager sending message :- chickpea harvest
 22 October 1971(Day of year=295), chickpea: 
@@ -3050,21 +3055,21 @@
       senesced above ground biomass (kg/ha) =    1484.2
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 312.5
-      grain N percent =      3.60            total N content (kg/ha) =    156.73
-      grain N uptake (kg/ha) =     95.05     senesced N content (kg/ha) =      3.69
-      green N content (kg/ha) =     57.99    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    163.66
+      grain N uptake (kg/ha) =     95.05     senesced N content (kg/ha) =     22.26
+      green N content (kg/ha) =     46.35    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0111126
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0113209
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0113217
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0004913
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0005008
      
      
      
@@ -3086,7 +3091,7 @@
      
       Crop harvested.
                                                tops residue = 4025.9 kg/ha
-                                               tops N =   61.7 kg/ha
+                                               tops N =   68.6 kg/ha
                                                root residue =  111.4 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -3102,7 +3107,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1119.8 kg/ha
-                                               root N =   17.1 kg/ha
+                                               root N =   17.0 kg/ha
 15 May 1972(Day of year=136), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1972(Day of year=136), soilwat2: 
@@ -3201,7 +3206,7 @@
 3 July 1972(Day of year=185), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           9.303156       lai =    0.9573784E-01
-                          stover N conc =    4.494926       extractable sw =    140.0391
+                          stover N conc =    4.494570       extractable sw =    140.0391
 5 August 1972(Day of year=218), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           67.94707       lai =     1.196537
@@ -3209,23 +3214,23 @@
 8 August 1972(Day of year=221), chickpea: 
       stage    6.0 flowering
                           biomass =           81.55454       lai =     1.366294
-                          stover N conc =    2.991086       extractable sw =    160.5090
+                          stover N conc =    2.993767       extractable sw =    160.5090
 8 September 1972(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           324.4176       lai =     2.970170
-                          stover N conc =    1.834898       extractable sw =    72.58614
+                          stover N conc =    1.831470       extractable sw =    72.58614
 15 October 1972(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           506.6576       lai =    0.6702999
-                          stover N conc =    1.763989       extractable sw =    19.41396
+                          biomass =           506.6575       lai =    0.6702995
+                          stover N conc =    1.749668       extractable sw =    19.41397
 18 October 1972(Day of year=292), chickpea: 
       stage    9.0 maturity
-                          biomass =           515.2769       lai =    0.6342444
-                          stover N conc =    1.712865       extractable sw =    23.71418
+                          biomass =           515.2769       lai =    0.6342447
+                          stover N conc =    1.712185       extractable sw =    23.71449
 19 October 1972(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           515.2769       lai =     0.000000
-                          stover N conc =    1.930043       extractable sw =    22.41393
+                          stover N conc =    1.742731       extractable sw =    22.41446
 19 October 1972(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 19 October 1972(Day of year=293), chickpea: 
@@ -3243,21 +3248,21 @@
       senesced above ground biomass (kg/ha) =    1423.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 265.1
-      grain N percent =      3.60            total N content (kg/ha) =    108.46
-      grain N uptake (kg/ha) =     69.69     senesced N content (kg/ha) =      4.15
-      green N content (kg/ha) =     34.62    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    122.30
+      grain N uptake (kg/ha) =     69.69     senesced N content (kg/ha) =     21.35
+      green N content (kg/ha) =     31.26    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0195132
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0197959
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0197961
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0038445
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0038962
      
      
      
@@ -3274,12 +3279,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.4037378   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4815118   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.4037379   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.4815120   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3216.9 kg/ha
-                                               tops N =   38.8 kg/ha
+                                               tops N =   52.6 kg/ha
                                                root residue =  123.6 kg/ha
                                                root N =    1.0 kg/ha
      
@@ -3394,7 +3399,7 @@
 27 June 1973(Day of year=178), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.732821       lai =    0.5626801E-01
-                          stover N conc =    4.837516       extractable sw =    136.4211
+                          stover N conc =    4.837515       extractable sw =    136.4211
 26 July 1973(Day of year=207), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           30.53794       lai =    0.5741882
@@ -3402,23 +3407,23 @@
 28 July 1973(Day of year=209), chickpea: 
       stage    6.0 flowering
                           biomass =           33.38089       lai =    0.6348495
-                          stover N conc =    2.999939       extractable sw =    248.9549
+                          stover N conc =    2.999983       extractable sw =    248.9549
 27 August 1973(Day of year=239), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           182.6120       lai =     2.261001
-                          stover N conc =    1.848845       extractable sw =    230.5238
+                          stover N conc =    1.845265       extractable sw =    230.5238
 7 October 1973(Day of year=280), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           579.4659       lai =     2.463906
-                          stover N conc =    1.736295       extractable sw =    125.8409
+                          stover N conc =    1.731352       extractable sw =    125.8409
 9 October 1973(Day of year=282), chickpea: 
       stage    9.0 maturity
                           biomass =           591.1954       lai =     2.390101
-                          stover N conc =    1.713748       extractable sw =    122.7696
+                          stover N conc =    1.704274       extractable sw =    122.7696
 10 October 1973(Day of year=283), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           591.1955       lai =     0.000000
-                          stover N conc =    2.242956       extractable sw =    124.1871
+                          stover N conc =    1.775947       extractable sw =    124.1871
 10 October 1973(Day of year=283), manager: 
      Manager sending message :- chickpea harvest
 10 October 1973(Day of year=283), chickpea: 
@@ -3436,9 +3441,9 @@
       senesced above ground biomass (kg/ha) =    1181.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 276.2
-      grain N percent =      3.60            total N content (kg/ha) =    143.09
-      grain N uptake (kg/ha) =     90.49     senesced N content (kg/ha) =      2.86
-      green N content (kg/ha) =     49.73    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    147.59
+      grain N uptake (kg/ha) =     90.49     senesced N content (kg/ha) =     17.71
+      green N content (kg/ha) =     39.38    dead N content (kg/ha) =      0.00
      
      
      
@@ -3450,7 +3455,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001818
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001881
      
      
      
@@ -3472,7 +3477,7 @@
      
       Crop harvested.
                                                tops residue = 3398.2 kg/ha
-                                               tops N =   52.6 kg/ha
+                                               tops N =   57.1 kg/ha
                                                root residue =   85.7 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -3488,7 +3493,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue =  861.4 kg/ha
-                                               root N =   13.1 kg/ha
+                                               root N =   13.0 kg/ha
 15 May 1974(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1974(Day of year=135), soilwat2: 
@@ -3587,31 +3592,31 @@
 30 June 1974(Day of year=181), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.099941       lai =    0.6527861E-01
-                          stover N conc =    4.745205       extractable sw =    150.1504
+                          stover N conc =    4.744873       extractable sw =    150.1504
 2 August 1974(Day of year=214), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           49.84700       lai =    0.9396435
-                          stover N conc =    3.162497       extractable sw =    185.4215
+                          stover N conc =    3.162496       extractable sw =    185.4215
 5 August 1974(Day of year=217), chickpea: 
       stage    6.0 flowering
                           biomass =           61.10464       lai =     1.082847
-                          stover N conc =    3.026778       extractable sw =    179.0602
+                          stover N conc =    3.026812       extractable sw =    179.0602
 10 September 1974(Day of year=253), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           274.6930       lai =     2.684911
-                          stover N conc =    1.821504       extractable sw =    140.2208
+                          stover N conc =    1.818929       extractable sw =    140.2208
 22 October 1974(Day of year=295), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           702.3016       lai =     2.474428
-                          stover N conc =    1.735676       extractable sw =    86.24901
+                          stover N conc =    1.730157       extractable sw =    86.24901
 25 October 1974(Day of year=298), chickpea: 
       stage    9.0 maturity
                           biomass =           726.9374       lai =     2.240833
-                          stover N conc =    1.729930       extractable sw =    68.83418
+                          stover N conc =    1.720850       extractable sw =    68.83418
 26 October 1974(Day of year=299), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           726.9375       lai =    0.7152557E-06
-                          stover N conc =    2.230088       extractable sw =    63.35099
+                          stover N conc =    1.793263       extractable sw =    63.35099
 26 October 1974(Day of year=299), manager: 
      Manager sending message :- chickpea harvest
 26 October 1974(Day of year=299), chickpea: 
@@ -3629,9 +3634,9 @@
       senesced above ground biomass (kg/ha) =    1452.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 288.7
-      grain N percent =      3.60            total N content (kg/ha) =    177.66
-      grain N uptake (kg/ha) =    116.31     senesced N content (kg/ha) =      3.66
-      green N content (kg/ha) =     57.68    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    184.47
+      grain N uptake (kg/ha) =    116.31     senesced N content (kg/ha) =     21.78
+      green N content (kg/ha) =     46.38    dead N content (kg/ha) =      0.00
      
      
      
@@ -3643,13 +3648,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0049010
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0049491
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000382
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000394
      
      
      
@@ -3665,7 +3670,7 @@
      
       Crop harvested.
                                                tops residue = 4038.5 kg/ha
-                                               tops N =   61.3 kg/ha
+                                               tops N =   68.2 kg/ha
                                                root residue =  118.4 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -3780,7 +3785,7 @@
 2 July 1975(Day of year=183), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.726470       lai =    0.8268028E-01
-                          stover N conc =    4.593015       extractable sw =    145.3470
+                          stover N conc =    4.592674       extractable sw =    145.3470
 31 July 1975(Day of year=212), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           49.01473       lai =    0.9472524
@@ -3788,23 +3793,23 @@
 2 August 1975(Day of year=214), chickpea: 
       stage    6.0 flowering
                           biomass =           58.77703       lai =     1.081259
-                          stover N conc =    3.003377       extractable sw =    186.6441
+                          stover N conc =    3.003421       extractable sw =    186.6441
 6 September 1975(Day of year=249), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           260.8672       lai =     2.712273
-                          stover N conc =    1.814025       extractable sw =    196.4886
+                          stover N conc =    1.811946       extractable sw =    196.4886
 16 October 1975(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           659.7504       lai =     2.132872
-                          stover N conc =    1.791507       extractable sw =    42.48814
+                          stover N conc =    1.752923       extractable sw =    42.48814
 19 October 1975(Day of year=292), chickpea: 
       stage    9.0 maturity
                           biomass =           681.1959       lai =     2.098799
-                          stover N conc =    1.708990       extractable sw =    44.49672
+                          stover N conc =    1.702833       extractable sw =    44.49672
 20 October 1975(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           681.1959       lai =     0.000000
-                          stover N conc =    2.173557       extractable sw =    42.55365
+                          stover N conc =    1.765427       extractable sw =    42.55365
 20 October 1975(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1975(Day of year=293), chickpea: 
@@ -3822,9 +3827,9 @@
       senesced above ground biomass (kg/ha) =    1463.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 308.6
-      grain N percent =      3.60            total N content (kg/ha) =    161.28
-      grain N uptake (kg/ha) =    104.43     senesced N content (kg/ha) =      3.66
-      green N content (kg/ha) =     53.20    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    169.59
+      grain N uptake (kg/ha) =    104.43     senesced N content (kg/ha) =     21.96
+      green N content (kg/ha) =     43.21    dead N content (kg/ha) =      0.00
      
      
      
@@ -3836,13 +3841,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0015810
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0016171
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0013720
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0014111
      
      
      
@@ -3858,7 +3863,7 @@
      
       Crop harvested.
                                                tops residue = 3911.3 kg/ha
-                                               tops N =   56.9 kg/ha
+                                               tops N =   65.2 kg/ha
                                                root residue =  112.8 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -3973,31 +3978,31 @@
 29 June 1976(Day of year=181), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.346410       lai =    0.7101925E-01
-                          stover N conc =    4.672040       extractable sw =    148.8300
+                          stover N conc =    4.671732       extractable sw =    148.8300
 30 July 1976(Day of year=212), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           43.94580       lai =    0.8480464
-                          stover N conc =    3.166223       extractable sw =    202.0056
+                          stover N conc =    3.166224       extractable sw =    202.0056
 2 August 1976(Day of year=215), chickpea: 
       stage    6.0 flowering
                           biomass =           53.57147       lai =    0.9782878
-                          stover N conc =    3.023109       extractable sw =    194.8808
+                          stover N conc =    3.023136       extractable sw =    194.8808
 8 September 1976(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           294.3975       lai =     2.723909
-                          stover N conc =    1.807861       extractable sw =    113.0551
+                          stover N conc =    1.805250       extractable sw =    113.0551
 21 October 1976(Day of year=295), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           748.0732       lai =     2.240130
-                          stover N conc =    1.794312       extractable sw =    36.97223
+                          stover N conc =    1.753881       extractable sw =    36.97223
 24 October 1976(Day of year=298), chickpea: 
       stage    9.0 maturity
                           biomass =           769.1649       lai =     2.103616
-                          stover N conc =    1.763679       extractable sw =    38.79570
+                          stover N conc =    1.743126       extractable sw =    38.79570
 25 October 1976(Day of year=299), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           769.1649       lai =     0.000000
-                          stover N conc =    2.268032       extractable sw =    34.96482
+                          stover N conc =    1.821734       extractable sw =    34.96482
 25 October 1976(Day of year=299), manager: 
      Manager sending message :- chickpea harvest
 25 October 1976(Day of year=299), chickpea: 
@@ -4015,9 +4020,9 @@
       senesced above ground biomass (kg/ha) =    1571.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 294.9
-      grain N percent =      3.60            total N content (kg/ha) =    189.54
-      grain N uptake (kg/ha) =    126.55     senesced N content (kg/ha) =      3.91
-      green N content (kg/ha) =     59.07    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    197.58
+      grain N uptake (kg/ha) =    126.55     senesced N content (kg/ha) =     23.58
+      green N content (kg/ha) =     47.45    dead N content (kg/ha) =      0.00
      
      
      
@@ -4029,7 +4034,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0011310
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0011444
      
      
      
@@ -4051,7 +4056,7 @@
      
       Crop harvested.
                                                tops residue = 4176.3 kg/ha
-                                               tops N =   63.0 kg/ha
+                                               tops N =   71.0 kg/ha
                                                root residue =  121.1 kg/ha
                                                root N =    1.0 kg/ha
      
@@ -4166,7 +4171,7 @@
 4 July 1977(Day of year=185), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           9.046441       lai =    0.9263245E-01
-                          stover N conc =    4.516323       extractable sw =    146.5958
+                          stover N conc =    4.516013       extractable sw =    146.5958
 6 August 1977(Day of year=218), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           63.14076       lai =     1.102444
@@ -4174,23 +4179,23 @@
 9 August 1977(Day of year=221), chickpea: 
       stage    6.0 flowering
                           biomass =           77.20887       lai =     1.256442
-                          stover N conc =    2.992810       extractable sw =    186.7058
+                          stover N conc =    2.992829       extractable sw =    186.7058
 9 September 1977(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           324.0110       lai =     2.929073
-                          stover N conc =    1.806220       extractable sw =    106.2582
+                          stover N conc =    1.803943       extractable sw =    106.2582
 17 October 1977(Day of year=290), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           515.5358       lai =    0.5175875
-                          stover N conc =    1.773167       extractable sw =    27.62477
+                          stover N conc =    1.761762       extractable sw =    27.62477
 20 October 1977(Day of year=293), chickpea: 
       stage    9.0 maturity
-                          biomass =           521.1531       lai =    0.4381721
-                          stover N conc =    1.761437       extractable sw =    33.84989
+                          biomass =           521.1531       lai =    0.4381725
+                          stover N conc =    1.753909       extractable sw =    33.85007
 21 October 1977(Day of year=294), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           521.1531       lai =    0.4470348E-06
-                          stover N conc =    1.916360       extractable sw =    30.77076
+                          biomass =           521.1531       lai =     0.000000
+                          stover N conc =    1.779152       extractable sw =    30.77113
 21 October 1977(Day of year=294), manager: 
      Manager sending message :- chickpea harvest
 21 October 1977(Day of year=294), chickpea: 
@@ -4208,9 +4213,9 @@
       senesced above ground biomass (kg/ha) =    1491.3
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 269.9
-      grain N percent =      3.60            total N content (kg/ha) =    107.90
-      grain N uptake (kg/ha) =     69.13     senesced N content (kg/ha) =      4.28
-      green N content (kg/ha) =     34.49    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    123.52
+      grain N uptake (kg/ha) =     69.13     senesced N content (kg/ha) =     22.37
+      green N content (kg/ha) =     32.02    dead N content (kg/ha) =      0.00
      
      
      
@@ -4222,7 +4227,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0034238
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0034631
      
      
      
@@ -4239,12 +4244,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.4644120   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.4644119   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.5397447   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3291.3 kg/ha
-                                               tops N =   38.8 kg/ha
+                                               tops N =   54.4 kg/ha
                                                root residue =  120.7 kg/ha
                                                root N =    1.0 kg/ha
      
@@ -4260,7 +4265,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1213.1 kg/ha
-                                               root N =   18.9 kg/ha
+                                               root N =   18.8 kg/ha
 15 May 1978(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1978(Day of year=135), soilwat2: 
@@ -4363,27 +4368,27 @@
 3 August 1978(Day of year=215), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           37.63131       lai =    0.7177133
-                          stover N conc =    3.153201       extractable sw =    201.2379
+                          stover N conc =    3.153200       extractable sw =    201.2379
 6 August 1978(Day of year=218), chickpea: 
       stage    6.0 flowering
                           biomass =           46.07750       lai =    0.8841296
-                          stover N conc =    2.995073       extractable sw =    194.7526
+                          stover N conc =    2.995105       extractable sw =    194.7526
 11 September 1978(Day of year=254), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           223.4721       lai =     2.503783
-                          stover N conc =    1.805857       extractable sw =    267.0071
+                          stover N conc =    1.802749       extractable sw =    267.0071
 22 October 1978(Day of year=295), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           680.4068       lai =     2.702888
-                          stover N conc =    1.738259       extractable sw =    104.1606
+                          stover N conc =    1.733884       extractable sw =    104.1606
 25 October 1978(Day of year=298), chickpea: 
       stage    9.0 maturity
                           biomass =           713.8422       lai =     2.602751
-                          stover N conc =    1.707630       extractable sw =    93.65688
+                          stover N conc =    1.703460       extractable sw =    93.65688
 26 October 1978(Day of year=299), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           713.8422       lai =     0.000000
-                          stover N conc =    2.235682       extractable sw =    88.16325
+                          stover N conc =    1.774943       extractable sw =    88.16325
 26 October 1978(Day of year=299), manager: 
      Manager sending message :- chickpea harvest
 26 October 1978(Day of year=299), chickpea: 
@@ -4401,9 +4406,9 @@
       senesced above ground biomass (kg/ha) =    1421.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 300.0
-      grain N percent =      3.60            total N content (kg/ha) =    173.37
-      grain N uptake (kg/ha) =    111.07     senesced N content (kg/ha) =      3.46
-      green N content (kg/ha) =     58.85    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    179.10
+      grain N uptake (kg/ha) =    111.07     senesced N content (kg/ha) =     21.32
+      green N content (kg/ha) =     46.72    dead N content (kg/ha) =      0.00
      
      
      
@@ -4415,7 +4420,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0032662
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0033013
      
      
      
@@ -4437,7 +4442,7 @@
      
       Crop harvested.
                                                tops residue = 4053.3 kg/ha
-                                               tops N =   62.3 kg/ha
+                                               tops N =   68.0 kg/ha
                                                root residue =  102.6 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -4453,7 +4458,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1031.1 kg/ha
-                                               root N =   15.7 kg/ha
+                                               root N =   15.6 kg/ha
 15 May 1979(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1979(Day of year=135), soilwat2: 
@@ -4552,7 +4557,7 @@
 27 June 1979(Day of year=178), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.459030       lai =    0.7958815E-01
-                          stover N conc =    4.638118       extractable sw =    165.1794
+                          stover N conc =    4.637832       extractable sw =    165.1794
 30 July 1979(Day of year=211), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           57.52681       lai =     1.055721
@@ -4560,23 +4565,23 @@
 2 August 1979(Day of year=214), chickpea: 
       stage    6.0 flowering
                           biomass =           68.69234       lai =     1.189483
-                          stover N conc =    2.992396       extractable sw =    191.7149
+                          stover N conc =    2.992411       extractable sw =    191.7149
 3 September 1979(Day of year=246), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           293.7358       lai =     2.819360
-                          stover N conc =    1.839183       extractable sw =    137.3881
+                          stover N conc =    1.836383       extractable sw =    137.3881
 13 October 1979(Day of year=286), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           615.8300       lai =     1.287465
-                          stover N conc =    1.776080       extractable sw =    39.84658
+                          biomass =           615.8310       lai =     1.287475
+                          stover N conc =    1.744974       extractable sw =    39.84719
 16 October 1979(Day of year=289), chickpea: 
       stage    9.0 maturity
-                          biomass =           625.0331       lai =     1.057094
-                          stover N conc =    1.799826       extractable sw =    33.38379
+                          biomass =           625.0341       lai =     1.057101
+                          stover N conc =    1.784246       extractable sw =    33.38378
 17 October 1979(Day of year=290), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           625.0331       lai =    0.8344650E-06
-                          stover N conc =    2.115395       extractable sw =    31.72449
+                          biomass =           625.0341       lai =     0.000000
+                          stover N conc =    1.840440       extractable sw =    31.72447
 17 October 1979(Day of year=290), manager: 
      Manager sending message :- chickpea harvest
 17 October 1979(Day of year=290), chickpea: 
@@ -4594,9 +4599,9 @@
       senesced above ground biomass (kg/ha) =    1508.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 292.7
-      grain N percent =      3.60            total N content (kg/ha) =    144.09
-      grain N uptake (kg/ha) =     96.39     senesced N content (kg/ha) =      4.02
-      green N content (kg/ha) =     43.68    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    157.01
+      grain N uptake (kg/ha) =     96.39     senesced N content (kg/ha) =     22.62
+      green N content (kg/ha) =     38.00    dead N content (kg/ha) =      0.00
      
      
      
@@ -4608,7 +4613,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0022790
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0023200
      
      
      
@@ -4625,12 +4630,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.2345380   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2936556   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2345365   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2936538   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3572.9 kg/ha
-                                               tops N =   47.7 kg/ha
+                                               tops N =   60.6 kg/ha
                                                root residue =  118.5 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -4745,7 +4750,7 @@
 28 June 1980(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.933974       lai =    0.6046466E-01
-                          stover N conc =    4.782444       extractable sw =    146.9030
+                          stover N conc =    4.782131       extractable sw =    146.9030
 1 August 1980(Day of year=214), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           40.31763       lai =    0.7688579
@@ -4753,15 +4758,15 @@
 5 August 1980(Day of year=218), chickpea: 
       stage    6.0 flowering
                           biomass =           53.08305       lai =    0.9534899
-                          stover N conc =    2.991804       extractable sw =    197.9504
+                          stover N conc =    2.991825       extractable sw =    197.9504
 3 September 1980(Day of year=247), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           257.8321       lai =     2.633779
-                          stover N conc =    1.824308       extractable sw =    129.0625
+                          stover N conc =    1.821631       extractable sw =    129.0625
 9 October 1980(Day of year=283), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           459.4881       lai =    0.5969940
-                          stover N conc =    1.748990       extractable sw =    19.35777
+                          stover N conc =    1.744813       extractable sw =    19.35777
 12 October 1980(Day of year=286), chickpea: 
       stage    9.0 maturity
                           biomass =           469.3373       lai =    0.5969940
@@ -4769,7 +4774,7 @@
 13 October 1980(Day of year=287), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           469.3373       lai =     0.000000
-                          stover N conc =    1.960102       extractable sw =    38.84204
+                          stover N conc =    1.773669       extractable sw =    38.84204
 13 October 1980(Day of year=287), manager: 
      Manager sending message :- chickpea harvest
 13 October 1980(Day of year=287), chickpea: 
@@ -4787,9 +4792,9 @@
       senesced above ground biomass (kg/ha) =    1323.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 274.4
-      grain N percent =      3.60            total N content (kg/ha) =     99.55
-      grain N uptake (kg/ha) =     65.41     senesced N content (kg/ha) =      3.70
-      green N content (kg/ha) =     30.44    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    112.81
+      grain N uptake (kg/ha) =     65.41     senesced N content (kg/ha) =     19.85
+      green N content (kg/ha) =     27.55    dead N content (kg/ha) =      0.00
      
      
      
@@ -4801,7 +4806,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0003810
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0003953
      
      
      
@@ -4823,7 +4828,7 @@
      
       Crop harvested.
                                                tops residue = 2876.5 kg/ha
-                                               tops N =   34.1 kg/ha
+                                               tops N =   47.4 kg/ha
                                                root residue =   96.9 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -4839,7 +4844,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue =  974.3 kg/ha
-                                               root N =   15.1 kg/ha
+                                               root N =   15.0 kg/ha
 15 May 1981(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1981(Day of year=135), soilwat2: 
@@ -4938,7 +4943,7 @@
 30 June 1981(Day of year=181), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.822704       lai =    0.5852304E-01
-                          stover N conc =    4.818430       extractable sw =    151.3680
+                          stover N conc =    4.818131       extractable sw =    151.3680
 1 August 1981(Day of year=213), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           40.36140       lai =    0.7682160
@@ -4946,23 +4951,23 @@
 4 August 1981(Day of year=216), chickpea: 
       stage    6.0 flowering
                           biomass =           51.56649       lai =    0.9644333
-                          stover N conc =    2.986117       extractable sw =    206.0167
+                          stover N conc =    2.986774       extractable sw =    206.0167
 9 September 1981(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           279.4931       lai =     2.644572
-                          stover N conc =    1.813712       extractable sw =    167.2292
+                          stover N conc =    1.810943       extractable sw =    167.2292
 16 October 1981(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           566.5365       lai =     1.067560
-                          stover N conc =    1.758271       extractable sw =    37.51157
+                          biomass =           566.5364       lai =     1.067559
+                          stover N conc =    1.743978       extractable sw =    37.51156
 19 October 1981(Day of year=292), chickpea: 
       stage    9.0 maturity
-                          biomass =           578.2740       lai =     1.010058
-                          stover N conc =    1.739475       extractable sw =    36.31349
+                          biomass =           578.2739       lai =     1.010057
+                          stover N conc =    1.727457       extractable sw =    36.31347
 20 October 1981(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           578.2740       lai =     0.000000
-                          stover N conc =    2.038234       extractable sw =    33.91691
+                          biomass =           578.2739       lai =     0.000000
+                          stover N conc =    1.771714       extractable sw =    33.91691
 20 October 1981(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1981(Day of year=293), chickpea: 
@@ -4971,7 +4976,7 @@
      
       flowering day  =  216                  stover (kg/ha) =    3479.8
       maturity day        =  292             grain yield (kg/ha) =    2302.9
-      grain % water content   =   12.0       grain yield wet (kg/ha) =    2616.9
+      grain % water content   =   12.0       grain yield wet (kg/ha) =    2617.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
       grains/head =   0.0                    maximum lai = 3.196
       total above ground biomass (kg/ha) =    5782.7
@@ -4980,9 +4985,9 @@
       senesced above ground biomass (kg/ha) =    1470.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 282.7
-      grain N percent =      3.60            total N content (kg/ha) =    127.70
-      grain N uptake (kg/ha) =     82.90     senesced N content (kg/ha) =      3.85
-      green N content (kg/ha) =     40.95    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    140.56
+      grain N uptake (kg/ha) =     82.90     senesced N content (kg/ha) =     22.06
+      green N content (kg/ha) =     35.59    dead N content (kg/ha) =      0.00
      
      
      
@@ -4994,7 +4999,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007649
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007786
      
      
      
@@ -5011,12 +5016,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.2947641   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3576958   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2947642   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3576959   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3479.8 kg/ha
-                                               tops N =   44.8 kg/ha
+                                               tops N =   57.7 kg/ha
                                                root residue =  105.8 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -5032,7 +5037,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1063.4 kg/ha
-                                               root N =   16.3 kg/ha
+                                               root N =   16.2 kg/ha
 15 May 1982(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1982(Day of year=135), soilwat2: 
@@ -5139,23 +5144,23 @@
 12 August 1982(Day of year=224), chickpea: 
       stage    6.0 flowering
                           biomass =           68.19813       lai =     1.185877
-                          stover N conc =    2.991774       extractable sw =    175.7483
+                          stover N conc =    2.991811       extractable sw =    175.7483
 9 September 1982(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           289.4658       lai =     2.856081
-                          stover N conc =    1.827318       extractable sw =    107.3389
+                          stover N conc =    1.824482       extractable sw =    107.3389
 20 October 1982(Day of year=293), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           561.6470       lai =     1.012311
-                          stover N conc =    1.771259       extractable sw =    31.78400
+                          stover N conc =    1.757580       extractable sw =    31.78400
 24 October 1982(Day of year=297), chickpea: 
       stage    9.0 maturity
                           biomass =           572.9704       lai =    0.7805437
-                          stover N conc =    1.801821       extractable sw =    21.79202
+                          stover N conc =    1.787597       extractable sw =    21.79202
 25 October 1982(Day of year=298), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           572.9704       lai =     0.000000
-                          stover N conc =    2.075485       extractable sw =    20.07265
+                          stover N conc =    1.836816       extractable sw =    20.07265
 25 October 1982(Day of year=298), manager: 
      Manager sending message :- chickpea harvest
 25 October 1982(Day of year=298), chickpea: 
@@ -5173,9 +5178,9 @@
       senesced above ground biomass (kg/ha) =    1415.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 272.4
-      grain N percent =      3.60            total N content (kg/ha) =    132.39
-      grain N uptake (kg/ha) =     92.07     senesced N content (kg/ha) =      3.87
-      green N content (kg/ha) =     36.45    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    145.57
+      grain N uptake (kg/ha) =     92.07     senesced N content (kg/ha) =     21.24
+      green N content (kg/ha) =     32.26    dead N content (kg/ha) =      0.00
      
      
      
@@ -5187,7 +5192,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0018867
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0019176
      
      
      
@@ -5209,7 +5214,7 @@
      
       Crop harvested.
                                                tops residue = 3172.2 kg/ha
-                                               tops N =   40.3 kg/ha
+                                               tops N =   53.5 kg/ha
                                                root residue =  113.5 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -5225,7 +5230,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1141.2 kg/ha
-                                               root N =   17.5 kg/ha
+                                               root N =   17.4 kg/ha
 15 May 1983(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1983(Day of year=135), soilwat2: 
@@ -5332,23 +5337,23 @@
 4 August 1983(Day of year=216), chickpea: 
       stage    6.0 flowering
                           biomass =           37.20514       lai =    0.7118414
-                          stover N conc =    2.994067       extractable sw =    192.5685
+                          stover N conc =    2.994084       extractable sw =    192.5685
 6 September 1983(Day of year=249), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           215.8462       lai =     2.369909
-                          stover N conc =    1.830984       extractable sw =    172.8994
+                          stover N conc =    1.821406       extractable sw =    172.8994
 12 October 1983(Day of year=285), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           538.9675       lai =     1.913433
+                          biomass =           538.9674       lai =     1.913433
                           stover N conc =    1.725777       extractable sw =    69.69009
 14 October 1983(Day of year=287), chickpea: 
       stage    9.0 maturity
-                          biomass =           553.3394       lai =     1.913433
-                          stover N conc =    1.703093       extractable sw =    83.83758
+                          biomass =           553.3393       lai =     1.913433
+                          stover N conc =    1.703093       extractable sw =    83.83759
 15 October 1983(Day of year=288), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           553.3392       lai =     0.000000
-                          stover N conc =    2.161006       extractable sw =    79.94770
+                          stover N conc =    1.765183       extractable sw =    79.94771
 15 October 1983(Day of year=288), manager: 
      Manager sending message :- chickpea harvest
 15 October 1983(Day of year=288), chickpea: 
@@ -5366,9 +5371,9 @@
       senesced above ground biomass (kg/ha) =    1291.3
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 288.0
-      grain N percent =      3.60            total N content (kg/ha) =    124.71
-      grain N uptake (kg/ha) =     74.53     senesced N content (kg/ha) =      3.25
-      green N content (kg/ha) =     46.93    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    132.24
+      grain N uptake (kg/ha) =     74.53     senesced N content (kg/ha) =     19.37
+      green N content (kg/ha) =     38.34    dead N content (kg/ha) =      0.00
      
      
      
@@ -5380,7 +5385,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000819
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000847
      
      
      
@@ -5398,11 +5403,11 @@
      
       stress indices for start_grain_fill
       water stress 1 =       0.1442064   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1913565   nitrogen stress 2 =       0.0000000
+      water stress 2 =       0.1913564   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3463.1 kg/ha
-                                               tops N =   50.2 kg/ha
+                                               tops N =   57.7 kg/ha
                                                root residue =   91.0 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -5418,7 +5423,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue =  914.6 kg/ha
-                                               root N =   13.9 kg/ha
+                                               root N =   13.8 kg/ha
 15 May 1984(Day of year=136), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1984(Day of year=136), soilwat2: 
@@ -5517,7 +5522,7 @@
 28 June 1984(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.612848       lai =    0.8106995E-01
-                          stover N conc =    4.609725       extractable sw =    152.8591
+                          stover N conc =    4.609428       extractable sw =    152.8591
 1 August 1984(Day of year=214), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           34.11361       lai =    0.6446760
@@ -5525,23 +5530,23 @@
 4 August 1984(Day of year=217), chickpea: 
       stage    6.0 flowering
                           biomass =           43.16571       lai =    0.8157355
-                          stover N conc =    2.984506       extractable sw =    220.4251
+                          stover N conc =    2.988827       extractable sw =    220.4251
 7 September 1984(Day of year=251), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           263.2361       lai =     2.530162
-                          stover N conc =    1.809089       extractable sw =    182.2252
+                          stover N conc =    1.806589       extractable sw =    182.2252
 19 October 1984(Day of year=293), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           644.7240       lai =     1.695099
-                          stover N conc =    1.765159       extractable sw =    49.55233
+                          stover N conc =    1.740694       extractable sw =    49.55233
 23 October 1984(Day of year=297), chickpea: 
       stage    9.0 maturity
                           biomass =           663.9606       lai =     1.654564
-                          stover N conc =    1.722408       extractable sw =    49.17580
+                          stover N conc =    1.715157       extractable sw =    49.17580
 24 October 1984(Day of year=298), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           663.9606       lai =    0.1192093E-06
-                          stover N conc =    2.171631       extractable sw =    45.81264
+                          stover N conc =    1.778766       extractable sw =    45.81264
 24 October 1984(Day of year=298), manager: 
      Manager sending message :- chickpea harvest
 24 October 1984(Day of year=298), chickpea: 
@@ -5559,9 +5564,9 @@
       senesced above ground biomass (kg/ha) =    1456.2
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 282.9
-      grain N percent =      3.60            total N content (kg/ha) =    159.36
-      grain N uptake (kg/ha) =    108.84     senesced N content (kg/ha) =      3.61
-      green N content (kg/ha) =     46.91    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    169.11
+      grain N uptake (kg/ha) =    108.84     senesced N content (kg/ha) =     21.84
+      green N content (kg/ha) =     38.42    dead N content (kg/ha) =      0.00
      
      
      
@@ -5573,13 +5578,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000481
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000490
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0021740
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0021966
      
      
      
@@ -5595,7 +5600,7 @@
      
       Crop harvested.
                                                tops residue = 3616.1 kg/ha
-                                               tops N =   50.5 kg/ha
+                                               tops N =   60.3 kg/ha
                                                root residue =  104.4 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -5611,7 +5616,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1048.9 kg/ha
-                                               root N =   16.1 kg/ha
+                                               root N =   16.0 kg/ha
 15 May 1985(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1985(Day of year=135), soilwat2: 
@@ -5718,23 +5723,23 @@
 7 August 1985(Day of year=219), chickpea: 
       stage    6.0 flowering
                           biomass =           47.02077       lai =    0.8992068
-                          stover N conc =    3.026817       extractable sw =    190.2332
+                          stover N conc =    3.026869       extractable sw =    190.2332
 10 September 1985(Day of year=253), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           254.2296       lai =     2.641200
-                          stover N conc =    1.811766       extractable sw =    188.1451
+                          stover N conc =    1.808968       extractable sw =    188.1451
 19 October 1985(Day of year=292), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           638.6124       lai =     2.261485
-                          stover N conc =    1.736155       extractable sw =    61.94807
+                          stover N conc =    1.736154       extractable sw =    61.94807
 23 October 1985(Day of year=296), chickpea: 
       stage    9.0 maturity
                           biomass =           663.7061       lai =     1.995388
-                          stover N conc =    1.738987       extractable sw =    85.31198
+                          stover N conc =    1.718998       extractable sw =    85.31198
 24 October 1985(Day of year=297), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           663.7061       lai =    0.1192093E-06
-                          stover N conc =    2.220633       extractable sw =    89.09469
+                          stover N conc =    1.787697       extractable sw =    89.09469
 24 October 1985(Day of year=297), manager: 
      Manager sending message :- chickpea harvest
 24 October 1985(Day of year=297), chickpea: 
@@ -5752,9 +5757,9 @@
       senesced above ground biomass (kg/ha) =    1452.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 291.3
-      grain N percent =      3.60            total N content (kg/ha) =    157.88
-      grain N uptake (kg/ha) =    102.03     senesced N content (kg/ha) =      3.65
-      green N content (kg/ha) =     52.20    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    165.84
+      grain N uptake (kg/ha) =    102.03     senesced N content (kg/ha) =     21.78
+      green N content (kg/ha) =     42.03    dead N content (kg/ha) =      0.00
      
      
      
@@ -5766,7 +5771,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0017611
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0017886
      
      
      
@@ -5788,7 +5793,7 @@
      
       Crop harvested.
                                                tops residue = 3802.9 kg/ha
-                                               tops N =   55.8 kg/ha
+                                               tops N =   63.8 kg/ha
                                                root residue =  105.7 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -5903,7 +5908,7 @@
 29 June 1986(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.979782       lai =    0.8955333E-01
-                          stover N conc =    4.540441       extractable sw =    134.5532
+                          stover N conc =    4.539924       extractable sw =    134.5532
 30 July 1986(Day of year=211), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           42.57369       lai =    0.8090721
@@ -5911,23 +5916,23 @@
 2 August 1986(Day of year=214), chickpea: 
       stage    6.0 flowering
                           biomass =           52.46458       lai =    0.9471813
-                          stover N conc =    3.015651       extractable sw =    188.0100
+                          stover N conc =    3.015685       extractable sw =    188.0100
 6 September 1986(Day of year=249), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           267.5958       lai =     2.639473
-                          stover N conc =    1.813395       extractable sw =    119.4437
+                          stover N conc =    1.809884       extractable sw =    119.4437
 13 October 1986(Day of year=286), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           507.8073       lai =    0.9809681
-                          stover N conc =    1.780907       extractable sw =    23.53529
+                          biomass =           507.8074       lai =    0.9809692
+                          stover N conc =    1.759953       extractable sw =    23.53542
 16 October 1986(Day of year=289), chickpea: 
       stage    9.0 maturity
-                          biomass =           516.4634       lai =    0.8529703
-                          stover N conc =    1.746360       extractable sw =    24.54674
+                          biomass =           516.4634       lai =    0.8529713
+                          stover N conc =    1.746360       extractable sw =    24.54677
 17 October 1986(Day of year=290), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           516.4634       lai =     0.000000
-                          stover N conc =    2.035231       extractable sw =    23.98243
+                          biomass =           516.4635       lai =     0.000000
+                          stover N conc =    1.792474       extractable sw =    23.98252
 17 October 1986(Day of year=290), manager: 
      Manager sending message :- chickpea harvest
 17 October 1986(Day of year=290), chickpea: 
@@ -5945,9 +5950,9 @@
       senesced above ground biomass (kg/ha) =    1380.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 275.7
-      grain N percent =      3.60            total N content (kg/ha) =    112.74
-      grain N uptake (kg/ha) =     73.70     senesced N content (kg/ha) =      3.69
-      green N content (kg/ha) =     35.35    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    125.54
+      grain N uptake (kg/ha) =     73.70     senesced N content (kg/ha) =     20.71
+      green N content (kg/ha) =     31.13    dead N content (kg/ha) =      0.00
      
      
      
@@ -5959,7 +5964,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0013842
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0014004
      
      
      
@@ -5976,12 +5981,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.2966171   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.3603074   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2966169   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3603072   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3117.4 kg/ha
-                                               tops N =   39.0 kg/ha
+                                               tops N =   51.8 kg/ha
                                                root residue =  100.5 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -6096,7 +6101,7 @@
 25 June 1987(Day of year=176), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.731175       lai =    0.6173660E-01
-                          stover N conc =    4.840269       extractable sw =    155.6310
+                          stover N conc =    4.840154       extractable sw =    155.6310
 30 July 1987(Day of year=211), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           46.72119       lai =    0.8756544
@@ -6104,23 +6109,23 @@
 2 August 1987(Day of year=214), chickpea: 
       stage    6.0 flowering
                           biomass =           60.05549       lai =     1.071417
-                          stover N conc =    3.000585       extractable sw =    191.3260
+                          stover N conc =    3.000628       extractable sw =    191.3260
 3 September 1987(Day of year=246), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           268.1716       lai =     2.764852
-                          stover N conc =    1.805854       extractable sw =    158.8539
+                          stover N conc =    1.803668       extractable sw =    158.8539
 11 October 1987(Day of year=284), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           556.3295       lai =     1.128067
-                          stover N conc =    1.763368       extractable sw =    39.29986
+                          stover N conc =    1.738184       extractable sw =    39.29986
 14 October 1987(Day of year=287), chickpea: 
       stage    9.0 maturity
                           biomass =           566.5490       lai =     1.047409
-                          stover N conc =    1.730536       extractable sw =    35.14053
+                          stover N conc =    1.716074       extractable sw =    35.14053
 15 October 1987(Day of year=288), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           566.5490       lai =     0.000000
-                          stover N conc =    2.039726       extractable sw =    34.10967
+                          stover N conc =    1.759861       extractable sw =    34.10967
 15 October 1987(Day of year=288), manager: 
      Manager sending message :- chickpea harvest
 15 October 1987(Day of year=288), chickpea: 
@@ -6138,9 +6143,9 @@
       senesced above ground biomass (kg/ha) =    1436.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 287.2
-      grain N percent =      3.60            total N content (kg/ha) =    126.12
-      grain N uptake (kg/ha) =     83.18     senesced N content (kg/ha) =      3.81
-      green N content (kg/ha) =     39.13    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    138.49
+      grain N uptake (kg/ha) =     83.18     senesced N content (kg/ha) =     21.55
+      green N content (kg/ha) =     33.76    dead N content (kg/ha) =      0.00
      
      
      
@@ -6152,7 +6157,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0021208
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0021387
      
      
      
@@ -6174,7 +6179,7 @@
      
       Crop harvested.
                                                tops residue = 3355.0 kg/ha
-                                               tops N =   42.9 kg/ha
+                                               tops N =   55.3 kg/ha
                                                root residue =  107.5 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -6190,7 +6195,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1080.5 kg/ha
-                                               root N =   16.6 kg/ha
+                                               root N =   16.5 kg/ha
 15 May 1988(Day of year=136), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1988(Day of year=136), soilwat2: 
@@ -6289,7 +6294,7 @@
 28 June 1988(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.819537       lai =    0.8020646E-01
-                          stover N conc =    4.556081       extractable sw =    148.2363
+                          stover N conc =    4.555799       extractable sw =    148.2363
 27 July 1988(Day of year=209), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           52.36879       lai =    0.9541667
@@ -6297,23 +6302,23 @@
 30 July 1988(Day of year=212), chickpea: 
       stage    6.0 flowering
                           biomass =           61.72210       lai =     1.116610
-                          stover N conc =    2.988936       extractable sw =    196.1306
+                          stover N conc =    2.992739       extractable sw =    196.1306
 30 August 1988(Day of year=243), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           263.9753       lai =     2.779611
-                          stover N conc =    1.816087       extractable sw =    185.6257
+                          stover N conc =    1.813713       extractable sw =    185.6257
 7 October 1988(Day of year=281), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           635.5173       lai =     2.155239
-                          stover N conc =    1.758308       extractable sw =    71.81838
+                          stover N conc =    1.742830       extractable sw =    71.81838
 9 October 1988(Day of year=283), chickpea: 
       stage    9.0 maturity
                           biomass =           648.8455       lai =     2.009826
-                          stover N conc =    1.750126       extractable sw =    64.42024
+                          stover N conc =    1.736021       extractable sw =    64.42024
 10 October 1988(Day of year=284), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           648.8456       lai =     0.000000
-                          stover N conc =    2.200366       extractable sw =    61.12094
+                          stover N conc =    1.804829       extractable sw =    61.12094
 10 October 1988(Day of year=284), manager: 
      Manager sending message :- chickpea harvest
 10 October 1988(Day of year=284), chickpea: 
@@ -6331,9 +6336,9 @@
       senesced above ground biomass (kg/ha) =    1451.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 308.0
-      grain N percent =      3.60            total N content (kg/ha) =    150.44
-      grain N uptake (kg/ha) =     92.48     senesced N content (kg/ha) =      3.64
-      green N content (kg/ha) =     54.32    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    158.80
+      grain N uptake (kg/ha) =     92.48     senesced N content (kg/ha) =     21.76
+      green N content (kg/ha) =     44.56    dead N content (kg/ha) =      0.00
      
      
      
@@ -6345,13 +6350,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0044318
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0044856
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0024782
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0025118
      
      
      
@@ -6367,7 +6372,7 @@
      
       Crop harvested.
                                                tops residue = 3919.6 kg/ha
-                                               tops N =   58.0 kg/ha
+                                               tops N =   66.3 kg/ha
                                                root residue =  115.2 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -6486,27 +6491,27 @@
 31 July 1989(Day of year=212), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           29.79671       lai =    0.5578748
-                          stover N conc =    3.136732       extractable sw =    187.1669
+                          stover N conc =    3.136732       extractable sw =    187.1668
 3 August 1989(Day of year=215), chickpea: 
       stage    6.0 flowering
                           biomass =           36.89928       lai =    0.6951951
-                          stover N conc =    2.996249       extractable sw =    185.4742
+                          stover N conc =    2.996272       extractable sw =    185.4741
 9 September 1989(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           257.3896       lai =     2.421926
-                          stover N conc =    1.827575       extractable sw =    119.5913
+                          stover N conc =    1.824782       extractable sw =    119.5914
 16 October 1989(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           489.9755       lai =    0.6592141
-                          stover N conc =    1.846938       extractable sw =    19.89420
+                          stover N conc =    1.758253       extractable sw =    19.89420
 19 October 1989(Day of year=292), chickpea: 
       stage    9.0 maturity
                           biomass =           495.4249       lai =    0.5486126
-                          stover N conc =    1.793190       extractable sw =    20.94998
+                          stover N conc =    1.781450       extractable sw =    20.94998
 20 October 1989(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           495.4249       lai =     0.000000
-                          stover N conc =    2.006073       extractable sw =    23.78770
+                          stover N conc =    1.819128       extractable sw =    23.78770
 20 October 1989(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 20 October 1989(Day of year=293), chickpea: 
@@ -6524,9 +6529,9 @@
       senesced above ground biomass (kg/ha) =    1362.3
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 260.1
-      grain N percent =      3.60            total N content (kg/ha) =    107.20
-      grain N uptake (kg/ha) =     71.14     senesced N content (kg/ha) =      3.64
-      green N content (kg/ha) =     32.41    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    120.97
+      grain N uptake (kg/ha) =     71.14     senesced N content (kg/ha) =     20.44
+      green N content (kg/ha) =     29.39    dead N content (kg/ha) =      0.00
      
      
      
@@ -6538,13 +6543,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000884
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000918
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0002163
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0002392
      
      
      
@@ -6555,12 +6560,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.3992888   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4762354   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.3992887   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.4762353   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 2978.1 kg/ha
-                                               tops N =   36.1 kg/ha
+                                               tops N =   49.8 kg/ha
                                                root residue =   91.6 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -6576,7 +6581,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue =  920.9 kg/ha
-                                               root N =   14.2 kg/ha
+                                               root N =   14.1 kg/ha
 15 May 1990(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1990(Day of year=135), soilwat2: 
@@ -6675,7 +6680,7 @@
 28 June 1990(Day of year=179), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.532060       lai =    0.5362983E-01
-                          stover N conc =    4.895830       extractable sw =    156.3462
+                          stover N conc =    4.895831       extractable sw =    156.3462
 30 July 1990(Day of year=211), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           39.86322       lai =    0.7624239
@@ -6683,23 +6688,23 @@
 2 August 1990(Day of year=214), chickpea: 
       stage    6.0 flowering
                           biomass =           45.16413       lai =    0.8636715
-                          stover N conc =    3.016153       extractable sw =    211.0669
+                          stover N conc =    3.016177       extractable sw =    211.0669
 8 September 1990(Day of year=251), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           277.3968       lai =     2.612838
-                          stover N conc =    1.814055       extractable sw =    153.4043
+                          stover N conc =    1.811541       extractable sw =    153.4043
 16 October 1990(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           659.4504       lai =     2.285102
-                          stover N conc =    1.736205       extractable sw =    83.11368
+                          biomass =           659.4504       lai =     2.285103
+                          stover N conc =    1.729465       extractable sw =    83.11368
 18 October 1990(Day of year=291), chickpea: 
       stage    9.0 maturity
-                          biomass =           673.5793       lai =     2.132125
-                          stover N conc =    1.729711       extractable sw =    71.66388
+                          biomass =           673.5793       lai =     2.132126
+                          stover N conc =    1.716021       extractable sw =    71.66389
 19 October 1990(Day of year=292), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           673.5793       lai =    0.9536743E-06
-                          stover N conc =    2.217640       extractable sw =    67.25974
+                          stover N conc =    1.785235       extractable sw =    67.25974
 19 October 1990(Day of year=292), manager: 
      Manager sending message :- chickpea harvest
 19 October 1990(Day of year=292), chickpea: 
@@ -6717,9 +6722,9 @@
       senesced above ground biomass (kg/ha) =    1468.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 286.7
-      grain N percent =      3.60            total N content (kg/ha) =    157.40
-      grain N uptake (kg/ha) =     96.06     senesced N content (kg/ha) =      3.70
-      green N content (kg/ha) =     57.65    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    164.49
+      grain N uptake (kg/ha) =     96.06     senesced N content (kg/ha) =     22.02
+      green N content (kg/ha) =     46.41    dead N content (kg/ha) =      0.00
      
      
      
@@ -6731,7 +6736,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0028057
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0028342
      
      
      
@@ -6753,7 +6758,7 @@
      
       Crop harvested.
                                                tops residue = 4067.4 kg/ha
-                                               tops N =   61.3 kg/ha
+                                               tops N =   68.4 kg/ha
                                                root residue =  111.3 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -6769,7 +6774,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1118.2 kg/ha
-                                               root N =   17.0 kg/ha
+                                               root N =   16.9 kg/ha
 15 May 1991(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1991(Day of year=135), soilwat2: 
@@ -6872,27 +6877,27 @@
 21 July 1991(Day of year=202), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           37.71626       lai =    0.7168331
-                          stover N conc =    3.145566       extractable sw =    160.1981
+                          stover N conc =    3.145290       extractable sw =    160.1981
 24 July 1991(Day of year=205), chickpea: 
       stage    6.0 flowering
                           biomass =           43.91575       lai =    0.8340794
-                          stover N conc =    2.999170       extractable sw =    180.9545
+                          stover N conc =    2.999190       extractable sw =    180.9545
 28 August 1991(Day of year=240), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           265.1304       lai =     2.620055
-                          stover N conc =    1.819857       extractable sw =    100.5410
+                          stover N conc =    1.816258       extractable sw =    100.5410
 5 October 1991(Day of year=278), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           457.6640       lai =    0.5125628
-                          stover N conc =    1.790559       extractable sw =    16.98914
+                          stover N conc =    1.774690       extractable sw =    16.98914
 8 October 1991(Day of year=281), chickpea: 
       stage    9.0 maturity
                           biomass =           461.0798       lai =    0.4140724
-                          stover N conc =    1.796705       extractable sw =    15.95621
+                          stover N conc =    1.782872       extractable sw =    15.95621
 9 October 1991(Day of year=282), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           461.0798       lai =    0.6258488E-06
-                          stover N conc =    1.964215       extractable sw =    14.68893
+                          stover N conc =    1.812610       extractable sw =    14.68893
 9 October 1991(Day of year=282), manager: 
      Manager sending message :- chickpea harvest
 9 October 1991(Day of year=282), chickpea: 
@@ -6910,9 +6915,9 @@
       senesced above ground biomass (kg/ha) =    1300.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 262.1
-      grain N percent =      3.60            total N content (kg/ha) =     98.30
-      grain N uptake (kg/ha) =     65.38     senesced N content (kg/ha) =      3.57
-      green N content (kg/ha) =     29.34    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    111.97
+      grain N uptake (kg/ha) =     65.38     senesced N content (kg/ha) =     19.51
+      green N content (kg/ha) =     27.08    dead N content (kg/ha) =      0.00
      
      
      
@@ -6924,13 +6929,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001673
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001694
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007218
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0007310
      
      
      
@@ -6946,7 +6951,7 @@
      
       Crop harvested.
                                                tops residue = 2794.6 kg/ha
-                                               tops N =   32.9 kg/ha
+                                               tops N =   46.6 kg/ha
                                                root residue =   93.5 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -6962,7 +6967,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue =  940.0 kg/ha
-                                               root N =   14.6 kg/ha
+                                               root N =   14.5 kg/ha
 15 May 1992(Day of year=136), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1992(Day of year=136), soilwat2: 
@@ -7061,31 +7066,31 @@
 4 July 1992(Day of year=186), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.646252       lai =    0.7696041E-01
-                          stover N conc =    4.610758       extractable sw =    148.9821
+                          stover N conc =    4.610422       extractable sw =    148.9821
 5 August 1992(Day of year=218), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           55.80839       lai =     1.030609
-                          stover N conc =    3.155829       extractable sw =    174.8037
+                          stover N conc =    3.155503       extractable sw =    174.8037
 7 August 1992(Day of year=220), chickpea: 
       stage    6.0 flowering
                           biomass =           64.36185       lai =     1.173067
-                          stover N conc =    3.032420       extractable sw =    178.9164
+                          stover N conc =    3.032485       extractable sw =    178.9164
 10 September 1992(Day of year=254), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           288.7269       lai =     2.807402
-                          stover N conc =    1.837192       extractable sw =    130.5818
+                          stover N conc =    1.834766       extractable sw =    130.5818
 22 October 1992(Day of year=296), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           541.6370       lai =    0.6037229
-                          stover N conc =    1.774296       extractable sw =    19.20588
+                          stover N conc =    1.760149       extractable sw =    19.20588
 25 October 1992(Day of year=299), chickpea: 
       stage    9.0 maturity
                           biomass =           545.4907       lai =    0.4788530
-                          stover N conc =    1.783530       extractable sw =    17.31898
+                          stover N conc =    1.771529       extractable sw =    17.31898
 26 October 1992(Day of year=300), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           545.4907       lai =     0.000000
-                          stover N conc =    1.958248       extractable sw =    16.74731
+                          stover N conc =    1.801557       extractable sw =    16.74731
 26 October 1992(Day of year=300), manager: 
      Manager sending message :- chickpea harvest
 26 October 1992(Day of year=300), chickpea: 
@@ -7103,9 +7108,9 @@
       senesced above ground biomass (kg/ha) =    1457.7
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 279.1
-      grain N percent =      3.60            total N content (kg/ha) =    120.28
-      grain N uptake (kg/ha) =     83.24     senesced N content (kg/ha) =      4.04
-      green N content (kg/ha) =     33.00    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    135.46
+      grain N uptake (kg/ha) =     83.24     senesced N content (kg/ha) =     21.87
+      green N content (kg/ha) =     30.36    dead N content (kg/ha) =      0.00
      
      
      
@@ -7117,13 +7122,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0034648
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0034899
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0014768
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0014963
      
      
      
@@ -7135,11 +7140,11 @@
      
       stress indices for start_grain_fill
       water stress 1 =       0.3839492   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.4524673   nitrogen stress 2 =       0.0000000
+      water stress 2 =       0.4524673   nitrogen stress 2 =       0.0000103
      
       Crop harvested.
                                                tops residue = 3142.7 kg/ha
-                                               tops N =   37.0 kg/ha
+                                               tops N =   52.2 kg/ha
                                                root residue =  108.9 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -7155,7 +7160,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1094.1 kg/ha
-                                               root N =   17.0 kg/ha
+                                               root N =   16.9 kg/ha
 15 May 1993(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1993(Day of year=135), soilwat2: 
@@ -7254,7 +7259,7 @@
 29 June 1993(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.099428       lai =    0.6077690E-01
-                          stover N conc =    4.742377       extractable sw =    135.8214
+                          stover N conc =    4.741923       extractable sw =    135.8214
 25 July 1993(Day of year=206), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           29.99974       lai =    0.5589060
@@ -7262,23 +7267,23 @@
 27 July 1993(Day of year=208), chickpea: 
       stage    6.0 flowering
                           biomass =           35.52152       lai =    0.6774440
-                          stover N conc =    3.017803       extractable sw =    204.3780
+                          stover N conc =    3.017876       extractable sw =    204.3780
 30 August 1993(Day of year=242), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           225.9774       lai =     2.412413
-                          stover N conc =    1.816814       extractable sw =    126.4876
+                          stover N conc =    1.811769       extractable sw =    126.4876
 10 October 1993(Day of year=283), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           550.6606       lai =     1.563255
-                          stover N conc =    1.796270       extractable sw =    38.28987
+                          stover N conc =    1.759194       extractable sw =    38.28987
 13 October 1993(Day of year=286), chickpea: 
       stage    9.0 maturity
                           biomass =           565.4141       lai =     1.365523
-                          stover N conc =    1.764840       extractable sw =    28.98086
+                          stover N conc =    1.741224       extractable sw =    28.98086
 14 October 1993(Day of year=287), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           565.4141       lai =    0.4768372E-06
-                          stover N conc =    2.152215       extractable sw =    26.71557
+                          stover N conc =    1.801077       extractable sw =    26.71557
 14 October 1993(Day of year=287), manager: 
      Manager sending message :- chickpea harvest
 14 October 1993(Day of year=287), chickpea: 
@@ -7296,9 +7301,9 @@
       senesced above ground biomass (kg/ha) =    1264.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 277.7
-      grain N percent =      3.60            total N content (kg/ha) =    133.43
-      grain N uptake (kg/ha) =     89.00     senesced N content (kg/ha) =      3.16
-      green N content (kg/ha) =     41.27    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    142.50
+      grain N uptake (kg/ha) =     89.00     senesced N content (kg/ha) =     18.97
+      green N content (kg/ha) =     34.53    dead N content (kg/ha) =      0.00
      
      
      
@@ -7310,7 +7315,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001601
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0001667
      
      
      
@@ -7332,7 +7337,7 @@
      
       Crop harvested.
                                                tops residue = 3181.9 kg/ha
-                                               tops N =   44.4 kg/ha
+                                               tops N =   53.5 kg/ha
                                                root residue =   90.1 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -7348,7 +7353,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue =  905.2 kg/ha
-                                               root N =   13.9 kg/ha
+                                               root N =   13.8 kg/ha
 15 May 1994(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1994(Day of year=135), soilwat2: 
@@ -7447,7 +7452,7 @@
 3 July 1994(Day of year=184), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.584536       lai =    0.7081033E-01
-                          stover N conc =    4.631487       extractable sw =    145.3464
+                          stover N conc =    4.631054       extractable sw =    145.3464
 8 August 1994(Day of year=220), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           59.69818       lai =     1.034010
@@ -7455,23 +7460,23 @@
 11 August 1994(Day of year=223), chickpea: 
       stage    6.0 flowering
                           biomass =           68.45763       lai =     1.143693
-                          stover N conc =    3.019840       extractable sw =    167.6394
+                          stover N conc =    3.019863       extractable sw =    167.6394
 12 September 1994(Day of year=255), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           324.8225       lai =     2.827098
-                          stover N conc =    1.840975       extractable sw =    76.00101
+                          stover N conc =    1.836297       extractable sw =    76.00101
 22 October 1994(Day of year=295), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           456.5979       lai =    0.3077349
-                          stover N conc =    1.731422       extractable sw =    12.26971
+                          biomass =           456.5982       lai =    0.3077346
+                          stover N conc =    1.718836       extractable sw =    12.26960
 25 October 1994(Day of year=298), chickpea: 
       stage    9.0 maturity
-                          biomass =           462.5070       lai =    0.3077349
-                          stover N conc =    1.705416       extractable sw =    37.77800
+                          biomass =           462.5073       lai =    0.3077346
+                          stover N conc =    1.705416       extractable sw =    37.77906
 26 October 1994(Day of year=299), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           462.5070       lai =    0.4172325E-06
-                          stover N conc =    1.820836       extractable sw =    34.87812
+                          biomass =           462.5073       lai =     0.000000
+                          stover N conc =    1.721213       extractable sw =    34.87989
 26 October 1994(Day of year=299), manager: 
      Manager sending message :- chickpea harvest
 26 October 1994(Day of year=299), chickpea: 
@@ -7489,9 +7494,9 @@
       senesced above ground biomass (kg/ha) =    1385.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 246.8
-      grain N percent =      3.60            total N content (kg/ha) =     90.53
-      grain N uptake (kg/ha) =     55.42     senesced N content (kg/ha) =      4.16
-      green N content (kg/ha) =     30.95    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    105.47
+      grain N uptake (kg/ha) =     55.43     senesced N content (kg/ha) =     20.79
+      green N content (kg/ha) =     29.25    dead N content (kg/ha) =      0.00
      
      
      
@@ -7503,7 +7508,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0002630
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0002710
      
      
      
@@ -7520,12 +7525,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.5472406   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.6401987   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.5472407   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6401990   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
                                                tops residue = 3085.5 kg/ha
-                                               tops N =   35.1 kg/ha
+                                               tops N =   50.0 kg/ha
                                                root residue =  111.9 kg/ha
                                                root N =    0.9 kg/ha
      
@@ -7541,7 +7546,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1124.1 kg/ha
-                                               root N =   17.7 kg/ha
+                                               root N =   17.5 kg/ha
 15 May 1995(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1995(Day of year=135), soilwat2: 
@@ -7640,7 +7645,7 @@
 28 June 1995(Day of year=179), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.936759       lai =    0.5883735E-01
-                          stover N conc =    4.786586       extractable sw =    155.1395
+                          stover N conc =    4.786565       extractable sw =    155.1395
 2 August 1995(Day of year=214), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           44.08291       lai =    0.8331754
@@ -7648,23 +7653,23 @@
 6 August 1995(Day of year=218), chickpea: 
       stage    6.0 flowering
                           biomass =           52.44819       lai =    0.9596165
-                          stover N conc =    3.003103       extractable sw =    179.9429
+                          stover N conc =    3.003114       extractable sw =    179.9429
 5 September 1995(Day of year=248), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           256.1200       lai =     2.641089
-                          stover N conc =    1.825925       extractable sw =    111.3838
+                          stover N conc =    1.820512       extractable sw =    111.3838
 14 October 1995(Day of year=287), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           496.0742       lai =    0.8979518
-                          stover N conc =    1.763243       extractable sw =    36.80998
+                          biomass =           496.0743       lai =    0.8979518
+                          stover N conc =    1.752407       extractable sw =    36.80998
 17 October 1995(Day of year=290), chickpea: 
       stage    9.0 maturity
                           biomass =           506.3358       lai =    0.8198712
-                          stover N conc =    1.764436       extractable sw =    31.36329
+                          stover N conc =    1.756187       extractable sw =    31.36328
 18 October 1995(Day of year=291), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           506.3358       lai =     0.000000
-                          stover N conc =    2.046982       extractable sw =    29.84422
+                          stover N conc =    1.802592       extractable sw =    29.84422
 18 October 1995(Day of year=291), manager: 
      Manager sending message :- chickpea harvest
 18 October 1995(Day of year=291), chickpea: 
@@ -7682,9 +7687,9 @@
       senesced above ground biomass (kg/ha) =    1291.2
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 265.4
-      grain N percent =      3.60            total N content (kg/ha) =    113.58
-      grain N uptake (kg/ha) =     76.11     senesced N content (kg/ha) =      3.54
-      green N content (kg/ha) =     33.94    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    125.37
+      grain N uptake (kg/ha) =     76.11     senesced N content (kg/ha) =     19.37
+      green N content (kg/ha) =     29.89    dead N content (kg/ha) =      0.00
      
      
      
@@ -7696,7 +7701,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006586
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006693
      
      
      
@@ -7718,7 +7723,7 @@
      
       Crop harvested.
                                                tops residue = 2949.2 kg/ha
-                                               tops N =   37.5 kg/ha
+                                               tops N =   49.3 kg/ha
                                                root residue =  100.4 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -7841,23 +7846,23 @@
 3 August 1996(Day of year=216), chickpea: 
       stage    6.0 flowering
                           biomass =           51.44975       lai =    0.9503263
-                          stover N conc =    2.993911       extractable sw =    182.2200
+                          stover N conc =    2.993952       extractable sw =    182.2200
 6 September 1996(Day of year=250), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           249.1432       lai =     2.573826
-                          stover N conc =    1.823855       extractable sw =    131.2887
+                          stover N conc =    1.821379       extractable sw =    131.2887
 15 October 1996(Day of year=289), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           559.4534       lai =     1.594873
-                          stover N conc =    1.750669       extractable sw =    41.20597
+                          stover N conc =    1.740302       extractable sw =    41.20597
 18 October 1996(Day of year=292), chickpea: 
       stage    9.0 maturity
                           biomass =           570.3661       lai =     1.318267
-                          stover N conc =    1.778690       extractable sw =    31.13111
+                          stover N conc =    1.748434       extractable sw =    31.13111
 19 October 1996(Day of year=293), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           570.3662       lai =     0.000000
-                          stover N conc =    2.153312       extractable sw =    39.14448
+                          stover N conc =    1.807572       extractable sw =    39.14448
 19 October 1996(Day of year=293), manager: 
      Manager sending message :- chickpea harvest
 19 October 1996(Day of year=293), chickpea: 
@@ -7875,9 +7880,9 @@
       senesced above ground biomass (kg/ha) =    1293.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 275.1
-      grain N percent =      3.60            total N content (kg/ha) =    132.87
-      grain N uptake (kg/ha) =     85.82     senesced N content (kg/ha) =      3.41
-      green N content (kg/ha) =     43.63    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    141.85
+      grain N uptake (kg/ha) =     85.82     senesced N content (kg/ha) =     19.40
+      green N content (kg/ha) =     36.63    dead N content (kg/ha) =      0.00
      
      
      
@@ -7889,7 +7894,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0005185
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0005254
      
      
      
@@ -7911,7 +7916,7 @@
      
       Crop harvested.
                                                tops residue = 3319.7 kg/ha
-                                               tops N =   47.0 kg/ha
+                                               tops N =   56.0 kg/ha
                                                root residue =  100.1 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -8030,47 +8035,47 @@
 1 August 1997(Day of year=213), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           47.30344       lai =    0.8854854
-                          stover N conc =    3.120446       extractable sw =    178.2559
+                          stover N conc =    3.120447       extractable sw =    178.2559
 4 August 1997(Day of year=216), chickpea: 
       stage    6.0 flowering
                           biomass =           55.50204       lai =     1.015472
-                          stover N conc =    2.997442       extractable sw =    174.4840
+                          stover N conc =    2.997464       extractable sw =    174.4840
 5 September 1997(Day of year=248), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           273.3642       lai =     2.684865
-                          stover N conc =    1.846009       extractable sw =    107.9466
+                          stover N conc =    1.842723       extractable sw =    107.9466
 13 October 1997(Day of year=286), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           560.7065       lai =     1.487974
-                          stover N conc =    1.739177       extractable sw =    56.42279
+                          biomass =           560.7120       lai =     1.488034
+                          stover N conc =    1.733062       extractable sw =    56.42465
 16 October 1997(Day of year=289), chickpea: 
       stage    9.0 maturity
-                          biomass =           578.0690       lai =     1.358698
-                          stover N conc =    1.756837       extractable sw =    43.24507
+                          biomass =           578.0753       lai =     1.358759
+                          stover N conc =    1.740555       extractable sw =    43.24682
 17 October 1997(Day of year=290), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           578.0690       lai =     0.000000
-                          stover N conc =    2.142307       extractable sw =    39.89617
+                          biomass =           578.0754       lai =    0.1192093E-06
+                          stover N conc =    1.800245       extractable sw =    39.89695
 17 October 1997(Day of year=290), manager: 
      Manager sending message :- chickpea harvest
 17 October 1997(Day of year=290), chickpea: 
      
      
      
-      flowering day  =  216                  stover (kg/ha) =    3426.3
-      maturity day        =  289             grain yield (kg/ha) =    2354.3
+      flowering day  =  216                  stover (kg/ha) =    3426.4
+      maturity day        =  289             grain yield (kg/ha) =    2354.4
       grain % water content   =   12.0       grain yield wet (kg/ha) =    2675.4
       grain wt (g) =     0.000               grains/m^2   =     0.000
       grains/head =   0.0                    maximum lai = 2.863
-      total above ground biomass (kg/ha) =    5780.7
-      live above ground biomass (kg/ha) =    5780.7
+      total above ground biomass (kg/ha) =    5780.8
+      live above ground biomass (kg/ha) =    5780.8
       green above ground biomass (kg/ha) =    4427.4
       senesced above ground biomass (kg/ha) =    1353.3
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 274.7
-      grain N percent =      3.60            total N content (kg/ha) =    132.79
-      grain N uptake (kg/ha) =     84.76     senesced N content (kg/ha) =      3.62
-      green N content (kg/ha) =     44.41    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    142.38
+      grain N uptake (kg/ha) =     84.76     senesced N content (kg/ha) =     20.30
+      green N content (kg/ha) =     37.32    dead N content (kg/ha) =      0.00
      
      
      
@@ -8082,7 +8087,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006655
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0006929
      
      
      
@@ -8099,17 +8104,17 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.2134373   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2812704   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.2134284   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2812594   nitrogen stress 2 =       0.0000000
      
       Crop harvested.
-                                               tops residue = 3426.3 kg/ha
-                                               tops N =   48.0 kg/ha
+                                               tops residue = 3426.4 kg/ha
+                                               tops N =   57.6 kg/ha
                                                root residue =  107.7 kg/ha
                                                root N =    0.9 kg/ha
      
      
-                                               tops removed = 2354.3 kg/ha
+                                               tops removed = 2354.4 kg/ha
                                                tops N removed =   84.8 kg/ha
                                                root removed =    0.0 kg/ha
                                                root N removed =    0.0 kg/ha
@@ -8219,31 +8224,31 @@
 30 June 1998(Day of year=181), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.583546       lai =    0.8046567E-01
-                          stover N conc =    4.624235       extractable sw =    159.8407
+                          stover N conc =    4.624206       extractable sw =    159.8407
 30 July 1998(Day of year=211), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           33.61697       lai =    0.6430931
-                          stover N conc =    3.127463       extractable sw =    228.2575
+                          stover N conc =    3.127462       extractable sw =    228.2575
 3 August 1998(Day of year=215), chickpea: 
       stage    6.0 flowering
                           biomass =           41.13809       lai =    0.7982395
-                          stover N conc =    2.988829       extractable sw =    221.0450
+                          stover N conc =    2.989819       extractable sw =    221.0450
 2 September 1998(Day of year=245), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           215.9301       lai =     2.476197
-                          stover N conc =    1.806204       extractable sw =    228.0168
+                          stover N conc =    1.802802       extractable sw =    228.0168
 10 October 1998(Day of year=283), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           604.2353       lai =     2.624328
-                          stover N conc =    1.726294       extractable sw =    142.4470
+                          stover N conc =    1.721952       extractable sw =    142.4470
 13 October 1998(Day of year=286), chickpea: 
       stage    9.0 maturity
                           biomass =           639.8869       lai =     2.510790
-                          stover N conc =    1.709578       extractable sw =    125.4531
+                          stover N conc =    1.703669       extractable sw =    125.4531
 14 October 1998(Day of year=287), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           639.8868       lai =    0.1192093E-05
-                          stover N conc =    2.207827       extractable sw =    120.2006
+                          stover N conc =    1.771104       extractable sw =    120.2006
 14 October 1998(Day of year=287), manager: 
      Manager sending message :- chickpea harvest
 14 October 1998(Day of year=287), chickpea: 
@@ -8261,9 +8266,9 @@
       senesced above ground biomass (kg/ha) =    1291.8
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 295.7
-      grain N percent =      3.60            total N content (kg/ha) =    151.81
-      grain N uptake (kg/ha) =     92.83     senesced N content (kg/ha) =      3.15
-      green N content (kg/ha) =     55.82    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    156.99
+      grain N uptake (kg/ha) =     92.83     senesced N content (kg/ha) =     19.38
+      green N content (kg/ha) =     44.78    dead N content (kg/ha) =      0.00
      
      
      
@@ -8297,7 +8302,7 @@
      
       Crop harvested.
                                                tops residue = 3820.2 kg/ha
-                                               tops N =   59.0 kg/ha
+                                               tops N =   64.2 kg/ha
                                                root residue =   95.6 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -8412,7 +8417,7 @@
 27 June 1999(Day of year=178), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.544089       lai =    0.4982897E-01
-                          stover N conc =    4.894716       extractable sw =    147.8294
+                          stover N conc =    4.894585       extractable sw =    147.8294
 28 July 1999(Day of year=209), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           30.73226       lai =    0.5767009
@@ -8420,23 +8425,23 @@
 30 July 1999(Day of year=211), chickpea: 
       stage    6.0 flowering
                           biomass =           35.36136       lai =    0.6758505
-                          stover N conc =    3.015306       extractable sw =    216.7689
+                          stover N conc =    3.015347       extractable sw =    216.7689
 1 September 1999(Day of year=244), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           217.4615       lai =     2.415924
-                          stover N conc =    1.835348       extractable sw =    144.8849
+                          stover N conc =    1.832569       extractable sw =    144.8849
 11 October 1999(Day of year=284), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           527.7037       lai =     1.149559
-                          stover N conc =    1.832363       extractable sw =    24.99901
+                          stover N conc =    1.765076       extractable sw =    24.99901
 13 October 1999(Day of year=286), chickpea: 
       stage    9.0 maturity
                           biomass =           530.9310       lai =    0.9835705
-                          stover N conc =    1.858775       extractable sw =    23.06773
+                          stover N conc =    1.757600       extractable sw =    23.06773
 14 October 1999(Day of year=287), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           530.9310       lai =     0.000000
-                          stover N conc =    2.174022       extractable sw =    32.83149
+                          stover N conc =    1.806726       extractable sw =    32.83149
 14 October 1999(Day of year=287), manager: 
      Manager sending message :- chickpea harvest
 14 October 1999(Day of year=287), chickpea: 
@@ -8454,9 +8459,9 @@
       senesced above ground biomass (kg/ha) =    1295.2
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 277.8
-      grain N percent =      3.60            total N content (kg/ha) =    122.29
-      grain N uptake (kg/ha) =     80.00     senesced N content (kg/ha) =      3.33
-      green N content (kg/ha) =     38.96    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    131.80
+      grain N uptake (kg/ha) =     80.00     senesced N content (kg/ha) =     19.43
+      green N content (kg/ha) =     32.37    dead N content (kg/ha) =      0.00
      
      
      
@@ -8468,7 +8473,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000042
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000062
      
      
      
@@ -8490,7 +8495,7 @@
      
       Crop harvested.
                                                tops residue = 3087.0 kg/ha
-                                               tops N =   42.3 kg/ha
+                                               tops N =   51.8 kg/ha
                                                root residue =   87.7 kg/ha
                                                root N =    0.7 kg/ha
      
@@ -8609,27 +8614,27 @@
 5 August 2000(Day of year=218), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           45.31731       lai =    0.8625643
-                          stover N conc =    3.135779       extractable sw =    179.9125
+                          stover N conc =    3.135780       extractable sw =    179.9125
 7 August 2000(Day of year=220), chickpea: 
       stage    6.0 flowering
                           biomass =           51.71891       lai =    0.9721947
-                          stover N conc =    3.014097       extractable sw =    178.1730
+                          stover N conc =    3.014138       extractable sw =    178.1730
 8 September 2000(Day of year=252), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           276.9610       lai =     2.662555
-                          stover N conc =    1.840704       extractable sw =    87.63489
+                          stover N conc =    1.837429       extractable sw =    87.63489
 13 October 2000(Day of year=287), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           404.7927       lai =    0.3915485
-                          stover N conc =    1.759314       extractable sw =    17.29293
+                          stover N conc =    1.750319       extractable sw =    17.29295
 17 October 2000(Day of year=291), chickpea: 
       stage    9.0 maturity
-                          biomass =           412.4431       lai =    0.3329312
-                          stover N conc =    1.738465       extractable sw =    15.82652
+                          biomass =           412.4435       lai =    0.3329352
+                          stover N conc =    1.731922       extractable sw =    15.82633
 18 October 2000(Day of year=292), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           412.4431       lai =    0.4172325E-06
-                          stover N conc =    1.876805       extractable sw =    15.06625
+                          biomass =           412.4435       lai =    0.3576279E-06
+                          stover N conc =    1.752818       extractable sw =    15.06608
 18 October 2000(Day of year=292), manager: 
      Manager sending message :- chickpea harvest
 18 October 2000(Day of year=292), chickpea: 
@@ -8647,9 +8652,9 @@
       senesced above ground biomass (kg/ha) =    1251.4
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 248.6
-      grain N percent =      3.60            total N content (kg/ha) =     81.97
-      grain N uptake (kg/ha) =     50.90     senesced N content (kg/ha) =      3.68
-      green N content (kg/ha) =     27.39    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =     95.25
+      grain N uptake (kg/ha) =     50.90     senesced N content (kg/ha) =     18.77
+      green N content (kg/ha) =     25.58    dead N content (kg/ha) =      0.00
      
      
      
@@ -8661,7 +8666,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0016207
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0016401
      
      
      
@@ -8683,7 +8688,7 @@
      
       Crop harvested.
                                                tops residue = 2710.6 kg/ha
-                                               tops N =   31.1 kg/ha
+                                               tops N =   44.3 kg/ha
                                                root residue =   95.2 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -8798,31 +8803,31 @@
 29 June 2001(Day of year=180), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           8.782347       lai =    0.7955185E-01
-                          stover N conc =    4.581778       extractable sw =    134.2345
+                          stover N conc =    4.581213       extractable sw =    134.2345
 29 July 2001(Day of year=210), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           44.81459       lai =    0.8566412
-                          stover N conc =    3.159506       extractable sw =    183.0021
+                          stover N conc =    3.159505       extractable sw =    183.0021
 1 August 2001(Day of year=213), chickpea: 
       stage    6.0 flowering
                           biomass =           56.69778       lai =     1.027161
-                          stover N conc =    3.005821       extractable sw =    176.3737
+                          stover N conc =    3.005855       extractable sw =    176.3737
 5 September 2001(Day of year=248), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           290.7382       lai =     2.710188
-                          stover N conc =    1.841002       extractable sw =    96.21638
+                          stover N conc =    1.838314       extractable sw =    96.21638
 13 October 2001(Day of year=286), chickpea: 
       stage    8.0 end_grain_fill
-                          biomass =           479.2172       lai =    0.5670122
-                          stover N conc =    1.778104       extractable sw =    16.49272
+                          biomass =           479.2175       lai =    0.5670158
+                          stover N conc =    1.761896       extractable sw =    16.49404
 16 October 2001(Day of year=289), chickpea: 
       stage    9.0 maturity
-                          biomass =           491.7877       lai =    0.5670122
-                          stover N conc =    1.709856       extractable sw =    49.21629
+                          biomass =           491.7881       lai =    0.5670158
+                          stover N conc =    1.709856       extractable sw =    49.21958
 17 October 2001(Day of year=290), chickpea: 
       stage   10.0 harvest_ripe
-                          biomass =           491.7878       lai =    0.3576279E-06
-                          stover N conc =    1.914804       extractable sw =    48.26593
+                          biomass =           491.7881       lai =    0.6556511E-06
+                          stover N conc =    1.738422       extractable sw =    48.26943
 17 October 2001(Day of year=290), manager: 
      Manager sending message :- chickpea harvest
 17 October 2001(Day of year=290), chickpea: 
@@ -8840,9 +8845,9 @@
       senesced above ground biomass (kg/ha) =    1363.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 259.8
-      grain N percent =      3.60            total N content (kg/ha) =    103.79
-      grain N uptake (kg/ha) =     68.20     senesced N content (kg/ha) =      3.80
-      green N content (kg/ha) =     31.78    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    117.51
+      grain N uptake (kg/ha) =     68.20     senesced N content (kg/ha) =     20.45
+      green N content (kg/ha) =     28.86    dead N content (kg/ha) =      0.00
      
      
      
@@ -8854,7 +8859,7 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0010945
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0011144
      
      
      
@@ -8871,12 +8876,12 @@
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.4252438   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.5038370   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.4252426   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.5038358   nitrogen stress 2 =       0.0000623
      
       Crop harvested.
                                                tops residue = 3023.4 kg/ha
-                                               tops N =   35.6 kg/ha
+                                               tops N =   49.3 kg/ha
                                                root residue =  103.4 kg/ha
                                                root N =    0.8 kg/ha
      
@@ -8892,7 +8897,7 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 1039.1 kg/ha
-                                               root N =   16.1 kg/ha
+                                               root N =   16.0 kg/ha
 15 May 2002(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 2002(Day of year=135), soilwat2: 
@@ -8991,31 +8996,31 @@
 30 June 2002(Day of year=181), chickpea: 
       stage    4.0 end_of_juvenile
                           biomass =           7.879717       lai =    0.5827165E-01
-                          stover N conc =    4.794785       extractable sw =    154.0754
+                          stover N conc =    4.794513       extractable sw =    154.0754
 3 August 2002(Day of year=215), chickpea: 
       stage    5.0 floral_initiation
                           biomass =           53.67560       lai =    0.9988493
-                          stover N conc =    3.152711       extractable sw =    177.1694
+                          stover N conc =    3.152370       extractable sw =    177.1694
 5 August 2002(Day of year=217), chickpea: 
       stage    6.0 flowering
                           biomass =           62.11043       lai =     1.101125
-                          stover N conc =    3.024905       extractable sw =    173.4480
+                          stover N conc =    3.024941       extractable sw =    173.4480
 5 September 2002(Day of year=248), chickpea: 
       stage    7.0 start_grain_fill
                           biomass =           276.2064       lai =     2.797345
-                          stover N conc =    1.839879       extractable sw =    140.7512
+                          stover N conc =    1.836094       extractable sw =    140.7512
 13 October 2002(Day of year=286), chickpea: 
       stage    8.0 end_grain_fill
                           biomass =           519.7322       lai =    0.8117960
-                          stover N conc =    1.761048       extractable sw =    29.57331
+                          stover N conc =    1.751571       extractable sw =    29.57331
 16 October 2002(Day of year=289), chickpea: 
       stage    9.0 maturity
                           biomass =           526.3084       lai =    0.6629938
-                          stover N conc =    1.810909       extractable sw =    22.49251
+                          stover N conc =    1.797118       extractable sw =    22.49251
 17 October 2002(Day of year=290), chickpea: 
       stage   10.0 harvest_ripe
                           biomass =           526.3085       lai =     0.000000
-                          stover N conc =    2.047218       extractable sw =    20.88006
+                          stover N conc =    1.840769       extractable sw =    20.88006
 17 October 2002(Day of year=290), manager: 
      Manager sending message :- chickpea harvest
 17 October 2002(Day of year=290), chickpea: 
@@ -9033,9 +9038,9 @@
       senesced above ground biomass (kg/ha) =    1427.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves = 287.0
-      grain N percent =      3.60            total N content (kg/ha) =    115.84
-      grain N uptake (kg/ha) =     77.47     senesced N content (kg/ha) =      3.91
-      green N content (kg/ha) =     34.47    dead N content (kg/ha) =      0.00
+      grain N percent =      3.60            total N content (kg/ha) =    129.87
+      grain N uptake (kg/ha) =     77.47     senesced N content (kg/ha) =     21.41
+      green N content (kg/ha) =     30.99    dead N content (kg/ha) =      0.00
      
      
      
@@ -9047,13 +9052,13 @@
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0021657
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0021958
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0017759
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0017983
      
      
      
@@ -9069,7 +9074,7 @@
      
       Crop harvested.
                                                tops residue = 3111.3 kg/ha
-                                               tops N =   38.4 kg/ha
+                                               tops N =   52.4 kg/ha
                                                root residue =  107.3 kg/ha
                                                root N =    0.9 kg/ha
      
