@@ -15,17 +15,16 @@ class __declspec(dllexport) ApsimSimulationFile
    public:
       ApsimSimulationFile(void);
       ApsimSimulationFile(const std::string& filename) throw (std::runtime_error);
+      ApsimSimulationFile(const std::string& xml, bool dummy) throw (std::runtime_error);
       ~ApsimSimulationFile(void);
 
-      void setFileName(const std::string& file) {fileName = file;}
-      void read(void) throw (std::runtime_error);
-      void readXML(const std::string& xml);
       void write(void) const;
 
       std::string getFileName(void) const {return fileName;}
       std::string getName(void) const;
       std::string getExecutableFileName(void) const;
       std::string getTitle(void) const;
+      void setFileName(const std::string& file) {fileName = file;}
       void setName(const std::string& name);
       void setExecutableFileName(const std::string& executableFileName);
       void setTitle(const std::string& title);

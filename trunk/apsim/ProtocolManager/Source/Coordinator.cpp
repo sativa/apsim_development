@@ -89,9 +89,8 @@ void Coordinator::doInit1(const FString& sdml)
       Component::doInit1(sdml);
 
       // cast the componentData to a systemData.
-      ApsimSimulationFile simulationData;
       string sdmlString(sdml.f_str(), sdml.length());
-      simulationData.readXML(sdmlString);
+      ApsimSimulationFile simulationData(sdmlString, true);
 
       // read in title and register a respondToGet
       static const char* stringDDML = "<type kind=\"string\"\\>";

@@ -26,9 +26,8 @@ ApsimServiceData::ApsimServiceData(const XMLNode& n)
 ApsimServiceData::ApsimServiceData(const std::string& xml)
    : node(NULL, NULL)
    {
-   xmlDoc = new XMLDocument;
-   xmlDoc->readXML(xml);
-   node = XMLNode(xmlDoc->documentElement());
+   xmlDoc = new XMLDocument(xml, true);
+   node = xmlDoc->documentElement();
    }
 // ------------------------------------------------------------------
 // destructor
