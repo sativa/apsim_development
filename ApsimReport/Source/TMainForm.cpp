@@ -12,6 +12,7 @@
 #pragma package(smart_init)
 #pragma link "TSEGReport"
 #pragma link "TSEGLibrary"
+#pragma link "MRUFList"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 
@@ -61,6 +62,7 @@ void __fastcall TMainForm::AdvancedEditModeExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ExitExecute(TObject *Sender)
    {
+   SEGReport1->editMode = false;
    saveIfNecessary();   
    Close();
    }
@@ -102,6 +104,8 @@ void TMainForm::open(AnsiString file)
    filename = file;
    SEGReport1->load(filename);
    setCaption();
+   ZoomUpDown->Position = SEGReport1->zoom;
+   MRUFileList->AddItem(filename);
    }
 //---------------------------------------------------------------------------
 void TMainForm::save(AnsiString file)
@@ -110,9 +114,12 @@ void TMainForm::save(AnsiString file)
       SaveAsExecute(NULL);
    else
       {
-      filename = file;
-      setCaption();
-      SEGReport1->save(filename);
+      if (ExtractFileExt(file) == ".report")
+         {
+         filename = file;
+         setCaption();
+         }
+      SEGReport1->save(file);
       }
    }
 //---------------------------------------------------------------------------
@@ -154,10 +161,9 @@ void __fastcall TMainForm::DeleteFileExecute(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::CopyFileExecute(TObject *Sender)
+void __fastcall TMainForm::CopyToClipboardExecute(TObject *Sender)
    {
-//   fileThatWasCopied = FileListBox->FileName;
-//   FileListBox->ItemIndex = -1;
+   SEGReport1->copyToClipboard();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PasteFileExecute(TObject *Sender)
@@ -271,6 +277,14 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TMainForm::RefreshActionExecute(TObject *Sender)
    {
    SEGReport1->refresh();
+   }
+//---------------------------------------------------------------------------
+// Use has clicked on a MRU filename - load it into the report.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::MRUFileListMRUItemClick(TObject *Sender,
+      AnsiString AFilename)
+   {
+   open(AFilename);
    }
 //---------------------------------------------------------------------------
 

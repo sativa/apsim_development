@@ -35,8 +35,15 @@ __fastcall TSEGTable::~TSEGTable()
 //---------------------------------------------------------------------------
 void __fastcall TSEGTable::Loaded(void)
    {
-   TkbmMemTable::Loaded();
-   refresh();
+   try
+      {
+      TkbmMemTable::Loaded();
+      refresh();
+      }
+   catch (const Exception& error)
+      {
+      Application->MessageBox(error.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      }
    }
 // ------------------------------------------------------------------
 // User has just done a Active=true - go add fields before the

@@ -32,6 +32,7 @@
 #include <Menus.hpp>
 #include <ToolWin.hpp>
 #include "TSEGLibrary.h"
+#include "MRUFList.hpp"
 //---------------------------------------------------------------------------
 class TMainForm : public TForm
 {
@@ -59,7 +60,7 @@ __published:	// IDE-managed Components
    TAction *AdvancedEditMode;
    TAction *ViewExplorer;
    TAction *DeleteFile;
-   TAction *CopyFile;
+   TAction *CopyToClipboard;
    TAction *PasteFile;
    TAction *RenameFile;
    TPopupMenu *FilePopupMenu;
@@ -97,6 +98,10 @@ __published:	// IDE-managed Components
    TAction *RefreshAction;
    TToolButton *ToolButton4;
    TMenuItem *Refresh1;
+   TMenuItem *Copy2;
+   TMenuItem *N3;
+   TToolButton *ToolButton8;
+   TdfsMRUFileList *MRUFileList;
    void __fastcall AdvancedEditModeExecute(TObject *Sender);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ExitExecute(TObject *Sender);
@@ -107,7 +112,7 @@ __published:	// IDE-managed Components
           TShiftState Shift);
    void __fastcall NewExecute(TObject *Sender);
    void __fastcall DeleteFileExecute(TObject *Sender);
-   void __fastcall CopyFileExecute(TObject *Sender);
+   void __fastcall CopyToClipboardExecute(TObject *Sender);
    void __fastcall PasteFileExecute(TObject *Sender);
    void __fastcall RenameFileExecute(TObject *Sender);
    void __fastcall SaveEnvironmentExecute(TObject *Sender);
@@ -119,6 +124,8 @@ __published:	// IDE-managed Components
    void __fastcall LibraryExecute(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall RefreshActionExecute(TObject *Sender);
+   void __fastcall MRUFileListMRUItemClick(TObject *Sender,
+          AnsiString AFilename);
 private:	// User declarations
    AnsiString filename;
    AnsiString fileThatWasCopied;
