@@ -5193,7 +5193,7 @@ c     :                   * 0.5
  
          dlt_plants = - g_plants
  
-         write (string, '(3a, i4, a)')
+         write (string, '(3a, f4.0, a)')
      :                 ' crop failure because of lack of'
      :                  ,new_line
      :                  ,'         germination within'
