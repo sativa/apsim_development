@@ -1,5 +1,5 @@
-#ifndef vclfunctionsH
-#define vclfunctionsH
+#ifndef vcl_functionsH
+#define vcl_functionsH
 
 #include <Grids.hpp>
 #include <db.hpp>
@@ -308,24 +308,21 @@ void Olevariant_to_doubles (VARIANT& OleVariant, std::vector<double>& StlArray);
 void Strings_to_olevariant (std::vector<std::string>& StlArray, VARIANT& OleVariant);
 
 // ------------------------------------------------------------------
-// Load a component from a file.
+// Load a component from a stream - NB The component must already
+// be created.  This method loads all it's properties.
 // ------------------------------------------------------------------
-void loadComponent(AnsiString filename, TForm*& component);
+void loadComponent(std::istream& in, TComponent* component);
 
 // ------------------------------------------------------------------
-// Load a component from contents string.
+// Load a series of components from a stream - NB The components must already
+// be created.  This method loads all it's properties.
 // ------------------------------------------------------------------
-void loadComponent(const string& contents, TForm*& component);
+void loadComponents(istream& in, std::vector<TComponent*>& components);
 
 // ------------------------------------------------------------------
-// Save a component to a file.
+// Save a component to a stream.
 // ------------------------------------------------------------------
-void saveComponent(AnsiString filename, TForm* component);
-
-// ------------------------------------------------------------------
-// Save a component to the contents string.
-// ------------------------------------------------------------------
-void saveComponent(string& contents, TForm* component);
+void saveComponent(std::ostream& out, TComponent* component);
 
 //---------------------------------------------------------------------------
 // Resolve the componentName.propertyName passed in with the value
