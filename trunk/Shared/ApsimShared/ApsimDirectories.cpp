@@ -9,6 +9,7 @@
 #pragma package(smart_init)
 
 using namespace std;
+extern HINSTANCE hInstance;
 // ------------------------------------------------------------------
 // This routine provides a way for APSIM applications to get the
 // home directory.  Will throw a runtime error if the current
@@ -16,7 +17,9 @@ using namespace std;
 // ------------------------------------------------------------------
 string _export getApsimDirectory(void) throw(runtime_error)
    {
-   Path path(Application->ExeName.c_str());
+   char moduleFileName[MAX_PATH];
+   GetModuleFileName(hInstance, moduleFileName, sizeof moduleFileName);
+   Path path(moduleFileName);
    path.Set_name("version.ini");
    while (path.Back_up_directory() != "" && !path.Exists());
 
