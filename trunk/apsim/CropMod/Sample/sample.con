@@ -1,4 +1,4 @@
-version = 3.0
+version = 3
 
 [apsim.wheat]
 title=WHEAT SAMPLE Simulation - N120
@@ -31,36 +31,6 @@ module = CropMod(sunflower)  sample.par[sample] %apsuite\apsim\sunflower\sunflow
 module = Screen  sample.par[all]
 module = SummaryFile sample.par[sunflower]
 
-[apsim.sorghum]
-title=sorghum SAMPLE SIMULATION
-
-module = clock               sample.par [all]
-module = report              report.par [sorghum]       report.par  [all]
-module = Input(Met)          %apsuite\apsim\met\sample\dalby.met[weather]
-module = manager             sample.man [sorghum]
-module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = soilwat2            %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = soiln2              %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
-module = residue2            %apsuite\apsim\residue2\sample\residue2.par[legume_residue]     %apsuite\apsim\residue2\residue2.ini [standard]
-module = cropmod(sorghum)    sample.par[sample] %apsuite\apsim\sorghum\sorghum.ini [standard]
-module = Screen  sample.par[all]
-module = SummaryFile sample.par[sorghum]
-
-[apsim.maize]
-title=maize SAMPLE SIMULATION
-
-module = clock               sample.par [all]
-module = report              report.par [maize]       report.par  [all]
-module = Input(Met)          %apsuite\apsim\met\sample\dalby.met[weather]
-module = manager             sample.man [maize]
-module = irrigate
-module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = soilwat2            %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = soiln2              %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]  %apsuite\apsim\soiln2\soiln2.ini     [standard]
-module = residue2            %apsuite\apsim\residue2\sample\residue2.par[legume_residue]  %apsuite\apsim\residue2\residue2.ini [standard]
-module = cropmod(maize)      sample.par[sample] %apsuite\apsim\maize\maize.ini [standard]
-module = Screen  sample.par[all]
-module = SummaryFile sample.par[maize]
 
 [apsim.intercropping]
 title=Canopy Sample Simulation
@@ -76,7 +46,7 @@ module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %
 module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]                  %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
 module = residue2 %apsuite\apsim\residue2\sample\residue2.par[legume_residue]  %apsuite\apsim\residue2\residue2.ini [standard]
 module = legume(cowpea) sample.par[sample] %apsuite\apsim\cowpea\cowpea.ini[standard]
-module = cropmod(maize) sample.par[sample] %apsuite\apsim\maize\maize.ini [standard]
+module = cropmod(sunflower) sample.par[sample] %apsuite\apsim\sunflower\sunflower.ini [standard]
 module = Screen  sample.par[all]
 module = SummaryFile sample.par[intercropping]
 

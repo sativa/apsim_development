@@ -29,6 +29,11 @@
       !Read the crop type and sub-module switches
       call Read_Module_Switches()
 
+      if (c%crop_type .eq. 'sorghum' .OR.
+     :    c%crop_type .eq. 'maize') then
+         call Fatal_error (ERR_user,
+     :            'Please use standalone crop module')
+      endif
 !      PRINT *,"crop type is ", c%crop_type
 !      PRINT *
 
