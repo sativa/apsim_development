@@ -127,6 +127,10 @@ c     :     ,1000.)          ! Upper Limit for bound checking
       parameter (myname = 'PlantP_send_my_variable')
 
 *+  Local Variables
+      real       biomass_p             ! total above-ground biomass P (g/m^2)
+      real       apt_P_up              ! N uptake by stover (g/m^2)
+      real       p_conc
+
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -136,42 +140,223 @@ c     :     ,1000.)          ! Upper Limit for bound checking
       if (variable_name .eq. 'p_green') then
           call respond2get_real_array (
      :               variable_name     ! variable name
-     :              ,'(g/m2)'          ! variable units
+     :              ,'(g/m^2)'          ! variable units
      :              ,g%part_p_green          ! variable
-     :              ,g%num_parts)      ! Array size
+     :              ,max_parts)      ! Array size
+
       elseif (variable_name .eq. 'p_sen') then
           call respond2get_real_array (
      :               variable_name     ! variable name
-     :              ,'(g/m2)'          ! variable units
+     :              ,'(g/m^2)'          ! variable units
      :              ,g%part_p_sen          ! variable
-     :              ,g%num_parts)      ! Array size
-      elseif (variable_name .eq. 'p_dead') then
-          call respond2get_real_array (
-     :               variable_name     ! variable name
-     :              ,'(g/m2)'          ! variable units
-     :              ,g%part_p_dead          ! variable
-     :              ,g%num_parts)      ! Array size
+     :              ,max_parts)      ! Array size
+
+!      elseif (variable_name .eq. 'p_dead') then
+!          call respond2get_real_array (
+!     :               variable_name     ! variable name
+!     :              ,'(g/m2)'          ! variable units
+!     :              ,g%part_p_dead          ! variable
+!     :              ,max_parts)      ! Array size
 
       elseif (variable_name .eq. 'p_demand') then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'(kg/ha)'         ! variable units
      :              ,sum(g%part_demand)*gm2kg/sm2ha) ! variable
+
       elseif (variable_name .eq. 'pfact_photo') then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'()'              ! variable units
      :              ,g%plantPfact_photo) ! variable
+
       elseif (variable_name .eq. 'pfact_pheno') then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'()'              ! variable units
      :              ,g%plantPfact_pheno) ! variable
-      elseif (variable_name .eq. 'pfact_expansion') then
+
+      elseif ((variable_name .eq. 'pfact_expansion')
+     :   .or. (variable_name .eq. 'pfact_expan')) then
           call respond2get_real_var (
      :               variable_name     ! variable name
      :              ,'()'              ! variable units
      :              ,g%plantPfact_expansion) ! variable
+
+      elseif (variable_name .eq. 'pfact_grain') then
+          call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'()'              ! variable units
+     :              ,g%PlantPfact_grain) ! variable
+
+
+
+      elseif ((variable_name .eq. 'biomass_p')
+     :   .or. (variable_name .eq. 'p_uptake')) then
+         biomass_p = (sum_real_array (g%part_p_green, max_part)
+     :             - g%part_p_green(root)
+     :             + sum_real_array (g%part_p_sen, max_part)
+     :             - g%part_p_sen(root)
+     :             + sum_real_array (g%part_p_dead, max_part)
+     :             - g%part_p_dead(root))
+
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , biomass_p)
+
+      elseif (variable_name .eq. 'green_biomass_p') then
+         biomass_p = (sum_real_array (g%part_p_green, max_part)
+     :                 - g%part_p_green(root))
+
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , biomass_p)
+
+      elseif (variable_name .eq. 'grain_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_green(grain))
+
+      elseif (variable_name .eq. 'leaf_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_green(leaf))
+
+      elseif (variable_name .eq. 'stem_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_green(stem))
+
+      elseif (variable_name .eq. 'root_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_green(root))
+
+      elseif (variable_name .eq. 'deadleaf_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_sen(leaf))
+
+      elseif (variable_name .eq. 'flower_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_green(flower))
+
+      elseif (variable_name .eq. 'head_p') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_green(flower)
+     :                               + g%part_p_green(grain))
+
+      elseif (variable_name .eq. 'p_senesced') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_sen
+     :                             , max_part)
+
+      elseif (variable_name .eq. 'p_dead') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_p_dead
+     :                             , max_part)
+
+      elseif (variable_name .eq. 'dlt_p_green') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%dlt_part_p_green
+     :                             , max_part)
+
+      elseif (variable_name .eq. 'dlt_p_retrans') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%dlt_part_p_retrans
+     :                             , max_part)
+
+      elseif (variable_name .eq. 'dlt_p_detached') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%dlt_part_p_det
+     :                             , max_part)
+
+      elseif (variable_name .eq. 'dlt_p_dead') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%dlt_part_p_dead
+     :                             , max_part)
+
+      elseif (variable_name .eq. 'dlt_p_sen') then
+         call respond2get_real_array (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%dlt_part_p_sen
+     :                             , max_part)
+
+!      elseif (variable_name .eq. 'dlt_p_dead_detached') then
+!         call respond2get_real_array (variable_name
+!     :                             , '(g/m^2)'
+!     :                             , g%dlt_p_dead_detached
+!     :                             , max_part)
+
+
+
+            ! plant phosphorus
+
+      elseif (variable_name .eq. 'p_conc_stover') then
+         p_conc = divide ((g%part_p_green(leaf)
+     :                    + g%part_p_green(stem)
+     :                    + g%part_p_green(flower))
+     :                  , (g%dm_green(leaf)
+     :                    + g%dm_green(stem)
+     :                    + g%dm_green(flower))
+     :                  , 0.0) * 100.0
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , p_conc)
+
+      elseif (variable_name .eq. 'p_conc_leaf') then
+         p_conc = divide (g%part_p_green(leaf)
+     :                  , g%dm_green(leaf)
+     :                  , 0.0) * 100.0
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , p_conc)
+
+      elseif (variable_name .eq. 'p_conc_stem') then
+         p_conc = divide (g%part_p_green(stem)
+     :                  , g%dm_green(stem)
+     :                  , 0.0) * 100.0
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , p_conc)
+
+      elseif (variable_name .eq. 'p_conc_grain'
+     :   .or. variable_name .eq. 'p_grain_pcnt') then
+         p_conc = divide (g%part_p_green(grain)
+     :                  , g%dm_green(grain)
+     :                  , 0.0) * 100.0
+         call respond2get_real_var (variable_name
+     :                             , '(%)'
+     :                             , p_conc)
+
+      elseif (variable_name .eq. 'p_uptake_stover') then
+         apt_p_up = (g%part_p_green(leaf)
+     :            + g%part_p_green(stem)
+     :            + g%part_p_green(flower))
+cih     :            *gm2kg /sm2ha
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , apt_p_up)
+
+!      elseif (variable_name .eq. 'p_demand') then
+!         p_demand = sum_real_array (g%p_demand, max_part)
+!         call respond2get_real_var (variable_name
+!     :                             , '(g/m^2)'
+!     :                             , p_demand)
+
+      elseif (variable_name .eq. 'grain_p_demand') then
+         call respond2get_real_var (variable_name
+     :                             , '(g/m^2)'
+     :                             , g%part_demand(grain))
+
 
       else
          PlantP_Send_my_variable = .false.
@@ -1630,15 +1815,15 @@ c     :          ,1.0)                 ! Upper Limit for bound check
       P_grain = (g%part_p_green(grain) + g%part_p_dead(grain))
      :        * gm2kg/sm2ha
 
-      P_green = (sum_real_array (g%part_p_green, max_part)
+      P_green = (sum_real_array (g%part_p_green, max_parts)
      :        - g%part_p_green(root) - g%part_p_green(grain))
      :        * gm2kg / sm2ha
 
-      P_senesced = (sum_real_array (g%part_p_sen, max_part)
+      P_senesced = (sum_real_array (g%part_p_sen, max_parts)
      :           - g%part_p_sen(root) - g%part_p_sen(grain))
      :           * gm2kg / sm2ha
 
-      P_dead = (sum_real_array (g%part_p_dead, max_part)
+      P_dead = (sum_real_array (g%part_p_dead, max_parts)
      :       - g%part_p_dead(root) - g%part_p_dead(grain))
      :       * gm2kg / sm2ha
 
