@@ -366,7 +366,11 @@ namespace CSGeneral
 				{ }
 
 			// couldn't get an attribute so try getting a value
-			Value = Child.Child(Macro).Value;
+			if (Macro == "xml")
+				Value = Child.XML;
+			else
+				Value = Child.Child(Macro).Value;
+			
 			return Value;
 			}
 
