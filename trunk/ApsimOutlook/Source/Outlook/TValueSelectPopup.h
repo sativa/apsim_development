@@ -24,6 +24,7 @@ __published:	// IDE-managed Components
    TPanel *Panel1;
    TLabel *applyLabel;
    TLabel *applyToAllLabel;
+   TImage *Image;
    void __fastcall ListViewCompare(TObject *Sender, TListItem *Item1,
           TListItem *Item2, int Data, int &Compare);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
