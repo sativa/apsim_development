@@ -111,6 +111,9 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
    script.read(sectionName, "command", commands);
    for (unsigned c = 0; c != commands.size(); ++c)
       {
+      // yield control to windows.
+      Application->ProcessMessages();
+
       // extract the routine name
       unsigned posOpenBracket = commands[c].find('(');
       if (posOpenBracket == string::npos)
@@ -389,7 +392,8 @@ bool ControlFileConverter::executeMoveParameter(const string& arguments) throw(r
 
       string value = parFiles[i].getParamValue(parameterName);
       parFiles[i].deleteParam(parameterName);
-      controlFile.setParameterValue(arg2, fullSection.nextToken(), parameterName, value);
+      controlFile.setParameterValue(arg2, fullSection.nextToken(), parameterName,
+                                    value, parFiles[i].getFileName());
       return true;
       }
    return false;
@@ -492,14 +496,15 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
             delete MoveParametersForm;
             }
 
-         IniFile oldParamFile(paramFiles[i].getFileName());
-         IniFile newParamFile(parFileToUse);
-         string contents;
-         oldParamFile.readSection(paramFiles[i].getSection(), contents);
-         newParamFile.writeSection(paramFiles[i].getSection(), contents);
+         ApsimParameterFile newParamFile (parFileToUse,
+                                          paramFiles[i].getModuleName(),
+                                          paramFiles[i].getInstanceName(),
+                                          paramFiles[i].getSection() );
+         string contents = paramFiles[i].getSectionContents();
+         newParamFile.setSectionContents(contents);
 
          // delete entire section.
-         oldParamFile.deleteSection(paramFiles[i].getSection());
+         paramFiles[i].deleteSectionContents();
          }
       }
    // tell control file to remove the self reference for this instance.
