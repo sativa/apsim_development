@@ -1,9 +1,10 @@
 object MoveParametersForm: TMoveParametersForm
   Left = 248
   Top = 234
-  Width = 367
-  Height = 233
+  AutoScroll = False
   Caption = 'Control File Converter'
+  ClientHeight = 199
+  ClientWidth = 359
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,6 +13,7 @@ object MoveParametersForm: TMoveParametersForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -79,6 +81,11 @@ object MoveParametersForm: TMoveParametersForm
     LabelFont.Height = -11
     LabelFont.Name = 'MS Sans Serif'
     LabelFont.Style = []
+    Lookup.CaseSensitive = False
+    Lookup.Color = clWindow
+    Lookup.DisplayCount = 4
+    Lookup.Enabled = False
+    Lookup.NumChars = 2
     Persistence.Enable = False
     Persistence.Location = plInifile
     Color = clWindow
