@@ -79,6 +79,11 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
             runs[runs.size()-1]->setSimulationsToRun(conFileSections);
          }
       }
+   else if (Path(fileName).Get_extension() == ".con")
+      {
+      runs.push_back(new ApsimRun(fileName));
+      runs[runs.size()-1]->doAllSimulations();
+      }
    else
       runs.push_back(new ApsimRun(fileName));
 
@@ -132,6 +137,18 @@ void ApsimRuns::getFilesToRun(std::vector<std::string>& fileNames)
       {
       string fileName = runs[f]->getFileName();
       fileNames.push_back(fileName);
+      }
+   }
+//---------------------------------------------------------------------------
+// Get the list of simulations to run for the specified control file.
+//---------------------------------------------------------------------------
+void ApsimRuns::getSimulationsToRun(const std::string& fileName,
+                                    std::vector<std::string>& simulations)
+   {
+   for (unsigned f = 0; f != runs.size(); f++)
+      {
+      if (runs[f]->getFileName() == fileName)
+         runs[f]->getSimulationsToRun(simulations);
       }
    }
 //---------------------------------------------------------------------------

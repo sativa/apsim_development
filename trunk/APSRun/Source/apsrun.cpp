@@ -25,7 +25,6 @@ void processCmdLine(void)
       else if (stricmp(_argv[argIndex], "/q") == 0)
          {
          quietRun = true;
-         allRuns = true;
          }
       else if (stricmp(_argv[argIndex], "/Console") == 0)
          console = true;
