@@ -148,6 +148,8 @@
       else
          call Fatal_error (ERR_User, 'Cannot find soi file')
       endif
+      call component_freetable(g%LU_SOI)
+
       call pop_routine (this_routine)
       return
       end
