@@ -92,6 +92,7 @@
      :              , G_current_stage
      :              , G_days_tot
      :              , G_sowing_depth
+     :              , G_Ratoon_no
      :              , P_tt_begcane_to_flowering
      :              , P_tt_emerg_to_begcane
      :              , P_tt_flowering_to_crop_end
@@ -271,6 +272,7 @@ c      endif
      :              , G_current_stage
      :              , G_days_tot
      :              , G_sowing_depth
+     :              , G_Ratoon_no
      :              , P_tt_begcane_to_flowering
      :              , P_tt_emerg_to_begcane
      :              , P_tt_flowering_to_crop_end
@@ -320,6 +322,7 @@ c      endif
       REAL       G_current_stage       ! (INPUT)  current phenological stage
       REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
       REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
+      REAL       G_Ratoon_no           ! (INPUT)  ratoon no (mm)
       REAL       P_tt_begcane_to_flowering ! (INPUT)
       REAL       P_tt_emerg_to_begcane ! (INPUT)
       REAL       P_tt_flowering_to_crop_end ! (INPUT)
@@ -346,9 +349,16 @@ c      endif
       call push_routine (my_name)
 
       if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
-         phase_tt(sprouting_to_emerg) = c_shoot_lag
-     :                                + g_sowing_depth*c_shoot_rate
-
+         if (G_ratoon_no .eq. 0) then
+            phase_tt(sprouting_to_emerg) = c_shoot_lag
+     :                                   + g_sowing_depth*c_shoot_rate
+         else
+            ! Assume the mean depth of shooting is half way between the
+            ! set depth and the soil surface.
+            phase_tt(sprouting_to_emerg) = c_shoot_lag
+     :                                   + g_sowing_depth/2.0
+     :                                   * c_shoot_rate
+         endif
       elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
          phase_tt(emerg_to_begcane) = p_tt_emerg_to_begcane
 
@@ -4842,6 +4852,16 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
          ! dlt_dead          -      -       +
          ! dlt_detached             -       -      (outgoing only)
 
+cnh
+      ! take out water with detached stems
+      g_plant_wc(sstem) = g_plant_wc(sstem) 
+     :                  * (1.0 - divide (g_dlt_dm_dead_detached(sstem)
+     :                                  ,g_dm_dead(sstem)
+     :                                   +g_dm_green(sstem)
+     :                                  ,0.0)
+     :                    )
+      call add_real_array (g_dlt_plant_wc, g_plant_wc, max_part)
+
          ! transfer N
 
       dying_fract = divide (-g_dlt_plants, g_plants, 0.0)
@@ -4887,14 +4907,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :                       - dlt_dm_senesced_dead
          g_dm_dead(part) = g_dm_dead(part) + dlt_dm_senesced_dead
 2000  continue
-cnh
-      call add_real_array (g_dlt_plant_wc, g_plant_wc, max_part)
-      ! take out water with detached stems
-      g_plant_wc(sstem) = g_plant_wc(sstem) 
-     :                  * (1.0 - divide (g_dlt_dm_dead_detached(sstem)
-     :                                  ,g_dm_dead(sstem)
-     :                                  ,0.0)
-     :                    )
+
       call subtract_real_array (g_dlt_dm_dead_detached, g_dm_dead
      :                        , max_part)
 
