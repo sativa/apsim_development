@@ -102,3 +102,17 @@ void PROTOCOLComponent::init(void)
       computation->initialise();
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     dispatch event to component logic
+
+//  Notes:
+
+//  Changes:
+//    dph 22/2/2000
+
+// ------------------------------------------------------------------
+void PROTOCOLComponent::inEvent(PROTOCOLEvent& Event)
+   {
+   getComputation()->inEvent(Event);
+   }

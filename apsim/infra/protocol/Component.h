@@ -35,6 +35,7 @@ class PROTOCOL_EXPORT PROTOCOLComponent : virtual public IComponent
       virtual string getFilename(void) const {return filename;}
       virtual const IComputation* getComputation(void) const {return computation;}
       virtual ICoordinator* getCoordinator(void) {return IL->getCoordinator();}
+      virtual void inEvent(PROTOCOLEvent& Event);
 
    protected:
       IComputation* computation;
