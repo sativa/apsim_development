@@ -357,6 +357,8 @@ namespace CSGeneral
 			string Value;
 			if (Macro == "name")
 				return Child.Name;
+			if (Macro == "xmltype")
+				return Child.Type;
 
 			// try getting an attribute first.
 			if (Child.AttributeExists(Macro))
