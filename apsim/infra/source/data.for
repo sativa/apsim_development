@@ -64,6 +64,10 @@
 *+  Changes
 *     030998 sb created
  
+*+  Calls
+      dll_import push_routine
+      dll_import pop_routine
+ 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'copy_real_array')
@@ -106,6 +110,10 @@
  
 *+  Changes
 *     040998 sb created
+ 
+*+  Calls
+      dll_import push_routine
+      dll_import pop_routine
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
