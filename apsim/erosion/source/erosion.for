@@ -793,7 +793,7 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       implicit none
 
 *+  Sub-Program Arguments
-      character  variable_name*20      ! (INPUT)
+      character  variable_name*(*)      ! (INPUT)
 
 *+  Purpose
 *     Set the values of my variables from other modules
@@ -1434,7 +1434,7 @@ c     What happens when layer completely eroded?
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use ErosionModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
