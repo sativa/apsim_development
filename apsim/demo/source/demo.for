@@ -322,22 +322,6 @@
      :              ,'(mm)'            ! variable units
      :              ,g%rain)               ! variable
 
-
-      elseif (variable_name .eq. 'pan') then
- 
-         call respond2get_real_var (
-     :               variable_name     ! variable name
-     :              ,'(mm)'            ! variable units
-     :              ,g%pan)               ! variable
-
- 
-      elseif (variable_name .eq. 'vpd') then
- 
-         call respond2get_real_var (
-     :               variable_name     ! variable name
-     :              ,'(hPa)'            ! variable units
-     :              ,g%vpd)               ! variable
-
       else
          ! not my variable
  
@@ -487,7 +471,7 @@
 
       do 
          read(51, iostat=iostatus) g%year,g%day,g%radn,g%maxt,g%mint,
-     :                             g%rain,g%pan,g%vpd
+     :                             g%rain
          if (iostatus .eq. 0) then
             ! Convert date.
             call day_of_year_to_date(g%day, g%year, file_date)
