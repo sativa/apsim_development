@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------
 #include "InterfaceLayer.h"
 #include "event.h"
+#include "coordinator.h"
+#include "computation.h"
 // ------------------------------------------------------------------
 //  Short description:
 //    constructor
@@ -31,9 +33,25 @@ void PROTOCOLInterfaceLayer::sendMessage(const PROTOCOLTransportAddress& toAddre
                                          PROTOCOLMessage& aMsg) const
    {
    PROTOCOLEvent* event = dynamic_cast<PROTOCOLEvent*> (&aMsg);
-   if (event == NULL)
-      toAddress.address->getComputation()->action(aMsg);
+   const PROTOCOLComputation* computation = dynamic_cast<const PROTOCOLComputation*>
+                                           (toAddress.address->getComputation());
+   if (computation == NULL)
+      {
+      // message has come from outside the system.
+      PROTOCOLCoordinator* coordinator = dynamic_cast<PROTOCOLCoordinator*>(toAddress.address);
+      if (aMsg.action == "get")
+         coordinator->getSystemVariable(aMsg.data);
+      else if (aMsg.action == "set")
+         coordinator->setSystemVariable(aMsg.data);
+      else
+         coordinator->doSystemMessage(aMsg);
+      }
    else
-      toAddress.address->getComputation()->inEvent(*event);
+      {
+      if (event == NULL)
+         toAddress.address->getComputation()->action(aMsg);
+      else
+         toAddress.address->getComputation()->inEvent(*event);
+      }
    }
 

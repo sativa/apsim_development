@@ -46,10 +46,13 @@ class ISystemConfiguration
       virtual ISystemConfiguration* getISystem(const std::string& systemName) = 0;
       virtual void getSystemNames(std::list<std::string>& names) const = 0;
 
-      virtual void getEventPublishRegistrations(std::list<std::string>& names) = 0;
-      virtual void getEventSubscribeRegistrations(std::list<std::string>& names) = 0;
-      virtual void getVariableImportRegistrations(std::list<std::string>& names) = 0;
-      virtual void getVariableExportRegistrations(std::list<std::string>& names) = 0;
+      virtual void getEventReceives(std::list<std::string>& names) = 0;
+      virtual void getMethodReceives(std::list<std::string>& names,
+                                     std::list<std::string>& aliases) = 0;
+      virtual void getVariableSends(std::list<std::string>& names,
+                                    std::list<std::string>& aliases) = 0;
+      virtual void getVariableReceives(std::list<std::string>& names,
+                                       std::list<std::string>& aliases) = 0;
    };
 
 // ------------------------------------------------------------------
