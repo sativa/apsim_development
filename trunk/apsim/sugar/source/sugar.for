@@ -45,7 +45,7 @@
       parameter (my_name = 'sugar_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.11 150896')
+      parameter (version_number = 'V0.12 230896')
 
 *   Initial data values
 *       none
@@ -278,12 +278,8 @@
       call sugar_get_other_variables ()
 
       call sugar_transpiration ()
-cnh phenology now in prepare stage
-cnh      call sugar_phenology ()
 
       if (g_crop_status.eq.crop_alive) then
-cnh leaf area potential now in prepare stage
-cnh         call sugar_leaf_area_potential ()
          call sugar_biomass ()
          call sugar_leaf_area ()
          call sugar_root_length_growth ()
@@ -2468,9 +2464,10 @@ cnh     :            * min (sugar_swdef(expansion), sugar_nfact(expansion))
       real       sum_between           ! function
 
 *   Internal variables
-      real leaf_no_today
-      real optfr
-      real sla_max
+      real leaf_no_today      ! total number of leaves today
+      real optfr              ! fraction of optimum conditions(0-1)
+      real sla_max            ! maximum allowable specific leaf
+                              ! area (cm2/g)
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -3915,6 +3912,7 @@ cnh     NO MINIMUMS SET AS YET
       real       divide                ! function
       logical    stage_is_between      ! function
       real       sugar_sla_min         ! function
+      real       sugar_sucrose_fraction! function
       real       sum_real_array        ! function
       real       sum_between           ! function
       real       u_bound               ! function
@@ -3927,6 +3925,7 @@ cnh     NO MINIMUMS SET AS YET
       real       dlt_cane              ! increase in cane wt (g/m2)
       real       dlt_cane_min          ! min increase in cane wt (g/m2)
       real       leaf_no_today
+      real       sucrose_fraction      ! fraction of cane C going to sucrose
       real       tt_since_begcane      ! thermal time since the beginning
                                        ! of cane growth (deg days)
 *   Constant values
@@ -4007,8 +4006,9 @@ cnh     NO MINIMUMS SET AS YET
             ! for C. Extra C above the demand for cane goes only into
             ! the sucrose pool.
 
-            dlt_dm_green(SStem) = dlt_cane_min * (1.-c_sucrose_fraction)
-            dlt_dm_green(Sucrose) = dlt_cane_min * c_sucrose_fraction
+            sucrose_fraction = sugar_sucrose_fraction()
+            dlt_dm_green(SStem) = dlt_cane_min * (1.-sucrose_fraction)
+            dlt_dm_green(Sucrose) = dlt_cane_min * sucrose_fraction
 
             partition_xs = dlt_cane - dlt_cane_min
             dlt_dm_green(Sucrose) = dlt_dm_green(Sucrose) + partition_xs
@@ -6740,9 +6740,9 @@ cnh         call report_event (string)
       call sugar_get_other_variables ()
 
 
-      call report_event ( 'Sowing initiate')
-cjh         call report_date_and_event
-cjh     :           (g_day_of_year,g_year,'Sowing initiate')
+cnh      call report_event ( 'Sowing initiate')
+         call report_date_and_event
+     :           (g_day_of_year,g_year,'Sowing initiate')
 
 
          call collect_real_var ('plants', '()'
@@ -6816,7 +6816,6 @@ cjh     :           (g_day_of_year,g_year,'Sowing initiate')
       call pop_routine (my_name)
       return
       end
-
 *     ===========================================================
       subroutine sugar_read_cultivar_params (section_name)
 *     ===========================================================
@@ -6840,6 +6839,7 @@ cjh     :           (g_day_of_year,g_year,'Sowing initiate')
 *                       implicit none
 
 *   Changes:
+*       25-07-96 - NIH/MJR added sucrose/water stress partitioning factor
 
 *   Calls:
 *     pop_routine
@@ -6878,6 +6878,38 @@ cjh     :           (g_day_of_year,g_year,'Sowing initiate')
       call write_string (lu_scr_sum
      :   ,new_line//'    - Reading constants from '//section_name)
 
+         !    sugar_leaf_size
+
+      call read_real_array (section_name
+     :                     , 'leaf_size', max_table, '()'
+     :                     , c_leaf_size, c_num_leaf_size
+     :                     , 1000.0, 100000.0)
+
+      call read_real_array (section_name
+     :                     , 'leaf_size_no', max_table, '()'
+     :                     , c_leaf_size_no, c_num_leaf_size
+     :                     , 0.0, real(max_leaf))
+
+      call read_real_var (section_name
+     :                    , 'cane_fraction', '()'
+     :                    , c_cane_fraction, numvals
+     :                    , 0.0, 1.0)
+
+      call read_real_var (section_name
+     :                    , 'sucrose_fraction', '()'
+     :                    , c_sucrose_fraction, numvals
+     :                    , 0.0, 1.0)
+
+      call read_real_var (section_name
+     :                    , 'sucrose_delay', '()'
+     :                    , c_sucrose_delay, numvals
+     :                    , 0.0, 2000.)
+
+      call read_real_var (section_name
+     :                    , 'min_sstem_sucrose', '(g/m2)'
+     :                    , c_min_sstem_sucrose, numvals
+     :                    , 0.0, 5000.)
+
       call read_real_var (section_name
      :                    , 'tt_emerg_to_begcane', '()'
      :                    , p_tt_emerg_to_begcane, numvals
@@ -6893,39 +6925,37 @@ cjh     :           (g_day_of_year,g_year,'Sowing initiate')
      :                    , p_tt_flowering_to_crop_end, numvals
      :                    , 0.0, c_tt_flowering_to_crop_end_ub)
 
+         !    sugar_leaf_death
 
-      call read_real_var (section_name
-     :                    , 'cane_fraction', '()'
-     :                    , c_cane_fraction, numvals
-     :                    , 0.0, 1.0)
 
-      call read_real_var (section_name
-     :                    , 'sucrose_delay', '()'
-     :                    , c_sucrose_delay, numvals
-     :                    , 0.0, 1.e4)
-
-      call read_real_var (section_name
-     :                    , 'min_sstem_sucrose', '(g/m2)'
-     :                    , c_min_sstem_sucrose, numvals
-     :                    , 0.0, 1.e6)
-
-      call read_real_var (section_name
-     :                    , 'sucrose_fraction', '()'
-     :                    , c_sucrose_fraction, numvals
-     :                    , 0.0, 1.0)
+      call read_real_var  (section_name
+     :                    , 'green_leaf_no', '()'
+     :                    , c_green_leaf_no, numvals
+     :                    , 0.0, real(max_leaf))
 
          !    sugar_leaf_size
 
       call read_real_array (section_name
-     :                     , 'leaf_size', max_table, '()'
-     :                     , c_leaf_size, c_num_leaf_size
-     :                     , 0.0, 100000.0)
-
-      call read_real_array (section_name
-     :                     , 'leaf_size_no', max_table, '()'
-     :                     , c_leaf_size_no, c_num_leaf_size
+     :                     , 'tillerf_leaf_size', max_table, '()'
+     :                     , c_tillerf_leaf_size,c_num_tillerf_leaf_size
      :                     , 0.0, 100.0)
 
+      call read_real_array (section_name
+     :                  , 'tillerf_leaf_size_no', max_table, '()'
+     :                  , c_tillerf_leaf_size_no,c_num_tillerf_leaf_size
+     :                  , 0.0, real(max_leaf))
+
+         !    sucrose partitioning adjustment for stressed conditions
+
+      call read_real_array (section_name
+     :                     , 'x_swdef_cellxp', max_table, '()'
+     :                     , c_x_swdef_cellxp,c_num_x_swdef_cellxp
+     :                     , 0.0, 1.0)
+
+      call read_real_array (section_name
+     :                  , 'y_sw_fac_sucrose', max_table, '()'
+     :                  , c_y_sw_fac_sucrose,c_num_x_swdef_cellxp
+     :                  , 0.0, 10.0)
 
       call pop_routine (my_name)
       return
@@ -7658,7 +7688,7 @@ c     :           (all_active_modules, 'incorp_fom', string)
 
 *   Changes:
 *     060495 nih taken from template
-*     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
+*     210896 nih added module name as suffice to intercepted radiation
 
 *   Calls:
 *     add_real_array
@@ -7689,8 +7719,8 @@ c     :           (all_active_modules, 'incorp_fom', string)
 *   Internal variables
       integer    layer                 ! layer number
       integer    numvals               ! number of values put into array
+      character  mod_name*12           ! module name
       real       dlayer(max_layer)     ! soil layer depths (mm)
-      character  module_name*(Max_module_name_size) ! module name
       real       NO3(max_layer)        ! soil NO3 content (kg/ha)
       real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
 
@@ -7729,9 +7759,9 @@ c     :           (all_active_modules, 'incorp_fom', string)
 
       ! Canopy Module
       ! -------------
-      call get_current_module (module_name)
+      call get_current_module (mod_name)
       call get_real_var_optional (unknown_module
-     :                           , 'fr_intc_radn_'//module_name
+     :                           , 'fr_intc_radn_'//mod_name
      :                           , '()'
      :                           , g_fr_intc_radn
      :                           , numvals
@@ -10281,15 +10311,6 @@ cnh
      :                    , 0.0, 10.0)
 
 
-         !    sugar_leaf_death
-
-
-      call read_real_var  (section_name
-     :                    , 'green_leaf_no', '()'
-     :                    , c_green_leaf_no, numvals
-     :                    , 0.0, real(max_leaf))
-
-
          !    sugar_dm_senescence
 
       call read_real_var (section_name
@@ -10315,18 +10336,6 @@ cnh
      :                    , 'leaf_no_correction', '()'
      :                    , c_leaf_no_correction, numvals
      :                    , 0.0, 100.0)
-
-         !    sugar_leaf_size
-
-      call read_real_array (section_name
-     :                     , 'tillerf_leaf_size', max_table, '()'
-     :                     , c_tillerf_leaf_size,c_num_tillerf_leaf_size
-     :                     , 0.0, 100.0)
-
-      call read_real_array (section_name
-     :                  , 'tillerf_leaf_size_no', max_table, '()'
-     :                  , c_tillerf_leaf_size_no,c_num_tillerf_leaf_size
-     :                  , 0.0, 100.0)
 
          !    sugar_leaf_area_sen_light
 
@@ -10535,3 +10544,90 @@ cnh
       call pop_routine (my_name)
       return
       end
+
+*     ===========================================================
+      real function sugar_sucrose_fraction ()
+*     ===========================================================
+
+*   Short description:
+*     Returns the fraction of Cane C partioned to sucrose based
+*     upon severity of water stress(cell expansion)
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       240796 nih/mjr programmed and specified
+
+*   Calls:
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*     none
+
+*   Global variables
+      include   'sugar.inc'
+      real       bound                 ! function
+      real       linear_interp_real    ! function
+      real       sugar_swdef           ! function
+
+*   Internal variables
+      real       sucrose_fraction      ! fraction of cane C partitioned
+                                       ! to sucrose (0-1)
+      real       swdef_cellxp          ! 0-1 stress factor on
+                                       ! cell expansion
+      real       Adjustment_factor     ! scalar adjustment factor upon
+                                       ! sucrose_fraction
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_sucrose_fraction')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      swdef_cellxp = sugar_swdef(expansion)
+
+      Adjustment_factor = linear_interp_real
+     :                     (swdef_cellxp
+     :                     ,c_x_swdef_cellxp
+     :                     ,c_y_sw_fac_sucrose
+     :                     ,c_num_x_swdef_cellxp
+     :                     )
+
+      sucrose_fraction = c_sucrose_fraction * Adjustment_factor
+
+      call bound_check_real_var (sucrose_fraction
+     :                        , 0.0
+     :                        , 1.0
+     :                        , 'fraction of Cane C to sucrose')
+
+      sucrose_fraction = bound (sucrose_fraction, 0.0, 1.0)
+
+      sugar_sucrose_fraction = sucrose_fraction
+
+      call pop_routine (my_name)
+      return
+      end
+
