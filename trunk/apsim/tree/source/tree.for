@@ -1,10 +1,140 @@
-      include 'Tree.inc'
+      module TreeModule
+      use Infrastructure
+
+*      tree_array_sizes
+
+      integer    max_layer      ! Maximum number of layers in soil
+      parameter (max_layer = 11)
+
+*   Global variables
+*     ================================================================
+      type TreeGlobals
+
+      ! tree_climate
+      real       pan          ! pan evaporation (mm)
+
+      ! tree_sward
+
+      real       dlt_canopy_height ! change in canopy height (mm)
+      real       canopy_height ! canopy height (mm)
+      real       dlt_root_depth ! change in root depth (mm)
+      real       root_depth   ! root depth (mm)
+      real       cover_tot    ! cover for runoff (soilwat) calculations
+      real       cover_green  ! cover for runoff (soilwat) calculations
+
+      ! tree_root_profile
+
+      real       dlayer (max_layer) ! thickness of soil layer I (mm)
+      real       dlt_sw_dep(max_layer) ! water uptake in each
+                                ! layer (mm water)
+      real       dul_dep (max_layer) ! drained upper limit soil water
+                                ! content for soil layer L (mm water)
+      real       ll(max_layer)! lower limit of plant-extractable
+                                ! soil water for soil layer L (mm/mm)
+      real       sw_dep (max_layer) ! soil water content of layer (mm)
+      real       swi (max_layer) ! soil water index for each layer ()
+      real       rlv(max_layer) ! root length volume (per layer)
+
+      ! tree_root_block
+
+      real       swi_total    ! total swi (0-1)
+      real       rawswi_total ! total swi (0-...)
+
+      ! tree_output_totals
+
+      real out_sw_demand      ! pan * rawswi (for grasp)
+
+      ! tree_prm_1
+
+      real basal_area         ! Basal area (%)
+      real dlt_basal_area     ! change in BA
+
+      end type TreeGlobals
+
+*     ================================================================
+      type TreeParameters
+
+      ! tree_root_profile
+
+      real       kl(max_layer) ! root distribution each layer ()
+      real       kl2rlv       ! convert kl to rlv ()
+
+      ! tree_coeff_2
+
+      character  crop_type*50     ! crop type
+      character  uptake_source*50 ! who does water uptake calculation
+
+      ! tree_initial_pools
+
+      real basal_area_init    ! initial basal area (?)
+      real root_depth_init    ! initial depth of roots (mm)
+
+      end type TreeParameters
+
+*     ================================================================
+      type TreeConstants
+
+      ! tree_coeff_2
+
+      real       minsw        ! lowest acceptable value for ll
+      real       ba_eff       ! basal area used in pot transpiration
+                                ! calculation ()
+      ! tree_coeff_4
+
+      real       ll_ub        ! upper limit of lower limit (mm/mm)
+      real       sw_dep_ub    ! upper limit of soilwater depth (mm)
+      real       sw_dep_lb    ! lower limit of soilwater depth (mm)
+      real       kl_lb        ! lower limit of kl
+      real       kl_ub        ! upper limit of kl
+
+      ! tree_coeff_5
+
+      real    dlayer_ub       ! upper limit of layer depth (mm)
+      real    dlayer_lb       ! lower limit of layer depth (mm)
+      real    dul_dep_ub      ! upper limit of dul (mm)
+      real    dul_dep_lb      ! lower limit of dul (mm)
+
+      !tree_coeff_8
+
+      real ba_lb, ba_ub     ! Upper, lower limits of basal area
+      real pan_lb, pan_ub   ! lb, ub of pan evap
+
+      end type TreeConstants
+*     ================================================================
+
+      type (TreeGlobals), pointer :: g
+      type (TreeParameters), pointer :: p
+      type (TreeConstants), pointer :: c
+
+      save g
+      save p
+      save c
+
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+
+      type TreeDataPtr
+         type (TreeGlobals), pointer ::    gptr
+         type (TreeParameters), pointer :: pptr
+         type (TreeConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type TreeDataPtr
+
+      type (TreeDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      save Instances
+
+      contains
+
+
+
  !     ===========================================================
       Recursive
      :Subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
-      use TreeModule
-      implicit none
+            implicit none
 
  !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
@@ -21,14 +151,13 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       Recursive
      :Subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
-      use TreeModule
-      implicit none
+            implicit none
 
  !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
@@ -43,14 +172,13 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
  !     ===========================================================
       Recursive
      :Subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
-      use TreeModule
-      implicit none
+            implicit none
 
  !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
@@ -65,17 +193,13 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 *     ================================================================
       subroutine main (action, data_string)
 *     ================================================================
-      use TreeModule
       implicit none
-      include   'const.inc'     ! mes_presence, mes_init, mes_process
-      include 'error.pub'
-      include   'action.inc'
-      include   'event.inc'
+
 
 *+  Sub-Program Arguments
       character  action*(*)     ! (INPUT) Message action to perform
@@ -158,16 +282,14 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_process ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       simulate tree processes.  This includes
@@ -196,7 +318,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -204,7 +326,6 @@
       subroutine tree_canopy_height (dlt_canopy_height)
 *     ===========================================================
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_canopy_height ! (OUTPUT) canopy height change (mm)
@@ -227,20 +348,15 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_transpiration ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include   'const.inc'
-      include 'string.pub'
-      include 'intrface.pub'
-      include 'data.pub'
-      include 'error.pub'
+
 
 *+  Purpose
 *       Plant transpiration and soil water extraction
@@ -249,7 +365,6 @@
 *      250894 jngh specified and programmed
 
 *+  Calls
-      character string_concat*32  ! ?Really? FIXME
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -298,7 +413,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -306,7 +421,6 @@
       subroutine tree_root_depth (dlt_root_depth)
 *     ===========================================================
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_root_depth ! (OUTPUT) increase in root depth (mm)
@@ -329,17 +443,15 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function  tree_sw_pot ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'data.pub'
-      include 'error.pub'
+
 
 *+  Purpose
 *       returns potential water uptake by trees
@@ -369,18 +481,15 @@
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine tree_sw_uptake (dlt_sw_dep)
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
+
 
 *+  Sub-Program Arguments
       real      dlt_sw_dep(*)   ! (OUT) change in sw (mm)
@@ -392,7 +501,7 @@
 *       010994 jngh specified and programmed
 
 *+  Calls
-      real      tree_sw_pot
+
 
 *+  Constant Values
       character  my_name*(*)    ! name of procedure
@@ -427,18 +536,15 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_calculate_swi ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
+
 
 *+  Purpose
 *       Calculate SW indices
@@ -484,17 +590,14 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       real function tree_sw_supply (layer)
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer   layer
@@ -553,16 +656,14 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 *     ===========================================================
       subroutine tree_update ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       Update states
@@ -583,17 +684,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_store_report ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include   'convert.inc'
-      include 'error.pub'
+
 
 *+  Purpose
 *     Collect totals of crop variables for output. Called before
@@ -606,7 +705,7 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 *     010994 jngh specified and programmed
 
 *+  Calls
-      real       tree_sw_pot
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -619,7 +718,7 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -627,7 +726,6 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
       subroutine tree_event ()
 *     ===========================================================
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       report occurence of event and the current status of specific
@@ -646,19 +744,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_check_sw ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include   'const.inc'     ! err_internal
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
+
 
 *+  Purpose
 *     checks validity of soil water parameters for a soil profile layer
@@ -734,17 +828,14 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_zero_variables ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       zero variables & arrays
@@ -771,17 +862,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_zero_daily_variables ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include 'data.pub'
-      include 'error.pub'
+
 
 *+  Purpose
 *       zero tree daily variables & arrays
@@ -805,17 +894,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_init ()
 *     ===========================================================
-      use TreeModule
       implicit none
-      include   'const.inc'     ! new_line, lu_scr_sum, blank
-      include 'error.pub'
+
 
 *+  Purpose
 *       model initialisation
@@ -856,19 +943,14 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine tree_get_other_variables ()
 *     ================================================================
-      use TreeModule
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     get the value/s of variables/arrays from other modules.
@@ -921,21 +1003,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine tree_set_other_variables ()
 *     ================================================================
-      use TreeModule
-      implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'action.inc'
-      include 'postbox.pub'
-      include 'intrface.pub'
-      include 'error.pub'
+            implicit none
+
 
 *+  Purpose
 *      set the value of a variable or array in other module/s.
@@ -977,18 +1053,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===============================================================
       subroutine tree_set_my_variable (Variable_name)
 *     ===============================================================
-      use TreeModule
-      implicit none
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
+            implicit none
+
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -1053,19 +1126,15 @@ c      write (*,*) 'pesw_cap = ', pesw_capacity
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine tree_send_my_variable (variable_name)
 *     ================================================================
-      use TreeModule
-      implicit none
-      include    'convert.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
+            implicit none
+
 
 *+  Sub-Program Arguments
       character variable_name*(*)      ! (INPUT) variable name to search for
@@ -1142,7 +1211,7 @@ cpdev. One of these next two is right. I don't know which...
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          call respond2get_real_array (
      :        'swi',
-     :        '(mm)', g%swi_total, num_layers)
+     :        '(mm)', g%swi, num_layers)
 
       elseif (variable_name .eq. 'sw_demand') then
          call respond2get_real_var (
@@ -1167,18 +1236,14 @@ cpdev. One of these next two is right. I don't know which...
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_read_constants ()
 *     ===========================================================
-      use TreeModule
-      implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
+            implicit none
 
 *+  Purpose
 *       crop initialisation - reads constants from coefficient file
@@ -1280,18 +1345,14 @@ cpdev. One of these next two is right. I don't know which...
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_read_parameters ()
 *     ===========================================================
-      use TreeModule
-      implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include 'read.pub'
-      include 'error.pub'
+            implicit none
 
 *+  Purpose
 *       get parameters
@@ -1382,21 +1443,14 @@ c      not have the same meaning.....
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_write_summary ()
 *     ===========================================================
-      use TreeModule
-      implicit none
-      include   'const.inc'            ! lu_scr_sum, blank
-      include 'string.pub'
-      include 'science.pub'
-      include 'intrface.pub'
-      include 'postbox.pub'
-      include 'error.pub'
+            implicit none
 
 *+  Purpose
 *       write summary info to summary file.
@@ -1484,17 +1538,14 @@ c      not have the same meaning.....
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine tree_prepare ()
 *     ===========================================================
-      use TreeModule
-      implicit none
-      include   'const.inc'
-      include 'error.pub'
+            implicit none
 
 *+  Purpose
 *       prepare variables for SWIM
@@ -1503,7 +1554,7 @@ c      not have the same meaning.....
 *      250894 jngh specified and programmed
 
 *+  Calls
-      real      tree_sw_pot
+
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1518,7 +1569,8 @@ c      not have the same meaning.....
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
+      end module TreeModule
