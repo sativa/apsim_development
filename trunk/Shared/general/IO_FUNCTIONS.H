@@ -2,80 +2,49 @@
 #ifndef io functionsH
 #define io functionsH
 
-#include <general\string_functions.h>
-#include <list>
-#include <dos.h>
+#include <string>
+#include <vector>
+#include <dir.h>
 // ------------------------------------------------------------------
-//  Short description:
-//      return a list of files/directories to caller.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/6/1997
-
+// Return a list of files/directories to caller.
 // ------------------------------------------------------------------
-void Get_directory_listing (const char* Directory_name,
-                            const char* Extension,
-                            std::list<std::string>& Dir_list,
-                            unsigned int Attribute = FA_NORMAL,
-                            bool Full_path = false);
+void getDirectoryListing(const std::string& directoryName,
+                         const std::string& extension,
+                         std::vector<std::string>& dirList,
+                         unsigned int attribute = FA_NORMAL,
+                         bool fullPath = false);
 
 // ------------------------------------------------------------------
-//  Short description:
-//      locate a file and return it's full absolute path name
-
-//  Notes:
-//      search file passed in should not contain any directory info.
-
-//  Changes:
-//    DPH 11/6/1997
+// Locate a file and return it's full absolute path name
+// ------------------------------------------------------------------
+std::string locateFile(std::vector<std::string>& searchDirectories,
+                       const std::string& searchFile);
 
 // ------------------------------------------------------------------
-std::string Locate_file (std::list<std::string>& Search_directories,
-                         const char* Search_file);
-
-// ------------------------------------------------------------------
-//  Short description:
-//      get a directory listing but make it recursive.
-
-//  Notes:
+// Get a directory listing but make it recursive.
 //      The max_num_levels_to_descend should be set to the number of
 //      nested directories to descend into.  If set to some high number
 //      (eg 10000) then all directories will be recursed into.  If set
 //      to zero then no directories will be recursed into.  If
 //      "include_specified_directory" is true then files in the specified
 //      "directory" will be returned along with files in child directories.
-
-//  Changes:
-//    DPH 11/9/98
+// ------------------------------------------------------------------
+void getRecursiveDirectoryListing(const std::string& directory,
+                                  const std::string& fileSpec,
+                                  int maxNumLevelsToDescend,
+                                  bool includeSpecifiedDirectory,
+                                  std::vector<std::string>& files);
 
 // ------------------------------------------------------------------
-void Get_recursive_directory_listing(const char* Directory,
-                                     const char* File_spec,
-                                     int Max_num_levels_to_descend,
-                                     bool Include_specified_directory,
-                                     std::list<std::string>& Files);
+// Copy or move the specified source files to the destination directory
+// ------------------------------------------------------------------
+void copyFiles(std::vector<std::string>& sourceFiles,
+               const std::string& destinationDirectory,
+               bool doMoveFiles);
 
 // ------------------------------------------------------------------
-//  Short description:
-//     copy or move the specified source files to the destination directory
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
-// ------------------------------------------------------------------
-void Copy_files (std::list<std::string>& Source_files,
-                 const char* Destination_directory,
-                 bool Do_move_files);
-
-// ------------------------------------------------------------------
-//  Short description:
-//     copy or move the specified source files to the destination
-//     directory preserving the directory structure.
-
+// Copy or move the specified source files to the destination
+// directory preserving the directory structure.
 //     The source_base_directory is used to determine the root of all the
 //     source files.  It is assumed that all source files are located
 //     under this base directory.  Any that aren't are NOT copied.
@@ -86,60 +55,32 @@ void Copy_files (std::list<std::string>& Source_files,
 //           source_base_directory = c:\apsuite\apsim
 //           destination_directory = c:\apswork
 //        Then    destination file = c:\apswork\chickpea\chickpea.apf
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
+// ------------------------------------------------------------------
+void copyFilesPreserveDirectories(std::vector<std::string>& sourceFiles,
+                                  const std::string& sourceBaseDirectory,
+                                  const std::string& destinationDirectory,
+                                  bool doMoveFiles,
+                                  bool makeFilesReadWrite = false);
 
 // ------------------------------------------------------------------
-void Copy_files_preserve_directories(std::list<std::string>& Source_files,
-                                     const char* Source_base_directory,
-                                     const char* Destination_directory,
-                                     bool Do_move_files,
-                                     bool Make_files_read_write = false);
+// Copy or move the specified source directories and all directories below them
+// to the destination directory.
+// ------------------------------------------------------------------
+void copyDirectories(std::vector<std::string>& sourceDirectories,
+                     const std::string& destinationDirectory,
+                     bool doMoveFiles = false);
 
 // ------------------------------------------------------------------
-//  Short description:
-//     copy or move the specified source directories and all directories below them
-//     to the destination directory.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
+// Send the specified directory or files to the recycle bin.
+// ------------------------------------------------------------------
+void deleteFilesOrDirectories(std::vector<std::string>& directories);
 
 // ------------------------------------------------------------------
-void  Copy_directories (std::list<std::string>& Source_directories,
-                        const char* Destination_directory,
-                        bool Do_move_files = false);
-
+// Return the youngest file in a given directory that matches the
+// specified filespec.
 // ------------------------------------------------------------------
-//  Short description:
-//     send the specified directory or files to the
-//     recycle bin.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
-// ------------------------------------------------------------------
-void Delete_files_or_directories (std::list<std::string>& Directories);
-
-// ------------------------------------------------------------------
-//  Short description:
-//     return the youngest file in a given directory that matches the
-//     specified filespec.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
-// ------------------------------------------------------------------
-std::string Get_youngest_file (const char* Directory,
-                               const char* Filespec);
+std::string getYoungestFile(const std::string& directory,
+                            const std::string& filespec);
 
 // ------------------------------------------------------------------
 // Rename the specified file or folder if there is a name collision.
