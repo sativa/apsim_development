@@ -183,7 +183,8 @@
       ! set the clock to start_day.
 cih
       g%end_current_run = .false.
-      g%percent_complete = 0
+      g%pause_current_run = .false.
+      g%percent_complete = -1
  
       g%current_date = g%start_date - 1.
       g%current_time = -g%timestep
@@ -198,7 +199,7 @@ cih
       if (msg(28:28) .eq. Blank) then
          msg(28:28) = '0'
       endif
-      call Write_string (LU_scr_sum, msg)
+      call Write_string (msg)
 
       call jday_to_date (day, month, year, g%end_date)
       write (msg, '(a, i2,a,i2,a,i4)') 
@@ -207,11 +208,11 @@ cih
       if (msg(28:28) .eq. Blank) then
          msg(28:28) = '0'
       endif
-      call Write_string (LU_scr_sum, msg)
+      call Write_string (msg)
  
       write (msg, '(a, i4, a)') 
      .   'Time step =           = ', g%timestep, ' (mins)'
-      call Write_string (LU_scr_sum, msg)
+      call Write_string (msg)
 
       call pop_routine (this_routine)
       return
@@ -409,7 +410,7 @@ cih
       ! check for end of run conditions.
 
       if (int(g%current_date) .eq. int(g%end_date + 1)) then
-         call Write_string (lu_scr_sum,
+         call Write_string (
      .       'Simulation is terminating due to end ' //
      .       'criteria being met.')
          g%end_current_run = .true.
@@ -786,6 +787,9 @@ cih
        integer Num_instructions
        parameter (Num_instructions=4)  ! Number of instructions to send
 
+      character This_routine*(*)       ! name of this routine
+      parameter (This_routine='clock_timestep_loop')
+
 *+  Local Variables
        character Instructions(Num_instructions)*8
        integer Instruction_Index       ! index into instruction list
@@ -797,7 +801,9 @@ cih
        data Instructions(4) /ACTION_Report/
 
 *- Implementation Section ----------------------------------
- 
+
+      call push_routine (This_routine)
+       
       ! Main timestep loop
  
 10    continue
@@ -830,6 +836,8 @@ cih
  
       ! thats it - exit routine and simulation.
 100   continue
+
+      call pop_routine (This_routine)
  
       return
       end subroutine
@@ -940,10 +948,16 @@ cih
 !+  Changes
 !      NIH 25/08/99
 
+!+  Constant Values
+      character This_routine*(*)       ! name of this routine
+      parameter (This_routine='clock_do_tick')
+
 !+  Local Variables
       character time*(5)               ! time in 24 hour format
 
 !- Implementation Section ----------------------------------
+
+      call push_routine (This_routine)
  
       call new_postbox()
 
@@ -967,6 +981,8 @@ cih
       call event_send (EVENT_tick)
       
       call delete_postbox() 
+
+      call pop_routine (This_routine)
  
       return
       end

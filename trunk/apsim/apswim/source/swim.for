@@ -1,27 +1,28 @@
- 
+      include 'apswim.inc'
+
+C     Last change:  NH    1 Oct 1999    8:57 am
 * =====================================================================
-      subroutine apswim_gsurf(deqrain,g)
+      subroutine apswim_gsurf(deqrain,surfcon)
 * =====================================================================
 *     Short Description:
-*     gets soil surface conductance g
+*     gets soil surface conductance, surfcon
 *
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
       double precision ddivide
- 
-      include 'data.pub'                          
- 
+
+      include 'data.pub'                                                     _
+
 *     Subroutine Arguments
       double precision deqrain
-      double precision g
- 
+      double precision surfcon
+
 *     Internal Variables
       double precision decay_fraction
       double precision ceqrain
- 
+
 *     Constant Values
 *     none
 *
@@ -30,34 +31,34 @@
       ! but because this is really just a linear approximation of the
       ! curve for longer timesteps we had better be explicit and
       ! calculate the difference from the exponential decay curve.
- 
-      if (grc.ne.0) then
+
+      if (p%grc.ne.0) then
          ! first calculate the amount of Energy that must have been
          ! applied to reach the current conductance.
- 
-         decay_Fraction = ddivide(gsurf-g0,g1-g0,0d0)
- 
+
+         decay_Fraction = ddivide(g%gsurf-p%g0,p%g1-p%g0,0d0)
+
          if (doubles_are_equal (decay_fraction, 0d0)) then
             ! seal is totally decayed
-            g = g0
+            surfcon = p%g0
          else
- 
-            ceqrain = -grc * log(decay_Fraction)
- 
+
+            ceqrain = -p%grc * log(decay_Fraction)
+
             ! now add rainfall energy for this timestep
-            if (c_cover_effects.eq.'on') then
-               ceqrain = ceqrain + deqrain * (1d0 - g_residue_cover)
+            if (c%cover_effects.eq.'on') then
+               ceqrain = ceqrain + deqrain * (1d0 - g%residue_cover)
             else
                ceqrain = ceqrain + deqrain
             endif
- 
+
             ! now calculate new surface storage from new energy
-            g = g0+(g1-g0)*exp(-ceqrain/grc)
+            surfcon = p%g0+(p%g1-p%g0)*exp(-ceqrain/p%grc)
          endif
       else
-         g = gsurf
+         surfcon = g%gsurf
       endif
- 
+
       return
       end
 * =====================================================================
@@ -66,26 +67,24 @@
 *     Short description:
 *     solves for this time step
 *
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
       double precision apswim_wpf    ! function
- 
-      include 'write.pub'                         
- 
+
+
 *     Subroutine Arguments
       integer itlim           !(input) limit for no. of iterations
       logical fail            !(output)fail flag
- 
+
 *     Internal Variables
- 
+
       double precision a(-1:M)
       double precision aerr
       double precision b(-1:M)
       double precision balerr
-      double precision c(-1:M)
+      double precision c_(-1:M)         ! Added Underscore to make name unique
       double precision d(-1:M)
       double precision err
       integer          i
@@ -102,97 +101,98 @@
       double precision dp(-1:M)
       double precision vbp(-1:M)
       double precision wpold
- 
+
 *     Constant Values
 *     none
- 
+
       it=0
-      wpold=wp
+      wpold=g%wp
       iroots=0
 *     loop until solved or too many iterations or Thomas algorithm fails
 10    continue
          it=it+1
 *        get balance eqns
-         call apswim_baleq(it,iroots,isol,slos,csl,i1,i2,a,b,c,rhs)
+         call apswim_baleq(it,iroots,p%isol,p%slos,g%csl,i1,i2,a,b,c_
+     :                    ,rhs)
 *        test for convergence to soln
-cnh hey - wpf has no arguments!
-cnh         wp=wpf(n,dx,th)
-         wp = apswim_wpf()
- 
-         balerr=ron-roff-q(n+1)-rex-res-
-     1          (h-hold+wp-wpold+(hbp-hbpold)*sbp)/dt
+cnh hey - wpf has no arguments !
+cnh         g%wp=wpf(p%n,p%dx,g%th)
+         g%wp = apswim_wpf()
+
+         balerr=g%ron-g%roff-g%q(p%n+1)-g%rex-g%res-
+     1          (g%h-g%hold+g%wp-wpold+(g%hbp-g%hbpold)*p%sbp)/g%dt
          err=0.
          do 20 i=i1,i2
             aerr=abs(rhs(i))
             if(err.lt.aerr)err=aerr
 20       continue
 *        switch off iteration for root extraction if err small enough
-         if(err.lt.errex*rex.and.iroots.eq.0)iroots=1
-         if(abs(balerr).lt.ersoil.and.err.lt.ernode)then
+         if(err.lt.p%errex*g%rex.and.iroots.eq.0)iroots=1
+         if(abs(balerr).lt.p%ersoil.and.err.lt.p%ernode)then
             fail=.FALSE.
          else
             neq=i2-i1+1
-            ibpf=ibp-i1+1
-            call apswim_thomas(neq,ibpf,a(i1),b(i1),c(i1),rhs(i1),qbpd,
-     1                  d(i1),dp(i1),vbp,fail)
-            work=work+neq
+            ibpf=p%ibp-i1+1
+            call apswim_thomas(neq,ibpf,a(i1),b(i1),c_(i1),rhs(i1)
+     :                        ,g%qbpd,d(i1),dp(i1),vbp,fail)
+            g%work=g%work+neq
 cnh            if(fail)go to 90
             if(fail) then
 cnh               call warning_error(Err_internal,
 cnh     :            'swim will reduce timestep to solve water movement')
-                  call write_event (
+                  call Write_string (
      :      'swim will reduce timestep to avoid error in water balance')
                goto 90
             endif
- 
+
             fail=.TRUE.
 *           limit step size_of for soil nodes
             i0=max(i1,0)
             do 30 i=i0,i2
-               if(dp(i).gt.dppl)dp(i)=dppl
-               if(dp(i).lt.-dpnl)dp(i)=-dpnl
+               if(dp(i).gt.p%dppl)dp(i)=p%dppl
+               if(dp(i).lt.-p%dpnl)dp(i)=-p%dpnl
 30          continue
 *           update solution
             j=i0
             do 40 i=i0,i2
-               p(j)=p(j)+dp(i)
-               if(j.gt.0.and.j.lt.n-1)then
-                  if(x(j).eq.x(j+1))then
+               g%p(j)=g%p(j)+dp(i)
+               if(j.gt.0.and.j.lt.p%n-1)then
+                  if(p%x(j).eq.p%x(j+1))then
                      j=j+1
-                     p(j)=p(j-1)
+                     g%p(j)=g%p(j-1)
                   end if
                end if
                j=j+1
 40          continue
-            if(i1.eq.-1)h=max(0d0,h+dp(-1))
+            if(i1.eq.-1)g%h=max(0d0,g%h+dp(-1))
          end if
       if(fail.and.it.lt.itlim)go to 10
-cnh      if(isol.ne.1.or.fail)go to 90
+cnh      if(p%isol.ne.1.or.fail)go to 90
       if (fail) then
-         call write_event (
+         call Write_string (
      :   'Maximum iterations reached - swim will reduce timestep')
          goto 90
       endif
-      if(isol.ne.1) then
+      if(p%isol.ne.1) then
          goto 90
       endif
- 
+
 *     solve for solute movement
 cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
- 
-      do 80 solnum = 1,num_solutes
+
+      do 80 solnum = 1,p%num_solutes
          call apswim_getsol
-     :          (solnum,a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
+     :          (solnum,a(0),b(0),c_(0),d(0),rhs(0),dp(0),vbp(0),fail)
          If (fail) then
-            call write_event (
+            call Write_string (
      :         'swim will reduce timestep to solve solute movement')
- 
+
             goto 85
          endif
    80 continue
    85 continue
 cnh
- 
+
 90    continue
       end
 * =====================================================================
@@ -201,14 +201,13 @@ cnh
 *     Short Description:
 *     gets potl evap. for soil and veg., and root length densities
 *
-*     resp,slupf and csl were renamed to tslupf,trep,tcsl as there were
+*     g%resp,p%slupf and g%csl were renamed to tslupf,trep,tcsl as there were
 *     already variables with those names in common
- 
+
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
 cnh      double precision cevap            ! function
       double precision apswim_cevap        ! function
       double precision apswim_slupf        ! function
@@ -216,12 +215,12 @@ cnh      double precision cevap            ! function
       integer          apswim_time_to_mins ! function
       double precision apswim_transp_redn  ! function
       double precision ddivide             ! function
-      double precision apswim_cover_eos_redn ! function 
- 
+      double precision apswim_cover_eos_redn ! function
+
 *     Subroutine Arguments
       integer istat
       double precision tresp
- 
+
 *     Internal Variables
 cnh      double precision frac
       integer          i
@@ -239,149 +238,151 @@ cnh      double precision tfrac
       double precision start_of_day
       double precision end_of_day
       double precision TD_Eo
- 
+
 *     Constant Values
- 
+
 c      double precision rad    ! set root radius rad (alter as required)
 c      parameter (rad=0.1d0)
- 
+
       double precision pi
       parameter (pi=3.141593d0)
 *
       if(istat.eq.0)then
 *        calc. potl evap.
-         rep=(apswim_cevap(t)-apswim_cevap(t-dt))/dt
-         if (c_cover_effects.eq.'on') then
-            !Use Soilwat cover effects on evaporation. 
-            sep = rep*dt * apswim_cover_eos_redn()
+         rep=(apswim_cevap(g%t)-apswim_cevap(g%t-g%dt))/g%dt
+         if (c%cover_effects.eq.'on') then
+            !Use Soilwat cover effects on evaporation.
+            sep = rep*g%dt * apswim_cover_eos_redn()
          else
-            sep = rep*dt * (1d0 - g_crop_cover)
+            sep = rep*g%dt * (1d0 - g%crop_cover)
          endif
- 
-         ! Note: pep is passed to swim as total ep for a plant for the
+
+         ! Note: g%pep is passed to swim as total ep for a plant for the
          ! entire apsim timestep. so rate will be (CEp = cum EP)
          !   dCEp   Total daily EP     dEo
-         !   ---- = -------------- x --------
-         !    dt    Total daily Eo      dt
- 
-         start_of_day = apswim_time (year,day,
-     :                               apswim_time_to_mins(apsim_time))
-         end_of_day = apswim_time (year,day,
-     :              apswim_time_to_mins(apsim_time)+int(apsim_timestep))
- 
+         !   ---- = -------------- p%x --------
+         !    g%dt    Total daily Eo      g%dt
+
+         start_of_day = apswim_time (g%year,g%day,
+     :                               apswim_time_to_mins(g%apsim_time))
+         end_of_day = apswim_time (g%year
+     :                            ,g%day
+     :                            ,apswim_time_to_mins(g%apsim_time)
+     :                                +int(g%apsim_timestep))
+
          TD_Eo = apswim_cevap(end_of_day)-apswim_cevap(start_of_day)
- 
+
          tot_pep = 0d0
-         do 10 iveg=1,nveg
+         do 10 iveg=1,g%nveg
             trf(iveg) = apswim_transp_redn (iveg)
-            tot_pep = tot_pep + ddivide(pep(iveg)*trf(iveg)
+            tot_pep = tot_pep + ddivide(g%pep(iveg)*trf(iveg)
      :                                 ,TD_Eo
      :                                 , 0d0)
-     :                        * rep*dt
+     :                        * rep*g%dt
   10     continue
- 
-         if ((tot_pep+sep .gt. rep*dt)
-     :        .and.(evap_source.ne.'sum_demands')) then
-            scale = ddivide (rep*dt, tot_pep+sep, 0d0)
+
+         if ((tot_pep+sep .gt. rep*g%dt)
+     :        .and.(p%evap_source.ne.'sum_demands')) then
+            scale = ddivide (rep*g%dt, tot_pep+sep, 0d0)
          else
             scale = 1d0
          endif
- 
-         do 50 j=1,nveg
-            rtp(j) = ddivide(pep(j)*trf(j),TD_Eo, 0d0)*rep*scale
+
+         do 50 j=1,g%nveg
+            g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep*scale
 50       continue
- 
+
          ! pot soil evap rate is not linked to apsim timestep
-         tresp = sep/dt*scale
- 
-         do 60 iveg=1,nveg
-            do 60 i=0,n
-cnh               rld(i,iveg)=rld(i,iveg)/dx(i)
-               if(rld(i,iveg).lt.1d-20)rld(i,iveg)=1d-20
-               rldi=rld(i,iveg)
+         tresp = sep/g%dt*scale
+
+         do 60 iveg=1,g%nveg
+            do 60 i=0,p%n
+cnh               g%rld(i,iveg)=g%rld(i,iveg)/p%dx(i)
+               if(g%rld(i,iveg).lt.1d-20)g%rld(i,iveg)=1d-20
+               rldi=g%rld(i,iveg)
 cnh now use root_raidus as in initialisation file
-cnh               rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*dx(i))
- 
-               rc(i,iveg)=-log(pi*root_radius(iveg)**2*rldi)
-     :                        /(4.*pi*rldi*dx(i))
- 
+cnh               g%rc(i,iveg)=-log(pi*rad**2*rldi)/(4.*pi*rldi*p%dx(i))
+
+               g%rc(i,iveg)=-log(pi*g%root_radius(iveg)**2*rldi)
+     :                        /(4.*pi*rldi*p%dx(i))
+
 60        continue
- 
+
       else if(istat.eq.1)then
 *        update cumulative transpiration
-         do 70 i=1,nveg
-            ctp(i)=ctp(i)+rtp(i)*dt
-            ct(i)=ct(i)+rt(i)*dt
+         do 70 i=1,g%nveg
+            g%ctp(i)=g%ctp(i)+g%rtp(i)*g%dt
+            g%ct(i)=g%ct(i)+g%rt(i)*g%dt
 cnh
-            do 65 j=0,n
-               pwuptake(i,j) = pwuptake(i,j) + qr(j,i)*dt*10d0
+            do 65 j=0,p%n
+               g%pwuptake(i,j) = g%pwuptake(i,j) + g%qr(j,i)*g%dt*10d0
                                              ! cm -> mm __/
 65          continue
 70       continue
- 
+
       else if(istat.eq.2)then
 *        update cumulative solute uptake
- 
-         do 90 i=1,nveg
-            do 80 j=0,n
-               do 95 solnum=1,num_solutes
-                  slup(i,solnum)=slup(i,solnum)
-     :                +apswim_slupf(i,solnum)*csl(solnum,j)*qr(j,i)
-cnh     :                      +slupf(solnum)*csl(solnum,j)*qr(j,i)
-                  ! I thought qr was a rate ----------------/
- 
-                  psuptake(solnum,i,j) = psuptake (solnum,i,j) +
-     :              apswim_slupf(i,solnum)*csl(solnum,j)*qr(j,i)/10d0*dt
-cnh     :                   slupf(solnum)*csl(solnum,j)*qr(j,i)/10d0*dt
+
+         do 90 i=1,g%nveg
+            do 80 j=0,p%n
+               do 95 solnum=1,p%num_solutes
+                  g%slup(i,solnum)=g%slup(i,solnum)
+     :                +apswim_slupf(i,solnum)*g%csl(solnum,j)*g%qr(j,i)
+cnh     :                      +p%slupf(solnum)*g%csl(solnum,j)*g%qr(j,i)
+                  ! I thought g%qr was a rate ----------------/
+
+                  g%psuptake(solnum,i,j) = g%psuptake (solnum,i,j) +
+     :              apswim_slupf(i,solnum)*g%csl(solnum,j)
+     :              *g%qr(j,i)/10d0*g%dt
+cnh     :                   p%slupf(solnum)*g%csl(solnum,j)*g%qr(j,i)/10d0*g%dt
 95             continue                                   !   /
                                                           ! ppm -> kg/ha
-c        this doesn't make sense....csl has already been changed from it
+c        this doesn't make sense....g%csl has already been changed from it
 c        was at the start of the timestep.  need to find a different way
 c        of calculating it.  what about qsl???
-c        or try getting csl at start of timestep.
+c        or try getting g%csl at start of timestep.
 c        BUT NUMBERS DO ADD UP OK????? does he then update at start of next
-c        timestep???????!!
- 
- 
+c        timestep??????? !!
+
+
 80          continue
 90       continue
- 
+
       end if
- 
+
       return
       end
 * =====================================================================
       subroutine apswim_baleq
-     :       (it,iroots,tisol,tslos,tcsl,ibegin,iend,a,b,c,rhs)
+     :       (it,iroots,tisol,tslos,tcsl,ibegin,iend,a,b,c_,rhs)
 * =====================================================================
 *     Short Description:
 *     gets coefficient matrix and rhs for Newton soln of balance eqns
 *
 *     Some variables had the same name as some global variables and so
-*     these were renamed (by prefixing with t - for temp)
-*     this include isol, csl, slos
- 
+*     these were renamed (by prefixing with g%t - for temp)
+*     this include p%isol, g%csl, p%slos
+
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
 cnh      double precision grad
       double precision apswim_pf
 cnh      double precision potl
- 
- 
+
+
 *     Subroutine Argruments
       integer it                !(input) iteration no.
       integer iroots            !(input) root extraction flag
       integer tisol             !(input) solute flag
       double precision tslos(nsol)    !(input) osmotic pressure per unit solute
-      double precision tcsl(nsol,0:n) !(input) solute concns
+      double precision tcsl(nsol,0:p%n) !(input) solute concns
       integer ibegin            !(output) position of first equation
       integer iend              !(output) position of last equation
-      double precision a(-1:n),b(-1:n),c(-1:n),rhs(-1:n)
+      double precision a(-1:p%n),b(-1:p%n),c_(-1:p%n),rhs(-1:p%n)
 *     output: coeff. arrays and rhs for Newton eqns
- 
+
 *     Internal Variables
       double precision accept
       double precision absgf
@@ -399,7 +400,7 @@ cnh      double precision potl
       double precision qp1(0:M+1)
       double precision qp2(0:M+1)
       double precision psios(0:M)
-      double precision g
+      double precision g_
       double precision gh
       double precision gr
       double precision hkd1
@@ -425,16 +426,16 @@ cnh      double precision potl
       double precision wt
       logical          xidif
       logical          xipdif
- 
+
       save ifirst,ilast,gr
- 
+
 *     Constant Values
       double precision hcon
       parameter (hcon=7.0e-7)
- 
+
       double precision hair
       parameter (hair=0.5)
- 
+
 cnh - added initialisation to zero to eliminate ndp errors
       do 1 i=0,M
          psip(i)=0.d0
@@ -452,298 +453,300 @@ cnh - added initialisation to zero to eliminate ndp errors
       qp1(M+1) = 0.d0
       qp2(M+1) = 0.d0
 cnh - end
- 
+
 *
 ***   initialise for first iteration
       if(it.eq.1)then
          ifirst=0
-         ilast=n
-         if(itbc.eq.2.and.hold.gt.0.)ifirst=-1
-cnh         if(ibbc.eq.0)gr=grad(t)
+         ilast=p%n
+         if(p%itbc.eq.2.and.g%hold.gt.0.)ifirst=-1
+cnh         if(p%ibbc.eq.0)gr=grad(g%t)
 cnh now uses constant gradient from input file
-         if (ibbc.eq.0)gr = constant_gradient
- 
-         if(ibbc.eq.1)then
-cnh            psi(n)=potl(t)
+         if (p%ibbc.eq.0)gr = p%constant_gradient
+
+         if(p%ibbc.eq.1)then
+cnh            g%psi(p%n)=potl(g%t)
 cnh now uses constant potential from input file
-            psi(n) = constant_potential
- 
-            p(n)=apswim_pf(psi(n))
+            g%psi(p%n) = p%constant_potential
+
+            g%p(p%n)=apswim_pf(g%psi(p%n))
          end if
 cnh added to allow seepage to user potential at bbc
-         if(ibbc.eq.3)then
-            psi(n) = constant_potential
+         if(p%ibbc.eq.3)then
+            g%psi(p%n) = p%constant_potential
          endif
- 
+
       end if
 ***   get soil water variables and their derivatives
-      do 8 i=0,n
-         call apswim_watvar(i,p(i),psi(i),psip(i),psipp(i),th(i),thp(i),
-     1               hk(i),hkp(i))
+      do 8 i=0,p%n
+         call apswim_watvar(i,g%p(i),g%psi(i),psip(i),psipp(i),g%th(i)
+     :                     ,thp(i),g%hk(i),hkp(i))
 8     continue
 ***   check boundary potls
-      if(itbc.eq.0.and.isbc.eq.0.and.psi(0).gt.0.)then
+      if(p%itbc.eq.0.and.p%isbc.eq.0.and.g%psi(0).gt.0.)then
 *        infinite conductance and no ponding allowed
-         psi(0)=0.
-         p(0)=apswim_pf(psi(0))
-         call apswim_watvar(0,p(0),v1,psip(0),psipp(0),th(0),thp(0),
-     1               hk(0),hkp(0))
+         g%psi(0)=0.
+         g%p(0)=apswim_pf(g%psi(0))
+         call apswim_watvar(0,g%p(0),v1,psip(0),psipp(0),g%th(0),thp(0),
+     1               g%hk(0),hkp(0))
       end if
 cnh added to allow seepage to user potential at bbc
-cnh      if(ibbc.eq.3.and.psi(n).gt.0.)then
-      if(ibbc.eq.3.and.psi(n).gt.constant_potential)then
+cnh      if(p%ibbc.eq.3.and.g%psi(p%n).gt.0.)then
+      if(p%ibbc.eq.3.and.g%psi(p%n).gt.p%constant_potential)then
 *        seepage at bottom boundary
-cnh         psi(n)=0.
-         psi(n)=constant_potential
-         p(n)=apswim_pf(psi(n))
-         call apswim_watvar(n,p(n),v1,psip(n),psipp(n),th(n),thp(n),
-     1               hk(n),hkp(n))
+cnh         g%psi(p%n)=0.
+         g%psi(p%n)=p%constant_potential
+         g%p(p%n)=apswim_pf(g%psi(p%n))
+         call apswim_watvar(p%n,g%p(p%n),v1,psip(p%n),psipp(p%n)
+     :                     ,g%th(p%n),thp(p%n),g%hk(p%n),hkp(p%n))
       end if
 ***   get fluxes between nodes
-      absgf=abs(gf)
-      do 10 i=1,n
-         if(x(i-1).ne.x(i))then
-            deltax=x(i)-x(i-1)
-            deltap=p(i)-p(i-1)
-            hkd1=hk(i-1)*psip(i-1)
-            hkd2=hk(i)*psip(i)
-            hkdp1=hk(i-1)*psipp(i-1)+hkp(i-1)*psip(i-1)
-            hkdp2=hk(i)*psipp(i)+hkp(i)*psip(i)
+      absgf=abs(g%gf)
+      do 10 i=1,p%n
+         if(p%x(i-1).ne.p%x(i))then
+            deltax=p%x(i)-p%x(i-1)
+            deltap=g%p(i)-g%p(i-1)
+            hkd1=g%hk(i-1)*psip(i-1)
+            hkd2=g%hk(i)*psip(i)
+            hkdp1=g%hk(i-1)*psipp(i-1)+hkp(i-1)*psip(i-1)
+            hkdp2=g%hk(i)*psipp(i)+hkp(i)*psip(i)
             skd=hkd1+hkd2
-            if(swt.ge..5.and.swt.le.1.)then
+            if(p%swt.ge..5.and.p%swt.le.1.)then
 *              use fixed space weighting on gravity flow
-               w1=sign(2.*swt,gf)
+               w1=sign(2.*p%swt,g%gf)
             else
 *              use central diffs for gravity flow if possible, else use
 *                 just enough upstream weighting to avoid instability
 *                 user may increase acceptable level for central diffs
-*                 by setting swt < -1
-               accept=max(1d0,-swt)
+*                 by setting p%swt < -1
+               accept=max(1d0,-p%swt)
                wt=0.
                if(absgf.ne.0..and.hkp(i).ne.0.)then
                   if(it.eq.1)then
-                     value=1.-accept*(skd+(p(i)-p(i-1))*hkdp2)/
+                     value=1.-accept*(skd+(g%p(i)-g%p(i-1))*hkdp2)/
      1                   (absgf*deltax*hkp(i))
-                     swta(i)=sign(max(0d0,value),gf)
+                     g%swta(i)=sign(max(0d0,value),g%gf)
                   end if
-                  wt=swta(i)
+                  wt=g%swta(i)
                end if
                w1=1.+wt
             end if
             w2=2.-w1
-            q(i)=-0.5*(skd*deltap/deltax-gf*(w1*hk(i-1)+w2*hk(i)))
-            qp1(i)=-0.5*((hkdp1*deltap-skd)/deltax-gf*w1*hkp(i-1))
-            qp2(i)=-0.5*((hkdp2*deltap+skd)/deltax-gf*w2*hkp(i))
+            g%q(i)=-0.5*(skd*deltap/deltax-g%gf*(w1*g%hk(i-1)
+     :                   +w2*g%hk(i)))
+            qp1(i)=-0.5*((hkdp1*deltap-skd)/deltax-g%gf*w1*hkp(i-1))
+            qp2(i)=-0.5*((hkdp2*deltap+skd)/deltax-g%gf*w2*hkp(i))
          end if
 10    continue
 ***   get fluxes to storage
-      do 20 i=0,n
-         qs(i)=(th(i)-thold(i))*dx(i)/dt
-         qsp(i)=thp(i)*dx(i)/dt
+      do 20 i=0,p%n
+         g%qs(i)=(g%th(i)-g%thold(i))*p%dx(i)/g%dt
+         qsp(i)=thp(i)*p%dx(i)/g%dt
 20    continue
 ***   get uptake fluxes to roots if still in iterations
       if(iroots.lt.2)then
 cnh         if(tisol.eq.1.and.tslos.ne.0.)then
-cnh            do 22 i=0,n
-cnh22          psios(i)=psi(i)-tslos*tcsl(i)
-cnh            call uptake(psios,hk,psip,hkp,qex,qexp)
+cnh            do 22 i=0,p%n
+cnh22          psios(i)=g%psi(i)-tslos*tcsl(i)
+cnh            call uptake(psios,g%hk,psip,hkp,g%qex,qexp)
 cnh         else
-cnh            call uptake(psi,hk,psip,hkp,qex,qexp)
+cnh            call uptake(g%psi,g%hk,psip,hkp,g%qex,qexp)
 cnh         end if
 cnh replaced with the following
-         do 23 i=0,n
-            psios(i) = psi(i)
+         do 23 i=0,p%n
+            psios(i) = g%psi(i)
             do 22 solnum=1,nsol
                psios(i)=psios(i)-tslos(solnum)*tcsl(solnum,i)
    22       continue
    23    continue
-         call apswim_uptake(psios,hk,psip,hkp,qex,qexp)
+         call apswim_uptake(psios,g%hk,psip,hkp,g%qex,qexp)
 cnh
       end if
-      rex=0.
-      do 25 i=0,n
-25    rex=rex+qex(i)
+      g%rex=0.
+      do 25 i=0,p%n
+25    g%rex=g%rex+g%qex(i)
 ***   get soil surface fluxes, taking account of top boundary condition
-      if(itbc.eq.0)then
+      if(p%itbc.eq.0)then
 **       infinite conductance
          ifirst=0
-         if(psi(0).lt.0.)then
-            hsoil=exp(hcon*psi(0))
-            res=resp*(hsoil-hair)/(1.-hair)
-            respsi=resp*hcon*hsoil/(1.-hair)
+         if(g%psi(0).lt.0.)then
+            hsoil=exp(hcon*g%psi(0))
+            g%res=g%resp*(hsoil-hair)/(1.-hair)
+            respsi=g%resp*hcon*hsoil/(1.-hair)
          else
-            res=resp
+            g%res=g%resp
             respsi=0.
          end if
-         if(isbc.eq.0)then
+         if(p%isbc.eq.0)then
 *           no ponding allowed
-            h=0.
-            q0=ron-res+hold/dt
-            if(psi(0).lt.0..or.q0.lt.qs(0)+qex(0)+q(1))then
-               q(0)=q0
+            g%h=0.
+            q0=g%ron-g%res+g%hold/g%dt
+            if(g%psi(0).lt.0..or.q0.lt.g%qs(0)+g%qex(0)+g%q(1))then
+               g%q(0)=q0
                qp2(0)=-respsi*psip(0)
-               roff=0.
+               g%roff=0.
             else
 *              const zero potl
                ifirst=1
-               q(0)=qs(0)+qex(0)+q(1)
-               roff=q0-q(0)
+               g%q(0)=g%qs(0)+g%qex(0)+g%q(1)
+               g%roff=q0-g%q(0)
                roffd=-qp2(1)
             end if
          else
 *           runoff zero or given by a function
-            if(psi(0).lt.0.)then
-               h=0.
-               roff=0.
-               q(0)=ron-res+hold/dt
+            if(g%psi(0).lt.0.)then
+               g%h=0.
+               g%roff=0.
+               g%q(0)=g%ron-g%res+g%hold/g%dt
                qp2(0)=-respsi*psip(0)
             else
-               h=psi(0)
-               roff=0.
+               g%h=g%psi(0)
+               g%roff=0.
                roffd=0.
-               if(isbc.eq.2)then
-                  call apswim_runoff (t,h,roff,roffd)
+               if(p%isbc.eq.2)then
+                  call apswim_runoff (g%t,g%h,g%roff,roffd)
                endif
-               q(0)=ron-roff-res-(h-hold)/dt
-               qp2(0)=(-roffd-respsi-1./dt)*psip(0)
+               g%q(0)=g%ron-g%roff-g%res-(g%h-g%hold)/g%dt
+               qp2(0)=(-roffd-respsi-1./g%dt)*psip(0)
             end if
          end if
       end if
-      if(itbc.eq.1)then
+      if(p%itbc.eq.1)then
 **       const potl
          ifirst=1
-         if(psi(0).lt.0.)then
-            hsoil=exp(hcon*psi(0))
-            res=resp*(hsoil-hair)/(1.-hair)
+         if(g%psi(0).lt.0.)then
+            hsoil=exp(hcon*g%psi(0))
+            g%res=g%resp*(hsoil-hair)/(1.-hair)
          else
-            res=resp
+            g%res=g%resp
          end if
-         h=max(psi(0),0d0)
-         q(0)=qs(0)+qex(0)+q(1)
+         g%h=max(g%psi(0),0d0)
+         g%q(0)=g%qs(0)+g%qex(0)+g%q(1)
 *        flow to source of potl treated as "runoff" (but no bypass flow)
-         roff=ron-res-(h-hold)/dt-q(0)
+         g%roff=g%ron-g%res-(g%h-g%hold)/g%dt-g%q(0)
       end if
-      if(itbc.eq.2)then
+      if(p%itbc.eq.2)then
 **       conductance given by a function
-         q0=ron-resp+hold/dt
-         if(isbc.eq.0)then
+         q0=g%ron-g%resp+g%hold/g%dt
+         if(p%isbc.eq.0)then
 *           no ponding allowed
             ifirst=0
-            h=0.
-            call apswim_scond(t,h,g,gh)
-            if(q0.gt.-g*psi(0))then
-               res=resp
+            g%h=0.
+            call apswim_scond(g%t,g%h,g_,gh)
+            if(q0.gt.-g_*g%psi(0))then
+               g%res=g%resp
                respsi=0.
-               q(0)=-g*psi(0)
-               qp2(0)=-g*psip(0)
-               roff=q0-q(0)
+               g%q(0)=-g_*g%psi(0)
+               qp2(0)=-g_*psip(0)
+               g%roff=q0-g%q(0)
                roffd=-qp2(0)
             else
-               hsoil=exp(hcon*psi(0))
-               res=resp*(hsoil-hair)/(1.-hair)
-               respsi=resp*hcon*hsoil/(1.-hair)
-               q0=ron-res+hold/dt
-               q(0)=q0
+               hsoil=exp(hcon*g%psi(0))
+               g%res=g%resp*(hsoil-hair)/(1.-hair)
+               respsi=g%resp*hcon*hsoil/(1.-hair)
+               q0=g%ron-g%res+g%hold/g%dt
+               g%q(0)=q0
                qp2(0)=-respsi*psip(0)
-               roff=0.
+               g%roff=0.
             end if
          else
 *           runoff zero or given by a function
-            call apswim_scond(t,h,g,gh)
-            if(q0.gt.-g*psi(0))then
-*              initialise h if necessary
-               if(ifirst.eq.0)h=max(psi(0),0d0)
+            call apswim_scond(g%t,g%h,g_,gh)
+            if(q0.gt.-g_*g%psi(0))then
+*              initialise g%h if necessary
+               if(ifirst.eq.0)g%h=max(g%psi(0),0d0)
                ifirst=-1
-               res=resp
-               roff=0.
+               g%res=g%resp
+               g%roff=0.
                roffd=0.
-               if(isbc.eq.2.and.h.gt.0.)then
-                  call apswim_runoff(t,h,roff,roffd)
+               if(p%isbc.eq.2.and.g%h.gt.0.)then
+                  call apswim_runoff(g%t,g%h,g%roff,roffd)
                endif
-               q(0)=g*(h-psi(0))
-               qp1(0)=g+gh*(h-psi(0))
-               qp2(0)=-g*psip(0)
-               rhs(-1)=-(ron-roff-res-q(0)-(h-hold)/dt)
-               b(-1)=-roffd-qp1(0)-1./dt
-               c(-1)=-qp2(0)
+               g%q(0)=g_*(g%h-g%psi(0))
+               qp1(0)=g_+gh*(g%h-g%psi(0))
+               qp2(0)=-g_*psip(0)
+               rhs(-1)=-(g%ron-g%roff-g%res-g%q(0)-(g%h-g%hold)/g%dt)
+               b(-1)=-roffd-qp1(0)-1./g%dt
+               c_(-1)=-qp2(0)
             else
                ifirst=0
-               h=0.
-               roff=0.
-               hsoil=exp(hcon*psi(0))
-               res=resp*(hsoil-hair)/(1.-hair)
-               respsi=resp*hcon*hsoil/(1.-hair)
-               q(0)=ron-res+hold/dt
+               g%h=0.
+               g%roff=0.
+               hsoil=exp(hcon*g%psi(0))
+               g%res=g%resp*(hsoil-hair)/(1.-hair)
+               respsi=g%resp*hcon*hsoil/(1.-hair)
+               g%q(0)=g%ron-g%res+g%hold/g%dt
                qp2(0)=-respsi*psip(0)
             end if
          end if
       end if
 *     bypass flow?
-      qbp=0.
-      qbpd=0.
+      g%qbp=0.
+      g%qbpd=0.
       qbpp=0.
-      hbp=0.
+      g%hbp=0.
       qbps=0.
       qbpsp=0.
-      if(ibp.ne.0)then
-         if(psi(ibp).gt.0.)then
+      if(p%ibp.ne.0)then
+         if(g%psi(p%ibp).gt.0.)then
 *           allow for change in storage
-            hbp=psi(ibp)
-            qbps=(hbp-hbpold)*sbp/dt
-            qbpsp=psip(ibp)*sbp/dt
+            g%hbp=g%psi(p%ibp)
+            qbps=(g%hbp-g%hbpold)*p%sbp/g%dt
+            qbpsp=psip(p%ibp)*p%sbp/g%dt
          else
-            qbps=-hbpold*sbp/dt
+            qbps=-g%hbpold*p%sbp/g%dt
          end if
-         if(roff.gt.0..or.psi(ibp).gt.gf*(x(ibp)-x(0)))then
+         if(g%roff.gt.0..or.g%psi(p%ibp).gt.g%gf*(p%x(p%ibp)-p%x(0)))
+     :   then
 *           get bypass flow
-            if(psi(ibp).gt.0.)then
-               qbp=gbp*(gf*(x(ibp)-x(0))-psi(ibp))
-               qbpp=-gbp*psip(ibp)
+            if(g%psi(p%ibp).gt.0.)then
+               g%qbp=p%gbp*(g%gf*(p%x(p%ibp)-p%x(0))-g%psi(p%ibp))
+               qbpp=-p%gbp*psip(p%ibp)
             else
-               qbp=gbp*gf*(x(ibp)-x(0))
+               g%qbp=p%gbp*g%gf*(p%x(p%ibp)-p%x(0))
             end if
-            if(roff.lt.qbp)then
-               qbp=roff
+            if(g%roff.lt.g%qbp)then
+               g%qbp=g%roff
                qbpp=0.
-               qbpd=roffd
+               g%qbpd=roffd
             end if
-            roff=roff-qbp
+            g%roff=g%roff-g%qbp
          end if
       end if
 ***   bottom boundary condition
-      if(ibbc.eq.0)then
+      if(p%ibbc.eq.0)then
 **       zero matric potl gradient
-         q(n+1)=(gf+gr)*hk(n)
-         qp1(n+1)=(gf+gr)*hkp(n)
-      else if(ibbc.eq.1)then
+         g%q(p%n+1)=(g%gf+gr)*g%hk(p%n)
+         qp1(p%n+1)=(g%gf+gr)*hkp(p%n)
+      else if(p%ibbc.eq.1)then
 **       const potl
-         ilast=n-1
-         q(n+1)=q(n)-qs(n)-qex(n)
-         if(ibp.eq.n)then
-            q(n+1)=q(n+1)+qbp-qbps
-            qbpd=0.
+         ilast=p%n-1
+         g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)
+         if(p%ibp.eq.p%n)then
+            g%q(p%n+1)=g%q(p%n+1)+g%qbp-qbps
+            g%qbpd=0.
          end if
-      else if(ibbc.eq.2)then
+      else if(p%ibbc.eq.2)then
 **       zero flux
-         q(n+1)=0.
-         qp1(n+1)=0.
-      else if(ibbc.eq.3)then
+         g%q(p%n+1)=0.
+         qp1(p%n+1)=0.
+      else if(p%ibbc.eq.3)then
 **       seepage
 cnh added to allow seepage to user potential at bbc
-cnh         if(psi(n).ge.0.)then
-         if(psi(n).ge.constant_potential) then
-            q(n+1)=q(n)-qs(n)-qex(n)
-            if(ibp.eq.n)q(n+1)=q(n+1)+qbp
-            if(q(n+1).ge.0.)then
-               ilast=n-1
-               qbpd=0.
+cnh         if(g%psi(p%n).ge.0.)then
+         if(g%psi(p%n).ge.p%constant_potential) then
+            g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)
+            if(p%ibp.eq.p%n)g%q(p%n+1)=g%q(p%n+1)+g%qbp
+            if(g%q(p%n+1).ge.0.)then
+               ilast=p%n-1
+               g%qbpd=0.
             else
-               ilast=n
+               ilast=p%n
             end if
          end if
-         if(ilast.eq.n)then
-            q(n+1)=0.
-            qp1(n+1)=0.
+         if(ilast.eq.p%n)then
+            g%q(p%n+1)=0.
+            qp1(p%n+1)=0.
          end if
       end if
 ***   get Newton-Raphson equations
@@ -757,24 +760,24 @@ cnh         if(psi(n).ge.0.)then
             k=k+1
             j=i+1
 *           j is next different node, k is equation
-            if(i.gt.0.and.i.lt.n-1)then
-               if(x(i).eq.x(i+1))then
+            if(i.gt.0.and.i.lt.p%n-1)then
+               if(p%x(i).eq.p%x(i+1))then
                   xipdif=.FALSE.
                   j=i+2
-                  q(i+1)=((x(j)-x(i))*q(i)+(x(i)-x(i-1))*q(j))/
-     1                   (x(j)-x(i-1))
+                  g%q(i+1)=((p%x(j)-p%x(i))*g%q(i)+(p%x(i)-p%x(i-1))*
+     :                      g%q(j))/(p%x(j)-p%x(i-1))
                end if
             end if
-            rhs(k)=-(q(i)-q(j))
+            rhs(k)=-(g%q(i)-g%q(j))
             a(k)=qp1(i)
             b(k)=qp2(i)-qp1(j)
-            c(k)=-qp2(j)
+            c_(k)=-qp2(j)
          end if
-         rhs(k)=rhs(k)+qs(i)+qex(i)
+         rhs(k)=rhs(k)+g%qs(i)+g%qex(i)
          b(k)=b(k)-qsp(i)
 *        bypass flow?
-         if(ibp.ne.0.and.i.eq.ibp)then
-            rhs(k)=rhs(k)-qbp+qbps
+         if(p%ibp.ne.0.and.i.eq.p%ibp)then
+            rhs(k)=rhs(k)-g%qbp+qbps
             b(k)=b(k)+qbpp-qbpsp
          end if
          if(iroots.eq.0)then
@@ -795,55 +798,54 @@ cnh         if(psi(n).ge.0.)then
 *     Short description:
 *     gets water present in profile
 *
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
- 
+
 *     Subroutine Arguments
 *     none
- 
+
 *     Internal Variables
       integer i
       double precision wpf
- 
+
 *     Constant Values
 *     none
- 
+
 *
       wpf=0.
-      do 10 i=0,n
-10    wpf=wpf+th(i)*dx(i)
- 
+      do 10 i=0,p%n
+10    wpf=wpf+g%th(i)*p%dx(i)
+
       apswim_wpf = wpf
- 
+
       end
 * =====================================================================
-      subroutine apswim_getsol(solnum,a,b,c,d,rhs,c1,c2,fail)
+      subroutine apswim_getsol(solnum,a,b,c_,d,rhs,c1,c2,fail)
 * =====================================================================
 *     Short description:
 *     get and solve solute balance eqns
 *
- 
+
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
       double precision apswim_slupf
- 
- 
+
+
 *     Subroutine Arguments
       integer          solnum
-      double precision a(0:n)
-      double precision b(0:n)
-      double precision c(0:n)
-      double precision d(0:n)
-      double precision rhs(0:n)
-      double precision c1(0:n)
-      double precision c2(0:n)
+      double precision a(0:p%n)
+      double precision b(0:p%n)
+      double precision c_(0:p%n)
+      double precision d(0:p%n)
+      double precision rhs(0:p%n)
+      double precision c1(0:p%n)
+      double precision c2(0:p%n)
       logical          fail
- 
+
 *     Internal Variables
       double precision accept
       double precision aq
@@ -884,134 +886,141 @@ cnh         if(psi(n).ge.0.)then
 *     Constant Values
       integer    itmax
       parameter (itmax=20)
- 
+
 *
-*     surface solute balance - assume evap. (res) comes from x0 store
-      rovr=roff+qbp
-      rinf=q(0)+res
-      if(rinf.gt.min(ersoil,ernode))then
-         cslsur(solnum)=(rslon(solnum)+hold*cslsur(solnum)/dt)
-     :                     /(rovr+rinf+h/dt)
-         qsl(solnum,0)=rinf*cslsur(solnum)
-         rslovr=rovr*cslsur(solnum)
-         if(slsur(solnum).gt.0.)then
-            if(cslsur(solnum).lt.slsci(solnum))then
-               if(slsur(solnum).gt.
-     :                 rinf*dt*(slsci(solnum)-cslsur(solnum)))then
-                  qsl(solnum,0)=rinf*slsci(solnum)
-                  slsur(solnum)=slsur(solnum)-rinf*dt*(slsci(solnum)
-     :                          -cslsur(solnum))
+*     surface solute balance - assume evap. (g%res) comes from x0 store
+      rovr=g%roff+g%qbp
+      rinf=g%q(0)+g%res
+      if(rinf.gt.min(p%ersoil,p%ernode))then
+         g%cslsur(solnum)=(g%rslon(solnum)+g%hold*g%cslsur(solnum)/g%dt)
+     :                     /(rovr+rinf+g%h/g%dt)
+         g%qsl(solnum,0)=rinf*g%cslsur(solnum)
+         rslovr=rovr*g%cslsur(solnum)
+         if(g%slsur(solnum).gt.0.)then
+            if(g%cslsur(solnum).lt.p%slsci(solnum))then
+               if(g%slsur(solnum).gt.
+     :                 rinf*g%dt*(p%slsci(solnum)-g%cslsur(solnum)))then
+                  g%qsl(solnum,0)=rinf*p%slsci(solnum)
+                  g%slsur(solnum)=g%slsur(solnum)
+     :                           -rinf*g%dt*(p%slsci(solnum)
+     :                           -g%cslsur(solnum))
                else
-                  qsl(solnum,0)=rinf*cslsur(solnum)+slsur(solnum)/dt
-                  slsur(solnum)=0.
+                  g%qsl(solnum,0)=rinf*g%cslsur(solnum)
+     :                           +g%slsur(solnum)/g%dt
+                  g%slsur(solnum)=0.
                end if
             end if
-            if(cslsur(solnum).lt.slscr(solnum))then
-               if(slsur(solnum).gt.
-     :              rovr*dt*(slscr(solnum)-cslsur(solnum)))then
-                  rslovr=rovr*slscr(solnum)
-                  slsur(solnum)=slsur(solnum)-rovr*dt*(slscr(solnum)
-     :                          -cslsur(solnum))
+            if(g%cslsur(solnum).lt.p%slscr(solnum))then
+               if(g%slsur(solnum).gt.
+     :              rovr*g%dt*(p%slscr(solnum)-g%cslsur(solnum)))then
+                  rslovr=rovr*p%slscr(solnum)
+                  g%slsur(solnum)=g%slsur(solnum)
+     :                           -rovr*g%dt*(p%slscr(solnum)
+     :                           -g%cslsur(solnum))
                else
-                  rslovr=rovr*cslsur(solnum)+slsur(solnum)/dt
-                  slsur(solnum)=0.
+                  rslovr=rovr*g%cslsur(solnum)+g%slsur(solnum)/g%dt
+                  g%slsur(solnum)=0.
                end if
-               if(slsur(solnum).gt.h*(slscr(solnum)-cslsur(solnum)))then
-                  slsur(solnum)=slsur(solnum)
-     :                          -h*(slscr(solnum)-cslsur(solnum))
-                  cslsur(solnum)=slscr(solnum)
+               if(g%slsur(solnum).gt.
+     :                g%h*(p%slscr(solnum)-g%cslsur(solnum)))then
+                  g%slsur(solnum)=g%slsur(solnum)
+     :                          -g%h*(p%slscr(solnum)-g%cslsur(solnum))
+                  g%cslsur(solnum)=p%slscr(solnum)
                else
-                  if(h.gt.0)cslsur(solnum)=cslsur(solnum)
-     :                                     +slsur(solnum)/h
-                  slsur(solnum)=0.
+                  if(g%h.gt.0)g%cslsur(solnum)=g%cslsur(solnum)
+     :                                     +g%slsur(solnum)/g%h
+                  g%slsur(solnum)=0.
                end if
             end if
          end if
       else
-         cslsur(solnum)=0.
-         qsl(solnum,0)=0.
+         g%cslsur(solnum)=0.
+         g%qsl(solnum,0)=0.
          rslovr=0.
       end if
 *     get eqn coeffs
 *     get production and storage components
 cnh      call slprod
-      rslprd(solnum)=0.
-      do 45 i=0,n
-         c1(i)=csl(solnum,i)
-         thi=th(i)
+      g%rslprd(solnum)=0.
+      do 45 i=0,p%n
+         c1(i)=g%csl(solnum,i)
+         thi=g%th(i)
 cnh         j=indxsl(solnum,i)
          j = i
-         rslprd(solnum)=rslprd(solnum)+qslprd(solnum,i)
+         g%rslprd(solnum)=g%rslprd(solnum)+g%qslprd(solnum,i)
          nonlin=.FALSE.
 
 *Peter's CHANGE 21/10/98 to ensure zero exchange is treated as linear
-*         if (fip(solnum,j).eq.1.) then
-         if ((ex(solnum,j).eq.0.).or.(fip(solnum,j).eq.1.)) then
+*         if (p%fip(solnum,j).eq.1.) then
+         if ((p%ex(solnum,j).eq.0.).or.(p%fip(solnum,j).eq.1.)) then
 *           linear exchange isotherm
             c2(i)=1.
-            exco1=ex(solnum,j)
-            exco2=betaex(solnum,j)
+            exco1=p%ex(solnum,j)
+            exco2=p%betaex(solnum,j)
          else
 *           nonlinear Freundlich exchange isotherm
             nonlin=.TRUE.
             c2(i)=0.
-            if(c1(i).gt.0.)c2(i)=c1(i)**(fip(solnum,j)-1.)
-            exco1=ex(solnum,j)*fip(solnum,j)*c2(i)
-            exco2=betaex(solnum,j)*fip(solnum,j)*c2(i)
-            exco3=betaex(solnum,j)*(1.-fip(solnum,j))*c2(i)
+            if(c1(i).gt.0.)c2(i)=c1(i)**(p%fip(solnum,j)-1.)
+            exco1=p%ex(solnum,j)*p%fip(solnum,j)*c2(i)
+            exco2=p%betaex(solnum,j)*p%fip(solnum,j)*c2(i)
+            exco3=p%betaex(solnum,j)*(1.-p%fip(solnum,j))*c2(i)
          end if
-         b(i)=(-(thi+exco1)/dt+alpha(solnum,j)*thi+exco2)*dx(i)-
-     1        apswim_slupf(1,solnum)*qex(i)
-cnh     1        slupf(solnum)*qex(i)
-         rhs(i)=-qslprd(solnum,i)
-     :          -(csl(solnum,i)*((thold(i)+exco1)/dt+exco3))*dx(i)
-         qsls(solnum,i)=
-     :          -(csl(solnum,i)*(thold(i)+ex(solnum,j)*c2(i))/dt)*dx(i)
+         b(i)=(-(thi+exco1)/g%dt+p%alpha(solnum,j)*thi+exco2)*p%dx(i)-
+     1        apswim_slupf(1,solnum)*g%qex(i)
+cnh     1        p%slupf(solnum)*g%qex(i)
+         rhs(i)=-g%qslprd(solnum,i)
+     :          -(g%csl(solnum,i)*((g%thold(i)+exco1)
+     :                 /g%dt+exco3))*p%dx(i)
+         g%qsls(solnum,i)=
+     :          -(g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*c2(i))/
+     :          g%dt)*p%dx(i)
 45    continue
 *     get dispersive and convective components
 *        use central diffs in time for convection, backward diffs for rest
 *        use central diffs in space, but for convection may need some
 *        upstream weighting to avoid instability
-      do 50 i=1,n
-         if(x(i-1).ne.x(i))then
-            thav=0.5*(th(i-1)+th(i))
-            aq=abs(q(i))
-            dc(solnum,i)=dcon(solnum)*(thav-dthc(solnum))**dthp(solnum)
-cnh     1            +0.5*(dis(solnum,indxsl(solnum,i-1))
-     1            +0.5*(dis(solnum,i-1)
-cnh     :            +dis(solnum,indxsl(solnum,i)))*(aq/thav)**disp(solnum)
-     :            +dis(solnum,i))*(aq/thav)**disp(solnum)
-            dfac=thav*dc(solnum,i)/(x(i)-x(i-1))
-            if(slswt.ge..5.and.slswt.le.1.)then
+      do 50 i=1,p%n
+         if(p%x(i-1).ne.p%x(i))then
+            thav=0.5*(g%th(i-1)+g%th(i))
+            aq=abs(g%q(i))
+            g%dc(solnum,i)=p%dcon(solnum)
+     :                    *(thav-p%dthc(solnum))**p%dthp(solnum)
+cnh     1            +0.5*(p%dis(solnum,indxsl(solnum,i-1))
+     1            +0.5*(p%dis(solnum,i-1)
+cnh     :            +p%dis(solnum,indxsl(solnum,i)))*(aq/thav)**p%disp(solnum)
+     :            +p%dis(solnum,i))*(aq/thav)**p%disp(solnum)
+            dfac=thav*g%dc(solnum,i)/(p%x(i)-p%x(i-1))
+            if(p%slswt.ge..5.and.p%slswt.le.1.)then
 *              use fixed space weighting on convection
-               w1=sign(2.*slswt,q(i))
+               w1=sign(2.*p%slswt,g%q(i))
             else
 *              use central diffs for convection if possible, else use
 *                 just enough upstream weighting to avoid oscillation
 *                 user may increase acceptable level for central diffs
-*                 by setting slswt < -1
-               accept=max(1d0,-slswt)
+*                 by setting p%slswt < -1
+               accept=max(1d0,-p%slswt)
                wt=0.
-               if(aq.ne.0.)wt=sign(max(0d0,1.-2.*accept*dfac/aq),q(i))
+               if(aq.ne.0.)wt=sign(max(0d0,1.-2.*accept*dfac/aq),g%q(i))
                w1=1.+wt
             end if
             w2=2.-w1
 
-*Peter's CHANGE 21/10/98 to remove/restore Crank-Nicolson time weighting 
+*Peter's CHANGE 21/10/98 to remove/restore Crank-Nicolson time weighting
 *for convection
-*            fq=.25*q(i)
-*            fqc=fq*(w1*csl(solnum,i-1)+w2*csl(solnum,i))
+*            fq=.25*g%q(i)
+*            fqc=fq*(w1*g%csl(solnum,i-1)+w2*g%csl(solnum,i))
 *            wtime=0.25D0
 *            wtime1=1.0D0
             wtime=0.5D0
             wtime1=0.0D0
-            fq=wtime*q(i)
-            fqc=wtime1*fq*(w1*csl(solnum,i-1)+w2*csl(solnum,i))
+            fq=wtime*g%q(i)
+            fqc=wtime1*fq*(w1*g%csl(solnum,i-1)+w2*g%csl(solnum,i))
 
 *           get convective component from old time level
-            qsl(solnum,i)=fqc
+            g%qsl(solnum,i)=fqc
             b(i-1)=b(i-1)-dfac-fq*w1
-            c(i-1)=dfac-fq*w2
+            c_(i-1)=dfac-fq*w2
             a(i)=dfac+fq*w1
             b(i)=b(i)-dfac+fq*w2
             rhs(i-1)=rhs(i-1)+fqc
@@ -1019,228 +1028,240 @@ cnh     :            +dis(solnum,indxsl(solnum,i)))*(aq/thav)**disp(solnum)
          end if
 50    continue
 *     allow for bypass flow
-      qslbp(solnum)=0.
-      if(ibp.ne.0)then
-         if(qbp.ge.0.)then
-            qslbp(solnum)=qbp*cslsur(solnum)
-            rhs(ibp)=rhs(ibp)-qslbp(solnum)
-*           note that if rinf were -ve, old cslsur would be used, except
-*           that then qbp would probably be -ve
+      g%qslbp(solnum)=0.
+      if(p%ibp.ne.0)then
+         if(g%qbp.ge.0.)then
+            g%qslbp(solnum)=g%qbp*g%cslsur(solnum)
+            rhs(p%ibp)=rhs(p%ibp)-g%qslbp(solnum)
+*           note that if rinf were -ve, old g%cslsur would be used, except
+*           that then g%qbp would probably be -ve
          else
-            b(ibp)=b(ibp)-qbp
+            b(p%ibp)=b(p%ibp)-g%qbp
          end if
       end if
 *     impose boundary conditions
-      if(itbc.eq.1)then
+      if(p%itbc.eq.1)then
 *        constant concentration
          k=1
       else
          k=0
-         rhs(0)=rhs(0)-qsl(solnum,0)
-         if(rinf.lt.-min(ersoil,ernode))then
+         rhs(0)=rhs(0)-g%qsl(solnum,0)
+         if(rinf.lt.-min(p%ersoil,p%ernode))then
             b(0)=b(0)+.5*rinf
-            rhs(0)=rhs(0)-.5*rinf*csl(solnum,0)
+            rhs(0)=rhs(0)-.5*rinf*g%csl(solnum,0)
          end if
       end if
-      if(ibbc.eq.1)then
+      if(p%ibbc.eq.1)then
 *        constant concentration
 cnh
-         csl(solnum,n) = cslgw(solnum)
+         g%csl(solnum,p%n) = p%cslgw(solnum)
 cnh
-         rhs(n-1)=rhs(n-1)-c(n-1)*csl(solnum,n)
-         neq=n
- 
+         rhs(p%n-1)=rhs(p%n-1)-c_(p%n-1)*g%csl(solnum,p%n)
+         neq=p%n
+
       else
 *        convection only
-         b(n)=b(n)-.5*q(n+1)
-         rhs(n)=rhs(n)+.5*q(n+1)*csl(solnum,n)
-         neq=n+1
+         b(p%n)=b(p%n)-.5*g%q(p%n+1)
+         rhs(p%n)=rhs(p%n)+.5*g%q(p%n+1)*g%csl(solnum,p%n)
+         neq=p%n+1
       end if
 *     allow for two nodes at same depth
       j=0
-      do 60 i=1,n
-         if(x(i-1).ne.x(i))then
+      do 60 i=1,p%n
+         if(p%x(i-1).ne.p%x(i))then
             j=j+1
             a(j)=a(i)
             b(j)=b(i)
             rhs(j)=rhs(i)
-            c(j-1)=c(i-1)
+            c_(j-1)=c_(i-1)
          else
             b(j)=b(j)+b(i)
             rhs(j)=rhs(j)+rhs(i)
          end if
 60    continue
-*     save old csl(0),csl(n)
-      csl0=csl(solnum,0)
-      csln=csl(solnum,n)
-      neq=neq-(n-j)
+*     save old g%csl(0),g%csl(p%n)
+      csl0=g%csl(solnum,0)
+      csln=g%csl(solnum,p%n)
+      neq=neq-(p%n-j)
       itcnt=0
 *     solve for concentrations
 62    continue
-cnh      call thomas(neq,0,a(k),b(k),c(k),rhs(k),dum,d(k),csl(solnum,k),
+cnh      call thomas(neq,0,a(k),b(k),c(k),rhs(k),dum,d(k),g%csl(solnum,k),
 cnh     :            dum,fail)
-      do 63 i=0,n
-        csltemp(i) = csl(solnum,i)
+      do 63 i=0,p%n
+        csltemp(i) = g%csl(solnum,i)
    63 continue
       call apswim_thomas
-     :      (neq,0,a(k),b(k),c(k),rhs(k),dum,d(k),csltemp(k),dum,fail)
-      do 64 i=0,n
-        csl(solnum,i) = csltemp(i)
+     :      (neq,0,a(k),b(k),c_(k),rhs(k),dum,d(k),csltemp(k),dum,fail)
+      do 64 i=0,p%n
+        g%csl(solnum,i) = csltemp(i)
    64 continue
- 
+
 cnh end
       itcnt=itcnt+1
-      slwork=slwork+neq
+      g%slwork=g%slwork+neq
       if(fail)go to 90
       j=k+neq-1
-      if(ibbc.ne.1)then
-         csl(solnum,n)=csl(solnum,j)
+      if(p%ibbc.ne.1)then
+         g%csl(solnum,p%n)=g%csl(solnum,j)
          j=j-1
       end if
-      do 65 i=n-1,1,-1
-         if(x(i).ne.x(i+1))then
-            csl(solnum,i)=csl(solnum,j)
+      do 65 i=p%n-1,1,-1
+         if(p%x(i).ne.p%x(i+1))then
+            g%csl(solnum,i)=g%csl(solnum,j)
             j=j-1
          else
-            csl(solnum,i)=csl(solnum,i+1)
+            g%csl(solnum,i)=g%csl(solnum,i+1)
          end if
 65    continue
       if(nonlin)then
 *        test for convergence
          dmax=0.
-         do 66 i=0,n
-            dabs=abs(csl(solnum,i)-c1(i))
+         do 66 i=0,p%n
+            dabs=abs(g%csl(solnum,i)-c1(i))
             if(dmax.lt.dabs)dmax=dabs
 66       continue
-         if(dmax.gt.slcerr)then
+         if(dmax.gt.p%slcerr)then
             if(itcnt.eq.itmax)then
                fail=.TRUE.
                go to 90
             end if
 *           keep iterating using Newton-Raphson technique
 *           next c^fip for Freundlich isotherm is approximated as
-*              cn^fip=c^fip+fip*c^(fip-1)*(cn-c)
-*                    =fip*c^(fip-1)*cn+(1-fip)*c^fip
+*              cn^fip=c^fip+p%fip*c^(p%fip-1)*(cn-c)
+*                    =p%fip*c^(p%fip-1)*cn+(1-p%fip)*c^fip
             j=0
-            do 67 i=0,n
-               if(i.gt.0.and.x(i-1).ne.x(i))j=j+1
+            do 67 i=0,p%n
+               if(i.gt.0.and.p%x(i-1).ne.p%x(i))j=j+1
 cnh               kk=indxsl(solnum,i)
                kk = i
-               if(fip(solnum,kk).ne.1.)then
+               if(p%fip(solnum,kk).ne.1.)then
                   cp=0.
-                  if(csl(solnum,i).gt.0.)then
-                     cp=csl(solnum,i)**(fip(solnum,kk)-1.)
+                  if(g%csl(solnum,i).gt.0.)then
+                     cp=g%csl(solnum,i)**(p%fip(solnum,kk)-1.)
                   endif
-                  d1=fip(solnum,kk)*(cp-c2(i))
-                  d2=(1.-fip(solnum,kk))*(csl(solnum,i)*cp-c1(i)*c2(i))
-                  c1(i)=csl(solnum,i)
+                  d1=p%fip(solnum,kk)*(cp-c2(i))
+                  d2=(1.-p%fip(solnum,kk))
+     :              *(g%csl(solnum,i)*cp-c1(i)*c2(i))
+                  c1(i)=g%csl(solnum,i)
                   c2(i)=cp
-                  b(j)=b(j)-(ex(solnum,kk)/dt-betaex(solnum,kk))
-     :                 *d1*dx(i)
-                  rhs(j)=rhs(j)+(ex(solnum,kk)/dt-betaex(solnum,kk))
-     :                 *d2*dx(i)
+                  b(j)=b(j)-(p%ex(solnum,kk)/g%dt-p%betaex(solnum,kk))
+     :                 *d1*p%dx(i)
+                  rhs(j)=rhs(j)+(p%ex(solnum,kk)/g%dt
+     :                            -p%betaex(solnum,kk))
+     :                          *d2*p%dx(i)
                end if
 67          continue
             go to 62
          end if
       end if
 *     get surface solute balance?
-      if(rinf.lt.-min(ersoil,ernode))then
+      if(rinf.lt.-min(p%ersoil,p%ernode))then
 *        flow out of surface
 *CHANGES 6/11/98 to remove/restore Crank-Nicolson time weighting for convection
-*----- 
-*         qsl(solnum,0)=.5*rinf*(csl0+csl(solnum,0))
-         qsl(solnum,0)=.5*rinf*(wtime1*csl0+4D0*wtime*csl(solnum,0))
+*-----
+*         g%qsl(solnum,0)=.5*rinf*(csl0+g%csl(solnum,0))
+         g%qsl(solnum,0)=.5*rinf*(wtime1*csl0+4D0*wtime*g%csl(solnum,0))
 
-         rslout=-qsl(solnum,0)
-         if(slsur(solnum).gt.0.)then
+         rslout=-g%qsl(solnum,0)
+         if(g%slsur(solnum).gt.0.)then
 *           allow for surface applied solute
-            if(csl(solnum,0).lt.slsci(solnum))then
-               if(slsur(solnum).gt.
-     :                  -rinf*dt*(slsci(solnum)-csl(solnum,0)))then
-                  rslout=-rinf*slsci(solnum)
-                  slsur(solnum)=slsur(solnum)
-     :                          +rinf*dt*(slsci(solnum)-csl(solnum,0))
+            if(g%csl(solnum,0).lt.p%slsci(solnum))then
+               if(g%slsur(solnum).gt.
+     :                  -rinf*g%dt*(p%slsci(solnum)-g%csl(solnum,0)))
+     :         then
+                  rslout=-rinf*p%slsci(solnum)
+                  g%slsur(solnum)=g%slsur(solnum)
+     :                           +rinf*g%dt*(p%slsci(solnum)
+     :                                        -g%csl(solnum,0))
                else
-                  rslout=rslout+slsur(solnum)/dt
-                  slsur(solnum)=0.
+                  rslout=rslout+g%slsur(solnum)/g%dt
+                  g%slsur(solnum)=0.
                end if
             end if
          end if
 *        get surface solute balance
-         cslsur(solnum)=(rslon(solnum)+rslout+hold*cslsur(solnum)/dt)
-     :                   /(rovr+h/dt)
-         rslovr=rovr*cslsur(solnum)
+         g%cslsur(solnum)=(g%rslon(solnum)+rslout
+     :                     +g%hold*g%cslsur(solnum)/g%dt)
+     :                   /(rovr+g%h/g%dt)
+         rslovr=rovr*g%cslsur(solnum)
       end if
 *     allow for bypass flow
-      if(ibp.ne.0.and.qbp.lt.0.)qslbp(solnum)=qbp*csl(solnum,ibp)
-      rsloff(solnum)=rslovr-qslbp(solnum)
+      if(p%ibp.ne.0.and.g%qbp.lt.0.)g%qslbp(solnum)=g%qbp
+     :                                             *g%csl(solnum,p%ibp)
+      g%rsloff(solnum)=rslovr-g%qslbp(solnum)
 *     get solute fluxes
-      do 70 i=1,n
-         if(x(i-1).ne.x(i))then
-            dfac=0.5*(th(i-1)+th(i))*dc(solnum,i)/(x(i)-x(i-1))
-            aq=abs(q(i))
-            accept=max(1d0,-slswt)
+      do 70 i=1,p%n
+         if(p%x(i-1).ne.p%x(i))then
+            dfac=0.5*(g%th(i-1)+g%th(i))*g%dc(solnum,i)
+     :                                  /(p%x(i)-p%x(i-1))
+            aq=abs(g%q(i))
+            accept=max(1d0,-p%slswt)
             wt=0.
-            if(aq.ne.0.)wt=sign(max(0d0,1.-2.*accept*dfac/aq),q(i))
+            if(aq.ne.0.)wt=sign(max(0d0,1.-2.*accept*dfac/aq),g%q(i))
 *Peter's CHANGES 21/10/98 to remove/restore Crank-Nicolson time weighting
 *for convection
-*            qsl(solnum,i)=qsl(solnum,i)
-*     :                    +.25*q(i)*((1.+wt)*csl(solnum,i-1)
-*     :                    +(1.-wt)*csl(solnum,i))
-*     1                    +dfac*(csl(solnum,i-1)-csl(solnum,i))
-            qsl(solnum,i)=qsl(solnum,i)
-     :                    +wtime*q(i)*((1.+wt)*csl(solnum,i-1)
-     :                    +(1.-wt)*csl(solnum,i))
-     1                    +dfac*(csl(solnum,i-1)-csl(solnum,i))
+*            g%qsl(solnum,i)=g%qsl(solnum,i)
+*     :                    +.25*g%q(i)*((1.+wt)*g%csl(solnum,i-1)
+*     :                    +(1.-wt)*g%csl(solnum,i))
+*     1                    +dfac*(g%csl(solnum,i-1)-g%csl(solnum,i))
+            g%qsl(solnum,i)=g%qsl(solnum,i)
+     :                    +wtime*g%q(i)*((1.+wt)*g%csl(solnum,i-1)
+     :                    +(1.-wt)*g%csl(solnum,i))
+     1                    +dfac*(g%csl(solnum,i-1)-g%csl(solnum,i))
          end if
 
 70    continue
-      do 75 i=2,n-1
-         if(x(i-1).eq.x(i))then
-            qsl(solnum,i)=
-     :               (dx(i)*qsl(solnum,i-1)+dx(i-1)*qsl(solnum,i+1))
-     :               /(dx(i-1)+dx(i))
+      do 75 i=2,p%n-1
+         if(p%x(i-1).eq.p%x(i))then
+            g%qsl(solnum,i)=
+     :               (p%dx(i)*g%qsl(solnum,i-1)
+     :                  +p%dx(i-1)*g%qsl(solnum,i+1))
+     :               /(p%dx(i-1)+p%dx(i))
          end if
 75    continue
-      slp(solnum)=0.
-      rslex(solnum)=0.
-      rsldec(solnum)=0.
-      do 80 i=0,n
+      g%slp(solnum)=0.
+      g%rslex(solnum)=0.
+      g%rsldec(solnum)=0.
+      do 80 i=0,p%n
 cnh         j=indxsl(solnum,i)
          j = i
          cp=1.
-         if(fip(solnum,j).ne.1.)then
+         if(p%fip(solnum,j).ne.1.)then
             cp=0.
-            if(csl(solnum,i).gt.0.)cp=csl(solnum,i)**(fip(solnum,j)-1.)
+            if(g%csl(solnum,i).gt.0.)
+     :            cp=g%csl(solnum,i)**(p%fip(solnum,j)-1.)
          end if
-         cslt(solnum,i)=(th(i)+ex(solnum,j)*cp)*csl(solnum,i)
-         slp(solnum)=slp(solnum)+cslt(solnum,i)*dx(i)
-cnh         rslex(solnum)=rslex(solnum)+qex(i)*csl(solnum,i)*slupf(solnum)
-         rslex(solnum)=rslex(solnum)+qex(i)*csl(solnum,i)
+         g%cslt(solnum,i)=(g%th(i)+p%ex(solnum,j)*cp)*g%csl(solnum,i)
+         g%slp(solnum)=g%slp(solnum)+g%cslt(solnum,i)*p%dx(i)
+cnh         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)*p%slupf(solnum)
+         g%rslex(solnum)=g%rslex(solnum)+g%qex(i)*g%csl(solnum,i)
      :                *apswim_slupf(1,solnum)
-         rsldec(solnum)=rsldec(solnum)
-     :           -(alpha(solnum,j)*th(i)+betaex(solnum,j)*cp)
-     :           *dx(i)*csl(solnum,i)
-         qsls(solnum,i)=qsls(solnum,i)+
-     :           (csl(solnum,i)*(thold(i)+ex(solnum,j)*cp)/dt)*dx(i)
+         g%rsldec(solnum)=g%rsldec(solnum)
+     :           -(p%alpha(solnum,j)*g%th(i)+p%betaex(solnum,j)*cp)
+     :           *p%dx(i)*g%csl(solnum,i)
+         g%qsls(solnum,i)=g%qsls(solnum,i)+
+     :           (g%csl(solnum,i)*(g%thold(i)+p%ex(solnum,j)*cp)/g%dt)*
+     :           p%dx(i)
 80    continue
-      if(ibbc.eq.1)then
+      if(p%ibbc.eq.1)then
 *        constant concentration
-cnh         j=indxsl(solnum,n)
-         j = n
-         qsl(solnum,n+1)=qsl(solnum,n)-qsls(solnum,n)
-cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
-     :                  -qex(n)*csl(solnum,n)*apswim_slupf(1,solnum)
-     :                  +qslprd(solnum,n)+
-     :                  (alpha(solnum,j)*th(n)+betaex(solnum,j)*cp)
-     :                  *dx(n)*csl(solnum,n)
+cnh         j=indxsl(solnum,p%n)
+         j = p%n
+         g%qsl(solnum,p%n+1)=g%qsl(solnum,p%n)-g%qsls(solnum,p%n)
+cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
+     :              -g%qex(p%n)*g%csl(solnum,p%n)*apswim_slupf(1,solnum)
+     :              +g%qslprd(solnum,p%n)
+     :              +(p%alpha(solnum,j)*g%th(p%n)
+     :              +p%betaex(solnum,j)*cp)
+     :              *p%dx(p%n)*g%csl(solnum,p%n)
       else
 *        convection only
 *CHANGES 6/11/98 to remove/restore Crank-Nicolson time weighting for convection
-*----- 
-*         qsl(solnum,n+1)=.5*q(n+1)*(csln+csl(solnum,n))
-         qsl(solnum,n+1)=.5*q(n+1)*(wtime1*csln+4D0*wtime*csl(solnum,n))
+*-----
+*         g%qsl(solnum,p%n+1)=.5*g%q(p%n+1)*(csln+g%csl(solnum,p%n))
+         g%qsl(solnum,p%n+1)=.5*g%q(p%n+1)
+     :                    *(wtime1*csln+4D0*wtime*g%csl(solnum,p%n))
 
       end if
 90    continue
@@ -1250,53 +1271,53 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
 * =====================================================================
 *     Short description:
 *     Thomas algorithm for solving tridiagonal system of eqns
-*     Allow for bypass flow if ib from 1 to n and rb nonzero
+*     Allow for bypass flow if ib from 1 to N and rb nonzero
 *
       implicit none
- 
+
 *     Global Variables
- 
- 
+
+
 *     Subroutine Arguments
- 
-      integer          n
-      double precision a(n)
-      double precision b(n)
-      double precision c(n)
-      double precision d(n)
+
+      integer          N
+      double precision a(N)
+      double precision b(N)
+      double precision c(N)
+      double precision d(N)
       logical          fail
       integer          ib
       double precision rb
-      double precision rhs(n)
-      double precision v(n)
-      double precision vb(n)
- 
+      double precision rhs(N)
+      double precision v(N)
+      double precision vb(N)
+
 *     Local Variables
- 
+
       double precision fac
       integer          i
       double precision piv
- 
+
 *     Constant Values
 *     none
- 
+
 *
       if(b(1).eq.0.)go to 60
       piv=b(1)
       v(1)=rhs(1)/piv
-      do 10 i=2,n
+      do 10 i=2,N
           d(i)=c(i-1)/piv
           piv=b(i)-a(i)*d(i)
           if(piv.eq.0.)go to 60
           v(i)=(rhs(i)-a(i)*v(i-1))/piv
 10    continue
-      do 20 i=n-1,1,-1
+      do 20 i=N-1,1,-1
       v(i)=v(i)-d(i+1)*v(i+1)
 20    continue
-      if(ib.ge.1.and.ib.le.n.and.rb.ne.0.)then
+      if(ib.ge.1.and.ib.le.N.and.rb.ne.0.)then
          vb(1)=0.
          if(ib.eq.1)vb(1)=rb/b(1)
-         do 30 i=2,n
+         do 30 i=2,N
             if(i.lt.ib)then
                vb(i)=0.
             else
@@ -1305,10 +1326,10 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
                if(i.gt.ib)vb(i)=-a(i)*vb(i-1)/piv
             end if
 30       continue
-         do 40 i=n-1,1,-1
+         do 40 i=N-1,1,-1
 40       vb(i)=vb(i)-d(i+1)*vb(i+1)
          fac=v(1)/(1d0+vb(1))
-         do 50 i=1,n
+         do 50 i=1,N
 50       v(i)=v(i)-fac*vb(i)
       end if
       fail=.FALSE.
@@ -1323,31 +1344,31 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
 *     gets psi and its partial derivitives
 *
       Implicit none
- 
+
 *     Global Variables
- 
- 
+
+
 *     Subroutine Arguments
       double precision p
       double precision psi
       double precision psip
       double precision psipp
- 
+
 *     Internal Variables
- 
+
       double precision ep
       double precision emp
       double precision sinhp
       double precision coshp
       double precision v
- 
+
 * Constants
       double precision psi0
       parameter (psi0=-50d0)
- 
+
       double precision psi1
       parameter (psi1=psi0/10d0)
- 
+
 *
       if(p.lt.0d0)then
          ep=exp(p)
@@ -1363,7 +1384,7 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
          psip=-psi1
          psipp=0d0
       end if
- 
+
       end
 *
 ***   water functions
@@ -1374,24 +1395,24 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
 *     returns transform p
 *
       implicit none
- 
+
 *     Global Variables
 *     none
- 
- 
+
+
 *     Subroutine Arguments
       double precision psi
- 
+
 *     Internal Variables
       double precision v
- 
+
 *     Constant Values
       double precision psi0
       parameter (psi0=-50d0)
- 
+
       double precision psi1
       parameter (psi1=psi0/10d0)
- 
+
 *
       v=-(psi-psi0)/psi1
       if(psi.lt.psi0)then
@@ -1399,40 +1420,39 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
       else
          apswim_pf=v
       end if
- 
+
       end
 * ===================================================================
       subroutine apswim_uptake(tpsi,thk,tpsip,thkp,tqex,tqexp)
 * ===================================================================
 *     gets flow rates to roots and total water extraction rates
 *
-*  Note some variables renamed using t prefix because of clash with
+*  Note some variables renamed using g%t prefix because of clash with
 *  common variables.
-* psi->tpsi
+* g%psi->tpsi
 * psip->tpsip
-* hk->thk
+* g%hk->thk
 * hkp->thkp
-* qex->tqex
+* g%qex->tqex
 * qexp->tqexp
-* q->tq
+* g%q->tq
 * tr->ttr
- 
+
+      use APSwimModule
       implicit none
- 
-      include 'apswim.inc'
- 
+
 *     Subroutine Arguments
- 
-      double precision tpsi(0:n),thk(0:n),tpsip(0:n),thkp(0:n),tqex(0:n)
-     1                 ,tqexp(3,0:n)
- 
- 
+
+      double precision tpsi(0:p%n),thk(0:p%n),tpsip(0:p%n),thkp(0:p%n)
+     :                 ,tqex(0:p%n),tqexp(3,0:p%n)
+
+
 *     Local Variable
       double precision a
       double precision b
       logical          change
       double precision derp
-      double precision g(0:M)
+      double precision g_(0:M)
       integer          i
       integer          iveg
       integer          j
@@ -1443,41 +1463,42 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
       logical          stress
       double precision ttr
       double precision tq
- 
+
 *     set root conductance gr (alter as required)
-c      double precision gr  ! cm/h
+c      double precision gr  ! cm/g%h
 c      parameter (gr=1.4d-7)
- 
+
 *
-      do 10 i=0,n
+      do 10 i=0,p%n
          tqex(i)=0.
          do 10 j=1,3
          tqexp(j,i)=0.
 cnh
-        do 5 k=1,nveg
-           qr(i,k) = 0d0
+        do 5 k=1,g%nveg
+           g%qr(i,k) = 0d0
  5      continue
 cnh
 10    continue
-      do 100 iveg=1,nveg
+      do 100 iveg=1,g%nveg
 *        find transpiration rates
-         rt(iveg)=0.
-         ttr=rtp(iveg)
+         g%rt(iveg)=0.
+         ttr=g%rtp(iveg)
          if(ttr.gt.0.)then
-            psix=psimin(iveg)
+            psix=g%psimin(iveg)
 *           get soil->xylem conductances
             a=0.
             b=0.
-            do 20 i=0,n
-               g(i)=0.
+            do 20 i=0,p%n
+               g_(i)=0.
                if(tpsi(i).gt.psix)then
 cnh root conductance is not an input
-cnh                  g(i)=1./(rc(i,iveg)/thk(i)+1./(gr*rld(i,iveg)*dx(i)))
-                  g(i)=1./(rc(i,iveg)/thk(i)+1./
-     :                     (root_conductance(iveg)*rld(i,iveg)*dx(i)))
+cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
+                  g_(i)=1./(g%rc(i,iveg)/thk(i)+1./
+     :                     (g%root_conductance(iveg)*g%rld(i,iveg)
+     :                         *p%dx(i)))
                end if
-               a=a+g(i)*tpsi(i)
-               b=b+g(i)
+               a=a+g_(i)*tpsi(i)
+               b=b+g_(i)
 20          continue
             if(b.eq.0.)then
                stress=.TRUE.
@@ -1491,35 +1512,36 @@ cnh                  g(i)=1./(rc(i,iveg)/thk(i)+1./(gr*rld(i,iveg)*dx(i)))
 30             continue
                   change=.FALSE.
                   psix=(a-ttr)/b
-                  do 40 i=0,n
-                     if(tpsi(i).lt.psix.and.g(i).ne.0.)then
+                  do 40 i=0,p%n
+                     if(tpsi(i).lt.psix.and.g_(i).ne.0.)then
                         change=.TRUE.
-                        a=a-g(i)*tpsi(i)
-                        b=b-g(i)
-                        g(i)=0.
+                        a=a-g_(i)*tpsi(i)
+                        b=b-g_(i)
+                        g_(i)=0.
                      end if
 40                continue
                if(change)go to 30
             end if
-            do 50 i=0,n
-               if(g(i).ne.0.)then
-                  tq=g(i)*(tpsi(i)-psix)
+            do 50 i=0,p%n
+               if(g_(i).ne.0.)then
+                  tq=g_(i)*(tpsi(i)-psix)
                   tqex(i)=tqex(i)+tq
-*                 get partial derivs of tqex at i-1, i, i+1 wrt p
-                  qpsi=g(i)
-                  qhk=g(i)*rc(i,iveg)*tq/thk(i)**2
+*                 get partial derivs of tqex at i-1, i, i+1 wrt g%p
+                  qpsi=g_(i)
+                  qhk=g_(i)*g%rc(i,iveg)*tq/thk(i)**2
                   if(.not.stress)then
                      derp=qpsi*tpsip(i)+qhk*thkp(i)
-                     if(i.gt.0)tqexp(3,i-1)=tqexp(3,i-1)-g(i-1)*derp/b
-                     if(i.lt.n)tqexp(1,i+1)=tqexp(1,i+1)-g(i+1)*derp/b
-                     qpsi=qpsi*(1d0-g(i)/b)
-                     qhk=qhk*(1d0-g(i)/b)
+                     if(i.gt.0)tqexp(3,i-1)=tqexp(3,i-1)-g_(i-1)*derp/b
+                     if(i.lt.p%n)tqexp(1,i+1)=tqexp(1,i+1)
+     :                                          -g_(i+1)*derp/b
+                     qpsi=qpsi*(1d0-g_(i)/b)
+                     qhk=qhk*(1d0-g_(i)/b)
                   end if
                   tqexp(2,i)=tqexp(2,i)+qpsi*tpsip(i)+qhk*thkp(i)
-                  rt(iveg)=rt(iveg)+tq
-                  qr(i,iveg)=tq
+                  g%rt(iveg)=g%rt(iveg)+tq
+                  g%qr(i,iveg)=tq
                else
-                  qr(i,iveg)=0.
+                  g%qr(i,iveg)=0.
                end if
 50          continue
          end if
@@ -1529,63 +1551,62 @@ cnh                  g(i)=1./(rc(i,iveg)/thk(i)+1./(gr*rld(i,iveg)*dx(i)))
       subroutine apswim_watvar(ix,tp,tpsi,psip,psipp,tth,thp,thk,hkp)
 * =====================================================================
 *     Short Description:
-*     calculates water variables from transform value p at grid point ix
-*     using cubic interpolation between given values of water content wc,
-*     log10 conductivity hkl, and their derivatives wcd, hkld with respect
-*     to log10 suction sl
+*     calculates water variables from transform value g%p at grid point ix
+*     using cubic interpolation between given values of water content p%wc,
+*     log10 conductivity p%hkl, and their derivatives p%wcd, p%hkld with respect
+*     to log10 suction p%sl
 *
 *     nih - some local variables had the same name as globals so I had
-*     to rename them. I added a t (for temp) to start of name for
-*     psi, hk, p, th, x, dx,dc
- 
+*     to rename them. I added a g%t (for temp) to start of name for
+*     g%psi, g%hk, g%p, g%th, p%x, p%dx,g%dc
+
+      use APSwimModule
       implicit none
- 
+
 *     notes
- 
-*         dTheta     dTheta       d(log Psi)
-*         ------ = ----------  X  ---------
-*           dP     d(log Psi)        d P
- 
-*                    dTheta        d Psi           1
-*                = ----------  X  -------  X ------------
-*                  d(log Psi)       d P       ln(10).Psi
- 
- 
-*         dHK          dHK       d(log Psi)
-*        ------  = ----------  X ----------
-*          dP      d(log Psi)       d P
- 
-*                   ln(10).HK   d(log(HK))     dPsi        1
-*                =  --------- X ----------  X ------ X ----------
-*                        1      d(log(Psi))     dP     ln(10).Psi
- 
-*                    HK       d(log(HK))     dPsi
-*                =  -----  X  ----------  X  ----
-*                    Psi      d(log(Psi))     dP
- 
-*     note:- d(log(y)/dx) = 1/y . dy/dx
+
+*         dTheta     dTheta       d(log g%psi)
+*         ------ = ----------  p%x  ---------
+*           dP     d(log g%psi)        d g%p
+
+*                    dTheta        d g%psi           1
+*                = ----------  p%x  -------  p%x ------------
+*                  d(log g%psi)       d g%p       ln(10).g%psi
+
+
+*         dHK          dHK       d(log g%psi)
+*        ------  = ----------  p%x ----------
+*          dP      d(log g%psi)       d g%p
+
+*                   ln(10).g%hk   d(log(g%hk))     dPsi        1
+*                =  --------- p%x ----------  p%x ------ p%x ----------
+*                        1      d(log(g%psi))     dP     ln(10).g%psi
+
+*                    g%hk       d(log(g%hk))     dPsi
+*                =  -----  p%x  ----------  p%x  ----
+*                    g%psi      d(log(g%psi))     dP
+
+*     note:- d(log(y)/p%dx) = 1/y . dy/p%dx
 *
 *     Therefore:-
 *
-*            d(log10(y))/dx = d(ln(y)/ln(10))/dx
-*                           = 1/ln(10) . d(ln(y))/dx
-*                           = 1/ln(10) . 1/y . dy/dx
- 
+*            d(log10(y))/p%dx = d(ln(y)/ln(10))/p%dx
+*                           = 1/ln(10) . d(ln(y))/p%dx
+*                           = 1/ln(10) . 1/y . dy/p%dx
+
 *     Global Variables
-      include 'apswim.inc'
- 
- 
+
 *     Subroutine Arguments
       integer ix
-      double precision tp              ! P - transform of Psi
-      double precision tpsi            ! Psi for the given P
+      double precision tp              ! g%p - transform of g%psi
+      double precision tpsi            ! g%psi for the given g%p
       double precision psip            ! dPsi/dP  - 1st derivative
       double precision psipp           ! dPsip/dP - 2nd derivative
-      double precision tth             ! water content for given Psi
+      double precision tth             ! water content for given g%psi
       double precision thp             ! dTheta/dP
       double precision thk             ! hydraulic conductivity
       double precision hkp             ! d(thk)/dP
- 
+
 *     Internal Variables
       double precision hklg
       double precision hklgd
@@ -1593,159 +1614,157 @@ cnh                  g(i)=1./(rc(i,iveg)/thk(i)+1./(gr*rld(i,iveg)*dx(i)))
       double precision phi
       double precision thd
       double precision thsat
- 
+
 *     Constant Values
       double precision al10
       parameter (al10=2.3025850929940457d0)
- 
+
       double precision vcon1
       parameter (vcon1=7.28d-9)
- 
+
       double precision vcon2
       parameter (vcon2=7.26d-7)
 *
- 
+
       call apswim_trans(tp,tpsi,psip,psipp)
- 
+
 cnh   assume no hysteresis
 cnh      jhys=0...........etc  removed
- 
+
 cnh - got rid of old calculation for interpolating inputs - used the new
 cnh   method.  note apswim_interp allows for hysteresis in calculating
-cnh   moisture characteristic and hk curve.
+cnh   moisture characteristic and g%hk curve.
       call apswim_interp (ix,tpsi,tth,thd,hklg,hklgd)
- 
+
       thk=exp(al10*hklg)
- 
+
       if(tpsi.ne.0d0)then
          thp=(thd*psip)/(al10*tpsi)
          hkp=(thk*hklgd*psip)/tpsi
       end if
- 
+
 cnd no hysteresis
 c      if(jhys.ne.0)then
 c         thp=tdc*thp
 c         hkp=tdc*hkp
 c      end if
- 
-      thsat = wc(ix,1)  ! NOTE: this assumes that the wettest wc is
-                        ! first in the pairs of log suction vs wc
- 
-      if(ivap.ne.0)then
+
+      thsat = p%wc(ix,1) ! NOTE: this assumes that the wettest p%wc is
+                        ! first in the pairs of log suction vs p%wc
+
+      if(p%ivap.ne.0)then
 *        add vapour conductivity hkv
          phi=thsat/.93-tth
          hkv=vcon1*phi*exp(vcon2*tpsi)
          thk=thk+hkv
          hkp=hkp+hkv*(vcon2*psip-thp/phi)
       end if
- 
+
       end
- 
- 
+
+
 * =====================================================================
-      subroutine apswim_scond(ttt,tth,g,gh)
+      subroutine apswim_scond(ttt,tth,g_,gh)
 * =====================================================================
 *     Short Description:
 *     gets soil surface conductance g and derivative gh
 *
-*     t was renamed to ttt as t already exists in common
-*     h was renamed to tth as h already exists in common
- 
+*     g%t was renamed to ttt as g%t already exists in common
+*     g%h was renamed to tth as g%h already exists in common
+
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
- 
+
 *     Subroutine Arguments
       double precision ttt
       double precision tth
-      double precision g
+      double precision g_
       double precision gh
- 
+
 *     Internal Variables
 *     none
- 
+
 *     Constant Values
 *     none
 *
-cnh      g=g0
+cnh      g=p%g0
 cnh      gh=0.
-cnh      if(grc.ne.0..and.ttt.gt.tzero)then
-cnhcnh         g=g0+(g1-g0)*exp(-(eqrain(ttt)-eqr0)/grc)
-cnh         g=g0+(g1-g0)*exp(-(apswim_eqrain(ttt)-eqr0)/grc)
+cnh      if(p%grc.ne.0..and.ttt.gt.tzero)then
+cnhcnh         g=p%g0+(p%g1-p%g0)*exp(-(eqrain(ttt)-eqr0)/p%grc)
+cnh         g=p%g0+(p%g1-p%g0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%grc)
 cnh      end if
- 
-      g = gsurf
+
+      g_ = g%gsurf
       gh = 0d0
- 
+
       return
       end
- 
- 
+
+
 * =====================================================================
       subroutine apswim_runoff(ttt,tth,ttroff,roffh)
 * =====================================================================
 *     Short Description:
 *     gets runoff rate
 *
-*     t was renamed to ttt as t already exists in common
-*     h was renamed to tth as h already exists in common
-*     roff was renamed to ttroff as roff already exists in common
- 
+*     g%t was renamed to ttt as g%t already exists in common
+*     g%h was renamed to tth as g%h already exists in common
+*     g%roff was renamed to ttroff as g%roff already exists in common
+
+      use APSwimModule
       implicit none
- 
+
 *     Global Variables
-      include 'apswim.inc'
- 
- 
+
 *     Subroutine Arguments
       double precision ttt
       double precision tth
       double precision ttroff
       double precision roffh
- 
+
 *     Internal Variables
       double precision v
- 
+
 *     Constant Values
 *     none
- 
+
 *
-cnh      hmin=hm0
-cnh      if(hrc.ne.0..and.ttt.gt.tzero)then
-cnhcnh         hmin=hm0+(hm1-hm0)*exp(-(eqrain(ttt)-eqr0)/hrc)
-cnh         hmin=hm0+(hm1-hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/hrc)
+cnh      g%hmin=p%hm0
+cnh      if(p%hrc.ne.0..and.ttt.gt.tzero)then
+cnhcnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(eqrain(ttt)-eqr0)/p%hrc)
+cnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%hrc)
 cnh      end if
- 
-      if(tth.gt.hmin)then
-         v=roff0*(tth-hmin)**(roff1-1d0)
-         ttroff=v*(tth-hmin)
-         roffh=roff1*v
+
+      if(tth.gt.g%hmin)then
+         v=p%roff0*(tth-g%hmin)**(p%roff1-1d0)
+         ttroff=v*(tth-g%hmin)
+         roffh=p%roff1*v
       else
          ttroff=0d0
          roffh=0d0
       end if
- 
+
       return
       end
- 
- 
+
+
 * =====================================================================
       integer function ihys(hyscon,d,x0,x0new,x,dc)
 * =====================================================================
 *     Short description:
 *     allows drying curve to be used for scanning or wetting
 *     d is distance between curves on linear (d<0) or log (d>0) scale_of
-*     adjusts x (psi or log10(-psi)) and gets derivative correction dc
+*     adjusts p%x (g%psi or log10(-g%psi)) and gets derivative correction g%dc
 *     gets new reference point x0new on drying curve if necessary
 *     returns 0, 1 or 2 for drying, scanning or wetting curve
 *
       implicit none
- 
+
 *     Global Variables
- 
- 
+
+
 *     Subroutine Arguments
 cnh NOT SURE ARGUMENT TYPE IS CORRECT.
 c      real d
@@ -1757,16 +1776,16 @@ c      real x0
 c      real x0new
       double precision x0
       double precision x0new
- 
+
 *     Internal Variables
- 
+
       double precision z
- 
+
 *     Constant Values
 *     none
- 
+
 *
- 
+
       print*,'hysteresis is in effect!!!!!!!'
       ihys=0
       x0new=x0
@@ -1784,34 +1803,34 @@ c      real x0new
          x0new=x+d*hyscon
          x=x+d
       end if
- 
+
       end
 *
-      subroutine map(n,x,y,m,u,v)
+      subroutine map(n,x,y,M,u,v)
 *     maps concentration in y into v so that integral is conserved
-*     x and u give intervals corresponding to y and v values
-      integer n,m
+*     p%x and u give intervals corresponding to y and v values
+      integer N,M
       double precision x(*),y(*),u(*),v(*)
       double precision sx, sy, su, sv,w
       logical again
 cnh added following declarations
       integer i,j
- 
+
       sx=0.
       sy=0.
       j=0
       su=u(1)
       sv=0.
-      do 20 i=1,n
+      do 20 i=1,N
          sx=sx+x(i)
          sy=sy+y(i)*x(i)
 10       continue
             again=.FALSE.
-            if((j.lt.m).and.(sx.ge.su.or.i.eq.n))then
+            if((j.lt.M).and.(sx.ge.su.or.i.eq.N))then
                j=j+1
                w=sy-(sx-su)*y(i)
                v(j)=(w-sv)/u(j)
-               if(j.lt.m)then
+               if(j.lt.M)then
                   su=su+u(j+1)
                   sv=w
                   again=.TRUE.

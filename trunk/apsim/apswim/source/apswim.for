@@ -1,11 +1,77 @@
-* ====================================================================
-       subroutine apsim_apswim (Action, Data_string)
-* ====================================================================
+      include 'apswim.inc'
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use APSwimModule
       implicit none
-      dll_export apsim_apswim
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use APSwimModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use APSwimModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
+C     Last change:  NIH  30 Sep 1999   11:28 am
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+      use APSwimModule
+      implicit none
       include 'const.inc'             ! Global constant definitions
-      include 'engine.pub'                        
-      include 'error.pub'                         
+      include 'error.pub'
       include 'event.inc'
       include 'action.inc'
 
@@ -23,15 +89,15 @@
 
 *+  Constant Values
       character myname*(*)
-      parameter (myname = 'apsim_apswim')
+      parameter (myname = 'APSwim Main')
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      if (Action.eq.MES_Get_variable) then
-         call apswim_Send_my_variable (Data_string) 
+      if (Action.eq.ACTION_Get_variable) then
+         call apswim_Send_my_variable (Data_string)
 
-      else if (Action.eq.MES_Init) then
+      else if (Action.eq.ACTION_Init) then
          call apswim_zero_module_links()
          call apswim_reset ()
          call apswim_sum_report ()
@@ -40,36 +106,36 @@
      :         .or.(Action.eq.ACTION_init)) then
          call apswim_reset ()
 
-      else if (action.eq.mes_sum_report) then
+      else if (action.eq.ACTION_sum_report) then
          call apswim_sum_report ()
- 
+
       else if (action.eq.EVENT_tick) then
          call apswim_ONtick ()
 
-      else if (Action .eq. MES_Prepare) then
+      else if (Action .eq. ACTION_Prepare) then
          call apswim_prepare ()
- 
-      else if (Action.eq.MES_Process) then 
+
+      else if (Action.eq.ACTION_Process) then
          call apswim_Process ()
- 
-      else if (Action .eq. MES_Post) then
+
+      else if (Action .eq. ACTION_Post) then
          call apswim_post ()
- 
-      else if (Action .eq. MES_Set_variable) then
+
+      else if (Action .eq. ACTION_Set_variable) then
          call apswim_set_my_variable (Data_string)
- 
+
       else if (action.eq.EVENT_irrigated) then
                ! respond to addition of irrigation
          call apswim_ONirrigated ()
 
       else if (action.eq.'add_water') then
          call fatal_error (ERR_USER,
-     :   '"ADD_WATER" message no longer available - use "irrigated"') 
+     :   '"ADD_WATER" message no longer available - use "irrigated"')
 
-      else if (Action .eq. MES_Till) then 
+      else if (Action .eq. ACTION_Till) then
          call apswim_tillage ()
- 
-      else if (Action .eq. MES_End_run) then
+
+      else if (Action .eq. ACTION_End_run) then
          call apswim_end_run ()
 
       else if (Action .eq. EVENT_new_solute) then
@@ -79,7 +145,7 @@
          ! Don't use message
          call Message_Unused ()
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -89,12 +155,11 @@
 * ====================================================================
        subroutine apswim_Reset ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'read.pub'                          
-      include 'write.pub'                         
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *      Initialise apswim module
@@ -108,71 +173,75 @@
 
 *+  Local Variables
        character Event_string*40       ! String to output
+       integer   iost                  ! IOSTAT variable
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
       call apswim_zero_variables ()
- 
+
       call apswim_get_other_variables ()
- 
+
       ! Notify system that we have initialised
- 
+
       Event_string = 'Initialising '
-      call report_event (Event_string)
- 
+      call Write_string (Event_string)
+
       ! Get all constants from constants file
       call apswim_read_constants ()
- 
+
       ! Get all parameters from parameter file
- 
+
       call apswim_read_param ()
- 
+
       call apswim_read_solute_params()
       call apswim_read_solsoil_params()
       call apswim_read_crop_params()
- 
+
       ! set swim defaults - params that are not to be set by user
       call apswim_init_defaults ()
- 
+
       ! calculate anything swim needs from input parameters
       call apswim_init_calc ()
- 
+
       ! read in rainfall information
-      if (rainfall_source .ne. 'apsim') then
+      if (p%rainfall_source .ne. 'apsim') then
             ! read in rainfall if it is not to be supplied by APSIM
             ! assume that rainfall source is then a file name.
-         g_LUNrain = open_file (rainfall_source)
-         if (g_LUNrain .eq. -1) then
+
+         open (UNIT=LUNrain, IOSTAT=iost, FILE=p%rainfall_source)
+
+         if (iost .ne. 0) then
             call Fatal_Error (err_internal,
      :                    'cannot open rainfall file')
          else
          endif
       else
       endif
- 
+
       ! read in evaporation information
-      if      ((evap_source .ne. 'apsim')
-     :    .and.(evap_source .ne. 'calc')
-     :    .and.(evap_source .ne. 'sum_demands')) then
- 
-         g_LUNevap = open_file (evap_source)
-         if (g_LUNevap .eq. -1) then
+      if      ((p%evap_source .ne. 'apsim')
+     :    .and.(p%evap_source .ne. 'calc')
+     :    .and.(p%evap_source .ne. 'sum_demands')) then
+
+         open (UNIT=LUNevap, IOSTAT=iost, FILE=p%evap_source)
+
+         if (iost .ne. 0) then
               call Fatal_Error (err_internal,
      :                    'cannot open evaporation file')
          else
          endif
- 
+
       else
       endif
- 
+
       ! check all inputs for errors
       call apswim_check_inputs()
-  
+
       ! initialise solute information
       !call apswim_init_solute()
- 
+
       call pop_routine (myname)
       return
       end
@@ -182,11 +251,11 @@
 * ====================================================================
        subroutine apswim_read_param ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'            ! apswim model common block
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -216,12 +285,12 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
          ! ------------- Initial Soil Profile Info ---------------
- 
- 
+
+
          ! Read in vol. soil water from parameter file
- 
+
 c      call read_double_array (
 c     :              init_section,
 c     :              'sw',
@@ -231,131 +300,131 @@ c     :              sw,
 c     :              numvals,
 c     :              0.0d0,
 c     :              1.0d0)
- 
+
          ! Read in minimum log suction from parameter file
- 
+
       call Read_double_var (
      :              init_section,
      :              'slmin',
      :              '(?)',
-     :              slmin,
+     :              p%slmin,
      :              numvals,
      :              -10.d0,
      :              10.d0)
- 
+
          ! Read in maximum log suction from parameter file
- 
+
       call Read_double_var (
      :              init_section,
      :              'slmax',
      :              '(?)',
-     :              slmax,
+     :              p%slmax,
      :              numvals,
      :              -10.d0,
      :              10.d0)
- 
+
          ! Read in node depths from parameter file
- 
+
       call Read_double_array (
      :              init_section,
      :              'x',
      :              M+1,
      :              '(mm)',
-     :              x(0),
+     :              p%x(0),
      :              num_nodes,  ! get number of nodes from here
      :              0.0d0,
      :              1.0d4)      ! 1.0d4mm = 10m
- 
+
          ! Read in water content as either volumetric content or
          !                matric potential.
- 
+
       call Read_double_array_optional (
      :              init_section,
      :              'theta',
      :              M+1,
      :              '(cc/cc)',
-     :              th(0),
+     :              g%th(0),
      :              num_theta,
      :              1.0d-3,
      :              1.0d0)
- 
+
       call Read_double_array_optional (
      :              init_section,
      :              'psi',
      :              M+1,
      :              '(??)',
-     :              psi(0),
+     :              g%psi(0),
      :              num_psi,
      :              -1.0d6,
      :               1.0d2)
- 
+
       if ((num_theta.gt.0).and.(num_psi.gt.0))then
          call fatal_error (Err_User,
-     :      'Both Psi and Theta have been supplied by user.')
- 
+     :      'Both g%psi and Theta have been supplied by user.')
+
       else if ((num_theta.eq.0).and.(num_psi.eq.0)) then
          call fatal_error (Err_User,
-     :      ' Neither Psi or Theta have been supplied by user.')
+     :      ' Neither g%psi or Theta have been supplied by user.')
       else
          ! one of the two has been supplied - OK
       endif
- 
- 
+
+
          ! Read in soil type water from parameter file
- 
+
       call Read_char_array (
      :              init_section,
      :              'soil_type',
      :              M+1,
      :              '(?)',
-     :              Soil_Type(0),
+     :              p%soil_type(0),
      :              numvals)
- 
+
          ! ---------------- Configuration Information --------------
- 
+
          ! Read in bypass flow flag from parameter file
- 
+
       call Read_char_var (
      :              init_section,
      :              'bypass_flow',
      :              '(??)',
      :              bypass_flag,
      :              numvals)
- 
+
          ! Read in runoff flag from parameter file
          ! ---------------------------------------
- 
+
       call Read_integer_var (
      :              init_section,
      :              'runoff',
      :              '(??)',
-     :              isbc,
+     :              p%isbc,
      :              numvals,
      :              0,
      :              2)
- 
+
          ! Read in surface boundary conditions flag from parameter file
          ! ------------------------------------------------------------
          call Read_integer_var (
      :              init_section,
      :              'top_boundary_condition',
      :              '(??)',
-     :              itbc,
+     :              p%itbc,
      :              numvals,
      :              0,
      :              2)
- 
+
          ! Read in bottom boundary conditions flag from parameter file
          ! -----------------------------------------------------------
       call Read_integer_var (
      :              init_section,
      :              'bottom_boundary_condition',
      :              '(??)',
-     :              ibbc,
+     :              p%ibbc,
      :              numvals,
      :              0,
      :              3)
- 
+
          ! Read in vapour conductivity flag from parameter file
          ! ----------------------------------------------------
       call Read_char_var (
@@ -365,23 +434,23 @@ c     :              1.0d0)
      :              ivap_switch,
      :              numvals)
       if (ivap_switch.eq.'on') then
-         ivap = 1
+         p%ivap = 1
       else
-         ivap = 0
+         p%ivap = 0
       endif
- 
+
       call Read_char_array (
      :           init_section,
      :           'run_solutes',
      :           nsol,
      :           '()',
-     :           solute_names,
-     :           num_solutes)
+     :           p%solute_names,
+     :           p%num_solutes)
 
-      if ((num_solutes.eq.1).and.(solute_names(1).eq.'none')) then
+      if ((p%num_solutes.eq.1).and.(p%solute_names(1).eq.'none')) then
          ! user wants no solutes
-         num_solutes = 0
-         solute_names(1) = ' '
+         p%num_solutes = 0
+         p%solute_names(1) = ' '
       endif
 
       ! Read in flag for extra_solute_supply
@@ -389,45 +458,45 @@ c     :              1.0d0)
      :              init_section,
      :              'extra_solute_supply',
      :              '(??)',
-     :              extra_solute_supply_flag,
+     :              p%extra_solute_supply_flag,
      :              numvals)
- 
+
       ! Read in flag for extra_solute_supply
       call Read_char_var_optional (
      :              init_section,
      :              'solute_exclusion',
      :              '(??)',
-     :              solute_exclusion_flag,
+     :              p%solute_exclusion_flag,
      :              numvals)
- 
+
       ! Read in flag for echoing incoming messages
       call Read_char_var_optional (
      :              init_section,
      :              'echo_directives',
      :              '(??)',
-     :              p_echo_directives,
+     :              p%echo_directives,
      :              numvals)
- 
- 
+
+
          ! Read in soil water characteristics for each node
          !            from parameter file
-      n = num_nodes - 1
-      do 100 node = 0, n
- 
-         if (soil_type(node) .ne. interp_key) then
- 
+      p%n = num_nodes - 1
+      do 100 node = 0, p%n
+
+         if (p%soil_type(node) .ne. interp_key) then
+
             call Read_double_array (
-     :              Soil_Type(node),
+     :              p%soil_type(node),
      :              'sl',
      :              MP,
      :              '(?)',
      :              temp_sl,
      :              num_sl,
-     :              slmin,
-     :              slmax)
- 
+     :              p%slmin,
+     :              p%slmax)
+
             call Read_double_array (
-     :              Soil_Type(node),
+     :              p%soil_type(node),
      :              'wc',
      :              MP,
      :              '(cc/cc)',
@@ -435,9 +504,9 @@ c     :              1.0d0)
      :              numvals,
      :              0.d0,
      :              1.d0)
- 
+
             call Read_double_array (
-     :              Soil_Type(node),
+     :              p%soil_type(node),
      :              'wcd',
      :              MP,
      :              '(?)',
@@ -445,9 +514,9 @@ c     :              1.0d0)
      :              numvals,
      :              -100.d0,
      :              100.d0)
- 
+
             call Read_double_array (
-     :              Soil_Type(node),
+     :              p%soil_type(node),
      :              'hkl',
      :              MP,
      :              '(?)',
@@ -455,9 +524,9 @@ c     :              1.0d0)
      :              numvals,
      :              -100.d0,
      :              100.d0)
- 
+
             call Read_double_array (
-     :              Soil_Type(node),
+     :              p%soil_type(node),
      :              'hkld',
      :              MP,
      :              '(?)',
@@ -465,378 +534,378 @@ c     :              1.0d0)
      :              numvals,
      :              -100.d0,
      :              100.d0)
- 
+
                do 90 point=1,num_sl
-                  sl(node,point) = temp_sl(point)
-                  wc(node,point) = temp_wc(point)
-                  wcd(node,point) = temp_wcd(point)
-                  hkl(node,point) = temp_hkl(point)
-                  hkld(node,point) = temp_hkld(point)
+                  p%sl(node,point) = temp_sl(point)
+                  p%wc(node,point) = temp_wc(point)
+                  p%wcd(node,point) = temp_wcd(point)
+                  p%hkl(node,point) = temp_hkl(point)
+                  p%hkld(node,point) = temp_hkld(point)
    90          continue
- 
+
             else
             endif
- 
+
   100    continue
- 
- 
+
+
          ! ------------- Swim calculation parameters -------------
- 
-         ! Read in dtmin from parameter file
- 
+
+         ! Read in p%dtmin from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'dtmin',
      :              '(min)',
-     :              dtmin,
+     :              p%dtmin,
      :              numvals,
      :              0.0d0,
-     :              1440.d0)  ! 1440 min = 1 day
- 
-         ! Read in dtmax from parameter file
- 
+     :              1440.d0)  ! 1440 min = 1 g%day
+
+         ! Read in p%dtmax from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'dtmax',
      :              '(min)',
-     :              dtmax,
+     :              p%dtmax,
      :              numvals,
      :              0.01d0,
-     :              1440.d0)  ! 1440 min = 1 day
- 
+     :              1440.d0)  ! 1440 min = 1 g%day
+
       call Read_double_var_optional (
      :              calc_section,
      :              'dtmax_sol',
      :              '(min)',
-     :              dtmax_sol,
+     :              p%dtmax_sol,
      :              numvals,
      :              0.01d0,
-     :              1440.d0)  ! 1440 min = 1 day
- 
+     :              1440.d0)  ! 1440 min = 1 g%day
+
       if (numvals.le.0) then
-         ! Not read in - use dtmax as default.
-         dtmax_sol = dtmax
+         ! Not read in - use p%dtmax as default.
+         p%dtmax_sol = p%dtmax
       else
          ! it was read in - OK
       endif
- 
-         ! Read in ersoil from parameter file
- 
+
+         ! Read in p%ersoil from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'ersoil',
      :              '(??)',
-     :              ersoil,
+     :              p%ersoil,
      :              numvals,
      :              1.0d-10,
      :              1.0d0)
- 
-         ! Read in ernode from parameter file
- 
+
+         ! Read in p%ernode from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'ernode',
      :              '(??)',
-     :              ernode,
+     :              p%ernode,
      :              numvals,
      :              1.0d-10,
      :              1.0d0)
- 
-         ! Read in errex from parameter file
- 
+
+         ! Read in p%errex from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'errex',
      :              '(??)',
-     :              errex,
+     :              p%errex,
      :              numvals,
      :              1.0d-10,
      :              1.0d0)
- 
-         ! Read in dppl from parameter file
- 
+
+         ! Read in p%dppl from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'dppl',
      :              '(??)',
-     :              dppl,
+     :              p%dppl,
      :              numvals,
      :              0.0d0,
      :              1.0d1)
- 
-         ! Read in dpnl from parameter file
- 
+
+         ! Read in p%dpnl from parameter file
+
       call Read_double_var (
      :              calc_section,
      :              'dpnl',
      :              '(??)',
-     :              dpnl,
+     :              p%dpnl,
      :              numvals,
      :              0.0d0,
      :              1.0d1)
- 
+
          ! Read in max water increment from parameter file
- 
+
       call Read_double_var (
      :              calc_section,
      :              'max_water_increment',
      :              '(??)',
-     :              dw,
+     :              p%dw,
      :              numvals,
      :              1.0d-3,
      :              1.0d1)
- 
+
       call Read_double_var(
      :           calc_section,
      :           'swt',
      :           '()',
-     :           swt,
+     :           p%swt,
      :           numvals,
      :           -1d0,
      :           1d0)
- 
+
       call Read_double_var(
      :           calc_section,
      :           'slcerr',
      :           '()',
-     :           slcerr,
+     :           p%slcerr,
      :           numvals,
      :           1d-8,
      :           1d-4)
- 
+
       call Read_double_var(
      :           calc_section,
      :           'slswt',
      :           '()',
-     :           slswt,
+     :           p%slswt,
      :           numvals,
      :           -1d0,
      :           1d0)
- 
- 
+
+
          ! ------------------ Climate Information ------------------
- 
+
          ! Read in rainfall file name from parameter file
- 
+
       call Read_char_var (
      :              climate_section,
      :              'rainfall_source',
      :              '(??)',
-     :              rainfall_source,
+     :              p%rainfall_source,
      :              numvals)
- 
+
          ! Read in evap file name from parameter file
- 
+
       call Read_char_var (
      :              climate_section,
      :              'evap_source',
      :              '(??)',
-     :              evap_source,
+     :              p%evap_source,
      :              numvals)
- 
+
       call Read_char_var_optional (
      :              climate_section,
      :              'evap_curve',
      :              '(??)',
-     :              evap_curve,
+     :              p%evap_curve,
      :              numvals)
- 
+
          ! Read in soil albedo from parameter file
- 
+
       call Read_real_var (
      :              climate_section,
      :              'salb',
      :              '(??)',
-     :              g_salb,
+     :              p%salb,
      :              numvals,
      :              0.0,
      :              1.0)
- 
- 
+
+
       If (bypass_flag.eq.'on') then
-         ibp = 1
+         p%ibp = 1
             ! Read in bypass flow depth from parameter file
- 
+
          call Read_double_var (
      :              bypass_flow_section,
      :              'depth',
      :              '(mm)',
-     :              xbp,
+     :              p%xbp,
      :              numvals,
      :              1.0d0,
      :              dble(num_nodes))
- 
+
             ! Read in bypass flow conductance from parameter file
- 
+
          call Read_double_var (
      :              bypass_flow_section,
      :              'conductance',
      :              '(??)',
-     :              gbp,
+     :              p%gbp,
      :              numvals,
      :              1.0d-2,
      :              1.0d2)
- 
+
             ! Read in bypass flow storage from parameter file
- 
+
          call Read_double_var (
      :              bypass_flow_section,
      :              'storage',
      :              '(??)',
-     :              sbp,
+     :              p%sbp,
      :              numvals,
      :              1.0d-2,
      :              1.0d2)
- 
+
       else
-         ibp = 0
+         p%ibp = 0
       endif
- 
- 
- 
-      if (isbc.eq.2) then
- 
+
+
+
+      if (p%isbc.eq.2) then
+
             ! Read in runoff function parameters from parameter file
             ! ------------------------------------------------------
- 
+
          call Read_double_var (
      :              runoff_section,
      :              'minimum_surface_storage',
      :              '(mm)',
-     :              hm0,
+     :              p%hm0,
      :              numvals,
      :              1.0d-3,
      :              1.0d2)
- 
+
          call Read_double_var (
      :              runoff_section,
      :              'maximum_surface_storage',
      :              '(mm)',
-     :              hm1,
+     :              p%hm1,
      :              numvals,
-     :              hm0+.01d0,
+     :              p%hm0+.01d0,
      :              1.0d3)
- 
+
          call Read_double_var (
      :              runoff_section,
      :              'initial_surface_storage',
      :              '(mm)',
-     :              hmin,
+     :              g%hmin,
      :              numvals,
-     :              hm0+.005d0,
-     :              hm1-.005d0)
- 
+     :              p%hm0+.005d0,
+     :              p%hm1-.005d0)
+
          call Read_double_var (
      :              runoff_section,
      :              'precipitation_constant',
      :              '(mm)',
-     :              hrc,
+     :              p%hrc,
      :              numvals,
      :              1.0d0,
      :              1.0d2)
- 
+
          call Read_double_var (
      :              runoff_section,
      :              'runoff_rate_factor',
      :              '(mm/mm^p)',
-     :              roff0,
+     :              p%roff0,
      :              numvals,
      :              1.d-6,
      :              1.d2)
- 
+
          call Read_double_var (
      :              runoff_section,
      :              'runoff_rate_power',
      :              '()',
-     :              roff1,
+     :              p%roff1,
      :              numvals,
      :              1d-1,
      :              10d0)
- 
+
       else
       endif
- 
-      If (itbc.eq.2) then
+
+      If (p%itbc.eq.2) then
             ! Read in conductance function parameters
             ! ---------------------------------------
- 
+
          call Read_double_var (
      :              top_boundary_section,
      :              'minimum_conductance',
-     :              '(/h)',
-     :              g0,
+     :              '(/g%h)',
+     :              p%g0,
      :              numvals,
      :              1.0d-6,
      :              1.0d2)
- 
+
          call Read_double_var (
      :              top_boundary_section,
      :              'maximum_conductance',
-     :              '(/h)',
-     :              g1,
+     :              '(/g%h)',
+     :              p%g1,
      :              numvals,
-     :              g0,
+     :              p%g0,
      :              1.0d6)
- 
- 
+
+
          call Read_double_var (
      :              top_boundary_section,
      :              'initial_conductance',
-     :              '(/h)',
-     :              gsurf,
+     :              '(/g%h)',
+     :              g%gsurf,
      :              numvals,
-     :              g0,
-     :              g1)
- 
+     :              p%g0,
+     :              p%g1)
+
          call Read_double_var (
      :              top_boundary_section,
      :              'precipitation_constant',
      :              '(cm)',
-     :              grc,
+     :              p%grc,
      :              numvals,
      :              1.0d0,
      :              1.0d2)
- 
+
       else
       endif
- 
- 
- 
-      If (ibbc.eq.0) then
+
+
+
+      If (p%ibbc.eq.0) then
          call Read_double_var (
      :              bottom_boundary_section,
      :              'constant_gradient',
      :              '(??)',
-     :              constant_gradient,
+     :              p%constant_gradient,
      :              numvals,
      :              -10d6,
      :               10d6)
- 
-      elseif (ibbc.eq.1) then
+
+      elseif (p%ibbc.eq.1) then
 c         call Read_integer_var (
 c     :              bottom_boundary_section,
 c     :              'constant_potential',
 c     :              '(??)',
-c     :              constant_potential,
+c     :              p%constant_potential,
 c     :              numvals,
 c     :              0,
 c     :              3)
- 
-      elseif (ibbc.eq.2) then
-      elseif (ibbc.eq.3) then
+
+      elseif (p%ibbc.eq.2) then
+      elseif (p%ibbc.eq.3) then
          call Read_double_var (
      :              bottom_boundary_section,
      :              'constant_potential',
      :              '(cm)',
-     :              constant_potential,
+     :              p%constant_potential,
      :              numvals,
      :             -1d7,
      :              1d7)
- 
+
       else
       endif
- 
- 
+
+
       call pop_Routine (myname)
       return
       end
@@ -846,11 +915,11 @@ c     :              3)
 * ====================================================================
        subroutine apswim_get_other_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
-      include 'error.pub'                         
-      include 'intrface.pub'                      
+      include 'error.pub'
+      include 'intrface.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -862,12 +931,12 @@ c     :              3)
       integer numvals                  ! number of values returned
 
 *- Implementation Section ----------------------------------
- 
+
       call get_real_var (
      :           unknown_module,
      :           'radn',
      :           '(MJ)',
-     :           g_radn,
+     :           g%radn,
      :           numvals,
      :           0.0,
      :           50.0)
@@ -875,7 +944,7 @@ c     :              3)
      :           unknown_module,
      :           'maxt',
      :           '(oC)',
-     :           g_maxt,
+     :           g%maxt,
      :           numvals,
      :           -10.0,
      :           70.0)
@@ -883,21 +952,21 @@ c     :              3)
      :           unknown_module,
      :           'mint',
      :           '(oC)',
-     :           g_mint,
+     :           g%mint,
      :           numvals,
      :           -20.0,
      :           50.0)
- 
+
 c      ! get potential evapotranspiration
 c
 c      ret_string = get_variable_value('potet')
-c      read(ret_string, *, iostat = err_code) potet
+c      read(ret_string, *, iostat = err_code) g%potet
 c
 c      ! get rainfall for this timestep
 c
 c      ret_string = get_variable_value('rain')
-c      read(ret_string, *, iostat = err_code) rain
- 
+c      read(ret_string, *, iostat = err_code) g%rain
+
       return
       end
 
@@ -906,6 +975,7 @@ c      read(ret_string, *, iostat = err_code) rain
 * ====================================================================
        subroutine apswim_set_other_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
 
 *+  Purpose
@@ -915,7 +985,7 @@ c      read(ret_string, *, iostat = err_code) rain
 *     <insert here>
 
 *- Implementation Section ----------------------------------
- 
+
       return
       end
 
@@ -924,11 +994,10 @@ c      read(ret_string, *, iostat = err_code) rain
 * ====================================================================
        subroutine apswim_Send_my_variable (Variable_name)
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'            ! apswim Common block
-      include 'engine.pub'                        
-      include 'string.pub'                        
-      include 'intrface.pub'                      
+      include 'string.pub'
+      include 'intrface.pub'
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -951,7 +1020,7 @@ c      read(ret_string, *, iostat = err_code) rain
        double precision conc_adsorb_solute(0:M)
        double precision dble_dis(0:M)
        double precision dble_exco(0:M)
-       double precision dr              ! timestep rainfall (during dt)(mm)
+       double precision dr              ! timestep rainfall (during g%dt)(mm)
        double precision dummy(0:M)
        double precision eo
        double precision h_mm
@@ -974,106 +1043,108 @@ c      read(ret_string, *, iostat = err_code) rain
        double precision infiltration
 
 *- Implementation Section ----------------------------------
- 
+
       if (Variable_name .eq. 'dlayer') then
          call respond2Get_double_array (
      :            'dlayer',
      :            '(mm)',
-     :            dlayer(0),
-     :            n+1)
+     :            g%dlayer(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'bd') then
          call respond2Get_double_array (
      :            'bd',
      :            '(g/cc)',
-     :            rhob(0),
-     :            n+1)
+     :            p%rhob(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'sw') then
          call respond2Get_double_array (
      :            'sw',
      :            '(cc/cc)',
-     :            th(0),
-     :            n+1)
+     :            g%th(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'sw_dep') then
-         do 11 node=0,n
-            dummy(node) = th(node)*dlayer(node)
+         do 11 node=0,p%n
+            dummy(node) = g%th(node)*g%dlayer(node)
    11    continue
          call respond2Get_double_array (
      :            'sw_dep',
      :            '(mm)',
      :            dummy(0),
-     :            n+1)
- 
-      else if (Variable_name .eq. 'll15') then
+     :            p%n+1)
+
+      else if (Variable_name .eq. 'LL15') then
          call respond2Get_double_array (
-     :            'll15',
+     :            'LL15',
      :            '(cc/cc)',
-     :            ll15(0),
-     :            n+1)
+     :            g%LL15(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'll15_dep') then
-         do 12 node=0,n
-            dummy(node) = ll15(node)*dlayer(node)
+         do 12 node=0,p%n
+            dummy(node) = g%LL15(node)*g%dlayer(node)
    12    continue
          call respond2Get_double_array (
      :            'll15_dep',
      :            '(mm)',
      :            dummy(0),
-     :            n+1)
-      else if (Variable_name .eq. 'dul') then
+     :            p%n+1)
+      else if (Variable_name .eq. 'DUL') then
          call respond2Get_double_array (
-     :            'dul',
+     :            'DUL',
      :            '(cc/cc)',
-     :            dul(0),
-     :            n+1)
+     :            g%DUL(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'dul_dep') then
-         do 13 node=0,n
-            dummy(node) = dul(node)*dlayer(node)
+         do 13 node=0,p%n
+            dummy(node) = g%DUL(node)*g%dlayer(node)
    13    continue
          call respond2Get_double_array (
      :            'dul_dep',
      :            '(mm)',
      :            dummy(0),
-     :            n+1)
-      else if (Variable_name .eq. 'sat') then
+     :            p%n+1)
+      else if (Variable_name .eq. 'SAT') then
          call respond2Get_double_array (
-     :            'sat',
+     :            'SAT',
      :            '(cc/cc)',
-     :            sat(0),
-     :            n+1)
+     :            g%SAT(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'sat_dep') then
-         do 14 node=0,n
-            dummy(node) = sat(node)*dlayer(node)
+         do 14 node=0,p%n
+            dummy(node) = g%SAT(node)*g%dlayer(node)
    14    continue
          call respond2Get_double_array (
      :            'sat_dep',
      :            '(mm)',
      :            dummy(0),
-     :            n+1)
+     :            p%n+1)
       else if (Variable_name .eq. 'wp') then
          call respond2Get_double_var (
      :            'wp',
      :            '(mm)',
-     :            wp)
+     :            g%wp)
       else if (Variable_name .eq. 'p') then
          call respond2Get_double_array (
      :            'p',
      :            '(??)',
-     :            p(0),
-     :            n+1)
+     :            g%p(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'psi') then
          call respond2Get_double_array (
      :            'psi',
      :            '(??)',
-     :            psi(0),
-     :            n+1)
+     :            g%psi(0),
+     :            p%n+1)
       else if (Variable_name .eq. 'rain') then
-         start_of_day = apswim_time (year,day,
-     :                               apswim_time_to_mins(apsim_time))
-         end_of_day = apswim_time (year,day,
-     :              apswim_time_to_mins(apsim_time)+int(apsim_timestep))
- 
+         start_of_day = apswim_time (g%year,g%day,
+     :                               apswim_time_to_mins(g%apsim_time))
+         end_of_day = apswim_time (g%year
+     :                            ,g%day
+     :                            ,apswim_time_to_mins(g%apsim_time)
+     :                                +int(g%apsim_timestep))
+
          daily_rain = (apswim_crain(end_of_day)-
      :                     apswim_crain(start_of_day))*10d0
- 
+
          call respond2Get_double_var (
      :            'rain',
      :            '(mm)',
@@ -1082,12 +1153,12 @@ c      read(ret_string, *, iostat = err_code) rain
          call respond2Get_double_var (
      :            'runoff',
      :            '(mm)',
-     :            TD_runoff)
+     :            g%TD_runoff)
 
       else if (Variable_name .eq. 'infiltration') then
 
          infiltration = max(0d0
-     :                     ,TD_wflow(0) + TD_evap)
+     :                     ,g%TD_wflow(0) + g%TD_evap)
 
          call respond2Get_double_var (
      :            'infiltration',
@@ -1098,32 +1169,34 @@ c      read(ret_string, *, iostat = err_code) rain
          call respond2Get_double_var (
      :            'es',
      :            '(mm)',
-     :            TD_evap)
+     :            g%TD_evap)
       else if (Variable_name .eq. 'eos') then
          call respond2Get_double_var (
      :            'eos',
      :            '(mm)',
-     :            TD_pevap)
-cnh      print*,TD_pevap
+     :            g%TD_pevap)
+cnh      print*,g%TD_pevap
       else if (Variable_name .eq. 'drain') then
          call respond2Get_double_var (
      :            'drain',
      :            '(mm)',
-     :            TD_drain)
- 
+     :            g%TD_drain)
+
       else if (Variable_name .eq. 'eo') then
-         start_of_day = apswim_time (year,day,
-     :                               apswim_time_to_mins(apsim_time))
-         end_of_day = apswim_time (year,day,
-     :             apswim_time_to_mins(apsim_time)+int(apsim_timestep))
- 
+         start_of_day = apswim_time (g%year,g%day,
+     :                               apswim_time_to_mins(g%apsim_time))
+         end_of_day = apswim_time (g%year
+     :                            ,g%day
+     :                            ,apswim_time_to_mins(g%apsim_time)
+     :                                +int(g%apsim_timestep))
+
          eo = (apswim_cevap(end_of_day)-apswim_cevap(start_of_day))*10d0
- 
+
          call respond2Get_double_var (
      :            'eo',
      :            '(mm)',
      :            eo)
- 
+
       else if (index (Variable_name, 'uptake_').eq.1) then
          call split_line (Variable_name(8:),uname,ucrop,'_')
          call apswim_get_uptake (ucrop, uname, uptake, uunits,uflag)
@@ -1132,23 +1205,23 @@ cnh      print*,TD_pevap
      :            Variable_name,
      :            uunits,
      :            uptake(0),
-     :            n+1)
+     :            p%n+1)
          else
             Call Message_Unused()
          endif
- 
+
       else if (index(Variable_name,'leach_').eq.1) then
          solnum = apswim_solute_number (Variable_name(7:))
          if (solnum.ne.0) then
             call respond2Get_double_var (
      :               Variable_name,
      :               '(kg/ha)',
-     :               TD_soldrain(solnum))
+     :               g%TD_soldrain(solnum))
         else
            ! Unknown solute - give no reply
            call Message_Unused ()
         endif
- 
+
       else if (index(Variable_name,'flow_').eq.1) then
          ! Flow represents flow downward out of a layer
          ! and so start at node 1 (not 0)
@@ -1163,127 +1236,127 @@ cnh      print*,TD_pevap
      :            Variable_name,
      :            flow_units,
      :            flow_array(1),
-     :            n+1)
+     :            p%n+1)
          else
             Call Message_Unused()
          endif
- 
+
       else if (Variable_name.eq. 'flow') then
          ! Flow represents flow downward out of a layer
          ! and so start at node 1 (not 0)
          call respond2Get_double_array (
      :            Variable_name,
      :            '(kg/ha)',
-     :            TD_wflow(1),
-     :            n+1)
- 
+     :            g%TD_wflow(1),
+     :            p%n+1)
+
       else if (Variable_name .eq. 'salb') then
          call respond2Get_real_var (
      :            'salb',
      :            '(??)',
-     :            g_salb)
- 
+     :            p%salb)
+
       else if (Variable_name .eq. 'hmin') then
-         if (isbc.eq.2) then
-            hmin_mm =hmin * 10d0
+         if (p%isbc.eq.2) then
+            hmin_mm =g%hmin * 10d0
          else
             hmin_mm = 0.0d0
          endif
- 
+
          call respond2Get_double_var (
      :            'hmin',
      :            '(mm)',
      :            hmin_mm)
- 
+
       else if (Variable_name .eq. 'h') then
-         h_mm = h * 10.d0
+         h_mm = g%h * 10.d0
          call respond2Get_double_var (
      :            'h',
      :            '(mm)',
      :            h_mm)
- 
+
       else if (Variable_name .eq. 'scon') then
- 
+
          call respond2Get_double_var (
      :            'scon',
      :            '(/h)',
-     :            gsurf)
- 
+     :            g%gsurf)
+
       else if (Variable_name .eq. 'scon_min') then
- 
+
          call respond2Get_double_var (
      :            'scon_min',
      :            '(/h)',
-     :            g0)
- 
+     :            p%g0)
+
       else if (Variable_name .eq. 'scon_max') then
- 
+
          call respond2Get_double_var (
      :            'scon_max',
      :            '(/h)',
-     :            g1)
- 
+     :            p%g1)
+
       else if (Variable_name .eq. 'dr') then
-         dr=(apswim_crain(t) - apswim_crain(t-dt))*10d0
+         dr=(apswim_crain(g%t) - apswim_crain(g%t-g%dt))*10d0
          call respond2Get_double_var (
      :            'dr',
      :            '(mm)',
      :            dr)
- 
+
       else if (Variable_name .eq. 'dt') then
          call respond2Get_double_var (
      :            'dt',
      :            '(min)',
-     :            dt*60d0)
- 
+     :            g%dt*60d0)
+
       else if (Variable_name .eq. 'crop_cover') then
          call respond2Get_double_var (
      :            Variable_name,
      :            '(0-1)',
-     :            g_crop_cover)
- 
+     :            g%crop_cover)
+
 cnh added as per request by Dr Val Snow
- 
+
       else if (index(Variable_name,'exco_').eq.1) then
- 
+
          solnum = apswim_solute_number (Variable_name(6:))
-         do 200 node=0,n
-            dble_exco(node) = ex(solnum,node)/rhob(node)
+         do 200 node=0,p%n
+            dble_exco(node) = p%ex(solnum,node)/p%rhob(node)
   200    continue
- 
+
          call respond2Get_double_array (
      :            Variable_name,
      :            '()',
      :            dble_exco(0),
-     :            n+1)
- 
+     :            p%n+1)
+
       else if (index(Variable_name,'dis_').eq.1) then
- 
+
          solnum = apswim_solute_number (Variable_name(5:))
-         do 300 node=0,n
-            dble_dis(node) = dis(solnum,node)
+         do 300 node=0,p%n
+            dble_dis(node) = p%dis(solnum,node)
   300    continue
- 
+
          call respond2Get_double_array (
      :            Variable_name,
      :            '()',
      :            dble_dis(0),
-     :            n+1)
- 
+     :            p%n+1)
+
       else if (index(Variable_name,'conc_water_').eq.1) then
- 
+
          solname = Variable_name(12:)
- 
+
          call apswim_conc_water_solute (solname, conc_water_solute)
- 
+
          call respond2Get_double_array (
      :            Variable_name,
      :            '(ug/g)',
      :            conc_water_solute(0),
-     :            n+1)
- 
+     :            p%n+1)
+
       else if (index(Variable_name,'conc_adsorb_').eq.1) then
- 
+
          solname = Variable_name(13:)
 
          call apswim_conc_adsorb_solute (solname, conc_adsorb_solute)
@@ -1292,13 +1365,13 @@ cnh added as per request by Dr Val Snow
      :            Variable_name,
      :            '(ug/g)',
      :            conc_adsorb_solute(0),
-     :            n+1)
- 
- 
+     :            p%n+1)
+
+
       else
          call Message_Unused ()
       endif
- 
+
       return
       end
 
@@ -1307,13 +1380,11 @@ cnh added as per request by Dr Val Snow
 * ====================================================================
        subroutine apswim_set_my_variable (Variable_name)
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'             ! apswim common block
-      include 'engine.pub'                        
-      include 'error.pub'                         
-      include 'intrface.pub'                      
-      include 'write.pub'
+      include 'error.pub'
+      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       character Variable_name*(*) ! (INPUT) Variable name to search for
@@ -1337,76 +1408,76 @@ cnh added as per request by Dr Val Snow
       double precision sol_dis(0:M)   ! solute dispersion coefficient
 
 *- Implementation Section ----------------------------------
- 
+
       if (Variable_name .eq. 'sw') then
                        ! dont forget to change type of limits
          call collect_double_array (
      :              'sw',
-     :              n+1,
+     :              p%n+1,
      :              '(cc/cc)',
      :              theta(0),
      :              numvals,
      :              0d0,
      :              1d0)
- 
+
          call apswim_reset_water_balance (1,theta)
- 
+
       else if (Variable_name .eq. 'psi') then
                        ! dont forget to change type of limits
          call collect_double_array (
      :              'psi',
-     :              n+1,
+     :              p%n+1,
      :              '()',
      :              suction(0),
      :              numvals,
      :              -1.d10,
      :              0.d0)
- 
+
          call apswim_reset_water_balance (2,suction)
- 
+
 cnh added as per request by Dr Val Snow
- 
+
       else if (index(Variable_name,'exco_').eq.1) then
- 
+
          solnum = apswim_solute_number (Variable_name(6:))
          call collect_double_array (
      :              Variable_name,
-     :              n+1,
+     :              p%n+1,
      :              '()',
      :              sol_exco(0),
      :              numvals,
-     :              c_lb_exco,
-     :              c_ub_exco)
- 
+     :              c%lb_exco,
+     :              c%ub_exco)
+
          do 300 node=0,numvals-1
-            ex(solnum,node) = sol_exco(node)*rhob(node)
+            p%ex(solnum,node) = sol_exco(node)*p%rhob(node)
   300    continue
- 
+
       else if (index(Variable_name,'dis_').eq.1) then
- 
+
          solnum = apswim_solute_number (Variable_name(5:))
          call collect_double_array (
      :              Variable_name,
-     :              n+1,
+     :              p%n+1,
      :              '()',
      :              sol_dis(0),
      :              numvals,
-     :              c_lb_dis,
-     :              c_ub_dis)
- 
+     :              c%lb_dis,
+     :              c%ub_dis)
+
          do 400 node=0,numvals-1
-            dis(solnum,node) = sol_dis(node)
+            p%dis(solnum,node) = sol_dis(node)
   400    continue
- 
+
       elseif (Variable_name .eq. 'scon') then
          call collect_double_var (
      :              'scon',
-     :              '(/h)',
-     :              gsurf,
+     :              '(/g%h)',
+     :              g%gsurf,
      :              numvals,
      :              0d0,
      :              100d0)
-         if ((gsurf.gt.g1).or.(gsurf.lt.g0)) then
+         if ((g%gsurf.gt.p%g1).or.(g%gsurf.lt.p%g0)) then
             call fatal_error (ERR_User,
      :         'Scon set to a value outside of specified decay curve')
          else
@@ -1417,13 +1488,13 @@ cnh added as per request by Dr Val Snow
          call collect_double_var (
      :              Variable_name,
      :              '(cm)',
-     :              constant_potential,
+     :              p%constant_potential,
      :              numvals,
      :              -1d7,
      :              1d7)
-         if (ibbc.ne.1) then
-            ibbc = 1 
-            call write_event 
+         if (p%ibbc.ne.1) then
+            p%ibbc = 1
+            call Write_string
      :         ('Bottom boundary condition now constant potential')
          endif
 
@@ -1431,21 +1502,21 @@ cnh added as per request by Dr Val Snow
          call collect_double_var (
      :              Variable_name,
      :              '(cm)',
-     :              constant_gradient,
+     :              p%constant_gradient,
      :              numvals,
      :              -1d7,
      :              1d7)
-         if (ibbc.ne.0) then
-            ibbc = 0
-            call write_event 
+         if (p%ibbc.ne.0) then
+            p%ibbc = 0
+            call Write_string
      :         ('Bottom boundary condition now constant gradient')
          endif
- 
+
       else
          ! Don't know this variable name
          call Message_Unused ()
       endif
- 
+
       return
       end
 
@@ -1454,9 +1525,9 @@ cnh added as per request by Dr Val Snow
 * ====================================================================
        subroutine apswim_zero_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'              ! apswim common block
-      include 'data.pub'                          
+      include 'data.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -1472,228 +1543,228 @@ cnh added as per request by Dr Val Snow
        integer solnum
 
 *- Implementation Section ----------------------------------
-      rainfall_source = ' '
-      evap_source = ' '
-      SWIMRainNumPairs = 1
-      SWIMEvapNumPairs = 1
- 
+      p%rainfall_source = ' '
+      p%evap_source = ' '
+      g%SWIMRainNumPairs = 1
+      g%SWIMEvapNumPairs = 1
+
       do 3 counter = 1, SWIMLogSize
-         SWIMRainTime(counter)= 0.d0
-         SWIMRainAmt(counter) = 0.d0
-         SWIMEqRainTime(counter) = 0.d0
-         SWIMEqRainAmt(counter) = 0.d0
- 
-         SWIMEvapTime(counter)= 0.d0
-         SWIMEvapAmt(counter) = 0.d0
- 
+         g%SWIMRainTime(counter)= 0.d0
+         g%SWIMRainAmt(counter) = 0.d0
+         g%SWIMEqRainTime(counter) = 0.d0
+         g%SWIMEqRainAmt(counter) = 0.d0
+
+         g%SWIMEvapTime(counter)= 0.d0
+         g%SWIMEvapAmt(counter) = 0.d0
+
          do 4 solnum = 1,nsol
-            SWIMSolNumPAirs(solnum) = 1
-            SWIMSolTime(solnum,counter)= 0.d0
-            SWIMSolAmt(solnum,counter) = 0.d0
+            g%SWIMSolNumPairs(solnum) = 1
+            g%SWIMSolTime(solnum,counter)= 0.d0
+            g%SWIMSolAmt(solnum,counter) = 0.d0
     4    continue
- 
+
     3 continue
- 
- 
+
+
       call apswim_reset_daily_totals ()
- 
+
       do 7 counter = 0,M
-         dlayer(counter) = 0d0
-         ll15(counter) = 0d0
-         dul(counter) = 0d0
-         sat(counter) = 0d0
+         g%dlayer(counter) = 0d0
+         g%LL15(counter) = 0d0
+         g%DUL(counter) = 0d0
+         g%SAT(counter) = 0d0
     7 continue
-      g_salb = 0.0
- 
-      run_has_started = .false.
- 
-      constant_potential = 0.d0
-      constant_gradient = 0.d0
-      g_crop_cover = 0.0d0
- 
+      p%salb = 0.0
+
+      g%run_has_started = .false.
+
+      p%constant_potential = 0.d0
+      p%constant_gradient = 0.d0
+      g%crop_cover = 0.0d0
+
 * =====================================================================
-*      common/time/t,dt,t0,tfin,tcycle
+*      common/time/g%t,g%dt,t0,tfin,tcycle
 * =====================================================================
-c      t = 0d0
-      dt = 0d0
+c      g%t = 0d0
+      g%dt = 0d0
 c      t0 = 0d0
 c      tfin = 0d0
 c      tcycle = 0d0
- 
+
 * =====================================================================
-*      common/contrl/pint,dw,dtmin,dtmax,isol
+*      common/contrl/pint,p%dw,p%dtmin,p%dtmax,p%isol
 * =====================================================================
-      pint = 0d0
-      dw =0d0
-      dtmin = 0d0
+c      pint = 0d0
+      p%dw =0d0
+      p%dtmin = 0d0
 cnh
-      dtmax_sol = 0d0
-      dtmax = 0d0
-      isol = 0
- 
+      p%dtmax_sol = 0d0
+      p%dtmax = 0d0
+      p%isol = 0
+
 * =====================================================================
-*      common/water/won,woff,wes,wesp,wex,wbp,winf,h0,wp,wp0,wdrn
+*      common/water/g%won,g%woff,g%wes,g%wesp,g%wex,g%wbp,g%winf,g%h0,g%wp,g%wp0,g%wdrn
 * =====================================================================
-      won = 0d0
-      woff = 0d0
-      wes = 0d0
-      wesp = 0d0
-      wex = 0d0
-      wbp = 0d0
-      winf = 0d0
-      h0 = 0d0
-      wp = 0d0
-      wp0 = 0d0
-      wdrn = 0d0
- 
+      g%won = 0d0
+      g%woff = 0d0
+      g%wes = 0d0
+      g%wesp = 0d0
+      g%wex = 0d0
+      g%wbp = 0d0
+      g%winf = 0d0
+      g%h0 = 0d0
+      g%wp = 0d0
+      g%wp0 = 0d0
+      g%wdrn = 0d0
+
 * =====================================================================
-*      common/space/n, x, dx
+*      common/space/p%n, p%x, p%dx
 * =====================================================================
-      n = 0
-      call dset2 (x,0,M,0,M,0d0)
-      call dset2 (dx,0,M,0,M,0d0)
- 
+      p%n= 0
+      call dset2 (p%x,0,M,0,M,0d0)
+      call dset2 (p%dx,0,M,0,M,0d0)
+
 * =====================================================================
-*      common/soilvr/p,psi,th,thold,hk,q,
-*     1              h,hold,ron,roff,res,resp,rex,qs,qex
+*      common/soilvr/g%p,g%psi,g%th,g%thold,g%hk,g%q,
+*     1              g%h,g%hold,g%ron,g%roff,g%res,g%resp,g%rex,g%qs,g%qex
 * =====================================================================
-      call dset2 (p,0,M,0,M,0d0)
-      call dset2 (psi,0,M,0,M,0d0)
-      call dset2 (th,0,M,0,M,0d0)
-      call dset2 (thold,0,M,0,M,0d0)
-      call dset2 (hk,0,M,0,M,0d0)
-      call dset2 (q,0,M+1,0,M+1,0d0)
-      h = 0d0
-      hold = 0d0
-      ron = 0d0
-      roff = 0d0
-      res = 0d0
-      resp = 0d0
-      rex = 0d0
-      call dset2 (qs,0,M,0,M,0d0)
-      call dset2 (qex,0,M,0,M,0d0)
- 
+      call dset2 (g%p,0,M,0,M,0d0)
+      call dset2 (g%psi,0,M,0,M,0d0)
+      call dset2 (g%th,0,M,0,M,0d0)
+      call dset2 (g%thold,0,M,0,M,0d0)
+      call dset2 (g%hk,0,M,0,M,0d0)
+      call dset2 (g%q,0,M+1,0,M+1,0d0)
+      g%h = 0d0
+      g%hold = 0d0
+      g%ron = 0d0
+      g%roff = 0d0
+      g%res = 0d0
+      g%resp = 0d0
+      g%rex = 0d0
+      call dset2 (g%qs,0,M,0,M,0d0)
+      call dset2 (g%qex,0,M,0,M,0d0)
+
 * =====================================================================
-cnh*      common/bypass/ibp,gbp,sbp,hbp,hbp0,hbpold,qbp,qbpd,slbp0,qslbp
-*      common/bypass/ibp,gbp,sbp,hbp,hbp0,hbpold,qbp,qbpd,qslbp
+cnh*      common/bypass/p%ibp,p%gbp,p%sbp,g%hbp,g%hbp0,g%hbpold,g%qbp,g%qbpd,slbp0,g%qslbp
+*      common/bypass/p%ibp,p%gbp,p%sbp,g%hbp,g%hbp0,g%hbpold,g%qbp,g%qbpd,g%qslbp
 * =====================================================================
-      ibp = 0
-      gbp = 0d0
-      sbp = 0d0
-      hbp = 0d0
-      hbp0 = 0d0
-      hbpold = 0d0
-      qbp = 0d0
-      qbpd = 0d0
+      p%ibp = 0
+      p%gbp = 0d0
+      p%sbp = 0d0
+      g%hbp = 0d0
+      g%hbp0 = 0d0
+      g%hbpold = 0d0
+      g%qbp = 0d0
+      g%qbpd = 0d0
 cnh      slbp0 = 0d0
       do 19 counter=1,nsol
-         qslbp(counter) = 0d0
+         g%qslbp(counter) = 0d0
    19 continue
- 
+
 * =====================================================================
-*      common/soilpr/ivap,index,wtint,hys,hysref,
-*     1              hysdry,hyscon,slmin,slmax,sl,wc,
-*     2              wcd,hkl,hkld
+*      common/soilpr/p%ivap,index,wtint,g%hys,g%hysref,
+*     1              g%hysdry,g%hyscon,p%slmin,p%slmax,p%sl,p%wc,
+*     2              p%wcd,p%hkl,p%hkld
 * =====================================================================
       do 20 counter = 0,M
-         wtint(counter) = 0.d0
-         hys(counter) = 0.d0
-         hysref(counter) = 0.d0
-         hysdry(counter) = 0.d0
+c         wtint(counter) = 0.d0
+         g%hys(counter) = 0.d0
+         g%hysref(counter) = 0.d0
+         g%hysdry(counter) = 0.d0
          ! removed old swimv2 index variable as it clashes with
          ! fortran intrinsic function name.
          ! index(counter,1) = 0
          ! index(counter,2) = 0
    20 continue
-      slmin = 0.d0
-      slmax = 0.d0
-      call fill_double_array (sl,0d0,MP)
-      call fill_double_array (wc,0d0,MP)
-      call fill_double_array (wcd,0d0,MP)
-      call fill_double_array (hkl,0d0,MP)
-      call fill_double_array (hkld,0d0,MP)
-      ivap = 0
-      hyscon = 0d0
- 
+      p%slmin = 0.d0
+      p%slmax = 0.d0
+      call fill_double_array (p%sl,0d0,MP)
+      call fill_double_array (p%wc,0d0,MP)
+      call fill_double_array (p%wcd,0d0,MP)
+      call fill_double_array (p%hkl,0d0,MP)
+      call fill_double_array (p%hkld,0d0,MP)
+      p%ivap = 0
+      g%hyscon = 0d0
+
 * =====================================================================
-*      common/solute/slon,sloff,slex,slbp,slinf,slh0,slsadd,slp,slp0,
-*     1              sldrn,sldec,slprd
+*      common/solute/g%slon,g%sloff,g%slex,g%slbp,g%slinf,g%slh0,g%slsadd,g%slp,g%slp0,
+*     1              g%sldrn,g%sldec,g%slprd
 * =====================================================================
       do 21 counter=1,nsol
-         slon(counter) = 0d0
-         sloff(counter) = 0d0
-         slex(counter) = 0d0
-         slbp(counter) = 0d0
-         slinf(counter) = 0d0
-         slh0(counter) = 0d0
-         slsadd(counter) = 0d0
-         slp(counter) = 0d0
-         slp0(counter) = 0d0
-         sldrn(counter) = 0d0
-         sldec(counter) = 0d0
-         slprd(counter) = 0d0
+         g%slon(counter) = 0d0
+         g%sloff(counter) = 0d0
+         g%slex(counter) = 0d0
+         g%slbp(counter) = 0d0
+         g%slinf(counter) = 0d0
+         g%slh0(counter) = 0d0
+         g%slsadd(counter) = 0d0
+         g%slp(counter) = 0d0
+         g%slp0(counter) = 0d0
+         g%sldrn(counter) = 0d0
+         g%sldec(counter) = 0d0
+         g%slprd(counter) = 0d0
          do 78 node=0,M
-            cslold(counter,node) = 0d0
+            g%cslold(counter,node) = 0d0
    78    continue
-         cslgw(counter) = 0d0
+         p%cslgw(counter) = 0d0
    21 continue
-      
- 
+
+
 * =====================================================================
-*      common/solvar/dc,csl,cslt,qsl,qsls,slsur,
-*     1              cslsur,rslon,rsloff,rslex,rsldec,rslprd,qslprd
+*      common/solvar/g%dc,g%csl,g%cslt,g%qsl,g%qsls,g%slsur,
+*     1              g%cslsur,g%rslon,g%rsloff,g%rslex,g%rsldec,g%rslprd,g%qslprd
 * =====================================================================
       do 24 counter = 1,nsol
          do 22 node = 1,M
-            dc(counter,node) =0d0
+            g%dc(counter,node) =0d0
    22    continue
- 
+
          do 23 node = 0,M
-            csl(counter,node)=0d0
-            cslt(counter,node)=0d0
-            qsl(counter,node)=0d0
-            qsls(counter,node)=0d0
-            qslprd(counter,node)=0d0
+            g%csl(counter,node)=0d0
+            g%cslt(counter,node)=0d0
+            g%qsl(counter,node)=0d0
+            g%qsls(counter,node)=0d0
+            g%qslprd(counter,node)=0d0
    23    continue
-         slsur(counter) = 0d0
-         cslsur(counter) = 0d0
-         rslon(counter) = 0d0
-         rsloff(counter) = 0d0
-         rslex(counter) = 0d0
-         rsldec(counter) = 0d0
-         rslprd(counter) = 0d0
+         g%slsur(counter) = 0d0
+         g%cslsur(counter) = 0d0
+         g%rslon(counter) = 0d0
+         g%rsloff(counter) = 0d0
+         g%rslex(counter) = 0d0
+         g%rsldec(counter) = 0d0
+         g%rslprd(counter) = 0d0
    24 continue
- 
+
 * =====================================================================
 *      common/solpar/indxsl,slxc,slpmax,slpc1,slpc2,scycle,itime,
-*     1              idepth,asl1,bsl1,asl2,bsl2,slupf,slos,slsci,slscr,
-*     2              dcon,dthc,dthp,disp,dis,ex,fip,
-*     3              alpha,betaex
+*     1              idepth,asl1,bsl1,asl2,bsl2,p%slupf,p%slos,g%slsci,g%slscr,
+*     2              p%dcon,p%dthc,p%dthp,p%disp,p%dis,p%ex,p%fip,
+*     3              p%alpha,p%betaex
 * =====================================================================
       do 32 counter = 1, nsol
          do 30 counter2 = 0,M
-            dis(counter,counter2)=0d0
-            ex(counter,counter2)=0d0
-            alpha(counter,counter2)=0d0
-            betaex(counter,counter2)=0d0
-            fip(counter,counter2)=0d0
+            p%dis(counter,counter2)=0d0
+            p%ex(counter,counter2)=0d0
+            p%alpha(counter,counter2)=0d0
+            p%betaex(counter,counter2)=0d0
+            p%fip(counter,counter2)=0d0
    30    continue
- 
+
          do 31 counter2 = 0,M
-            indxsl(counter,counter2)=0
+c            indxsl(counter,counter2)=0
    31    continue
- 
-         slupf(counter) = 0d0
-         slos(counter) = 0d0
-         slsci(counter) = 0d0
-         slscr(counter) = 0d0
-         dcon(counter) = 0d0
-         dthc(counter) = 0d0
-         dthp(counter) = 0d0
-         disp(counter) = 0d0
- 
+
+         p%slupf(counter) = 0d0
+         p%slos(counter) = 0d0
+         p%slsci(counter) = 0d0
+         p%slscr(counter) = 0d0
+         p%dcon(counter) = 0d0
+         p%dthc(counter) = 0d0
+         p%dthp(counter) = 0d0
+         p%disp(counter) = 0d0
+
    32 continue
- 
+
 cnh      itime = 0
 cnh      idepth = 0
 cnh      slxc = 0d0
@@ -1705,8 +1776,8 @@ cnh      asl1 = 0d0
 cnh      bsl1 = 0d0
 cnh      asl2 = 0d0
 cnh      bsl2 = 0d0
- 
- 
+
+
 * =====================================================================
 *      common/solprt/luspr,istspr,iftspr,itspr,tspr
 * =====================================================================
@@ -1716,7 +1787,7 @@ cnh      luspr = 0
 cnh      istspr = 0
 cnh      iftspr = 0
 cnh      itspr = 0
- 
+
 * =====================================================================
 *      common/solprd/ndsl,dsl,ntsl,tsl,psl
 * =====================================================================
@@ -1727,30 +1798,30 @@ cnh         call set(psl(counter,1),0.0,mtsl)
 cnh   10 continue
 cnh      ndsl = 0
 cnh      ntsl = 0
- 
+
 * =====================================================================
-*      common/itern/ersoil,ernode,errex,dppl,dpnl,work,slcerr,slwork
+*      common/itern/p%ersoil,p%ernode,p%errex,p%dppl,p%dpnl,g%work,p%slcerr,g%slwork
 * =====================================================================
-      ersoil = 0d0
-      ernode = 0d0
-      errex = 0d0
-      dppl = 0d0
-      dpnl = 0d0
-      work = 0d0
-      slcerr = 0d0
-      slwork = 0d0
- 
+      p%ersoil = 0d0
+      p%ernode = 0d0
+      p%errex = 0d0
+      p%dppl = 0d0
+      p%dpnl = 0d0
+      g%work = 0d0
+      p%slcerr = 0d0
+      g%slwork = 0d0
+
 * =====================================================================
-*      common/condns/gf,isbc,itbc,ibbc,swt,swta,slswt
+*      common/condns/g%gf,p%isbc,p%itbc,p%ibbc,p%swt,g%swta,p%slswt
 * =====================================================================
-      gf = 1d0    ! gravity factor set to 1 - only allow flat soil surface
-      isbc = 0
-      itbc = 0
-      ibbc = 0
-      swt = 0d0
-      call dset2 (swta,1,M,1,M,0d0)
-      slswt = 0d0
- 
+      g%gf = 1d0  ! gravity factor set to 1 - only allow flat soil surface
+      p%isbc = 0
+      p%itbc = 0
+      p%ibbc = 0
+      p%swt = 0d0
+      call dset2 (g%swta,1,M,1,M,0d0)
+      p%slswt = 0d0
+
 * =====================================================================
 *      common/bound/lub,istb,iftb,itb,tb
 * =====================================================================
@@ -1758,24 +1829,24 @@ cnh      lub = 0
 cnh      istb = 0
 cnh      iftb = 0
 cnh      itb = 0
-cnh      call set(tb(1,1),0.0,mtb)
-cnh      call set(tb(2,1),0.0,mtb)
- 
+cnh      call set(tb(1,1),0.0,MTB)
+cnh      call set(tb(2,1),0.0,MTB)
+
 * =====================================================================
-*      common/surcon/g0,g1,grc,hm0,hm1,hrc,roff0,roff1,tzero,eqr0
+*      common/surcon/p%g0,p%g1,p%grc,p%hm0,p%hm1,p%hrc,p%roff0,p%roff1,tzero,eqr0
 * =====================================================================
-      g0 = 0d0
-      g1 = 0d0
-      grc = 0d0
-      hm0 = 0d0
-      hm1 = 0d0
-      hrc = 0d0
-      roff0 = 0d0
-      roff1 = 0d0
-      tzero = 0d0
-      eqr0 = 0d0
-      hmin = 0d0
-      gsurf = 0d0
+      p%g0 = 0d0
+      p%g1 = 0d0
+      p%grc = 0d0
+      p%hm0 = 0d0
+      p%hm1 = 0d0
+      p%hrc = 0d0
+      p%roff0 = 0d0
+      p%roff1 = 0d0
+c      tzero = 0d0
+c      eqr0 = 0d0
+      g%hmin = 0d0
+      g%gsurf = 0d0
 * =====================================================================
 *      common/crainb/lur,istr,iftr,itr,effpar,tr,teqr
 * =====================================================================
@@ -1784,11 +1855,11 @@ cnh      iftr = 0
 cnh      istr = 0
 cnh      itr = 0
 cnh      lur = 0
-cnh      call set(tr(1,1),0.0,mtr)
-cnh      call set(tr(2,1),0.0,mtr)
-cnh      call set(teqr(1,1),0.0,mtr)
-cnh      call set(teqr(2,1),0.0,mtr)
- 
+cnh      call set(tr(1,1),0.0,MTR)
+cnh      call set(tr(2,1),0.0,MTR)
+cnh      call set(teqr(1,1),0.0,MTR)
+cnh      call set(teqr(2,1),0.0,MTR)
+
 * =====================================================================
 *      common/cevapb/lue,iste,ifte,ite,te
 * =====================================================================
@@ -1796,64 +1867,64 @@ cnh      ifte = 0
 cnh      iste = 0
 cnh      ite = 0
 cnh      lue = 0
-cnh      call set(te(1,1),0.0,mte)
-cnh      call set(te(2,1),0.0,mte)
- 
+cnh      call set(te(1,1),0.0,MTE)
+cnh      call set(te(2,1),0.0,MTE)
+
 * =====================================================================
-*      common/vegvar/rld,rc,rtp,rt,ctp,ct,qr,slup
+*      common/vegvar/g%rld,g%rc,g%rtp,g%rt,g%ctp,g%ct,g%qr,g%slup
 * =====================================================================
-c       double precision rld(0:m,mv)
-c       double precision rc(0:m,mv)
-c       double precision rtp(mv)
-c       double precision rt(mv)
-c       double precision ctp(mv)
-c       double precision ct(mv)
-c       double precision qr(0:m,mv)
-c       double precision slup(mv)
- 
+c       double precision g%rld(0:M,MV)
+c       double precision g%rc(0:M,MV)
+c       double precision g%rtp(MV)
+c       double precision g%rt(MV)
+c       double precision g%ctp(MV)
+c       double precision g%ct(MV)
+c       double precision g%qr(0:M,MV)
+c       double precision g%slup(MV)
+
       do 41 vegnum = 1, MV
          do 40 node = 0,M
-            rld(node,vegnum) = 0d0
-            rc (node,vegnum) = 0d0
-            qr (node,vegnum) = 0d0
+            g%rld(node,vegnum) = 0d0
+            g%rc (node,vegnum) = 0d0
+            g%qr (node,vegnum) = 0d0
             do 39 solnum=1,nsol
-               slup (vegnum,solnum) = 0d0
+               g%slup (vegnum,solnum) = 0d0
    39       continue
    40    continue
-         rtp (vegnum) = 0d0
-         rt  (vegnum) = 0d0
-         ctp (vegnum) = 0d0
-         ct  (vegnum) = 0d0
+         g%rtp (vegnum) = 0d0
+         g%rt  (vegnum) = 0d0
+         g%ctp (vegnum) = 0d0
+         g%ct  (vegnum) = 0d0
    41 continue
- 
+
 * =====================================================================
-*      common/vegpar/nveg,psim,psimin,xc,rldmax,fevmax,
+*      common/vegpar/g%nveg,g%psim,g%psimin,xc,rldmax,fevmax,
 *     1              vcycle,igrow,iroot,arld1,brld1,
 *     1              arld2,brld2
 * =====================================================================
-       nveg = 0
-c       psim = 0d0
-c       double precision psimin(mv)
-c       double precision xc(mv)
-c       double precision rldmax(mv)
-c       double precision fevmax(mv)
-c       double precision vcycle(mv)
-c       integer          igrow(mv)
-c       integer          iroot(mv)
-c       double precision arld1(mv)
-c       double precision brld1(mv)
-c       double precision arld2(mv)
-c       double precision brld2(mv)
- 
+       g%nveg = 0
+c       g%psim = 0d0
+c       double precision g%psimin(MV)
+c       double precision xc(MV)
+c       double precision rldmax(MV)
+c       double precision fevmax(MV)
+c       double precision vcycle(MV)
+c       integer          igrow(MV)
+c       integer          iroot(MV)
+c       double precision arld1(MV)
+c       double precision brld1(MV)
+c       double precision arld2(MV)
+c       double precision brld2(MV)
+
 * =====================================================================
 *      common/root/ndrt,drt,ntrt,trt,grt
 * =====================================================================
-c      integer ndrt(mv)
-c      real drt(mdrt,mv)
-c      real trt(mtrt,mv)
-c      real grt(mdrt,mtrt,mv)
-c      integer ntrt(mv)
- 
+c      integer ndrt(MV)
+c      real drt(mdrt,MV)
+c      real trt(mtrt,MV)
+c      real grt(mdrt,mtrt,MV)
+c      integer ntrt(MV)
+
 * =====================================================================
 *      common/cumsol/lus,ists,ifts,its,ts
 * =====================================================================
@@ -1861,28 +1932,28 @@ cnh      ifts = 0
 cnh      ists = 0
 cnh      its = 0
 cnh      lus = 0
- 
+
 cnh      call fill_real_array(ts(1,1),0.0,MTS)
 cnh      call fill_real_array(ts(2,1),0.0,MTS)
- 
+
       do 102 vegnum=1,MV
-         pep(vegnum) = 0d0
+         g%pep(vegnum) = 0d0
          do 101 solnum=1,nsol
-            solute_demand(vegnum,solnum) = 0d0
+            g%solute_demand(vegnum,solnum) = 0d0
   101    continue
   102 continue
- 
-      extra_solute_supply_flag = 'off'
- 
+
+      p%extra_solute_supply_flag = 'off'
+
       return
       end
 
 * ====================================================================
        subroutine apswim_zero_module_links ()
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc' 
-      include 'data.pub'                          
+      include 'data.pub'
 
 *+  Purpose
 *     Reset all information regarding links to other modules
@@ -1894,12 +1965,12 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        integer solnum
 
 *- Implementation Section ----------------------------------
- 
+
       do 100 solnum=1,nsol
-         solute_names(solnum) = ' '
-         solute_owners(solnum) = ' '
+         p%solute_names(solnum) = ' '
+         g%solute_owners(solnum) = ' '
   100 continue
-  
+
       return
       end
 
@@ -1909,8 +1980,8 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_Prepare ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
 
 *+  Purpose
 *     Perform calculations before the current timestep.
@@ -1921,53 +1992,53 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 *+  Local Variables
 
 *- Implementation Section ----------------------------------
- 
+
       call apswim_get_other_variables ()
- 
-      if (rainfall_source .eq. 'apsim') then
+
+      if (p%rainfall_source .eq. 'apsim') then
          call apswim_get_rain_variables ()
- 
+
       else
          call apswim_read_logfile (
-     :                             g_LUNrain
-     :                            ,year
-     :                            ,day
-     :                            ,apsim_time
-     :                            ,apsim_timestep
-     :                            ,SWIMRainTime
-     :                            ,SWIMRainAmt
-     :                            ,SWIMRainNumPairs
+     :                             LUNrain
+     :                            ,g%year
+     :                            ,g%day
+     :                            ,g%apsim_time
+     :                            ,g%apsim_timestep
+     :                            ,g%SWIMRainTime
+     :                            ,g%SWIMRainAmt
+     :                            ,g%SWIMRainNumPairs
      :                            ,SWIMLogSize)
- 
+
       endif
- 
+
       call apswim_recalc_eqrain()
- 
-      if (evap_source .eq. 'apsim') then
+
+      if (p%evap_source .eq. 'apsim') then
          call apswim_get_obs_evap_variables ()
- 
-      else if ((evap_source .eq. 'calc')
-     :        .or.(evap_source .eq. 'sum_demands')) then
+
+      else if ((p%evap_source .eq. 'calc')
+     :        .or.(p%evap_source .eq. 'sum_demands')) then
          ! I need a cumulative eo curve from Priestly taylor
          ! method for these pot. evap methods.
          call apswim_calc_evap_variables ()
- 
+
       else
          call apswim_read_logfile (
-     :                             g_LUNevap
-     :                            ,year
-     :                            ,day
-     :                            ,apsim_time
-     :                            ,apsim_timestep
-     :                            ,SWIMEvapTime
-     :                            ,SWIMEvapAmt
-     :                            ,SWIMEvapNumPairs
+     :                             LUNevap
+     :                            ,g%year
+     :                            ,g%day
+     :                            ,g%apsim_time
+     :                            ,g%apsim_timestep
+     :                            ,g%SWIMEvapTime
+     :                            ,g%SWIMEvapAmt
+     :                            ,g%SWIMEvapNumPairs
      :                            ,SWIMLogSize)
- 
+
       endif
- 
- 
- 
+
+
+
       return
       end
 
@@ -1976,6 +2047,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_post ()
 * ====================================================================
+      use APSwimModule
       implicit none
 
 *+  Purpose
@@ -1985,7 +2057,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 *     <insert here>
 
 *- Implementation Section ----------------------------------
- 
+
       return
       end
 
@@ -1994,6 +2066,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 * ====================================================================
        subroutine apswim_end_run ()
 * ====================================================================
+      use APSwimModule
       implicit none
 
 *+  Purpose
@@ -2003,7 +2076,15 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 *     <insert here>
 
 *- Implementation Section ----------------------------------
- 
+
+      if (p%rainfall_source .ne. 'apsim') then
+         close (LUNrain)
+      endif
+
+      if (p%evap_source .ne. 'apsim') then
+         close (LUNevap)
+      endif
+
       return
       end
 
@@ -2013,7 +2094,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        subroutine dset2 (array,startdim,enddim,start,end,value)
 * ====================================================================
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        integer startdim
@@ -2039,18 +2120,18 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 c      do 100 counter = start, end
 c         array (counter) = value
 c  100 continue
- 
+
       temp = 1 - startdim
       enddim = enddim
- 
+
       do 100 counter = start + temp, end + temp
          array (counter) = value
   100 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -2060,10 +2141,10 @@ c  100 continue
 * ====================================================================
        subroutine apswim_init_calc ()
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *   Perform initial calculations from input parameters and prepare for
@@ -2107,163 +2188,164 @@ c      double precision tth
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! change units of params to normal SWIM units
       ! ie. cm and hours etc.
       call apswim_init_change_units()
- 
+
 * ------------------- CALCULATE CURRENT TIME -------------------------
-      time_mins = apswim_time_to_mins (apsim_time)
-      t = apswim_time (year,day,time_mins)
- 
+      time_mins = apswim_time_to_mins (g%apsim_time)
+      g%t = apswim_time (g%year,g%day,time_mins)
+
 * ----------------- SET UP NODE SPECIFICATIONS -----------------------
       ! safer to use number returned from read routine
-      n = count_of_double_vals (x,M+1)-1
- 
-      dx(0) = 0.5*(x(1) - x(0))
-      dlayer(0) = dx(0)*10d0
-      do 10 i=1,n-1
-         dx(i) = 0.5*(x(i+1)-x(i-1))
-         dlayer(i) = dx(i)*10d0
+      p%n = count_of_double_vals (p%x,M+1)-1
+
+      p%dx(0) = 0.5*(p%x(1) - p%x(0))
+      g%dlayer(0) = p%dx(0)*10d0
+      do 10 i=1,p%n-1
+         p%dx(i) = 0.5*(p%x(i+1)-p%x(i-1))
+         g%dlayer(i) = p%dx(i)*10d0
    10 continue
-      dx(n) = 0.5*(x(n)-x(n-1))
-      dlayer(n) = dx(n)*10d0
- 
+      p%dx(p%n) = 0.5*(p%x(p%n)-p%x(p%n-1))
+      g%dlayer(p%n) = p%dx(p%n)*10d0
+
 * -------- INTERPOLATE SPECIFICATIONS FOR NON-SPECIFIED NODES --------
- 
-      do 20 i=0,n-1
-         if(soil_type(i).eq.interp_key) then
+
+      do 20 i=0,p%n-1
+         if(p%soil_type(i).eq.interp_key) then
             ! need to interpolate soil characteristics
- 
+
             ! find previous soil characteristics definition
             do 11 j=i-1,1,-1
-               if (soil_type(j).ne.interp_key) goto 12
+               if (p%soil_type(j).ne.interp_key) goto 12
    11       continue
    12       continue
- 
+
             ! find next soil characteristics definition
-            do 13 k=i+1,n
-               if (soil_type(k).ne.interp_key) goto 14
+            do 13 k=i+1,p%n
+               if (p%soil_type(k).ne.interp_key) goto 14
    13       continue
    14       continue
- 
+
             ! calculate the relative distance between the specified nodes
-            fraction = (x(i) - x(j)) / (x(k)-x(j))
- 
+            fraction = (p%x(i) - p%x(j)) / (p%x(k)-p%x(j))
+
             do 45 l=1,MP
-               slj(l) = sl(j,l)
-               slk(l) = sl(k,l)
-               if (sl(j,l).eq.slmax) nslj = l
-               if (sl(k,l).eq.slmax) nslk = l
+               slj(l) = p%sl(j,l)
+               slk(l) = p%sl(k,l)
+               if (p%sl(j,l).eq.p%slmax) nslj = l
+               if (p%sl(k,l).eq.p%slmax) nslk = l
    45       continue
             call union_double_arrays (slj,nslj,slk,nslk,sli,nsli,MP)
- 
+
             do 15 l=1,nsli
-               sl(i,l) = sli(l)
-               suction = -1.0 * exp(dlog(10d0)*sl(i,l))
+               p%sl(i,l) = sli(l)
+               suction = -1.0 * exp(dlog(10d0)*p%sl(i,l))
                ! find characteristics for same suction in node k
                call apswim_interp
      :              (j,suction,thetaj,dthetaj,hklgj,dhklgj)
                call apswim_interp
      :              (k,suction,thetak,dthetak,hklgk,dhklgk)
- 
-               wc(i,l) = thetaj + fraction*(thetak-thetaj)
-               wcd(i,l) = dthetaj + fraction*(dthetak-dthetaj)
-               hkl(i,l) = hklgj + fraction*(hklgk-hklgj)
-               hkld(i,l) =dhklgj + fraction*(dhklgk-dhklgj)
- 
-c               If (sl(j,l).e.slmax) then
-c                  sl(i,l) = sl(j,l)
-c                  suction = -1.0 * exp(dlog(10d0)*sl(j,l))
+
+               p%wc(i,l) = thetaj + fraction*(thetak-thetaj)
+               p%wcd(i,l) = dthetaj + fraction*(dthetak-dthetaj)
+               p%hkl(i,l) = hklgj + fraction*(hklgk-hklgj)
+               p%hkld(i,l) =dhklgj + fraction*(dhklgk-dhklgj)
+
+c               If (p%sl(j,l).e.p%slmax) then
+c                  p%sl(i,l) = p%sl(j,l)
+c                  suction = -1.0 * exp(dlog(10d0)*p%sl(j,l))
 c                  ! find characteristics for same suction in node k
 c                  call apswim_interp (k,suction,tth,thd,hklg,hklgd)
-c                  wc(i,l) = wc(j,l) + fraction*(tth-wc(j,l))
-c                  wcd(i,l) = wcd(j,l) + fraction*(thd-wcd(j,l))
-c                  hkl(i,l) = hkl(j,l) + fraction*(hklg-hkl(j,l))
-c                  hkld(i,l) = hkld(j,l) + fraction*(hklgd-hkld(j,l))
-ccnh                  hkl(i,l) = fraction*hkl(j,l)+(1.-fraction)*hklg
-ccnh                  hkld(i,l) =fraction*hkld(j,l)+(1.-fraction)*hklgd
+c                  p%wc(i,l) = p%wc(j,l) + fraction*(tth-p%wc(j,l))
+c                  p%wcd(i,l) = p%wcd(j,l) + fraction*(thd-p%wcd(j,l))
+c                  p%hkl(i,l) = p%hkl(j,l) + fraction*(hklg-p%hkl(j,l))
+c                  p%hkld(i,l) = p%hkld(j,l) + fraction*(hklgd-p%hkld(j,l))
+ccnh                  p%hkl(i,l) = fraction*p%hkl(j,l)+(1.-fraction)*hklg
+ccnh                  p%hkld(i,l) =fraction*p%hkld(j,l)+(1.-fraction)*hklgd
 c
 c               Else
 c               Endif
- 
+
    15       continue
 c   47       continue
- 
+
                ! Interpolate Solute/Soil characteristics for each solute
- 
-            rhob(i) = rhob(j)+fraction*(rhob(k)-rhob(j))
- 
-            do 16 solnum = 1, num_solutes
-               exco(solnum,i) = exco(solnum,j)+
-     :                    fraction*(exco(solnum,k)-exco(solnum,j))
-               fip (solnum,i) = fip (solnum,j)+
-     :                    fraction*(fip (solnum,k)-fip (solnum,j))
-               dis (solnum,i) = dis (solnum,j)+
-     :                    fraction*(dis (solnum,k)-dis (solnum,j))
-               alpha(solnum,i) = alpha(solnum,j)+
-     :                    fraction*(alpha(solnum,k)-alpha(solnum,j))
-               beta(solnum,i) = beta(solnum,j)+
-     :                    fraction*(beta(solnum,k)-beta(solnum,j))
+
+            p%rhob(i) = p%rhob(j)+fraction*(p%rhob(k)-p%rhob(j))
+
+            do 16 solnum = 1, p%num_solutes
+               p%exco(solnum,i) = p%exco(solnum,j)+
+     :                    fraction*(p%exco(solnum,k)-p%exco(solnum,j))
+               p%fip (solnum,i) = p%fip (solnum,j)+
+     :                    fraction*(p%fip (solnum,k)-p%fip (solnum,j))
+               p%dis (solnum,i) = p%dis (solnum,j)+
+     :                    fraction*(p%dis (solnum,k)-p%dis (solnum,j))
+               p%alpha(solnum,i) = p%alpha(solnum,j)+
+     :                    fraction*(p%alpha(solnum,k)-p%alpha(solnum,j))
+               p%beta(solnum,i) = p%beta(solnum,j)+
+     :                    fraction*(p%beta(solnum,k)-p%beta(solnum,j))
    16       continue
- 
+
          else
             ! no need to interpolate soil characteristics
          endif
    20 continue
- 
-* -------CALCULATE LL15, DUL AND SAT FROM MOISTURE CHARACTERISTICS -----
- 
-      ! First, calculate ll15, dul and sat for each node
- 
-      do 25 i=0,n
+
+* -------CALCULATE g%LL15, g%DUL AND g%SAT FROM MOISTURE CHARACTERISTICS -----
+
+      ! First, calculate g%LL15, g%DUL and g%SAT for each node
+
+      do 25 i=0,p%n
          call apswim_interp
-     :           (i,psi_ll15,ll15(i),thd,hklg,hklgd)
+     :           (i,psi_ll15,g%LL15(i),thd,hklg,hklgd)
          call apswim_interp
-     :           (i,psi_dul,dul(i),thd,hklg,hklgd)
-         sat(i) = wc(i,1)
- 
+     :           (i,psi_dul,g%DUL(i),thd,hklg,hklgd)
+         g%SAT(i) = p%wc(i,1)
+
    25 continue
- 
+
 * ---------- NOW SET THE ACTUAL WATER BALANCE STATE VARIABLES ---------
-      if (th(1).ne.0) then
+      if (g%th(1).ne.0) then
          ! water content was supplied in input file
          ! so calculate matric potential
-         call apswim_reset_water_balance (1,th)
- 
+         call apswim_reset_water_balance (1,g%th)
+
       else
          ! matric potential was supplied in input file
          ! so calculate water content
-         call apswim_reset_water_balance (2,psi)
- 
+         call apswim_reset_water_balance (2,g%psi)
+
       endif
- 
-      ! The original swim used changed the meaning of ibp
+
+      ! The original swim used changed the meaning of p%ibp
       ! also, to make it easier I have changed the meaning of the
-      ! old variable xbp.  It is no longer a depth but a node
+      ! old variable p%xbp.  It is no longer a depth but a node
       ! number.  This is more accurate as the old depth may not
       ! necessarily lie on a node and it was rounded to the node
       ! above.
-      If (ibp.eq.1) then
-         ibp = xbp
+      If (p%ibp.eq.1) then
+         p%ibp = p%xbp
       else
       endif
- 
+
       ! Calculate the solute/soil parameters from inputs
- 
-      do 40 node = 0,n
-         do 30 solnum = 1,num_solutes
-            ex(solnum,node) = rhob(node)*exco(solnum,node)
-            betaex(solnum,node) = beta(solnum,node)*ex(solnum,node)
+
+      do 40 node = 0,p%n
+         do 30 solnum = 1,p%num_solutes
+            p%ex(solnum,node) = p%rhob(node)*p%exco(solnum,node)
+            p%betaex(solnum,node) = p%beta(solnum,node)
+     :                            * p%ex(solnum,node)
    30    continue
    40 continue
- 
-      if (ibbc .eq. 1) then
+
+      if (p%ibbc .eq. 1) then
          ! water table so bottom later stays saturated
-         constant_potential = 0d0
+         p%constant_potential = 0d0
       else
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -2273,9 +2355,9 @@ c   47       continue
 * ====================================================================
        subroutine apswim_interp (node,tpsi,tth,thd,hklg,hklgd)
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        integer          node
@@ -2292,10 +2374,10 @@ c   47       continue
 *+  Notes
 *     code was adapted from the old swim V2 routine watvar which:-
 *
-*     calculates water variables from psi at grid point ix
-*     using cubic interpolation between given values of water content wc,
-*     log10 conductivity hkl, and their derivatives wcd, hkld with respect
-*     to log10 suction sl
+*     calculates water variables from g%psi at grid point ix
+*     using cubic interpolation between given values of water content p%wc,
+*     log10 conductivity p%hkl, and their derivatives p%wcd, p%hkld with respect
+*     to log10 suction p%sl
 
 *+  Changes
 *      12-07-94 NIH - specified and programmed
@@ -2322,52 +2404,57 @@ c   47       continue
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       psix=tpsi
       jhys=0
 *     adjust psix for hysteresis if necessary
-      if(hys(node).lt.0.)jhys=ihys(hyscon,hys(node),
-     :                   hysref(node),hysdry(node),psix,tdc)
+      if(g%hys(node).lt.0.)jhys=ihys(g%hyscon
+     :                              ,g%hys(node)
+     :                              ,g%hysref(node)
+     :                              ,g%hysdry(node)
+     :                              ,psix
+     :                              ,tdc)
       tx=-100d0
       if(psix.lt.0d0)tx=log10(-psix)
 *     adjust tx for hysteresis if necessary
-      if(hys(node).gt.0.)jhys=ihys(hyscon,hys(node),hysref(node),
-     :                   hysdry(node), tx,tdc)
- 
-      tx=max(dble(slmin),tx)
-      tx=min(dble(slmax),tx)
- 
+      if(g%hys(node).gt.0.)jhys=ihys(g%hyscon,g%hys(node),g%hysref(node)
+     :,
+     :                   g%hysdry(node), tx,tdc)
+
+      tx=max(dble(p%slmin),tx)
+      tx=min(dble(p%slmax),tx)
+
       do 10 k=2,MP
-         if (sl(node,k).ge.tx) then
+         if (p%sl(node,k).ge.tx) then
             ! the suction lies between this node and the previous node
             i=k-1
             j=k
             goto 11
- 
+
          endif
    10 continue
       print*,'*******whoops*******'
    11 continue
- 
-      tdx=sl(node,j)-sl(node,i)
-      z=(tx-sl(node,i))/tdx
- 
-      dy=wc(node,j)-wc(node,i)
-      a1=tdx*wcd(node,i)
-      a3=-2d0*dy+tdx*(wcd(node,i)+wcd(node,j))
+
+      tdx=p%sl(node,j)-p%sl(node,i)
+      z=(tx-p%sl(node,i))/tdx
+
+      dy=p%wc(node,j)-p%wc(node,i)
+      a1=tdx*p%wcd(node,i)
+      a3=-2d0*dy+tdx*(p%wcd(node,i)+p%wcd(node,j))
       a2=dy-a1-a3
-      tth=((a3*z+a2)*z+a1)*z+wc(node,i)
+      tth=((a3*z+a2)*z+a1)*z+p%wc(node,i)
       thd=0d0
-      if(tx.gt.slmin)thd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
- 
-      dy=hkl(node,j)-hkl(node,i)
-      a1=tdx*hkld(node,i)
-      a3=-2d0*dy+tdx*(hkld(node,i)+hkld(node,j))
+      if(tx.gt.p%slmin)thd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
+
+      dy=p%hkl(node,j)-p%hkl(node,i)
+      a1=tdx*p%hkld(node,i)
+      a3=-2d0*dy+tdx*(p%hkld(node,i)+p%hkld(node,j))
       a2=dy-a1-a3
-      hklg=((a3*z+a2)*z+a1)*z+hkl(node,i)
+      hklg=((a3*z+a2)*z+a1)*z+p%hkl(node,i)
       hklgd=0d0
-      if(tx.gt.slmin)hklgd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
- 
+      if(tx.gt.p%slmin)hklgd=((3d0*a3*z+2d0*a2)*z+a1)/tdx
+
       call pop_routine (myname)
       return
       end
@@ -2377,9 +2464,9 @@ c   47       continue
 * ====================================================================
        double precision function apswim_suction (node, theta)
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -2431,34 +2518,34 @@ c   47       continue
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
-      if (theta1 .gt. wc(node,1)) then
+
+
+      if (theta1 .gt. p%wc(node,1)) then
          write(error_string,'(1x,a,f5.3,a,i2,a,f5.3)')
      :      'Water Content of ',theta1,
      :      ' in node ',node,
-     :      ' exceeds upper limit of ',wc(node,1)
+     :      ' exceeds upper limit of ',p%wc(node,1)
          call warning_error(Err_Internal,error_String)
-         theta1 = wc(node,1)
+         theta1 = p%wc(node,1)
       else
       endif
- 
+
       do 10 k=2,MP
-         if (wc(node,k).eq.0d0) then
+         if (p%wc(node,k).eq.0d0) then
             ! Theta is too low for soil specs - bound to lowest possible
             ! value and report error.
             write(error_string,'(1x,a,f5.3,a,i2,a,f5.3)')
      :         'Water Content of ',theta1,
      :         ' in node ',node,
-     :         ' is below lower limit of ',wc(node,k-1)
+     :         ' is below lower limit of ',p%wc(node,k-1)
             call warning_error(Err_Internal,error_String)
-            theta1 = wc(node,k-1)
+            theta1 = p%wc(node,k-1)
             ! theta1 now lies between previous node and the one before
             i=k-2
             j=k-1
             goto 11
- 
-         elseif (wc(node,k).le.theta1) then
+
+         elseif (p%wc(node,k).le.theta1) then
             ! theta1 lies between this node and the previous node
             i=k-1
             j=k
@@ -2467,65 +2554,65 @@ c   47       continue
          endif
    10 continue
    11 continue
- 
+
       ! Take intital guess at Z
-      if ((wc(node,j)-wc(node,i)).eq.0.d0) then
+      if ((p%wc(node,j)-p%wc(node,i)).eq.0.d0) then
          write (error_string,'(A,i3)')
-     :      'Cannot determine unique psi for given theta for node'
+     :      'Cannot determine unique g%psi for given theta for node'
      :      ,node
          call Fatal_Error (Err_User, error_string)
          Z = 0.d0
       else
-         Z = (theta1 - wc(node,i))/(wc(node,j)-wc(node,i))
+         Z = (theta1 - p%wc(node,i))/(p%wc(node,j)-p%wc(node,i))
       endif
       ! calculate coefficients for section of moisture characteristic
-      deltasl = sl(node,j) - sl(node,i)
-      deltawc = wc(node,j) - wc(node,i)
-      a1 = deltasl * wcd(node,i)
-      a3 = -2d0 * deltawc + deltasl*(wcd(node,i)+wcd(node,j))
+      deltasl = p%sl(node,j) - p%sl(node,i)
+      deltawc = p%wc(node,j) - p%wc(node,i)
+      a1 = deltasl * p%wcd(node,i)
+      a3 = -2d0 * deltawc + deltasl*(p%wcd(node,i)+p%wcd(node,j))
       a2 = deltawc - a1 - a3
-      f = ((a3*Z + a2)*Z + a1)*Z + wc(node,i) - theta1
+      f = ((a3*Z + a2)*Z + a1)*Z + p%wc(node,i) - theta1
       dfdz = (3d0*a3*Z + 2d0*a2) * Z + a1
- 
+
       if (abs(f) .lt. tolerance) then
          ! It is already solved
          solved = .true.
- 
+
       else if (dfdz .eq. 0d0) then
          ! It will not be solved - ever
          solved = .false.
          call fatal_error (err_internal,'solution will not'//
      :                                        ' converge')
- 
+
       else
          solved = .false.
          do 100 iteration = 1,max_iterations
-            f = ((a3*Z + a2)*Z + a1)*Z + wc(node,i) - theta1
+            f = ((a3*Z + a2)*Z + a1)*Z + p%wc(node,i) - theta1
             dfdz = (3d0*a3*Z + 2d0*a2) * Z + a1
- 
+
             if (abs(f) .lt. tolerance) then
                solved = .true.
                goto 200
             else
                Z = Z - f/dfdz
             endif
- 
+
   100    continue
   200    continue
- 
+
       endif
- 
+
       if (.not.solved) then
          call fatal_error (err_internal,
-     : 'APSwim failed to solve wc for given psi')
-         apswim_suction = -1.0 * exp(dlog(10.d0)*slmin)
+     : 'APSwim failed to solve p%wc for given g%psi')
+         apswim_suction = -1.0 * exp(dlog(10.d0)*p%slmin)
       else
-         log_suction = sl(node,i) + Z*(sl(node,j) - sl(node,i))
+         log_suction = p%sl(node,i) + Z*(p%sl(node,j) - p%sl(node,i))
          suction = -1.0d0 * exp(dlog(10.d0)*log_suction)
- 
+
          apswim_suction = suction
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -2535,12 +2622,12 @@ c   47       continue
 * ====================================================================
        logical function apswim_swim (timestep_start, timestep)
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'engine.pub'                        
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'postbox.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision timestep
@@ -2556,8 +2643,8 @@ c   47       continue
 *     under a given matric potential gradient or given potl or zero flux or
 *     seepage.  The method uses a fixed space grid and a sinh transform of
 *     the matric potential, as reported in :
-*     Ross, P.J., 1990.  Efficient numerical methods for infiltration using
-*     Richards' equation.  Water Resources Res. 26, 279-290.
+*     Ross, g%p.J., 1990.  Efficient numerical methods for infiltration using
+*     Richards' equation.  Water Resources g%res. 26, 279-290.
 
 *+  Changes
 *     <insert here>
@@ -2587,10 +2674,10 @@ c       real bound
       integer          solnum
 *
 cnh added next line
-c      double precision psiold(0:m)
+c      double precision psiold(0:M)
       double precision qmax
       double precision wpold
-      double precision pold(0:m)
+      double precision pold(0:M)
       double precision timestep_remaining
       logical          fail
       double precision crt
@@ -2603,88 +2690,88 @@ c      double precision psiold(0:m)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       TimeStep_remaining = timestep
-      t = Timestep_start
+      g%t = Timestep_start
       fail = .false.
- 
+
 *     define iteration limit for soln of balance eqns
-      if (run_has_started) then
+      if (g%run_has_started) then
          !itlim = 20
-         itlim = c_max_iterations
+         itlim = c%max_iterations
       else
          ! this is our first timestep - allow for initial stabilisation
          !itlim = 50
-         itlim = c_max_iterations + 20
+         itlim = c%max_iterations + 20
       endif
- 
+
 *     solve until end of time step
- 
+
 10    continue
 cnh
       call new_postbox()
-      call message_send_immediate(unknown_module
+      call Action_send(unknown_module
      :                              ,'swim_timestep_preparation'
      :                              ,' ')
       call delete_postbox()
- 
- 
- 
- 
-*        calculate next step size_of dt
-c         write(LU_Summary_File,*) 'time = ',t
- 
+
+
+
+
+*        calculate next step size_of g%dt
+c         write(LU_Summary_File,*) 'time = ',g%t
+
          ! Start with first guess as largest size_of possible
-         dt = dtmax
-         if(dtmin.eq.dtmax)then
-            dt=dtmin
+         g%dt = p%dtmax
+         if(p%dtmin.eq.p%dtmax)then
+            g%dt=p%dtmin
          else
-            if(.not.run_has_started)then
-               if(dtmin.eq.0.) then
-                  dt=min(0.01*(timestep_remaining),0.25d0)
+            if(.not.g%run_has_started)then
+               if(p%dtmin.eq.0.) then
+                  g%dt=min(0.01*(timestep_remaining),0.25d0)
                else
-                  dt=dtmin
+                  g%dt=p%dtmin
                endif
-               ron=0.
+               g%ron=0.
                qmax=0.
- 
+
             else
                qmax=0.
-               qmax=max(qmax,roff)
-               qmax=max(qmax,res)
-               do 15 i=0,n
-                  qmax=max(qmax,qex(i))
-                  qmax=max(qmax,abs(qs(i)))
+               qmax=max(qmax,g%roff)
+               qmax=max(qmax,g%res)
+               do 15 i=0,p%n
+                  qmax=max(qmax,g%qex(i))
+                  qmax=max(qmax,abs(g%qs(i)))
 15             continue
-               do 20 i=0,n+1
-                  qmax=max(qmax,abs(q(i)))
+               do 20 i=0,p%n+1
+                  qmax=max(qmax,abs(g%q(i)))
 20             continue
                if (qmax.gt.0) then
-                  dt=ddivide(dw,qmax,0.d0)
+                  g%dt=ddivide(p%dw,qmax,0.d0)
                else
                   ! No movement
                endif
- 
+
             end if
- 
-cnh            dt=min(dt,dtmax)
-cnh            dt=max(dt,dtmin)
-            dt = dubound(dt,timestep_remaining)
- 
-            crt = apswim_crain(t)
-            dr = apswim_crain(t+dt) - crt
- 
-            if (ron.eq.0)then
-               dw1 = 0.1*dw
+
+cnh            g%dt=min(g%dt,p%dtmax)
+cnh            g%dt=max(g%dt,p%dtmin)
+            g%dt = dubound(g%dt,timestep_remaining)
+
+            crt = apswim_crain(g%t)
+            dr = apswim_crain(g%t+g%dt) - crt
+
+            if (g%ron.eq.0)then
+               dw1 = 0.1*p%dw
             else
-               dw1 = dw
+               dw1 = p%dw
             endif
- 
+
             if (dr.gt.1.1*dw1) then
-               t1 = t
+               t1 = g%t
                do 30 i=1,10
-                  dt = 0.5*dt
-                  t2 = t1+dt
+                  g%dt = 0.5*g%dt
+                  t2 = t1+g%dt
                   dr = apswim_crain(t2)-crt
                   if (dr.lt.0.9*dw1) then
                      t1=t2
@@ -2692,219 +2779,225 @@ cnh            dt=max(dt,dtmin)
                      if (dr.le.1.1*dw1) goto 31
                   endif
  30            continue
- 31            dt=t2-t
+ 31            g%dt=t2-g%t
             endif
- 
-            dt=min(dt,dtmax)
-            dt=max(dt,dtmin)
-cnh            dt = dubound(dt,timestep_remaining)
+
+            g%dt=min(g%dt,p%dtmax)
+            g%dt=max(g%dt,p%dtmin)
+cnh            g%dt = dubound(g%dt,timestep_remaining)
          end if
- 
- 
-         dtiny=max(0.01d0*dt,dtmin)
- 
+
+
+         dtiny=max(0.01d0*g%dt,p%dtmin)
+
 *        initialise and take new step
 *        ----------------------------
-         wpold=wp
-         hold=h
-         hbpold=max(psi(ibp),0d0)
-         do 34 i=0,n
+         wpold=g%wp
+         g%hold=g%h
+         g%hbpold=max(g%psi(p%ibp),0d0)
+         do 34 i=0,p%n
 *           save reference point on water retention curve if changed
-            if(.not.run_has_started)hysref(i)=hysdry(i)
+            if(.not.g%run_has_started)g%hysref(i)=g%hysdry(i)
 *           save transformed potls and water contents
-            pold(i)=p(i)
-            thold(i)=th(i)
-            old_hmin = hmin
-            old_gsurf = gsurf
+            pold(i)=g%p(i)
+            g%thold(i)=g%th(i)
+            old_hmin = g%hmin
+            old_gsurf = g%gsurf
 cnh
-c            psiold(i) = psi(i)
-            do 78 solnum=1,num_solutes
-               cslold(solnum,i) = csl(solnum,i)
+c            psiold(i) = g%psi(i)
+            do 78 solnum=1,p%num_solutes
+               g%cslold(solnum,i) = g%csl(solnum,i)
    78       continue
 34       continue
- 
-         old_time = t
- 
- 
-cnh Added extra dtmax parameter to reduce timestep during nutrient uptake
+
+         old_time = g%t
+
+
+cnh Added extra p%dtmax parameter to reduce timestep during nutrient uptake
 cnh time steps so that nutrient exclusion is more effective.
- 
-            evap_demand = apswim_cevap(t)-apswim_cevap(t-dt)
+
+            evap_demand = apswim_cevap(g%t)-apswim_cevap(g%t-g%dt)
             if ((evap_Demand.gt.0d0)
      :               .and.
-     :          (solute_exclusion_flag.eq.'on'))
+     :          (p%solute_exclusion_flag.eq.'on'))
      :      then
                call apswim_check_demand()
-               do 564 crop = 1, num_crops
-               do 563 solnum = 1, num_solutes
-                     if (demand_is_met(crop, solnum)) then
+               do 564 crop = 1, g%num_crops
+               do 563 solnum = 1, p%num_solutes
+                     if (g%demand_is_met(crop, solnum)) then
                      ! Do nothing
                   else
-                     ! Make sure dt is small to maximise
+                     ! Make sure g%dt is small to maximise
                      ! effectiveness of solute uptake capping
-                     dt = min(dt,dtmax_sol)
+                     g%dt = min(g%dt,p%dtmax_sol)
                   endif
   563          continue
   564          continue
             else
                ! no solute uptake so no need to check timestep
             endif
- 
- 
+
+
 *        new step
 40       continue
- 
-            t = t + dt
-            If (Timestep_remaining - dt .lt. 0.1*dt) then
-               t = t - dt + timestep_remaining
-               dt = Timestep_remaining
+
+            g%t = g%t + g%dt
+            If (Timestep_remaining - g%dt .lt. 0.1*g%dt) then
+               g%t = g%t - g%dt + timestep_remaining
+               g%dt = Timestep_remaining
             Else
             Endif
- 
- 
-            dr=apswim_crain(t) - apswim_crain(t-dt)
-            ron=dr/dt  ! it could just be rain_intensity
- 
-c            if(isol.eq.1)rslon=(csol(t)-csol(t-dt))/dt
+
+
+            dr=apswim_crain(g%t) - apswim_crain(g%t-g%dt)
+            g%ron=dr/g%dt ! it could just be rain_intensity
+
+c            if(p%isol.eq.1)g%rslon=(csol(g%t)-csol(g%t-g%dt))/g%dt
 cnh
-            do 41 i=1,num_solutes
-               rslon(i) = (apswim_csol(i,t) - apswim_csol(i,t-dt))/dt
+            do 41 i=1,p%num_solutes
+               g%rslon(i) = (apswim_csol(i,g%t)
+     :                       - apswim_csol(i,g%t-g%dt))/g%dt
    41       continue
- 
-            call apswim_pstat(0,resp)
- 
-            deqr = apswim_eqrain(t) - apswim_eqrain(t-dt)
-            if (isbc.eq.2) then
-               call apswim_hmin (deqr,hmin)
+
+            call apswim_pstat(0,g%resp)
+
+            deqr = apswim_eqrain(g%t) - apswim_eqrain(g%t-g%dt)
+            if (p%isbc.eq.2) then
+               call apswim_hmin (deqr,g%hmin)
             else
             endif
-            if (itbc.eq.2) then
-               call apswim_gsurf (deqr,gsurf)
+            if (p%itbc.eq.2) then
+               call apswim_gsurf (deqr,g%gsurf)
             else
             endif
 cnh
             call apswim_check_demand()
- 
+
 cnh
          call new_postbox()
-         call message_send_immediate(unknown_module
+         call Action_send(unknown_module
      :                              ,'pre_swim_timestep'
      :                              ,' ')
          call delete_postbox()
 ***
-*           integrate for step dt
+*           integrate for step g%dt
             call apswim_solve(itlim,fail)
- 
-cnh            print*,t-dt,dt,fail
+
+cnh            print*,g%t-g%dt,g%dt,fail
 c              write(LU_Summary_file,*) '----------------------------'
-c              write(LU_Summary_file,*) day,year,
-c    :                 mod(t-dt,24d0),fail
-c              write(LU_Summary_file,*) '   psi(0)=',real(psi(0))
-c              write(LU_Summary_file,*) '   h =',real(h)
+c              write(LU_Summary_file,*) g%day,g%year,
+c    :                 mod(g%t-g%dt,24d0),fail
+c              write(LU_Summary_file,*) '   g%psi(0)=',real(g%psi(0))
+c              write(LU_Summary_file,*) '   g%h =',real(g%h)
 c              write(LU_Summary_file,*) 'psiold(0)=',real(psiold(0))
-c              write(LU_Summary_file,*) ' hold=',real(hold)
+c              write(LU_Summary_file,*) ' g%hold=',real(g%hold)
 c              write(LU_Summary_file,*) '  dr=',real(dr)
-c              write(LU_Summary_file,*) '  dt=',real(dt)
+c              write(LU_Summary_file,*) '  g%dt=',real(g%dt)
             if(fail)then
 c               call apswim_report_status()
                 call apswim_diagnostics(pold)
 
-               t = old_time
-               hmin = old_hmin
-               gsurf = old_gsurf
-                wp=wpold
-               dt=0.5*dt
-               h=hold
-               do 42 i=0,n
-                  p(i)=pold(i)
+               g%t = old_time
+               g%hmin = old_hmin
+               g%gsurf = old_gsurf
+                g%wp=wpold
+               g%dt=0.5*g%dt
+               g%h=g%hold
+               do 42 i=0,p%n
+                  g%p(i)=pold(i)
 42             continue
-               if(dt.ge.dtiny)go to 40
+               if(g%dt.ge.dtiny)go to 40
             else
 *
 c               write(LU_Summary_file,*) '     timestep_remaining =',
 c     :              timestep_remaining
-c               write(LU_Summary_file,*) '     dt =',real(dt)
+c               write(LU_Summary_file,*) '     g%dt =',real(g%dt)
 c               write(LU_Summary_file,*) '     dr =',real(dr)
-c               write(LU_Summary_file,*) '   roff =',real(roff)
-c               write(LU_Summary_file,*) '   psi(0)=',real(psi(0))
-c               write(LU_Summary_file,*) '   h =',real(h)
- 
+c               write(LU_Summary_file,*) '   g%roff =',real(g%roff)
+c               write(LU_Summary_file,*) '   g%psi(0)=',real(g%psi(0))
+c               write(LU_Summary_file,*) '   g%h =',real(g%h)
+
 *              update variables
 cnh
-cnh               print*, t,resp*dt*10d0
-               TD_runoff = TD_runoff + roff*dt*10d0
-               TD_evap   = TD_evap   + res*dt*10d0
-               TD_drain  = TD_drain  + q(n+1)*dt*10d0
-               TD_rain   = TD_rain   + ron*dt*10d0
-               TD_pevap  = TD_pevap  + resp*dt*10d0
-               do 53 node = 0,n+1
-                  TD_wflow(node) = TD_wflow(node)
-     :                           + q(node)*dt*10d0
+cnh               print*, g%t,g%resp*g%dt*10d0
+               g%TD_runoff = g%TD_runoff + g%roff*g%dt*10d0
+               g%TD_evap   = g%TD_evap   + g%res*g%dt*10d0
+               g%TD_drain  = g%TD_drain  + g%q(p%n+1)*g%dt*10d0
+               g%TD_rain   = g%TD_rain   + g%ron*g%dt*10d0
+               g%TD_pevap  = g%TD_pevap  + g%resp*g%dt*10d0
+               do 53 node = 0,p%n+1
+                  g%TD_wflow(node) = g%TD_wflow(node)
+     :                           + g%q(node)*g%dt*10d0
    53          continue
- 
-               do 51 solnum = 1, num_solutes
+
+               do 51 solnum = 1, p%num_solutes
                   ! kg    cm ug          g   kg
-                  ! -- = (--x--) x hr x -- x --
+                  ! -- = (--p%x--) p%x hr p%x -- p%x --
                   ! ha    hr  g         ha   ug
- 
-                  TD_soldrain(solnum) = TD_soldrain(solnum)
+
+                  g%TD_soldrain(solnum) = g%TD_soldrain(solnum)
      :                     + (
-     :                       qsl(solnum,n+1)*dt
+     :                       g%qsl(solnum,p%n+1)*g%dt
      :                     * (1d4)**2   ! cm^2/ha = g/ha
      :                     * 1d-9       ! kg/ug
      :                       )
-                  do 52 node=0,n+1
-                     TD_sflow(solnum,node) =
-     :                    TD_sflow(solnum,node)
-     :                  + qsl(solnum,node)*dt*(1d4)**2*1d-9
+                  do 52 node=0,p%n+1
+                     g%TD_sflow(solnum,node) =
+     :                    g%TD_sflow(solnum,node)
+     :                  + g%qsl(solnum,node)*g%dt*(1d4)**2*1d-9
    52             continue
    51          continue
- 
+
 cnh
-               won=won+ron*dt
-               woff=woff+roff*dt
-               wes=wes+res*dt
-               wesp=wesp+resp*dt
-               wex=wex+rex*dt
-               wbp=wbp+qbp*dt
-               winf=winf+(q(0)+res)*dt
-               wdrn=wdrn+q(n+1)*dt
-               call apswim_pstat(1,resp)
-               if(isol.eq.1)then
-                  do 43 solnum = 1, num_solutes
-                     slon(solnum)=slon(solnum)+rslon(solnum)*dt
-                     sloff(solnum)=sloff(solnum)+rsloff(solnum)*dt
-                     slex(solnum)=slex(solnum)+rslex(solnum)*dt
-                     slbp(solnum)=slbp(solnum)+qslbp(solnum)*dt
-                     slinf(solnum)=slinf(solnum)+qsl(solnum,0)*dt
-                     sldrn(solnum)=sldrn(solnum)+qsl(solnum,n+1)*dt
-                     sldec(solnum)=sldec(solnum)+rsldec(solnum)*dt
-                     slprd(solnum)=slprd(solnum)+rslprd(solnum)*dt
+               g%won=g%won+g%ron*g%dt
+               g%woff=g%woff+g%roff*g%dt
+               g%wes=g%wes+g%res*g%dt
+               g%wesp=g%wesp+g%resp*g%dt
+               g%wex=g%wex+g%rex*g%dt
+               g%wbp=g%wbp+g%qbp*g%dt
+               g%winf=g%winf+(g%q(0)+g%res)*g%dt
+               g%wdrn=g%wdrn+g%q(p%n+1)*g%dt
+               call apswim_pstat(1,g%resp)
+               if(p%isol.eq.1)then
+                  do 43 solnum = 1, p%num_solutes
+                     g%slon(solnum)=g%slon(solnum)+g%rslon(solnum)*g%dt
+                     g%sloff(solnum)=g%sloff(solnum)
+     :                              +g%rsloff(solnum)*g%dt
+                     g%slex(solnum)=g%slex(solnum)+g%rslex(solnum)*g%dt
+                     g%slbp(solnum)=g%slbp(solnum)+g%qslbp(solnum)*g%dt
+                     g%slinf(solnum)=g%slinf(solnum)
+     :                              +g%qsl(solnum,0)*g%dt
+                     g%sldrn(solnum)=g%sldrn(solnum)
+     :                              +g%qsl(solnum,p%n+1)*g%dt
+                     g%sldec(solnum)=g%sldec(solnum)
+     :                              +g%rsldec(solnum)*g%dt
+                     g%slprd(solnum)=g%slprd(solnum)
+     :                              +g%rslprd(solnum)*g%dt
    43             continue
-                  !if(slupf(solnum).ne.0.)then
-                     call apswim_pstat(2,resp)
+                  !if(p%slupf(solnum).ne.0.)then
+                     call apswim_pstat(2,g%resp)
                   !else
                   !endif
- 
+
                end if
- 
+
 cnh
                call new_postbox()
-               call message_send_immediate(unknown_module
+               call Action_send(unknown_module
      :                              ,'post_swim_timestep'
      :                              ,' ')
                call delete_postbox()
- 
- 
+
+
             end if
- 
+
       ! We have now finished our first timestep
-         run_has_started = .true.
-         timestep_remaining = timestep_remaining - dt
+         g%run_has_started = .true.
+         timestep_remaining = timestep_remaining - g%dt
       if(Timestep_remaining.gt.0.0 .and..not.fail)go to 10
- 
+
       apswim_swim = fail
- 
+
       call pop_routine (myname)
       return
       end
@@ -2914,11 +3007,12 @@ cnh
 * ====================================================================
        integer function apswim_time_to_mins (timestring)
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-      include 'datastr.pub'                       
-      include 'string.pub'                        
-      include 'error.pub'                         
+      include 'datastr.pub'
+      include 'string.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        character timestring*(*)
@@ -2943,9 +3037,9 @@ cnh
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       colon = index(timestring,':')
- 
+
       if (colon .eq. 0) then
          call fatal_error(err_user,'bad time format')
          hour = 0
@@ -2955,9 +3049,9 @@ cnh
          call string_to_integer_var(hourstring,hour,numvals)
          call string_to_integer_var(minstring,mins,numvals)
       endif
- 
+
       apswim_time_to_mins = hour*60 + mins
- 
+
       call pop_routine (myname)
       return
       end
@@ -2967,13 +3061,13 @@ cnh
 * ====================================================================
        subroutine apswim_Process ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! growth common block
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
-*      Perform actions for current day.
+*      Perform actions for current g%day.
 
 *+  Notes
 *       The method of limiting timestep to rainfall data will mean that
@@ -3002,7 +3096,7 @@ cnh
 
 *- Implementation Section ----------------------------------
       call push_routine(myname)
- 
+
       call apswim_reset_daily_totals()
       call apswim_get_other_variables ()
       call apswim_get_solute_variables ()
@@ -3010,25 +3104,25 @@ cnh
       call apswim_assign_crop_params ()
       call apswim_get_crop_variables ()
       call apswim_get_residue_variables ()
- 
-      time_of_day = apswim_time_to_mins (apsim_time)
-      timestep_start = apswim_time (year,day,time_of_day)
-      timestep       = apsim_timestep/60.d0
- 
+
+      time_of_day = apswim_time_to_mins (g%apsim_time)
+      timestep_start = apswim_time (g%year,g%day,time_of_day)
+      timestep       = g%apsim_timestep/60.d0
+
       fail = apswim_swim (timestep_start,timestep)
- 
+
       if (fail) then
          call fatal_error (Err_Internal, 'Swim failed to find solution')
          call apswim_report_status()
       else
-         if (extra_solute_supply_flag .eq. 'on') then
+         if (p%extra_solute_supply_flag .eq. 'on') then
             call apswim_extra_solute_supply ()
          else
          endif
          call apswim_set_other_variables ()
          call apswim_set_solute_variables()
       endif
- 
+
       call pop_routine(myname)
       return
       end
@@ -3038,12 +3132,11 @@ cnh
 * ====================================================================
        subroutine apswim_sum_report ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'data.pub'                          
-      include 'write.pub'                         
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *   Report all initial conditions and input parameters to the
@@ -3079,229 +3172,227 @@ cnh
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       string = New_Line//New_Line
      :         //  '      APSIM soil profile'//New_Line
      :         //'      ------------------'//New_Line
      :         //New_Line
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
       string =     '      ---------------------------------------'
-     : //New_Line//'      dlayer   BD   SW     LL15   DUL    SAT'
-      call write_string (LU_Scr_sum,string)
+     : //New_Line//'      dlayer   BD   SW     LL15   DUL   SAT'
+      call write_string (string)
       string =    '      ---------------------------------------'
-      call write_string (LU_Scr_sum,string)
- 
- 
-      do 100 layer = 0,n
+      call write_string (string)
+
+
+      do 100 layer = 0,p%n
          write(string,'(5x,f6.1,2x,f4.2,4(2x,f5.3))')
-     :       dlayer(layer), rhob(layer), th(layer),
-     :       ll15(layer), dul(layer), sat(layer)
-         call write_string (LU_Scr_sum,string)
+     :       g%dlayer(layer), p%rhob(layer), g%th(layer),
+     :       g%LL15(layer), g%DUL(layer), g%SAT(layer)
+         call write_string (string)
   100 continue
- 
+
       string = New_Line//New_Line
      :         //  '      APSWIM soil profile'//New_Line
      :         //'      -------------------'//New_Line
      :         //New_Line
-      call write_string (LU_Scr_sum,string)
+      call write_string (string)
       string =     '     --------------------------------------------'
      :            //    '-----'
-      call write_string (LU_Scr_sum,string)
- 
-      string =     '      depth   Soil Type     Theta   Psi        Ks'
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
+      string =     '      depth   Soil Type     Theta    Psi        Ks'
+      call write_string (string)
+
       string =     '      -------------------------------------------'
      :                 //'-----'
-      call write_string (LU_Scr_sum,string)
- 
-      nlayers = count_of_double_vals (x,M)
+      call write_string (string)
+
+      nlayers = count_of_double_vals (p%x,M)
       do 200 layer = 0,nlayers-1        ! 5.3??
          write(string,'(5x,f6.1,2x,a10,4x,f9.7,1x,f10.3,1x,f10.3)')
-cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
-     :       x(layer)*10., soil_type(layer), th(layer),psi(layer)/1000.,
-     :       exp (dlog(10d0) * hkl(layer,1))
-         call write_string (LU_Scr_sum,string)
+cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
+     :       p%x(layer)*10., p%soil_type(layer), g%th(layer)
+     :       ,g%psi(layer)/1000., exp (dlog(10d0) * p%hkl(layer,1))
+         call write_string (string)
   200 continue
- 
-      ! calculate Theta and hk for each psio
- 
+
+      ! calculate Theta and g%hk for each psio
+
       do 210 i=1,num_psio
          do 205 j=0,6
             call apswim_interp(j,psio(i),tho(j,i),thd,hklo(j,i),hklgd)
             hko(j,i) = exp(dlog(10d0)*hklo(j,i))
   205    continue
   210 continue
- 
+
       string = New_Line//New_Line
      :         //'      Soil Moisture Characteristics'//New_Line
      :         //'      -----------------------------'//New_Line
      :         //New_Line
-      call write_string (LU_Scr_sum,string)
+      call write_string (string)
       string = '                             nodes(0-6)'//New_Line
-      call write_string (LU_Scr_sum,string)
-      string = '       Psi   |        0          1          2'
+      call write_string (string)
+      string = '       g%psi   |        0          1          2'
      :       //'          3          4          5          6'
-      call write_string (LU_Scr_sum,string)
+      call write_string (string)
       string = '     -----------------------------'//
      :'---------------------------------------------------------'
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
       do 220 i=1,num_psio
          write(string,'(6x,f6.2,1x,''|'',7(1x,f10.5))')
      :              psio(i)/1000.d0, (tho(j,i),j=0,6)
-         call write_string (LU_Scr_sum,string)
+         call write_string (string)
   220 continue
- 
+
       string = New_Line//New_Line
      :         //'      Soil Hydraulic Conductivity'//New_Line
      :         //'      ---------------------------'//New_Line
      :         //New_Line
-      call write_string (LU_Scr_sum,string)
+      call write_string (string)
       string = '                             nodes(0-6)'//New_Line
-      call write_string (LU_Scr_sum,string)
-      string = '       Psi   |        0          1          2'
+      call write_string (string)
+      string = '       g%psi   |        0          1          2'
      :       //'          3          4          5          6'
-      call write_string (LU_Scr_sum,string)
+      call write_string (string)
       string = '     -------------------------------------'//
      :'-------------------------------------------------'
-      call write_string (LU_Scr_sum,string)
+      call write_string (string)
       do 230 i=1,num_psio
          write(string,'(6x,f6.2,1x,''|'',7(1x,f10.5))')
      :              psio(i)/1000.d0, (hko(j,i),j=0,6)
-         call write_string (LU_Scr_sum,string)
+         call write_string (string)
   230 continue
- 
- 
- 
+
+
+
       string = New_Line//New_Line
      :         //'      Swim calculation parameters'
      :         //New_Line
      :         //'      ---------------------------'
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
       string =
-     :    '      dtmin dtmax   ersoil   ernode    errex'
-     :         //' dppl dpnl max_water_increment'
-      call write_string (LU_Scr_sum,string)
- 
+     :    '      p%dtmin p%dtmax   p%ersoil   p%ernode    p%errex'
+     :         //' p%dppl p%dpnl max_water_increment'
+      call write_string (string)
+
       string = '      --------------------------------------'
      :         //'------------------------------'//New_Line
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
       write(string,
      :         '(5x,f5.1,1x,f5.1,3(1x,e8.3),1x,f4.2,1x,f4.2,f13.3)')
-     :         dtmin,dtmax,ersoil,ernode,errex, dppl, dpnl, dw
-      call write_string (LU_Scr_sum,string//new_line)
- 
-      call write_string (LU_Scr_sum,new_line//new_line)
- 
-      if (ibp.ne.0) then
-         call write_string (LU_Scr_sum,'     Bypass flow is active')
-         call write_string (LU_Scr_sum,
-     :                     '     depth(node)   conductance  storage')
-         call write_string (LU_Scr_sum,
+     :         p%dtmin,p%dtmax,p%ersoil,p%ernode,p%errex, p%dppl,
+     :         p%dpnl, p%dw
+      call write_string (string//new_line)
+
+      call write_string (new_line//new_line)
+
+      if (p%ibp.ne.0) then
+         call write_string ('     Bypass flow is active')
+         call write_string ('     depth(node)   conductance  storage')
+         call write_string (
      :                     '     ----------------------------------')
          write(string,'(5x,f5.0,''('',i4,'')'',3x,f11.4,2x,f7.3)')
-     :                      x(ibp),ibp,gbp,sbp
-         call write_string (LU_Scr_sum,string)
-         call write_string (LU_Scr_sum, new_line//new_line)
+     :                      p%x(p%ibp),p%ibp,p%gbp,p%sbp
+         call write_string (string)
+         call write_string (new_line//new_line)
       else
-         call write_string (LU_Scr_sum,'     Bypass flow is INactive')
+         call write_string ('     Bypass flow is INactive')
       endif
- 
-      if (isbc .eq. 0) then
-         call write_string (LU_Scr_sum,'     No ponding (all runoff)')
-      elseif (isbc .eq.1) then
-         call write_string (LU_Scr_sum,'     Total ponding (no runoff)')
+
+      if (p%isbc .eq. 0) then
+         call write_string ('     No ponding (all runoff)')
+      elseif (p%isbc .eq.1) then
+         call write_string ('     Total ponding (no runoff)')
       else
-         call write_string (LU_Scr_sum,
+         call write_string (
      :                  '     Runoff calculated using runoff functions')
-         call write_string (LU_Scr_sum,
-     :              '     hm1   hm0   hrc   roff0   roff1')
+         call write_string (
+     :              '     p%hm1   p%hm0   p%hrc   p%roff0   p%roff1')
          write (string,'(5x,3(f3.1,3x),2(f5.2,3x))')
-     :                    hm1,hm0,hrc,roff0,roff1
-         call write_string (LU_Scr_sum, string)
-         call write_string (LU_Scr_sum, new_line//new_line)
- 
+     :                    p%hm1,p%hm0,p%hrc,p%roff0,p%roff1
+         call write_string (string)
+         call write_string (new_line//new_line)
+
       endif
- 
-      if (itbc.eq.0) then
-         call write_string (LU_Scr_sum,
+
+      if (p%itbc.eq.0) then
+         call write_string (
      :        '     top boundary condition = infinite conductance')
-      else if(itbc.eq.1) then
-         call write_string (LU_Scr_sum,
+      else if(p%itbc.eq.1) then
+         call write_string (
      :        '     top boundary condition = constant potential')
- 
-      else if(itbc.eq.2) then
-         call write_string (LU_Scr_sum,
+
+      else if(p%itbc.eq.2) then
+         call write_string (
      :        '     top boundary condition = conductance function')
-         call write_string (LU_Scr_sum,
+         call write_string (
      :        '       initial      minimum    precipitation')
-         call write_string (LU_Scr_sum,
+         call write_string (
      :        '     conductance  conductance     constant')
-         call write_string (LU_Scr_sum,
+         call write_string (
      :        '     ---------------------------------------')
          write (string,'(5x,f11.4,2x,f11.4,2x,f13.4)')
-     :                    g1,g0,grc
-         call write_string (LU_Scr_sum, string)
-         call write_string (LU_Scr_sum, new_line//new_line)
- 
+     :                    p%g1,p%g0,p%grc
+         call write_string (string)
+         call write_string (new_line//new_line)
+
       else
          call fatal_error(err_user,
      :                 'bad top boundary conditions switch')
       endif
- 
-      if (ibbc.eq.0) then
+
+      if (p%ibbc.eq.0) then
          write(string,'(a,f10.3,a)')
      :        '     bottom boundary condition = constant gradient (',
-     :         constant_gradient,')'
-         call write_string (LU_Scr_sum,string)
- 
-      else if(ibbc.eq.1) then
+     :         p%constant_gradient,')'
+         call write_string (string)
+
+      else if(p%ibbc.eq.1) then
          string = '     bottom boundary condition = water table'
-         call write_string (LU_Scr_sum,string)
- 
-      else if(ibbc.eq.2) then
-         call write_string (LU_Scr_sum,
+         call write_string (string)
+
+      else if(p%ibbc.eq.2) then
+         call write_string (
      :        '     bottom boundary condition = zero flux')
- 
-      else if(ibbc.eq.3) then
-         call write_string (LU_Scr_sum,
+
+      else if(p%ibbc.eq.3) then
+         call write_string (
      :        '     bottom boundary condition = free drainage')
- 
+
       else
          call fatal_error(err_user,
      :                 'bad bottom boundary conditions switch')
       endif
- 
+
       string = new_line//new_line//new_line
-      call write_string (LU_Scr_sum,string)
- 
-      if (ivap.eq.0) then
-         call write_string (LU_Scr_sum,
-     :                      '     vapour conductivity = off')
-      elseif (ivap.eq.1) then
-         call write_string (LU_Scr_sum,
-     :                      '     vapour conductivity = on')
+      call write_string (string)
+
+      if (p%ivap.eq.0) then
+         call write_string ('     vapour conductivity = off')
+      elseif (p%ivap.eq.1) then
+         call write_string ('     vapour conductivity = on')
       else
          call fatal_error(err_user,
      :                 'bad vapour flag')
       endif
- 
- 
-      string = '     Rainfall Source: '//rainfall_source
+
+
+      string = '     Rainfall Source: '//p%rainfall_source
      :               //new_line//new_line
-      call write_string (LU_Scr_sum,string)
- 
-      string = '     Evaporation Source: '//evap_source
+      call write_string (string)
+
+      string = '     Evaporation Source: '//p%evap_source
      :               //new_line//new_line
-      call write_string (LU_Scr_sum,string)
- 
- 
-      call write_string (LU_Scr_sum,new_line//new_line)
- 
+      call write_string (string)
+
+
+      call write_string (new_line//new_line)
+
       call pop_routine (myname)
       return
       end
@@ -3311,10 +3402,10 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 * ====================================================================
        subroutine apswim_reset_daily_totals()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3333,29 +3424,29 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      TD_runoff  = 0.0
-      TD_rain    = 0.0
-      TD_evap    = 0.0
-      TD_pevap   = 0.0
-      TD_drain   = 0.0
-      call fill_double_array (TD_soldrain, 0.0d0, nsol)
-      call fill_double_array (TD_wflow(0), 0.0d0, M+1)
+
+      g%TD_runoff  = 0.0
+      g%TD_rain    = 0.0
+      g%TD_evap    = 0.0
+      g%TD_pevap   = 0.0
+      g%TD_drain   = 0.0
+      call fill_double_array (g%TD_soldrain, 0.0d0, nsol)
+      call fill_double_array (g%TD_wflow(0), 0.0d0, M+1)
       do 50 solnum=1,nsol
          do 51 node=0,M
-            TD_sflow(solnum,node) = 0d0
+            g%TD_sflow(solnum,node) = 0d0
    51    continue
    50 continue
- 
+
          do 61 vegnum=1,MV
             do 62 node=0,M
                do 63 solnum=1,nsol
-                  psuptake(solnum,vegnum,node) = 0d0
+                  g%psuptake(solnum,vegnum,node) = 0d0
    63          continue
-               pwuptake(vegnum,node) = 0d0
+               g%pwuptake(vegnum,node) = 0d0
    62       continue
    61    continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -3365,10 +3456,10 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 * ====================================================================
        subroutine apswim_check_inputs ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3379,11 +3470,11 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 *+  Local Variables
       integer i
       integer node
-      double precision psi1, psi2 ! psi at interpolation points
+      double precision psi1, psi2 ! g%psi at interpolation points
       double precision th1, th2   ! theta at interpolation points
-      double precision hkl1, hkl2 ! log hk at interpolation points
+      double precision hkl1, hkl2 ! log g%hk at interpolation points
       double precision temp1, temp2 ! dummy numbers
-      double precision psix, thx, hklx ! point X for checking
+      double precision psix, thx, hklx ! point p%x for checking
       character error_string*200
 
 *+  Constant Values
@@ -3392,13 +3483,13 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if (ibp.ne.0) then
-         if (itbc.eq.1) then
+
+      if (p%ibp.ne.0) then
+         if (p%itbc.eq.1) then
             call fatal_error(err_user,
      :           'cannot have bypass flow and constant'//
      :           ' potential at soil surface')
-         elseif (gf.le.0) then
+         elseif (g%gf.le.0) then
             call fatal_error(err_user,'bypass flow requires'//
      :           'gravity downwards')
          else
@@ -3406,11 +3497,11 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
       else
       endif
 
-      do 200 node = 0,n
+      do 200 node = 0,p%n
          do 100 i=2,MP
-            if (sl(node,i).ne.0) then
-               psi1 = 10**sl(node,i-1)
-               psi2 = 10**sl(node,i)
+            if (p%sl(node,i).ne.0) then
+               psi1 = 10**p%sl(node,i-1)
+               psi2 = 10**p%sl(node,i)
                call apswim_interp(node,psi1,th1,temp1,hkl1,temp2)
                call apswim_interp(node,psi2,th2,temp1,hkl2,temp2)
 
@@ -3422,15 +3513,15 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
                   ! this theta point is OK
                else
                   write(Error_String,*) 'Theta not monotonic, node ',
-     :               node,' psi = ',psix
+     :               node,' g%psi = ',psix
                   call fatal_error (ERR_User, Error_String)
                endif
 
                if ((hklx.le.hkl1).and.(hklx.ge.hkl2)) then
-                  ! this hkl point is OK
+                  ! this p%hkl point is OK
                else
-                  write(Error_String,*) 'HKL not monotonic, node ',
-     :               node,' psi = ',psix
+                  write(Error_String,*) 'hkl not monotonic, node ',
+     :               node,' g%psi = ',psix
                   call fatal_error (ERR_User, Error_String)
                endif
 
@@ -3450,9 +3541,9 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 * ====================================================================
        subroutine apswim_init_defaults ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3466,30 +3557,30 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      gf = 1.d0!gravity factor will always be one(i.e. vertical profile)
- 
-      isol = 1 ! solute is always turned on
- 
+
+      g%gf = 1.d0 !gravity factor will always be one(i.e. vertical profile)
+
+      p%isol = 1 ! solute is always turned on
+
       ! It would be difficult to have all solutes in surface water at
       ! initialisation specified and so we will not allow surface water
       ! at initialisation.
-      h = 0.0
-cnh      cslsur = 0.0
- 
-      start_day = day
-      start_year = year
- 
+      g%h = 0.0
+cnh      g%cslsur = 0.0
+
+      g%start_day = g%day
+      g%start_year = g%year
+
 cnh swim2 set soil surface stuff to no solute and no roughness at start
 cnh until some cultivation takes place.
 cnh      tzero = 100.*365.*24.
-cnh      cslsur = 0.d0 ! its an array now
- 
- 
+cnh      g%cslsur = 0.d0 ! its an array now
+
+
       ! initial surface conditions are set to initial maximums.
-      tzero = 0.d0
-      eqr0  = 0.d0
- 
+c      tzero = 0.d0
+c      eqr0  = 0.d0
+
       call pop_routine (myname)
       return
       end
@@ -3499,8 +3590,8 @@ cnh      cslsur = 0.d0 ! its an array now
 * ====================================================================
        double precision function apswim_crain (time)
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -3524,12 +3615,12 @@ cnh      cslsur = 0.d0 ! its an array now
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      crain_mm = dlinint(time,SWIMRainTime,SWIMRainAmt,
-     :                       SWIMRainNumPairs)
- 
+
+      crain_mm = dlinint(time,g%SWIMRainTime,g%SWIMRainAmt,
+     :                       g%SWIMRainNumPairs)
+
       apswim_crain = crain_mm / 10d0
- 
+
       call pop_routine (myname)
       return
       end
@@ -3539,8 +3630,8 @@ cnh      cslsur = 0.d0 ! its an array now
 * ====================================================================
        double precision function apswim_cevap (time)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -3574,51 +3665,52 @@ cnh      cslsur = 0.d0 ! its an array now
       double precision xx
 *
       double precision Bell_area  ! area under curve from 3pi/2 for
-                                  ! Y = sin(x)+1
+                                  ! Y = sin(p%x)+1
       Bell_area(xx) = xx - cos(xx) - 3d0*pi/2d0
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if (evap_curve.eq.'on') then
- 
-         if (Time.ge.SWIMEvapTime(SWIMEvapNumPairs)) then
-            cevap_mm = SWIMEvapAmt(SWIMEvapNumPairs)
- 
-         elseif (Time.le.SWIMEvapTime(1)) then
-            cevap_mm = SWIMEvapAmt(1)
- 
+
+      if (p%evap_curve.eq.'on') then
+
+         if (Time.ge.g%SWIMEvapTime(g%SWIMEvapNumPairs)) then
+            cevap_mm = g%SWIMEvapAmt(g%SWIMEvapNumPairs)
+
+         elseif (Time.le.g%SWIMEvapTime(1)) then
+            cevap_mm = g%SWIMEvapAmt(1)
+
          else
-            do 100 counter = 2,SWIMEvapNumPairs
-               if((SWIMEvapTime(counter).ge.Time).and.
-     :            (SWIMEvapTime(Counter-1).le.Time)) then
- 
-               ! apply a bell ((sin.x+1) function using 3pi/2 to 5pi/2)
-               Timefr = (Time - SWIMEvapTime(counter-1))/
-     :                  (SWIMEvapTime(counter)-SWIMEvapTime(counter-1))
+            do 100 counter = 2,g%SWIMEvapNumPairs
+               if((g%SWIMEvapTime(counter).ge.Time).and.
+     :            (g%SWIMEvapTime(Counter-1).le.Time)) then
+
+               ! apply a bell ((sin.p%x+1) function using 3pi/2 to 5pi/2)
+               Timefr = (Time - g%SWIMEvapTime(counter-1))
+     :                  /(g%SWIMEvapTime(counter)
+     :                     -g%SWIMEvapTime(counter-1))
                Tbell = Bell_area(7d0*pi/2d0)
                FBell = Bell_area(3d0*pi/2d0+2d0*pi*TimeFr)
- 
-               cevap_mm = SWIMEvapAmt(counter-1)+Fbell/Tbell*
-     :                  (SWIMEvapAmt(counter)-SWIMEvapAmt(counter-1))
- 
+
+               cevap_mm = g%SWIMEvapAmt(counter-1)+Fbell/Tbell*
+     :                 (g%SWIMEvapAmt(counter)-g%SWIMEvapAmt(counter-1))
+
                goto 200
- 
+
                else
                endif
- 
+
   100       continue
   200       continue
- 
+
          endif
- 
+
       else
-         cevap_mm = dlinint(time,SWIMEvapTime,SWIMEvapAmt,
-     :                       SWIMEvapNumPairs)
+         cevap_mm = dlinint(time,g%SWIMEvapTime,g%SWIMEvapAmt,
+     :                       g%SWIMEvapNumPairs)
       endif
- 
+
       apswim_cevap = cevap_mm / 10d0
- 
+
       call pop_routine (myname)
       return
       end
@@ -3632,8 +3724,8 @@ cnh      cslsur = 0.d0 ! its an array now
 
 *+  Sub-Program Arguments
       integer          num_cord    ! (INPUT) size_of of tables
-      double precision x           ! (INPUT) value for interpolation
-      double precision x_cord(*)   ! (INPUT) x co-ordinates of function
+      double precision x         ! (INPUT) value for interpolation
+      double precision x_cord(*)   ! (INPUT) p%x co-ordinates of function
       double precision y_cord(*)   ! (INPUT) y co_ordinates of function
 
 *+  Purpose
@@ -3657,53 +3749,53 @@ cnh      cslsur = 0.d0 ! its an array now
       double precision y           ! interpolated value
 
 *- Implementation Section ----------------------------------
- 
-            ! find where x lies in the x cord
- 
- 
+
+            ! find where p%x lies in the p%x cord
+
+
       do 100 indx = 1, num_cord
          if (x.le.x_cord(indx)) then
- 
+
                   ! found position
- 
+
             if (indx.eq.1) then
- 
+
                      ! out of range
- 
+
                y = y_cord(indx)
- 
+
             else
- 
+
                      ! interpolate - y = mx+c
- 
+
                y = ddivide (y_cord(indx) - y_cord(indx-1)
      :                    , x_cord(indx) - x_cord(indx-1), 0.d0)
      :             * (x - x_cord(indx-1) )
      :             + y_cord(indx-1)
             endif
- 
+
                   ! have a value now - exit_z
- 
+
             goto 200
- 
+
          else if (indx.eq.num_cord) then
- 
+
                   ! not found - out of range
- 
+
             y = y_cord(indx)
- 
+
          else
- 
+
                   ! position not found - keep looking
- 
+
             y = 0.0
          endif
- 
+
 100   continue
 200   continue
- 
+
       dlinint = y
- 
+
       return
       end
 
@@ -3712,6 +3804,7 @@ cnh      cslsur = 0.d0 ! its an array now
 *     ===========================================================
       double precision function ddivide (dividend, divisor, default)
 *     ===========================================================
+      use APSwimModule
       implicit none
 
 *+  Sub-Program Arguments
@@ -3745,34 +3838,34 @@ cnh      cslsur = 0.d0 ! its an array now
       double precision quotient    ! quotient
 
 *- Implementation Section ----------------------------------
- 
- 
+
+
       if (dividend.eq.nought) then          ! multiplying by 0
          quotient = nought
- 
+
       elseif (divisor.eq.nought) then       ! dividing by 0
          quotient = default
- 
+
       elseif (abs (divisor).lt.1d0) then          ! possible overflow
          if (abs (dividend).gt.abs (largest*divisor)) then     ! overflow
             quotient = default
          else                               ! ok
             quotient = dividend/divisor
          endif
- 
+
       elseif (abs (divisor).gt.1d0) then          ! possible underflow
          if (abs (dividend).lt.abs (smallest*divisor)) then     ! underflow
             quotient = nought
          else                               ! ok
             quotient = dividend/divisor
          endif
- 
+
       else                                  ! ok
          quotient = dividend/divisor
       endif
- 
+
       ddivide = quotient
- 
+
       return
       end
 
@@ -3781,8 +3874,8 @@ cnh      cslsur = 0.d0 ! its an array now
 * ====================================================================
        double precision function apswim_time (yy,dd,tt)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'const.inc'
       include 'date.pub'
       include 'error.pub'
@@ -3816,27 +3909,27 @@ cnh      cslsur = 0.d0 ! its an array now
       call push_routine (myname)
       ! first we must calculate the julian date for the starting date.
       ! We will calculate time relative to this date.
-      begin_Start_year = date_to_jday(1,1,start_year) - 1.d0
-      julian_start_date = begin_start_year + dble(start_day) - 1.d0
+      begin_Start_year = date_to_jday(1,1,g%start_year) - 1.d0
+      julian_start_date = begin_start_year + dble(g%start_day) - 1.d0
 *                                                              /
-*                    all times are relative to beginning of the day
+*                    all times are relative to beginning of the g%day
 *
- 
+
       begin_year = date_to_jday(1,1,yy) - 1.d0
       julian_date = begin_year + dble(dd) - 1.d0
- 
+
       Time = (julian_date - julian_start_date)*days_to_hours +
      :                    dble(tt)/60.d0
- 
+
 cnh this function is used for purposes where a time before start of
 c   simulation is required - eg reading logfiles.
 c      If (Time .lt. 0d0) then
 c         call fatal_error (Err_User, 'Cant have -ve time')
 c      else
 c      endif
- 
+
       apswim_time = time
- 
+
       call pop_routine (myname)
       return
       end
@@ -3846,10 +3939,10 @@ c      endif
 * ====================================================================
        subroutine apswim_init_change_units ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *   To keep in line with APSIM standard units we input many parameters
@@ -3869,30 +3962,30 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      dtmin = dtmin/60.d0 ! convert to hours
-      dtmax = dtmax/60.d0 ! convert to hours
-      dw = dw / 10.d0     ! convert to cm
- 
-      grc = grc / 10.d0   ! convert mm to cm
- 
-      hm1 = hm1 / 10.d0   ! convert mm to cm
-      hm0 = hm0 / 10.d0   ! convert mm to cm
-      hrc = hrc / 10.d0   ! convert mm to cm
-      hmin=hmin / 10.d0   ! convert mm to cm
-      roff0 = roff0 * (10d0**roff1)/10.d0 ! convert (mm/h)/mm^P to
-                                          ! (cm/h)/(cm^P)
- 
-      num_nodes = count_of_double_vals (x(0),M+1)
- 
+
+      p%dtmin = p%dtmin/60.d0 ! convert to hours
+      p%dtmax = p%dtmax/60.d0 ! convert to hours
+      p%dw = p%dw / 10.d0 ! convert to cm
+
+      p%grc = p%grc / 10.d0 ! convert mm to cm
+
+      p%hm1 = p%hm1 / 10.d0 ! convert mm to cm
+      p%hm0 = p%hm0 / 10.d0 ! convert mm to cm
+      p%hrc = p%hrc / 10.d0 ! convert mm to cm
+      g%hmin=g%hmin / 10.d0 ! convert mm to cm
+      p%roff0 = p%roff0 * (10d0**p%roff1)/10.d0 ! convert (mm/g%h)/mm^P to
+                                          ! (cm/g%h)/(cm^P)
+
+      num_nodes = count_of_double_vals (p%x(0),M+1)
+
       do 200 i=0,num_nodes-1
-         x(i) = x(i)/10.
+         p%x(i) = p%x(i)/10.
   200 continue
- 
+
       do 300 i=1,MV
-         root_radius(i) = root_radius(i)/10d0
+         g%root_radius(i) = g%root_radius(i)/10d0
   300 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -3902,9 +3995,9 @@ c      endif
 * ====================================================================
        real function apswim_eqrain (time)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision time             ! first time (hours since start)
@@ -3924,14 +4017,14 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       apswim_eqrain = dlinint
      :                       (time
-     :                       ,SWIMEqRainTime
-     :                       ,SWIMEqRainAmt
-     :                       ,SWIMRainNumPairs
+     :                       ,g%SWIMEqRainTime
+     :                       ,g%SWIMEqRainAmt
+     :                       ,g%SWIMRainNumPairs
      :                       )
- 
+
       call pop_routine (myname)
       return
       end
@@ -3941,11 +4034,11 @@ c      endif
 * ====================================================================
        subroutine apswim_read_solute_params ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3979,7 +4072,7 @@ cnh       double precision table_slscr(nsol)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! First - Read in solute information
             ! ----------------------------------
        numvals = 0
@@ -3988,27 +4081,27 @@ c     :           solute_section,
 c     :           'run_solutes',
 c     :           nsol,
 c     :           '()',
-c     :           solute_names,
-c     :           num_solutes)
- 
+c     :           p%solute_names,
+c     :           p%num_solutes)
+
 c      call Read_double_var(
 c     :           solute_section,
 c     :           'slcerr',
 c     :           '()',
-c     :           slcerr,
+c     :           p%slcerr,
 c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
- 
+
 c      call Read_double_var(
 c     :           solute_section,
 c     :           'slswt',
 c     :           '()',
-c     :           slswt,
+c     :           p%slswt,
 c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
- 
+
       call Read_char_array(
      :           solute_section,
      :           'solute_name',
@@ -4016,7 +4109,7 @@ c     :           1000d0)
      :           '()',
      :           table_name,
      :           numvals)
- 
+
       call Read_double_array(
      :           solute_section,
      :           'slupf',
@@ -4024,9 +4117,9 @@ c     :           1000d0)
      :           '()',
      :           table_slupf,
      :           numvals,
-     :           c_lb_slupf,
-     :           c_ub_slupf)
- 
+     :           c%lb_slupf,
+     :           c%ub_slupf)
+
       call Read_double_array(
      :           solute_section,
      :           'slos',
@@ -4034,9 +4127,9 @@ c     :           1000d0)
      :           '()',
      :           table_slos,
      :           numvals,
-     :           c_lb_slos,
-     :           c_ub_slos)
- 
+     :           c%lb_slos,
+     :           c%ub_slos)
+
       call Read_double_array(
      :           solute_section,
      :           'd0',
@@ -4044,9 +4137,9 @@ c     :           1000d0)
      :           '()',
      :           table_d0,
      :           numvals,
-     :           c_lb_d0,
-     :           c_ub_d0)
- 
+     :           c%lb_d0,
+     :           c%ub_d0)
+
 c      call Read_double_array(
 c     :           solute_section,
 c     :           'slsci',
@@ -4056,7 +4149,7 @@ c     :           table_slsci,
 c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
- 
+
 c      call Read_double_array(
 c     :           solute_section,
 c     :           'slscr',
@@ -4066,8 +4159,8 @@ c     :           table_slscr,
 c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
- 
- 
+
+
       call Read_double_array(
      :           solute_section,
      :           'a',
@@ -4075,10 +4168,10 @@ c     :           1000d0)
      :           '()',
      :           table_a,
      :           numvals,
-     :           c_lb_a,
-     :           c_ub_a)
- 
- 
+     :           c%lb_a,
+     :           c%ub_a)
+
+
       call Read_double_array(
      :           solute_section,
      :           'dthc',
@@ -4086,10 +4179,10 @@ c     :           1000d0)
      :           '()',
      :           table_dthc,
      :           numvals,
-     :           c_lb_dthc,
-     :           c_ub_dthc)
- 
- 
+     :           c%lb_dthc,
+     :           c%ub_dthc)
+
+
       call Read_double_array(
      :           solute_section,
      :           'dthp',
@@ -4097,9 +4190,9 @@ c     :           1000d0)
      :           '()',
      :           table_dthp,
      :           numvals,
-     :           c_lb_dthp,
-     :           c_ub_dthp)
- 
+     :           c%lb_dthp,
+     :           c%ub_dthp)
+
       call Read_double_array(
      :           solute_section,
      :           'disp',
@@ -4107,8 +4200,8 @@ c     :           1000d0)
      :           '()',
      :           table_disp,
      :           numvals,
-     :           c_lb_disp,
-     :           c_ub_disp)
+     :           c%lb_disp,
+     :           c%ub_disp)
 
       call Read_double_array(
      :           solute_section,
@@ -4119,39 +4212,39 @@ c     :           1000d0)
      :           numvals,
      :           0d0,
      :           1000d0)
- 
+
       ! Now find what solutes are out there and assign them the relevant
       ! ----------------------------------------------------------------
       !                solute movement parameters
       !                --------------------------
- 
-      do 200 solnum = 1, num_solutes
+
+      do 200 solnum = 1, p%num_solutes
          found = .false.
- 
+
          do 150 solnum2 = 1,nsol
-            if (table_name(solnum2).eq.solute_names(solnum)) then
-               slupf(solnum) = abs(table_slupf(solnum2))
-               slos(solnum)  = table_slos(solnum2)
-cnh               slsci(solnum) = table_slsci(solnum2)
-cnh               slscr(solnum) = table_slscr(solnum2)
-               dthc(solnum) = table_dthc(solnum2)
-               dthp(solnum) = table_dthp(solnum2)
-               disp(solnum) = table_disp(solnum2)
-               cslgw(solnum) = table_cslgw(solnum2)
-               dcon(solnum) = table_d0(solnum2)*table_a(solnum2)
+            if (table_name(solnum2).eq.p%solute_names(solnum)) then
+               p%slupf(solnum) = abs(table_slupf(solnum2))
+               p%slos(solnum)  = table_slos(solnum2)
+cnh               g%slsci(solnum) = table_slsci(solnum2)
+cnh               g%slscr(solnum) = table_slscr(solnum2)
+               p%dthc(solnum) = table_dthc(solnum2)
+               p%dthp(solnum) = table_dthp(solnum2)
+               p%disp(solnum) = table_disp(solnum2)
+               p%cslgw(solnum) = table_cslgw(solnum2)
+               p%dcon(solnum) = table_d0(solnum2)*table_a(solnum2)
                found = .true.
             else
             endif
   150    continue
- 
+
          if (.not.found) then
             call fatal_error (Err_User,
-     :            'no params for '//solute_names(solnum))
+     :            'no params for '//p%solute_names(solnum))
          else
          endif
- 
+
   200 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -4161,11 +4254,11 @@ cnh               slscr(solnum) = table_slscr(solnum2)
 * ====================================================================
        subroutine apswim_read_solsoil_params ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4195,60 +4288,60 @@ c       double precision table_beta(nsol)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      do 500 node=0,n
-         if (soil_type(node).ne.'-') then
- 
+
+      do 500 node=0,p%n
+         if (p%soil_type(node).ne.'-') then
+
             call Read_double_var(
-     :           soil_type(node),
+     :           p%soil_type(node),
      :           'bulk_density',
      :           '()',
-     :           rhob(node),
+     :           p%rhob(node),
      :           numvals,
      :           0d0,
      :           2d0)
- 
+
             numvals = 0
             call Read_char_array(
-     :           soil_type(node),
+     :           p%soil_type(node),
      :           'solute_name',
      :           nsol,
      :           '()',
      :           table_name,
      :           numvals)
- 
+
             call Read_double_array(
-     :           soil_type(node),
+     :           p%soil_type(node),
      :           'exco',
      :           nsol,
      :           '()',
      :           table_exco,
      :           numvals,
-     :           c_lb_exco,
-     :           c_ub_exco)
- 
+     :           c%lb_exco,
+     :           c%ub_exco)
+
             call Read_double_array(
-     :           soil_type(node),
+     :           p%soil_type(node),
      :           'fip',
      :           nsol,
      :           '()',
      :           table_fip,
      :           numvals,
-     :           c_lb_fip,
-     :           c_ub_fip)
- 
+     :           c%lb_fip,
+     :           c%ub_fip)
+
             call Read_double_array(
-     :           soil_type(node),
+     :           p%soil_type(node),
      :           'dis',
      :           nsol,
      :           '()',
      :           table_dis,
      :           numvals,
-     :           c_lb_dis,
-     :           c_ub_dis)
- 
+     :           c%lb_dis,
+     :           c%ub_dis)
+
 c            call Read_double_array(
-c     :           soil_type(node),
+c     :           p%soil_type(node),
 c     :           'alpha',
 c     :           nsol,
 c     :           '()',
@@ -4256,9 +4349,9 @@ c     :           table_alpha,
 c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
- 
+
 c            call Read_double_array(
-c     :           soil_type(node),
+c     :           p%soil_type(node),
 c     :           'beta',
 c     :           nsol,
 c     :           '()',
@@ -4266,32 +4359,33 @@ c     :           table_beta,
 c     :           numvals,
 c     :           -1000d0,
 c     :           1000d0)
- 
- 
-            do 200 solnum = 1,num_solutes
+
+
+            do 200 solnum = 1,p%num_solutes
                found = .false.
                do 150 solnum2 = 1, nsol
-                  if (table_name(solnum2).eq.solute_names(solnum)) then
+                  if (table_name(solnum2).eq.p%solute_names(solnum))
+     :            then
                      found = .true.
-                     exco(solnum,node) = table_exco(solnum2)
-                     fip(solnum,node) = table_fip(solnum2)
-                     dis(solnum,node) = table_dis(solnum2)
-c                     alpha(solnum,node) = table_alpha(solnum2)
-c                     beta(solnum,node) = table_beta(solnum2)
+                     p%exco(solnum,node) = table_exco(solnum2)
+                     p%fip(solnum,node) = table_fip(solnum2)
+                     p%dis(solnum,node) = table_dis(solnum2)
+c                     p%alpha(solnum,node) = table_alpha(solnum2)
+c                     p%beta(solnum,node) = table_beta(solnum2)
                   else
                   endif
   150          continue
                if (.not.found) then
-                  call fatal_error(Err_User,
-     :            solute_names(solnum)//'not defined in solute section')
+                  call fatal_error(Err_User,p%solute_names(solnum)
+     :                //'not defined in solute section')
                else
                endif
- 
+
   200       continue
          else
          endif
   500 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -4301,10 +4395,10 @@ c                     beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_get_solute_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *      Get the values of solute variables from other modules
@@ -4324,26 +4418,26 @@ c                     beta(solnum,node) = table_beta(solnum2)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      do 100 solnum = 1, num_solutes
-         call apswim_conc_water_solute (solute_names (solnum)
+
+      do 100 solnum = 1, p%num_solutes
+         call apswim_conc_water_solute (p%solute_names (solnum)
      :                                 ,solute_n)
-        do 50 node = 0, n
-           csl(solnum,node) = solute_n(node)
+        do 50 node = 0, p%n
+           g%csl(solnum,node) = solute_n(node)
    50   continue
- 
+
   100 continue
 
-cnh now replaced by parameter value 
+cnh now replaced by parameter value
 c      if (cslgw_is_set) then
 c         ! do nothing
 c      else
-c         do 101 solnum = 1, num_solutes
-c            cslgw(solnum) = csl(solnum,n)
+c         do 101 solnum = 1, p%num_solutes
+c            p%cslgw(solnum) = g%csl(solnum,p%n)
 c  101    continue
 c         cslgw_is_set = .true.
 c      endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -4353,13 +4447,14 @@ c      endif
 * ====================================================================
        subroutine apswim_set_solute_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
-      include 'engine.pub'                        
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'action.inc'
+      include 'intrface.pub'
+      include 'error.pub'
       include 'string.pub'
+      include 'postbox.pub'
 
 *+  Purpose
 *      Set the values of solute variables from other modules
@@ -4377,40 +4472,42 @@ c      endif
 
 *- Implementation Section ----------------------------------
 
-      do 100 solnum = 1, num_solutes
-         do 50 node=0,n
+      do 100 solnum = 1, p%num_solutes
+         do 50 node=0,p%n
             ! Step One - calculate total solute in node from solute in
             ! water and Freundlich isotherm.
- 
-            call apswim_freundlich (node,solnum,csl(solnum,node)
+
+            call apswim_freundlich (node,solnum,g%csl(solnum,node)
      :                    ,Ctot,dCtot)
- 
+
             ! Note:- Sometimes small numerical errors can leave
             ! -ve concentrations.  Set conc to zero in these cases.
 
             ! convert solute ug/cc soil to kg/ha for node
             !
             !  kg      ug      cc soil    kg
-            !  -- = -------- x -------- x --
+            !  -- = -------- p%x -------- p%x --
             !  ha   cc soil       ha      ug
- 
+
             Ctot = Ctot
-     :           * (dx(node)*(1d4)**2)! cc soil/ha
+     :           * (p%dx(node)*(1d4)**2) ! cc soil/ha
      :           * 1d-9               ! kg/ug
- 
-            if (Ctot .lt. -c_negative_conc_fatal) then
+
+            if (Ctot .lt. -c%negative_conc_fatal) then
                write(string,'(x,3a,i3,a,G12.6)')
      :              'Total '
-     :             ,solute_names(solnum)(:lastnb(solute_names(solnum)))
+     :             ,p%solute_names(solnum)
+     :                (:lastnb(p%solute_names(solnum)))
      :             ,'(',node,') = ',Ctot
                call fatal_error(err_internal,
      :               '-ve solute conc - increase numerical precision'
      :               //new_line//string)
 
-            elseif (Ctot .lt. -c_negative_conc_warn) then
+            elseif (Ctot .lt. -c%negative_conc_warn) then
                write(string,'(x,3a,i3,a,G12.6)')
      :              'Total '
-     :             ,solute_names(solnum)(:lastnb(solute_names(solnum)))
+     :             ,p%solute_names(solnum)
+     :                 (:lastnb(p%solute_names(solnum)))
      :             ,'(',node,') = ',Ctot
 
                call warning_error(err_internal,
@@ -4427,23 +4524,23 @@ c      endif
                ! Ctot is positive
             endif
 
-            ! finished testing - assign value to array element  
+            ! finished testing - assign value to array element
             solute_n(node) = Ctot
 
    50    continue
- 
+
          call new_postbox()
          call Post_double_array (
-     :           solute_names(solnum),
+     :           p%solute_names(solnum),
      :           '(kg/ha)',
      :           solute_n(0),
-     :           n+1)
-         call message_send_immediate(solute_owners(solnum)
-     :                              ,MES_set_variable
-     :                              ,solute_names(solnum))
+     :           p%n+1)
+         call Action_send(g%solute_owners(solnum)
+     :                              ,ACTION_set_variable
+     :                              ,p%solute_names(solnum))
          call delete_postbox()
   100 continue
- 
+
       return
       end
 
@@ -4452,10 +4549,10 @@ c      endif
 * ====================================================================
        subroutine apswim_read_crop_params ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4472,49 +4569,49 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! First - Read in solute information
       ! ----------------------------------
        numvals = 0
- 
+
       call Read_char_array(
      :           crop_section,
      :           'crop_name',
      :           MV,
      :           '()',
-     :           crop_table_name,
+     :           p%crop_table_name,
      :           numvals)
- 
+
       call Read_double_array(
      :           crop_section,
      :           'min_xylem_potential',
      :           MV,
      :           '()',
-     :           crop_table_psimin,
+     :           p%crop_table_psimin,
      :           numvals,
      :           -1d7,
      :           1d0)
- 
+
       call Read_double_array(
      :           crop_section,
      :           'root_radius',
      :           MV,
      :           '(mm)',
-     :           crop_table_root_radius,
+     :           p%crop_table_root_radius,
      :           numvals,
      :           1d-3,
      :           1d1)
- 
+
       call Read_double_array(
      :           crop_section,
      :           'root_conductance',
      :           MV,
      :           '()',
-     :           crop_table_root_con,
+     :           p%crop_table_root_con,
      :           numvals,
      :           1d-10,
      :           1d-3)
- 
+
       call pop_routine (myname)
       return
       end
@@ -4524,10 +4621,10 @@ c      endif
 * ====================================================================
        subroutine apswim_assign_crop_params ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4549,39 +4646,40 @@ cnh       include 'utility.inc'
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! Now find what crops are out there and assign them the relevant
       ! ----------------------------------------------------------------
       !                   uptake parameters
       !                   -----------------
- 
+
       do 50 vegnum = 1,MV
-         psimin(vegnum) = 0d0
-         root_radius(vegnum) = 0d0
-         root_conductance(vegnum) = 0d0
+         g%psimin(vegnum) = 0d0
+         g%root_radius(vegnum) = 0d0
+         g%root_conductance(vegnum) = 0d0
    50 continue
- 
-      do 200 vegnum = 1,num_crops
+
+      do 200 vegnum = 1,g%num_crops
          found = .false.
          do 150 vegnum2 = 1, MV
-            if (crop_table_name(vegnum2).eq.crop_names(vegnum)) then
+            if (p%crop_table_name(vegnum2).eq.g%crop_names(vegnum)) then
                found = .true.
-               psimin(vegnum) = crop_table_psimin(vegnum2)
-               root_radius(vegnum) = crop_table_root_radius(vegnum2)
+               g%psimin(vegnum) = p%crop_table_psimin(vegnum2)
+               g%root_radius(vegnum) = p%crop_table_root_radius(vegnum2)
      :                               /10d0 ! convert mm to cm
-               root_conductance(vegnum) = crop_table_root_con(vegnum2)
+               g%root_conductance(vegnum)
+     :               = p%crop_table_root_con(vegnum2)
             else
             endif
   150    continue
- 
+
          if (.not.found) then
             call fatal_error(Err_User,
-     :      crop_names(vegnum)//'not defined in crop section')
+     :      g%crop_names(vegnum)//'not defined in crop section')
          else
          endif
- 
+
   200 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -4591,11 +4689,12 @@ cnh       include 'utility.inc'
 * ====================================================================
        subroutine apswim_find_crops ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'postbox.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4619,41 +4718,41 @@ cnh       include 'utility.inc'
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       request_no = 0
-      num_crops = 0
- 
+      g%num_crops = 0
+
    10 continue
          request_no = request_no + 1
- 
+
          call get_char_vars(
      :           request_no,
      :           'crop_type',
      :           '()',
      :           crpname,
      :           numvals)
- 
+
          if (numvals.eq.0) then
             ! no more crops out there - get out of here!!!
             goto 999
- 
+
          else
             if (crpname.eq.'inactive') then
                ! do not add this crop to the list
-            elseif (num_crops.lt.MV) then
+            elseif (g%num_crops.lt.MV) then
                call get_posting_module (owner_module)
-               num_crops = num_crops + 1
-               crop_names(num_crops) = crpname
-               crop_owners(num_crops) = owner_module
+               g%num_crops = g%num_crops + 1
+               g%crop_names(g%num_crops) = crpname
+               g%crop_owners(g%num_crops) = owner_module
             else
                call fatal_error (err_internal, 'too many crops')
             endif
          endif
       goto 10
   999 continue
- 
-      nveg = num_crops
- 
+
+      g%nveg = g%num_crops
+
       call pop_routine (myname)
       return
       end
@@ -4663,12 +4762,12 @@ cnh       include 'utility.inc'
 * ====================================================================
        subroutine apswim_get_crop_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
-      include 'string.pub'                        
-      include 'error.pub'                         
-      include 'intrface.pub'                      
+      include 'string.pub'
+      include 'error.pub'
+      include 'intrface.pub'
 
 *+  Purpose
 *      Get the values of solute variables from other modules
@@ -4691,82 +4790,82 @@ cnh       include 'utility.inc'
       character solute_demand_name*(strsize)  ! key name for solute demand
 
 *- Implementation Section ----------------------------------
- 
-      do 100 vegnum = 1, num_crops
- 
+
+      do 100 vegnum = 1, g%num_crops
+
          ! Initialise tempory varaibles to zero
-         do 10 layer = 1,m+1
+         do 10 layer = 1,M+1
             rlv_l(layer) = 0d0
    10    continue
- 
+
          call get_double_array (
-     :           crop_owners(vegnum),
+     :           g%crop_owners(vegnum),
      :           'rlv',
-     :           n+1,
+     :           p%n+1,
      :           '(mm/mm^3)',
      :           rlv_l,
      :           numvals,
      :           0d0,
      :           1d0)
          if (numvals.gt.0) then            !  convert mm/mm^3 to cm/cc
-            do 60 layer = 1,n+1            !       /
-               rld(layer-1,vegnum) = rlv_l(layer)*100d0
+            do 60 layer = 1,p%n+1            !       /
+               g%rld(layer-1,vegnum) = rlv_l(layer)*100d0
    60       continue
- 
+
          else
             call fatal_error (Err_Internal,
-     :        'no rlv returned from '//crop_owners(vegnum))
+     :        'no rlv returned from '//g%crop_owners(vegnum))
          endif
- 
+
          call get_double_var (
-     :           crop_owners(vegnum),
+     :           g%crop_owners(vegnum),
      :           'sw_demand',
      :           '(mm)',
-     :           pep(vegnum),
+     :           g%pep(vegnum),
      :           numvals,
      :           0d0,
      :           20d0)
- 
+
          if (numvals.gt.0) then
-            pep(vegnum) = pep(vegnum)/10d0 ! convert mm to cm
+            g%pep(vegnum) = g%pep(vegnum)/10d0 ! convert mm to cm
          else
             call fatal_error (Err_Internal,
-     :        'no sw demand returned from '//crop_owners(vegnum))
+     :        'no sw demand returned from '//g%crop_owners(vegnum))
          endif
- 
-         do 99 solnum = 1, num_solutes
- 
-            solute_demand_name = string_concat(solute_names(solnum),
+
+         do 99 solnum = 1, p%num_solutes
+
+            solute_demand_name = string_concat(p%solute_names(solnum),
      :                                         '_demand')
             call get_double_var_optional (
-     :           crop_owners(vegnum),
+     :           g%crop_owners(vegnum),
      :           solute_demand_name,
      :           '(kg/ha)',
-     :           solute_demand (vegnum,solnum),
+     :           g%solute_demand (vegnum,solnum),
      :           numvals,
      :           0d0,
      :           1000d0)
- 
+
    99    continue
- 
+
   100 continue
- 
- 
+
+
 cnh the following code was taken directly from APSWat so that operation
 cnh across water balances is consistant.  This method however is
 cnh different to the way the rest of the crop variables are obtained.
- 
+
       call get_double_var_optional (unknown_module
      :                             , 'cover_tot_sum'
      :                             , '()'
-     :                             , g_crop_cover
+     :                             , g%crop_cover
      :                             , numvals
      :                             , 0.d0
      :                             , 1.d0)
- 
+
       if (numvals.eq.0) then
              ! we have no canopy module - get all crops covers
- 
+
          crop = 0
          bare = 1.0
 2000     continue
@@ -4774,23 +4873,23 @@ cnh different to the way the rest of the crop variables are obtained.
             call get_real_vars (crop, 'cover_tot', '()'
      :                              , cover, numvals
      :                              , 0.0, 1.0)
- 
+
                ! Note - this is based on a reduction of Beers law
                ! cover1+cover2 = 1 - exp (-(k1*lai1 + k2*lai2))
- 
+
             if (numvals.ne.0) then
                bare = bare * (1.0 - cover)
                goto 2000
             else
                   ! no more crops
-               g_crop_cover = 1.0 - bare
+               g%crop_cover = 1.0 - bare
             endif
       else
          ! got total cover from canopy module
       endif
- 
+
 cnh
- 
+
       return
       end
 
@@ -4799,25 +4898,24 @@ cnh
 * ====================================================================
        subroutine apswim_ONirrigated ()
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
       include 'event.inc'
-      include 'intrface.pub'                      
-      include 'write.pub'                         
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
 
 *+  Assumptions
-*   That day and year have already been updated before entry into this
+*   That g%day and g%year have already been updated before entry into this
 *   routine. e.g. Prepare stage executed already.
 
 *+  Changes
 *   neilh - 19-01-1995 - Programmed and Specified
 *   neilh - 28-05-1996 - Added call to get_other_variables to make
-*                        sure day and year are up to date.
+*                        sure g%day and g%year are up to date.
 *      21-06-96 NIH Changed extract calls to collect calls
 *   neilh - 22-07-1996 removed data_String from arguments
 *   neilh - 29-08-1997 added test for whether directives are to be echoed
@@ -4852,20 +4950,20 @@ cnh
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if (p_echo_directives.eq.'on') then
+
+      if (p%echo_directives.eq.'on') then
          ! flag this event in output file
-         call write_event ('APSwim adding irrigation to log')
+         call Write_string ('APSwim adding irrigation to log')
       else
       endif
- 
+
       call collect_char_var (
      :                         DATA_irrigate_time
      :                        ,'(hh:mm)'
      :                        ,time_string
      :                        ,numvals)
- 
- 
+
+
       call collect_double_var_optional (
      :                         DATA_irrigate_amount
      :                        ,'(mm)'
@@ -4873,7 +4971,7 @@ cnh
      :                        ,numvals_amt
      :                        ,0.d0
      :                        ,1000.d0)
- 
+
       call collect_double_var_optional (
      :                         DATA_irrigate_duration
      :                        ,'(min)'
@@ -4881,42 +4979,42 @@ cnh
      :                        ,numvals_dur
      :                        ,0.d0
      :                        ,24d0*60d0)
- 
-cnh NOTE - intensity is not part of the official design!!!!?
+
+cnh NOTE - intensity is not part of the official design !!!!?
       call collect_double_var_optional (
      :                         'intensity'
-     :                        ,'(mm/h)'
+     :                        ,'(mm/g%h)'
      :                        ,intensity
      :                        ,numvals_int
      :                        ,0.d0
      :                        ,24d0*60d0)
- 
- 
+
+
       if ((numvals_int.ne.0).and.(numvals_dur.ne.0)
      :       .and.(numvals_amt.ne.0)) then
          ! the user has specified all three
          check_amount = intensity/60d0*duration
- 
+
          if (abs(amount-check_amount).ge.1.) then
             call fatal_error (ERR_User,
      :         'Irrigation information error greater than 1 mm'//
      :         '(ie amount not equal to intensity/60*duration)')
- 
+
          elseif (abs(amount-check_amount).ge.0.1) then
             call warning_error (ERR_User,
      :         'Irrigation information error greater than .1 mm'//
      :         '(ie amount not equal to intensity/60*duration)')
- 
+
          else
          endif
- 
+
       elseif ((numvals_amt.ne.0).and.(numvals_dur.ne.0)) then
          ! We have all the information we require - do nothing
- 
+
       elseif ((numvals_int.ne.0).and.(numvals_dur.ne.0)) then
          ! we need to calculate the amount
          amount = intensity/60d0*duration
- 
+
       elseif ((numvals_int.ne.0).and.(numvals_amt.ne.0)) then
          ! we need to calculate the duration
          duration = ddivide (amount,intensity/60d0,0.d0)
@@ -4924,56 +5022,56 @@ cnh NOTE - intensity is not part of the official design!!!!?
          ! We do not have enough information
          call fatal_error (ERR_User,
      :     'Incomplete Irrigation information')
- 
+
          !  set defaults to allow completion
          amount = 0.0
          duration = 1.0
- 
+
       endif
- 
+
       ! get information regarding time etc.
       call apswim_Get_other_variables()
- 
+
       time_mins = apswim_time_to_mins (time_string)
-      irrigation_time = apswim_time (year,day,time_mins)
- 
+      irrigation_time = apswim_time (g%year,g%day,time_mins)
+
       ! allow 1 sec numerical error as data resolution is
       ! 60 sec.
-      if (irrigation_time.lt.(t - 1.d0/3600.d0) )then
- 
+      if (irrigation_time.lt.(g%t - 1.d0/3600.d0) )then
+
          call fatal_error (ERR_User,
      :                    'Irrigation has been specified for an '//
      :                    'already processed time period')
       else
       endif
- 
+
       call apswim_insert_loginfo (
      :                         irrigation_time
      :                        ,duration
      :                        ,amount
-     :                        ,SWIMRainTime
-     :                        ,SWIMRainAmt
-     :                        ,SWIMRainNumPairs
+     :                        ,g%SWIMRainTime
+     :                        ,g%SWIMRainAmt
+     :                        ,g%SWIMRainNumPairs
      :                        ,SWIMLogSize)
- 
+
       call apswim_recalc_eqrain ()
- 
-      do 100 solnum = 1, num_solutes
+
+      do 100 solnum = 1, p%num_solutes
          call collect_double_var_optional (
-     :                         solute_names(solnum)
+     :                         p%solute_names(solnum)
      :                        ,'(kg/ha)'
      :                        ,solconc
      :                        ,numvals
-     :                        ,c_lb_solute
-     :                        ,c_ub_solute)
- 
+     :                        ,c%lb_solute
+     :                        ,c%ub_solute)
+
         if (numvals.gt.0) then
-           TEMPSolNumPairs = SWIMSolNumPairs(solnum)
+           TEMPSolNumPairs = g%SWIMSolNumPairs(solnum)
            do 50 counter = 1, TEMPSolNumPairs
-              TEMPSolTime(counter) = SWIMSolTime(solnum,counter)
-              TEMPSolAmt(counter) = SWIMSolAmt(solnum,counter)
+              TEMPSolTime(counter) = g%SWIMSolTime(solnum,counter)
+              TEMPSolAmt(counter) = g%SWIMSolAmt(solnum,counter)
    50      continue
- 
+
            call apswim_insert_loginfo (
      :                         irrigation_time
      :                        ,duration
@@ -4982,18 +5080,18 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :                        ,TEMPSolAmt
      :                        ,TEMPSolNumPairs
      :                        ,SWIMLogSize)
- 
-           SWIMSolNumPairs(solnum) = TEMPSolNumPairs
+
+           g%SWIMSolNumPairs(solnum) = TEMPSolNumPairs
            do 60 counter = 1, TEMPSolNumPairs
-              SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
-              SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
+              g%SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
+              g%SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
    60      continue
- 
+
         else
         endif
   100 continue
- 
- 
+
+
       call pop_routine (myname)
       return
       end
@@ -5003,8 +5101,8 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
        double precision function apswim_csol (solnum,time)
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -5031,21 +5129,22 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      do 100 counter=1,SWIMSolNumPairs(solnum)
-         SAmount(counter) = SWIMSolAmt (solnum,counter)
-         STime (counter) = SWIMSolTime (solnum,counter)
+
+      do 100 counter=1,g%SWIMSolNumPairs(solnum)
+         SAmount(counter) = g%SWIMSolAmt (solnum,counter)
+         STime (counter) = g%SWIMSolTime (solnum,counter)
   100 continue
- 
+
       ! Solute arrays are in kg/ha of added solute.  From swim's equations
       ! with everything in cm and ug per g water we convert the output to
       ! ug per cm^2 because the cm^2 area and height in cm gives g water.
       ! There are 10^9 ug/kg and 10^8 cm^2 per ha therefore we get a
       ! conversion factor of 10.
- 
-      apswim_csol = dlinint(time,STime,SAmount, SWIMSolNumPairs(solnum))
+
+      apswim_csol = dlinint(time,STime,SAmount
+     :                 , g%SWIMSolNumPairs(solnum))
      :            * 10d0
- 
+
       call pop_routine (myname)
       return
       end
@@ -5055,13 +5154,13 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
        subroutine apswim_get_uptake (ucrop, uname, uarray, uunits,uflag)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
-      double precision uarray(0:n)
+      double precision uarray(0:p%n)
       character ucrop *(*)
       character uname *(*)
       character uunits*(*)
@@ -5090,35 +5189,35 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      call fill_double_array (uarray(0), 0d0, n+1)
- 
+
+      call fill_double_array (uarray(0), 0d0, p%n+1)
+
       vegnum = 0
-      do 10 counter = 1, num_crops
-         if (crop_names(counter).eq.ucrop) then
+      do 10 counter = 1, g%num_crops
+         if (g%crop_names(counter).eq.ucrop) then
             vegnum = counter
          else
          endif
    10 continue
- 
+
       if (vegnum.eq.0) then
          ! ignore it
- 
+
       else
- 
+
          if (uname.eq.'water') then
              uflag = .true.
              uunits = '(mm)'
-             do 40 node=0,n
+             do 40 node=0,p%n
                 ! uptake may be very small -ve - assume error small
-                uarray(node) = max (pwuptake(vegnum,node),0d0)
+                uarray(node) = max (g%pwuptake(vegnum,node),0d0)
    40        continue
- 
+
          else
-            do 100 solnum = 1, num_solutes
-               if (solute_names(solnum).eq.uname) then
-                  do 50 node=0,n
-                     uarray(node) = max(psuptake(solnum,vegnum,node)
+            do 100 solnum = 1, p%num_solutes
+               if (p%solute_names(solnum).eq.uname) then
+                  do 50 node=0,p%n
+                     uarray(node) = max(g%psuptake(solnum,vegnum,node)
      :                                 ,0d0)
    50             continue
                   uflag = .true.
@@ -5130,7 +5229,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
   110       continue
          endif
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -5154,9 +5253,9 @@ cnh NOTE - intensity is not part of the official design!!!!?
 *       290994  nih adapted from u_bound
 
 *- Implementation Section ----------------------------------
- 
+
       dubound = min (var, upper)
- 
+
       return
       end
 
@@ -5179,9 +5278,9 @@ cnh NOTE - intensity is not part of the official design!!!!?
 *       290994 nih adapted from l_bound
 
 *- Implementation Section ----------------------------------
- 
+
       dlbound = max (var, lower)
- 
+
       return
       end
 
@@ -5190,9 +5289,9 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
        integer function apswim_solute_number (solname)
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        character solname*(*)
@@ -5213,17 +5312,17 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       solnum = 0
-      do 100 counter = 1, num_solutes
-         if (solute_names(counter).eq.solname) then
+      do 100 counter = 1, p%num_solutes
+         if (p%solute_names(counter).eq.solname) then
             solnum = counter
          else
          endif
   100 continue
- 
+
       apswim_solute_number = solnum
- 
+
       call pop_routine (myname)
       return
       end
@@ -5233,12 +5332,12 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
        subroutine apswim_get_rain_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
-      include 'error.pub'                         
-      include 'engine.pub'
-      include 'intrface.pub'                      
+      include 'const.inc'             ! Constant definitions
+      include 'error.pub'
+      include 'intrface.pub'
+      include 'postbox.pub'
 
 *+  Purpose
 *      Get the rainfall values from other modules
@@ -5257,8 +5356,8 @@ cnh NOTE - intensity is not part of the official design!!!!?
       double precision amount          ! amount of rainfall (mm)
       character time*6                 ! time of rainfall (hh:mm)
       double precision duration        ! duration of rainfall (min)
-      double precision intensity       ! intensity of rainfall (mm/h)
-      integer time_of_day              ! time of day (min)
+      double precision intensity       ! intensity of rainfall (mm/g%h)
+      integer time_of_day              ! time of g%day (min)
       double precision time_mins       ! time of rainfall (min)
       character owner_module*(strsize)   ! name of module providing info.
       character module_name*(strsize)         ! name of this module
@@ -5274,11 +5373,11 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :           0.d0,
      :           1000.d0)
 
-      ! Check that apswim is not getting rainfall from itself. 
+      ! Check that apswim is not getting rainfall from itself.
       call get_posting_module (owner_module)
       call Get_current_module (module_name)
       if (owner_module.eq.module_name) then
-         call fatal_error (ERR_User, 
+         call fatal_error (ERR_User,
      :      'No module provided rainfall values for APSwim')
          amount = 0.d0
       else
@@ -5290,7 +5389,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :           '(hh:mm)',
      :           time,
      :           numvals)
- 
+
       call get_double_var_optional (
      :           unknown_module,
      :           'rain_durn',
@@ -5299,8 +5398,8 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :           numvals,
      :           0.d0,
      :           1440.d0*30.d0)    ! one month of mins
- 
- 
+
+
       if (numvals.eq.0) then
          call get_double_var_optional (
      :           unknown_module,
@@ -5310,7 +5409,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :           numvals,
      :           0.d0,
      :           250.d0)          ! 10 inches in one hour
- 
+
          if (numvals.eq.0) then
             call fatal_error (Err_User,
      :         'Failure to supply rainfall duration or intensity data')
@@ -5320,23 +5419,23 @@ cnh NOTE - intensity is not part of the official design!!!!?
                                                   ! hrs->mins
       else
       endif
- 
+
       if (amount.gt.0d0) then
          time_of_day = apswim_time_to_mins (time)
-         Time_mins = apswim_time (year,day,time_of_day)
+         Time_mins = apswim_time (g%year,g%day,time_of_day)
          call apswim_insert_loginfo (
      :                                time_mins
      :                               ,duration
      :                               ,amount
-     :                               ,SWIMRainTime
-     :                               ,SWIMRainAmt
-     :                               ,SWIMRainNumPairs
+     :                               ,g%SWIMRainTime
+     :                               ,g%SWIMRainAmt
+     :                               ,g%SWIMRainNumPairs
      :                               ,SWIMLogSize)
- 
+
       else
-         ! No rain to add to record
+         ! No g%rain to add to record
       endif
- 
+
       return
       end
 
@@ -5345,9 +5444,9 @@ cnh NOTE - intensity is not part of the official design!!!!?
 *     ===========================================================
       subroutine apswim_pot_evapotranspiration (pot_eo)
 *     ===========================================================
+      use APSwimModule
       implicit none
-      include   'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       pot_eo      ! (output) potential evapotranspiration
@@ -5370,32 +5469,32 @@ cnh NOTE - intensity is not part of the official design!!!!?
                                        !    material
       double precision eeq             ! equilibrium evaporation rate (mm)
       double precision wt_ave_temp     ! weighted mean temperature for the
-                                       !    day (oC)
+                                       !    g%day (oC)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 *  ******* calculate potential evaporation from soil surface (eos) ******
- 
+
                 ! find equilibrium evap rate as a
                 ! function of radiation, albedo, and temp.
- 
-      albedo = c_max_albedo
-     :       - (c_max_albedo - g_salb) * (1d0 - g_cover_green_sum)
- 
+
+      albedo = c%max_albedo
+     :       - (c%max_albedo - p%salb) * (1d0 - g%cover_green_sum)
+
                 ! wt_ave_temp is mean temp, weighted towards max.
- 
-      wt_ave_temp = 0.6d0*g_maxt + 0.4d0*g_mint
- 
-      eeq = g_radn*23.8846d0* (0.000204d0 - 0.000183d0*albedo)
+
+      wt_ave_temp = 0.6d0*g%maxt + 0.4d0*g%mint
+
+      eeq = g%radn*23.8846d0* (0.000204d0 - 0.000183d0*albedo)
      :    * (wt_ave_temp + 29.d0)
- 
+
                 ! find potential evapotranspiration (pot_eo)
                 ! from equilibrium evap rate
- 
+
       pot_eo = eeq*apswim_eeq_fac ()
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5405,9 +5504,9 @@ cnh NOTE - intensity is not part of the official design!!!!?
 *     ===========================================================
       real function apswim_eeq_fac ()
 *     ===========================================================
+      use APSwimModule
       implicit none
-      include   'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *                 calculate coefficient for equilibrium evaporation rate
@@ -5420,31 +5519,31 @@ cnh NOTE - intensity is not part of the official design!!!!?
       parameter (my_name = 'apswim_eeq_fac')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
-      if (g_maxt.gt.c_max_crit_temp) then
- 
+
+      if (g%maxt.gt.c%max_crit_temp) then
+
                 ! at very high max temps eo/eeq increases
                 ! beyond its normal value of 1.1
- 
-         apswim_eeq_fac =  ((g_maxt - c_max_crit_temp) *0.05 + 1.1)
-      else if (g_maxt.lt.c_min_crit_temp) then
- 
+
+         apswim_eeq_fac =  ((g%maxt - c%max_crit_temp) *0.05 + 1.1)
+      else if (g%maxt.lt.c%min_crit_temp) then
+
                 ! at very low max temperatures eo/eeq
                 ! decreases below its normal value of 1.1
                 ! note that there is a discontinuity at tmax = 5
                 ! it would be better at tmax = 6.1, or change the
                 ! .18 to .188 or change the 20 to 21.1
- 
-         apswim_eeq_fac = 0.01*exp (0.18* (g_maxt + 20.0))
+
+         apswim_eeq_fac = 0.01*exp (0.18* (g%maxt + 20.0))
       else
- 
+
                 ! temperature is in the normal range, eo/eeq = 1.1
- 
+
          apswim_eeq_fac = 1.1
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -5454,10 +5553,10 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
        subroutine apswim_read_constants ()
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'            ! apswim model common block
-      include 'read.pub'                          
-      include 'error.pub'                         
+      include 'read.pub'
+      include 'error.pub'
 
 *+  Purpose
 *      Read in all constants from constants file.
@@ -5482,7 +5581,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              section_name,
      :              'max_iterations',
      :              '()',
-     :              c_max_iterations,
+     :              c%max_iterations,
      :              numvals,
      :              1,
      :              100)
@@ -5491,7 +5590,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              section_name,
      :              'negative_conc_warn',
      :              '()',
-     :              c_negative_conc_warn,
+     :              c%negative_conc_warn,
      :              numvals,
      :              0d0,
      :              10d0)
@@ -5500,7 +5599,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              section_name,
      :              'negative_conc_fatal',
      :              '()',
-     :              c_negative_conc_fatal,
+     :              c%negative_conc_fatal,
      :              numvals,
      :              0d0,
      :              10d0)
@@ -5509,55 +5608,55 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              section_name,
      :              'min_crit_temp',
      :              '(oC)',
-     :              c_min_crit_temp,
+     :              c%min_crit_temp,
      :              numvals,
      :              -10.0,
      :              100.0)
- 
+
       call Read_real_var (
      :              section_name,
      :              'max_crit_temp',
      :              '(oC)',
-     :              c_max_crit_temp,
+     :              c%max_crit_temp,
      :              numvals,
      :              -10.0,
      :              100.0)
- 
+
       call Read_real_var (
      :              section_name,
      :              'max_albedo',
      :              '(oC)',
-     :              c_max_albedo,
+     :              c%max_albedo,
      :              numvals,
      :              -10.0,
      :              100.0)
- 
+
       call Read_double_var (
      :              section_name,
      :              'max_bitesize',
      :              '(kg/ha)',
-     :              c_max_bitesize,
+     :              c%max_bitesize,
      :              numvals,
      :              1.0d-6,
      :              1.0d0)
- 
+
       call Read_double_var (
      :              section_name,
      :              'extra_supply_fraction',
      :              '()',
-     :              c_supply_fraction,
+     :              c%supply_fraction,
      :              numvals,
      :              1.0d-6,
      :              1.0d0)
- 
- 
+
+
       call Read_double_array (
      :              section_name,
      :              'trf_fasw',
      :              max_table,
      :              '(0-1)',
-     :              c_trf_asw,
-     :              c_num_trf_asw,  ! get number of nodes from here
+     :              c%trf_asw,
+     :              c%num_trf_asw,  ! get number of nodes from here
      :              0.0d0,
      :              1.0d0)
       call Read_double_array (
@@ -5565,8 +5664,8 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              'trf_value',
      :              max_table,
      :              '(0-1)',
-     :              c_trf_value,
-     :              c_num_trf_asw,  ! get number of nodes from here
+     :              c%trf_value,
+     :              c%num_trf_asw,  ! get number of nodes from here
      :              0.0d0,
      :              1.0d0)
 
@@ -5574,14 +5673,14 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              section_name,
      :              'cover_effects',
      :              '()',
-     :              c_cover_effects,
+     :              c%cover_effects,
      :              numvals)
 
       call Read_double_var (
      :              section_name,
      :              'a_to_evap_fact',
      :              '()',
-     :              c_a_to_evap_fact,
+     :              c%a_to_evap_fact,
      :              numvals,
      :              0d0,
      :              1d0)
@@ -5590,209 +5689,209 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :              section_name,
      :              'canopy_eos_coef',
      :              '()',
-     :              c_canopy_eos_coef,
+     :              c%canopy_eos_coef,
      :              numvals,
      :              0d0,
      :              10d0)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_exco',
      :              '()',
-     :              c_lb_exco,
+     :              c%lb_exco,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_exco',
      :              '()',
-     :              c_ub_exco,
+     :              c%ub_exco,
      :              numvals,
-     :              c_lb_exco,
+     :              c%lb_exco,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_fip',
      :              '()',
-     :              c_lb_fip,
+     :              c%lb_fip,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_fip',
      :              '()',
-     :              c_ub_fip,
+     :              c%ub_fip,
      :              numvals,
-     :              c_lb_fip,
+     :              c%lb_fip,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_dis',
      :              '()',
-     :              c_lb_dis,
+     :              c%lb_dis,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_dis',
      :              '()',
-     :              c_ub_dis,
+     :              c%ub_dis,
      :              numvals,
-     :              c_lb_dis,
+     :              c%lb_dis,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_slupf',
      :              '()',
-     :              c_lb_slupf,
+     :              c%lb_slupf,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_slupf',
      :              '()',
-     :              c_ub_slupf,
+     :              c%ub_slupf,
      :              numvals,
-     :              c_lb_slupf,
+     :              c%lb_slupf,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_slos',
      :              '()',
-     :              c_lb_slos,
+     :              c%lb_slos,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_slos',
      :              '()',
-     :              c_ub_slos,
+     :              c%ub_slos,
      :              numvals,
-     :              c_lb_slos,
+     :              c%lb_slos,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_d0',
      :              '()',
-     :              c_lb_d0,
+     :              c%lb_d0,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_d0',
      :              '()',
-     :              c_ub_d0,
+     :              c%ub_d0,
      :              numvals,
-     :              c_lb_d0,
+     :              c%lb_d0,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_a',
      :              '()',
-     :              c_lb_a,
+     :              c%lb_a,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_a',
      :              '()',
-     :              c_ub_a,
+     :              c%ub_a,
      :              numvals,
-     :              c_lb_a,
+     :              c%lb_a,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_dthc',
      :              '()',
-     :              c_lb_dthc,
+     :              c%lb_dthc,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_dthc',
      :              '()',
-     :              c_ub_dthc,
+     :              c%ub_dthc,
      :              numvals,
-     :              c_lb_dthc,
+     :              c%lb_dthc,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_dthp',
      :              '()',
-     :              c_lb_dthp,
+     :              c%lb_dthp,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_dthp',
      :              '()',
-     :              c_ub_dthp,
+     :              c%ub_dthp,
      :              numvals,
-     :              c_lb_dthp,
+     :              c%lb_dthp,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_disp',
      :              '()',
-     :              c_lb_disp,
+     :              c%lb_disp,
      :              numvals,
      :              -1d10,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_disp',
      :              '()',
-     :              c_ub_disp,
+     :              c%ub_disp,
      :              numvals,
-     :              c_lb_disp,
+     :              c%lb_disp,
      :               1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'lb_solute',
      :              '(kg/ha)',
-     :              c_lb_solute,
+     :              c%lb_solute,
      :              numvals,
      :              0d0,
      :              1d10)
- 
+
       call Read_double_var (
      :              section_name,
      :              'ub_solute',
      :              '(kg/ha)',
-     :              c_ub_solute,
+     :              c%ub_solute,
      :              numvals,
-     :               c_lb_solute,
+     :               c%lb_solute,
      :               1d10)
- 
+
       call pop_Routine (myname)
       return
       end
@@ -5804,8 +5903,8 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
       implicit none
       include 'const.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision cover_green_sum
@@ -5828,15 +5927,15 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       call get_double_var_optional (unknown_module
      :                                  , 'cover_green_sum', '()'
      :                                  , cover_green_sum, numvals
      :                                  , 0.d0, 1.d0)
- 
+
       if (numvals.eq.0) then
              ! we have no canopy module - get all crops covers
- 
+
          crop = 0
          bare = 1.d0
 1000     continue
@@ -5844,7 +5943,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
             call get_double_vars (crop, 'cover_green', '()'
      :                              , cover, numvals
      :                              , 0.d0, 1.d0)
- 
+
                ! Note - this is based on a reduction of Beers law
                ! cover1+cover2 = 1 - exp (-(k1*lai1 + k2*lai2))
             if (numvals.ne.0) then
@@ -5857,7 +5956,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
       else
          ! got green cover from canopy module
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -5867,12 +5966,12 @@ cnh NOTE - intensity is not part of the official design!!!!?
 * ====================================================================
        subroutine apswim_calc_evap_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'data.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -5898,23 +5997,23 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if ( reals_are_equal (apsim_timestep, 1440.) ) then
+
+      if ( reals_are_equal (g%apsim_timestep, 1440.) ) then
          ! timestep is 24 hours - OK
- 
+
          ! calculate evaporation for entire timestep
- 
+
          call get_char_var (
      :           unknown_module,
      :           'eo_time',
      :           '(hh:mm)',
      :           time,
      :           numvals)
- 
+
          time_of_day = apswim_time_to_mins (time)
-         Time_mins = apswim_time (year,day,time_of_day)
- 
- 
+         Time_mins = apswim_time (g%year,g%day,time_of_day)
+
+
          call get_double_var (
      :           unknown_module,
      :           'eo_durn',
@@ -5923,22 +6022,22 @@ cnh NOTE - intensity is not part of the official design!!!!?
      :           numvals,
      :           0.d0,
      :           1440.d0*30.d0)    ! one month of mins
- 
-         call apswim_get_green_cover (g_cover_green_sum)
+
+         call apswim_get_green_cover (g%cover_green_sum)
          call apswim_pot_evapotranspiration (Amount)
- 
+
          call apswim_insert_loginfo (time_mins
      :                              ,duration
      :                              ,dble(amount)
-     :                              ,SWIMEvapTime
-     :                              ,SWIMEvapAmt
-     :                              ,SWIMEvapNumPairs
+     :                              ,g%SWIMEvapTime
+     :                              ,g%SWIMEvapAmt
+     :                              ,g%SWIMEvapNumPairs
      :                              ,SWIMLogSize)
       else
          call fatal_error (Err_User,
      :      'apswim can only calculate Eo for daily timestep')
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -5946,46 +6045,46 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 
 * ====================================================================
-      real function integral_real_linint_function (X1,X2,x,y,n)
+      real function integral_real_linint_function (X1,X2,X,Y,N)
 * ====================================================================
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        real X1
        real X2
-       real x(*)
-       real y(*)
-       integer n
+       real X(*)
+       real Y(*)
+       integer N
 
 *+  Purpose
 *     <insert here>
 
 *+  Assumptions
 *   1) that X2 > X1
-*   2) that (X,Y) pairs are ordered according to ascending x.
+*   2) that (X,Y) pairs are ordered according to ascending X.
 
 *+  Notes
 *        A set of points used for linear interpolation consists of a series
 *        of individual line segments.  The Integral, or area under sections
 *        of these segments can be found using simple calculus.
 *
-*        if f(x) =       y = m.x + c       - simple linear equation
+*        if f(X) =       y = M.X + c       - simple linear equation
 *        Then the integral of y (=I) is
 *                         2
-*              I = 1/2.m.x  + c.x + C
+*              I = 1/2.M.X  + c.X + C
 *
 *        Therefore the integral between two values, X1 and X2, would be
 *
 *               X2           2                      2
-*              I   = 1/2.m.X2 + c.X2 + C - (1/2.m.X1 + c.X1 + C)
+*              I   = 1/2.M.X2 + c.X2 + C - (1/2.M.X1 + c.X1 + C)
 *               X1
 *                             2    2
-*                  = 1/2.m.(X2 - X1) + c.(X2 - X1)
+*                  = 1/2.M.(X2 - X1) + c.(X2 - X1)
 *        where
 *                   Ya - Yb
-*               m = -------     and  c = Ya - m.Xa
+*               M = -------     and  c = Ya - M.Xa
 *                   Xa - Xb
 
 *+  Changes
@@ -6000,7 +6099,7 @@ cnh NOTE - intensity is not part of the official design!!!!?
       real    Area
       real    Xa,Ya
       real    Xb,Yb
-      real    m
+      real    M
       real    c
 
 *+  Initial Data Values
@@ -6008,60 +6107,60 @@ cnh NOTE - intensity is not part of the official design!!!!?
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-c      if (X1.lt.x(1)) then
+
+c      if (X1.lt.X(1)) then
 c         if (X2.lt.X(1)) then
-c            Area = Area + (X2-X1)*y(1)
+c            Area = Area + (X2-X1)*Y(1)
 c         else
-c            Area = Area + (x(1)-X1)*y(1)
+c            Area = Area + (X(1)-X1)*Y(1)
 c         endif
 c      else
 c         ! don't start integration yet
 c      endif
- 
+
       ! now for outside LHS boundary
-      Xa = min(x(1), X1)
-      Xb = min(x(1), X2)
- 
-      Area = Area + y(1)*(Xb-Xa)
- 
-      do 100 i = 1, n-1
+      Xa = min(X(1), X1)
+      Xb = min(X(1), X2)
+
+      Area = Area + Y(1)*(Xb-Xa)
+
+      do 100 i = 1, N-1
          ! Find the slope and intercept for this segment.
-         m = (y(i+1)-y(i))/(x(i+1)-x(i))
-         c = y(i) - m*x(i)
- 
-         Xa = bound (X1,x(i),x(i+1))
-         Xb = bound (X2,x(i),x(i+1))
- 
-         Ya = m*Xa+c
-         Yb = m*Xb+c
- 
+         M = (Y(i+1)-Y(i))/(X(i+1)-X(i))
+         c = Y(i) - M*X(i)
+
+         Xa = bound (X1,X(i),X(i+1))
+         Xb = bound (X2,X(i),X(i+1))
+
+         Ya = M*Xa+c
+         Yb = M*Xb+c
+
          Area = Area + 0.5*(Yb+Ya)*(Xb-Xa)
- 
+
   100 continue
- 
- 
+
+
       ! now for outside RHS boundary
-      Xa = max(x(n), X1)
-      Xb = max(x(n), X2)
- 
-      Ya = m*Xa+c
-      Yb = m*Xb+c
- 
-      Area = Area + y(n)*(Xb-Xa)
- 
-c      if (X2.gt.x(n)) then
-c         if (X1.lt.x(n)) then
-c            Area = Area + (X2-X1)*y(n)
+      Xa = max(X(N), X1)
+      Xb = max(X(N), X2)
+
+      Ya = M*Xa+c
+      Yb = M*Xb+c
+
+      Area = Area + Y(N)*(Xb-Xa)
+
+c      if (X2.gt.X(N)) then
+c         if (X1.lt.X(N)) then
+c            Area = Area + (X2-X1)*Y(N)
 c         else
-c            Area = Area + (X2-x(n))*y(n)
+c            Area = Area + (X2-X(N))*Y(N)
 c         endif
 c      else
 c         ! nothing to add to the integration
 c      endif
- 
+
       integral_real_linint_function = Area
- 
+
       call pop_routine (myname)
       return
       end
@@ -6071,9 +6170,9 @@ c      endif
 * ====================================================================
        subroutine apswim_recalc_eqrain ()
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -6097,26 +6196,27 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! leave the first element alone to keep magnitude in order
- 
-      do 100 counter = 2, SWIMRainNumPairs
-         amount   = (SWIMRainAmt(counter)-SWIMRainAmt(counter-1))/10d0
-         duration = SWIMRainTime(counter)-SWIMRainTime(counter-1)
+
+      do 100 counter = 2, g%SWIMRainNumPairs
+         amount   = (g%SWIMRainAmt(counter)
+     :                -g%SWIMRainAmt(counter-1))/10d0
+         duration = g%SWIMRainTime(counter)-g%SWIMRainTime(counter-1)
          avinten = ddivide (amount, duration, 0.d0)
- 
+
          if (avinten .gt. 0.d0) then
             eqrain = (1d0+effpar*log(avinten/2.5d0))*amount
          else
             eqrain = 0.d0
          endif
- 
-         SWIMEqRainTime(counter) = SWIMRainTime(counter)
-         SWIMEqRainAmt(counter)  = SWIMEqRainAmt(counter-1)
+
+         g%SWIMEqRainTime(counter) = g%SWIMRainTime(counter)
+         g%SWIMEqRainAmt(counter)  = g%SWIMEqRainAmt(counter-1)
      :                           + eqrain
- 
+
   100 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -6126,12 +6226,11 @@ c      endif
 * ====================================================================
        subroutine apswim_tillage ()
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
-      include 'intrface.pub'                      
-      include 'write.pub'                         
-      include 'error.pub'                         
+      include 'intrface.pub'
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -6161,17 +6260,17 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      if (p_echo_directives.eq.'on') then
+
+      if (p%echo_directives.eq.'on') then
          ! flag this event in output file
-         call write_event ('APSwim responding to tillage')
+         call Write_string ('APSwim responding to tillage')
       else
       endif
- 
+
       ! all surface conditions decay to be calculated relative to now
-      !tzero = t
+      !tzero = g%t
       !eqr0 = apswim_eqrain (tzero)
- 
+
       call collect_double_var_optional (
      :                         'hm1'
      :                        ,'(mm)'
@@ -6180,10 +6279,10 @@ c      endif
      :                        ,0.d0
      :                        ,1000.d0)
       if (numvals.gt.0) then
-         hm1 = new_hm1/10d0 ! convert mm to cm
+         p%hm1 = new_hm1/10d0 ! convert mm to cm
       else
       endif
- 
+
       call collect_double_var_optional (
      :                         'hm0'
      :                        ,'(mm)'
@@ -6192,10 +6291,10 @@ c      endif
      :                        ,0.d0
      :                        ,1000.d0)
       if (numvals.gt.0) then
-         hm0 = new_hm0/10d0 ! convert mm to cm
+         p%hm0 = new_hm0/10d0 ! convert mm to cm
       else
       endif
- 
+
       call collect_double_var_optional (
      :                         'hrc'
      :                        ,'(mm)'
@@ -6204,13 +6303,13 @@ c      endif
      :                        ,0.d0
      :                        ,1000.d0)
       if (numvals.gt.0) then
-         hrc = new_hrc/10d0 ! convert mm to cm
+         p%hrc = new_hrc/10d0 ! convert mm to cm
       else
       endif
- 
+
       ! Now set current storage to max storage
-      hmin = hm1
- 
+      g%hmin = p%hm1
+
       call collect_double_var_optional (
      :                         'g1'
      :                        ,'(mm)'
@@ -6219,10 +6318,10 @@ c      endif
      :                        ,0.d0
      :                        ,1000.d0)
       if (numvals.gt.0) then
-         g1 = new_g1
+         p%g1 = new_g1
       else
       endif
- 
+
       call collect_double_var_optional (
      :                         'g0'
      :                        ,'(mm)'
@@ -6231,10 +6330,10 @@ c      endif
      :                        ,0.d0
      :                        ,1000.d0)
       if (numvals.gt.0) then
-         g0 = new_g0
+         p%g0 = new_g0
       else
       endif
- 
+
       call collect_double_var_optional (
      :                         'grc'
      :                        ,'(mm)'
@@ -6243,13 +6342,13 @@ c      endif
      :                        ,0.d0
      :                        ,1000.d0)
       if (numvals.gt.0) then
-         grc = new_grc/10d0 ! convert mm to cm
+         p%grc = new_grc/10d0 ! convert mm to cm
       else
       endif
- 
+
       ! Now set current surface conductance to max
-      gsurf = g1
- 
+      g%gsurf = p%g1
+
       call pop_routine (myname)
       return
       end
@@ -6259,10 +6358,10 @@ c      endif
 * ====================================================================
        subroutine apswim_reset_water_balance (wc_flag, water_content)
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer          wc_flag           ! flag defining type of water
@@ -6290,30 +6389,30 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      do 25 i=0,n
+
+      do 25 i=0,p%n
          if (wc_flag.eq.1) then
             ! water content was supplied in volumetric SW
             ! so calculate matric potential
-            th (i) = water_content(i)
-            psi(i) = apswim_suction (i,th(i))
- 
+            g%th (i) = water_content(i)
+            g%psi(i) = apswim_suction (i,g%th(i))
+
          else if (wc_flag.eq.2) then
             ! matric potential was supplied
             ! so calculate water content
-            psi(i) = water_content(i)
-            th (i) = apswim_theta (i, psi(i))
+            g%psi(i) = water_content(i)
+            g%th (i) = apswim_theta (i, g%psi(i))
          else
             call fatal_error (Err_Internal,
      :         'Bad wc_type flag value')
          endif
- 
-         p (i) = apswim_pf (psi(i))
- 
+
+         g%p (i) = apswim_pf (g%psi(i))
+
    25 continue
- 
-      wp = apswim_wpf ()
- 
+
+      g%wp = apswim_wpf ()
+
       call pop_routine (myname)
       return
       end
@@ -6348,12 +6447,12 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       call apswim_interp
      :           (i, suction, theta, thd, hklg, hklgd)
- 
+
       apswim_theta = theta
- 
+
       call pop_routine (myname)
       return
       end
@@ -6364,7 +6463,7 @@ c      endif
        subroutine union_double_arrays (a,na,b,nb,c,nc,nc_max)
 * ====================================================================
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        integer na,nb,nc,nc_max
@@ -6390,7 +6489,7 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! Put A into C
       ! ------------
       do 10 i=1, na
@@ -6400,8 +6499,8 @@ c      endif
         else
         endif
    10 continue
- 
- 
+
+
       ! Put B into C
       ! ------------
       do 20 i=1, nb
@@ -6411,9 +6510,9 @@ c      endif
         else
         endif
    20 continue
- 
+
       call shell_sort_double (c,nc,key)
- 
+
    21 continue
       ! to avoid updating the counter - VERY BAD PROGRAMMING (NIH)
       do 30 i=1, nc-1
@@ -6427,7 +6526,7 @@ c      endif
          else
          endif
    30 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -6466,10 +6565,10 @@ c      endif
       double precision array_temp
 
 *- Implementation Section ----------------------------------
- 
+
       step = abs (size_of)
       array_size = abs (size_of)
- 
+
       keeper = size_of.lt.0
       if (keeper) then
          do 1000 indx  =  1, array_size
@@ -6477,56 +6576,56 @@ c      endif
 1000     continue
       else
       endif
- 
+
 2000  continue
       if (step.gt.1) then
- 
+
          if (step.le.15) then
             step = 2*(step/4) + 1
          else
             step = 2*(step/8) + 1
          endif
- 
+
          end = array_size - step
          counter = 1
- 
+
 3000     continue
          indx = counter
- 
+
 4000     continue
          upper_indx  =  indx + step
          if (array(indx).gt.array(upper_indx)) then
- 
+
             array_temp = array(indx)
             array(indx) = array(upper_indx)
             array(upper_indx) =  array_temp
- 
+
             if (keeper) then
                key_temp = key(indx)
                key(indx) = key(upper_indx)
                key(upper_indx) = key_temp
             else
             endif
- 
+
             indx = indx - step
             if (indx.ge.1) then
                goto 4000
             else
             endif
- 
+
          else
          endif
- 
+
          counter = counter + 1
          if (counter.gt.end)  then
             goto 2000
          else
             goto 3000
          endif
- 
+
       else
       endif
- 
+
       return
       end
 
@@ -6535,10 +6634,10 @@ c      endif
 * ====================================================================
        subroutine apswim_hmin (deqrain, sstorage)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision deqrain
@@ -6563,46 +6662,46 @@ c      endif
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-cnh      hmin=hm0
-cnh      if(hrc.ne.0..and.ttt.gt.tzero)then
-cnh         hmin=hm0+(hm1-hm0)*exp(-(eqrain(ttt)-eqr0)/hrc)
-cnh         hmin=hm0+(hm1-hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/hrc)
+
+cnh      g%hmin=p%hm0
+cnh      if(p%hrc.ne.0..and.ttt.gt.tzero)then
+cnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(eqrain(ttt)-eqr0)/p%hrc)
+cnh         g%hmin=p%hm0+(p%hm1-p%hm0)*exp(-(apswim_eqrain(ttt)-eqr0)/p%hrc)
 cnh      end if
- 
+
       ! Ideally, if timesteps are small we could just use
-      ! dHmin/dEqr = -1/hrc x (hmin - hm0)
+      ! dHmin/dEqr = -1/p%hrc p%x (g%hmin - p%hm0)
       ! but because this is really just a linear approximation of the
       ! curve for longer timesteps we had better be explicit and
       ! calculate the difference from the exponential decay curve.
- 
-      if (hrc.ne.0) then
+
+      if (p%hrc.ne.0) then
          ! first calculate the amount of Energy that must have been
-         ! applied to reach the current hmin.
- 
-         decay_Fraction = ddivide(hmin-hm0,hm1-hm0,0d0)
- 
+         ! applied to reach the current g%hmin.
+
+         decay_Fraction = ddivide(g%hmin-p%hm0,p%hm1-p%hm0,0d0)
+
          if (doubles_are_equal (decay_fraction, 0d0)) then
             ! the roughness is totally decayed
-            sstorage = hm0
+            sstorage = p%hm0
          else
-            ceqrain = -hrc * log(decay_Fraction)
- 
+            ceqrain = -p%hrc * log(decay_Fraction)
+
             ! now add rainfall energy for this timestep
-            if (c_cover_effects.eq.'on') then
-               ceqrain = ceqrain + deqrain * (1d0 - g_residue_cover)
+            if (c%cover_effects.eq.'on') then
+               ceqrain = ceqrain + deqrain * (1d0 - g%residue_cover)
             else
                ceqrain = ceqrain + deqrain
             endif
- 
+
             ! now calculate new surface storage from new energy
-            sstorage=hm0+(hm1-hm0)*exp(-ceqrain/hrc)
+            sstorage=p%hm0+(p%hm1-p%hm0)*exp(-ceqrain/p%hrc)
          endif
       else
          ! nih - commented out to keep storage const
-         ! sstorage = hm0
+         ! sstorage = p%hm0
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -6612,9 +6711,9 @@ cnh      end if
 * ====================================================================
        subroutine apswim_freundlich (node, solnum, Cw, Ctot, dCtot)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer node
@@ -6635,14 +6734,15 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! calculate value of isotherm function and the derivative.
 
-         Ctot = th(node) * Cw + ex(solnum,node) * Cw ** fip(solnum,node)
-         dCtot = th(node)
-     :         + ex(solnum,node)
-     :         *fip(solnum,node)
-     :         *Cw**(fip(solnum,node)-1d0)
+         Ctot = g%th(node) * Cw
+     :        + p%ex(solnum,node) * Cw ** p%fip(solnum,node)
+         dCtot = g%th(node)
+     :         + p%ex(solnum,node)
+     :         *p%fip(solnum,node)
+     :         *Cw**(p%fip(solnum,node)-1d0)
 
       call pop_routine (myname)
       return
@@ -6654,9 +6754,9 @@ cnh      end if
        double precision function apswim_solve_freundlich
      :                                      (node, solnum, Ctot)
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -6694,27 +6794,27 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! Take intital guess at Cw
- 
-      Cw = ddivide (Ctot, th(node), 0.d0)
- 
+
+      Cw = ddivide (Ctot, g%th(node), 0.d0)
+
       ! calculate value of isotherm function and the derivative.
- 
+
       call apswim_freundlich (node,solnum,Cw,f,dfdCw)
- 
+
       if (abs(f-Ctot) .lt. tolerance) then
          ! It is already solved
          solved = .true.
- 
+
       else if (dfdCw .eq. 0d0) then
          ! We are at zero so Cw must be zero - this is a solution too
          solved = .true.
- 
+
       else
          solved = .false.
          do 100 iteration = 1,max_iterations
- 
+
             call apswim_freundlich (node,solnum,Cw,f,dfdCw)
 
             error = f - Ctot
@@ -6724,22 +6824,22 @@ cnh      end if
             else
                Cw = Cw - ddivide(error,dfdCw,0d0)
             endif
- 
+
   100    continue
   200    continue
- 
+
       endif
- 
+
       if (.not.solved) then
          call fatal_error (err_internal,
      :           'APSwim failed to solve for freundlich isotherm')
-         apswim_solve_freundlich = ddivide (Ctot, th(node), 0.d0)
- 
+         apswim_solve_freundlich = ddivide (Ctot, g%th(node), 0.d0)
+
       else
          apswim_solve_freundlich = Cw
- 
+
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -6749,12 +6849,12 @@ cnh      end if
 * ====================================================================
        subroutine apswim_get_obs_evap_variables ()
 * ====================================================================
+      use APSwimModule
       implicit none
-       include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
-      include 'intrface.pub'      
-      include 'engine.pub'
-      include 'error.pub'                
+      include 'const.inc'             ! Constant definitions
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'postbox.pub'
 
 *+  Purpose
 *      Get the evap values from other modules
@@ -6772,13 +6872,13 @@ cnh      end if
       double precision amount          ! amount of evaporation (mm)
       character time*6                 ! time of evaporation (hh:mm)
       double precision duration        ! duration of evaporation (min)
-      integer time_of_day              ! time of day (min)
+      integer time_of_day              ! time of g%day (min)
       double precision time_mins       ! time of evaporation (min)
       character owner_module*(strsize)   ! name of module providing info.
       character module_name*(strsize)    ! name of this module
 
 *- Implementation Section ----------------------------------
- 
+
       call get_double_var (
      :           unknown_module,
      :           'eo',
@@ -6787,12 +6887,12 @@ cnh      end if
      :           numvals,
      :           0.d0,
      :           1000.d0)
- 
-      ! Check that apswim is not getting Eo from itself. 
+
+      ! Check that apswim is not getting Eo from itself.
       call get_posting_module (owner_module)
       call Get_current_module (module_name)
       if (owner_module.eq.module_name) then
-         call fatal_error (ERR_User, 
+         call fatal_error (ERR_User,
      :      'No module provided Eo value for APSwim')
          amount = 0.d0
       else
@@ -6804,7 +6904,7 @@ cnh      end if
      :           '(hh:mm)',
      :           time,
      :           numvals)
- 
+
       call get_double_var (
      :           unknown_module,
      :           'eo_durn',
@@ -6813,20 +6913,20 @@ cnh      end if
      :           numvals,
      :           0.d0,
      :           1440.d0*30.d0)    ! one month of mins
- 
- 
+
+
       time_of_day = apswim_time_to_mins (time)
-      Time_mins = apswim_time (year,day,time_of_day)
+      Time_mins = apswim_time (g%year,g%day,time_of_day)
       call apswim_insert_loginfo (
      :                             time_mins
      :                            ,duration
      :                            ,amount
-     :                            ,SWIMEvapTime
-     :                            ,SWIMEvapAmt
-     :                            ,SWIMEvapNumPairs
+     :                            ,g%SWIMEvapTime
+     :                            ,g%SWIMEvapAmt
+     :                            ,g%SWIMEvapNumPairs
      :                            ,SWIMLogSize)
- 
- 
+
+
       return
       end
 
@@ -6835,17 +6935,17 @@ cnh      end if
 * ====================================================================
        subroutine apswim_extra_solute_supply ()
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Purpose
 *      Previous observations seem to imply that crops often take up
 *      more solute than calculated by a simple mass flow method.
 *      The physical mechanism is unknown and so a simple 'black box'
 *      approach is used here.  This subroutine will therefore
-*      perform a simple end-of-day calculation to try and supply
+*      perform a simple end-of-g%day calculation to try and supply
 *      extra solute to plants if mass flow has not supplied the
 *      crop demand.  This is based on a simple decay function
 *      that allows the rate at which this unknown mechanism supplies
@@ -6914,80 +7014,81 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! First check the total root density in each layer
       ! ------------------------------------------------
-      do 200 layer = 0, n
+      do 200 layer = 0, p%n
          tot_rld (layer) = 0.0
-         do 100 crop = 1, num_crops
-            if (rld(layer,crop).ge.minimum_rlv) then
-               tot_rld (layer) = tot_rld (layer) + rld(layer,crop)
+         do 100 crop = 1, g%num_crops
+            if (g%rld(layer,crop).ge.minimum_rlv) then
+               tot_rld (layer) = tot_rld (layer) + g%rld(layer,crop)
             else
             endif
   100    continue
   200 continue
- 
- 
-      do 1000 solnum = 1, num_solutes
- 
-         if (slupf(solnum).gt.0d0) then
- 
+
+
+      do 1000 solnum = 1, p%num_solutes
+
+         if (p%slupf(solnum).gt.0d0) then
+
             call fill_double_array (supply(0), 0d0, M)
             call fill_double_array (demand, 0d0, MV)
             tot_supply = 0d0
             tot_demand = 0d0
- 
- 
+
+
             ! calculate the supply from soil for this solute
             ! ----------------------------------------------
-            do 300 layer = 0,n
-               aswf = ddivide (th (layer) - ll15(layer)
-     :                        ,dul(layer) - ll15(layer)
+            do 300 layer = 0,p%n
+               aswf = ddivide (g%th (layer) - g%LL15(layer)
+     :                        ,g%DUL(layer) - g%LL15(layer)
      :                        ,0d0)
                aswf = min(max(aswf,0d0),1d0)
- 
-               supply (layer) = c_supply_fraction * aswf
+
+               supply (layer) = c%supply_fraction * aswf
      :                 * max(apswim_solute_amount(solnum,layer),0.d0)
                tot_supply = tot_supply
      :                    + supply (layer)
   300       continue
             init_tot_supply = tot_supply
- 
+
             ! calculate the unsatisfied demand for each solute
             ! ------------------------------------------------
             !                by each crop
             !                ------------
- 
-             do 500 crop = 1, num_crops
+
+             do 500 crop = 1, g%num_crops
                tpsuptake = 0d0
-               do 400 layer = 0,n
+               do 400 layer = 0,p%n
                   tpsuptake = tpsuptake
-     :                      + max(psuptake(solnum,crop,layer), 0d0)
+     :                      + max(g%psuptake(solnum,crop,layer), 0d0)
   400          continue
- 
+
                ! Note that we can only supply a fraction of the demand
- 
-               demand(crop) =   c_supply_fraction *
-     :                 max(solute_demand (crop,solnum) - tpsuptake,0d0)
+
+               demand(crop) =   c%supply_fraction *
+     :             max(g%solute_demand (crop,solnum) - tpsuptake, 0d0)
                init_demand(crop) = demand(crop)
                tot_demand = tot_demand + demand(crop)
   500       continue
             init_tot_demand = tot_demand
- 
+
             ! Now iteratively partition solute to plants based
             ! ------------------------------------------------
             !          on demands and root lengths.
             !          ----------------------------
- 
+
             layer = 1
             max_bite_pass = 0.d0
   600       continue
- 
+
                tot_rel_uptake = 0.0
-               do 700 crop=1, num_crops
+               do 700 crop=1, g%num_crops
                   if (demand(crop).gt.0.0) then
-                     if (rld(layer,crop).ge.minimum_rlv) then
-                         rel_uptake(crop)=rld(layer,crop)/tot_rld(layer)
+                     if (g%rld(layer,crop).ge.minimum_rlv) then
+                         rel_uptake(crop)=g%rld(layer,crop)
+     :                                   /tot_rld(layer)
      :                   *ddivide(init_demand(crop),init_tot_demand,0d0)
                      else
                         rel_uptake(crop)=0d0
@@ -6997,35 +7098,35 @@ cnh      end if
                   endif
                   tot_rel_uptake = tot_rel_uptake + rel_uptake(crop)
   700          continue
- 
-               bitesize = min(supply(layer),c_max_bitesize)
+
+               bitesize = min(supply(layer),c%max_bitesize)
      :                  * ddivide(supply(layer),tot_supply,0d0)
- 
-               do 800 crop = 1, num_crops
+
+               do 800 crop = 1, g%num_crops
                   uptake = ddivide(rel_uptake(crop),tot_rel_uptake,0d0)
      :                   * bitesize
                   uptake = min(demand(crop), uptake)
                   max_bite_pass = max(uptake,max_bite_pass)
- 
+
                   demand(crop) = demand(crop) - uptake
                   tot_demand = tot_demand - uptake
- 
+
                   supply(layer)= supply(layer) - uptake
                   tot_supply = tot_supply - uptake
- 
-                  psuptake(solnum,crop,layer) =
-     :                    psuptake(solnum,crop,layer) + uptake
- 
+
+                  g%psuptake(solnum,crop,layer) =
+     :                    g%psuptake(solnum,crop,layer) + uptake
+
                   solute_in_layer = apswim_solute_amount(solnum,layer)
      :                            - uptake
-                  csl(solnum,layer) = apswim_solute_conc
+                  g%csl(solnum,layer) = apswim_solute_conc
      :                                  (solnum
      :                                  ,layer
      :                                  ,solute_in_layer)
- 
+
   800          continue
- 
- 
+
+
                if ((ddivide (tot_demand, init_tot_demand, 0d0)
      :                            .le.
      :                       demand_tolerence)
@@ -7036,12 +7137,12 @@ cnh      end if
      :         then
                   goto 900
                else
-                  if (layer.lt.n) then
+                  if (layer.lt.p%n) then
                      layer = layer + 1
                   else
                      ! We have finished one pass through the profile
                      ! Check to see if it is worth going through again
-                      if (ddivide (max_bite_pass, c_max_bitesize, 0d0)
+                      if (ddivide (max_bite_pass, c%max_bitesize, 0d0)
      :                            .le.
      :                       bitesize_tolerence)
      :                then
@@ -7052,17 +7153,17 @@ cnh      end if
                       endif
                   endif
                endif
- 
+
             goto 600
- 
+
   900       continue
- 
+
          else
             ! no uptake for this solute
          endif
- 
+
  1000 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -7072,8 +7173,8 @@ cnh      end if
 * ====================================================================
        double precision function apswim_solute_amount (solnum,node)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -7096,26 +7197,26 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ! Step One - calculate total solute in node from solute in
       ! water and Freundlich isotherm.
- 
-      call apswim_freundlich (node,solnum,csl(solnum,node)
+
+      call apswim_freundlich (node,solnum,g%csl(solnum,node)
      :                    ,Ctot,dCtot)
- 
+
       ! convert solute ug/cc soil to kg/ha for node
       !
       !  kg      ug      cc soil    kg
-      !  -- = -------- x -------- x --
+      !  -- = -------- p%x -------- p%x --
       !  ha   cc soil       ha      ug
- 
+
       ! Note:- Sometimes small numerical errors can leave
       ! -ve concentrations.
- 
+
       apswim_solute_amount = Ctot
-     :               * (dx(node)*(1d4)**2)! cc soil/ha
+     :               * (p%dx(node)*(1d4)**2) ! cc soil/ha
      :               * 1d-9               ! kg/ug
- 
+
       call pop_routine (myname)
       return
       end
@@ -7147,9 +7248,9 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       dbound = dlbound (dubound(x,u),l)
- 
+
       call pop_routine (myname)
       return
       end
@@ -7159,8 +7260,8 @@ cnh      end if
 * ====================================================================
        double precision function apswim_solute_conc (solnum,node,amount)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -7187,23 +7288,23 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
          ! convert solute from kg/ha to ug/cc soil
          ! ug Sol    kg Sol    ug   ha(node)
          ! ------- = ------- * -- * -------
          ! cc soil   ha(node)  kg   cc soil
- 
+
       conc_soil = amount
      :          * 1d9             ! ug/kg
-     :          / (dx(node)*1d8)  ! cc soil/ha
- 
+     :          / (p%dx(node)*1d8) ! cc soil/ha
+
       conc_water = apswim_solve_freundlich
      :                                    (node
      :                                    ,solnum
      :                                    ,conc_soil)
- 
+
       apswim_solute_conc = conc_water
- 
+
       call pop_routine (myname)
       return
       end
@@ -7213,8 +7314,8 @@ cnh      end if
 * ====================================================================
        double precision function apswim_transp_redn (crop_num)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -7249,35 +7350,35 @@ cnh      end if
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       tasw = 0d0
       tmasw = 0d0
- 
-      do 100 node = 0,n
-         if (rld(node,crop_num).gt.0.05d0) then
-            ll = apswim_theta(node,psimin(crop_num))
- 
-            masw = dx(node) * max((dul(node)-ll),0d0)
+
+      do 100 node = 0,p%n
+         if (g%rld(node,crop_num).gt.0.05d0) then
+            ll = apswim_theta(node,g%psimin(crop_num))
+
+            masw = p%dx(node) * max((g%DUL(node)-ll),0d0)
             masw = dlbound(masw,0d0)
             tmasw = tmasw + masw
- 
-            asw = dx(node) * (th(node)-ll)
+
+            asw = p%dx(node) * (g%th(node)-ll)
             asw = dbound(asw,0d0,masw)
             tasw = tasw + asw
- 
+
          else
             ! no roots in this layer for this crop
             ! so no water is available
          endif
- 
+
   100 continue
- 
+
       fasw = ddivide (tasw,tmasw,0d0)
- 
-      trf = dlinint (fasw,c_trf_asw,c_trf_value,c_num_trf_asw)
- 
+
+      trf = dlinint (fasw,c%trf_asw,c%trf_value,c%num_trf_asw)
+
       apswim_transp_redn = trf
- 
+
       call pop_routine (myname)
       return
       end
@@ -7287,8 +7388,8 @@ cnh      end if
 * ====================================================================
        double precision function apswim_slupf (crop, solnum)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Sub-Program Arguments
@@ -7312,25 +7413,25 @@ c      double precision tpsuptake
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
 c      tpsuptake = 0d0
-c      do 400 layer = 0,n
+c      do 400 layer = 0,p%n
 c         tpsuptake = tpsuptake
-c     :             + max(psuptake(solnum,crop,layer), 0d0)
+c     :             + max(g%psuptake(solnum,crop,layer), 0d0)
 c  400 continue
- 
+
 c      demand =
-c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
- 
-      if (demand_is_met(crop, solnum)
+c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
+
+      if (g%demand_is_met(crop, solnum)
      :         .and.
-     : solute_exclusion_flag.eq.'on')
+     : p%solute_exclusion_flag.eq.'on')
      :         then
          apswim_slupf = 0d0
       else
-         apswim_slupf = slupf (solnum)
+         apswim_slupf = p%slupf (solnum)
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -7340,10 +7441,10 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
 * ====================================================================
        subroutine apswim_check_demand ()
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -7362,52 +7463,52 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       num_active_crops = 0
-      do 20 crop = 1, num_crops
+      do 20 crop = 1, g%num_crops
          demand = 0d0
-         do 10 solnum = 1, num_solutes
-            demand = demand + solute_demand(crop,solnum)         
+         do 10 solnum = 1, p%num_solutes
+            demand = demand + g%solute_demand(crop,solnum)
    10    continue
-         if ((pep(crop).gt.0d0).or.(demand.gt.0d0)) then
+         if ((g%pep(crop).gt.0d0).or.(demand.gt.0d0)) then
             ! crop has water or solute demand and so is active
             num_active_crops = num_active_crops + 1
          else
          endif
    20 continue
- 
+
        if (        num_active_crops.gt.1
      :                .and.
-     :     solute_exclusion_flag.eq.'on')
+     :     p%solute_exclusion_flag.eq.'on')
      :then
          call fatal_error (Err_User,
      :   'Solute exclusion can only be used in single crop simulations')
       else
       endif
- 
-      do 600 crop = 1, num_crops
-      do 500 solnum = 1,num_solutes
- 
+
+      do 600 crop = 1, g%num_crops
+      do 500 solnum = 1,p%num_solutes
+
          tpsuptake = 0d0
-         do 400 layer = 0,n
+         do 400 layer = 0,p%n
             tpsuptake = tpsuptake
-     :                + max(psuptake(solnum,crop,layer), 0d0)
+     :                + max(g%psuptake(solnum,crop,layer), 0d0)
   400    continue
- 
+
          demand =
-     :             max(solute_demand (crop,solnum)
+     :             max(g%solute_demand (crop,solnum)
      :                    - tpsuptake
      :                ,0d0)
- 
+
          if (demand.le.0.0) then
-               demand_is_met(crop, solnum) = .true.
+               g%demand_is_met(crop, solnum) = .true.
          else
-               demand_is_met(crop, solnum) = .false.
+               g%demand_is_met(crop, solnum) = .false.
          endif
- 
+
   500 continue
   600 continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -7417,10 +7518,10 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
 * ====================================================================
        subroutine apswim_report_status ()
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Purpose
 *   Dump a series of values to output file to be used by users in
@@ -7438,25 +7539,32 @@ c     :       max(solute_demand (crop,solnum) - tpsuptake,0d0)
        double precision d1,d2,d3 ! dummy variables
        double precision t_psi(0:M)
        double precision t_th(0:M)
+       character        string*80
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      do 100 i=0,n
-         call apswim_trans(p(i),t_psi(i),d1,d2)
+
+      do 100 i=0,p%n
+         call apswim_trans(g%p(i),t_psi(i),d1,d2)
          call apswim_interp (i,t_psi(i),t_th(i),d1,d2,d3)
   100 continue
- 
-      write(LU_summary_file,*) '================================'
-      write(LU_summary_file,*) 'time =',day,year,mod(t-dt,24d0)
-      write(LU_summary_file,*) 'dt=',dt*2.0
-      write(LU_summary_file,*) 'psi= ',(t_psi(i),i=0,n)
-      write(LU_summary_file,*) 'th= ',(t_th(i),i=0,n)
-      write(LU_summary_file,*) 'h =',h
-      write(LU_summary_file,*) 'ron =',ron
-      write(LU_summary_file,*) '================================'
+
+      call write_string('================================')
+      write(string,*) 'time =',g%day,g%year,mod(g%t-g%dt,24d0)
+      call write_string(string)
+      write(string,*) 'dt=',g%dt*2.0
+      call write_string(string)
+      write(string,*) 'psi= ',(t_psi(i),i=0,p%n)
+      call write_string(string)
+      write(string,*) 'th= ',(t_th(i),i=0,p%n)
+      call write_string(string)
+      write(string,*) 'h =',g%h
+      call write_string(string)
+      write(string,*) 'ron =',g%ron
+      call write_string(string)
+      call write_string('================================')
 c      pause
- 
+
       call pop_routine (myname)
       return
       end
@@ -7476,7 +7584,7 @@ c      pause
 * ====================================================================
       implicit none
        include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer LUNlog
@@ -7516,20 +7624,20 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
- 
+
+
   100    continue
          line = blank
          read(LUNlog,'(A)',iostat=iost) line
- 
+
          If (iost.lt.0) then
             ! We have reached end of file
- 
+
          elseif (line.eq.blank) then
             goto 100 ! try reading next line
- 
+
          else
- 
+
             fileyear = 0
             fileday = 0
             filetime=' '
@@ -7543,26 +7651,28 @@ c      pause
                file_time_of_day = apswim_time_to_mins (filetime)
                file_Time = apswim_time (fileyear,fileday
      :                                 ,file_time_of_day)
- 
+
                apsim_time_of_day = apswim_time_to_mins (time)
-               apsim_Time = apswim_time (year,day,apsim_time_of_day)
- 
+               apsim_time = apswim_time (year
+     :                                    ,day
+     :                                    ,apsim_time_of_day)
+
                if (file_time+filedurn/60d0.le.apsim_time) then
                   ! The end of this record is before the current timestep
                   ! so ignore it.
                   goto 100
- 
+
                elseif (((file_time.ge.apsim_time)
      :                   .and.
      :            (file_time.lt.apsim_time+timestep/60d0))
      :                   .or.
      :            ((file_time+filedurn/60d0.ge.apsim_time)
      :                   .and.
-     :           (file_time+filedurn/60d0.lt.apsim_time+timestep/60d0)))
+     :         (file_time+filedurn/60d0.lt.apsim_time+timestep/60d0)))
      :         then
                   ! the start or end of the file record lies in this timestep
                   ! ---------------------------------------------------------
- 
+
                   call apswim_insert_loginfo(file_time
      :                                      ,filedurn
      :                                      ,fileamt
@@ -7570,18 +7680,18 @@ c      pause
      :                                      ,SWIMAmt
      :                                      ,SWIMNumPairs
      :                                      ,SWIMLogSize)
- 
+
                   goto 100
- 
+
                else
                   backspace(LUNlog)
- 
+
                endif
- 
+
             endif
          endif
- 
- 
+
+
       call pop_routine (myname)
       return
       end
@@ -7599,7 +7709,7 @@ c      pause
 * ====================================================================
       implicit none
        include 'const.inc'
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision amount          ! (mm)
@@ -7634,29 +7744,29 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       ftime = time+duration/60d0
       counter2 = 0
- 
+
       if (SWIMNumPairs.gt.SWIMArraySize-2) then
          call fatal_error (Err_Internal,
      :   'No memory left for log data data')
- 
+
       else if (ftime .lt. SWIMTime(1)) then
          ! do nothing - it is not important
- 
+
       else if (time.lt.SWIMTime(1)) then
          ! for now I shall say that this shouldn't happen
          call fatal_error (Err_User,
      :         'log time before start of run')
- 
+
        else
- 
+
          counter2 = 0
          SAmt = dlinint(time,SWIMTime,SWIMAmt,SWIMNumPairs)
          FAmt = dlinint(Ftime,SWIMTime,SWIMAmt,SWIMNumPairs)
- 
- 
+
+
          ! Insert starting element placeholder into log
          do 10 counter = 1, SWIMNumPairs
             if (SWIMTime(counter).eq.time) then
@@ -7678,9 +7788,9 @@ c      pause
          SWIMNumPairs = SWIMNumPairs + 1
          SWIMTime(SWIMNumPairs) = Time
          SWIMAmt(SWIMNumPairs) = Samt
- 
+
    11    continue
- 
+
          ! Insert ending element placeholder into log
          do 13 counter = 1, SWIMNumPairs
             if (SWIMTime(counter).eq.ftime) then
@@ -7702,33 +7812,33 @@ c      pause
          SWIMNumPairs = SWIMNumPairs + 1
          SWIMTime(SWIMNumPairs) = FTime
          SWIMAmt(SWIMNumPairs) = Famt
- 
+
    14    continue
- 
+
          ! Now add extra quantity to each log entry are required
- 
+
          AvInt = amount/(duration/60d0)
- 
+
          do 100 counter = 1, SWIMNumPairs
- 
+
             if (Counter.eq.1) then
                Extra = 0d0
- 
+
             elseif (SWIMTime(Counter).gt.time) then
- 
+
                extra = AvInt *
      :            min(SWIMTime(Counter)-time,(Duration/60d0))
- 
+
             else
                Extra = 0d0
             endif
- 
+
             SWIMAmt(Counter) = SWIMAmt(Counter) + extra
- 
+
   100    continue
- 
+
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -7742,7 +7852,7 @@ c      pause
      :                                 ,SWIMNumPairs)
 * ====================================================================
       implicit none
-      include 'error.pub'                         
+      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision time
@@ -7772,10 +7882,10 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       old_numpairs = SWIMNumPairs
       new_start = 1
- 
+
       do 100 counter = SwimNumPairs,1,-1
          if (SwimTime(counter).le.time) then
             ! we have found the oldest record we need to keep
@@ -7785,7 +7895,7 @@ c      pause
          endif
  100  continue
  101  continue
- 
+
       new_index = 0
       do 200 counter = new_start,SwimNumPairs
          new_index = new_index + 1
@@ -7793,12 +7903,12 @@ c      pause
          SwimAmt   (new_index) = SwimAmt (counter)
  200  continue
       SwimNumPairs = new_index
- 
+
       do 300 counter = SwimNumPairs+1, old_numpairs
          SwimTime  (counter) = 0.0d0
          SwimAmt   (counter) = 0.0d0
  300  continue
- 
+
       call pop_routine (myname)
       return
       end
@@ -7808,16 +7918,16 @@ c      pause
 * ====================================================================
        subroutine apswim_conc_water_solute (solname,conc_water_solute)
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'                          
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       character solname*(*)
-      double precision conc_water_solute(0:n)
+      double precision conc_water_solute(0:p%n)
 
 *+  Purpose
 *      Calculate the concentration of solute in water (ug/l).  Note that
@@ -7846,52 +7956,52 @@ c      pause
       integer          solnum
       integer          numvals
 *+  Initial Data Values
-      call fill_double_array(conc_water_solute(0),0d0,n+1)
+      call fill_double_array(conc_water_solute(0),0d0,p%n+1)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       solnum = apswim_solute_number (solname)
 
       if (solnum .gt. 0) then
-         ! only continue if solute exists. 
-         if (solute_owners(solnum).ne.' ') then
+         ! only continue if solute exists.
+         if (g%solute_owners(solnum).ne.' ') then
 
-            call get_double_array (  
-     :              solute_owners(solnum),
+            call get_double_array (
+     :              g%solute_owners(solnum),
      :               solname,
-     :              n+1,
+     :              p%n+1,
      :              '(kg/ha)',
      :              solute_n(0),
      :              numvals,
-     :              c_lb_solute,
-     :              c_ub_solute)
+     :              c%lb_solute,
+     :              c%ub_solute)
          else
                call fatal_error (Err_User,
      :            'No module has registered ownership for solute: '
      :            //solname)
 
          endif
- 
+
          if (numvals.gt.0) then
- 
-            do 50 node=0, n
+
+            do 50 node=0, p%n
                ! convert solute from kg/ha to ug/cc soil
                ! ug Sol    kg Sol    ug   ha(node)
                ! ------- = ------- * -- * -------
                ! cc soil   ha(node)  kg   cc soil
- 
+
                solute_n(node) = solute_n(node)
      :                        * 1d9             ! ug/kg
-     :                        / (dx(node)*1d8)  ! cc soil/ha
- 
+     :                        / (p%dx(node)*1d8) ! cc soil/ha
+
                conc_water_solute(node) = apswim_solve_freundlich
      :                                             (node
      :                                             ,solnum
      :                                             ,solute_n(node))
- 
+
    50       continue
- 
+
          else
             call fatal_error (Err_User,
      :         'You have asked apswim to use a '
@@ -7906,7 +8016,7 @@ c      pause
      :            //solname)
       endif
 
- 
+
       call pop_routine (myname)
       return
       end
@@ -7916,16 +8026,16 @@ c      pause
 * ====================================================================
        subroutine apswim_conc_adsorb_solute (solname,conc_adsorb_solute)
 * ====================================================================
+      use APSwimModule
       implicit none
       include 'const.inc'
-      include 'apswim.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'                          
+      include 'intrface.pub'
+      include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       character solname*(*)
-      double precision conc_adsorb_solute(0:n)
+      double precision conc_adsorb_solute(0:p%n)
 
 *+  Purpose
 *      Calculate the concentration of solute adsorbed (ug/g soil). Note that
@@ -7958,68 +8068,68 @@ c      pause
       double precision conc_water_solute ! (ug/g water)
 
 *+  Initial Data Values
-      call fill_double_array(conc_adsorb_solute(0),0d0,n+1)
+      call fill_double_array(conc_adsorb_solute(0),0d0,p%n+1)
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       solnum = apswim_solute_number (solname)
 
       if (solnum .gt. 0) then
-         ! only continue if solute exists. 
+         ! only continue if solute exists.
          call get_double_array (
      :           unknown_module,
      :           solname,
-     :           n+1,
+     :           p%n+1,
      :           '(kg/ha)',
      :           solute_n(0),
      :           numvals,
-     :           c_lb_solute,
-     :           c_ub_solute)
- 
-         if (numvals.gt.0) then
- 
-            do 50 node=0, n
+     :           c%lb_solute,
+     :           c%ub_solute)
 
-               if (ex(solnum,node).eq. 0.d0) then
+         if (numvals.gt.0) then
+
+            do 50 node=0, p%n
+
+               if (p%ex(solnum,node).eq. 0.d0) then
                   conc_adsorb_solute(node) = 0.d0
                else
                   ! convert solute from kg/ha to ug/cc soil
                   ! ug Sol    kg Sol    ug   ha(node)
                   ! ------- = ------- * -- * -------
                   ! cc soil   ha(node)  kg   cc soil
- 
+
                   solute_n(node) = solute_n(node)
      :                        * 1d9             ! ug/kg
-     :                        / (dx(node)*1d8)  ! cc soil/ha
- 
+     :                        / (p%dx(node)*1d8) ! cc soil/ha
+
                   conc_water_solute = apswim_solve_freundlich
      :                                             (node
      :                                             ,solnum
      :                                             ,solute_n(node))
 
-!                  conc_adsorb_solute(node) =
-!     :              ddivide(solute_n(node) 
-!     :                         - conc_water_solute * th(node)
-!     :                      ,rhob(node)
-!     :                      ,0d0)
+ !                  conc_adsorb_solute(node) =
+ !     :              ddivide(solute_n(node)
+ !     :                         - conc_water_solute * g%th(node)
+ !     :                      ,p%rhob(node)
+ !     :                      ,0d0)
 
-                  conc_adsorb_solute(node) = 
-     :                      ex(solnum,node) 
-     :                     * conc_water_solute ** fip(solnum,node)
+                  conc_adsorb_solute(node) =
+     :                      p%ex(solnum,node)
+     :                     * conc_water_solute ** p%fip(solnum,node)
 
 
                endif
- 
+
    50       continue
- 
+
          else
                call fatal_error (Err_User,
      :            'You have asked apswim to use a '
      :            //' solute that is not in the system :-'
      :            //solname)
          endif
- 
+
       else
                call fatal_error (Err_User,
      :            'You have asked apswim to use a'
@@ -8038,13 +8148,13 @@ c      pause
       subroutine apswim_get_flow (flow_name, flow_array, flow_units
      :                           ,flow_flag)
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
-      double precision flow_array(0:n+1)
+      double precision flow_array(0:p%n+1)
       character        flow_name *(*)
       character        flow_units*(*)
       logical          flow_flag
@@ -8072,21 +8182,21 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
-      call fill_double_array (flow_array(0), 0d0, n+2)
- 
+
+      call fill_double_array (flow_array(0), 0d0, p%n+2)
+
       if (flow_name.eq.'water') then
           flow_flag = .true.
           flow_units = '(mm)'
-          do 40 node=0,n+1
-             flow_array(node) = TD_wflow(node)
+          do 40 node=0,p%n+1
+             flow_array(node) = g%TD_wflow(node)
    40     continue
- 
+
       else
-         do 100 solnum = 1, num_solutes
-            if (solute_names(solnum).eq.flow_name) then
-               do 50 node=0,n+1
-                  flow_array(node) = TD_sflow(solnum,node)
+         do 100 solnum = 1, p%num_solutes
+            if (p%solute_names(solnum).eq.flow_name) then
+               do 50 node=0,p%n+1
+                  flow_array(node) = g%TD_sflow(solnum,node)
    50          continue
                flow_flag = .true.
                flow_units = '(kg/ha)'
@@ -8096,7 +8206,7 @@ c      pause
   100    continue
   110    continue
       endif
- 
+
       call pop_routine (myname)
       return
       end
@@ -8106,15 +8216,14 @@ c      pause
 * ====================================================================
        subroutine apswim_diagnostics (pold)
 * ====================================================================
+      use APSwimModule
       implicit none
        include 'const.inc'
-       include 'apswim.inc'
-      include 'data.pub'                          
-      include 'write.pub'                         
-      include 'error.pub'                         
+      include 'data.pub'
+      include 'error.pub'
 
 *+  Sub-Program Arguments
-      double precision pold(0:n)
+      double precision pold(0:p%n)
 
 *+  Purpose
 *     <insert here>
@@ -8135,39 +8244,39 @@ c      pause
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       string =     '     APSwim Numerical Diagnostics'
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
       string =     '     --------------------------------------------'
      :            //    '----------------------------------'
-      call write_string (LU_Scr_sum,string)
- 
-      string =     '      depth   Soil Type     Theta         Psi    '
-     :            //    '    K           P          P*'
-      call write_string (LU_Scr_sum,string)
- 
+      call write_string (string)
+
+      string =     '      depth   Soil Type     Theta         g%psi    '
+     :            //    '    K           g%p          g%p*'
+      call write_string (string)
+
       string =     '     --------------------------------------------'
      :            //    '----------------------------------'
-      call write_string (LU_Scr_sum,string)
- 
-      nlayers = count_of_double_vals (x,M)
- 
+      call write_string (string)
+
+      nlayers = count_of_double_vals (p%x,M)
+
       do 200 layer = 0,nlayers-1
-         call apswim_watvar(layer,p(layer),dummy1,dummy2,dummy3,dummy4
+         call apswim_watvar(layer,g%p(layer),dummy1,dummy2,dummy3,dummy4
      :                     ,dummy5,k,dummy6)
          write(string
      :  ,'(5x,f6.1,2x,a10,4x,f9.7,4(1x,f10.3))')
-     :       x(layer)*10., soil_type(layer), th(layer),psi(layer),
-     :       k ,p(layer), pold(layer)
-         call write_string (LU_Scr_sum,string)
+     :       p%x(layer)*10., p%soil_type(layer), g%th(layer)
+     :       ,g%psi(layer), k ,g%p(layer), pold(layer)
+         call write_string (string)
   200 continue
- 
+
       string =     '     --------------------------------------------'
      :            //    '----------------------------------'
-      call write_string (LU_Scr_sum,string)
- 
- 
+      call write_string (string)
+
+
       call pop_routine (myname)
       return
       end
@@ -8175,9 +8284,9 @@ c      pause
 * ====================================================================
        subroutine apswim_get_residue_variables ()
 * ====================================================================
-       implicit none
+      use APSwimModule
+      implicit none
        include 'const.inc'             ! Constant definitions
-       include 'apswim.inc'            ! apswim common block
        include 'intrface.pub'
 
 *+   Purpose
@@ -8193,16 +8302,16 @@ c      pause
 
 
          call get_double_var_optional (
-     :            unknown_module, 
+     :            unknown_module,
      :           'residue_cover',
      :           '(0-1)',
-     :           g_residue_cover,
+     :           g%residue_cover,
      :           numvals,
      :           0d0,
      :           1d0)
 
          if (numvals.le.0) then
-            g_residue_cover = 0.0
+            g%residue_cover = 0.0
          else
          endif
 
@@ -8212,8 +8321,8 @@ c      pause
 * ====================================================================
       double precision function apswim_cover_eos_redn  ()
 * ====================================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
 
 *+  Purpose
@@ -8243,14 +8352,14 @@ c      pause
 
          !  Based on Adams, Arkin & Ritchie (1976) Soil Sci. Soc. Am. J. 40:436-
          !  Reduction in potential soil evaporation under a canopy is determined
-         !  the "% shade" (ie cover) of the crop canopy - this should include th
+         !  the "% shade" (ie cover) of the crop canopy - this should include g%th
          !  green & dead canopy ie. the total canopy cover (but NOT near/on-grou
          !  residues).  From fig. 5 & eqn 2.                       <dms June 95>
-         !  Default value for c_canopy_eos_coef = 1.7
+         !  Default value for c%canopy_eos_coef = 1.7
          !              ...minimum reduction (at cover =0.0) is 1.0
          !              ...maximum reduction (at cover =1.0) is 0.183.
 
-      eos_canopy_fract = exp (-c_canopy_eos_coef * g_crop_cover)
+      eos_canopy_fract = exp (-c%canopy_eos_coef * g%crop_cover)
 
          !-----------------------------------------------+
          ! reduce Eo under canopy to that under mulch            <DMS June 95>
@@ -8264,9 +8373,9 @@ c      pause
 
          !    [DM. Silburn unpublished data, June 95 ]
          !    <temporary value - will reproduce Adams et al 75 effect>
-         !     c_A_to_evap_fact = 0.00022 / 0.0005 = 0.44
+         !     c%A_to_evap_fact = 0.00022 / 0.0005 = 0.44
 
-         eos_residue_fract = (1. - g_residue_cover)**c_a_to_evap_fact
+         eos_residue_fract = (1. - g%residue_cover)**c%a_to_evap_fact
 
 
       apswim_cover_eos_redn  = eos_canopy_fract * eos_residue_fract
@@ -8279,31 +8388,30 @@ c      pause
 *     ===========================================================
       subroutine apswim_on_new_solute ()
 *     ===========================================================
+      use APSwimModule
       implicit none
-      include 'const.inc' 
+      include 'const.inc'
       include 'event.inc'
-      include 'apswim.inc'
       include 'error.pub'
       include 'data.pub'
       include 'intrface.pub'
-      include 'write.pub'
- 
+
 *+  Purpose
 *     Find the owner of any run_solutes
- 
+
 *+  Mission Statement
 *      Find the owner of individual solutes
- 
+
 *+  Changes
 *       170599 nih - specified
 
 *+  Calls
       integer apswim_solute_number
- 
+
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
       parameter (my_name = 'apswim_on_new_solute')
- 
+
 *+  Local Variables
       integer numvals
       character names(nsol)*32
@@ -8312,7 +8420,7 @@ c      pause
       integer solnum
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
       call collect_char_var (DATA_sender
@@ -8331,35 +8439,35 @@ c      pause
          solnum = apswim_solute_number (names(counter))
 
          if (solnum.ne.0) then
-            solute_owners(solnum) = sender
+            g%solute_owners(solnum) = sender
          else
              ! not a run_solute
-            call write_event (
+            call Write_string (
      :          'Note - APSwim will not redistribute '
      :           //names(counter))
          endif
 
   100 continue
-      
+
       call pop_routine (my_name)
       return
       end
- 
- 
+
+
 *     ===========================================================
       subroutine apswim_ONtick ()
 *     ===========================================================
+      use APSwimModule
       implicit none
-      include 'apswim.inc'
       include 'error.pub'
       include 'event.pub'
- 
+
 *+  Purpose
 *     Update internal time record and reset daily state variables.
- 
+
 *+  Mission Statement
 *     Update internal time record and reset daily state variables.
- 
+
 *+  Changes
 *        270899 nih
 
@@ -8380,50 +8488,50 @@ c      pause
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'apswim_ONtick')
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call handler_ONtick(day, year, apsim_time ,intTimestep)
-      apsim_timestep = intTimestep
+      call handler_ONtick(g%day, g%year, g%apsim_time ,intTimestep)
+      g%apsim_timestep = intTimestep
 
       ! Started new timestep so purge all old timecourse information
       ! ============================================================
 
-      time_mins = apswim_time_to_mins (apsim_time)
-      start_timestep = apswim_time (year,day,time_mins)
- 
+      time_mins = apswim_time_to_mins (g%apsim_time)
+      start_timestep = apswim_time (g%year,g%day,time_mins)
+
       call apswim_purge_log_info(start_timestep
-     :                          ,SWIMRainTime
-     :                          ,SWIMRainAmt
-     :                          ,SWIMRainNumPairs)
- 
+     :                          ,g%SWIMRainTime
+     :                          ,g%SWIMRainAmt
+     :                          ,g%SWIMRainNumPairs)
+
       call apswim_purge_log_info(start_timestep
-     :                          ,SWIMEvapTime
-     :                          ,SWIMEvapAmt
-     :                          ,SWIMEvapNumPairs)
- 
-      do 100 solnum = 1, num_solutes
-        TEMPSolNumPairs = SWIMSolNumPairs(solnum)
+     :                          ,g%SWIMEvapTime
+     :                          ,g%SWIMEvapAmt
+     :                          ,g%SWIMEvapNumPairs)
+
+      do 100 solnum = 1, p%num_solutes
+        TEMPSolNumPairs = g%SWIMSolNumPairs(solnum)
         do 50 counter = 1, TEMPSolNumPairs
-           TEMPSolTime(counter) = SWIMSolTime(solnum,counter)
-           TEMPSolAmt(counter) = SWIMSolAmt(solnum,counter)
+           TEMPSolTime(counter) = g%SWIMSolTime(solnum,counter)
+           TEMPSolAmt(counter) = g%SWIMSolAmt(solnum,counter)
    50   continue
- 
+
          call apswim_purge_log_info(start_timestep
      :                             ,TEMPSolTime
      :                             ,TEMPSolAmt
      :                             ,TEMPSolNumPairs)
- 
-        SWIMSolNumPairs(solnum) = TEMPSolNumPairs
+
+        g%SWIMSolNumPairs(solnum) = TEMPSolNumPairs
         do 60 counter = 1, TEMPSolNumPairs
-           SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
-           SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
+           g%SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
+           g%SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
    60   continue
   100 continue
- 
+
 
       call pop_routine (myname)
       return
       end
- 
+

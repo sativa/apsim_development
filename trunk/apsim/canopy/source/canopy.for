@@ -1,43 +1,70 @@
-*     ===========================================================
-      character*(*) function canopy_version ()
-*     ===========================================================
+      include 'canopy.inc'
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use CanopyModule
       implicit none
-      include 'error.pub'                         
-
-*+  Purpose
-*       return version number of canopy module
-
-*+  Changes
-*      201093 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! procedure name
-      parameter (my_name = 'canopy_version')
-*
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.13 261196')
-
-*- Implementation Section ----------------------------------
  
-      call push_routine (my_name)
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
  
-      canopy_version = version_number
+!+  Purpose
+!      Module instantiation routine.
  
-      call pop_routine (my_name)
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
       return
       end
 
-
-
-*     ===========================================================
-      subroutine APSIM_canopy (Action, Data_string)
-*     ===========================================================
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use CanopyModule
       implicit none
-      dll_export apsim_canopy
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+       
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use CanopyModule
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      return
+      end
+       
+*     ===========================================================
+      subroutine Main (Action, Data_string)
+*     ===========================================================
+      use CanopyModule
+      implicit none
       include   'const.inc'
-      include   'canopy.inc'
+      include 'action.inc'
       include 'string.pub'                        
-      include 'engine.pub'                        
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -53,47 +80,32 @@
 *      011195 jngh  added call to message_unused
 *      090299 jngh removed find crops and get other variables from init
 *      100299 jngh added find crops back in
-
-*+  Calls
-      character  canopy_version*20     ! function
+*      280999 sdb removed version reference
 
 *+  Constant Values
       character  my_name*(*)
-      parameter (my_name = 'canopy')
-
-*+  Local Variables
-      character  module_name*(max_module_name_size) ! name of current module
+      parameter (my_name = 'canopy_main')
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
-         ! initialise error flags
-      call set_warning_off ()
- 
-      if (Action.eq.MES_Presence) then
-         call get_current_module (module_name)
-         write(*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // canopy_version ()
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.ACTION_Init) then
          call canopy_zero_variables ()
          call canopy_init ()
          call canopy_find_crops ()
 !         call canopy_get_other_variables ()
  
-      else if (Action .eq. MES_Prepare) then
+      else if (Action .eq. ACTION_Prepare) then
          call canopy_zero_variables ()
          call canopy_find_crops ()
          call canopy_get_other_variables ()
          call canopy_prepare ()
  
-      else if (Action .eq. MES_Post) then
+      else if (Action .eq. ACTION_Post) then
          call canopy_post ()
  
-      else if (Action.eq.MES_Get_variable) then
+      else if (Action.eq.ACTION_Get_variable) then
             ! respond to requests from other modules
          call canopy_send_my_variable (Data_string)
  
@@ -113,12 +125,11 @@
 *     ===========================================================
       subroutine canopy_init ()
 *     ===========================================================
+      use CanopyModule
       implicit none
       include 'const.inc'
-      include 'canopy.inc'
       include 'data.pub'                          
       include 'read.pub'                          
-      include 'write.pub'                         
       include 'error.pub'                         
 
 *+  Purpose
@@ -127,9 +138,8 @@
 *+  Changes
 *     201093 jngh specified and programmed
 *     210395 jngh changed from unknown_section to a defined section
+*     280999 sdb removed version reference
 
-*+  Calls
-      character  canopy_version*15     ! function
 
 *+  Constant Values
       character  my_name*(*)           ! procedure name
@@ -149,14 +159,13 @@
  
             ! initialisation message
  
-      call report_event (' Initialising, Version : '
-     :                  // canopy_version ())
+      call Write_string (' Initialising')
  
             ! now get intercropping swap list from control file
  
       call read_char_array_optional (section_name
      :                   , 'intercrop', max_crops, '()'
-     :                   , g_intercrop_list, num_modules)
+     :                   , g%intercrop_list, num_modules)
  
       call bound_check_integer_var (num_modules, 0, max_crops
      :                            , 'num_modules')
@@ -165,16 +174,16 @@
  
       if (num_modules.gt.1) then
          write (line, '(a)')  ' Module rotation for intercropping :'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
  
-         write (line, '(100a)')  (g_intercrop_list(i), i=1, num_modules)
-         call write_string (lu_scr_sum, line)
+         write (line, '(100a)')  (g%intercrop_list(i), i=1, num_modules)
+         call write_string (line)
  
       else
          ! no swapping required
          write (line,'(a)')
      :             ' No module rotation for intercropping'
-         call write_string (lu_scr_sum, line)
+         call write_string (line)
       endif
  
       call pop_routine (my_name)
@@ -186,11 +195,12 @@
 * ====================================================================
       subroutine canopy_find_crops ()
 * ====================================================================
+      use CanopyModule
       implicit none
       include 'const.inc'
-      include 'canopy.inc'
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'postbox.pub'
 
 *+  Purpose
 *      Find what crops are in system
@@ -228,8 +238,9 @@
             if (crop+1.le.max_crops) then
                crop = crop + 1
                call get_posting_Module (Owner_module)
-               g_crop_module(crop) = owner_module
-               g_crop_types(crop) = crop_type
+
+               g%crop_module(crop) = owner_module
+!               g%crop_types(crop) = crop_type
                goto 1000
             else
                call fatal_error (err_user
@@ -239,7 +250,7 @@
          else
          endif
  
-      g_num_crops = crop
+      g%num_crops = crop
  
       call pop_routine (myname)
       return
@@ -250,8 +261,8 @@
 *     ===========================================================
       subroutine canopy_zero_all_variables ()
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include 'canopy.inc'
       include   'const.inc' 
       include 'data.pub'                          
       include 'error.pub'                         
@@ -270,18 +281,18 @@
  
       call push_routine (my_name)
  
-      g_canopy_index = 0
-      g_k_lai_total  = 0.0
-      g_k_lai_green  = 0.0
-      g_height       = 0.0
-      g_intc_light   = 0.0
-      g_num_canopies = 0
-      g_num_crops    = 0
-      g_top_layer_light = 0.0
+      g%canopy_index = 0
+      g%k_lai_total  = 0.0
+      g%k_lai_green  = 0.0
+      g%height       = 0.0
+      g%intc_light   = 0.0
+      g%num_canopies = 0
+      g%num_crops    = 0
+      g%top_layer_light = 0.0
 
-      g_intercrop_list = blank
-      g_crop_module    = blank
-      g_crop_types     = blank
+      g%intercrop_list = blank
+      g%crop_module    = blank
+      g%crop_types     = blank
 
  
 
@@ -292,8 +303,8 @@
 *     ===========================================================
       subroutine canopy_zero_variables ()
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include 'canopy.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -311,15 +322,15 @@
  
       call push_routine (my_name)
  
-      call fill_integer_array (g_canopy_index, 0, max_crops)
-      call fill_real_array (g_k_lai_total, 0.0, max_crops)
-      call fill_real_array (g_k_lai_green, 0.0, max_crops)
-      call fill_real_array (g_height, 0.0, max_crops)
-      call fill_real_array (g_intc_light, 0.0 ,max_crops)
-      call fill_real_array (g_top_layer_light, 0.0, max_crops)
+      call fill_integer_array (g%canopy_index, 0, max_crops)
+      call fill_real_array (g%k_lai_total, 0.0, max_crops)
+      call fill_real_array (g%k_lai_green, 0.0, max_crops)
+      call fill_real_array (g%height, 0.0, max_crops)
+      call fill_real_array (g%intc_light, 0.0 ,max_crops)
+      call fill_real_array (g%top_layer_light, 0.0, max_crops)
  
-      g_num_canopies = 0
-      g_num_crops = 0
+      g%num_canopies = 0
+      g%num_crops = 0
  
       call pop_routine (my_name)
       return
@@ -330,11 +341,12 @@
 *     ===========================================================
       subroutine canopy_get_other_variables ()
 *     ===========================================================
+      use CanopyModule
       implicit none
       include 'const.inc'
-      include 'canopy.inc'
       include 'intrface.pub'                      
-      include 'error.pub'                         
+      include 'error.pub' 
+      include 'postbox.pub'                        
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -344,11 +356,11 @@
 *      261196 jngh tested incoming cover for 1. Set log to 100.0 if it is.
 
 *+  Constant Values
-      real       c_max_height          ! maximum crop canopy height (mm)
-      parameter (c_max_height  = 10000.0)
+      real       max_height          ! maximum crop canopy height (mm)
+      parameter (max_height  = 10000.0)
 *
-      real       c_k_lai_full_cover    ! a value for k*lai when cover is 100%
-      parameter (c_k_lai_full_cover = 100.0)
+      real       k_lai_full_cover    ! a value for k*lai when cover is 100%
+      parameter (k_lai_full_cover = 100.0)
 *
       character  my_name*(*)           ! procedure name
       parameter (my_name='canopy_get_other_variables')
@@ -376,11 +388,11 @@
             if (crop+1.le.max_crops) then
                crop = crop + 1
                call get_posting_Module (Owner_module)
-               g_crop_module(crop) = owner_module
+               g%crop_module(crop) = owner_module
                if (temp.lt.1) then
-                  g_K_lai_green(crop) = - log (1.0 - temp)
+                  g%K_lai_green(crop) = - log (1.0 - temp)
                else
-                  g_K_lai_green(crop) = c_k_lai_full_cover
+                  g%K_lai_green(crop) = k_lai_full_cover
                endif
                goto 1000
             else
@@ -391,7 +403,7 @@
          else
          endif
  
-         if (crop.ne.g_num_crops) then
+         if (crop.ne.g%num_crops) then
             call fatal_error (err_user
      :              , 'Number of modules with green cover different to '
      :              // 'number of modules with crop type.')
@@ -409,11 +421,11 @@
             if (crop+1.le.max_crops) then
                crop = crop + 1
                call get_posting_Module (Owner_module)
-               if (owner_module.eq.g_crop_module(crop)) then
+               if (owner_module.eq.g%crop_module(crop)) then
                   if (temp.lt.1) then
-                     g_K_lai_total(crop) = - log (1.0 - temp)
+                     g%K_lai_total(crop) = - log (1.0 - temp)
                   else
-                     g_K_lai_total(crop) = c_k_lai_full_cover
+                     g%K_lai_total(crop) = k_lai_full_cover
                   endif
                   goto 2000
                else
@@ -429,7 +441,7 @@
          else
          endif
  
-         if (crop.ne.g_num_crops) then
+         if (crop.ne.g%num_crops) then
             call fatal_error (err_user
      :              , 'Number of modules with total cover different to '
      :              // 'number of modules with green cover.')
@@ -442,13 +454,13 @@
 3000  continue
          call get_real_vars (crop+1, 'height', '(mm)'
      :                             , temp, numvals
-     :                             , 0.0, c_max_height)
+     :                             , 0.0, max_height)
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
                call get_posting_Module (Owner_module)
-               if (owner_module.eq.g_crop_module(crop)) then
-                  g_height(crop) = temp
+               if (owner_module.eq.g%crop_module(crop)) then
+                  g%height(crop) = temp
                   goto 3000
                else
                   call fatal_error (err_user
@@ -463,7 +475,7 @@
          else
          endif
  
-         if (crop.ne.g_num_crops) then
+         if (crop.ne.g%num_crops) then
             call fatal_error (err_user
      :              , 'Number of modules with height different to '
      :              // 'number of modules with green cover.')
@@ -478,11 +490,10 @@
 *     ===========================================================
       subroutine canopy_send_my_variable (Variable_name)
 *     ===========================================================
+      use CanopyModule
       implicit none
       include   'const.inc'
-      include   'canopy.inc'
       include 'data.pub'                          
-      include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
 
@@ -532,7 +543,7 @@
          module = canopy_crop_number (module_name)
          if (module.gt.0) then
             call respond2get_real_var (variable_name, '()'
-     :                                , g_intc_light(module))
+     :                                , g%intc_light(module))
          else
                call fatal_error (err_user
      :              , module_name
@@ -543,12 +554,12 @@
  
       else if (variable_name.eq.'cover_tot_sum') then
          cover = 1.0
-     :         - exp (-sum_real_array (g_K_lai_total, g_num_crops))
+     :         - exp (-sum_real_array (g%K_lai_total, g%num_crops))
          call respond2get_real_var (variable_name, '()', cover)
  
       else if (variable_name.eq.'cover_green_sum') then
          cover = 1.0
-     :         - exp (-sum_real_array (g_K_lai_green, g_num_crops))
+     :         - exp (-sum_real_array (g%K_lai_green, g%num_crops))
          call respond2get_real_var (variable_name, '()', cover)
  
       else
@@ -565,8 +576,8 @@
 * ====================================================================
        integer function canopy_crop_number (module_name)
 * ====================================================================
+      use CanopyModule
       implicit none
-      include    'canopy.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -589,8 +600,8 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      do 1000 crop = 1, g_num_crops
-         if (module_name.eq.g_crop_module(crop)) then
+      do 1000 crop = 1, g%num_crops
+         if (module_name.eq.g%crop_module(crop)) then
             crop_num = crop
             goto 1100
          else
@@ -612,8 +623,8 @@
 *     ===========================================================
       subroutine canopy_prepare ()
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include 'canopy.inc'
       include 'error.pub'                         
 
 *+  Purpose
@@ -633,17 +644,17 @@
  
             ! determine crops with canopies now
  
-      call canopy_canopies_present (g_canopy_index, g_num_canopies)
+      call canopy_canopies_present (g%canopy_index, g%num_canopies)
  
-      if (g_num_canopies.gt.0) then
+      if (g%num_canopies.gt.0) then
  
                ! get light transmitted through each layer
  
-         call canopy_top_layer_light (g_top_layer_light)
+         call canopy_top_layer_light (g%top_layer_light)
  
                ! get light intercepted by each crop canopy
  
-         call canopy_intc_light (g_intc_light)
+         call canopy_intc_light (g%intc_light)
  
       else
             ! no canopies present
@@ -658,8 +669,8 @@
 *     ===========================================================
       subroutine canopy_canopies_present (canopy_index, num_canopies)
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include   'canopy.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -694,7 +705,7 @@
             ! height array in descending order of height.
  
       call fill_real_array (temp, 0.0, max_crops)
-      call subtract_real_array (g_height, temp, max_crops)
+      call subtract_real_array (g%height, temp, max_crops)
       call fill_integer_array (canopy_index, 0, max_crops)
  
             ! determine order of canopies from top down
@@ -714,8 +725,8 @@
 *     ===========================================================
       subroutine canopy_top_layer_light (layer_light)
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include   'canopy.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -763,18 +774,18 @@
             ! entering the next layer below.
             ! The lai here is the lai of green and dead leaves.
  
-      num_layers = g_num_canopies
+      num_layers = g%num_canopies
  
             ! take each layer in turn from top.
  
       do 1000 layer = 1, num_layers
          light_in = light_out
-         layer_no = g_canopy_index(layer)
+         layer_no = g%canopy_index(layer)
          layer_light(layer_no) = light_in
  
                ! get the combined K*lai of the canopies.
  
-         call canopy_k_lai (K_lai_in_layer, g_K_lai_total, layer)
+         call canopy_k_lai (K_lai_in_layer, g%K_lai_total, layer)
          K_lai_in_layer_sum = sum_real_array (K_lai_in_layer, max_crops)
  
                ! now we can get the fraction of transmitted light
@@ -794,8 +805,8 @@
 *     ===========================================================
       subroutine canopy_intc_light (intc_light)
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include 'canopy.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -837,18 +848,18 @@
             ! light used by the combined canopy and then apportion that
             ! to each canopy occupying the layer
  
-      num_layers = g_num_canopies
+      num_layers = g%num_canopies
       do 2000 layer = 1, num_layers
  
                ! get the combined K*lai of the canopies.
  
-         call canopy_k_lai (K_lai_in_layer, g_K_lai_green, layer)
+         call canopy_k_lai (K_lai_in_layer, g%K_lai_green, layer)
          K_lai_in_layer_sum = sum_real_array (K_lai_in_layer, max_crops)
  
                ! get the fraction of light used in the layer
  
-         layer_no = g_canopy_index(layer)
-         light_in = g_top_layer_light(layer_no)
+         layer_no = g%canopy_index(layer)
+         light_in = g%top_layer_light(layer_no)
  
                ! this equation implies that leaf interception of radiation
                ! obeys beer's law.
@@ -861,8 +872,8 @@
                ! K*lai product_of of each canopy as its structure (K) must
                ! be taken into account.
  
-         do 1000 canopy_in_layer = 1, g_num_canopies
-            crop = g_canopy_index(canopy_in_layer)
+         do 1000 canopy_in_layer = 1, g%num_canopies
+            crop = g%canopy_index(canopy_in_layer)
  
 cjh            note that the fraction is of the total green - perhaps it
 cjh            should be of total tot. This method also ignores the shape
@@ -884,8 +895,8 @@ cjh            of the canopies within the layer.
 *     ===========================================================
       subroutine canopy_k_lai (K_lai_in_layer, K_lai, layer)
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include 'canopy.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -924,7 +935,7 @@ cjh            of the canopies within the layer.
  
       canopies_in_layer = layer
       do 1000 canopy = 1, canopies_in_layer
-         crop = g_canopy_index(canopy)
+         crop = g%canopy_index(canopy)
          K_lai_in_layer(crop) = canopy_fract_canopy (crop, layer)
      :                        * K_lai(crop)
  
@@ -939,8 +950,8 @@ cjh            of the canopies within the layer.
 *     ===========================================================
       real function canopy_fract_canopy (crop, layer)
 *     ===========================================================
+      use CanopyModule
       implicit none
-      include 'canopy.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -980,16 +991,16 @@ cjh            of the canopies within the layer.
             ! then find the k_lai contained in each of the heights,
             ! the difference being the k_lai in the layer.
  
-      layer_no = g_canopy_index(layer)
+      layer_no = g%canopy_index(layer)
       call bound_check_integer_var (layer+1, 0, max_crops, 'layer+1')
-      next_layer = g_canopy_index(layer+1)
+      next_layer = g%canopy_index(layer+1)
  
-      height_at_top = divide (g_height(layer_no)
-     :                      , g_height(crop), 0.0)
+      height_at_top = divide (g%height(layer_no)
+     :                      , g%height(crop), 0.0)
       height_at_top = bound (height_at_top, 0.0, 1.0)
  
-      height_at_bottom = divide (g_height(next_layer)
-     :                         , g_height(crop), 0.0)
+      height_at_bottom = divide (g%height(next_layer)
+     :                         , g%height(crop), 0.0)
       height_at_bottom = bound (height_at_bottom, 0.0, 1.0)
  
       part_in_layer = integrate_real_lg (height_at_bottom, height_at_top
@@ -1006,6 +1017,7 @@ cjh            of the canopies within the layer.
 *     ===========================================================
       real function canopy_width (height_in_canopy)
 *     ===========================================================
+      use CanopyModule
       implicit none
       include 'error.pub'                         
 
@@ -1038,12 +1050,12 @@ cjh            of the canopies within the layer.
 *     ===========================================================
       subroutine canopy_post ()
 *     ===========================================================
+      use CanopyModule
       implicit none
       include 'const.inc'
-      include 'canopy.inc'
-      include 'engine.pub'                        
       include 'data.pub'                          
       include 'error.pub'                         
+      include 'apsimengine.pub'
 
 *+  Purpose
 *     Perform calculations after the current timestep.
@@ -1063,17 +1075,9 @@ cjh            of the canopies within the layer.
  
       call push_routine (my_name)
  
-      num_in_list = count_of_char_vals (g_intercrop_list, max_crops)
+      num_in_list = count_of_char_vals (g%intercrop_list, max_crops)
       if (num_in_list.gt.1) then
-         if (module_change_order (g_intercrop_list, num_in_list)) then
-            ! all ok - order changed
-         else
- 
-            write (e_messg,'(a)')
-     :             ' Error in names in intercrop list - please check'
-            call warning_error (err_user, e_messg)
- 
-         endif
+         call Loader_ChangeComponentOrder(g%intercrop_list, num_in_list)
       else
          ! no swapping required
       endif
