@@ -25,11 +25,14 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+using namespace std;
+
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/dataTypes.h>
 #include <ComponentInterface/Messages.h>
+#include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -704,7 +707,7 @@ void PlantP::PlantP_partition ()
       const char*  my_name = "PlantP_partition";
 
 //+  Local Variables
-      protocol::vector<float> values;               // Scratch area
+      vector<float> values;               // Scratch area
       int   numvals;
       int   part;
       float p_uptake;
@@ -716,7 +719,6 @@ void PlantP::PlantP_partition ()
 
       if (ids.layered_p_uptake != 0)
       {
-          values.empty();
           plant->parent->getVariable(ids.layered_p_uptake, values, 0.0, 100.0);  //XXX ick..
           float sumValue = 0.0;
           for (unsigned int i = 0; i < values.size(); i++)
@@ -924,7 +926,7 @@ void PlantP::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
 const char*  my_name = "PlantP_set_phosphorus_aware";
 
 //+  Local Variables
-      protocol::vector<float> values;               // Scratch area
+      vector<float> values;               // Scratch area
       bool soilpPresent;
 
 //- Implementation Section ----------------------------------
@@ -934,7 +936,6 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
       unsigned int idSoilpVar = systemInterface->addRegistration(protocol::getVariableReg,
                                                                "labile_p", floatArrayType,
                                                                "", "");
-      values.empty();
       systemInterface->getVariable(idSoilpVar, values, 0.0, 1000000.0, true);
       soilpPresent = (values.size() > 0);
 

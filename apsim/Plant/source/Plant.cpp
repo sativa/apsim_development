@@ -22,6 +22,7 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/dataTypes.h>
 #include <ComponentInterface/Messages.h>
+#include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
@@ -11184,7 +11185,7 @@ void Plant::plant_read_cultivar_params ()
 
        s = string("   x_fruit_stage_no_partition   = ");
        for (int i = 0; i < p.num_fruit_stage_no_partition; i++)
-         s = s + itoa(p.fruit_stage_no_partition[i], 8) + " ";
+         s = s + itoa(p.fruit_stage_no_partition[i]) + " ";
        parent->writeString (s.c_str());
 
        s = string("   y_fruit_frac_pod             = ");
@@ -11678,7 +11679,7 @@ void Plant::plant_store_value (
 void Plant::plant_get_other_variables ()
     {
     const char*  my_name = "plant_get_other_variables" ;
-    protocol::vector<float> values;               // Scratch area
+    std::vector<float> values;               // Scratch area
 
     int   numvals;                                // number of values put into array
     float soil_temp;                              // soil surface temperature (oC)
@@ -11784,7 +11785,7 @@ void Plant::plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) u
    {
    char uptake_name[80];             // Uptake variable name
    unsigned int id, layer;
-   protocol::vector<float> values;   // Scratch area
+   std::vector<float> values;   // Scratch area
 
    if (strcmp(uptake_source, "apsim") == 0 && *crop_type != '\0')
       {
