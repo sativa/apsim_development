@@ -405,6 +405,7 @@
 100            continue
 200            continue
             endif
+            call component_freerule(rule_object) 
          endif
       end do
 
