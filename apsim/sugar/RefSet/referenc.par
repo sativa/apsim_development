@@ -70,7 +70,7 @@ units =           -
 
 ! [smc.water_log_fact]
 module_names =   sugar   
-variable_names =  water_log_fact   
+variable_names =  avg@oxdef_photo
 variable_alias =  -   
 units =           -   
 
@@ -173,7 +173,7 @@ kl =          0.080   0.050   0.020
 xf =          1.000   1.000   1.000   
 rlv =         0.005   0.001   0.000   
 
-[reference.manager.start_of_day]  
+[reference.manager.end_of_day]  
 
    ! NB All water supply comes from the irrigation module.
    ! ie.  Rainfall in the met file is zero.
