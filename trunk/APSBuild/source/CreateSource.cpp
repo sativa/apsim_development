@@ -198,6 +198,10 @@ void processStructure(const ApsimDataTypeData& dataType, XMLNode& node)
          child.setAttribute("hasAnArrayField", "T");
       else
          child.setAttribute("hasAnArrayField", "F");
+      if (dataType.isArray())
+         child.setAttribute("array", "T");
+      else
+         child.setAttribute("array", "F");
       XMLNode cddmlNode = child.appendChild("cddml");
       cddmlNode.setValue(ddmlToCPP(dataType), true);
       XMLNode forddmlNode = child.appendChild("forddml");
