@@ -25,11 +25,11 @@ simulation_end_year = 1988
 if day = 130 and year  = 1988 then
    fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = no3_n
    canola sow cultivar = hyola, plants = 40 (/m2), sowing_depth = 20 (mm), row_spacing = 300 (mm)
+endif
 
-elseif day = 290 and year = 1988 then
+if canola.stage_name = 'harvest_ripe' or canola.plant_status = 'dead' then
    canola harvest
    canola end_crop   
-
 endif
 
 [sample.manager.end_of_day]
