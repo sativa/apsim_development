@@ -1,7 +1,7 @@
 module SurfaceOMModule
    use ComponentInterfaceModule
    use Registrations
-
+ 
 ! ====================================================================
 !     SurfaceOM constants
 ! ====================================================================
@@ -1857,7 +1857,7 @@ subroutine surfom_Send_my_variable (Variable_name)
       do i = 1,g%num_surfom
          cover2 = surfom_Cover(i)
          combined_cover = add_cover(cover1,cover2)
-         cover1 = cover2
+         cover1 = combined_cover
       end do
       call respond2get_real_var (variable_name, '(m^2/m^2)', combined_cover)
 
