@@ -554,7 +554,8 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
 
             // set the tracker variable.
             string trackerVariable = trackerFunctionName + " of " + moduleName + "."
-                                   + variableName + " since reported as ";
+                   + variableName + " since " + paramFiles[par].getInstanceName()
+                   + ".reported as ";
             trackerVariable += functionName + "@" + variableName;
             trackerVariables.push_back(trackerVariable);
             }
