@@ -322,6 +322,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <variables link="stock.xml"/>
    </stock>
    <cattle>
       <UItype>generic</UItype>
@@ -520,6 +521,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </canola>
    <chickpea>
       <UItype>crop</UItype>
@@ -535,6 +537,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </chickpea>
    <cowpea>
       <UItype>crop</UItype>
@@ -550,6 +553,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </cowpea>
    <fababean>
       <UItype>crop</UItype>
@@ -565,6 +569,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </fababean>
    <fieldpea>
       <UItype>crop</UItype>
@@ -580,6 +585,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </fieldpea>
    <lablab>
       <UItype>crop</UItype>
@@ -596,6 +602,7 @@
 
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </lablab>
    <lucerne>
       <UItype>crop</UItype>
@@ -611,6 +618,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </lucerne>
    <lupin>
       <UItype>crop</UItype>
@@ -626,6 +634,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </lupin>
    <maize>
       <UItype>crop</UItype>
@@ -703,6 +712,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </mucuna>
    <mungbean>
       <UItype>crop</UItype>
@@ -718,6 +728,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </mungbean>
    <navybean>
       <UItype>crop</UItype>
@@ -733,6 +744,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </navybean>
    <ozcot>
       <UItype>crop</UItype>
@@ -776,6 +788,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </peanut>
    <pigeonp>
       <UItype>crop</UItype>
@@ -791,6 +804,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </pigeonp>
    <slurp>
       <UItype>generic</UItype>
@@ -839,6 +853,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </soybean>
    <stylo>
       <UItype>crop</UItype>
@@ -854,6 +869,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </stylo>
    <sugar>
       <UItype>generic</UItype>
@@ -984,6 +1000,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables link="plant.xml"/>
    </weed>
    <wheat>
       <UItype>crop</UItype>
