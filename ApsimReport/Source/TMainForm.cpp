@@ -173,6 +173,7 @@ void __fastcall TMainForm::NewActionExecute(TObject *Sender)
       open(LibraryForm->getSelectedFile());
       filename = "";
       setCaption();
+      report.showWizard();
       }
    }
 //---------------------------------------------------------------------------

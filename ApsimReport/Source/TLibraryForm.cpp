@@ -27,7 +27,7 @@ void __fastcall TLibraryForm::FormShow(TObject *Sender)
    settings.read("Apsim Report|Library Path", libraryDirectory, true);
 
    vector<string> folders;
-   getDirectoryListing(libraryDirectory, "*.report", folders, FA_DIREC);
+   getDirectoryListing(libraryDirectory, "*.*", folders, FA_DIREC);
    Stl_2_tstrings(folders, TabControl->Tabs);
 
    // go fill the file list.
