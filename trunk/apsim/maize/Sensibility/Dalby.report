@@ -487,8 +487,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 128
-  Top = 5
+  Left = 111
+  Top = 33
   Width = 653
   Height = 845
   Frame.Color = clBlack
@@ -552,7 +552,7 @@ object Page1: TQuickRep
     BandType = rbTitle
     object Graph1: TGraph
       Left = 60
-      Top = 284
+      Top = 307
       Width = 512
       Height = 446
       Frame.Color = clBlack
@@ -562,9 +562,9 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1475.78703703704
-        199.907407407407
-        940.740740740741
+        1475.05208333333
+        198.4375
+        1015.33854166667
         1693.33333333333)
       title = ' '
       leftAxisTitle = 'Cumulative Probability (%)'
@@ -733,8 +733,8 @@ object Page1: TQuickRep
     object Text2: TText
       Left = 53
       Top = 132
-      Width = 562
-      Height = 117
+      Width = 587
+      Height = 181
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -742,10 +742,10 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        386.953125
+        598.619791666667
         175.286458333333
         436.5625
-        1858.69791666667)
+        1941.38020833333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -759,22 +759,43 @@ object Page1: TQuickRep
       Lines.Strings = (
         
           'Maize crop sown at Dalby on 1st of October on a deep vertosol (P' +
-          'AWC of 400mm).'
+          'AWC of 290mm).'
         
           'Nitrogen in non-limiting.  The crop is sown at 2.5 or 5 plants p' +
           'er square meter.'
         
           'The starting soil moisture is set to be either 600mm or 1500mm o' +
           'f wet soil.'
+        ''
+        
+          'Maximum yields should be approximately 10 t/ha for high populati' +
+          'ons and 7 t/ha for'
+        
+          'low populations.  Yield from high populations should exceed lowe' +
+          'r populations in'
+        
+          'approximately half of the years for a full profile of water but ' +
+          'only one in ten years for a '
+        'half profile of soil water.  '
+        
+          'Median yield for a full profile of water should be approximately' +
+          ' 6 t/ha and 4 t/ha for a half'
+        'profile.'
         '')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = 
         'Maize crop sown at Dalby on 1st of October on a deep vertosol (P' +
-        'AWC of 400mm).'#13#10'Nitrogen in non-limiting.  The crop is sown at 2' +
+        'AWC of 290mm).'#13#10'Nitrogen in non-limiting.  The crop is sown at 2' +
         '.5 or 5 plants per square meter.'#13#10'The starting soil moisture is ' +
-        'set to be either 600mm or 1500mm of wet soil.'#13#10#13#10
+        'set to be either 600mm or 1500mm of wet soil.'#13#10#13#10'Maximum yields ' +
+        'should be approximately 10 t/ha for high populations and 7 t/ha ' +
+        'for'#13#10'low populations.  Yield from high populations should exceed' +
+        ' lower populations in'#13#10'approximately half of the years for a ful' +
+        'l profile of water but only one in ten years for a '#13#10'half profil' +
+        'e of soil water.  '#13#10'Median yield for a full profile of water sho' +
+        'uld be approximately 6 t/ha and 4 t/ha for a half'#13#10'profile.'#13#10#13#10
       FontSize = 14
     end
     object Image1: TImage
