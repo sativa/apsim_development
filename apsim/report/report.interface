@@ -18,14 +18,21 @@ class APSIMReportPublic
    reportvariables   : APSIMReportVariables = Columns to output to file , (), READ
    format : APSIMString = Output file format - [csv:normal], (), READ
    
-   prepare           : APSIMMethod = System prepare
    rep               : APSIMMethod = System report
    do_output         : APSIMMethod = Perform an immediate output
    do_end_day_output : APSIMMethod = Perform an output at end of day
    days_since_last_report : APSIMInteger = Number of days since last report, (days), GET
 
 end
+
+class APSIMReportExternal
+   
+   prepare           : APSIMEvent = System prepare
+
+end
+
 class APSIMReport : APSIMComponent
    dll  : String
    public  : APSIMReportPublic
+   External : APSIMReportExternal
 end
