@@ -8,7 +8,6 @@
 #include <Classes.hpp>
 #include <Windows.hpp>
 #include <System.hpp>
-#include "TSelected_simulations.h"
 #include <Db.hpp>
 #include <DBTables.hpp>
 #include <Buttons.hpp>
@@ -17,26 +16,20 @@
 #include <ToolWin.hpp>
 #include <DBGrids.hpp>
 #include <Grids.hpp>
-#include "TAnalysis_chart.h"
-#include "TProbability_chart.h"
 #include <Chart.hpp>
 #include <TeEngine.hpp>
 #include <TeeProcs.hpp>
-#include "OLEExcel.hpp"
 #include <StdCtrls.hpp>
-#include "TSOI.h"
+#include <Menus.hpp>
+#include "TAnalysis_chart.h"
+#include "OLEExcel.hpp"
 #include "TAPSTable.h"
 #include "TAPSTable_2_TDataSet.h"
 #include "TAnalysis_panel.h"
-#include <Menus.hpp>
-#include "TSimulations.h"
-#include "TSimulations_from_mdbs.h"
 #include "MemTable.hpp"
-#include "TGM_analysis.h"
-#include "TDamEasy.h"
 #include "TChartSettingsForm.h"
-#include "TGM_analysis.h"
 #include "kbmMemTable.hpp"
+#include "Scenarios.h"
 //----------------------------------------------------------------------------
 class TMDIChild : public TForm
 {
@@ -52,11 +45,9 @@ __published:
    TMenuItem *N2;
    TMenuItem *ChartsViewDataMenu;
    TMenuItem *OptionsMenu;
-   TMenuItem *OptionsSOIMenu;
    TMenuItem *ChartsPropertiesMenu;
-   TMenuItem *ChartsBoxMenu;
    TMenuItem *ChartsXYMenu;
-   TMenuItem *ChartsSummaryTableMenu;
+   TMenuItem *ChartsSummaryMenu;
    TMenuItem *ChartsFrequencyMenu;
    TMenuItem *EditMenu;
    TMenuItem *EditCopyMenu;
@@ -65,22 +56,16 @@ __published:
    TMenuItem *EditCopyWithoutMenu;
    TMenuItem *N4;
    TMenuItem *EditSendDatatoEXCELMenu;
-   TMenuItem *N5;
    TMenuItem *OptionsPreferencesMenu;
    TMenuItem *N6;
    TMenuItem *N1;
    TDataSource *Grid_data_source;
    TOLEExcel *Excel;
-   TSOI *SOI;
    TAPSTable_2_TDataSet *APSTable_2_TDataSet;
-    TSelected_simulations *Raw_data;
-    TSimulations *Selected_simulations;
-   TGM_analysis *GM;
-   TMenuItem *OptionsEconomicMenu;
    TMenuItem *ChartsViewSettingsMenu;
    TMenuItem *View1;
    TMenuItem *ChartsNoChartMenu;
-   TSimulations_from_mdbs *Simulations_from_mdbs;
+   TAPSTable *AllData;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
@@ -89,7 +74,6 @@ __published:
    void __fastcall ProbabilityChart(TObject *Sender);
    void __fastcall ViewData(TObject *Sender);
    void __fastcall SendDataToEXCEL(TObject *Sender);
-   void __fastcall SOIToggle(TObject *Sender);
    void __fastcall Properties(TObject *Sender);
    void __fastcall BoxChart(TObject *Sender);
    void __fastcall XYChart(TObject *Sender);
@@ -99,26 +83,21 @@ __published:
    void __fastcall EditCopy(TObject *Sender);
    void __fastcall EditCopyWithout(TObject *Sender);
    void __fastcall OptionsPreferences(TObject *Sender);
-
-   void __fastcall OptionsEconomicMenuClick(TObject *Sender);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ChartsViewSettingsMenuClick(TObject *Sender);
-   
+
    void __fastcall FormResize(TObject *Sender);
    void __fastcall ChartsNoChartMenuClick(TObject *Sender);
-   void __fastcall FormActivate(TObject *Sender);
 private:
-   bool SOI_on;
-   bool GM_on;
    bool Large_fonts;
    bool FirstTime;
    TToolBar* Toolbar;
    TChartSettingsForm* Settings_form;
-   TDamEasy* DamEasy;
+//   TDamEasy* DamEasy;
+   Scenarios scenarios;
 
    TAnalysis_panel* Analysis_panel;
    void Display_settings(void);
-   void Read_soi_file_name (void);
    void Enable_options (void);
    void Select_simulations(void);
    void Create_chart (AnsiString Analysis_name);
@@ -133,7 +112,6 @@ private:
 public:
 	virtual __fastcall TMDIChild(TComponent *Owner);
    virtual __fastcall ~TMDIChild();
-   void Set_all_simulations (TStringList* MDBFilenames);
    void Set_toolbar (TToolBar* Toolbar);
    void SetPresentationFonts(bool Large_fonts);
 };

@@ -5,13 +5,14 @@
     <VERSION value="BCB.05.03"/>
     <PROJECT value="ApsimOutlook.exe"/>
     <OBJFILES value="ApsimOutlook.obj about.obj ChildWin.obj Main.obj TChartSettingsForm.obj 
-      TDirectory_select_form.obj TDrill_down_form.obj TPreferences_form.obj 
-      TSkin.obj TSplashForm.obj TTabRenameForm.obj TValueSelectionForm.obj"/>
+      TDrill_down_form.obj TPreferences_form.obj TSkin.obj TSplashForm.obj 
+      TTabRenameForm.obj TValueSelectionForm.obj Scenarios.obj factor.obj 
+      Scenario.obj AddIn.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) about.dfm ChildWin.dfm Main.dfm TChartSettingsForm.dfm 
-      TDirectory_select_form.dfm TDrill_down_form.dfm TPreferences_form.dfm 
-      TSplashForm.dfm TTabRenameForm.dfm TValueSelectionForm.dfm"/>
+      TDrill_down_form.dfm TPreferences_form.dfm TSplashForm.dfm 
+      TTabRenameForm.dfm TValueSelectionForm.dfm"/>
     <LIBFILES value="general.lib aps32.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib VCLX50.lib Vclbde50.lib vcldb50.lib APSData.lib TEE4C5.lib 
@@ -21,7 +22,7 @@
       ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TEEDB4C5.bpi 
       TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi asgc5.bpi 
-      DB.bpi slstc5.bpi thirdparty.bpi APSData.bpi APSGENERAL.bpi VCLADO50.bpi"/>
+      DB.bpi slstc5.bpi thirdparty.bpi APSGENERAL.bpi VCLADO50.bpi APSData.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>

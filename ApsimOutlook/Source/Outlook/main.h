@@ -19,8 +19,6 @@
 #include <System.hpp>
 #include <Db.hpp>
 #include <DBTables.hpp>
-#include "TSimulations.h"
-#include "TSimulations_from_mdbs.h"
 #include <ToolWin.hpp>
 #include <ImgList.hpp>
 #include "StrHlder.hpp"
@@ -45,8 +43,7 @@ __published:
    TMenuItem *N2;
    TPrinterSetupDialog *PrinterSetupDialog;
    TMenuItem *N3;
-   TMenuItem *FileOpenMenu;
-   TMenuItem *FileOpenDatasetMenu;
+   TMenuItem *FileNewMenu;
    TOpenDialog *OpenDialog;
    TMenuItem *HelpContentsMenu;
    TMenuItem *FilePresentationFontsMenu;
@@ -55,8 +52,7 @@ __published:
         TControlBar *ControlBar1;
         TToolBar *ToolBar1;
         TToolBar *ToolBar2;
-        TToolButton *File_open_button;
-        TToolButton *Select_data_button;
+   TToolButton *File_new_button;
         TToolButton *Print_button;
         TToolButton *Font_button;
         TToolButton *ToolButton1;
@@ -71,7 +67,6 @@ __published:
         TToolButton *Difference_button;
         TToolButton *ToolButton3;
         TToolButton *Pie_button;
-        TToolButton *Box_button;
         TToolButton *Frequency_button;
         TToolButton *Probability_button;
         TToolButton *ToolButton4;
@@ -102,8 +97,7 @@ __published:
    void __fastcall Copy_without_buttonClick(TObject *Sender);
    void __fastcall EXCEL_buttonClick(TObject *Sender);
 
-   void __fastcall FileOpenMenuClick(TObject *Sender);
-   void __fastcall FileOpenDatasetMenuClick(TObject *Sender);
+   void __fastcall FileNewMenuClick(TObject *Sender);
 
    void __fastcall HelpContentsMenuClick(TObject *Sender);
    void __fastcall FilePresentationFontsMenuClick(TObject *Sender);

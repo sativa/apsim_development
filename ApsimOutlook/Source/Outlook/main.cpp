@@ -4,7 +4,6 @@
 
 #include "Main.h"
 #include "About.h"
-#include "TDirectory_select_form.h"
 #include "TDrill_down_form.h"
 #include <general\vcl_functions.h>
 #include <general\ini_file.h>
@@ -19,8 +18,6 @@
 #include <ole2.h>
 using namespace std;
 //---------------------------------------------------------------------
-#pragma link "TSimulations"
-#pragma link "TSimulations_from_mdbs"
 #pragma link "StrHlder"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
@@ -55,11 +52,10 @@ void __fastcall TMainForm::CreateMDIChild(String Name)
 
 	//--- create a new MDI child window ----
    Child = new TMDIChild(Application);
-   Child->Show();
    Child->Set_toolbar (ToolBar2);
    Child->Caption = Name;
-   Child->Set_all_simulations(Directory_select_form->SelectedMDBs);
    Child->SetPresentationFonts(FilePresentationFontsMenu->Checked);
+   Child->Show();
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::File_exit(TObject *Sender)
@@ -166,34 +162,9 @@ void __fastcall TMainForm::Application_minimize (TObject* Sender)
 //   ShowWindow(Handle, SW_MINIMIZE);
    }
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::FileOpenMenuClick(TObject *Sender)
+void __fastcall TMainForm::FileNewMenuClick(TObject *Sender)
    {
-   if (OpenDialog->Execute())
-      {
-      Directory_select_form->SelectedMDBs->Clear();
-      Directory_select_form->SelectedMDBs->AddStrings(OpenDialog->Files);
-      if (Directory_select_form->SelectedMDBs->Count > 0)
-         CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
-      else
-         {
-         AnsiString msg = "No simulation data found.";
-         Application->MessageBox(msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-         }
-      }
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::FileOpenDatasetMenuClick(TObject *Sender)
-   {
-   if (Directory_select_form->ShowModal() == mrOk)
-      {
-      if (Directory_select_form->SelectedMDBs->Count > 0)
-         CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
-      else
-         {
-         AnsiString msg = "No simulation data found.";
-         Application->MessageBox(msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-         }
-      }
+   CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::HelpContentsMenuClick(TObject *Sender)
@@ -225,24 +196,6 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
    Path p(Application->ExeName.c_str());
    if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
       Caption = "Whopper Cropper";
-
-   // auto load from command line if necessary.
-   if (CommandLine != "" && FileExists(CommandLine))
-      {
-      // user has specified a file on the command line.
-      TStringList* Names = new TStringList;
-      Names->Add (CommandLine);
-      Directory_select_form->SelectedMDBs->Assign(Names);
-      if (Directory_select_form->SelectedMDBs->Count > 0)
-         CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
-      else
-         {
-         AnsiString msg = "No simulation data found in file: " + AnsiString(CommandLine);
-         Application->MessageBox(msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
-         }
-      delete Names;
-      CommandLine = "";
-      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Evaluate(TObject *Sender)
@@ -346,11 +299,24 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    // need to clear the OpenDialog, otherwise in becomes inactive for the user.
    OpenDialog->FileName = destinationMDB.c_str();
 
-   // go create a child MDI window with our destination database.
-   Directory_select_form->SelectedMDBs->Clear();
-   Directory_select_form->SelectedMDBs->Add(destinationMDB.c_str());
-   if (Directory_select_form->SelectedMDBs->Count > 0)
+   // go give the default database name to the add-in via the .ini file.
+   Path iniPath(Application->ExeName.c_str());
+   iniPath.Set_extension(".ini");
+   Ini_file ini;
+   ini.Set_file_name(iniPath.Get_path().c_str());
+   string contents;
+   ini.Read_section_contents("addins", contents);
+   unsigned int posAddIn = contents.find("DBAddin\DBAddin.dll");
+   if (posAddIn != string::npos)
+      {
+      posAddIn += 19;
+      contents.insert(19, " " + destinationMDB);
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+      contents.erase(19, destinationMDB.length() + 1);
+      ini.Write_section_contents("addins", contents);
+      }
+   else
+      ShowMessage("Cannot find line in .ini file.  Line: addIn = addDBAddIn\DBAddin.dll");
 
    Screen->Cursor = savedCursor;
    }
