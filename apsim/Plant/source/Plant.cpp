@@ -205,6 +205,10 @@ void Plant::doIDs(void)
        id.incorp_fom = parent->addRegistration(protocol::eventReg,
                                        "incorp_fom", "",
                                        "", "");
+
+       id.harvesting = parent->addRegistration(protocol::eventReg,
+                                       "harvesting", "",
+                                       "", "");
   }
 
 // Register Methods, Events,
@@ -8680,6 +8684,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
+
+    // Tell the rest of the system we are about to harvest
+    protocol::ApsimVariant outgoingApsimVariant(parent);
+    parent->publish (id.harvesting, outgoingApsimVariant);
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
