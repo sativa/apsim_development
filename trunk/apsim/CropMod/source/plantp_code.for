@@ -130,6 +130,7 @@ c     :     ,1000.)          ! Upper Limit for bound checking
       real       biomass_p             ! total above-ground biomass P (g/m^2)
       real       apt_P_up              ! N uptake by stover (g/m^2)
       real       p_conc
+      real       stress
 
 
 *- Implementation Section ----------------------------------
@@ -188,6 +189,46 @@ c     :     ,1000.)          ! Upper Limit for bound checking
      :               variable_name     ! variable name
      :              ,'()'              ! variable units
      :              ,g%PlantPfact_grain) ! variable
+
+      elseif (variable_name .eq. 'p_stress_photo') then
+         if (g%plantPfact_photo .gt. 0.0) then
+            stress = 1.0 - g%plantPfact_photo
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'p_stress_fact_pheno') then
+         if (g%plantPfact_pheno .gt. 0.0) then
+            stress = 1.0 - g%plantPfact_pheno
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'p_stress_fact_expan') then
+         if (g%plantPfact_expansion .gt. 0.0) then
+            stress = 1.0 - g%plantPfact_expansion
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
+
+      elseif (variable_name .eq. 'p_stress_fact_grain') then
+         if (g%plantPfact_grain .gt. 0.0) then
+            stress = 1.0 - g%plantPfact_grain
+         else
+            stress = 0.0
+         endif
+         call respond2get_real_var (variable_name
+     :                             , '()'
+     :                             , stress)
 
 
 
