@@ -9,54 +9,52 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\ozcot\sample\ozcot.sim
+     Version                = 2.2
      Title                  = Alan Hunter
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\ozcot\lib\ozcot.dll(ozcot) - Licensed
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\ozcot\lib\ozcot.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date = 22/09/1995
      Simulation end date   = 19/05/1996
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = o_971_1.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
         clock.year
         clock.day
-        manager.yield_acre (alias: yld/acre)
-        ozcot.evap_plant (alias: c_ep)
-        ozcot.lai (alias: c_lai)
-        ozcot.yield (alias: c_yield)
-        manager.yield_acre (alias: c_yld/acre)
-        ozcot.dm (alias: biomass)
+        manager.yield_acre as yld/acre
+        ozcot.evap_plant as c_ep
+        ozcot.lai as c_lai
+        ozcot.yield as c_yield
+        manager.yield_acre as c_yld/acre
+        ozcot.dm as biomass
         ozcot.sites
         ozcot.squarz
         ozcot.bollz
         ozcot.openz
-        ozcot.totnup (alias: c_nuptake)
+        ozcot.totnup as c_nuptake
         soilwat2.es
-        soilwat2.esw (alias: pesw)
+        soilwat2.esw as pesw
         soiln2.no3()
+     
+     Output file = o_971_1.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\regr\apsim\ozcot\sample\hunter.aps
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: HUNTER.APS
 
-------- FERTILIZ Initialisation ----------------------------------------------
+------- fertiliz Initialisation -----------------------------------------------
       Initialising
      
         - Reading Parameters
@@ -68,7 +66,7 @@
            No fertiliser schedule is used
           -----------------------------------------------
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
        yield_acre = yield/2.5
        if (day = 191) then
@@ -76,18 +74,18 @@
          soiln set no3 = 13.000  20.000  37.000  33.000  14.000  19.000  29.000
        endif
        if (day = 280) then
-           ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 ()
+           ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 (), skiprow = 1
        endif
         report do_output
         if (day = 1 and year = 1995) then
            cotton_status = 0
         endif
-        if (ozcot_status = 2) then
+        if (ozcot_status > 0) then
           ozcot harvest
           cotton_status = 0
         endif
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -162,7 +160,7 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- RESIDUE2 Initialisation ----------------------------------------------
+------- residue2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -178,7 +176,7 @@
                  0.0     0.0     0.0  wheat
          ------------------------------------------------
 
-------- SOILN2 Initialisation ------------------------------------------------
+------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Constants
      
@@ -227,7 +225,7 @@
            Totals   85591.6  5902.9   898.4   112.3   400.0     8.0
           ---------------------------------------------------------
 
-------- OZCOT Initialisation -------------------------------------------------
+------- ozcot Initialisation --------------------------------------------------
      Initialising
      
          - Reading constants
@@ -254,46 +252,94 @@
      
      
 ------- Start of simulation  --------------------------------------------------
-22 September 1995 (Day of year=265):
-   MANAGER:
-      Manager creating a new local variable : yield_acre =     0.00000000000000
-7 October 1995 (Day of year=280):
-   MANAGER:
-           Manager sending message :- ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0 ()
-   OZCOT:
-      Sow
-      
-         - Reading Cultivar Parameters
-          ------------------------------------------------
-          Cultivar   = siok
-          percent_L  =    0.42
-          scboll     =     4.5
-          respcon    =   0.016
-          sqcon      =   0.023
-          fcutout    =  0.5411
-          flai       =     0.5
-          ddisq      =   420.0
-          ------------------------------------------------
-      
-      
-      
-      
-      
-      
-                       Crop Sowing Data
-          ------------------------------------------------
-          Sowing  Depth Plants Spacing Cultivar
-          Day no   mm     m       mm     Name
-          ------------------------------------------------
-             280   50.0  12.0   2000.0 siok
-          ------------------------------------------------
-25 April 1996 (Day of year=116):
-   OZCOT:
-          First defoliant spray  201 days from sowing.
-5 May 1996 (Day of year=126):
-   OZCOT:
-          First Picking  211 days from sowing.
-          There are sufficient bolls for a Second Picking.
-19 May 1996 (Day of year=140):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+22 September 1995(Day of year=265), manager: 
+     Manager creating a new local variable : yield_acre =     0.00000000000000
+7 October 1995(Day of year=280), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 2000 (mm), plants_pm = 12.0, skiprow = 1
+7 October 1995(Day of year=280), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         TIPOUT     =    52.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            280   50.0  12.0   2000.0 siok
+         ------------------------------------------------
+18 October 1995(Day of year=291), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+23 April 1996(Day of year=114), ozcot: 
+         Defoliant spray    1
+3 May 1996(Day of year=124), ozcot: 
+         First Pick  209 days from sowing. There are enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+3 May 1996(Day of year=124), manager: 
+     Manager sending message :- ozcot harvest
+3 May 1996(Day of year=124), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    209
+      bolls/m2               =  53.37        Lint (kg/ha)           =     1191.5
+      N uptake (kg/ha)       = 129.82        bolls sc (g/boll)      =        5.3
+      max squares das (days) =    104        max lai das (days)     =    156
+      maximum squares/m2     =  57.85        maximum lai (m2/m2)    =  0.980
+      total above ground biomass (kg/ha) =     5702.0
+3 May 1996(Day of year=124), manager: 
+     Manager creating a new local variable : cotton_status =     0.00000000000000
+4 May 1996(Day of year=125), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.289
+           30.0          0.276
+           30.0          0.296
+           30.0          0.324
+           30.0          0.353
+           30.0          0.428
+     ------------------------
+     
+     
+     
+19 May 1996(Day of year=140), clock: 
+     Simulation is terminating due to end criteria being met.
