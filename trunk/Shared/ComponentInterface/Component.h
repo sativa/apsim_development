@@ -460,9 +460,10 @@ class Component
 
       // 2. Convert it
       try { value = boost::lexical_cast<T> (datastring); }
-      catch(boost::bad_lexical_cast &)
+      catch(boost::bad_lexical_cast &e)
          {
-         string msg = string("Problem converting variable to numeric type.\n"
+         string msg = string("Problem converting variable to ") +
+                             string(typeid(T).name()) + string("type.\n"
                              "Parameter name = ") + variableName + string("\n"
                              "Value          = '") + datastring + string("'");
          error(msg.c_str(), true);
@@ -514,11 +515,12 @@ class Component
         {
         T value;
         try { value = boost::lexical_cast<T> (value_strings[i]); }
-        catch(boost::bad_lexical_cast &)
+        catch(boost::bad_lexical_cast &e)
            {
-           string msg = string("Problem converting variable to numeric type.\n"
+           string msg = string("Problem converting variable to ") +
+                               string(typeid(T).name()) + string(" type.\n"
                                "Parameter name = ") + variableName + string("\n"
-                               "Value          = '") + value_strings[i] + string("'");
+                               "Value          = '") + value_strings[i] + string("'\n");
            error(msg.c_str(), true);
            return false;
            }
