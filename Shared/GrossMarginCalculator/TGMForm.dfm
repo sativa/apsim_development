@@ -122,6 +122,7 @@ object GMForm: TGMForm
         GridLineWidth = 1
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
         ParentFont = False
+        PopupMenu = CostsPopup
         TabOrder = 0
         GridLineColor = clSilver
         ActiveCellShow = False
@@ -1886,6 +1887,14 @@ object GMForm: TGMForm
     object AddCrop1: TMenuItem
       Caption = 'Add &Crop'
       OnClick = addCrop
+    end
+  end
+  object CostsPopup: TPopupMenu
+    Left = 352
+    Top = 240
+    object Deleterow1: TMenuItem
+      Caption = '&Delete row'
+      OnClick = Deleterow1Click
     end
   end
 end

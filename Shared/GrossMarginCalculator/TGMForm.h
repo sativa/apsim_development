@@ -86,6 +86,8 @@ class TGMForm : public TForm
    TPopupMenu *AddPopup;
    TMenuItem *AddScenario1;
    TMenuItem *AddCrop1;
+   TPopupMenu *CostsPopup;
+   TMenuItem *Deleterow1;
       void __fastcall FormShow(TObject *Sender);
       void __fastcall ScenarioTreeChange(TObject *Sender, TTreeNode *Node);
       void __fastcall CropPricePageShow(TObject *Sender);
@@ -113,6 +115,7 @@ class TGMForm : public TForm
       void __fastcall OpenButtonClick(TObject *Sender);
       void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall NewButtonClick(TObject *Sender);
+   void __fastcall Deleterow1Click(TObject *Sender);
 
    private:	// User declarations
       GMCalculator* data;

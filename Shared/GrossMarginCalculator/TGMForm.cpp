@@ -621,4 +621,18 @@ void __fastcall TGMForm::NewButtonClick(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
+// User has clicked the DeleteRow menu item on the costs grid.
+//---------------------------------------------------------------------------
+void __fastcall TGMForm::Deleterow1Click(TObject *Sender)
+   {
+   // The next 2 lines are necessary to get out of edit mode.  Can't
+   // delete a line properly in edit mode.
+   CostGrid->Row = CostGrid->Row + 1;
+   CostGrid->Row = CostGrid->Row - 1;
+
+   CostGrid->ClearRows(CostGrid->Row, 1);
+   for (int row = CostGrid->Row+1; row != CostGrid->RowCount-1; row++)
+      CostGrid->MoveRow(row, row-1);
+   }
+//---------------------------------------------------------------------------
 
