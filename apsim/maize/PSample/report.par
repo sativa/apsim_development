@@ -13,8 +13,6 @@ variable = maize.biomass_n
 variable = maize.grain_n
 variable = maize.tiller_no_fertile as tillers
 variable = maize.root_depth as rootdepth
-
-
 variable = maize.cep
 variable = maize.swdef_pheno as ws_pheno
 variable = maize.swdef_photo as ws_photo
@@ -24,7 +22,6 @@ variable = maize.nfact_pheno as Ns_pheno
 variable = maize.nfact_photo as Ns_photo
 variable = maize.nfact_expan as Ns_expan
 variable = maize.nfact_tiller as Ns_tiller
-
 variable = maize.n_conc_root
 variable = maize.n_conc_leaf
 variable = maize.n_conc_stem
@@ -65,8 +62,39 @@ variable = maize.p_conc_stem
 variable = maize.p_conc_grain
 variable = maize.p_uptake_stover
 variable = maize.grain_p_demand
+variable = surfaceom.surfaceom_p
+variable = soilwat2.esw as esw
+variable = soilwat2.sw()
+variable = soilwat2.es
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+variable = soilp.uptake_p_maize()
+variable = soilp.fom_cp()
+variable = soilp.fom_p_pool3()
+variable = soilp.fom_p_pool2()
+variable = soilp.fom_p_pool1()
+variable = soilp.fom_p()
+variable = soilp.hum_p()
+variable = soilp.biom_p()
+variable = soilp.soil_test_p()
+variable = soilp.rock_p()
+variable = soilp.unavail_p()
+variable = soilp.labile_p()
+variable = manager.P_below_ground
+variable = manager.P_above_ground
+variable = manager.systemP
+variable = manager.cum_error_systemP
+variable = manager.dlt_systemP
+variable = manager.P_plant
+variable = manager.P_pl_up_diff
+variable = manager.dlt_residue_P
+variable = manager.below_gnd_diff
 
-variable = residue2.residue_p
+
+
+
 
 
 [all.report.parameters]
