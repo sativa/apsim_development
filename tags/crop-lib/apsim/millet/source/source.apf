@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(millet)
+
+[Contents]
+millet.for = millet.for
+mil_main.for = mil_main.for
+
+[APSBuild]
+binary = ..\lib\millet.dll
+moduletype=croptemplate
