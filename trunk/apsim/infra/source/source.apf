@@ -1,20 +1,21 @@
 [general]
 name = source
-uses = %this\*.*
+uses = %thispath\*.*
+apf = %thispath\..\..\base-source.apf
 
 [source]
-source  = profile.for; %this\profile.f90
-source  = error.for; %this\error.for
-source  = datastr.for; %this\datastr.for
-source  = data.for; %this\data.for
-source  = date.for; %this\date.for
-source  = string.for; %this\string.for
-source  = engine.for; %this\engine.for
-source  = license.for; %this\license.for
-source  = intrface.for; %this\intrface.for
-source  = read.for; %this\read.for
-source  = science.for; %this\science.for
-source  = write.for; %this\write.for
+source  = profile.for; %thispath\profile.f90
+source  = error.for; %thispath\error.for
+source  = datastr.for; %thispath\datastr.for
+source  = data.for; %thispath\data.for
+source  = date.for; %thispath\date.for
+source  = string.for; %thispath\string.for
+source  = engine.for; %thispath\engine.for
+source  = license.for; %thispath\license.for
+source  = intrface.for; %thispath\intrface.for
+source  = read.for; %thispath\read.for
+source  = science.for; %thispath\science.for
+source  = write.for; %thispath\write.for
 
 include = Infrastructure include directory; %apsuite\apsim\infra\
 
