@@ -20,8 +20,8 @@ variable = grasp.temp_index
 variable = grasp.growth_index
 variable = grasp.basal_area
 variable = grasp.cover_tot
-variable = residue2.residue_wt
-variable = residue2.residue_cover
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_cover
 [sample.clock.parameters]
 start_date=1/1/1988     ! dd/mm/yyyy
 end_date=1/1/1989     ! dd/mm/yyyy
