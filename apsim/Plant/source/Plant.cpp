@@ -2622,10 +2622,10 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
                                   , g.n_conc_min);
 
         if (phenology->on_day_of("emergence"))
-        cproc_n_init1(c.n_init_conc
-                     , max_part
-                     , g.dm_green
-                     , g.n_green);
+           cproc_n_init1(c.n_init_conc
+                        , max_part
+                        , g.dm_green
+                        , g.n_green);
         }
     else
         {
@@ -2756,11 +2756,37 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
 //+  Constant Values
     const char*  my_name = "plant_nit_retrans" ;
 
+    const int  num_supply_pools_by_veg = 2 ;
+    int   supply_pools_by_veg[num_supply_pools_by_veg] = {stem, leaf};
+
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
         {
+//         float dlt_n_retrans_fruit[max_part];
+//         fruit->n_retranslocate (g.n_conc_min
+//                               , g.dm_green
+//                               , g.n_green
+//                               , g.grain_n_demand
+//                               , dlt_n_retrans_fruit        //FIXME change to g. when proper fruit class
+//                               );
+//
+//         legnew_n_retranslocate_test(supply_pools_by_veg
+//                                   , num_supply_pools_by_veg
+//                                   , g.n_conc_min
+//                                   , g.dm_green
+//                                   , g.n_green
+//                                   , g.grain_n_demand
+//                                   , g.grain_n_supply
+//                                   , g.dlt_n_retrans
+//                                   ) ;
+//
+//         for (int part=0; part < max_part; part++)                     //
+//            {                                                          //  FIXME remove this when fruit proper class
+//               g.dlt_n_retrans[part] += dlt_n_retrans_fruit[part];     //
+//            }                                                          //
+
         legnew_n_retranslocate(g.n_conc_crit
                                , g.n_conc_min
                                , g.dlt_dm_green
@@ -2770,7 +2796,9 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
                                , g.n_green
                                , g.grain_n_demand
                                , g.dlt_n_retrans);
+
         }
+
      else if (option == 2)
         {
          plant_n_retranslocate( g.n_conc_crit
@@ -7231,6 +7259,97 @@ void Plant::legnew_n_retranslocate
     pop_routine (my_name);
     }
 
+void Plant::legnew_n_retranslocate_test( int    *supply_pools
+                                  , int    num_supply_pools
+                                  , float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
+                                  , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
+                                  , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
+                                  , float  g_grain_n_demand            //  INPUT
+                                  , float  dlt_n_retrans_supply        // (OUTPUT) plant N supply to fruit (g N/m^2)
+                                  , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+                                  )
+{
+
+//+  Purpose
+//     Calculate the nitrogen retranslocation from the various plant parts
+//     to the grain.
+
+//+  Mission Statement
+//     Calculate N retranslocation from various plant parts to grain
+
+//+  Changes
+//       080994 jngh specified and programmed
+
+//+  Constant Values
+    const char*  my_name = "legnew_n_retranslocate" ;
+//
+    const float  tolerence = 0.001 ;
+
+//+  Local Variables
+    float n_avail[max_part];                      // N available for transfer to grain (g/m^2)
+    float n_avail_stover;                         // total N available in stover (g/m^2)
+    float n_min;                                  // nitrogen minimum level (g/m^2)
+    int   part;                                   // plant part number
+
+//- Implementation Section ----------------------------------
+
+    push_routine (my_name);
+
+         // get available N from supply pools
+         // now find the available N of each part.
+
+      fill_real_array (n_avail, 0.0, max_part);
+      for (int counter = 0; counter < num_supply_pools; counter++)
+      {
+         part = supply_pools[counter];
+         n_min = g_n_conc_min[part] * g_dm_green[part];
+         n_avail[part] = l_bound (g_n_green[part] - n_min, 0.0);
+      }
+
+       // available N does not include roots or grain
+       // this should not presume roots and grain are 0.
+    n_avail_stover  =  sum_real_array (n_avail, max_part);
+
+       // get actual grain N uptake
+
+    fill_real_array (dlt_n_retrans, 0.0, max_part);
+
+    if (g_grain_n_demand >= n_avail_stover)
+       {
+             // demand greater than or equal to supply
+             // retranslocate all available N
+         for (int counter = 0; counter < num_supply_pools; counter++)
+         {
+            part = supply_pools[counter];
+            dlt_n_retrans[part] = - n_avail[part];
+         }
+         dlt_n_retrans_supply = n_avail_stover;
+       }
+    else
+       {
+          // supply greater than demand.
+          // Retranslocate what is needed
+
+         for (int counter = 0; counter < num_supply_pools; counter++)
+         {
+            part = supply_pools[counter];
+            dlt_n_retrans[part] = - g_grain_n_demand * divide (n_avail[part], n_avail_stover, 0.0);
+         }
+       dlt_n_retrans_supply = g_grain_n_demand;
+      }
+
+      // just check that we got the maths right.
+   for (int counter = 0; counter < num_supply_pools; counter++)
+      {
+      part = supply_pools[counter];
+      bound_check_real_var (parent, fabs (dlt_n_retrans[part])
+                              , 0.0, n_avail[part] + tolerence
+                              , "dlt_N_retrans(part)");
+      }
+
+    pop_routine (my_name);
+    }
+
 //  Purpose
 //    Calculate the nitrogen retranslocation from the various plant parts
 //    to the grain.
@@ -9640,6 +9759,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.no3gsm_mflow_avail, 0.0, max_layer);
       fill_real_array (g.soil_n_demand, 0.0, max_part);
       g.grain_n_demand = 0.0;
+      g.grain_n_supply = 0.0;
       g.n_fix_pot = 0.0;
       fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
       fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
@@ -10195,6 +10315,7 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.dm_green_demand , 0.0, max_part);
     fill_real_array (g.n_demand , 0.0, max_part);
     g.grain_n_demand = 0.0;
+    g.grain_n_supply = 0.0;
     fill_real_array (g.soil_n_demand , 0.0, max_part);
 
     fill_real_array (g.dlt_dm_dead_detached, 0.0, max_part);

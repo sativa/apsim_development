@@ -1211,6 +1211,212 @@ void PlantFruit::n_conc_grain_limits (float  c_n_conc_crit_grain             // 
     }
 
 //============================================================================
+void PlantFruit::n_retranslocate( float  *G_N_conc_min               // (INPUT)  minimum N concentration (g N/g
+                                , float  *G_dm_green                 // (INPUT)  live plant dry weight (biomass
+                                , float  *G_N_green                  // (INPUT)  plant nitrogen content (g N/m^
+                                , float  G_grain_N_demand            //  INPUT
+                                , float  *dlt_N_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
+                                )
+//============================================================================
+{
+//+  Purpose
+//     Calculate the nitrogen retranslocation from the various plant parts
+//     to the grain.
+
+//+  Mission Statement
+//     Calculate N retranslocation from various plant parts to grain
+
+//+  Changes
+//      170703 jngh specified and programmed
+
+//+  Local Variables
+      float N_avail[max_part];     // N available for transfer to grain (g/m^2)
+      float N_avail_rep;           // total N available in reproductive parts (g/m^2)
+
+//- Implementation Section ----------------------------------
+
+         // Get Grain N supply in this cohort
+      N_retrans_avail (meal
+                     , G_N_conc_min
+                     , G_dm_green
+                     , G_N_green
+                     , N_avail
+                     ) ;  // grain N potential (supply)
+
+            // available N does not include grain
+            // this should not presume grain is 0.
+
+      N_avail_rep  =  sum_real_array (N_avail, max_part);
+
+          // get actual grain N uptake by retransolcation
+          // limit retranslocation to total available N
+
+      fill_real_array (dlt_N_retrans, 0.0, max_part);
+
+      if (G_grain_N_demand >= N_avail_rep)
+      {
+
+             // demand greater than or equal to supply
+             // retranslocate all available N
+
+         dlt_N_retrans[pod] = - N_avail[pod];
+         dlt_N_retrans[meal] = N_avail_rep;
+      }
+      else
+      {
+             // supply greater than demand.
+             // Retranslocate what is needed
+
+         dlt_N_retrans[pod] = - G_grain_N_demand
+                            * divide (N_avail[pod], N_avail_rep, 0.0);
+
+         dlt_N_retrans[meal] = G_grain_N_demand;
+
+      }
+}
+
+//===========================================================================
+void PlantFruit::N_retrans_avail(const int meal
+                               , float *g_N_conc_min
+                               , float *g_dm_green
+                               , float *g_N_green
+                               , float *N_avail)
+//===========================================================================
+
+//  Purpose
+//    Calculate N available for transfer to grain (g/m^2)
+//    from each fruit part.  By definition, available grain N
+//    is set to 0.
+
+// Mission Statement
+//  Calculate the Nitrogen available for retranslocation to grain
+
+// Notes
+//    N available for translocation to the grain is the sum of
+//    N available in the stover.
+//    N available in stover is the difference of its N content and the minimum it's allowed to fall to.
+//    NB. No translocation from roots.
+
+// Changes
+//      080994 jngh specified and programmed
+
+
+{
+   float N_min;                  // nitrogen minimum level (g/m^2)
+
+      // get grain N potential (supply) -----------
+      // now find the available N of each part.
+   fill_real_array (N_avail, 0.0, max_part);
+//   for(int part = 0; part < max_part; part++)      // FIXME when fruit becomes proper class
+   for(int part = pod; part <= pod; part++)
+   {
+      N_min = g_N_conc_min[part] * g_dm_green[part];
+      N_avail[part] = l_bound (g_N_green[part] - N_min, 0.0);
+   }
+   N_avail[meal]  = 0.0;
+}
+
+//============================================================================
+void PlantFruit::n_demand(const int max_part,           // (INPUT)
+                        int   *demand_parts,          // (INPUT)
+                        const int num_demand_parts,   // (INPUT)
+                        float G_dlt_dm_veg,           // (INPUT)  the daily biomass production (g/m^2)
+                        float *G_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)
+                        float G_dlt_dm_pot_rue,       // (INPUT)  potential dry matter production from pods (g/m^2)
+                        float G_dlt_dm_pot_rue_veg,   // (INPUT)  potential dry matter production from veg (g/m^2)
+                        float *G_dlt_n_retrans,       // (INPUT)  nitrogen retranslocated out from plant parts (g/m^2)
+                        float *G_dm_green,            // (INPUT)  live plant dry weight (biomass g/m^2)
+                        float *G_n_conc_crit,         // (INPUT)  critical N concentration (g N/g dm)
+                        float *G_n_conc_max,          // (INPUT)  maximum N concentration (g N/g dm)
+                        float *G_n_green,             // (INPUT)  plant nitrogen content (g N/m^2)
+                        float *N_demand,              // (OUTPUT) critical plant nitrogen demand (g/m^2)
+                        float *N_max)                 // (OUTPUT) max plant nitrogen demand (g/m^2)
+//============================================================================
+{
+
+//  Purpose
+//      Return plant nitrogen demand for each plant component
+
+// Mission Statement
+//  Calculate the Nitrogen demand and maximum uptake for each plant pool
+
+// Notes
+//          Nitrogen required for grain growth has already been removed
+//          from the stover.  Thus the total N demand is the sum of the
+//          demands of the stover and roots.  Stover N demand consists of
+//          two components:
+//          Firstly, the demand for nitrogen by the potential new growth.
+//          Secondly, the demand due to the difference between
+//          the actual N concentration and the critical N concentration
+//          of the tops (stover), which can be positive or negative
+
+//          NOTE that this routine will not work if the root:shoot ratio
+//          is broken. - NIH
+
+// Changes
+//    170703 jngh specified and programmed
+
+
+//  Local Variables
+   int counter;
+   float N_crit;                 // critical N amount (g/m^2)
+   float N_demand_new ;          // demand for N by new growth (g/m^2)
+   float N_demand_old;           // demand for N by old biomass (g/m^2)
+   float N_potential;            // maximum N uptake potential (g/m^2)
+   float N_max_new;              // N required by new growth to reach N_conc_max  (g/m^2)
+   float N_max_old;              // N required by old biomass to reach N_conc_max  (g/m^2)
+   int part;                     // plant part
+   float dlt_dm_pot;             // potential dry weight increase (g/m^2)
+   float part_fract;             // plant part fraction of dm  (0-1)
+
+   //- Implementation Section ----------------------------------
+
+   fill_real_array (N_demand, 0.0, max_part);
+   fill_real_array (N_max, 0.0, max_part);
+   for(counter = 0; counter < num_demand_parts; counter++)
+   {
+      part = demand_parts[counter];
+
+            // need to calculate dm using potential rue not affected by
+            // N and temperature
+
+      part_fract = divide (G_dlt_dm_green[part], G_dlt_dm_veg, 0.0);
+      dlt_dm_pot = G_dlt_dm_pot_rue_veg * part_fract + G_dlt_dm_pot_rue;
+      dlt_dm_pot = bound (dlt_dm_pot, 0.0, G_dlt_dm_pot_rue_veg + G_dlt_dm_pot_rue);
+
+      if (G_dm_green[part] > 0.0)
+      {
+            // get N demands due to difference between actual N concentrations
+            // and critical N concentrations of tops (stover) and roots.
+         N_crit       = G_dm_green[part] * G_n_conc_crit[part];
+         N_potential  = G_dm_green[part] * G_n_conc_max[part];
+
+            // retranslocation is -ve for outflows
+         N_demand_old = N_crit - (G_n_green[part] + G_dlt_n_retrans[part]);
+         N_max_old    = N_potential - (G_n_green[part] + G_dlt_n_retrans[part]);
+
+            // get potential N demand (critical N) of potential growth
+         N_demand_new = dlt_dm_pot * G_n_conc_crit[part];
+         N_max_new    = dlt_dm_pot * G_n_conc_max[part];
+
+         N_demand[part] = N_demand_old + N_demand_new;
+         N_max[part]    = N_max_old    + N_max_new ;
+
+         N_demand[part] = l_bound (N_demand[part], 0.0);
+         N_max[part]    = l_bound (N_max[part], 0.0);
+      }
+      else
+      {
+         N_demand[part] = 0.0;
+         N_max[part]    = 0.0;
+      }
+   }
+      // this routine does not allow excess N in one component to move
+      // to another component deficient in N
+}
+
+
+//============================================================================
 
 #if TEST_PlantFruit							// build unit test?
 
