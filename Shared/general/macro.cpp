@@ -74,13 +74,18 @@ string replaceMacros(const string& originalContents,
 // ------------------------------------------------------------------
 unsigned getStartOfTag(const string& st, unsigned posTag)
    {
-   posTag = st.find_last_not_of(' ', posTag-1);
-   if (posTag == string::npos)
-      return 0;
-   else if (st[posTag] == '\n')
-      return posTag + 1;
+   if (posTag > 0)
+      {
+      posTag = st.find_last_not_of(' ', posTag-1);
+      if (posTag == string::npos)
+         return 0;
+      else if (st[posTag] == '\n')
+         return posTag + 1;
+      else
+         return posTag+1;
+      }
    else
-      return posTag+1;
+      return 0;
    }
 // ------------------------------------------------------------------
 // Adjust the end of the specified tag. This routine will remove
@@ -305,7 +310,7 @@ void Macro::parseIf(string& st) const
             posEndBlock = getEndOfTag(st, posEndBlock, "#endif");
          else
             posEndBlock = getStartOfTag(st, posEndBlock);
-         st.erase(posCondition, posEndBlock-posCondition+1);
+         st.erase(posCondition, posEndBlock-posCondition);
          }
 
       unsigned posIf = st.find("#if");

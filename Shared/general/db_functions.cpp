@@ -5,9 +5,14 @@
 
 #include "db_functions.h"
 #include "string_functions.h"
+#include <adodb.hpp>
 
 #pragma package(smart_init)
 using namespace std;
+
+static const double MISSING_DOUBLE = 999999;
+static const double MISSING_INT = 999999;
+
 //---------------------------------------------------------------------------
 // Adds the specified fields to the specified dataset.
 // Does NOT removes any existing fields of the dataset
@@ -192,5 +197,92 @@ void appendDBRecord(TDataSet* dataset,
       }
    dataset->Post();
    }
+//---------------------------------------------------------------------------
+// Return a DB value to caller - as a string. Missing values will be a
+// blank string.
+//---------------------------------------------------------------------------
+string getDBValue(TDataSet* dataset, const std::string& fieldName)
+   {
+   if (dataset->FieldValues[fieldName.c_str()].IsNull())
+      return "";
+   else
+      return AnsiString(dataset->FieldValues[fieldName.c_str()]).c_str();
+   }
 
+//---------------------------------------------------------------------------
+// Return a DB value to caller - as a string. To test for a missing value
+// call isMissing function.
+//---------------------------------------------------------------------------
+double getDBDouble(TDataSet* dataset, const std::string& fieldName)
+   {
+   if (dataset->FieldValues[fieldName.c_str()].IsNull())
+      return MISSING_DOUBLE;
+   else
+      return dataset->FieldValues[fieldName.c_str()];
+   }
+//---------------------------------------------------------------------------
+// Return a DB value to caller - as a string. To test for a missing value
+// call isMissing function.
+//---------------------------------------------------------------------------
+unsigned getDBUnsigned(TDataSet* dataset, const std::string& fieldName)
+   {
+   if (dataset->FieldValues[fieldName.c_str()].IsNull())
+      return MISSING_INT;
+   else
+      return dataset->FieldValues[fieldName.c_str()];
+   }
+//---------------------------------------------------------------------------
+// Return true if value is missing.
+//---------------------------------------------------------------------------
+bool isMissing(double value)
+   {
+   return (value == MISSING_DOUBLE);
+   }
+//---------------------------------------------------------------------------
+// Return true if value is missing.
+//---------------------------------------------------------------------------
+bool isMissing(unsigned value)
+   {
+   return (value == MISSING_INT);
+   }
+
+// ------------------------------------------------------------------
+// Execute the specified query.
+// ------------------------------------------------------------------
+void executeQuery(TADOConnection* connection, const string& sql)
+   {
+   TADOQuery* query = new TADOQuery(NULL);
+   try
+      {
+      query->Connection = connection;
+      query->SQL->Text = sql.c_str();
+      query->ExecSQL();
+      delete query;
+      }
+   catch (const Exception& err)
+      {
+      delete query;
+      throw runtime_error(err.Message.c_str());
+      }
+   }
+// ------------------------------------------------------------------
+// Run the specified query. Caller should delete the returned query
+// when done.
+// ------------------------------------------------------------------
+TDataSet* runQuery(TADOConnection* connection, const string& sql)
+   {
+   TADOQuery* query = new TADOQuery(NULL);
+   try
+      {
+      query->Connection = connection;
+      query->SQL->Text = sql.c_str();
+      query->Open();
+      }
+   catch (const Exception& err)
+      {
+      delete query;
+      throw runtime_error(err.Message.c_str());
+      }
+   return query;
+   }
 
