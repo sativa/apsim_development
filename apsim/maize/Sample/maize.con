@@ -1,8 +1,0 @@
-[apsim.sample_maize]  
-  Module = clock    maize.par [sample]       
-  Module = report   maize.par [sample]      
-  Module = met      %apsuite\apsim\met\sample\dalby.met [weather] 
-  Module = manager  maize.par [sample]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\soilwat2.ini [standard] %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]
-  Module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard] %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
-  Module = maize    maize.par [sample] %apsuite\apsim\maize\maize.ini [standard]
