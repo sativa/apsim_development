@@ -131,6 +131,9 @@
       elseif (action .eq. EVENT_Crop_Chopped) then
          call soilpH_ON_Crop_Chopped ()
 
+      else if (Action.eq.ACTION_Till) then
+         call soilpH_tillage ()
+ 
       else if ((action.eq.ACTION_reset)
      :          .or.(action.eq.ACTION_user_init)) then
          call SoilpH_zero_variables ()
@@ -418,42 +421,42 @@
      :                     , '(%)'
      :                     ,  p%Ca_dm_percent
      :                     , numvals
-     :                     , 0.0, 1.0)
+     :                     , 0.0, 100.0)
       call read_real_var (section
      :                     , 'mg_dm_percent'
      :                     , '(%)'
      :                     ,  p%Mg_dm_percent
      :                     , numvals
-     :                     , 0.0, 1.0)
+     :                     , 0.0, 100.0)
       call read_real_var (section
      :                     , 'k_dm_percent'
      :                     , '(%)'
      :                     ,  p%K_dm_percent
-     :                     , numvals, 0.0, 1.0)
+     :                     , numvals, 0.0, 100.0)
       call read_real_var (section
      :                     , 'na_dm_percent'
      :                     , '(%)'
      :                     ,  p%Na_dm_percent
      :                     , numvals
-     :                     , 0.0, 1.0)
+     :                     , 0.0, 100.0)
       call read_real_var (section
      :                     , 'p_dm_percent'
      :                     , '(%)'
      :                     ,  p%P_dm_percent
      :                     , numvals
-     :                     , 0.0, 1.0)
+     :                     , 0.0, 100.0)
       call read_real_var (section
      :                     , 's_dm_percent'
      :                     , '(%)'
      :                     ,  p%S_dm_percent
      :                     , numvals
-     :                     , 0.0, 1.0)
+     :                     , 0.0, 100.0)
       call read_real_var (section
      :                     , 'cl_dm_percent'
      :                     , '(%)'
      :                     ,  p%Cl_dm_percent
      :                     , numvals
-     :                     , 0.0, 1.0)
+     :                     , 0.0, 100.0)
 
 
          ! soil layer arrays. ----------------
@@ -4621,6 +4624,159 @@
       end
 
 
+*     ================================================================
+      subroutine SoilpH_incorp (Tillage_depth)
+*     ================================================================
+      use SoilpHModule
+      implicit none
+      include   'const.inc'
+      include 'data.pub'
+      include 'error.pub'
+ 
+*+  Sub-Program Arguments
+      real       Tillage_depth
+ 
+*+  Purpose
+*   Calculate ash alkalinity incorporation as a result of tillage and update
+*   ash alkalinity pool.
+ 
+*+  Notes
+*   I do not like updating the pools here but we need to be able to handle
+*   the case of multiple tillage events per day.
+ 
+*+  Mission Statement
+*     Incorporate ash alkalinity to %2 depth
+ 
+*+  Changes
+*    131099 jngh  created
+ 
+*+  Constant Values
+      character*(*) my_name             ! name of current procedure
+      parameter (my_name = 'SoilpH_incorp')
+ 
+*+  Local Variables
+      real       cum_depth             !
+      integer    Deepest_Layer         !
+      real       Depth_to_go           !
+      real       F_incorp_layer        !
+      integer    layer                 !
+      real       layer_incorp_depth    !
+      real       Ash_Alk_wt          !
+      real       proportion
+      real       remainder
+      real       depth_to_layer_bottom ! depth to bottom of layer (mm)
+      real       depth_to_layer_top    ! depth to top of layer (mm)
+      real       depth_to_till         ! depth to till in layer (mm)
+      real       depth_of_till_in_layer ! depth of till within layer (mm)
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
 
+      Deepest_Layer = get_cumulative_index_real (Tillage_depth
+     :                                         , e%dlayer, max_layer)
+!      print*, 'deepest_layer', deepest_layer
+      if (Deepest_Layer .gt. 1) then
+         Ash_Alk_wt = sum_real_array(e%ash_alk_wt_incorp, Deepest_Layer)
+!      print*, '1 e%ash_alk_wt_incorp', e%ash_alk_wt_incorp
+ 
+            ! correct bottom layer for actual tillage penetration
+         depth_to_layer_bottom = sum_real_array(e%dlayer, Deepest_Layer)
+         depth_to_layer_top = depth_to_layer_bottom 
+     :                   - e%dlayer(Deepest_Layer)
+         depth_to_till  = min (depth_to_layer_bottom, Tillage_depth)
+ 
+         depth_of_till_in_layer = dim(depth_to_till, depth_to_layer_top)
+         proportion = divide (depth_of_till_in_layer
+     :                   , e%dlayer(deepest_layer), 0.0)
+         remainder =  e%ash_alk_wt_incorp(deepest_layer) 
+     :          * (1.0 - proportion)
+         Ash_Alk_wt = Ash_Alk_wt - remainder
+
+         cum_depth = 0.0
+         do 2000 layer = 1, Deepest_Layer
+ 
+            depth_to_go = tillage_depth - cum_depth
+            layer_incorp_depth = min (depth_to_go, e%dlayer(layer))
+            F_incorp_layer = divide (layer_incorp_depth
+     :                          , tillage_depth, 0.0)
+ 
+            e%ash_alk_wt_incorp(layer) = Ash_Alk_wt *  F_incorp_layer
+
+            cum_depth = cum_depth + e%dlayer(layer)
+ 2000    continue
+ 
+ 
+         e%ash_alk_wt_incorp(deepest_layer) 
+     :                  = e%ash_alk_wt_incorp(deepest_layer) + remainder
+!      print*, '2 ash_alk_wt_incorp ',e%ash_alk_wt_incorp
+      else
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+
+*     ================================================================
+      subroutine SoilpH_Tillage ()
+*     ================================================================
+      use SoilpHModule
+      implicit none
+      include   'const.inc'
+      include 'read.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+ 
+*+  Purpose
+*   Calculates ash alkalinity incorporation as a result of tillage operations.
+ 
+*+  Mission Statement
+*     Calculate ash alkalinity incorporation as a result of tillage operations
+ 
+*+  Changes
+*     230600 jngh created
+ 
+*+  Constant Values
+      character*(*) my_name             ! name of current procedure
+      parameter (my_name = 'SoilpH_tillage')
+ 
+*+  Local Variables
+      character String*300             ! message string
+      integer   Numvals_T              ! Number of values found in data string
+      real      Tillage_depth          ! depth of residue incorp (mm)
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+         ! ----------------------------------------------------------
+         !       Get User defined tillage effects on ash alkalinity
+         ! ----------------------------------------------------------
+
+      call collect_real_var_optional ('tillage_depth'
+     :                              , '()', tillage_depth, numvals_t
+     :                              , 0.0, 1000.0)
+ 
+      If (Numvals_t .eq.0) then
+            tillage_depth = 0.0
+ 
+            string = 'Cannot find tillage depth:- '
+            call FATAL_ERROR (ERR_user, string)
+ 
+      Else
+            ! ----------------------------------------------------------
+            !              Now incorporate the ash alkalinity
+            ! ----------------------------------------------------------
+         Call SoilpH_incorp (Tillage_Depth)
+    
+    
+         Write (string, '(10x,a, f8.2)' )
+     :     'Ash alkalinity incorporated Depth    = ', Tillage_Depth
+    
+         call Write_string (string)
+      Endif
+ 
+ 
+      call pop_routine (my_name)
+      return
+      end
 
 
