@@ -33,10 +33,16 @@ class PACKAGE TText : public TgtQRMemo
 
       void __fastcall setText(AnsiString text);
       AnsiString __fastcall getText(void);
+      AnsiString __fastcall getAlignment(void);
+      void __fastcall setAlignment(AnsiString alignmentString);
+
       virtual void __fastcall Loaded(void);
    protected:
    public:
       __fastcall TText(TComponent* Owner);
+
+      __property AnsiString alignment = {read=getAlignment, write=setAlignment};
+
    __published:
       void __fastcall afterDataRefresh(TDataSet* dataset);
 

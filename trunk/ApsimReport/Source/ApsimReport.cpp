@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 USEFORM("TMainForm.cpp", MainForm);
 USEFORM("TPageSetupForm.cpp", PageSetupForm);
-USEFORM("TReportForm.cpp", ReportForm);
+USEFORM("TLibraryForm.cpp", LibraryForm);
 USEFORM("TObjectInspectorForm.cpp", ObjectInspectorForm);
 USEFORM("TDataPreviewForm.cpp", DataPreviewForm);
 //---------------------------------------------------------------------------
@@ -24,7 +24,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
 
        Application->CreateForm(__classid(TMainForm), &MainForm);
        Application->CreateForm(__classid(TPageSetupForm), &PageSetupForm);
-       Application->CreateForm(__classid(TReportForm), &ReportForm);
+       Application->CreateForm(__classid(TLibraryForm), &LibraryForm);
        Application->CreateForm(__classid(TObjectInspectorForm), &ObjectInspectorForm);
        Application->CreateForm(__classid(TDataPreviewForm), &DataPreviewForm);
        Application->Run();

@@ -24,7 +24,7 @@ __fastcall TSEGTable::TSEGTable(TComponent* Owner)
    {
    source = NULL;
    subscriptionComponents = new TStringList;
-   addToToolbar = true;
+   addToToolbar = false;
    }
 // ------------------------------------------------------------------
 // destructor

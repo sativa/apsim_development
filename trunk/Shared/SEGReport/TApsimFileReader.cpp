@@ -273,7 +273,9 @@ void TApsimFileReader::setProperty(const std::string& propertyName,
    {
    if (Str_i_Eq(propertyName, "filenames"))
       {
-      Path p(propertyValue);
+      SetCurrentDir(reportDirectory);
+      Path p(ExpandFileName(propertyValue.c_str()).c_str());
+      
       vector<string> matchingFiles;
       getDirectoryListing(p.Get_directory(),
                           p.Get_name(),

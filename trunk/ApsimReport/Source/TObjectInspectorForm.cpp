@@ -6,7 +6,6 @@
 #include "TObjectInspectorForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "TSEGObjectInspector"
 #pragma resource "*.dfm"
 TObjectInspectorForm *ObjectInspectorForm;
 //---------------------------------------------------------------------------

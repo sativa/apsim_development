@@ -38,6 +38,30 @@ void __fastcall TText::setText(AnsiString text)
    trapSourceDataRefresh();
    }
 //---------------------------------------------------------------------------
+// Return alignment as a string.
+//---------------------------------------------------------------------------
+AnsiString __fastcall TText::getAlignment(void)
+   {
+   if (Alignment == taLeftJustify)
+      return "Left";
+   else if (Alignment == taCenter)
+      return "Centre";
+   else
+      return "Right";
+   }
+//---------------------------------------------------------------------------
+// Set alignment
+//---------------------------------------------------------------------------
+void __fastcall TText::setAlignment(AnsiString alignmentString)
+   {
+   if (alignmentString == "Left")
+      Alignment = taLeftJustify;
+   else if (alignmentString == "Centre")
+      Alignment = taCenter;
+   else
+      Alignment = taRightJustify;
+   }
+//---------------------------------------------------------------------------
 // refresh the control
 //---------------------------------------------------------------------------
 void TText::refresh(void)
