@@ -78,4 +78,9 @@ class RotationAddIn : public ToolBarAddInBase
 
    };
 
+// ------------------------------------------------------------------
+// Make sure all field names have a per yr on the end.
+// ------------------------------------------------------------------
+std::string addPerYearToFieldName(std::string& fieldName);
+
 #endif
