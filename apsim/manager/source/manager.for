@@ -35,7 +35,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !  Constant variables
       integer Max_local_variables      ! Maximum number of local vars.
-      parameter (Max_local_variables=100)
+      parameter (Max_local_variables=500)
 
       integer Max_manager_var_name_size
       parameter (Max_manager_var_name_size=35)
