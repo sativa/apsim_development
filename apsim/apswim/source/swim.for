@@ -7,12 +7,10 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     Short Description:
 *     gets soil surface conductance, surfcon
 *
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
-      double precision ddivide
 
 
 *     Subroutine Arguments
@@ -60,19 +58,17 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
       endif
 
       return
-      end
+      end subroutine
 * =====================================================================
       subroutine apswim_solve(itlim,fail)
 * =====================================================================
 *     Short description:
 *     solves for this time step
 *
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
-      double precision apswim_wpf    ! function
 
 
 *     Subroutine Arguments
@@ -195,7 +191,7 @@ cnh      call getsol(a(0),b(0),c(0),d(0),rhs(0),dp(0),vbp(0),fail)
 cnh
 
 90    continue
-      end
+      end subroutine
 * =====================================================================
       subroutine apswim_pstat (istat,tresp)
 * =====================================================================
@@ -205,19 +201,12 @@ cnh
 *     g%resp,p%slupf and g%csl were renamed to tslupf,trep,tcsl as there were
 *     already variables with those names in common
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
 cnh      double precision cevap            ! function
-      double precision apswim_cevap        ! function
-      double precision apswim_slupf        ! function
-      double precision apswim_time         ! function
-      integer          apswim_time_to_mins ! function
-      double precision apswim_transp_redn  ! function
-      double precision ddivide             ! function
-      double precision apswim_cover_eos_redn ! function
+
 
 *     Subroutine Arguments
       integer istat
@@ -353,7 +342,7 @@ c        timestep??????? !!
       end if
 
       return
-      end
+      end subroutine
 * =====================================================================
       subroutine apswim_baleq
      :       (it,iroots,tisol,tslos,tcsl,ibegin,iend,a,b,c_,rhs)
@@ -365,14 +354,10 @@ c        timestep??????? !!
 *     these were renamed (by prefixing with g%t - for temp)
 *     this include p%isol, g%csl, p%slos
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
-cnh      double precision grad
-      double precision apswim_pf
-cnh      double precision potl
 
 
 *     Subroutine Argruments
@@ -457,7 +442,7 @@ cnh - added initialisation to zero to eliminate ndp errors
     1 continue
       qp1(M+1) = 0.d0
       qp2(M+1) = 0.d0
-cnh - end
+cnh - end subroutine
 
 *
 ***   initialise for first iteration
@@ -533,7 +518,7 @@ c               if(absgf.ne.0..and.hkp(i).ne.0.)then
                   if(it.eq.1)then
 c                     value=1.-accept*(skd+(g%p(i)-g%p(i-1))*hkdp2)/
 c     1                   (absgf*deltax*hkp(i))
-     
+
                      value=1.-accept*(skd)/(abs(gfhkp)*deltax)
 c                     value=min(1d0,value)
                      g%swta(i)=sign(max(0d0,value),gfhkp)
@@ -549,12 +534,12 @@ c                     value=min(1d0,value)
                call warning_error(Err_Internal
      :                           ,'bad space weighting factor')
             endif
-               
+
             g%q(i)=-0.5*(skd*deltap/deltax-g%gf*(w1*g%hk(i-1)
      :                   +w2*g%hk(i)))
             qp1(i)=-0.5*((hkdp1*deltap-skd)/deltax-g%gf*w1*hkp(i-1))
             qp2(i)=-0.5*((hkdp2*deltap+skd)/deltax-g%gf*w2*hkp(i))
-            
+
             g%swf(i)= w1
          end if
 10    continue
@@ -811,15 +796,14 @@ cnh         if(g%psi(p%n).ge.0.)then
 30    continue
       ibegin=ifirst
       iend=k
-      end
+      end subroutine
 * =====================================================================
       double precision function apswim_wpf ()
 * =====================================================================
 *     Short description:
 *     gets water present in profile
 *
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
@@ -841,7 +825,7 @@ cnh         if(g%psi(p%n).ge.0.)then
 
       apswim_wpf = wpf
 
-      end
+      end function
 * =====================================================================
       subroutine apswim_getsol(solnum,a,b,c_,d,rhs,c1,c2,fail)
 * =====================================================================
@@ -849,12 +833,10 @@ cnh         if(g%psi(p%n).ge.0.)then
 *     get and solve solute balance eqns
 *
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
-      double precision apswim_slupf
 
 
 *     Subroutine Arguments
@@ -1140,7 +1122,7 @@ cnh     :            dum,fail)
         g%csl(solnum,i) = csltemp(i)
    64 continue
 
-cnh end
+cnh end subroutine
       itcnt=itcnt+1
       g%slwork=g%slwork+neq
       if(fail)go to 90
@@ -1312,7 +1294,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 
       end if
 90    continue
-      end
+      end subroutine
 * =====================================================================
       subroutine apswim_thomas(n,ib,a,b,c,rhs,rb,d,v,vb,fail)
 * =====================================================================
@@ -1384,7 +1366,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
       go to 70
 60    fail=.true.
 70    continue
-      end
+      end subroutine
 * =====================================================================
       subroutine apswim_trans(p,psi,psip,psipp)
 * =====================================================================
@@ -1434,7 +1416,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
          psipp=0d0
       end if
 
-      end
+      end subroutine
 *
 ***   water functions
 * =====================================================================
@@ -1471,7 +1453,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
          apswim_pf=v
       end if
 
-      end
+      end function
 * ===================================================================
       subroutine apswim_uptake(tpsi,thk,tpsip,thkp,tqex,tqexp)
 * ===================================================================
@@ -1488,8 +1470,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 * g%q->tq
 * tr->ttr
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Subroutine Arguments
@@ -1597,7 +1578,7 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 50          continue
          end if
 100   continue
-      end
+      end subroutine
 * =====================================================================
       subroutine apswim_watvar(ix,tp,tpsi,psip,psipp,tth,thp,thk,hkp)
 * =====================================================================
@@ -1611,8 +1592,7 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 *     to rename them. I added a g%t (for temp) to start of name for
 *     g%psi, g%hk, g%p, g%th, p%x, p%dx,g%dc
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     notes
@@ -1710,10 +1690,10 @@ c      end if
          hkv=vcon1*phi*exp(vcon2*tpsi)
          thk=thk+hkv
          hkp=hkp+hkv*(vcon2*psip-thp/phi)
-         
+
       end if
 
-      end
+      end subroutine
 
 
 * =====================================================================
@@ -1725,8 +1705,7 @@ c      end if
 *     g%t was renamed to ttt as g%t already exists in common
 *     g%h was renamed to tth as g%h already exists in common
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
@@ -1754,7 +1733,7 @@ cnh      end if
       gh = 0d0
 
       return
-      end
+      end subroutine
 
 
 * =====================================================================
@@ -1767,8 +1746,7 @@ cnh      end if
 *     g%h was renamed to tth as g%h already exists in common
 *     g%roff was renamed to ttroff as g%roff already exists in common
 
-      use APSwimModule
-      Use infrastructure
+            Use infrastructure
       implicit none
 
 *     Global Variables
@@ -1802,7 +1780,7 @@ cnh      end if
       end if
 
       return
-      end
+      end subroutine
 
 
 * =====================================================================
@@ -1860,7 +1838,7 @@ c      real x0new
          x=x+d
       end if
 
-      end
+      end function
 *
       subroutine map(n,x,y,M,u,v)
 *     maps concentration in y into v so that integral is conserved
@@ -1894,4 +1872,4 @@ cnh added following declarations
             end if
          if(again)go to 10
 20    continue
-      end
+      end subroutine
