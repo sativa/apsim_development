@@ -9,13 +9,12 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS =  GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl apsdata.bpl \
-  data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll  \
+PROJECTS = GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl \
+  apsdata.bpl data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll \
   ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
   WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
   SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe \
-  Rainfall.dll viewer.exe
-
+  Rainfall.dll viewer.exe ConvertEconomics.exe NCAddIn.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -195,3 +194,13 @@ Rainfall.dll: Howwet\source\Rainfall\Rainfall.bpr
 viewer.exe: viewer\source\viewer.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ConvertEconomics.exe: ApsimOutlook\Source\Outlook\ConvertEconomics\ConvertEconomics.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+NCAddIn.dll: ApsimOutlook\Source\Outlook\NCAddin\NCAddIn.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+
