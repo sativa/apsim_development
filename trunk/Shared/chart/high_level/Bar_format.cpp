@@ -49,6 +49,7 @@ Bar_format::Bar_format (Bar_type_enum Type)
 
 //  Changes:
 //    DPH 18/4/1997
+//    dph 23/11/99 removed all -1 on cycle lines.
 
 // ------------------------------------------------------------------
 Series_base* Bar_format::Create_series (int Num_plots_so_far)
@@ -84,7 +85,7 @@ Series_base* Bar_format::Create_series (int Num_plots_so_far)
       }
 
    // set the series brush
-   TColor colour = Colour_list[Cycle(Num_series_so_far, Num_colours)-1];
+   TColor colour = Colour_list[Cycle(Num_series_so_far, Num_colours)];
    Bar_series_ptr->Fill.Colour = colour;
    Bar_series_ptr->Fill.Style = Brush::Solid;
 
