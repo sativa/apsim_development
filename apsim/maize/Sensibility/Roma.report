@@ -491,7 +491,7 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 128
+  Left = 110
   Top = 5
   Width = 653
   Height = 845
@@ -737,7 +737,7 @@ object Page1: TQuickRep
     object Text2: TText
       Left = 53
       Top = 132
-      Width = 570
+      Width = 576
       Height = 117
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -749,7 +749,7 @@ object Page1: TQuickRep
         386.953125
         175.286458333333
         436.5625
-        1885.15625)
+        1905)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -762,23 +762,42 @@ object Page1: TQuickRep
       Font.Style = []
       Lines.Strings = (
         
-          'Maize crop sown at Dalby on 1st of October on a Brown vertosol (' +
-          'PAWC of 130mm).'
+          'Maize crop sown at Roma on 1st of October on a Brown vertosol (P' +
+          'AWC of 130mm).'
         
           'Nitrogen in non-limiting.  The crop is sown at 2.5 or 5 plants p' +
           'er square meter.'
         
           'The starting soil moisture is set to be either 400mm or 800mm of' +
           ' wet soil.'
+        ''
+        
+          'Simulations should indicate a rise in the number of failures as ' +
+          'population increases'
+        
+          'or starting soil water decreases.  Maximum yields for high popul' +
+          'ations should be '
+        
+          'approximately 8-9 t/ha with 6 t/ha for low populations.  Median ' +
+          'yields for low population'
+        
+          'should be approximately 1t/ha for a half profile of soil water a' +
+          'nd 2t/ha for a full profile.'
         '')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = 
-        'Maize crop sown at Dalby on 1st of October on a Brown vertosol (' +
-        'PAWC of 130mm).'#13#10'Nitrogen in non-limiting.  The crop is sown at ' +
-        '2.5 or 5 plants per square meter.'#13#10'The starting soil moisture is' +
-        ' set to be either 400mm or 800mm of wet soil.'#13#10#13#10
+        'Maize crop sown at Roma on 1st of October on a Brown vertosol (P' +
+        'AWC of 130mm).'#13#10'Nitrogen in non-limiting.  The crop is sown at 2' +
+        '.5 or 5 plants per square meter.'#13#10'The starting soil moisture is ' +
+        'set to be either 400mm or 800mm of wet soil.'#13#10#13#10'Simulations shou' +
+        'ld indicate a rise in the number of failures as population incre' +
+        'ases'#13#10'or starting soil water decreases.  Maximum yields for high' +
+        ' populations should be '#13#10'approximately 8-9 t/ha with 6 t/ha for ' +
+        'low populations.  Median yields for low population'#13#10'should be ap' +
+        'proximately 1t/ha for a half profile of soil water and 2t/ha for' +
+        ' a full profile.'#13#10#13#10
       FontSize = 14
     end
     object Image1: TImage
