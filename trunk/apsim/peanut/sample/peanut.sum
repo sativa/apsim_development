@@ -1,0 +1,160 @@
+Output data matching this run is in the file : peanut.out
+ 
+---------------------------------------------------------
+Registered to      : Žµ¹©ºµ¿¾¿„µº¶¾ûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûû
+                   : Žµ¹©ºµ¿¾¿„¸´¶«ºµ¢ûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûûû
+Module : report   - unknown in APSRU version control system.
+Module : input    - unknown in APSRU version control system.
+Module : manager  - unknown in APSRU version control system.
+Module : soilwat  - unknown in APSRU version control system.
+Module : peanut   - unknown in APSRU version control system.
+---------------------------------------------------------
+ 
+Report - initialising,V1.3  05/08/96
+Title =run  of peanut model
+Screen output =on
+ 
+Variable list
+-------------
+ 
+Module = input
+Variables =year,day
+ 
+Module = soilwat
+Variables =sw_dep
+ 
+Module = peanut
+Variables =das,gdd,lai,eff,ftsw,atsw,ttsw,hi,veg,yield,phs
+---------------------------------------------------------
+ 
+ File opened ok. -> kingcf.met
+latitude =  -26.33 (deg)
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+ 
+ File opened ok. -> kingcf.met
+latitude =  -26.33 (deg)
+ INPUT Initialised, Version: V1.02  05/08/96
+---------------------------------------------------------
+ day=   1 date=  1  1 1984 manager  - Initialising, Version : V1.12  05/08/96
+ 
+Manager rules
+------- -----
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+if (day = 307 and year = 1984) then
+soilwat set sw = 0.368   0.369    0.368    0.354   0.321    (mm)
+peanut sow
+endif
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+report do_output
+ 
+ File opened ok. -> peanut.man
+ 
+ File opened ok. -> peanut.man
+ 
+-----------------------------------------------------------
+ day=   1 date=  1  1 1984 soilwat  -  Initialising, V1.7 05/08/96
+ 
+    - Reading constants
+ 
+ File opened ok. -> water.par
+ 
+ File opened ok. -> ..\..\inifiles\soilwat.ini
+ 
+   - Reading Soil Property Parameters
+ 
+ File opened ok. -> water.par
+    runoff is predicted using curve number
+ 
+   - Reading Soil Profile Parameters
+ 
+Soil water in parameter file is being overridden by
+the insoil parameter which is between 0 and 1
+ 
+                 Soil Profile Properties
+     ------------------------------------------------------
+         Depth   Air_Dry   LL15    Dul    Sat     Sw    BD
+            mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc
+     ------------------------------------------------------
+        0.-  150. 0.100  0.216   0.368  0.380  0.216  1.000
+      150.-  450. 0.222  0.222   0.369  0.371  0.222  1.000
+      450.-  750. 0.273  0.273   0.368  0.381  0.273  1.000
+      750.- 1050. 0.309  0.309   0.384  0.395  0.309  1.000
+     1050.- 1350. 0.321  0.321   0.377  0.388  0.321  1.000
+     ------------------------------------------------------
+      Totals    352.5    369.9   504.6  517.5  369.9
+     ------------------------------------------------------
+ 
+ 
+             Initial Soil Parameters
+     ---------------------------------------------------------
+      Insoil    Cona       U      Salb Dif_Con Dif_Slope
+                          mm
+     ---------------------------------------------------------
+          0.00    3.50    8.00    0.20  250.00   22.00
+     ---------------------------------------------------------
+         Cn2  Cn_Red  Cn_Cov  H_Eff_Depth
+                                   mm
+     ---------------------------------------------------------
+         65.00   20.00   80.00  450.00
+     ---------------------------------------------------------
+ day=   1 date=  1  1 1984 peanut   -  - Initialised ,Version : V1.01 09/06/96
+ 
+ File opened ok. -> peanut.par
+ 
+======= Start of APSIM simulation ============================
+ Day= 307 Year =  1984     Manager sending message :- soilwat set sw = 0.368   0.369    0.368    0.354   0.321    (mm)
+ Day= 307 Year =  1984     Manager sending message :- peanut sow
+ day= 307 date=  2 11 1984 peanut   - sow
+ day=  76 date= 17  3 1985 peanut   - harvest
+Simulation is terminating due to end of climate data.
+ 
+======= End of APSIM simulation ==============================
