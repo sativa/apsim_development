@@ -27,12 +27,12 @@ variable = soilwat2.esw as esw
 variable = soilwat2.runoff as runoff
 variable = soilwat2.drain as drain
 variable = soiln2.no3() as no3_tot
-variable = nwheat.grainn% as nw_grainn%
-variable = nwheat.anth_date as nw_anthesis
-variable = nwheat.tops_biom as nw_tops_biom
-variable = nwheat.yield as nw_yield
-variable = nwheat.nwheat_status as nw_status
-variable = nwheat.lai as nw_lai
+variable = wheat.grain_n as nw_grainn
+variable = wheat.flowering_date as nw_anthesis
+variable = wheat.biomass as nw_tops_biom
+variable = wheat.yield as nw_yield
+variable = wheat.stage as nw_status
+variable = wheat.lai as nw_lai
 variable = sorghum.flower_wt as sor_flower_wt
 variable = sorghum.das as sor_das
 variable = sorghum.lai as sor_lai
@@ -68,7 +68,7 @@ variable = manager.next_crop
 
    sorghum_to_harvest = 0
 
-   nwheat_to_harvest = 0
+   wheat_to_harvest = 0
 
 ! these are needed to define the order the *variables are displayed in APSFront
 !'sf'
@@ -376,8 +376,8 @@ days_this_year = 364 + (date('1-mar') - date('28-feb'))
    endif
 
 
-   if (nwheat_to_harvest = 1) then
-      nwheat_to_harvest = 0
+   if (wheat_to_harvest = 1) then
+      wheat_to_harvest = 0
       fert_tot = 0
       sow_year = 0
       crop_in = 0
@@ -385,20 +385,20 @@ days_this_year = 364 + (date('1-mar') - date('28-feb'))
    endif
 
 
-   if (nwheat.nwheat_status = 10) then
-      nwheat harvest
-      nwheat_to_harvest = 1
+   if (wheat.stage_name = 'harvest_ripe') then
+      wheat harvest
+      wheat_to_harvest = 1
    endif
 
 
 
 if (crop_current = wheat) then
-   nw_yield = nwheat.yield
-   nw_ep = nwheat.ep
+   nw_yield = wheat.yield
+   nw_ep = wheat.ep
    nw_fert = fert_tot
    nw_density = 80
    plant_density = 80
-   nw_gnp = nwheat.grainn%
+   nw_gnp = wheat.grain_n
    fert_tot = 0.0
 else
    nw_yield = 0
@@ -573,12 +573,12 @@ if (next_crop = wheat OR next_crop = blank) then
 
 
 if (date_within('1-May, 1-Jun') = 1) then
-               nwheat sow plants = 80 (/m2), depth = 30 (mm), cultivar = hartog
+               wheat sow plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
             else
                if (date_within('1-Jun, 7-Jun') = 1) then
-                  nwheat sow plants = 80 (/m2), depth = 30 (mm), cultivar = hartog
+                  wheat sow plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
                else
-                  nwheat sow plants = 80 (/m2), depth = 30 (mm), cultivar = hartog
+                  wheat sow plants = 80 (/m2), sowing_depth = 30 (mm), cultivar = hartog
               endif
             endif
             crop_in = 1
@@ -788,11 +788,11 @@ endif
 
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  nwheat  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-[default.nwheat.parameters]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  wheat  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[default.wheat.parameters]
     ll   =   0.10   0.11    0.11    0.12    0.18          !Jambin values
-    wr   =  1.00    0.86    0.64    0.40    0.10
-    nem  =  1.0    1.0     1.0     1.0     1.0
+   kl   =   0.07    0.07    0.07    0.07    0.07     ()
+   xf   =   1.0    1.0     1.0     1.0     1.0
 
 
 
