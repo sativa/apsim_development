@@ -1,0 +1,8 @@
+[general]
+name = docs
+uses = *.*
+apf = %apsuite\apsim\base-docs.apf
+
+[docs]
+doc = Interface document; %thispath\manager_int.pdf
+doc = Science document; %thispath\manager_science.pdf

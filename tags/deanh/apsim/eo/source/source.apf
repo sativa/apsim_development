@@ -1,0 +1,10 @@
+[general]
+name = source
+uses = %thispath\*.*
+apf = %apsuite\apsim\base-source.apf
+
+[source]
+source  = eo.for; %thispath\eo.for
+
+
+

@@ -1,0 +1,9 @@
+[general]
+name = source
+uses = %thispath\*.*
+apf = %apsuite\apsim\base-source.apf
+
+[source]
+source  = maize.for; %thispath\maize.for
+source  = maizmain.for; %thispath\maizmain.for
+

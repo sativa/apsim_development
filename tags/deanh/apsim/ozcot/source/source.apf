@@ -1,0 +1,8 @@
+[general]
+name = source
+uses = %thispath\*.*
+apf = %apsuite\apsim\base-source.apf
+
+[source]
+source  = ozcot.for; %thispath\ozcot.for
+
