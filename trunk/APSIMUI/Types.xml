@@ -434,6 +434,41 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <variables>
+         <variable name="surfaceom_wt" module = "surfaceom" description="Total mass of all surface organic materials"></variable>
+         <variable name="surfaceom_c" module = "surfaceom" description="Total mass of all surface organic carbon"></variable>
+         <variable name="surfaceom_n" module = "surfaceom" description="Total mass of all surface organic nitrogen"></variable>
+         <variable name="surfaceom_p" module = "surfaceom" description="Total mass of all surface organic phosphor"></variable>
+         <variable name="surfaceom_no3" module = "surfaceom" description="Total mass of nitrate"></variable>
+         <variable name="surfaceom_nh4" module = "surfaceom" description="Total mass of ammonium"></variable>
+         <variable name="surfaceom_labile_p" module = "surfaceom" description="Total mass of labile phosphorus"></variable>
+         <variable name="surfaceom_cover" module = "surfaceom" description="Fraction of ground covered by all surface OM&quot;s"></variable>
+         <variable name="surfaceom_tf" module = "surfaceom" description="Temperature factor for decomposition"></variable>
+         <variable name="surfaceom_wf" module = "surfaceom" description="Water factor for decomposition"></variable>
+         <variable name="surfaceom_cf" module = "surfaceom" description="Contact factor for decomposition"></variable>
+         <variable name="surfaceom_wt_xxxx" module = "surfaceom" description="Mass of organic matter named &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_c_xxxx" module = "surfaceom"  description="Mass of organic carbon in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_n_xxxx" module = "surfaceom"  description="Mass of organic nitrogen in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_p_xxxx" module = "surfaceom"  description="Mass of organic phosphor in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_no3_xxxx" module = "surfaceom" description="Mass of nitrate in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_nh4_xxxx" module = "surfaceom" description="Mass of ammonium in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_labile_p_xxxx" module = "surfaceom" description="Mass of labile phosphorus in &quot;xxxx&quot;"></variable>
+         <variable name="surfaceom_c1_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool1"></variable>
+         <variable name="surfaceom_c2_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool2"></variable>
+         <variable name="surfaceom_c3_xxxx" module = "surfaceom" description="Mass of organic carbon in &quot;xxxx&quot; in fpool3"></variable>
+         <variable name="surfaceom_n1_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool1"></variable>
+         <variable name="surfaceom_n2_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool2"></variable>
+         <variable name="surfaceom_n3_xxxx" module = "surfaceom" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool3"></variable>
+         <variable name="surfaceom_p1_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool1"></variable>
+         <variable name="surfaceom_p2_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool2"></variable>
+         <variable name="surfaceom_p3_xxxx" module = "surfaceom" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool3"></variable>
+         <variable name="pot_c_decomp_xxxx" module = "surfaceom" description="Potential organic C decomposition in &quot;xxxx&quot;"></variable>
+         <variable name="pot_n_decomp_xxxx" module = "surfaceom" description="Potential organic N decomposition in &quot;xxxx&quot;"></variable>
+         <variable name="pot_p_decomp_xxxx" module = "surfaceom" description="Potential organic P decomposition in &quot;xxxx&quot;"></variable>
+         <variable name="standing_fraction_xxxx" module = "surfaceom" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"></variable>
+         <variable name="surfaceom_cover_xxxx" module = "surfaceom" description="Fraction of ground covered by &quot;xxxx&quot;"></variable>
+         <variable name="cnrf_xxxx" module = "surfaceom" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"></variable>
+      </variables>
    </surfaceom>
    <folder>
       <UItype>area</UItype>
