@@ -1,118 +1,100 @@
 //---------------------------------------------------------------------------
-
-#include <vcl.h>
 #pragma hdrstop
 
 #include "Macro.h"
 #include <general\string_functions.h>
+#include <general\stl_functions.h>
+#include <sstream>
+using namespace std;
+// ------------------------------------------------------------------
+//  Short description:
+//    constructor
 
-//---------------------------------------------------------------------------
-
-#pragma package(smart_init)
-//---------------------------------------------------------------------------
-Macro::Macro(string Contents)                                 //  CONSTRUCTOR
-//---------------------------------------------------------------------------
-// Description:
-//    Constructor
-// Notes:
-//
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+Macro::Macro(const std::string& contents)
    {
-   ParseContents(Contents);
-
+   parseString(contents);
    }
-//----------------------------------------------------------------------------
-Macro::~Macro()                                               //   DESTRUCTOR
-//----------------------------------------------------------------------------
-// Description:
-//    Destructor
-// Notes:
-//
+// ------------------------------------------------------------------
+//  Short description:
+//    destructor
+
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+Macro::~Macro()
    {
    // Do Nothing
    }
-//----------------------------------------------------------------------------
-void Macro::SetValues(list<string> Values)
-//----------------------------------------------------------------------------
-// Description:
-//    Set the internal list of macro values
-// Notes:
-//
+// ------------------------------------------------------------------
+//  Short description:
+//    return a list of macrovalue names to caller.
+
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+void Macro::getValueNames(vector<string>& values)
    {
-   MacroValues = Values;
+   for_each(values.begin(), values.end(), GetNameFunction<vector<string>, MacroValue>(values));
    }
-//----------------------------------------------------------------------------
-void Macro::GetValues(list<string>& Values)
-//----------------------------------------------------------------------------
-// Description:
-//    Provide the list of macro values
-// Notes:
-//
+// ------------------------------------------------------------------
+//  Short description:
+//    return a specific macro value or NULL if not found.
+
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+MacroValue* Macro::getValue(const string& name)
    {
-   Values = MacroValues;
+   vector<MacroValue>::iterator v = find(values.begin(), values.end(), name);
+   if (v != values.end())
+      return v;
+   else
+      return NULL;
    }
-//----------------------------------------------------------------------------
-void Macro::Translate(string& text)
-//----------------------------------------------------------------------------
-// Description:
-//    Translate the given text for the values of this macro.
-//    This requires appending a copy of the original text with each
-// Notes:
-//
+// ------------------------------------------------------------------
+//  Short description:
+//    Parse the specified string removing this macros' name and
+//    replacing with 1 or more values.  Original text is left
+//    unchanged.
+
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+string Macro::performMacroReplacement(const string& text)
    {
-    string original = text;   // Keep a copy of the original text provided
-
-    text = "";                // Now clear the text and incrementally rebuild it
-
-    for (list<string>::iterator I = MacroValues.begin();
-                                I != MacroValues.end();
-                                I++)
-      {
-         // Now, add a copy of the original with macro substituted
-         string workstr = original;
-         Replace_all(workstr,MacroKey.c_str(),(*I).c_str());
-         text+=workstr;
-      }
+   string newText;
+   for (vector<MacroValue>::iterator v = values.begin();
+                                     v != values.end();
+                                     v++)
+      newText += v->performMacroReplacement(text, name);
+   return newText;
    }
 
-//----------------------------------------------------------------------------
-void Macro::ParseContents(const string& Contents)
-//----------------------------------------------------------------------------
-// Description:
-//     Break up the contents string into description and values.
-// Notes:
-//
+// ------------------------------------------------------------------
+//  Short description:
+//    Parse the specified string looking for macro specifications.
+
+//  Changes:
+//    DPH 22/8/2001 reworked from NIH original
+// ------------------------------------------------------------------
+void Macro::parseString(const string& contents)
    {
-   unsigned int posName = Contents.find("#name");
-   if (posName != string::npos)
-      {
-      int posEOL = Contents.find("\n", posName);
-      MacroName = Contents.substr(posName+strlen("#name"),
-                                  posEOL-posName-strlen("#name"));
-      Strip(MacroName, " ");
-      }
-   else
-      throw string("Cannot find macro name");
+   istringstream in(contents.c_str());
+   string line;
+   getline(in, line);
+   name = getAttributeFromLine("name", line);
 
-   unsigned int posKey = Contents.find("#key");
-   if (posKey != string::npos)
+   // go looking for lines like:
+   //    #value name="year" type="(y)"
+   //    #value name="day"  type="(d)"
+   // create a new MacroValue object for each and store in our values array.
+   while (getline(in, line))
       {
-      int posEOL = Contents.find("\n", posKey);
-      MacroKey = Contents.substr(posKey+strlen("#key"),
-                                         posEOL-posKey-strlen("#key"));
-      Strip(MacroKey, " ");
+      if (line.find("#value") != string::npos)
+         values.push_back(MacroValue(line));
       }
-   else
-      throw string("Cannot find macro key");
-
-   unsigned int posValues = Contents.find("#values");
-   if (posValues != string::npos)
-      {
-      int posEOL = Contents.find("\n", posValues);
-      string MacroValuesString = Contents.substr(posValues+strlen("#values"),
-                                                 posEOL-posValues-strlen("#values"));
-      Split_string(MacroValuesString, " ", MacroValues);
-      }
-   else
-      MacroValues.erase(MacroValues.begin(), MacroValues.end());
    }
 
