@@ -25,7 +25,8 @@ module = SummaryFile  test2.par[sample]
 module = Screen  test2.par[sample]
 
 [apsim.Test3]
-Test for low rlv affects on ep during early growth
+!Test for low rlv affects on ep during early growth - it should throw warning messages.
+
 title=APSwim Test 3
 module = clock    test3.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   test3.par [sample]
