@@ -38,6 +38,9 @@ CropFields::CropFields(const TAPSRecord* record)
    // get a list of field names
    if (record != NULL)
       {
+      string cropName = record->getFieldValue("Crop");
+      cropFieldExists = (cropName != "");
+
       fieldNames = record->getFieldNames();
 
       // now create a list of field names minus the units.
@@ -49,7 +52,11 @@ CropFields::CropFields(const TAPSRecord* record)
          if (posUnits == string::npos)
             fieldNamesMinusUnits.push_back(*i);
          else
-            fieldNamesMinusUnits.push_back(i->substr(0, posUnits));
+            {
+            string fieldNameMinusUnits = i->substr(0, posUnits);
+            Strip(fieldNameMinusUnits, " ");
+            fieldNamesMinusUnits.push_back(fieldNameMinusUnits);
+            }
          }
 
       calcCropAcronyms();
@@ -127,11 +134,14 @@ void CropFields::calcCropAcronyms(void)
 void CropFields::getCropAcronyms(const TAPSRecord& record,
                                  std::vector<std::string>& crops) const
    {
-   string cropName = record.getFieldValue("crop");
-   if (cropName == "")
+   if (!cropFieldExists)
       copy(cropAcronyms.begin(), cropAcronyms.end(), back_inserter(crops));
+
    else
+      {
+      string cropName = record.getFieldValue("Crop");
       crops.push_back(cropName);
+      }
    }
 
 
@@ -188,17 +198,27 @@ bool CropFields::isCropField(const string& fieldName) const
 bool CropFields::cropHasNonZeroValue(const TAPSRecord& recordI,
                                      const string& crop_acronym) const
    {
-   vector<string> fieldNames = recordI.getFieldNames();
-   for (vector<string>::iterator fieldI = fieldNames.begin();
-                                 fieldI != fieldNames.end();
-                                 fieldI++)
+   if (cropFieldExists)
       {
-      string acronym_ = crop_acronym + "_";
-      if (fieldI->find(acronym_) == 0)
+      string yieldValue;
+      getCropValue(recordI, "yield", crop_acronym, yieldValue);
+      if (yieldValue != "" && Is_numerical(yieldValue.c_str()))
+         return (StrToFloat(yieldValue.c_str()) != 0.0);
+      }
+   else
+      {
+      vector<string> fieldNames = recordI.getFieldNames();
+      for (vector<string>::iterator fieldI = fieldNames.begin();
+                                    fieldI != fieldNames.end();
+                                    fieldI++)
          {
-         string Value = recordI.getFieldValue(*fieldI);
-         if (Is_numerical(Value.c_str()))
-            return (StrToFloat(Value.c_str()) != 0.0);
+         string acronym_ = crop_acronym + "_";
+         if (fieldI->find(acronym_) == 0)
+            {
+            string Value = recordI.getFieldValue(*fieldI);
+            if (Is_numerical(Value.c_str()))
+               return (StrToFloat(Value.c_str()) != 0.0);
+            }
          }
       }
    return false;
