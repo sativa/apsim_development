@@ -99,7 +99,9 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
 void ApsimRuns::runAll(bool withConsole, bool quiet, bool run)
    {
    console = withConsole;
-   if (!quiet && !run)
+   vector<string> filesNeedingConversion;
+   getFilesNeedingConversion(filesNeedingConversion);
+   if (!quiet && !run && (runs.size() > 1 || filesNeedingConversion.size() > 0))
       {
       RunForm = new TRunForm(NULL);
       RunForm->runs = this;
