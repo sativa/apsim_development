@@ -9,6 +9,7 @@ variable = clock.year
 variable = slurp.crop_type
 variable = slurp.sw_demand
 variable = slurp.ep
+variable = slurp.sw_supply_pot()
 variable = micromet.peta
 variable = micromet.petr
 variable = slurp.cover_tot
