@@ -48,11 +48,11 @@ class __declspec(dllexport) TRunForm : public TForm
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);
-      void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
       void __fastcall Page2Show(TObject *Sender);
       void __fastcall Page3Show(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
    void __fastcall Timer1Timer(TObject *Sender);
+   void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
    private:	// User declarations
       TCursor savedCursor;
       PreviousRuns previousRuns;
