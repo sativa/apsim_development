@@ -236,6 +236,15 @@
          ------------------------------------------------
                500.0     2.5     0.0  maize
          ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100    80.0     0.0       F       no
+         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -372,35 +381,35 @@
 25 January 1993(Day of year=25), maize: 
       stage    4.0 end_of_juvenile
                           biomass =           2.775809       lai =    0.4589706E-01
-                          stover N conc =    3.364288       extractable sw =    50.77953
+                          stover N conc =    3.353775       extractable sw =    50.77953
 29 January 1993(Day of year=29), maize: 
       stage    5.0 floral_initiation
                           biomass =           6.209499       lai =    0.1032346
-                          stover N conc =    2.880184       extractable sw =    49.36780
+                          stover N conc =    2.873843       extractable sw =    49.36780
 9 March 1993(Day of year=68), maize: 
       stage    6.0 flag_leaf
-                          biomass =           431.5398       lai =     2.838513
-                          stover N conc =    2.495760       extractable sw =    90.24078
+                          biomass =           431.5287       lai =     2.838456
+                          stover N conc =    2.490756       extractable sw =    90.24076
 16 March 1993(Day of year=75), maize: 
       stage    7.0 flowering
-                          biomass =           582.3754       lai =     2.761965
-                          stover N conc =    2.370557       extractable sw =    96.31741
+                          biomass =           582.3636       lai =     2.761914
+                          stover N conc =    2.365248       extractable sw =    96.31740
 26 March 1993(Day of year=85), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           783.6938       lai =     2.495038
-                          stover N conc =    2.319208       extractable sw =    96.53403
+                          biomass =           783.6813       lai =     2.495083
+                          stover N conc =    2.311234       extractable sw =    96.53402
 29 May 1993(Day of year=149), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1433.912       lai =    0.9153796
-                          stover N conc =    1.640262       extractable sw =    95.51852
+                          biomass =           1433.913       lai =    0.9153979
+                          stover N conc =    1.693232       extractable sw =    95.51845
 30 May 1993(Day of year=150), maize: 
       stage   10.0 maturity
-                          biomass =           1437.659       lai =    0.9024488
-                          stover N conc =    1.636198       extractable sw =    94.54068
+                          biomass =           1437.660       lai =    0.9024661
+                          stover N conc =    1.691445       extractable sw =    94.54060
 31 May 1993(Day of year=151), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1437.658       lai =    0.3800035E-02
-                          stover N conc =    1.668247       extractable sw =    93.30241
+                          biomass =           1437.659       lai =    0.3800154E-02
+                          stover N conc =    1.716303       extractable sw =    93.30230
 31 May 1993(Day of year=151), manager: 
      Manager sending message :- maize harvest
 31 May 1993(Day of year=151), maize: 
@@ -408,20 +417,20 @@
      
      
      flowering (DAS) =  66                  maturity (DAS)  = 141
-      flowering day  =   75                  stover (kg/ha) =    6619.4
-      maturity day        =  150             grain yield (kg/ha) =    7757.2
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    9180.1
-      grain wt (g) =     0.444               grains/m^2   =  1745.523
-      grains/head = 174.6                    maximum lai = 2.949
+      flowering day  =   75                  stover (kg/ha) =    6619.3
+      maturity day        =  150             grain yield (kg/ha) =    7757.3
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    9180.3
+      grain wt (g) =     0.364               grains/m^2   =  2128.404
+      grains/head = 212.8                    maximum lai = 2.949
       total above ground biomass (kg/ha) =   14376.6
       live above ground biomass (kg/ha) =   14376.6
-      green above ground biomass (kg/ha) =   13326.4
-      senesced above ground biomass (kg/ha) =    1050.2
+      green above ground biomass (kg/ha) =   13326.5
+      senesced above ground biomass (kg/ha) =    1050.1
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.8
-      grain N percent =      1.43            total N content (kg/ha) =    223.37
-      grain N uptake (kg/ha) =    110.78     senesced N content (kg/ha) =      1.05
-      green N content (kg/ha) =    111.54    dead N content (kg/ha) =      0.00
+      grain N percent =      1.59            total N content (kg/ha) =    233.97
+      grain N uptake (kg/ha) =    123.01     senesced N content (kg/ha) =      5.25
+      green N content (kg/ha) =    105.72    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -441,43 +450,43 @@
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0944640   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2245422   nitrogen stress 2 =       0.0040369
+      water stress 1 =       0.0944546   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2245266   nitrogen stress 2 =       0.0044208
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.0975499   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.2970783   nitrogen stress 2 =       0.0007300
+      water stress 1 =       0.0975444   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2970661   nitrogen stress 2 =       0.0019219
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0427231   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1469615   nitrogen stress 2 =       0.0016517
+      water stress 1 =       0.0427224   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1469604   nitrogen stress 2 =       0.0027882
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0115928   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0395550   nitrogen stress 2 =       0.0000000
+      water stress 1 =       0.0115945   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0395585   nitrogen stress 2 =       0.0000000
 31 May 1993(Day of year=151), manager: 
      Manager sending message :- maize kill_crop
 31 May 1993(Day of year=151), maize: 
-         kill. Standing above-ground dm =  6619.4 (kg/ha)
+         kill. Standing above-ground dm =  6619.3 (kg/ha)
 1 June 1993(Day of year=152), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           661.9381       lai =    0.3800035E-02
-                          stover N conc =    2.002704       extractable sw =    92.57409
+                          biomass =           661.9271       lai =    0.3800154E-02
+                          stover N conc =    1.898252       extractable sw =    92.57396
 1 June 1993(Day of year=152), manager: 
      Manager sending message :- maize end_crop
 1 June 1993(Day of year=152), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 6619.4 kg/ha
-                                               straw N =  112.6 kg/ha
+                                               straw residue = 6619.3 kg/ha
+                                               straw N =  111.0 kg/ha
                                                straw P =    0.0 kg/ha
                                                root residue = 1711.7 kg/ha
-                                               root N =   20.5 kg/ha
+                                               root N =   18.3 kg/ha
                                                root P =    0.0 kg/ha
 9 June 1993(Day of year=160), manager: 
      Manager sending message :- maize sow  cultivar = katumani, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
@@ -560,36 +569,36 @@
                           stover N conc =    4.399999       extractable sw =    20.65083
 28 June 1993(Day of year=179), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           1.298372       lai =    0.2885638E-01
-                          stover N conc =    2.985457       extractable sw =    54.87999
+                          biomass =           1.291602       lai =    0.2871829E-01
+                          stover N conc =    2.981194       extractable sw =    54.87958
 29 June 1993(Day of year=180), maize: 
       stage    5.0 floral_initiation
-                          biomass =           1.494845       lai =    0.3257145E-01
-                          stover N conc =    2.979800       extractable sw =    52.43235
+                          biomass =           1.487140       lai =    0.3242419E-01
+                          stover N conc =    2.974803       extractable sw =    52.43176
 16 August 1993(Day of year=228), maize: 
       stage    6.0 flag_leaf
-                          biomass =           290.1820       lai =     1.993670
-                          stover N conc =    2.326976       extractable sw =    97.27908
+                          biomass =           289.6693       lai =     1.989389
+                          stover N conc =    2.324930       extractable sw =    97.27917
 17 August 1993(Day of year=229), maize: 
       stage    7.0 flowering
-                          biomass =           306.0965       lai =     1.991804
-                          stover N conc =    2.317735       extractable sw =    92.14857
+                          biomass =           305.5614       lai =     1.987527
+                          stover N conc =    2.315877       extractable sw =    92.15166
 30 August 1993(Day of year=242), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           447.2395       lai =     1.966732
-                          stover N conc =    2.285015       extractable sw =    90.41969
+                          biomass =           446.5056       lai =     1.962519
+                          stover N conc =    2.284842       extractable sw =    90.42130
 16 October 1993(Day of year=289), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           972.6421       lai =     1.782157
-                          stover N conc =    1.247460       extractable sw =    97.68050
+                          biomass =           935.2012       lai =     1.778546
+                          stover N conc =    1.253942       extractable sw =    97.79922
 17 October 1993(Day of year=290), maize: 
       stage   10.0 maturity
-                          biomass =           981.4883       lai =     1.772545
-                          stover N conc =    1.239565       extractable sw =    95.07915
+                          biomass =           942.6947       lai =     1.768963
+                          stover N conc =    1.247254       extractable sw =    95.29013
 18 October 1993(Day of year=291), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           981.4883       lai =    0.1899719E-02
-                          stover N conc =    1.312672       extractable sw =    90.27416
+                          biomass =           942.6947       lai =    0.1899481E-02
+                          stover N conc =    1.297212       extractable sw =    90.80836
 18 October 1993(Day of year=291), manager: 
      Manager sending message :- maize harvest
 18 October 1993(Day of year=291), maize: 
@@ -597,20 +606,20 @@
      
      
      flowering (DAS) =  70                  maturity (DAS)  = 131
-      flowering day  =  229                  stover (kg/ha) =    6828.7
-      maturity day        =  290             grain yield (kg/ha) =    2986.2
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    3534.0
-      grain wt (g) =     0.386               grains/m^2   =   774.302
-      grains/head = 154.9                    maximum lai = 2.003
-      total above ground biomass (kg/ha) =    9814.9
-      live above ground biomass (kg/ha) =    9814.9
-      green above ground biomass (kg/ha) =    9142.9
-      senesced above ground biomass (kg/ha) =     672.0
+      flowering day  =  229                  stover (kg/ha) =    5995.8
+      maturity day        =  290             grain yield (kg/ha) =    3431.2
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    4060.6
+      grain wt (g) =     0.386               grains/m^2   =   887.810
+      grains/head = 177.6                    maximum lai = 1.999
+      total above ground biomass (kg/ha) =    9426.9
+      live above ground biomass (kg/ha) =    9426.9
+      green above ground biomass (kg/ha) =    8756.4
+      senesced above ground biomass (kg/ha) =     670.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  14.4
-      grain N percent =      1.57            total N content (kg/ha) =    120.69
-      grain N uptake (kg/ha) =     46.94     senesced N content (kg/ha) =      0.67
-      green N content (kg/ha) =     73.08    dead N content (kg/ha) =      0.00
+      grain N percent =      1.58            total N content (kg/ha) =    116.94
+      grain N uptake (kg/ha) =     54.05     senesced N content (kg/ha) =      3.35
+      green N content (kg/ha) =     59.54    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -619,54 +628,54 @@
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0224893
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0845336
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0867014
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1362227
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1382336
      
      
      
       stress indices for floral_initiation
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0684300
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0702081
      
      
      
       stress indices for flag_leaf
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0391253
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0404157
      
      
      
       stress indices for flowering
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0180620
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0190971
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0041633   nitrogen stress 1 =       0.1366578
-      water stress 2 =       0.0173132   nitrogen stress 2 =       0.2639717
+      water stress 1 =       0.0003982   nitrogen stress 1 =       0.1959007
+      water stress 2 =       0.0065048   nitrogen stress 2 =       0.3207517
 18 October 1993(Day of year=291), manager: 
      Manager sending message :- maize kill_crop
 18 October 1993(Day of year=291), maize: 
-         kill. Standing above-ground dm =  6828.7 (kg/ha)
+         kill. Standing above-ground dm =  5995.8 (kg/ha)
 19 October 1993(Day of year=292), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           682.8650       lai =    0.1899719E-02
-                          stover N conc =    1.186991       extractable sw =    87.13573
+                          biomass =           599.5752       lai =    0.1899481E-02
+                          stover N conc =    1.117999       extractable sw =    87.66606
 19 October 1993(Day of year=292), manager: 
      Manager sending message :- maize end_crop
 19 October 1993(Day of year=292), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 6828.7 kg/ha
-                                               straw N =   73.8 kg/ha
+                                               straw residue = 5995.8 kg/ha
+                                               straw N =   62.9 kg/ha
                                                straw P =    0.0 kg/ha
-                                               root residue =  946.9 kg/ha
-                                               root N =   11.0 kg/ha
+                                               root residue =  945.3 kg/ha
+                                               root N =   10.1 kg/ha
                                                root P =    0.0 kg/ha
 27 October 1993(Day of year=300), manager: 
      Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
@@ -740,39 +749,39 @@
 30 October 1993(Day of year=303), maize: 
       stage    3.0 emergence
                           biomass =          0.9999999E-01   lai =    0.1900000E-02
-                          stover N conc =    4.399999       extractable sw =    14.68008
+                          stover N conc =    4.399999       extractable sw =    17.84571
 15 November 1993(Day of year=319), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           1.558614       lai =    0.2419658E-01
-                          stover N conc =    2.977221       extractable sw =    50.20264
+                          biomass =           1.546673       lai =    0.2398142E-01
+                          stover N conc =    2.962362       extractable sw =    52.76533
 19 November 1993(Day of year=323), maize: 
       stage    5.0 floral_initiation
-                          biomass =           3.473032       lai =    0.4758134E-01
-                          stover N conc =    2.582163       extractable sw =    49.10574
+                          biomass =           3.445295       lai =    0.4723020E-01
+                          stover N conc =    2.570555       extractable sw =    51.63211
 1 January 1994(Day of year=1), maize: 
       stage    6.0 flag_leaf
-                          biomass =           208.0971       lai =     1.044210
-                          stover N conc =    1.377993       extractable sw =    36.37599
+                          biomass =           213.6035       lai =     1.140986
+                          stover N conc =    1.305354       extractable sw =    37.30074
 7 January 1994(Day of year=7), maize: 
       stage    7.0 flowering
-                          biomass =           233.8818       lai =    0.9232970
-                          stover N conc =    1.370877       extractable sw =    77.57547
+                          biomass =           239.2984       lai =     1.012812
+                          stover N conc =    1.282569       extractable sw =    78.26854
 16 January 1994(Day of year=16), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           283.4067       lai =    0.9232970
-                          stover N conc =    1.282864       extractable sw =    59.98970
+                          biomass =           286.8536       lai =     1.012812
+                          stover N conc =    1.208813       extractable sw =    60.76860
 6 March 1994(Day of year=65), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           430.4933       lai =    0.1675127
-                          stover N conc =    1.197016       extractable sw =    75.04333
+                          biomass =           425.7559       lai =    0.2186700
+                          stover N conc =    1.120853       extractable sw =    78.02788
 7 March 1994(Day of year=66), maize: 
       stage   10.0 maturity
-                          biomass =           431.2845       lai =    0.1458745
-                          stover N conc =    1.205448       extractable sw =    74.66711
+                          biomass =           426.5891       lai =    0.1965153
+                          stover N conc =    1.128031       extractable sw =    77.57997
 8 March 1994(Day of year=67), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           431.2845       lai =    0.1899838E-02
-                          stover N conc =    1.219312       extractable sw =    74.30818
+                          biomass =           426.5891       lai =    0.1899898E-02
+                          stover N conc =    1.138498       extractable sw =    77.15738
 8 March 1994(Day of year=67), manager: 
      Manager sending message :- maize harvest
 8 March 1994(Day of year=67), maize: 
@@ -780,20 +789,20 @@
      
      
      flowering (DAS) =  73                  maturity (DAS)  = 132
-      flowering day  =    7                  stover (kg/ha) =    4312.8
+      flowering day  =    7                  stover (kg/ha) =    4265.9
       maturity day        =   66             grain yield (kg/ha) =       0.0
       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
-      grains/head =   0.0                    maximum lai = 1.397
-      total above ground biomass (kg/ha) =    4312.8
-      live above ground biomass (kg/ha) =    4312.8
-      green above ground biomass (kg/ha) =    3782.5
-      senesced above ground biomass (kg/ha) =     530.3
+      grains/head =   0.0                    maximum lai = 1.456
+      total above ground biomass (kg/ha) =    4265.9
+      live above ground biomass (kg/ha) =    4265.9
+      green above ground biomass (kg/ha) =    3721.3
+      senesced above ground biomass (kg/ha) =     544.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.6
-      grain N percent =      0.00            total N content (kg/ha) =     46.65
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.53
-      green N content (kg/ha) =     46.12    dead N content (kg/ha) =      0.00
+      grain N percent =      0.00            total N content (kg/ha) =     45.09
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      2.72
+      green N content (kg/ha) =     42.37    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -802,54 +811,54 @@
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0054294
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0771740
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0841265
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1038031
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1094246
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.1827896   nitrogen stress 1 =       0.1199166
-      water stress 2 =       0.3390122   nitrogen stress 2 =       0.2437914
+      water stress 1 =       0.1689890   nitrogen stress 1 =       0.1349440
+      water stress 2 =       0.3207970   nitrogen stress 2 =       0.2574104
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.4803633   nitrogen stress 1 =       0.3919121
-      water stress 2 =       0.6728544   nitrogen stress 2 =       0.5135297
+      water stress 1 =       0.4657734   nitrogen stress 1 =       0.4489377
+      water stress 2 =       0.6644831   nitrogen stress 2 =       0.5591502
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3848285
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5078628
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4521832
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5617465
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3891953
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5113562
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.4859672
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.5887737
 8 March 1994(Day of year=67), manager: 
      Manager sending message :- maize kill_crop
 8 March 1994(Day of year=67), maize: 
-         kill. Standing above-ground dm =  4312.8 (kg/ha)
+         kill. Standing above-ground dm =  4265.9 (kg/ha)
 9 March 1994(Day of year=68), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           431.2845       lai =    0.1899838E-02
-                          stover N conc =    1.219312       extractable sw =    74.03596
+                          biomass =           426.5891       lai =    0.1899898E-02
+                          stover N conc =    1.138498       extractable sw =    76.83337
 9 March 1994(Day of year=68), manager: 
      Manager sending message :- maize end_crop
 9 March 1994(Day of year=68), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 4312.8 kg/ha
-                                               straw N =   46.7 kg/ha
+                                               straw residue = 4265.9 kg/ha
+                                               straw N =   45.1 kg/ha
                                                straw P =    0.0 kg/ha
-                                               root residue =  696.6 kg/ha
-                                               root N =    5.7 kg/ha
+                                               root residue =  710.7 kg/ha
+                                               root N =    5.1 kg/ha
                                                root P =    0.0 kg/ha
 21 March 1994(Day of year=80), manager: 
      Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 5, sowing_depth = 50, tiller_no_fertile = 1
@@ -929,39 +938,39 @@
 25 March 1994(Day of year=84), maize: 
       stage    3.0 emergence
                           biomass =          0.9999999E-01   lai =    0.1900000E-02
-                          stover N conc =    4.399999       extractable sw =    19.95038
+                          stover N conc =    4.399999       extractable sw =    19.92229
 9 April 1994(Day of year=99), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           1.985637       lai =    0.4044645E-01
-                          stover N conc =    3.071904       extractable sw =    57.25116
+                          biomass =           1.974079       lai =    0.4022034E-01
+                          stover N conc =    3.061371       extractable sw =    57.08281
 10 April 1994(Day of year=100), maize: 
       stage    5.0 floral_initiation
-                          biomass =           2.393909       lai =    0.4513948E-01
-                          stover N conc =    3.072662       extractable sw =    57.05109
+                          biomass =           2.380086       lai =    0.4489208E-01
+                          stover N conc =    3.059218       extractable sw =    56.87610
 1 June 1994(Day of year=152), maize: 
       stage    6.0 flag_leaf
-                          biomass =           301.9961       lai =     2.120527
-                          stover N conc =    2.055309       extractable sw =    95.76349
+                          biomass =           300.7865       lai =     2.110541
+                          stover N conc =    2.017670       extractable sw =    95.75161
 12 June 1994(Day of year=163), maize: 
       stage    7.0 flowering
-                          biomass =           393.2861       lai =     2.120527
-                          stover N conc =    1.715247       extractable sw =    75.94574
+                          biomass =           390.3235       lai =     2.110541
+                          stover N conc =    1.689119       extractable sw =    76.14082
 3 July 1994(Day of year=184), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           529.9641       lai =     1.272316
-                          stover N conc =    1.385508       extractable sw =    46.57761
+                          biomass =           523.8755       lai =     1.266325
+                          stover N conc =    1.350605       extractable sw =    47.23173
 30 September 1994(Day of year=273), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           619.6270       lai =    0.2183686E-01
-                          stover N conc =    1.462893       extractable sw =    59.41995
+                          biomass =           610.1559       lai =    0.2173402E-01
+                          stover N conc =    1.412810       extractable sw =    60.34264
 1 October 1994(Day of year=274), maize: 
       stage   10.0 maturity
-                          biomass =           619.8565       lai =    0.2183686E-01
-                          stover N conc =    1.464318       extractable sw =    59.24855
+                          biomass =           610.3844       lai =    0.2173402E-01
+                          stover N conc =    1.414393       extractable sw =    60.17069
 2 October 1994(Day of year=275), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           619.8566       lai =    0.2297981E-02
-                          stover N conc =    1.465812       extractable sw =    59.07188
+                          biomass =           610.3843       lai =    0.2293605E-02
+                          stover N conc =    1.415406       extractable sw =    59.99352
 2 October 1994(Day of year=275), manager: 
      Manager sending message :- maize harvest
 2 October 1994(Day of year=275), maize: 
@@ -969,20 +978,20 @@
      
      
      flowering (DAS) =  84                  maturity (DAS)  = 195
-      flowering day  =  163                  stover (kg/ha) =    4518.7
-      maturity day        =  274             grain yield (kg/ha) =    1679.9
-      grain % water content   =   15.5       grain yield wet (kg/ha) =    1988.0
-      grain wt (g) =     0.455               grains/m^2   =   369.377
-      grains/head =  73.9                    maximum lai = 2.298
-      total above ground biomass (kg/ha) =    6198.6
-      live above ground biomass (kg/ha) =    6198.6
-      green above ground biomass (kg/ha) =    5451.3
-      senesced above ground biomass (kg/ha) =     747.3
+      flowering day  =  163                  stover (kg/ha) =    4469.2
+      maturity day        =  274             grain yield (kg/ha) =    1634.7
+      grain % water content   =   15.5       grain yield wet (kg/ha) =    1934.5
+      grain wt (g) =     0.255               grains/m^2   =   640.172
+      grains/head = 128.0                    maximum lai = 2.291
+      total above ground biomass (kg/ha) =    6103.8
+      live above ground biomass (kg/ha) =    6103.8
+      green above ground biomass (kg/ha) =    5359.8
+      senesced above ground biomass (kg/ha) =     744.0
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  17.0
-      grain N percent =      0.59            total N content (kg/ha) =     80.65
-      grain N uptake (kg/ha) =      9.91     senesced N content (kg/ha) =      0.75
-      green N content (kg/ha) =     69.99    dead N content (kg/ha) =      0.00
+      grain N percent =      0.81            total N content (kg/ha) =     79.58
+      grain N uptake (kg/ha) =     13.31     senesced N content (kg/ha) =      3.72
+      green N content (kg/ha) =     62.55    dead N content (kg/ha) =      0.00
       grain P percent =      0.00            total P content (kg/ha) =      0.00
       grain P uptake (kg/ha) =      0.00     senesced P content (kg/ha) =      0.00
       green P content (kg/ha) =      0.00    dead P content (kg/ha) =      0.00
@@ -991,54 +1000,54 @@
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0496134
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0992713
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1018660
      
      
      
       stress indices for end_of_juvenile
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0966315
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1015631
      
      
      
       stress indices for floral_initiation
-      water stress 1 =       0.0468829   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.1075505   nitrogen stress 2 =       0.0831745
+      water stress 1 =       0.0475238   nitrogen stress 1 =       0.0002511
+      water stress 2 =       0.1088041   nitrogen stress 2 =       0.0881741
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0579514
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2455729
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0793309
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2634647
      
      
      
       stress indices for flowering
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.2772569
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4218055
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.3024147
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.4419317
      
      
      
       stress indices for start_grain_fill
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1608683
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2792542
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1620711
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2962090
 2 October 1994(Day of year=275), manager: 
      Manager sending message :- maize kill_crop
 2 October 1994(Day of year=275), maize: 
-         kill. Standing above-ground dm =  4518.7 (kg/ha)
+         kill. Standing above-ground dm =  4469.2 (kg/ha)
 3 October 1994(Day of year=276), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           451.8706       lai =    0.2297981E-02
-                          stover N conc =    1.855829       extractable sw =    58.95683
+                          biomass =           446.9188       lai =    0.2293605E-02
+                          stover N conc =    1.679224       extractable sw =    59.87770
 3 October 1994(Day of year=276), manager: 
      Manager sending message :- maize end_crop
 3 October 1994(Day of year=276), maize: 
          ended. Yield (dw) =     0.0
-                                               straw residue = 4518.7 kg/ha
-                                               straw N =   70.7 kg/ha
+                                               straw residue = 4469.2 kg/ha
+                                               straw N =   66.3 kg/ha
                                                straw P =    0.0 kg/ha
-                                               root residue = 1076.0 kg/ha
-                                               root N =   10.2 kg/ha
+                                               root residue = 1066.8 kg/ha
+                                               root N =    8.7 kg/ha
                                                root P =    0.0 kg/ha
 31 December 1994(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
