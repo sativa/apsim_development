@@ -230,7 +230,6 @@ void PatchInputComponent::respondToMethod(unsigned int& fromID, unsigned int& me
          {
          date d(data[i].today);
          unsigned dayNumber = day_of_year(d);
-         ShowMessage(dayNumber);
          patchData.insert(make_pair(dayNumber, data[i]));
          }
       }
