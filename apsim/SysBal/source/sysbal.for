@@ -32,6 +32,9 @@
       integer    module_name_size             ! maximum length of module name
       parameter (module_name_size = 32)
 
+      real       fraction_C_FOM             ! Fraction Cin FOM
+      parameter (fraction_C_FOM = 0.4)
+
 
       type SysBalGlobals
          sequence
@@ -1604,11 +1607,19 @@ c      integer    sysbal_module_number    ! function
      :                   '**** C balance - unaccounted gain (kg/ha) = '
      :                  , g%Cerror_system
          call Write_string (string)
+         write (string, *)
+     :                   '****        equivalent DM as FOM  (kg/ha) = '
+     :                  , g%Cerror_system / 0.4
+         call Write_string (string)
 
       elseif (g%Cerror_system .lt. -error_threshold*0.4) then
          write (string, *)
      :                   '**** C balance - unaccounted loss (kg/ha) = '
      :                  , g%Cerror_system
+         call Write_string (string)
+         write (string, *)
+     :                   '****        equivalent DM as FOM  (kg/ha) = '
+     :                  , g%Cerror_system / 0.4
          call Write_string (string)
 
       else
