@@ -864,6 +864,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <variables link="plant.xml"/>
    </sorghum>
    <soybean>
       <UItype>crop</UItype>
@@ -1153,6 +1154,23 @@
       <Documentation>../apsim/WaterSupply/docs/WaterSupply_science.htm</Documentation>
    </WaterSupply>
 
-
+   <egrandis>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\Egrandis.jpg</Image>
+      <Documentation name="Generic Growth" >../apsim/growth/docs/growth_science.htm</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables>
+         <variable name="lai" description ="E. grandis leaf area index"/>
+     </variables>
+   </egrandis>
 </Types>
 
