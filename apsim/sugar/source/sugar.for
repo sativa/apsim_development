@@ -63,74 +63,39 @@
 
       if (Option .eq. 1) then
 
-         g_previous_stage = g_current_stage
-
-            ! get thermal times
-
-         call sugar_thermal_time
-     :               (
-     :                C_num_temp
-     :              , C_x_temp
-     :              , C_y_tt
-     :              , G_maxt
-     :              , G_mint
-     :              , g_current_Stage
-     :              , emerg
-     :              , g_st
-     :              , g_sowing_depth
-     :              , g_dlayer
-     :              , max_layer
-     :              , g_dlt_tt
-     :               )
-
-            ! initialise phenology phase targets
-
-         call sugar_phenology_init
-     :               (
-     :                C_shoot_lag
-     :              , C_shoot_rate
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_sowing_depth
-     :              , G_Ratoon_no
-     :              , P_tt_begcane_to_flowering
-     :              , P_tt_emerg_to_begcane
-     :              , P_tt_flowering_to_crop_end
-     :              , g_phase_tt
-     :               )
-         call sugar_phase_devel
-     :               (
-     :                G_current_stage
-     :              , C_pesw_germ
-     :              , c_fasw_emerg
-     :              , c_rel_emerg_rate
-     :              , c_num_fasw_emerg
-     :              , G_days_tot
-     :              , G_dlayer
-     :              , G_sowing_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , G_dul_dep
-     :              , G_dlt_tt
-     :              , G_phase_tt
-     :              , G_tt_tot
-     :              , g_phase_devel
-     :               )
-         call sugar_devel
-     :               (
-     :                G_current_stage
-     :              , G_phase_devel
-     :              , g_dlt_stage, g_current_stage
-     :               )
-
-            ! update thermal time states and day count
-
-         call accumulate (g_dlt_tt, g_tt_tot
-     :                  , g_previous_stage, g_dlt_stage)
-
-         call accumulate (1.0, g_days_tot
-     :                   , g_previous_stage, g_dlt_stage)
-
+         call cproc_phenology1 (
+     :                             g_previous_stage
+     :                            ,g_current_stage
+     :                            ,sowing
+     :                            ,sprouting
+     :                            ,flowering
+     :                            ,emerg
+     :                            ,flowering
+     :                            ,max_stage
+     :                            ,C_num_temp
+     :                            ,C_x_temp
+     :                            ,C_y_tt
+     :                            ,G_maxt
+     :                            ,G_mint
+     :                            ,g_nfact_pheno
+     :                            ,G_swdef_pheno
+     :                            ,C_pesw_germ
+     :                            ,C_fasw_emerg
+     :                            ,c_rel_emerg_rate
+     :                            ,c_num_fasw_emerg
+     :                            ,G_dlayer
+     :                            ,max_layer
+     :                            ,G_sowing_depth
+     :                            ,G_sw_dep
+     :                            ,g_dul_dep
+     :                            ,P_ll_dep
+     :                            ,g_dlt_tt
+     :                            ,G_phase_tt
+     :                            ,g_phase_devel
+     :                            ,g_dlt_stage
+     :                            ,g_tt_tot
+     :                            ,g_days_tot
+     :                            )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -140,149 +105,13 @@
       return
       end
 *     ===========================================================
-      subroutine sugar_thermal_time 
-     :               (
-     :                C_num_temp
-     :              , C_x_temp
-     :              , C_y_tt
-     :              , G_maxt
-     :              , G_mint
-     :              , g_current_Stage
-     :              , emergence
-     :              , g_st
-     :              , g_sowing_depth
-     :              , g_dlayer
-     :              , max_layer
-     :              , dlt_tt
-     :               )
+      subroutine sugar_phenology_init (Option)
 *     ===========================================================
 
 *   Short description:
-*     Today's thermal time (expresses using "growing degree days"
-*     is calculated from a specified crop developmental response
-*     to temperature.  Three hourly temperature values are calculated
-*     from a set distribution between maximum and minimum temperature
-*     for the day being simulated.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*     Eight interpolations of the air temperature are
-*     calculated using a three-hour correction factor.
-*     For each air three-hour air temperature, a value of growing
-*     degree day is calculated.  The eight three-hour estimates
-*     are then averaged to obtain the daily value of growing degree
-*     days.
-
-*   Procedure attributes:
-*      Version:         Any hardware/fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       Implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     linint_3hrly_temp
-*     pop_routine
-*     push_routine
-*     real
-*     sugar_swdef
-*     stage_is_between
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      INTEGER    C_num_temp            ! (INPUT)  size_of of table
-      REAL       C_x_temp(*)           ! (INPUT)  temperature table for photosynthesis degree days
-      REAL       C_y_tt(*)             ! (INPUT)  degree days
-      REAL       G_maxt                ! (INPUT)  maximum air temperature (oC)
-      REAL       G_mint                ! (INPUT)  minimum air temperature (oC)
-      real       dlt_tt                ! (OUTPUT) daily thermal time (oC)
-      real       g_sowing_depth
-      real       g_st(*)
-      integer    emergence
-      real       g_current_stage
-      real       g_dlayer(*)
-      integer    max_layer
-
-*   Global variables
-cnh      include    'crop3.inc'
-
-      real       linint_3hrly_temp     ! function
-c      logical    stage_is_between      ! function
-c      integer    find_layer_no         ! function
-c      real       linear_interp_Real    ! function
-
-*   Internal variables
-      real       dly_therm_time        ! thermal time for the day (deg day)
-c      integer    sowing_layer
-
-*   Constant values
-
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_thermal_time')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-cnh !
-c      if (g_current_stage.ge.emergence) then
-
-         dly_therm_time = linint_3hrly_temp (g_maxt, g_mint
-     :                    , c_x_temp, c_y_tt
-     :                    , c_num_temp)
-c      else
-c         sowing_layer = find_layer_no (g_sowing_depth
-c     :                                ,g_dlayer
-c     :                                ,max_layer)
-c
-c         dly_therm_time = linear_interp_real (g_st(sowing_layer)
-c     :                                       ,c_x_temp
-c     :                                       ,c_y_tt
-c     :                                       ,c_num_temp)
-c      endif
-
-c      if (stage_is_between (emerg, flag_leaf, g_current_stage)) then
-
-c         dlt_tt = dly_therm_time *g_swdef_pheno
-c      else
-
-         dlt_tt = dly_therm_time
-c      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_phenology_init 
-     :               (
-     :                C_shoot_lag
-     :              , C_shoot_rate
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_sowing_depth
-     :              , G_Ratoon_no
-     :              , P_tt_begcane_to_flowering
-     :              , P_tt_emerg_to_begcane
-     :              , P_tt_flowering_to_crop_end
-     :              , phase_tt
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Returns cumulative thermal time targets required for the
-*       individual growth stages.
+*     Use temperature, photoperiod and genetic characteristics
+*     to determine when the crop begins a new growth phase.
+*     The initial daily thermal time and height are also set.
 
 *   Assumptions:
 *       none
@@ -300,43 +129,32 @@ c      endif
 *                       implicit none
 
 *   Changes:
-*     060495 nih taken from template
-*     030498 igh changed g_ratoon_no to integer
+*     010994 jngh specified and programmed
 
 *   Calls:
-*     bound
-*     day_length
-*     offset_day_of_year
-*     on_day_of
+*     accumulate
 *     pop_routine
 *     push_routine
-*     stage_is_between
-*     sum_between
+*     sugar_canopy_height
+*     sugar_devel
+*     sugar_phenology_init
+*     sugar_tt
+*     sugar_tt_curv
+*     sugar_tt_other
 
 * ----------------------- Declaration section ------------------------
 
       implicit none
 
 *   Subroutine arguments
-      REAL       C_shoot_lag           ! (INPUT)  minimum growing degree days for germination (deg days)
-      REAL       C_shoot_rate          ! (INPUT)  growing deg day increase with depth for germination (deg day/mm depth)
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
-      INTEGER    G_Ratoon_no           ! (INPUT)  ratoon no (mm)
-      REAL       P_tt_begcane_to_flowering ! (INPUT)
-      REAL       P_tt_emerg_to_begcane ! (INPUT)
-      REAL       P_tt_flowering_to_crop_end ! (INPUT)
-      real       phase_tt (*)          ! (INPUT/OUTPUT) cumulative growing
-                                       ! degree days required for
-                                       ! each stage (deg days)
+      integer    Option                ! (INPUT) option number
 
 *   Global variables
-      include   'crop3.inc'
-
-      logical    on_day_of             ! function
+      include   'const.inc'
+      include   'sugar.inc'
 
 *   Internal variables
+*       none
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -349,341 +167,34 @@ c      endif
 
       call push_routine (my_name)
 
-      if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
-         if (G_ratoon_no .eq. 0) then
-            phase_tt(sprouting_to_emerg) = c_shoot_lag
-     :                                   + g_sowing_depth*c_shoot_rate
-         else
-            ! Assume the mean depth of shooting is half way between the
-            ! set depth and the soil surface.
-            phase_tt(sprouting_to_emerg) = c_shoot_lag
-     :                                   + g_sowing_depth/2.0
-     :                                   * c_shoot_rate
-         endif
-      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
-         phase_tt(emerg_to_begcane) = p_tt_emerg_to_begcane
+      if (Option .eq. 1) then
 
-      elseif (on_day_of (begcane, g_current_stage, g_days_tot)) then
-         phase_tt(begcane_to_flowering) = p_tt_begcane_to_flowering
+            ! initialise phenology phase targets
 
-      elseif (on_day_of (flowering, g_current_stage, g_days_tot)) then
-         phase_tt(flowering_to_crop_end) = p_tt_flowering_to_crop_end
-
-      else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_devel
+         call sugar_phen_init
      :               (
-     :                G_current_stage
-     :              , G_phase_devel
-     :              , dlt_stage, current_stage
-     :               )
-*     ===========================================================
-
-*   Short description:
-*     Determine the current stage of development.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-*     300996 nih added fix to template phenology error
-
-*   Calls:
-*     pop_routine
-*     push_routine
-*     sugar_phase_devel
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_phase_devel         ! (INPUT)  development of current phase (
-      real       dlt_stage             ! (OUTPUT) change in growth stage
-      real       current_stage         ! (OUTPUT) new stage no.
-
-*   Global variables
-      include   'crop3.inc'
-
-*   Internal variables
-      real       new_stage             ! new stage number
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_devel')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! mechanical operation - not to be changed
-
-         ! now calculate the new delta and the new stage
-
-      new_stage = aint (g_current_stage) + g_phase_devel
-      dlt_stage = new_stage - g_current_stage
-
-      if (g_phase_devel.ge.1.0) then
-cnh         current_stage = aint (new_stage)
-         current_stage = aint (current_stage + 1.0)
-
-      else
-         current_stage = new_stage
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_phase_devel
-     :               (
-     :                G_current_stage
-     :              , C_pesw_germ
-     :              , c_fasw_emerg
-     :              , c_rel_emerg_rate
-     :              , c_num_fasw_emerg
-     :              , G_days_tot
-     :              , G_dlayer
-     :              , G_sowing_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , G_dul_dep
-     :              , G_dlt_tt
-     :              , G_phase_tt
-     :              , G_tt_tot
-     :              , phase_devel
-     :               )
-*     ===========================================================
-
-*   Short description:
-*     Determine the fraction of current phase elapsed ().
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-*     030498 igh  changed c_num_fasw_emerg to integer
-
-*   Calls:
-*     pop_routine
-*     push_routine
-*     sugar_sprouting
-*     sugar_phase_tt
-*     stage_is_between
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       C_pesw_germ           ! (INPUT)  plant extractable soil water i
-      REAL       C_fasw_emerg(*)       ! (INPUT)  plant extractable soil water i
-      REAL       c_rel_emerg_rate(*)   ! (INPUT)
-      INTEGER    c_num_fasw_emerg      ! (INPUT)
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit
-      REAL       G_dlt_tt              ! (INPUT)  daily thermal time (growing de
-      REAL       G_phase_tt(*)         ! (INPUT)  Cumulative growing degree days
-      REAL       G_tt_tot(*)           ! (INPUT)  the sum of growing degree days
-      real       phase_devel           ! (OUTPUT) fraction of current phase
-                                       ! elapsed ()
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       sugar_sprouting       ! function
-      real       sugar_phase_tt        ! function
-      logical    stage_is_between      ! function
-
-*   Internal variables
-      real dlt_tt
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_phase_devel')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (stage_is_between (sowing, sprouting, g_current_stage)) then
-         phase_devel = sugar_sprouting
-     :               (
-     :                C_pesw_germ
+     :                C_shoot_lag
+     :              , C_shoot_rate
      :              , G_current_stage
      :              , G_days_tot
-     :              , G_dlayer
      :              , G_sowing_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , g_current_stage
+     :              , G_Ratoon_no
+     :              , P_tt_begcane_to_flowering
+     :              , P_tt_emerg_to_begcane
+     :              , P_tt_flowering_to_crop_end
+     :              , g_phase_tt
      :               )
 
-      elseif (stage_is_between (sprouting, crop_end
-     :                        , g_current_stage)) then
-
-
-      call sugar_phase_dlt_tt
-     :               (
-     :                C_fasw_emerg
-     :              , c_rel_emerg_rate
-     :              , c_num_fasw_emerg
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_dlayer
-     :              , G_sowing_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , g_dul_dep
-     :              , g_dlt_tt
-     :              , dlt_tt
-     :               )
-         phase_devel =  sugar_phase_tt
-     :               (
-     :                dlt_tt
-     :              , G_phase_tt
-     :              , G_tt_tot
-     :              , g_current_stage
-     :               )
 
       else
-         phase_devel = 0.0
-
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
       return
       end
 *     ===========================================================
-      real function sugar_phase_tt
-     :               (
-     :                dlt_tt
-     :              , G_phase_tt
-     :              , G_tt_tot
-     :              , stage_no
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return fraction of thermal time we are through the current
-*       phenological phase (0-1)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-
-*   Calls:
-*     bound
-*     divide
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       dlt_tt                ! (INPUT)  daily thermal time (growing de
-      REAL       G_phase_tt(*)         ! (INPUT)  Cumulative growing degree days
-      REAL       G_tt_tot(*)           ! (INPUT)  the sum of growing degree days
-      real       stage_no              ! (INPUT) stage number
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       divide                ! function
-      real       bound                 ! function
-
-*   Internal variables
-      integer    phase                 ! phase number containing stage
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_phase_tt')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      phase = int (stage_no)
-cnh this phenology code is RIDICULOUS - I think the following
-cnh change will still work and remove the link to g_tt_tot
-cnh      sugar_phase_tt = divide (g_tt_tot(phase) + g_dlt_tt
-cnh     :                       , g_phase_tt(phase), 0.0)
-
-      sugar_phase_tt = mod(stage_no,1.)
-     :               + divide (dlt_tt
-     :                        ,g_phase_tt(phase)
-     :                        ,0.0)
-
-      sugar_phase_tt = bound (sugar_phase_tt, 0.0, 1.999999)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_canopy_height 
+      subroutine sugar_canopy_height
      :               (
      :                C_height_max
      :              , C_height_stem_slope
@@ -729,15 +240,15 @@ cnh     :                       , g_phase_tt(phase), 0.0)
 
 *   Subroutine arguments
       REAL       C_height_max          ! (INPUT)  maximum canopy height (mm)
-      REAL       C_height_stem_slope   ! (INPUT)  rate of height growth (mm/g/stem)
+      REAL       C_height_stem_slope   ! (INPUT)  rate of height growth (mm/g/st
       REAL       G_canopy_height       ! (INPUT)  canopy height (mm)
       REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass) (g/m^2)
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
       REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
       real       dlt_canopy_height     ! (INPUT) canopy height change (mm)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       bound                 ! function
       real       divide                ! function
@@ -814,12 +325,8 @@ cnh     :                       , g_phase_tt(phase), 0.0)
       include   'const.inc'
       include   'sugar.inc'
 
-      integer    find_layer_no         ! function
-      real       sugar_sw_avail_fac    ! function
-
 *   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
+*     none
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -829,406 +336,27 @@ cnh     :                       , g_phase_tt(phase), 0.0)
 *       none
 
 * --------------------- Executable code section ----------------------
-c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
 
       if (Option .eq. 1) then
 
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
-     :                                 , max_layer)
-         g_sw_avail_fac_deepest_layer = sugar_sw_avail_fac 
-     :               (
-     :                C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , deepest_layer
-     :               )
-         call sugar_root_depth_increase 
-     :               (
-     :                C_root_depth_rate
-     :              , G_current_stage
-     :              , G_dlayer
-     :              , G_root_depth
-     :              , P_xf
-     :              , C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , g_dlt_root_depth
-     :               )
-         call sugar_root_depth_init 
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , g_dlt_root_depth
-     :               )
-                               !NOTE THIS IS STILL THE DELTA
+         call cproc_root_depth1 (
+     :                              g_dlayer
+     :                             ,C_num_sw_ratio
+     :                             ,C_x_sw_ratio
+     :                             ,C_y_sw_fac_root
+     :                             ,G_dul_dep
+     :                             ,G_sw_dep
+     :                             ,P_ll_dep
+     :                             ,C_root_depth_rate
+     :                             ,G_current_stage
+     :                             ,p_xf
+     :                             ,g_dlt_root_depth
+     :                             ,g_root_depth
+     :                             )
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      real function sugar_sw_avail_fac 
-     :               (
-     :                C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , layer
-     :               )
-*     ===========================================================
-
-*   Short description:
-*      Get the soil water availability factor in a layer.  For a layer,
-*      it is 1.0 unless the plant-extractable soil water declines
-*      below a fraction of plant-extractable soil water capacity for
-*      that layer.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-
-*   Calls:
-*     divide
-*     linear_interp_real
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      INTEGER    C_num_sw_ratio        ! (INPUT)
-      REAL       C_x_sw_ratio(*)       ! (INPUT)
-      REAL       C_y_sw_fac_root(*)    ! (INPUT)
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L (mm)
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
-      integer    layer                 ! (INPUT) soil profile layer number
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       divide                ! function
-      real       linear_interp_real    ! function
-
-*   Internal variables
-      real       pesw                  ! plant extractable soil-water (mm/mm)
-      real       pesw_capacity         ! plant extractable soil-water capacity
-                                       ! (mm/mm)
-      real       sw_avail_ratio        ! soil water availability ratio (0-1)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sw_avail_fac')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      pesw = g_sw_dep(layer) - p_ll_dep(layer)
-      pesw_capacity = g_dul_dep(layer) - p_ll_dep(layer)
-
-      sw_avail_ratio = divide (pesw, pesw_capacity, 10.0)
-      sugar_sw_avail_fac = linear_interp_real (sw_avail_ratio
-     :                           , c_x_sw_ratio, c_y_sw_fac_root
-     :                           , c_num_sw_ratio)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_sw_avail_pot 
-     :               (
-     :                G_dlayer
-     :              , G_dul_dep
-     :              , G_root_depth
-     :              , P_ll_dep
-     :              , sw_avail_pot
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return potential water uptake from each layer in the soil profile
-*       by the crop (mm water) from a fully wet profile
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       see cr474 for limitations and potential problems.
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     fill_real_array
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     root_proportion
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
-      real       sw_avail_pot(*)       ! (OUTPUT) crop water potential uptake
-                                       ! for each full layer (mm)
-
-*   Global variables
-      include   'crop3.inc'
-
-      integer    find_layer_no         ! function
-      real       root_proportion       ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! soil profile layer number
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sw_avail_pot')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-            ! get potential uptake
-
-      call fill_real_array (sw_avail_pot, 0.0, max_layer)
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      do 1000 layer = 1, deepest_layer
-         sw_avail_pot(layer) = g_dul_dep(layer) - p_ll_dep(layer)
-1000  continue
-
-            ! correct bottom layer for actual root penetration
-      sw_avail_pot(deepest_layer) = sw_avail_pot(deepest_layer)
-     :                            * root_proportion
-     :                            (deepest_layer
-     :                           , g_dlayer
-     :                           , g_root_depth)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_sw_avail 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , sw_avail
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return actual water available for extraction from each layer in the
-*       soil profile by the crop (mm water)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       see cr474 for limitations and potential problems.
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     fill_real_array
-*     find_layer_no
-*     l_bound
-*     pop_routine
-*     push_routine
-*     root_proportion
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L (mm)
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
-      real       sw_avail(*)           ! (OUTPUT) crop water potential uptake
-                                       ! for each full layer (mm)
-
-*   Global variables
-      include   'crop3.inc'
-
-      integer    find_layer_no         ! function
-      real       l_bound               ! function
-      real       root_proportion       ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! soil profile layer number
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sw_avail')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-            ! get potential uptake
-
-      call fill_real_array (sw_avail, 0.0, max_layer)
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      do 1000 layer = 1, deepest_layer
-         sw_avail(layer) = g_sw_dep(layer) - p_ll_dep(layer)
-         sw_avail(layer) = l_bound (sw_avail(layer), 0.0)
-1000  continue
-
-            ! correct bottom layer for actual root penetration
-      sw_avail(deepest_layer) = sw_avail(deepest_layer)
-     :                        * root_proportion
-     :                         (deepest_layer, g_dlayer, g_root_depth)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_sw_demand 
-     :               (
-     :                G_dlt_dm_pot_rue
-     :              , G_transp_eff
-     :              , sw_demand
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       This routine calculates the water demand from soil by the crop
-*       by applying a transpiration efficiency to a soil supply non-limiting
-*       growth rate.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     divide
-*     exp
-*     pop_routine
-*     push_routine
-*     sugar_dm_potential
-*     sugar_transp_eff
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlt_dm_pot_rue      ! (INPUT)
-      REAL       G_transp_eff          ! (INPUT)
-      real       sw_demand             ! (OUTPUT) crop water demand (mm)
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       divide                ! function
-
-*   Internal variables
-*     none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sw_demand')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-            ! calculate potential above-ground biomass production
-
-cnh      call sugar_dm_potential (dlt_dm_pot)
-
-            ! get potential transpiration from potential
-            ! carbohydrate production and transpiration efficiency
-
-      sw_demand = divide (g_dlt_dm_pot_rue, g_transp_eff, 0.0)
 
       call pop_routine (my_name)
       return
@@ -1238,7 +366,7 @@ cnh      call sugar_dm_potential (dlt_dm_pot)
      :               (
      :                G_nfact_photo
      :              , G_temp_stress_photo
-     :              , G_water_log_fact
+     :              , G_oxdef_photo
      :               )
 *     ===========================================================
 
@@ -1278,11 +406,11 @@ cnh      call sugar_dm_potential (dlt_dm_pot)
 *   Subroutine arguments
       REAL       G_nfact_photo         ! (INPUT)
       REAL       G_temp_stress_photo   ! (INPUT)
-      REAL       G_water_log_fact      ! (INPUT)
+      REAL       G_oxdef_photo         ! (INPUT)
 *     none
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 *   Internal variables
 *     none
@@ -1300,13 +428,13 @@ cnh      call sugar_dm_potential (dlt_dm_pot)
 
       sugar_rue_reduction = min (g_temp_stress_photo
      :                      , g_nfact_photo
-     :                      ,g_water_log_fact)
+     :                      ,g_oxdef_photo)
 
       call pop_routine (my_name)
       return
       end
 *     ===========================================================
-      subroutine sugar_radn_int 
+      subroutine sugar_radn_int
      :               (
      :                C_extinction_coef
      :              , G_fr_intc_radn
@@ -1349,15 +477,15 @@ cnh      call sugar_dm_potential (dlt_dm_pot)
       implicit none
 
 *   Subroutine arguments
-      REAL       C_extinction_coef     ! (INPUT)  radiation extinction coefficient ()
-      REAL       G_fr_intc_radn        ! (INPUT)  fraction of radiation intercepted by canopy
+      REAL       C_extinction_coef     ! (INPUT)  radiation extinction coefficie
+      REAL       G_fr_intc_radn        ! (INPUT)  fraction of radiation intercep
       REAL       G_lai                 ! (INPUT)  live plant green lai
       REAL       G_radn                ! (INPUT)  solar radiation (Mj/m^2/day)
       real       radn_int              ! (OUTPUT) radiation intercepted
                                        ! by leaves (mj/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       logical    reals_are_equal       ! function
 
@@ -1388,322 +516,6 @@ cnh      call sugar_dm_potential (dlt_dm_pot)
       else
             ! interception has already been calculated for us
          radn_int = g_fr_intc_radn * g_radn
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_transp_eff 
-     :               (
-     :                C_svp_fract
-     :              , C_transp_eff_cf
-     :              , G_maxt
-     :              , G_mint
-     :              , transp_eff
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Calculate today's transpiration efficiency from a vapour
-*       pressure deficit calculated from daily temperatures as
-*       follows.
-*
-*       Average saturation vapour pressure for ambient temperature
-*       during transpiration is calculated as part-way between that
-*       for minimum temperature and that for the maximum temperature.
-*       Tanner & Sinclair (1983) used .75 and .67 of the distance as
-*       representative of the positive net radiation (rn).  Daily SVP
-*       should be integrated from about 0900 hours to evening when Radn
-*       becomes negetive.
-
-*   Assumptions:
-*       the temperatures are > -237.3 oC for the svp function.
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     divide
-*     exp
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_svp_fract           ! (INPUT)  fraction of distance between svp at min temp and svp at max temp where average svp during transpiration lies. (0-1)
-      REAL       C_transp_eff_cf       ! (INPUT)  transpiration efficiency coefficient to convert vpd to transpiration efficiency (kpa) although this is expressed as a pressure it is really in the form kpa*g carbo per m^2 / g water per m^2 and this
-      REAL       G_maxt                ! (INPUT)  maximum air temperature (oC)
-      REAL       G_mint                ! (INPUT)  minimum air temperature (oC)
-      real       transp_eff            ! (OUTPUT)
-
-*   Global variables
-      include   'convert.inc'          ! g2mm, mb2kpa
-      include   'crop3.inc'
-
-      real       divide                ! function
-
-*   Internal variables
-      real       svp                   ! function to get saturation vapour
-                                       ! pressure for a given temperature
-                                       ! in oC (kpa)
-      real       temp_arg              ! dummy temperature for function (oC)
-      real       vpd                   ! vapour pressure deficit (kpa)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_transp_eff')
-
-*   Initial data values
-      ! set up saturation vapour pressure function
-
-      svp(temp_arg) = 6.1078
-     :              * exp (17.269*temp_arg/ (237.3 + temp_arg))
-     :              * mb2kpa
-
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-            ! get vapour pressure deficit when net radiation is positive.
-
-      vpd = c_svp_fract* (svp (g_maxt) - svp (g_mint))
-      transp_eff = divide (c_transp_eff_cf, vpd, 0.0) /g2mm
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_sw_supply
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_dep
-     :              , P_kl
-     :              , P_ll_dep
-     :              , sw_supply
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return potential water uptake from each layer of the soil profile
-*       by the crop (mm water/day). This represents the maximum amount in
-*       each layer regardless of lateral root distribution but takes
-*       account of root depth in bottom layer.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*      This code still allows water above dul to be taken - cnh
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-
-*   Calls:
-*     fill_real_array
-*     find_layer_no
-*     l_bound
-*     pop_routine
-*     push_routine
-*     root_proportion
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
-      REAL       P_kl(*)               ! (INPUT)  root length density factor for
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
-      real       sw_supply(*)          ! (OUTPUT) potential crop water uptake
-                                       ! from each layer (mm) (supply to roots)
-
-*   Global variables
-      include   'crop3.inc'
-
-      integer    find_layer_no         ! function
-      real       root_proportion       ! function
-      real       l_bound               ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! soil profile layer number
-      real       sw_avail              ! water available (mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sw_supply')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-            ! get potential uptake
-
-      call fill_real_array (sw_supply, 0.0, max_layer)
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      do 1000 layer = 1, deepest_layer
-         sw_avail = (g_sw_dep(layer) - p_ll_dep(layer))
-         sw_supply(layer) = sw_avail * p_kl(layer)
-         sw_supply(layer) = l_bound (sw_supply(layer), 0.0)
-
-1000  continue
-
-            ! now adjust bottom layer for depth of root
-      sw_supply(deepest_layer) = sw_supply(deepest_layer)
-     :                         * root_proportion
-     :                          (deepest_layer, g_dlayer, g_root_depth)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_sw_uptake 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_demand
-     :              , G_sw_supply
-     :              , dlt_sw_dep
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Returns actual water uptake from each layer of the soil
-*       profile by the crop (mm).
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     divide
-*     fill_real_array
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_demand           ! (INPUT)  total crop demand for water (mm)
-      REAL       G_sw_supply(*)        ! (INPUT)  potential water to take up (supply) from current soil water (mm)
-      real       dlt_sw_dep (*)        ! (OUTPUT) root water uptake (mm)
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! layer number of profile ()
-      real       sw_supply_sum         ! total potential over profile (mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sw_uptake')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-
-            ! find total root water potential uptake as sum of all layers
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-
-      if (sw_supply_sum.le.0.0 .or. g_sw_demand.le.0.0) then
-            ! we have no uptake - there is no demand or potential
-
-         call fill_real_array (dlt_sw_dep, 0.0, max_layer)
-
-      else
-               ! get actual uptake
-
-         call fill_real_array (dlt_sw_dep, 0.0, max_layer)
-
-         if (g_sw_demand.lt.sw_supply_sum) then
-
-               ! demand is less than what roots could take up.
-               ! water is non-limiting.
-               ! distribute demand proportionately in all layers.
-
-            do 1000 layer = 1, deepest_layer
-               dlt_sw_dep(layer) = - divide (g_sw_supply(layer)
-     :                                    , sw_supply_sum, 0.0)
-     :                            * g_sw_demand
-
-1000        continue
-
-         else
-                ! water is limiting - not enough to meet demand so take
-                ! what is available (potential)
-
-            do 1100 layer = 1, deepest_layer
-               dlt_sw_dep(layer) = - g_sw_supply(layer)
-
-1100        continue
-
-         endif
       endif
 
       call pop_routine (my_name)
@@ -1771,17 +583,7 @@ cnh      call sugar_dm_potential (dlt_dm_pot)
             ! Plant leaf development
       if (Option .eq. 1) then
 
-            ! initialise total leaf number
-         call sugar_leaf_area_init 
-     :               (
-     :                C_initial_tpla
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_plants
-     :              , g_lai
-     :              , g_leaf_area
-     :               )
-         call sugar_leaf_area_devel 
+         call sugar_leaf_area_devel
      :               (
      :                C_leaf_no_correction
      :              , G_dlt_leaf_no
@@ -1808,19 +610,11 @@ c     :                    * g_swdef_expansion
       return
       end
 *     ===========================================================
-      subroutine sugar_leaf_area_init 
-     :               (
-     :                C_initial_tpla
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_plants
-     :              , lai
-     :              , leaf_area
-     :               )
+      subroutine sugar_leaf_area_init (Option)
 *     ===========================================================
 
 *   Short description:
-*       Initialise leaf area.
+*     Set the initial plant leaf area
 
 *   Assumptions:
 *       none
@@ -1838,10 +632,14 @@ c     :                    * g_swdef_expansion
 *                       implicit none
 
 *   Changes:
-*     070495 nih taken from template
+*      240498 nih specified and programmed
 
 *   Calls:
-*     on_day_of
+*     sugar_leaf_appearance
+*     sugar_leaf_area_devel
+*     sugar_leaf_area_devel_plant
+*     sugar_leaf_area_init
+*     sugar_leaf_no_final
 *     pop_routine
 *     push_routine
 
@@ -1850,18 +648,11 @@ c     :                    * g_swdef_expansion
       implicit none
 
 *   Subroutine arguments
-      REAL       C_initial_tpla        ! (INPUT)  initial plant leaf area (mm^2)
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
-      real       lai                   ! (OUTPUT) total plant leaf area
-      real       leaf_area(*)          ! (OUTPUT) plant leaf areas
+      integer    Option                ! (INPUT) option number
 
 *   Global variables
-      include   'convert.inc'
-      include   'crop3.inc'
-
-      logical    on_day_of             ! function
+      include   'const.inc'
+      include   'sugar.inc'
 
 *   Internal variables
 *       none
@@ -1874,152 +665,22 @@ c     :                    * g_swdef_expansion
 *       none
 
 * --------------------- Executable code section ----------------------
-
       call push_routine (my_name)
 
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-         lai = c_initial_tpla * smm2sm * g_plants
-         leaf_area(1) = c_initial_tpla
-      else
-      endif
+            ! Plant leaf development
+      if (Option .eq. 1) then
 
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_appearance
+         call sugar_init_leaf_area
      :               (
-     :                C_leaf_app_rate
-     :              , C_leaf_app_rate_lfno
-     :              , C_num_leaf_app_rate
+     :                C_initial_tpla
      :              , G_current_stage
      :              , G_days_tot
-     :              , G_dlt_tt
-     :              , G_leaf_no
+     :              , G_plants
+     :              , g_lai
      :              , g_leaf_area
-     :              , dlt_leaf_no
      :               )
-*     ===========================================================
-
-*   Short description:
-*       Return the fractional increase in emergence of the oldest
-*       expanding leaf.
-*       Note ! this does not take account of the other younger leaves
-*       that are currently expanding
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-*     300996 nih added fix to template leaf no error (ie dlt_leaf_no
-*                is zero on first day after emergence.  The leaf_no_init
-*                routine sets the value from the value in the ini file.)
-
-*   Calls:
-*     bound
-*     divide
-*     on_day_of
-*     pop_routine
-*     push_routine
-*     sum_between
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_leaf_app_rate(*)    ! (INPUT)
-      REAL       C_leaf_app_rate_lfno(*) ! (INPUT)
-      INTEGER    C_num_leaf_app_rate   ! (INPUT)
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_dlt_tt              ! (INPUT)  daily thermal time (growing de
-      REAL       G_leaf_no(*)          ! (INPUT)  number of fully expanded leave
-      REAL       G_leaf_area(*)        ! (INPUT)  record of area of each attache
-      real       dlt_leaf_no           ! (OUTPUT) new fraction of oldest
-                                       ! expanding leaf
-
-*   Global variables
-      include   'crop3.inc'
-
-      integer    count_of_real_vals    ! function
-      real       bound                 ! function
-      real       divide                ! function
-      real       linear_interp_real    ! function
-      logical    on_day_of             ! function
-      logical    stage_is_between      ! function
-      real       sum_between           ! function
-
-*   Internal variables
-      real       leaf_app_rate
-      real       leaf_no_remaining     ! number of leaves to go before all
-                                       ! are fully expanded
-      real       leaf_no_today
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_appearance')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-
-             ! initialise first leaf
-
-cnh         dlt_leaf_no = c_leaf_no_at_emerg
-
-         ! leaf growth on first day is set in the leaf_no_init routine
-         dlt_leaf_no = 0.0
-
-      elseif (stage_is_between (emerg, flowering, g_current_stage)) then
-
-             ! we  haven't reached full number of leaves yet
-
-             ! if leaves are still growing, the cumulative number of
-             ! phyllochrons or fully expanded leaves is calculated from
-             ! daily thermal time for the day.
-
-         leaf_no_today = sum_between (emerg, now, g_leaf_no)
-cnh leaf no remaining now reflects the number of empty leaf records
-cnh we have left to fill.
-cnh         leaf_no_remaining = max_leaf - leaf_no_today
-
-         leaf_no_remaining = max_leaf
-     :                     - count_of_real_vals(g_leaf_area,max_leaf)
-
-         leaf_app_rate = linear_interp_real
-     :                     (
-     :                      leaf_no_today
-     :                     ,c_leaf_app_rate_lfno
-     :                     ,c_leaf_app_rate
-     :                     ,c_num_leaf_app_rate
-     :                     )
-
-         dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
-         dlt_leaf_no = bound (dlt_leaf_no, 0.0, leaf_no_remaining)
-
       else
-             ! start no more leaves
-
-         dlt_leaf_no = 0.0
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -2096,7 +757,7 @@ cbak
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       sugar_leaf_size       ! function
 cbak
@@ -2200,7 +861,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       real       leaf_no               ! (INPUT) nominated leaf number
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       linear_interp_real    ! function
 
@@ -2295,7 +956,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       sugar_sla_max         ! function
       real       sum_between           ! function
@@ -2395,306 +1056,16 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       call push_routine (my_name)
 
       if (Option .eq. 1) then
-         call sugar_leaf_death_grass  
+         call sugar_leaf_death_grass
      :               (
      :                C_green_leaf_no
      :              , G_current_stage
      :              , G_days_tot
      :              , G_dlt_leaf_no
      :              , G_leaf_no
-     :              , G_leaf_no_dead
-     :              , g_dlt_leaf_no_dead
+     :              , G_node_no_dead
+     :              , g_dlt_node_no_dead
      :               )
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_age (Option)
-*     ===========================================================
-*   Short description:
-*       Return the lai that senesces on the current day from age
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include   'const.inc'
-      include   'sugar.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_age')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! get senescense from age
-
-      if (Option .eq. 1) then
-
-         call sugar_leaf_area_sen_age0  
-     :               (
-     :                G_dlt_leaf_no_dead
-     :              , G_lai
-     :              , G_leaf_area
-     :              , G_leaf_no_dead
-     :              , G_plants
-     :              , G_slai
-     :              , G_leaf_no_detached
-     :              , C_leaf_no_at_emerg
-     :              , g_dlt_slai_age
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_water (Option)
-*     ===========================================================
-*   Short description:
-*       Return the lai that senesces on the current day  from water
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include   'const.inc'
-      include   'sugar.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_water')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call sugar_leaf_area_sen_water0 
-     :               (
-     :                C_sen_rate_water
-     :              , G_lai
-     :              , G_swdef_photo
-     :              , g_dlt_slai_water
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_light (Option)
-*     ===========================================================
-*   Short description:
-*       Return the lai that senesces on the current day from light
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include   'const.inc'
-      include   'sugar.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_light')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-
-      if (Option .eq. 1) then
-
-         call sugar_leaf_area_sen_light0  
-     :               (
-     :                C_extinction_coef
-     :              , C_lai_sen_light
-     :              , C_sen_light_slope
-     :              , G_lai
-     :              , g_dlt_slai_light
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_frost (Option)
-*     ===========================================================
-*   Short description:
-*       Return the lai that senesces on the current day from frost
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include   'const.inc'
-      include   'sugar.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_frost')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call sugar_leaf_area_sen_frost0  
-     :               (
-     :                C_frost_fraction
-     :              , C_frost_temp
-     :              , C_num_frost_temp
-     :              , G_lai
-     :              , G_mint
-     :              , g_dlt_slai_frost
-     :               )
-
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -2774,7 +1145,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                 ! function
       real       l_bound                ! function
@@ -2900,7 +1271,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                ! function
       integer    get_cumulative_index_real ! function
@@ -2938,7 +1309,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
       return
       end
 *     ===========================================================
-      subroutine sugar_N_senescence 
+      subroutine sugar_N_senescence
      :               (
      :                C_n_cabbage_sen_conc
      :              , C_n_leaf_sen_conc
@@ -2979,16 +1350,16 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
       implicit none
 
 *   Subroutine arguments
-      REAL       C_n_cabbage_sen_conc  ! (INPUT)  N concentration of senesced cabbage (gN/gdm)
-      REAL       C_n_leaf_sen_conc     ! (INPUT)  N concentration of senesced leaf (gN/gdm)
-      REAL       C_n_root_sen_conc     ! (INPUT)  N concentration of senesced root (gN/gdm)
-      REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^2)
+      REAL       C_n_cabbage_sen_conc  ! (INPUT)  N concentration of senesced ca
+      REAL       C_n_leaf_sen_conc     ! (INPUT)  N concentration of senesced le
+      REAL       C_n_root_sen_conc     ! (INPUT)  N concentration of senesced ro
+      REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^
 
       real       dlt_N_senesced(*)     ! (OUTPUT) actual nitrogen senesced
                                        ! from plant parts (g/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 
 *   Internal variables
@@ -3078,290 +1449,38 @@ cnh what checks are there that there is enough N in plant to provide this
       call push_routine (my_name)
 
       if (Option .eq. 1) then
+         if (c_sen_detach_frac(leaf).ne.c_sen_detach_frac(cabbage)) then
+            call Fatal_error (ERR_internal
+     :               , 'Invalid detachment for leaf and cabbage ratio.')
+         else
+         endif
+         call cproc_dm_detachment1  ( max_part
+     :                              , c_sen_detach_frac
+     :                              , g_dm_senesced
+     :                              , g_dlt_dm_detached
+     :                              , c_dead_detach_frac
+     :                              , g_dm_dead
+     :                              , g_dlt_dm_dead_detached)
 
-         call sugar_dm_detachment
-     :               (
-     :                C_dm_leaf_detach_frac
-     :              , C_leaf_cabbage_ratio
-     :              , G_dlt_dm_senesced
-     :              , G_dm_senesced
-     :              , g_dlt_dm_detached
-     :               )
-         call sugar_slai_detachment
-     :               (
-     :                C_dm_leaf_detach_frac
-     :              , G_slai
-     :              , g_dlt_slai_detached
-     :               )
-         call sugar_N_detachment
-     :               (
-     :                C_dm_leaf_detach_frac
-     :              , G_dlt_n_senesced
-     :              , G_n_senesced
-     :              , g_dlt_N_detached
-     :               )
+         call cproc_n_detachment1( max_part
+     :                           , c_sen_detach_frac
+     :                           , g_n_senesced
+     :                           , g_dlt_n_detached
+     :                           , c_dead_detach_frac
+     :                           , g_n_dead
+     :                           , g_dlt_n_dead_detached)
 
-         call sugar_dm_dead_detachment
-     :               (
-     :                C_dead_detach_frac
-     :              , G_dm_dead
-     :              , g_dlt_dm_dead_detached
-     :               )
-         call sugar_tlai_dead_detachment
-     :               (
-     :                C_dead_detach_frac
-     :              , G_tlai_dead
-     :              , g_dlt_tlai_dead_detached
-     :               )
-         call sugar_N_dead_detachment
-     :               (
-     :                C_dead_detach_frac
-     :              , G_n_dead
-     :              , g_dlt_N_dead_detached
-     :               )
+         call cproc_lai_detachment1 (leaf
+     :                             , c_sen_detach_frac
+     :                             , g_slai
+     :                             , g_dlt_slai_detached
+     :                             , c_dead_detach_frac
+     :                             , g_tlai_dead
+     :                             , g_dlt_tlai_dead_detached)
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_dm_detachment
-     :               (
-     :                C_dm_leaf_detach_frac
-     :              , C_leaf_cabbage_ratio
-     :              , G_dlt_dm_senesced
-     :              , G_dm_senesced
-     :              , dlt_dm_detached
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Derives detachment of seneseced plant dry matter (g/m^2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     fill_real_array
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry
-      REAL       C_leaf_cabbage_ratio  ! (INPUT)  ratio of leaf wt to cabbage wt
-      REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^
-      REAL       G_dm_senesced(*)      ! (INPUT)  senesced plant dry wt (g/m^2)
-
-      real       dlt_dm_detached(*)    ! (OUTPUT) actual biomass detached
-                                       ! from senesced plant parts (g/m^2)
-
-*   Global variables
-      include   'crop3.inc'
-
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'sugar_dm_detachment')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! first we zero all plant component deltas
-
-      call fill_real_array (dlt_dm_detached, 0.0, max_part)
-
-      dlt_dm_detached(leaf) = g_dm_senesced(leaf)
-     :                      * c_dm_leaf_detach_frac
-cnh senesesced leaf:cabbage is not the same as green - some cabbage is
-c   reallocated to sstem
-c      dlt_dm_detached(cabbage) = dlt_dm_detached(leaf)
-c     :                         / c_leaf_cabbage_ratio
-      dlt_dm_detached(cabbage) = g_dm_senesced(cabbage)
-     :                      * c_dm_leaf_detach_frac
-
-      dlt_dm_detached(root) = g_dlt_dm_senesced(root)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_slai_detachment 
-     :               (
-     :                C_dm_leaf_detach_frac
-     :              , G_slai
-     :              , dlt_slai_detached
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Derives detachment of seneseced plant slai (g/m^2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     fill_real_array
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry matter detaching from live plant each day (0-1)
-      REAL       G_slai                ! (INPUT)  area of leaf that senesces from plant
-
-      real       dlt_slai_detached     ! (OUTPUT) lai detached from senesced
-                                       ! plant leaf
-
-*   Global variables
-      include   'crop3.inc'
-
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'sugar_slai_detachment')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      dlt_slai_detached = g_slai * c_dm_leaf_detach_frac
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_N_detachment
-     :               (
-     :                C_dm_leaf_detach_frac
-     :              , G_dlt_n_senesced
-     :              , G_n_senesced
-     :              , dlt_N_detached
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Derives seneseced plant nitrogen (g N/m^2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     fill_real_array
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry
-      REAL       G_dlt_n_senesced(*)   ! (INPUT)  actual N loss with senesced pl
-      REAL       G_n_senesced(*)       ! (INPUT)  plant N content of senesced pl
-
-      real       dlt_N_detached(*)     ! (OUTPUT) actual nitrogen senesced
-                                       ! from plant parts (g/m^2)
-
-*   Global variables
-      include   'crop3.inc'
-
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'sugar_N_detachment')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! first we zero all plant component deltas
-
-      call fill_real_array (dlt_N_detached, 0.0, max_part)
-
-cnh does not seem correct
-c      dlt_N_detached(leaf) = g_dlt_N_senesced(leaf)
-c     :                     * c_dm_leaf_detach_frac
-
-      dlt_N_detached(leaf) = g_N_senesced(leaf)
-     :                     * c_dm_leaf_detach_frac
-      dlt_N_detached(cabbage) = g_N_senesced(cabbage)
-     :                     * c_dm_leaf_detach_frac
-
-      dlt_N_detached(root) = g_dlt_N_senesced(root)
 
       call pop_routine (my_name)
       return
@@ -3378,7 +1497,7 @@ c     :                     * c_dm_leaf_detach_frac
      :              , G_days_tot
      :              , G_dlayer
      :              , G_plants
-     :              , G_rlv
+     :              , G_root_length
      :              , dm_green, dm_plant_min
      :              , leaf_dm
      :               )
@@ -3426,7 +1545,7 @@ c     :                     * c_dm_leaf_detach_frac
       REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
       REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
-      REAL       G_rlv(*)              ! (INPUT)
+      REAL       G_root_length(*)      ! (INPUT)
       real       dm_green(*)           ! (INPUT/OUTPUT) plant part weights
                                        ! (g/m^2)
       real       dm_plant_min(*)       ! (OUTPUT) minimum weight of each
@@ -3435,7 +1554,7 @@ c     :                     * c_dm_leaf_detach_frac
       
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       integer    count_of_real_vals    ! function
       real       divide                ! function
@@ -3443,7 +1562,6 @@ c     :                     * c_dm_leaf_detach_frac
 
 *   Internal variables
       integer layer
-      real    layer_volume
       integer num_layers
       real    root_wt_layer
       real    root_length_layer
@@ -3471,8 +1589,7 @@ c     :                     * c_dm_leaf_detach_frac
          num_layers = count_of_real_vals (g_dlayer, max_layer)
          dm_green(root) = 0.0
          do 100 layer = 1, num_layers
-            layer_volume   = 1.0 * sm2smm   *   g_dlayer(layer)
-            root_length_layer = g_rlv(layer) * layer_volume
+            root_length_layer = g_root_length(layer) * sm2smm
             root_wt_layer  = divide (root_length_layer
      :                              ,c_specific_root_length
      :                              ,0.0)
@@ -3576,7 +1693,7 @@ cnh     NO MINIMUMS SET AS YET
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 *   Internal variables
 *     none
@@ -3660,7 +1777,7 @@ cnh     NO MINIMUMS SET AS YET
                                        ! weights due to translocation (g/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       sum_real_array        ! function
 
@@ -3692,7 +1809,7 @@ cnh     NO MINIMUMS SET AS YET
       return
       end
 *     ===========================================================
-      subroutine sugar_N_retranslocate 
+      subroutine sugar_N_retranslocate
      :               (
      :                G_dm_green
      :              , G_n_conc_min
@@ -3734,14 +1851,14 @@ cnh     NO MINIMUMS SET AS YET
       implicit none
 
 *   Subroutine arguments
-      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass) (g/m^2)
-      REAL       G_n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g biomass)
-      REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^2)
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g
+      REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^
       real       dlt_N_retrans (*)     ! (OUTPUT) plant N taken out from
                                        ! plant parts (g N/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 *   Internal variables
       real       N_avail(max_part)     ! N available for transfer to grain
@@ -3759,7 +1876,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call push_routine (my_name)
 
-      call sugar_N_retrans_avail 
+      call sugar_N_retrans_avail
      :               (
      :                G_dm_green
      :              , G_n_conc_min
@@ -3831,7 +1948,7 @@ cnh     NO MINIMUMS SET AS YET
                                        ! transfer to grain (g/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       l_bound               ! function
 
@@ -3858,594 +1975,6 @@ cnh     NO MINIMUMS SET AS YET
 
       N_avail(sucrose) = 0.0
       N_avail(root) = 0.0
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_N_demand
-     :               (
-     :                G_dlt_dm_green_pot
-     :              , G_dlt_dm_pot_rue_pot
-     :              , G_dm_green
-     :              , G_n_conc_crit
-     :              , G_n_green
-     :              , N_demand
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return plant nitrogen demand for each plant component.  The
-*       demand for Nitrogen for each plant pool occurs as the plant
-*       tries to maintain a critical nitrogen concentration in each
-*       plant pool.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-
-*           N demand consists of two components:
-*           Firstly, the demand for nitrogen by the potential new growth.
-*           Secondly, the demand due to the difference between
-*           the actual N concentration and the critical N concentration
-*           of the tops (stover), which can be positive or negative
-
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-
-*   Calls:
-*     bound
-*     bound_check_real_var
-*     divide
-*     l_bound
-*     pop_routine
-*     push_routine
-*     sugar_radn_int
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlt_dm_green_pot(*) ! (INPUT)  plant biomass growth (g/m^2)
-      REAL       G_dlt_dm_pot_rue_pot  ! (INPUT)
-      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
-      REAL       G_n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/
-      REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^
-      real       N_demand (*)          ! (OUTPUT) plant nitrogen demand
-                                       ! (g/m^2)
-
-*   Global variables
-      include   'crop3.inc'
-
-cnh      real       bound                 ! function
-cnh      real       divide                ! function
-      real       l_bound               ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-c      integer    current_phase         ! current phase number
-      real       N_crit                ! critical N amount (g/m^2)
-      real       N_demand_new          ! demand for N by new growth
-                                       ! (g/m^2)
-      real       N_demand_old          ! demand for N by old biomass
-                                       ! (g/m^2)
-      integer    part                  ! plant part
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_N_demand')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-         ! calculate potential new shoot and root growth
-
-c      current_phase = int (g_current_stage)
-
-            ! need to calculate dm using potential rue not affected by
-            ! N and temperature
-
-cnh      do 500 part = 1, max_part
-cnh         part_fract = divide (g_dlt_dm_green(part), g_dlt_dm, 0.0)
-cnh         dlt_dm_pot(part) = dlt_dm_pot_radn * part_fract
-cnh         dlt_dm_pot(part) = bound (dlt_dm_pot(part)
-cnh     :                           , 0.0, dlt_dm_pot_radn)
-cnh500   continue
-
-            ! recalculate roots because today's drymatter production
-            ! does not include roots
-
-C      dlt_dm_pot(root) = g_dlt_dm_pot_rue_pot
-C     :                 * c_ratio_root_shoot(current_phase)
-
-
-         ! g_dlt_dm_pot is above ground biomass only so leave roots
-         ! out of comparison
-
-      call bound_check_real_var (
-     :             sum_real_array (G_dlt_dm_green_pot, max_part)
-     :           - g_dlt_dm_green_pot(root)
-     :           , 0.0, g_dlt_dm_pot_rue_pot
-     :           , 'dlt_dm_pot - dlt_dm_pot(root)')
-
-
-      ! NIH - note stem stuff is redone down later.
-
-      do 1000 part = 1, max_part
-         if (g_dm_green(part).gt.0.0) then
-
-               ! get N demands due to difference between actual N concentrations
-               ! and critical N concentrations of tops (stover) and roots.
-
-            N_crit = g_dm_green(part) * g_N_conc_crit(part)
-            N_demand_old = N_crit - g_N_green(part)
-
-
-               ! get potential N demand (critical N) of potential growth
-
-            N_demand_new = g_dlt_dm_green_pot(part)
-     :                   * g_N_conc_crit(part)
-
-            N_demand(part) = N_demand_old + N_demand_new
-            N_demand(part) = l_bound (N_demand(part), 0.0)
-
-         else
-            N_demand(part) = 0.0
-
-         endif
-
-1000  continue
-
-cnh I am not 100% happy with this but as this is a first attempt at fully
-cnh utilizing a sucrose pool I shall put in this quick fix for now and
-cnh re-evaluate later.  Note that g_N_conc_crit(Sstem) is really the crit.
-cnh conc for CANE.
-
-      ! SStem demand for N is based on N conc in cane (i.e SStem+sucrose)
-
-      N_crit = (g_dm_green(sstem)+g_dm_green(sucrose))
-     :                    * g_N_conc_crit(sstem)
-      N_demand_old = N_crit - g_N_green(sstem)
-      N_demand_new = (g_dlt_dm_green_pot(sstem)
-     :                + g_dlt_dm_green_pot(sucrose))
-     :             * g_N_conc_crit(sstem)
-      N_demand(sstem) = N_demand_old + N_demand_new
-      N_demand(sstem) = l_bound (N_demand(sstem), 0.0)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_N_uptake
-     :               (
-     :                C_no3_diffn_const
-     :              , G_dlayer
-     :              , G_no3gsm_diffn_pot
-     :              , G_no3gsm_mflow_avail
-     :              , G_num_uptake_no3
-     :              , G_n_demand
-     :              , G_root_depth
-     :              , G_uptake_no3
-     :              , G_uptake_source
-     :              , dlt_NO3gsm
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return actual plant nitrogen uptake to each plant part and from
-*       each soil layer.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-*       130396 nih added fix to stop N above critical conc evaporating
-
-*   Calls:
-*     bound
-*     divide
-*     fill_real_array
-*     find_layer_no
-*     l_bound
-*     pop_routine
-*     push_routine
-*     sugar_N_diffusion
-*     sugar_N_mass_flow
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Global variables
-      include   'const.inc'
-      include   'convert.inc'          ! gm2kg, sm2ha
-      include   'crop3.inc'
-
-      real       bound                 ! function
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       l_bound               ! function
-      real       sum_real_array        ! function
-
-*   Subroutine arguments
-      REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_no3gsm_diffn_pot(*) ! (INPUT)  potential NO3 (supply) from so
-      REAL       G_no3gsm_mflow_avail(*) ! (INPUT)  potential NO3 (supply) from
-      INTEGER    G_num_uptake_no3      ! (INPUT)  number of layers in g_uptake_n
-      REAL       G_n_demand(*)         ! (INPUT)  plant nitrogen demand (g/m^2)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_uptake_no3(*)       ! (INPUT)  uptake of no3 as provided by a
-      CHARACTER  G_uptake_source   *(*) ! (INPUT)
-      real       dlt_NO3gsm(max_layer) ! (OUTPUT) actual plant N uptake
-                                       ! from NO3 in each layer (g/m^2)
-
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       NO3gsm_diffn          ! actual N available (supply) for
-                                       ! plant (g/m^2) by diffusion
-      real       NO3gsm_mflow          ! actual N available (supply) for
-                                       ! plant (g/m^2) by mass flow
-      real       NO3gsm_diffn_supply   ! total potential N uptake (supply)
-                                       ! for plant (g/m^2) by diffusion
-      real       NO3gsm_diffn_avail(max_layer) ! potential NO3 (supply) from
-                                       ! soil (g/m^2), by diffusion
-      real       NO3gsm_mflow_supply   ! total potential N uptake (supply)
-                                       ! for plant (g/m^2) by mass flow
-      real       diffn_fract           ! fraction of nitrogen to use (0-1)
-                                       ! for diffusion
-      real       mflow_fract           ! fraction of nitrogen to use (0-1)
-                                       ! for mass flow
-      integer    layer                 ! soil layer number of profile
-      real       N_demand              ! total nitrogen demand (g/m^2)
-      real       NO3gsm_uptake         ! plant NO3 uptake from layer (g/m^2)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_N_uptake')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      call fill_real_array (dlt_NO3gsm, 0.0, max_layer)
-      deepest_layer = find_layer_no(g_root_depth, g_dlayer, max_layer)
-
-      N_demand = sum_real_array (g_N_demand, max_part)
-
-      if (g_uptake_source.eq.'calc') then
-            ! find potential N uptake (supply, available N)
-            ! Get it for nitrate by diffusion and mass flow
-            ! Note: the N available by diffusion is really the total N
-            ! available to the roots by mass flow and diffusion.
-
-cjh         call sugar_N_mass_flow (NO3gsm_mflow_avail)
-cjh         call sugar_N_diffusion (NO3gsm_diffn_avail)
-
-         do 1000 layer = 1, deepest_layer
-            NO3gsm_diffn_avail(layer) = g_NO3gsm_diffn_pot(layer)
-     :                                - g_NO3gsm_mflow_avail(layer)
-            NO3gsm_diffn_avail(layer) =
-     :                          l_bound (NO3gsm_diffn_avail(layer)
-     :                         ,0.0)
-1000     continue
-
-            ! get potential N uptake (supply) from the root profile.
-            ! get totals for diffusion and mass flow.
-
-         NO3gsm_mflow_supply = sum_real_array (g_NO3gsm_mflow_avail
-     :                                     , deepest_layer)
-         NO3gsm_diffn_supply = sum_real_array (NO3gsm_diffn_avail
-     :                                     , deepest_layer)
-
-            ! get actual total nitrogen uptake for diffusion and mass flow.
-            ! If demand is not satisfied by mass flow, then use diffusion.
-
-         if (NO3gsm_mflow_supply.ge.N_demand) then
-cnh comment out next line for luxury uptake.
-            NO3gsm_mflow = N_demand
-cnh            NO3gsm_mflow = NO3gsm_mflow_supply
-            NO3gsm_diffn = 0.0
-
-         else
-            NO3gsm_mflow = NO3gsm_mflow_supply
-            NO3gsm_diffn = bound (N_demand - NO3gsm_mflow, 0.0
-     :                        , NO3gsm_diffn_supply)
-            NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
-
-         endif
-
-            ! get actual change in N contents
-
-         do 1100 layer = 1,deepest_layer
-
-               ! allocate nitrate
-               ! Find proportion of nitrate uptake to be taken from layer
-               ! by diffusion and mass flow
-
-            mflow_fract = divide (g_NO3gsm_mflow_avail(layer)
-     :                          , NO3gsm_mflow_supply, 0.0)
-
-            diffn_fract = divide (NO3gsm_diffn_avail(layer)
-     :                          , NO3gsm_diffn_supply, 0.0)
-
-               ! now find how much nitrate the plant removes from
-               ! the layer by both processes
-
-               ! Note - barrenness reduces the number of heads/ha
-               ! below the number of plants /ha.  This means that during
-               ! grain filling, the N uptake should be calculated on the
-               ! number of heads and not the number of plants.  This can
-               ! be done because grain is the only plant component
-               ! taking up N during grain filling.
-
-            NO3gsm_uptake = NO3gsm_mflow * mflow_fract
-     :                    + NO3gsm_diffn * diffn_fract
-            dlt_NO3gsm(layer) = - NO3gsm_uptake
-
-1100     continue
-      else
-         if (g_num_uptake_no3.gt.0) then
-            do 1200 layer = 1, g_num_uptake_no3
-               dlt_NO3gsm(layer) = - g_uptake_no3(layer)/10.
- 1200       continue
-         else
-            call fatal_error (Err_Internal,
-     :           'No Soil NO3 uptake information was provided')
-         endif
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_N_mass_flow 
-     :               (
-     :                G_dlayer
-     :              , G_dlt_sw_dep
-     :              , G_no3gsm
-     :              , G_no3gsm_min
-     :              , G_root_depth
-     :              , G_sw_dep
-     :              , NO3gsm_mflow_pot
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return potential nitrogen uptake (supply) by mass flow (water
-*       uptake) (g/m^2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     divide
-*     fill_real_array
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     u_bound
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Global variables
-      include   'convert.inc'          ! ha2sm, kg2gm
-      include   'crop3.inc'
-
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       u_bound               ! function
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_dlt_sw_dep(*)       ! (INPUT)  water uptake in each layer (mm water)
-      REAL       G_no3gsm(*)           ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
-      REAL       G_no3gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^2)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L (mm)
-      real       NO3gsm_mflow_pot (max_layer) ! (OUTPUT) potential plant NO3
-                                              ! uptake (supply) g/m^2,
-                                              ! by mass flow
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! layer number of soil
-      real       NO3_conc              ! nitrogen concentration (g/m^2/mm)
-      real       NO3gsm_mflow          ! potential nitrogen uptake (g/m^2)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_N_mass_flow')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      call fill_real_array (NO3gsm_mflow_pot, 0.0, max_layer)
-
-         ! only take the layers in which roots occur
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      do 1000 layer = 1, deepest_layer
-
-            ! get  NO3 concentration
-
-         NO3_conc = divide (g_NO3gsm(layer)
-     :                    , g_sw_dep(layer), 0.0)
-
-            ! get potential uptake by mass flow
-
-         NO3gsm_mflow = NO3_conc * (-g_dlt_sw_dep(layer))
-         NO3gsm_mflow_pot(layer) = u_bound (NO3gsm_mflow,
-     :                            g_NO3gsm(layer) - g_NO3gsm_min(layer))
-
-1000  continue
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_N_diffusion 
-     :               (
-     :                G_dlayer
-     :              , G_no3gsm
-     :              , G_no3gsm_min
-     :              , G_root_depth
-     :              , G_sw_avail
-     :              , G_sw_avail_pot
-     :              , NO3gsm_diffn_pot
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Return potential nitrogen uptake (supply) by diffusion
-*       for a plant (g/m^2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     bound
-*     divide
-*     fill_real_array
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     u_bound
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Global variables
-      include   'convert.inc'          ! ha2sm, kg2gm
-      include   'crop3.inc'
-
-      real       bound                 ! function
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       u_bound               ! function
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_no3gsm(*)           ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
-      REAL       G_no3gsm_min(*)       ! (INPUT)  minimum allowable NO3 in soil (g/m^2)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_avail(*)         ! (INPUT)  actual extractable soil water (mm)
-      REAL       G_sw_avail_pot(*)     ! (INPUT)  potential extractable soil water (mm)
-      real       NO3gsm_diffn_pot (max_layer) ! (OUTPUT) potential plant NO3
-                                              ! uptake (supply) g/m^2,
-                                              !  by diffusion
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      integer    layer                 ! layer number of soil
-      real       NO3gsm_diffn          ! potential nitrogen uptake (g/m^2)
-      real       sw_avail_fract        ! fraction of extractable soil water ()
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_N_diffusion')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! only take the layers in which roots occur
-
-      call fill_real_array (NO3gsm_diffn_pot, 0.0, max_layer)
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      do 1000 layer = 1, deepest_layer
-
-         sw_avail_fract = divide (g_sw_avail(layer)
-     :                  , g_sw_avail_pot(layer), 0.0)
-         sw_avail_fract = bound (sw_avail_fract, 0.0, 1.0)
-
-            ! get extractable NO3
-            ! restricts NO3 available for diffusion to NO3 in plant
-            ! available water range
-
-         NO3gsm_diffn = sw_avail_fract * g_NO3gsm(layer)
-         NO3gsm_diffn_pot(layer) = u_bound (NO3gsm_diffn,
-     :                           g_NO3gsm(layer) - g_NO3gsm_min(layer))
-
-1000  continue
 
       call pop_routine (my_name)
       return
@@ -4528,7 +2057,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
                                        ! (g N/g part)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       integer    count_of_real_vals    ! function
       real       linear_interp_real    ! function
@@ -4630,7 +2159,8 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , G_dlt_dm_realloc
      :              , G_dlt_lai
      :              , G_dlt_leaf_no
-     :              , G_dlt_leaf_no_dead
+     :              , G_dlt_node_no
+     :              , G_dlt_node_no_dead
      :              , G_dlt_n_dead_detached
      :              , G_dlt_n_detached
      :              , G_dlt_n_green
@@ -4639,8 +2169,8 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , G_dlt_n_realloc
      :              , G_dlt_plants
      :              , G_dlt_plant_wc
-     :              , G_dlt_rlv
-     :              , G_dlt_rlv_senesced
+     :              , G_dlt_root_length
+     :              , G_dlt_root_length_senesced
      :              , G_dlt_root_depth
      :              , G_dlt_slai
      :              , G_dlt_slai_detached
@@ -4654,7 +2184,8 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , G_leaf_area
      :              , G_leaf_dm
      :              , G_leaf_no
-     :              , G_leaf_no_dead
+     :              , G_node_no
+     :              , G_node_no_dead
      :              , G_nfact_photo
      :              , G_n_conc_crit
      :              , G_n_conc_min
@@ -4664,7 +2195,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , G_plants
      :              , G_plant_wc
      :              , G_previous_stage
-     :              , G_rlv
+     :              , G_root_length
      :              , G_root_depth
      :              , G_slai
      :              , G_swdef_expansion
@@ -4684,7 +2215,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , C_stage_code_list
      :              , G_phase_tt
      :              , G_tt_tot
-     :              , G_leaf_no_detached
+     :              , G_node_no_detached
      :              , C_leaf_no_at_emerg
      :               )
 *     ===========================================================
@@ -4744,20 +2275,21 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
       REAL       G_dlt_dm_green_retrans(*) ! (INPUT)  plant biomass retranslocat
       REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^
-      REAL       G_dlt_dm_realloc(*)   ! (INPUT)  
+      REAL       G_dlt_dm_realloc(*)   ! (INPUT)
       REAL       G_dlt_lai             ! (INPUT)  actual change in live plant la
       REAL       G_dlt_leaf_no         ! (INPUT)  fraction of oldest leaf expand
-      REAL       G_dlt_leaf_no_dead    ! (INPUT)  fraction of oldest green leaf
+      REAL       G_dlt_node_no         ! (INPUT)
+      REAL       G_dlt_node_no_dead    ! (INPUT)  fraction of oldest green leaf
       REAL       G_dlt_n_dead_detached(*) ! (INPUT)  actual N loss with detached
       REAL       G_dlt_n_detached(*)   ! (INPUT)  actual N loss with detached pl
       REAL       G_dlt_n_green(*)      ! (INPUT)  actual N uptake into plant (g/
       REAL       G_dlt_n_retrans(*)    ! (INPUT)  nitrogen retranslocated out fr
       REAL       G_dlt_n_senesced(*)   ! (INPUT)  actual N loss with senesced pl
-      REAL       G_dlt_n_realloc(*)   ! (INPUT)  
+      REAL       G_dlt_n_realloc(*)   ! (INPUT)
       REAL       G_dlt_plants          ! (INPUT)  change in Plant density (plant
       REAL       G_dlt_plant_wc(*)     ! (INPUT)
-      REAL       G_dlt_rlv(*)          ! (INPUT)
-      REAL       G_dlt_rlv_senesced(*) ! (INPUT)
+      REAL       G_dlt_root_length(*)  ! (INPUT)
+      REAL       G_dlt_root_length_senesced(*) ! (INPUT)
       REAL       G_dlt_root_depth      ! (INPUT)  increase in root depth (mm)
       REAL       G_dlt_slai            ! (INPUT)  area of leaf that senesces fro
       REAL       G_dlt_slai_detached   ! (INPUT)  plant senesced lai detached
@@ -4771,7 +2303,8 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       REAL       G_leaf_area(*)        ! (INPUT)  leaf area of each leaf (mm^2)
       REAL       G_leaf_dm(*)          ! (INPUT)  dry matter of each leaf (g)
       REAL       G_leaf_no(*)          ! (INPUT)  number of fully expanded leave
-      REAL       G_leaf_no_dead(*)     ! (INPUT)  no of dead leaves ()
+      REAL       G_node_no(*)
+      REAL       G_node_no_dead(*)     ! (INPUT)  no of dead leaves ()
       REAL       G_nfact_photo         ! (INPUT)
       REAL       G_n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/
       REAL       G_n_conc_min(*)       ! (INPUT)  minimum N concentration (g N/g
@@ -4781,7 +2314,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
       REAL       G_plant_wc(*)         ! (INPUT)
       REAL       G_previous_stage      ! (INPUT)  previous phenological stage
-      REAL       G_rlv(*)              ! (INPUT)
+      REAL       G_root_length(*)      ! (INPUT)
       REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
       REAL       G_slai                ! (INPUT)  area of leaf that senesces fro
       REAL       G_swdef_expansion     ! (INPUT)
@@ -4801,14 +2334,14 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       REAL       C_stage_code_list(*)  ! (INPUT)  list of stage numbers
       REAL       G_phase_tt(*)         ! (INPUT)  Cumulative growing degree days
       REAL       G_tt_tot(*)           ! (INPUT)  the sum of growing degree days
-      REAL       G_leaf_no_detached    ! (INPUT)  number of detached leaves
+      REAL       G_node_no_detached    ! (INPUT)  number of detached leaves
       REAL       C_leaf_no_at_emerg    ! (INPUT)  number of leaves at emergence
 
 *       none
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       integer    count_of_Real_vals    ! function
       real       divide                ! function
@@ -4831,7 +2364,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       real       dlt_lai_dead          ! lai of green leaf of plants dying ()
       real       dlt_slai_dead         ! lai of senesced leaf of plant dying ()
       real       dying_fract           ! fraction op population dying (0-1)
-      real       leaf_no               ! currently expanding leaf no.
+      real       node_no
       integer    part                  ! plant part index
       integer    num_leaves            ! number of leaves on plant
       integer    empty_leaves          ! number of empty leaf records
@@ -4871,7 +2404,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
 
 cnh
       ! take out water with detached stems
-      g_plant_wc(sstem) = g_plant_wc(sstem) 
+      g_plant_wc(sstem) = g_plant_wc(sstem)
      :                  * (1.0 - divide (g_dlt_dm_dead_detached(sstem)
      :                                  ,g_dm_dead(sstem)
      :                                   +g_dm_green(sstem)
@@ -4973,24 +2506,26 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
          ! and so whereever detached leaves are used we need to account for the
          ! are set at emergence as these offset the records.
          ! THIS NEEDS CHANGING!!!!
-      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
-     :              - g_leaf_no_detached
+      node_no = 1.0 + sum_between (emerg, now, g_node_no)
+     :              - g_node_no_detached
      :              - c_leaf_no_at_emerg
 
-      leaf_no = l_bound(leaf_no, 1.0)
+      node_no = l_bound(node_no, 1.0)
 
       dlt_leaf_area = divide (g_dlt_lai, g_plants, 0.0) * sm2smm
       call accumulate (dlt_leaf_area, g_leaf_area
-     :               , leaf_no, g_dlt_leaf_no)
+     :               , node_no, g_dlt_node_no)
 
       dlt_dm_plant_leaf = divide (g_dlt_dm_green(leaf), g_plants, 0.0)
       call accumulate (dlt_dm_plant_leaf, g_leaf_dm
-     :               , leaf_no, g_dlt_leaf_no)
+     :               , node_no, g_dlt_node_no)
 
       call accumulate (g_dlt_leaf_no, g_leaf_no
      :               , g_previous_stage, g_dlt_stage)
+      call accumulate (g_dlt_node_no, g_node_no
+     :               , g_previous_stage, g_dlt_stage)
 
-      call accumulate (g_dlt_leaf_no_dead, g_leaf_no_dead
+      call accumulate (g_dlt_node_no_dead, g_node_no_dead
      :               , g_previous_stage, g_dlt_stage)
 
 
@@ -5025,7 +2560,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
   111 continue
 
       if (empty_leaves.gt.0) then
-         g_leaf_no_detached = g_leaf_no_detached + empty_leaves
+         g_node_no_detached = g_node_no_detached + empty_leaves
          !kludgy solution for now
          do 112 leaf_rec=empty_leaves+1, num_leaves
             leaf_rec_new = leaf_rec - empty_leaves
@@ -5055,8 +2590,10 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       g_canopy_height = g_canopy_height + g_dlt_canopy_height
       g_plants = g_plants + g_dlt_plants
       g_root_depth = g_root_depth + g_dlt_root_depth
-      call add_real_array      (g_dlt_rlv, g_rlv, max_layer)
-      call subtract_real_array (g_dlt_rlv_senesced, g_rlv, max_layer)
+      call add_real_array      (g_dlt_root_length
+     :                         , g_root_length, max_layer)
+      call subtract_real_array (g_dlt_root_length_senesced
+     :                         , g_root_length, max_layer)
 
       call sugar_N_conc_limits
      :               (
@@ -5184,7 +2721,7 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
      :               (
      :                g_lodge_flag
      :              , G_swdef_photo
-     :              , G_water_log_fact
+     :              , G_oxdef_photo
      :              , c_stress_lodge
      :              , c_death_fr_lodge
      :              , c_num_stress_lodge
@@ -5218,210 +2755,6 @@ c         call sugar_death_external_action (g_dlt_plants_death_external)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_dm_dead_detachment
-     :               (
-     :                C_dead_detach_frac
-     :              , G_dm_dead
-     :              , dlt_dm_dead_detached
-     :               )
-*     ===========================================================
-
-*   Short description:
-*      Plant dry matter loss from dead plants
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts d
-      REAL       G_dm_dead(*)          ! (INPUT)  dry wt of dead plants (g/m^2)
-      real       dlt_dm_dead_detached(*)   ! (OUTPUT) change in dm of dead
-                                           ! plants (g/m^2)
-
-*   Global variables
-      include   'crop3.inc'
-
-*   Internal variables
-      integer    part                  ! part index
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_dm_dead_detachment')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      do 1000 part = 1, max_part
-         dlt_dm_dead_detached(part) = g_dm_dead(part)
-     :                              * c_dead_detach_frac(part)
-1000  continue
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_tlai_dead_detachment 
-     :               (
-     :                C_dead_detach_frac
-     :              , G_tlai_dead
-     :              , dlt_tlai_dead_detached
-     :               )
-*     ===========================================================
-
-*   Short description:
-*      Plant leaf area loss from dead plants
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts detaching each day (0-1)
-      REAL       G_tlai_dead           ! (INPUT)  total lai of dead plants
-      real       dlt_tlai_dead_detached   ! (OUTPUT) change in lai of dead
-                                          ! plants
-
-*   Global variables
-      include   'crop3.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_tlai_dead_detachment')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      dlt_tlai_dead_detached = g_tlai_dead * c_dead_detach_frac(leaf)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_N_dead_detachment 
-     :               (
-     :                C_dead_detach_frac
-     :              , G_n_dead
-     :              , dlt_N_dead_detached
-     :               )
-*     ===========================================================
-
-*   Short description:
-*      Plant Nitrogen loss from dead plants
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts detaching each day (0-1)
-      REAL       G_n_dead(*)           ! (INPUT)  plant N content of dead plants (g N/m^2)
-      real       dlt_N_dead_detached(*)   ! (OUTPUT) change in dm of dead
-                                          ! plants (g/m^2)
-
-*   Global variables
-      include   'crop3.inc'
-
-*   Internal variables
-      integer    part                  ! part index
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_N_dead_detachment')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      do 1000 part = 1, max_part
-         dlt_N_dead_detached(part) = g_N_dead(part)
-     :                             * c_dead_detach_frac(part)
-1000  continue
 
       call pop_routine (my_name)
       return
@@ -5509,7 +2842,7 @@ c         call sugar_death_external_action (g_dlt_plants_death_external)
       include   'const.inc'            ! new_line, lu_scr_sum, blank,
                                        ! lu_scr_sum
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                ! function
       integer    find_layer_no         ! function
@@ -5653,7 +2986,7 @@ cnh         call report_event (string)
       real       N_green(*)            ! plant nitrogen (g/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       logical    on_day_of             ! function
 
@@ -5686,594 +3019,6 @@ cnh         call report_event (string)
          N_green(sucrose) = 0.0
 
       else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_check_sw 
-     :               (
-     :                C_minsw
-     :              , G_dlayer
-     :              , G_dul_dep
-     :              , G_num_layers
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Check validity of soil water parameters for all soil profile layers.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*           Reports an error if
-*           - ll_dep and dul_dep are not in ascending order
-*           - ll is below c_minsw
-*           - sw < c_minsw
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template
-
-*   Calls:
-*     divide
-*     pop_routine
-*     push_routine
-*     warning_error
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_minsw               ! (INPUT)  lowest acceptable value for ll
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-      INTEGER    G_num_layers          ! (INPUT)  number of layers in profile ()
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L (mm)
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
-*       none
-
-*   Global variables
-      include   'const.inc'            ! err_internal
-      include   'crop3.inc'
-
-      real       divide                ! function
-
-*   Internal variables
-      real       dul                   ! drained upper limit water content
-                                       ! of layer (mm water/mm soil)
-      character  err_messg*200         ! error message
-      integer    layer                 ! layer number
-      real       ll                    ! lower limit water content
-                                       ! of layer (mm water/mm soil)
-      real       sw                    ! soil water content of layer l
-                                       ! (mm water/mm soil)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_check_sw')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      do 2000 layer = 1, g_num_layers
-
-         sw = divide (g_sw_dep(layer), g_dlayer(layer), 0.0)
-         dul = divide (g_dul_dep(layer), g_dlayer(layer), 0.0)
-         ll = divide (p_ll_dep(layer), g_dlayer(layer), 0.0)
-
-         if (ll.lt.c_minsw) then
-            write (err_messg, '(a,f8.2,a,i3,2a,f8.2)')
-     :           ' lower limit of ', ll
-     :          ,' in layer ', layer
-     :          , new_line
-     :          ,'         is below acceptable value of ', c_minsw
-            call warning_error (err_internal, err_messg)
-         else
-         endif
-
-         if (dul.le.ll) then
-            write (err_messg, '(a,f8.2,a,i3,2a,f8.2)')
-     :            ' Drained upper limit of ',dul
-     :           ,' in layer ', layer
-     :           ,new_line
-     :           ,'         is at or below lower limit of ', ll
-            call warning_error (err_internal, err_messg)
-         else
-         endif
-
-         if (sw.lt.c_minsw) then
-            write (err_messg, '(a,f8.2,a,i3,2a,f8.2)')
-     :            ' Soil water of ', sw
-     :           ,' in layer ', layer
-     :           ,new_line
-     :           ,'         is below acceptable value of ', c_minsw
-            call warning_error (err_internal, err_messg)
-
-         else
-         endif
-2000  continue
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_root_distrib 
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , root_array, root_sum
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Distribute root material over profile
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-
-*   Calls:
-*     divide
-*     fill_real_array
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     sum_real_array
-*     u_bound
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_rlv(*)              ! (INPUT)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      real       root_array(*)         ! (OUTPUT) array to contain
-                                       ! distributed material
-      real       root_sum              ! (INPUT) Material to be distributed
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    layer                 ! layer number ()
-      integer    deepest_layer         ! deepest layer in which the
-                                       ! roots are growing
-      real       root_length(max_layer) ! root length (mm/m2)
-      real       root_length_sum       ! sum of root distribution array
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'sugar_root_distrib')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-             ! distribute roots over profile to root_depth
-
-      call fill_real_array (root_array, 0.0, max_layer)
-      call fill_real_array (root_length, 0.0, max_layer)
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer
-     :                                , max_layer)
-      do 1000 layer = 1, deepest_layer
-         root_length(layer) = g_rlv(layer) * g_dlayer(layer)
-1000  continue
-
-      root_length_sum = sum_real_array (root_length, deepest_layer)
-
-      do 2000 layer = 1, deepest_layer
-         root_array(layer) = root_sum * divide (root_length(layer)
-     :                                        , root_length_sum, 0.0)
-2000  continue
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_top_residue (dlt_residue_weight, dlt_residue_N)
-*     ===========================================================
-
-*   Short description:
-*       Add residue to residue pool
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-*       070596 nih changed to use postbox message method
-
-*   Calls:
-*     message_pass_to_module
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      real       dlt_residue_weight    ! (INPUT) new surface residue (g/m^2)
-      real       dlt_residue_N         ! (INPUT) new surface residue N (g/m^2)
-
-*   Global variables
-      include   'const.inc'            ! all_active_modules
-      include   'convert.inc'
-      include   'sugar.inc'
-
-*   Internal variables
-cnh      character  string*200            ! output string
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'sugar_top_residue')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (dlt_residue_weight.gt.0.0) then
-            ! send out surface residue
-
-cnh         write(string, '(2a, 2(a, g16.7e3, a))' )
-c     :           'dlt_residue_type = ', c_crop_type
-c     :         , ', dlt_residue_wt = '
-c     :         , dlt_residue_weight * gm2kg /sm2ha, '(kg/ha)'
-c     :         , ', dlt_residue_n = '
-c     :         , dlt_residue_N * gm2kg /sm2ha, '(kg/ha)'
-c
-c         call message_pass_to_module
-cnh     :           (all_active_modules, 'add_residue', string)
-
-         call New_postbox ()
-
-         call post_char_var('dlt_residue_type','()',c_crop_type)
-
-         call post_real_var ('dlt_residue_wt'
-     :                        ,'(kg/ha)'
-     :                        ,dlt_residue_weight* gm2kg /sm2ha)
-
-         call post_real_var ('dlt_residue_n'
-     :                        ,'(kg/ha)'
-     :                        ,dlt_residue_N * gm2kg /sm2ha)
-
-         call message_send_immediate (
-     :                              unknown_module
-     :                            , 'add_residue'
-     :                            , Blank
-     :                            )
-
-         call Delete_postbox ()
-
-      else
-         ! no surface residue
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_root_incorp (dlt_dm_root, dlt_N_root)
-*     ===========================================================
-
-*   Short description:
-*       Add root residue to root residue pool
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       070495 nih taken from template
-*       070596 nih changed to use postbox message method
-*       100696 jngh removed unused strings and functions
-
-*   Calls:
-*     find_layer_no
-*     lastnb
-*     message_pass_to_module
-*     pop_routine
-*     push_routine
-*     string_concat
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      real       dlt_dm_root           ! (INPUT) new root residue dm (g/m^2)
-      real       dlt_N_root            ! (INPUT) new root residue N (g/m^2)
-
-*   Global variables
-      include   'const.inc'            ! all_active_modules
-      include   'convert.inc'
-      include   'sugar.inc'
-
-      integer    find_layer_no         ! function
-cjh      integer    lastnb                ! function
-cjh      character  string_concat*(1000) ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       dlt_dm_incorp(max_layer) ! root residue (kg/ha)
-      real       dlt_N_incorp(max_layer)  ! root residue N (kg/ha)
-
-cjh      integer    layer                 ! layer number
-cjh      character  string*(1000) ! output string
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'sugar_root_incorp')
-
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (dlt_dm_root.gt.0.0) then
-
-            ! send out root residue
-
-         call sugar_root_distrib
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , dlt_dm_incorp
-     :              , dlt_dm_root * gm2kg /sm2ha
-     :               )
-         call bound_check_real_array (dlt_dm_incorp
-     :                        , 0.0
-     :                        , dlt_dm_root * gm2kg/sm2ha
-     :                        , 'dlt_dm_incorp'
-     :                        , max_layer)
-
-         call sugar_root_distrib
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , dlt_N_incorp
-     :              , dlt_N_root * gm2kg /sm2ha
-     :               )
-         call bound_check_real_array (dlt_n_incorp
-     :                        , 0.0
-     :                        , dlt_n_root * gm2kg/sm2ha
-     :                        , 'dlt_n_incorp'
-     :                        , max_layer)
-
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
-     :                                , max_layer)
-
-cnh         string = 'dlt_fom_type='// c_crop_type
-c
-c         write (string(lastnb(string)+1:), '(a, 20g16.7e3)' )
-c     :              ', dlt_fom_wt = '
-c     :               , (dlt_dm_incorp(layer), layer = 1, deepest_layer)
-c         string =  string_concat (string, '(kg/ha)')
-c
-c         write (string(lastnb(string)+1:), '(a, 20g16.7e3)')
-c     :              ', dlt_fom_n = '
-c     :               , (dlt_N_incorp(layer), layer = 1, deepest_layer)
-c         string = string_concat (string, '(kg/ha)')
-c
-c         call message_pass_to_module
-c     :           (all_active_modules, 'incorp_fom', string)
-
-         call New_postbox ()
-
-         call post_char_var('dlt_fom_type=','()',c_crop_type)
-
-         call post_real_array ('dlt_fom_wt'
-     :                        ,'(kg/ha)'
-     :                        ,dlt_dm_incorp
-     :                        ,deepest_layer)
-
-         call post_real_array ('dlt_fom_n'
-     :                        ,'(kg/ha)'
-     :                        ,dlt_n_incorp
-     :                        ,deepest_layer)
-
-         call message_send_immediate (
-     :                              unknown_module
-     :                            , 'incorp_fom'
-     :                            , Blank
-     :                            )
-
-         call Delete_postbox ()
-
-
-      else
-         ! no roots to incorporate
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      real function sugar_sprouting
-     :               (
-     :                C_pesw_germ
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_dlayer
-     :              , G_sowing_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , current_stage
-     :               )
-*     ===========================================================
-
-*   Short description:
-*      Determine sprouting based on soil water availability
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     060495 nih taken from template (was sugar_germination)
-*     300996 nih added fix to template phenology error
-
-*   Calls:
-*     divide
-*     find_layer_no
-*     on_day_of
-*     pop_routine
-*     push_routine
-*     stage_is_between
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_pesw_germ           ! (INPUT)  plant extractable soil water i
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
-      real       current_stage         ! (OUTPUT) phenological stage number
-
-*   Global variables
-      include   'crop3.inc'
-
-      integer    find_layer_no         ! function
-      real       divide                ! function
-      logical    on_day_of             ! function
-      logical    stage_is_between      ! function
-
-*   Internal variables
-      integer    layer_no_seed         ! seedling layer number
-      real       pesw_seed             ! plant extractable soil water in
-                                       ! seedling layer available for
-                                       ! germination ( mm/mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sprouting')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-         ! determine if soil water content is sufficient to allow sprouting.
-         ! Soil water content of the seeded layer must be > the
-         ! lower limit to be adequate for germination.
-
-      if (stage_is_between (sowing, sprouting, current_stage)) then
-
-         layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer
-     :                                , max_layer)
-         pesw_seed = divide (g_sw_dep(layer_no_seed)
-     :                     - p_ll_dep(layer_no_seed)
-     :                     , g_dlayer(layer_no_seed), 0.0)
-
-            ! can't sprout on same day as sowing, because miss out on
-            ! day of sowing else_where
-
-         if (pesw_seed.gt.c_pesw_germ
-     :   .and.
-     :   .not. on_day_of (sowing, g_current_stage, g_days_tot)) then
-               ! we have sprouting
-               ! set the current stage so it is on the point of sprouting
-            sugar_sprouting = 1.0 + mod (g_current_stage, 1.0)
-
-         else
-                ! no germination yet but indicate that we are on the way.
-cnh            sugar_sprouting = 0.0001
-               sugar_sprouting = 0.999
-         endif
-      else
-             ! no sowing yet
-         sugar_sprouting = 0.0
       endif
 
       call pop_routine (my_name)
@@ -6329,7 +3074,7 @@ cnh            sugar_sprouting = 0.0001
       real       sla_min               ! (OUTPUT)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       linear_interp_real    ! function
 
@@ -6406,7 +3151,7 @@ cnh            sugar_sprouting = 0.0001
       real       leaf_no               ! (INPUT) nominated leaf number
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       linear_interp_real    ! function
 
@@ -6432,249 +3177,6 @@ cnh            sugar_sprouting = 0.0001
      :                     )
 
       call pop_routine (my_name)
-      return
-      end
-* ====================================================================
-       subroutine sugar_root_length_growth 
-     :               (
-     :                C_specific_root_length
-     :              , G_dlayer
-     :              , G_dlt_dm_green
-     :              , G_dlt_rlv
-     :              , G_dlt_root_depth
-     :              , G_root_depth
-     :              , P_xf
-     :              , C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :               )
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 13-06-1995 - Programmed and Specified
-*   neilh - 28-02-1997 - Made root factor constraint
-
-*   Calls:
-*   Pop_routine
-*   Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-      REAL       C_specific_root_length ! (INPUT)  length of root per unit wt (mm/g)
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
-      REAL       G_dlt_rlv(*)          ! (INPUT)
-      REAL       G_dlt_root_depth      ! (INPUT)  increase in root depth (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       P_xf(*)               ! (INPUT)  eXtension rate Factor (0-1)
-      INTEGER    C_num_sw_ratio        ! (INPUT)
-      REAL       C_x_sw_ratio(*)       ! (INPUT)
-      REAL       C_y_sw_fac_root(*)    ! (INPUT)
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L (mm)
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
-*     none
-
-*   Global variables
-      include 'crop3.inc'
-      include 'convert.inc'
-
-      real    divide                     ! function
-      integer find_layer_no              ! function
-      real    l_bound                    ! function
-      real    sugar_sw_avail_fac         ! function
-      real    sum_real_array             ! function
-
-*   Internal variables
-      integer deepest_layer
-      real    dlt_length_tot
-      real    dlt_length_layer
-      integer layer
-      real    layer_volume
-      real    rlv_factor (max_layer)
-      real    rlv_factor_tot
-
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sugar_root_length_growth')
-
-*   Initial data values
-*     none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      call fill_real_array (g_dlt_rlv, 0.0, max_layer)
-
-      deepest_layer = find_layer_no (g_root_depth+g_dlt_root_depth
-     :                                , g_dlayer
-     :                                , max_layer)
-
-      do 100 layer = 1, deepest_layer
-         rlv_factor (layer) =
-     :                 sugar_sw_avail_fac 
-     :               (
-     :                C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , layer
-     :               )  ! moisture factor
-     :               * p_xf (layer)                ! growth factor
-     :               * divide(g_dlayer(layer)      ! space weighting
-     :                       ,g_root_depth         !       factor
-     :                       ,0.0)
-
-         rlv_factor (layer) = l_bound(rlv_factor(layer),1e-6)
-  100 continue
-
-      rlv_factor_tot = sum_real_array (rlv_factor, deepest_layer)
-
-      dlt_length_tot = g_dlt_dm_green(root) * c_specific_root_length
-
-      do 200 layer = 1, deepest_layer
-
-         dlt_length_layer = dlt_length_tot
-     :               * divide (rlv_factor(layer), rlv_factor_tot, 0.0)
-
-                      !   1 sqm
-                      !  /
-         layer_volume = 1.0 * sm2smm * g_dlayer(layer)
-
-         g_dlt_rlv (layer) = divide (dlt_length_layer
-     :                            ,layer_volume
-     :                            ,0.0)
-
-  200 continue
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
-       subroutine sugar_root_length_senescence
-     :               (
-     :                C_specific_root_length
-     :              , G_dlayer
-     :              , G_dlt_dm_senesced
-     :              , G_rlv
-     :              , G_root_depth
-     :              , dlt_rlv_senesced
-     :               )
-* ====================================================================
-
-*   Short description:
-
-*   Assumptions:
-*      None
-
-*   Notes:
-*   nih - I know there is a simpler way of doing this but if we make the
-*         calculation of senescence rate more complex this aproach will
-*         automatically handle it.
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 14-06-1995 - Programmed and Specified
-
-*   Calls:
-*   Pop_routine
-*   Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-      REAL       C_specific_root_length ! (INPUT)  length of root per unit wt (m
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^
-      REAL       G_rlv(*)              ! (INPUT)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      real dlt_rlv_senesced (*)
-
-*   Global variables
-      include 'crop3.inc'
-      include 'convert.inc'
-
-      real    divide
-      integer find_layer_no
-
-*   Internal variables
-      integer deepest_layer          ! deepest layer with roots ()
-      real dlt_length(max_layer)     ! change in root length for each
-                                     ! layer (mm/m2)
-      integer layer
-      real senesced_length           ! length of root to senesce (mm/m2)
-
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sugar_root_length_senescence')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      call fill_real_array (dlt_rlv_senesced, 0.0, max_layer)
-
-      senesced_length = g_dlt_dm_senesced(root) * c_specific_root_length
-
-      call sugar_root_distrib
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , dlt_length, senesced_length
-     :               )
-
-      if (g_root_depth .gt. 0.0) then
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
-     :                                  , max_layer)
-      else
-         deepest_layer = 0
-      endif
-
-      do 100 layer = 1, deepest_layer
-         dlt_rlv_senesced(layer) = divide (dlt_length(layer)
-     :                                    ,g_dlayer(layer)
-     :                                    ,0.0)
-     :                                    * smm2sm
-  100 continue
-
-      call pop_routine (myname)
       return
       end
 * ====================================================================
@@ -6747,119 +3249,6 @@ cnh            sugar_sprouting = 0.0001
       return
       end
 * ====================================================================
-       subroutine sugar_water_log_fact
-     :               (
-     :                C_num_water_log_fact
-     :              , C_water_log_fact
-     :              , C_water_log_rtfr
-     :              , G_ll15_dep
-     :              , G_sat_dep
-     :              , G_sw_dep
-     :              , G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , water_log_fact
-     :               )
-* ====================================================================
-
-*   Short description:
-*   Calculate 0-1 factor for water logging effect on growth
-
-*   Assumptions:
-*      None
-
-*   Notes:
-
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
-
-*   Changes:
-*   neilh - 11-10-1995 - Programmed and Specified
-
-*   Calls:
-*   Pop_routine
-*   Push_routine
-
-* ----------------------- Declaration section ------------------------
-
-       implicit none
-
-*   Subroutine arguments
-      INTEGER    C_num_water_log_fact  ! (INPUT)
-      REAL       C_water_log_fact(*)   ! (INPUT)
-      REAL       C_water_log_rtfr(*)   ! (INPUT)
-      REAL       G_ll15_dep(*)         ! (INPUT)
-      REAL       G_sat_dep(*)          ! (INPUT)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_rlv(*)              ! (INPUT)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-       real    water_log_fact            ! (OUTPUT)
-
-*   Global variables
-       include 'crop3.inc'
-       real    bound                     ! function
-       integer count_of_real_vals        ! function
-       real    divide                    ! function
-       real    linear_interp_real        ! function
-
-*   Internal variables
-       integer layer
-       integer num_root_layers
-       real    wet_root_fr
-       real    wfps
-       real    root_fr(max_layer)
-       real    tot_root_fr
-
-*   Constant values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'sugar_water_log_fact')
-
-*   Initial data values
-*      none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (myname)
-
-      tot_root_fr = 1.0
-      call sugar_root_distrib
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , root_fr, tot_root_fr
-     :               )
-
-      num_root_layers = count_of_real_vals (root_fr, max_layer)
-
-      wet_root_fr = 0.0
-
-      do 100 layer = 1, num_root_layers
-         wfps = divide (g_sw_dep(layer)- g_ll15_dep(layer)
-     :                 ,g_sat_dep(layer) - g_ll15_dep(layer)
-     :                 ,0.0)
-         wfps = bound (wfps, 0.0, 1.0)
-
-         wet_root_fr = wet_root_fr + wfps * root_fr(layer)
-  100 continue
-
-      water_log_fact = linear_interp_real
-     :                       (wet_root_fr
-     :                       ,c_water_log_rtfr
-     :                       ,c_water_log_fact
-     :                       ,c_num_water_log_fact)
-
-
-      call pop_routine (myname)
-      return
-      end
-* ====================================================================
        subroutine sugar_water_content
      :               (
      :                C_cane_dmf_tt
@@ -6923,7 +3312,7 @@ cnh            sugar_sprouting = 0.0001
       REAL       G_tt_tot              ! (INPUT)
 
 *   Global variables
-       include 'crop3.inc'
+       include 'sugconst.inc'
        real      divide                  ! function
        real      linear_interp_real      ! function
        real      sum_between             ! function
@@ -7036,7 +3425,7 @@ cnh            sugar_sprouting = 0.0001
                                        ! partitioned to sucrose (0-1)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
       real       bound                 ! function
       real       linear_interp_real    ! function
 
@@ -7123,7 +3512,7 @@ cnh            sugar_sprouting = 0.0001
       real       dm_residue            ! dry matter going to residue
       real       fraction              ! fraction of green material grazed
       integer    leaf_no               ! index for leaves
-      real       leaf_no_dead          ! number of dead or dying leaves
+      real       node_no_dead          ! number of dead or dying leaves
       real       n_eff                 ! fraction of N returned to soil
       real       n_residue             ! N going to residue
       integer    numvals               ! number of values found in array
@@ -7199,7 +3588,7 @@ c      call sugar_get_other_variables ()
       g_n_green(sucrose)= g_n_green(sucrose) * (1. - fraction)
       g_plant_wc(sucrose) = g_plant_wc(sucrose) * (1. - fraction)
 
-      call sugar_top_residue (dm_residue, N_residue)
+      call crop_top_residue (c_crop_type, dm_residue, N_residue)
 
       ! Now we need to update the leaf tracking info
 
@@ -7208,16 +3597,16 @@ c      call sugar_get_other_variables ()
          ! get highest senescing leaf
 
 
-      leaf_no_dead = sugar_leaf_no_from_lai
+      node_no_dead = sugar_leaf_no_from_lai
      :               (
      :                G_leaf_area
      :              , G_plants
      :              , g_slai
      :               )
-      start_leaf = int(leaf_no_dead + 1.)
+      start_leaf = int(node_no_dead + 1.)
       do 100 leaf_no = start_leaf, max_leaf
          if (leaf_no .eq. start_leaf) then
-            grn_fr = 1.0 - mod(leaf_no_dead,1.)
+            grn_fr = 1.0 - mod(node_no_dead,1.)
          else
             grn_fr = 1.0
          endif
@@ -7247,17 +3636,11 @@ c      call sugar_get_other_variables ()
       return
       end
 *     ===========================================================
-      subroutine sugar_leaf_no_init 
-     :               (
-     :                C_leaf_no_at_emerg
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , leaf_no
-     :               )
+      subroutine sugar_root_depth_init (Option)
 *     ===========================================================
 
 *   Short description:
-*       Initialise leaf number
+*       Plant root depth calculations
 
 *   Assumptions:
 *       none
@@ -7275,115 +3658,25 @@ c      call sugar_get_other_variables ()
 *                       implicit none
 
 *   Changes:
-*     300996 nih created from sugar_leaf_area_init.
+*      250894 jngh specified and programmed
 
 *   Calls:
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_leaf_no_at_emerg    ! (INPUT)  leaf number at emergence ()
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      real       leaf_no(*)            ! (OUTPUT) leaf number
-
-*   Global variables
-      include   'crop3.inc'
-
-      logical    on_day_of             ! function
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_no_init')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
-         leaf_no(emerg) = c_leaf_no_at_emerg
-      else
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_root_depth_init
-     :               (
-     :                G_dlayer
-     :              , G_rlv
-     :              , G_root_depth
-     :              , dlt_root_depth
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       This routine returns the increase in root depth.  The
-*       approach used here utilises a potential root front velocity
-*       affected by relative moisture content at the rooting front.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*         there is a discrepency when the root crosses into another
-*         layer. - cr380
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      060495 nih taken from template
-*      041095 nih change init of root depth to sprouting (was emergence)
-*      200396 nih changed max root depth to deepest xf>0
-*      300996 nih changed test for init of root depth due to limitation
-*                 in on_day_of routine
-
-*   Calls:
-*     find_layer_no
-*     on_day_of
 *     pop_routine
 *     push_routine
-*     sugar_sw_avail_fac
-*     stage_is_between
-*     sum_between
-*     sum_real_array
-*     u_bound
-
 
 * ----------------------- Declaration section ------------------------
 
       implicit none
 
 *   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_rlv(*)              ! (INPUT)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      real       dlt_root_depth        ! (OUTPUT) increase in root depth (mm)
+      integer    Option                ! (INPUT) option number
 
 *   Global variables
-      include   'crop3.inc'
-
-      integer    count_of_real_vals    ! function
-      real       sum_real_array        ! function
+      include   'const.inc'
+      include   'sugar.inc'
 
 *   Internal variables
-      integer    num_root_layers       !
+*     none
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -7393,179 +3686,20 @@ c      call sugar_get_other_variables ()
 *       none
 
 * --------------------- Executable code section ----------------------
-
       call push_routine (my_name)
 
-cnh      if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
-      if (g_root_depth .eq. 0.0) then
+      if (Option .eq. 1) then
 
-             ! initialise root depth
-             ! this version does not take account of sowing depth.
-cnh it used to do this on first day of sprouting
-cnh         dlt_root_depth = c_initial_root_depth
-
-cnh now I say roots are at bottom of deepest layer that user said had a value
-cnh for rlv at initialisation.
-            num_root_layers = count_of_real_vals (g_rlv,max_layer)
-            dlt_root_depth =
-     :                 sum_real_array (g_dlayer, num_root_layers)
-     :                 - g_root_depth
-
-      else  ! we have no root growth
-
-         ! do nothing
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_root_depth_increase 
+         call sugar_init_root_depth
      :               (
-     :                C_root_depth_rate
-     :              , G_current_stage
-     :              , G_dlayer
+     :                G_dlayer
+     :              , G_root_length
      :              , G_root_depth
-     :              , P_xf
-     :              , C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , dlt_root_depth
+     :              , g_dlt_root_depth
      :               )
-*     ===========================================================
-
-*   Short description:
-*       This routine returns the increase in root depth.  The
-*       approach used here utilises a potential root front velocity
-*       affected by relative moisture content at the rooting front.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*         there is a discrepency when the root crosses into another
-*         layer. - cr380
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      060495 nih taken from template
-*      041095 nih change init of root depth to sprouting (was emergence)
-*      200396 nih changed max root depth to deepest xf>0
-*      300996 nih changed test for init of root depth due to limitation
-*                 in on_day_of routine
-
-*   Calls:
-*     find_layer_no
-*     on_day_of
-*     pop_routine
-*     push_routine
-*     sugar_sw_avail_fac
-*     stage_is_between
-*     sum_between
-*     sum_real_array
-*     u_bound
-
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_root_depth_rate(*)  ! (INPUT)  root growth rate potential (mm depth/day)
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       P_xf(*)               ! (INPUT)  eXtension rate Factor (0-1)
-      INTEGER    C_num_sw_ratio        ! (INPUT)
-      REAL       C_x_sw_ratio(*)       ! (INPUT)
-      REAL       C_y_sw_fac_root(*)    ! (INPUT)
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit soil water content for soil layer L (mm water)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L (mm)
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractable soil water for soil layer L (mm)
-      real       dlt_root_depth        ! (OUTPUT) increase in root depth (mm)
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       u_bound               ! function
-      integer    count_of_real_vals    ! function
-      integer    find_layer_no         ! function
-      real       sugar_sw_avail_fac    ! function
-      logical    stage_is_between      ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    current_phase         ! current phase number
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       root_depth_max        ! maximum depth to which roots can
-                                       ! go (mm)
-      integer    root_layer_max        ! deepest layer that roots can grow
-                                       ! into.
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_root_depth_increase')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-
-      if (stage_is_between (emerg, flowering
-     :                     , g_current_stage)) then
-            ! we have root growth (in a vegetative phase)
-
-            ! this equation allows soil water in the deepest
-            ! layer in which roots are growing
-            ! to affect the daily increase in rooting depth.
-
-            ! Root extension rate factor is used to slow roots in layers
-            ! of heavier soil.
-
-         deepest_layer = find_layer_no (g_root_depth, g_dlayer
-     :                                , max_layer)
-         current_phase = int (g_current_stage)
-         dlt_root_depth  = c_root_depth_rate(current_phase)
-     :                   * sugar_sw_avail_fac 
-     :               (
-     :                C_num_sw_ratio
-     :              , C_x_sw_ratio
-     :              , C_y_sw_fac_root
-     :              , G_dul_dep
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , deepest_layer
-     :               )
-     :                   * p_xf (deepest_layer)
-
-            ! constrain it by the maximum
-            ! depth that roots are allowed to grow.
-
-cnh         root_depth_max = sum_real_array (g_dlayer, g_num_layers)
-
-         root_layer_max = count_of_real_vals (p_xf,max_layer)
-         root_depth_max = sum_real_array (g_dlayer, root_layer_max)
-
-         dlt_root_depth = u_bound (dlt_root_depth
-     :                           , root_depth_max - g_root_depth)
-
-      else  ! we have no root growth
-
-         dlt_root_depth = 0.0
+                               !NOTE THIS IS STILL THE DELTA
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
       call pop_routine (my_name)
@@ -7627,21 +3761,27 @@ cnh         root_depth_max = sum_real_array (g_dlayer, g_num_layers)
 
       if (Option .eq. 1) then
 
-         call sugar_root_length_growth
+          call cproc_root_length_growth1
      :               (
      :                C_specific_root_length
      :              , G_dlayer
-     :              , G_dlt_dm_green
-     :              , G_dlt_rlv
+     :              , G_dlt_dm_green(root)
+     :              , G_dlt_root_length
      :              , G_dlt_root_depth
      :              , G_root_depth
+     :              , G_root_length
+     :              , g_plants
      :              , P_xf
      :              , C_num_sw_ratio
      :              , C_x_sw_ratio
      :              , C_y_sw_fac_root
+     :              , c_x_plant_rld
+     :              , c_y_rel_root_rate
+     :              , c_num_plant_rld
      :              , G_dul_dep
      :              , G_sw_dep
      :              , P_ll_dep
+     :              , max_layer
      :               )
 
       else
@@ -7708,46 +3848,22 @@ c+!!!!!!!!! check order dependency of deltas
 
       if (Option .eq. 1) then
 
-            ! WATER UPTAKE
-         call sugar_check_sw 
-     :               (
-     :                C_minsw
-     :              , G_dlayer
-     :              , G_dul_dep
-     :              , G_num_layers
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :               )
-         call sugar_sw_avail_pot 
-     :               (
-     :                G_dlayer
-     :              , G_dul_dep
-     :              , G_root_depth
-     :              , P_ll_dep
-     :              , g_sw_avail_pot
-     :               )
-         call sugar_sw_avail 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , g_sw_avail
-     :               )
+       call cproc_sw_supply1 (
+     :                        C_sw_dep_lb
+     :                       ,G_dlayer
+     :                       ,P_ll_dep
+     :                       ,G_dul_dep
+     :                       ,G_sw_dep
+     :                       ,max_layer
+     :                       ,g_root_depth
+     :                       ,p_kl
+     :                       ,g_sw_avail
+     :                       ,g_sw_avail_pot
+     :                       ,g_sw_supply
+     :                       )
 
-         if (g_uptake_source.eq.'calc') then
-            call sugar_sw_supply 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_dep
-     :              , P_kl
-     :              , P_ll_dep
-     :              , g_sw_supply
-     :               )
+         if (g_uptake_source.eq.'apsim') then
 
-
-         else
             ! Use the water uptake values given by some other
             ! module in the APSIM system. (eg APSWIM)
             If (g_num_uptake_water.gt.0) then
@@ -7819,21 +3935,18 @@ c+!!!!!!!!! check order dependency of deltas
 *       none
 
 * --------------------- Executable code section ----------------------
-c+!!!!!!!!! check order dependency of deltas
       call push_routine (my_name)
 
 
       if (Option .eq. 1) then
 
          if (g_uptake_source.eq.'calc') then
-            call sugar_sw_uptake
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_demand
-     :              , G_sw_supply
-     :              , g_dlt_sw_dep
-     :               )
+            call cproc_sw_uptake1 (g_num_layers
+     :                            ,g_dlayer
+     :                            ,g_root_depth
+     :                            ,g_sw_demand
+     :                            ,g_sw_supply
+     :                            ,g_dlt_sw_dep)
 
          else
             ! Use the water uptake values given by some other
@@ -7911,12 +4024,11 @@ c+!!!!!!!!! check order dependency of deltas
 
       if (Option .eq. 1) then
 
-         call sugar_sw_demand 
-     :               (
-     :                G_dlt_dm_pot_rue
-     :              , G_transp_eff
-     :              , g_sw_demand
-     :               )
+         call cproc_sw_demand1 (
+     :          g_dlt_dm_pot_rue,
+     :          g_transp_eff,
+     :          g_sw_demand)
+
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -7978,7 +4090,7 @@ c+!!!!!!!!! check order dependency of deltas
 
       if (Option .eq. 1) then
 
-         call sugar_radn_int 
+         call sugar_radn_int
      :               (
      :                C_extinction_coef
      :              , G_fr_intc_radn
@@ -8054,7 +4166,7 @@ c+!!!!!!!!! check order dependency of deltas
      :              , G_radn_int
      :              , G_nfact_photo
      :              , G_temp_stress_photo
-     :              , G_water_log_fact
+     :              , G_oxdef_photo
      :              , g_dlt_dm_pot_rue
      :               )
 
@@ -8081,7 +4193,7 @@ c+!!!!!!!!! check order dependency of deltas
      :              , G_radn_int
      :              , G_nfact_photo
      :              , G_temp_stress_photo
-     :              , G_water_log_fact
+     :              , G_oxdef_photo
      :              , dlt_dm_pot
      :               )
 *     ===========================================================
@@ -8125,12 +4237,12 @@ c+!!!!!!!!! check order dependency of deltas
       REAL       G_radn_int            ! (INPUT)
       REAL       G_nfact_photo         ! (INPUT)
       REAL       G_temp_stress_photo   ! (INPUT)
-      REAL       G_water_log_fact      ! (INPUT)
+      REAL       G_oxdef_photo         ! (INPUT)
       real       dlt_dm_pot            ! (OUTPUT) potential dry matter
                                        ! (carbohydrate) production (g/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       sugar_rue_reduction   ! function
 
@@ -8156,7 +4268,7 @@ c+!!!!!!!!! check order dependency of deltas
      :               (
      :                G_nfact_photo
      :              , G_temp_stress_photo
-     :              , G_water_log_fact
+     :              , G_oxdef_photo
      :               )
 
          ! potential dry matter production with temperature
@@ -8221,7 +4333,7 @@ cnh      call sugar_radn_int (radn_int)
                                        ! (carbohydrate) production (g/m^2)
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 *   Internal variables
       integer    current_phase         ! current phase number
@@ -8308,14 +4420,8 @@ cnh      call sugar_radn_int (radn_int)
 
       if (Option .eq. 1) then
 
-         call sugar_transp_eff 
-     :               (
-     :                C_svp_fract
-     :              , C_transp_eff_cf
-     :              , G_maxt
-     :              , G_mint
-     :              , g_transp_eff
-     :               )
+         call cproc_transp_eff1(c_svp_fract, c_transp_eff_cf,
+     :            g_current_stage,g_maxt, g_mint, g_transp_eff)
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -8374,7 +4480,7 @@ cnh      call sugar_radn_int (radn_int)
        real tfac
 
 *   Global variables
-       include 'crop3.inc'
+       include 'sugconst.inc'
 
       real bound
       real linear_interp_real
@@ -8404,199 +4510,6 @@ cnh      call sugar_radn_int (radn_int)
       tfac = bound (tfac, 0.0, 1.0)
 
       call pop_routine (myname)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_swdef_pheno 
-     :               (
-     :                C_num_sw_avail_ratio
-     :              , C_x_sw_avail_ratio
-     :              , C_y_swdef_pheno
-     :              , G_dlayer
-     :              , G_root_depth
-     :              , G_sw_avail
-     :              , G_sw_avail_pot
-     :              , swdef
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Get the soil water availability factor (0-1), commonly
-*       called soil water deficit factor. 1 is no stress, 0 is full stress.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       010994 jngh specified and programmed
-
-*   Calls:
-*     bound
-*     divide
-*     fatal_error
-*     find_layer_no
-*     linear_interp_real
-*     pop_routine
-*     push_routine
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      INTEGER    C_num_sw_avail_ratio  ! (INPUT)
-      REAL       C_x_sw_avail_ratio(*) ! (INPUT)
-      REAL       C_y_swdef_pheno(*)    ! (INPUT)
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_avail(*)         ! (INPUT)  actual extractable soil water (mm)
-      REAL       G_sw_avail_pot(*)     ! (INPUT)  potential extractable soil water (mm)
-      real      swdef                 ! (OUTPUT) sw stress factor (0-1)
-
-*   Global variables
-      include   'const.inc'
-      include   'crop3.inc'
-
-      real       bound                 ! function
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       linear_interp_real    ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       sw_avail_ratio        ! water availability ratio
-      real       sw_avail_pot_sum      ! potential extractable soil water (mm)
-      real       sw_avail_sum          ! actual extractable soil water (mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_swdef_pheno')
-
-*   Initial data values
-*       none
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-
-         sw_avail_pot_sum = sum_real_array (g_sw_avail_pot
-     :                                    , deepest_layer)
-         sw_avail_sum = sum_real_array (g_sw_avail, deepest_layer)
-
-         sw_avail_ratio = divide (sw_avail_sum
-     :                          , sw_avail_pot_sum, 1.0) !???
-         sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0)
-
-         swdef = linear_interp_real (sw_avail_ratio
-     :                       , c_x_sw_avail_ratio, c_y_swdef_pheno
-     :                       , c_num_sw_avail_ratio)
-
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_swdef_photo 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_demand
-     :              , G_sw_supply
-     :              , swdef
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Get the soil water availability factor (0-1), commonly
-*       called soil water deficit factor. 1 is no stress, 0 is full stress.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       010994 jngh specified and programmed
-
-*   Calls:
-*     bound
-*     divide
-*     fatal_error
-*     find_layer_no
-*     linear_interp_real
-*     pop_routine
-*     push_routine
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_demand           ! (INPUT)  total crop demand for water (mm)
-      REAL       G_sw_supply(*)        ! (INPUT)  potential water to take up (supply) from current soil water (mm)
-      real      swdef                 ! (OUTPUT) sw stress factor (0-1)
-
-*   Global variables
-      include   'const.inc'
-      include   'crop3.inc'
-
-      real       bound                 ! function
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       sw_demand_ratio       ! water supply:demand ratio
-      real       sw_supply_sum         ! total supply over profile (mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_swdef_photo')
-
-*   Initial data values
-*       none
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-
-            ! get potential water that can be taken up when profile is full
-
-         sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-         sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 1.0)
-         swdef = bound (sw_demand_ratio , 0.0, 1.0)
-
-      call pop_routine (my_name)
       return
       end
 *     ===========================================================
@@ -8637,8 +4550,6 @@ cnh      call sugar_radn_int (radn_int)
       include   'const.inc'
       include   'sugar.inc'
 
-c      real       mungb_swdef           ! function
-
 *   Internal variables
 *     none
 
@@ -8654,18 +4565,10 @@ c      real       mungb_swdef           ! function
       call push_routine (my_name)
 
       if (Option .eq. 1) then
-         call sugar_swdef_pheno 
-     :               (
-     :                C_num_sw_avail_ratio
-     :              , C_x_sw_avail_ratio
-     :              , C_y_swdef_pheno
-     :              , G_dlayer
-     :              , G_root_depth
-     :              , G_sw_avail
-     :              , G_sw_avail_pot
-     :              , g_swdef_pheno
-     :               )
-
+         call crop_swdef_pheno(c_num_sw_avail_ratio,
+     :           c_x_sw_avail_ratio, c_y_swdef_pheno, g_num_layers,
+     :           g_dlayer, g_root_depth, g_sw_avail, g_sw_avail_pot,
+     :           g_swdef_pheno)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -8711,8 +4614,6 @@ c      real       mungb_swdef           ! function
       include   'const.inc'
       include   'sugar.inc'
 
-c      real       mungb_swdef           ! function
-
 *   Internal variables
 *     none
 
@@ -8728,15 +4629,8 @@ c      real       mungb_swdef           ! function
       call push_routine (my_name)
 
       if (Option .eq. 1) then
-         call sugar_swdef_photo 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_demand
-     :              , G_sw_supply
-     :              , g_swdef_photo
-     :               )
-
+         call crop_swdef_photo(g_num_layers, g_dlayer, g_root_depth,
+     :                   g_sw_demand,g_sw_supply, g_swdef_photo)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -8799,18 +4693,10 @@ c      real       mungb_swdef           ! function
       call push_routine (my_name)
 
       if (Option .eq. 1) then
-         call sugar_swdef_demand_ratio
-     :               (
-     :                C_num_sw_demand_ratio
-     :              , C_x_sw_demand_ratio
-     :              , C_y_swdef_leaf
-     :              , G_dlayer
-     :              , G_root_depth
-     :              , G_sw_demand
-     :              , G_sw_supply
-     :              , g_swdef_expansion
-     :               )
-
+         call crop_swdef_expansion(c_num_sw_demand_ratio,
+     :           c_x_sw_demand_ratio, c_y_swdef_leaf,
+     :           g_num_layers, g_dlayer,g_root_depth, g_sw_demand,
+     :           g_sw_supply, g_swdef_expansion)
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -9014,263 +4900,23 @@ c      real       mungb_swdef           ! function
 
       if (Option .eq. 1) then
 
-         call sugar_canopy_height 
+         call cproc_canopy_height
      :               (
-     :                C_height_max
-     :              , C_height_stem_slope
-     :              , G_canopy_height
-     :              , G_current_stage
+     :                G_canopy_height
+     :              , c_x_stem_wt
+     :              , c_y_height
+     :              , c_num_stem_wt
      :              , G_dm_green
      :              , G_plants
+     :              , sstem
      :              , g_dlt_canopy_height
      :               )
 
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_phen_leaf (Option)
-*     ===========================================================
-
-*   Short description:
-*       Leaf number development
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      250894 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include   'const.inc'
-      include   'sugar.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_phen_leaf')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-            ! Plant leaf development
-      if (Option .eq. 1) then
-
-            ! initialise total leaf number
-         call sugar_leaf_no_init 
-     :               (
-     :                C_leaf_no_at_emerg
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , g_leaf_no
-     :               )
-         call sugar_leaf_appearance 
-     :               (
-     :                C_leaf_app_rate
-     :              , C_leaf_app_rate_lfno
-     :              , C_num_leaf_app_rate
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_dlt_tt
-     :              , G_leaf_no
-     :              , G_leaf_area
-     :              , g_dlt_leaf_no
-     :               )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
 
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_dm_pot_TE 
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_supply
-     :              , G_transp_eff
-     :              , dlt_dm_pot_te
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Actual dm production (g/m^2)
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       060495 nih taken from template
-
-*   Calls:
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     sugar_dm_potential
-*     sugar_transp_eff
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_supply(*)        ! (INPUT)  potential water to take up (supply) from current soil water (mm)
-      REAL       G_transp_eff          ! (INPUT)
-      real       dlt_dm_pot_te         ! (OUTPUT) actual dry matter
-                                       ! production (g/m^2)
-
-*   Global variables
-      include   'crop3.inc'
-
-      integer    find_layer_no         ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       sw_supply_sum         ! Water available to roots (mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_dm_production')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-         ! potential (supply) by transpiration
-
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-      sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-      dlt_dm_pot_te = sw_supply_sum*g_transp_eff
-
-         ! potential by photosynthesis
-
-c      call sugar_dm_potential (dlt_dm_pot)
-
-         ! use whichever is limiting
-c      dlt_dm = min (dlt_dm_pot, dlt_dm_transp)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_bio_TE (Option)
-*     ===========================================================
-
-*   Short description:
-*       bio transpiration efficiency
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      5/9/96 dph
-
-*   Calls:
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include     'const.inc'
-      include     'sugar.inc'
-
-*   Internal variables
-*       none
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_bio_TE')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         call sugar_dm_pot_te  
-     :               (
-     :                G_dlayer
-     :              , G_root_depth
-     :              , G_sw_supply
-     :              , G_transp_eff
-     :              , g_dlt_dm_pot_te
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
 
       call pop_routine (my_name)
       return
@@ -9349,7 +4995,7 @@ c      dlt_dm = min (dlt_dm_pot, dlt_dm_transp)
      :              , G_days_tot
      :              , G_dlayer
      :              , G_plants
-     :              , G_rlv
+     :              , G_root_length
      :              , g_dm_green, g_dm_plant_min
      :              , g_leaf_dm
      :               )
@@ -9468,109 +5114,6 @@ c      dlt_dm = min (dlt_dm_pot, dlt_dm_transp)
       return
       end
 *     ===========================================================
-      subroutine sugar_bio_partition_pot (Option)
-*     ===========================================================
-
-*   Short description:
-*       Partition biomass.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*      250894 jngh specified and programmed
-
-*   Calls:
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      integer    Option                ! (INPUT) option number
-
-*   Global variables
-      include   'const.inc'
-      include   'sugar.inc'
-
-      real       sum_between           ! function
-
-*   Internal variables
-      real       leaf_no_today
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_bio_partition_pot')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      if (Option .eq. 1) then
-
-         leaf_no_today = sum_between (emerg, now, g_leaf_no)
-     :              + g_dlt_leaf_no
-
-         call sugar_sla_min
-     :               (
-     :                C_num_sla_lfno
-     :              , C_sla_lfno
-     :              , C_sla_min
-     :              , leaf_no_today, g_sla_min
-     :               )
-         call sugar_sucrose_fraction
-     :               (
-     :                c_num_stress_Factor_stalk
-     :              , c_stress_factor_Stalk
-     :              , c_sucrose_fraction_stalk
-     :              , G_swdef_stalk
-     :              , g_nfact_stalk
-     :              , g_temp_stress_stalk
-     :              , g_sucrose_fraction
-     :               )
-
-         call sugar_dm_partition_pot
-     :               (
-     :                C_cane_fraction
-     :              , C_leaf_cabbage_ratio
-     :              , G_min_sstem_sucrose
-     :              , C_ratio_root_shoot
-     :              , C_sucrose_delay
-     :              , G_current_stage
-     :              , G_dm_green
-     :              , G_sla_min
-     :              , G_sucrose_fraction
-     :              , G_tt_tot
-     :              , g_dlt_dm_pot_rue_pot
-     :                          , g_dlt_lai_pot
-     :                          , g_dlt_dm_green_pot
-     :                          , g_partition_xs_pot
-     :               )
-
-      else
-         call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
       subroutine sugar_dm_partition_rules
      :               (
      :                C_cane_fraction
@@ -9653,7 +5196,7 @@ c      dlt_dm = min (dlt_dm_pot, dlt_dm_transp)
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                ! function
       logical    stage_is_between      ! function
@@ -9867,7 +5410,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 *   Internal variables
 *      none
@@ -9966,8 +5509,12 @@ cnh Due to small rounding errors I will say that small errors are ok
             ! Plant leaf development
       if (Option .eq. 1) then
 
-         g_dlt_lai_stressed = g_dlt_lai_pot
-     :      * min(g_nfact_expansion, g_swdef_expansion)
+         call cproc_leaf_area_stressed1 (
+     :                                   g_dlt_lai_pot
+     :                                  ,g_swdef_expansion
+     :                                  ,g_nfact_expansion
+     :                                  ,g_dlt_lai_stressed
+     :                                  )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -10033,7 +5580,7 @@ cnh Due to small rounding errors I will say that small errors are ok
       if (Option .eq. 1) then
 
             ! limit the delta leaf area by carbon supply
-         call sugar_leaf_area 
+         call sugar_leaf_area
      :               (
      :                G_dlt_dm_green
      :              , G_dlt_lai
@@ -10119,15 +5666,15 @@ cnh Due to small rounding errors I will say that small errors are ok
       return
       end
 *     ===========================================================
-      subroutine sugar_leaf_death_grass 
+      subroutine sugar_leaf_death_grass
      :               (
      :                C_green_leaf_no
      :              , G_current_stage
      :              , G_days_tot
      :              , G_dlt_leaf_no
      :              , G_leaf_no
-     :              , G_leaf_no_dead
-     :              , dlt_leaf_no_dead
+     :              , G_node_no_dead
+     :              , dlt_node_no_dead
      :               )
 *     ===========================================================
 
@@ -10167,14 +5714,14 @@ cnh Due to small rounding errors I will say that small errors are ok
       REAL       C_green_leaf_no       ! (INPUT)
       REAL       G_current_stage       ! (INPUT)  current phenological stage
       REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_dlt_leaf_no         ! (INPUT)  fraction of oldest leaf expanded ()
-      REAL       G_leaf_no(*)          ! (INPUT)  number of fully expanded leaves ()
-      REAL       G_leaf_no_dead(*)     ! (INPUT)  no of dead leaves ()
-      real       dlt_leaf_no_dead      ! (OUTPUT) new fraction of oldest
+      REAL       G_dlt_leaf_no         ! (INPUT)  fraction of oldest leaf expand
+      REAL       G_leaf_no(*)          ! (INPUT)  number of fully expanded leave
+      REAL       G_node_no_dead(*)     ! (INPUT)  no of dead leaves ()
+      real       dlt_node_no_dead      ! (OUTPUT) new fraction of oldest
                                        ! green leaf
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       bound                 ! function
       real       l_bound               ! function
@@ -10184,8 +5731,8 @@ cnh Due to small rounding errors I will say that small errors are ok
 
 *   Internal variables
       real       leaf_no_today
-      real       leaf_no_dead_today    ! total number of dead leaves today
-      real       leaf_no_dead_yesterday ! total number of dead leaves
+      real       node_no_dead_today    ! total number of dead leaves today
+      real       node_no_dead_yesterday ! total number of dead leaves
                                         ! yesterday
       real       total_leaf_no         ! total number of leaves today
 
@@ -10200,7 +5747,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call push_routine (my_name)
 
-      leaf_no_dead_yesterday = sum_between (emerg, now, g_leaf_no_dead)
+      node_no_dead_yesterday = sum_between (emerg, now, g_node_no_dead)
 
       if (stage_is_between (emerg, crop_end, g_current_stage)) then
 
@@ -10212,38 +5759,38 @@ cnh Due to small rounding errors I will say that small errors are ok
 
          leaf_no_today = sum_between (emerg, now, g_leaf_no)
      :                 + g_dlt_leaf_no
-         leaf_no_dead_today = leaf_no_today - c_green_leaf_no
-         leaf_no_dead_today = l_bound(leaf_no_dead_today,0.0)
+         node_no_dead_today = leaf_no_today - c_green_leaf_no
+         node_no_dead_today = l_bound(node_no_dead_today,0.0)
 
 
       elseif (on_day_of (crop_end
      :                 , g_current_stage, g_days_tot)) then
 
          total_leaf_no = sum_between (emerg, now, g_leaf_no)
-         leaf_no_dead_today = total_leaf_no
+         node_no_dead_today = total_leaf_no
 
       else
-         leaf_no_dead_today = 0.0
+         node_no_dead_today = 0.0
       endif
 
-      leaf_no_dead_today = bound (leaf_no_dead_today
-     :                           , leaf_no_dead_yesterday
+      node_no_dead_today = bound (node_no_dead_today
+     :                           , node_no_dead_yesterday
      :                           , real(max_leaf))
-      dlt_leaf_no_dead = leaf_no_dead_today - leaf_no_dead_yesterday
+      dlt_node_no_dead = node_no_dead_today - node_no_dead_yesterday
 
       call pop_routine (my_name)
       return
       end
 *     ===========================================================
-      subroutine sugar_leaf_area_sen_age0 
+      subroutine sugar_leaf_area_sen_age0
      :               (
-     :                G_dlt_leaf_no_dead
+     :                G_dlt_node_no_dead
      :              , G_lai
      :              , G_leaf_area
-     :              , G_leaf_no_dead
+     :              , G_node_no_dead
      :              , G_plants
      :              , G_slai
-     :              , G_leaf_no_detached
+     :              , G_node_no_detached
      :              , C_leaf_no_at_emerg
      :              , dlt_slai_age
      :               )
@@ -10284,20 +5831,20 @@ cnh Due to small rounding errors I will say that small errors are ok
       implicit none
 
 *   Subroutine arguments
-      REAL       G_dlt_leaf_no_dead    ! (INPUT)  fraction of oldest green leaf senesced ()
+      REAL       G_dlt_node_no_dead    ! (INPUT)  fraction of oldest green leaf
       REAL       G_lai                 ! (INPUT)  live plant green lai
       REAL       G_leaf_area(*)        ! (INPUT)  leaf area of each leaf (mm^2)
-      REAL       G_leaf_no_dead(*)     ! (INPUT)  no of dead leaves ()
+      REAL       G_node_no_dead(*)     ! (INPUT)  no of dead leaves ()
       REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
-      REAL       G_slai                ! (INPUT)  area of leaf that senesces from plant
-      REAL       G_leaf_no_detached    ! (INPUT)  number of detached leaves
+      REAL       G_slai                ! (INPUT)  area of leaf that senesces fro
+      REAL       G_node_no_detached    ! (INPUT)  number of detached leaves
       REAL       C_leaf_no_at_emerg    ! (INPUT)  number of leaves at emergence
       real       dlt_slai_age          ! (OUTPUT) new senesced lai from
                                        ! phasic devel.
 
 *   Global variables
       include   'convert.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       bound                 ! function
       real       sum_between           ! function
@@ -10306,7 +5853,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 *   Internal variables
       real       dlt_leaf_area         ! potential senesced leaf area from
                                        ! highest leaf no. senescing (mm^2)
-      integer    leaf_no_dead          ! current leaf number dying ()
+      integer    node_no_dead          ! current leaf number dying ()
       real       slai_age              ! lai senesced by natural ageing
       real       dead_fr_highest_dleaf
 
@@ -10331,293 +5878,29 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       ! note that the first leaf record really contains
       ! 1+c_leaf_no_at_emerg leaves in it - not 1.
-      leaf_no_dead = int (1.0
-     :                   + sum_between (emerg, now, g_leaf_no_dead))
-     :                   - g_leaf_no_detached
+      node_no_dead = int (1.0
+     :                   + sum_between (emerg, now, g_node_no_dead))
+     :                   - g_node_no_detached
      :                   - c_leaf_no_at_emerg
-      leaf_no_dead = max(leaf_no_dead,1)
+      node_no_dead = max(node_no_dead,1)
 
       dead_fr_highest_dleaf = mod(
-     :                   1.0 + sum_between (emerg, now, g_leaf_no_dead)
-     :                   - g_leaf_no_detached
+     :                   1.0 + sum_between (emerg, now, g_node_no_dead)
+     :                   - g_node_no_detached
      :                   - c_leaf_no_at_emerg
      :                   , 1.0)
 
          ! get area senesced from highest leaf no.
 
-      dlt_leaf_area = mod (g_dlt_leaf_no_dead, 1.0)
-     :                 * g_leaf_area(leaf_no_dead)
+      dlt_leaf_area = mod (g_dlt_node_no_dead, 1.0)
+     :                 * g_leaf_area(node_no_dead)
 
-      slai_age = (sum_real_array (g_leaf_area, leaf_no_dead - 1)
-     :         + dead_fr_highest_dleaf * g_leaf_area (leaf_no_dead)
+      slai_age = (sum_real_array (g_leaf_area, node_no_dead - 1)
+     :         + dead_fr_highest_dleaf * g_leaf_area (node_no_dead)
      :         + dlt_leaf_area)
      :         * smm2sm * g_plants
 
       dlt_slai_age = bound (slai_age - g_slai, 0.0, g_lai)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_light0 
-     :               (
-     :                C_extinction_coef
-     :              , C_lai_sen_light
-     :              , C_sen_light_slope
-     :              , G_lai
-     :              , dlt_slai_light
-     :               )
-*     ===========================================================
-*   Short description:
-*       Return the lai that would senesce on the
-*       current day due to light competition
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     070495 nih taken from template
-
-*   Calls:
-*     bound
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_extinction_coef     ! (INPUT)  radiation extinction coefficient ()
-      REAL       C_lai_sen_light       ! (INPUT)  critical lai above which light
-      REAL       C_sen_light_slope     ! (INPUT)  slope of linear relationship between lai and light competition factor for determining leaf senesence rate.
-      REAL       G_lai                 ! (INPUT)  live plant green lai
-      real       dlt_slai_light        ! (OUTPUT) lai senesced by low light
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       bound                 ! function
-      real       divide                ! function
-
-*   Internal variables
-      real       cover
-      real       cover_reduction
-      real       new_cover
-      real       new_lai
-      real       lai_reduction
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_light')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! calculate 0-1 factor for leaf senescence due to
-         ! competition for light.
-
-c+!!!!!!!! this doesnt account for other growing crops
-c+!!!!!!!! should be based on reduction of intercepted light and k*lai
-         ! competition for light factor
-
-      cover = 1.0 - exp (-c_extinction_coef * g_lai)
-
-      if (cover.gt.c_lai_sen_light) then
-         cover_reduction = c_sen_light_slope * (cover - c_lai_sen_light)
-         new_cover = cover - cover_reduction
-         new_lai = divide (log (1.0-new_cover), -c_extinction_coef, 0.0)
-         lai_reduction = new_lai - g_lai
-
-      else
-         lai_reduction = 0.0
-
-      endif
-
-      dlt_slai_light = bound (-lai_reduction, 0.0, g_lai)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_water0 
-     :               (
-     :                C_sen_rate_water
-     :              , G_lai
-     :              , G_swdef_photo
-     :              , dlt_slai_water
-     :               )
-*     ===========================================================
-*   Short description:
-*       Return the lai that would senesce on the
-*       current day due to water stress
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     070495 nih taken from template
-
-*   Calls:
-*     bound
-*     pop_routine
-*     push_routine
-*     sugar_swdef
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_sen_rate_water      ! (INPUT)  slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate
-      REAL       G_lai                 ! (INPUT)  live plant green lai
-      REAL       G_swdef_photo         ! (INPUT)
-      real       dlt_slai_water        ! (OUTPUT) water stress senescense
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       bound                 ! function
-
-*   Internal variables
-      real       slai_water_fac        ! drought stress factor (0-1)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_water')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-         ! get senescense from stresses.
-
-         ! calculate 0-1 factors for leaf senescence due to drought
-         ! stress
-
-         ! drought stress factor
-
-      slai_water_fac = c_sen_rate_water* (1.0 - g_swdef_photo)
-
-      dlt_slai_water = g_lai * slai_water_fac
-      dlt_slai_water = bound (dlt_slai_water, 0.0, g_lai)
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_leaf_area_sen_frost0 
-     :               (
-     :                C_frost_fraction
-     :              , C_frost_temp
-     :              , C_num_frost_temp
-     :              , G_lai
-     :              , G_mint
-     :              , dlt_slai_frost
-     :               )
-*     ===========================================================
-*   Short description:
-*       Return the lai that would senesce on the
-*       current day from low temperatures
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     070495 nih taken from template
-
-*   Calls:
-*     bound
-*     divide
-*     min
-*     pop_routine
-*     push_routine
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_frost_fraction(*)   ! (INPUT)
-      REAL       C_frost_temp(*)       ! (INPUT)
-      INTEGER    C_num_frost_temp      ! (INPUT)
-      REAL       G_lai                 ! (INPUT)  live plant green lai
-      REAL       G_mint                ! (INPUT)  minimum air temperature (oC)
-      real       dlt_slai_frost        ! (OUTPUT) lai frosted today
-
-*   Global variables
-      include   'crop3.inc'
-
-      real       bound                 ! function
-      real       linear_interp_real    ! function
-
-*   Internal variables
-      real       dlt_slai_low_temp     ! lai senesced from low temps
-      real       sen_fac_temp          ! low temperature factor (0-1)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_leaf_area_sen_frost')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-
-          ! low temperature factor
-      sen_fac_temp = linear_interp_real (
-     :                                   g_mint
-     :                                  ,c_frost_temp
-     :                                  ,c_frost_fraction
-     :                                  ,c_num_frost_temp)
-
-      dlt_slai_low_temp = sen_fac_temp * g_lai
-      dlt_slai_frost = bound (dlt_slai_low_temp, 0.0, g_lai)
 
       call pop_routine (my_name)
       return
@@ -10843,7 +6126,7 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       return
       end
 *     ===========================================================
-      subroutine sugar_sen_rlv (Option)
+      subroutine sugar_sen_root_length (Option)
 *     ===========================================================
 
 *   Short description:
@@ -10887,7 +6170,7 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_sen_rlv')
+      parameter (my_name = 'sugar_sen_root_length')
 
 *   Initial data values
 *       none
@@ -10897,14 +6180,15 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 
       if (Option .eq. 1) then
 
-         call sugar_root_length_senescence 
+          call cproc_root_length_senescence1
      :               (
      :                C_specific_root_length
      :              , G_dlayer
-     :              , G_dlt_dm_senesced
-     :              , G_rlv
+     :              , G_dlt_dm_senesced(root)
+     :              , G_root_length
      :              , G_root_depth
-     :              , g_dlt_rlv_senesced
+     :              , G_dlt_root_length_senesced
+     :              , max_layer
      :               )
 
       else
@@ -11027,9 +6311,10 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 *   Global variables
       include   'const.inc'
       include   'sugar.inc'
+      real      sum_real_Array
 
 *   Internal variables
-*       none
+      real fixation_determinant
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -11043,31 +6328,27 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 
             ! find potential N uptake (supply, available N)
       if (Option .eq. 1) then
+         fixation_determinant = sum_real_array(g_dm_green, max_part)
+     :                        - g_dm_green(root)
 
-               ! Get it for nitrate by diffusion and mass flow
-               ! Note: the N available by diffusion is really the total N
-               ! available to the roots by mass flow and diffusion.
-
-         call sugar_N_mass_flow 
-     :               (
-     :                G_dlayer
-     :              , G_dlt_sw_dep
-     :              , G_no3gsm
-     :              , G_no3gsm_min
-     :              , G_root_depth
-     :              , G_sw_dep
-     :              , g_NO3gsm_mflow_avail
-     :               )
-         call sugar_N_diffusion 
-     :               (
-     :                G_dlayer
-     :              , G_no3gsm
-     :              , G_no3gsm_min
-     :              , G_root_depth
-     :              , G_sw_avail
-     :              , G_sw_avail_pot
-     :              , g_NO3gsm_diffn_pot
-     :               )
+         call cproc_n_supply2 (
+     :            g_dlayer
+     :          , max_layer
+     :          , g_dlt_sw_dep
+     :          , g_NO3gsm
+     :          , g_NO3gsm_min
+     :          , g_root_depth
+     :          , g_sw_dep
+     :          , g_NO3gsm_mflow_avail
+     :          , g_sw_avail
+     :          , g_sw_avail_pot
+     :          , g_NO3gsm_diffn_pot
+     :          , G_current_stage
+     :          , C_n_fix_rate
+     :          , fixation_determinant
+     :          , G_swdef_fixation
+     :          , g_N_fix_pot
+     :          )
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -11131,7 +6412,7 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 
       if (Option .eq. 1) then
 
-         call sugar_N_retranslocate 
+         call sugar_N_retranslocate
      :               (
      :                G_dm_green
      :              , G_n_conc_min
@@ -11193,23 +6474,21 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sugar_nit_demand')
 
+      integer num_demand_parts
+      parameter (num_demand_parts = 4)
+
 *   Initial data values
-*       none
+      integer demand_parts(num_demand_parts)
+      data demand_parts /root,leaf,cabbage,sstem/
+      save /demand_parts/
+
 
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
       if (Option .eq. 1) then
 
-         call sugar_N_demand 
-     :               (
-     :                G_dlt_dm_green_pot
-     :              , G_dlt_dm_pot_rue_pot
-     :              , G_dm_green
-     :              , G_n_conc_crit
-     :              , G_n_green
-     :              , g_N_demand
-     :               )
+         ! Use estimate from prepare stage
 
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -11256,6 +6535,7 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 
 *   Global variables
       include   'const.inc'
+      include   'convert.inc'
       include   'sugar.inc'
 
 *   Internal variables
@@ -11271,23 +6551,37 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      if (Option .eq. 1) then
+      if (g_uptake_source .eq. 'apsim') then
+        ! NIH - note that I use a -ve conversion
+         ! factor FOR NOW to make it a delta.
+         call crop_get_ext_uptakes(
+     :                 g_uptake_source   ! uptake flag
+     :                ,c_crop_type       ! crop type
+     :                ,'no3'             ! uptake name
+     :                ,-kg2gm/ha2sm      ! unit conversion factor
+     :                ,0.0               ! uptake lbound
+     :                ,100.0             ! uptake ubound
+     :                ,g_dlt_no3gsm      ! uptake array
+     :                ,max_layer         ! array dim
+     :                )
 
-c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
-         call sugar_N_uptake 
+      elseif (Option .eq. 1) then
+
+          call cproc_N_uptake1
      :               (
      :                C_no3_diffn_const
      :              , G_dlayer
+     :              , max_layer
      :              , G_no3gsm_diffn_pot
      :              , G_no3gsm_mflow_avail
-     :              , G_num_uptake_no3
+     :              , G_N_fix_pot
+     :              , c_n_supply_preference
      :              , G_n_demand
+     :              , g_n_demand !sugar does not have n_max
+     :              , max_part
      :              , G_root_depth
-     :              , G_uptake_no3
-     :              , G_uptake_source
      :              , g_dlt_NO3gsm
      :               )
-
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -11432,7 +6726,8 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , G_dlt_dm_realloc
      :              , G_dlt_lai
      :              , G_dlt_leaf_no
-     :              , G_dlt_leaf_no_dead
+     :              , g_dlt_node_no
+     :              , G_dlt_node_no_dead
      :              , G_dlt_n_dead_detached
      :              , G_dlt_n_detached
      :              , G_dlt_n_green
@@ -11441,8 +6736,8 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , G_dlt_n_realloc
      :              , G_dlt_plants
      :              , G_dlt_plant_wc
-     :              , G_dlt_rlv
-     :              , G_dlt_rlv_senesced
+     :              , G_dlt_root_length
+     :              , G_dlt_root_length_senesced
      :              , G_dlt_root_depth
      :              , G_dlt_slai
      :              , G_dlt_slai_detached
@@ -11456,7 +6751,8 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , G_leaf_area
      :              , G_leaf_dm
      :              , G_leaf_no
-     :              , G_leaf_no_dead
+     :              , g_node_no
+     :              , G_node_no_dead
      :              , G_nfact_photo
      :              , G_n_conc_crit
      :              , G_n_conc_min
@@ -11466,7 +6762,7 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , G_plants
      :              , G_plant_wc
      :              , G_previous_stage
-     :              , G_rlv
+     :              , G_root_length
      :              , G_root_depth
      :              , G_slai
      :              , G_swdef_expansion
@@ -11486,7 +6782,7 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , C_stage_code_list
      :              , G_phase_tt
      :              , G_tt_tot
-     :              , G_leaf_no_detached
+     :              , G_node_no_detached
      :              , C_leaf_no_at_emerg
      :               )
       call sugar_totals
@@ -11602,7 +6898,7 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
 *       none
 
 *   Global variables
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                ! function
       integer    find_layer_no         ! function
@@ -11799,7 +7095,7 @@ c     :                   * 0.5
 
 *   Global variables
       include   'const.inc'            ! new_line
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       logical    stage_is_between      ! function
       real       sum_between           ! function
@@ -11890,7 +7186,7 @@ c         call sugar_kill_crop ()
 
 *   Global variables
       include   'const.inc'            ! new_line
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       logical    stage_is_between      ! function
       real       sum_between           ! function
@@ -11975,7 +7271,7 @@ c         call sugar_kill_crop ()
 
 *   Global variables
       include   'const.inc'            ! new_line
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       logical    reals_are_equal       ! function
       logical    stage_is_between      ! function
@@ -12064,7 +7360,7 @@ c         call sugar_kill_crop ()
 
 *   Global variables
       include   'const.inc'            ! new_line
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
 *   Internal variables
 *       none
@@ -12145,7 +7441,7 @@ c         call sugar_kill_crop ()
 
 *   Global variables
       include   'const.inc'            ! new_line
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       bound                 ! function
       real       sum_between           ! function
@@ -12194,7 +7490,7 @@ c         call sugar_kill_crop ()
       return
       end
 *     ===========================================================
-      subroutine sugar_N_partition 
+      subroutine sugar_N_partition
      :               (
      :                G_dlayer
      :              , G_dlt_no3gsm
@@ -12246,7 +7542,7 @@ c         call sugar_kill_crop ()
 *   Global variables
       include   'const.inc'
       include   'convert.inc'          ! gm2kg, sm2ha
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       divide                ! function
       integer    find_layer_no         ! function
@@ -12254,7 +7550,7 @@ c         call sugar_kill_crop ()
 
 *   Subroutine arguments
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_dlt_no3gsm(*)       ! (INPUT)  actual NO3 uptake from soil (g/m^2)
+      REAL       G_dlt_no3gsm(*)       ! (INPUT)  actual NO3 uptake from soil (g
       REAL       G_n_demand(*)         ! (INPUT)  plant nitrogen demand (g/m^2)
       REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
       real       dlt_N_green(max_part) ! (OUTPUT) actual plant N uptake
@@ -12362,18 +7658,19 @@ c      real       mungb_swdef           ! function
       call push_routine (my_name)
 
       if (Option .eq. 1) then
-         call sugar_water_log_fact
+          call crop_oxdef_photo1
      :               (
-     :                C_num_water_log_fact
-     :              , C_water_log_fact
-     :              , C_water_log_rtfr
+     :                C_num_oxdef_photo
+     :              , C_oxdef_photo
+     :              , C_oxdef_photo_rtfr
      :              , G_ll15_dep
      :              , G_sat_dep
      :              , G_sw_dep
      :              , G_dlayer
-     :              , G_rlv
+     :              , G_root_length
      :              , G_root_depth
-     :              , g_water_log_fact
+     :              , max_layer
+     :              , g_oxdef_photo
      :               )
 
       else
@@ -12428,7 +7725,7 @@ c      real       mungb_swdef           ! function
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_water_stress_expansion')
+      parameter (my_name = 'sugar_water_stress_stalk')
 
 *   Initial data values
 *       none
@@ -12453,104 +7750,6 @@ c      real       mungb_swdef           ! function
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_swdef_demand_ratio
-     :               (
-     :                C_num_sw_demand_ratio
-     :              , C_x_sw_demand_ratio
-     :              , C_y_swdef_leaf
-     :              , G_dlayer
-     :              , G_root_depth
-     :              , G_sw_demand
-     :              , G_sw_supply
-     :              , swdef
-     :               )
-*     ===========================================================
-
-*   Short description:
-*       Get the soil water availability factor (0-1), commonly
-*       called soil water deficit factor. 1 is no stress, 0 is full stress.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*       010994 jngh specified and programmed
-
-*   Calls:
-*     bound
-*     divide
-*     fatal_error
-*     find_layer_no
-*     linear_interp_real
-*     pop_routine
-*     push_routine
-*     sum_real_array
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      INTEGER    C_num_sw_demand_ratio ! (INPUT)
-      REAL       C_x_sw_demand_ratio(*) ! (INPUT)
-      REAL       C_y_swdef_leaf(*)     ! (INPUT)
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
-      REAL       G_sw_demand           ! (INPUT)  total crop demand for water (m
-      REAL       G_sw_supply(*)        ! (INPUT)  potential water to take up (su
-      real      swdef                 ! (OUTPUT) sw stress factor (0-1)
-
-*   Global variables
-      include   'const.inc'
-      include   'crop3.inc'
-
-      real       divide                ! function
-      integer    find_layer_no         ! function
-      real       linear_interp_real    ! function
-      real       sum_real_array        ! function
-
-*   Internal variables
-      integer    deepest_layer         ! deepest layer in which the roots are
-                                       ! growing
-      real       sw_demand_ratio       ! water supply:demand ratio
-      real       sw_supply_sum         ! total supply over profile (mm)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_swdef_demand_ratio')
-
-*   Initial data values
-*       none
-* --------------------- Executable code section ----------------------
-
-      call push_routine (my_name)
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
-
-            ! get potential water that can be taken up when profile is full
-
-         sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
-         sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 10.0)
-
-         swdef = linear_interp_real (sw_demand_ratio
-     :                       , c_x_sw_demand_ratio, c_y_swdef_leaf
-     :                       , c_num_sw_demand_ratio)
 
       call pop_routine (my_name)
       return
@@ -12831,7 +8030,7 @@ cnh I made it a subroutine like all the rest
 
 *   Global variables
       include   'const.inc'
-      include   'crop3.inc'
+      include   'sugconst.inc'
 
       real       bound                 ! function
       real       divide                ! function
@@ -12927,7 +8126,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :               (
      :                g_lodge_flag
      :              , G_swdef_photo
-     :              , g_water_log_fact
+     :              , g_oxdef_photo
      :              , c_stress_lodge
      :              , c_death_fr_lodge
      :              , c_num_stress_lodge
@@ -12969,7 +8168,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 *   Subroutine arguments
       logical g_lodge_flag
       real    g_swdef_photo
-      real    g_water_log_fact
+      real    g_oxdef_photo
       real    c_stress_lodge(*)
       real    c_death_fr_lodge(*)
       integer c_num_stress_lodge
@@ -12995,7 +8194,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
       if (g_lodge_flag) then
 
-         min_stress_factor = min(g_swdef_photo, g_water_log_fact)
+         min_stress_factor = min(g_swdef_photo, g_oxdef_photo)
 
          death_fraction = linear_interp_real (min_stress_factor
      :                                       ,c_stress_lodge
@@ -13087,120 +8286,6 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
          endif
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
-      endif
-
-      call pop_routine (my_name)
-      return
-      end
-*     ===========================================================
-      subroutine sugar_phase_dlt_tt
-     :               (
-     :                C_fasw_emerg
-     :              , c_rel_emerg_rate
-     :              , c_num_fasw_emerg
-     :              , G_current_stage
-     :              , G_days_tot
-     :              , G_dlayer
-     :              , G_sowing_depth
-     :              , G_sw_dep
-     :              , P_ll_dep
-     :              , g_dul_dep
-     :              , g_dlt_tt
-     :              , dlt_tt
-     :               )
-*     ===========================================================
-
-*   Short description:
-*      Calculate change in phase thermal time as influenced by stress
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*       none
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     030498 igh  changed c_num_fasw_emerg to integer
-
-*   Calls:
-*     divide
-*     find_layer_no
-*     pop_routine
-*     push_routine
-*     stage_is_between
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-      REAL       C_fasw_emerg(*)       ! (INPUT)  plant extractable soil water i
-      REAL       c_rel_emerg_rate(*)   ! (INPUT)
-      INTEGER    c_num_fasw_emerg      ! (INPUT)
-      REAL       G_current_stage       ! (INPUT)  current phenological stage
-      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
-      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
-      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
-      REAL       G_sw_dep(*)           ! (INPUT)  soil water content of layer L
-      REAL       P_ll_dep(*)           ! (INPUT)  lower limit of plant-extractab
-      REAL       G_dul_dep(*)          ! (INPUT)  drained upper limit(mm)
-      real       g_dlt_tt
-      real       dlt_tt
-
-*   Global variables
-      include   'crop3.inc'
-      real       bound                 ! function
-      integer    find_layer_no         ! function
-      real       divide                ! function
-      logical    stage_is_between      ! function
-      real       linear_interp_real    ! function
-      
-*   Internal variables
-      integer    layer_no_seed         ! seedling layer number
-*      real       pesw_seed             ! plant extractable soil water in
-                                       ! seedling layer available for
-                                       ! germination ( mm/mm)
-      real       fasw_seed
-      real       rel_emerg_rate        ! relative emergence rate (0-1)
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'sugar_phase_dlt_tt')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      if (stage_is_between (sprouting, emerg, g_current_stage)) then
-
-         layer_no_seed = find_layer_no (g_sowing_depth, g_dlayer
-     :                                , max_layer)
-*         pesw_seed = g_sw_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
-         fasw_seed = divide (
-     :               g_sw_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
-     :              ,g_dul_dep(layer_no_seed)-p_ll_dep(layer_no_seed)
-     :              ,0.0)
-         fasw_seed = bound (fasw_seed, 0.0, 1.0)
-
-         rel_emerg_rate = linear_interp_real (fasw_seed
-     :                                       ,c_fasw_emerg
-     :                                       ,c_rel_emerg_rate
-     :                                       ,c_num_fasw_emerg)
-         dlt_tt = g_dlt_tt * rel_emerg_rate
-         
-      else
-         dlt_tt = g_dlt_tt
       endif
 
       call pop_routine (my_name)
@@ -13373,6 +8458,1049 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :          * realloc_wt
       g_dlt_n_realloc(cabbage) = - realloc_n
       g_dlt_n_realloc(sstem) = realloc_n
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_init_root_depth
+     :               (
+     :                G_dlayer
+     :              , G_root_length
+     :              , G_root_depth
+     :              , dlt_root_depth
+     :               )
+*     ===========================================================
+
+*   Short description:
+*       This routine returns the increase in root depth.  The
+*       approach used here utilises a potential root front velocity
+*       affected by relative moisture content at the rooting front.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*         there is a discrepency when the root crosses into another
+*         layer. - cr380
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*      060495 nih taken from template
+*      041095 nih change init of root depth to sprouting (was emergence)
+*      200396 nih changed max root depth to deepest xf>0
+*      300996 nih changed test for init of root depth due to limitation
+*                 in on_day_of routine
+
+*   Calls:
+*     find_layer_no
+*     on_day_of
+*     pop_routine
+*     push_routine
+*     sugar_sw_avail_fac
+*     stage_is_between
+*     sum_between
+*     sum_real_array
+*     u_bound
+
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_length(*)              ! (INPUT)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      real       dlt_root_depth        ! (OUTPUT) increase in root depth (mm)
+
+*   Global variables
+      include   'sugconst.inc'
+
+      integer    count_of_real_vals    ! function
+      real       sum_real_array        ! function
+
+*   Internal variables
+      integer    num_root_layers       !
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_init_root_depth')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+cnh      if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
+      if (g_root_depth .eq. 0.0) then
+
+             ! initialise root depth
+             ! this version does not take account of sowing depth.
+cnh it used to do this on first day of sprouting
+cnh         dlt_root_depth = c_initial_root_depth
+
+cnh now I say roots are at bottom of deepest layer that user said had a value
+cnh for rlv at initialisation.
+            num_root_layers = count_of_real_vals (g_root_length
+     :                                           ,max_layer)
+            dlt_root_depth =
+     :                 sum_real_array (g_dlayer, num_root_layers)
+     :                 - g_root_depth
+
+      else  ! we have no root growth
+
+         ! do nothing
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_bio_water (Option)
+*     ===========================================================
+
+*   Short description:
+*       bio transpiration efficiency
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*      5/9/96 dph
+
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+
+*   Global variables
+      include     'const.inc'
+      include     'sugar.inc'
+
+*   Internal variables
+*       none
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_bio_water')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      if (Option .eq. 1) then
+
+         call cproc_bio_water1 (max_layer, g_dlayer, g_root_depth,
+     :               g_sw_supply, g_transp_eff, g_dlt_dm_pot_te)
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+* ====================================================================
+       subroutine sugar_leaf_area_sen (Option)
+* ====================================================================
+
+*   Short description:
+*      Calculate Leaf Area Senescence
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     24-04-1998 - NeilH - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+      integer Option
+
+*   Global variables
+      include 'const.inc'
+      include 'sugar.inc'
+
+*   Internal variables
+*      none
+
+*   Constant values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'sugar_leaf_area_sen')
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (myname)
+      if (Option .eq. 1) then
+
+         call sugar_leaf_area_sen_age0
+     :               (
+     :                G_dlt_node_no_dead
+     :              , G_lai
+     :              , G_leaf_area
+     :              , G_node_no_dead
+     :              , G_plants
+     :              , G_slai
+     :              , G_node_no_detached
+     :              , C_leaf_no_at_emerg
+     :              , g_dlt_slai_age
+     :               )
+
+         call crop_leaf_area_sen_water1(c_sen_rate_water,
+     :           g_lai, g_swdef_photo, g_plants, 0.0, g_dlt_slai_water)
+
+
+         call crop_leaf_area_sen_light1 (
+     .          c_lai_sen_light,
+     .          c_sen_light_slope,
+     .          g_lai,
+     .          g_plants,
+     .          0.0,
+     .          g_dlt_slai_light)
+
+         call crop_leaf_area_sen_frost1(c_frost_temp,
+     :                c_frost_fraction, c_num_frost_temp, g_lai,
+     :                g_mint, g_plants, 0.0, g_dlt_slai_frost)
+
+
+         ! now take largest of deltas
+         g_dlt_slai = max (g_dlt_slai_age
+     :                   , g_dlt_slai_light
+     :                   , g_dlt_slai_water
+     :                   , g_dlt_slai_frost)
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+      call pop_routine (myname)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_init_leaf_area
+     :               (
+     :                C_initial_tpla
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_plants
+     :              , lai
+     :              , leaf_area
+     :               )
+*     ===========================================================
+
+*   Short description:
+*       Initialise leaf area.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*     070495 nih taken from template
+
+*   Calls:
+*     on_day_of
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      REAL       C_initial_tpla        ! (INPUT)  initial plant leaf area (mm^2)
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_plants              ! (INPUT)  Plant density (plants/m^2)
+      real       lai                   ! (OUTPUT) total plant leaf area
+      real       leaf_area(*)          ! (OUTPUT) plant leaf areas
+
+*   Global variables
+      include   'convert.inc'
+      include   'sugconst.inc'
+
+      logical    on_day_of             ! function
+
+*   Internal variables
+*       none
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_init_leaf_area')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      if (on_day_of (emerg, g_current_stage, g_days_tot)) then
+         lai = c_initial_tpla * smm2sm * g_plants
+         leaf_area(1) = c_initial_tpla
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+* ====================================================================
+       subroutine sugar_nit_demand_est (Option)
+* ====================================================================
+
+*   Short description:
+*      Calculate an approximate nitrogen demand for today's growth.
+*      The estimate basically = n to fill the plant up to maximum
+*      nitrogen concentration.
+
+*   Assumptions:
+*      None
+
+*   Notes:
+*      None
+
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+
+*   Changes:
+*     14-05-1997 - huth - Programmed and Specified
+
+*   Calls:
+*     Pop_routine
+*     Push_routine
+
+* ----------------------- Declaration section ------------------------
+
+       implicit none
+
+*   Subroutine arguments
+      integer Option
+
+*   Global variables
+      include 'const.inc'
+      include 'sugar.inc'
+      real    divide                  ! function
+      real    sum_real_array          ! function
+
+*   Constant values
+      integer num_demand_parts
+      parameter (num_demand_parts = 4)
+
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_nit_demand_est')
+
+*   Internal variables
+      real    dlt_dm_green_pot (max_part) ! potential (est) dlt dm green
+      real    dm_green_tot            ! total dm green
+      integer part                    ! simple plant part counter
+      real    dlt_N_retrans(max_part)
+
+*   Initial data values
+*      none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      if (Option .eq. 1) then
+            ! Option 1 is to assume that the distribution of plant
+            ! C will be similar after today and so N demand is that
+            ! required to raise all plant parts to max N conc.
+
+         ! calculate potential new shoot and root growth
+      dm_green_tot = sum_real_array (g_dm_green, max_part)
+
+      do 100 part = 1, max_part
+         dlt_dm_green_pot(part) = g_dlt_dm_pot_rue_pot
+     :                          * divide (g_dm_green(part)
+     :                                   ,dm_green_tot
+     :                                   ,0.0)
+         dlt_N_retrans(part) = 0.0
+  100 continue
+
+         call sugar_N_demand
+     :               (
+     :                dlt_dm_green_pot
+     :              , G_dlt_dm_pot_rue_pot
+     :              , G_dm_green
+     :              , G_n_conc_crit
+     :              , G_n_green
+     :              , g_N_demand
+     :               )
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_N_demand
+     :               (
+     :                G_dlt_dm_green_pot
+     :              , G_dlt_dm_pot_rue_pot
+     :              , G_dm_green
+     :              , G_n_conc_crit
+     :              , G_n_green
+     :              , N_demand
+     :               )
+*     ===========================================================
+
+*   Short description:
+*       Return plant nitrogen demand for each plant component.  The
+*       demand for Nitrogen for each plant pool occurs as the plant
+*       tries to maintain a critical nitrogen concentration in each
+*       plant pool.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+
+*           N demand consists of two components:
+*           Firstly, the demand for nitrogen by the potential new growth.
+*           Secondly, the demand due to the difference between
+*           the actual N concentration and the critical N concentration
+*           of the tops (stover), which can be positive or negative
+
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*     060495 nih taken from template
+
+*   Calls:
+*     bound
+*     bound_check_real_var
+*     divide
+*     l_bound
+*     pop_routine
+*     push_routine
+*     sugar_radn_int
+*     sum_real_array
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      REAL       G_dlt_dm_green_pot(*) ! (INPUT)  plant biomass growth (g/m^2)
+      REAL       G_dlt_dm_pot_rue_pot  ! (INPUT)
+      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
+      REAL       G_n_conc_crit(*)      ! (INPUT)  critical N concentration (g N/
+      REAL       G_n_green(*)          ! (INPUT)  plant nitrogen content (g N/m^
+      real       N_demand (*)          ! (OUTPUT) plant nitrogen demand
+                                       ! (g/m^2)
+
+*   Global variables
+      include   'sugconst.inc'
+
+cnh      real       bound                 ! function
+cnh      real       divide                ! function
+      real       l_bound               ! function
+      real       sum_real_array        ! function
+
+*   Internal variables
+c      integer    current_phase         ! current phase number
+      real       N_crit                ! critical N amount (g/m^2)
+      real       N_demand_new          ! demand for N by new growth
+                                       ! (g/m^2)
+      real       N_demand_old          ! demand for N by old biomass
+                                       ! (g/m^2)
+      integer    part                  ! plant part
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_N_demand')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+         ! calculate potential new shoot and root growth
+
+c      current_phase = int (g_current_stage)
+
+            ! need to calculate dm using potential rue not affected by
+            ! N and temperature
+
+cnh      do 500 part = 1, max_part
+cnh         part_fract = divide (g_dlt_dm_green(part), g_dlt_dm, 0.0)
+cnh         dlt_dm_pot(part) = dlt_dm_pot_radn * part_fract
+cnh         dlt_dm_pot(part) = bound (dlt_dm_pot(part)
+cnh     :                           , 0.0, dlt_dm_pot_radn)
+cnh500   continue
+
+            ! recalculate roots because today's drymatter production
+            ! does not include roots
+
+C      dlt_dm_pot(root) = g_dlt_dm_pot_rue_pot
+C     :                 * c_ratio_root_shoot(current_phase)
+
+
+         ! g_dlt_dm_pot is above ground biomass only so leave roots
+         ! out of comparison
+
+      call bound_check_real_var (
+     :             sum_real_array (G_dlt_dm_green_pot, max_part)
+     :           - g_dlt_dm_green_pot(root)
+     :           , 0.0, g_dlt_dm_pot_rue_pot
+     :           , 'dlt_dm_pot - dlt_dm_pot(root)')
+
+
+      ! NIH - note stem stuff is redone down later.
+
+      do 1000 part = 1, max_part
+         if (g_dm_green(part).gt.0.0) then
+
+               ! get N demands due to difference between actual N concentrations
+               ! and critical N concentrations of tops (stover) and roots.
+
+            N_crit = g_dm_green(part) * g_N_conc_crit(part)
+            N_demand_old = N_crit - g_N_green(part)
+
+
+               ! get potential N demand (critical N) of potential growth
+
+            N_demand_new = g_dlt_dm_green_pot(part)
+     :                   * g_N_conc_crit(part)
+
+            N_demand(part) = N_demand_old + N_demand_new
+            N_demand(part) = l_bound (N_demand(part), 0.0)
+
+         else
+            N_demand(part) = 0.0
+
+         endif
+
+1000  continue
+
+cnh I am not 100% happy with this but as this is a first attempt at fully
+cnh utilizing a sucrose pool I shall put in this quick fix for now and
+cnh re-evaluate later.  Note that g_N_conc_crit(Sstem) is really the crit.
+cnh conc for CANE.
+
+      ! SStem demand for N is based on N conc in cane (i.e SStem+sucrose)
+
+      N_crit = (g_dm_green(sstem)+g_dm_green(sucrose))
+     :                    * g_N_conc_crit(sstem)
+      N_demand_old = N_crit - g_N_green(sstem)
+      N_demand_new = (g_dlt_dm_green_pot(sstem)
+     :                + g_dlt_dm_green_pot(sucrose))
+     :             * g_N_conc_crit(sstem)
+      N_demand(sstem) = N_demand_old + N_demand_new
+      N_demand(sstem) = l_bound (N_demand(sstem), 0.0)
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_nit_stress_pheno (Option)
+*     ===========================================================
+
+*   Short description:
+*         Get current Nitrogen stress factors (0-1)
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*     010994 jngh specified and programmed
+
+*   Calls:
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+
+*   Global variables
+      include   'const.inc'
+      include   'sugar.inc'
+
+*   Internal variables
+*     none
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_nit_stress_pheno')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      if (Option .eq. 1) then
+
+         call sugar_nfact
+     :               (
+     :                G_dm_green
+     :              , G_n_conc_crit
+     :              , G_n_conc_min
+     :              , G_n_green
+     :              , c_k_nfact_pheno
+     :              , g_nfact_pheno
+     :               )
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_phen_init
+     :               (
+     :                C_shoot_lag
+     :              , C_shoot_rate
+     :              , G_current_stage
+     :              , G_days_tot
+     :              , G_sowing_depth
+     :              , G_Ratoon_no
+     :              , P_tt_begcane_to_flowering
+     :              , P_tt_emerg_to_begcane
+     :              , P_tt_flowering_to_crop_end
+     :              , phase_tt
+     :               )
+*     ===========================================================
+
+*   Short description:
+*       Returns cumulative thermal time targets required for the
+*       individual growth stages.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*     060495 nih taken from template
+*     030498 igh changed g_ratoon_no to integer
+
+*   Calls:
+*     bound
+*     day_length
+*     offset_day_of_year
+*     on_day_of
+*     pop_routine
+*     push_routine
+*     stage_is_between
+*     sum_between
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      REAL       C_shoot_lag           ! (INPUT)  minimum growing degree days fo
+      REAL       C_shoot_rate          ! (INPUT)  growing deg day increase with
+      REAL       G_current_stage       ! (INPUT)  current phenological stage
+      REAL       G_days_tot(*)         ! (INPUT)  duration of each phase (days)
+      REAL       G_sowing_depth        ! (INPUT)  sowing depth (mm)
+      INTEGER    G_Ratoon_no           ! (INPUT)  ratoon no (mm)
+      REAL       P_tt_begcane_to_flowering ! (INPUT)
+      REAL       P_tt_emerg_to_begcane ! (INPUT)
+      REAL       P_tt_flowering_to_crop_end ! (INPUT)
+      real       phase_tt (*)          ! (INPUT/OUTPUT) cumulative growing
+                                       ! degree days required for
+                                       ! each stage (deg days)
+
+*   Global variables
+      include   'sugconst.inc'
+
+      logical    on_day_of             ! function
+
+*   Internal variables
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_phen_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+
+      if (on_day_of (sprouting, g_current_stage, g_days_tot)) then
+         if (G_ratoon_no .eq. 0) then
+            phase_tt(sprouting_to_emerg) = c_shoot_lag
+     :                                   + g_sowing_depth*c_shoot_rate
+         else
+            ! Assume the mean depth of shooting is half way between the
+            ! set depth and the soil surface.
+            phase_tt(sprouting_to_emerg) = c_shoot_lag
+     :                                   + g_sowing_depth/2.0
+     :                                   * c_shoot_rate
+         endif
+      elseif (on_day_of (emerg, g_current_stage, g_days_tot)) then
+         phase_tt(emerg_to_begcane) = p_tt_emerg_to_begcane
+
+      elseif (on_day_of (begcane, g_current_stage, g_days_tot)) then
+         phase_tt(begcane_to_flowering) = p_tt_begcane_to_flowering
+
+      elseif (on_day_of (flowering, g_current_stage, g_days_tot)) then
+         phase_tt(flowering_to_crop_end) = p_tt_flowering_to_crop_end
+
+      else
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_swdef_demand_ratio
+     :               (
+     :                C_num_sw_demand_ratio
+     :              , C_x_sw_demand_ratio
+     :              , C_y_swdef_leaf
+     :              , G_dlayer
+     :              , G_root_depth
+     :              , G_sw_demand
+     :              , G_sw_supply
+     :              , swdef
+     :               )
+*     ===========================================================
+
+*   Short description:
+*       Get the soil water availability factor (0-1), commonly
+*       called soil water deficit factor. 1 is no stress, 0 is full stress.
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*       010994 jngh specified and programmed
+
+*   Calls:
+*     bound
+*     divide
+*     fatal_error
+*     find_layer_no
+*     linear_interp_real
+*     pop_routine
+*     push_routine
+*     sum_real_array
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      INTEGER    C_num_sw_demand_ratio ! (INPUT)
+      REAL       C_x_sw_demand_ratio(*) ! (INPUT)
+      REAL       C_y_swdef_leaf(*)     ! (INPUT)
+      REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
+      REAL       G_root_depth          ! (INPUT)  depth of roots (mm)
+      REAL       G_sw_demand           ! (INPUT)  total crop demand for water (m
+      REAL       G_sw_supply(*)        ! (INPUT)  potential water to take up (su
+      real      swdef                 ! (OUTPUT) sw stress factor (0-1)
+
+*   Global variables
+      include   'const.inc'
+      include   'sugconst.inc'
+
+      real       divide                ! function
+      integer    find_layer_no         ! function
+      real       linear_interp_real    ! function
+      real       sum_real_array        ! function
+
+*   Internal variables
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      real       sw_demand_ratio       ! water supply:demand ratio
+      real       sw_supply_sum         ! total supply over profile (mm)
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_swdef_demand_ratio')
+
+*   Initial data values
+*       none
+* --------------------- Executable code section ----------------------
+
+      call push_routine (my_name)
+      deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer)
+
+            ! get potential water that can be taken up when profile is full
+
+         sw_supply_sum = sum_real_array (g_sw_supply, deepest_layer)
+         sw_demand_ratio = divide (sw_supply_sum, g_sw_demand, 10.0)
+
+         swdef = linear_interp_real (sw_demand_ratio
+     :                       , c_x_sw_demand_ratio, c_y_swdef_leaf
+     :                       , c_num_sw_demand_ratio)
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_leaf_no_init (Option)
+*     ===========================================================
+
+*   Short description:
+*       Leaf number development
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*      250894 jngh specified and programmed
+
+*   Calls:
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+
+*   Global variables
+      include   'const.inc'
+      include   'sugar.inc'
+
+*   Internal variables
+*       none
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_leaf_no_init')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+            ! Plant leaf development
+      if (Option .eq. 1) then
+
+            ! initialise total leaf number
+         call cproc_leaf_no_init1
+     :               (
+     :                C_leaf_no_at_emerg
+     :              , G_current_stage
+     :              , emerg
+     :              , G_days_tot
+     :              , g_leaf_no
+     :              , g_node_no
+     :               )
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_leaf_no_pot (Option)
+*     ===========================================================
+
+*   Short description:
+*       Leaf number development
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*      250894 jngh specified and programmed
+
+*   Calls:
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+
+*   Global variables
+      include   'const.inc'
+      include   'sugar.inc'
+
+*   Internal variables
+*       none
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_leaf_no_pot')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+            ! Plant leaf development
+      if (Option .eq. 1) then
+
+         call cproc_leaf_no_pot1
+     :               (
+     :                C_x_node_no_app
+     :              , C_y_node_app_rate
+     :              , c_num_node_no_app
+     :              , c_x_node_no_leaf
+     :              , C_y_leaves_per_node
+     :              , c_num_node_no_leaf
+     :              , G_current_stage
+     :              , emerg ! start node emerg
+     :              , flowering ! end node emerg
+     :              , emerg
+     :              , G_days_tot
+     :              , G_dlt_tt
+     :              , G_node_no
+     :              , g_dlt_leaf_no !_pot
+     :              , g_dlt_node_no !_pot
+     :               )
+     
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
 
       call pop_routine (my_name)
       return
