@@ -69,8 +69,8 @@ variable = sugar.dm_dead()
 variable = sugar.lodge_redn_photo
 variable = sugar.lodge_redn_sucrose
 variable = sugar.lodge_redn_green_leaf
-variable = residue2.residue_wt
-variable = residue2.residue_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_n
 variable = soiln2.fom_c()
 variable = soiln2.fom_n()
 [reference.clock.parameters]
@@ -118,14 +118,14 @@ enr_a_coeff =         7.4  ()
 enr_b_coeff =         0.2  ()
 profile_reduction =      on
 
-[reference.residue2.parameters]
+[reference.SurfaceOM.parameters]
 
      ! no initial residue - removes an unnecessary factor
-pot_decomp_rate =      0.10   ()
-residue_wt =           0.0  (kg/ha)
-residue_cnr =           80.0 ()
-residue_type =         sugar
+mass = 0.0  (kg/ha)
+cnr = 80.0 ()
+type = sugar
 
+name = sugar
 [reference.irrigate.parameters]
 
      ! start with high irrigation supply
@@ -181,7 +181,7 @@ rlv =         0.005   0.001   0.000
       irrigate set crit_fr_asw = 0.2
 
       ! remove residues so there is one less factor to consider
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
 
       ! -----------------------------------------------------------------------
       ! First crop harvest - start next
@@ -208,7 +208,7 @@ rlv =         0.005   0.001   0.000
       report do_output
 
       ! remove residues so there is one less factor to consider
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
 
    elseif day = 244 and year = 1986 then
 
@@ -235,7 +235,7 @@ rlv =         0.005   0.001   0.000
       report do_output
 
       ! remove residues so there is one less factor to consider
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
 
       ! [plant_pop_msg.plants] - change population density
       sugar set plants = 8

@@ -14,7 +14,7 @@ outputfile = test.out
 variable = clock.dd/mm/yyyy as Date
 variable = soilwat2.esw
 variable = soiln2.no3()
-variable = residue2.residue_wt
+variable = surfaceom.surfaceom_wt
 variable = irrigate.irrigation
 variable = sugar.lai
 variable = sugar.biomass
@@ -111,7 +111,7 @@ if sugar.crop_status = 'alive' then
       sugar harvest
 
       if burn_flag = 1 then
-         residue2 tillage type = burn
+         surfaceom tillage type = burn
       endif
 
       if ratoon_no = NoRatoons + 1 then
@@ -124,7 +124,7 @@ if sugar.crop_status = 'alive' then
          if sowing_reset = 1 then
             soilwat2 reset
             soiln2   reset
-            residue2 reset
+            surfaceom reset
          else
          endif
          if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -151,7 +151,7 @@ elseif (sugar.crop_status = 'dead') then
    sugar harvest
    sugar end_crop
    if burn_flag = 1 then
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
    endif
 
 elseif (sugar.crop_status = 'out') and (day = planting_day) then
@@ -187,8 +187,8 @@ variable = clock.day
 variable = clock.year
 variable = soilwat2.esw
 variable = soiln2.no3()
-variable = residue2.residue_wt
-variable = residue2.residue_n
+variable = surfaceom.surfaceom_wt
+variable = surfaceom.surfaceom_n
 variable = irrigate.irrigation
 variable = sugar.lai
 variable = sugar.biomass
@@ -240,7 +240,7 @@ num_irr = 0
 ! dsg now do an N balance and calculate an 'error' (units g/m2)
 
  soil_n = (soiln2.nit_tot())/10
- resid_n = (residue2.residue_n)/10
+ resid_n = (surfaceom.surfaceom_n)/10
  plant_n = sugar.plant_n_tot
 
 ! losses
@@ -290,7 +290,7 @@ if sugar.crop_status = 'alive' then
       sugar harvest
 
       if burn_flag = 1 then
-         residue2 tillage type = burn
+         surfaceom tillage type = burn
       endif
 
       if ratoon_no = NoRatoons + 1 then
@@ -303,7 +303,7 @@ if sugar.crop_status = 'alive' then
          if sowing_reset = 1 then
             soilwat2 reset
             soiln2   reset
-            residue2 reset
+            surfaceom reset
          else
          endif
          if irrigate_flag = 1 and automatic_irrigation = 'off' then
@@ -330,7 +330,7 @@ elseif (sugar.crop_status = 'dead') then
    sugar harvest
    sugar end_crop
    if burn_flag = 1 then
-      residue2 tillage type = burn
+      surfaceom tillage type = burn
    endif
 
 elseif (sugar.crop_status = 'out') and (day = planting_day) then

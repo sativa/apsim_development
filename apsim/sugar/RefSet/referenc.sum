@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\sugar\lib\sugar.dll
      Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
@@ -53,8 +53,8 @@
         sugar.lodge_redn_photo
         sugar.lodge_redn_sucrose
         sugar.lodge_redn_green_leaf
-        residue2.residue_wt
-        residue2.residue_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_n
         soiln2.fom_c()
         soiln2.fom_n()
      
@@ -110,20 +110,20 @@
            report do_output
            fertiliz apply amount = 300 (kg/ha), type = no3_n, depth = 50 (mm)
            irrigate set crit_fr_asw = 0.2
-           residue2 tillage type = burn
+           surfaceom tillage type = burn
         elseif day = 92 and year = 1986 then
            sugar harvest
            sugar kill_crop
            sugar end_crop
            report do_output
-           residue2 tillage type = burn
+           surfaceom tillage type = burn
         elseif day = 244 and year = 1986 then
            sugar sow plants = 10, sowing_depth = 150, cultivar = q138, ratoon = 1 ()
            irrigate set crit_fr_asw = 0.8
         elseif day = 245 and year = 1987 then
            sugar harvest
            report do_output
-           residue2 tillage type = burn
+           surfaceom tillage type = burn
            sugar set plants = 8
         elseif day < 10 and year = 1988 then
            sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
@@ -201,30 +201,29 @@
             CONA:                     3.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = sugar
+      Residue type = sugar
+      Overall mass =  0.00000000E+00
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying lignin mass =  0.00000000E+00
+                            C:N =  -NaN
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-                 0.0     0.0     0.0  sugar
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    80.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -368,7 +367,7 @@
       stress indices for flowering
       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
       water stress 2 =    0.000000
-                                               straw residue = 6468.3 kg/ha
+                                               straw residue = 6468.4 kg/ha
                                                straw N =   26.4 kg/ha
                                                root residue =  911.6 kg/ha
                                                root N =    2.7 kg/ha
@@ -385,8 +384,8 @@
                                               added at depth   50.00 (layer   1)
 2 April 1985(Day of year=92), manager: 
      Manager sending message :- irrigate set  crit_fr_asw = 0.2
-     Manager sending message :- residue2 tillage  type = burn
-2 April 1985(Day of year=92), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+2 April 1985(Day of year=92), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -427,7 +426,7 @@
      
       stress indices for begin_cane
       water stress 1 =   0.2869142       nitrogen stress 1 =   0.4494985E-01
-      water stress 2 =   0.1808969
+      water stress 2 =   0.1808968
      
      
      
@@ -450,8 +449,8 @@
                                                root residue = 4178.7 kg/ha
                                                root N =   41.9 kg/ha
 2 April 1986(Day of year=92), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-2 April 1986(Day of year=92), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+2 April 1986(Day of year=92), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -550,8 +549,8 @@
                                                root residue = 1265.0 kg/ha
                                                root N =    7.6 kg/ha
 2 September 1987(Day of year=245), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-2 September 1987(Day of year=245), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+2 September 1987(Day of year=245), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -565,8 +564,8 @@
                           stover N conc =    2.529776       extractable sw =    79.98346
 30 December 1987(Day of year=364), sugar: 
       stage    4.0 begin_cane
-                          biomass =           106.3319       lai =    0.6636786
-                          stover N conc =   0.6554375       extractable sw =    82.78152
+                          biomass =           106.3315       lai =    0.6636766
+                          stover N conc =   0.6554381       extractable sw =    82.78154
 1 January 1988(Day of year=1), manager: 
      Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
 1 January 1988(Day of year=1), sugar: 

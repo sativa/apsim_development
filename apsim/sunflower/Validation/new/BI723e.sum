@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\cropmod\lib\cropmod.dll
 
@@ -208,30 +208,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  1000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  200.000000
+                            C:N =  33.0000000
+      Lying cellulose mass =  700.000000
+                            C:N =  33.0000000
+      Lying lignin mass =  100.000000
+                            C:N =  33.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              1000.0    12.1     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    33.0     0.0       F       yes
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -385,35 +384,35 @@
 18 March 1973(Day of year=77), sunflower: 
       stage    4.0 end_of_juvenile
                           biomass =           9.006839       lai =    0.8186337E-01
-                          stover N conc =    4.714742       extractable sw =    154.0015
+                          stover N conc =    4.714742       extractable sw =    154.0014
 7 April 1973(Day of year=97), sunflower: 
       stage    5.0 floral_initiation
                           biomass =           141.2256       lai =     1.526014
-                          stover N conc =    4.032329       extractable sw =    205.3937
+                          stover N conc =    4.032329       extractable sw =    205.3936
 29 April 1973(Day of year=119), sunflower: 
       stage    6.0 flag_leaf
-                          biomass =           459.3250       lai =     2.694018
-                          stover N conc =    2.886496       extractable sw =    61.62234
+                          biomass =           459.3250       lai =     2.694017
+                          stover N conc =    2.886496       extractable sw =    61.62233
 30 April 1973(Day of year=120), sunflower: 
       stage    7.0 flowering
-                          biomass =           468.6527       lai =     2.673249
-                          stover N conc =    2.864565       extractable sw =    57.31525
+                          biomass =           468.6527       lai =     2.673248
+                          stover N conc =    2.864565       extractable sw =    57.31524
 3 May 1973(Day of year=123), sunflower: 
       stage    8.0 start_grain_fill
                           biomass =           488.9234       lai =     2.605447
-                          stover N conc =    2.819653       extractable sw =    46.06722
+                          stover N conc =    2.819653       extractable sw =    46.06721
 1 June 1973(Day of year=152), sunflower: 
       stage    9.0 end_grain_fill
-                          biomass =           553.2084       lai =    0.7141073
+                          biomass =           553.2084       lai =    0.7141072
                           stover N conc =    2.984996       extractable sw =    7.513493
 3 June 1973(Day of year=154), sunflower: 
       stage   10.0 maturity
-                          biomass =           559.0034       lai =    0.4061244
-                          stover N conc =    3.051267       extractable sw =    35.62972
+                          biomass =           559.0034       lai =    0.4061240
+                          stover N conc =    3.051266       extractable sw =    35.62972
 4 June 1973(Day of year=155), sunflower: 
       stage   11.0 harvest_ripe
-                          biomass =           559.0034       lai =     0.000000
-                          stover N conc =    3.209845       extractable sw =    45.32189
+                          biomass =           559.0035       lai =     0.000000
+                          stover N conc =    3.209844       extractable sw =    45.32189
 5 June 1973(Day of year=156), manager: 
      Manager sending message :- sunflower harvest
 5 June 1973(Day of year=156), sunflower: 
@@ -455,18 +454,18 @@
      
       stress indices for floral_initiation
       water stress 1 =       0.0989573   nitrogen stress 1 =       0.0000000
-      water stress 2 =       0.5668543   nitrogen stress 2 =       0.0095156
+      water stress 2 =       0.5668544   nitrogen stress 2 =       0.0095156
      
      
      
       stress indices for flag_leaf
-      water stress 1 =       0.2076447   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.2076448   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.8987717   nitrogen stress 2 =       0.0000000
      
      
      
       stress indices for flowering
-      water stress 1 =       0.3582753   nitrogen stress 1 =       0.0000000
+      water stress 1 =       0.3582754   nitrogen stress 1 =       0.0000000
       water stress 2 =       0.8995255   nitrogen stress 2 =       0.0000000
      
      
@@ -482,32 +481,11 @@
      Manager sending message :- sunflower end_crop
 5 June 1973(Day of year=156), sunflower: 
          ended. Yield (dw) =     0.0
-5 June 1973(Day of year=156), residue2: 
+5 June 1973(Day of year=156), SurfaceOM: 
+       Added surfom
+                                             surfom Type         = sunflower
      
-         - Reading residue specific area
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = leaf
-                                             Amount Added (kg/ha) =  1840.03
-                                             Specific Area        =  0.00020
-     
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = stem
-                                             Amount Added (kg/ha) =  2494.30
-                                             Specific Area        =  0.00020
-     
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = flower
-                                             Amount Added (kg/ha) =    92.97
-                                             Specific Area        =  0.00020
-     
-       Added Residue
-                                             Residue Type         = sunflower
-                                             Dry matter Type      = energy
-                                             Amount Added (kg/ha) =   151.58
-                                             Specific Area        =  0.00020
+     Amount Added (kg/ha) = èE
      
 5 June 1973(Day of year=156), sunflower: 
                                                straw residue = 4578.9 kg/ha
