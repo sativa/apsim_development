@@ -33,11 +33,33 @@ struct XMLDocumentImpl
       {
       short isSuccessful;
       xmlDoc->load(asVariant(fileName), &isSuccessful);
+      if (!isSuccessful)
+         throwParseError();
       }
    XMLDocumentImpl(const string& xml, bool dummy)
       : xmlDoc(CoDOMDocument40::Create())
       {
       xmlDoc->loadXML(WideString(xml.c_str()));
+      }
+
+   //---------------------------------------------------------------------------
+   // Throw a formatted exception based on the last parseError
+   //---------------------------------------------------------------------------
+   void throwParseError(void) const throw(runtime_error)
+      {
+      // We must get info on error
+      IXMLDOMParseErrorPtr error = xmlDoc->parseError;
+
+      // Show error line & column, source line and reason
+      AnsiString msg = "";
+      msg.sprintf("Error on line %d column %d : ", error->line, error->linepos);
+      msg += "\r\n";
+      msg += error->srcText;
+      msg += "\r\n";
+      msg += AnsiString::StringOfChar(' ', error->linepos - 1);
+      msg += "^\r\n";
+      msg += error->reason;
+      throw runtime_error(msg.c_str());
       }
    };
 //---------------------------------------------------------------------------
