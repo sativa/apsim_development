@@ -85,7 +85,7 @@ float legume_stage_code(
 
 //+  Purpose
 //       Return an interpolated stage code from a table of stage_codes
-//       and a nominated stage number. Returns 0 if the stage number is not
+//       and a nominated stage number. Returns the first or last table value if the stage number is not
 //       found. Interpolation is done on thermal time.
 
 //+  Mission Statement
@@ -136,11 +136,31 @@ float plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage num
               this_stage = next_stage;
               }
            }
+              // if stage number is not found, return the first or last value of the table
+           if (x_stage_code <= 0.1e-6)
+           {
+               if (stage_no <= stage_table[0])
+               {
+                  x_stage_code = stage_table[0];
+               }
+               else if (stage_no >= stage_table[numvals-1])
+               {
+                  x_stage_code = stage_table[numvals-1];
+               }
+               else
+               {
+                  // the stage number was found - do nothing
+               }
+            }
+            else
+            {
+               // the stage number was found - do nothing
+            }
         }
      else
         {
-        // we have no valid table
-        x_stage_code = 0.0;
+        // we have no valid table, set to first and only entry
+        x_stage_code = stage_table[0];
 
         char msg[80];
         sprintf(msg, "invalid stage code lookup table - number of values = %d", numvals);
@@ -155,10 +175,10 @@ float plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage num
 float crop_stage_code (float *c_stage_code_list,
                        float *g_tt_tot,
                        float *g_phase_tt,
-                       float stage_no,              // (INPUT) stage number to convert   
-                       float *stage_table,           // (INPUT) table of stage codes      
-                       int   numvals,                 // (INPUT) size_of of table          
-                       int   max_stage)               // (INPUT) max stage number          
+                       float stage_no,              // (INPUT) stage number to convert
+                       float *stage_table,           // (INPUT) table of stage codes
+                       int   numvals,                 // (INPUT) size_of of table
+                       int   max_stage)               // (INPUT) max stage number
 //===========================================================================
 
 /*  Purpose
@@ -223,17 +243,17 @@ float crop_stage_code (float *c_stage_code_list,
    }
 
 //==========================================================================
-void crop_thermal_time (int    C_num_temp,          //(INPUT)  size_of table                           
-                        float *C_x_temp,            //(INPUT)  temperature table for photosyn          
+void crop_thermal_time (int    C_num_temp,          //(INPUT)  size_of table
+                        float *C_x_temp,            //(INPUT)  temperature table for photosyn
                         float *C_y_tt,              //(INPUT)  degree days
-                        float  G_current_stage,     //(INPUT)  current phenological stage              
-                        float  G_maxt,              //(INPUT)  maximum air temperature (oC)            
-                        float  G_mint,              //(INPUT)  minimum air temperature (oC)            
+                        float  G_current_stage,     //(INPUT)  current phenological stage
+                        float  G_maxt,              //(INPUT)  maximum air temperature (oC)
+                        float  G_mint,              //(INPUT)  minimum air temperature (oC)
                         int    start_stress_stage,  //(INPUT)
-                        int    end_stress_stage,    //(INPUT)                                          
-                        float  G_nfact_pheno,       //(INPUT)                                          
+                        int    end_stress_stage,    //(INPUT)
+                        float  G_nfact_pheno,       //(INPUT)
                         float  G_swdef_pheno,       //(INPUT)
-                        float *G_dlt_tt)            //(OUTPUT) daily thermal time (oC)                 
+                        float *G_dlt_tt)            //(OUTPUT) daily thermal time (oC)
 //===========================================================================
 
 /*  Purpose
@@ -471,22 +491,22 @@ void cproc_phenology1 (float  *G_previous_stage,         //   OUTPUT
                        float  *G_current_stage,          //   OUTPUT
                        int    sowing_stage,              //   IN
                        int    germ_stage,                //   IN
-                       int    end_development_stage,     //   IN             
-                       int    start_stress_stage,        //   IN             
-                       int    end_stress_stage,          //   IN             
-                       int    max_stage,                 //   IN             
-                       int    C_num_temp,                //   IN             
-                       float *C_x_temp,                  //   IN              
-                       float *C_y_tt,                   //    IN             
-                       float  G_maxt,                    //   IN             
-                       float  G_mint,                    //   IN             
+                       int    end_development_stage,     //   IN
+                       int    start_stress_stage,        //   IN
+                       int    end_stress_stage,          //   IN
+                       int    max_stage,                 //   IN
+                       int    C_num_temp,                //   IN
+                       float *C_x_temp,                  //   IN
+                       float *C_y_tt,                   //    IN
+                       float  G_maxt,                    //   IN
+                       float  G_mint,                    //   IN
                        float  G_nfact_pheno,             //   IN
-                       float  G_swdef_pheno,             //   IN               
-                       float  C_pesw_germ,               //   IN               
-                       float *C_fasw_emerg,             //    (INPUT)    
-                       float *C_rel_emerg_rate,         //    (INPUT)    
-                       int    C_num_fasw_emerg,          //   (INPUT)      
-                       float *G_dlayer,                 //    IN 
+                       float  G_swdef_pheno,             //   IN
+                       float  C_pesw_germ,               //   IN
+                       float *C_fasw_emerg,             //    (INPUT)
+                       float *C_rel_emerg_rate,         //    (INPUT)
+                       int    C_num_fasw_emerg,          //   (INPUT)
+                       float *G_dlayer,                 //    IN
                        int    max_layer,                 //   IN
                        float  G_sowing_depth,            //   IN
                        float *G_sw_dep,                 //    IN
@@ -848,7 +868,7 @@ void plant_phenology3 (float *g_previous_stage
     //- Implementation Section ----------------------------------
     *g_previous_stage = *g_current_stage;
 
-    if (stage_is_between(sowing_stage, end_stress_stage, *g_current_stage)) 
+    if (stage_is_between(sowing_stage, end_stress_stage, *g_current_stage))
        {
        // get thermal times
        crop_thermal_time(c_num_temp
@@ -863,7 +883,7 @@ void plant_phenology3 (float *g_previous_stage
                     , g_swdef_pheno
                     , g_dlt_tt );
        }
-    else if (stage_is_between(end_stress_stage, end_flowering_stage, *g_current_stage)) 
+    else if (stage_is_between(end_stress_stage, end_flowering_stage, *g_current_stage))
        {
        crop_thermal_time(c_num_temp
                     , c_x_temp
@@ -877,7 +897,7 @@ void plant_phenology3 (float *g_previous_stage
                     , g_swdef_pheno_flower
                     , g_dlt_tt );
        }
-    else if (stage_is_between(end_flowering_stage, end_development_stage, *g_current_stage)) 
+    else if (stage_is_between(end_flowering_stage, end_development_stage, *g_current_stage))
        {
        crop_thermal_time(c_num_temp
                     , c_x_temp
@@ -892,7 +912,7 @@ void plant_phenology3 (float *g_previous_stage
                     , g_dlt_tt );
        }
     else
-       { 
+       {
        crop_thermal_time(c_num_temp
                     , c_x_temp
                     , c_y_tt
