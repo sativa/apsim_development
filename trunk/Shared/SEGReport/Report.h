@@ -95,6 +95,11 @@ class __declspec(dllexport) Report
                        const std::string& propertyName,
                        const std::string& propertyValue);
 
+      //---------------------------------------------------------------------------
+      // Event that triggers when object inspector is updated.
+      //---------------------------------------------------------------------------
+      TNotifyEvent OnObjectInspectorUpdate;
+
    private:
       TWinControl* parent;
       std::vector<Quickrpt::TQuickRep*> pages;

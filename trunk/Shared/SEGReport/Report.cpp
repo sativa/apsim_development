@@ -36,6 +36,8 @@ Report::Report(TWinControl* p)
    reportForm = NULL;
    currentPage = NULL;
    uiForm = NULL;
+   OnObjectInspectorUpdate = NULL;
+
    clear();
    isEditing = false;
    isDirty = false;
@@ -238,6 +240,9 @@ void Report::updateObjectInspector(TComponent* component)
    {
    if (objectInspectorForm != NULL)
       {
+      if (OnObjectInspectorUpdate != NULL)
+         OnObjectInspectorUpdate(objectInspectorForm);
+         
       objectInspectorForm->Visible = true;
 
       delete uiForm;
