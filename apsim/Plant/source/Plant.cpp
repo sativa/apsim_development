@@ -1163,39 +1163,26 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
 
     if (option == 1)
     {
-        double dlt_dm_veg = g.dlt_dm;
-        double dlt_dm_fruit = 0.0;
-        float dlt_dm_green_fruit[max_part];
+        double dlt_dm_supply_by_veg = g.dlt_dm;
+        double dlt_dm_supply_by_pod = 0.0;
+//        double dlt_dm_supply_to_fruit = 0.0;
 
-        float dm_yield_demand_fruit = fruit->dm_yield_demand (c.frac_pod[(int)phenology->stageNumber()-1]
+        g.dlt_dm_yield_demand_fruit = fruit->dm_yield_demand (c.frac_pod[(int)phenology->stageNumber()-1]
                                                             , g.grain_energy
-                                                            , dlt_dm_veg
-                                                            , dlt_dm_fruit
+                                                            , dlt_dm_supply_by_veg
+                                                            , dlt_dm_supply_by_pod
                                                             , g.dlt_dm_grain_demand
                                                             );
 
         legnew_dm_partition1_test (c.frac_leaf[(int)phenology->stageNumber()-1]
                               , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
                               , c.sla_min
-                              , g.dlt_dm
+                              , dlt_dm_supply_by_veg
                               , g.dlt_lai_stressed
-                              , dm_yield_demand_fruit
-                              , &dlt_dm_fruit
+                              , g.dlt_dm_yield_demand_fruit
+                              , &g.dlt_dm_supply_to_fruit
                               , g.dlt_dm_green);
 
-        fruit->dm_partition1 (c.frac_pod[(int)phenology->stageNumber()-1]
-                             , g.grain_energy
-                             , c.grain_oil_conc
-                             , dlt_dm_fruit
-                             , g.dlt_dm_grain_demand
-                             , &g.dlt_dm_oil_conv
-                             , dlt_dm_green_fruit
-                             );
-        for (int part=pod; part< max_part; part++)
-        {
-            g.dlt_dm_green[part] = dlt_dm_green_fruit[part];     // FIXME - remove this when it beocmes proper class
-
-        }
 
 //        legnew_dm_partition1 (c.frac_leaf[(int)phenology->stageNumber()-1]
 //                              , c.frac_pod[(int)phenology->stageNumber()-1]
@@ -1208,7 +1195,7 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
 //                              , g.dlt_lai_stressed
 //                              , &g.dlt_dm_oil_conv
 //                              , g.dlt_dm_green);
-//
+
 //fprintf(stdout, "%d,%f,%f,%f\n", g.day_of_year,
 //        g.dlt_dm,
 //        c.frac_leaf[(int)phenology->stageNumber()-1],
@@ -1290,30 +1277,49 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
     const char*  my_name = "plant_bio_retrans" ;
     const int  num_supply_pools = 3 ;
     const int  num_fruit_supply_pools = 2 ;
+    const int  num_supply_pools_by_veg = 2 ;
 
     int   supply_pools[num_supply_pools] = {stem, leaf, pod};
+    int   supply_pools_by_veg[num_supply_pools_by_veg] = {stem, leaf};
     int   fruit_supply_pools[num_fruit_supply_pools] = {stem, leaf};
 
     push_routine (my_name);
     if (option == 1)
         {
-        legnew_dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
-                                 , g.grain_energy
-                                 , c.grain_oil_conc
-                                 , pod
-                                 , meal
-                                 , oil
-                                 , max_part
-                                 , supply_pools
-                                 , num_supply_pools
-                                 , g.dlt_dm_grain_demand
-                                 , g.dlt_dm_oil_conv
-                                 , g.dlt_dm_green
-                                 , g.dm_green
-                                 , g.dm_plant_min
-                                 , g.plants
-                                 , &g.dlt_dm_oil_conv_retranslocate
-                                 , g.dlt_dm_green_retrans);
+         float dm_demand_differential = g.dlt_dm_yield_demand_fruit
+                                      - g.dlt_dm_supply_to_fruit;
+         legnew_dm_retranslocate_test
+                     (
+                      max_part
+                    , supply_pools_by_veg
+                    , num_supply_pools_by_veg
+                    , dm_demand_differential
+                    , g.dlt_dm_green
+                    , g.dm_green
+                    , g.dm_plant_min
+                    , g.plants
+                    , &g.dlt_dm_retrans_to_fruit
+                    , g.dlt_dm_green_retrans
+                     );
+         g.dlt_dm_supply_to_fruit += g.dlt_dm_retrans_to_fruit;
+
+//        legnew_dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
+//                                 , g.grain_energy
+//                                 , c.grain_oil_conc
+//                                 , pod
+//                                 , meal
+//                                 , oil
+//                                 , max_part
+//                                 , supply_pools
+//                                 , num_supply_pools
+//                                 , g.dlt_dm_grain_demand
+//                                 , g.dlt_dm_oil_conv
+//                                 , g.dlt_dm_green
+//                                 , g.dm_green
+//                                 , g.dm_plant_min
+//                                 , g.plants
+//                                 , &g.dlt_dm_oil_conv_retranslocate
+//                                 , g.dlt_dm_green_retrans);
 
         }
     else if (option == 2)
@@ -1391,6 +1397,69 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
     pop_routine (my_name);
     return;
     }
+
+//     ===========================================================
+void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
+//     ===========================================================
+{
+//+  Purpose
+//       distribute biomass to fruit parts.
+
+//+  Constant Values
+    const int  num_supply_pools_by_fruit = 1 ;
+    int   supply_pools_by_fruit[num_supply_pools_by_fruit] = {pod};
+
+//- Implementation Section ----------------------------------
+    if (option == 1)
+    {
+        double dlt_dm_supply_by_pod = 0.0;
+        float dlt_dm_green_fruit[max_part];
+
+        fruit->dm_partition1 (c.frac_pod[(int)phenology->stageNumber()-1]
+                             , g.grain_energy
+                             , c.grain_oil_conc
+                             , g.dlt_dm_supply_to_fruit + dlt_dm_supply_by_pod
+                             , g.dlt_dm_grain_demand
+                             , &g.dlt_dm_oil_conv
+                             , dlt_dm_green_fruit
+                             );
+        for (int part=pod; part< max_part; part++)               // put fruit parts into plant part array
+        {
+            g.dlt_dm_green[part] = dlt_dm_green_fruit[part];     // FIXME - remove this when it beocmes proper class
+        }
+
+        float dlt_dm_green_retrans_fruit[max_part];
+
+        fruit->legnew_dm_retranslocate1(c.frac_pod[(int) phenology->stageNumber()-1]
+                                 , g.grain_energy
+                                 , c.grain_oil_conc
+                                 , pod
+                                 , meal
+                                 , oil
+                                 , max_part
+                                 , supply_pools_by_fruit
+                                 , num_supply_pools_by_fruit
+                                 , g.dlt_dm_grain_demand
+                                 , g.dlt_dm_oil_conv
+                                 , g.dlt_dm_green
+                                 , g.dm_green
+                                 , g.dm_plant_min
+                                 , g.plants
+                                 , &g.dlt_dm_oil_conv_retranslocate
+                                 , dlt_dm_green_retrans_fruit);
+
+        for (int part=pod; part< max_part; part++)               // put fruit parts into plant part array
+        {
+            g.dlt_dm_green_retrans[part] = dlt_dm_green_retrans_fruit[part];     // FIXME - remove this when it beocmes proper class
+        }
+
+    }
+    else
+    {
+        throw std::invalid_argument("invalid template option in plant_bio_partition");
+    }
+
+}
 
 
 
@@ -1646,7 +1715,7 @@ void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number *
 
     if (option == 1)
         {
-        cproc_yieldpart_demand_stress1 (min(g.nfact_photo, phosphorus->fact_photo())
+        fruit->yieldpart_demand_stress1 (min(g.nfact_photo, phosphorus->fact_photo())
                                         ,g.swdef_photo
                                         ,g.temp_stress_photo
                                         ,&g.dlt_dm_stress_max);
@@ -6099,6 +6168,22 @@ void Plant::legnew_dm_partition3(float *g_current_fruit_stage        //
 #endif
 }
 
+//     ===========================================================
+void Plant::legnew_dm_retranslocate_test
+    (
+     int    max_part                      // (INPUT)
+    ,int    *supply_pools                 // (INPUT)
+    ,int    num_supply_pools              // (INPUT)
+    ,float  g_dm_demand_differential         // (INPUT)  grain dm demand (g/m^2)
+    ,float  *g_dlt_dm_green               // (INPUT)  plant biomass growth (g/m^2)
+    ,float  *g_dm_green                   // (INPUT)  live plant dry weight (biomass
+    ,float  *g_dm_plant_min               // (INPUT)  minimum weight of each plant p
+    ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
+    ,float  *dlt_dm_retrans_to_fruit      // (OUTPUT) dm retranslocated to fruit (g/m^2)
+    ,float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
+    )
+//     ===========================================================
+{
 
 //+  Purpose
 //     Calculate plant dry matter delta's due to retranslocation
@@ -6109,6 +6194,60 @@ void Plant::legnew_dm_partition3(float *g_current_fruit_stage        //
 
 //+  Changes
 //       150900 jngh specified and programmed
+
+//+  Local Variables
+    int   part;                                   // plant part no.
+    float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
+    float demand_differential;                    // demand in excess of available supply (g/m^2)
+    int   counter;
+    float dm_part_avail;                          // carbohydrate avail from part(g/m^2)
+    float mass_balance;                           // sum of translocated carbo (g/m^2)
+
+//- Implementation Section ----------------------------------
+
+// now translocate carbohydrate between plant components
+// this is different for each stage
+
+    fill_real_array (dm_retranslocate, 0.0, max_part);
+
+    demand_differential = g_dm_demand_differential;
+
+            // get available carbohydrate from supply pools
+        for (counter = 0; counter < num_supply_pools; counter++ )
+        {
+           part = supply_pools[counter];
+           dm_part_avail = g_dm_green[part]
+                         - g_dm_plant_min[part] * g_plants;
+           dm_part_avail = l_bound (dm_part_avail, 0.0);
+
+           dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
+           dm_retranslocate[part] = - dlt_dm_retrans_part;
+
+           demand_differential = demand_differential - dlt_dm_retrans_part;
+        }
+
+        *dlt_dm_retrans_to_fruit = - (sum_real_array (dm_retranslocate, max_part));
+
+         // now check that we have mass balance
+//      mass_balance = sum_real_array (dm_retranslocate, max_part)
+//                   + dlt_dm_retrans_CohortRep
+//
+//    if (!reals_are_equal(-1.0 * mass_balance, *dlt_dm_retrans_to_fruit))
+//    {
+//      string msg = "dm_retranslocate mass balance is off: "
+//                 + ftoa(sum_real_array (dm_retranslocate, max_part), ".6")
+//                 + " vs "
+//                 + ftoa(*dlt_dm_retrans_to_fruit, ".6");
+//      parentPlant->warningError(msg.c_str());
+//    }
+//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
+//            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
+}
+
+
+
+//     ===========================================================
 void Plant::legnew_dm_retranslocate1
     (
      float  c_frac_pod                    // (INPUT) fraction of remaining dm allocated to pod
@@ -6128,10 +6267,19 @@ void Plant::legnew_dm_retranslocate1
     ,float  g_plants                      // (INPUT)  Plant density (plants/m^2)
     ,float  *dm_oil_conv_retranslocate    // (OUTPUT) assimilate used for oil conversion - energy (g/m^2)
     ,float  *dm_retranslocate             // (OUTPUT) actual change in plant part weights due to translocation (g/m^2)
-    ) {
+    )
+//     ===========================================================
+{
 
-//+  Constant Values
-    const char*  my_name = "legnew_dm_retranslocate1" ;
+//+  Purpose
+//     Calculate plant dry matter delta's due to retranslocation
+//     to grain, pod and energy (g/m^2)
+
+//+  Mission Statement
+//   Calculate biomass retranslocation to the yield component
+
+//+  Changes
+//       150900 jngh specified and programmed
 
 //+  Local Variables
     int   part;                                   // plant part no.
@@ -6152,123 +6300,99 @@ void Plant::legnew_dm_retranslocate1
 
 //- Implementation Section ----------------------------------
 
-    push_routine (my_name);
-
 // now translocate carbohydrate between plant components
 // this is different for each stage
 
     fill_real_array (dm_retranslocate, 0.0, max_part);
 
     dlt_dm_grain = g_dlt_dm_green[meal]
-    + g_dlt_dm_green[oil]
-    + g_dlt_dm_oil_conv;
+                 + g_dlt_dm_green[oil]
+                 + g_dlt_dm_oil_conv;
 
     if (g_dlt_dm_grain_demand > dlt_dm_grain)
-        {
-// we can translocate source carbohydrate
-// to reproductive parts if needed
+    {
+            // we can translocate source carbohydrate
+            // to reproductive parts if needed
 
-// calculate demands for each reproductive part
+            // calculate demands for each reproductive part
 
-        dm_demand_differential = g_dlt_dm_grain_demand
-        - dlt_dm_grain;
+        dm_demand_differential          = g_dlt_dm_grain_demand - dlt_dm_grain;
+        dm_grain_demand_differential    = divide (dm_demand_differential, g_grain_energy, 0.0);
+        dm_meal_demand_differential     = dm_grain_demand_differential * (1.0 - c_grain_oil_conc);
+        dm_oil_demand_differential      = dm_grain_demand_differential - dm_meal_demand_differential;
+        dm_oil_conv_demand_differential = dm_demand_differential - dm_grain_demand_differential;
+        dm_pod_demand_differential      = dm_grain_demand_differential * c_frac_pod;
 
-        dm_grain_demand_differential = divide (dm_demand_differential
-        , g_grain_energy, 0.0);
+        yield_demand_differential  = dm_pod_demand_differential
+                                   + dm_meal_demand_differential
+                                   + dm_oil_demand_differential
+                                   + dm_oil_conv_demand_differential;
 
-        dm_meal_demand_differential = dm_grain_demand_differential
-        * (1.0 - c_grain_oil_conc);
-        dm_oil_demand_differential = dm_grain_demand_differential
-        - dm_meal_demand_differential;
-
-        dm_oil_conv_demand_differential = dm_demand_differential
-        - dm_grain_demand_differential;
-
-        dm_pod_demand_differential = dm_grain_demand_differential
-        * c_frac_pod;
-
-        yield_demand_differential = dm_pod_demand_differential
-        + dm_meal_demand_differential
-        + dm_oil_demand_differential
-        + dm_oil_conv_demand_differential;
         demand_differential = yield_demand_differential;
 
-// get available carbohydrate from supply pools
+            // get available carbohydrate from supply pools
         for (counter = 0; counter < num_supply_pools; counter++ )
-           {
+        {
            part = supply_pools[counter];
-           dm_part_pot = g_dm_green[part]
-           + dm_retranslocate[part];
+           dm_part_pot = g_dm_green[part] + dm_retranslocate[part];
            dm_part_avail = dm_part_pot
-           - g_dm_plant_min[part]
-           * g_plants;
+                         - g_dm_plant_min[part] * g_plants;
            dm_part_avail = l_bound (dm_part_avail, 0.0);
 
            dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
            dm_retranslocate[part] = - dlt_dm_retrans_part;
 
            demand_differential = demand_differential - dlt_dm_retrans_part;
-           }
+        }
 
         dlt_dm_retrans_total = - (sum_real_array (dm_retranslocate, max_part));
 
-// now distribute retranslocate to demand sinks.
+            // now distribute retranslocate to demand sinks.
 
         if (yield_demand_differential > dlt_dm_retrans_total)
-            {
-            dm_retranslocate[meal] = dlt_dm_retrans_total
-            * divide (dm_meal_demand_differential
-            , yield_demand_differential
-            , 0.0);
-            dm_retranslocate[oil] = dlt_dm_retrans_total
-            * divide (dm_oil_demand_differential
-            , yield_demand_differential
-            , 0.0);
-            *dm_oil_conv_retranslocate = dlt_dm_retrans_total
-              * divide (dm_oil_conv_demand_differential
-              , yield_demand_differential
-              , 0.0);
-            dm_retranslocate[pod] = dlt_dm_retrans_total
-            * divide (dm_pod_demand_differential
-            , yield_demand_differential
-            , 0.0)
-            + dm_retranslocate[pod];
-            }
-        else
-            {
-
-            dm_retranslocate[meal] = dm_meal_demand_differential;
-            dm_retranslocate[oil] = dm_oil_demand_differential;
-            *dm_oil_conv_retranslocate = dm_oil_conv_demand_differential;
-            dm_retranslocate[pod] = dm_pod_demand_differential
-            + dm_retranslocate[pod];
-            }
-
-// ??? check that stem and leaf are >= min wts
-        }
-    else
         {
-// we have no retranslocation
+            dm_retranslocate[meal] = dlt_dm_retrans_total
+                                   * divide (dm_meal_demand_differential, yield_demand_differential, 0.0);
+            dm_retranslocate[oil] = dlt_dm_retrans_total
+                                  * divide (dm_oil_demand_differential, yield_demand_differential, 0.0);
+            *dm_oil_conv_retranslocate = dlt_dm_retrans_total
+                                       * divide (dm_oil_conv_demand_differential, yield_demand_differential, 0.0);
+            dm_retranslocate[pod] = dlt_dm_retrans_total
+                                  * divide (dm_pod_demand_differential, yield_demand_differential, 0.0)
+                                  + dm_retranslocate[pod];
+        }
+        else
+        {
+
+            dm_retranslocate[meal]     = dm_meal_demand_differential;
+            dm_retranslocate[oil]      = dm_oil_demand_differential;
+            *dm_oil_conv_retranslocate = dm_oil_conv_demand_differential;
+            dm_retranslocate[pod]      = dm_pod_demand_differential
+                                       + dm_retranslocate[pod];
+        }
+
+            // ??? check that stem and leaf are >= min wts
+    }
+    else
+    {
+            // we have no retranslocation
         fill_real_array (dm_retranslocate, 0.0, max_part);
         *dm_oil_conv_retranslocate = 0.0;
-        }
+    }
 
     // now check that we have mass balance
-    if (!reals_are_equal(-1.0*sum_real_array (dm_retranslocate, max_part),
-                         *dm_oil_conv_retranslocate))
-      {
+    if (!reals_are_equal(-1.0 * sum_real_array (dm_retranslocate, max_part), *dm_oil_conv_retranslocate))
+    {
       string msg = "dm_retranslocate mass balance is off: "
-          + ftoa(sum_real_array (dm_retranslocate, max_part), ".6")
-          + " vs "
-          + ftoa(*dm_oil_conv_retranslocate, ".6");
+                 + ftoa(sum_real_array (dm_retranslocate, max_part), ".6")
+                 + " vs "
+                 + ftoa(*dm_oil_conv_retranslocate, ".6");
       parent->warningError(msg.c_str());
-      }
-    pop_routine (my_name);
+    }
 //    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
 //            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
 //            g.dm_green[root], g.dm_green[leaf],g.dm_green[stem]);
-    return;
-    }
+}
 
 
 //+  Purpose
@@ -7500,19 +7624,21 @@ void Plant::plant_process ( void )
         // c1
         //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
 
-        plant_fruit_site_number(c.fruit_no_option);
-        plant_fruit_number(c.fruit_no_option);
+        plant_fruit_site_number(c.fruit_no_option);   // for fruit class - process bio demand
+        plant_fruit_number(c.fruit_no_option);        // for fruit class - process bio demand
 
-        plant_bio_grain_demand_stress(1);
+        plant_bio_grain_demand_stress(1);             // for fruit class - process bio demand
 
-        plant_bio_grain_demand (c.grain_fill_option);
-        plant_bio_grain_oil (1);
+        plant_bio_grain_demand (c.grain_fill_option); // for fruit class - process bio demand
+        plant_bio_grain_oil (1);                      // for fruit class - process bio demand
 
         plant_bio_partition (c.partition_option);
 
         //plant_retrans_init(1);
 
         plant_bio_retrans (c.partition_option);
+
+        plant_bio_distribute (c.partition_option);  // for fruit class - process bio distribute
 
         plant_leaf_area_actual (1);               // plant node/leaf approach with
                                                   // sla_max = f(lai)
@@ -8992,7 +9118,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
          // keep leaf area and dm above a minimum
 
-    dm_init = c.dm_init [part] * g.plants;
+    dm_init = c.dm_init [leaf] * g.plants;
     g.dm_green[leaf] = l_bound (g.dm_green[leaf], dm_init);
 
     n_init = dm_init * c.n_init_conc[leaf];
@@ -9204,179 +9330,182 @@ void Plant::plant_zero_all_globals (void)
       g.remove_biom_pheno = 1.0;
       g.temp_stress_photo = 1.0;
       g.oxdef_photo = 1.0;
-      g.row_spacing = 0;
-      g.skip_row = 0;
-      g.skip_plant = 0;
-      g.skip_row_fac = 0;
-      g.skip_plant_fac = 0;
-      g.year = 0;
-      g.day_of_year = 0;
-      g.fr_intc_radn = 0;
-      g.latitude = 0;
-      g.radn = 0;
-      g.mint = 0;
-      g.maxt = 0;
-      fill_real_array (g.soil_temp, 0, 366+1);
-      g.eo = 0;
-      g.dlt_canopy_height = 0;
-      g.canopy_height = 0;
-      g.dlt_canopy_width = 0;
-      g.canopy_width = 0;
-      g.plants = 0;
-      g.dlt_plants = 0;
-      g.grain_no = 0;
-      g.dlt_root_depth = 0;
-      g.root_depth = 0;
-      g.cover_green = 0;
-      g.cover_sen = 0;
-      g.cover_dead = 0;
-      g.dlt_plants_death_seedling = 0;
-      g.dlt_plants_death_drought = 0;
-      g.dlt_plants_failure_phen_delay = 0;
-      g.dlt_plants_failure_leaf_sen = 0;
-      g.dlt_plants_failure_emergence = 0;
-      g.dlt_plants_failure_germ = 0;
-      g.dlt_plants_death_external = 0;
-      g.dlt_dm = 0;
-      g.dlt_dm_pot_rue = 0;
-      g.dlt_dm_pot_te = 0;
-      g.dlt_dm_oil_conv = 0;
+      g.row_spacing = 0.0;
+      g.skip_row = 0.0;
+      g.skip_plant = 0.0;
+      g.skip_row_fac = 0.0;
+      g.skip_plant_fac = 0.0;
+      g.year = 0.0;
+      g.day_of_year = 0.0;
+      g.fr_intc_radn = 0.0;
+      g.latitude = 0.0;
+      g.radn = 0.0;
+      g.mint = 0.0;
+      g.maxt = 0.0;
+      fill_real_array (g.soil_temp, 0.0, 366+1);
+      g.eo = 0.0;
+      g.dlt_canopy_height = 0.0;
+      g.canopy_height = 0.0;
+      g.dlt_canopy_width = 0.0;
+      g.canopy_width = 0.0;
+      g.plants = 0.0;
+      g.dlt_plants = 0.0;
+      g.grain_no = 0.0;
+      g.dlt_root_depth = 0.0;
+      g.root_depth = 0.0;
+      g.cover_green = 0.0;
+      g.cover_sen = 0.0;
+      g.cover_dead = 0.0;
+      g.dlt_plants_death_seedling = 0.0;
+      g.dlt_plants_death_drought = 0.0;
+      g.dlt_plants_failure_phen_delay = 0.0;
+      g.dlt_plants_failure_leaf_sen = 0.0;
+      g.dlt_plants_failure_emergence = 0.0;
+      g.dlt_plants_failure_germ = 0.0;
+      g.dlt_plants_death_external = 0.0;
+      g.dlt_dm = 0.0;
+      g.dlt_dm_pot_rue = 0.0;
+      g.dlt_dm_pot_te = 0.0;
+      g.dlt_dm_oil_conv = 0.0;
+      g.dlt_dm_supply_to_fruit = 0.0;
+      g.dlt_dm_yield_demand_fruit = 0.0;
+      g.dlt_dm_retrans_to_fruit = 0.0;
       g.dlt_dm_parasite  =  0.0;
-      fill_real_array (g.dlt_dm_green, 0, max_part);
-      fill_real_array (g.dlt_dm_senesced, 0, max_part);
-      fill_real_array (g.dlt_dm_detached, 0, max_part);
-      fill_real_array (g.dlt_dm_dead, 0, max_part);
-      fill_real_array (g.dlt_dm_dead_detached, 0, max_part);
-      g.dlt_dm_oil_conv_retranslocate = 0;
-      fill_real_array (g.dlt_dm_green_retrans, 0, max_part);
+      fill_real_array (g.dlt_dm_green, 0.0, max_part);
+      fill_real_array (g.dlt_dm_senesced, 0.0, max_part);
+      fill_real_array (g.dlt_dm_detached, 0.0, max_part);
+      fill_real_array (g.dlt_dm_dead, 0.0, max_part);
+      fill_real_array (g.dlt_dm_dead_detached, 0.0, max_part);
+      g.dlt_dm_oil_conv_retranslocate = 0.0;
+      fill_real_array (g.dlt_dm_green_retrans, 0.0, max_part);
       g.dlt_dm_stress_max = 0.0;
       g.dlt_dm_grain_demand = 0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;
-      fill_real_array (g.dm_green_demand, 0, max_part);
-      fill_real_array (g.dm_dead, 0, max_part);
-      fill_real_array (g.dm_green, 0, max_part);
-      fill_real_array (g.dm_senesced, 0, max_part);
-      g.radn_int = 0;
-      g.transp_eff = 0;
-      g.slai = 0;
-      g.dlt_slai = 0;
-      g.dlt_lai = 0;
-      g.dlt_lai_pot = 0;
-      g.dlt_lai_stressed = 0;
-      g.lai = 0;
-      g.lai_canopy_green = 0;
-      g.tlai_dead = 0;
-      g.dlt_slai_detached = 0;
-      g.dlt_tlai_dead = 0;
-      g.dlt_tlai_dead_detached = 0;
-      g.dlt_slai_age = 0;
-      g.dlt_slai_light = 0;
-      g.dlt_slai_water = 0;
-      g.dlt_slai_frost = 0;
-      g.pai = 0;
-      g.dlt_pai = 0;
-      fill_real_array (g.leaf_no, 0, max_node);
-      fill_real_array (g.leaf_no_dead, 0, max_node);
-      g.dlt_leaf_no = 0;
-      g.dlt_node_no = 0;
-      g.dlt_leaf_no_pot = 0;
-      g.dlt_node_no_pot = 0;
-      g.dlt_leaf_no_dead = 0;
-      g.leaf_no_final = 0;
-      fill_real_array (g.leaf_area, 0, max_node);
-      fill_real_array (g.lai_equilib_light, 0, 366+1);
-      fill_real_array (g.lai_equilib_water, 0, 366+1);
-      fill_real_array (g.n_demand , 0, max_part);
-      fill_real_array (g.n_max , 0, max_part);
-      fill_real_array (g.dlt_n_green, 0, max_part);
-      fill_real_array (g.dlt_n_senesced, 0, max_part);
-      fill_real_array (g.dlt_n_senesced_trans, 0, max_part);
-      fill_real_array (g.dlt_n_senesced_retrans, 0, max_part);
-      fill_real_array (g.dlt_n_detached, 0, max_part);
-      fill_real_array (g.dlt_n_dead, 0, max_part);
-      fill_real_array (g.dlt_n_dead_detached, 0, max_part);
-      fill_real_array (g.n_dead, 0, max_part);
-      fill_real_array (g.n_green, 0, max_part);
-      fill_real_array (g.n_senesced, 0, max_part);
-      fill_real_array (g.dlt_n_retrans, 0, max_part);
-      fill_real_array (g.dlt_no3gsm, 0, max_layer);
-      fill_real_array (g.dlt_nh4gsm, 0, max_layer);
-      fill_real_array (g.no3gsm , 0, max_layer);
-      fill_real_array (g.no3gsm_min, 0, max_layer);
-      fill_real_array (g.nh4gsm , 0, max_layer);
-      fill_real_array (g.nh4gsm_min, 0, max_layer);
+      fill_real_array (g.dm_green_demand, 0.0, max_part);
+      fill_real_array (g.dm_dead, 0.0, max_part);
+      fill_real_array (g.dm_green, 0.0, max_part);
+      fill_real_array (g.dm_senesced, 0.0, max_part);
+      g.radn_int = 0.0;
+      g.transp_eff = 0.0;
+      g.slai = 0.0;
+      g.dlt_slai = 0.0;
+      g.dlt_lai = 0.0;
+      g.dlt_lai_pot = 0.0;
+      g.dlt_lai_stressed = 0.0;
+      g.lai = 0.0;
+      g.lai_canopy_green = 0.0;
+      g.tlai_dead = 0.0;
+      g.dlt_slai_detached = 0.0;
+      g.dlt_tlai_dead = 0.0;
+      g.dlt_tlai_dead_detached = 0.0;
+      g.dlt_slai_age = 0.0;
+      g.dlt_slai_light = 0.0;
+      g.dlt_slai_water = 0.0;
+      g.dlt_slai_frost = 0.0;
+      g.pai = 0.0;
+      g.dlt_pai = 0.0;
+      fill_real_array (g.leaf_no, 0.0, max_node);
+      fill_real_array (g.leaf_no_dead, 0.0, max_node);
+      g.dlt_leaf_no = 0.0;
+      g.dlt_node_no = 0.0;
+      g.dlt_leaf_no_pot = 0.0;
+      g.dlt_node_no_pot = 0.0;
+      g.dlt_leaf_no_dead = 0.0;
+      g.leaf_no_final = 0.0;
+      fill_real_array (g.leaf_area, 0.0, max_node);
+      fill_real_array (g.lai_equilib_light, 0.0, 366+1);
+      fill_real_array (g.lai_equilib_water, 0.0, 366+1);
+      fill_real_array (g.n_demand , 0.0, max_part);
+      fill_real_array (g.n_max , 0.0, max_part);
+      fill_real_array (g.dlt_n_green, 0.0, max_part);
+      fill_real_array (g.dlt_n_senesced, 0.0, max_part);
+      fill_real_array (g.dlt_n_senesced_trans, 0.0, max_part);
+      fill_real_array (g.dlt_n_senesced_retrans, 0.0, max_part);
+      fill_real_array (g.dlt_n_detached, 0.0, max_part);
+      fill_real_array (g.dlt_n_dead, 0.0, max_part);
+      fill_real_array (g.dlt_n_dead_detached, 0.0, max_part);
+      fill_real_array (g.n_dead, 0.0, max_part);
+      fill_real_array (g.n_green, 0.0, max_part);
+      fill_real_array (g.n_senesced, 0.0, max_part);
+      fill_real_array (g.dlt_n_retrans, 0.0, max_part);
+      fill_real_array (g.dlt_no3gsm, 0.0, max_layer);
+      fill_real_array (g.dlt_nh4gsm, 0.0, max_layer);
+      fill_real_array (g.no3gsm , 0.0, max_layer);
+      fill_real_array (g.no3gsm_min, 0.0, max_layer);
+      fill_real_array (g.nh4gsm , 0.0, max_layer);
+      fill_real_array (g.nh4gsm_min, 0.0, max_layer);
 
-      fill_real_array (g.no3gsm_diffn_pot, 0, max_layer);
-      fill_real_array (g.no3gsm_mflow_avail, 0, max_layer);
-      fill_real_array (g.soil_n_demand, 0, max_part);
+      fill_real_array (g.no3gsm_diffn_pot, 0.0, max_layer);
+      fill_real_array (g.no3gsm_mflow_avail, 0.0, max_layer);
+      fill_real_array (g.soil_n_demand, 0.0, max_part);
       g.grain_n_demand = 0.0;
-      g.n_fix_pot = 0;
-      fill_real_array (g.no3gsm_uptake_pot, 0, max_layer);
-      fill_real_array (g.nh4gsm_uptake_pot, 0, max_layer);
-      g.n_fix_uptake = 0;
-      g.n_fixed_tops = 0;
-      fill_real_array (g.n_conc_crit, 0, max_part);
-      fill_real_array (g.n_conc_max, 0, max_part);
-      fill_real_array (g.n_conc_min, 0, max_part);
-      fill_real_array (g.dm_plant_min, 0, max_part);
-      g.cover_pod = 0;
-      fill_real_array (g.dlayer , 0, max_layer);
-      fill_real_array (g.dlt_sw_dep, 0, max_layer);
-      fill_real_array (g.ll15_dep, 0, max_layer);
-      fill_real_array (g.dul_dep , 0, max_layer);
-      fill_real_array (g.sat_dep, 0, max_layer);
-      fill_real_array (g.bd, 0, max_layer);
-      fill_real_array (g.sw_dep , 0, max_layer);
-      g.sw_demand = 0;
-      g.sw_demand_te = 0;
-      fill_real_array (g.sw_avail_pot, 0, max_layer);
-      fill_real_array (g.sw_avail, 0, max_layer);
-      fill_real_array (g.sw_supply , 0, max_layer);
+      g.n_fix_pot = 0.0;
+      fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
+      fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
+      g.n_fix_uptake = 0.0;
+      g.n_fixed_tops = 0.0;
+      fill_real_array (g.n_conc_crit, 0.0, max_part);
+      fill_real_array (g.n_conc_max, 0.0, max_part);
+      fill_real_array (g.n_conc_min, 0.0, max_part);
+      fill_real_array (g.dm_plant_min, 0.0, max_part);
+      g.cover_pod = 0.0;
+      fill_real_array (g.dlayer , 0.0, max_layer);
+      fill_real_array (g.dlt_sw_dep, 0.0, max_layer);
+      fill_real_array (g.ll15_dep, 0.0, max_layer);
+      fill_real_array (g.dul_dep , 0.0, max_layer);
+      fill_real_array (g.sat_dep, 0.0, max_layer);
+      fill_real_array (g.bd, 0.0, max_layer);
+      fill_real_array (g.sw_dep , 0.0, max_layer);
+      g.sw_demand = 0.0;
+      g.sw_demand_te = 0.0;
+      fill_real_array (g.sw_avail_pot, 0.0, max_layer);
+      fill_real_array (g.sw_avail, 0.0, max_layer);
+      fill_real_array (g.sw_supply , 0.0, max_layer);
 
       g.num_layers = 0;
-      g.transpiration_tot = 0;
-      g.n_uptake_tot = 0;
-      g.n_demand_tot = 0;
-      g.n_conc_act_stover_tot = 0;
-      g.n_conc_crit_stover_tot = 0;
-      g.n_uptake_grain_tot = 0;
-      g.n_uptake_stover_tot = 0;
-      g.lai_max = 0;
+      g.transpiration_tot = 0.0;
+      g.n_uptake_tot = 0.0;
+      g.n_demand_tot = 0.0;
+      g.n_conc_act_stover_tot = 0.0;
+      g.n_conc_crit_stover_tot = 0.0;
+      g.n_uptake_grain_tot = 0.0;
+      g.n_uptake_stover_tot = 0.0;
+      g.lai_max = 0.0;
       g.flowering_date = 0;
       g.maturity_date = 0;
       g.flowering_das = 0;
       g.maturity_das = 0;
-      fill_real_array (g.root_length, 0, max_layer);
-      fill_real_array (g.root_length_dead, 0, max_layer);
-      fill_real_array (g.dlt_root_length_dead, 0, max_layer);
-      fill_real_array (g.dlt_root_length, 0, max_layer);
-      fill_real_array (g.dlt_root_length_senesced, 0, max_layer);
-      g.ext_n_demand = 0;
-      g.ext_sw_demand = 0;
-      g.grain_energy = 0;
+      fill_real_array (g.root_length, 0.0, max_layer);
+      fill_real_array (g.root_length_dead, 0.0, max_layer);
+      fill_real_array (g.dlt_root_length_dead, 0.0, max_layer);
+      fill_real_array (g.dlt_root_length, 0.0, max_layer);
+      fill_real_array (g.dlt_root_length_senesced, 0.0, max_layer);
+      g.ext_n_demand = 0.0;
+      g.ext_sw_demand = 0.0;
+      g.grain_energy = 0.0;
       g.leaves_per_node = 0;
 
-      p.grains_per_gram_stem = 0;
-      p.potential_grain_filling_rate = 0;
+      p.grains_per_gram_stem = 0.0;
+      p.potential_grain_filling_rate = 0.0;
 
-      fill_real_array (p.x_pp_hi_incr, 0, max_table);
-      fill_real_array (p.y_hi_incr, 0, max_table);
+      fill_real_array (p.x_pp_hi_incr, 0.0, max_table);
+      fill_real_array (p.y_hi_incr, 0.0, max_table);
       p.num_pp_hi_incr = 0;
       p.num_hi_max_pot = 0;
-      fill_real_array (p.x_hi_max_pot_stress, 0, max_table);
-      fill_real_array (p.y_hi_max_pot, 0, max_table);
-      fill_real_array (p.kl, 0, max_layer);
-      fill_real_array (p.ll_dep, 0, max_layer);
+      fill_real_array (p.x_hi_max_pot_stress, 0.0, max_table);
+      fill_real_array (p.y_hi_max_pot, 0.0, max_table);
+      fill_real_array (p.kl, 0.0, max_layer);
+      fill_real_array (p.ll_dep, 0.0, max_layer);
 
-      fill_real_array (p.x_stem_wt, 0, max_table);
-      fill_real_array (p.y_height , 0, max_table);
-      fill_real_array (p.y_width , 0, max_table);
+      fill_real_array (p.x_stem_wt, 0.0, max_table);
+      fill_real_array (p.y_height , 0.0, max_table);
+      fill_real_array (p.y_width , 0.0, max_table);
       p.num_stem_wt = 0;
       p.num_canopy_widths = 0;
-      fill_real_array (p.xf, 0, max_layer);
+      fill_real_array (p.xf, 0.0, max_layer);
       p.uptake_source = "";
-      p.eo_crop_factor = 0;
+      p.eo_crop_factor = 0.0;
 
       //       plant Constants
 	   c.grain_fill_option = 0;
@@ -9386,12 +9515,12 @@ void Plant::plant_zero_all_globals (void)
       c.grain_no_option = 0;
 
       c.sen_start_stage = 0;
-      fill_real_array (c.x_temp_grainfill, 0, max_table);
-      fill_real_array (c.y_rel_grainfill, 0, max_table);
+      fill_real_array (c.x_temp_grainfill, 0.0, max_table);
+      fill_real_array (c.y_rel_grainfill, 0.0, max_table);
       c.num_temp_grainfill = 0;
 
-      c.no3_uptake_max = 0;
-      c.no3_conc_half_max = 0;
+      c.no3_uptake_max = 0.0;
+      c.no3_conc_half_max = 0.0;
 
       c.crop_type = "";
       c.default_crop_class = "";
@@ -9399,186 +9528,186 @@ void Plant::plant_zero_all_globals (void)
 
       ///////////c.part_names.empty(); in constructor!
       c.n_supply_preference = "";
-      fill_real_array (c.x_sw_ratio , 0, max_table);
-      fill_real_array (c.y_sw_fac_root , 0, max_table);
-      fill_real_array (c.x_ws_root , 0, max_table);
-      fill_real_array (c.y_ws_root_fac , 0, max_table);
-      fill_real_array (c.x_sw_demand_ratio , 0, max_table);
-      fill_real_array (c.y_swdef_leaf , 0, max_table);
-      fill_real_array (c.x_sw_avail_ratio , 0, max_table);
-      fill_real_array (c.y_swdef_pheno , 0, max_table);
-      fill_real_array (c.x_sw_avail_fix , 0, max_table);
-      fill_real_array (c.y_swdef_fix , 0, max_table);
-      fill_real_array (c.oxdef_photo , 0, max_table);
-      fill_real_array (c.oxdef_photo_rtfr, 0, max_table);
+      fill_real_array (c.x_sw_ratio , 0.0, max_table);
+      fill_real_array (c.y_sw_fac_root , 0.0, max_table);
+      fill_real_array (c.x_ws_root , 0.0, max_table);
+      fill_real_array (c.y_ws_root_fac , 0.0, max_table);
+      fill_real_array (c.x_sw_demand_ratio , 0.0, max_table);
+      fill_real_array (c.y_swdef_leaf , 0.0, max_table);
+      fill_real_array (c.x_sw_avail_ratio , 0.0, max_table);
+      fill_real_array (c.y_swdef_pheno , 0.0, max_table);
+      fill_real_array (c.x_sw_avail_fix , 0.0, max_table);
+      fill_real_array (c.y_swdef_fix , 0.0, max_table);
+      fill_real_array (c.oxdef_photo , 0.0, max_table);
+      fill_real_array (c.oxdef_photo_rtfr, 0.0, max_table);
       c.num_oxdef_photo = 0;
       c.num_sw_ratio = 0;
       c.num_ws_root = 0;
       c.num_sw_demand_ratio = 0;
       c.num_sw_avail_ratio = 0;
       c.num_sw_avail_fix = 0;
-      c.twilight = 0;
+      c.twilight = 0.0;
 
 
-      fill_real_array (c.x_lai_ratio, 0, max_table);
+      fill_real_array (c.x_lai_ratio, 0.0, max_table);
 
-      fill_real_array (c.y_leaf_no_frac, 0, max_table);
+      fill_real_array (c.y_leaf_no_frac, 0.0, max_table);
       c.num_lai_ratio = 0;
-      c.n_conc_crit_grain = 0;
-      c.n_conc_max_grain = 0;
-      c.n_conc_min_grain = 0;
-      c.n_conc_crit_root = 0;
-      c.n_conc_max_root = 0;
-      c.n_conc_min_root = 0;
-      fill_real_array (c.x_stage_code, 0, max_table);
-      fill_real_array (c.y_n_conc_crit_leaf, 0, max_table);
-      fill_real_array (c.y_n_conc_max_leaf, 0, max_table);
-      fill_real_array (c.y_n_conc_min_leaf, 0, max_table);
-      fill_real_array (c.y_n_conc_crit_stem, 0, max_table);
-      fill_real_array (c.y_n_conc_max_stem, 0, max_table);
-      fill_real_array (c.y_n_conc_min_stem, 0, max_table);
-      fill_real_array (c.y_n_conc_crit_pod, 0, max_table);
-      fill_real_array (c.y_n_conc_max_pod, 0, max_table);
-      fill_real_array (c.y_n_conc_min_pod, 0, max_table);
-      c.n_fact_photo = 0;
-      c.n_fact_pheno = 0;
-      c.n_fact_expansion = 0;
-      fill_real_array (c.n_init_conc, 0, max_part);
-      fill_real_array (c.n_sen_conc, 0, max_part);
+      c.n_conc_crit_grain = 0.0;
+      c.n_conc_max_grain = 0.0;
+      c.n_conc_min_grain = 0.0;
+      c.n_conc_crit_root = 0.0;
+      c.n_conc_max_root = 0.0;
+      c.n_conc_min_root = 0.0;
+      fill_real_array (c.x_stage_code, 0.0, max_table);
+      fill_real_array (c.y_n_conc_crit_leaf, 0.0, max_table);
+      fill_real_array (c.y_n_conc_max_leaf, 0.0, max_table);
+      fill_real_array (c.y_n_conc_min_leaf, 0.0, max_table);
+      fill_real_array (c.y_n_conc_crit_stem, 0.0, max_table);
+      fill_real_array (c.y_n_conc_max_stem, 0.0, max_table);
+      fill_real_array (c.y_n_conc_min_stem, 0.0, max_table);
+      fill_real_array (c.y_n_conc_crit_pod, 0.0, max_table);
+      fill_real_array (c.y_n_conc_max_pod, 0.0, max_table);
+      fill_real_array (c.y_n_conc_min_pod, 0.0, max_table);
+      c.n_fact_photo = 0.0;
+      c.n_fact_pheno = 0.0;
+      c.n_fact_expansion = 0.0;
+      fill_real_array (c.n_init_conc, 0.0, max_part);
+      fill_real_array (c.n_sen_conc, 0.0, max_part);
       c.num_n_conc_stage = 0;
-      fill_real_array (c.x_row_spacing, 0, max_table);
-      fill_real_array (c.y_extinct_coef, 0, max_table);
-      fill_real_array (c.y_extinct_coef_dead, 0, max_table);
-      fill_real_array (c.root_depth_rate, 0, max_table);
-      c.extinct_coef_pod = 0;
-      c.spec_pod_area = 0;
-      c.rue_pod = 0;
+      fill_real_array (c.x_row_spacing, 0.0, max_table);
+      fill_real_array (c.y_extinct_coef, 0.0, max_table);
+      fill_real_array (c.y_extinct_coef_dead, 0.0, max_table);
+      fill_real_array (c.root_depth_rate, 0.0, max_table);
+      c.extinct_coef_pod = 0.0;
+      c.spec_pod_area = 0.0;
+      c.rue_pod = 0.0;
       c.num_row_spacing = 0;
-      c.leaf_no_crit = 0;
-      c.tt_emerg_limit = 0;
+      c.leaf_no_crit = 0.0;
+      c.tt_emerg_limit = 0.0;
       c.days_germ_limit = 0;
-      c.swdf_pheno_limit = 0;
-      c.swdf_photo_limit = 0;
-      c.swdf_photo_rate = 0;
-      c.initial_root_depth = 0;
-      fill_real_array (c.x_lai , 0, max_table);
-      fill_real_array (c.y_sla_max, 0, max_table);
-      c.sla_min = 0;
-      c.initial_tpla = 0;
-      c.min_tpla = 0;
-      c.svp_fract = 0;
-      fill_real_array (c.transp_eff_cf, 0, max_table);
+      c.swdf_pheno_limit = 0.0;
+      c.swdf_photo_limit = 0.0;
+      c.swdf_photo_rate = 0.0;
+      c.initial_root_depth = 0.0;
+      fill_real_array (c.x_lai , 0.0, max_table);
+      fill_real_array (c.y_sla_max, 0.0, max_table);
+      c.sla_min = 0.0;
+      c.initial_tpla = 0.0;
+      c.min_tpla = 0.0;
+      c.svp_fract = 0.0;
+      fill_real_array (c.transp_eff_cf, 0.0, max_table);
       c.num_lai = 0;
-      c.grain_n_conc_min = 0;
-      c.seed_wt_min = 0;
-      c.leaf_no_at_emerg = 0;
-      c.no3_diffn_const = 0;
-      fill_real_array (c.n_fix_rate, 0,max_table);
-      fill_real_array (c.x_node_no_app, 0, max_table);
-      fill_real_array (c.y_node_app_rate, 0, max_table);
-      fill_real_array (c.x_node_no_leaf, 0, max_table);
-      fill_real_array (c.y_leaves_per_node, 0, max_table);
-      fill_real_array (c.dm_init, 0, max_part);
-      c.leaf_init_rate = 0;
-      c.leaf_no_seed = 0;
+      c.grain_n_conc_min = 0.0;
+      c.seed_wt_min = 0.0;
+      c.leaf_no_at_emerg = 0.0;
+      c.no3_diffn_const = 0.0;
+      fill_real_array (c.n_fix_rate, 0.0,max_table);
+      fill_real_array (c.x_node_no_app, 0.0, max_table);
+      fill_real_array (c.y_node_app_rate, 0.0, max_table);
+      fill_real_array (c.x_node_no_leaf, 0.0, max_table);
+      fill_real_array (c.y_leaves_per_node, 0.0, max_table);
+      fill_real_array (c.dm_init, 0.0, max_part);
+      c.leaf_init_rate = 0.0;
+      c.leaf_no_seed = 0.0;
       ////c.x_dm_sen_frac = NULL; done in constructor
       ////c.y_dm_sen_frac = NULL;
       ////c.num_dm_sen_frac = NULL;
-      fill_real_array (c.dead_detach_frac,0,max_part);
-      fill_real_array (c.sen_detach_frac,0,max_part);
+      fill_real_array (c.dead_detach_frac,0.0,max_part);
+      fill_real_array (c.sen_detach_frac,0.0,max_part);
       c.num_node_no_app = 0;
       c.num_node_no_leaf = 0;
-      c.swdf_grain_min = 0;
-      c.hi_min = 0;
-      c.sfac_slope = 0;
-      c.tfac_slope = 0;
-      c.lai_sen_light = 0;
-      c.sw_fac_max = 0;
-      fill_real_array (c.x_temp_senescence, 0, max_table);
-      fill_real_array (c.y_senescence_fac, 0, max_table);
-      c.temp_fac_min = 0;
-      c.spla_slope = 0;
-      c.sen_threshold = 0;
-      c.sen_rate_water = 0;
-      c.sen_light_slope = 0;
+      c.swdf_grain_min = 0.0;
+      c.hi_min = 0.0;
+      c.sfac_slope = 0.0;
+      c.tfac_slope = 0.0;
+      c.lai_sen_light = 0.0;
+      c.sw_fac_max = 0.0;
+      fill_real_array (c.x_temp_senescence, 0.0, max_table);
+      fill_real_array (c.y_senescence_fac, 0.0, max_table);
+      c.temp_fac_min = 0.0;
+      c.spla_slope = 0.0;
+      c.sen_threshold = 0.0;
+      c.sen_rate_water = 0.0;
+      c.sen_light_slope = 0.0;
       c.num_temp_senescence = 0;
-      c.grn_water_cont = 0;
-      c.partition_rate_leaf = 0;
-      fill_real_array (c.frac_leaf,0,max_table);
-      fill_real_array (c.frac_pod,0,max_table);
-      fill_real_array (c.ratio_root_shoot, 0, max_table);
-      fill_real_array (c.x_stage_no_partition, 0, max_table);
-      fill_real_array (c.y_frac_leaf, 0, max_table);
-      fill_real_array (c.y_frac_pod, 0, max_table);
-      fill_real_array (c.y_ratio_root_shoot, 0, max_table);
+      c.grn_water_cont = 0.0;
+      c.partition_rate_leaf = 0.0;
+      fill_real_array (c.frac_leaf,0.0,max_table);
+      fill_real_array (c.frac_pod,0.0,max_table);
+      fill_real_array (c.ratio_root_shoot, 0.0, max_table);
+      fill_real_array (c.x_stage_no_partition, 0.0, max_table);
+      fill_real_array (c.y_frac_leaf, 0.0, max_table);
+      fill_real_array (c.y_frac_pod, 0.0, max_table);
+      fill_real_array (c.y_ratio_root_shoot, 0.0, max_table);
       c.num_stage_no_partition = 0;
-      c.stem_trans_frac = 0;
-      c.leaf_trans_frac = 0;
-      c.pod_trans_frac = 0;
-      c.htstress_coeff = 0;
-      c.temp_grain_crit_stress = 0;
-      c.node_sen_rate = 0;
-      c.fr_lf_sen_rate = 0;
+      c.stem_trans_frac = 0.0;
+      c.leaf_trans_frac = 0.0;
+      c.pod_trans_frac = 0.0;
+      c.htstress_coeff = 0.0;
+      c.temp_grain_crit_stress = 0.0;
+      c.node_sen_rate = 0.0;
+      c.fr_lf_sen_rate = 0.0;
       c.n_fact_lf_sen_rate = 0.0;
-      c.carbo_oil_conv_ratio = 0;
-      c.grain_oil_conc = 0;
-      c.node_no_correction = 0;
-      fill_real_array (c.x_node_no, 0, max_table);
-      fill_real_array (c.y_leaf_size, 0, max_table);
+      c.carbo_oil_conv_ratio = 0.0;
+      c.grain_oil_conc = 0.0;
+      c.node_no_correction = 0.0;
+      fill_real_array (c.x_node_no, 0.0, max_table);
+      fill_real_array (c.y_leaf_size, 0.0, max_table);
       c.num_node_no = 0;
-      fill_real_array (c.x_ave_temp, 0, max_table);
-      fill_real_array (c.y_stress_photo, 0, max_table);
-      fill_real_array (c.x_weighted_temp, 0, max_table);
-      fill_real_array (c.y_plant_death, 0, max_table);
-      fill_real_array (c.y_grain_rate, 0, max_table);
+      fill_real_array (c.x_ave_temp, 0.0, max_table);
+      fill_real_array (c.y_stress_photo, 0.0, max_table);
+      fill_real_array (c.x_weighted_temp, 0.0, max_table);
+      fill_real_array (c.y_plant_death, 0.0, max_table);
+      fill_real_array (c.y_grain_rate, 0.0, max_table);
       c.num_temp = 0;
       c.num_ave_temp = 0;
       c.num_temp_grain = 0;
       c.num_factors = 0;
       c.num_temp_other = 0;
       c.num_weighted_temp = 0;
-      c.kl_ub = 0;
-      c.sw_dep_ub = 0;
-      c.sw_dep_lb = 0;
-      c.sw_ub = 0;
-      c.sw_lb = 0;
-      c.no3_ub = 0;
-      c.no3_lb = 0;
-      c.no3_min_ub = 0;
-      c.no3_min_lb = 0;
-      c.nh4_ub = 0;
-      c.nh4_lb = 0;
-      c.nh4_min_ub = 0;
-      c.nh4_min_lb = 0;
-      c.leaf_no_min = 0;
-      c.leaf_no_max = 0;
-      c.latitude_ub = 0;
-      c.latitude_lb = 0;
-      c.maxt_ub = 0;
-      c.maxt_lb = 0;
-      c.mint_ub = 0;
-      c.mint_lb = 0;
-      c.radn_ub = 0;
-      c.radn_lb = 0;
-      c.dlayer_ub = 0;
-      c.dlayer_lb = 0;
-      c.row_spacing_default = 0;
-      c.skip_row_default = 0;
-      c.skip_plant_default = 0;
-      fill_real_array (c.fr_height_cut , 0, max_table);
-      fill_real_array (c.fr_stem_remain, 0, max_table);
+      c.kl_ub = 0.0;
+      c.sw_dep_ub = 0.0;
+      c.sw_dep_lb = 0.0;
+      c.sw_ub = 0.0;
+      c.sw_lb = 0.0;
+      c.no3_ub = 0.0;
+      c.no3_lb = 0.0;
+      c.no3_min_ub = 0.0;
+      c.no3_min_lb = 0.0;
+      c.nh4_ub = 0.0;
+      c.nh4_lb = 0.0;
+      c.nh4_min_ub = 0.0;
+      c.nh4_min_lb = 0.0;
+      c.leaf_no_min = 0.0;
+      c.leaf_no_max = 0.0;
+      c.latitude_ub = 0.0;
+      c.latitude_lb = 0.0;
+      c.maxt_ub = 0.0;
+      c.maxt_lb = 0.0;
+      c.mint_ub = 0.0;
+      c.mint_lb = 0.0;
+      c.radn_ub = 0.0;
+      c.radn_lb = 0.0;
+      c.dlayer_ub = 0.0;
+      c.dlayer_lb = 0.0;
+      c.row_spacing_default = 0.0;
+      c.skip_row_default = 0.0;
+      c.skip_plant_default = 0.0;
+      fill_real_array (c.fr_height_cut , 0.0, max_table);
+      fill_real_array (c.fr_stem_remain, 0.0, max_table);
       c.num_fr_height_cut = 0;
-      c.specific_root_length = 0;
-      c.root_die_back_fr = 0;
-      fill_real_array (c.x_plant_rld , 0, max_table);
-      fill_real_array (c.y_rel_root_rate , 0, max_table);
+      c.specific_root_length = 0.0;
+      c.root_die_back_fr = 0.0;
+      fill_real_array (c.x_plant_rld , 0.0, max_table);
+      fill_real_array (c.y_rel_root_rate , 0.0, max_table);
       c.num_plant_rld = 0;
       c.class_action.clear();
       c.class_change.clear();
-      fill_real_array (c.x_temp_root_advance, 0, max_table);
-      fill_real_array (c.y_rel_root_advance, 0, max_table);
+      fill_real_array (c.x_temp_root_advance, 0.0, max_table);
+      fill_real_array (c.y_rel_root_advance, 0.0, max_table);
       c.num_temp_root_advance = 0;
-      c.eo_crop_factor_default = 0;
+      c.eo_crop_factor_default = 0.0;
 
       // parasite
       g.dlt_dm_parasite_demand =  0.0;
@@ -9670,9 +9799,9 @@ void Plant::plant_zero_all_globals (void)
       p.root_distribution_pattern = 0.0;
 
       c.fruit_no_option = 0;
-      c.days_assimilate_ave = 0;
-      c.dm_abort_fract = 0;
-      c.fruit_phen_end = 0;
+      c.days_assimilate_ave = 0.0;
+      c.dm_abort_fract = 0.0;
+      c.fruit_phen_end = 0.0;
       c.tt_flower_to_start_pod =  0.0;
       c.fract_dm_fruit_abort_crit = 0.0;
       c.root_growth_option =  0;
