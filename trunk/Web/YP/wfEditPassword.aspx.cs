@@ -26,19 +26,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.LinkButton btnSave;
 
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-		{
-			if(!IsPostBack)
-			{
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForGrowerLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtPasswordOne", this);
-			}
-		}
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -65,6 +52,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Updates the user's password, but firstly two checks are run, the first 
 		//is to ensure that the user has entered a password, and the second is to
@@ -103,6 +93,25 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if(!IsPostBack)
+				{
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForGrowerLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtPasswordOne", this);
+				}
+			}
+		//-------------------------------------------------------------------------
 		//When the user presses the the save button the password is updated
 		//-------------------------------------------------------------------------
 		private void btnSave_Click(object sender, System.EventArgs e)
@@ -132,6 +141,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfEditUserDetails.aspx");
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

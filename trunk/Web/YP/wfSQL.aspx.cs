@@ -23,19 +23,8 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Panel pnlTop;
 		protected System.Web.UI.WebControls.Label lblSQL;
 		protected System.Web.UI.WebControls.TextBox edtSQL;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtSQL", this);
-				}
-			}
+
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -62,6 +51,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//The sql statement written by the user is executed
 		//-------------------------------------------------------------------------
@@ -75,6 +67,25 @@ namespace YieldProphet
 			else
 				{
 				FunctionsClass.DisplayMessage(Page,"Please enter a SQL statement to execute");
+				}
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtSQL", this);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -105,6 +116,11 @@ namespace YieldProphet
 			{
 			edtSQL.Text = "";
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

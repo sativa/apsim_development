@@ -104,7 +104,7 @@ namespace YieldProphet
 		//(IE: Climate report)
 		//-------------------------------------------------------------------------
 		public static bool SendReportEmail(string szReportName,	 
-			string szReportTypeID, string szReportType, bool bEmailConParFiles)
+			string szReportType, bool bEmailConParFiles, DataTable dtOtherValues)
 			{
 			bool bReportSent = false;
 			try
@@ -117,52 +117,9 @@ namespace YieldProphet
 				string szSubject = Convert.ToString(settings["ReportEmailSubject"]);
 				string szBody = PrepareReportEmailBody(szReportName);
 				StringCollection scAttachments = new StringCollection();
-				if(szReportType == ReportClass.szAgronomicReport)
-					{
-					scAttachments = ReportClass.PrepareAgronomicReportFiles(szReportTypeID, szReportName);
-					}
-				else if(szReportType == ReportClass.szClimateReport)
-					{
-					scAttachments = ReportClass.PrepareClimateReportFiles(szReportTypeID, szReportName);
-					}
-				//Makes sure that all the files have been generated for the report
-				int iNumberOfFilesNeededForReport = 5;
-				if(scAttachments.Count == iNumberOfFilesNeededForReport)
-					{
-					if(SendEmail(szSendEmailTo, szRecieveEmailFrom, szSubject, szBody, 
-						scAttachments, MailPriority.High))
-						{
-						bReportSent = true;
-						}
-					}
-				}
-			catch(Exception)
-				{}
-			return bReportSent;
-			}
-		//-------------------------------------------------------------------------
-		//Sends a nitrogen comparison report email.  This takes in data from the
-		//generate nitrogen report page that is used to generate the 
-		//report files that are sent to the apsimrun machine
-		//-------------------------------------------------------------------------
-		public static bool SendNitrogenComparisonReportEmail(string szReportName,	 
-			string szReportTypeID, string szReportType, bool bEmailConParFiles, 
-			DataTable dtScenarioOne, string szScenarioOneDescription,
-			DataTable dtScenarioTwo, string szScenarioTwoDescription,
-			DataTable dtScenarioThree, string szScenarioThreeDescription)
-			{
-			bool bReportSent = false;
-			try
-				{
-				System.Collections.Specialized.NameValueCollection settings = 
-					(System.Collections.Specialized.NameValueCollection)System.
-					Configuration.ConfigurationSettings.GetConfig("CSIRO/YieldProphet");
-				string szSendEmailTo = Convert.ToString(settings["ReportEmailAddressTo"]);
-				string szRecieveEmailFrom = Convert.ToString(settings["ReportEmailAddressFrom"]);
-				string szSubject = Convert.ToString(settings["ReportEmailSubject"]);
-				string szBody = PrepareReportEmailBody(szReportName);
-				StringCollection scAttachments = ReportClass.PrepareNitrogenComparisonReportFiles(szReportTypeID, szReportName, 
-				dtScenarioOne, szScenarioOneDescription, dtScenarioTwo, szScenarioTwoDescription, dtScenarioThree, szScenarioThreeDescription);
+
+				scAttachments = ReportClass.PrepareReportFiles(szReportType, szReportName, dtOtherValues);
+
 				//Makes sure that all the files have been generated for the report
 				int iNumberOfFilesNeededForReport = 5;
 				if(scAttachments.Count == iNumberOfFilesNeededForReport)

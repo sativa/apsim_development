@@ -27,39 +27,13 @@ namespace YieldProphet
 		protected System.Data.DataColumn dcApplicationDate;
 		protected System.Data.DataColumn dcRate;
 		protected Janus.Web.GridEX.GridEX grdScenarioOne;
-		protected System.Web.UI.WebControls.TextBox edtScenarioOne;
-		protected System.Web.UI.WebControls.TextBox edtScenarioTwo;
-		protected System.Web.UI.WebControls.TextBox edtScenarioThree;
 		protected Janus.Web.GridEX.GridEX grdScenarioTwo;
 		protected Janus.Web.GridEX.GridEX grdScenarioThree;
-		protected System.Web.UI.WebControls.Label lbScenarioOneDescription;
 		protected System.Web.UI.WebControls.Label lblScenarioOneApplications;
 		protected System.Web.UI.WebControls.Label lblScenarioTwoApplications;
-		protected System.Web.UI.WebControls.Label lblScenarioTwoDescription;
 		protected System.Web.UI.WebControls.Label lblScenarioThreeApplications;
-		protected System.Web.UI.WebControls.Label lblScenarioThreeDescription;
 		protected System.Web.UI.WebControls.Button btnSave;
-		protected System.Web.UI.WebControls.Label lblWarning;
 		protected System.Web.UI.WebControls.TextBox edtReportName;
-		//-------------------------------------------------------------------------
-		//Sets the page up and stores the values need to generate the report
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				//View state is used to store values over post back events
-				ViewState["ReportTypeID"] = "0";
-				ViewState["ReportType"] = "";
-				ViewState["EmailConParFiles"] = false;
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForGrowerLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtReportName", this);
-				InitialiseGrids();
-				StoreReportSelection();
-				btnSave.Style.Add("cursor", "hand");
-				}
-			}
 		
 
 		#region Web Form Designer generated code
@@ -127,6 +101,8 @@ namespace YieldProphet
 		#endregion
 		
 		
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Stores the report type selection from the previous page in view state
 		//variables.
@@ -136,7 +112,6 @@ namespace YieldProphet
 			try
 				{
 				wfEditPaddock EditPaddock = (wfEditPaddock) Context.Handler;
-				ViewState["ReportTypeID"] = EditPaddock.ReturnReportTypeID();
 				ViewState["ReportType"] = EditPaddock.ReturnReportType();
 				ViewState["EmailConParFiles"] = EditPaddock.ReturnEmailConParFiles();
 				}
@@ -165,32 +140,14 @@ namespace YieldProphet
 			{
 			if(edtReportName.Text != "")
 				{
-				//If any of the scenario descriptions are empty then set them to '' which 
-				//will be interpreted by the macro reader as blank.
-				string szScenarioOne = edtScenarioOne.Text;
-				if(szScenarioOne == "")
-					{
-					FunctionsClass.DisplayMessage(Page, "Scenario one must have a discription");
-					return;
-					}
-				string szScenarioTwo = edtScenarioTwo.Text;
-					if(szScenarioTwo == "")
-					{
-						szScenarioTwo = "''";
-					}
-				string szScenarioThree = edtScenarioThree.Text;
-					if(szScenarioThree == "")
-					{
-						szScenarioThree = "''";
-					}
-				
 				if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 					{
-					if(EmailClass.SendNitrogenComparisonReportEmail(edtReportName.Text, 
-						ViewState["ReportTypeID"].ToString(), ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"],
-						ReturnScenarioDataTable(grdScenarioOne), szScenarioOne, 
-						ReturnScenarioDataTable(grdScenarioTwo), szScenarioTwo,
-						ReturnScenarioDataTable(grdScenarioThree), szScenarioThree) == true)
+					DataTable dtOtherValues = 
+						ReportClass.CreateNitrogenComparisonOtherValues(ReturnScenarioDataTable(grdScenarioOne), 
+						ReturnScenarioDataTable(grdScenarioTwo), ReturnScenarioDataTable(grdScenarioThree));
+
+					if(EmailClass.SendReportEmail(edtReportName.Text, 
+						ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], dtOtherValues) == true)
 						{
 						Server.Transfer("wfEditPaddock.aspx");
 						}
@@ -239,6 +196,31 @@ namespace YieldProphet
 			return dtNitrogen;
 			}
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//Sets the page up and stores the values need to generate the report
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				//View state is used to store values over post back events
+				ViewState["ReportTypeID"] = "0";
+				ViewState["ReportType"] = "";
+				ViewState["EmailConParFiles"] = false;
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForGrowerLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtReportName", this);
+				InitialiseGrids();
+				StoreReportSelection();
+				btnSave.Style.Add("cursor", "hand");
+				}
+			}
+		//-------------------------------------------------------------------------
 		//When the user presses the cancel button they are transfered back to the 
 		//edit paddock page
 		//-------------------------------------------------------------------------
@@ -285,6 +267,10 @@ namespace YieldProphet
 					}
 				}
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

@@ -28,22 +28,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.DropDownList cboTypes;
 		protected System.Web.UI.WebControls.Label lblType;
 		protected System.Web.UI.HtmlControls.HtmlInputFile flImport;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FillForm();
-				}
-			//Adds an attribute to the delete button that causes a 
-			//confirmation warning to appear when the user presses the button
-			btnDelete.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected value \");");
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -72,6 +57,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the regions drop down and then fills the value listbox with
 		//the corresponding items
@@ -170,21 +158,50 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void ImportFile()
 			{
-			if(cboTypes.SelectedItem.Text == "Met Stations")
+			try
 				{
-				ImportClass.ImportMetStations(Page, cboRegions.SelectedItem.Text);
-				Server.Transfer("wfViewRegions.aspx");
+				if(cboTypes.SelectedItem.Text == "Met Stations")
+					{
+					ImportClass.ImportMetStations(Page, cboRegions.SelectedItem.Text);
+					Server.Transfer("wfViewRegions.aspx");
+					}
+				else if(cboTypes.SelectedItem.Text == "Soils")
+					{
+					ImportClass.ImportSoils(Page, cboRegions.SelectedItem.Text);
+					Server.Transfer("wfViewRegions.aspx");
+					}
+					//If no type is selected then display an error message to the user
+				else
+					{
+					FunctionsClass.DisplayMessage(Page, "No type selected");
+					}
 				}
-			else if(cboTypes.SelectedItem.Text == "Soils")
+			catch(Exception E)
 				{
-				ImportClass.ImportSoils(Page, cboRegions.SelectedItem.Text);
-				Server.Transfer("wfViewRegions.aspx");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
-			//If no type is selected then display an error message to the user
-			else
-				{
-				FunctionsClass.DisplayMessage(Page, "No type selected");
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+			private void Page_Load(object sender, System.EventArgs e)
+		{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FillForm();
 				}
+			//Adds an attribute to the delete button that causes a 
+			//confirmation warning to appear when the user presses the button
+			btnDelete.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected value \");");
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the import button we look for a file
@@ -231,6 +248,11 @@ namespace YieldProphet
 			lblValues.Text = cboTypes.SelectedItem.Text +":";
 			FillValueList();
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

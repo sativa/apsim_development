@@ -26,23 +26,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.DropDownList cboYear;
 		protected System.Web.UI.WebControls.Label lblYear;
 		protected System.Web.UI.WebControls.Panel pnlTop;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-		{
-			if (!IsPostBack)
-			{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForVisitorLevelPriviledges();
-				SetYearComboBoxToCurrentYear();
-				FillReportList();
-			}
-			//Adds an attribute to the delete report button that causes a 
-			//confirmation warning to appear when the user presses the button
-			btnDeleteReport.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected report \");");
-		}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -61,33 +45,35 @@ namespace YieldProphet
 		private void InitializeComponent()
 		{    
 			this.btnDeleteReport.Click += new System.EventHandler(this.btnDeleteReport_Click);
+			this.cboYear.SelectedIndexChanged += new System.EventHandler(this.cboYear_SelectedIndexChanged);
 			this.btnDeleteReportImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnDeleteReportImg_Click);
 			this.btnShowReport.Click += new System.EventHandler(this.btnShowReport_Click);
 			this.btnShowReportImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnShowReportImg_Click);
 			this.btnRenameReport.Click += new System.EventHandler(this.btnRenameReport_Click);
 			this.btnRenameImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnRenameImg_Click);
-			this.cboYear.SelectedIndexChanged += new System.EventHandler(this.cboYear_SelectedIndexChanged);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
 
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Sets the Year combo box to todays year
 		//-------------------------------------------------------------------------
-		private void SetYearComboBoxToCurrentYear()
-		{
-			string szYear = DateTime.Today.Year.ToString();
-			for(int iIndex = 0; iIndex < cboYear.Items.Count; iIndex++)
+		private void SetYearComboBox(int iYear)
 			{
-				if(szYear == cboYear.Items[iIndex].Text)
+			string szYear = iYear.ToString();
+			for(int iIndex = 0; iIndex < cboYear.Items.Count; iIndex++)
 				{
+				if(szYear == cboYear.Items[iIndex].Text)
+					{
 					cboYear.SelectedIndex = iIndex;
 					break;
+					}
 				}
 			}
-		}
 		//-------------------------------------------------------------------------
 		//Fills the report list with all the reports belonging to the current user
 		//-------------------------------------------------------------------------
@@ -108,8 +94,7 @@ namespace YieldProphet
 			//If a report is selected then transfer the user to the Display report page
 			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
 				{
-				Session["SelectedReportName"] = lstReports.SelectedItem.Text;
-				Session["SelectedReportYear"] = cboYear.SelectedItem.Text;
+
 				Server.Transfer("wfDisplayReport.aspx");
 				}
 			//If no report is selected then display an error message to the user
@@ -124,7 +109,7 @@ namespace YieldProphet
 		private void DeleteReport()
 			{
 			//If a report is selected then remove it from the database
-			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
+			if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
 				{
 				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 					{
@@ -149,12 +134,10 @@ namespace YieldProphet
 		private void RenameReport()
 			{
 			//If a report is selected then transfer the user to the edit report page
-			if(lstReports.SelectedValue != null && lstReports.SelectedValue != "")
+			if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
 				{
 				if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 					{
-					Session["SelectedReportYear"] = cboYear.SelectedItem.Text;
-					Session["SelectedReportName"] = lstReports.SelectedItem.Text;
 					Server.Transfer("wfEditReport.aspx");
 					}
 				else
@@ -167,6 +150,63 @@ namespace YieldProphet
 				{
 				FunctionsClass.DisplayMessage(Page, "No Report Selected");
 				}
+			}
+		//-------------------------------------------------------------------------
+		//A public function to return the selected year to another page
+		//-------------------------------------------------------------------------
+		public int ReturnReportYear()
+			{
+			int iReportYear = 0;
+			try
+				{
+				iReportYear = Convert.ToInt32(cboYear.SelectedItem.Text);
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			return iReportYear;
+			}
+		//-------------------------------------------------------------------------
+		//A public function to return the selected report name to another page
+		//-------------------------------------------------------------------------
+		public string ReturnReportName()
+			{
+			string szReportName = "";
+			if(lstReports.SelectedItem.Text != null && lstReports.SelectedItem.Text != "")
+				{
+				szReportName = lstReports.SelectedItem.Text;
+				}
+			return szReportName;
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForVisitorLevelPriviledges();
+				SetYearComboBox(DateTime.Today.Year);
+				FillReportList();
+				//If there are no reports then show last year's report list
+				if(lstReports.Items.Count < 1)
+					{
+					SetYearComboBox(DateTime.Today.Year-1);
+					FillReportList();
+					}
+				}
+			//Adds an attribute to the delete report button that causes a 
+			//confirmation warning to appear when the user presses the button
+			btnDeleteReport.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the selected report \");");
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the rename report button, they are transfered to the
@@ -223,6 +263,10 @@ namespace YieldProphet
 			{
 			FillReportList();
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

@@ -60,21 +60,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.HyperLink Hyperlink2;
 		protected System.Web.UI.WebControls.HyperLink Hyperlink1;
 		protected System.Web.UI.WebControls.Label lblConsultant;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{
-				SetSideBarStyle(DataAccessClass.GetAccessTypeOfUser(Session["UserName"].ToString()));
-				//Set the side panel to be the the height of the browser window
-				pnlSideBar.Height = Unit.Percentage(100);
-				DisplayUsersPaddocks();
-				btnViewReports.Style.Add("cursor", "hand");
 
-				}
-			}
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -101,6 +87,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Sets up the side bar to show the options associated with each permission
 		//level
@@ -136,8 +125,6 @@ namespace YieldProphet
 					pnlGrower.Visible = true;
 					pnlConsultant.Visible = false;
 					pnlAdministration.Visible = false;
-					hylUserDetails.Enabled = false;
-					hylUserDetailsImg.Enabled = false;
 					break;
 				//If the access type is unknown then no options are available
 				default:
@@ -209,6 +196,26 @@ namespace YieldProphet
 				}
 			}	
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{
+				SetSideBarStyle(DataAccessClass.GetAccessTypeOfUser(Session["UserName"].ToString()));
+				//Set the side panel to be the the height of the browser window
+				pnlSideBar.Height = Unit.Percentage(100);
+				DisplayUsersPaddocks();
+				btnViewReports.Style.Add("cursor", "hand");
+				}
+			}
+		//-------------------------------------------------------------------------
 		//When the user presses the view button, they are transfered to the edit
 		//paddock page
 		//-------------------------------------------------------------------------
@@ -240,6 +247,11 @@ namespace YieldProphet
 			{
 			ViewReports();
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

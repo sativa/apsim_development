@@ -19,16 +19,16 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 184px; POSITION: relative; HEIGHT: 41px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 101; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						tabIndex="5" runat="server" Font-Size="X-Small" EnableViewState="False">Cancel</asp:LinkButton>
+						tabIndex="5" runat="server" Font-Size="Smaller" EnableViewState="False">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 112; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Height="16px" Width="32px" BackColor="Transparent" Font-Size="Smaller" Text="Save" Font-Underline="True"
-						BorderStyle="None" BorderColor="Transparent" ForeColor="Purple"></asp:Button>
+						Height="16px" Width="40px" BackColor="Transparent" Font-Size="Smaller" Text="Save" Font-Underline="True"
+						BorderStyle="None" BorderColor="Transparent" ForeColor="Blue"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 102; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 103; LEFT: 8px; POSITION: absolute; TOP: 16px" tabIndex="2"
 						runat="server" ImageUrl="Images\save.gif"></asp:ImageButton></DIV>
 			</asp:Panel>
-			<jwg:gridEX id=grdScenarioOne style="Z-INDEX: 104; LEFT: 200px; POSITION: absolute; TOP: 232px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id=grdScenarioOne style="Z-INDEX: 104; LEFT: 200px; POSITION: absolute; TOP: 160px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
@@ -87,13 +87,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<asp:TextBox id="edtScenarioOne" style="Z-INDEX: 111; LEFT: 200px; POSITION: absolute; TOP: 200px"
-				runat="server" Width="304px" BackColor="LightSteelBlue"></asp:TextBox>
-			<asp:TextBox id="edtScenarioTwo" style="Z-INDEX: 112; LEFT: 200px; POSITION: absolute; TOP: 384px"
-				runat="server" Width="304px" BackColor="Gold"></asp:TextBox>
-			<asp:TextBox id="edtScenarioThree" style="Z-INDEX: 113; LEFT: 200px; POSITION: absolute; TOP: 568px"
-				runat="server" Width="302px" BackColor="Chocolate"></asp:TextBox>
-			<jwg:gridEX id=grdScenarioTwo style="Z-INDEX: 105; LEFT: 200px; POSITION: absolute; TOP: 416px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id=grdScenarioTwo style="Z-INDEX: 105; LEFT: 200px; POSITION: absolute; TOP: 304px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
@@ -152,7 +146,7 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<jwg:gridEX id=grdScenarioThree style="Z-INDEX: 106; LEFT: 200px; POSITION: absolute; TOP: 600px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
+			<jwg:gridEX id=grdScenarioThree style="Z-INDEX: 106; LEFT: 200px; POSITION: absolute; TOP: 448px" runat="server" Width="302px" Height="120px" GroupByBoxVisible="False" AllowEdit="True" GridLineColor="ScrollBar" DataSource="<%# dsNitrogen %>" DataMember="Nitrogen" ImagesFolderPath="/gridex/images" ScriptsFolderPath="/gridex/scripts" EditorsFrameUrl="/gridex/images/blank.html" UpdateMode="RowUpdateBatch">
 				<RootTable DataMember="Nitrogen" Key="Nitrogen">
 					<Columns>
 						<jwg:GridEXColumn UseType="System.Single" Key="ID" DataMember="ID" DefaultGroupPrefix="ID:" InvalidValueAction="DiscardChanges"
@@ -211,20 +205,12 @@
 				<GroupIndentFormatStyle BackColor="Control"></GroupIndentFormatStyle>
 				<EditorsFormatStyle BackColor="Control"></EditorsFormatStyle>
 			</jwg:gridEX>
-			<asp:Label id="lbScenarioOneDescription" style="Z-INDEX: 115; LEFT: 24px; POSITION: absolute; TOP: 200px"
-				runat="server">Scenario One Description:</asp:Label>
-			<asp:Label id="lblScenarioOneApplications" style="Z-INDEX: 114; LEFT: 24px; POSITION: absolute; TOP: 232px"
+			<asp:Label id="lblScenarioOneApplications" style="Z-INDEX: 114; LEFT: 24px; POSITION: absolute; TOP: 160px"
 				runat="server">Scenario One Applications:</asp:Label>
-			<asp:Label id="lblScenarioTwoApplications" style="Z-INDEX: 109; LEFT: 24px; POSITION: absolute; TOP: 416px"
+			<asp:Label id="lblScenarioTwoApplications" style="Z-INDEX: 109; LEFT: 24px; POSITION: absolute; TOP: 304px"
 				runat="server">Scenario Two Applications:</asp:Label>
-			<asp:Label id="lblScenarioTwoDescription" style="Z-INDEX: 108; LEFT: 24px; POSITION: absolute; TOP: 384px"
-				runat="server">Scenario Two Description:</asp:Label>
-			<asp:Label id="lblScenarioThreeApplications" style="Z-INDEX: 110; LEFT: 24px; POSITION: absolute; TOP: 600px"
+			<asp:Label id="lblScenarioThreeApplications" style="Z-INDEX: 110; LEFT: 24px; POSITION: absolute; TOP: 448px"
 				runat="server">Scenario Three Applications:</asp:Label>
-			<asp:Label id="lblScenarioThreeDescription" style="Z-INDEX: 107; LEFT: 24px; POSITION: absolute; TOP: 568px"
-				runat="server">Scenario Three Description:</asp:Label>
-			<asp:Label id="lblWarning" style="Z-INDEX: 116; LEFT: 32px; POSITION: absolute; TOP: 160px"
-				runat="server" Width="464px" ForeColor="Red">Warning: If you do not enter a description the scenario will not be calculated</asp:Label>
 		</form>
 	</body>
 </HTML>

@@ -35,21 +35,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblConsultant;
 		protected System.Web.UI.WebControls.DropDownList cboConsultant;
 		
-		//---------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//---------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtName", this);
-				FillAccessTypeCombo();
-				HideConsultantCombo();
-				}
-			}
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -77,6 +62,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//---------------------------------------------------------------------------
 		//Fills the AccessType combo box with all the access types from the database
 		//---------------------------------------------------------------------------
@@ -211,6 +199,27 @@ namespace YieldProphet
 				}
 			}
 		//---------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//---------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//---------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtName", this);
+				FillAccessTypeCombo();
+				HideConsultantCombo();
+				}
+			}
+		//---------------------------------------------------------------------------
 		//When the user changes the access type of the user they wish to add, a check
 		//is run to determine if that access type is that of a grower.  If it is, then
 		//The consultant combo box is made visible
@@ -254,6 +263,10 @@ namespace YieldProphet
 			{
 			ResetForm();
 			}
+		//---------------------------------------------------------------------------
+		#endregion
+
+
 		//---------------------------------------------------------------------------
 	}//END OF CLASS
 }//END OF NAMESPACE

@@ -1,5 +1,5 @@
-<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <%@ Page language="c#" Codebehind="wfEditRainfall.aspx.cs" AutoEventWireup="false" Inherits="YieldProphet.wfEditRainfall" %>
+<%@ Register TagPrefix="jwg" Namespace="Janus.Web.GridEX" Assembly="Janus.Web.GridEX" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <HTML>
 	<HEAD>
@@ -15,16 +15,16 @@
 				HorizontalAlign="Left" BackColor="PaleGoldenrod" Height="48px" Width="100%">
 				<DIV style="WIDTH: 288px; POSITION: relative; HEIGHT: 40px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 100; LEFT: 104px; POSITION: absolute; TOP: 16px"
-						runat="server" Font-Size="X-Small" EnableViewState="False">Cancel</asp:LinkButton>
+						runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton>
 					<asp:Button id="btnSave" style="Z-INDEX: 107; LEFT: 32px; POSITION: absolute; TOP: 16px" runat="server"
-						Width="32px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Text="Save" BorderStyle="None"
-						BorderColor="Transparent" ForeColor="Purple" Font-Underline="True"></asp:Button>
+						Width="40px" Height="16px" BackColor="Transparent" Font-Size="Smaller" Font-Underline="True"
+						ForeColor="Blue" BorderColor="Transparent" BorderStyle="None" Text="Save" Font-Names="Times New Roman"></asp:Button>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 101; LEFT: 80px; POSITION: absolute; TOP: 16px"
 						runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 104; LEFT: 8px; POSITION: absolute; TOP: 16px" runat="server"
 						ImageUrl="Images\save.gif"></asp:ImageButton>
 					<asp:Label id="lblYear" style="Z-INDEX: 106; LEFT: 176px; POSITION: absolute; TOP: 16px" runat="server"
-						Width="32px" Font-Size="Smaller" ForeColor="Purple" Font-Underline="True"> Year:</asp:Label>
+						Width="32px" Font-Size="Smaller" ForeColor="Blue"> Year:</asp:Label>
 					<asp:DropDownList id="cboYear" style="Z-INDEX: 105; LEFT: 208px; POSITION: absolute; TOP: 16px" runat="server"
 						Width="64px" AutoPostBack="True">
 						<asp:ListItem Value="2003">2003</asp:ListItem>

@@ -16,11 +16,11 @@
 					<asp:ImageButton id="btnSaveImg" style="Z-INDEX: 109; LEFT: 16px; POSITION: absolute; TOP: 16px"
 						tabIndex="2" runat="server" ImageUrl="Images\save.gif"></asp:ImageButton>
 					<asp:LinkButton id="btnSave" style="Z-INDEX: 101; LEFT: 40px; POSITION: absolute; TOP: 16px" tabIndex="3"
-						runat="server" Font-Size="X-Small" EnableViewState="False">Save</asp:LinkButton>
+						runat="server" EnableViewState="False" Font-Size="Smaller">Save</asp:LinkButton>
 					<asp:ImageButton id="btnCancelImg" style="Z-INDEX: 103; LEFT: 88px; POSITION: absolute; TOP: 16px"
 						tabIndex="4" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:LinkButton id="btnCancel" style="Z-INDEX: 102; LEFT: 112px; POSITION: absolute; TOP: 16px"
-						tabIndex="5" runat="server" Font-Size="X-Small" EnableViewState="False">Cancel</asp:LinkButton></DIV>
+						tabIndex="5" runat="server" EnableViewState="False" Font-Size="Smaller">Cancel</asp:LinkButton></DIV>
 			</asp:Panel>
 			<asp:Label id="lblReportName" style="Z-INDEX: 102; LEFT: 24px; POSITION: absolute; TOP: 80px"
 				runat="server" Width="88px" Height="16px">Report Name:</asp:Label>

@@ -35,8 +35,6 @@ namespace YieldProphet
 			Session.Add("UserName", "");
 			Session.Add("SelectedUserName", "");
 			Session.Add("SelectedPaddockName", "");
-			Session.Add("SelectedReportName", "");
-			Session.Add("SelectedReportYear", "0");
 			//Set the time out variable (in minutes)
 			Session.Timeout = 30;
 		}

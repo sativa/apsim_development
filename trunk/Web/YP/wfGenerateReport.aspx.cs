@@ -24,24 +24,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblReportName;
 		protected System.Web.UI.WebControls.TextBox edtReportName;
 		
-	
-		//-------------------------------------------------------------------------
-		//Sets the page up and stores the values need to generate the report
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				//View state is used to store values over post back events
-				ViewState["ReportTypeID"] = "0";
-				ViewState["ReportType"] = "";
-				ViewState["EmailConParFiles"] = false;
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForGrowerLevelPriviledges();
-				FunctionsClass.SetControlFocus("edtReportName", this);
-				StoreReportSelection();
-				}
-			}
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -68,6 +50,9 @@ namespace YieldProphet
 		}
 		#endregion
 		
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Stores the report type selection from the previous page in view state
 		//variables.
@@ -77,12 +62,13 @@ namespace YieldProphet
 			try
 				{
 				wfEditPaddock EditPaddock = (wfEditPaddock) Context.Handler;
-				ViewState["ReportTypeID"] = EditPaddock.ReturnReportTypeID();
 				ViewState["ReportType"] = EditPaddock.ReturnReportType();
 				ViewState["EmailConParFiles"] = EditPaddock.ReturnEmailConParFiles();
 				}
-			catch(Exception)
-				{}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//A report is generated and sent to the apsim run machine
@@ -94,7 +80,7 @@ namespace YieldProphet
 				if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 					{
 					if(EmailClass.SendReportEmail(edtReportName.Text, 
-						ViewState["ReportTypeID"].ToString(), ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"]) == true)
+						ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], null) == true)
 						{
 						Server.Transfer("wfEditPaddock.aspx");
 						}
@@ -111,6 +97,29 @@ namespace YieldProphet
 			else
 				{
 				FunctionsClass.DisplayMessage(Page,"Please enter a report name");
+				}
+			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//Sets the page up and stores the values need to generate the report
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				//View state is used to store values over post back events
+				ViewState["ReportTypeID"] = "0";
+				ViewState["ReportType"] = "";
+				ViewState["EmailConParFiles"] = false;
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForGrowerLevelPriviledges();
+				FunctionsClass.SetControlFocus("edtReportName", this);
+				StoreReportSelection();
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -143,6 +152,10 @@ namespace YieldProphet
 			{
 			Server.Transfer("wfEditPaddock.aspx");
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

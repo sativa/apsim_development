@@ -16,7 +16,6 @@ namespace YieldProphet
 	/// </summary>
 	public class wfAddPaddock : System.Web.UI.Page
 		{
-		protected System.Web.UI.WebControls.LinkButton btnSave;
 		protected System.Web.UI.WebControls.LinkButton btnCancel;
 		protected System.Web.UI.WebControls.TextBox edtName;
 		protected System.Web.UI.WebControls.Label lblPaddockName;
@@ -24,35 +23,24 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblName;
 		protected System.Web.UI.WebControls.Panel pnlTop;
 		protected System.Web.UI.WebControls.CheckBox chkSown;
-		protected System.Web.UI.WebControls.Calendar cldSowDate;
 		protected System.Web.UI.WebControls.Label lblCrop;
 		protected System.Web.UI.WebControls.Label lblCultivar;
 		protected System.Web.UI.WebControls.DropDownList cboCrops;
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
+		protected Janus.Web.GridEX.GridEX grdSowDate;
+		protected System.Data.DataSet dsSowDate;
+		protected System.Data.DataTable dtSowDate;
+		protected System.Data.DataColumn dcSowDate;
+		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.WebControls.DropDownList cboCultivars;
 
-		//---------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the users
-		//permissions are checked and the page is initialised
-		//---------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForConsultantLevelPriviledges();
-				InitialisePage();
-				FunctionsClass.SetControlFocus("edtName", this);
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
+			System.Globalization.DateTimeFormatInfo.CurrentInfo.ShortDatePattern = "dd/MM/yyyy";
 			InitializeComponent();
 			base.OnInit(e);
 		}
@@ -63,17 +51,45 @@ namespace YieldProphet
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.dsSowDate = new System.Data.DataSet();
+			this.dtSowDate = new System.Data.DataTable();
+			this.dcSowDate = new System.Data.DataColumn();
+			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).BeginInit();
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
 			this.chkSown.CheckedChanged += new System.EventHandler(this.chkSown_CheckedChanged);
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
+			// 
+			// dsSowDate
+			// 
+			this.dsSowDate.DataSetName = "NewDataSet";
+			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
+																																	 this.dtSowDate});
+			// 
+			// dtSowDate
+			// 
+			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
+																																		 this.dcSowDate});
+			this.dtSowDate.TableName = "SowDate";
+			// 
+			// dcSowDate
+			// 
+			this.dcSowDate.ColumnName = "SowDate";
+			this.dcSowDate.DataType = typeof(System.DateTime);
 			this.Load += new System.EventHandler(this.Page_Load);
+			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).EndInit();
 
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Sets up the page for display to the user
 		//-------------------------------------------------------------------------
@@ -83,8 +99,25 @@ namespace YieldProphet
 			ChangeEnableCropDetails(false);
 			FillCropsCombo();
 			FillCultivarsCombo();
-			cldSowDate.SelectedDate = DateTime.Today;
-			cldSowDate.VisibleDate = DateTime.Today;
+			SetSowDate();
+			}
+		//-------------------------------------------------------------------------
+		//Set the date shown in the sow date grid
+		//-------------------------------------------------------------------------
+		private void SetSowDate()
+			{
+			try
+				{
+				DataRow drSowDate;
+				drSowDate = dsSowDate.Tables["SowDate"].NewRow();
+				drSowDate["SowDate"] = DateTime.Today;
+				dsSowDate.Tables["SowDate"].Rows.Add(drSowDate);
+				this.DataBind();
+				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
 			}
 		//-------------------------------------------------------------------------
 		//Gets the name of the user from the database and sets it the name label
@@ -100,25 +133,7 @@ namespace YieldProphet
 				{
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
-			}
-		//-------------------------------------------------------------------------
-		//When the Sown check box is changed, the page is updated.
-		//-------------------------------------------------------------------------
-		private void chkSown_CheckedChanged(object sender, System.EventArgs e)
-			{
-			ChangeEnableCropDetails(chkSown.Checked);
-			}
-		//-------------------------------------------------------------------------
-		//If the sown check box is set to true, the components that take
-		//sowing informaition are enabled, if the checkbox is set to false
-		//then the components that take sowing information are disabled
-		//-------------------------------------------------------------------------
-		private void ChangeEnableCropDetails(bool bEnableCropDetails)
-			{
-			cboCrops.Enabled = bEnableCropDetails;
-			cboCultivars.Enabled = bEnableCropDetails;
-			cldSowDate.Enabled = bEnableCropDetails;
-			}		
+			}	
 		//-------------------------------------------------------------------------
 		//Gets all the crop types from the database and then fills
 		//the crops combo box with them.
@@ -147,13 +162,16 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//When the user changes the crop type, the cultivars combo box is updated
-		//to contain the cultivars of the selected crop
+		//If the sown check box is set to true, the components that take
+		//sowing informaition are enabled, if the checkbox is set to false
+		//then the components that take sowing information are disabled
 		//-------------------------------------------------------------------------
-		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void ChangeEnableCropDetails(bool bEnableCropDetails)
 			{
-			FillCultivarsCombo();
-			}
+			cboCrops.Enabled = bEnableCropDetails;
+			cboCultivars.Enabled = bEnableCropDetails;
+			grdSowDate.Enabled = bEnableCropDetails;
+			}	
 		//-------------------------------------------------------------------------
 		//Saves the new paddock's details to the database and the 
 		//user is sent back to the ViewGrowers page.
@@ -172,8 +190,8 @@ namespace YieldProphet
 							if(chkSown.Checked == true)
 								{
 								DataAccessClass.InsertPaddock(InputValidationClass.ValidateString(edtName.Text), 
-									cldSowDate.SelectedDate.ToString("yyyy-MM-dd"), cboCultivars.SelectedItem.Text, 
-									Session["SelectedUserName"].ToString());
+									(DateTime.ParseExact(grdSowDate.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
+									cboCultivars.SelectedItem.Text, Session["SelectedUserName"].ToString());
 								}
 							//Saves only the paddock name and consultant ID
 							else
@@ -202,6 +220,41 @@ namespace YieldProphet
 				{
 				FunctionsClass.DisplayMessage(Page, "Please enter a paddock name");
 				}
+			}
+		//---------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//---------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the users
+		//permissions are checked and the page is initialised
+		//---------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForConsultantLevelPriviledges();
+				InitialisePage();
+				FunctionsClass.SetControlFocus("edtName", this);
+				}
+			}
+		//-------------------------------------------------------------------------
+		//When the user changes the crop type, the cultivars combo box is updated
+		//to contain the cultivars of the selected crop
+		//-------------------------------------------------------------------------
+		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
+			{
+			FillCultivarsCombo();
+			}
+		//-------------------------------------------------------------------------
+		//When the Sown check box is changed, the page is updated.
+		//-------------------------------------------------------------------------
+		private void chkSown_CheckedChanged(object sender, System.EventArgs e)
+			{
+			ChangeEnableCropDetails(chkSown.Checked);
 			}
 		//-------------------------------------------------------------------------
 		//When the save button is pressed the paddock details are saved
@@ -234,5 +287,9 @@ namespace YieldProphet
 			Server.Transfer("wfViewGrowers.aspx");
 			}
 		//-------------------------------------------------------------------------	
+		#endregion
+
+
+		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

@@ -14,17 +14,17 @@
 				Width="100%" Height="48px" BackColor="PaleGoldenrod" HorizontalAlign="Left">
 				<DIV style="WIDTH: 504px; POSITION: relative; HEIGHT: 40px" ms_positioning="GridLayout">
 					<asp:LinkButton id="btnDeleteValue" style="Z-INDEX: 101; LEFT: 360px; POSITION: absolute; TOP: 16px"
-						tabIndex="9" runat="server" EnableViewState="False" Font-Size="X-Small">Delete value</asp:LinkButton>
+						tabIndex="9" runat="server" Font-Size="Smaller" EnableViewState="False">Delete value</asp:LinkButton>
 					<asp:LinkButton id="btnDeleteType" style="Z-INDEX: 108; LEFT: 128px; POSITION: absolute; TOP: 16px"
-						tabIndex="6" runat="server" EnableViewState="False" Font-Size="X-Small">Delete type</asp:LinkButton>
+						tabIndex="6" runat="server" Font-Size="Smaller" EnableViewState="False">Delete type</asp:LinkButton>
 					<asp:ImageButton id="btnDeleteTypeImg" style="Z-INDEX: 107; LEFT: 104px; POSITION: absolute; TOP: 16px"
 						tabIndex="5" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:LinkButton id="btnAddType" style="Z-INDEX: 106; LEFT: 32px; POSITION: absolute; TOP: 16px"
-						tabIndex="4" runat="server" EnableViewState="False" Font-Size="X-Small">Add type</asp:LinkButton>
+						tabIndex="4" runat="server" Font-Size="Smaller" EnableViewState="False">Add type</asp:LinkButton>
 					<asp:ImageButton id="btnAddTypeImg" style="Z-INDEX: 105; LEFT: 8px; POSITION: absolute; TOP: 16px"
 						tabIndex="3" runat="server" ImageUrl="Images\add.gif"></asp:ImageButton>
 					<asp:LinkButton id="btnAddValue" style="Z-INDEX: 100; LEFT: 256px; POSITION: absolute; TOP: 16px"
-						runat="server" EnableViewState="False" Font-Size="X-Small">Add value</asp:LinkButton>
+						runat="server" Font-Size="Smaller" EnableViewState="False">Add value</asp:LinkButton>
 					<asp:ImageButton id="btnDeleteValueImg" style="Z-INDEX: 103; LEFT: 336px; POSITION: absolute; TOP: 16px"
 						tabIndex="8" runat="server" ImageUrl="Images\cancel.gif"></asp:ImageButton>
 					<asp:ImageButton id="btnAddValueImg" style="Z-INDEX: 104; LEFT: 232px; POSITION: absolute; TOP: 16px"

@@ -26,20 +26,7 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.LinkButton btnCancel;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if(!IsPostBack)
-				{
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForGrowerLevelPriviledges();
-				FillForm();
-				FunctionsClass.SetControlFocus("edtName", this);	
-				}
-			}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -59,50 +46,58 @@ namespace YieldProphet
 		{    
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.btnPassword.Click += new System.EventHandler(this.btnPassword_Click);
 			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
+			this.btnPassword.Click += new System.EventHandler(this.btnPassword_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 		
 		
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Updates the user's details in the database
 		//-------------------------------------------------------------------------
 		private void SaveUserDetails()
 			{
-			//If both text boxes contain text then the details are updated in the
-			//database
-			if(edtName.Text != "" && edtEmail.Text != "")
+			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
-				//As the user name is used in the file name of any reports generated
-				//a check is run to ensure it doesn't have any characters in it
-				//that will stop a file from being created.
-				if(InputValidationClass.IsInputAValidFileLocationString(edtName.Text) == true)
+				//If both text boxes contain text then the details are updated in the
+				//database
+				if(edtName.Text != "" && edtEmail.Text != "")
 					{
-					try
+					//As the user name is used in the file name of any reports generated
+					//a check is run to ensure it doesn't have any characters in it
+					//that will stop a file from being created.
+					if(InputValidationClass.IsInputAValidFileLocationString(edtName.Text) == true)
 						{
-
-						DataAccessClass.UpdateGrower(InputValidationClass.ValidateString(edtName.Text),
+						try
+							{
+							DataAccessClass.UpdateGrower(InputValidationClass.ValidateString(edtName.Text),
 							InputValidationClass.ValidateString(edtEmail.Text), "", Session["UserName"].ToString());
+							}
+						catch(Exception E)
+							{
+							FunctionsClass.DisplayMessage(Page, E.Message);
+							}
 						}
-					catch(Exception E)
+					else
 						{
-						FunctionsClass.DisplayMessage(Page, E.Message);
+						FunctionsClass.DisplayMessage(Page, "Your name contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
 						}
 					}
+				//If either of the text boxes doen't contain text then an error message
+				//is displayed to the user
 				else
 					{
-					FunctionsClass.DisplayMessage(Page, "Your name contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
+					FunctionsClass.DisplayMessage(Page, "Please enter text in all fields");
 					}
 				}
-			//If either of the text boxes doen't contain text then an error message
-			//is displayed to the user
 			else
 				{
-				FunctionsClass.DisplayMessage(Page, "Please enter text in all fields");
+				FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -122,12 +117,39 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if(!IsPostBack)
+				{
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForVisitorLevelPriviledges();
+				FillForm();
+				FunctionsClass.SetControlFocus("edtName", this);	
+				}
+			}
+		//-------------------------------------------------------------------------
 		//When the user presses the password button, they are transfered to the 
 		//Password page.
 		//-------------------------------------------------------------------------
 		private void btnPassword_Click(object sender, System.EventArgs e)
 			{
-			Server.Transfer("wfEditPassword.aspx");
+			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
+				{
+				Server.Transfer("wfEditPassword.aspx");
+				}
+			else
+				{
+				FunctionsClass.DisplayMessage(Page, "Functionality not available to visitors");
+				}
 			}
 		//-------------------------------------------------------------------------
 		//When the user presses the save button, the users details are updated
@@ -159,6 +181,10 @@ namespace YieldProphet
 			{
 			FillForm();
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

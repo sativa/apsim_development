@@ -47,22 +47,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblRainfallManagement;
 		protected System.Web.UI.WebControls.DropDownList cboYear;
 	
-		//-------------------------------------------------------------------------
-		//Intialises the page for the display
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if(!IsPostBack)
-				{
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForVisitorLevelPriviledges();
-				DisplayGrowersName();
-				SetYearComboBoxToCurrentYear();
-				FillRainfallGrid();	
-				CalculateTotalRainfalls();
-				btnSave.Style.Add("cursor", "hand");	
-				}
-			}
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -201,6 +185,8 @@ namespace YieldProphet
 		#endregion
 
 
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Gets the grower's name and the paddock's name and displays them on a label
 		//-------------------------------------------------------------------------
@@ -215,6 +201,21 @@ namespace YieldProphet
 			catch(Exception E)
 				{
 				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
+		//-------------------------------------------------------------------------
+		//Gets the current year and sets the Year Combo box to display this year
+		//-------------------------------------------------------------------------
+		private void SetYearComboBoxToCurrentYear()
+			{
+			string szYear = DateTime.Today.Year.ToString();
+			for(int iIndex = 0; iIndex < cboYear.Items.Count; iIndex++)
+				{
+				if(szYear == cboYear.Items[iIndex].Text)
+					{
+					cboYear.SelectedIndex = iIndex;
+					break;
+					}
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -281,7 +282,9 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//Saves all the rainfall events on the grid to the database, to avoid duplicate
+		//values all the paddocks rainfall events are deleted then all the rainfall events
+		//on the grid are inserted into the database
 		//-------------------------------------------------------------------------
 		private bool SaveRainfall()
 		{
@@ -330,22 +333,30 @@ namespace YieldProphet
 			return bSaved;
 			}
 		//-------------------------------------------------------------------------
-		//
+		#endregion
+
+
+
+		#region Form Events
 		//-------------------------------------------------------------------------
-		private void SetYearComboBoxToCurrentYear()
+		//Intialises the page for the display
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
 			{
-			string szYear = DateTime.Today.Year.ToString();
-			for(int iIndex = 0; iIndex < cboYear.Items.Count; iIndex++)
+			if(!IsPostBack)
 				{
-				if(szYear == cboYear.Items[iIndex].Text)
-					{
-					cboYear.SelectedIndex = iIndex;
-					break;
-					}
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForVisitorLevelPriviledges();
+				DisplayGrowersName();
+				SetYearComboBoxToCurrentYear();
+				FillRainfallGrid();	
+				CalculateTotalRainfalls();
+				btnSave.Style.Add("cursor", "hand");	
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the user presses the save button the rainfall events are saved
+		//then the user is taken back to the edit paddock page
 		//-------------------------------------------------------------------------
 		private void btnSave_Click(object sender, System.EventArgs e)
 			{
@@ -355,7 +366,8 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the user presses the save image the rainfall events are saved
+		//then the user is taken back to the edit paddock page
 		//-------------------------------------------------------------------------
 		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
@@ -365,21 +377,22 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the user presses the cancel button the user is taken back to the edit paddock page
 		//-------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, System.EventArgs e)
 			{
 			Server.Transfer("wfEditPaddock.aspx");
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the user presses the cancel image the user is taken back to the edit paddock page
 		//-------------------------------------------------------------------------
 		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
 			{
 			Server.Transfer("wfEditPaddock.aspx");
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the user changes the selected year in the year combobox, the rainfall
+		//grid is refilled and the rainfall totals are re calculated
 		//-------------------------------------------------------------------------
 		private void cboYear_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
@@ -387,7 +400,9 @@ namespace YieldProphet
 			CalculateTotalRainfalls();
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the rainfall grid is displayed, the grids appearance is altered so
+		//that invalid days such as 31 of Feb are a different colour.  This only
+		//works in IE (Internet Explorer)
 		//-------------------------------------------------------------------------
 		private void grdRainfall_LoadingRow_1(object sender, Janus.Web.GridEX.RowLoadEventArgs e)
 			{
@@ -416,7 +431,8 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//
+		//When the Grid is updated, just before the details are saved, a test is run to 
+		//ensure that the values are all positive decimals.  
 		//-------------------------------------------------------------------------
 		private void grdRainfall_UpdatingCell(object sender, Janus.Web.GridEX.UpdatingCellEventArgs e)
 			{
@@ -429,5 +445,9 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------	
+		#endregion
+
+
+		//-------------------------------------------------------------------------
 		}//END CLASS
 	}//END NAMESPACE

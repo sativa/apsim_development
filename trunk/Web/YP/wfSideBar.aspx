@@ -34,8 +34,8 @@
 							<asp:Button id="btnView" style="Z-INDEX: 105; LEFT: 56px; POSITION: absolute; TOP: 136px" tabIndex="7"
 								runat="server" Width="48px" Height="24px" Font-Size="X-Small" Text="View"></asp:Button>
 							<asp:Button id="btnViewReports" style="Z-INDEX: 106; LEFT: 40px; POSITION: absolute; TOP: 72px"
-								tabIndex="4" runat="server" Width="72px" Height="16px" BackColor="Transparent" Font-Size="Smaller"
-								ForeColor="Purple" Text="View Reports" BorderStyle="None" Font-Underline="True" Font-Names="Times New Roman"
+								tabIndex="4" runat="server" Width="80px" Height="16px" BackColor="Transparent" Font-Size="Smaller"
+								ForeColor="Blue" Text="View Reports" BorderStyle="None" Font-Underline="True" Font-Names="Times New Roman"
 								BorderWidth="0px"></asp:Button>
 							<asp:ImageButton id="btnViewReportsImg" style="Z-INDEX: 107; LEFT: 8px; POSITION: absolute; TOP: 64px"
 								tabIndex="3" runat="server" ImageUrl="Images\reports.gif"></asp:ImageButton>

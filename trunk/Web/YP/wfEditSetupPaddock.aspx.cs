@@ -26,7 +26,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblSoilType;
 		protected System.Web.UI.WebControls.Label lblSubSoil;
 		protected System.Web.UI.WebControls.Label lblInitialConditions;
-		protected System.Web.UI.WebControls.Calendar cldInitialConditions;
 		protected System.Web.UI.WebControls.DropDownList cboSubSoil;
 		protected System.Web.UI.WebControls.DropDownList cboSoilType;
 		protected System.Web.UI.WebControls.DropDownList cboWeatherStation;
@@ -51,29 +50,23 @@ namespace YieldProphet
 		protected System.Data.DataColumn dcESP;
 		protected Janus.Web.GridEX.GridEX grdSoilSampleTwo;
 		protected Janus.Web.GridEX.GridEX grdSoilSampleOne;
+		protected System.Data.DataSet dsInitialDate;
+		protected System.Data.DataTable dtInitialDate;
+		protected System.Data.DataColumn dcInitialDate;
+		protected Janus.Web.GridEX.GridEX grdSampleDate;
+		protected System.Web.UI.WebControls.Label lblStartGrowingSeason;
+		protected System.Data.DataSet dsStartOfGrowingSeason;
+		protected System.Data.DataTable dtStartOfGrowingSeason;
+		protected System.Data.DataColumn dcGrowingSeasonDate;
+		protected Janus.Web.GridEX.GridEX grdStartOfGrowingSeason;
 		protected System.Web.UI.WebControls.Panel pnlTop;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForVisitorLevelPriviledges();
-				FillNonDependantFormControls();
-				btnSave.Style.Add("cursor", "hand");
-				FillDependantFormControls();
-				}
-			}
+
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
+			System.Globalization.DateTimeFormatInfo.CurrentInfo.ShortDatePattern = "dd/MM/yyyy";
 			InitializeComponent();
 			base.OnInit(e);
 		}
@@ -97,10 +90,20 @@ namespace YieldProphet
 			this.dcEC = new System.Data.DataColumn();
 			this.dcPH = new System.Data.DataColumn();
 			this.dcESP = new System.Data.DataColumn();
+			this.dsInitialDate = new System.Data.DataSet();
+			this.dtInitialDate = new System.Data.DataTable();
+			this.dcInitialDate = new System.Data.DataColumn();
+			this.dsStartOfGrowingSeason = new System.Data.DataSet();
+			this.dtStartOfGrowingSeason = new System.Data.DataTable();
+			this.dcGrowingSeasonDate = new System.Data.DataColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleOne)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleOne)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleTwo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleTwo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsInitialDate)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtInitialDate)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsStartOfGrowingSeason)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtStartOfGrowingSeason)).BeginInit();
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
@@ -108,6 +111,7 @@ namespace YieldProphet
 			this.cboRegion.SelectedIndexChanged += new System.EventHandler(this.cboRegion_SelectedIndexChanged);
 			this.grdSoilSampleOne.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdSoilSample_UpdatingCell);
 			this.chkLinkedRainfall.CheckedChanged += new System.EventHandler(this.chkLinkedRainfall_CheckedChanged);
+			this.grdSoilSampleTwo.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdSoilSample_UpdatingCell);
 			// 
 			// dsSoilSampleOne
 			// 
@@ -186,18 +190,63 @@ namespace YieldProphet
 			// 
 			this.dcESP.Caption = "ESP";
 			this.dcESP.ColumnName = "ESP";
-			this.grdSoilSampleTwo.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdSoilSample_UpdatingCell);
+			// 
+			// dsInitialDate
+			// 
+			this.dsInitialDate.DataSetName = "NewDataSet";
+			this.dsInitialDate.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsInitialDate.Tables.AddRange(new System.Data.DataTable[] {
+																																			 this.dtInitialDate});
+			// 
+			// dtInitialDate
+			// 
+			this.dtInitialDate.Columns.AddRange(new System.Data.DataColumn[] {
+																																				 this.dcInitialDate});
+			this.dtInitialDate.TableName = "InitialDate";
+			// 
+			// dcInitialDate
+			// 
+			this.dcInitialDate.ColumnName = "InitialDate";
+			this.dcInitialDate.DataType = typeof(System.DateTime);
+			// 
+			// dsStartOfGrowingSeason
+			// 
+			this.dsStartOfGrowingSeason.DataSetName = "NewDataSet";
+			this.dsStartOfGrowingSeason.Locale = new System.Globalization.CultureInfo("en-AU");
+			this.dsStartOfGrowingSeason.Tables.AddRange(new System.Data.DataTable[] {
+																																								this.dtStartOfGrowingSeason});
+			// 
+			// dtStartOfGrowingSeason
+			// 
+			this.dtStartOfGrowingSeason.Columns.AddRange(new System.Data.DataColumn[] {
+																																									this.dcGrowingSeasonDate});
+			this.dtStartOfGrowingSeason.TableName = "StartOfGrowingSeason";
+			// 
+			// dcGrowingSeasonDate
+			// 
+			this.dcGrowingSeasonDate.ColumnName = "GrowingSeasonDate";
+			this.dcGrowingSeasonDate.DataType = typeof(System.DateTime);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleOne)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleOne)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSoilSampleTwo)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtSoilSampleTwo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsInitialDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtInitialDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dsStartOfGrowingSeason)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtStartOfGrowingSeason)).EndInit();
 
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the form with the selected paddock's data from the database
+		//There is a bug with dependant combo boxes, so time needs to be allowed
+		//between the filling of the master combo box (regions) and the dependant
+		//combo boxes (soils and met stations)
 		//-------------------------------------------------------------------------
 		private void FillNonDependantFormControls()
 			{
@@ -217,16 +266,12 @@ namespace YieldProphet
 				{
 				DataTable dtSoilSample = DataAccessClass.GetPaddocksSoilSample("GridOne", 
 					Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
+				string szInitialDate = "";
 				if(dtSoilSample.Rows.Count > 0)
 					{
-					cldInitialConditions.SelectedDate = DateTime.ParseExact(dtSoilSample.Rows[0]["SampleDate"].ToString(), "yyyy-MM-dd", null);
-					cldInitialConditions.VisibleDate = cldInitialConditions.SelectedDate;
+					szInitialDate = dtSoilSample.Rows[0]["SampleDate"].ToString();
 					}
-				else
-					{
-					cldInitialConditions.SelectedDate = DateTime.Today;
-					cldInitialConditions.VisibleDate = DateTime.Today;
-					}
+				SetInitialDate(szInitialDate);
 				}
 			catch(Exception E)
 				{
@@ -236,57 +281,95 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//Fills the form with the selected paddock's data from the database
 		//-------------------------------------------------------------------------
-			private void FillDependantFormControls()
+		private void FillDependantFormControls()
+			{
+			try
 				{
-				try
+				DataTable dtPaddockDetails = 
+					DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
+					FunctionsClass.GetActiveUserName());
+				//if a region has be previously saved it is set as the selected metstation.
+				cboRegion.SelectedValue = dtPaddockDetails.Rows[0]["RegionType"].ToString();
+			
+
+				//Fills the met stations combo box
+				FillMetStationCombo();
+				//Fills the soil types combo box
+				FillSoilTypeCombo();		
+
+				SetStartOfGrowingSeasonDate(dtPaddockDetails.Rows[0]["StartOfGrowingSeasonDate"].ToString());
+
+				if(cboLinkedRainfall.Items.Count > 0)
 					{
-					DataTable dtPaddockDetails = 
-						DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
-						FunctionsClass.GetActiveUserName());
 					//if a region has be previously saved it is set as the selected metstation.
-					cboRegion.SelectedValue = dtPaddockDetails.Rows[0]["RegionType"].ToString();
-				
-
-					//Fills the met stations combo box
-					FillMetStationCombo();
-					//Fills the soil types combo box
-					FillSoilTypeCombo();		
-
-					if(cboLinkedRainfall.Items.Count > 0)
+					if(dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString() != "")
 						{
-						//if a region has be previously saved it is set as the selected metstation.
-						if(dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString() != "")
-							{
-							cboLinkedRainfall.SelectedItem.Text = dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
-							cboLinkedRainfall.Enabled = true;
-							chkLinkedRainfall.Checked = true;
-							}
-						else
-							{
-							cboLinkedRainfall.Enabled = false;
-							chkLinkedRainfall.Checked = false;
-							}
+						cboLinkedRainfall.SelectedItem.Text = dtPaddockDetails.Rows[0]["LinkedRainfallPaddockName"].ToString();
+						cboLinkedRainfall.Enabled = true;
+						chkLinkedRainfall.Checked = true;
 						}
 					else
 						{
-						chkLinkedRainfall.Enabled = false;
 						cboLinkedRainfall.Enabled = false;
+						chkLinkedRainfall.Checked = false;
 						}
-	
-					//If a sub soil has be previously saved it is set as the selected sub soil.
-					cboSubSoil.SelectedValue = dtPaddockDetails.Rows[0]["SubSoilConstraintType"].ToString();
-						
-					//if a met station has be previously saved it is set as the selected metstation.
-					cboWeatherStation.SelectedValue = dtPaddockDetails.Rows[0]["MetStationName"].ToString();
-						
-					//if a soil type has be previously saved it is set as the selected soil type.
-					cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
 					}
-				catch(Exception E)
+				else
 					{
-					FunctionsClass.DisplayMessage(Page, E.Message);
+					chkLinkedRainfall.Enabled = false;
+					cboLinkedRainfall.Enabled = false;
 					}
+				//Set user's selections
+				cboRegion.SelectedValue = dtPaddockDetails.Rows[0]["RegionType"].ToString();		
+				cboSubSoil.SelectedValue = dtPaddockDetails.Rows[0]["SubSoilConstraintType"].ToString();		
+				cboWeatherStation.SelectedValue = dtPaddockDetails.Rows[0]["MetStationName"].ToString();
+				cboSoilType.SelectedValue = dtPaddockDetails.Rows[0]["SoilName"].ToString();
 				}
+			catch(Exception E)
+				{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+				}
+			}
+		//-------------------------------------------------------------------------
+		//Set the date shown in the initial conditions date grid
+		//-------------------------------------------------------------------------
+		private void SetInitialDate(string szInitialDate)
+			{
+			DataRow drInitialDate;
+			if(szInitialDate != null && szInitialDate != "")
+				{
+				drInitialDate = dsInitialDate.Tables["InitialDate"].NewRow();
+				drInitialDate["InitialDate"] = DateTime.ParseExact(szInitialDate, "yyyy-MM-dd", null);
+				dsInitialDate.Tables["InitialDate"].Rows.Add(drInitialDate);
+				}
+			else
+				{
+				drInitialDate = dsInitialDate.Tables["InitialDate"].NewRow();
+				drInitialDate["InitialDate"] = DateTime.Today;
+				dsInitialDate.Tables["InitialDate"].Rows.Add(drInitialDate);
+				}
+			this.DataBind();
+			}
+		//-------------------------------------------------------------------------
+		//Set the date shown in the strart of growing season date grid
+		//-------------------------------------------------------------------------
+		private void SetStartOfGrowingSeasonDate(string szStartOfGrowingSeason)
+			{
+			DataRow drStartOfGrowingSeason;
+			if(szStartOfGrowingSeason != null && szStartOfGrowingSeason != "")
+				{
+				drStartOfGrowingSeason = dsStartOfGrowingSeason.Tables["StartOfGrowingSeason"].NewRow();
+				drStartOfGrowingSeason["GrowingSeasonDate"] = DateTime.ParseExact(szStartOfGrowingSeason, "yyyy-MM-dd", null);
+				dsStartOfGrowingSeason.Tables["StartOfGrowingSeason"].Rows.Add(drStartOfGrowingSeason);
+				}
+			else
+				{
+				drStartOfGrowingSeason = dsStartOfGrowingSeason.Tables["StartOfGrowingSeason"].NewRow();
+				drStartOfGrowingSeason["GrowingSeasonDate"] = new DateTime(DateTime.Today.Year, 4, 1);
+				dsStartOfGrowingSeason.Tables["StartOfGrowingSeason"].Rows.Add(drStartOfGrowingSeason);
+				}
+			this.DataBind();
+		}
 		//-------------------------------------------------------------------------
 		//Displays the grower's name and the paddock's name on a label
 		//-------------------------------------------------------------------------
@@ -383,9 +466,9 @@ namespace YieldProphet
 					DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(FunctionsClass.GetActiveUserName());
 					foreach (DataRow drSoil in dtSoils.Rows)
 						{
-						if(drSoil["Name"].ToString().StartsWith("Grower soil:") == true)
+						if(drSoil["Name"].ToString().IndexOf("Grower soil:") != -1)
 							{
-							if(drSoil["Name"].ToString().StartsWith("Grower soil:"+dtUsersDetails.Rows[0]["Name"].ToString()) == false)
+							if(drSoil["Name"].ToString().IndexOf("Grower soil:"+dtUsersDetails.Rows[0]["Name"].ToString()) == -1)
 								{
 								drSoil.Delete();
 								}
@@ -523,8 +606,13 @@ namespace YieldProphet
 			if(FunctionsClass.IsGrowerOrHigher(Session["UserName"].ToString()) == true)
 				{
 				//If a metstation and soil type are selected then save the record
-				if(cboWeatherStation.SelectedValue != "" && cboSoilType.SelectedValue != "")
+				if(cboWeatherStation.SelectedValue != "" && cboSoilType.SelectedValue != "" && 
+					cboWeatherStation.SelectedValue != "None" && cboSoilType.SelectedValue != "None" &&
+					grdSampleDate.GetRow(0).Cells["InitialDate"].Text != "" &&
+					grdStartOfGrowingSeason.GetRow(0).Cells["GrowingSeasonDate"].Text != "")
 					{
+					string szStartOfGrowingSeasonDate = 
+						(DateTime.ParseExact(grdStartOfGrowingSeason.GetRow(0).Cells["GrowingSeasonDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd");
 					string szLinkedTemporalPaddock = "";
 					if(chkLinkedRainfall.Checked == true)
 						{
@@ -534,8 +622,8 @@ namespace YieldProphet
 						{
 						DataAccessClass.UpdatePaddock("", "", cboWeatherStation.SelectedItem.Text,  
 							cboSoilType.SelectedItem.Text, cboSubSoil.SelectedItem.Text,
-							szLinkedTemporalPaddock, Session["SelectedPaddockName"].ToString(), 
-							FunctionsClass.GetActiveUserName());
+							szLinkedTemporalPaddock, szStartOfGrowingSeasonDate, 
+							Session["SelectedPaddockName"].ToString(), FunctionsClass.GetActiveUserName());
 						SaveSoilSampleDetails();
 						Server.Transfer("wfEditPaddock.aspx");
 						}
@@ -565,7 +653,8 @@ namespace YieldProphet
 				{
 				//Saves the data from the first grid
 				string szSoilSampleData = SoilSampleClass.CreateSoilSampleOneXmlFile(ReturnSoilSampleOneDataTable());
-				string szSoilSampleDate = cldInitialConditions.SelectedDate.ToString("yyyy-MM-dd");
+				string szSoilSampleDate = 
+					(DateTime.ParseExact(grdSampleDate.GetRow(0).Cells["InitialDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd");
 				//If the paddock doesn't have any soil sample one data stored, we insert the
 				//record into the table, it the paddock does have an existing soil sample one 
 				//we update the record
@@ -574,7 +663,6 @@ namespace YieldProphet
 
 				//Saves teh data from the second grid
 				szSoilSampleData = SoilSampleClass.CreateSoilSampleTwoXmlFile(ReturnSoilSampleTwoDataTable());
-				szSoilSampleDate = cldInitialConditions.SelectedDate.ToString("yyyy-MM-dd");
 				//If the paddock doesn't have any soil sample two data stored, we insert the
 				//record into the table, it the paddock does have an existing soil sample two 
 				//we update the record
@@ -650,6 +738,27 @@ namespace YieldProphet
 			return dtSoilSampleData;
 			}
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForVisitorLevelPriviledges();
+				FillNonDependantFormControls();
+				btnSave.Style.Add("cursor", "hand");
+				FillDependantFormControls();
+				}
+			}
+		//-------------------------------------------------------------------------
 		//When the user selects a different region, the met stations combo and the
 		//soil type combo are refreshed
 		//-------------------------------------------------------------------------
@@ -720,6 +829,11 @@ namespace YieldProphet
 					}
 				}
 			}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

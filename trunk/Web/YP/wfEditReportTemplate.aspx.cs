@@ -31,22 +31,8 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.LinkButton btnAddReportType;
 		protected System.Web.UI.WebControls.ImageButton btnAddReportTypeImg;
 		protected System.Web.UI.WebControls.ImageButton btnDeleteReportTypeImg;
-		//-------------------------------------------------------------------------
-		//If the page hasn't been viewed by the user then the user's
-		//permissions are checked and the page is initialised
-		//-------------------------------------------------------------------------
-		private void Page_Load(object sender, System.EventArgs e)
-			{
-			if (!IsPostBack)
-				{	
-				FunctionsClass.CheckSession();
-				FunctionsClass.CheckForAdministratorLevelPriviledges();
-				FillForm();
-				}
-			//Adds an attribute to the delete  report type button that causes a 
-			//confirmation warning to appear when the user presses the button
-			btnDeleteReportType.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the report type \");");
-			}
+
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -79,6 +65,9 @@ namespace YieldProphet
 		}
 		#endregion
 
+
+
+		#region Form Functions
 		//-------------------------------------------------------------------------
 		//Fills the from with all the required information from the database.
 		//-------------------------------------------------------------------------
@@ -239,6 +228,28 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Form Events
+		//-------------------------------------------------------------------------
+		//If the page hasn't been viewed by the user then the user's
+		//permissions are checked and the page is initialised
+		//-------------------------------------------------------------------------
+		private void Page_Load(object sender, System.EventArgs e)
+			{
+			if (!IsPostBack)
+				{	
+				FunctionsClass.CheckSession();
+				FunctionsClass.CheckForAdministratorLevelPriviledges();
+				FillForm();
+				}
+			//Adds an attribute to the delete  report type button that causes a 
+			//confirmation warning to appear when the user presses the button
+			btnDeleteReportType.Attributes.Add("onclick", "return confirm (\"Are you sure you wish to delete the report type \");");
+			}	
+		//-------------------------------------------------------------------------
 		//When the user presses the save button the report is updated
 		//-------------------------------------------------------------------------
 		private void btnSave_Click(object sender, System.EventArgs e)
@@ -317,5 +328,9 @@ namespace YieldProphet
 			FillDisplayTemplateTextBox();
 			}
 		//-------------------------------------------------------------------------	
+		#endregion
+
+
+		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE
