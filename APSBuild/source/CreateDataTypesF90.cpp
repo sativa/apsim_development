@@ -860,7 +860,7 @@ class WriteGet
             out << "   logical :: " << routineName << endl;
             out << "   logical :: getIsOptional" << endl;
             out << "   integer :: variant" << endl;
-            out << "   getIsOptional = .true." << endl;
+            out << "   getIsOptional = .false." << endl;
             out << "   if (present(optionalGet)) then" << endl;
             out << "      getIsOptional = optionalGet" << endl;
             out << "   endif" << endl;
