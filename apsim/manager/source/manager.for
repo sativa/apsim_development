@@ -1086,10 +1086,17 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          if (Is_apsim_variable) then
             call Split_line(variable_name, Mod_name, Var_name, '.')
-            ok = component_name_to_id(Mod_name, modNameID)
-            call Get_char_var
-     .           (modNameID, Var_name, '()',
-     .            Variable_value, Numvals)
+            ok = component_name_to_id(Mod_name, modNameID) 
+            if (ok) then
+               call Get_char_var
+     .              (modNameID, Var_name, '()',
+     .               Variable_value, Numvals)
+            else                      
+               str = 'Cannot find APSIM variable: ' 
+     .                // Trim(variable_name)
+               call error(str, .true.)
+               Variable_value = ' '
+            endif
 
          else
 
