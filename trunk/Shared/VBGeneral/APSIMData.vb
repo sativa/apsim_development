@@ -121,6 +121,11 @@ Public Class APSIMData
         End Set
     End Property
 
+    Function AttributeExists(ByVal AttributeName As String) As Boolean
+        Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
+        return Not IsNothing(A)
+    End Function
+
     Function Attribute(ByVal AttributeName As String) As String
         Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
@@ -129,6 +134,8 @@ Public Class APSIMData
             Return ""
         End If
     End Function
+
+
     Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
         Dim attr As XmlNode = Node.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
         attr.Value = AttributeValue
