@@ -9,15 +9,13 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = general.lib ApsimShared.dll ComponentInterface.lib Protocol.dll \
-  GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl apsdata.bpl \
-  data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll APSBuild.exe \
-  CreateComponentInterfaceSource.exe APSRun.exe apsim.exe ProtocolManager.dll \
-  Log.dll SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll VenLink.dll \
+PROJECTS =  GrossMarginCalculator.dll SEGReport.dll Soil.dll APSGeneral.bpl apsdata.bpl \
+  data.dll chart.dll ApsimReport.exe ApsimContextMenu.dll  \
+  APSRun.exe \
   ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
   WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
-  SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe \
-  PatchInput.dll SiloInput.dll Plant.dll
+  SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe
+
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
