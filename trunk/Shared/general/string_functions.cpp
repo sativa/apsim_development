@@ -1,5 +1,7 @@
 #include <general\string_functions.h>
 #include <tchar.h>
+#include <strstream>
+#include <iomanip>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -11,6 +13,7 @@
 //    DPH 17/4/1997
 //    dph 14/10/97 work around bug in Borland string class in routine
 //                 find_last_not_of.  Doesn't work with 2 character string !!
+//    dph 27/3/98 changed call to remove with call to replace in line with standard.
 
 // ------------------------------------------------------------------
 void Strip (string& text, const char* separators)
@@ -20,14 +23,14 @@ void Strip (string& text, const char* separators)
    // remove leading spaces
    Pos = text.find_first_not_of(separators);
    if (Pos > 0)
-      text.remove (0, Pos);
+      text.replace (0, Pos, "");
 
    // remove trailing spaces  strrchr
-   text.prepend ("`");
+   text = "`" + text;
    Pos = text.find_last_not_of(separators);
    if (Pos < text.length())
-      text.remove (Pos+1);
-   text.remove (0, 1);
+      text.replace (Pos+1, string::npos, "");
+   text.replace (0, 1, "");
    }
 
 // ------------------------------------------------------------------
@@ -179,4 +182,44 @@ void To_lower (string& St)
    delete buffer;
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     function that takes a string and replaces all occurrances of
+//     the substring with the replacement string.
+
+//  Notes:
+
+//  Changes:
+//    DPH 17/3/97
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+
+// ------------------------------------------------------------------
+void Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
+   {
+   size_t Pos = St.find(Sub_string);
+   while (Pos != string::npos)
+      {
+      St.replace(Pos, strlen(Sub_string), Replacement_string);
+      Pos = St.find(Sub_string);
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     convert a double to a string.
+
+//  Notes:
+
+//  Changes:
+//    DPH 17/3/97
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+
+// ------------------------------------------------------------------
+string ftoa(double Float, int Num_decplaces)
+   {
+   ostrstream buf;
+   buf.setf(ios::fixed, ios::floatfield);
+   buf << setprecision(Num_decplaces) << Float << ends;
+   return buf.str();
+   }
 

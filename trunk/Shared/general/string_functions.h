@@ -4,6 +4,7 @@
 #include <general\mystring.h>
 #include <general\mylist.h>
 #include <algorith>
+#include <functional>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -319,6 +320,32 @@ void Double_container_2_string (container_type& container,
    Numbers = number_stream.str();
    delete number_stream.str();
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     function that takes a string and replaces all occurrances of
+//     the substring with the replacement string.
+
+//  Notes:
+
+//  Changes:
+//    DPH 17/3/98
+
+// ------------------------------------------------------------------
+void Replace_all (string& St, const char* Sub_string, const char* Replacement_string);
+
+// ------------------------------------------------------------------
+//  Short description:
+//     convert a double to a string.
+
+//  Notes:
+
+//  Changes:
+//    DPH 17/3/97
+//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+
+// ------------------------------------------------------------------
+string ftoa(double Float, int Num_decplaces);
 
 #endif
 
