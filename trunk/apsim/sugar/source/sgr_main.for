@@ -578,13 +578,48 @@ cjh      call sugar_nit_stress (1)
  
           ! zero pools etc.
       call sugar_zero_globals ()
+      call sugar_zero_soil_globals()
       call sugar_zero_daily_variables ()
       call sugar_zero_parameters ()
- 
+
       call pop_routine (my_name)
       return
       end
 
+*     ===========================================================
+      subroutine sugar_zero_soil_globals ()
+*     ===========================================================
+      implicit none
+      include   'sugar.inc'
+      include 'data.pub'
+      include 'error.pub'                         
+
+*+  Purpose
+*       Zero soil variables & arrays
+
+*+  Changes
+*     210199 NIH
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name  = 'sugar_zero_soil_globals')
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+      call fill_real_array (g_dlayer, 0.0, max_layer)
+      call fill_real_array (g_sat_dep, 0.0, max_layer)
+      call fill_real_array (g_dul_dep, 0.0, max_layer)
+      call fill_real_array (g_ll15_dep, 0.0, max_layer)
+      call fill_real_array (g_sw_dep, 0.0, max_layer)
+      call fill_real_array (g_st, 0.0, max_layer)
+
+      g_num_layers = 0
+      
+      call pop_routine (my_name)
+      return
+      end
 
 
 *     ===========================================================
@@ -1277,6 +1312,7 @@ cnh         call report_event (string)
       include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
+      include 'crp_root.pub'
 
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
@@ -1297,7 +1333,9 @@ cnh         call report_event (string)
       real       dlayer(max_layer)     ! soil layer depths (mm)
       real       NO3(max_layer)        ! soil NO3 content (kg/ha)
       real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
-
+      real       profile_depth
+      real       root_depth_new
+    
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
@@ -1344,15 +1382,32 @@ cnh         call report_event (string)
  
       if (g_num_layers.eq.0) then
             ! we assume dlayer hasn't been initialised yet.
-         g_dlayer = 0.0
-         do 999 layer = 1,numvals
-            g_dlayer(layer) = dlayer(layer)
-  999    continue
+         call add_real_array (dlayer, g_dlayer, numvals)
          g_num_layers = numvals
  
       else
-            ! dlayer may be changed from its last setting
-         g_dlayer = 0.0
+ 
+           ! dlayer may be changed from its last setting
+           ! due to erosion
+ 
+         profile_depth = sum_real_array (dlayer, numvals)
+ 
+         if (g_root_depth.gt.profile_depth) then
+            root_depth_new = profile_depth
+            call crop_root_redistribute
+     :                        ( g_root_length
+     :                        , g_root_depth
+     :                        , g_dlayer
+     :                        , g_num_layers
+     :                        , root_depth_new
+     :                        , dlayer
+     :                        , numvals)
+ 
+            g_root_depth = root_depth_new
+         else
+            ! roots are ok.
+         endif
+ 
          do 1000 layer = 1, numvals
             p_ll_dep(layer) = divide (p_ll_dep(layer)
      :                              , g_dlayer(layer), 0.0)
@@ -1361,7 +1416,9 @@ cnh         call report_event (string)
             g_dlayer(layer) = dlayer(layer)
 1000     continue
          g_num_layers = numvals
+
       endif
+
 
       call get_real_array (unknown_module, 'dul_dep', max_layer
      :                                    , '(mm)'
@@ -2113,6 +2170,13 @@ c      call sugar_nit_stress_expansion (1)
      :                               , '(mm/mm3)'
      :                               , rlv
      :                               , num_layers)
+
+      elseif (variable_name .eq. 'll_dep') then
+         num_layers = count_of_real_vals (g_dlayer, max_layer)
+         call respond2get_real_array (variable_name
+     :                               , '(mm)'
+     :                               , p_ll_dep
+     :                               , num_layers)
  
       elseif (variable_name .eq. 'dm_graze') then
          call respond2get_real_var (variable_name
@@ -2482,8 +2546,8 @@ c      call sugar_nit_stress_expansion (1)
       call fill_real_array (g_root_length, 0.0, max_layer)
       call fill_real_array (g_plant_wc, 0.0, max_part)
       call fill_real_array (g_dlt_plant_wc, 0.0, max_part)
+
  
-      g_num_layers = 0
       g_canopy_height = 0.0
       g_isdate = 0
       g_mdate = 0
@@ -2539,6 +2603,9 @@ cnh      g_initial_plant_density = 0.0
           ! zero pools etc.
  
       call fill_real_array (p_ll_dep, 0.0, max_layer)
+      call fill_real_array (p_xf, 0.0, max_layer)
+      call fill_real_array (p_kl, 0.0, max_layer)
+
       g_uptake_source = ' '
 cnh      c_crop_type = ' '
  
