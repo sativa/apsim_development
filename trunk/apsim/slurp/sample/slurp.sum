@@ -27,6 +27,8 @@ Manager rules
 ------- -----
 if day = 1 or day = 15 then
 fertiliz apply amount = 100 (), type = nh4no3 ()
+elseif day = 10 then
+slurp set eo_fraction = 0.75 ()
 endif
 report do_output
  
@@ -143,6 +145,7 @@ report do_output
    - Reading Fertiliser Type Parameters
  day=   1 date=  1  1 1988 fertiliz -   100.00 of ammonium nitrate (nh4no3)
                                          added at depth    0.00 (layer   1)
+ Day=  10 Year =  1988     Manager sending message :- slurp set eo_fraction = 0.75 ()
  Day=  15 Year =  1988     Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
  
    - Reading Fertiliser Type Parameters
