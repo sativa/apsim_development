@@ -33,7 +33,6 @@ USEUNIT("low_level\Font.cpp");
 USEUNIT("low_level\Legend_class.cpp");
 USEUNIT("low_level\Line.cpp");
 USEUNIT("low_level\low_level.cpp");
-USEUNIT("low_level\Pen.cpp");
 USEUNIT("low_level\Plot.cpp");
 USEUNIT("low_level\Position.cpp");
 USEUNIT("low_level\Rectangle.cpp");
@@ -52,6 +51,7 @@ USEUNIT("high_level\Pred_obs_chart.cpp");
 USEUNIT("high_level\Prob_chart.cpp");
 USEUNIT("high_level\Scatter_chart.cpp");
 USEUNIT("high_level\Apsim_depth_chart.cpp");
+USEUNIT("low_level\Pen.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
