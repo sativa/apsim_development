@@ -76,7 +76,7 @@ class FortranWrapper : public protocol::Component
          }
       void get_registration_name(unsigned regID, FString& st)
          {
-         st = getRegistrationName(regID);
+         st = FString(getRegistrationName(regID));
          }
       bool get_set_variable_success(void)
          {

@@ -125,7 +125,7 @@ void Component::setup(const char *dllname,
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void Component::messageToLogic(Message* message)
+void Component::messageToLogic(const Message* message)
    {
    MessageData messageData(message);
 //   char st[100];
@@ -384,6 +384,27 @@ void Component::deleteRegistration(RegistrationType kind,
                                     kind,
                                     regID));
    }
+
+void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData)
+   {
+   baseInfo *v = getVarMap[queryData.ID];
+   if (v) v->sendVariable(this, queryData);
+   }
+
+void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant)
+  {
+  boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pf;
+  UInt2EventMap::iterator pf_iterator;
+
+  for (pf_iterator = eventMap.find(eventID);
+       pf_iterator != eventMap.end();
+       pf_iterator++) 
+     {
+     pf = pf_iterator->second;
+     (pf)(fromID, eventID, variant);
+     }
+  }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     send a message to infrastructure.
@@ -538,8 +559,7 @@ bool Component::getVariable(unsigned int registrationID,
       itoa(variants->size(), &st[strlen(st)], 10);
       strcat(st, " responses instead.\n");
       strcat(st, "Variable name: ");
-      strncat(st, regItem->getName().f_str(),
-                  regItem->getName().length());
+      strcat(st, regItem->getName());
       error(st, true);
       return false;
       }
@@ -713,7 +733,7 @@ unsigned Component::getRegistrationID(const RegistrationType& kind, const FStrin
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-FString Component::getRegistrationName(unsigned int regID)
+const char *Component::getRegistrationName(unsigned int regID)
    {
    return ((RegistrationItem*) regID)->getName();
    }
@@ -729,7 +749,7 @@ void Component::setVariableError(unsigned int regID)
    RegistrationItem* regItem = (RegistrationItem*) regID;
    char buffer[200];
    strcpy(buffer, "Cannot set value of the specified variable.\nVariable name: ");
-   strncat(buffer, regItem->getName().f_str(), regItem->getName().length());
+   strcat(buffer, regItem->getName());
    error(buffer, false);
    }
 
@@ -842,8 +862,6 @@ void fatalError(const FString& st)
    {
    component->error(st, true);
    }
-
-#ifdef NOTYET
 // ------------------------------------------------------------------
 //  Short description:
 //    Send a variable to the system
@@ -851,6 +869,18 @@ void fatalError(const FString& st)
 //    Using a pointer to a memory region of scalar or array object, calls
 //    Component::sendVariable() with the correct typecast w
 // ------------------------------------------------------------------
+void stringInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
+   {
+    const char *s = myPtr->c_str();
+//    systemInterface->sendMessage(newReturnValueMessage(
+//                                      systemInterface->getId(),
+//                                      qd.replytoID,
+//                                      qd.replyID,
+//                                      getRegistrationType(qd.ID),
+//                                      FString(s)));
+    systemInterface->sendVariable(qd, FString(s));
+   }
+
 void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
    {
    switch (myType)
@@ -884,7 +914,7 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
          break;
       case DTstring :
          if (myLength == 1)
-           systemInterface->sendVariable(qd, FString((char *)myPtr));
+           systemInterface->sendVariable(qd, FString(*(char **)myPtr));
          else if (myLength > 1)
            throw  "String Array not yet implemented";
          else
@@ -896,58 +926,13 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
       }
    }
 
-void Component::addGettableVar(const char *systemName,
-                               DataTypeCode type,
-                               int length,
-                               boost::function2<void, protocol::Component *, protocol::QueryValueData &> ptr,
-                               const char *units,
-                               const char *desc)
+void Component::addEvent(const char *systemName,
+                         protocol::RegistrationType type,
+                         boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr)
    {
-   unsigned int id = getReg(systemName, type, length>1, units);
-
-   // Add to variable map
-   fnInfo *v = new fnInfo(systemName, type, length, ptr, units, desc);
-   getVarMap.insert(UInt2InfoMap::value_type(id,v));
+   unsigned int id = addRegistration(type, systemName, "", "");
+   eventMap.insert(UInt2EventMap::value_type(id,ptr));
    }
-
-void Component::addGettableVar(const char *systemName,
-                               int length,
-                               float *ptr,
-                               const char *units,
-                               const char *desc)
-   {
-   unsigned int id = getReg(systemName, DTsingle, length>1, units);
-
-   // Add to variable map
-   varInfo *v = new varInfo(systemName, DTsingle, length, ptr, units, desc);
-   getVarMap.insert(UInt2InfoMap::value_type(id,v));
-   }
-
-void Component::addGettableVar(const char *systemName,
-                               int length,
-                               int *ptr,
-                               const char *units,
-                               const char *desc)
-   {
-   unsigned int id = getReg(systemName, DTint4, length>1, units);
-
-   // Add to variable map
-   varInfo *v = new varInfo(systemName, DTint4, length, ptr, units, desc);
-   getVarMap.insert(UInt2InfoMap::value_type(id,v));
-   }
-void Component::addGettableVar(const char *systemName,
-                               int length,
-                               char *ptr,
-                               const char *units,
-                               const char *desc)
-   {
-   unsigned int id = getReg(systemName, DTstring, length>1, units);
-
-   // Add to variable map
-   varInfo *v = new varInfo(systemName, DTstring, length, ptr, units, desc);
-   getVarMap.insert(UInt2InfoMap::value_type(id,v));
-   }
-
 
 // Build the xml fragment that describes this variable and publish to system
 unsigned int Component::getReg(const char *systemName,
@@ -959,6 +944,7 @@ unsigned int Component::getReg(const char *systemName,
    strcpy(buffer, "<type kind=\"");
    switch (type)
       {
+   	case DTchar:   {strcat(buffer, "char"); break;}
    	case DTint4:   {strcat(buffer, "integer4"); break;}
    	case DTsingle: {strcat(buffer, "single"); break;}
    	case DTboolean:{strcat(buffer, "boolean"); break;}
@@ -976,4 +962,3 @@ unsigned int Component::getReg(const char *systemName,
    strcat(buffer, ")\"/>");
    return this->addRegistration(respondToGetReg, systemName, buffer);
    }
-#endif

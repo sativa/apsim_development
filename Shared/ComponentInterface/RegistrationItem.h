@@ -54,11 +54,10 @@ class RegistrationItem
       // ------------------------------------------------------------------
       // Return the type string of the registration to caller.
       // ------------------------------------------------------------------
-      const char* getType(void) {return type;}
-
+      const char* getType(void) const {return type;}
       void setType(const Type& type);
 
-      const FString getName(void) {return name;}
+      const char *getName(void) const {return name;};
       RegistrationType getKind(void) {return kind;}
       Variants& getVariants(void) {return variants;}
 

@@ -65,7 +65,7 @@ class MessageData
            bufferSize(numBytes)
          {
          }
-      MessageData(Message* msg)
+      MessageData(const Message* msg)
          : startBuffer((char*)msg->dataPtr),
            currentPtr(msg->dataPtr),
            bufferSize(msg->nDataBytes)
