@@ -389,7 +389,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *        calculate runoff using scs curve number method
  
 *+  Mission Statement
-*      
+*        Calculate runoff using scs curve number method      
  
 *+  Changes
 *        210191   specified and programmed jngh (j hargreaves
@@ -645,7 +645,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       calculate potential evapotranspiration via priestly-taylor
  
 *+  Mission Statement
-*      
+*       Calculate potential evapotranspiration using priestly-taylor method
  
 *+  Changes
 *        210191   specified and programmed jngh (j hargreaves
@@ -823,7 +823,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       calculate potential soil evaporation
  
 *+  Mission Statement
-*      
+*       Calculate potential soil evaporation
  
 *+  Changes
 *       290591 jngh removed l_bound from external calls and declaration
@@ -1038,7 +1038,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       This changes globals - sumes1/2 and t.
  
 *+  Mission Statement
-*      
+*       Calculate evaporation Ritchie model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -1176,7 +1176,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       This changes globals - sumes1,2.
  
 *+  Mission Statement
-*      
+*       Calculate evaporation using B&S (A) model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -1272,7 +1272,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       This changes globals - sumes1/2 and t.
  
 *+  Mission Statement
-*      
+*       Calculate evaporation using B&S (B) model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -1422,7 +1422,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *       This changes globals - inf_pool, sumes_yest, sumes_last
  
 *+  Mission Statement
-*      
+*       Calculate evaporation using B&S (B, ACS) model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -1542,7 +1542,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *
  
 *+  Mission Statement
-*      
+*     Calculate evaporation using Rickert model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -1662,7 +1662,7 @@ c     should suffice.
 *     index untransformed.
  
 *+  Mission Statement
-*      
+*      Competition curve %1, weighting %2
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -2826,7 +2826,7 @@ cjh
 *       initialize ritchie evaporation model
  
 *+  Mission Statement
-*      
+*       Initialise ritchie evaporation model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -2891,7 +2891,7 @@ cjh
 *       B&S option A initialisation
  
 *+  Mission Statement
-*      
+*       Initialise B&S (A) model for evaporation
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -2981,7 +2981,7 @@ cjh
 *     B&S option B initialisation
  
 *+  Mission Statement
-*      
+*     Initialise B&S (B) model for evaporation
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -3020,7 +3020,7 @@ c     he should have. Any ideas? Perhaps
 *     the only time cona and u are used with this model.
  
 *+  Mission Statement
-*      
+*     Initialise B&S (B, ACS) model for evaporation
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -3093,7 +3093,7 @@ c     he should have. Any ideas? Perhaps
 *     Rickert initialisation
  
 *+  Mission Statement
-*      
+*     Calculate evaporation using Rickert model      
  
 *+  Changes
 *       210191 specified and programmed jngh (j hargreaves
@@ -4626,7 +4626,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     <insert here>
  
 *+  Mission Statement
-*      
+*      Report SoilWat module summary details      
  
 *+  Changes
 *   NeilH - 19-10-1994 - Programmed and Specified
@@ -4925,7 +4925,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *       input initial values from soil water parameter files.
  
 *+  Mission Statement
-*      
+*       Initialise SoilWat module      
  
 *+  Changes
 *        210191   specified and programmed jngh (j hargreaves
@@ -4991,7 +4991,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *      to weight the effect of soil moisture on runoff.
  
 *+  Mission Statement
-*      
+*      Calculate soil moisture effect on runoff
  
 *+  Changes
 *     26-08-1997 - Neil Huth - Programmed and Specified
@@ -5079,7 +5079,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     <insert here>
  
 *+  Mission Statement
-*      
+*      Add solutes with irrigation
  
 *+  Changes
 *   neilh - 04-09-1995 - Programmed and Specified
@@ -5130,7 +5130,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     <insert here>
  
 *+  Mission Statement
-*      
+*      Calculate downward movement of solutes
  
 *+  Changes
 *   neilh - 04-09-1995 - Programmed and Specified
@@ -5213,7 +5213,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     <insert here>
  
 *+  Mission Statement
-*      
+*      Calculate upward movement of solutes
  
 *+  Changes
 *   neilh - 04-09-1995 - Programmed and Specified
@@ -5300,7 +5300,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     infiltration into top layer after runoff.
  
 *+  Mission Statement
-*      
+*      Calculate infiltration into top layer
  
 *+  Changes
 *       221090 specified (jngh)
@@ -5343,7 +5343,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *       This code is borrowed from residue module.
  
 *+  Mission Statement
-*      
+*       Calculate tillage effects
  
 *+  Changes
 *       221090 specified (jngh)
@@ -5454,7 +5454,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     accumulate rainfall for tillage cn reduction
  
 *+  Mission Statement
-*      
+*      Accumulate rainfall for tillage cn reduction
  
 *+  Changes
 *       221090 specified (jngh)
