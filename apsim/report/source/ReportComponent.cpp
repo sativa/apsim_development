@@ -58,20 +58,6 @@ Field::Field (const string& modulename,
       VariableType = Variable.getType();
       NumElements = Variable.getCount();
       VariableFound = true;
-
-      // if this is a function name then make sure we are dealing with
-      // either an integer or a real.  Give error if not.
-      if (FunctionName.length() > 0)
-         {
-         if (VariableType == APSIMVariant::booleanType ||
-             VariableType == APSIMVariant::stringType)
-            {
-            ApsimSystem().Error.Fatal("Cannot apply a REPORT function (eg avg) to a string variable.\n"
-                                      "Variable must be an integer or a real.\n"
-                                      "Variable name = " + VariableName);
-
-            }
-         }
       }
    else
       {
@@ -276,7 +262,10 @@ void Field::retrieveValue(void)
          if (VariableType == APSIMVariant::realType)
             {
             DoubleValues = Variable.asRealArray();
-            Double2string (DoubleValues, Values, 3);
+            if (CSVFormat)
+               Double2string (DoubleValues, Values, 6);
+            else
+               Double2string (DoubleValues, Values, 3);
             }
          else if (VariableType == APSIMVariant::integerType)
             {
@@ -299,8 +288,12 @@ void Field::retrieveValue(void)
                   break;
                }
             if (Values.size() == DoubleValues.size())
-               Double2string (DoubleValues, Values, 3);
-
+               {
+               if (CSVFormat)
+                  Double2string (DoubleValues, Values, 6);
+               else
+                  Double2string (DoubleValues, Values, 3);
+               }
             }
          }
       }
@@ -309,10 +302,11 @@ void Field::retrieveValue(void)
       if (Str_i_Eq(FunctionName, "avg"))
          devide_value(FunctionValues, NumTimesAccumulated);
 
-      if (VariableType == APSIMVariant::realType)
-         Double2string (FunctionValues, Values, 3);
+      if (CSVFormat)
+         Double2string (FunctionValues, Values, 6);
       else
-         Double2string (FunctionValues, Values, 0);
+         Double2string (FunctionValues, Values, 3);
+
       FunctionValues.erase(FunctionValues.begin(), FunctionValues.end());
       NumTimesAccumulated = 0;
       }
@@ -474,7 +468,7 @@ void ReportComponent::Init (void)
    APSIMProperty FormatProperty;
    ApsimSystem().Data.Get (Name + ".Parameters.Format", FormatProperty);
    CSVFormat = Str_i_Eq(FormatProperty.GetValue(), "csv");
-   DaysSinceLastReport = 0;
+   DaysSinceLastReport = 1;
 
    // write out all initial conditions.
    string msg = "Output file = " + Out.getFilename();
