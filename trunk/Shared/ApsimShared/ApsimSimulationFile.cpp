@@ -42,7 +42,7 @@ ApsimSimulationFile::~ApsimSimulationFile(void)
 // ------------------------------------------------------------------
 // Run the simulation
 // ------------------------------------------------------------------
-void ApsimSimulationFile::run(bool console) const
+void ApsimSimulationFile::run(const string& fileName, bool console)
    {
    string commandLine = getApsimDirectory() + "\\bin\\apsim.exe ";
    if (console)
