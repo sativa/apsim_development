@@ -126,7 +126,7 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
       if (startDateJDay == 0)
          {
          getStartEndDate();
-         updateInterval = (endDateJDay - startDateJDay) / 40;
+         updateInterval = min((endDateJDay - startDateJDay) / 40, 100);
          if (updateInterval < 1)
             {
             updateInterval = 1;
