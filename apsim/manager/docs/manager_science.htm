@@ -22,7 +22,9 @@
 <p class="Code">endif</p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal">Here the fertiliz module will be sent a message containing a directive to apply (the action) fertiliser when the condition is satisfied. It receives a data string (the underlined text) which further describes the action.</p>
+<p class="Normal">As of version 4 of APSIM, the manager module can broadcast a message to all modules by substituting the keyword 'act_mods' in the place of the module name. This capability is useful for multi-point simulations where a sow message needs to be sent to multiple points.</p>
 <p class="Normal">&nbsp;</p>
+
 <p class="Title2">Parameter file settings</p>
 <p class="Normal">As shown above, the manager module input consists of a set of rules and calculations to be used during a simulation. There is no “parameters” data section for the manager module. The manager module is different to most other APSIM modules in that it breaks its input data into event sections. These sections can be the name of any event in APSIM, for example, init, prepare, process, post, tick and prenewmet. For convenience, the MANAGER module also allows “start_of_day ” and “end_of_day ” aliases for prepare and post respectively. The user can have a set of rules to be applied at the start of the day(PREPARE event) or end of the day (POST event) of any APSIM timestep. For example<br>
 </p>
