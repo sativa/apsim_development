@@ -820,28 +820,6 @@
       </field>
    </type>
 
-!dsg 180702
-   <type name="ActualDecomposition" array="T">  !for each residue instance
-      <field name="name" kind="string"/>
-      <field name="OrganicMatterType" kind="string"/>
-      <field name="OrganicMatterFraction" array="T">
-         <element>
-         <field name="amount"  kind="single" units="kg/ha"/>
-         <field name="C"       kind="single" units="kg/ha"/>
-         <field name="N"       kind="single" units="kg/ha"/>
-         <field name="P"       kind="single" units="kg/ha"/>
-         <field name="AshAlk"  kind="single" units="kg/ha"/>
-         </element>
-      <field name="ResidueCFlowsLayer" array="T"> !for each layer
-         <element>
-         <field name="hum"  kind="single" units="kg/ha"/>  ! the old dlt_res_c_hum from Do_Decompose Event
-         <field name="biom" kind="single" units="kg/ha"/>  ! the old dlt_res_c_biom from Do_Decompose Event
-         <field name="atm"  kind="single" units="kg/ha"/>   ! the old dlt_res_c_atm from Do_Decompose Event
-         </element>   
-      </field>
-   </type>
-
-
 !dsg 030702
    <type name="SoilOrganicMatter">
       <field name="OrganicMatterType" kind="string"/>
