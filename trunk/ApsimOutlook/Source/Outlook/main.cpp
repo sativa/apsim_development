@@ -304,19 +304,25 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    iniPath.Set_extension(".ini");
    Ini_file ini;
    ini.Set_file_name(iniPath.Get_path().c_str());
-   string contents;
-   ini.Read_section_contents("addins", contents);
-   unsigned int posAddIn = contents.find("DBAddin\DBAddin.dll");
+   string originalContents;
+   ini.Read_section_contents("addins", originalContents);
+   string contents = originalContents;
+   To_lower(contents);
+   unsigned int posAddIn = contents.find("dbaddin\\dbaddin.dll");
    if (posAddIn != string::npos)
       {
-      posAddIn += 19;
-      contents.insert(19, " " + destinationMDB);
-      CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
-      contents.erase(19, destinationMDB.length() + 1);
+      // add the destination MDB to the .ini file so that the DBaddin
+      // can pick it up.
+      contents.insert(posAddIn+19, " " + destinationMDB);
       ini.Write_section_contents("addins", contents);
+      ShowMessage(contents.c_str());
+      CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
+
+      // now remove our modification to the .ini file.
+      ini.Write_section_contents("addins", originalContents);
       }
    else
-      ShowMessage("Cannot find line in .ini file.  Line: addIn = addDBAddIn\DBAddin.dll");
+      ShowMessage("Cannot find line in .ini file.  Line: DBAddIn\\DBAddin.dll");
 
    Screen->Cursor = savedCursor;
    }
