@@ -1,5 +1,5 @@
 @echo off
-set APSROOT=c:\mydata\development
+set APSROOT=c:\development
 set APSMAKE=c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f makefile.bc6
 
 set SHARED=%APSROOT%\shared
