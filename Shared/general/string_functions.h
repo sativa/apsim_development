@@ -111,7 +111,7 @@ void Build_string (container& words, const char* separators, std::string& text)
 // builds up a string from a container of items.
 // ------------------------------------------------------------------
 template <class T>
-std::string buildString(std::vector<T>& values, const char* separators)
+std::string buildString(const std::vector<T>& values, const char* separators)
    {
    std::ostringstream st;
    std::ostream_iterator<T, char> out(st, separators);
@@ -570,6 +570,21 @@ std::string getKeyValue(const std::string& line, const std::string& key);
 void getKeyNameAndValue(const std::string& line,
                         std::string& key,
                         std::string& value);
+
+// ------------------------------------------------------------------
+// single quote the string passed in.
+// ------------------------------------------------------------------
+string singleQuoted(const string& st)
+   {
+   return "'" + st + "'";
+   }
+// ------------------------------------------------------------------
+// double quote the string passed in.
+// ------------------------------------------------------------------
+string doubleQuoted(const string& st)
+   {
+   return "\"" + st + "\"";
+   }
 
 #endif
 
