@@ -601,7 +601,7 @@ c      g%ComponentFrgr(:) = 0.0
 
       call unpack_canopy(variant, canopies, num_canopies)
 
-      call Write_string ('got it')
+
 !      print*,canopies(1)%cropType
 !      print*,canopies(1)%NumLayers
 !      print*,canopies(1)%layer(1)%thickness
