@@ -33,16 +33,15 @@ RELEASELIBPATH = $(BCB)\lib\release
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 USERDEFINES =
 # ---------------------------------------------------------------------------
-CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared -Od -Hc \
-  -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
-  -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tW -tWM
+CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;"k:\" -Od -Hc -H=$(BCB)\lib\vcl40.csm -w \
+  -Ve -Tkh30000 -r- -a8 -k -y -v -vi- -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par \
+  -w-inl -Vx -tW -tWM
 CFLAG2 =
 CFLAG3 =
 PFLAGS = -U$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -I$(BCB)\include;$(BCB)\include\vcl;..\..\shared -$YD -$W -$O- -v -M -JPHNE
-RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\shared /mx /w2 /zd /d_RTLDLL \
-  /dUSEPACKAGES
+  -I$(BCB)\include;$(BCB)\include\vcl;"k:\" -$YD -$W -$O- -v -M -JPHNE
+RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;"k:\"
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i"k:\" /mx /w2 /zd /d_RTLDLL /dUSEPACKAGES
 LFLAGS = -L$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) -aa -Tpe -x -Gn -v
 IFLAGS =
 # ---------------------------------------------------------------------------
@@ -80,25 +79,25 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+C:\PROGRA~1\Borland\CBUILD~1\Projects\Bpl\dclrx4.bpl=RX Library Controls and Tools
+$(BCB)\Projects\Bpl\dclrxdb4.bpl=RX Library Database Components
+C:\PROGRA~1\Borland\CBUILD~1\Projects\Bpl\DclTee4C.bpl=TeeChart 4.0 Components
+$(BCB)\Projects\Bpl\thirdparty.bpl=Third Party Controls
+$(BCB)\Projects\Bpl\plusmemoc4.bpl=c:\program files\borland\cbuilder4\Projects\Bpl\plusmemoc4
+$(BCB)\Projects\Bpl\DclTeP4C.bpl=TeeChart Pro 4.0 Components
 $(BCB)\Bin\dcl31w40.bpl=Delphi 1.0 Compatibility Components
 $(BCB)\Bin\dclqrt40.bpl=QuickReport Components
 $(BCB)\Bin\mfcowlwizard.bpl=MFC/OWL Wizard
 C:\WINNT\System32\\nmfast40.bpl=NetMasters Fastnet Tools
-$(BCB)\Projects\Bpl\thirdparty.bpl=Third Party Controls
-$(BCB)\Projects\Bpl\plusmemoc4.bpl=Plusmemo
-$(BCB)\Projects\Bpl\dclrxdb4.bpl=RX Library Database Components
-C:\PROGRA~1\Borland\CBUILD~1\Projects\Bpl\dclrx4.bpl=RX Library Controls and Tools
 $(BCB)\Projects\Bpl\APSGeneral.bpl=APSuite General Components
-$(BCB)\Projects\Bpl\uoolepcb4.bpl=UnitOOPS OLE Drag and Drop Components for C++Builder 4.x
 $(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
-$(BCB)\Projects\Bpl\DclTeP4C.bpl=TeeChart Pro 4.0 Components
-C:\PROGRA~1\Borland\CBUILD~1\Projects\Bpl\DclTee4C.bpl=TeeChart 4.0 Components
-$(BCB)\Projects\Bpl\APSData.bpl=APSuite Data Components
+$(BCB)\Projects\Bpl\APSData.bpl=APSuite data mining/analysis components.
 
 [HistoryLists\hlIncludePath]
-Count=2
-Item0=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
+Count=3
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
+Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
 
 [HistoryLists\hlLibraryPath]
 Count=2
