@@ -394,4 +394,37 @@ void getKeyNameAndValue(const string& line, string& key, string& value)
       value = "";
       }
    }
+// ------------------------------------------------------------------
+// rename the specified section
+// ------------------------------------------------------------------
+void IniFile::renameSection(const string& oldSection,
+                            const string& newSection) const
+	{
+   string line;
+   flush();
+
+   // We going to create a temporary file to write which we'll
+   // rename later.
+   string tempFileName = ChangeFileExt(fileName.c_str(), ".tmp").c_str();
+   ofstream out(tempFileName.c_str());
+
+   // Go find the section in the .ini file.  Echo all lines up to the section
+   // to the output stream.
+   ifstream in(fileName.c_str());
+   bool found = false;
+   while (!found && getline(in, line, '\n'))
+      {
+      if (Str_i_Eq(getSectionName(line), oldSection))
+         out << '[' << newSection << ']' << endl; 
+      else
+         out << line << endl;
+      }
+
+   // Close all files, delete current .ini file an rename our .ini file
+   // to the new name.
+   in.close();
+   out.close();
+   unlink(fileName.c_str());
+   rename(tempFileName.c_str(), fileName.c_str());
+   }
 
