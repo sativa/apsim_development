@@ -1,10 +1,10 @@
-#ifndef STRING_FUNCTIONS_H
-#define STRING_FUNCTIONS_H
+#ifndef STRING_FUNCTIONSH
+#define STRING_FUNCTIONSH
 
 #include <string>
 #include <list>
 #include <vector>
-#include <algorith>
+#include <algorithm>
 #include <functional>
 
 // ------------------------------------------------------------------
@@ -22,18 +22,18 @@ void Split_string (const std::string& text, const char* separators, container& w
    {
    words.erase(words.begin(), words.end());
 
-	int n = text.length();
+        int n = text.length();
    int start, stop;
 
    start = text.find_first_not_of(separators);
 
    while ((start >= 0) && (start < n))
       {
-		stop = text.find_first_of(separators, start);
-		if ((stop < 0) || (stop > n)) stop = n;
-		words.push_back(text.substr(start, stop - start));
-		start = text.find_first_not_of(separators, stop+1);
-		}
+                stop = text.find_first_of(separators, start);
+                if ((stop < 0) || (stop > n)) stop = n;
+                words.push_back(text.substr(start, stop - start));
+                start = text.find_first_not_of(separators, stop+1);
+                }
    }
 
 // ------------------------------------------------------------------
@@ -60,7 +60,7 @@ void SplitStringHonouringQuotes(const std::string& text,
 
    std::string separatorsAndQuote = separators + std::string("\"");
    std::string separatorsAndSpace = separators + std::string(" ");
-	unsigned int n = text.length();
+        unsigned int n = text.length();
    unsigned int start, stop;
 
    start = text.find_first_not_of(separatorsAndSpace);
@@ -76,10 +76,10 @@ void SplitStringHonouringQuotes(const std::string& text,
          }
       else
          stop = text.find_first_of(separatorsAndQuote, start);
-		if (stop > n) stop = n;
-		words.push_back(text.substr(start, stop - start));
-		start = text.find_first_not_of(separatorsAndSpace, stop+1);
-		}
+                if (stop > n) stop = n;
+                words.push_back(text.substr(start, stop - start));
+                start = text.find_first_not_of(separatorsAndSpace, stop+1);
+                }
    }
 
 // ------------------------------------------------------------------
@@ -118,30 +118,46 @@ std::string buildString(std::vector<T>& values, const char* separators)
    std::copy(values.begin(), values.end(), out);
    return st.str();
    }
+// ------------------------------------------------------------------
+// splits a string into words.
+// ------------------------------------------------------------------
+template <class container>
+void splitIntoValues(const std::string& text, const std::string& separators, container& words)
+   {
+   words.erase(words.begin(), words.end());
+
+        int n = text.length();
+   int start, stop;
+
+   start = text.find_first_not_of(separators);
+
+   while ((start >= 0) && (start < n))
+      {
+                stop = text.find_first_of(separators, start);
+                if ((stop < 0) || (stop > n)) stop = n;
+                words.push_back(text.substr(start, stop - start));
+                start = text.find_first_not_of(separators, stop+1);
+                }
+   }
 
 // ------------------------------------------------------------------
-//  Short description:
-//    removes leading and trailing characters.
-
-//  Notes:
-
-//  Changes:
-//    DPH 17/4/1997
+// Split off a substring delimited with the specified character and
+// return substring. Returns blank if not found.
+// ------------------------------------------------------------------
+std::string splitOffAfterDelimiter(std::string& value, const std::string& delimiter);
 
 // ------------------------------------------------------------------
-void Strip (char* text, const char* separators);
+// Split off a bracketed value from the end of the specified string.
+// The bracketed value is then returned, without the brackets,
+// or blank if not found.
+// ------------------------------------------------------------------
+std::string splitOffBracketedValue(std::string& valueString,
+                                   char openBracket, char closeBracket);
 
 // ------------------------------------------------------------------
-//  Short description:
-//    removes leading and trailing characters.
-
-//  Notes:
-
-//  Changes:
-//    DPH 17/4/1997
-
+// removes leading and trailing characters.
 // ------------------------------------------------------------------
-void Strip (std::string& text, const char* separators);
+void stripLeadingTrailing(std::string& text, const std::string& separators);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -534,6 +550,26 @@ void getAttributesFromLine(const std::string& line, CT& names, CT& values)
 //    dph 16/8/2001
 // ------------------------------------------------------------------
 void removeAttributeFromLine(std::string& line, const std::string& attribute);
+
+// ------------------------------------------------------------------
+// Helper function - Get a section name from the specified line.
+// ie look for [section] on the line passed in.
+// Returns name if found.  Blank otherwise.
+// ------------------------------------------------------------------
+std::string getSectionName(const std::string& line);
+
+// ------------------------------------------------------------------
+// Get a value from an .ini line. ie look for keyname = keyvalue
+// on the line passed in.  Returns the value if found or blank otherwise.
+// ------------------------------------------------------------------
+std::string getKeyValue(const std::string& line, const std::string& key);
+
+// ------------------------------------------------------------------
+// Return the key name and value on the line.
+// ------------------------------------------------------------------
+void getKeyNameAndValue(const std::string& line,
+                        std::string& key,
+                        std::string& value);
 
 #endif
 
