@@ -1,8 +1,5 @@
 <component name="apswim">
-   <types>
-      <type name="rain_double" kind="double" units="mm/d"/>
-      <type name="interception_double" kind="double" unit="" description=""/>
-   </types>
+
    <registrations>
       <respondToGetReg name="dlayer" type="dlayer"/>
       <respondToGetReg name="bd" type="bd"/>
@@ -32,7 +29,8 @@
       <respondToGetSetReg name="scon" type="scon"/>
       <respondToGetReg name="scon_min" type="scon_min"/>
       <respondToGetReg name="scon_max" type="scon_max"/>
-      <respondToGetReg name="dr" type="dr"/>      <respondToGetReg name="dt" type="dt"/>
+      <respondToGetReg name="dr" type="dr"/>      
+      <respondToGetReg name="dt" type="dt"/>
       <respondToGetReg name="crop_cover" type="crop_cover"/>
       <read name="slmin" type="slmin" />
       <read name="slmax" type="slmax" />
@@ -142,7 +140,7 @@
       <getVariableReg name="maxt" type="maxt"/>
       <getVariableReg name="mint" type="mint"/>
       <getVariableReg name="cover_tot_sum" type="cover_tot_sum"/>
-      <getVariableReg name="rain" type="rain_double"/>
+      <getVariableReg name="rain" type="rain"/>
       <getVariableReg name="rain_time" type="rain_time"/>
       <getVariableReg name="rain_durn" type="rain_durn"/>
       <getVariableReg name="rain_int" type="rain_int"/>
@@ -152,7 +150,7 @@
       <getVariableReg name="eo_durn" type="eo_durn"/>
       <getVariableReg name="obs_eo" type="obs_eo"/>
       <getVariableReg name="residue_cover" type="residue_cover"/>
-      <getVariableReg name="interception" type="interception_double"/>
+      <getVariableReg name="interception" type="interception"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="year" type="year"/>
 

@@ -87,7 +87,7 @@
    <type name="sat_dep" kind="single" array="T" unit="mm" description="saturated soil moisture"/>
    <type name="wp" kind="single" unit="cm" description="Profile moisture content"/>
    <type name="p" kind="single" array="T" unit="" description="Transformed water potential"/>
-   <type name="psi" kind="single" array="T" unit="cm" lower_bound="-1d10" upper_bound="0.0d0" description="matric potential"/>
+   <type name="psi" kind="double" array="T" unit="cm" lower_bound="-1d10" upper_bound="0.0d0" description="matric potential"/>
    <type name="daily_rain" kind="single" unit="mm" description="daily rain"/>
    <type name="runoff_model" kind="integer4" unit="" description="runoff model choice flag"/>
    <type name="runoff" kind="single" unit="mm" description="runoff"/>
@@ -104,14 +104,14 @@
    <type name="salb" kind="single" unit="??" description="soil albedo"/>
    <type name="hmin" kind="single" unit="mm" description="Soil surface water storage capacity"/>
    <type name="h" kind="single" unit="mm" description="Suface water storage"/>
-   <type name="scon" kind="single" unit="/hr" lower_bound="0.0d0" upper_bound="100.0d0" description="Surface seal conductance"/>
+   <type name="scon" kind="single" unit="/hr" lower_bound="0.0" upper_bound="100.0" description="Surface seal conductance"/>
    <type name="scon_min" kind="single" unit="/hr" description="Minimum surface seal conductance"/>
    <type name="scon_max" kind="single" unit="/hr" description="Maximum surface seal conductance"/>
    <type name="dr" kind="single" unit="mm" description="Rainfall increment in last SWIM timestep"/>
    <type name="dt" kind="single" unit="min" description="Time increment for last SWIM timestep"/>
    <type name="crop_cover" kind="single" unit="0-1" description="crop cover proportion"/>
-   <type name="bbc_potential" kind="single" unit="cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition potential"/>
-   <type name="bbc_gradient" kind="single" unit="cm/cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition gradient"/>
+   <type name="bbc_potential" kind="double" unit="cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition potential"/>
+   <type name="bbc_gradient" kind="double" unit="cm/cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition gradient"/>
    <type name="swim_timestep_preparation" description="Message from APSWIM to SURFACE"/>
    <type name="pre_swim_timestep" description="Message from APSWIM to SURFACE"/>
    <type name="post_swim_timestep" description="Message from APSWIM to SURFACE"/>
