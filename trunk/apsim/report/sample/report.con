@@ -1,0 +1,6 @@
+[APSIM.sample_report]
+module=report     report.par[sample]
+module=input      ..\..\input\sample\dalby.met[weather]  report.par[sample]
+module=manager    report.par[sample]
+
+
