@@ -1,57 +1,50 @@
-# ---------------------------------------------------------------------------
-!if !$d(BCB)
-BCB = $(MAKEDIR)\..
-!endif
-
-# ---------------------------------------------------------------------------
-# IDE SECTION
-# ---------------------------------------------------------------------------
-# The following section of the project makefile is managed by the BCB IDE.
-# It is recommended to use the IDE to change any of the values in this
-# section.
-# ---------------------------------------------------------------------------
-
-VERSION = BCB.04.04
-# ---------------------------------------------------------------------------
-PROJECT = report.dll
-OBJFILES = report.obj ReportComponent.obj ..\..\infra\engine\APSIMComponentInterface.obj \
-  k:\general\string_functions.obj
-RESFILES =
-RESDEPEN = $(RESFILES)
-LIBFILES = ..\..\infra\engine\APSIMEngine.lib
-LIBRARIES =
-SPARELIBS = Vcl40.lib
-PACKAGES = Vcl40.bpi Vclx40.bpi vcljpg40.bpi ibsmp40.bpi Vcldb40.bpi bcbsmp40.bpi \
-  vcldbx40.bpi dclocx40.bpi Qrpt40.bpi nmfast40.bpi
-DEFFILE =
-# ---------------------------------------------------------------------------
-PATHCPP = .;..\..\infra\engine;k:\general\
-PATHPAS = .;
-PATHASM = .;
-PATHRC = .;
-DEBUGLIBPATH = $(BCB)\lib\debug
-RELEASELIBPATH = $(BCB)\lib\release
-USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-# ---------------------------------------------------------------------------
-CFLAG1 = -Ik:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine \
-  -WD -Od -Hc -H=$(BCB)\lib\vcl40.csm -w -Ve -r- -a8 -k -y -v -vi- -c -b- -w-par \
-  -w-inl -Vx -tWM -D$(SYSDEFINES);$(USERDEFINES)
-PFLAGS = -Uk:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine;$(RELEASELIBPATH) \
-  -Ik:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine \
-  -$YD -$W -$O- -v -JPHNE -M
-RFLAGS = -ik:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine
-AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /ik:\general /ik:\ /i..\..\infra\engine \
-  /mx /w2 /zd
-LFLAGS = -Lk:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine;$(RELEASELIBPATH) \
-  -aa -Tpd -x -Gn -Gi -v
-# ---------------------------------------------------------------------------
-ALLOBJ = c0d32.obj Memmgr.Lib $(PACKAGES) sysinit.obj $(OBJFILES)
-ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
-# ---------------------------------------------------------------------------
-!ifdef IDEOPTIONS
-
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="report.dll"/>
+    <OBJFILES value="report.obj ReportComponent.obj 
+      ..\..\infra\engine\APSIMComponentInterface.obj 
+      k:\general\string_functions.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="..\..\infra\engine\APSIMEngine.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="vcl50.lib"/>
+    <PACKAGES value="vcl50.bpi vclx50.bpi vcljpg50.bpi ibsmp50.bpi vcldb50.bpi vclbde50.bpi 
+      bcbsmp50.bpi vcldbx50.bpi dclocx50.bpi qrpt50.bpi nmfast50.bpi"/>
+    <PATHCPP value=".;..\..\infra\engine;k:\general\"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <MAINSOURCE value="report.cpp"/>
+    <INCLUDEPATH value="k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\general\;k:\;..\..\infra\engine"/>
+    <LIBPATH value="k:\general;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;..\..\infra\engine"/>
+    <WARNINGS value="-w-par -w-8027 -w-8026"/>
+    <WARNOPTSTR value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -Od -H=c:\PROGRA~1\borland\CBUILD~2\lib\vcl50.csm -Hc -Vx -Ve -X- -r- 
+      -a8 -b- -k -y -v -vi- -c -tWM"/>
+    <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
 AutoIncBuild=0
@@ -118,93 +111,13 @@ RemotePath=
 RemoteDebug=0
 
 [Compiler]
-InMemoryExe=0
 ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
 
-!endif
-
-# ---------------------------------------------------------------------------
-# MAKE SECTION
-# ---------------------------------------------------------------------------
-# This section of the project file is not used by the BCB IDE.  It is for
-# the benefit of building from the command-line using the MAKE utility.
-# ---------------------------------------------------------------------------
-
-.autodepend
-# ---------------------------------------------------------------------------
-!if !$d(BCC32)
-BCC32 = bcc32
-!endif
-
-!if !$d(CPP32)
-CPP32 = cpp32
-!endif
-
-!if !$d(DCC32)
-DCC32 = dcc32
-!endif
-
-!if !$d(TASM32)
-TASM32 = tasm32
-!endif
-
-!if !$d(LINKER)
-LINKER = ilink32
-!endif
-
-!if !$d(BRCC32)
-BRCC32 = brcc32
-!endif
-
-# ---------------------------------------------------------------------------
-!if $d(PATHCPP)
-.PATH.CPP = $(PATHCPP)
-.PATH.C   = $(PATHCPP)
-!endif
-
-!if $d(PATHPAS)
-.PATH.PAS = $(PATHPAS)
-!endif
-
-!if $d(PATHASM)
-.PATH.ASM = $(PATHASM)
-!endif
-
-!if $d(PATHRC)
-.PATH.RC  = $(PATHRC)
-!endif
-# ---------------------------------------------------------------------------
-$(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
-    $(BCB)\BIN\$(LINKER) @&&!
-    $(LFLAGS) +
-    $(ALLOBJ), +
-    $(PROJECT),, +
-    $(ALLLIB), +
-    $(DEFFILE), +
-    $(ALLRES)
-!
-# ---------------------------------------------------------------------------
-.pas.hpp:
-    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
-
-.pas.obj:
-    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
-
-.cpp.obj:
-    $(BCB)\BIN\$(BCC32) $(CFLAG1) -n$(@D) {$< }
-
-.c.obj:
-    $(BCB)\BIN\$(BCC32) $(CFLAG1) -n$(@D) {$< }
-
-.c.i:
-    $(BCB)\BIN\$(CPP32) $(CFLAG1) -n. {$< }
-
-.cpp.i:
-    $(BCB)\BIN\$(CPP32) $(CFLAG1) -n. {$< }
-
-.asm.obj:
-    $(BCB)\BIN\$(TASM32) $(AFLAGS) $<, $@
-
-.rc.res:
-    $(BCB)\BIN\$(BRCC32) $(RFLAGS) -fo$@ $<
-# ---------------------------------------------------------------------------
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
