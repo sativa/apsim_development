@@ -61,7 +61,7 @@ $(ALLRES)
 datatypes.obj: datatypes.cpp datatypes.h
 datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
 	cd $(APSROOT)\Bin
-	$(APSROOT)\Bin\CreateDataTypesSource.exe
+	$(APSROOT)\Bin\CreateDataTypesSource.exe $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
    cd $(APSROOT)\Shared\ComponentInterface
 # NB. Assumption here that we are always working within the development tree. NB.
 

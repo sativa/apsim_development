@@ -4,21 +4,21 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\GrossMarginCalculator.dll"/>
-    <OBJFILES value="GrossMarginCalculator.obj GMCalculator.obj TGMForm.obj TCropForm.obj
-      TSeedWeightForm.obj TWheatMatrixForm.obj SysSuppAddIn.obj"/>
+    <OBJFILES value="GrossMarginCalculator.obj GMCalculator.obj TGMForm.obj TCropForm.obj 
+      TSeedWeightForm.obj TWheatMatrixForm.obj"/>
     <RESFILES value="GrossMarginCalculator.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TGMForm.dfm TCropForm.dfm TSeedWeightForm.dfm
+    <RESDEPEN value="$(RESFILES) TGMForm.dfm TCropForm.dfm TSeedWeightForm.dfm 
       TWheatMatrixForm.dfm"/>
-    <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib
-      ..\general\general_vcl.lib"/>
-    <LIBRARIES value="VclSmp.lib TMSC6.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib vcldb.lib dbrtl.lib TMSC6.lib vclx.lib VclSmp.lib
-      adortl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi bdertl.bpi vcldb.bpi vclx.bpi
-      nmfast.bpi bcbie.bpi inet.bpi adortl.bpi bcbsmp.bpi dsnap.bpi cds.bpi
-      dbexpress.bpi dbxcds.bpi ibxpress.bpi vclie.bpi inetdbbde.bpi
-      inetdbxpress.bpi dclocx.bpi soaprtl.bpi"/>
+    <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib 
+      ..\general\general_vcl.lib &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot;"/>
+    <LIBRARIES value="adortl.lib VclSmp.lib TMSC6.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vcldb.lib dbrtl.lib TMSC6.lib vclx.lib VclSmp.lib 
+      adortl.lib Tee7C6.lib"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi 
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
+      dclocx.bpi bcb97axserver.bpi TeeDB7C6.bpi Tee7C6.bpi TeeUI7C6.bpi 
+      TeeGL7C6.bpi TeeQR7C6.bpi TeeLanguage7C6.bpi TeePro7C6.bpi TeeImage7C6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -30,12 +30,12 @@
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="GrossMarginCalculator.bpf"/>
     <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="&quot;c:\program files\borland\cbuilder6\components\tms&quot;;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
@@ -60,8 +60,8 @@
       <FILE FILENAME="TSeedWeightForm.cpp" FORMNAME="SeedWeightsForm" UNITNAME="TSeedWeightForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TWheatMatrixForm.cpp" FORMNAME="WheatMatrixForm" UNITNAME="TWheatMatrixForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SysSuppAddIn.cpp" FORMNAME="" UNITNAME="SysSuppAddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -95,16 +95,21 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=..\..\..\..\Shared\GrossMarginCalculator;$(BCB)\include;$(BCB)\include\vcl
+Count=5
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=..\..\ApsimOutlook\Source\Outlook\ConvertEconomics;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=..\..\..\..\Shared\GrossMarginCalculator;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=c:\program files\borland\cbuilder6\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=$(BCB)\lib\obj;$(BCB)\lib
-Item2=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\Shared\GrossMarginCalculator;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=6
+Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms
+Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\..\ApsimOutlook\Source\Outlook\ConvertEconomics;c:\program files\borland\cbuilder6\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item3=c:\program files\borland\cbuilder6\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=$(BCB)\lib\obj;$(BCB)\lib
+Item5=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\..\..\..\Shared\GrossMarginCalculator;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -141,6 +146,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
+LinkCGLIB=0
 
 [Language]
 ActiveLang=

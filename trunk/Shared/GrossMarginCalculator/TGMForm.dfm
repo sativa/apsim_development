@@ -1864,15 +1864,15 @@ object GMForm: TGMForm
       000000000000}
   end
   object OpenDialog: TOpenDialog
-    DefaultExt = 'mdb'
-    Filter = 'Economics databases(*.mdb)|*.mdb'
+    DefaultExt = 'xml'
+    Filter = 'Economics databases(*.xml)|*.xml'
     Title = 'Select an economics database'
     Left = 80
     Top = 96
   end
   object SaveDialog: TSaveDialog
-    DefaultExt = 'mdb'
-    Filter = 'Economics databases(*.mdb)|*.mdb'
+    DefaultExt = 'xml'
+    Filter = 'Economics databases(*.xml)|*.xml'
     Title = 'Enter a new name and folder for economics database'
     Left = 112
     Top = 96

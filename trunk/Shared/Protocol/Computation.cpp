@@ -38,6 +38,7 @@ CallbackType* callback = &messageCallback;
 // ------------------------------------------------------------------
 Computation::Computation(const string& name,
                          const string& fileName,
+                         const string& componentInterfaceExecutable,
                          unsigned int componentId,
                          unsigned int parentId) throw (runtime_error)
    {
@@ -45,7 +46,7 @@ Computation::Computation(const string& name,
    // way of doing this.
    Transport::getTransport().addComponent(componentId, name, this);
 
-   if (loadComponent(fileName))
+   if (loadComponent(fileName, componentInterfaceExecutable))
       createInstance(fileName, componentId, parentId);
    }
 
@@ -114,20 +115,33 @@ void Computation::deleteInstance(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-string Computation::getWrapperFilename(const string& filename) throw (runtime_error)
+string Computation::getComponentInterfaceExecutable(const string& filename) throw (runtime_error)
    {
-   void _stdcall (*wrapperDll)(char* dllFileName);
-   (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
-   if (wrapperDll == NULL)
-      throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+   string componentInterface;
 
-   else
+   handle = LoadLibrary(filename.c_str());
+   if (handle != NULL)
       {
-      // Go get the wrapperDll filename.
-      char wrapperFilename[500];
-      (*wrapperDll)(&wrapperFilename[0]);
-      return Path(&wrapperFilename[0]).Get_name();
+      void _stdcall (*wrapperDll)(char* dllFileName);
+      (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
+      if (wrapperDll == NULL)
+         throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+
+      else
+         {
+         // Go get the wrapperDll filename.
+         char wrapperFilename[500];
+         (*wrapperDll)(&wrapperFilename[0]);
+         componentInterface = Path(&wrapperFilename[0]).Get_name();
+         }
+
+      if (componentInterface != "")
+         componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
+      else
+         componentInterface = filename;
       }
+   FreeLibrary(handle);
+   return componentInterface;
    }
 
 // ------------------------------------------------------------------
@@ -141,24 +155,20 @@ string Computation::getWrapperFilename(const string& filename) throw (runtime_er
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
-bool Computation::loadComponent(const std::string& filename) throw (runtime_error)
+bool Computation::loadComponent(const std::string& filename,
+                                std::string componentInterfaceExecutable) throw (runtime_error)
    {
    executableFileName = filename;
    
    createInstanceProc = NULL;
    deleteInstanceProc = NULL;
    messageToLogicProc = NULL;
-   handle = LoadLibrary(filename.c_str());
+   if (componentInterfaceExecutable == "")
+      componentInterfaceExecutable = getComponentInterfaceExecutable(filename);
+
+   handle = LoadLibrary(componentInterfaceExecutable.c_str());
    if (handle != NULL)
       {
-      string wrapperFilename = getWrapperFilename(filename);
-      if (wrapperFilename != "")
-         {
-         FreeLibrary(handle);
-         string wrapperPath = getApsimDirectory() + "\\bin\\" + wrapperFilename;
-         handle = LoadLibrary(wrapperPath.c_str());
-         }
-
       (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");
       (FARPROC) deleteInstanceProc = GetProcAddress(handle, "deleteInstance");
       (FARPROC) messageToLogicProc = GetProcAddress(handle, "messageToLogic");
