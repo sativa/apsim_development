@@ -12,7 +12,10 @@
 #include <general\math_functions.h>
 #include <Math.hpp>
 #include <ApsimShared\ApsimDirectories.h>
-
+#pragma link "TAPSTable"
+#pragma link "TAPSTable_Form"
+#pragma link "TAPSRecord"
+#pragma link "TMultiSTringListForm"
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
