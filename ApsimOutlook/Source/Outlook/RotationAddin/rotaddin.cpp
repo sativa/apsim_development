@@ -310,14 +310,14 @@ bool RotationAddIn::processRotation(TAPSTable& data,
    int firstYear = 0;
    int lastYear = 10000;
 
-   CropFields cropFields;
-
    // loop through all data blocks, all records within a datablock
    // and all fields in each record.
    unsigned numDataBlocks = 0;
    bool ok = data.first();
+   CropFields cropFields(data.begin());
    while (ok)
       {
+
       if (find(rotationI->second.begin(),
                rotationI->second.end(),
                data.begin()->getFieldValue("Simulation")) != rotationI->second.end())

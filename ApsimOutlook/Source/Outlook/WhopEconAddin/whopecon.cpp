@@ -212,6 +212,7 @@ void WhopEcon::doCalculations(TAPSTable& data,
    DATA->CropList->Open();
 
    bool ok = data.first();
+
    while (ok)
       {
       string econConfigName;
@@ -224,6 +225,9 @@ void WhopEcon::doCalculations(TAPSTable& data,
       Graphics::TBitmap* bitmap;
       (*scenarioI)->getFactorAttributes(WHOPECON_FACTOR_NAME, econConfigName, bitmap);
 
+      // get a list of crops that have variables on the current record.
+      CropFields cropFields(data.begin());
+
       // dph - need to remove const record iterators.
       typedef vector<TAPSRecord>::iterator RecordsIterator;
       for (RecordsIterator record = const_cast<RecordsIterator> (data.begin());
@@ -233,8 +237,7 @@ void WhopEcon::doCalculations(TAPSTable& data,
          // create a new column for the configuration name.
          record->setFieldValue(WHOPECON_FACTOR_NAME, econConfigName);
 
-         // get a list of crops that have variables on the current record.
-         CropFields cropFields;
+         // go get a list of crop acronyms.
          vector<string> cropAcronyms;
          cropFields.getCropAcronyms(*record, cropAcronyms);
 
