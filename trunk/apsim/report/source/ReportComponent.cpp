@@ -332,6 +332,11 @@ void ReportComponent::doInit2(void)
          throw runtime_error("Cannot find name of output file in parameter file. ");
 
       out.open(fileName.c_str());
+      if (!out)
+         {
+         string msg = "Cannot open output file (sharing violation?): " + fileName;
+         error(msg.c_str(), true);
+         }
 
       // get format specifier.
       CSVFormat = Str_i_Eq(componentData->getProperty("parameters", "format"), "csv");
