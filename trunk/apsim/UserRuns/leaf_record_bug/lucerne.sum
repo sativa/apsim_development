@@ -9,21 +9,26 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = lucerne Sample Simulation
-     Component DLL          = c:\program files\apsim32\apsim\Log\lib\Log.dll
-     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\Log\lib\Log.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  1/01/1988
      Simulation end date   = 31/12/2000
      Time step =           = 1440 (mins)
@@ -272,48 +277,48 @@
                           stover N conc =    6.000000       extractable sw =    33.00000
 21 August 1988(Day of year=234), lucerne: 
       stage    4.0 end_of_juvenile
-                          biomass =           143.9474       lai =     1.436756
-                          stover N conc =    5.760220       extractable sw =    152.0025
+                          biomass =           144.0242       lai =     1.436756
+                          stover N conc =    5.763492       extractable sw =    151.9872
 16 September 1988(Day of year=260), lucerne: 
       stage    5.0 floral_initiation
-                          biomass =           330.9893       lai =     2.851857
-                          stover N conc =    4.067487       extractable sw =    240.3235
+                          biomass =           331.0661       lai =     2.851857
+                          stover N conc =    4.067487       extractable sw =    240.3070
 30 September 1988(Day of year=274), lucerne: 
       stage    6.0 flowering
-                          biomass =           450.3916       lai =     3.512679
-                          stover N conc =    3.197659       extractable sw =    192.6872
+                          biomass =           450.4677       lai =     3.512679
+                          stover N conc =    3.163077       extractable sw =    192.6707
 1 October 1988(Day of year=275), manager: 
      Manager sending message :- lucerne harvest
 1 October 1988(Day of year=275), lucerne: 
      
      
      
-      flowering day  =  274                  stover (kg/ha) =    4503.9
+      flowering day  =  274                  stover (kg/ha) =    4504.7
       maturity day        =    0             grain yield (kg/ha) =       0.0
       grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
       grain wt (g) =     0.000               grains/m^2   =     0.000
       grains/head =   0.0                    maximum lai = 3.524
-      total above ground biomass (kg/ha) =    4503.9
-      live above ground biomass (kg/ha) =    4503.9
-      green above ground biomass (kg/ha) =    4297.0
+      total above ground biomass (kg/ha) =    4504.7
+      live above ground biomass (kg/ha) =    4504.7
+      green above ground biomass (kg/ha) =    4297.8
       senesced above ground biomass (kg/ha) =     206.9
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  29.5
-      grain N percent =      0.00            total N content (kg/ha) =    140.22
-      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      2.82
-      green N content (kg/ha) =    137.40    dead N content (kg/ha) =      0.00
+      grain N percent =      0.00            total N content (kg/ha) =    140.08
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      4.14
+      green N content (kg/ha) =    135.94    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0234967
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1191295
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0233345
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1189602
      
      
      
       stress indices for end_of_juvenile
-      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0015470
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0046510
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0015408
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0046139
      
      
      
@@ -336,9 +341,9 @@
       - Reading constants for regrowth
      
       Crop harvested.
-                                               tops residue = 3989.7 kg/ha
+                                               tops residue = 3990.3 kg/ha
                                                tops N =  124.3 kg/ha
-                                               root residue =  196.3 kg/ha
+                                               root residue =  196.4 kg/ha
                                                root N =    2.0 kg/ha
      
      
@@ -347,15 +352,15 @@
                                                root removed =    0.0 kg/ha
                                                root N removed =    0.0 kg/ha
       stage    4.0 end_of_juvenile
-                          biomass =           51.42562       lai =    0.2000000E-03
-                          stover N conc =    3.174767       extractable sw =    192.6872
+                          biomass =           51.43400       lai =    0.2000000E-03
+                          stover N conc =    3.114137       extractable sw =    192.6707
 1 October 1988(Day of year=275), manager: 
      Manager sending message :- lucerne end_crop
 1 October 1988(Day of year=275), lucerne: 
          Crop ended. Yield (dw) =     0.0
                                                straw residue =  514.3 kg/ha
-                                               straw N =   15.9 kg/ha
-                                               root residue = 1973.1 kg/ha
+                                               straw N =   15.8 kg/ha
+                                               root residue = 1973.7 kg/ha
                                                root N =   49.3 kg/ha
 31 December 2000(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.
