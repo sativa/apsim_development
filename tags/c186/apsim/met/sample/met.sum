@@ -1,0 +1,28 @@
+report - Output_file=met.out
+report - initialising
+Title =met sample simulation
+Screen output =on
+ 
+Variable list
+-------------
+ 
+Module = clock
+Variables =day,year
+ 
+Module = met
+Variables =radn,maxt,mint,rain,day_length
+---------------------------------------------------------
+ INPUT (met) Initialised
+---------------------------------------------------------
+ day=   1 date=  1  1 1988 manager  - Initialising
+ 
+Manager rules
+------- -----
+report do_output
+ 
+-----------------------------------------------------------
+ 
+======= Start of APSIM simulation ============================
+Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
