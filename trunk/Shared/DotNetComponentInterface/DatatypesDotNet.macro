@@ -1,5 +1,5 @@
 ##################################################
-#file \misc\componentinterface\datatypes.h
+#file datatypes.h
 #pragma once
 #include "Message.h"
 #include "MessageData.h"
@@ -65,7 +65,7 @@ public __gc class Apsimstructure.name : public IManagedData
 #endfile
 
 ##################################################
-#file \misc\componentinterface\ApsimEvents.h
+#file ApsimEvents.h
 #pragma once
 #include "datatypes.h"
 #include "ComponentInterface.h"
