@@ -703,7 +703,7 @@ void legnew_cover_leaf_pod (
 //---------------------------------------------------------------------------
 
 
-void crop_failure_germination(commsInterface *, 
+void crop_failure_germination(commsInterface *,
                               int   sowing,
                               int   germ,
                               int   now,
@@ -713,7 +713,7 @@ void crop_failure_germination(commsInterface *,
                               float plants,            // (INPUT)  Plant density (plants/m^2)
                               float *dlt_plants);        // (OUTPUT) change in plant number
 
-void crop_failure_emergence(commsInterface *, 
+void crop_failure_emergence(commsInterface *,
                             int    germ,
                             int    emerg,
                             int    now,
@@ -723,7 +723,7 @@ void crop_failure_emergence(commsInterface *,
                             float *tt_tot,            // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
                             float *dlt_plants);        // (OUTPUT) change in plant number
 
-void crop_failure_leaf_senescence (commsInterface *, 
+void crop_failure_leaf_senescence (commsInterface *,
                                    int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence
                                    int  end_stage,             // (INPUT) end check stage for crop failure due to LAI senescence
                                    float g_lai,               // (INPUT) current LAI
@@ -731,7 +731,7 @@ void crop_failure_leaf_senescence (commsInterface *,
                                    float g_plants,            // (INPUT) current plant density (plants/m2)
                                    float *dlt_plants);          // (OUTPUT) daily plant death (plants/m2)
 
-void crop_death_drought (commsInterface *, 
+void crop_death_drought (commsInterface *,
                          int  emerg,                // (INPUT) emergence stage
                          int  flag_leaf,            // (INPUT) flag leaf stage
                          int  plant_end,            // (INPUT) maximum plant stage
@@ -744,7 +744,7 @@ void crop_death_drought (commsInterface *,
                          float  g_plants,           // (INPUT) plant density (plants/m2)
                          float *dlt_plants);         // (OUTPUT)daily plant death (plants/m2)
 
-void crop_death_seedling_hightemp (commsInterface *, 
+void crop_death_seedling_hightemp (commsInterface *,
                                    int days_after_emerg,           // (INPUT) days after emergence
                                    int g_year,                     // (INPUT) year
                                    int g_day_of_year,              // (INPUT) day of year
@@ -785,6 +785,7 @@ void crop_death_actual (float g_dlt_plants_failure_germ,
      float  *g_dlayer
     ,int    max_layer
     ,float  *g_no3gsm_uptake_pot
+    ,float  *g_nh4gsm_uptake_pot
     ,float  g_n_fix_pot
     ,const char   *c_n_supply_preference
     ,float  *g_n_demand
@@ -792,6 +793,7 @@ void crop_death_actual (float g_dlt_plants_failure_germ,
     ,int    max_part
     ,float  g_root_depth
     ,float  *dlt_no3gsm
+    ,float  *dlt_nh4gsm
     ) ;
   void cproc_n_supply3 (
      float  g_dlayer[]
@@ -820,9 +822,15 @@ void cproc_n_supply4 (float* g_dlayer  //  ! (INPUT)
                ,float* g_NO3gsm               //  ! (INPUT)
                ,float* g_NO3gsm_min           //  ! (INPUT)
                ,float* G_no3gsm_uptake_pot    //
+               ,float* g_NH4gsm               //  ! (INPUT)
+               ,float* g_NH4gsm_min           //  ! (INPUT)
+               ,float* G_nH4gsm_uptake_pot    //
                ,float g_root_depth            //  ! (INPUT)
                ,float c_n_stress_start_stage  //
-               ,float c_kln                   //
+               ,float c_kno3                   //
+               ,float c_no3ppm_min
+               ,float c_knh4                   //
+               ,float c_nh4ppm_min
                ,float c_total_n_uptake_max    //
                ,float* g_sw_avail_pot         //  ! (INPUT)
                ,float* g_sw_avail             //  ! (INPUT)
