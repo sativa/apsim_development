@@ -8,7 +8,7 @@ variable = soilp.labile_p
 variable = soilp.unavail_p
 variable = soilp.rock_p
 variable = soilp.banded_p
-variable = soilp.biom_p
+variable = soilp.biom_p()
 variable = soilp.hum_p()
 variable = soilp.fom_p()
 
