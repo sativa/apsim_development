@@ -2204,49 +2204,49 @@
       Sending harvest message to weed
 29 April 1999(Day of year=119), weed: 
      
-      flowering day          =    0                           stover (kg/ha)         =        0.0
-      maturity day           =    0                           grain yield (kg/ha)    =        0.0
-      grain % water content  =   12.0                         grain yield wet (kg/ha)=        0.0
+      flowering day          =   21                           stover (kg/ha)         =     1412.8
+      maturity day           =   56                           grain yield (kg/ha)    =      245.5
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      279.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/head            =    0.0                         maximum lai            =      0.000
-      total above ground biomass (kg/ha)    =        0.0
+      grains/head            =    0.0                         maximum lai            =      0.553
+      total above ground biomass (kg/ha)    =     1658.4
       live above ground biomass (kg/ha)     =        0.0
       green above ground biomass (kg/ha)    =        0.0
       senesced above ground biomass (kg/ha) =        0.0
-      dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =    0.0
-      grain N percent        =       0.00                     total N content (kg/ha)=       0.00
-      grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=    0.00
-      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =       0.00
+      dead above ground biomass (kg/ha)     =     1658.4
+      number of leaves       =   45.3
+      grain N percent        =       1.60                     total N content (kg/ha)=      25.85
+      grain N uptake (kg/ha) =       3.93                     senesced N content (kg/ha)=    0.00
+      green N content (kg/ha)=       0.00                     dead N content (kg/ha) =      21.93
      
       stress indices for emergence
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+         water stress 1 =  0.000     nitrogen stress 1 =  0.034
+         water stress 2 =  0.000     nitrogen stress 2 =  0.041
      
       stress indices for end_of_juvenile
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+         water stress 1 =  0.266     nitrogen stress 1 =  0.000
+         water stress 2 =  0.317     nitrogen stress 2 =  0.031
      
       stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+         water stress 1 =  0.642     nitrogen stress 1 =  0.000
+         water stress 2 =  0.736     nitrogen stress 2 =  0.000
      
       stress indices for flowering
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+         water stress 1 =  0.401     nitrogen stress 1 =  0.000
+         water stress 2 =  0.501     nitrogen stress 2 =  0.000
      
       stress indices for start_grain_fill
-         water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.000
+         water stress 1 =  0.646     nitrogen stress 1 =  0.000
+         water stress 2 =  0.746     nitrogen stress 2 =  0.000
      
      Crop harvested.
-         tops residue =  0.00 kg/ha
-         tops N       =  0.00 kg/ha
+         tops residue =  1243.42 kg/ha
+         tops N       =  18.25 kg/ha
          root residue =  0.00 kg/ha
          root N       =  0.00 kg/ha
      
-         tops removed =  0.00 kg/ha
-         tops N removed= 0.00 kg/ha
+         tops removed =  245.54 kg/ha
+         tops N removed= 3.93 kg/ha
          root removed =  0.00 kg/ha
          root N removed= 0.00 kg/ha
      
@@ -2258,10 +2258,10 @@
       Sending end_crop message to weed
 29 April 1999(Day of year=119), weed: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
-         straw residue =     0.0 kg/ha
-         straw N =           0.0 kg/ha
-         root residue =      0.0 kg/ha
-         root N =            0.0 kg/ha
+         straw residue =   169.4 kg/ha
+         straw N =           3.7 kg/ha
+         root residue =    442.8 kg/ha
+         root N =            4.6 kg/ha
          root P =            0.0 kg/ha
 30 April 1999(Day of year=120), operatns: 
       Sending tillage message to residue2
@@ -2352,91 +2352,91 @@
 6 June 1999(Day of year=157), canola: 
       stage 3.0 emergence
                      biomass =           5.28 (g/m^2)   lai          =   0.009 (m^2/m^2)
-                     stover N conc =     6.50 (%)     extractable sw =   33.45 (mm)
+                     stover N conc =     6.50 (%)     extractable sw =   33.48 (mm)
 28 June 1999(Day of year=179), canola: 
       stage 4.0 end_of_juvenile
                      biomass =           8.35 (g/m^2)   lai          =   0.089 (m^2/m^2)
-                     stover N conc =     5.87 (%)     extractable sw =   78.97 (mm)
+                     stover N conc =     5.87 (%)     extractable sw =   79.04 (mm)
 1 August 1999(Day of year=213), manager: 
      Manager sending message :- lucerne spring
 1 August 1999(Day of year=213), lucerne: 
       - reading constants for regrowth(lucerne)
 28 August 1999(Day of year=240), canola: 
       stage 5.0 floral_initiation
-                     biomass =         151.55 (g/m^2)   lai          =   1.907 (m^2/m^2)
-                     stover N conc =     5.13 (%)     extractable sw =  162.44 (mm)
+                     biomass =         151.38 (g/m^2)   lai          =   1.905 (m^2/m^2)
+                     stover N conc =     5.13 (%)     extractable sw =  162.52 (mm)
 20 September 1999(Day of year=263), canola: 
       stage 6.0 flowering
-                     biomass =         298.22 (g/m^2)   lai          =   3.859 (m^2/m^2)
-                     stover N conc =     3.16 (%)     extractable sw =  143.06 (mm)
+                     biomass =         299.85 (g/m^2)   lai          =   3.886 (m^2/m^2)
+                     stover N conc =     3.16 (%)     extractable sw =  142.86 (mm)
 5 October 1999(Day of year=278), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         447.19 (g/m^2)   lai          =   2.776 (m^2/m^2)
-                     stover N conc =     2.27 (%)     extractable sw =  110.09 (mm)
+                     biomass =         448.75 (g/m^2)   lai          =   2.791 (m^2/m^2)
+                     stover N conc =     2.27 (%)     extractable sw =  109.99 (mm)
 6 December 1999(Day of year=340), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         703.37 (g/m^2)   lai          =   0.442 (m^2/m^2)
-                     stover N conc =     0.43 (%)     extractable sw =   57.93 (mm)
+                     biomass =         704.36 (g/m^2)   lai          =   0.445 (m^2/m^2)
+                     stover N conc =     0.42 (%)     extractable sw =   58.24 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending harvest message to canola
 7 December 1999(Day of year=341), canola: 
      
-      flowering day          =  263                           stover (kg/ha)         =     4923.6
-      maturity day           =    0                           grain yield (kg/ha)    =     2110.1
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2306.1
+      flowering day          =  263                           stover (kg/ha)         =     4930.6
+      maturity day           =    0                           grain yield (kg/ha)    =     2113.1
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2309.4
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/head            =    0.0                         maximum lai            =      3.859
-      total above ground biomass (kg/ha)    =     7033.7
-      live above ground biomass (kg/ha)     =     7033.7
-      green above ground biomass (kg/ha)    =     5596.4
-      senesced above ground biomass (kg/ha) =     1437.3
+      grains/head            =    0.0                         maximum lai            =      3.886
+      total above ground biomass (kg/ha)    =     7043.6
+      live above ground biomass (kg/ha)     =     7043.6
+      green above ground biomass (kg/ha)    =     5601.3
+      senesced above ground biomass (kg/ha) =     1442.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   25.7
-      grain N percent        =       3.88                     total N content (kg/ha)=     119.60
-      grain N uptake (kg/ha) =      81.81                     senesced N content (kg/ha)=   18.91
-      green N content (kg/ha)=      18.89                     dead N content (kg/ha) =       0.00
+      grain N percent        =       3.88                     total N content (kg/ha)=     119.61
+      grain N uptake (kg/ha) =      81.93                     senesced N content (kg/ha)=   18.98
+      green N content (kg/ha)=      18.70                     dead N content (kg/ha) =       0.00
      
       stress indices for emergence
          water stress 1 =  0.000     nitrogen stress 1 =  0.035
-         water stress 2 =  0.000     nitrogen stress 2 =  0.090
+         water stress 2 =  0.000     nitrogen stress 2 =  0.091
      
       stress indices for end_of_juvenile
          water stress 1 =  0.000     nitrogen stress 1 =  0.000
-         water stress 2 =  0.000     nitrogen stress 2 =  0.174
+         water stress 2 =  0.000     nitrogen stress 2 =  0.176
      
       stress indices for floral_initiation
-         water stress 1 =  0.000     nitrogen stress 1 =  0.513
-         water stress 2 =  0.000     nitrogen stress 2 =  0.723
+         water stress 1 =  0.000     nitrogen stress 1 =  0.508
+         water stress 2 =  0.000     nitrogen stress 2 =  0.718
      
       stress indices for flowering
-         water stress 1 =  0.205     nitrogen stress 1 =  0.202
-         water stress 2 =  0.263     nitrogen stress 2 =  0.569
+         water stress 1 =  0.206     nitrogen stress 1 =  0.202
+         water stress 2 =  0.264     nitrogen stress 2 =  0.569
      
       stress indices for start_grain_fill
-         water stress 1 =  0.131     nitrogen stress 1 =  0.615
+         water stress 1 =  0.131     nitrogen stress 1 =  0.616
          water stress 2 =  0.164     nitrogen stress 2 =  0.796
      
      Crop harvested.
-         tops residue =  4870.77 kg/ha
-         tops N       =  36.43 kg/ha
-         root residue =  243.60 kg/ha
-         root N       =  1.95 kg/ha
+         tops residue =  4877.75 kg/ha
+         tops N       =  36.31 kg/ha
+         root residue =  244.60 kg/ha
+         root N       =  1.96 kg/ha
      
-         tops removed =  2110.10 kg/ha
-         tops N removed= 81.81 kg/ha
+         tops removed =  2113.09 kg/ha
+         tops N removed= 81.93 kg/ha
          root removed =  0.00 kg/ha
          root N removed= 0.00 kg/ha
      
       stage 4.0 end_of_juvenile
                      biomass =           5.28 (g/m^2)   lai          =   0.009 (m^2/m^2)
-                     stover N conc =     2.59 (%)     extractable sw =   57.93 (mm)
+                     stover N conc =     2.59 (%)     extractable sw =   58.24 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending end_crop message to canola
 7 December 1999(Day of year=341), canola: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          straw residue =    52.8 kg/ha
          straw N =           1.4 kg/ha
-         root residue =   2448.3 kg/ha
+         root residue =   2458.2 kg/ha
          root N =           14.1 kg/ha
          root P =            0.0 kg/ha
 7 December 1999(Day of year=341), operatns: 
