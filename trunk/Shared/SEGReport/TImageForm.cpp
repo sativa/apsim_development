@@ -28,21 +28,25 @@ void TImageForm::setComponent(TComponent* component)
    CentreCheckBox->Checked = image->Center;
    StretchCheckBox->Checked = image->Stretch;
    NameEdit->Text = image->Name;
+   image->Zoom = image->ParentReport->Zoom;
    }
 //---------------------------------------------------------------------------
 void __fastcall TImageForm::AutoSizeCheckBoxClick(TObject *Sender)
    {
-   image->AutoSize = AutoSizeCheckBox->Checked;
+   if (image->AutoSize != AutoSizeCheckBox->Checked)
+      image->AutoSize = AutoSizeCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 void __fastcall TImageForm::CentreCheckBoxClick(TObject *Sender)
    {
-   image->Center = CentreCheckBox->Checked;
+   if (image->Center != CentreCheckBox->Checked)
+      image->Center = CentreCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 void __fastcall TImageForm::StretchCheckBoxClick(TObject *Sender)
    {
-   image->Stretch = StretchCheckBox->Checked;
+   if (image->Stretch != StretchCheckBox->Checked)
+      image->Stretch = StretchCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 void __fastcall TImageForm::ImageFileEditClickBtn(TObject *Sender)
