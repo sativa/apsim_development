@@ -7,7 +7,7 @@ namespace CSGeneral
 	{
 	/// <summary>
 	/// This class implements a macro language  e.g.
-	/// 
+	///
 	/// [foreach sim in simulation]
 	/// [foreach s in sim.soil]
 	/// [foreach scrop in s.crop]
@@ -29,7 +29,7 @@ namespace CSGeneral
 		// -----------------------
 		public Macro()
 			{
-			
+
 			}
 		// ------------------------------------------------------------------
 		// Go generate all files, putting all files in the specified OutputDirectory.
@@ -42,10 +42,10 @@ namespace CSGeneral
 
 			AliasNames.Add(MacroValues.Type);
 			AliasNodes[0] = MacroValues;
-			
+
 			string Contents = MacroContents;
 			ParseComments(ref Contents);
-			
+
 			Contents = ParseForEach(Contents, MacroValues, AliasNames, AliasNodes);
 			ReplaceGlobalMacros(ref Contents, MacroValues);
 			ParseIf(ref Contents);
@@ -63,7 +63,7 @@ namespace CSGeneral
 		// ------------------------------------------------------------------
 		// Parse and remove all foreach macros from specified string.
 		// Contents is the full text to parse.
-		// 
+		//
 		// ------------------------------------------------------------------
 		string ParseForEach(string Contents,
 												APSIMData ValuesNode,
@@ -110,7 +110,7 @@ namespace CSGeneral
 
 						// recurse back and create a new for each body.
 						string NewForEachBody = ParseForEach(ForEachText, ValuesNode, AliasNames, AliasNodes);
-						
+
 						// Replace any macros in this new text.
 						ReplaceLocalMacros(ref NewForEachBody, AliasNames, AliasNodes);
 
@@ -119,7 +119,7 @@ namespace CSGeneral
 
 						Body += NewForEachBody;
 						}
-				
+
 				ForEachText = Body;
 
 				Contents = PreForEachText + ForEachText + PostForEachText;
@@ -152,8 +152,8 @@ namespace CSGeneral
 			}
 		// ------------------------------------------------------------------
 		// Adjust the end position of a macro. This routine will remove
-		// unwanted spaces and a carriage return on end of the macro 
-		// if there is nothing else between the end of the macro and 
+		// unwanted spaces and a carriage return on end of the macro
+		// if there is nothing else between the end of the macro and
 		// the end of the line.
 		// ------------------------------------------------------------------
 		int AdjustEndPos(string Contents, int PosMacro)
@@ -185,14 +185,14 @@ namespace CSGeneral
 		//			NodeName = simulation
 		//			NodeType = soil
 		// -------------------------------------------------
-		void ParseForEachMacro(string Contents, int PosForEach, out string ForEachAlias, 
+		void ParseForEachMacro(string Contents, int PosForEach, out string ForEachAlias,
 															out string NodeName, out string NodeType, out int PosAfterForEach)
 			{
 			PosAfterForEach = Contents.IndexOf("]", PosForEach);
 			if (PosAfterForEach == -1)
 				throw new Exception("Expected a ']' character while trying to parse a foreach macro");
 			string Macro = Contents.Substring(PosForEach+1, PosAfterForEach-PosForEach-1);
-			
+
 			char[] delimiters = {' '};
 			string[] words = Macro.Split(delimiters, 4);
 
@@ -353,7 +353,7 @@ namespace CSGeneral
 				Macro = Macro.Substring(PosLastPeriod+1);
 				Child = Child.FindChild(ChildName, '.');
 				}
-			
+
 			string Value;
 			// try getting an attribute first.
 			if (Child.AttributeExists(Macro))
@@ -362,9 +362,11 @@ namespace CSGeneral
 			// couldn't get an attribute so try getting a value
 			if (Macro == "xml")
 				Value = Child.XML;
+			else if (Macro == "innerxml")
+			   Value = Child.InnerXML;
 			else
 				Value = Child.Child(Macro).Value;
-			
+
 			return Value;
 			}
 
@@ -378,7 +380,7 @@ namespace CSGeneral
 			int PosCondition = Contents.IndexOf("[if");
 			while (PosCondition != -1 && PosCondition != Contents.Length)
 				{
-				int PosEndMacro = Contents.IndexOf(']', PosCondition); 
+				int PosEndMacro = Contents.IndexOf(']', PosCondition);
 				int PosEndIf = Contents.IndexOf("[endif]", PosCondition+1);
 				int PosNextElse = Contents.IndexOf("[else]", PosCondition+1);
 				int PosNextElseIf = Contents.IndexOf("[elseif", PosCondition+1);
@@ -397,7 +399,7 @@ namespace CSGeneral
 				else
 					{
 					int PosSpace = Contents.IndexOf(' ', PosCondition);
-					
+
 					ok = EvaluateIf(Contents.Substring(PosSpace, PosEndMacro-PosSpace));
 					}
 				if (ok)
@@ -461,7 +463,7 @@ namespace CSGeneral
 		bool EvaluateIf(string IfMacro)
 			{
 			StringCollection s = StringManip.SplitStringHonouringQuotes(IfMacro, " ");
-			
+
 			if (s.Count != 3)
 				throw new Exception("Badly formatted if statement: " + IfMacro);
 			string lhs = s[0];

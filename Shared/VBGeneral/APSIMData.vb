@@ -168,6 +168,16 @@ Public Class APSIMData
 
         End Set
     End Property
+    ReadOnly Property InnerXML() As String
+        Get
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                Return New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").InnerXML
+            Else
+                Return Node.InnerXml()
+            End If
+        End Get
+    End Property
     Public Sub Add(ByVal Data As APSIMData)
         If IsNothing(Data) Then
             ' Do Nothing

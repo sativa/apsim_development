@@ -6,7 +6,6 @@ Imports System.IO
 
 Public Class RuleUI
     Inherits APSIMUI.BaseUI
-    Dim ScriptHasChanged As Boolean
     Dim InRefresh As Boolean
     Dim Cultivars As APSIMData
 
@@ -60,8 +59,6 @@ Public Class RuleUI
     Friend WithEvents cellColumnManagerRow1Column3 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents Group1 As Xceed.Grid.Group
     Friend WithEvents GroupManagerRow1 As Xceed.Grid.GroupManagerRow
-    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
-    Friend WithEvents ScriptBox As System.Windows.Forms.RichTextBox
     Friend WithEvents cellColumnManagerRow1Column4 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents celldataRowTemplate1Column4 As Xceed.Grid.DataCell
     Friend WithEvents NameColumn As Xceed.Grid.Column
@@ -88,14 +85,11 @@ Public Class RuleUI
         Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
         Me.Group1 = New Xceed.Grid.Group
         Me.GroupManagerRow1 = New Xceed.Grid.GroupManagerRow
-        Me.TabPage2 = New System.Windows.Forms.TabPage
-        Me.ScriptBox = New System.Windows.Forms.RichTextBox
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.PropertyGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'celldataRowTemplate1Column1
@@ -105,7 +99,6 @@ Public Class RuleUI
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 23)
         Me.TabControl1.Name = "TabControl1"
@@ -233,25 +226,6 @@ Public Class RuleUI
         '
         Me.GroupManagerRow1.TitleFormat = "%GroupTitle%"
         '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.ScriptBox)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(-8, -29)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Script"
-        '
-        'ScriptBox
-        '
-        Me.ScriptBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ScriptBox.Font = New System.Drawing.Font("Courier New", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ScriptBox.Location = New System.Drawing.Point(0, 0)
-        Me.ScriptBox.Name = "ScriptBox"
-        Me.ScriptBox.Size = New System.Drawing.Size(0, 0)
-        Me.ScriptBox.TabIndex = 0
-        Me.ScriptBox.Text = ""
-        '
         'RuleUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
@@ -264,7 +238,6 @@ Public Class RuleUI
         CType(Me.PropertyGrid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dataRowTemplate1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ColumnManagerRow1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -296,8 +269,15 @@ Public Class RuleUI
         Next
         UpdateAllCultivarDropDowns()
 
-        ' Fill the script box.
-        ScriptBox.Text = MyData.Child("data").Value
+        ' Create a tab for each condition.
+        For Each Condition As APSIMData In MyData.Children("condition")
+            Dim page As New TabPage(Condition.Name)
+            Dim ScriptBox As New RichTextBox
+            ScriptBox.Text = Condition.Value
+            page.Controls.Add(ScriptBox)
+            ScriptBox.Dock = DockStyle.Fill
+            TabControl1.TabPages.Add(page)
+        Next
 
         InRefresh = False
     End Sub
@@ -325,21 +305,17 @@ Public Class RuleUI
     End Sub
 
 
-    ' -------------------------------------------------------------------
-    ' Keep track of when the user changes the text in the script box.
-    ' -------------------------------------------------------------------
-    Private Sub ScriptBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ScriptBox.TextChanged
-        ScriptHasChanged = True
-    End Sub
-
-
     ' --------------------------------------
     ' Save the script box if it has changd.
     ' --------------------------------------
     Overrides Sub SaveToAPSIMFile()
-        If ScriptHasChanged Then
-            MyData.Child("data").Value = ScriptBox.Text
-        End If
+        Dim index As Integer = 1
+        For Each Condition As APSIMData In MyData.Children("condition")
+            Dim page As TabPage = TabControl1.TabPages.Item(index)
+            Dim ScriptBox As RichTextBox = page.Controls.Item(0)
+            Condition.Value = ScriptBox.Text
+            index = index + 1
+        Next
     End Sub
 
 
