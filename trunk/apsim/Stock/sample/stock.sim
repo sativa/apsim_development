@@ -1,6 +1,6 @@
-<Simulation executable="c:\temp\development\apsim\protocolmanager\lib\protocolmanager.dll">
+<Simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
    <title>lablab SAMPLE Simulation</title>
-   <component name="Log" executable="c:\temp\development\apsim\log\lib\log.dll">
+   <component name="Log" executable="%apsuite\apsim\log\lib\log.dll">
       <initdata>
          <parameters name="debug">
             <property name="logfile">debug.log</property>
@@ -8,21 +8,21 @@
          </parameters>
       </initdata>
    </component>
-   <component name="SummaryFile" executable="c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll">
+   <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
          <parameters name="sample">
             <property name="summaryfile">lablab.sum</property>
          </parameters>
       </initdata>
    </component>
-   <component name="Screen" executable="c:\temp\development\apsim\Screen\lib\Screen.dll">
+   <component name="Screen" executable="%apsuite\apsim\Screen\lib\Screen.dll">
       <initdata>
          <parameters name="sample">
             <property name="screen_output">on</property>
          </parameters>
       </initdata>
    </component>
-   <component name="clock" executable="c:\temp\development\apsim\clock\lib\clock.dll">
+   <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <constants name="standard">
             <property name="timestep_events">prepare process do_stock post</property>
@@ -33,7 +33,7 @@
          </parameters>
       </initdata>
    </component>
-   <component name="report" executable="c:\temp\development\apsim\report\lib\report.dll">
+   <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
       <initdata>
          <parameters name="sample">
             <property name="outputfile">lablab.out</property>
@@ -68,14 +68,14 @@
          </variables>
       </initdata>
    </component>
-   <component name="Met" executable="c:\temp\development\apsim\Input\lib\Input.dll">
+   <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
       <initdata>
          <parameters name="file">
-            <property name="filename">c:\temp\development\apsim\met\sample\dalby.met</property>
+            <property name="filename">%apsuite\apsim\met\sample\dalby.met</property>
          </parameters>
       </initdata>
    </component>
-   <component name="manager" executable="c:\temp\development\apsim\manager\lib\manager.dll">
+   <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
       <initdata>
          <rules>
             <rule name="sample.init" condition="init">
@@ -95,7 +95,7 @@
          </rules>
       </initdata>
    </component>
-   <component name="soilwat2" executable="c:\temp\development\apsim\soilwat2\lib\soilwat2.dll">
+   <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
       <initdata>
          <constants name="standard">
             <property name="min_crit_temp">5.0</property>
@@ -145,7 +145,7 @@
          </parameters>
       </initdata>
    </component>
-   <component name="soiln2" executable="c:\temp\development\apsim\soiln2\lib\soiln2.dll">
+   <component name="soiln2" executable="%apsuite\apsim\soiln2\lib\soiln2.dll">
       <initdata>
          <constants name="standard">
             <property name="cnrf_coeff">0.693</property>
@@ -203,7 +203,7 @@
          </parameters>
       </initdata>
    </component>
-   <component name="lablab" executable="c:\temp\development\apsim\plant\lib\plant.dll">
+   <component name="lablab" executable="%apsuite\apsim\plant\lib\plant.dll">
       <initdata>
          <constants name="standard">
             <property name="crop_type">lablab</property>
@@ -465,8 +465,8 @@
          </parameters>
       </initdata>
    </component>
-   <component name="stock" executable="c:\temp\development\apsim\stock\lib\stock.dll">
-    <executable>"c:\temp\development\apsim\stock\lib\stock.dll"</executable>
+   <component name="stock" executable="%apsuite\apsim\stock\lib\stock.dll">
+    <executable>"%apsuite\apsim\stock\lib\stock.dll"</executable>
     <initdata>
        <![CDATA[
            <initsection>
@@ -503,11 +503,11 @@
        ]]>
      </initdata>
    </component>
-   <component name="cattle" executable="c:\temp\development\apsim\stock\lib\StockScienceConverter.dll">
+   <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
       <initdata>
       </initdata>
    </component>
-   <component name="sysbal" executable="c:\temp\development\apsim\sysbal\lib\sysbal.dll">
+   <component name="sysbal" executable="%apsuite\apsim\sysbal\lib\sysbal.dll">
       <initdata/>
    </component>
 </Simulation>
