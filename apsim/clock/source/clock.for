@@ -733,6 +733,7 @@ cih
       include 'const.inc'              ! constant definitions
       include 'error.pub'                         
       include 'action.inc' 
+      include 'apsimengine.pub'
 
 *+  Purpose
 *     start the clock going. ie. start the simulation
@@ -753,6 +754,10 @@ cih
       ! send initialisation message to all modules.
       call Action_send_to_all_comps (ACTION_Init)
 
+      ! tell summary service to enter the diary state ie. not the
+      ! initialisation state.
+      call Summary_enter_diary_state ()
+      
       ! do all timesteps for simulation
  
       call Clock_timestep_loop ()
