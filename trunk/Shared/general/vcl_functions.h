@@ -199,4 +199,30 @@ void Copy_dataset_structure (TDataSet* source,
                              TDataSet* destination,
                              TStringList* field_names);
 
+// ------------------------------------------------------------------
+//  Short description:
+//      get the files from a multi select open dialog box.  These file
+//      names will be fully qualified file names with full path info.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      Give the specified list of files to the specified open dialog box.
+//      This routine takes care of file paths etc.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list);
+
 #endif
