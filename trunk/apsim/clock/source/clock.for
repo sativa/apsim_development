@@ -102,7 +102,6 @@
        use ClockModule
       implicit none
        include 'const.inc'             ! Global common block
-      include 'engine.pub'                        
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -472,7 +471,6 @@ cih
       use ClockModule
       implicit none
        include 'const.inc'             ! constant definitions
-      include 'engine.pub'                        
       include 'date.pub'                          
       include 'intrface.pub'                      
       include 'error.pub'                         
@@ -729,7 +727,6 @@ cih
       use ClockModule
       implicit none
       include 'const.inc'              ! constant definitions
-      include 'engine.pub'                        
       include 'error.pub'                         
 
 *+  Purpose
@@ -771,7 +768,6 @@ cih
       implicit none
        include 'const.inc'             ! Constant definitions
       include 'error.pub'                         
-      include 'engine.pub'                        
 
 *+  Purpose
 *     Cycle through all phases for an entire simulation.  Exit routine
@@ -843,7 +839,6 @@ cih
       use ClockModule
       implicit none
        include 'const.inc'             ! Constant definitions
-      include 'engine.pub'                        
 
 *+  Purpose
 *     Enter a idle loop where only idle messages are sent to all modules.
@@ -871,7 +866,6 @@ cih
       use ClockModule
       implicit none
        include 'const.inc'             ! Constant definitions
-      include 'engine.pub' 
       include 'string.pub'                       
 
 *+  Purpose
@@ -930,7 +924,6 @@ cih
       implicit none
       include 'const.inc'             ! Constant definitions
       include 'event.inc'
-      include 'engine.pub'                        
       include 'postbox.pub'
       include 'intrface.pub'
 
