@@ -1311,8 +1311,7 @@
      .      (Unknown_module, 'year', '()', year, numvals,
      .               min_year, max_year)
  
-         write (Data_string, '(a,i3,a,i4,2a)' )
-     .      ' Day= ', Day, ' Year =  ', Year,
+         write (Data_string, '(2a)' )
      .      '     Manager sending message :- ', Action_string
  
          call Write_string(Data_string)
