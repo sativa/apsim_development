@@ -28,6 +28,24 @@ cnr  =             200          50
 !cpr =              35          20
 standing_fraction = .1          .2
 
+[wheat_residue.SurfaceOM.parameters]  
+mass = 5000. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = wheat   ! Type if initial residue
+name = wheat
+
+[legume_residue.SurfaceOM.parameters]  
+mass = 2000. (kg/ha)   ! Initial surface residue
+cnr = 30.0 ()   ! C:N ration of initial residue
+type = mungbean   ! Type if initial residue
+name = mungbean
+
+[sugar_residue.SurfaceOM.parameters]  
+mass = 10000. (kg/ha)   ! Initial surface residue
+cnr = 80.0 ()   ! C:N ration of initial residue
+type = sugar   ! Type if initial residue
+name = sugar
+
 [sample.SummaryFile.parameters]
 summaryfile = surfaceOM.sum
 [sample.Screen.parameters]
