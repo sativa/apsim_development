@@ -5,7 +5,7 @@ inherited ChartForm: TChartForm
   TextHeight = 16
   object ChartPropertiesButton: TSpeedButton [2]
     Left = 11
-    Top = 165
+    Top = 237
     Width = 179
     Height = 30
     Caption = 'Edit chart properties'
@@ -92,16 +92,24 @@ inherited ChartForm: TChartForm
     Top = 101
   end
   object Label3: TLabel [5]
-    Left = 11
-    Top = 130
-    Width = 70
+    Left = 5
+    Top = 135
+    Width = 204
+    Height = 32
+    Caption = 'Use 1st chart series as template for data series number(s).:'
+    WordWrap = True
+  end
+  object Label1: TLabel [6]
+    Left = 8
+    Top = 208
+    Width = 231
     Height = 16
-    Caption = 'Series num:'
+    Caption = '(blank, *, or space separated numbers)'
   end
   object SeriesNumberEdit: TEdit
-    Left = 89
-    Top = 127
-    Width = 177
+    Left = 9
+    Top = 175
+    Width = 232
     Height = 26
     Anchors = [akLeft, akTop, akRight]
     BevelKind = bkSoft

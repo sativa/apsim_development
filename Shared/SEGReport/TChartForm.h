@@ -17,6 +17,7 @@ __published:	// IDE-managed Components
    TSpeedButton *ChartPropertiesButton;
    TEdit *SeriesNumberEdit;
    TLabel *Label3;
+   TLabel *Label1;
    void __fastcall ChartPropertiesButtonClick(TObject *Sender);
    void __fastcall SeriesNumberEditChange(TObject *Sender);
 private:	// User declarations
