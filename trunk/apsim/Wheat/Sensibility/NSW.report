@@ -84,6 +84,14 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_no3_leach'
+        DataType = ftFloat
+      end
+      item
         Name = 'Series'
         DataType = ftString
         Size = 200
@@ -114,7 +122,8 @@ object data: TForm
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
       'Dalby600Prob.onSourceDataChanged'
-      'Warra600HighNProb.onSourceDataChanged')
+      'Warra600HighNProb.onSourceDataChanged'
+      'Gunnedah600Prob.onSourceDataChanged')
     filenames.Strings = (
       'Gunnedah600.out')
     Left = 170
@@ -234,6 +243,14 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_no3_leach'
+        DataType = ftFloat
+      end
+      item
         Name = 'Series'
         DataType = ftString
         Size = 200
@@ -263,7 +280,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Warra1500HighNProb.onSourceDataChanged')
+      'Warra1500HighNProb.onSourceDataChanged'
+      'Gunnedah1500Prob.onSourceDataChanged')
     filenames.Strings = (
       'Gunnedah1500.out')
     Left = 171
@@ -336,6 +354,14 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_no3_leach'
+        DataType = ftFloat
+      end
+      item
         Name = 'Series'
         DataType = ftString
         Size = 200
@@ -365,7 +391,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Warra600LowNProb.onSourceDataChanged')
+      'Warra600LowNProb.onSourceDataChanged'
+      'Walgett600Prob.onSourceDataChanged')
     filenames.Strings = (
       'Walgett600.out')
     Left = 176
@@ -438,6 +465,14 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sum_no3_leach'
+        DataType = ftFloat
+      end
+      item
         Name = 'Series'
         DataType = ftString
         Size = 200
@@ -467,7 +502,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Warra1500LowNProb.onSourceDataChanged')
+      'Warra1500LowNProb.onSourceDataChanged'
+      'Walgett1500Prob.onSourceDataChanged')
     filenames.Strings = (
       'Walgett1500.out')
     Left = 192
@@ -616,8 +652,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 347
-  Top = 73
+  Left = 354
+  Top = 45
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -708,10 +744,12 @@ object Page1: TQuickRep
         Height = 1
         BackWall.Visible = False
         BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 8000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.Automatic = False
@@ -937,10 +975,12 @@ object Page1: TQuickRep
         Height = 1
         BackWall.Visible = False
         BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.LabelsFont.Height = -19
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 8000
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.Automatic = False
