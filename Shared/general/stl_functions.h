@@ -461,5 +461,16 @@ struct Pless : public std::binary_function<T*, T*, bool>
    bool operator() (const T* x, const T* y) const { return *x < *y; }
    };
 
+  template <class InputIterator, class Function, class Predicate>
+  Function for_each_if (InputIterator first, InputIterator last,
+                        Function f, Predicate pred)
+  {
+    while (first != last)
+       {
+       if (pred(*first)) f(*first);
+       first++;
+       }
+    return f;
+  }
 
 #endif
