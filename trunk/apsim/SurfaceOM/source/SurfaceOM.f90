@@ -928,15 +928,17 @@ subroutine surfom_Leach (leach_rain)
    nh4_incorp(1) = sum(g%SurfOM(1:g%Num_surfom)%nh4) * g%leaching_fr
    po4_incorp(1) = sum(g%SurfOM(1:g%Num_surfom)%po4) * g%leaching_fr
 
-   ! Send the mineral N & P leached to the Soil N&P modules
-   deepest_layer = count_of_real_vals (g%dlayer, max_layer)
-   call set_real_array (unknown_module, 'dlt_no3','(kg/ha)', no3_incorp,deepest_layer)
-   call set_real_array (unknown_module, 'dlt_nh4','(kg/ha)', nh4_incorp,deepest_layer)
-   if ( g%phosphorus_aware ) then
-      call set_real_array (unknown_module, 'dlt_labile_p','(kg/ha)', po4_incorp,deepest_layer)
-   else
+   ! If neccessary, Send the mineral N & P leached to the Soil N&P modules
+   if(no3_incorp(1).gt.0.0.or.nh4_incorp(1).gt.0.0.or.po4_incorp(1).gt.0.0) then
+       deepest_layer = count_of_real_vals (g%dlayer, max_layer)
+       call set_real_array (unknown_module, 'dlt_no3','(kg/ha)', no3_incorp,deepest_layer)
+       call set_real_array (unknown_module, 'dlt_nh4','(kg/ha)', nh4_incorp,deepest_layer)
+       if ( g%phosphorus_aware ) then
+          call set_real_array (unknown_module, 'dlt_labile_p','(kg/ha)', po4_incorp,deepest_layer)
+       else
+       endif
    endif
-
+   
    ! Update globals
    g%SurfOM(1:g%Num_surfom)%no3=g%SurfOM(1:g%Num_surfom)%no3 * (1.-g%Leaching_Fr)
    g%SurfOM(1:g%Num_surfom)%nh4=g%SurfOM(1:g%Num_surfom)%nh4 * (1.-g%Leaching_Fr)
