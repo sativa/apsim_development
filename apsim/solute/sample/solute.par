@@ -7,6 +7,10 @@ variable = clock.day
 variable = clock.year
 variable = solute.br
 variable = solute.cl
+variable = solute.max_cl
+variable = solute.maxppm_cl
+variable = solute.maxlayer_cl
+
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
 start_date=1/1/1988     ! dd/mm/yyyy
