@@ -10,8 +10,6 @@ Public Class ReportVariablesListView
     Public Sub New()
         MyBase.New()
 
-        Xceed.Grid.Licenser.LicenseKey = "GRD22-WRGNK-2AHF5-44JA"
-
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
@@ -84,7 +82,7 @@ Public Class ReportVariablesListView
         'VariablesList
         '
         Me.VariablesList.AllowDrop = True
-        Me.VariablesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.VariablesList.CausesValidation = False
         Me.VariablesList.Columns.Add(Me.Column1)
         Me.VariablesList.Columns.Add(Me.Column2)
         Me.VariablesList.Columns.Add(Me.Column3)
@@ -100,9 +98,11 @@ Public Class ReportVariablesListView
         'VariablesList.RowSelectorPane
         '
         Me.VariablesList.RowSelectorPane.Visible = False
-        Me.VariablesList.SelectionMode = System.Windows.Forms.SelectionMode.None
+        Me.VariablesList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.VariablesList.SingleClickEdit = False
         Me.VariablesList.Size = New System.Drawing.Size(648, 290)
         Me.VariablesList.TabIndex = 1
+        Me.VariablesList.UIStyle = Xceed.Grid.UIStyle.UIStyle.System
         '
         'Column1
         '
@@ -146,10 +146,35 @@ Public Class ReportVariablesListView
         Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column3)
         Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column4)
         Me.dataRowTemplate1.Cells.Add(Me.celldataRowTemplate1Column5)
+        '
+        'celldataRowTemplate1Column1
+        '
+        Me.celldataRowTemplate1Column1.BackColor = System.Drawing.Color.White
+        Me.celldataRowTemplate1Column1.Font = New System.Drawing.Font("Tahoma", 8.25!)
         Me.celldataRowTemplate1Column1.Initialize("Column1")
+        '
+        'celldataRowTemplate1Column2
+        '
+        Me.celldataRowTemplate1Column2.BackColor = System.Drawing.Color.White
+        Me.celldataRowTemplate1Column2.ForeColor = System.Drawing.Color.Black
         Me.celldataRowTemplate1Column2.Initialize("Column2")
+        '
+        'celldataRowTemplate1Column3
+        '
+        Me.celldataRowTemplate1Column3.BackColor = System.Drawing.Color.White
+        Me.celldataRowTemplate1Column3.ForeColor = System.Drawing.Color.Black
         Me.celldataRowTemplate1Column3.Initialize("Column3")
+        '
+        'celldataRowTemplate1Column4
+        '
+        Me.celldataRowTemplate1Column4.BackColor = System.Drawing.Color.White
+        Me.celldataRowTemplate1Column4.ForeColor = System.Drawing.Color.Black
         Me.celldataRowTemplate1Column4.Initialize("Column4")
+        '
+        'celldataRowTemplate1Column5
+        '
+        Me.celldataRowTemplate1Column5.BackColor = System.Drawing.Color.White
+        Me.celldataRowTemplate1Column5.ForeColor = System.Drawing.Color.Black
         Me.celldataRowTemplate1Column5.Initialize("Column5")
         '
         'GroupByRow1
@@ -171,7 +196,10 @@ Public Class ReportVariablesListView
         '
         'Tooltip
         '
+        Me.Tooltip.BackColor = System.Drawing.SystemColors.Info
         Me.Tooltip.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Tooltip.Font = New System.Drawing.Font("Tahoma", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tooltip.ForeColor = System.Drawing.SystemColors.InfoText
         Me.Tooltip.Location = New System.Drawing.Point(0, 313)
         Me.Tooltip.Name = "Tooltip"
         Me.Tooltip.Size = New System.Drawing.Size(648, 23)
@@ -354,4 +382,7 @@ Public Class ReportVariablesListView
     End Sub
 
 
+    Private Sub VariablesList_AddingDataRow(ByVal sender As System.Object, ByVal e As Xceed.Grid.AddingDataRowEventArgs) Handles VariablesList.AddingDataRow
+
+    End Sub
 End Class

@@ -18,13 +18,26 @@ Public Class MainUI
 
 #Region " Windows Form Designer generated code "
 
+    <System.STAThread()> _
+    Public Shared Sub Main()
+
+        Application.EnableVisualStyles()
+        Application.DoEvents()
+        Application.Run(New MainUI)
+    End Sub 'Main
+
+
     Public Sub New()
         MyBase.New()
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
+        Xceed.Grid.Licenser.LicenseKey = "GRD22-KTL57-34ZF5-W4JA"
+
         'Add any initialization after the InitializeComponent() call
+        Application.EnableVisualStyles()
+
         Dim settings As New APSIMSettings
         Dim documentationFile As String = settings.GetSetting("apsimui", "docfile")
         HelpBrowser.Navigate(documentationFile)
@@ -48,7 +61,6 @@ Public Class MainUI
     'Do not modify it using the code editor.
     Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
-    Friend WithEvents StatusBar1 As System.Windows.Forms.StatusBar
     Friend WithEvents ToolBar1 As System.Windows.Forms.ToolBar
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
     Friend WithEvents ButtonImageList As System.Windows.Forms.ImageList
@@ -115,6 +127,7 @@ Public Class MainUI
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents SimulationPanel As System.Windows.Forms.Panel
     Friend WithEvents ToolboxMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents CaptionLabel As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -145,7 +158,6 @@ Public Class MainUI
         Me.HelpMenuChange = New System.Windows.Forms.MenuItem
         Me.MenuItem9 = New System.Windows.Forms.MenuItem
         Me.HelpMenuAbout = New System.Windows.Forms.MenuItem
-        Me.StatusBar1 = New System.Windows.Forms.StatusBar
         Me.ToolBar1 = New System.Windows.Forms.ToolBar
         Me.FileNewButton = New System.Windows.Forms.ToolBarButton
         Me.FileOpenButton = New System.Windows.Forms.ToolBarButton
@@ -177,11 +189,12 @@ Public Class MainUI
         Me.ComponentImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.HorizontalSplitter = New System.Windows.Forms.Splitter
         Me.HelpBrowserPanel = New System.Windows.Forms.Panel
+        Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
         Me.HelpBrowsertoolBar = New System.Windows.Forms.ToolBar
         Me.BackButton = New System.Windows.Forms.ToolBarButton
         Me.ForwardButton = New System.Windows.Forms.ToolBarButton
         Me.SmallButtonImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
+        Me.CaptionLabel = New System.Windows.Forms.Label
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
         Me.ToolboxPanel = New System.Windows.Forms.Panel
@@ -342,14 +355,6 @@ Public Class MainUI
         Me.HelpMenuAbout.Index = 5
         Me.HelpMenuAbout.Text = "&About ..."
         '
-        'StatusBar1
-        '
-        Me.StatusBar1.Location = New System.Drawing.Point(0, 539)
-        Me.StatusBar1.Name = "StatusBar1"
-        Me.StatusBar1.Size = New System.Drawing.Size(1152, 25)
-        Me.StatusBar1.TabIndex = 0
-        Me.StatusBar1.Text = "StatusBar1"
-        '
         'ToolBar1
         '
         Me.ToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
@@ -509,7 +514,7 @@ Public Class MainUI
         'HorizontalSplitter
         '
         Me.HorizontalSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 302)
+        Me.HorizontalSplitter.Location = New System.Drawing.Point(0, 327)
         Me.HorizontalSplitter.Name = "HorizontalSplitter"
         Me.HorizontalSplitter.Size = New System.Drawing.Size(1152, 6)
         Me.HorizontalSplitter.TabIndex = 10
@@ -517,23 +522,33 @@ Public Class MainUI
         '
         'HelpBrowserPanel
         '
-        Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowsertoolBar)
         Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowser)
+        Me.HelpBrowserPanel.Controls.Add(Me.HelpBrowsertoolBar)
+        Me.HelpBrowserPanel.Controls.Add(Me.CaptionLabel)
         Me.HelpBrowserPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 308)
+        Me.HelpBrowserPanel.Location = New System.Drawing.Point(0, 333)
         Me.HelpBrowserPanel.Name = "HelpBrowserPanel"
         Me.HelpBrowserPanel.Size = New System.Drawing.Size(1152, 231)
         Me.HelpBrowserPanel.TabIndex = 11
+        '
+        'HelpBrowser
+        '
+        Me.HelpBrowser.ContainingControl = Me
+        Me.HelpBrowser.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.HelpBrowser.Enabled = True
+        Me.HelpBrowser.Location = New System.Drawing.Point(0, 46)
+        Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.HelpBrowser.Size = New System.Drawing.Size(1152, 185)
+        Me.HelpBrowser.TabIndex = 8
         '
         'HelpBrowsertoolBar
         '
         Me.HelpBrowsertoolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
         Me.HelpBrowsertoolBar.AutoSize = False
         Me.HelpBrowsertoolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.BackButton, Me.ForwardButton})
-        Me.HelpBrowsertoolBar.Dock = System.Windows.Forms.DockStyle.Fill
         Me.HelpBrowsertoolBar.DropDownArrows = True
         Me.HelpBrowsertoolBar.ImageList = Me.SmallButtonImageList
-        Me.HelpBrowsertoolBar.Location = New System.Drawing.Point(0, 0)
+        Me.HelpBrowsertoolBar.Location = New System.Drawing.Point(0, 23)
         Me.HelpBrowsertoolBar.Name = "HelpBrowsertoolBar"
         Me.HelpBrowsertoolBar.ShowToolTips = True
         Me.HelpBrowsertoolBar.Size = New System.Drawing.Size(1152, 23)
@@ -556,15 +571,19 @@ Public Class MainUI
         Me.SmallButtonImageList.ImageStream = CType(resources.GetObject("SmallButtonImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.SmallButtonImageList.TransparentColor = System.Drawing.Color.Transparent
         '
-        'HelpBrowser
+        'CaptionLabel
         '
-        Me.HelpBrowser.ContainingControl = Me
-        Me.HelpBrowser.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.HelpBrowser.Enabled = True
-        Me.HelpBrowser.Location = New System.Drawing.Point(0, 0)
-        Me.HelpBrowser.OcxState = CType(resources.GetObject("HelpBrowser.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.HelpBrowser.Size = New System.Drawing.Size(1152, 231)
-        Me.HelpBrowser.TabIndex = 8
+        Me.CaptionLabel.BackColor = System.Drawing.SystemColors.ControlDark
+        Me.CaptionLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CaptionLabel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.CaptionLabel.Font = New System.Drawing.Font("Tahoma", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CaptionLabel.ForeColor = System.Drawing.SystemColors.HighlightText
+        Me.CaptionLabel.Location = New System.Drawing.Point(0, 0)
+        Me.CaptionLabel.Name = "CaptionLabel"
+        Me.CaptionLabel.Size = New System.Drawing.Size(1152, 23)
+        Me.CaptionLabel.TabIndex = 10
+        Me.CaptionLabel.Text = "Help Window"
+        Me.CaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'SaveFileDialog
         '
@@ -573,7 +592,7 @@ Public Class MainUI
         'ToolboxPanel
         '
         Me.ToolboxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 70)
+        Me.ToolboxPanel.Location = New System.Drawing.Point(0, 95)
         Me.ToolboxPanel.Name = "ToolboxPanel"
         Me.ToolboxPanel.Size = New System.Drawing.Size(1152, 232)
         Me.ToolboxPanel.TabIndex = 12
@@ -581,7 +600,7 @@ Public Class MainUI
         'Splitter1
         '
         Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter1.Location = New System.Drawing.Point(0, 67)
+        Me.Splitter1.Location = New System.Drawing.Point(0, 92)
         Me.Splitter1.Name = "Splitter1"
         Me.Splitter1.Size = New System.Drawing.Size(1152, 3)
         Me.Splitter1.TabIndex = 13
@@ -592,7 +611,7 @@ Public Class MainUI
         Me.SimulationPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SimulationPanel.Location = New System.Drawing.Point(0, 36)
         Me.SimulationPanel.Name = "SimulationPanel"
-        Me.SimulationPanel.Size = New System.Drawing.Size(1152, 31)
+        Me.SimulationPanel.Size = New System.Drawing.Size(1152, 56)
         Me.SimulationPanel.TabIndex = 14
         '
         'MainUI
@@ -605,7 +624,6 @@ Public Class MainUI
         Me.Controls.Add(Me.HorizontalSplitter)
         Me.Controls.Add(Me.HelpBrowserPanel)
         Me.Controls.Add(Me.ToolBar1)
-        Me.Controls.Add(Me.StatusBar1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Menu = Me.MainMenu1
         Me.Name = "MainUI"

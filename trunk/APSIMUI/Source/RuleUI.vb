@@ -16,7 +16,7 @@ Public Class RuleUI
     Public Sub New()
         MyBase.New()
 
-        Xceed.Grid.Licenser.LicenseKey = "GRD22-WRGNK-2AHF5-44JA"
+        Xceed.Grid.Licenser.LicenseKey = "GRD22-KTL57-34ZF5-W4JA"
 
         'This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -314,31 +314,9 @@ Public Class RuleUI
             row.Cells(1).Value = Prop.Attribute("value")
             row.Cells(2).Value = Data.Attribute("name")
             row.Cells(3).Value = Prop.Name
-            If Prop.Attribute("type") = "yesno" Then
-                Dim CheckCombo As New ComboBox
-                CheckCombo.Items.Add("yes")
-                CheckCombo.Items.Add("no")
-                row.Cells(1).CellEditor = New CustomEditor(CheckCombo, "Text", True)
-            ElseIf Prop.Attribute("type") = "list" Then
-                Dim CheckCombo As New ComboBox
-                Dim Values() As String = Prop.Attribute("listvalues").Split(",")
-                For Each Value As String In Values
-                    Value = Value.Trim
-                    CheckCombo.Items.Add(Value)
-                Next
-                row.Cells(1).CellEditor = New CustomEditor(CheckCombo, "Text", True)
-            ElseIf Prop.Attribute("type") = "modulename" Then
-                Dim CheckCombo As New ComboBox
-                Dim Values As StringCollection = GetMatchingModuleNames(Prop.Attribute("moduletype"))
-                For Each Value As String In Values
-                    Value = Value.Trim
-                    CheckCombo.Items.Add(Value)
-                Next
-                row.Cells(1).CellEditor = New CustomEditor(CheckCombo, "Text", True)
-            ElseIf Prop.Attribute("type") = "cultivars" Then
-                Dim CultivarCombo As New ComboBox
-                CultivarCombo.Name = Prop.Name
-                row.Cells(1).CellEditor = New CustomEditor(CultivarCombo, "Text", True)
+            Dim Editor As CustomEditor = GenericUI.CreateCustomEditorForColumn(Prop)
+            If Not IsNothing(Editor) Then
+                row.Cells(1).CellEditor = Editor
             End If
             AddHandler row.Cells(1).LeavingEdit, AddressOf Me.CellLeavingEdit
             row.EndEdit()
@@ -380,23 +358,6 @@ Public Class RuleUI
             End If
         End If
     End Sub
-
-
-    ' ------------------------------------------------------------------
-    ' Return a list of instance names for the specified module name
-    ' ------------------------------------------------------------------
-    Function GetMatchingModuleNames(ByVal ModuleNameToMatch As String) As StringCollection
-        Dim Values As New StringCollection
-        Dim System As APSIMData = MyData.Parent.Parent
-        If Not IsNothing(System) Then
-            For Each ApsimModule As APSIMData In System.Children
-                If ModuleNameToMatch = "" Or ApsimModule.Type = ModuleNameToMatch Then
-                    Values.Add(ApsimModule.Name())
-                End If
-            Next
-        End If
-        Return Values
-    End Function
 
 
     ' ----------------------------------

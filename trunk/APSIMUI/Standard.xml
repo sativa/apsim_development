@@ -1,8 +1,8 @@
 <toolbox name="Standard">
   <area name="paddock" />
   <clock name="clock">
-    <start_date name="start_date">1/01/1988</start_date>
-    <end_date name="end_date">31/12/1988</end_date>
+    <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
+    <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
   </clock>
   <outputfile name="outputfile">
     <filename name="filename">sample.out</filename>

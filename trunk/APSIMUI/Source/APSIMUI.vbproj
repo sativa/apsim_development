@@ -141,6 +141,24 @@
                     HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed Grid for .NET 2.2\Bin\v2.2.107.0\Xceed.Grid.UIStyle.dll"
                     AssemblyFolderKey = "hklm\xceed grid for .net v2.2.107.0"
                 />
+                <Reference
+                    Name = "Xceed.SmartUI.Controls"
+                    AssemblyName = "Xceed.SmartUI.Controls"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.Controls.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI"
+                    AssemblyName = "Xceed.SmartUI"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
+                <Reference
+                    Name = "Xceed.SmartUI.UIStyle"
+                    AssemblyName = "Xceed.SmartUI.UIStyle"
+                    HintPath = "..\..\..\..\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.UIStyle.dll"
+                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -187,16 +205,6 @@
                 <File
                     RelPath = "BaseUI.resx"
                     DependentUpon = "BaseUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "ClockUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ClockUI.resx"
-                    DependentUpon = "ClockUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -250,16 +258,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "FertiliserUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FertiliserUI.resx"
-                    DependentUpon = "FertiliserUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "FileUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -290,16 +288,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "IrrigationUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IrrigationUI.resx"
-                    DependentUpon = "IrrigationUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "LogicUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -307,16 +295,6 @@
                 <File
                     RelPath = "LogicUI.resx"
                     DependentUpon = "LogicUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "LogUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LogUI.resx"
-                    DependentUpon = "LogUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -360,16 +338,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "MicrometUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MicrometUI.resx"
-                    DependentUpon = "MicrometUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "OptionsForm.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -387,16 +355,6 @@
                 <File
                     RelPath = "OutputFileDescUI.resx"
                     DependentUpon = "OutputFileDescUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "ParameterUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ParameterUI.resx"
-                    DependentUpon = "ParameterUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -420,16 +378,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Sheep.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Sheep.resx"
-                    DependentUpon = "Sheep.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "SimulationUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -440,16 +388,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "SlurpUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SlurpUI.resx"
-                    DependentUpon = "SlurpUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "SoilUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -457,16 +395,6 @@
                 <File
                     RelPath = "SoilUI.resx"
                     DependentUpon = "SoilUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Stock.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Stock.resx"
-                    DependentUpon = "Stock.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
