@@ -4,21 +4,29 @@
 #include "MessageData.h"
 #include "Type.h"
 #include "Variant.h"
+#include <stdio.h>
+#include "debughook.h"
 namespace protocol {
 
 //---------------------------------------------------------------------------
 // This class encapsulate an apsim variant that is capable of being
 // sent to another module.  Variables of different types can be stored
 // in the variant and retrieved in any order.
+//
 //---------------------------------------------------------------------------
 
 class ApsimVariant
    {
    public:
-      ApsimVariant(void) : messageData(buffer, sizeof(buffer)) { }
-      ApsimVariant(const Variant& variant) : messageData(variant.getMessageData()) { }
+      ApsimVariant(Component* p)
+         : messageData(buffer, sizeof(buffer)), parent(p)
+         { }
+      ApsimVariant(Component* p, const Variant& variant)
+         : messageData(variant.getMessageData()), parent(p)
+         {
+         }
 
-      void clear(void)
+      void reset(void)
          {
          messageData.reset();
          }
@@ -27,11 +35,70 @@ class ApsimVariant
       void store(const FString& variableName, DataTypeCode typeCode, const T& value)
          {
          messageData << variableName << protocol::memorySize(value)+4 << typeCode << value;
+         if (!messageData.isValid())
+            {
+//            char m[100];
+//            sprintf(m, "%p", &messageData);
+//            ::MessageBox(NULL, m, "", MB_OK);
+//            DebugException();
+            char msg[100];
+            strcpy(msg, "Too many items stored in variant/postbox.  Variable name: ");
+            strncat(msg, variableName.f_str(), variableName.length());
+            ::MessageBox(NULL, msg, "", MB_OK);
+            }
+
          }
+
       template <class T>
       bool get(const FString& variableName, DataTypeCode typeCode, T& value)
          {
-         char* savedPtr = messageData.ptr();
+         if (findVariable(variableName))
+            {
+            int code;
+            messageData >> code;
+            TypeConverter* converter;
+            if (getTypeConverter(parent,
+                                 variableName,
+                                 (DataTypeCode)code, typeCode,
+                                 false, false,
+                                 converter))
+               {
+               if (converter == NULL)
+                  messageData >> value;
+               else
+                  {
+                  converter->getValue(messageData, value);
+                  delete converter;
+                  }
+               return true;
+               }
+            }
+         }
+
+      void aliasTo(const MessageData& fromMessageData)
+         {
+         messageData = fromMessageData;
+         messageData.reset();
+         }
+      void writeTo(MessageData& toMessageData) const
+         {
+         toMessageData.copyFrom(messageData.start(), messageData.bytesRead());
+         }
+      unsigned memorySize(void) const
+         {
+         return messageData.ptr() - buffer;
+         }
+
+   private:
+      Component* parent;
+      char buffer[2000];
+      Type type;
+      MessageData messageData;
+
+      bool findVariable(const FString& variableName)
+         {
+         reset();
+
          FString varName;
          unsigned numBytes;
          messageData >> varName >> numBytes;
@@ -42,43 +109,13 @@ class ApsimVariant
             if (!messageData.isValid()) break;
             messageData >> varName >> numBytes;
             }
-         if (found)
-            {
-            int code;
-            messageData >> code;
-            if (code == typeCode)
-               {
-               messageData >> value;
-               messageData.seek(savedPtr);
-               return true;
-               }
-            }
-         messageData.seek(savedPtr);
-         return false;
+         return found;
          }
-
-      void initFrom(MessageData& fromMessageData)
-         {
-         messageData.copyFrom(fromMessageData);
-         }
-      void writeTo(MessageData& fromMessageData) const
-         {
-         fromMessageData.copyFrom(messageData);
-         }
-      unsigned memorySize(void) const
-         {
-         return messageData.ptr() - buffer;
-         }
-
-   private:
-      char buffer[2000];
-      MessageData messageData;
-
 
    };
 inline MessageData& operator>> (MessageData& messageData, ApsimVariant& variant)
    {
-   variant.initFrom(messageData);
+   variant.aliasTo(messageData);
    return messageData;
    }
 inline MessageData& operator<< (MessageData& messageData, const ApsimVariant& variant)

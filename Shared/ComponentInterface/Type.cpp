@@ -65,4 +65,30 @@ void Type::determineType(void)
    else
       code = DTunknown;
    }
+// ------------------------------------------------------------------
+// convert a type code to a type string.
+// ------------------------------------------------------------------
+FString Type::codeToString(DataTypeCode code)
+   {
+   if (code == DTint1)
+      return "integer1";
+   else if (code == DTint2)
+      return "integer2";
+   else if (code == DTint4)
+      return "integer4";
+   else if (code == DTint8)
+      return "integer8";
+   else if (code == DTsingle)
+      return "single";
+   else if (code == DTdouble)
+      return "double";
+   else if (code == DTboolean)
+      return "boolean";
+   else if (code == DTchar)
+      return "char";
+   else if (code == DTstring)
+      return "string";
+   else
+      return "unknown";
+   }
 

@@ -52,5 +52,19 @@ bool getTypeConverter(Component* parent,
                       Type& sourceType,
                       Type& destType,
                       TypeConverter*& converter);
+
+// ------------------------------------------------------------------
+// Return a data type converter if possible or NULL if none
+// available.
+// ------------------------------------------------------------------
+bool protocol::getTypeConverter(Component* parent,
+                                const FString& name,
+                                protocol::DataTypeCode sourceTypeCode,
+                                protocol::DataTypeCode destTypeCode,
+                                bool isSourceArray,
+                                bool isDestArray,
+                                TypeConverter*& converter);
+
+
 } // namespace protocol
 #endif

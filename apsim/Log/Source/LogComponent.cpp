@@ -144,7 +144,7 @@ void LogComponent::writeMessage(const string& toName,
       "RequestComponentID", "RequestSetValue", "ResumeSimulation",
       "ReturnComponentID", "ReturnInfo", "ReturnType", "ReturnValue",
       "TerminateSimulation", "", "", "", "", "", "", "", "",
-      "QuerySetValue", "ApsimQuery"};
+      "QuerySetValue", "ApsimGetQuery", "ApsimSetQuery"};
 
    if (message->messageType == protocol::Register)
       storeRegistration(message);
@@ -197,11 +197,18 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          writeRegistrationData(message);
          break;
          }
-      case protocol::ApsimQuery:
+      case protocol::ApsimGetQuery:
          {
-         protocol::ApsimQueryData apsimQuery;
-         messageData >> apsimQuery;
-         out << " name=\"" << asString(apsimQuery.name) << "\"";
+         protocol::ApsimGetQueryData apsimGetQuery;
+         messageData >> apsimGetQuery;
+         out << " name=\"" << asString(apsimGetQuery.name) << "\"";
+         break;
+         }
+      case protocol::ApsimSetQuery:
+         {
+         protocol::ApsimSetQueryData apsimSetQuery;
+         messageData >> apsimSetQuery;
+         out << " name=\"" << asString(apsimSetQuery.name) << "\"";
          }
       }
    }
