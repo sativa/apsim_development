@@ -1088,12 +1088,12 @@
          else
          endif
 
-         if (dul.le.ll) then
+         if (dul.lt.ll) then
             write (err_messg, '(a,f8.2,a,i3,2a,f8.2)')          &
             ' Drained upper limit of ',dul          &
            ,' in layer ', layer          &
            ,new_line          &
-           ,'         is at or below lower limit of ', ll
+           ,'         is below lower limit of ', ll
             call warning_error (err_internal, err_messg)
          else
          endif
