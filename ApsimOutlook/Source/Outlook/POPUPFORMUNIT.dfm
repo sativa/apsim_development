@@ -1,6 +1,6 @@
 object PopupForm: TPopupForm
-  Left = 742
-  Top = 148
+  Left = 677
+  Top = 150
   BorderStyle = bsNone
   Caption = 'PopupForm'
   ClientHeight = 283
