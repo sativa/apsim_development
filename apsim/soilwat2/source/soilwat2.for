@@ -663,14 +663,13 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *        151292   jngh changed common blocks
 *        290393   jngh changed to use lai factor
 *        110195   jngh changed to use green cover instead of lai
-*        240399   jngh changed my_name to correct value
  
 *+  Calls
       real       soilwat2_eeq_fac       ! function
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_priestly_taylor')
+      parameter (my_name = 'soilwat2_pot_evapotranspiration')
  
 *+  Local Variables
       real       albedo                ! albedo taking into account plant
@@ -3133,7 +3132,6 @@ c     he should have. Any ideas? Perhaps
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
       implicit none
-      include 'error.pub'
  
 *+  Purpose
 *      get the value/s of a variable/array.
@@ -4088,7 +4086,7 @@ cjh         endif
 
       else if (variable_name .eq. 'eff_rain') then
          es = sum_real_array(g_es_layers, max_layer)
-         eff_rain = g_rain - g_runoff - g_drain - es
+         eff_rain = g_rain - g_runoff - g_drain
          call respond2get_real_var (variable_name, '(mm)'
      :                             , eff_rain)
  
