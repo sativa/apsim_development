@@ -29,7 +29,8 @@ variable = solute.br as soil_br
 variable = dam.available_depth as dam_depth
 variable = sump.available_depth as sump_depth
 variable = bore.available_depth as bore_depth
-
+variable = dam.full
+variable = dam.filling_event
 
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)

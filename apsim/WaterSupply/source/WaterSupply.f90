@@ -41,6 +41,9 @@ module WaterSupplyModule
       integer source_counter                       ! counter which keeps track of the preferential source number we are up to
       integer tot_num_sources                      ! total number of water sources specified in a 'top_up' or 'apply' method call
       integer num_solutes                          ! total number of solutes present in the simulation
+      integer full                                 ! flag (0 or 1) indicating whether storage is full
+      integer full_yesterday                       ! flag (0 or 1) indicating whether storage was full yesterday
+      integer filling_event                        ! flag (0 or 1) indicating whether today has been a filling event for the storage
       real    solute_conc(max_solutes)             ! solute concentration in watersupply for each of the system solutes (ppm)
       real    rain_capture                         ! rain captured directly by storage (Ml)
       real    total_runoff                         ! catchment and crop runoff captured by storage (Ml)
@@ -381,6 +384,23 @@ subroutine WaterSupply_ONprocess ()
        g%available_water = p%max_available_water
 
    endif
+
+   ! dsg 061204  These variables keep track of whether a storage is full (within the bounds of a realistic full_fraction = 0.95)
+   !             and whether a 'filling_event' has ocurred today
+   if (g%available_water.ge.p%max_available_water*0.95) then
+       g%full = 1
+       if (g%full_yesterday.eq.0) then
+          g%filling_event = 1
+       else
+          g%filling_event = 0
+       endif
+       g%full_yesterday = 1
+   else
+       g%full = 0
+       g%filling_event = 0
+       g%full_yesterday = 0
+   endif    
+       
 
    call pop_routine (my_name)
    return
@@ -761,6 +781,12 @@ subroutine WaterSupply_send_my_variable (variable_name)
    elseif (variable_name .eq. 'allocation_renewal_day') then
        call respond2get_integer_var (variable_name,'()', p%renewal_day)
 
+   elseif (variable_name .eq. 'full') then
+       call respond2get_integer_var (variable_name,'()', g%full)
+
+   elseif (variable_name .eq. 'filling_event') then
+       call respond2get_integer_var (variable_name,'()', g%filling_event)
+
    ! solute outputs
    else if (index(Variable_name,'storage_').eq.1) then
 
@@ -1093,7 +1119,8 @@ subroutine WaterSupply_zero_variables ()
 
 !  ====================================================================
 ! Globals
-
+    g%full = 0
+    g%filling_event = 0
 
 ! ====================================================================
 ! Parameters
