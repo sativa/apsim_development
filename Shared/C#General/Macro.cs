@@ -42,8 +42,11 @@ namespace CSGeneral
 
 			AliasNames.Add(MacroValues.Type);
 			AliasNodes[0] = MacroValues;
-
-			string Contents = ParseForEach(MacroContents, MacroValues, AliasNames, AliasNodes);
+			
+			string Contents = MacroContents;
+			ParseComments(ref Contents);
+			
+			Contents = ParseForEach(Contents, MacroValues, AliasNames, AliasNodes);
 			ReplaceGlobalMacros(ref Contents, MacroValues);
 			ParseIf(ref Contents);
 			return Contents;
@@ -160,7 +163,7 @@ namespace CSGeneral
 				PosEndOfMacro = Contents.IndexOf(']', PosMacro);
 			PosEndOfMacro++;
 			int Pos = PosEndOfMacro;
-			while (Pos < Contents.Length && Contents[Pos] == ' ')
+			while (Pos < Contents.Length && (Contents[Pos] == ' ' || Contents[Pos] == '\r'))
 				Pos++;
 
 			if (Pos < Contents.Length && Contents[Pos] == '\n')
@@ -315,21 +318,15 @@ namespace CSGeneral
 				{
 				int PosEndMacro = Contents.IndexOf(']', PosStartMacro);
 				string Macro = Contents.Substring(PosStartMacro+1, PosEndMacro-PosStartMacro-1);
-				int PosLastPeriod = Macro.LastIndexOf('.');
-				if (PosLastPeriod != -1)
+
+				try
 					{
-					try
-						{
-						string ChildName = Macro.Substring(0, PosLastPeriod);
-						string ValueName = Macro.Substring(PosLastPeriod+1);
-						APSIMData child = Values.FindChild(ChildName, '.');
-						string Value = GetValueFromNode(child, ValueName);
-						Contents = Contents.Remove(PosStartMacro, Macro.Length+2);
-						Contents = Contents.Insert(PosStartMacro, Value);
-						}
-					catch (Exception)
-						{
-						}
+					string Value = GetValueFromNode(Values, Macro);
+					Contents = Contents.Remove(PosStartMacro, Macro.Length+2);
+					Contents = Contents.Insert(PosStartMacro, Value);
+					}
+				catch (Exception)
+					{
 					}
 				PosStartMacro = Contents.IndexOf('[', PosStartMacro+1);
 				}
@@ -337,20 +334,28 @@ namespace CSGeneral
 		//---------------------------------------------------------------
 		// Return a attribute value or child value from the specified child node
 		//---------------------------------------------------------------
-		string GetValueFromNode(APSIMData Child, string ValueName)
+		string GetValueFromNode(APSIMData Child, string Macro)
 			{
+			int PosLastPeriod = Macro.LastIndexOf('.');
+			if (PosLastPeriod != -1)
+				{
+				string ChildName = Macro.Substring(0, PosLastPeriod);
+				Macro = Macro.Substring(PosLastPeriod+1);
+				Child = Child.FindChild(ChildName, '.');
+				}
+			
 			string Value;
 			// try getting an attribute first.
 			try
 				{
-				Value = Child.Attribute(ValueName);
+				Value = Child.Attribute(Macro);
 				return Value;
 				}
 			catch (Exception)
 				{ }
 
 			// couldn't get an attribute so try getting a value
-			Value = Child.Child(ValueName).Value;
+			Value = Child.Child(Macro).Value;
 			return Value;
 			}
 
@@ -415,6 +420,23 @@ namespace CSGeneral
 					PosCondition = PosElse;
 				if (PosCondition == -1)
 					PosCondition = PosElseIf;
+				}
+			}
+		//---------------------------------------------------------------
+		// Parse all comment statements and remove.
+		//---------------------------------------------------------------
+		void ParseComments(ref string Contents)
+			{
+			int PosComment = Contents.IndexOf("[comment]");
+			while (PosComment != -1)
+				{
+				PosComment = AdjustStartPos(Contents, PosComment);
+				int PosEndComment = Contents.IndexOf("[endcomment]");
+				if (PosEndComment == -1)
+					throw new Exception("Cannot find matching [endcomment] macro");
+				PosEndComment = AdjustEndPos(Contents, PosEndComment);
+				Contents = Contents.Remove(PosComment, PosEndComment-PosComment);
+				PosComment = Contents.IndexOf("[comment]");
 				}
 			}
 		//---------------------------------------------------------------
