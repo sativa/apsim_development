@@ -33,7 +33,7 @@ class APSIMMetExternal
    today      : APSIMReal    = Today, (jday)
 end
 
-class APSIMMet
+class APSIMMet : APSIMComponent
    dll      : String
    public   : APSIMMetPublic
    external : APSIMMetExternal

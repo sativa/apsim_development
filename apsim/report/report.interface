@@ -25,7 +25,7 @@ class APSIMReportPublic
    days_since_last_report : APSIMInteger = Number of days since last report, (days), GET
 
 end
-class APSIMReport
+class APSIMReport : APSIMComponent
    dll  : String
    public  : APSIMReportPublic
 end
