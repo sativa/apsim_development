@@ -116,32 +116,44 @@ void SOIToolBar::youNeedUpdating()
    needs_update = true;
 }
 
-
 // ------------------------------------------------------------------
-//  Short description:
-//      return the name of the sow year field name.
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
+// Work out what the sow year field name is
 // ------------------------------------------------------------------
-string SOIToolBar::Get_sow_year_field_name(TAPSTable& data)
+void SOIToolBar::calcSowYearFieldName(const TAPSRecord& record) throw (runtime_error)
    {
-   vector<string> Field_names;
-   data.getFieldNames (Field_names);
-   for (vector<string>::iterator i = Field_names.begin();
-                                 i != Field_names.end();
+   vector<string> fieldNames = record.getFieldNames();
+   for (vector<string>::iterator i = fieldNames.begin();
+                                 i != fieldNames.end();
                                  i++)
       {
-      string field_name (*i);
-      To_lower(field_name);
-      if (field_name.find("sow") != string::npos &&
-          field_name.find("year") != string::npos)
-         return *i;
+      string fieldName = *i;
+      To_lower(fieldName);
+      if (fieldName.find("sow_year") == 0)
+         {
+         sowYearFieldName = *i;
+         return;
+         }
+      if (fieldName.find("sow year") == 0)
+         {
+         sowYearFieldName = *i;
+         return;
+         }
       }
-   return "year";
+   throw runtime_error("To perform an SOI analysis the data must contain a\n"
+                       "'sow_year' field.");
+   }
+
+// ------------------------------------------------------------------
+// Return a sowing year from the specified record.  Throws a
+// runtime_error if not found.
+// ------------------------------------------------------------------
+unsigned SOIToolBar::getSowYear(const TAPSRecord& record) throw(runtime_error)
+   {
+   if (sowYearFieldName == "")
+      calcSowYearFieldName(record);
+
+   string stringValue = record.getFieldValue(sowYearFieldName);
+   return StrToInt(stringValue.c_str());
    }
 
 
@@ -245,78 +257,85 @@ void SOIToolBar::doCalculations(TAPSTable& data)
       TCursor savedCursor = Screen->Cursor;
       Screen->Cursor = crHourGlass;
 
-      // read in all soi data from soi file.
-      Read_all_soi_data();
-
-      // get the sowing year field name
-      string Sow_year_field_name = Get_sow_year_field_name(data);
-
-      // create a new table with same structure as 'data'
-      TAPSTable* new_data = new TAPSTable(NULL);
-      new_data->copyFieldNamesFrom(data);
-      new_data->copyPivotsFrom(data);
-      // add new fields required
-      new_data->addField(SOI_PHASE_FIELD_NAME);
-      new_data->addField(SOI_PHASE_NUMBER_FIELD_NAME);
-      new_data->markFieldAsAPivot(SOI_PHASE_FIELD_NAME);
-
-      // create some storage for all phases for all records
-      vector<TAPSRecord>* allData = new vector<TAPSRecord>[FPhase_names.size() + 1];
-      const unsigned allYearsFieldNum = FPhase_names.size();
-
-      // loop through all datasets.
-      int SOI_phase;
-      string SOI_phase_st;
-
-      bool ok = data.first();
-      while (ok)
+      sowYearFieldName = "";
+      TAPSTable* new_data;
+      vector<TAPSRecord>* allData;
+      try
          {
-         string blockName = data.getDataBlockName();
+         // read in all soi data from soi file.
+         Read_all_soi_data();
 
-         // loop through all rows in data array and store the soi value.
-         for (vector<TAPSRecord>::const_iterator i = data.begin();
-                                                 i != data.end();
-                                                 i++)
+         // create a new table with same structure as 'data'
+         new_data = new TAPSTable(NULL);
+         new_data->copyFieldNamesFrom(data);
+         new_data->copyPivotsFrom(data);
+         // add new fields required
+         new_data->addField(SOI_PHASE_FIELD_NAME);
+         new_data->addField(SOI_PHASE_NUMBER_FIELD_NAME);
+         new_data->markFieldAsAPivot(SOI_PHASE_FIELD_NAME);
+
+         // create some storage for all phases for all records
+         allData = new vector<TAPSRecord>[FPhase_names.size() + 1];
+         const unsigned allYearsFieldNum = FPhase_names.size();
+
+         // loop through all datasets.
+         int SOI_phase;
+         string SOI_phase_st;
+
+         bool ok = data.first();
+         while (ok)
             {
-            TAPSRecord newRecord = *i;
-            int Sow_year = atoi((*i).getFieldValue(Sow_year_field_name.c_str()).c_str());
-            Get_phase (Sow_year, FPhase_month, SOI_phase, SOI_phase_st);
-            newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, SOI_phase_st.c_str());
-            newRecord.setFieldValue(SOI_PHASE_NUMBER_FIELD_NAME, IntToStr(SOI_phase).c_str());
-            string blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + SOI_phase_st;
-            string blockForRecord = blockName + ";" + blockSuffix;
-            newRecord.setFieldValue("Simulation", blockForRecord.c_str());
+            string blockName = data.getDataBlockName();
 
-            allData[SOI_phase].push_back(newRecord);
+            // loop through all rows in data array and store the soi value.
+            for (vector<TAPSRecord>::const_iterator i = data.begin();
+                                                    i != data.end();
+                                                    i++)
+               {
+               TAPSRecord newRecord = *i;
+               int Sow_year = getSowYear(*i);
+               Get_phase (Sow_year, FPhase_month, SOI_phase, SOI_phase_st);
+               newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, SOI_phase_st.c_str());
+               newRecord.setFieldValue(SOI_PHASE_NUMBER_FIELD_NAME, IntToStr(SOI_phase).c_str());
+               string blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + SOI_phase_st;
+               string blockForRecord = blockName + ";" + blockSuffix;
+               newRecord.setFieldValue("Simulation", blockForRecord.c_str());
 
-            // store all years records.
-            newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, "All years");
-            blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + "All years";
-            blockForRecord = blockName + ";" + blockSuffix;
-            newRecord.setFieldValue("Simulation", blockForRecord.c_str());
+               allData[SOI_phase].push_back(newRecord);
 
-            allData[allYearsFieldNum].push_back(newRecord);
+               // store all years records.
+               newRecord.setFieldValue(SOI_PHASE_FIELD_NAME, "All years");
+               blockSuffix = string(SOI_PHASE_FIELD_NAME) + "=" + "All years";
+               blockForRecord = blockName + ";" + blockSuffix;
+               newRecord.setFieldValue("Simulation", blockForRecord.c_str());
+
+               allData[allYearsFieldNum].push_back(newRecord);
+               }
+
+            // goto next dataset.
+            ok = data.next();
             }
 
-         // goto next dataset.
-         ok = data.next();
-         }
+         // Loop through all the soi phases.  For each, store the vector
+         // of numbers in new_data.
+         for (unsigned int phase = 0; phase <= allYearsFieldNum; phase++)
+            {
+            new_data->storeData(allData[phase]);
+            }
 
-      // Loop through all the soi phases.  For each, store the vector
-      // of numbers in new_data.
-      for (unsigned int phase = 0; phase <= allYearsFieldNum; phase++)
+         // we're finished storing data.
+         new_data->addSortField(data.getYearFieldName());
+         new_data->endStoringData();
+
+         // copy new_data back into data
+         data.storeData(*new_data);
+         }
+      catch (const runtime_error& err)
          {
-         new_data->storeData(allData[phase]);
+         ShowMessage(err.what());
          }
-      delete [] allData;
-
-      // we're finished storing data.
-      new_data->addSortField(data.getYearFieldName());
-      new_data->endStoringData();
-
-      // copy new_data back into data
-      data.storeData(*new_data);
       delete new_data;
+      delete [] allData;
 
       needs_update = false;
 
