@@ -21,11 +21,19 @@ class PatchInputComponent : public InputComponent
 
    private:
       unsigned preNewmetID;
-      ApsimDataFile::iterator yearI;
-      ApsimDataFile::iterator dayI;
+      bool patchAllYears;
+      typedef std::map<long, unsigned> PatchDates;
+      PatchDates patchDates;
+      unsigned currentRecord;
+      unsigned minYear;
+      unsigned maxYear;
 
-      boost::gregorian::date getFileDate(void);
       boost::gregorian::date advanceToTodaysPatchData(void);
+
+      // ------------------------------------------------------------------
+      // Read all patch dates.
+      // ------------------------------------------------------------------
+      void readPatchDates(void);
 
 
    };
