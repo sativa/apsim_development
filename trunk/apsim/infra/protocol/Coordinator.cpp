@@ -683,13 +683,13 @@ void PROTOCOLCoordinator::registerSubscribedEvent(FString& eventName,
    // component to it.  If not found then create a new event registration
    // and then add component to it.
    EventRegistrationList::iterator eventRegI
-      = eventRegistrations.find(eventName.c_str());
+      = eventRegistrations.find(eventName.asString());
    EventRegistration* ptr;
    if (eventRegI == eventRegistrations.end())
       {
       ptr = new EventRegistration;
       eventRegistrations.insert(
-         EventRegistrationList::value_type(eventName.c_str(), ptr));
+         EventRegistrationList::value_type(eventName.asString(), ptr));
       }
    else
       ptr = (*eventRegI).second;
@@ -697,14 +697,14 @@ void PROTOCOLCoordinator::registerSubscribedEvent(FString& eventName,
    // go locate component.
    ComponentList::iterator componentI = find_if(components.begin(),
                                                 components.end(),
-                                                PEqualToName<IComponent>(componentName.c_str()));
+                                                PEqualToName<IComponent>(componentName.asString()));
 
    if (componentI == components.end())
       {
       string msg = "Cannot register event: ";
-      msg += eventName.c_str();
+      msg += eventName.asString();
       msg += ".  Component: ";
-      msg += componentName.c_str();
+      msg += componentName.asString();
       msg += " not found.";
       throw msg;
       }
@@ -880,7 +880,7 @@ bool PROTOCOLCoordinator::getVariable(const FString& variableName)
    // try and locate our variable in the variable registration list.  If found
    // then tell the registration to get the variable.
    VariableRegistrationList::const_iterator varI
-      = variableRegistrations.find(string(variableName.c_str()));
+      = variableRegistrations.find(string(variableName.asString()));
    if (varI != variableRegistrations.end())
       {
       if ((*varI).second->getVariable(variableName))
@@ -951,7 +951,7 @@ bool PROTOCOLCoordinator::setVariable(const FString& variableName)
    // try and locate our variable in the variable registration list.  If found
    // then tell the registration to set the variable.
    VariableRegistrationList::const_iterator varI
-      = variableRegistrations.find(string(variableName.c_str()));
+      = variableRegistrations.find(string(variableName.asString()));
    if (varI != variableRegistrations.end())
       {
       if ((*varI).second->setVariable())
@@ -975,7 +975,7 @@ bool PROTOCOLCoordinator::getSystemVariable(const FString& variableName)
    {
    // make sure this variable is a public variable.
    VariableRegistrationList::const_iterator varI
-      = variableRegistrations.find(string(variableName.c_str()));
+      = variableRegistrations.find(string(variableName.asString()));
    if (varI != variableRegistrations.end() && (*varI).second->isPublicVariable())
       {
       // Go locate variable - go ask APSIM
@@ -1015,7 +1015,7 @@ bool PROTOCOLCoordinator::setSystemVariable(const FString& variableName)
    {
    // make sure this variable is a public variable.
    VariableRegistrationList::const_iterator varI
-      = variableRegistrations.find(string(variableName.c_str()));
+      = variableRegistrations.find(string(variableName.asString()));
    if (varI != variableRegistrations.end() && (*varI).second->isPublicVariable())
       {
       string realName = (*varI).second->getRealName();
@@ -1042,7 +1042,7 @@ bool PROTOCOLCoordinator::doSystemMessage(PROTOCOLMessage& Message)
    // try and locate our variable in the variable registration list.  If found
    // then tell the registration to set the variable.
    MethodRegistrationList::const_iterator methodI
-      = methodRegistrations.find(string(Message.action.c_str()));
+      = methodRegistrations.find(string(Message.action.asString()));
    if (methodI != methodRegistrations.end())
       return (*methodI).second->sendMessage();
    else
