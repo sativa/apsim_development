@@ -3,7 +3,7 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="APSRun.exe"/>
+    <PROJECT value="..\APSRun.exe"/>
     <OBJFILES value="APSRun.obj TAPSIMRunForm.obj PreviousRuns.obj"/>
     <RESFILES value="APSRun.res"/>
     <IDLFILES value=""/>
@@ -70,6 +70,9 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
+
 [HistoryLists\hlIncludePath]
 Count=6
 Item0=$(BCB)\include;$(BCB)\include\vcl;k:\
@@ -106,11 +109,15 @@ Item0=c:\apswork\accum\sample\accum.con
 Item1=@confiles.lst
 Item2=c:\apswork\apsim\mungbean\sample\mungbean.con
 
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\
+
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\apsuite\apsim\clock\sample\test.con
+RunParams=d:\apsuite\apsim\apswim\sample\apswim.con
 HostApplication=
 RemoteHost=
 RemotePath=
