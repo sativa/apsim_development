@@ -13,9 +13,8 @@
 #include <vcl\DBGrids.hpp>
 #include "TSelected_simulations.h"
 #include <vcl\Buttons.hpp>
-#include "HgHGrid.hpp"
-#include "HgGrid.hpp"
 #include <ExtCtrls.hpp>
+#include <ImgList.hpp>
 #include <map>
 //---------------------------------------------------------------------------
 class TDrill_down_form : public TForm

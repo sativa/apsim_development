@@ -21,7 +21,6 @@
 #include <TSummary_panel.h>
 #include <TFrequency_panel.h>
 #include <TGM_analysis.h>
-#include <TCosts.h>
 
 //---------------------------------------------------------------------
 #pragma link "TAnalysis_chart"
@@ -34,7 +33,6 @@
 #pragma link "TSimulations_from_mdbs"
 #pragma link "TSelected_simulations"
 #pragma link "MemTable"
-#pragma link "TB97"
 #pragma link "TGM_analysis"
 #pragma resource "*.dfm"
 
@@ -48,9 +46,7 @@ __fastcall TMDIChild::TMDIChild(TComponent *Owner)
    Analysis_panel = NULL;
    SOI_on = false;
    GM_on = false;
-   Settings_form = NULL;
    FirstTime = true;
-
    }
 //---------------------------------------------------------------------
 __fastcall TMDIChild::~TMDIChild()
@@ -119,12 +115,10 @@ void TMDIChild::Enable_options(void)
    ChartsProbabilityMenu->Enabled = (Selected_simulations->Count() > 0);
    ChartsBoxMenu->Enabled = (Selected_simulations->Count() > 0);
    ChartsXYMenu->Enabled = (Selected_simulations->Count() > 0);
-   ChartsNoChartMenu->Enabled = (Selected_simulations->Count() > 0);
    ChartsPropertiesMenu->Enabled = (Analysis_panel != NULL);
    ChartsViewDataMenu->Enabled = (Selected_simulations->Count() > 0);
    EditSendDatatoEXCELMenu->Enabled = (Selected_simulations->Count() > 0);
    OptionsSOIMenu->Enabled = (Selected_simulations->Count() > 0);
-//   OptionsGMMenu->Enabled = (Selected_simulations->Count() > 0);
 
    ChartsSummaryTableMenu->Checked = (dynamic_cast<TSummary_panel*> (Analysis_panel) != NULL);
    ChartsTimeSeriesMenu->Checked = (dynamic_cast<TTime_series_panel*> (Analysis_panel) != NULL);
@@ -134,7 +128,7 @@ void TMDIChild::Enable_options(void)
    ChartsProbabilityMenu->Checked = (dynamic_cast<TProbability_panel*> (Analysis_panel) != NULL);
    ChartsBoxMenu->Checked = (dynamic_cast<TBox_panel*> (Analysis_panel) != NULL);
    ChartsXYMenu->Checked = (dynamic_cast<TXY_panel*> (Analysis_panel) != NULL);
-   ChartsNoChartMenu->Checked = (Analysis_panel == NULL);
+   ChartsNoChartMenu->Checked = (Grid->Visible && Analysis_panel == NULL);
 
    // buttons on button bar.
    Get_button ("Time_series_button")->Enabled = (Selected_simulations->Count() > 0);
@@ -149,11 +143,8 @@ void TMDIChild::Enable_options(void)
    Get_button ("SOI_button")->Enabled = (Selected_simulations->Count() > 0);
 
    Path p(Application->ExeName.c_str());
-   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
-      {
-      OptionsGMMenu->Enabled = true;
-      OptionsCostMenu->Enabled = true;
-      }
+//   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
+//      OptionsEconomicMenu->Enabled = true;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
@@ -359,6 +350,8 @@ void __fastcall TMDIChild::XYChart(TObject *Sender)
 void __fastcall TMDIChild::RawData(TObject *Sender)
    {
    Create_chart ("raw data");
+   Grid->Visible = false;
+   ViewData(NULL);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::Properties(TObject *Sender)
@@ -393,16 +386,6 @@ void __fastcall TMDIChild::SOIToggle(TObject *Sender)
    Hook_components_together();
    Refresh_components();
    OptionsSOIMenu->Checked = SOI_on;
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMDIChild::GMToggle(TObject *Sender)
-   {
-   GM_on = !GM_on;
-   if (GM_on)
-     GM->Edit();
-   Hook_components_together();
-   Refresh_components();
-   OptionsGMMenu->Checked = GM_on;
    }
 //---------------------------------------------------------------------------
 void TMDIChild::Display_settings(void)
@@ -473,18 +456,18 @@ void TMDIChild::Read_soi_file_name (void)
    SOI->SOI_data_file = SOI_file_name.c_str();
    }
 //---------------------------------------------------------------------------
-void TMDIChild::Set_toolbar (TToolbar97* toolbar)
+void TMDIChild::Set_toolbar (TToolBar* toolbar)
    {
    Toolbar = toolbar;
    }
 //---------------------------------------------------------------------------
-TToolbarButton97* TMDIChild::Get_button (const char* Button_name)
+TToolButton* TMDIChild::Get_button (const char* Button_name)
    {
    for (int control = 0; control < Toolbar->ControlCount; control++)
       {
       TControl* Button = Toolbar->Controls[control];
       if (Button->Name == Button_name)
-         return dynamic_cast<TToolbarButton97*> (Button);
+         return dynamic_cast<TToolButton*> (Button);
       }
    return NULL;
    }
@@ -508,9 +491,17 @@ void TMDIChild::SetPresentationFonts(bool large_fonts)
       }
    }
 //---------------------------------------------------------------------------
-void __fastcall TMDIChild::OptionsCostMenuClick(TObject *Sender)
+void __fastcall TMDIChild::OptionsEconomicMenuClick(TObject *Sender)
    {
-   EditCosts (Raw_data);
+   GM_on = !GM_on;
+   if (GM_on)
+      {
+      GM->Simulations = Raw_data;
+      GM_on = true;
+      }
+   Hook_components_together();
+   Refresh_components();
+   OptionsEconomicMenu->Checked = GM_on;
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ChartsViewSettingsMenuClick(TObject *Sender)

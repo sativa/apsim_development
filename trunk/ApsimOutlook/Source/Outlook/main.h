@@ -21,14 +21,15 @@
 #include <DBTables.hpp>
 #include "TSimulations.h"
 #include "TSimulations_from_mdbs.h"
-#include "TB97.hpp"
+#include <ToolWin.hpp>
+#include <ImgList.hpp>
 //----------------------------------------------------------------------------
 class TMainForm : public TForm
 {
 __published:
-	TMainMenu *MainMenu1;
+   TMainMenu *MainMenu1;
    TMenuItem *FileMenu;
-	TMenuItem *Window1;
+   TMenuItem *Window1;
    TMenuItem *HelpMenu;
    TMenuItem *FileExitMenu;
    TMenuItem *Window_cascade_menu;
@@ -36,46 +37,49 @@ __published:
    TMenuItem *Window_arrange_icons_menu;
    TMenuItem *HelpAboutMenu;
    TMenuItem *Window_minimize_all_menu;
-	TStatusBar *StatusBar;
+   TStatusBar *StatusBar;
    TMenuItem *FileCloseMenu;
    TMenuItem *FilePrintMenu;
    TMenuItem *N2;
    TPrinterSetupDialog *PrinterSetupDialog;
    TMenuItem *N3;
-    TSimulations_from_mdbs *All_simulations;
-   TDock97 *Top_dock;
-   TDock97 *Left_dock;
-   TDock97 *Right_dock;
-   TDock97 *Bottom_dock;
-   TToolbar97 *Main_toolbar;
-   TToolbarButton97 *Select_data_button;
-   TToolbarButton97 *File_open_button;
-   TToolbarButton97 *EXCEL_button;
-   TToolbar97 *Chart_window_toolbar;
-   TToolbarButton97 *SOI_button;
-   TToolbarButton97 *Select_simulation_button;
-   TToolbarButton97 *Time_series_button;
-   TToolbarButton97 *Properties_button;
-   TToolbarButton97 *XY_button;
-   TToolbarButton97 *Summary_button;
-   TToolbarButton97 *Probability_button;
-   TToolbarButton97 *Frequency_button;
-   TToolbarButton97 *Box_button;
-   TToolbarButton97 *Pie_button;
-   TToolbarButton97 *Difference_button;
-   TToolbarSep97 *ToolbarSep971;
-   TToolbarSep97 *ToolbarSep972;
-   TToolbarSep97 *ToolbarSep973;
-   TToolbarButton97 *Copy_button;
-   TToolbarButton97 *Print_button;
-   TToolbarButton97 *Copy_without_button;
-   TToolbarSep97 *ToolbarSep974;
+   TSimulations_from_mdbs *All_simulations;
    TMenuItem *FileOpenMenu;
    TMenuItem *FileOpenDatasetMenu;
    TOpenDialog *OpenDialog;
    TMenuItem *HelpContentsMenu;
    TMenuItem *FilePresentationFontsMenu;
    TMenuItem *N1;
+   TMenuItem *Evaluate1;
+        TControlBar *ControlBar1;
+        TToolBar *ToolBar1;
+        TToolBar *ToolBar2;
+        TToolButton *File_open_button;
+        TToolButton *Select_data_button;
+        TToolButton *Print_button;
+        TToolButton *Font_button;
+        TToolButton *ToolButton1;
+        TToolButton *Copy_button;
+        TToolButton *Copy_without_button;
+        TToolButton *Excel_button;
+        TToolButton *ToolButton2;
+        TToolButton *Evaluate_button;
+        TImageList *Main_toolbar_images;
+        TImageList *Chart_images;
+        TToolButton *Time_series_button;
+        TToolButton *Difference_button;
+        TToolButton *ToolButton3;
+        TToolButton *Pie_button;
+        TToolButton *Box_button;
+        TToolButton *Frequency_button;
+        TToolButton *Probability_button;
+        TToolButton *ToolButton4;
+        TToolButton *Summary_button;
+        TToolButton *XY_button;
+        TToolButton *Properties_button;
+        TToolButton *ToolButton5;
+        TToolButton *Select_simulation_button;
+        TToolButton *SOI_button;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Window_cascade(TObject *Sender);
 	void __fastcall UpdateMenuItems(TObject *Sender);
@@ -101,6 +105,7 @@ __published:
 
 
    void __fastcall FormShow(TObject *Sender);
+   void __fastcall Evaluate(TObject *Sender);
 private:
 	void __fastcall CreateMDIChild(const String Name);
 	void __fastcall ShowHint(TObject *Sender);

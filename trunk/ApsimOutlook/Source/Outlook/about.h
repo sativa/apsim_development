@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-#ifndef AboutH
-#define AboutH
+#ifndef aboutH
+#define aboutH
 //----------------------------------------------------------------------------
 #include <ExtCtrls.hpp>
 #include <Buttons.hpp>

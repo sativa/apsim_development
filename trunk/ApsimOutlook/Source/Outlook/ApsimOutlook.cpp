@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
+#include "TSplashForm.h"
+#include <general\path.h>
 USERES("ApsimOutlook.res");
 USEFORM("TPreferences_form.cpp", Preferences_form);
 USEFORM("ChildWin.cpp", MDIChild);
@@ -11,11 +13,20 @@ USEFORM("about.cpp", AboutBox);
 USELIB("..\..\..\shared\general\general.lib");
 USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
 USEFORM("TChartSettingsForm.cpp", ChartSettingsForm);
+USEFORM("TSplashForm.cpp", SplashForm);
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
    {
    CommandLine = cmdline;
+   Path p(Application->ExeName.c_str());
+   if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
+      {
+      SplashForm = new TSplashForm(NULL);
+      SplashForm->Show();
+      Application->ProcessMessages();
+      }
+
    try
    {
       Application->Initialize();

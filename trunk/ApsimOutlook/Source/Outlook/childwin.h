@@ -23,7 +23,6 @@
 #include <TeEngine.hpp>
 #include <TeeProcs.hpp>
 #include "OLEExcel.hpp"
-#include "TExcel.h"
 #include <StdCtrls.hpp>
 #include "TSOI.h"
 #include "TAPSTable.h"
@@ -33,7 +32,6 @@
 #include "TSimulations.h"
 #include "TSimulations_from_mdbs.h"
 #include "MemTable.hpp"
-#include "TB97.hpp"
 #include "TGM_analysis.h"
 #include "TChartSettingsForm.h"
 //----------------------------------------------------------------------------
@@ -60,7 +58,6 @@ __published:
    TMenuItem *ChartsFrequencyMenu;
    TMenuItem *EditMenu;
    TMenuItem *EditCopyMenu;
-   TMenuItem *OptionsGMMenu;
    TMenuItem *OpionsSelectSimulationsMenu;
    TMenuItem *N3;
    TMenuItem *EditCopyWithoutMenu;
@@ -78,8 +75,9 @@ __published:
     TSimulations *Selected_simulations;
    TGM_analysis *GM;
    TMenuItem *N7;
-   TMenuItem *OptionsCostMenu;
+   TMenuItem *OptionsEconomicMenu;
    TMenuItem *ChartsViewSettingsMenu;
+   TMenuItem *View1;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
@@ -89,7 +87,6 @@ __published:
    void __fastcall ViewData(TObject *Sender);
    void __fastcall SendDataToEXCEL(TObject *Sender);
    void __fastcall SOIToggle(TObject *Sender);
-   void __fastcall GMToggle(TObject *Sender);
    void __fastcall Properties(TObject *Sender);
    void __fastcall RawData(TObject *Sender);
    void __fastcall BoxChart(TObject *Sender);
@@ -101,7 +98,7 @@ __published:
    void __fastcall EditCopyWithout(TObject *Sender);
    void __fastcall OptionsPreferences(TObject *Sender);
 
-   void __fastcall OptionsCostMenuClick(TObject *Sender);
+   void __fastcall OptionsEconomicMenuClick(TObject *Sender);
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ChartsViewSettingsMenuClick(TObject *Sender);
    
@@ -111,7 +108,7 @@ private:
    bool GM_on;
    bool Large_fonts;
    bool FirstTime;
-   TToolbar97* Toolbar;
+   TToolBar* Toolbar;
    TChartSettingsForm* Settings_form;
 
    TAnalysis_panel* Analysis_panel;
@@ -124,13 +121,13 @@ private:
    void Refresh_components(void);
    void Edit_analysis_and_refresh(void);
 
-   TToolbarButton97* Get_button (const char* Button_name);
+   TToolButton* Get_button (const char* Button_name);
 
 public:
 	virtual __fastcall TMDIChild(TComponent *Owner);
    virtual __fastcall ~TMDIChild();
    void Set_all_simulations (TSimulations* All_simulations);
-   void Set_toolbar (TToolbar97* Toolbar);
+   void Set_toolbar (TToolBar* Toolbar);
    void SetPresentationFonts(bool Large_fonts);
 };
 //----------------------------------------------------------------------------

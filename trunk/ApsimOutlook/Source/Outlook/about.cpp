@@ -2,7 +2,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "About.h"
+#include "about.h"
 #include <general\path.h>
 //---------------------------------------------------------------------
 #pragma resource "*.dfm"
@@ -16,7 +16,7 @@ __fastcall TAboutBox::TAboutBox(TComponent *Owner)
    if (Str_i_Eq(p.Get_name_without_ext(), "whoppercropper"))
       {
       Label1->Caption = "Whopper Cropper";
-      Label3->Caption = "Version 2.0";
+      Label3->Caption = "Version 2.1";
       }
    }
 //---------------------------------------------------------------------
