@@ -82,13 +82,13 @@
       </component>
 
       <registrations>
-         <eventReg name="summaryFileWrite" type="summaryFileWrite"/>
-         <respondToGetReg name="rain" type="rain"/>
-         <respondToEventReg name="tick" type="time"/>
-         <respondToMethodCallReg name="do_output" type="do_output" internalName="report2.do_output"/>
-         <getVariableReg name="day" type="integer4"/>
-         <getVariableReg name="title" type="string"/>
-         <respondToSetReg name="rain" type="rain"/>
+         <event name="summaryFileWrite" type="summaryFileWrite"/>
+         <respondToGet name="rain" type="rain"/>
+         <respondToEvent name="tick" type="time"/>
+         <respondToEvent name="do_output" type="do_output"/>
+         <get name="day" type="integer4"/>
+         <get name="title" type="string"/>
+         <respondToSet name="rain" type="rain"/>
       </registrations>
       <types>
          <type name="summaryFileWrite">
