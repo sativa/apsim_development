@@ -3,7 +3,12 @@ USEUNIT("DataBaseAddIn.cpp");
 USEUNIT("DBSimulation.cpp");
 USEUNIT("..\Scenario.cpp");
 USEFORM("TDirectory_select_form.cpp", Directory_select_form);
-USELIB("C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib");
+USEUNIT("K:\general\stristr.cpp");
+USEUNIT("K:\general\string_functions.cpp");
+USEUNIT("K:\general\db_functions.cpp");
+USEUNIT("K:\general\io_functions.cpp");
+USEUNIT("K:\general\ini_file.cpp");
+USEUNIT("K:\general\path.cpp");
 //---------------------------------------------------------------------------
 This file is used by the project manager only and should be treated like the project file
 

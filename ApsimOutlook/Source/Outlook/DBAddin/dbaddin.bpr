@@ -5,11 +5,13 @@
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\APSIMOutlook\DBAddIn\DBAddIn.dll"/>
     <OBJFILES value="DBAddIn.obj DataBaseAddIn.obj DBSimulation.obj ..\Scenario.obj 
-      TDirectory_select_form.obj"/>
+      TDirectory_select_form.obj K:\general\stristr.obj 
+      K:\general\string_functions.obj K:\general\db_functions.obj 
+      K:\general\io_functions.obj K:\general\ini_file.obj K:\general\path.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TDirectory_select_form.dfm"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot;"/>
+    <LIBFILES value=""/>
     <LIBRARIES value="TMSC5.lib"/>
     <SPARELIBS value="Vcl50.lib VCLADO50.lib vcldb50.lib APSData.lib VCLBDE50.lib TEE4C5.lib 
       TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib VCLX50.lib TMSC5.lib"/>
@@ -18,7 +20,7 @@
       Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi 
       TEE4C5.bpi TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi 
       OpenXML.bpi VCLADO50.bpi dclusr50.bpi APSGENERAL.bpi APSData.bpi"/>
-    <PATHCPP value=".;.."/>
+    <PATHCPP value=".;..;K:\general\"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -28,8 +30,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="DBAddIn.bpf"/>
-    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;&quot;J:\RX\Units\&quot;"/>
-    <LIBPATH value="..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;&quot;k:\general\&quot;"/>
+    <INCLUDEPATH value="K:\general;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;;j:\rx\units\;"/>
+    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;&quot;k:\general\&quot;"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
