@@ -404,12 +404,15 @@ void PROTOCOLCoordinator::publishEvent(PROTOCOLEvent& event) const
    // go locate the appropriate event registration object.
    // If found then call its publishevent method.
    // If not found then assume noone has registered an interest in it.
-   EventRegistrationList::const_iterator eventRegI
-      = eventRegistrations.find(event.action.c_str());
-   if (eventRegI != eventRegistrations.end())
+   for (EventRegistrationList::const_iterator eventRegI = eventRegistrations.begin();
+                                              eventRegI != eventRegistrations.end();
+                                              eventRegI++)
       {
-      EventRegistration* ptr = (*eventRegI).second;
-      ptr->publishEvent(event);
+      if (event.action == (*eventRegI).first.c_str())
+         {
+         ((*eventRegI).second)->publishEvent(event);
+         break;
+         }
       }
    }
 

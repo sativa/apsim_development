@@ -681,7 +681,7 @@ void ReportComponent::init(void)
 // ------------------------------------------------------------------
 bool ReportComponent::doAction(const FString& Action)
    {
-   ApsimSystem().CallStack.Push ("Report_DoAction");
+   ApsimSystem().CallStack->Push ("Report_DoAction", 15);
 
    bool Used = true;
    if (Action == MES_Prepare)
@@ -708,7 +708,7 @@ bool ReportComponent::doAction(const FString& Action)
    else
       Used = false;
 
-   ApsimSystem().CallStack.Pop ("Report_DoAction");
+   ApsimSystem().CallStack->Pop ("Report_DoAction", 15);
    return Used;
    }
 
