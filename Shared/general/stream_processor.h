@@ -3,8 +3,12 @@
 #define stream_processorH
 
 #include <general\general.h>
-#include <general\mystring.h>
-#include <general\mylist.h>
+#include <string>
+#include <list>
+using std::string;
+using std::list;
+using std::istream;
+using std::ostream;
 
 class GENERAL_EXPORT Stream_processor;
 // ------------------------------------------------------------------

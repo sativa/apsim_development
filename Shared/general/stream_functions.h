@@ -2,7 +2,9 @@
 #define STREAM_FUNCTIONS_H
 
 #include <general\general.h>
-#include <general\mystring.h>
+#include <string>
+using std::string;
+using std::ostream;
 #include <iostream.h>
 
 // ------------------------------------------------------------------

@@ -1,6 +1,7 @@
 #include <general\exec.h>
 #include <general\string_functions.h>
-#include <general\myvector.h>
+#include <vector>
+using std::vector;
 #include <process.h>
 #include <fstream>
 // ------------------------------------------------------------------

@@ -89,10 +89,12 @@ class double2string_and_store : public std::unary_function<T, void>
    {
    private:
       CT& container;
+      int NumDecPlaces;
    public:
-      double2string_and_store (CT& c) : container(c) {}
+      double2string_and_store (CT& c, int numdecplaces)
+         : container(c), NumDecPlaces(numdecplaces) {}
       void operator() (T& arg)
-         {container.push_back (ftoa(arg, 5));}
+         {container.push_back (ftoa(arg, NumDecPlaces));}
    };
 
 // ------------------------------------------------------------------
@@ -115,7 +117,8 @@ void String2double (CT1& source, CT2& dest)
 
 // ------------------------------------------------------------------
 //  Short description:
-//    convert a container of strings to a container of doubles.
+//    convert a container of doubles to a container of strings with the
+//    specified number of decimal places.
 
 //  Notes:
 
@@ -124,10 +127,10 @@ void String2double (CT1& source, CT2& dest)
 
 // ------------------------------------------------------------------
 template <class CT1, class CT2>
-void Double2string (CT1& source, CT2& dest)
+void Double2string (CT1& source, CT2& dest, int NumDecPlaces = 5)
    {
    dest.erase(dest.begin(), dest.end());
-   double2string_and_store<CT2, double> convert(dest);
+   double2string_and_store<CT2, double> convert(dest, NumDecPlaces);
    std::for_each(source.begin(), source.end(), convert);
    }
 

@@ -5,6 +5,7 @@
 #include <values.h>
 #include <strstream>
 #include <iomanip>
+using std::ostrstream;
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -314,10 +315,10 @@ void Calculate_freq_dist(vector<double>& Values,
 
       // create a label for this interval.
       ostrstream out;
-      out.setf(ios::fixed, ios::floatfield);
+      out.setf(std::ios::fixed, std::ios::floatfield);
       out << '(';
-      out << setprecision(Label_precision) << Start_of_interval << " to " << setprecision(Label_precision) << End_of_interval;
-      out << ')' << ends;
+      out << std::setprecision(Label_precision) << Start_of_interval << " to " << std::setprecision(Label_precision) << End_of_interval;
+      out << ')' << std::ends;
       Frequency_labels.push_back (out.str());
       delete out.str();
       }

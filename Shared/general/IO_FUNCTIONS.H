@@ -4,7 +4,8 @@
 
 #include <general\general.h>
 #include <general\string_functions.h>
-#include <general\mylist.h>
+#include <list>
+using std::list;
 #include <dos.h>
 // ------------------------------------------------------------------
 //  Short description:

@@ -2,10 +2,12 @@
 #define STRING_FUNCTIONS_H
 
 #include <general\general.h>
-#include <general\mystring.h>
-#include <general\mylist.h>
+#include <string>
+#include <list>
 #include <algorith>
 #include <functional>
+using std::string;
+using std::list;
 
 // ------------------------------------------------------------------
 //  Short description:
