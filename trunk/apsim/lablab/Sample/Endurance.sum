@@ -11,25 +11,24 @@
 
      Version                = 3.6
      Title                  = Lablab gatton dryland high density highworth
-     Component DLL          = c:\program files\apsim36\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim36\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim36\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim36\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim36\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim36\apsim\Accum\lib\Accum.dll
-     Component DLL          = c:\program files\apsim36\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\program files\apsim36\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim36\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim36\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim36\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim36\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\Accum\lib\Accum.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
         process
         post
-        report
      Simulation start date =  1/10/1997
      Simulation end date   =  1/05/2000
      Time step =           = 1440 (mins)
@@ -81,7 +80,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\program files\apsim36\apsim\met\sample\Gatton.met
+     INPUT File name: c:\development\apsim\met\sample\Gatton.met
 
 ------- Accum Initialisation --------------------------------------------------
      Initialising
