@@ -97,6 +97,7 @@ void Get_keyname_and_value (const char* line, string& Key_name, string& Key_valu
 //  Changes:
 //    DPH 29/4/1997
 //    dph 17/9/1997 changed "string& line" to "const char* line"
+//    dph 5/6/98 modified to use str_i_eq routine instead of to_lower.
 
 // ------------------------------------------------------------------
 string Get_key_value (const char* line, const char* Key_name)
@@ -111,8 +112,7 @@ string Get_key_value (const char* line, const char* Key_name)
       string Left_of_equals;
       Left_of_equals = Str_line.substr (0, Pos_equals);
       Strip (Left_of_equals, " ");
-      To_lower(Left_of_equals);
-      if (Left_of_equals == Key_name)
+      if (Str_i_Eq(Left_of_equals, Key_name))
          {
          Key_value = Str_line.substr (Pos_equals + 1);
          Strip (Key_value, " ");
@@ -241,4 +241,18 @@ string ftoa(double Float, int Num_decplaces)
    buf << setprecision(Num_decplaces) << Float << ends;
    return buf.str();
    }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     case insensitive string comparison routine.
+
+//  Notes:
+
+//  Changes:
+//    SB ????
+
+// ------------------------------------------------------------------
+int Str_i_Cmp(const string &a, const string &b)
+{	return stricmp(a.c_str(),b.c_str());
+}
 
