@@ -4,10 +4,12 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="ApsimShared.lib"/>
-    <OBJFILES value="ApsimLicence.obj ApsimProject.obj ApsimSettings.obj ApsimDirectories.obj"/>
+    <OBJFILES value="ApsimLicence.obj ApsimProject.obj ApsimSettings.obj ApsimDirectories.obj 
+      TSplashForm.obj TAboutForm.obj ApsimVersion.obj ApsimControlFile.obj 
+      ApsimConfiguration.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES)"/>
+    <RESDEPEN value="$(RESFILES) TSplashForm.dfm TAboutForm.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
@@ -19,7 +21,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
     <MAINSOURCE value="ApsimShared.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <LISTFILE value=""/>
@@ -30,7 +32,7 @@
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value=""/>
+    <LFLAGS value="/P64"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -44,6 +46,11 @@
       <FILE FILENAME="ApsimProject.cpp" FORMNAME="" UNITNAME="ApsimProject" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimSettings.cpp" FORMNAME="" UNITNAME="ApsimSettings" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimDirectories.cpp" FORMNAME="" UNITNAME="ApsimDirectories" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TSplashForm.cpp" FORMNAME="SplashForm" UNITNAME="TSplashForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAboutForm.cpp" FORMNAME="AboutForm" UNITNAME="TAboutForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimVersion.cpp" FORMNAME="" UNITNAME="ApsimVersion" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimControlFile.cpp" FORMNAME="" UNITNAME="ApsimControlFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimConfiguration.cpp" FORMNAME="" UNITNAME="ApsimConfiguration.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -77,16 +84,19 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=4
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl
+Count=6
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
+Item1=..\SEGReport;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
+Item3=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=2
+Count=3
 Item0=$(BCB)\lib\obj;$(BCB)\lib
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\SEGReport;$(BCB)\lib\obj;$(BCB)\lib
+Item2=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -95,6 +105,11 @@ Item0=$(BCB)\source\vcl
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
+
+[HistoryLists\hlTlibPageSize]
+Count=2
+Item0=0x0040
+Item1=0x0010
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
@@ -115,10 +130,5 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>

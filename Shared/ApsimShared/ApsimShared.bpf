@@ -2,6 +2,9 @@
 
 #include <vcl.h>
 #pragma hdrstop
+USEFORM("TSplashForm.cpp", SplashForm);
+USEFORM("TAboutForm.cpp", AboutForm);
+//---------------------------------------------------------------------------
 #define Library
 
 // To add a file to the library use the Project menu 'Add to Project'.
