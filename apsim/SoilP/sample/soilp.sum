@@ -159,6 +159,8 @@
 
 ------- residue2 Initialisation -----------------------------------------------
      
+         - Module is set Phosphorous aware
+     
          - Reading constants
      
          - Reading parameters
@@ -171,6 +173,15 @@
              (kg/ha)  (kg/ha) (kg/ha)
          ------------------------------------------------
                  0.0     0.0     0.0  mungbean
+         ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100    30.0   250.0       T       no
          ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
