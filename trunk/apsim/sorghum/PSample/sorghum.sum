@@ -9,21 +9,21 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 9.9
+     Version                = 4.0
      Title                  =
-     Component DLL          = c:\temp\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\temp\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\temp\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\temp\development\apsim\report\lib\report.dll
-     Component DLL          = c:\temp\development\apsim\input\lib\input.dll
-     Component DLL          = c:\temp\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\temp\development\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\temp\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\temp\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\temp\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\temp\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\temp\development\apsim\soilp\lib\soilp.dll
-     Component DLL          = c:\temp\development\apsim\sorghum\lib\sorghum.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -513,92 +513,90 @@
      
 1 November 1992(Day of year=306), sorghum: 
       stage    2.0 germination
-2 November 1992(Day of year=307), sorghum: 
-      stage    2.0 germination
-5 November 1992(Day of year=310), sorghum: 
+4 November 1992(Day of year=309), sorghum: 
       stage    3.0 emergence
                           biomass =           2.000000       lai =    0.2000000E-02
-                          stover N conc =    2.525000       extractable sw =    24.35915
-16 November 1992(Day of year=321), sorghum: 
+                          stover N conc =    2.525000       extractable sw =    16.41932
+14 November 1992(Day of year=319), sorghum: 
       stage    4.0 end_of_juvenile
-                          biomass =           7.337932       lai =    0.8710951E-01
-                          stover N conc =    3.304685       extractable sw =    76.32961
-28 November 1992(Day of year=333), sorghum: 
+                          biomass =           2.896471       lai =    0.3764929E-01
+                          stover N conc =    3.283549       extractable sw =    78.82289
+26 November 1992(Day of year=331), sorghum: 
       stage    5.0 floral_initiation
-                          biomass =           45.12860       lai =    0.6292263
-                          stover N conc =    2.606261       extractable sw =    144.6254
-22 December 1992(Day of year=357), sorghum: 
+                          biomass =           30.48670       lai =    0.5596945
+                          stover N conc =    3.074128       extractable sw =    154.5376
+20 December 1992(Day of year=355), sorghum: 
       stage    6.0 flag_leaf
-                          biomass =           283.0227       lai =     2.393000
-                          stover N conc =    1.137227       extractable sw =    188.6830
-30 December 1992(Day of year=365), sorghum: 
+                          biomass =           187.1714       lai =     1.907778
+                          stover N conc =    1.676069       extractable sw =    203.8635
+28 December 1992(Day of year=363), sorghum: 
       stage    7.0 flowering
-                          biomass =           434.6418       lai =     2.319657
-                          stover N conc =   0.8411850       extractable sw =    158.1308
-1 January 1993(Day of year=1), sorghum: 
+                          biomass =           296.6414       lai =     1.850664
+                          stover N conc =    1.209498       extractable sw =    192.1959
+29 December 1992(Day of year=364), sorghum: 
       stage    8.0 start_grain_fill
-                          biomass =           469.4496       lai =     2.294580
-                          stover N conc =   0.7899634       extractable sw =    151.4210
-1 February 1993(Day of year=32), sorghum: 
+                          biomass =           308.0721       lai =     1.841843
+                          stover N conc =    1.162712       extractable sw =    187.5442
+30 January 1993(Day of year=30), sorghum: 
       stage    9.0 end_grain_fill
-                          biomass =           655.8248       lai =    0.9944146
-                          stover N conc =   0.5455144       extractable sw =    145.8941
-3 February 1993(Day of year=34), sorghum: 
+                          biomass =           427.5691       lai =    0.8062594
+                          stover N conc =   0.7428193       extractable sw =    193.1477
+1 February 1993(Day of year=32), sorghum: 
       stage   10.0 maturity
-                          biomass =           658.2559       lai =    0.8926212
-                          stover N conc =   0.5389355       extractable sw =    144.6355
-4 February 1993(Day of year=35), sorghum: 
+                          biomass =           437.8934       lai =    0.7087070
+                          stover N conc =   0.7191407       extractable sw =    190.7445
+2 February 1993(Day of year=33), sorghum: 
      Age kills all leaves.
       stage   11.0 harvest_ripe
-                          biomass =           658.2560       lai =     0.000000
-                          stover N conc =   0.6255049       extractable sw =    143.9121
-5 February 1993(Day of year=36), manager: 
+                          biomass =           437.8934       lai =     0.000000
+                          stover N conc =   0.7833903       extractable sw =    189.5524
+3 February 1993(Day of year=34), manager: 
      Manager sending message :- sorghum harvest
-5 February 1993(Day of year=36), sorghum: 
+3 February 1993(Day of year=34), sorghum: 
      
      
      
-     flowering (DAS) =   60                                maturity (DAS)  =      95
-      flowering day  =  365                                 stover (kg/ha) =    3784.0
-      maturity day        =   34                            grain yield (kg/ha) =    2798.5
-      grain % water content   =   13.0                      grain yield wet (kg/ha) =    3216.7
-      grain wt (g) =     0.015                              grains/m^2   = 18854.982
-      grains/head =1885.5                                   maximum lai = 2.417
-      total above ground biomass (kg/ha) =    6582.6
-      live above ground biomass (kg/ha) =    6582.6
-      green above ground biomass (kg/ha) =    5375.4
-      senesced above ground biomass (kg/ha) =    1207.2
+     flowering (DAS) =   59                                maturity (DAS)  =      94
+      flowering day  =  363                                 stover (kg/ha) =    2696.1
+      maturity day        =   32                            grain yield (kg/ha) =    1682.8
+      grain % water content   =   13.0                      grain yield wet (kg/ha) =    1934.3
+      grain wt (g) =     0.013                              grains/m^2   = 12690.100
+      grains/head =1269.0                                   maximum lai = 1.944
+      total above ground biomass (kg/ha) =    4378.9
+      live above ground biomass (kg/ha) =    4378.9
+      green above ground biomass (kg/ha) =    3508.4
+      senesced above ground biomass (kg/ha) =     870.6
       dead above ground biomass (kg/ha) =       0.0
-      number of leaves =  15.7
-      grain N percent =      0.71                           total N content (kg/ha) =     43.34
-      grain N uptake (kg/ha) =     19.96                    senesced N content (kg/ha) =      9.71
-      green N content (kg/ha) =     13.66                   dead N content (kg/ha) =      0.00
-      grain P percent            =      0.16                total P content (kg/ha)    =      5.73
-      grain P uptake (kg/ha)     =      4.54                senesced P content (kg/ha) =      0.60
-      green P content (kg/ha)    =      0.59                dead P content (kg/ha)     =      0.00
+      number of leaves =  15.6
+      grain N percent =      0.97                           total N content (kg/ha) =     36.34
+      grain N uptake (kg/ha) =     16.38                    senesced N content (kg/ha) =      8.85
+      green N content (kg/ha) =     11.11                   dead N content (kg/ha) =      0.00
+      grain P percent            =      0.27                total P content (kg/ha)    =      6.50
+      grain P uptake (kg/ha)     =      4.48                senesced P content (kg/ha) =      0.44
+      green P content (kg/ha)    =      1.59                dead P content (kg/ha)     =      0.00
      
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence           to end_of_juvenile         0.000        0.000        0.031        0.000
+         emergence           to end_of_juvenile         0.000        0.000        0.087        0.000
          end_of_juvenile     to floral_initiation       0.000        0.000        0.000        0.000
-         floral_initiation   to flag_leaf               0.000        0.000        0.016        0.000
-         flag_leaf           to flowering               0.000        0.004        0.052        0.000
-         flowering           to start_grain_fill        0.000        0.022        0.045        0.000
-         start_grain_fill    to end_grain_fill          0.000        0.000        0.203        0.000
+         floral_initiation   to flag_leaf               0.000        0.000        0.000        0.000
+         flag_leaf           to flowering               0.000        0.000        0.000        0.000
+         flowering           to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill    to end_grain_fill          0.000        0.000        0.071        0.000
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2798.52                    0.00
-                          N  (kg/ha) =                 19.96                    0.00
+                          DM (kg/ha) =               1682.80                    0.00
+                          N  (kg/ha) =                 16.38                    0.00
      
-5 February 1993(Day of year=36), manager: 
+3 February 1993(Day of year=34), manager: 
      Manager sending message :- sorghum end_crop
-5 February 1993(Day of year=36), sorghum: 
+3 February 1993(Day of year=34), sorghum: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               3784.04                 1671.93
-                          N  (kg/ha) =                 23.38                    3.27
-                          P  (kg/ha) =                 11.91                   12.57
+                          DM (kg/ha) =               2696.13                 1110.37
+                          N  (kg/ha) =                 19.96                    2.18
+                          P  (kg/ha) =                 20.24                   10.35
      
 19 February 1993(Day of year=50), clock: 
      Simulation is terminating due to end criteria being met.
