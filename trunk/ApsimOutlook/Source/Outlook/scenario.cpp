@@ -43,6 +43,19 @@ string Scenario::getName(void) const {
    return name;
 }
 
+string Scenario::getFactorValue(const std::string& factor_name)
+   {
+   // find the factor.  If found then return value.  If
+   // not found then return "".
+   FactorContainer::iterator found_pos = find(factors.begin(),
+                                              factors.end(),
+                                              factor_name);
+   if (found_pos != factors.end())
+      return found_pos->getValue();
+   else
+      return "";
+   }
+
 bool Scenario::setFactorValue(const string& factor_name,
                               const string& factor_value) {
    // find the factor.  If found then pass the new factor value to it.  If

@@ -41,6 +41,9 @@ class Scenario {
                                std::string&       factorValue,
                                const Graphics::TBitmap*& factorBitmap) const;
 
+      // get a factor value.
+      string getFactorValue(const std::string& factor_name);
+
       // set a factor value.  Return false if factor not found.
       bool setFactorValue(const std::string& factor_name,
                           const std::string& factor_value);
