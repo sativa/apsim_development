@@ -52,8 +52,6 @@ __published:
    TMenuItem *Evaluate1;
         TImageList *Main_toolbar_images;
         TImageList *Chart_images;
-   TDdeServerConv *ApsimOutlook;
-   TTimer *Timer1;
    TMDIWallpaper *MDIWallpaper1;
    TCoolBar *CoolBar1;
    TToolBar *ToolBar1;
@@ -106,12 +104,8 @@ __published:
 
    void __fastcall FormShow(TObject *Sender);
    void __fastcall Evaluate(TObject *Sender);
-   void __fastcall ApsimOutlookExecuteMacro(TObject *Sender,
-          TStrings *Msg);
-   void __fastcall Timer1Timer(TObject *Sender);
    void __fastcall FormResize(TObject *Sender);
 private:
-   TCursor savedCursor;
    bool FixMDI;
 	void __fastcall CreateMDIChild(const String Name);
 	void __fastcall ShowHint(TObject *Sender);
@@ -120,6 +114,7 @@ private:
    void __fastcall CreateDefaultDatabase(TStrings* files);
    void __fastcall FixMDIChild(void);
    unsigned findDBAddInLine(const string& contents);
+   void readCommandLine(void);
 
 public:
 	virtual __fastcall TMainForm(TComponent *Owner);
