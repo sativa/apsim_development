@@ -94,12 +94,12 @@ report do_output
  
                  Residue Initial Data
     ------------------------------------------------
-       Dry matter  N     Type
-        (kg/ha)  (kg/ha)
+       Dry matter   N       P    Type
+        (kg/ha)  (kg/ha) (kg/ha)
     ------------------------------------------------
-         2000.0    26.7  mungbean
+         2000.0    26.7     0.0  mungbean
     ------------------------------------------------
- day= 320 date= 15 11 1988 soiln2   -  Initialising, V2.1  180697
+ day= 320 date= 15 11 1988 soiln2   -  Initialising, V3.0  261098
  
    - Reading Constants
  
@@ -251,7 +251,7 @@ report do_output
  
  stress indices for start_grain_fill
  water stress 1 =       0.3727161   nitrogen stress 1 =       0.1748573
- water stress 2 =       0.4529130   nitrogen stress 2 =       0.3150699
+ water stress 2 =       0.4529131   nitrogen stress 2 =       0.3150699
  Day=  55 Year =  1989     Manager sending message :- navybean end_crop
  day=  55 date= 24  2 1989 navybean -     ended. Yield (dw) =     0.0
                                           straw residue =   50.0 kg/ha
