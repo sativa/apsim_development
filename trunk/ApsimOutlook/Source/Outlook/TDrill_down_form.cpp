@@ -311,18 +311,20 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
 
 //  Changes:
 //    DPH 29/6/98
+//    DAH 13/2/01: RemoveExistingRadio option no longer needed
 
 // ------------------------------------------------------------------
 void TDrill_down_form::Select_multiple_simluations_permutation (const char* Selected_identifier,
                                                                 vector<string>& Multiple_values)
    {
-   if (ValueSelectionForm->RemoveExistingRadio->Checked)
+/*   if (ValueSelectionForm->RemoveExistingRadio->Checked)
       {
       Simulations->Selected_simulations->Clear();
       Current_simulation.Set_name ("default");
       Select_multiple_simulations (Current_simulation, Selected_identifier, Multiple_values);
       }
-   else if (ValueSelectionForm->ChangeCurrentRadio->Checked)
+   else*/
+   if (ValueSelectionForm->ChangeCurrentRadio->Checked)
       {
       Simulations->Unselect_simulation(Current_simulation);
       Select_multiple_simulations (Current_simulation, Selected_identifier, Multiple_values);
