@@ -14222,6 +14222,12 @@ void Plant::get_n_supply_soil(protocol::Component *system, protocol::QueryValueD
 {
     int deepest_layer = find_layer_no (g.root_depth, g.dlayer, max_layer);
     float n_uptake_sum = - sum_real_array (g.dlt_no3gsm, deepest_layer+1);
+    if (n_uptake_sum > 0)
+       n_uptake_sum = - n_uptake_sum;
+    else if (n_uptake_sum < 0)
+       n_uptake_sum = - n_uptake_sum ;
+    else
+      n_uptake_sum = 0.0 ;
     system->sendVariable(qd, n_uptake_sum);
 }
 
