@@ -12,7 +12,6 @@
                             ,g_root_depth          &
                             ,c_crop_type          &
                             ,max_layer          &
-                            ,event_interface          &
                             )
 !     ===========================================================
 
@@ -20,7 +19,6 @@
       use ConstantsModule            ! all_active_modules
       use convertmodule
       use scienceModule
-      use interfaceModule
       use ComponentInterfaceModule
       use dataModule
       use errorModule
@@ -35,8 +33,6 @@
       real       g_root_depth          ! (INPUT) root depth (mm)
       character  c_crop_type*(*)       ! (INPUT) crop type
       integer    max_layer             ! (INPUT) maximum no of soil layers
-      INTEGER    event_interface       ! (INPUT) event interface object that
-                                       !         allows comms. to other comps.
 
 !+  Purpose
 !       Calculate and provide root matter incorporation information
@@ -130,11 +126,7 @@
                            ,dlt_n_incorp          &
                            ,deepest_layer)
 
-         call EI_BroadcastAction          &
-                           (Event_interface          &
-                            ,ACTION_incorp_fom          &
-                            ,Blank          &
-                            )
+            call event_send(ACTION_incorp_fom)
 
             call Delete_postbox ()
 
@@ -154,23 +146,20 @@
                                    c_crop_type          &
                                   ,dlt_residue_weight          &
                                   ,dlt_residue_N          &
-                                  ,event_interface          &
                                   )
 !     ===========================================================
 
 !      dll_export crop_top_residue
       use ConstantsModule            ! all_active_modules
       use convertmodule
-      use interfaceModule
-      use errorModule
+      use errorModule                  
+      use ComponentInterfaceModule
       implicit none
 
 !+  Sub-Program Arguments
       character c_crop_type*(*)
       real       dlt_residue_weight    ! (INPUT) new surface residue (g/m^2)
       real       dlt_residue_N         ! (INPUT) new surface residue N (g/m^2)
-      INTEGER    event_interface       ! (INPUT) event interface object that
-                                       !         allows comms. to other comps.
 
 !+  Purpose
 !       Add residue to residue pool
@@ -210,10 +199,7 @@
                         ,'(kg/ha)'          &
                         ,dlt_residue_N * gm2kg /sm2ha)
 
-         call EI_BroadcastAction          &
-                           (Event_interface          &
-                            ,ACTION_add_residue          &
-                            ,Blank)
+         call event_send(ACTION_add_residue)
 
          call Delete_postbox ()
 
@@ -232,7 +218,7 @@
 !     ===========================================================
 
 !      dll_export crop_my_type
-      use interfacemodule
+      use Componentinterfacemodule
       use errorModule
       implicit none
 

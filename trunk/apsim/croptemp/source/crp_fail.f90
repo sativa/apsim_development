@@ -63,7 +63,7 @@
                   ,'         germination within'          &
                   , days_germ_limit          &
                   , ' days of sowing'
-         call Summary_WriteLine (' ', string)
+         call write_string (string)
 
       else
          dlt_plants = 0.0
@@ -130,7 +130,7 @@
 
          write (string, '(a)')          &
                  ' failed emergence due to deep planting'
-         call Summary_WriteLine (' ', string)
+         call write_string (string)
 
       else
          dlt_plants = 0.0
@@ -197,7 +197,7 @@
 
          write (string, '(3a)')          &
                 ' crop failure because of total leaf senescence.'
-         call Summary_WriteLine (' ', string)
+         call write_string (string)
 
       endif
       call pop_routine (my_name)
@@ -278,7 +278,7 @@
          , nint (killfr*100.0)          &
          , '% failure because of water stress.'
 
-         call Summary_WriteLine (' ', string)
+         call write_string (string)
 
       else
          dlt_plants = 0.0
@@ -362,7 +362,7 @@
         , nint (killfr*100.0)          &
         , '% failure because of high soil surface temperatures.'
 
-         call Summary_WriteLine (' ', string)
+         call write_string (string)
 
          else
                   ! do nothing
