@@ -25,6 +25,7 @@ class CompileThread : public TThread
       bool Stdout;
       bool Quiet;
 
+      string getCompilerFileName(void) {return Compiler_output_filename;}
       virtual void __fastcall Execute (void);
 
       typedef void __fastcall (__closure *TMessageEvent)(System::TObject* Sender, const char* Message);
