@@ -116,7 +116,6 @@ class APSIMsoiln2Public
 
    sysinit                 : APSIMMethod                = System initialise
    reset                   : APSIMMethod                = System reset stage
-   process                 : APSIMMethod                = System process stage
    sum_report              : APSIMMethod                = Report SoilN2 module summary details
    create                  : APSIMMethod                = System create stage
    incorp_fom              : APSIMIncorporateFOMMethod  = Incorporate fresh organic matter
@@ -153,7 +152,8 @@ class APSIMSoiln2External
    tick                     : APSIMClockTickEvent                     = Clock tick event
    newmet                   : APSIMNewMetEvent                        = New met event
    pot_decomp               : APSIMPotentialResidueDecompositionEvent = Potential decomposition of residue event
-   new_profile             : APSIMNewProfileEvent       = To notify all interested modules of the change in soil water profile characteristic information
+   new_profile              : APSIMNewProfileEvent                    = To notify all interested modules of the change in soil water profile characteristic information
+   process                  : APSIMEvent                              = System process stage
    
 end
 
