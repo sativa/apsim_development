@@ -53,6 +53,7 @@ class Variants
          }
       void setTypeConverter(TypeConverter* typeConv)
          {
+         delete typeConverter;
          typeConverter = typeConv;
          }
 
