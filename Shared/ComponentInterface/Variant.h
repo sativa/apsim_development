@@ -48,14 +48,14 @@ class Variant
       template <class T>
       void unpack(T& obj)
          {
+         if (arraySpecifier != NULL)
+            arraySpecifier->convert(messageData, type.getCode());
+
          if (typeConverter != NULL)
             typeConverter->getValue(messageData, obj);
 
          else
             messageData >> obj;
-
-         if (arraySpecifier != NULL)
-            arraySpecifier->calcStats(obj);
          }
       void setTypeConverter(TypeConverter* typeconv)
          {
