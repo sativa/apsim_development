@@ -42,6 +42,7 @@
          ! to my knowlede (not often anyway) so hide it - Neil Huth 11/11/94
 
       type IrrigateGlobals
+         sequence
          integer   year                          ! year
          integer   day                           ! day of year
          real    irrigation_solutes_shed (max_solutes, max_irrigs)  ! scheduled irrigation solutes
@@ -62,6 +63,7 @@
       end type IrrigateGlobals
 ! ==================================================================
       type IrrigateParameters
+         sequence
          real    asw_depth
          real    crit_fr_asw
          integer   day(max_irrigs)
@@ -80,157 +82,14 @@
 ! ==================================================================
 
       ! instance variables.
-      type (IrrigateGlobals), pointer :: g
-      type (IrrigateParameters), pointer :: p
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type IrrigateDataPtr
-         type (IrrigateGlobals), pointer ::    gptr
-         type (IrrigateParameters), pointer :: pptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type IrrigateDataPtr
-      type (IrrigateDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (IrrigateGlobals),pointer :: g
+      type (IrrigateParameters),pointer :: p
+
+
 
       contains
-
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-*+  Mission Statement
-*     Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-*+  Mission Statement
-*     De-Instantiate routine
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-*+  Mission Statement
-*     Swap an instance into global pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-
-      return
-      end subroutine
-*     ===========================================================
-      subroutine Main (Action, Data_String)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_String*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      irrigate module.
-
-*+  Mission Statement
-*     Apsim Irrigate Module
-
-*+  Changes
-*     210395 jngh changed from irrigate_section to a parameters section
-*      011195 jngh  added call to message_unused
-*      060696 jngh removed data string from irrigate_irrigate call
-*      110996 nih  changed call to prepare to inter_timestep
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'irrigate')
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-         ! initialise error flags
-
-      if (Action.eq.ACTION_Get_variable) then
-         call irrigate_Send_my_variable (Data_String)
-
-      else if (Action.eq.ACTION_Init) then
-         call irrigate_zero_variables ()
-         call irrigate_Init ()
-
-      else if (Action.eq.EVENT_tick) then
-         call irrigate_ONtick()
-
-      else if (Action.eq.ACTION_Process) then
-         call irrigate_get_other_variables ()
-         call irrigate_process ()
-
-      else if ((Action.eq.'irrigate').or.(Action.eq.'apply')) then
-         call irrigate_get_other_variables ()
-         call irrigate_irrigate ()
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call irrigate_set_my_variable (Data_String)
-
-      else if (Action .eq. EVENT_new_solute) then
-         call irrigate_on_new_solute ()
-
-      else
-            ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -1903,3 +1762,95 @@ cnh note that results may be strange if swdep < ll15
 
       end module IrrigateModule
 
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use IrrigateModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+      else
+         deallocate(g)
+         deallocate(p)
+      end if
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine Main (Action, Data_String)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_String*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      irrigate module.
+
+*+  Mission Statement
+*     Apsim Irrigate Module
+
+*+  Changes
+*     210395 jngh changed from irrigate_section to a parameters section
+*      011195 jngh  added call to message_unused
+*      060696 jngh removed data string from irrigate_irrigate call
+*      110996 nih  changed call to prepare to inter_timestep
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'irrigate')
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+         ! initialise error flags
+
+      if (Action.eq.ACTION_Get_variable) then
+         call irrigate_Send_my_variable (Data_String)
+
+      else if (Action.eq.ACTION_Init) then
+         call irrigate_zero_variables ()
+         call irrigate_Init ()
+
+      else if (Action.eq.EVENT_tick) then
+         call irrigate_ONtick()
+
+      else if (Action.eq.ACTION_Process) then
+         call irrigate_get_other_variables ()
+         call irrigate_process ()
+
+      else if ((Action.eq.'irrigate').or.(Action.eq.'apply')) then
+         call irrigate_get_other_variables ()
+         call irrigate_irrigate ()
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call irrigate_set_my_variable (Data_String)
+
+      else if (Action .eq. EVENT_new_solute) then
+         call irrigate_on_new_solute ()
+
+      else
+            ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
