@@ -87,39 +87,41 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       ! set the clock to start_day.
 
+      if (.not. g%end_current_run) then
+         g%current_date = g%start_date
+         g%current_time = -g%timestep
+         call jday_to_day_of_year (g%current_date,
+     .                             g%day,
+     .                             g%year)
 
-      g%current_date = g%start_date
-      g%current_time = -g%timestep
-      call jday_to_day_of_year (g%current_date,
-     .                          g%day,
-     .                          g%year)
+         call clock_advance_clock()
 
-      call clock_advance_clock()
+         ! write parameters to summary file.
+         call jday_to_date (day, month, year, g%start_date)
+         write (msg, '(a, i2,a,i2,a,i4)')
+     .         'Simulation start date = ',
+     .         day, '/', month, '/', year
+         if (msg(28:28) .eq. Blank) then
+            msg(28:28) = '0'
+         endif
+         call Write_string (msg)
 
-      ! write parameters to summary file.
-      call jday_to_date (day, month, year, g%start_date)
-      write (msg, '(a, i2,a,i2,a,i4)')
-     .      'Simulation start date = ',
-     .      day, '/', month, '/', year
-      if (msg(28:28) .eq. Blank) then
-         msg(28:28) = '0'
+         call jday_to_date (day, month, year, g%end_date)
+         write (msg, '(a, i2,a,i2,a,i4)')
+     .         'Simulation end date   = ',
+     .         day, '/', month, '/', year
+         if (msg(28:28) .eq. Blank) then
+            msg(28:28) = '0'
+         endif
+         call Write_string (msg)
+
+         write (msg, '(a, i4, a)')
+     .      'Time step =           = ', g%timestep, ' (mins)'
+         call Write_string (msg)
+
+!          call Clock_DoTick()
+
       endif
-      call Write_string (msg)
-
-      call jday_to_date (day, month, year, g%end_date)
-      write (msg, '(a, i2,a,i2,a,i4)')
-     .      'Simulation end date   = ',
-     .      day, '/', month, '/', year
-      if (msg(28:28) .eq. Blank) then
-         msg(28:28) = '0'
-      endif
-      call Write_string (msg)
-
-      write (msg, '(a, i4, a)')
-     .   'Time step =           = ', g%timestep, ' (mins)'
-      call Write_string (msg)
-
-!      call Clock_DoTick()
 
       call pop_routine (this_routine)
       return
