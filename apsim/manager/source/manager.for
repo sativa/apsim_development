@@ -1265,6 +1265,7 @@
       include 'string.pub'                        
       include 'intrface.pub'                      
       include 'postbox.pub'
+      include 'datastr.pub'
 
 !+  Sub-Program Arguments
       character Action_string*(*)      ! (INPUT) ACtion to perform.
