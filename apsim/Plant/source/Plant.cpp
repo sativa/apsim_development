@@ -8837,11 +8837,11 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     dm_root = dlt_dm_crop[root];
     n_root = dlt_dm_n[root];
 
-    parent->writeString ("\n Crop harvested.");
-    parent->writeString (string("  tops residue =  " + ftoa(dm_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  tops n       =  " + ftoa(n_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  root residue =  " + ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  root n       =  " + ftoa(n_root, ".2") + " kg/ha\n").c_str());
+    parent->writeString ("\nCrop harvested.");
+    parent->writeString (string("    tops residue =  " + ftoa(dm_residue, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    tops n       =  " + ftoa(n_residue, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    root residue =  " + ftoa(dm_root, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    root n       =  " + ftoa(n_root, ".2") + " kg/ha\n").c_str());
 
     dm_removed = 0.0;
     for (part=0; part < max_part; part++)
@@ -8856,10 +8856,10 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     dm_root = 0.0;
     n_root  = 0.0;
 
-    parent->writeString (string("  tops removed =  "+ ftoa(dm_removed, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  tops n removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  root removed =  "+ ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("  root n removed= "+ ftoa(n_root, ".2") + " kg/ha\n").c_str());
+    parent->writeString (string("    tops removed =  "+ ftoa(dm_removed, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    tops n removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    root removed =  "+ ftoa(dm_root, ".2") + " kg/ha").c_str());
+    parent->writeString (string("    root n removed= "+ ftoa(n_root, ".2") + " kg/ha\n").c_str());
 
     // put roots into root residue
 
@@ -11112,7 +11112,7 @@ void Plant::plant_end_crop ()
         yield = (g.dm_green[meal] + g.dm_dead[meal]
           + g.dm_green[oil] + g.dm_dead[oil] )
           * gm2kg /sm2ha;
-        sprintf (msg, " Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
+        sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
 
         // now do post harvest processes
@@ -11173,22 +11173,22 @@ void Plant::plant_end_crop ()
         n_root  = g.n_green[root] + g.n_dead[root] + g.n_senesced[root];
 
         sprintf (msg, "%s%7.1f%s"
-        , "   straw residue = "
+        , "    straw residue = "
         , dm_residue * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "   straw N =       "
+        , "    straw N =       "
         , n_residue * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "   root residue =  "
+        , "    root residue =  "
         , dm_root * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
         sprintf (msg, "%s%7.1f%s"
-        , "   root N =        "
+        , "    root N =        "
         , n_root * gm2kg /sm2ha, " kg/ha");
         parent->writeString (msg);
 
