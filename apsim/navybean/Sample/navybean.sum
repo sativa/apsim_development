@@ -1,6 +1,5 @@
-Output_file=navybean.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=navybean.out
+report - initialising,V1.6  21/8/98
 Title =navybean sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = navybean
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -163,7 +162,7 @@ report do_output
     x_hi_max_pot_stress =    0.00   0.80   1.00
     y_hi_max_pot        =    0.45   0.45   0.45
     x_stem_wt      =    0.00  50.00
-    y_height      =    0.005000.00
+    y_height      =    0.001000.00
     ------------------------------------------------
  
  
@@ -209,14 +208,14 @@ report do_output
                      biomass =           408.7654       lai =     6.468755
                      stover N conc =    2.927895       extractable sw =    153.1390
  day=  51 date= 20  2 1989 navybean -  stage    8.0 end_grain_fill
-                     biomass =           799.8273       lai =    0.8243263
-                     stover N conc =    1.294987       extractable sw =    34.50446
+                     biomass =           799.8274       lai =    0.8243263
+                     stover N conc =    1.294987       extractable sw =    34.50447
  day=  53 date= 22  2 1989 navybean -  stage    9.0 maturity
-                     biomass =           804.9826       lai =    0.3870895
-                     stover N conc =    1.301726       extractable sw =    126.6848
+                     biomass =           804.9829       lai =    0.3870904
+                     stover N conc =    1.301880       extractable sw =    127.6419
  day=  54 date= 23  2 1989 navybean -  stage   10.0 harvest_ripe
-                     biomass =           804.9825       lai =    0.2106550
-                     stover N conc =    1.309728       extractable sw =    124.7664
+                     biomass =           804.9828       lai =    0.2106550
+                     stover N conc =    1.309886       extractable sw =    125.7233
  Day=  55 Year =  1989     Manager sending message :- navybean harvest
  
  flowering day  =    7                  stover (kg/ha) =    5221.7
@@ -232,7 +231,7 @@ report do_output
  number of leaves =  24.5
  grain N percent =      2.94            total N content (kg/ha) =    142.16
  grain N uptake (kg/ha) =     83.03     senesced N content (kg/ha) =     29.90
- green N content (kg/ha) =     29.23    dead N content (kg/ha) =      0.00
+ green N content (kg/ha) =     29.24    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0024385
@@ -260,3 +259,5 @@ report do_output
                                           root residue = 2774.8 kg/ha
                                           root N =   42.0 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================

@@ -1,6 +1,5 @@
-Output_file=mucuna.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=mucuna.out
+report - initialising,V1.6  21/8/98
 Title =mucuna sample simulation
 Screen output =on
  
@@ -247,7 +246,9 @@ report do_output
  Day=  50 Year =  1989     Manager sending message :- mucuna end_crop
  day=  50 date= 19  2 1989 mucuna   -     ended. Yield (dw) =     0.0
                                           straw residue =    1.5 kg/ha
-                                          straw N =   80.3 kg/ha
+                                          straw N =    0.1 kg/ha
                                           root residue = 5510.1 kg/ha
                                           root N =   90.1 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================

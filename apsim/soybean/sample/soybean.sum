@@ -1,6 +1,5 @@
-Output_file=soybean.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=soybean.out
+report - initialising,V1.6  21/8/98
 Title =soybean sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = soybean
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -207,19 +206,19 @@ report do_output
                      stover N conc =    2.321732       extractable sw =    192.6267
  day=  39 date=  8  2 1989 soybean  -  stage    7.0 start_grain_fill
                      biomass =           727.9853       lai =     6.330470
-                     stover N conc =    2.921402       extractable sw =    122.6123
+                     stover N conc =    2.921402       extractable sw =    122.6122
  day=  74 date= 15  3 1989 soybean  -  stage    8.0 end_grain_fill
-                     biomass =           998.0882       lai =     2.888771
-                     stover N conc =   0.8326507       extractable sw =    78.66759
+                     biomass =           998.0881       lai =     2.888774
+                     stover N conc =   0.8326510       extractable sw =    78.66756
  day=  77 date= 18  3 1989 soybean  -  stage    9.0 maturity
-                     biomass =           1003.306       lai =     2.325419
-                     stover N conc =   0.8321671       extractable sw =    89.60449
+                     biomass =           1003.306       lai =     2.325421
+                     stover N conc =   0.8321674       extractable sw =    89.60447
  day=  78 date= 19  3 1989 soybean  -  stage   10.0 harvest_ripe
-                     biomass =           1003.306       lai =    0.1236107
-                     stover N conc =   0.8024911       extractable sw =    88.42837
+                     biomass =           1003.306       lai =    0.1236134
+                     stover N conc =   0.8024909       extractable sw =    88.42834
  day=  79 date= 20  3 1989 soybean  -  stage   10.0 harvest_ripe
-                     biomass =           1003.306       lai =    0.1236107
-                     stover N conc =   0.8024906       extractable sw =    87.46287
+                     biomass =           1003.306       lai =    0.1236134
+                     stover N conc =   0.8024909       extractable sw =    87.46285
  Day=  80 Year =  1989     Manager sending message :- soybean harvest
  
  flowering day  =   15                  stover (kg/ha) =    6052.4
@@ -246,16 +245,16 @@ report do_output
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.2762291
  
  stress indices for floral_initiation
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577878
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862303
+ water stress 1 =       0.0000000   nitrogen stress 1 =       0.3577877
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.4862302
  
  stress indices for flowering
- water stress 1 =       0.0970325   nitrogen stress 1 =       0.0372615
- water stress 2 =       0.1327678   nitrogen stress 2 =       0.1228575
+ water stress 1 =       0.0970326   nitrogen stress 1 =       0.0372615
+ water stress 2 =       0.1327679   nitrogen stress 2 =       0.1228575
  
  stress indices for start_grain_fill
- water stress 1 =       0.1890704   nitrogen stress 1 =       0.2245126
- water stress 2 =       0.2238804   nitrogen stress 2 =       0.2877038
+ water stress 1 =       0.1890705   nitrogen stress 1 =       0.2245126
+ water stress 2 =       0.2238805   nitrogen stress 2 =       0.2877038
  Day=  80 Year =  1989     Manager sending message :- soybean end_crop
  day=  80 date= 21  3 1989 soybean  -     ended. Yield (dw) =     0.0
                                           straw residue =   31.0 kg/ha
@@ -263,3 +262,5 @@ report do_output
                                           root residue = 3404.3 kg/ha
                                           root N =   71.3 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================

@@ -1,6 +1,5 @@
-Output_file=pigeonp.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=pigeonp.out
+report - initialising,V1.6  21/8/98
 Title =pigeonp sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = pigeonp
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 270 date= 26  9 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -200,32 +199,32 @@ report do_output
                      biomass =           158.3898       lai =     1.485629
                      stover N conc =    3.682909       extractable sw =    129.6813
  day=  61 date=  2  3 1989 pigeonp  -  stage    5.0 floral_initiation
-                     biomass =           984.8549       lai =     3.923652
+                     biomass =           984.8546       lai =     3.923651
                      stover N conc =    2.841221       extractable sw =    102.5385
  day=  62 date=  3  3 1989 pigeonp  -  stage    6.0 flowering
-                     biomass =           996.5815       lai =     3.959503
-                     stover N conc =    2.799250       extractable sw =    97.27242
+                     biomass =           996.5814       lai =     3.959502
+                     stover N conc =    2.799249       extractable sw =    97.27242
  day=  69 date= 10  3 1989 pigeonp  -  stage    7.0 start_grain_fill
-                     biomass =           1062.448       lai =     3.659620
+                     biomass =           1062.447       lai =     3.659619
                      stover N conc =    2.728994       extractable sw =    72.85776
  day= 104 date= 14  4 1989 pigeonp  -  stage    8.0 end_grain_fill
                      biomass =           1318.979       lai =     2.601120
-                     stover N conc =    2.287810       extractable sw =    84.93005
+                     stover N conc =    2.287811       extractable sw =    84.93005
  day= 107 date= 17  4 1989 pigeonp  -  stage    9.0 maturity
                      biomass =           1346.267       lai =     2.566622
-                     stover N conc =    2.230288       extractable sw =    70.48076
+                     stover N conc =    2.230290       extractable sw =    70.48076
  day= 111 date= 21  4 1989 pigeonp  -  stage   10.0 harvest_ripe
-                     biomass =           1346.267       lai =    0.1300240e-01
-                     stover N conc =    2.093988       extractable sw =    64.18679
+                     biomass =           1346.267       lai =    0.1300287e-01
+                     stover N conc =    2.093990       extractable sw =    64.18679
  day= 112 date= 22  4 1989 pigeonp  -  stage   10.0 harvest_ripe
-                     biomass =           1346.267       lai =    0.1300240e-01
-                     stover N conc =    2.093988       extractable sw =    63.78503
+                     biomass =           1346.267       lai =    0.1300287e-01
+                     stover N conc =    2.093990       extractable sw =    63.78503
  day= 113 date= 23  4 1989 pigeonp  -  stage   10.0 harvest_ripe
-                     biomass =           1346.267       lai =    0.1300240e-01
-                     stover N conc =    2.093989       extractable sw =    63.51147
+                     biomass =           1346.267       lai =    0.1300287e-01
+                     stover N conc =    2.093990       extractable sw =    63.51147
  day= 114 date= 24  4 1989 pigeonp  -  stage   10.0 harvest_ripe
-                     biomass =           1346.267       lai =    0.1300240e-01
-                     stover N conc =    2.093988       extractable sw =    89.23608
+                     biomass =           1346.267       lai =    0.1300287e-01
+                     stover N conc =    2.093990       extractable sw =    89.23608
  Day= 115 Year =  1989     Manager sending message :- pigeonp harvest
  
  flowering day  =   62                  stover (kg/ha) =   10944.1
@@ -249,7 +248,7 @@ report do_output
  
  stress indices for end_of_juvenile
  water stress 1 =       0.2434256   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.2948442   nitrogen stress 2 =       0.0000000
+ water stress 2 =       0.2948443   nitrogen stress 2 =       0.0000000
  
  stress indices for floral_initiation
  water stress 1 =       0.0004194   nitrogen stress 1 =       0.0000000
@@ -265,7 +264,9 @@ report do_output
  Day= 115 Year =  1989     Manager sending message :- pigeonp end_crop
  day= 115 date= 25  4 1989 pigeonp  -     ended. Yield (dw) =     0.0
                                           straw residue =    4.0 kg/ha
-                                          straw N =    0.4 kg/ha
+                                          straw N =    0.2 kg/ha
                                           root residue = 2604.9 kg/ha
                                           root N =   76.5 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
