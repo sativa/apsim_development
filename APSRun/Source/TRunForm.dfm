@@ -15,7 +15,7 @@ object RunForm: TRunForm
   OldCreateOrder = False
   Position = poScreenCenter
   Scaled = False
-  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
