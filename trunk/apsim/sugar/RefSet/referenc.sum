@@ -562,38 +562,11 @@
 1 January 1988(Day of year=1), manager: 
      Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
 1 January 1988(Day of year=1), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-2 January 1988(Day of year=2), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-2 January 1988(Day of year=2), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-3 January 1988(Day of year=3), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-3 January 1988(Day of year=3), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-4 January 1988(Day of year=4), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-4 January 1988(Day of year=4), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-5 January 1988(Day of year=5), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-5 January 1988(Day of year=5), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-6 January 1988(Day of year=6), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-6 January 1988(Day of year=6), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-7 January 1988(Day of year=7), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-7 January 1988(Day of year=7), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-8 January 1988(Day of year=8), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-8 January 1988(Day of year=8), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-9 January 1988(Day of year=9), manager: 
-     Manager sending message :- sugar graze  fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
-9 January 1988(Day of year=9), sugar: 
-      Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-10 January 1988(Day of year=10), clock: 
-     Simulation is terminating due to end criteria being met.
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Grazing action not currently supported by this module
+     Component name: sugar
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

@@ -2665,148 +2665,151 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call push_routine (my_name)
 
-      ! request and receive variables from owner-modules
-c      call sugar_get_other_variables ()
+      call Fatal_error (ERR_user
+     :    ,'Grazing action not currently supported by this module')
 
-      call collect_real_var ('fraction', '()'
-     :                      , fraction, numvals, 0.0, 1.0)
-
-      call collect_real_var ('n_eff', '()'
-     :                      , n_eff, numvals, 0.0, 1.0)
-
-      call collect_real_var ('c_eff', '()'
-     :                      , c_eff, numvals, 0.0, 1.0)
-
-      call collect_char_var_optional ('report', '()'
-     :                               , report, numvals)
-      if (numvals.eq.0) then
-         report = 'no'
-      else
-      endif
-
-      ! Note - I could use loops here but I want to be specific.
-      dm_grazed = 0.0
-      n_grazed = 0.0
-      dlt_dm_crop(:) = 0.0
-      dlt_dm_N(:) = 0.0
-
-         ! leaf
-      dm_grazed = g%dm_green(leaf)*fraction
-      n_grazed =  g%n_green(leaf)*fraction
-      dlt_dm_crop(leaf) = dm_grazed * gm2kg/sm2ha
-      dlt_dm_N(leaf) = n_grazed * gm2kg/sm2ha
-
-      g%dm_graze = g%dm_graze + dm_grazed
-      g%n_graze = g%n_graze + n_grazed
-      g%dm_green(leaf) = g%dm_green(leaf) * (1. - fraction)
-      g%n_green(leaf) = g%n_green(leaf) * (1. - fraction)
-      g%plant_wc(leaf) = g%plant_wc(leaf) * (1. - fraction)
-
-         ! cabbage
-      dm_grazed = g%dm_green(cabbage)*fraction
-      n_grazed =  g%n_green(cabbage)*fraction
-      dlt_dm_crop(cabbage) = dm_grazed * gm2kg/sm2ha
-      dlt_dm_N(cabbage) = n_grazed * gm2kg/sm2ha
-
-      g%dm_graze = g%dm_graze + g%dm_green(cabbage)*fraction
-      g%n_graze = g%n_graze + g%n_green(cabbage)*fraction
-      g%dm_green(cabbage) = g%dm_green(cabbage) * (1. - fraction)
-      g%n_green(cabbage) = g%n_green(cabbage) * (1. - fraction)
-      g%plant_wc(cabbage) = g%plant_wc(cabbage) * (1. - fraction)
-
-         ! structural stem
-      dm_grazed = g%dm_green(sstem)*fraction
-      n_grazed =  g%n_green(sstem)*fraction
-      dlt_dm_crop(sstem) = dm_grazed * gm2kg/sm2ha
-      dlt_dm_N(sstem) = n_grazed * gm2kg/sm2ha
-
-      g%dm_graze = g%dm_graze + g%dm_green(sstem)*fraction
-      g%n_graze = g%n_graze + g%n_green(sstem)*fraction
-      g%dm_green(sstem)= g%dm_green(sstem) * (1. - fraction)
-      g%n_green(sstem)= g%n_green(sstem) * (1. - fraction)
-      g%plant_wc(sstem) = g%plant_wc(sstem) * (1. - fraction)
-
-         ! sucrose
-      dm_grazed = g%dm_green(sucrose)*fraction
-      n_grazed =  g%n_green(sucrose)*fraction
-      dlt_dm_crop(sucrose) = dm_grazed * gm2kg/sm2ha
-      dlt_dm_N(sucrose) = n_grazed * gm2kg/sm2ha
-
-      g%dm_graze = g%dm_graze + g%dm_green(sucrose)*fraction
-      g%n_graze = g%n_graze + g%n_green(sucrose)*fraction
-!cjh      dm_grazed = dm_grazed + g%dm_green(sucrose)*fraction*c_eff
-!cjh      n_grazed = n_grazed + g%n_green(sucrose)*fraction*n_eff
-      g%dm_green(sucrose)= g%dm_green(sucrose) * (1. - fraction)
-      g%n_green(sucrose)= g%n_green(sucrose) * (1. - fraction)
-      g%plant_wc(sucrose) = g%plant_wc(sucrose) * (1. - fraction)
-
-      dm_residue = g%dm_graze *c_eff
-      N_residue = g%N_graze *n_eff
-
-      ! remove material from crop
-
-!      call crop_top_residue (c%crop_type, dm_grazed, n_grazed)
-      fraction_to_residue(:) = 0.0
-
-      if (sum(dlt_dm_crop) .gt. 0.0) then
-         call sugar_Send_Crop_Chopped_Event
-     :                (c%crop_type
-     :               , part_name
-     :               , dlt_dm_crop
-     :               , dlt_dm_N
-     :               , fraction_to_Residue
-     :               , max_part)
-      else
-         ! no surface residue
-      endif
-
-      ! now add the dung    (manure module?)
-      call crop_top_residue (c%crop_type, dm_residue, n_residue)
-
-
-      ! Now we need to update the leaf tracking info
-
-      g%lai = g%lai * (1. - fraction)
-
-         ! get highest senescing leaf
-
-
-      node_no_dead = sugar_leaf_no_from_lai
-     :               (
-     :                g%leaf_area
-     :              , g%plants
-     :              , g%slai
-     :               )
-      start_leaf = int(node_no_dead + 1.)
-      do 100 leaf_no = start_leaf, max_leaf
-         if (leaf_no .eq. start_leaf) then
-            grn_fr = 1.0 - mod(node_no_dead,1.)
-         else
-            grn_fr = 1.0
-         endif
-         fraction_removed = fraction * grn_fr
-         g%leaf_area(leaf_no) = g%leaf_area(leaf_no)
-     :                        *(1.-fraction_removed)
-         g%leaf_dm (leaf_no) = g%leaf_dm (leaf_no)
-     :                        *(1.-fraction_removed)
-
-
-  100 continue
-
-             ! report
-
-      if (report.eq.'yes') then
-         write(string,'(1x,A,f4.1,A,f4.2,A,f4.2,A)')
-     :              'Grazing '
-     :             ,fraction*100
-     :             ,'% of green material (N_eff = '
-     :             ,N_eff
-     :             ,', C_eff = '
-     :             ,C_eff
-     :             ,')'
-         call Write_string(string)
-      else
-      endif
+!      ! request and receive variables from owner-modules
+!c      call sugar_get_other_variables ()
+!
+!      call collect_real_var ('fraction', '()'
+!     :                      , fraction, numvals, 0.0, 1.0)
+!
+!      call collect_real_var ('n_eff', '()'
+!     :                      , n_eff, numvals, 0.0, 1.0)
+!
+!      call collect_real_var ('c_eff', '()'
+!     :                      , c_eff, numvals, 0.0, 1.0)
+!
+!      call collect_char_var_optional ('report', '()'
+!     :                               , report, numvals)
+!      if (numvals.eq.0) then
+!         report = 'no'
+!      else
+!      endif
+!
+!      ! Note - I could use loops here but I want to be specific.
+!      dm_grazed = 0.0
+!      n_grazed = 0.0
+!      dlt_dm_crop(:) = 0.0
+!      dlt_dm_N(:) = 0.0
+!
+!         ! leaf
+!      dm_grazed = g%dm_green(leaf)*fraction
+!      n_grazed =  g%n_green(leaf)*fraction
+!      dlt_dm_crop(leaf) = dm_grazed * gm2kg/sm2ha
+!      dlt_dm_N(leaf) = n_grazed * gm2kg/sm2ha
+!
+!      g%dm_graze = g%dm_graze + dm_grazed
+!      g%n_graze = g%n_graze + n_grazed
+!      g%dm_green(leaf) = g%dm_green(leaf) * (1. - fraction)
+!      g%n_green(leaf) = g%n_green(leaf) * (1. - fraction)
+!      g%plant_wc(leaf) = g%plant_wc(leaf) * (1. - fraction)
+!
+!         ! cabbage
+!      dm_grazed = g%dm_green(cabbage)*fraction
+!      n_grazed =  g%n_green(cabbage)*fraction
+!      dlt_dm_crop(cabbage) = dm_grazed * gm2kg/sm2ha
+!      dlt_dm_N(cabbage) = n_grazed * gm2kg/sm2ha
+!
+!      g%dm_graze = g%dm_graze + g%dm_green(cabbage)*fraction
+!      g%n_graze = g%n_graze + g%n_green(cabbage)*fraction
+!      g%dm_green(cabbage) = g%dm_green(cabbage) * (1. - fraction)
+!      g%n_green(cabbage) = g%n_green(cabbage) * (1. - fraction)
+!      g%plant_wc(cabbage) = g%plant_wc(cabbage) * (1. - fraction)
+!
+!         ! structural stem
+!      dm_grazed = g%dm_green(sstem)*fraction
+!      n_grazed =  g%n_green(sstem)*fraction
+!      dlt_dm_crop(sstem) = dm_grazed * gm2kg/sm2ha
+!      dlt_dm_N(sstem) = n_grazed * gm2kg/sm2ha
+!
+!      g%dm_graze = g%dm_graze + g%dm_green(sstem)*fraction
+!      g%n_graze = g%n_graze + g%n_green(sstem)*fraction
+!      g%dm_green(sstem)= g%dm_green(sstem) * (1. - fraction)
+!      g%n_green(sstem)= g%n_green(sstem) * (1. - fraction)
+!      g%plant_wc(sstem) = g%plant_wc(sstem) * (1. - fraction)
+!
+!         ! sucrose
+!      dm_grazed = g%dm_green(sucrose)*fraction
+!      n_grazed =  g%n_green(sucrose)*fraction
+!      dlt_dm_crop(sucrose) = dm_grazed * gm2kg/sm2ha
+!      dlt_dm_N(sucrose) = n_grazed * gm2kg/sm2ha
+!
+!      g%dm_graze = g%dm_graze + g%dm_green(sucrose)*fraction
+!      g%n_graze = g%n_graze + g%n_green(sucrose)*fraction
+!!cjh      dm_grazed = dm_grazed + g%dm_green(sucrose)*fraction*c_eff
+!!cjh      n_grazed = n_grazed + g%n_green(sucrose)*fraction*n_eff
+!      g%dm_green(sucrose)= g%dm_green(sucrose) * (1. - fraction)
+!      g%n_green(sucrose)= g%n_green(sucrose) * (1. - fraction)
+!      g%plant_wc(sucrose) = g%plant_wc(sucrose) * (1. - fraction)
+!
+!      dm_residue = g%dm_graze *c_eff
+!      N_residue = g%N_graze *n_eff
+!
+!      ! remove material from crop
+!
+!!      call crop_top_residue (c%crop_type, dm_grazed, n_grazed)
+!      fraction_to_residue(:) = 0.0
+!
+!      if (sum(dlt_dm_crop) .gt. 0.0) then
+!         call sugar_Send_Crop_Chopped_Event
+!     :                (c%crop_type
+!     :               , part_name
+!     :               , dlt_dm_crop
+!     :               , dlt_dm_N
+!     :               , fraction_to_Residue
+!     :               , max_part)
+!      else
+!         ! no surface residue
+!      endif
+!
+!      ! now add the dung    (manure module?)
+!      call crop_top_residue (c%crop_type, dm_residue, n_residue)
+!
+!
+!      ! Now we need to update the leaf tracking info
+!
+!      g%lai = g%lai * (1. - fraction)
+!
+!         ! get highest senescing leaf
+!
+!
+!      node_no_dead = sugar_leaf_no_from_lai
+!     :               (
+!     :                g%leaf_area
+!     :              , g%plants
+!     :              , g%slai
+!     :               )
+!      start_leaf = int(node_no_dead + 1.)
+!      do 100 leaf_no = start_leaf, max_leaf
+!         if (leaf_no .eq. start_leaf) then
+!            grn_fr = 1.0 - mod(node_no_dead,1.)
+!         else
+!            grn_fr = 1.0
+!         endif
+!         fraction_removed = fraction * grn_fr
+!         g%leaf_area(leaf_no) = g%leaf_area(leaf_no)
+!     :                        *(1.-fraction_removed)
+!         g%leaf_dm (leaf_no) = g%leaf_dm (leaf_no)
+!     :                        *(1.-fraction_removed)
+!
+!
+!  100 continue
+!
+!             ! report
+!
+!      if (report.eq.'yes') then
+!         write(string,'(1x,A,f4.1,A,f4.2,A,f4.2,A)')
+!     :              'Grazing '
+!     :             ,fraction*100
+!     :             ,'% of green material (N_eff = '
+!     :             ,N_eff
+!     :             ,', C_eff = '
+!     :             ,C_eff
+!     :             ,')'
+!         call Write_string(string)
+!      else
+!      endif
 
       call pop_routine (my_name)
       return
