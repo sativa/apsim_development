@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = WHEAT SAMPLE Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -221,7 +221,7 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
          -----------------------------------------------
           Layer       Kl           Lower    Exploration
@@ -236,7 +236,7 @@
          300.0     0.050          0.270       1.000
          300.0     0.040          0.280       1.000
          -----------------------------------------------
-         Extractable SW:   314.9 mm in  1800.0 mm total depth ( 17 %).
+         Extractable SW:   315mm in  1800mm total depth ( 17%).
          Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
@@ -342,5 +342,6 @@
          straw N =           0.0 kg/ha
          root residue =   1305.6 kg/ha
          root N =           16.5 kg/ha
+         root P =            0.0 kg/ha
 17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.

@@ -228,6 +228,15 @@
          ------------------------------------------------
               2000.0    26.7     0.0  mungbean
          ------------------------------------------------
+     
+     
+                      Residue Initial Parameters
+         ------------------------------------------------
+           Pot Decomp Rate  C:N     C:P  Phosphorous  Report
+           (fraction/day) (ratio) (ratio)  aware      additions
+         ------------------------------------------------
+                  0.100    30.0     0.0       F       no
+         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -364,13 +373,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -387,11 +396,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -500,6 +507,7 @@
          straw N =           0.0 kg/ha
          root residue =   1090.3 kg/ha
          root N =           26.2 kg/ha
+         root P =            0.0 kg/ha
 15 May 1958(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1958(Day of year=135), soilwat2: 
@@ -561,13 +569,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -584,11 +592,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -712,6 +718,7 @@
          straw N =           0.0 kg/ha
          root residue =   1261.6 kg/ha
          root N =           30.6 kg/ha
+         root P =            0.0 kg/ha
 15 May 1959(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1959(Day of year=135), soilwat2: 
@@ -773,13 +780,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -796,11 +803,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -907,6 +912,7 @@
          straw N =           0.0 kg/ha
          root residue =   1433.2 kg/ha
          root N =           35.3 kg/ha
+         root P =            0.0 kg/ha
 14 May 1960(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1960(Day of year=135), soilwat2: 
@@ -968,13 +974,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -991,11 +997,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1102,6 +1106,7 @@
          straw N =           0.0 kg/ha
          root residue =   1129.0 kg/ha
          root N =           26.9 kg/ha
+         root P =            0.0 kg/ha
 15 May 1961(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1961(Day of year=135), soilwat2: 
@@ -1163,13 +1168,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -1186,11 +1191,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1297,6 +1300,7 @@
          straw N =           0.0 kg/ha
          root residue =    915.7 kg/ha
          root N =           21.3 kg/ha
+         root P =            0.0 kg/ha
 15 May 1962(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1962(Day of year=135), soilwat2: 
@@ -1358,13 +1362,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -1381,11 +1385,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1671,6 +1673,7 @@
          straw N =           0.0 kg/ha
          root residue =   1083.8 kg/ha
          root N =           25.2 kg/ha
+         root P =            0.0 kg/ha
 15 May 1963(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1963(Day of year=135), soilwat2: 
@@ -1732,13 +1735,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -1755,11 +1758,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -1866,6 +1867,7 @@
          straw N =           0.0 kg/ha
          root residue =   1489.1 kg/ha
          root N =           26.6 kg/ha
+         root P =            0.0 kg/ha
 14 May 1964(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1964(Day of year=135), soilwat2: 
@@ -1927,13 +1929,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -1950,11 +1952,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2088,6 +2088,7 @@
          straw N =           0.0 kg/ha
          root residue =   1355.1 kg/ha
          root N =           34.1 kg/ha
+         root P =            0.0 kg/ha
 15 May 1965(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1965(Day of year=135), soilwat2: 
@@ -2149,13 +2150,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -2172,11 +2173,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2336,6 +2335,7 @@
          straw N =           0.0 kg/ha
          root residue =    706.3 kg/ha
          root N =            7.1 kg/ha
+         root P =            0.0 kg/ha
 15 May 1966(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1966(Day of year=135), soilwat2: 
@@ -2397,13 +2397,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -2420,11 +2420,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2531,6 +2529,7 @@
          straw N =           0.0 kg/ha
          root residue =   1792.0 kg/ha
          root N =           37.9 kg/ha
+         root P =            0.0 kg/ha
 15 May 1967(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1967(Day of year=135), soilwat2: 
@@ -2592,13 +2591,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -2615,11 +2614,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -2726,6 +2723,7 @@
          straw N =           0.0 kg/ha
          root residue =   1490.1 kg/ha
          root N =           35.3 kg/ha
+         root P =            0.0 kg/ha
 14 May 1968(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1968(Day of year=135), soilwat2: 
@@ -2787,13 +2785,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -2810,11 +2808,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3011,6 +3007,7 @@
          straw N =           0.0 kg/ha
          root residue =   1138.2 kg/ha
          root N =           23.5 kg/ha
+         root P =            0.0 kg/ha
 15 May 1969(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1969(Day of year=135), soilwat2: 
@@ -3072,13 +3069,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -3095,11 +3092,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3206,6 +3201,7 @@
          straw N =           0.0 kg/ha
          root residue =   1560.6 kg/ha
          root N =           38.0 kg/ha
+         root P =            0.0 kg/ha
 15 May 1970(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1970(Day of year=135), soilwat2: 
@@ -3267,13 +3263,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -3290,11 +3286,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3563,6 +3557,7 @@
          straw N =           0.0 kg/ha
          root residue =    868.5 kg/ha
          root N =           13.6 kg/ha
+         root P =            0.0 kg/ha
 15 May 1971(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1971(Day of year=135), soilwat2: 
@@ -3624,13 +3619,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -3647,11 +3642,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -3812,6 +3805,7 @@
          straw N =           0.0 kg/ha
          root residue =   1209.7 kg/ha
          root N =           27.8 kg/ha
+         root P =            0.0 kg/ha
 14 May 1972(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1972(Day of year=135), soilwat2: 
@@ -3873,13 +3867,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -3896,11 +3890,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4016,6 +4008,7 @@
          straw N =           0.0 kg/ha
          root residue =    832.0 kg/ha
          root N =           11.3 kg/ha
+         root P =            0.0 kg/ha
 15 May 1973(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1973(Day of year=135), soilwat2: 
@@ -4077,13 +4070,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -4100,11 +4093,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4283,6 +4274,7 @@
          straw N =           0.0 kg/ha
          root residue =   1086.0 kg/ha
          root N =           25.1 kg/ha
+         root P =            0.0 kg/ha
 15 May 1974(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1974(Day of year=135), soilwat2: 
@@ -4344,13 +4336,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -4367,11 +4359,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4495,6 +4485,7 @@
          straw N =           0.0 kg/ha
          root residue =    853.4 kg/ha
          root N =           10.4 kg/ha
+         root P =            0.0 kg/ha
 15 May 1975(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1975(Day of year=135), soilwat2: 
@@ -4556,13 +4547,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -4579,11 +4570,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4716,6 +4705,7 @@
          straw N =           0.0 kg/ha
          root residue =   1292.2 kg/ha
          root N =           32.1 kg/ha
+         root P =            0.0 kg/ha
 14 May 1976(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1976(Day of year=135), soilwat2: 
@@ -4777,13 +4767,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -4800,11 +4790,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -4911,6 +4899,7 @@
          straw N =           0.0 kg/ha
          root residue =    918.8 kg/ha
          root N =           21.9 kg/ha
+         root P =            0.0 kg/ha
 15 May 1977(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1977(Day of year=135), soilwat2: 
@@ -4972,13 +4961,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -4995,11 +4984,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5106,6 +5093,7 @@
          straw N =           0.0 kg/ha
          root residue =   1322.6 kg/ha
          root N =           25.1 kg/ha
+         root P =            0.0 kg/ha
 15 May 1978(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1978(Day of year=135), soilwat2: 
@@ -5167,13 +5155,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -5190,11 +5178,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5301,6 +5287,7 @@
          straw N =           0.0 kg/ha
          root residue =   1418.6 kg/ha
          root N =           33.0 kg/ha
+         root P =            0.0 kg/ha
 15 May 1979(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1979(Day of year=135), soilwat2: 
@@ -5362,13 +5349,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -5385,11 +5372,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5523,6 +5508,7 @@
          straw N =           0.0 kg/ha
          root residue =   1182.1 kg/ha
          root N =           28.6 kg/ha
+         root P =            0.0 kg/ha
 14 May 1980(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1980(Day of year=135), soilwat2: 
@@ -5584,13 +5570,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -5607,11 +5593,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5718,6 +5702,7 @@
          straw N =           0.0 kg/ha
          root residue =   1079.3 kg/ha
          root N =           15.5 kg/ha
+         root P =            0.0 kg/ha
 15 May 1981(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1981(Day of year=135), soilwat2: 
@@ -5779,13 +5764,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -5802,11 +5787,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -5913,6 +5896,7 @@
          straw N =           0.0 kg/ha
          root residue =   1570.9 kg/ha
          root N =           36.6 kg/ha
+         root P =            0.0 kg/ha
 15 May 1982(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1982(Day of year=135), soilwat2: 
@@ -5974,13 +5958,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -5997,11 +5981,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6108,6 +6090,7 @@
          straw N =           0.0 kg/ha
          root residue =    728.8 kg/ha
          root N =            8.0 kg/ha
+         root P =            0.0 kg/ha
 15 May 1983(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1983(Day of year=135), soilwat2: 
@@ -6169,13 +6152,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -6192,11 +6175,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6303,6 +6284,7 @@
          straw N =           0.0 kg/ha
          root residue =   1752.2 kg/ha
          root N =           36.5 kg/ha
+         root P =            0.0 kg/ha
 14 May 1984(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1984(Day of year=135), soilwat2: 
@@ -6364,13 +6346,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -6387,11 +6369,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6596,6 +6576,7 @@
          straw N =           0.0 kg/ha
          root residue =    990.8 kg/ha
          root N =           23.2 kg/ha
+         root P =            0.0 kg/ha
 15 May 1985(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1985(Day of year=135), soilwat2: 
@@ -6657,13 +6638,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -6680,11 +6661,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -6791,6 +6770,7 @@
          straw N =           0.0 kg/ha
          root residue =   1380.8 kg/ha
          root N =           31.8 kg/ha
+         root P =            0.0 kg/ha
 15 May 1986(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1986(Day of year=135), soilwat2: 
@@ -6852,13 +6832,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -6875,11 +6855,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7022,6 +7000,7 @@
          straw N =           0.0 kg/ha
          root residue =   1195.7 kg/ha
          root N =           27.7 kg/ha
+         root P =            0.0 kg/ha
 15 May 1987(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1987(Day of year=135), soilwat2: 
@@ -7083,13 +7062,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -7106,11 +7085,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7234,6 +7211,7 @@
          straw N =           0.0 kg/ha
          root residue =   1346.7 kg/ha
          root N =           32.7 kg/ha
+         root P =            0.0 kg/ha
 14 May 1988(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1988(Day of year=135), soilwat2: 
@@ -7295,13 +7273,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -7318,11 +7296,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7429,6 +7405,7 @@
          straw N =           0.0 kg/ha
          root residue =   1658.3 kg/ha
          root N =           38.2 kg/ha
+         root P =            0.0 kg/ha
 15 May 1989(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1989(Day of year=135), soilwat2: 
@@ -7490,13 +7467,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -7513,11 +7490,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7624,6 +7599,7 @@
          straw N =           0.0 kg/ha
          root residue =   1631.4 kg/ha
          root N =           38.3 kg/ha
+         root P =            0.0 kg/ha
 15 May 1990(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1990(Day of year=135), soilwat2: 
@@ -7685,13 +7661,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -7708,11 +7684,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -7819,6 +7793,7 @@
          straw N =           0.0 kg/ha
          root residue =   1772.2 kg/ha
          root N =           40.9 kg/ha
+         root P =            0.0 kg/ha
 15 May 1991(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1991(Day of year=135), soilwat2: 
@@ -7880,13 +7855,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -7903,11 +7878,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -8014,6 +7987,7 @@
          straw N =           0.0 kg/ha
          root residue =   1162.4 kg/ha
          root N =           27.2 kg/ha
+         root P =            0.0 kg/ha
 14 May 1992(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1992(Day of year=135), soilwat2: 
@@ -8075,13 +8049,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -8098,11 +8072,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -8209,6 +8181,7 @@
          straw N =           0.0 kg/ha
          root residue =    918.7 kg/ha
          root N =           21.4 kg/ha
+         root P =            0.0 kg/ha
 15 May 1993(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1993(Day of year=135), soilwat2: 
@@ -8270,13 +8243,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -8293,11 +8266,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -8404,6 +8375,7 @@
          straw N =           0.0 kg/ha
          root residue =   1655.0 kg/ha
          root N =           39.4 kg/ha
+         root P =            0.0 kg/ha
 15 May 1994(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1994(Day of year=135), soilwat2: 
@@ -8465,13 +8437,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -8488,11 +8460,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -8599,6 +8569,7 @@
          straw N =           0.0 kg/ha
          root residue =    680.8 kg/ha
          root N =            6.6 kg/ha
+         root P =            0.0 kg/ha
 15 May 1995(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1995(Day of year=135), soilwat2: 
@@ -8660,13 +8631,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -8683,11 +8654,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -8821,6 +8790,7 @@
          straw N =           0.0 kg/ha
          root residue =   1451.2 kg/ha
          root N =           29.3 kg/ha
+         root P =            0.0 kg/ha
 14 May 1996(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 1996(Day of year=135), soilwat2: 
@@ -8882,13 +8852,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -8905,11 +8875,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -9016,6 +8984,7 @@
          straw N =           0.0 kg/ha
          root residue =   1543.2 kg/ha
          root N =           36.3 kg/ha
+         root P =            0.0 kg/ha
 15 May 1997(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1997(Day of year=135), soilwat2: 
@@ -9077,13 +9046,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -9100,11 +9069,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -9211,6 +9178,7 @@
          straw N =           0.0 kg/ha
          root residue =   1010.5 kg/ha
          root N =           15.1 kg/ha
+         root P =            0.0 kg/ha
 15 May 1998(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1998(Day of year=135), soilwat2: 
@@ -9272,13 +9240,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -9295,11 +9263,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -9406,6 +9372,7 @@
          straw N =           0.0 kg/ha
          root residue =   1546.9 kg/ha
          root N =           35.8 kg/ha
+         root P =            0.0 kg/ha
 15 May 1999(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 1999(Day of year=135), soilwat2: 
@@ -9467,13 +9434,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -9490,11 +9457,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -9610,6 +9575,7 @@
          straw N =           0.0 kg/ha
          root residue =   1242.8 kg/ha
          root N =           31.0 kg/ha
+         root P =            0.0 kg/ha
 14 May 2000(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 14 May 2000(Day of year=135), soilwat2: 
@@ -9671,13 +9637,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -9694,11 +9660,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -9805,6 +9769,7 @@
          straw N =           0.0 kg/ha
          root residue =   1057.5 kg/ha
          root N =           20.7 kg/ha
+         root P =            0.0 kg/ha
 15 May 2001(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 2001(Day of year=135), soilwat2: 
@@ -9866,13 +9831,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -9889,11 +9854,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -10000,6 +9963,7 @@
          straw N =           0.0 kg/ha
          root residue =   1059.8 kg/ha
          root N =           25.3 kg/ha
+         root P =            0.0 kg/ha
 15 May 2002(Day of year=135), manager: 
      Manager sending message :- soilwat2 reset
 15 May 2002(Day of year=135), soilwat2: 
@@ -10061,13 +10025,13 @@
          ------------------------------------------------
      
      
-        - reading root profile parameters
+      - reading root profile parameters
                         Root Profile
-     ---------------------------------------------------
+         -----------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
-     ---------------------------------------------------
+         -----------------------------------------------
          100.0     0.040          0.307       1.000
          200.0     0.040          0.346       1.000
          200.0     0.040          0.346       1.000
@@ -10084,11 +10048,9 @@
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
          200.0     0.000          0.407       0.000
-     ---------------------------------------------------
-        3100.0                   1135.3(mm)
-     ---------------------------------------------------
-     
-     (Crop factor for bounding water use is set to   1.1 times eo)
+         -----------------------------------------------
+         Extractable SW:   354mm in  3100mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.1 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -10204,5 +10166,6 @@
          straw N =           0.0 kg/ha
          root residue =    826.2 kg/ha
          root N =           16.7 kg/ha
+         root P =            0.0 kg/ha
 31 December 2002(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
