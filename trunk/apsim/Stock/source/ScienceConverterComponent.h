@@ -31,6 +31,7 @@ class ScienceConverterComponent : public protocol::Component
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void stockBuy (protocol::Variant &v/*(INPUT) message variant*/);
+      virtual void stockSell (protocol::Variant &v/*(INPUT) message variant*/);
 
    private:
       void doRunTimeReg(void);
@@ -38,23 +39,21 @@ class ScienceConverterComponent : public protocol::Component
       void sendFeedOnOffer(protocol::QueryValueData& queryData);
       void sendFeedRemoved(protocol::QueryValueData& queryData);
       void sendPlant2Stock(protocol::QueryValueData& queryData);
-      void getDmGreen(PlantPool &dm, vector<float>  &dmGreen);
-      void getDmSenesced(PlantPool &dm, vector<float>  &dmSenesced);
-      void getDmDead(PlantPool &dm, vector<float>  &dmDead);
-      void getNGreen(PlantPool &N, vector<float>  &nGreen, PlantPool &dm, vector<float>  &dmGreen);
-      void getNSenesced(PlantPool &N, vector<float>  &nSenesced, PlantPool &dm, vector<float>  &dmSenesced);
-      void getNDead(PlantPool &N, vector<float>  &nDead, PlantPool &dm, vector<float>  &dmDead);
-      void getPGreen(PlantPool &P, vector<float>  &pGreen, PlantPool &dm, vector<float>  &dmGreen);
-      void getPSenesced(PlantPool &P, vector<float>  &pSenesced, PlantPool &dm, vector<float>  &dmSenesced);
-      void getPDead(PlantPool &P, vector<float>  &pDead, PlantPool &dm, vector<float>  &dmDead);
+      void getParts(PlantPartType &parts, unsigned partsID);
+      void getPGreen(PlantPartType &pGreen, PlantPool &dm);
+      void getPSenesced(PlantPartType &pSenesced, PlantPool &dm);
+      void getPDead(PlantPartType &pDead, PlantPool &dm);
       void getHeight(float &height);
       void getThermalTime(float &thermalTime);
       void getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float &height, float &thermalTime);
       void readParameters ( void );
       void readHerbageModuleParameters ( void );
       void calcDmdDistribution(PlantPool dmdFraction[], PlantPool dQ);
-      void calcDmdDecline(float thermalTime, PlantPool &dQ);
+      void calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ);
+      void calcDmdDecline(const float &thermalTime, PlantPool &dQ);
+      void calcDmdClass(PlantPool &dmdClassMax, PlantPool &dmdClassMin);
       void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
+      void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
       float divide (float dividend, float divisor, float default_value);
 
       unsigned day_lengthID;
@@ -65,6 +64,13 @@ class ScienceConverterComponent : public protocol::Component
       unsigned dmGreenID;
       unsigned dmSenescedID;
       unsigned dmDeadID;
+      unsigned dmGreenDeltaID;
+      unsigned dmGreenRetransDeltaID;
+      unsigned dmSenescedDeltaID;
+      unsigned dmSenescedDetachedDeltaID;
+      unsigned dmGreenDeadDeltaID;
+      unsigned dmSenescedDeadDeltaID;
+      unsigned dmDeadDetachedDeltaID;
       unsigned nGreenID;
       unsigned nSenescedID;
       unsigned nDeadID;
@@ -77,30 +83,23 @@ class ScienceConverterComponent : public protocol::Component
       unsigned dmFeedOnOfferID;
       unsigned dmFeedRemovedID;
       unsigned stockBuyID;
+      unsigned stockSellID;
       unsigned buyID;
+      unsigned sellID;
       unsigned removeCropBiomassID;
       bool plant2StockSent;
 
       protocol::plant2stockType feed;
       protocol::remove_herbageType grazed;
 
-//      struct PlantPartType
-//         {
-//         float leaf;
-//         float stem;
-//         };
-//
-//      struct PlantPoolType
-//         {
-//         PlantPartType green;
-//         PlantPartType senesced;
-//         PlantPartType dead;
-//         };
-
+      PlantPool dmdPoolDm[maxDmdPools];
       PlantPool partFraction[maxDmdPools];
       PlantPool dmdMax;
       PlantPool dmdAvg;
       PlantPool dmdMin;
+
+      PlantPool dmdClassMax;
+      PlantPool dmdClassMin;
 
       struct
       {
@@ -146,6 +145,10 @@ class ScienceConverterComponent : public protocol::Component
          float dmdDeadStem[3];
 
          float cpNRatio;
+
+         float KQ5Leaf;
+         float KQ5Stem;
+         float KQ4;
 
       } c;
 
