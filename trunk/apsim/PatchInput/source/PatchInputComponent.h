@@ -34,6 +34,7 @@ class PatchInputComponent : public InputComponent
       std::vector<std::string> patchVariablesLongTerm;
       typedef std::map<unsigned, protocol::newmetType> PatchData;
       PatchData patchData;
+      bool haveReadPatchData;
 
 
       boost::gregorian::date advanceToTodaysPatchData(unsigned int fromID);
