@@ -28,8 +28,7 @@ OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\
 RESFILES =
 DEFFILE =
 RESDEPEN = $(RESFILES)
-LIBFILES = "C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib" ..\general\general.lib \
-  ..\data\data.lib
+LIBFILES = general.lib data.lib
 LIBRARIES =
 SPARELIBS = vcl40.lib vcldb40.lib vclx40.lib TEE4C.lib
 PACKAGES = vclx40.bpi vcl40.bpi vcldb40.bpi vcldbx40.bpi bcbsmp40.bpi dclocx40.bpi \
@@ -45,20 +44,20 @@ RELEASELIBPATH = $(BCB)\lib\release
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 USERDEFINES = BUILDING_CHART
 # ---------------------------------------------------------------------------
-CFLAG1 = -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;"k:\" -WD -Od -Hc \
+CFLAG1 = -Ihigh_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl -WD -Od -Hc \
   -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
   -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tWM
 CFLAG2 =
 CFLAG3 =
-PFLAGS = -U$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) \
-  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;"k:\" -DBUILDING_CHART \
+PFLAGS = -U$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;"k:\general\";$(RELEASELIBPATH) \
+  -Ihigh_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl -DBUILDING_CHART \
   -$YD -$W -$O- -v -M -JPHNE
-RFLAGS = -ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;"k:\" -DBUILDING_CHART \
-  = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ \
-  /d_RTLDLL /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
-AFLAGS = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i"k:\" \
+RFLAGS = -ihigh_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl -DBUILDING_CHART = \
+  /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
+  /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
+AFLAGS = /ihigh_level /ilow_level /ik:\ /i$(BCB)\include /i$(BCB)\include\vcl \
   /dBUILDING_CHART /mx /w2 /zd
-LFLAGS = -L$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) \
+LFLAGS = -L$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;"k:\general\";$(RELEASELIBPATH) \
   -aa -Tpd -x -Gn -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------
@@ -96,21 +95,26 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=6
-Item0=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..
-Item2=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=8
+Item0=high_level;low_level;k:\;$(BCB)\include;$(BCB)\include\vcl
+Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;k:Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;k:Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..
+Item2=
 Item3=
-Item4=
+Item4=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 Item5=
+Item6=
+Item7=
 
 [HistoryLists\hlLibraryPath]
-Count=5
-Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;low_level;high_level
-Item2=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item3=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
-Item4=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Count=8
+Item0=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data\;k:\general
+Item1=$(BCB)\lib\debug;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\dataItem1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;k:\data
+Item2=
+Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;low_level;high_level
+Item5=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item6=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
