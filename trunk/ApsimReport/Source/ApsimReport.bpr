@@ -31,7 +31,7 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimReport.cpp"/>
-    <INCLUDEPATH value="$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport"/>
+    <INCLUDEPATH value="$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(BCB)\components\memtable;$(SHARED);$(SHARED)\SegReport"/>
     <LIBPATH value="$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
@@ -93,19 +93,20 @@ Comments=
 
 [Excluded Packages]
 C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
-C:\MyData\development\Bin\SEGReport.bpl=SEGReport
+C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
 
 [HistoryLists\hlIncludePath]
-Count=9
-Item0=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport
-Item1=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(SHARED);$(SHARED)\SegReport
-Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\SegReport
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item8=..\Shared\SEGReport;$(BCB)\include;$(BCB)\include\vcl
+Count=10
+Item0=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(BCB)\components\memtable;$(SHARED);$(SHARED)\SegReport
+Item1=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport
+Item2=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(SHARED);$(SHARED)\SegReport
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\SegReport
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=..\Shared\SEGReport;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=10
