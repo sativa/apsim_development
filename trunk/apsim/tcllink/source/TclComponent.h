@@ -18,8 +18,10 @@ class TclComponent : public protocol::Component
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
-      bool apsimGet(const string &varname, string &result);
+
+      int apsimGet( Tcl_Interp *interp, const string &varname);
       bool apsimSet(const string &varname, const string &value);
+
       void addRegistration(const string &name) ;
    private:
 
