@@ -55,7 +55,7 @@ class APSIMOzcotPublic
     stage_code                 : APSIMRealArray      = list of stage numbers, (), READ, 0.0, 1000.0
     crop_type                  : APSIMString         = Type of Crop, (), READ  
     frudd                      : APSIMRealArray      = fruit dd to change of category ,(dd), READ, 0.0, 2000.0
-    bltme                      : APSIMRealArray      = boll time (fraction of period from flowering to boll opening),(), READ, 0.0, 1.0
+    bltme                      : APSIMRealArray      = boll time (fraction of period from flowering to boll opening), (), READ, 0.0, 1.0
     wt                         : APSIMRealArray      = weighting of number of bolls by carbon demand, (), READ, 0.0, 1.0
     row_spacing_default        : APSIMReal           = Default rowing spacing, (m), READ, 0.0, 2000.0 
     popcon                     : APSIMReal           = population constant, (), READ, 0.0, 1.0
@@ -75,7 +75,7 @@ class APSIMOzcotPublic
     a_root_leaf                : APSIMReal           = allometric constant root:leaf. Huxley's data 1964, (), READ, 0.0, 10.0
     a_stem_leaf                : APSIMReal           = allometric constant stem:leaf. Huxley's data 1964, (), READ, 0.0, 10.0
     e_par                      : APSIMReal           = Charles-edwards et al 1986, (g/mj), READ, 0.0, 10.0
-    specific_lw                : APSIMReal           = GAC 71/72, Hoffman & Rawlins 1971 - Ben-Porath, (g/m2), READ, 0.0, 100.0
+    specific_lw                : APSIMReal           = GAC 71/72; Hoffman & Rawlins 1971 - Ben-Porath, (g/m2), READ, 0.0, 100.0
     t_opt                      : APSIMReal           = Constable 1981, (oC), READ, 0.0, 50.0
     t_base                     : APSIMReal           = Constable 1981, (oC), READ, 0.0, 20.0
     wt_area_max                : APSIMReal           = Hesketh and Low 1968 - Hoffman & Rawlins = 80, (), READ, 0.0, 400.0
@@ -88,10 +88,10 @@ class APSIMOzcotPublic
     wlog_assimilate_red        : APSIMReal           = assimilate reduction with waterlogging, (), READ, 0.0, 1.0
     wlog_carcap_red            : APSIMReal           = carrying capacity reduction with waterlogging, (), READ, 0.0, 1.0
     wlog_carcap_red_stress     : APSIMReal           = carrying capacity reduction with waterlogging after stress, (), READ, 0.0, 1.0
-    smi_affect_wlog =          : APSIMReal           = level of water stress below which could affect waterlogging, (), READ, 0.0, 1.0
+    smi_affect_wlog            : APSIMReal           = level of water stress below which could affect waterlogging, (), READ, 0.0, 1.0
     days_relief_wlog           : APSIMInteger        = number of days of stress relief after which has no effect on waterlogging, (days), READ, 0, 20
     frost_kill_immediate       : APSIMReal           = min temperature below which immediate kill, (oC), READ, -5.0, 5.0
-    frost_kill_immediate_das   : APSIMInteger        = days after sowing after which  immediate kill can occur, (days), READ, 0.0, 200.0
+    frost_kill_immediate_das   : APSIMInteger        = days after sowing after which  immediate kill can occur, (days), READ, 0, 200
     frost_kill_delayed         : APSIMReal           = min temperature below which delayed kill, (oC), READ, 0.0, 10.0
     frost_kill_delayed_das     : APSIMInteger        = days after sowing after which  delayed kill can occur, (days), READ, 0, 200
     frost_kill_delayed_days    : APSIMInteger        = number of days delay before delayed frost kill, (days), READ, 0, 10
