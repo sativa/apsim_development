@@ -396,6 +396,7 @@ void ReportComponent::doInit2(void)
          writeString("Output frequency:");
       for (unsigned f = 0; f != frequencies.size(); f++)
          {
+         stripLeadingTrailing(frequencies[f], " ");
          string name = "   " + frequencies[f];
          writeString(name.c_str());
          frequencyIds.push_back(addRegistration(RegistrationType::respondToEvent, frequencies[f].c_str(), ""));
