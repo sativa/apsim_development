@@ -275,7 +275,36 @@ void ApsimControlFile::getInstances(const string& moduleName,
          instanceNames.push_back(paramFileI->instanceName);
       }
    }
+// ------------------------------------------------------------------
+// change the name of a module in the control file.
+// ------------------------------------------------------------------
+void ApsimControlFile::changeModuleName(const std::string& oldModuleName,
+                                        const std::string& newModuleName) const
+   {
+   ApsimParameterFile controlFile(fileName, "", "", section);
+   vector<string> lines;
+   controlFile.getParamValues("module", lines);
 
+   // loop through all lines looking for a module = oldModuleName
+   for(vector<string>::iterator line = lines.begin();
+                                line != lines.end();
+                                line++)
+      {
+      unsigned posStartModuleName =line->find_first_not_of(' ');
+      if (posStartModuleName != string::npos)
+         {
+         unsigned posEndModuleName = line->find(' ', posStartModuleName);
+         if (posEndModuleName != string::npos)
+            {
+            int moduleNameLength = posEndModuleName - posStartModuleName;
+            if (Str_i_Eq(line->substr(posStartModuleName, moduleNameLength),
+                         oldModuleName))
+            line->replace(posStartModuleName, moduleNameLength, newModuleName);
+            }
+         }
+      }
+   controlFile.setParamValues("module", lines);
+   }
 // ------------------------------------------------------------------
 // Return all the parameter files for the specified section and instance.
 // ------------------------------------------------------------------
@@ -367,18 +396,21 @@ std::string ApsimControlFile::createSIM(const string& configurationFile) const t
    convertControlFile();
 
    string simulationFileName = ChangeFileExt(fileName.c_str(), ".sim").c_str();
-   DeleteFile(simulationFileName.c_str());
-   ApsimSimulationFile simulation(simulationFileName);
+   ApsimSimulationFile simulation;
+   simulation.setFileName(simulationFileName);
    ApsimConfigurationFile configuration(configurationFile);
+   simulation.setExecutableFileName
+         (configuration.getDllForComponent("protocolmanager"));
 
    createServices(simulation, configuration);
 
    // Get a complete list of files and sections we're to convert.
    vector<ApsimParameterFile> paramFiles;
    getParameterFiles("", paramFiles);
+   getParameterFiles("", paramFiles, false, true);
 
    // Loop through all files | sections and parse each.
-   for (vector<ApsimParameterFile>::iterator paramFile = paramFiles.begin();
+    for (vector<ApsimParameterFile>::iterator paramFile = paramFiles.begin();
                                              paramFile != paramFiles.end();
                                              paramFile++)
       {
@@ -416,103 +448,124 @@ void ApsimControlFile::createServices(ApsimSimulationFile& simulation,
    ApsimServiceData summaryfile = simulation.addService("summaryfile");
    summaryfile.setExecutableFileName(configuration.getDllForComponent("summaryfile"));
    string summaryfilename = controlFile.getParamValue("summaryfile");
-   summaryfile.setProperty("summaryfile", summaryfilename);
+   summaryfile.setProperty("filename", summaryfilename);
    }
 // ------------------------------------------------------------------
 // Convert the control / parameter file.
 // ------------------------------------------------------------------
 bool ApsimControlFile::convertControlFile(void) const throw(runtime_error)
    {
-   string logFileName = section;
-   Replace_all(logFileName, ".", "_");
-   Path logPath(fileName);
-   logPath.Set_name(logFileName.c_str());
-   logPath.Set_extension(".conversions");
-   ofstream log(logPath.Get_path().c_str());
-
-   bool isError = false;
-
-   TControlFileConversionForm* form = new TControlFileConversionForm(Application);
-   form->Show();
-   form->waitForOkButton();
-
-   Path scriptFile(Application->ExeName.c_str());
-   scriptFile.Set_name("conversion.script");
-   ifstream in(scriptFile.Get_path().c_str());
-
-   unsigned statusIndex = -1;
-   string description;
-   string msg, logmsg;
-   string line;
-   while (getline(in, line))
+   ApsimParameterFile controlFile(fileName, "", "", section);
+   string version = controlFile.getParamValue("version");
+   if (version != "apsim3")
       {
-      try
+      controlFile.setParamValue("version", "apsim3");
+      string logFileName = section;
+      Replace_all(logFileName, ".", "_");
+      Path logPath(fileName);
+      logPath.Set_name(logFileName.c_str());
+      logPath.Set_extension(".conversions");
+      ofstream log(logPath.Get_path().c_str());
+
+      bool isError = false;
+
+      TControlFileConversionForm* form = new TControlFileConversionForm(Application);
+      form->Show();
+      form->waitForOkButton();
+
+      string scriptFileName = getAppHomeDirectory() + "\\conversion.script";
+      ifstream in(scriptFileName.c_str());
+
+      unsigned statusIndex = -1;
+      string description;
+      bool isOptional = false;
+      string msg, logmsg;
+      string line;
+      while (getline(in, line))
          {
-         if (line != "")
+         try
             {
-            StringTokenizer tokenizer(line, " ");
-            string routineName = tokenizer.nextToken();
-
-            if (Str_i_Eq(routineName, "description"))
+            if (line == "")
+               isOptional = false;
+            else if (line != "")
                {
-               if (logmsg != "")
-                  log << logmsg << endl;
-               description = line.substr(line.find(' ')+1);
-               msg = "<IMG \"idx:0\">" + description;
-               logmsg = "OK: " + description;
-               statusIndex++;
-               }
-            else
-               {
-               unsigned posPeriod = routineName.find('.');
-               if (posPeriod == string::npos)
-                  throw runtime_error("Invalid format for script command: " + routineName);
-               string moduleName = routineName.substr(0, posPeriod);
-               routineName.erase(0, posPeriod+1);
+               unsigned pos = line.find(' ');
+               string routineName = line.substr(0, pos);
 
-               vector<ApsimParameterFile> paramFiles;
-               getParameterFiles(moduleName, paramFiles);
-               for (vector<ApsimParameterFile>::const_iterator
-                        paramFile = paramFiles.begin();
-                        paramFile != paramFiles.end();
-                        paramFile++)
+               if (Str_i_Eq(routineName, "optional"))
                   {
-                  if (Str_i_Eq(routineName, "createParameter"))
-                     parseCreateParameter(*paramFile, tokenizer);
-                  else if (Str_i_Eq(routineName, "deleteParameter"))
-                     parseDeleteParameter(*paramFile, tokenizer);
-                  else if (Str_i_Eq(routineName, "newFormatReportVariables"))
-                     parseNewFormatReportVariables(*paramFile, tokenizer);
-                  else if (Str_i_Eq(routineName, "moveParameter"))
-                     parseMoveParameter(*paramFile, tokenizer);
-                  else if (Str_i_Eq(routineName, "removeReportOutputSwitch"))
-                     parseRemoveReportOutputSwitch(*paramFile, tokenizer);
-                  else
-                     throw runtime_error("Invalid control file script routine name: " + routineName);
+                  pos++;
+                  unsigned newPos = line.find(' ', pos);
+                  routineName = line.substr(pos, newPos-pos);
+                  isOptional = true;
+                  }
+               if (Str_i_Eq(routineName, "changeModuleName"))
+                  parseChangeModuleName(line.substr(pos+1));
+
+               else if (Str_i_Eq(routineName, "description"))
+                  {
+                  if (logmsg != "")
+                     log << logmsg << endl;
+                  description = line.substr(line.find(' ')+1);
+                  msg = "<IMG \"idx:0\">" + description;
+                  logmsg = "OK: " + description;
+                  statusIndex++;
+                  }
+               else
+                  {
+                  unsigned posPeriod = routineName.find('.');
+                  if (posPeriod == string::npos)
+                     throw runtime_error("Invalid format for script command: " + routineName);
+                  string moduleName = routineName.substr(0, posPeriod);
+                  routineName.erase(0, posPeriod+1);
+
+                  vector<ApsimParameterFile> paramFiles;
+                  getParameterFiles(moduleName, paramFiles);
+                  for (vector<ApsimParameterFile>::const_iterator
+                           paramFile = paramFiles.begin();
+                           paramFile != paramFiles.end();
+                           paramFile++)
+                     {
+                     if (Str_i_Eq(routineName, "createParameter"))
+                        parseCreateParameter(*paramFile, line.substr(pos+1));
+                     else if (Str_i_Eq(routineName, "deleteParameter"))
+                        parseDeleteParameter(*paramFile, line.substr(pos+1));
+                     else if (Str_i_Eq(routineName, "newFormatReportVariables"))
+                        parseNewFormatReportVariables(*paramFile, line.substr(pos+1));
+                     else if (Str_i_Eq(routineName, "moveParameter"))
+                        parseMoveParameter(*paramFile, line.substr(pos+1));
+                     else if (Str_i_Eq(routineName, "removeReportOutputSwitch"))
+                        parseRemoveReportOutputSwitch(*paramFile, line.substr(pos+1));
+                     else
+                        throw runtime_error("Invalid control file script routine name: " + routineName);
+                     }
                   }
                }
             }
+         catch (const runtime_error& error)
+            {
+            // output status text.
+            if (!isOptional)
+               {
+               msg = "<IMG \"idx:1\">" + description + ".<BR>Warning: " + error.what();
+               logmsg = "WARNING: " + description + "  " + error.what();
+               isError = true;
+               form->displayErrorButton();
+               }
+            }
+         form->StatusList->Items->Strings[statusIndex] = msg.c_str();
+         Application->ProcessMessages();
          }
-      catch (const runtime_error& error)
-         {
-         // output status text.
-         msg = "<IMG \"idx:1\">" + description + ".<BR>Warning: " + error.what();
-         logmsg = "WARNING: " + description + "  " + error.what();
-         isError = true;
-         form->displayErrorButton();
-         }
-      form->StatusList->Items->Strings[statusIndex] = msg.c_str();
-      Application->ProcessMessages();
+
+      // write out last log message.
+      log << logmsg << endl;
+      string logCaption = "Log file: " + logPath.Get_path() + " has been writen.";
+      form->LogLabel->Caption = logCaption.c_str();
+
+      form->waitForOkButton();
+      delete form;
+      return isError;
       }
-
-   // write out last log message.
-   log << logmsg << endl;
-   string logCaption = "Log file: " + logPath.Get_path() + " has been writen.";
-   form->LogLabel->Caption = logCaption.c_str();
-
-   form->waitForOkButton();
-   delete form;
-   return isError;
    }
 // ------------------------------------------------------------------
 // convert a module name to an instance name.
@@ -584,6 +637,11 @@ string ApsimControlFile::parseDate(const ApsimParameterFile& paramFile, StringTo
                           "date(dayOfYear, year)");
    int day = atoi(dayString.c_str());
    int year = atoi(yearString.c_str());
+   if (day == 0)
+      throw runtime_error("Cannot find parameter: " + dayString);
+   if (year == 0)
+      throw runtime_error("Cannot find parameter: " + yearString);
+
    GDate date;
    date.Set(day, year);
    ostringstream buffer;
@@ -594,34 +652,38 @@ string ApsimControlFile::parseDate(const ApsimParameterFile& paramFile, StringTo
 // Parse the CreateParameter function call
 // ------------------------------------------------------------------
 void ApsimControlFile::parseCreateParameter(const ApsimParameterFile& paramFile,
-                                            StringTokenizer& tokenizer) const throw(runtime_error)
+                                            const std::string& line) const throw(runtime_error)
    {
    // E.g. Syntax of this function:
    //    clock.createParameter simulation_start_date = date(simulation_start_day, simulation_start_year)
-   string parameterName = tokenizer.nextToken("(),=");
+   StringTokenizer tokenizer(line, "(),=");
+   string parameterName = tokenizer.nextToken();
    string parameterValue = parseValue(paramFile, tokenizer);
    paramFile.setParamValue(parameterName, parameterValue);
    }
 // ------------------------------------------------------------------
 // Parse the DeleteParameter function call
 // ------------------------------------------------------------------
-void ApsimControlFile::parseDeleteParameter(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+void ApsimControlFile::parseDeleteParameter(const ApsimParameterFile& paramFile,
+                                            const std::string& line) const throw(runtime_error)
    {
    // E.g. Syntax of this function:
    //    clock.deleteParameter simulation_start_day
-   string parameterName = tokenizer.nextToken("(),=");
+   StringTokenizer tokenizer(line, "(),=");
+   string parameterName = tokenizer.nextToken();
    Strip(parameterName, " ");
-   string parameterValue = parseValue(paramFile, tokenizer);
    paramFile.deleteParam(parameterName);
    }
 // ------------------------------------------------------------------
 // Parse the moveParameter function call
 // ------------------------------------------------------------------
-void ApsimControlFile::parseMoveParameter(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+void ApsimControlFile::parseMoveParameter(const ApsimParameterFile& paramFile,
+                                          const std::string& line) const throw(runtime_error)
    {
    // E.g. Syntax of this function:
    //    report.moveParameter title
-   string parameterName = tokenizer.nextToken("(),=");
+   StringTokenizer tokenizer(line, "(),=");
+   string parameterName = tokenizer.nextToken();
    Strip(parameterName, " ");
    string value = paramFile.getParamValue(parameterName);
    if (value == "")
@@ -638,7 +700,8 @@ void ApsimControlFile::parseMoveParameter(const ApsimParameterFile& paramFile, S
 // ------------------------------------------------------------------
 // Parse the newFormatReportVariables function call
 // ------------------------------------------------------------------
-void ApsimControlFile::parseNewFormatReportVariables(const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+void ApsimControlFile::parseNewFormatReportVariables(const ApsimParameterFile& paramFile,
+                                                     const std::string& line) const throw(runtime_error)
    {
    // Syntax of this function:
    //
@@ -646,6 +709,7 @@ void ApsimControlFile::parseNewFormatReportVariables(const ApsimParameterFile& p
    // Get the module_names, variable_names and variable_alias lines for all
    // instances of REPORT.  Keep in mind that there may be multiple variable 'blocks'
    // for each section.
+
    vector<string> moduleLines, variableLines, aliasLines;
    paramFile.getParamValues("module_names", moduleLines);
    paramFile.getParamValues("variable_names", variableLines);
@@ -688,21 +752,41 @@ void ApsimControlFile::parseNewFormatReportVariables(const ApsimParameterFile& p
 // Parse the newFormatReportVariables function call
 // ------------------------------------------------------------------
 void ApsimControlFile::parseRemoveReportOutputSwitch
-   (const ApsimParameterFile& paramFile, StringTokenizer& tokenizer) const throw(runtime_error)
+   (const ApsimParameterFile& paramFile,
+    const std::string& line) const throw(runtime_error)
    {
    // E.g. Syntax of this function:
    //    report.removeReportOutputSwitch outputfile
-   string parameterName = tokenizer.nextToken("(),=");
+   StringTokenizer tokenizer(line, "(),=");
+   string parameterName = tokenizer.nextToken();
    Strip(parameterName, " ");
    string value = paramFile.getParamValue(parameterName);
-   unsigned posOverwrite = value.find("/overwrite");
-   if (posOverwrite == string::npos)
-      paramFile.setParamValue(parameterName + "_increment", "true");
-   else
+   if (value != "")
       {
-      value.erase(posOverwrite);
-      Strip(value, " ");
-      paramFile.setParamValue(parameterName, value);
+      unsigned posOverwrite = value.find("/overwrite");
+      if (posOverwrite == string::npos)
+         paramFile.setParamValue(parameterName + "_increment", "true");
+      else
+         {
+         value.erase(posOverwrite);
+         Strip(value, " ");
+         paramFile.setParamValue(parameterName, value);
+         }
       }
    }
+// ------------------------------------------------------------------
+// Parse the newFormatReportVariables function call
+// ------------------------------------------------------------------
+void ApsimControlFile::parseChangeModuleName(const std::string& line) const throw(runtime_error)
+   {
+   // E.g. Syntax of this function:
+   //    changeModuleName met input(met)
 
+   StringTokenizer tokenizer(line, " ");
+   string oldModuleName = tokenizer.nextToken();
+   Strip(oldModuleName, " ");
+   string newModuleName = tokenizer.nextToken();
+   Strip(newModuleName, " ");
+
+   changeModuleName(oldModuleName, newModuleName);
+   }

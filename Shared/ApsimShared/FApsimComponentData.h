@@ -4,7 +4,6 @@ extern "C" void __stdcall deleteApsimComponentData(ApsimComponentData* component
 
 extern "C" bool __stdcall ApsimComponentData_getProperty
    (ApsimComponentData* componentData,
-    const char* name,
-    char* value,
-    unsigned nameLength,
-    unsigned valueLength);
+    const FString& name,
+    FString& value);
+    

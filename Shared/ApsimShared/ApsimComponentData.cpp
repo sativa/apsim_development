@@ -266,11 +266,11 @@ ApsimDataTypeData ApsimComponentData::getDataType
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
-extern "C" ApsimComponentData* _export __stdcall newApsimComponentData
+extern "C" unsigned _export __stdcall newApsimComponentData
    (const char* xml, unsigned xmlLength)
    {
    string xmlString(xml, xmlLength);
-   return new ApsimComponentData(xmlString);
+   return (unsigned) new ApsimComponentData(xmlString);
    }
 extern "C" void _export __stdcall deleteApsimComponentData
    (ApsimComponentData* componentData)
@@ -279,45 +279,40 @@ extern "C" void _export __stdcall deleteApsimComponentData
    }
 extern "C" bool _export __stdcall ApsimComponentData_getProperty
    (ApsimComponentData* componentData,
-    const char* name,
-    char* value,
-    unsigned nameLength,
-    unsigned valueLength)
+    const FString& name,
+    FString& value)
    {
-   string property(name, nameLength);
-   string valueSt = componentData->getProperty(property);
-   unsigned charsCopied = valueSt.copy(value, valueLength);
-   return (charsCopied > 0);
+   value = componentData->getProperty(asString(name)).c_str();
+   return (value.length() > 0);
    }
 extern "C" void _export __stdcall ApsimComponentData_getRuleNames
-   (ApsimComponentData* componentData,
+   (ApsimComponentData** componentData,
     char* names,
     unsigned* maxNumNames,
     unsigned* numNames,
     unsigned namesLength)
    {
    vector<string> ruleNames;
-   componentData->getRuleNames(ruleNames);
+   (*componentData)->getRuleNames(ruleNames);
    FStrings(names, namesLength, *maxNumNames, 0) = ruleNames;
    *numNames = ruleNames.size();
    }
 vector<string> ruleLines;
 extern "C" void _export __stdcall ApsimComponentData_loadRule
-   (ApsimComponentData* componentData,
+   (ApsimComponentData** componentData,
     const char* name,
     unsigned nameLength)
    {
-   Split_string(componentData->getRule(asString(FString(name, nameLength))),
+   Split_string((*componentData)->getRule(asString(FString(name, nameLength))),
                 "\n", ruleLines);
    }
 extern "C" unsigned _export __stdcall ApsimComponentData_getNumRuleLines
-   (ApsimComponentData* componentData)
+   (void)
    {
    return ruleLines.size();
    }
 extern "C" void _export __stdcall ApsimComponentData_getRuleLine
-   (ApsimComponentData* componentData,
-    unsigned* lineNumber,
+   (unsigned* lineNumber,
     const char* line,
     unsigned lineLength)
    {
