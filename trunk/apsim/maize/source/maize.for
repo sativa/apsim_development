@@ -1,5 +1,5 @@
 
-C     Last change:  E    31 Jul 2001    3:23 pm
+C     Last change:  E    24 Aug 2001    4:50 pm
 
 
 *     ===========================================================
@@ -1003,11 +1003,14 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
       parameter (my_name = 'Maize_plant_death')
 
 *+  Local Variables
-cnh      real       dlt_plants
+      INTEGER    days_after_emerg
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
+        days_after_emerg = int(sum_between (emerg, now, g%days_tot)) - 1
+
+
       if (Option .eq. 1) then
  
 !         g%dlt_plants_all = 0.0
@@ -1025,11 +1028,38 @@ cnh      real       dlt_plants
      :        , g%tt_tot
      :        , g%dlt_plants_failure_emergence)
 
-         call maize_failure_leaf_sen (
-     :          g%lai
+         call crop_failure_leaf_senescence (
+     :          floral_init
+     :        , plant_end
+     :        , g%lai
      :        , g%current_stage
      :        , g%plants
      :        , g%dlt_plants_failure_leaf_sen)
+
+         call crop_death_seedling_hightemp (
+     :          days_after_emerg
+     :        , g%year
+     :        , g%day_of_year
+     :        , g%soil_temp
+     :        , c%x_weighted_temp
+     :        , c%y_plant_death
+     :        , c%num_weighted_temp
+     :        , g%plants
+     :        , g%dlt_plants_death_seedling)
+
+         call crop_death_drought (
+     :          emerg
+     :        , flag_leaf
+     :        , plant_end
+     :        , g%cswd_photo
+     :        , g%leaf_no
+     :        , c%leaf_no_crit
+     :        , c%swdf_photo_limit
+     :        , g%swdef_photo
+     :        , c%swdf_photo_rate
+     :        , g%plants
+     :        , g%dlt_plants_death_drought)
+
 
          call maize_failure_phen_delay (
      :          g%cswd_pheno
@@ -1048,28 +1078,8 @@ cnh      real       dlt_plants
      :        , g%plants
      :        , g%dlt_plants_death_barrenness)
 
-         call maize_death_seedling (
-     :          g%days_tot
-     :        , g%year
-     :        , g%day_of_year
-     :        , g%soil_temp
-     :        , c%x_weighted_temp
-     :        , c%y_plant_death
-     :        , c%num_weighted_temp
-     :        , g%plants
-     :        , g%dlt_plants_death_seedling)
 
-         call maize_death_drought (
-     :          g%cswd_photo
-     :        , g%leaf_no
-     :        , c%leaf_no_crit
-     :        , c%swdf_photo_limit
-     :        , g%swdef_photo
-     :        , c%swdf_photo_rate
-     :        , g%plants
-     :        , g%dlt_plants_death_drought)
-
-         call Maize_death_actual (
+         call crop_death_actual (
      :          g%dlt_plants_failure_germ
      :        , g%dlt_plants_failure_emergence
      :        , g%dlt_plants_failure_leaf_sen
@@ -1104,11 +1114,38 @@ cnh      real       dlt_plants
      :        , g%tt_tot
      :        , g%dlt_plants_failure_emergence)
 
-         call maize_failure_leaf_sen (
-     :          g%lai
+         call crop_failure_leaf_senescence (
+     :          floral_init
+     :        , plant_end
+     :        , g%lai
      :        , g%current_stage
      :        , g%plants
      :        , g%dlt_plants_failure_leaf_sen)
+
+
+         call crop_death_seedling_hightemp (
+     :          days_after_emerg
+     :        , g%year
+     :        , g%day_of_year
+     :        , g%soil_temp
+     :        , c%x_weighted_temp
+     :        , c%y_plant_death
+     :        , c%num_weighted_temp
+     :        , g%plants
+     :        , g%dlt_plants_death_seedling)
+
+         call crop_death_drought (
+     :          emerg
+     :        , flag_leaf
+     :        , plant_end
+     :        , g%cswd_photo
+     :        , g%leaf_no
+     :        , c%leaf_no_crit
+     :        , c%swdf_photo_limit
+     :        , g%swdef_photo
+     :        , c%swdf_photo_rate
+     :        , g%plants
+     :        , g%dlt_plants_death_drought)
 
          call maize_failure_phen_delay (
      :          g%cswd_pheno
@@ -1127,28 +1164,7 @@ cnh      real       dlt_plants
      :        , g%plants
      :        , g%dlt_plants_death_barrenness)
 
-         call maize_death_seedling (
-     :          g%days_tot
-     :        , g%year
-     :        , g%day_of_year
-     :        , g%soil_temp
-     :        , c%x_weighted_temp
-     :        , c%y_plant_death
-     :        , c%num_weighted_temp
-     :        , g%plants
-     :        , g%dlt_plants_death_seedling)
-
-         call maize_death_drought (
-     :          g%cswd_photo
-     :        , g%leaf_no
-     :        , c%leaf_no_crit
-     :        , c%swdf_photo_limit
-     :        , g%swdef_photo
-     :        , c%swdf_photo_rate
-     :        , g%plants
-     :        , g%dlt_plants_death_drought)
-
-         call Maize_death_actual (
+         call crop_death_actual (
      :          g%dlt_plants_failure_germ
      :        , g%dlt_plants_failure_emergence
      :        , g%dlt_plants_failure_leaf_sen
@@ -1175,63 +1191,6 @@ cnh      real       dlt_plants
       return
       end
 
-
-
-*     ===========================================================
-      subroutine maize_failure_leaf_sen (
-     :                      g_lai
-     :                    , g_current_stage
-     :                    , g_plants
-     :                    , dlt_plants)
-*     ===========================================================
-      implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'science.pub'                       
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_lai
-      real       g_current_stage
-      real       g_plants
-*
-      real       dlt_plants
-
-*+  Purpose
-*      Determine plant death due to total leaf area senescence
-
-*+  Mission Statement
-*     Determine plant death from leaf area senescing
-
-*+  Changes
-*       290994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_failure_leaf_sen')
-
-*+  Local Variables
-      character  string*200            ! output string
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      if (reals_are_equal (g_lai, 0.0)
-     :       .and. stage_is_between (floral_init, plant_end
-     :                             , g_current_stage)) then
- 
-         dlt_plants = - g_plants
- 
-         write (string, '(3a)')
-     :                ' crop failure because of total leaf senescence.'
-         call write_string (string)
- 
-      endif
-      call pop_routine (my_name)
-      return
-      end
 
 
 
@@ -1297,174 +1256,6 @@ cnh      real       dlt_plants
       return
       end
 
-
-
-*     ===========================================================
-      subroutine maize_death_seedling (
-     :                      g_days_tot
-     :                    , g_year
-     :                    , g_day_of_year
-     :                    , g_soil_temp
-     :                    , c_x_weighted_temp
-     :                    , c_y_plant_death
-     :                    , c_num_weighted_temp
-     :                    , g_plants
-     :                    , dlt_plants)
-*     ===========================================================
-      implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_days_tot(*)
-      integer    g_year
-      integer    g_day_of_year
-      real       g_soil_temp(*)
-      real       c_x_weighted_temp(*)
-      real       c_y_plant_death(*)
-      integer    c_num_weighted_temp
-      real       g_plants
-*
-      real       dlt_plants
-
-*+  Purpose
-*      Determine plant seedling death.
-
-*+  Mission Statement
-*     Determine plant seeding death
-
-*+  Changes
-*       290994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_death_seedling')
-
-*+  Local Variables
-      integer    days_after_emerg
-      real       killfr                ! fraction of crop population to kill
-      character  string*200            ! output string
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-!cpsc  add code to kill plants for high soil surface temperatures
- 
-      days_after_emerg = int (sum_between (emerg, now, g_days_tot)) - 1
-      if (days_after_emerg .eq. 1) then
- 
-         call maize_plants_temp (
-     :          g_year
-     :        , g_day_of_year
-     :        , g_soil_temp
-     :        , c_x_weighted_temp
-     :        , c_y_plant_death
-     :        , c_num_weighted_temp
-     :        , killfr)
-         dlt_plants = - g_plants*killfr
- 
-         if (killfr .gt. 0.0) then
-         write (string, '(a, i4, a)')
-     :        'plant_kill.'
-     :        , nint (killfr*100.0)
-     :        , '% failure because of high soil surface temperatures.'
- 
-         call Write_string (string)
- 
-         else
-                  ! do nothing
-         endif
- 
-      else
-         dlt_plants = 0.0
- 
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine maize_death_drought (
-     :  g_cswd_photo
-     :                    , g_leaf_no
-     :                    , c_leaf_no_crit
-     :                    , c_swdf_photo_limit
-     :                    , g_swdef_photo
-     :                    , c_swdf_photo_rate
-     :                    , g_plants
-     :                    , dlt_plants)
-*     ===========================================================
-      implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      real       g_cswd_photo(*)
-      real       g_leaf_no(*)
-      real       c_leaf_no_crit
-      real       c_swdf_photo_limit
-      real       g_swdef_photo
-      real       c_swdf_photo_rate
-      real       g_plants
-      real       dlt_plants
-
-*+  Purpose
-*      Determine percentage plant failure due to water stress
-
-*+  Mission statement
-*       Determine plant death from drought
-
-*+  Changes
-*       290994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_death_drought')
-
-*+  Local Variables
-      real       cswd_photo            ! cumulative water stress for photoperiod
-      real       leaf_no               ! number of leaves
-      real       killfr                ! fraction of crop population to kill
-      character  string*200            ! output string
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
-      leaf_no = sum_between (emerg, now, g_leaf_no)
- 
-      if (leaf_no.lt.c_leaf_no_crit
-     :       .and. cswd_photo.gt.c_swdf_photo_limit
-     :       .and. g_swdef_photo .lt.1.0) then
- 
-         killfr = c_swdf_photo_rate* (cswd_photo - c_swdf_photo_limit)
-         killfr = bound (killfr, 0.0, 1.0)
-         dlt_plants = - g_plants*killfr
- 
-         write (string, '(a, i4, a)')
-     :          'plant_kill.'
-     :         , nint (killfr*100.0)
-     :         , '% failure because of water stress.'
- 
-         call Write_string (string)
- 
-      else
-         dlt_plants = 0.0
- 
-      endif
- 
-      call pop_routine (my_name)
-      return
-      end
 
 
 
@@ -1543,131 +1334,6 @@ cnh      real       dlt_plants
          dlt_plants = 0.0
  
       endif
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine Maize_death_actual (
-     :                      g_dlt_plants_failure_germ
-     :                    , g_dlt_plants_failure_emergence
-     :                    , g_dlt_plants_failure_leaf_sen
-     :                    , g_dlt_plants_failure_phen_delay
-     :                    , g_dlt_plants_death_seedling
-     :                    , g_dlt_plants_death_drought
-     :                    , g_dlt_plants_death_barrenness
-     :                    , dlt_plants
-     :                     )
-*     ===========================================================
-      implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'error.pub'
-
-*+  Sub-Program Arguments
-!      real       g_dlt_plants_all
-      real       g_dlt_plants_failure_germ
-      real       g_dlt_plants_failure_emergence
-      real       g_dlt_plants_failure_leaf_sen
-      real       g_dlt_plants_failure_phen_delay
-      real       g_dlt_plants_death_seedling
-      real       g_dlt_plants_death_drought
-      real       g_dlt_plants_death_barrenness
-      real       dlt_plants
-
-*+  Purpose
-*      Determine actual plant death.
-
-*+  Mission Statement
-*     Determine actual plant death
-
-*+  Changes
-*       290994 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'Maize_death_actual')
-
-*- Implementation Section ----------------------------------
- 
-      call push_routine (my_name)
- 
-      dlt_plants = min (g_dlt_plants_failure_germ
-     :                , g_dlt_plants_failure_emergence
-     :                , g_dlt_plants_failure_leaf_sen
-     :                , g_dlt_plants_failure_phen_delay
-     :                , g_dlt_plants_death_seedling
-     :                , g_dlt_plants_death_drought
-     :                , g_dlt_plants_death_barrenness)
- 
-      call pop_routine (my_name)
-      return
-      end
-
-
-
-*     ===========================================================
-      subroutine maize_plants_temp (
-     :          g_year
-     :        , g_day_of_year
-     :        , g_soil_temp
-     :        , c_x_weighted_temp
-     :        , c_y_plant_death
-     :        , c_num_weighted_temp
-     :        , killfr)
-*     ===========================================================
-      implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'                         
-
-*+  Sub-Program Arguments
-      integer    g_year
-      integer    g_day_of_year
-      real       g_soil_temp(*)
-      real       c_x_weighted_temp(*)
-      real       c_y_plant_death(*)
-      integer    c_num_weighted_temp
-      real      killfr                ! (OUTPUT) fraction of plants killed
-                                       ! (plants/m^2)
-
-*+  Purpose
-*        Calculate fraction of plants killed by high temperature during
-*        emergence (0-1).
-
-*+  Mission Statement
-*     Calculate fraction of plants killed by high temperature during emergence
-
-*+  Changes
-*     230695 jngh specified and programmed
-
-*+  Constant Values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'maize_plants_temp')
-
-*+  Local Variables
-      integer    day_before            ! day of year number of day before
-                                       ! yesterday ()
-      real       weighted_temp         ! 3 day weighted soil temperature (oC)
-      integer    yesterday             ! day of year number of yesterday
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
- 
-      yesterday = offset_day_of_year (g_year, g_day_of_year, - 1)
-      day_before = offset_day_of_year (g_year, g_day_of_year, - 2)
- 
-      weighted_temp = 0.25 * g_soil_temp(day_before)
-     :              + 0.50 * g_soil_temp(yesterday)
-     :              + 0.25 * g_soil_temp(g_day_of_year)
- 
-      killfr = linear_interp_real (weighted_temp
-     :                           , c_x_weighted_temp
-     :                           , c_y_plant_death
-     :                           , c_num_weighted_temp)
  
       call pop_routine (my_name)
       return
