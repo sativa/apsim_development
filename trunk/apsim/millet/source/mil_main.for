@@ -2526,6 +2526,7 @@ c+!!!!!!!! what to do if no waterbalance variables found
 *+  Changes
 *     010994 jngh specified and programmed
 *     240696 jngh changed set_ to post_ construct
+*     101100 dph  changed post_ to set_ construct
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2550,20 +2551,11 @@ c+!!!! perhaps we should get number of layers at init and keep it
             dlt_NO3(layer) = g%dlt_NO3gsm(layer) * gm2kg /sm2ha
 1000     continue
 
-         call new_postbox()
-         call post_real_array ('dlt_no3', '(kg/ha)'
+         call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
      :                    , dlt_NO3, num_layers)
 
-         call post_real_array ('dlt_sw_dep', '(mm)'
+         call set_real_array (unknown_module, 'dlt_sw_dep', '(mm)'
      :                    , g%dlt_sw_dep, num_layers)
-
-         call Action_send (unknown_module
-     :                               ,ACTION_set_variable
-     :                               ,'dlt_no3')
-         call Action_send (unknown_module
-     :                               ,ACTION_set_variable
-     :                               ,'dlt_sw_dep')
-         call delete_postbox()
 
       else
       endif
