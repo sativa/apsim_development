@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\canola\sample\canola.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\canola\sample\canola.sim
      Title                  = canola Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -36,11 +35,13 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = canola.out
      Format = normal
-     Module_names = clock clock canola canola canola canola 
-     Variable_names = day year lai biomass green_biomass pai 
-     Variable_alias = - - - - - - 
-     Units = - - - -   
-     
+     Output variables:
+        clock.day
+        clock.year
+        canola.lai
+        canola.biomass
+        canola.green_biomass
+        canola.pai
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\sample\dalby.met
