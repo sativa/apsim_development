@@ -180,4 +180,17 @@ extern "C" _export void __stdcall apsimReportFiles(const char* csvFiles)
       WinExec(command.c_str(), SW_SHOW);
       }
    }
+//---------------------------------------------------------------------------
+// Open an interface file.
+//---------------------------------------------------------------------------
+extern "C" _export void __stdcall interfaceFiles(const char* csvFiles)
+   {
+   vector<string> fileNames;
+   Split_string(csvFiles, ",", fileNames);
 
+   for (unsigned f = 0; f != fileNames.size(); f++)
+      {
+      string command = "explorer \"" + fileNames[f] + "\"";
+      WinExec(command.c_str(), SW_SHOW);
+      }
+   }
