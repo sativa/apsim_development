@@ -22,7 +22,7 @@ DEFFILE =
 RESDEPEN = $(RESFILES) TPreferences_form.dfm ChildWin.dfm Main.dfm \
   TDirectory_select_form.dfm TDrill_down_form.dfm about.dfm \
   TValueSelectionForm.dfm TChartSettingsForm.dfm TSplashForm.dfm
-LIBFILES = ..\..\..\shared\general\general.lib
+LIBFILES = general.lib
 LIBRARIES = vcljpg40.lib RXCTL4.lib rxdb4.lib
 SPARELIBS = vcl40.lib vclx40.lib vcldb40.lib APSGeneral.lib APSData.lib \
   ThirdParty.lib TEE4C.lib TEEUI4C.lib TEEPRO4C.lib \
@@ -40,21 +40,19 @@ RELEASELIBPATH = $(BCB)\lib\release
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 USERDEFINES =
 # ---------------------------------------------------------------------------
-CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\shared\components\general;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thirdparty \
+CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\" \
   -Od -Hc -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
   -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tW -tWM
 CFLAG2 =
 CFLAG3 =
-PFLAGS = -U$(BCB)\projects\lib;$(BCB)\lib\debug;..\..\..\shared\components\ui;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\..\..\progra~1\borland\components\tb97;..\..\..\..\..\progra~1\borland\components\thypergrid;..\..\..\..\..\progra~1\borland\components\rx\units;$(RELEASELIBPATH) \
-  -I$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\shared\components\general;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thirdparty \
+PFLAGS = -U$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\general\;j:\tb97\;j:\thypergrid\;"j:\rx\units\";$(RELEASELIBPATH) \
+  -I$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\" \
   -$YD -$W -$O- -v -M -JPHNE
-RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\shared\components\general;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thirdparty
-AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\..\shared \
-  /i..\..\..\shared\components\data /i..\..\..\shared\components\general \
-  /i..\..\..\..\..\progra~1\borland\components\rx\units \
-  /i..\..\..\..\..\progra~1\borland\components\thirdparty /mx /w2 /zd /d_RTLDLL \
-  /dUSEPACKAGES
-LFLAGS = -L$(BCB)\projects\lib;$(BCB)\lib\debug;..\..\..\shared\components\ui;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\..\..\progra~1\borland\components\tb97;..\..\..\..\..\progra~1\borland\components\thypergrid;..\..\..\..\..\progra~1\borland\components\rx\units;$(RELEASELIBPATH) \
+RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;"j:\thirdparty\"
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /ik:\ /ik:\components\data\ \
+  /ik:\components\general\ /ij:\rx\units\ /i"j:\thirdparty\" /mx /w2 /zd \
+  /d_RTLDLL /dUSEPACKAGES
+LFLAGS = -L$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\general\;j:\tb97\;j:\thypergrid\;"j:\rx\units\";$(RELEASELIBPATH) \
   -aa -Tpe -x -Gn -v
 IFLAGS =
 # ---------------------------------------------------------------------------
@@ -92,12 +90,22 @@ ProductVersion=1.2
 Comments=Build date: 5 October 1998
 
 [HistoryLists\hlIncludePath]
-Count=1
-Item0=
+Count=6
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdparty\
+Item1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\;j:\rx\units\;j:\thirdpartyItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data;k:\components\general;j:\rx\units;j:\thirdparty
+Item2=
+Item3=
+Item4=
+Item5=
 
 [HistoryLists\hlLibraryPath]
-Count=1
-Item0=
+Count=6
+Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\units\
+Item1=k:\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\ui\;k:\components\data\;k:\components\general\;j:\tb97\;j:\thypergrid\;j:\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\ui;k:\components\data;k:\components\general;j:\tb97;j:\thypergrid;j:\rx\units
+Item2=
+Item3=
+Item4=
+Item5=
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

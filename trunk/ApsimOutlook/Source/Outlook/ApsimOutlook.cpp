@@ -10,7 +10,7 @@ USEFORM("Main.cpp", MainForm);
 USEFORM("TDirectory_select_form.cpp", Directory_select_form);
 USEFORM("TDrill_down_form.cpp", Drill_down_form);
 USEFORM("about.cpp", AboutBox);
-USELIB("..\..\..\shared\general\general.lib");
+USELIB("general.lib");
 USEFORM("TValueSelectionForm.cpp", ValueSelectionForm);
 USEFORM("TChartSettingsForm.cpp", ChartSettingsForm);
 USEFORM("TSplashForm.cpp", SplashForm);
