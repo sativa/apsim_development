@@ -6,7 +6,7 @@
     <PROJECT value="ApsimShared.lib"/>
     <OBJFILES value="ApsimLicence.obj ApsimProject.obj ApsimSettings.obj ApsimDirectories.obj 
       TSplashForm.obj TAboutForm.obj ApsimVersion.obj ApsimControlFile.obj 
-      ApsimConfiguration.obj"/>
+      ApsimConfigurationFile.obj ApsimRunFile.obj ApsimSimulationFile.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TSplashForm.dfm TAboutForm.dfm"/>
@@ -50,7 +50,9 @@
       <FILE FILENAME="TAboutForm.cpp" FORMNAME="AboutForm" UNITNAME="TAboutForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimVersion.cpp" FORMNAME="" UNITNAME="ApsimVersion" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimControlFile.cpp" FORMNAME="" UNITNAME="ApsimControlFile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ApsimConfiguration.cpp" FORMNAME="" UNITNAME="ApsimConfiguration.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimConfigurationFile.cpp" FORMNAME="" UNITNAME="ApsimConfigurationFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimRunFile.cpp" FORMNAME="" UNITNAME="ApsimRunFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimSimulationFile.cpp" FORMNAME="" UNITNAME="ApsimSimulationFile" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
