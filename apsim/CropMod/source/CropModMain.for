@@ -1,4 +1,4 @@
-C     Last change:  E    23 Jan 2001    9:26 am
+C     Last change:  E    23 Jan 2001    9:31 am
 
       INCLUDE 'CropMod.inc'
 
@@ -2151,8 +2151,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      :                             , 0.0, 2000.0)
 
       else if ((variable_name .eq. 'leaf_app_rate').or.
-     :         (variable_name .eq. 'phyllo').or.
-     :         (variable_name .eq. 'phylo') .or.
+     :         (variable_name .eq. 'phyllochron')  .or.
      :         (variable_name .eq. 'phint'))    then
          call collect_real_var (variable_name, '()'
      :                             ,c%leaf_app_rate, numvals
