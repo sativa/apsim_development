@@ -2074,6 +2074,7 @@ cbak
       real       ccs                   ! commercial cane sugar(g/g)
       real       cover                 ! crop cover fraction (0-1)
       real       das                   ! days after sowing
+      integer    das1                  ! days after sowing (rounded integer of das)     
       real       radn_int              ! daily radn intercepted (MJ)
       integer    deepest_layer         ! deepest layer in which the roots are
                                        ! growing
@@ -2555,10 +2556,10 @@ c      call sugar_nit_stress_expansion (1)
  
       elseif (variable_name .eq. 'das') then
          das = sum_between (sowing, now, g%days_tot)
-         das = nint(das)
-         call respond2get_real_var (variable_name
+         das1 = nint(das)
+         call respond2get_integer_var (variable_name
      :                             , '(days)'
-     :                             , das)
+     :                             , das1)
  
             ! plant nitrogen
  
