@@ -17,6 +17,7 @@ class APSIMSoilwat2Public
    runoff                  : APSIMReal         = Surface water runoff, (mm), GET
    drain                   : APSIMReal         = Drainage, (mm), GET
    infiltration            : APSIMReal         = Infiltration, (mm), GET
+   outflow_lat             : APSIMRealArray    = Lateral Outflow (mm),GET
    eff_rain                : APSIMReal         = Effective rainfall = Rainfall - runoff - drainage, (mm), GET
    bd                      : APSIMRealArray    = Bulk density of the soil for each layer, (g/cc), GET|READ, 0.0, 2.0
    esw                     : APSIMReal         = Extractable soil water, (mm), GET
@@ -106,6 +107,8 @@ class APSIMSoilwat2External
    height                  : APSIMReal                  = Height of canopy, (mm), GET, 0.0, 100000.0
    eo_source               : APSIMReal                  = eo from somewhere else in the system, (), GET, 0.0, 100.0
    obsrunoff_name          : APSIMReal                  = Observed runoff, (), GET_OPT, 0.0, 1000.0
+   run_on                  : APSIMReal                  = run_on,(),GET_OPT,0.0,100000.0
+   inflow_lat              : APSIMRealArray             = Lateral Inflow in each layer, (),GET_OPT,0.0,100000.0
    dlt_nnnn                : APSIMRealArray             = solute amount, (), SET
 
    tick                    : APSIMClockTickEvent        = Clock Tick event
