@@ -1,58 +1,49 @@
-# ---------------------------------------------------------------------------
-VERSION = BCB.04.04
-# ---------------------------------------------------------------------------
-!ifndef BCB
-BCB = $(MAKEDIR)\..
-!endif
-# ---------------------------------------------------------------------------
-PROJECT = ContFileGen.exe
-OBJFILES = ContFileGen.obj TMain_form.obj k:\general\path.obj \
-  k:\general\string_functions.obj k:\general\stream_functions.obj \
-  k:\general\vcl_functions.obj
-RESFILES = ContFileGen.res
-RESDEPEN = $(RESFILES) TMain_form.dfm
-LIBFILES =
-LIBRARIES =
-SPARELIBS = vcl40.lib vclx40.lib vcldb40.lib vcldbx40.lib
-PACKAGES = Vcl40.bpi vcljpg40.bpi uoolepcb4.bpi ibsmp40.bpi Vcldb40.bpi Vclx40.bpi \
-  bcbsmp40.bpi vcldbx40.bpi dclocx40.bpi HyperGrid.bpi rxctl4.bpi rxdb4.bpi \
-  Tee4C.bpi TeeDB4C.bpi TeeUI4C.bpi thirdparty.bpi plusmemoc4.bpi TeePro4C.bpi \
-  APSGeneral.bpi Qrpt40.bpi nmfast40.bpi APSUI.bpi APSData.bpi
-PATHASM = .;
-PATHCPP = .;k:\general\
-PATHPAS = .;
-PATHRC = .;
-DEBUGLIBPATH = $(BCB)\lib\debug
-RELEASELIBPATH = $(BCB)\lib\release
-SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
-USERDEFINES =
-DEFFILE =
-# ---------------------------------------------------------------------------
-CFLAG1 = -Ik:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;"k:\" -Od -Hc \
-  -H=$(BCB)\lib\vcl40.csm -w -Ve -r- -a8 -k -y -v -vi- \
-  -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tWM
-CFLAG2 =
-CFLAG3 =
-PFLAGS = -U$(BCB)\projects\lib;$(BCB)\lib\debug;k:\general;k:\general\;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -Ik:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;"k:\" \
-  -AWinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE -$YD \
-  -$W -$O- -v -JPHNV -M -JPHNE
-RFLAGS = -ik:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;"k:\"
-AFLAGS = /ik:\general /ik:\general\ /i$(BCB)\include /i$(BCB)\include\vcl /i"k:\" /mx \
-  /w2 /zd
-LFLAGS = -L$(BCB)\projects\lib;$(BCB)\lib\debug;k:\general;k:\general\;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -aa -Tpe -x -v
-IFLAGS =
-LINKER = ilink32
-# ---------------------------------------------------------------------------
-ALLOBJ = c0w32.obj Memmgr.Lib $(PACKAGES) sysinit.obj $(OBJFILES)
-ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
-# ---------------------------------------------------------------------------
-.autodepend
-
-!ifdef IDEOPTIONS
-
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.05.03"/>
+    <PROJECT value="ContFileGen.exe"/>
+    <OBJFILES value="ContFileGen.obj TMain_form.obj"/>
+    <RESFILES value="ContFileGen.res"/>
+    <IDLFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) TMain_form.dfm"/>
+    <LIBFILES value="general.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="vcl50.lib vclx50.lib vcldb50.lib vclbde50.lib vcldbx50.lib"/>
+    <PACKAGES value="vcl50.bpi vcljpg50.bpi ibsmp50.bpi vcldb50.bpi vclbde50.bpi vclx50.bpi 
+      bcbsmp50.bpi vcldbx50.bpi dclocx50.bpi qrpt50.bpi nmfast50.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="ContFileGen.cpp"/>
+    <INCLUDEPATH value="k:\general\;$(BCB)\include;$(BCB)\include\vcl;&quot;k:\&quot;"/>
+    <LIBPATH value="$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par -w-8027 -w-8026"/>
+    <WARNOPTSTR value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-Od -H=c:\PROGRA~1\borland\CBUILD~1\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 
+      -b- -k -y -v -vi- -c -tWM"/>
+    <PFLAGS value="-AWinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE 
+      -$YD -$W -$O- -v -JPHNV -M -JPHNE"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -v"/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+  </LINKER>
+  <IDEOPTIONS>
 [Version Info]
 IncludeVerInfo=0
 AutoIncBuild=0
@@ -68,20 +59,31 @@ DLL=0
 Locale=3081
 CodePage=1252
 
+[Excluded Packages]
+$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
+
 [HistoryLists\hlIncludePath]
-Count=6
-Item0=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item1=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:Item1=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\generalItem1=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:[HistoryLists\hlLibraryPath]
-Item2=
-Item3=
-Item4=
+Count=10
+Item0=k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item1=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item2=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item3=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item4=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:Item1=k:\general;k:\general\;$(BCB)\include;$(BCB)\include\vcl;k:Item1=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\generalItem1=k:\general;$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:[HistoryLists\hlLibraryPath]
 Item5=
+Item6=
+Item7=
+Item8=
+Item9=
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=k:\general;k:\general\;$(BCB)\lib\obj;$(BCB)\lib
-Item1=k:\general\;$(BCB)\lib\obj;$(BCB)\lib
-Item2=k:\general;$(BCB)\lib\obj;$(BCB)\lib
+Count=7
+Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item1=k:\general\;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item2=k:\general;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item3=$(BCB)\projects\lib;$(BCB)\lib\debug;k:\general;k:\general\;$(BCB)\lib\obj;$(BCB)\lib
+Item4=k:\general;k:\general\;$(BCB)\lib\obj;$(BCB)\lib
+Item5=k:\general\;$(BCB)\lib\obj;$(BCB)\lib
+Item6=k:\general;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlUnitAliases]
 Count=1
@@ -98,33 +100,13 @@ RemotePath=
 RemoteDebug=0
 
 [Compiler]
-InMemoryExe=0
 ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
 
-!endif
-
-$(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
-    $(BCB)\BIN\$(LINKER) @&&!
-    $(LFLAGS) +
-    $(ALLOBJ), +
-    $(PROJECT),, +
-    $(ALLLIB), +
-    $(DEFFILE), +
-    $(ALLRES) 
-!
-
-.pas.hpp:
-    $(BCB)\BIN\dcc32 $(PFLAGS) { $** }
-
-.pas.obj:
-    $(BCB)\BIN\dcc32 $(PFLAGS) { $** }
-
-.cpp.obj:
-    $(BCB)\BIN\bcc32 $(CFLAG1) $(CFLAG2) -o$* $* 
-
-.c.obj:
-    $(BCB)\BIN\bcc32 $(CFLAG1) $(CFLAG2) -o$* $**
-
-.rc.res:
-    $(BCB)\BIN\brcc32 $(RFLAGS) $<
-#-----------------------------------------------------------------------------
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
