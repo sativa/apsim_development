@@ -678,16 +678,16 @@ void ReportComponent::init(void)
 
    // write out all initial conditions.
    string msg = "Output file = " + Out->getFilename();
-   ApsimSystem().Summary->writeSummaryLine(name.c_str(), msg.c_str());
+   ApsimSystem().Summary->writeSummaryLine(name.asString().c_str(), msg.c_str());
    msg = "Format = ";
    if (CSVFormat)
       msg += "csv";
    else
       msg += "normal";
-   ApsimSystem().Summary->writeSummaryLine(name.c_str(), msg.c_str());
+   ApsimSystem().Summary->writeSummaryLine(name.asString().c_str(), msg.c_str());
 
    // write all fields to summary file.
-   ApsimSystem().Summary->writeSummaryLine(name.c_str(), "Output variables:");
+   ApsimSystem().Summary->writeSummaryLine(name.asString().c_str(), "Output variables:");
    for_each(Fields.begin(), Fields.end(), mem_fun_ref(&Field::writeToSummary));
    }
 
