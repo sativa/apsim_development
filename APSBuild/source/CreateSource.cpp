@@ -5,9 +5,12 @@
 
 #include "CreateSource.h"
 #include <ApsimShared\ApsimDataTypesFile.h>
+#include <general\Macro.h>
+#include <general\xml.h>
 
 #pragma package(smart_init)
 using namespace std;
+
 // ------------------------------------------------------------------
 // convert a DDML 'kind' string to a CPP built in type.
 // ------------------------------------------------------------------
@@ -26,7 +29,7 @@ std::string ddmlKindToCPP(const std::string& kind)
    else if (Str_i_Eq(kind, "string"))
       return "FString";
    else
-      return "????";
+      return kind;
    }
 // ------------------------------------------------------------------
 // convert a DDML 'kind' string to a FOR built in type.
@@ -46,292 +49,196 @@ std::string ddmlKindToFOR(const std::string& kind)
    else if (Str_i_Eq(kind, "string"))
       return "character(len=100)";
    else
-      return "????";
+      return kind;
    }
-//---------------------------------------------------------------------------
-// write a type definition in C for the specified data type.
-//---------------------------------------------------------------------------
-void writeTypeInC(const ApsimDataTypeData& dataType, bool fortranFriendly, ostream& out)
+// ------------------------------------------------------------------
+// convert a DDML string to a C formatted string
+// ------------------------------------------------------------------
+std::string ddmlToCPP(const ApsimDataTypeData& dataType)
    {
-   // write declaration
-   string typeName = dataType.getName() + "Type";
-   if (fortranFriendly)
-      typeName = "F" + typeName;
-   out << "struct " << typeName << endl;
-   out << "   {" << endl;
+   string st;
+   st = "   \"<type name=\\\"" + dataType.getName() + "\\\"";
 
-   for (ApsimDataTypeData::iterator field = dataType.begin();
-                                    field != dataType.end();
+   if (dataType.isArray())
+      st += " array=\\\"T\\\"";
+   st += ">\" \\\n";
+
+   ApsimDataTypeData thisNode = dataType;
+   if (dataType.isArray())
+      {
+      st += "   \"   <element>\" \\\n";
+      thisNode = *dataType.begin();
+      }
+
+   for (ApsimDataTypeData::iterator field = thisNode.begin();
+                                    field != thisNode.end();
                                     field++)
       {
-      string cDataType = ddmlKindToCPP(field->getKind());
-      if (cDataType != "????")
+      st += "   \"   <field name=\\\"" + field->getName()
+          + "\\\" kind=\\\"" + field->getKind() + "\\\"";
+      if (field->isArray())
+         st += " array=\\\"T\\\"";
+
+      st += "/>\" \\\n";
+      }
+   if (dataType.isArray())
+      st += "   \"   </element>\" \\\n";
+   st += "   \"</type>\"";
+   return st;
+   }
+// ------------------------------------------------------------------
+// convert a DDML string to a FORTRAN formatted string
+// ------------------------------------------------------------------
+std::string ddmlToFOR(const ApsimDataTypeData& dataType)
+   {
+   string st;
+   st = "      '<type name=\"" + dataType.getName() + "\"";
+
+   if (dataType.isArray())
+      st += " array=\"T\"";
+   st += ">' // &\n";
+
+   ApsimDataTypeData thisNode = dataType;
+   if (dataType.isArray())
+      {
+      st += "      '   <element>' // &\n";
+      thisNode = *dataType.begin();
+      }
+
+   for (ApsimDataTypeData::iterator field = thisNode.begin();
+                                    field != thisNode.end();
+                                    field++)
+      {
+      st += "      '   <field name=\"" + field->getName()
+          + "\" kind=\"" + field->getKind() + "\"";
+      if (field->isArray())
+         st += " array=\"T\"";
+
+      st += "/>' // &\n";
+      }
+   if (dataType.isArray())
+      st += "      '   </element>' // &\n";
+   st += "      '</type>'";
+   return st;
+   }
+
+
+class Field
+   {
+   public:
+      Field(const string& parentName,
+            const ApsimDataTypeData& field)
+         {
+         parentStructName = parentName;
+         if (field.isStructure())
+            dataTypeName = field.getName();
+         else
+            dataTypeName = field.getKind();
+         name = field.getName();
+         isArray = field.isArray();
+         isStructure = field.isStructure();
+         }
+      void addFieldToMacro(XMLNode n)
+         {
+         XMLNode fieldNode = n.appendChild("field", true);
+         fieldNode.setAttribute("name", name);
+         fieldNode.setAttribute("ctype", ddmlKindToCPP(dataTypeName));
+         fieldNode.setAttribute("fortype", ddmlKindToFOR(dataTypeName));
+         if (isArray)
+            fieldNode.setAttribute("array", "T");
+         else
+            fieldNode.setAttribute("array", "F");
+         if (isStructure)
+            fieldNode.setAttribute("isStructure", "T");
+         else
+            fieldNode.setAttribute("isStructure", "F");
+         if (isStructure && isArray)
+            fieldNode.setAttribute("isArrayAndStructure", "T");
+         else
+            fieldNode.setAttribute("isArrayAndStructure", "F");
+         }
+   private:
+      string parentStructName;
+      string dataTypeName;
+      string name;
+      bool isArray;
+      bool isStructure;
+   };
+
+//---------------------------------------------------------------------------
+// Process a structure.
+//---------------------------------------------------------------------------
+void processStructure(const ApsimDataTypeData& dataType, XMLNode& node)
+   {
+   static set<string> structuresAlreadyDone;
+   string lowerName = dataType.getName();
+   To_lower(lowerName);
+   if (structuresAlreadyDone.find(lowerName) == structuresAlreadyDone.end())
+      {
+      structuresAlreadyDone.insert(lowerName);
+      vector<Field> fields;
+      ApsimDataTypeData thisNode = dataType;
+      if (dataType.isArray())
+         thisNode = *dataType.begin();
+      bool hasAnArrayField = false;
+      for (ApsimDataTypeData::iterator field = thisNode.begin();
+                                       field != thisNode.end();
+                                       field++)
          {
          if (field->isArray())
-            {
-            if (fortranFriendly)
-               {
-               out << "   " << cDataType << ' ' << field->getName();
-               if (field->isArray())
-                  out << "[max_array_size]";
-               out << ';' << endl;
-               out << "   unsigned num_" << field->getName() << ";" << endl;
-               }
-            else
-               out << "   protocol::vector<" << cDataType << "> " << field->getName() << ';' << endl;
-            }
-         else
-            out << "   " << cDataType << ' ' << field->getName() << ';' << endl;
+            hasAnArrayField = true;
+         if (field->isStructure())
+            processStructure(*field, node);
+         fields.push_back(Field(dataType.getName(), *field));
          }
+      // add structure to a new macro.
+      XMLNode child = node.appendChild("structure", true);
+      child.setAttribute("name", dataType.getName());
+      if (hasAnArrayField)
+         child.setAttribute("hasAnArrayField", "T");
       else
-         out << "   // unknown data type: " << field->getKind() << endl;
+         child.setAttribute("hasAnArrayField", "F");
+      XMLNode cddmlNode = child.appendChild("cddml");
+      cddmlNode.setValue(ddmlToCPP(dataType), true);
+      XMLNode forddmlNode = child.appendChild("forddml");
+      forddmlNode.setValue(ddmlToFOR(dataType), true);
+
+      for_each(fields.begin(), fields.end(),
+               bind2nd(mem_fun_ref(&Field::addFieldToMacro), child));
       }
-   out << "   };" << endl;
    }
 //---------------------------------------------------------------------------
-// write insertion and extraction operators and memorySize functions for type
-//---------------------------------------------------------------------------
-void writeOperators(const ApsimDataTypeData& dataType, bool fortranFriendly, ostream& out)
-   {
-   string typeName = dataType.getName() + "Type";
-   if (fortranFriendly)
-      typeName = "F" + typeName;
-
-   out << "inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const "
-       << typeName << "& data)" << endl;
-   out << "   {" << endl;
-   for (ApsimDataTypeData::iterator field = dataType.begin();
-                                    field != dataType.end();
-                                    field++)
-      {
-      string fieldName = field->getName();
-      if (fieldName != "" && ddmlKindToCPP(field->getKind()) != "????")
-         {
-         if (field->isArray() && fortranFriendly)
-            {
-            out << "   messageData << data.num_" << fieldName << ';' << endl;
-            out << "   for (unsigned i = 0; i != data.num_" << fieldName << "; i++)" << endl;
-            out << "      messageData << data." << fieldName << "[i];" << endl;
-            }
-         else
-            out << "   messageData << data." << fieldName << ';' << endl;
-         }
-      }
-   out << "   return messageData;" << endl;
-   out << "   }" << endl;
-
-   // write extraction operator for type
-   out << "inline protocol::MessageData& operator>>(protocol::MessageData& messageData, "
-       << typeName << "& data)" << endl;
-   out << "   {" << endl;
-   for (ApsimDataTypeData::iterator field = dataType.begin();
-                                    field != dataType.end();
-                                    field++)
-      {
-      string fieldName = field->getName();
-      if (fieldName != "" && ddmlKindToCPP(field->getKind()) != "????")
-         {
-         if (field->isArray() && fortranFriendly)
-            {
-            out << "   messageData >> data.num_" << fieldName << ';' << endl;
-            out << "   for (unsigned i = 0; i != data.num_" << fieldName << "; i++)" << endl;
-            out << "      messageData >> data." << fieldName << "[i];" << endl;
-            }
-         else
-            out << "   messageData >> data." << fieldName << ';' << endl;
-         }
-      }
-   out << "   return messageData;" << endl;
-   out << "   }" << endl;
-
-   // write a memorySize routine
-   out << "inline unsigned int memorySize(const "
-       << typeName << "& data)" << endl;
-   out << "   {" << endl;
-   out << "   return ";
-   bool first = true;
-   for (ApsimDataTypeData::iterator field = dataType.begin();
-                                    field != dataType.end();
-                                    field++)
-      {
-      string fieldName = field->getName();
-      if (fieldName != "" && ddmlKindToCPP(field->getKind()) != "????")
-         {
-         if (!first)
-            out << "\n          + ";
-         if (field->isArray() && fortranFriendly)
-            out << "4 + data.num_" << fieldName << " * protocol::memorySize(data." + fieldName + "[0])";
-         else
-            out << "protocol::memorySize(data." + fieldName + ")";
-         first = false;
-         }
-      }
-   if (first)
-      out << '0';
-   out <<";\n   }" << endl;
-   }
-//---------------------------------------------------------------------------
-// Performs the conversion using the specified ddml.  Writes source to
-// cppSource, hppSource (in c++) and forDataTypes and forDataTypesInterface
-// (in FORTRAN)
+// Performs the conversion using the specified ddml and the specified
+// macro file.
 //---------------------------------------------------------------------------
 void CreateSource::go(const std::string& ddml,
-                      std::ostream& cpp,
-                      std::ostream& hpp,
-                      std::ostream& forDataTypes,
-                      std::ostream& forDataTypesInterface)
+                      const std::string& contents,
+                      bool writeXML)
    {
-   ApsimDataTypesFile dataTypes(ddml);
-   hpp << "#ifndef DataTypesH\n";
-   hpp << "#define DataTypesH\n";
-   hpp << "#include <ComponentInterface\\MessageData.h>\n";
-   hpp << "#include \"ProtocolVector.h\"\n";
-   hpp << "namespace protocol {\n";
-   hpp << endl;
-   cpp << "#include \"DataTypes.h\"\n";
-   cpp << "#include \"FortranComponent.h\"\n";
-   cpp << "const unsigned max_array_size = 100;\n";
-   cpp << endl;
-   forDataTypes << "module dataTypes\n";
-   forDataTypes << "   character(len=*), parameter :: nullTypeDDML = '<type/>'\n";
-   forDataTypes << "   integer, parameter :: max_array_size = 100\n";
-   forDataTypesInterface << "module dataTypesInterface\n";
-   forDataTypesInterface << "   interface\n";
-
-   for (ApsimDataTypesFile::iterator dataType = dataTypes.begin();
-                                     dataType != dataTypes.end();
-                                     dataType++)
+   try
       {
-      if (dataType->isStructure())
+      ApsimDataTypesFile dataTypes(ddml);
+
+      XMLDocument xml;
+      xml.setRootNode("Data");
+      XMLNode rootNode = xml.documentElement();
+      for (ApsimDataTypesFile::iterator dataType = dataTypes.begin();
+                                        dataType != dataTypes.end();
+                                        dataType++)
          {
-         bool needForToCMapping = false;
-
-         string typeName = dataType->getName() + "Type";
-         // write DDML
-         hpp << "//-------------------- " << typeName << endl;
-         hpp << "#define " << typeName << "DDML \\" << endl;
-         hpp << "   \"<type name=\\\"" << dataType->getName() << "\\\">\" \\" << endl;
-         for (ApsimDataTypeData::iterator field = dataType->begin();
-                                          field != dataType->end();
-                                          field++)
-            {
-            hpp << "   \"   <field name=\\\"" << field->getName()
-                << "\\\" kind=\\\"" << field->getKind() << "\\\"";
-            if (field->isArray())
-               {
-               hpp << " array=\"T\"";
-               needForToCMapping = true;
-               }
-            hpp << "/>\" \\" << endl;
-            }
-         hpp << "   \"</type>\"" << endl;
-
-         // write struct
-         writeTypeInC(*dataType, false, hpp);
-
-         // write insertion operator for type
-         writeOperators(*dataType, false, hpp);
-
-         // write a FORTRAN compatible type
-         if (needForToCMapping)
-            {
-            cpp << "namespace protocol {" << endl;
-            writeTypeInC(*dataType, true, cpp);
-            writeOperators(*dataType, true, cpp);
-            cpp << "};" << endl;
-            }
-
-         cpp << "extern \"C\" void __stdcall publish_" << dataType->getName()
-             << "(unsigned* id, const protocol::";
-         if (needForToCMapping)
-            cpp << "F";
-         cpp << typeName << "* data)\n";
-         cpp << "   {" << endl;
-         cpp << "   FortranProxyComponent::currentInstance->publish(*id, *data);" << endl;
-         cpp << "   }" << endl;
-
-         // write a  stub to unpack the structure
-         cpp << "extern \"C\" void __stdcall unpack_" << dataType->getName()
-             << "(protocol::Variant* variant, protocol::";
-         if (needForToCMapping)
-            cpp << "F";
-         cpp << typeName << "* data)\n";
-         cpp << "   {" << endl;
-         cpp << "   variant->unpack(*data);" << endl;
-         cpp << "   }" << endl;
-
-         // write the FORTRAN code now.
-         // write DDML
-         forDataTypes << "!-------------------- " << typeName << endl;
-
-         forDataTypes << "   character(len=*), parameter :: " << typeName << "DDML = &" << endl;
-         forDataTypes << "      '<type name=\"" << dataType->getName() << "\">' // &" << endl;
-         for (ApsimDataTypeData::iterator field = dataType->begin();
-                                          field != dataType->end();
-                                          field++)
-            {
-            forDataTypes << "      '   <field name=\"" << field->getName()
-                << "\" kind=\"" << field->getKind();
-            if (field->isArray())
-               forDataTypes << " array=\"T\"";
-            forDataTypes << "\"/>' // &" << endl;
-
-            }
-         forDataTypes << "      '</type>'" << endl;
-
-         // write FORTRAN derived type
-         forDataTypes << "   type " << typeName << endl;
-         forDataTypes << "      sequence" << endl;
-
-         int fieldNumber = 1;
-         for (ApsimDataTypeData::iterator field = dataType->begin();
-                                          field != dataType->end();
-                                          field++)
-            {
-            string fDataType = ddmlKindToFOR(field->getKind());
-            if (fDataType != "????")
-               {
-               forDataTypes << "      " << fDataType << " :: " << field->getName();
-               if (field->isArray())
-                  {
-                  forDataTypes << "(max_array_size)\n";
-                  forDataTypes << "      integer :: num_" << field->getName();
-                  }
-
-               forDataTypes << endl;
-               }
-            else
-               {
-               string fieldName = field->getName();
-               if (fieldName == "")
-                  fieldName = string(fieldNumber++, 'z');
-               forDataTypes << "      integer " << fieldName << " ! unknown data type: " << field->getKind() << endl;
-               }
-            }
-         forDataTypes << "   end type " << typeName << endl;
-
-         // write FORTRAN publish routine
-         forDataTypesInterface << "!-------------------- " << typeName << endl;
-         forDataTypesInterface << "   subroutine publish_" << dataType->getName() << "(id, data)" << endl;
-         forDataTypesInterface << "      use dataTypes" << endl;
-         forDataTypesInterface << "      ml_external publish_" << dataType->getName() << endl;
-         forDataTypesInterface << "      integer, intent(in) :: id" << endl;
-         forDataTypesInterface << "      type(" << typeName << "), intent(in) :: data" << endl;
-         forDataTypesInterface << "   end subroutine publish_" << dataType->getName() << endl;
-
-         // write FORTRAN unpack routine
-         forDataTypesInterface << "   subroutine unpack_" << dataType->getName() << "(variant, data)" << endl;
-         forDataTypesInterface << "      use dataTypes" << endl;
-         forDataTypesInterface << "      ml_external unpack_" << dataType->getName() << endl;
-         forDataTypesInterface << "      integer, intent(in) :: variant" << endl;
-         forDataTypesInterface << "      type(" << typeName << "), intent(in out) :: data" << endl;
-         forDataTypesInterface << "   end subroutine unpack_" << dataType->getName() << endl;
+         if (dataType->isStructure())
+            processStructure(*dataType, rootNode);
          }
+      if (writeXML)
+         xml.write("macro.xml");
+
+      vector<string> filesGenerated;
+      Macro macro;
+      macro.go(rootNode, contents, filesGenerated);
       }
-   hpp << "} // protocol\n";
-   hpp << "#endif\n";
-   forDataTypes << "end module dataTypes\n";
-   forDataTypesInterface << "   end interface\n";
-   forDataTypesInterface << "end module dataTypesInterface\n";
+   catch (const runtime_error& err)
+      {
+      ShowMessage(err.what());
+      }
    }
 

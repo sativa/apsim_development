@@ -12,17 +12,10 @@ class CreateSource
    public:
 
       //---------------------------------------------------------------------------
-      // Performs the conversion using the specified ddml.  Writes source to
-      // cppSource, hppSource (in c++) and forDataTypes and forDataTypesInterface
-      // (in FORTRAN)
+      // Performs the conversion using the specified ddml and the specified
+      // macro file.
       //---------------------------------------------------------------------------
-      void go(const std::string& ddml,
-              std::ostream& cpp,
-              std::ostream& hpp,
-              std::ostream& forDataTypes,
-              std::ostream& forDataTypesInterface);
-
-   private:
+      void go(const std::string& ddml, const std::string& contents, bool writeXML);
 
    };
 #endif
