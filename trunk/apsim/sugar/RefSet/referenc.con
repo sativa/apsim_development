@@ -1,7 +1,7 @@
 version = 2.2
 [apsim.sugar_reference]  
 
-title=sugar reference run
+title = sugar reference run
 module = clock    referenc.par [reference]
 module = report   referenc.par [reference]
 module = input(met)      REFERENC.MET [reference]
@@ -14,3 +14,4 @@ module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = sugar    referenc.par [reference]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile  referenc.par[reference]
 module = Screen  referenc.par[reference]
+module = tracker  referenc.par[reference]
