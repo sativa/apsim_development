@@ -73,7 +73,7 @@ void TSkin::DisplaySplashScreen(void)
          OutlookSplashForm = new TOutlookSplashForm(NULL);
          OutlookSplashForm->Image1->Picture->LoadFromFile(BitmapName.c_str());
          Application->ProcessMessages();
-         OutlookSplashForm->Show();
+         OutlookSplashForm->ShowModal();
          }
       }
    }

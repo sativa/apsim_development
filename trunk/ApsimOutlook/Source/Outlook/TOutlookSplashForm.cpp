@@ -64,7 +64,7 @@ void __fastcall TOutlookSplashForm::FormShow(TObject *Sender)
 
 //      OkButton->Left = Width / 2 - (OkButton->Width / 2);
 //      OkButton->Top = Height - OkButton->Height - 10;
-      OkButton->Visible = true;
+//      OkButton->Visible = true;
       }
    }
 //---------------------------------------------------------------------------
