@@ -1591,6 +1591,7 @@ subroutine soilp_get_other_init_variables ()
       g%fom_cp_pool(1,layer) = p%root_cp_pool(1)
       g%fom_cp_pool(2,layer) = p%root_cp_pool(2)
       g%fom_cp_pool(3,layer) = p%root_cp_pool(3)
+      g%fom_cp(layer) = divide((temp_c1(layer)+temp_c2(layer)+ temp_c3(layer)),(g%fom_p_pool(1,layer)+g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)),0.0)
    end do
 
    call pop_routine (myname)
