@@ -626,7 +626,7 @@
       maturity day           =  309                           grain yield (kg/ha)    =     5473.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     6255.7
       grain wt (g)           =    0.031                       grains/m^2             =  17566.611
-      grains/head            =  175.7                         maximum lai            =      5.481
+      grains/plant           =  175.7                         maximum lai            =      5.481
       total above ground biomass (kg/ha)    =    15886.1
       live above ground biomass (kg/ha)     =    15886.1
       green above ground biomass (kg/ha)    =    13421.8
@@ -640,8 +640,8 @@
       green N content (kg/ha)=      23.91                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.500        0.500
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.013        0.017
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.004
          floral_initiation    to flowering               0.000        0.002        0.000        0.062
          flowering            to start_grain_fill        0.000        0.009        0.000        0.026
          start_grain_fill     to end_grain_fill          0.001        0.007        0.454        0.784
@@ -805,6 +805,7 @@
                           biomass =           1340.714       lai =     1.616935
                           stover N conc =   0.5381373       extractable sw =    182.6854
 5 February 1960(Day of year=36), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1340.714       lai =     0.000000
                           stover N conc =   0.6165421       extractable sw =    178.5765
@@ -1003,7 +1004,7 @@
       maturity day           =  312                           grain yield (kg/ha)    =     2033.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2323.7
       grain wt (g)           =    0.024                       grains/m^2             =   8587.282
-      grains/head            =   85.9                         maximum lai            =      3.057
+      grains/plant           =   85.9                         maximum lai            =      3.057
       total above ground biomass (kg/ha)    =     7443.0
       live above ground biomass (kg/ha)     =     7443.0
       green above ground biomass (kg/ha)    =     6014.4
@@ -1017,8 +1018,8 @@
       green N content (kg/ha)=      11.95                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.474        0.474
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.311        0.352
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.301        0.341
          floral_initiation    to flowering               0.000        0.000        0.329        0.485
          flowering            to start_grain_fill        0.000        0.000        0.000        0.502
          start_grain_fill     to end_grain_fill          0.000        0.000        0.741        0.969
@@ -1182,6 +1183,7 @@
                           biomass =           1184.762       lai =     1.406133
                           stover N conc =   0.7162362       extractable sw =    135.6619
 11 February 1963(Day of year=42), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1184.762       lai =     0.000000
                           stover N conc =   0.8009953       extractable sw =    129.9059
@@ -1379,7 +1381,7 @@
       maturity day           =  316                           grain yield (kg/ha)    =     3127.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3573.8
       grain wt (g)           =    0.031                       grains/m^2             =  10156.991
-      grains/head            =  101.6                         maximum lai            =      4.166
+      grains/plant           =  101.6                         maximum lai            =      4.166
       total above ground biomass (kg/ha)    =     9968.2
       live above ground biomass (kg/ha)     =     9968.2
       green above ground biomass (kg/ha)    =     8020.2
@@ -1393,8 +1395,8 @@
       green N content (kg/ha)=      14.86                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.115        0.115
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.241        0.264
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.240        0.263
          floral_initiation    to flowering               0.001        0.008        0.292        0.412
          flowering            to start_grain_fill        0.000        0.000        0.000        0.254
          start_grain_fill     to end_grain_fill          0.000        0.000        0.612        0.905
@@ -1553,6 +1555,7 @@
                           biomass =           606.6297       lai =     1.460968
                           stover N conc =    1.197535       extractable sw =    35.86820
 21 March 1966(Day of year=80), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           606.6297       lai =     0.000000
                           stover N conc =    1.408536       extractable sw =    33.69007
@@ -1750,7 +1753,7 @@
       maturity day           =  309                           grain yield (kg/ha)    =     2333.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2666.9
       grain wt (g)           =    0.024                       grains/m^2             =   9633.253
-      grains/head            =   96.3                         maximum lai            =      4.192
+      grains/plant           =   96.3                         maximum lai            =      4.192
       total above ground biomass (kg/ha)    =     8084.6
       live above ground biomass (kg/ha)     =     8084.6
       green above ground biomass (kg/ha)    =     6195.7
@@ -1764,8 +1767,8 @@
       green N content (kg/ha)=      11.82                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.385        0.385
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.120        0.160
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.113        0.152
          floral_initiation    to flowering               0.120        0.172        0.283        0.475
          flowering            to start_grain_fill        0.320        0.412        0.000        0.188
          start_grain_fill     to end_grain_fill          0.032        0.047        0.617        0.892
@@ -1929,6 +1932,7 @@
                           biomass =           1051.756       lai =     1.579484
                           stover N conc =   0.8484102       extractable sw =    71.05370
 7 February 1969(Day of year=38), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1051.756       lai =     0.000000
                           stover N conc =   0.9651809       extractable sw =    69.00765
@@ -2140,6 +2144,7 @@
                           biomass =           971.6040       lai =     1.692145
                           stover N conc =   0.9404594       extractable sw =    54.11380
 18 March 1972(Day of year=78), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           971.6040       lai =     0.000000
                           stover N conc =    1.066486       extractable sw =    52.98116
@@ -2332,7 +2337,7 @@
       maturity day           =  328                           grain yield (kg/ha)    =     3621.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4138.5
       grain wt (g)           =    0.041                       grains/m^2             =   8860.634
-      grains/head            =   88.6                         maximum lai            =      3.643
+      grains/plant           =   88.6                         maximum lai            =      3.643
       total above ground biomass (kg/ha)    =     9479.7
       live above ground biomass (kg/ha)     =     9479.7
       green above ground biomass (kg/ha)    =     7909.6
@@ -2346,8 +2351,8 @@
       green N content (kg/ha)=      13.46                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.387        0.387
-         end_of_juvenile      to floral_initiation       0.000        0.001        0.048        0.101
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.001        0.036        0.089
          floral_initiation    to flowering               0.076        0.111        0.138        0.230
          flowering            to start_grain_fill        0.000        0.000        0.000        0.009
          start_grain_fill     to end_grain_fill          0.000        0.000        0.343        0.589
@@ -2511,6 +2516,7 @@
                           biomass =           863.8972       lai =     1.494681
                           stover N conc =   0.9246995       extractable sw =    72.60718
 17 February 1975(Day of year=48), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           863.8972       lai =     0.000000
                           stover N conc =    1.082849       extractable sw =    68.38667
@@ -2708,7 +2714,7 @@
       maturity day           =  330                           grain yield (kg/ha)    =     2688.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3072.7
       grain wt (g)           =    0.027                       grains/m^2             =   9800.837
-      grains/head            =   98.0                         maximum lai            =      3.187
+      grains/plant           =   98.0                         maximum lai            =      3.187
       total above ground biomass (kg/ha)    =     8752.1
       live above ground biomass (kg/ha)     =     8752.1
       green above ground biomass (kg/ha)    =     7351.2
@@ -2722,8 +2728,8 @@
       green N content (kg/ha)=      14.31                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.223        0.223
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.229        0.252
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.225        0.248
          floral_initiation    to flowering               0.000        0.000        0.303        0.417
          flowering            to start_grain_fill        0.000        0.000        0.000        0.318
          start_grain_fill     to end_grain_fill          0.000        0.000        0.594        0.923
@@ -2887,6 +2893,7 @@
                           biomass =           883.8799       lai =     1.128834
                           stover N conc =   0.7302762       extractable sw =    119.7641
 1 February 1978(Day of year=32), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           883.8798       lai =     0.000000
                           stover N conc =   0.8258480       extractable sw =    117.6759
@@ -3084,7 +3091,7 @@
       maturity day           =  323                           grain yield (kg/ha)    =     2768.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3164.0
       grain wt (g)           =    0.027                       grains/m^2             =  10204.707
-      grains/head            =  102.0                         maximum lai            =      3.450
+      grains/plant           =  102.0                         maximum lai            =      3.450
       total above ground biomass (kg/ha)    =     9054.4
       live above ground biomass (kg/ha)     =     9054.4
       green above ground biomass (kg/ha)    =     7426.3
@@ -3098,8 +3105,8 @@
       green N content (kg/ha)=      14.24                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.245        0.245
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.259        0.302
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.255        0.298
          floral_initiation    to flowering               0.015        0.043        0.183        0.336
          flowering            to start_grain_fill        0.043        0.099        0.000        0.262
          start_grain_fill     to end_grain_fill          0.000        0.000        0.620        0.913
@@ -3263,6 +3270,7 @@
                           biomass =           1120.401       lai =     1.609136
                           stover N conc =   0.7503450       extractable sw =    103.8135
 3 February 1981(Day of year=34), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1120.401       lai =     0.000000
                           stover N conc =   0.8555205       extractable sw =    100.9420
@@ -3469,6 +3477,7 @@
                           biomass =           1255.993       lai =     1.310844
                           stover N conc =   0.6958707       extractable sw =    119.9375
 16 February 1984(Day of year=47), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1255.993       lai =     0.000000
                           stover N conc =   0.7763416       extractable sw =    147.4794
@@ -3666,7 +3675,7 @@
       maturity day           =  331                           grain yield (kg/ha)    =     2356.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2693.4
       grain wt (g)           =    0.026                       grains/m^2             =   8893.744
-      grains/head            =   88.9                         maximum lai            =      2.986
+      grains/plant           =   88.9                         maximum lai            =      2.986
       total above ground biomass (kg/ha)    =     8084.2
       live above ground biomass (kg/ha)     =     8084.2
       green above ground biomass (kg/ha)    =     6774.8
@@ -3680,8 +3689,8 @@
       green N content (kg/ha)=      13.60                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.457        0.457
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.176        0.207
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.161        0.192
          floral_initiation    to flowering               0.013        0.036        0.272        0.441
          flowering            to start_grain_fill        0.000        0.000        0.000        0.396
          start_grain_fill     to end_grain_fill          0.000        0.000        0.636        0.943
@@ -3845,6 +3854,7 @@
                           biomass =           980.4196       lai =     1.403710
                           stover N conc =   0.8654659       extractable sw =    105.9901
 10 February 1987(Day of year=41), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           980.4195       lai =     0.000000
                           stover N conc =    1.001147       extractable sw =    102.1713
@@ -4042,7 +4052,7 @@
       maturity day           =  305                           grain yield (kg/ha)    =     2899.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3313.1
       grain wt (g)           =    0.027                       grains/m^2             =  10655.474
-      grains/head            =  106.6                         maximum lai            =      3.796
+      grains/plant           =  106.6                         maximum lai            =      3.796
       total above ground biomass (kg/ha)    =     9682.1
       live above ground biomass (kg/ha)     =     9682.1
       green above ground biomass (kg/ha)    =     7879.9
@@ -4056,8 +4066,8 @@
       green N content (kg/ha)=      15.23                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.136        0.136
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.224        0.250
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.222        0.248
          floral_initiation    to flowering               0.000        0.000        0.266        0.387
          flowering            to start_grain_fill        0.000        0.000        0.000        0.340
          start_grain_fill     to end_grain_fill          0.000        0.000        0.580        0.930
@@ -4221,6 +4231,7 @@
                           biomass =           1002.100       lai =     1.438826
                           stover N conc =   0.7518339       extractable sw =    86.99560
 10 February 1990(Day of year=41), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1002.100       lai =     0.000000
                           stover N conc =   0.8714355       extractable sw =    99.86231
@@ -4418,7 +4429,7 @@
       maturity day           =  307                           grain yield (kg/ha)    =     2003.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2289.5
       grain wt (g)           =    0.021                       grains/m^2             =   9470.699
-      grains/head            =   94.7                         maximum lai            =      3.457
+      grains/plant           =   94.7                         maximum lai            =      3.457
       total above ground biomass (kg/ha)    =     7748.8
       live above ground biomass (kg/ha)     =     7748.8
       green above ground biomass (kg/ha)    =     6172.8
@@ -4432,8 +4443,8 @@
       green N content (kg/ha)=      11.98                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.116        0.116
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.228        0.247
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.227        0.245
          floral_initiation    to flowering               0.001        0.007        0.390        0.571
          flowering            to start_grain_fill        0.030        0.117        0.046        0.640
          start_grain_fill     to end_grain_fill          0.000        0.000        0.742        0.974
@@ -4597,6 +4608,7 @@
                           biomass =           735.4561       lai =     1.614846
                           stover N conc =    1.030180       extractable sw =    54.10164
 7 February 1993(Day of year=38), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           735.4561       lai =     0.000000
                           stover N conc =    1.229419       extractable sw =    51.47216
@@ -4803,6 +4815,7 @@
                           biomass =           1396.356       lai =     1.501082
                           stover N conc =   0.6749177       extractable sw =    221.1926
 11 February 1996(Day of year=42), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1396.357       lai =     0.000000
                           stover N conc =   0.7411192       extractable sw =    219.1214
@@ -5000,7 +5013,7 @@
       maturity day           =  309                           grain yield (kg/ha)    =     2566.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2933.5
       grain wt (g)           =    0.035                       grains/m^2             =   7268.928
-      grains/head            =   72.7                         maximum lai            =      2.231
+      grains/plant           =   72.7                         maximum lai            =      2.231
       total above ground biomass (kg/ha)    =     7138.1
       live above ground biomass (kg/ha)     =     7138.1
       green above ground biomass (kg/ha)    =     6093.3
@@ -5014,8 +5027,8 @@
       green N content (kg/ha)=      10.59                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.274        0.274
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.381        0.418
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.377        0.413
          floral_initiation    to flowering               0.000        0.000        0.349        0.378
          flowering            to start_grain_fill        0.000        0.000        0.000        0.145
          start_grain_fill     to end_grain_fill          0.000        0.000        0.497        0.806
@@ -5179,6 +5192,7 @@
                           biomass =           1047.758       lai =     1.433074
                           stover N conc =   0.8476271       extractable sw =    101.4896
 11 February 1999(Day of year=42), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           1047.758       lai =     0.000000
                           stover N conc =   0.9616604       extractable sw =    98.09551
@@ -5390,6 +5404,7 @@
                           biomass =           959.0181       lai =     1.565117
                           stover N conc =   0.9104677       extractable sw =    77.71822
 12 February 2002(Day of year=43), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           959.0181       lai =     0.000000
                           stover N conc =    1.047889       extractable sw =    73.65665

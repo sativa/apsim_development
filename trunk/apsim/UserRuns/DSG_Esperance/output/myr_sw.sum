@@ -441,7 +441,7 @@
       maturity day           =  317                           grain yield (kg/ha)    =     2519.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2879.7
       grain wt (g)           =    0.024                       grains/m^2             =  10629.114
-      grains/head            =  106.3                         maximum lai            =      2.929
+      grains/plant           =  106.3                         maximum lai            =      2.929
       total above ground biomass (kg/ha)    =     8739.7
       live above ground biomass (kg/ha)     =     8739.7
       green above ground biomass (kg/ha)    =     7469.3
@@ -455,8 +455,8 @@
       green N content (kg/ha)=      13.79                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.195        0.195
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.040        0.069
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.037        0.066
          floral_initiation    to flowering               0.000        0.000        0.164        0.480
          flowering            to start_grain_fill        0.000        0.000        0.012        0.635
          start_grain_fill     to end_grain_fill          0.000        0.000        0.765        0.977
@@ -585,7 +585,7 @@
       maturity day           =  309                           grain yield (kg/ha)    =     2181.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2493.5
       grain wt (g)           =    0.025                       grains/m^2             =   8671.998
-      grains/head            =   86.7                         maximum lai            =      2.463
+      grains/plant           =   86.7                         maximum lai            =      2.463
       total above ground biomass (kg/ha)    =     7729.1
       live above ground biomass (kg/ha)     =     7729.1
       green above ground biomass (kg/ha)    =     6658.9
@@ -599,8 +599,8 @@
       green N content (kg/ha)=      12.72                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.253        0.253
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.067        0.094
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.062        0.088
          floral_initiation    to flowering               0.000        0.000        0.166        0.448
          flowering            to start_grain_fill        0.000        0.000        0.000        0.597
          start_grain_fill     to end_grain_fill          0.000        0.000        0.754        0.976
@@ -908,7 +908,7 @@
       maturity day           =  317                           grain yield (kg/ha)    =     1560.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1783.1
       grain wt (g)           =    0.022                       grains/m^2             =   7112.023
-      grains/head            =   71.1                         maximum lai            =      2.106
+      grains/plant           =   71.1                         maximum lai            =      2.106
       total above ground biomass (kg/ha)    =     5990.5
       live above ground biomass (kg/ha)     =     5990.5
       green above ground biomass (kg/ha)    =     5056.4
@@ -922,8 +922,8 @@
       green N content (kg/ha)=       8.89                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.357        0.357
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.166        0.200
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.158        0.192
          floral_initiation    to flowering               0.000        0.000        0.351        0.590
          flowering            to start_grain_fill        0.000        0.000        0.274        0.814
          start_grain_fill     to end_grain_fill          0.000        0.000        0.752        0.980
@@ -1055,6 +1055,7 @@
                           biomass =           539.1717       lai =    0.8795407
                           stover N conc =   0.6168060       extractable sw =    98.13861
 11 June 1961(Day of year=162), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           539.1717       lai =     0.000000
                           stover N conc =   0.7043380       extractable sw =    95.53856
@@ -1243,7 +1244,7 @@
       maturity day           =  325                           grain yield (kg/ha)    =     1478.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1689.5
       grain wt (g)           =    0.031                       grains/m^2             =   4827.311
-      grains/head            =   48.3                         maximum lai            =      1.148
+      grains/plant           =   48.3                         maximum lai            =      1.148
       total above ground biomass (kg/ha)    =     4326.3
       live above ground biomass (kg/ha)     =     4326.3
       green above ground biomass (kg/ha)    =     3826.7
@@ -1257,8 +1258,8 @@
       green N content (kg/ha)=       7.10                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.487        0.487
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.229        0.292
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.213        0.276
          floral_initiation    to flowering               0.000        0.001        0.264        0.389
          flowering            to start_grain_fill        0.029        0.057        0.000        0.330
          start_grain_fill     to end_grain_fill          0.000        0.000        0.635        0.923
@@ -1390,6 +1391,7 @@
                           biomass =           414.5712       lai =    0.3424574
                           stover N conc =   0.7456524       extractable sw =    17.52288
 15 May 1962(Day of year=135), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           414.5711       lai =     0.000000
                           stover N conc =   0.7983199       extractable sw =    26.54773
@@ -1578,7 +1580,7 @@
       maturity day           =  297                           grain yield (kg/ha)    =     2851.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3258.4
       grain wt (g)           =    0.033                       grains/m^2             =   8594.962
-      grains/head            =   85.9                         maximum lai            =      2.305
+      grains/plant           =   85.9                         maximum lai            =      2.305
       total above ground biomass (kg/ha)    =     8112.4
       live above ground biomass (kg/ha)     =     8112.4
       green above ground biomass (kg/ha)    =     7130.8
@@ -1592,8 +1594,8 @@
       green N content (kg/ha)=      13.12                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.379        0.379
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.009        0.009
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
          floral_initiation    to flowering               0.000        0.000        0.000        0.079
          flowering            to start_grain_fill        0.000        0.000        0.000        0.124
          start_grain_fill     to end_grain_fill          0.000        0.000        0.647        0.893
@@ -1722,7 +1724,7 @@
       maturity day           =  311                           grain yield (kg/ha)    =     1507.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1722.3
       grain wt (g)           =    0.022                       grains/m^2             =   6879.975
-      grains/head            =   68.8                         maximum lai            =      1.961
+      grains/plant           =   68.8                         maximum lai            =      1.961
       total above ground biomass (kg/ha)    =     5815.4
       live above ground biomass (kg/ha)     =     5815.4
       green above ground biomass (kg/ha)    =     4955.8
@@ -1736,8 +1738,8 @@
       green N content (kg/ha)=       9.49                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.433        0.433
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.122        0.162
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.110        0.151
          floral_initiation    to flowering               0.000        0.000        0.258        0.517
          flowering            to start_grain_fill        0.000        0.000        0.147        0.740
          start_grain_fill     to end_grain_fill          0.000        0.000        0.783        0.980
@@ -2045,7 +2047,7 @@
       maturity day           =  345                           grain yield (kg/ha)    =     3092.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3534.0
       grain wt (g)           =    0.023                       grains/m^2             =  13294.973
-      grains/head            =  132.9                         maximum lai            =      3.968
+      grains/plant           =  132.9                         maximum lai            =      3.968
       total above ground biomass (kg/ha)    =    11692.5
       live above ground biomass (kg/ha)     =    11692.5
       green above ground biomass (kg/ha)    =     9975.0
@@ -2059,8 +2061,8 @@
       green N content (kg/ha)=      18.95                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.495        0.495
-         end_of_juvenile      to floral_initiation       0.003        0.011        0.087        0.127
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.003        0.011        0.069        0.109
          floral_initiation    to flowering               0.004        0.011        0.195        0.474
          flowering            to start_grain_fill        0.000        0.009        0.000        0.604
          start_grain_fill     to end_grain_fill          0.000        0.000        0.778        0.979
@@ -2189,7 +2191,7 @@
       maturity day           =  308                           grain yield (kg/ha)    =      956.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1093.0
       grain wt (g)           =    0.020                       grains/m^2             =   4682.236
-      grains/head            =   46.8                         maximum lai            =      1.291
+      grains/plant           =   46.8                         maximum lai            =      1.291
       total above ground biomass (kg/ha)    =     3698.8
       live above ground biomass (kg/ha)     =     3698.8
       green above ground biomass (kg/ha)    =     3117.6
@@ -2203,8 +2205,8 @@
       green N content (kg/ha)=       5.13                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.148        0.148
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.198        0.260
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.196        0.258
          floral_initiation    to flowering               0.000        0.000        0.373        0.619
          flowering            to start_grain_fill        0.000        0.000        0.481        0.899
          start_grain_fill     to end_grain_fill          0.000        0.000        0.721        0.977
@@ -2336,6 +2338,7 @@
                           biomass =           700.6211       lai =    0.8581451
                           stover N conc =   0.4696275       extractable sw =    15.64553
 18 March 1966(Day of year=77), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           700.6211       lai =     0.000000
                           stover N conc =   0.5405911       extractable sw =    14.56340
@@ -2524,7 +2527,7 @@
       maturity day           =  317                           grain yield (kg/ha)    =     2649.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3028.5
       grain wt (g)           =    0.026                       grains/m^2             =  10046.617
-      grains/head            =  100.5                         maximum lai            =      2.742
+      grains/plant           =  100.5                         maximum lai            =      2.742
       total above ground biomass (kg/ha)    =     8989.4
       live above ground biomass (kg/ha)     =     8989.4
       green above ground biomass (kg/ha)    =     7817.7
@@ -2538,8 +2541,8 @@
       green N content (kg/ha)=      15.64                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.362        0.362
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.043        0.072
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.036        0.064
          floral_initiation    to flowering               0.000        0.000        0.124        0.371
          flowering            to start_grain_fill        0.000        0.000        0.000        0.460
          start_grain_fill     to end_grain_fill          0.000        0.000        0.730        0.968
@@ -2668,7 +2671,7 @@
       maturity day           =  296                           grain yield (kg/ha)    =     1918.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2192.7
       grain wt (g)           =    0.023                       grains/m^2             =   8471.305
-      grains/head            =   84.7                         maximum lai            =      2.181
+      grains/plant           =   84.7                         maximum lai            =      2.181
       total above ground biomass (kg/ha)    =     7076.9
       live above ground biomass (kg/ha)     =     7076.9
       green above ground biomass (kg/ha)    =     6141.3
@@ -2682,8 +2685,8 @@
       green N content (kg/ha)=      10.89                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.454        0.454
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.015        0.037
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.002        0.024
          floral_initiation    to flowering               0.000        0.000        0.072        0.465
          flowering            to start_grain_fill        0.000        0.000        0.085        0.710
          start_grain_fill     to end_grain_fill          0.000        0.000        0.789        0.975
@@ -2991,7 +2994,7 @@
       maturity day           =  335                           grain yield (kg/ha)    =     1856.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2121.5
       grain wt (g)           =    0.023                       grains/m^2             =   7900.879
-      grains/head            =   79.0                         maximum lai            =      2.482
+      grains/plant           =   79.0                         maximum lai            =      2.482
       total above ground biomass (kg/ha)    =     6849.9
       live above ground biomass (kg/ha)     =     6849.9
       green above ground biomass (kg/ha)    =     5771.5
@@ -3005,8 +3008,8 @@
       green N content (kg/ha)=      11.77                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.430        0.430
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.196        0.212
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.184        0.200
          floral_initiation    to flowering               0.005        0.013        0.341        0.547
          flowering            to start_grain_fill        0.042        0.091        0.020        0.646
          start_grain_fill     to end_grain_fill          0.000        0.001        0.619        0.973
@@ -3135,7 +3138,7 @@
       maturity day           =  348                           grain yield (kg/ha)    =     2957.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3380.4
       grain wt (g)           =    0.037                       grains/m^2             =   7929.032
-      grains/head            =   79.3                         maximum lai            =      3.326
+      grains/plant           =   79.3                         maximum lai            =      3.326
       total above ground biomass (kg/ha)    =     8396.1
       live above ground biomass (kg/ha)     =     8396.1
       green above ground biomass (kg/ha)    =     6853.4
@@ -3149,8 +3152,8 @@
       green N content (kg/ha)=      11.74                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.307        0.307
-         end_of_juvenile      to floral_initiation       0.008        0.010        0.092        0.128
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.008        0.010        0.084        0.120
          floral_initiation    to flowering               0.192        0.235        0.136        0.209
          flowering            to start_grain_fill        0.000        0.000        0.000        0.046
          start_grain_fill     to end_grain_fill          0.002        0.014        0.504        0.772
@@ -3279,7 +3282,7 @@
       maturity day           =  301                           grain yield (kg/ha)    =     3117.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3562.9
       grain wt (g)           =    0.028                       grains/m^2             =  11239.048
-      grains/head            =  112.4                         maximum lai            =      3.246
+      grains/plant           =  112.4                         maximum lai            =      3.246
       total above ground biomass (kg/ha)    =     9961.0
       live above ground biomass (kg/ha)     =     9961.0
       green above ground biomass (kg/ha)    =     8562.5
@@ -3293,8 +3296,8 @@
       green N content (kg/ha)=      16.27                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.470        0.470
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.014        0.016
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.002
          floral_initiation    to flowering               0.000        0.000        0.000        0.147
          flowering            to start_grain_fill        0.000        0.000        0.000        0.200
          start_grain_fill     to end_grain_fill          0.000        0.000        0.671        0.923
@@ -3423,7 +3426,7 @@
       maturity day           =  305                           grain yield (kg/ha)    =      712.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      814.6
       grain wt (g)           =    0.023                       grains/m^2             =   3113.604
-      grains/head            =   31.1                         maximum lai            =      0.741
+      grains/plant           =   31.1                         maximum lai            =      0.741
       total above ground biomass (kg/ha)    =     2562.1
       live above ground biomass (kg/ha)     =     2562.1
       green above ground biomass (kg/ha)    =     2222.3
@@ -3437,8 +3440,8 @@
       green N content (kg/ha)=       3.83                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.119        0.119
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.338        0.403
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.336        0.402
          floral_initiation    to flowering               0.000        0.000        0.261        0.530
          flowering            to start_grain_fill        0.000        0.000        0.407        0.853
          start_grain_fill     to end_grain_fill          0.000        0.000        0.742        0.979
@@ -3570,6 +3573,7 @@
                           biomass =           607.5515       lai =    0.9436328
                           stover N conc =   0.6405233       extractable sw =    44.43316
 9 April 1972(Day of year=100), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           607.5515       lai =     0.000000
                           stover N conc =   0.7433196       extractable sw =    43.15347
@@ -3758,7 +3762,7 @@
       maturity day           =  335                           grain yield (kg/ha)    =     2175.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2486.1
       grain wt (g)           =    0.029                       grains/m^2             =   7518.904
-      grains/head            =   75.2                         maximum lai            =      1.934
+      grains/plant           =   75.2                         maximum lai            =      1.934
       total above ground biomass (kg/ha)    =     6393.1
       live above ground biomass (kg/ha)     =     6393.1
       green above ground biomass (kg/ha)    =     5567.6
@@ -3772,8 +3776,8 @@
       green N content (kg/ha)=      10.51                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.253        0.253
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.217        0.291
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.211        0.285
          floral_initiation    to flowering               0.077        0.110        0.187        0.391
          flowering            to start_grain_fill        0.305        0.377        0.000        0.269
          start_grain_fill     to end_grain_fill          0.056        0.075        0.583        0.900
@@ -3902,7 +3906,7 @@
       maturity day           =  318                           grain yield (kg/ha)    =     1930.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2206.4
       grain wt (g)           =    0.023                       grains/m^2             =   8477.957
-      grains/head            =   84.8                         maximum lai            =      2.449
+      grains/plant           =   84.8                         maximum lai            =      2.449
       total above ground biomass (kg/ha)    =     7194.1
       live above ground biomass (kg/ha)     =     7194.1
       green above ground biomass (kg/ha)    =     6119.3
@@ -3916,8 +3920,8 @@
       green N content (kg/ha)=      11.97                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.310        0.310
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.147        0.201
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.141        0.195
          floral_initiation    to flowering               0.000        0.000        0.259        0.497
          flowering            to start_grain_fill        0.000        0.000        0.031        0.632
          start_grain_fill     to end_grain_fill          0.000        0.000        0.771        0.979
@@ -4046,7 +4050,7 @@
       maturity day           =  326                           grain yield (kg/ha)    =     2058.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2352.5
       grain wt (g)           =    0.025                       grains/m^2             =   8303.661
-      grains/head            =   83.0                         maximum lai            =      2.665
+      grains/plant           =   83.0                         maximum lai            =      2.665
       total above ground biomass (kg/ha)    =     6854.9
       live above ground biomass (kg/ha)     =     6854.9
       green above ground biomass (kg/ha)    =     5702.3
@@ -4060,8 +4064,8 @@
       green N content (kg/ha)=      11.13                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.162        0.162
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.138        0.195
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.135        0.192
          floral_initiation    to flowering               0.129        0.167        0.185        0.379
          flowering            to start_grain_fill        0.485        0.572        0.000        0.277
          start_grain_fill     to end_grain_fill          0.041        0.052        0.635        0.917
@@ -4190,7 +4194,7 @@
       maturity day           =  305                           grain yield (kg/ha)    =     2192.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2505.5
       grain wt (g)           =    0.024                       grains/m^2             =   9136.676
-      grains/head            =   91.4                         maximum lai            =      2.639
+      grains/plant           =   91.4                         maximum lai            =      2.639
       total above ground biomass (kg/ha)    =     7989.7
       live above ground biomass (kg/ha)     =     7989.7
       green above ground biomass (kg/ha)    =     6834.1
@@ -4204,8 +4208,8 @@
       green N content (kg/ha)=      12.54                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.211        0.211
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.053        0.081
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.049        0.077
          floral_initiation    to flowering               0.000        0.000        0.182        0.485
          flowering            to start_grain_fill        0.000        0.000        0.008        0.653
          start_grain_fill     to end_grain_fill          0.000        0.000        0.784        0.978
@@ -4337,6 +4341,7 @@
                           biomass =           627.0279       lai =    0.8705817
                           stover N conc =   0.5106084       extractable sw =    48.16863
 31 March 1976(Day of year=91), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           627.0280       lai =     0.000000
                           stover N conc =   0.5991612       extractable sw =    47.84652
@@ -4525,7 +4530,7 @@
       maturity day           =  325                           grain yield (kg/ha)    =     2629.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3004.7
       grain wt (g)           =    0.025                       grains/m^2             =  10683.059
-      grains/head            =  106.8                         maximum lai            =      3.022
+      grains/plant           =  106.8                         maximum lai            =      3.022
       total above ground biomass (kg/ha)    =     9133.0
       live above ground biomass (kg/ha)     =     9133.0
       green above ground biomass (kg/ha)    =     7841.6
@@ -4539,8 +4544,8 @@
       green N content (kg/ha)=      15.05                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.466        0.466
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.019        0.041
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.004        0.026
          floral_initiation    to flowering               0.023        0.033        0.067        0.403
          flowering            to start_grain_fill        0.094        0.138        0.000        0.523
          start_grain_fill     to end_grain_fill          0.040        0.054        0.705        0.964
@@ -4669,7 +4674,7 @@
       maturity day           =  298                           grain yield (kg/ha)    =     2060.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2354.5
       grain wt (g)           =    0.033                       grains/m^2             =   6322.798
-      grains/head            =   63.2                         maximum lai            =      1.606
+      grains/plant           =   63.2                         maximum lai            =      1.606
       total above ground biomass (kg/ha)    =     6048.5
       live above ground biomass (kg/ha)     =     6048.5
       green above ground biomass (kg/ha)    =     5338.1
@@ -4683,8 +4688,8 @@
       green N content (kg/ha)=       9.99                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.316        0.316
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.133        0.216
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.126        0.209
          floral_initiation    to flowering               0.000        0.000        0.105        0.193
          flowering            to start_grain_fill        0.000        0.000        0.000        0.163
          start_grain_fill     to end_grain_fill          0.000        0.000        0.593        0.885
@@ -4816,6 +4821,7 @@
                           biomass =           550.9507       lai =    0.8363598
                           stover N conc =   0.5482312       extractable sw =    15.61078
 6 March 1978(Day of year=65), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           550.9507       lai =     0.000000
                           stover N conc =   0.6558388       extractable sw =    13.82184
@@ -5004,7 +5010,7 @@
       maturity day           =  318                           grain yield (kg/ha)    =     3438.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3929.9
       grain wt (g)           =    0.036                       grains/m^2             =   9681.266
-      grains/head            =   96.8                         maximum lai            =      2.583
+      grains/plant           =   96.8                         maximum lai            =      2.583
       total above ground biomass (kg/ha)    =     9296.6
       live above ground biomass (kg/ha)     =     9296.6
       green above ground biomass (kg/ha)    =     8187.1
@@ -5018,8 +5024,8 @@
       green N content (kg/ha)=      14.92                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.438        0.438
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.056        0.093
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.044        0.081
          floral_initiation    to flowering               0.000        0.000        0.112        0.295
          flowering            to start_grain_fill        0.000        0.000        0.000        0.199
          start_grain_fill     to end_grain_fill          0.000        0.000        0.491        0.878
@@ -5148,7 +5154,7 @@
       maturity day           =  304                           grain yield (kg/ha)    =      733.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      837.7
       grain wt (g)           =    0.023                       grains/m^2             =   3210.129
-      grains/head            =   32.1                         maximum lai            =      0.890
+      grains/plant           =   32.1                         maximum lai            =      0.890
       total above ground biomass (kg/ha)    =     2739.0
       live above ground biomass (kg/ha)     =     2739.0
       green above ground biomass (kg/ha)    =     2318.7
@@ -5162,8 +5168,8 @@
       green N content (kg/ha)=       4.50                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.395        0.395
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.243        0.271
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.233        0.261
          floral_initiation    to flowering               0.000        0.000        0.292        0.530
          flowering            to start_grain_fill        0.000        0.000        0.145        0.729
          start_grain_fill     to end_grain_fill          0.000        0.000        0.780        0.977
@@ -5295,6 +5301,7 @@
                           biomass =           552.3038       lai =    0.8444400
                           stover N conc =   0.5364909       extractable sw =    5.346291
 20 March 1980(Day of year=80), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           552.3039       lai =     0.000000
                           stover N conc =   0.6399980       extractable sw =    5.078672
@@ -5483,7 +5490,7 @@
       maturity day           =  314                           grain yield (kg/ha)    =     3166.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3618.9
       grain wt (g)           =    0.028                       grains/m^2             =  11393.541
-      grains/head            =  113.9                         maximum lai            =      3.716
+      grains/plant           =  113.9                         maximum lai            =      3.716
       total above ground biomass (kg/ha)    =     9663.5
       live above ground biomass (kg/ha)     =     9663.5
       green above ground biomass (kg/ha)    =     8054.7
@@ -5497,8 +5504,8 @@
       green N content (kg/ha)=      14.84                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.278        0.278
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.007        0.025
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.001        0.019
          floral_initiation    to flowering               0.061        0.096        0.058        0.329
          flowering            to start_grain_fill        0.492        0.592        0.000        0.250
          start_grain_fill     to end_grain_fill          0.066        0.086        0.605        0.896
@@ -5630,6 +5637,7 @@
                           biomass =           427.8232       lai =    0.3761568
                           stover N conc =   0.6035005       extractable sw =    1.325864
 1 May 1981(Day of year=121), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           427.8232       lai =     0.000000
                           stover N conc =   0.6653966       extractable sw =    1.288894
@@ -5818,7 +5826,7 @@
       maturity day           =  308                           grain yield (kg/ha)    =     1032.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1180.1
       grain wt (g)           =    0.023                       grains/m^2             =   4438.932
-      grains/head            =   44.4                         maximum lai            =      1.191
+      grains/plant           =   44.4                         maximum lai            =      1.191
       total above ground biomass (kg/ha)    =     3881.7
       live above ground biomass (kg/ha)     =     3881.7
       green above ground biomass (kg/ha)    =     3335.6
@@ -5832,8 +5840,8 @@
       green N content (kg/ha)=       6.20                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.090        0.090
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.264        0.327
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.263        0.326
          floral_initiation    to flowering               0.000        0.000        0.323        0.525
          flowering            to start_grain_fill        0.000        0.000        0.134        0.740
          start_grain_fill     to end_grain_fill          0.000        0.000        0.774        0.977
@@ -5962,7 +5970,7 @@
       maturity day           =  315                           grain yield (kg/ha)    =     3319.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3793.8
       grain wt (g)           =    0.030                       grains/m^2             =  11053.675
-      grains/head            =  110.5                         maximum lai            =      3.430
+      grains/plant           =  110.5                         maximum lai            =      3.430
       total above ground biomass (kg/ha)    =     9893.4
       live above ground biomass (kg/ha)     =     9893.4
       green above ground biomass (kg/ha)    =     8391.8
@@ -5976,8 +5984,8 @@
       green N content (kg/ha)=      15.36                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.163        0.163
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.041        0.071
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.038        0.068
          floral_initiation    to flowering               0.006        0.014        0.109        0.324
          flowering            to start_grain_fill        0.015        0.023        0.000        0.257
          start_grain_fill     to end_grain_fill          0.000        0.000        0.566        0.891
@@ -6106,7 +6114,7 @@
       maturity day           =  337                           grain yield (kg/ha)    =     1720.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1966.7
       grain wt (g)           =    0.026                       grains/m^2             =   6735.464
-      grains/head            =   67.4                         maximum lai            =      2.880
+      grains/plant           =   67.4                         maximum lai            =      2.880
       total above ground biomass (kg/ha)    =     5753.2
       live above ground biomass (kg/ha)     =     5753.2
       green above ground biomass (kg/ha)    =     4507.3
@@ -6120,8 +6128,8 @@
       green N content (kg/ha)=       8.46                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.402        0.402
-         end_of_juvenile      to floral_initiation       0.004        0.006        0.021        0.049
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.004        0.006        0.007        0.035
          floral_initiation    to flowering               0.276        0.347        0.086        0.265
          flowering            to start_grain_fill        0.336        0.421        0.000        0.066
          start_grain_fill     to end_grain_fill          0.155        0.186        0.561        0.808
@@ -6253,6 +6261,7 @@
                           biomass =           503.8996       lai =    0.7992514
                           stover N conc =   0.7070478       extractable sw =    1.830193
 13 April 1984(Day of year=104), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           503.8996       lai =     0.000000
                           stover N conc =   0.8364517       extractable sw =    1.765157
@@ -6441,7 +6450,7 @@
       maturity day           =  317                           grain yield (kg/ha)    =     2019.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2308.1
       grain wt (g)           =    0.024                       grains/m^2             =   8430.873
-      grains/head            =   84.3                         maximum lai            =      2.548
+      grains/plant           =   84.3                         maximum lai            =      2.548
       total above ground biomass (kg/ha)    =     7322.1
       live above ground biomass (kg/ha)     =     7322.1
       green above ground biomass (kg/ha)    =     6218.4
@@ -6455,8 +6464,8 @@
       green N content (kg/ha)=      11.84                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.183        0.183
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.081        0.111
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.078        0.108
          floral_initiation    to flowering               0.000        0.000        0.223        0.498
          flowering            to start_grain_fill        0.000        0.000        0.019        0.624
          start_grain_fill     to end_grain_fill          0.000        0.000        0.772        0.978
@@ -6585,7 +6594,7 @@
       maturity day           =  334                           grain yield (kg/ha)    =     2152.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2459.6
       grain wt (g)           =    0.028                       grains/m^2             =   7553.844
-      grains/head            =   75.5                         maximum lai            =      1.946
+      grains/plant           =   75.5                         maximum lai            =      1.946
       total above ground biomass (kg/ha)    =     6861.2
       live above ground biomass (kg/ha)     =     6861.2
       green above ground biomass (kg/ha)    =     6018.2
@@ -6599,8 +6608,8 @@
       green N content (kg/ha)=      11.63                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.407        0.407
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.180        0.232
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.167        0.219
          floral_initiation    to flowering               0.002        0.006        0.196        0.395
          flowering            to start_grain_fill        0.000        0.000        0.000        0.429
          start_grain_fill     to end_grain_fill          0.000        0.000        0.703        0.955
@@ -6729,7 +6738,7 @@
       maturity day           =  303                           grain yield (kg/ha)    =     1377.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1573.8
       grain wt (g)           =    0.022                       grains/m^2             =   6362.009
-      grains/head            =   63.6                         maximum lai            =      1.863
+      grains/plant           =   63.6                         maximum lai            =      1.863
       total above ground biomass (kg/ha)    =     5188.6
       live above ground biomass (kg/ha)     =     5188.6
       green above ground biomass (kg/ha)    =     4361.1
@@ -6743,8 +6752,8 @@
       green N content (kg/ha)=       7.56                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.156        0.156
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.136        0.157
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.133        0.154
          floral_initiation    to flowering               0.000        0.000        0.303        0.587
          flowering            to start_grain_fill        0.000        0.000        0.363        0.848
          start_grain_fill     to end_grain_fill          0.000        0.000        0.738        0.980
@@ -6873,7 +6882,7 @@
       maturity day           =  296                           grain yield (kg/ha)    =     2972.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3396.7
       grain wt (g)           =    0.029                       grains/m^2             =  10149.967
-      grains/head            =  101.5                         maximum lai            =      2.764
+      grains/plant           =  101.5                         maximum lai            =      2.764
       total above ground biomass (kg/ha)    =     9019.4
       live above ground biomass (kg/ha)     =     9019.4
       green above ground biomass (kg/ha)    =     7828.2
@@ -6887,8 +6896,8 @@
       green N content (kg/ha)=      14.59                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.364        0.364
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.009        0.010
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.001
          floral_initiation    to flowering               0.000        0.000        0.000        0.178
          flowering            to start_grain_fill        0.000        0.000        0.000        0.276
          start_grain_fill     to end_grain_fill          0.000        0.000        0.684        0.936
@@ -7020,6 +7029,7 @@
                           biomass =           476.1917       lai =    0.7837358
                           stover N conc =   0.3276670       extractable sw =    6.837839
 28 March 1988(Day of year=88), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           476.1917       lai =     0.000000
                           stover N conc =   0.4024178       extractable sw =    7.218801
@@ -7208,7 +7218,7 @@
       maturity day           =  297                           grain yield (kg/ha)    =     2763.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3158.8
       grain wt (g)           =    0.029                       grains/m^2             =   9381.216
-      grains/head            =   93.8                         maximum lai            =      2.603
+      grains/plant           =   93.8                         maximum lai            =      2.603
       total above ground biomass (kg/ha)    =     8548.7
       live above ground biomass (kg/ha)     =     8548.7
       green above ground biomass (kg/ha)    =     7436.6
@@ -7222,8 +7232,8 @@
       green N content (kg/ha)=      14.12                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.410        0.410
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.011        0.019
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.007
          floral_initiation    to flowering               0.000        0.000        0.000        0.275
          flowering            to start_grain_fill        0.000        0.001        0.000        0.308
          start_grain_fill     to end_grain_fill          0.002        0.006        0.685        0.935
@@ -7352,7 +7362,7 @@
       maturity day           =  304                           grain yield (kg/ha)    =      438.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      500.6
       grain wt (g)           =    0.024                       grains/m^2             =   1824.358
-      grains/head            =   18.2                         maximum lai            =      0.470
+      grains/plant           =   18.2                         maximum lai            =      0.470
       total above ground biomass (kg/ha)    =     1587.4
       live above ground biomass (kg/ha)     =     1587.4
       green above ground biomass (kg/ha)    =     1357.5
@@ -7366,8 +7376,8 @@
       green N content (kg/ha)=       2.76                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.202        0.202
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.394        0.432
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.390        0.428
          floral_initiation    to flowering               0.000        0.000        0.357        0.526
          flowering            to start_grain_fill        0.000        0.000        0.039        0.692
          start_grain_fill     to end_grain_fill          0.000        0.000        0.785        0.977
@@ -7496,7 +7506,7 @@
       maturity day           =  301                           grain yield (kg/ha)    =     2526.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2887.8
       grain wt (g)           =    0.024                       grains/m^2             =  10348.404
-      grains/head            =  103.5                         maximum lai            =      2.919
+      grains/plant           =  103.5                         maximum lai            =      2.919
       total above ground biomass (kg/ha)    =     8808.1
       live above ground biomass (kg/ha)     =     8808.1
       green above ground biomass (kg/ha)    =     7539.1
@@ -7510,8 +7520,8 @@
       green N content (kg/ha)=      14.17                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.436        0.436
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.035        0.072
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.024        0.061
          floral_initiation    to flowering               0.000        0.000        0.128        0.446
          flowering            to start_grain_fill        0.025        0.049        0.000        0.580
          start_grain_fill     to end_grain_fill          0.004        0.007        0.738        0.971
@@ -7640,7 +7650,7 @@
       maturity day           =  317                           grain yield (kg/ha)    =     1954.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2233.4
       grain wt (g)           =    0.023                       grains/m^2             =   8417.743
-      grains/head            =   84.2                         maximum lai            =      2.245
+      grains/plant           =   84.2                         maximum lai            =      2.245
       total above ground biomass (kg/ha)    =     7149.4
       live above ground biomass (kg/ha)     =     7149.4
       green above ground biomass (kg/ha)    =     6178.5
@@ -7654,8 +7664,8 @@
       green N content (kg/ha)=      11.98                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.375        0.375
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.100        0.132
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.090        0.123
          floral_initiation    to flowering               0.000        0.000        0.240        0.509
          flowering            to start_grain_fill        0.000        0.000        0.045        0.682
          start_grain_fill     to end_grain_fill          0.000        0.000        0.756        0.976
@@ -7787,6 +7797,7 @@
                           biomass =           585.9285       lai =    0.8368003
                           stover N conc =   0.4841897       extractable sw =    105.3922
 24 March 1992(Day of year=84), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           585.9285       lai =     0.000000
                           stover N conc =   0.5726692       extractable sw =    113.5233
@@ -7975,7 +7986,7 @@
       maturity day           =  305                           grain yield (kg/ha)    =     3319.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3794.1
       grain wt (g)           =    0.030                       grains/m^2             =  11132.193
-      grains/head            =  111.3                         maximum lai            =      2.968
+      grains/plant           =  111.3                         maximum lai            =      2.968
       total above ground biomass (kg/ha)    =     9931.7
       live above ground biomass (kg/ha)     =     9931.7
       green above ground biomass (kg/ha)    =     8648.3
@@ -7989,8 +8000,8 @@
       green N content (kg/ha)=      15.88                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.387        0.387
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.010        0.015
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.005
          floral_initiation    to flowering               0.000        0.000        0.000        0.175
          flowering            to start_grain_fill        0.000        0.000        0.000        0.303
          start_grain_fill     to end_grain_fill          0.000        0.000        0.673        0.935
@@ -8122,6 +8133,7 @@
                           biomass =           530.5819       lai =    0.8996742
                           stover N conc =   0.4379783       extractable sw =    58.90305
 17 April 1993(Day of year=107), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           530.5820       lai =     0.000000
                           stover N conc =   0.5420187       extractable sw =    57.79646
@@ -8310,7 +8322,7 @@
       maturity day           =  314                           grain yield (kg/ha)    =     2748.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3140.9
       grain wt (g)           =    0.026                       grains/m^2             =  10692.162
-      grains/head            =  106.9                         maximum lai            =      3.018
+      grains/plant           =  106.9                         maximum lai            =      3.018
       total above ground biomass (kg/ha)    =     9335.2
       live above ground biomass (kg/ha)     =     9335.2
       green above ground biomass (kg/ha)    =     8034.8
@@ -8324,8 +8336,8 @@
       green N content (kg/ha)=      15.78                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.075        0.075
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.037        0.062
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.036        0.061
          floral_initiation    to flowering               0.000        0.000        0.144        0.423
          flowering            to start_grain_fill        0.010        0.031        0.000        0.550
          start_grain_fill     to end_grain_fill          0.000        0.000        0.769        0.972
@@ -8457,6 +8469,7 @@
                           biomass =           531.7097       lai =    0.6021548
                           stover N conc =   0.4619691       extractable sw =    14.31821
 2 April 1994(Day of year=92), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           531.7097       lai =     0.000000
                           stover N conc =   0.5262562       extractable sw =    13.51079
@@ -8645,7 +8658,7 @@
       maturity day           =  319                           grain yield (kg/ha)    =     2812.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3214.1
       grain wt (g)           =    0.033                       grains/m^2             =   8539.354
-      grains/head            =   85.4                         maximum lai            =      3.418
+      grains/plant           =   85.4                         maximum lai            =      3.418
       total above ground biomass (kg/ha)    =     8314.3
       live above ground biomass (kg/ha)     =     8314.3
       green above ground biomass (kg/ha)    =     6850.0
@@ -8659,8 +8672,8 @@
       green N content (kg/ha)=      12.15                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.384        0.384
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.016        0.041
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.005        0.031
          floral_initiation    to flowering               0.230        0.289        0.058        0.305
          flowering            to start_grain_fill        0.000        0.001        0.000        0.176
          start_grain_fill     to end_grain_fill          0.004        0.007        0.621        0.896
@@ -8972,7 +8985,7 @@
       maturity day           =  322                           grain yield (kg/ha)    =     1980.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2263.3
       grain wt (g)           =    0.025                       grains/m^2             =   8051.844
-      grains/head            =   80.5                         maximum lai            =      2.201
+      grains/plant           =   80.5                         maximum lai            =      2.201
       total above ground biomass (kg/ha)    =     6695.6
       live above ground biomass (kg/ha)     =     6695.6
       green above ground biomass (kg/ha)    =     5740.4
@@ -8986,8 +8999,8 @@
       green N content (kg/ha)=      11.38                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.311        0.311
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.128        0.172
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.120        0.164
          floral_initiation    to flowering               0.018        0.033        0.165        0.358
          flowering            to start_grain_fill        0.236        0.309        0.000        0.357
          start_grain_fill     to end_grain_fill          0.031        0.036        0.659        0.942
@@ -9116,7 +9129,7 @@
       maturity day           =  317                           grain yield (kg/ha)    =     2517.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2877.6
       grain wt (g)           =    0.029                       grains/m^2             =   8598.348
-      grains/head            =   86.0                         maximum lai            =      2.337
+      grains/plant           =   86.0                         maximum lai            =      2.337
       total above ground biomass (kg/ha)    =     7809.0
       live above ground biomass (kg/ha)     =     7809.0
       green above ground biomass (kg/ha)    =     6797.1
@@ -9130,8 +9143,8 @@
       green N content (kg/ha)=      13.11                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.353        0.353
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.125        0.168
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.116        0.160
          floral_initiation    to flowering               0.000        0.000        0.205        0.415
          flowering            to start_grain_fill        0.000        0.000        0.000        0.381
          start_grain_fill     to end_grain_fill          0.000        0.000        0.632        0.938
@@ -9260,7 +9273,7 @@
       maturity day           =  299                           grain yield (kg/ha)    =      954.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1091.0
       grain wt (g)           =    0.023                       grains/m^2             =   4197.872
-      grains/head            =   42.0                         maximum lai            =      0.940
+      grains/plant           =   42.0                         maximum lai            =      0.940
       total above ground biomass (kg/ha)    =     3485.6
       live above ground biomass (kg/ha)     =     3485.6
       green above ground biomass (kg/ha)    =     3056.2
@@ -9274,8 +9287,8 @@
       green N content (kg/ha)=       6.26                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.370        0.370
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.286        0.356
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.278        0.347
          floral_initiation    to flowering               0.000        0.000        0.199        0.436
          flowering            to start_grain_fill        0.000        0.000        0.013        0.618
          start_grain_fill     to end_grain_fill          0.000        0.000        0.764        0.981
@@ -9407,6 +9420,7 @@
                           biomass =           460.3973       lai =    0.7275122
                           stover N conc =   0.2985904       extractable sw =    3.211827
 5 April 1998(Day of year=95), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           460.3973       lai =     0.000000
                           stover N conc =   0.3772021       extractable sw =    3.100950
@@ -9595,7 +9609,7 @@
       maturity day           =  316                           grain yield (kg/ha)    =     2744.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3136.4
       grain wt (g)           =    0.031                       grains/m^2             =   8843.204
-      grains/head            =   88.4                         maximum lai            =      2.402
+      grains/plant           =   88.4                         maximum lai            =      2.402
       total above ground biomass (kg/ha)    =     8254.7
       live above ground biomass (kg/ha)     =     8254.7
       green above ground biomass (kg/ha)    =     7203.8
@@ -9609,8 +9623,8 @@
       green N content (kg/ha)=      13.57                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.373        0.373
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.110        0.152
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.102        0.144
          floral_initiation    to flowering               0.000        0.000        0.142        0.311
          flowering            to start_grain_fill        0.000        0.000        0.000        0.343
          start_grain_fill     to end_grain_fill          0.000        0.000        0.663        0.930
@@ -9742,6 +9756,7 @@
                           biomass =           626.6270       lai =    0.8767346
                           stover N conc =   0.4088078       extractable sw =    54.50565
 18 May 1999(Day of year=138), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           626.6270       lai =     0.000000
                           stover N conc =   0.4703748       extractable sw =    53.81432
@@ -9930,7 +9945,7 @@
       maturity day           =  305                           grain yield (kg/ha)    =     2769.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3165.0
       grain wt (g)           =    0.026                       grains/m^2             =  10614.225
-      grains/head            =  106.1                         maximum lai            =      2.917
+      grains/plant           =  106.1                         maximum lai            =      2.917
       total above ground biomass (kg/ha)    =     9080.1
       live above ground biomass (kg/ha)     =     9080.1
       green above ground biomass (kg/ha)    =     7818.7
@@ -9944,8 +9959,8 @@
       green N content (kg/ha)=      13.98                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.382        0.382
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.035        0.070
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.025        0.060
          floral_initiation    to flowering               0.000        0.000        0.122        0.437
          flowering            to start_grain_fill        0.000        0.000        0.000        0.560
          start_grain_fill     to end_grain_fill          0.000        0.000        0.752        0.970
@@ -10077,6 +10092,7 @@
                           biomass =           772.6312       lai =    0.8513873
                           stover N conc =   0.4871934       extractable sw =    86.18162
 16 April 2000(Day of year=107), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           772.6311       lai =     0.000000
                           stover N conc =   0.5518282       extractable sw =    85.36411
@@ -10265,7 +10281,7 @@
       maturity day           =  294                           grain yield (kg/ha)    =     3061.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3499.2
       grain wt (g)           =    0.029                       grains/m^2             =  10624.053
-      grains/head            =  106.2                         maximum lai            =      3.025
+      grains/plant           =  106.2                         maximum lai            =      3.025
       total above ground biomass (kg/ha)    =     9646.6
       live above ground biomass (kg/ha)     =     9646.6
       green above ground biomass (kg/ha)    =     8330.7
@@ -10279,8 +10295,8 @@
       green N content (kg/ha)=      15.33                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.349        0.349
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.009        0.015
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.007
          floral_initiation    to flowering               0.000        0.000        0.000        0.219
          flowering            to start_grain_fill        0.000        0.000        0.000        0.325
          start_grain_fill     to end_grain_fill          0.000        0.000        0.716        0.950
@@ -10412,6 +10428,7 @@
                           biomass =           507.2782       lai =    0.9017127
                           stover N conc =   0.6496968       extractable sw =    89.28949
 19 June 2001(Day of year=170), sorghum: 
+     Age kills all leaves.
       stage   11.0 harvest_ripe
                           biomass =           507.2782       lai =     0.000000
                           stover N conc =   0.7479329       extractable sw =    88.56188
@@ -10600,7 +10617,7 @@
       maturity day           =  336                           grain yield (kg/ha)    =     2523.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2884.3
       grain wt (g)           =    0.025                       grains/m^2             =  10172.037
-      grains/head            =  101.7                         maximum lai            =      2.693
+      grains/plant           =  101.7                         maximum lai            =      2.693
       total above ground biomass (kg/ha)    =     8548.4
       live above ground biomass (kg/ha)     =     8548.4
       green above ground biomass (kg/ha)    =     7426.4
@@ -10614,8 +10631,8 @@
       green N content (kg/ha)=      14.64                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.687        0.687        0.313        0.313
-         end_of_juvenile      to floral_initiation       0.058        0.058        0.023        0.048
+         emergence            to end_of_juvenile         0.687        0.687        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.058        0.058        0.014        0.040
          floral_initiation    to flowering               0.011        0.018        0.159        0.507
          flowering            to start_grain_fill        0.023        0.040        0.008        0.664
          start_grain_fill     to end_grain_fill          0.000        0.000        0.751        0.971
@@ -10744,7 +10761,7 @@
       maturity day           =  331                           grain yield (kg/ha)    =     2297.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2625.5
       grain wt (g)           =    0.023                       grains/m^2             =  10161.035
-      grains/head            =  101.6                         maximum lai            =      3.126
+      grains/plant           =  101.6                         maximum lai            =      3.126
       total above ground biomass (kg/ha)    =     8411.1
       live above ground biomass (kg/ha)     =     8411.1
       green above ground biomass (kg/ha)    =     7060.0
@@ -10758,8 +10775,8 @@
       green N content (kg/ha)=      14.42                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         emergence            to end_of_juvenile         0.000        0.000        0.073        0.073
-         end_of_juvenile      to floral_initiation       0.000        0.000        0.122        0.169
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.121        0.168
          floral_initiation    to flowering               0.016        0.030        0.227        0.485
          flowering            to start_grain_fill        0.212        0.290        0.000        0.539
          start_grain_fill     to end_grain_fill          0.061        0.084        0.725        0.968
