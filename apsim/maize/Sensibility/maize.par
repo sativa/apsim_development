@@ -1,12 +1,19 @@
-[dalby600.report.parameters]
-outputfile  =Dalby600.out
-[dalby1500.report.parameters]
-outputfile  =Dalby1500.out
-[roma600.report.parameters]
-outputfile  =Roma600.out
-[roma1500.report.parameters]
-outputfile  =Roma1500.out
-
+[dalby600High.report.parameters]
+outputfile  =Dalby600High.out
+[dalby1500High.report.parameters]
+outputfile  =Dalby1500High.out
+[roma600High.report.parameters]
+outputfile  =Roma600High.out
+[roma1500High.report.parameters]
+outputfile  =Roma1500High.out
+[dalby600Low.report.parameters]
+outputfile  =Dalby600Low.out
+[dalby1500Low.report.parameters]
+outputfile  =Dalby1500Low.out
+[roma600Low.report.parameters]
+outputfile  =Roma600Low.out
+[roma1500Low.report.parameters]
+outputfile  =Roma1500Low.out
 [sensibility.report.parameters]
 
 variable = clock.day
@@ -14,12 +21,19 @@ variable = clock.year
 variable = maize.lai
 variable = maize.biomass
 variable = maize.yield
-variable = tracker.ep
+variable = tracker.sum_ep
 
 [sensibility.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=1/1/1957
 end_date=21/12/2002
+
+[high.manager.init]
+popn = 5
+
+[low.manager.init]
+popn = 2.5
+
 
 [sensibility.manager.start_of_day]
 
@@ -28,7 +42,7 @@ if today = date('1-oct') then
    soiln2 reset
    residue2 reset
    fertiliz apply amount = 200, type = no3_n, depth = 200.
-   maize sow cultivar = dekalb_xl82, plants = 5 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0
+   maize sow cultivar = dekalb_xl82, plants = popn (/m2), sowing_depth = 30 (mm), row_spacing = 1.0
 endif
 
 [sensibility.manager.end_of_day]
@@ -40,17 +54,24 @@ if (maize.stage = 11) then
 
 endif
 
-[Dalby600.SummaryFile.parameters]
-summaryfile=Dalby600.sum
-[Dalby1500.SummaryFile.parameters]
-summaryfile=Dalby1500.sum
-[Roma600.SummaryFile.parameters]
-summaryfile=Roma600.sum
-[Roma1500.SummaryFile.parameters]
-summaryfile=roma1500.sum
-
+[Dalby600High.SummaryFile.parameters]
+summaryfile=Dalby600High.sum
+[Dalby1500High.SummaryFile.parameters]
+summaryfile=Dalby1500High.sum
+[Roma600High.SummaryFile.parameters]
+summaryfile=Roma600High.sum
+[Roma1500High.SummaryFile.parameters]
+summaryfile=roma1500High.sum
+[Dalby600Low.SummaryFile.parameters]
+summaryfile=Dalby600Low.sum
+[Dalby1500Low.SummaryFile.parameters]
+summaryfile=Dalby1500Low.sum
+[Roma600Low.SummaryFile.parameters]
+summaryfile=Roma600Low.sum
+[Roma1500Low.SummaryFile.parameters]
+summaryfile=roma1500Low.sum
 [sensibility.Screen.parameters]
 screen_output=on
 
 [sensibility.tracker.parameters]
-variable = sum of maize.ep since reported as ep on process
+variable = sum of maize.ep since reported as sum_ep on process
