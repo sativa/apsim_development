@@ -9,8 +9,10 @@
    #define CHART_EXPORT _import
 #endif
 
-#include <general\mylist.h>
-#include <general\mystring.h>
+#include <list>
+#include <string>
+using std::list;
+using std::string;
 #include <chart.hpp>
 
 #include <chart\low_level\pen.h>

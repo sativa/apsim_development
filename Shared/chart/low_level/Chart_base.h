@@ -5,7 +5,8 @@
 #include <chart\low_level\plot.h>
 #include <chart.hpp>
 #include <editchar.hpp>
-#include <general\myvector.h>
+#include <vector>
+using std::vector;
 
 class Chart_screen;
 // ------------------------------------------------------------------
