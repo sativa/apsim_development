@@ -54,7 +54,7 @@ void RegistrationItem::addReturnValueMessage(unsigned int fromID,
       }
    if (!isError)
       {
-      returnValueData.variant.setFromId(fromID);
+      returnValueData.variant.setFromId(returnValueData.fromID);
       returnValueData.variant.setArraySpecifier(arraySpecifier);
       variants.addVariant(returnValueData.variant);
       }
