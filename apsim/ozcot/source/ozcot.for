@@ -1939,6 +1939,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       real h
       real at
       real rns
+      real F_INT
 
 c---------- calculate bowen ratio term -----------------------------------------
 
@@ -4311,5 +4312,4 @@ c------------------------------------------------------------------------------
 
       RETURN
       END
-
-
+      
