@@ -57,7 +57,6 @@ class ReportComponent : public protocol::Component
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
 
    private:
       std::ofstream out;

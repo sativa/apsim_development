@@ -142,52 +142,52 @@ void Plant::initialise(void)
 void Plant::doIDs(void)
    {
        // gets
-       id.eo = parent->addRegistration(protocol::getVariableReg,
+       id.eo = parent->addRegistration(RegistrationType::get,
                                        "eo", floatType,
                                        "", "");
-       id.sw_dep= parent->addRegistration(protocol::getVariableReg,
+       id.sw_dep= parent->addRegistration(RegistrationType::get,
                                        "sw_dep", floatArrayType,
                                        "", "");
-       id.no3 = parent->addRegistration(protocol::getVariableReg,
+       id.no3 = parent->addRegistration(RegistrationType::get,
                                        "no3", floatArrayType,
                                        "", "");
-       id.no3_min= parent->addRegistration(protocol::getVariableReg,
+       id.no3_min= parent->addRegistration(RegistrationType::get,
                                        "no3_min", floatArrayType,
                                        "", "");
-       id.latitude = parent->addRegistration(protocol::getVariableReg,
+       id.latitude = parent->addRegistration(RegistrationType::get,
                                        "latitude", floatType,
                                        "", "");
-       id.parasite_c_demand = parent->addRegistration(protocol::getVariableReg,
+       id.parasite_c_demand = parent->addRegistration(RegistrationType::get,
                                        "parasite_dm_demand", floatType,
                                        "", "");
-       id.parasite_sw_demand = parent->addRegistration(protocol::getVariableReg,
+       id.parasite_sw_demand = parent->addRegistration(RegistrationType::get,
                                        "parasite_sw_demand", floatType,
                                        "", "");
-       id.maxt_soil_surface = parent->addRegistration(protocol::getVariableReg,
+       id.maxt_soil_surface = parent->addRegistration(RegistrationType::get,
                                        "maxt_soil_surface", floatType,
                                        "", "");
-       id.co2 = parent->addRegistration(protocol::getVariableReg,
+       id.co2 = parent->addRegistration(RegistrationType::get,
                                         "co2", floatType,
                                         "", "");
 
        string canopyName = string("fr_intc_radn_") + string(parent->getName());
-       id.fr_intc_radn = parent->addRegistration(protocol::getVariableReg,
+       id.fr_intc_radn = parent->addRegistration(RegistrationType::get,
                                        canopyName.c_str(),
                                        floatType,
                                        "", "");
        // sets
-       id.dlt_no3 = parent->addRegistration(protocol::setVariableReg,
+       id.dlt_no3 = parent->addRegistration(RegistrationType::set,
                                        "dlt_no3", floatArrayType,
                                        "", "");
-       id.dlt_sw_dep = parent->addRegistration(protocol::setVariableReg,
+       id.dlt_sw_dep = parent->addRegistration(RegistrationType::set,
                                        "dlt_sw_dep", floatArrayType,
                                        "", "");
 
        // events.
-       id.crop_chopped = parent->addRegistration(protocol::eventReg,
+       id.crop_chopped = parent->addRegistration(RegistrationType::event,
                                        "crop_chopped", "",
                                        "", "");
-       id.incorp_fom = parent->addRegistration(protocol::eventReg,
+       id.incorp_fom = parent->addRegistration(RegistrationType::event,
                                        "incorp_fom", "",
                                        "", "");
 
@@ -204,17 +204,17 @@ void Plant::doRegistrations(void)
    parent->addEvent(name, type, fn);\
    }
 
-   setupEvent("prepare",     protocol::respondToEventReg, &Plant::doPrepare);
-   setupEvent("process",     protocol::respondToEventReg, &Plant::doProcess);
-   setupEvent("tick",        protocol::respondToEventReg, &Plant::doTick);
-   setupEvent("newmet",      protocol::respondToEventReg, &Plant::doNewMet);
-   setupEvent("new_profile", protocol::respondToEventReg, &Plant::doNewProfile);
-   setupEvent("sow",         protocol::respondToMethodCallReg, &Plant::doSow);
-   setupEvent("harvest",     protocol::respondToMethodCallReg, &Plant::doHarvest);
-   setupEvent("end_crop",    protocol::respondToMethodCallReg, &Plant::doEndCrop);
-   setupEvent("kill_crop",   protocol::respondToMethodCallReg, &Plant::doKillCrop);
-   setupEvent("end_run",     protocol::respondToEventReg, &Plant::doEndRun);
-   setupEvent("kill_stem",   protocol::respondToMethodCallReg, &Plant::doKillStem);
+   setupEvent("prepare",     RegistrationType::respondToEvent, &Plant::doPrepare);
+   setupEvent("process",     RegistrationType::respondToEvent, &Plant::doProcess);
+   setupEvent("tick",        RegistrationType::respondToEvent, &Plant::doTick);
+   setupEvent("newmet",      RegistrationType::respondToEvent, &Plant::doNewMet);
+   setupEvent("new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile);
+   setupEvent("sow",         RegistrationType::respondToEvent, &Plant::doSow);
+   setupEvent("harvest",     RegistrationType::respondToEvent, &Plant::doHarvest);
+   setupEvent("end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop);
+   setupEvent("kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop);
+   setupEvent("end_run",     RegistrationType::respondToEvent, &Plant::doEndRun);
+   setupEvent("kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem);
 #undef setupEvent
 
    // Send My Variable
@@ -791,10 +791,10 @@ void Plant::doRegistrations(void)
 
    unsigned int id;
    // Set My Variable
-   id = parent->addRegistration(protocol::respondToSetReg, "crop_class",           stringType);
+   id = parent->addRegistration(RegistrationType::respondToSet, "crop_class",           stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
 
-   id = parent->addRegistration(protocol::respondToSetReg, "grain_oil_conc",       floatType);
+   id = parent->addRegistration(RegistrationType::respondToSet, "grain_oil_conc",       floatType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_grain_oil_conc));
 
    phosphorus->doRegistrations(parent);
@@ -836,7 +836,7 @@ bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd)
   }
 void Plant::sendStageMessage(const char *what)
   {
-  unsigned int id = parent->addRegistration(protocol::eventReg,
+  unsigned int id = parent->addRegistration(RegistrationType::event,
                                             what, "",
                                             "", "");
   protocol::ApsimVariant outgoingApsimVariant(parent);
@@ -11736,7 +11736,7 @@ void Plant::plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) u
 
       sprintf(uptake_name, "uptake_%s_%s", uptake_type, crop_type);
 
-      id = parent->addRegistration(protocol::getVariableReg,
+      id = parent->addRegistration(RegistrationType::get,
                                    uptake_name, floatArrayType,
                                    "", "");
 
@@ -12166,8 +12166,8 @@ void Plant::registerClassActions(void)
         i != IDtoAction.end();
         i++)
         {
-        parent->deleteRegistration(protocol::respondToMethodCallReg,i->first);
-        parent->deleteRegistration(protocol::respondToEventReg,i->first);
+        parent->deleteRegistration(RegistrationType::respondToEvent,i->first);
+        parent->deleteRegistration(RegistrationType::respondToEvent,i->first);
         }
 #endif
    IDtoAction.clear();
@@ -12180,7 +12180,7 @@ void Plant::registerClassActions(void)
       unsigned int id;
       boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
       fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
-      id = parent->addEvent(i->c_str(), protocol::respondToMethodCallReg, fn);
+      id = parent->addEvent(i->c_str(), protocol::respondToEvent, fn);
 
       IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
       //printf("registered '%s' as %d\n",i->c_str(),id); 
