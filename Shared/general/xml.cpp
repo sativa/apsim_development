@@ -131,10 +131,15 @@ string XMLNode::getAttribute(const std::string& attributeName) const
 // ------------------------------------------------------------------
 std::string XMLNode::getValue(void) const
    {
+   string returnString;
    if (node != NULL)
-      return (char*)node->children->content;
-   else
-      return "";
+      {
+      xmlChar* st = xmlNodeGetContent(node);
+      if (st != NULL)
+         returnString = (char*) st;
+      xmlFree(st);
+      }
+   return returnString;
    }
 // ------------------------------------------------------------------
 // Set an attribute of this node.
