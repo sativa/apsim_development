@@ -20,7 +20,8 @@ Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
 peanut sow cultivar = early_bunch, plants = 10 (/m2), sowing_depth = 40 (mm)
-elseif day = 105 and year = 1989 then
+endif
+if peanut.stage_name = 'harvest_ripe' or peanut.plant_status = 'dead' then
 peanut harvest
 peanut end_crop
 endif
@@ -160,7 +161,7 @@ report do_output
     tt_maturity_to_ripe      =     5.0
     hi_incr                  =     0.0
     x_hi_max_pot_stress =    0.00   1.00
-    y_hi_max_pot        =    0.45   0.45
+    y_hi_max_pot        =    0.38   0.38
     x_stem_wt      =    0.00 100.00
     y_height      =    0.005000.00
     ------------------------------------------------
@@ -193,54 +194,45 @@ report do_output
     ------------------------------------------------
  day= 331 date= 26 11 1988 peanut   -  stage    2.0 germination
  day= 337 date=  2 12 1988 peanut   -  stage    3.0 emergence
-                     biomass =           2.000000       lai =    0.1000000e-02
-                     stover N conc =    4.600000       extractable sw =    23.14492
+                     biomass =          0.4500000       lai =    0.6000000e-02
+                     stover N conc =    4.599999       extractable sw =    45.49775
  day= 338 date=  3 12 1988 peanut   -  stage    4.0 end_of_juvenile
-                     biomass =           2.018761       lai =    0.1341396e-02
-                     stover N conc =    4.559442       extractable sw =    23.11142
+                     biomass =          0.5249696       lai =    0.7517533e-02
+                     stover N conc =    4.268629       extractable sw =    45.42114
  day= 339 date=  4 12 1988 peanut   -  stage    5.0 floral_initiation
-                     biomass =           2.048041       lai =    0.1874157e-02
-                     stover N conc =    4.517796       extractable sw =    45.33690
+                     biomass =          0.6342280       lai =    0.9727538e-02
+                     stover N conc =    4.128243       extractable sw =    45.31645
  day= 364 date= 29 12 1988 peanut   -  stage    6.0 flowering
-                     biomass =           67.41459       lai =    0.9770950
-                     stover N conc =    2.496084       extractable sw =    203.6426
+                     biomass =           64.50372       lai =    0.9802114
+                     stover N conc =    2.645390       extractable sw =    203.9298
  day=  19 date= 19  1 1989 peanut   -  stage    7.0 start_grain_fill
-                     biomass =           492.7468       lai =     3.750312
-                     stover N conc =    2.460781       extractable sw =    161.9345
+                     biomass =           406.4899       lai =     3.268226
+                     stover N conc =    2.385781       extractable sw =    191.6002
  day=  94 date=  4  4 1989 peanut   -  stage    8.0 end_grain_fill
-                     biomass =           1108.573       lai =     4.166327
-                     stover N conc =    1.525169       extractable sw =    84.43138
+                     biomass =           1071.227       lai =     4.997633
+                     stover N conc =    1.678253       extractable sw =    97.70139
  day= 100 date= 10  4 1989 peanut   -  stage    9.0 maturity
-                     biomass =           1167.988       lai =     4.026043
-                     stover N conc =    1.423214       extractable sw =    59.98111
+                     biomass =           1083.134       lai =     4.869502
+                     stover N conc =    1.672102       extractable sw =    75.88275
  day= 101 date= 11  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.988       lai =    0.1907349e-05
-                     stover N conc =    1.715391       extractable sw =    56.23729
- day= 102 date= 12  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.988       lai =    0.1907349e-05
-                     stover N conc =    1.715391       extractable sw =    58.69084
- day= 103 date= 13  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.988       lai =    0.1907349e-05
-                     stover N conc =    1.715391       extractable sw =    57.72370
- day= 104 date= 14  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.988       lai =    0.1907349e-05
-                     stover N conc =    1.715390       extractable sw =    56.54733
- Day= 105 Year =  1989     Manager sending message :- peanut harvest
+                     biomass =           1083.134       lai =    0.0000000
+                     stover N conc =    2.357344       extractable sw =    71.09988
+ Day= 102 Year =  1989     Manager sending message :- peanut harvest
  
- flowering day  =  364                  stover (kg/ha) =    5474.3
- maturity day        =  100             grain yield (kg/ha) =    6205.5
- grain % water content   =   13.0       grain yield wet (kg/ha) =    7132.8
+ flowering day  =  364                  stover (kg/ha) =    6099.1
+ maturity day        =  100             grain yield (kg/ha) =    4732.2
+ grain % water content   =   13.0       grain yield wet (kg/ha) =    5439.3
  grain wt (g) =     0.000               grains/m^2   =     0.000
- grains/head =   0.0                    maximum lai = 4.848
- total above ground biomass (kg/ha) =   11679.9
- live above ground biomass (kg/ha) =   11679.9
- green above ground biomass (kg/ha) =    9070.6
- senesced above ground biomass (kg/ha) =    2609.3
+ grains/head =   0.0                    maximum lai = 5.262
+ total above ground biomass (kg/ha) =   10831.3
+ live above ground biomass (kg/ha) =   10831.3
+ green above ground biomass (kg/ha) =    7375.7
+ senesced above ground biomass (kg/ha) =    3455.6
  dead above ground biomass (kg/ha) =       0.0
- number of leaves = 229.1
- grain N percent =      5.00            total N content (kg/ha) =    385.52
- grain N uptake (kg/ha) =    310.28     senesced N content (kg/ha) =     26.09
- green N content (kg/ha) =     49.15    dead N content (kg/ha) =      0.00
+ number of leaves = 345.7
+ grain N percent =      5.00            total N content (kg/ha) =    333.48
+ grain N uptake (kg/ha) =    236.61     senesced N content (kg/ha) =     34.56
+ green N content (kg/ha) =     62.32    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.4760892
@@ -248,25 +240,25 @@ report do_output
  
  stress indices for end_of_juvenile
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.2888859
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.2888859
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.3047002
  
  stress indices for floral_initiation
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0254017
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.0429376
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.0646897
  
  stress indices for flowering
- water stress 1 =       0.0376928   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.0556313   nitrogen stress 2 =       0.0101082
+ water stress 1 =       0.0039285   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.0101193   nitrogen stress 2 =       0.0022184
  
  stress indices for start_grain_fill
- water stress 1 =       0.4265975   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4996335   nitrogen stress 2 =       0.0000000
- Day= 105 Year =  1989     Manager sending message :- peanut end_crop
- day= 105 date= 15  4 1989 peanut   -     ended. Yield (dw) =     0.0
+ water stress 1 =       0.2734178   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.3276972   nitrogen stress 2 =       0.0000000
+ Day= 102 Year =  1989     Manager sending message :- peanut end_crop
+ day= 102 date= 12  4 1989 peanut   -     ended. Yield (dw) =     0.0
                                           straw residue =    0.0 kg/ha
                                           straw N =    0.0 kg/ha
-                                          root residue = 1532.0 kg/ha
-                                          root N =   31.7 kg/ha
+                                          root residue = 1379.0 kg/ha
+                                          root N =   29.4 kg/ha
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================

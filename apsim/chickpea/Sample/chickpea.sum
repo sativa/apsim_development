@@ -20,7 +20,8 @@ Manager rules
 ------- -----
 if day = 130 and year  = 1988 then
 chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
-elseif day = 290 and year = 1988 then
+endif
+if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
 chickpea harvest
 chickpea end_crop
 endif
@@ -216,18 +217,7 @@ report do_output
  day= 280 date=  6 10 1988 chickpea -  stage   10.0 harvest_ripe
                      biomass =           883.6107       lai =    0.0000000
                      stover N conc =    2.100394       extractable sw =    155.9869
- crop failure because of total leaf senescence.
- day= 281 date=  7 10 1988 chickpea -     Plant Death. Standing above-ground dm =  8836.1 (kg/ha)
- day= 281 date=  7 10 1988 chickpea -  stage    0.0
- day= 282 date=  8 10 1988 chickpea -  stage    0.0
- day= 283 date=  9 10 1988 chickpea -  stage    0.0
- day= 284 date= 10 10 1988 chickpea -  stage    0.0
- day= 285 date= 11 10 1988 chickpea -  stage    0.0
- day= 286 date= 12 10 1988 chickpea -  stage    0.0
- day= 287 date= 13 10 1988 chickpea -  stage    0.0
- day= 288 date= 14 10 1988 chickpea -  stage    0.0
- day= 289 date= 15 10 1988 chickpea -  stage    0.0
- Day= 290 Year =  1988     Manager sending message :- chickpea harvest
+ Day= 281 Year =  1988     Manager sending message :- chickpea harvest
  
  flowering day  =  204                  stover (kg/ha) =    5093.3
  maturity day        =  279             grain yield (kg/ha) =    3742.8
@@ -235,14 +225,14 @@ report do_output
  grain wt (g) =     0.000               grains/m^2   =     0.000
  grains/head =   0.0                    maximum lai = 3.850
  total above ground biomass (kg/ha) =    8836.1
- live above ground biomass (kg/ha) =       0.0
- green above ground biomass (kg/ha) =       0.0
- senesced above ground biomass (kg/ha) =       0.0
- dead above ground biomass (kg/ha) =    8836.1
+ live above ground biomass (kg/ha) =    8836.1
+ green above ground biomass (kg/ha) =    6985.9
+ senesced above ground biomass (kg/ha) =    1850.2
+ dead above ground biomass (kg/ha) =       0.0
  number of leaves = 305.0
  grain N percent =      3.60            total N content (kg/ha) =    212.11
- grain N uptake (kg/ha) =    134.74     senesced N content (kg/ha) =      0.00
- green N content (kg/ha) =      0.00    dead N content (kg/ha) =     77.37
+ grain N uptake (kg/ha) =    134.74     senesced N content (kg/ha) =      9.25
+ green N content (kg/ha) =     68.12    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0271633
@@ -263,12 +253,12 @@ report do_output
  stress indices for start_grain_fill
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
- Day= 290 Year =  1988     Manager sending message :- chickpea end_crop
- day= 290 date= 16 10 1988 chickpea -     ended. Yield (dw) =     0.0
+ Day= 281 Year =  1988     Manager sending message :- chickpea end_crop
+ day= 281 date=  7 10 1988 chickpea -     ended. Yield (dw) =     0.0
                                           straw residue =  437.8 kg/ha
                                           straw N =    7.5 kg/ha
-                                          root residue = 1977.3 kg/ha
-                                          root N =   30.1 kg/ha
+                                          root residue = 1987.2 kg/ha
+                                          root N =   30.2 kg/ha
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================

@@ -19,8 +19,9 @@ Variables =lai,biomass,green_biomass
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-mungbean sow cultivar = berkin, plants = 25 (/m2), sowing_depth = 40 (mm)
-elseif day = 50 and year = 1989 then
+mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+if mungbean.stage_name = 'harvest_ripe' or mungbean.plant_status = 'dead' then
 mungbean harvest
 mungbean end_crop
 endif
@@ -142,17 +143,17 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- mungbean sow cultivar = berkin, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- mungbean sow cultivar = berken, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 mungbean - Sow
  
  - Reading constants for plant
  
    - Reading Cultivar Parameters
     ------------------------------------------------
-    Cultivar                 = berkin
+    Cultivar                 = berken
     est_days_emerg_to_init  =      20
     tt_emerg_to_endjuv       =   550.0
-    photoperiod      =   12.00  17.00
+    photoperiod      =   12.50  17.00
     phase_tt_init      =    0.00   5.00
     tt_flower_to_maturity    =   550.0
     tt_init_to_flower        =    25.0
@@ -189,64 +190,53 @@ report do_output
     Sowing  Depth Plants Spacing Cultivar
     Day no   mm     m^2     m     Name
     ------------------------------------------------
-       330   40.0   25.0  500.0 berkin
+       330   40.0   25.0  500.0 berken
     ------------------------------------------------
  day= 331 date= 26 11 1988 mungbean -  stage    2.0 germination
  day= 333 date= 28 11 1988 mungbean -  stage    3.0 emergence
-                     biomass =           5.000000       lai =    0.8500000e-01
-                     stover N conc =    5.999999       extractable sw =    23.25670
+                     biomass =           2.500000       lai =    0.8500000e-01
+                     stover N conc =    6.000000       extractable sw =    23.25670
  day=   1 date=  1  1 1989 mungbean -  stage    4.0 end_of_juvenile
-                     biomass =           196.8317       lai =     2.325282
-                     stover N conc =    3.201111       extractable sw =    171.8377
+                     biomass =           205.3853       lai =     2.983889
+                     stover N conc =    3.199889       extractable sw =    168.5540
  day=   2 date=  2  1 1989 mungbean -  stage    5.0 floral_initiation
-                     biomass =           206.1897       lai =     2.407813
-                     stover N conc =    3.115466       extractable sw =    169.0614
+                     biomass =           216.1700       lai =     3.103476
+                     stover N conc =    3.114207       extractable sw =    165.4245
  day=   3 date=  3  1 1989 mungbean -  stage    6.0 flowering
-                     biomass =           218.3037       lai =     2.489790
-                     stover N conc =    2.995311       extractable sw =    175.5780
+                     biomass =           230.1203       lai =     3.235819
+                     stover N conc =    3.005200       extractable sw =    213.0858
  day=  15 date= 15  1 1989 mungbean -  stage    7.0 start_grain_fill
-                     biomass =           400.3329       lai =     3.313850
-                     stover N conc =    2.653992       extractable sw =    224.5318
+                     biomass =           438.2519       lai =     4.437761
+                     stover N conc =    2.663944       extractable sw =    213.6198
  day=  37 date=  6  2 1989 mungbean -  stage    8.0 end_grain_fill
-                     biomass =           627.1190       lai =    0.4419662
-                     stover N conc =    2.138066       extractable sw =    156.7796
+                     biomass =           755.5013       lai =     3.016114
+                     stover N conc =    2.013971       extractable sw =    122.8262
  day=  39 date=  8  2 1989 mungbean -  stage    9.0 maturity
-                     biomass =           631.3335       lai =    0.3169142
-                     stover N conc =    2.105737       extractable sw =    152.8216
+                     biomass =           774.7455       lai =     2.833311
+                     stover N conc =    1.873660       extractable sw =    116.9093
  day=  40 date=  9  2 1989 mungbean -  stage   10.0 harvest_ripe
-                     biomass =           631.3334       lai =    0.0000000
-                     stover N conc =    2.190649       extractable sw =    149.8293
- crop failure because of total leaf senescence.
- day=  41 date= 10  2 1989 mungbean -     Plant Death. Standing above-ground dm =  6313.3 (kg/ha)
- day=  41 date= 10  2 1989 mungbean -  stage    0.0
- day=  42 date= 11  2 1989 mungbean -  stage    0.0
- day=  43 date= 12  2 1989 mungbean -  stage    0.0
- day=  44 date= 13  2 1989 mungbean -  stage    0.0
- day=  45 date= 14  2 1989 mungbean -  stage    0.0
- day=  46 date= 15  2 1989 mungbean -  stage    0.0
- day=  47 date= 16  2 1989 mungbean -  stage    0.0
- day=  48 date= 17  2 1989 mungbean -  stage    0.0
- day=  49 date= 18  2 1989 mungbean -  stage    0.0
- Day=  50 Year =  1989     Manager sending message :- mungbean harvest
+                     biomass =           774.7455       lai =    0.0000000
+                     stover N conc =    2.361869       extractable sw =    111.0840
+ Day=  41 Year =  1989     Manager sending message :- mungbean harvest
  
- flowering day  =    3                  stover (kg/ha) =    4045.7
- maturity day        =   39             grain yield (kg/ha) =    2267.7
- grain % water content   =   12.0       grain yield wet (kg/ha) =    2576.9
+ flowering day  =    3                  stover (kg/ha) =    4983.9
+ maturity day        =   39             grain yield (kg/ha) =    2763.6
+ grain % water content   =   12.0       grain yield wet (kg/ha) =    3140.4
  grain wt (g) =     0.000               grains/m^2   =     0.000
- grains/head =   0.0                    maximum lai = 3.315
- total above ground biomass (kg/ha) =    6313.3
- live above ground biomass (kg/ha) =       0.0
- green above ground biomass (kg/ha) =       0.0
- senesced above ground biomass (kg/ha) =       0.0
- dead above ground biomass (kg/ha) =    6313.3
- number of leaves =  14.1
- grain N percent =      4.50            total N content (kg/ha) =    168.34
- grain N uptake (kg/ha) =    102.05     senesced N content (kg/ha) =      0.00
- green N content (kg/ha) =      0.00    dead N content (kg/ha) =     66.29
+ grains/head =   0.0                    maximum lai = 4.452
+ total above ground biomass (kg/ha) =    7747.5
+ live above ground biomass (kg/ha) =    7747.5
+ green above ground biomass (kg/ha) =    5227.8
+ senesced above ground biomass (kg/ha) =    2519.6
+ dead above ground biomass (kg/ha) =       0.0
+ number of leaves =  24.7
+ grain N percent =      4.50            total N content (kg/ha) =    207.76
+ grain N uptake (kg/ha) =    124.36     senesced N content (kg/ha) =     25.20
+ green N content (kg/ha) =     58.20    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0110323
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.0160642
+ water stress 2 =       0.0000000   nitrogen stress 2 =       0.0274917
  
  stress indices for end_of_juvenile
  water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
@@ -261,14 +251,14 @@ report do_output
  water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
  
  stress indices for start_grain_fill
- water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
- Day=  50 Year =  1989     Manager sending message :- mungbean end_crop
- day=  50 date= 19  2 1989 mungbean -     ended. Yield (dw) =     0.0
+ water stress 1 =       0.0717550   nitrogen stress 1 =       0.0000000
+ water stress 2 =       0.1042105   nitrogen stress 2 =       0.0000000
+ Day=  41 Year =  1989     Manager sending message :- mungbean end_crop
+ day=  41 date= 10  2 1989 mungbean -     ended. Yield (dw) =     0.0
                                           straw residue =    0.0 kg/ha
                                           straw N =    0.0 kg/ha
-                                          root residue = 2244.5 kg/ha
-                                          root N =   34.2 kg/ha
+                                          root residue = 2491.8 kg/ha
+                                          root N =   37.8 kg/ha
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================

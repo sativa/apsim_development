@@ -20,7 +20,7 @@ Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
 mucuna sow cultivar = mucuna_gen, plants = 25 (/m2), sowing_depth = 40 (mm)
-elseif day = 50 and year = 1989 then
+elseif day = 120 and year = 1989 then
 mucuna harvest
 mucuna end_crop
 endif
@@ -151,18 +151,18 @@ report do_output
     ------------------------------------------------
     Cultivar                 = mucuna_gen
     est_days_emerg_to_init  =      20
-    tt_emerg_to_endjuv       =   600.0
+    tt_emerg_to_endjuv       =   500.0
     photoperiod      =   13.30  18.00
-    phase_tt_init      =    0.00   0.00
-    tt_flower_to_maturity    =  2000.0
+    phase_tt_init      =  600.00 600.00
+    tt_flower_to_maturity    =  1200.0
     tt_init_to_flower        =    20.0
     tt_flower_to_start_grain =   100.0
     tt_maturity_to_ripe      =     5.0
-    hi_incr                  =     0.0
+    hi_incr                  =     0.1
     x_hi_max_pot_stress =    0.00   1.00
-    y_hi_max_pot        =    0.50   0.50
-    x_stem_wt      =    0.00  50.00
-    y_height      =    0.001000.00
+    y_hi_max_pot        =    0.35   0.35
+    x_stem_wt      =    0.00  30.00
+    y_height      =    0.001200.00
     ------------------------------------------------
  
  
@@ -193,62 +193,11 @@ report do_output
     ------------------------------------------------
  day= 331 date= 26 11 1988 mucuna   -  stage    2.0 germination
  day= 336 date=  1 12 1988 mucuna   -  stage    3.0 emergence
-                     biomass =           10.15000       lai =    0.2000000
-                     stover N conc =    6.000000       extractable sw =    23.17695
- day=  17 date= 17  1 1989 mucuna   -  stage    4.0 end_of_juvenile
-                     biomass =           646.9584       lai =     6.439933
-                     stover N conc =    2.865600       extractable sw =    138.7825
- day=  18 date= 18  1 1989 mucuna   -  stage    5.0 floral_initiation
-                     biomass =           658.2892       lai =     6.364296
-                     stover N conc =    2.877235       extractable sw =    131.7082
- day=  20 date= 20  1 1989 mucuna   -  stage    6.0 flowering
-                     biomass =           678.8835       lai =     6.193219
-                     stover N conc =    2.876364       extractable sw =    124.1944
- day=  28 date= 28  1 1989 mucuna   -  stage    7.0 start_grain_fill
-                     biomass =           780.9851       lai =     6.019485
-                     stover N conc =    2.865493       extractable sw =    88.41324
- Day=  50 Year =  1989     Manager sending message :- mucuna harvest
- 
- flowering day  =   20                  stover (kg/ha) =    9367.4
- maturity day        =    0             grain yield (kg/ha) =      20.7
- grain % water content   =   12.0       grain yield wet (kg/ha) =      23.5
- grain wt (g) =     0.000               grains/m^2   =     0.000
- grains/head =   0.0                    maximum lai = 6.440
- total above ground biomass (kg/ha) =    9388.1
- live above ground biomass (kg/ha) =    9388.1
- green above ground biomass (kg/ha) =    6814.8
- senesced above ground biomass (kg/ha) =    2573.2
- dead above ground biomass (kg/ha) =       0.0
- number of leaves =  38.4
- grain N percent =      4.50            total N content (kg/ha) =    210.45
- grain N uptake (kg/ha) =      0.93     senesced N content (kg/ha) =      2.57
- green N content (kg/ha) =    206.95    dead N content (kg/ha) =      0.00
- 
- stress indices for emergence
- water stress 1 =       0.0826993   nitrogen stress 1 =       0.0034699
- water stress 2 =       0.1222125   nitrogen stress 2 =       0.0034699
- 
- stress indices for end_of_juvenile
- water stress 1 =       0.5718919   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.6718919   nitrogen stress 2 =       0.0000000
- 
- stress indices for floral_initiation
- water stress 1 =       0.5997232   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.6997232   nitrogen stress 2 =       0.0000000
- 
- stress indices for flowering
- water stress 1 =       0.3854017   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4696971   nitrogen stress 2 =       0.0000000
- 
- stress indices for start_grain_fill
- water stress 1 =       0.5843132   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.6704309   nitrogen stress 2 =       0.0000000
- Day=  50 Year =  1989     Manager sending message :- mucuna end_crop
- day=  50 date= 19  2 1989 mucuna   -     ended. Yield (dw) =     0.0
-                                          straw residue =    1.5 kg/ha
-                                          straw N =    0.1 kg/ha
-                                          root residue = 5510.1 kg/ha
-                                          root N =   90.1 kg/ha
+                     biomass =           17.50000       lai =    0.2000000
+                     stover N conc =    6.000000       extractable sw =    45.57298
+ day=   6 date=  6  1 1989 mucuna   -  stage    4.0 end_of_juvenile
+                     biomass =           266.9724       lai =     2.032173
+                     stover N conc =    3.681633       extractable sw =    108.3013
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================
