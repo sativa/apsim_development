@@ -1,30 +1,3 @@
-*     ===========================================================
-      character*(*) function ozcot_version ()
-*     ===========================================================
-      implicit none
-
-*+  Purpose
-*       return version number of ozcot module
-
-*+  Changes
-*      psc - 9/08/93
-*      07/07/94 - jngh changed names from ozcot_3 to ozcot
-*                      prefixed all subroutines and functions with ozcot
-*      20/7/94 - jngh put divide function in dryxmatter s/r
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V3.3  30/04/98' )
-
-*- Implementation Section ----------------------------------
- 
-      ozcot_version = version_number
- 
-      return
-      end
-
-
-
 * ====================================================================
        subroutine APSIM_ozcot (action, data_string)
 * ====================================================================
@@ -51,9 +24,7 @@
 *      jngh  170895  changed manager action to react to sow and harvest actions
 *      jngh  250996  added version to presence report
 *                    added message_unused call
-
-*+  Calls
-      character  ozcot_version*15     ! function
+*      sdb   060599  removed version reference and presence action
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -62,11 +33,7 @@
 *- Implementation Section ----------------------------------
       call push_routine(myname)
  
-      if (Action.eq.MES_Presence) then
-         write(*, *) 'Module_name = ', Module_name
-     :              // ', Version : ' // ozcot_version()
- 
-      else if (Action.eq.mes_init) then
+      if (Action.eq.mes_init) then
          call ozcot_zero_variables ()
          call ozcot_Init ()
  
@@ -126,9 +93,7 @@
 *+  Changes
 *      psc - 9/08/93
 *      250996 jngh removed unused includes
-
-*+  Calls
-       character ozcot_version*15   ! function
+*      060599 sdb removed version reference
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -141,7 +106,7 @@
       call push_routine(myname)
       ! Notify system that we have initialised
  
-      Event_string = 'Initialising, Version : ' // ozcot_version()
+      Event_string = 'Initialising' 
       call report_event (Event_string)
  
       ! Get all parameters from parameter file
