@@ -95,9 +95,9 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread->Resume();
          }
       }
-   else
+   else if (!Quiet)
       {
-      if (CompilerReportFile.Exists() && !Quiet)
+      if (CompilerReportFile.Exists())
          {
          string command (APSDirectories().Get_home());
          command += "\\viewcmplmsg\\viewcmplmsg ";
@@ -106,8 +106,8 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          }
       else
          MessageBox(NULL, "Compiler not invoked.  Probable cause: nothing to compile.", "Information", MB_ICONINFORMATION | MB_OK);
-      Close();
       }
+   Close();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
