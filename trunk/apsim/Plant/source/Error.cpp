@@ -10,7 +10,7 @@
 #pragma package(smart_init)
 
 
-extern "C" void _stdcall _export warning_error (const int *user_or_internal,
+extern "C" void _stdcall _export warningError (const int *user_or_internal,
                 char *error_string)
 {
 

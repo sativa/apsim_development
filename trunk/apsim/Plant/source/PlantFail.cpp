@@ -1,5 +1,3 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
@@ -8,7 +6,8 @@
 
 //---------------------------------------------------------------------------
 //===========================================================================
-void crop_failure_germination(int   sowing,
+void crop_failure_germination(commsInterface *iface,
+                              int   sowing,
                               int   germ, 
                               int   now, 
                               float days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days) 
@@ -45,7 +44,7 @@ void crop_failure_germination(int   sowing,
               " crop failure because of lack of\n         germination within %.4f days of sowing",
               days_germ_limit);
       /* TODO : followed this back to ei_getname and write_summary, don't appear to be in infra */
-      Write_string (output);
+      iface->writeString (output);
       }
    else
       {
@@ -55,7 +54,8 @@ void crop_failure_germination(int   sowing,
 
 
 //=============================================================================
-void crop_failure_emergence(int    germ, 
+void crop_failure_emergence(commsInterface *iface, 
+                            int    germ,
                             int    emerg,
                             int    now, 
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day) 
@@ -86,7 +86,7 @@ void crop_failure_emergence(int    germ,
        sum_between (germ-1, now-1, tt_tot) > tt_emerg_limit)
       {
       *dlt_plants = -1 * plants;
-      Write_string (" failed emergence due to deep planting");
+      iface->writeString (" failed emergence due to deep planting");
       }
    else
       {
@@ -96,7 +96,8 @@ void crop_failure_emergence(int    germ,
    }
 
 //=========================================================================
-void crop_failure_leaf_senescence (int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence 
+void crop_failure_leaf_senescence (commsInterface *iface, 
+                                   int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence 
                                    int  end_stage,             // (INPUT) end check stage for crop failure due to LAI senescence   
                                    float g_lai,               // (INPUT) current LAI                                              
                                    float g_current_stage,     // (INPUT) current stage                                            
@@ -133,12 +134,13 @@ void crop_failure_leaf_senescence (int  start_stage,           // (INPUT) start 
        stage_is_between (start_stage, end_stage, g_current_stage))
       {
       *dlt_plants = -1 * g_plants;
-      Write_string (" crop failure because of total leaf senescence.");
+      iface->writeString (" crop failure because of total leaf senescence.");
       }
    }
 
 //===========================================================================
-void crop_death_drought (int  emerg,                // (INPUT) emergence stage                                                                                
+void crop_death_drought (commsInterface *iface, 
+                         int  emerg,                // (INPUT) emergence stage                                                                                
                          int  flag_leaf,            // (INPUT) flag leaf stage                                                                                
                          int  plant_end,            // (INPUT) maximum plant stage                                                                            
                          float *g_cswd_photo,       // (INPUT) cumulative water stress photosynthesis                                                         
@@ -184,7 +186,7 @@ void crop_death_drought (int  emerg,                // (INPUT) emergence stage
       sprintf(output, "plant_kill. %d % failure because of water stress.",
               int((killfr * 100.0) + 0.5));
 
-      Write_string (output);
+      iface->writeString (output);
       }
    else
       {
@@ -193,7 +195,8 @@ void crop_death_drought (int  emerg,                // (INPUT) emergence stage
    }
 
 //==========================================================================
-void crop_death_seedling_hightemp (int days_after_emerg,           // (INPUT) days after emergence                   
+void crop_death_seedling_hightemp (commsInterface *iface, 
+                                   int days_after_emerg,           // (INPUT) days after emergence                   
                                    int g_year,                     // (INPUT) year                                   
                                    int g_day_of_year,              // (INPUT) day of year                            
                                    float *g_soil_temp,              // (INPUT) soil surface temperature (C)           
@@ -246,7 +249,7 @@ void crop_death_seedling_hightemp (int days_after_emerg,           // (INPUT) da
             "plant_kill. %d % failure because of high soil surface temperatures.",
             int((killfr * 100.0) + 0.5));
 
-         Write_string (output);
+         iface->writeString (output);
          }
        else
          {

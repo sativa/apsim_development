@@ -1,9 +1,8 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Plantlibrary.h"
 
 #define dim(A,B) (min(0,(A)-(B)))
@@ -307,7 +306,7 @@ void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) 
    float temp;
 
    // Implementation Section ----------------------------------
-   if (max_layer <= 0) {fatal_error("max_layer 0 in crop_root_length_growth1"); return;}
+   if (max_layer <= 0) { throw std::invalid_argument("max_layer is 0 in crop_root_length_growth1"); }
    
    float *rlv_factor = new float[max_layer];  // relative rooting factor for a layer
 
@@ -560,7 +559,7 @@ void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
 
    // Implementation Section ----------------------------------
    int max_layer = max(nlayr_old,nlayr_new); 
-   if (max_layer <= 0) {fatal_error("max_layer 0 in crop_root_length_growth1"); return;}
+   if (max_layer <= 0) {throw std::invalid_argument("max_layer 0 in crop_root_length_growth1");}
    float *cum_root_length = new float[max_layer];  //Cum Root length with depth (mm/mm2)
    float *cum_root_depth = new float[max_layer];   //Cum Root depth (mm)
 
@@ -661,7 +660,7 @@ void cproc_root_length_growth_new (
 
     if (max_layer > crop_max_layer)
         {
-        fatal_error ("too many layers for crop routines");
+        throw std::invalid_argument("too many layers for crop routines");
         }
     else
         {

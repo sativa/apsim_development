@@ -1,9 +1,8 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include <general/string_functions.h>
 #include "Plantlibrary.h"
 //+  Purpose
@@ -612,7 +611,7 @@ void cproc_n_uptake1(float C_no3_diffn_const,   //(INPUT)  time constant for upt
          }
       else
          {
-         fatal_error ( "bad n supply preference");
+         throw std::invalid_argument("bad n supply preference in cproc_n_uptake1()");
          }
 
       NO3gsm_diffn = divide (NO3gsm_diffn, C_no3_diffn_const, 0.0);

@@ -1,5 +1,3 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
@@ -422,7 +420,8 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
 
 
 //============================================================================
-void cproc_sw_supply1 (float C_sw_lb,              //(INPUT)
+void cproc_sw_supply1 (commsInterface *iface,
+                       float C_sw_lb,              //(INPUT)
                        float *G_dlayer,            //(INPUT)
                        float *P_ll_dep,            //(INPUT)
                        float *G_dul_dep,           //(INPUT)
@@ -448,7 +447,7 @@ void cproc_sw_supply1 (float C_sw_lb,              //(INPUT)
 */
    {
    // Implementation Section ----------------------------------
-   crop_check_sw(C_sw_lb, G_dlayer, G_dul_dep, max_layer,
+   crop_check_sw(iface, C_sw_lb, G_dlayer, G_dul_dep, max_layer,
                  G_sw_dep, P_ll_dep);
 
    crop_sw_avail_pot(max_layer, G_dlayer, G_dul_dep,
@@ -722,7 +721,8 @@ void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profi
    }
 
 //=========================================================================
-void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
+void crop_check_sw(commsInterface *iface,
+                   float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
                    int   max_layer,// (INPUT)  number of layers in profile ()
@@ -769,7 +769,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          sprintf(err_msg,
             " lower limit of %8.2f in layer %d\n         is below acceptable value of %8.2f",
             ll, layer, minsw);
-         warning_error (err_msg);
+         iface->warningError (err_msg);
          }
       else
          {
@@ -781,7 +781,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          sprintf(err_msg,
             " Drained upper limit of %8.2f in layer %d\n         is at or below lower limit of %8.2f",
             dul,layer, ll);
-         warning_error (err_msg);
+         iface->warningError (err_msg);
          }
       else
          {
@@ -791,7 +791,7 @@ void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
          sprintf(err_msg,
             " Soil water of %8.2f in layer %d\n         is below acceptable value of %8.2f",
             sw, layer, minsw);
-         warning_error (err_msg);
+         iface->warningError (err_msg);
          }
       else
          {

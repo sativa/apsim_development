@@ -1,9 +1,8 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Plantlibrary.h"
 
 
@@ -164,7 +163,8 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
    }
 
 //============================================================================
-void cproc_dm_retranslocate1 (float g_current_stage,         //(INPUT)  current phenological stage
+void cproc_dm_retranslocate1 (commsInterface *iface,
+                              float g_current_stage,         //(INPUT)  current phenological stage
                               int start_grnfil,              //(INPUT)
                               int end_grnfil,                //(INPUT)
                               int grain_part_no,             //(INPUT)
@@ -241,7 +241,7 @@ void cproc_dm_retranslocate1 (float g_current_stage,         //(INPUT)  current 
       }
    //now check that we have mass balance
    mass_balance = sum_real_array (dm_retranslocate, max_part);
-   bound_check_real_var (mass_balance, 0.0, 0.0, "dm_retranslocate mass balance");
+   bound_check_real_var (iface, mass_balance, 0.0, 0.0, "dm_retranslocate mass balance");
    }
 
 //============================================================================
@@ -804,7 +804,7 @@ void cproc_rue_co2_modifier(photosynthetic_pathway_t croptype, // Photosynthetic
         }
       default:
         {
-        fatal_error("Unknown photosynthetic pathway");
+        throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
         }
       }
    }

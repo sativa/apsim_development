@@ -1,6 +1,8 @@
 #ifndef PlantLibaryH
 #define PlantLibaryH
 
+#include "PlantInterface.h"
+
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
 
@@ -225,8 +227,6 @@ extern const char *DATA_bd;
       const float hr2s    = 60.0*60.0;          // hours to seconds
       const float s2hr    = 1.0/hr2s;           // seconds to hours
 
-//---------------------------------------------------------------------------
-
 float legnew_vernal_days(float  g_maxt
                                ,float  g_mint
                                ,float  *c_x_vernal_temp
@@ -234,7 +234,6 @@ float legnew_vernal_days(float  g_maxt
                                ,int    c_num_vernal_temp) ;
 
 
-void Write_string (char *line);
 
 void crop_dm_pot_rue (float current_stage,
                 float *rue, float radn_int, float temp_stress_photo,
@@ -281,7 +280,8 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
                            float *g_dlt_dm_green_retrans,  // (INPUT)  plant biomass retranslocat
                            float *dlt_dm_senesced);         // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
 
-void cproc_dm_retranslocate1 (float g_current_stage,         //(INPUT)  current phenological stage
+void cproc_dm_retranslocate1 (commsInterface *iface,
+                              float g_current_stage,         //(INPUT)  current phenological stage
                               int start_grnfil,              //(INPUT)
                               int end_grnfil,                //(INPUT)
                               int grain_part_no,             //(INPUT)
@@ -811,7 +811,8 @@ void legnew_cover_leaf_pod (
 //---------------------------------------------------------------------------
 
 
-void crop_failure_germination(int   sowing,
+void crop_failure_germination(commsInterface *, 
+                              int   sowing,
                               int   germ,
                               int   now,
                               float days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days)
@@ -820,7 +821,8 @@ void crop_failure_germination(int   sowing,
                               float plants,            // (INPUT)  Plant density (plants/m^2)
                               float *dlt_plants);        // (OUTPUT) change in plant number
 
-void crop_failure_emergence(int    germ,
+void crop_failure_emergence(commsInterface *, 
+                            int    germ,
                             int    emerg,
                             int    now,
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day)
@@ -829,14 +831,16 @@ void crop_failure_emergence(int    germ,
                             float *tt_tot,            // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
                             float *dlt_plants);        // (OUTPUT) change in plant number
 
-void crop_failure_leaf_senescence (int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence
+void crop_failure_leaf_senescence (commsInterface *, 
+                                   int  start_stage,           // (INPUT) start check stage for crop failure due to LAI senescence
                                    int  end_stage,             // (INPUT) end check stage for crop failure due to LAI senescence
                                    float g_lai,               // (INPUT) current LAI
                                    float g_current_stage,     // (INPUT) current stage
                                    float g_plants,            // (INPUT) current plant density (plants/m2)
                                    float *dlt_plants);          // (OUTPUT) daily plant death (plants/m2)
 
-void crop_death_drought (int  emerg,                // (INPUT) emergence stage
+void crop_death_drought (commsInterface *, 
+                         int  emerg,                // (INPUT) emergence stage
                          int  flag_leaf,            // (INPUT) flag leaf stage
                          int  plant_end,            // (INPUT) maximum plant stage
                          float *g_cswd_photo,       // (INPUT) cumulative water stress photosynthesis
@@ -848,7 +852,8 @@ void crop_death_drought (int  emerg,                // (INPUT) emergence stage
                          float  g_plants,           // (INPUT) plant density (plants/m2)
                          float *dlt_plants);         // (OUTPUT)daily plant death (plants/m2)
 
-void crop_death_seedling_hightemp (int days_after_emerg,           // (INPUT) days after emergence
+void crop_death_seedling_hightemp (commsInterface *, 
+                                   int days_after_emerg,           // (INPUT) days after emergence
                                    int g_year,                     // (INPUT) year
                                    int g_day_of_year,              // (INPUT) day of year
                                    float *g_soil_temp,              // (INPUT) soil surface temperature (C)
@@ -1624,7 +1629,8 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
                        int   max_layer,           //  (INPUT)
                        float *oxdef_photo);        //  (OUTPUT)
 
-void cproc_sw_supply1 (float C_sw_lb,              //(INPUT)
+void cproc_sw_supply1 (commsInterface *,
+                       float C_sw_lb,              //(INPUT)
                        float *G_dlayer,            //(INPUT)
                        float *P_ll_dep,            //(INPUT)
                        float *G_dul_dep,           //(INPUT)
@@ -1676,7 +1682,8 @@ void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profi
                       float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
                                             //         by transpiration (g/m^2)
 
-void crop_check_sw(float minsw,    // (INPUT)  lowest acceptable value for ll
+void crop_check_sw(commsInterface *,
+                   float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
                    int   max_layer,// (INPUT)  number of layers in profile ()
@@ -1698,19 +1705,21 @@ double divide (double dividend, double divisor, double default_value);
 float l_bound (float var, float lower);
 float u_bound (float var, float upper);
 
-void bound_check_real_array (float *array,// (INPUT) array to be checked
+void bound_check_real_array (commsInterface *,
+                             float *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              float  lower_bound,// (INPUT) lower bound of values
                              float  upper_bound,// (INPUT) upper bound of values
                              const char *array_name);// (INPUT) key string of array
-void bound_check_integer_array (int *array,// (INPUT) array to be checked
+void bound_check_integer_array (commsInterface *,
+                             int *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              int  lower_bound,// (INPUT) lower bound of values
                              int  upper_bound,// (INPUT) upper bound of values
                              const char *array_name);// (INPUT) key string of array
 
-void bound_check_real_var (float value, float lower, float upper, const char *vname);
-void bound_check_integer_var (int value, int lower, int upper, const char *vname);
+void bound_check_real_var (commsInterface *,float value, float lower, float upper, const char *vname);
+void bound_check_integer_var (commsInterface *, int value, int lower, int upper, const char *vname);
 
 float bound(float var, float lower, float upper);
 
@@ -1746,8 +1755,6 @@ bool check_date (int day, int month, int year);
 double date_to_jday (int day, int month, int year);
 void   jday_to_date (int *day, int *month, int *year, double jday);
 
-void fatal_error(const char *str);
-void warning_error(const char *str);
 //---------------------------------------------------------------------------
 
 float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord);

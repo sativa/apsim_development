@@ -1,11 +1,10 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <values.h>
 #include <limits>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Plantlibrary.h"
 
 using namespace std;
@@ -309,7 +308,8 @@ float sum_real_array (float *var,  // INPUT array to be summed
    }
 
 //===========================================================================
-void bound_check_real_var (float value,       // (IN) Value to be checked
+void bound_check_real_var (commsInterface *i,
+                           float value,       // (IN) Value to be checked
                            float lower,       // (IN) Lower bound
                            float upper,       // (IN) Upper bound
                            const char *vname) // (IN) Name of variable
@@ -331,26 +331,27 @@ void bound_check_real_var (float value,       // (IN) Value to be checked
       sprintf(msg,
          "Lower bound (%f) exceeds upper bound (%f)\n        Variable is not checked",
          lower, upper);
-      warning_error (msg);
+      i->warningError (msg);
       }
    //is the value too big?
    else if (value > (upper + epsilon))    //XX wrong. Needs to be relative tolerance.
       {
       sprintf(msg,
          "%s = %f\n        exceeds upper limit of %f",vname,value,upper);
-      warning_error (msg);
+      i->warningError (msg);
       }
    //is the value too small?
    else if (value  < (lower - epsilon))
       {
       sprintf(msg,
          "%s = %f\n        less than lower limit of %f",vname, value, lower);
-      warning_error (msg);
+      i->warningError (msg);
       }
    }
 
 //===========================================================================
-void bound_check_integer_var (int value, int lower, int upper, const char *vname)
+void bound_check_integer_var (commsInterface *i,
+                              int value, int lower, int upper, const char *vname)
 //===========================================================================
 
 /*Purpose
@@ -381,7 +382,7 @@ void bound_check_integer_var (int value, int lower, int upper, const char *vname
    upperf = float(upper);
    valuef = float(value);
 
-   bound_check_real_var(valuef, lowerf, upperf, vname);
+   bound_check_real_var(i, valuef, lowerf, upperf, vname);
    }
 
 //===========================================================================
@@ -408,8 +409,12 @@ float sum_part_of_real(float *array,     // array to be summed
    int lower;
    char name[80];
    //Implementation
-   bound_check_integer_var(start, 0, size_of - 1, "start");
-   bound_check_integer_var(stop, 0, size_of - 1, "stop");
+   if (start < 0 || start >= size_of) {
+      throw std::invalid_argument("Start in sum_part_of_real()");
+   }
+   if (stop < 0 || stop >= size_of) {
+      throw std::invalid_argument("Stop in sum_part_of_real()");
+   }
 
    sum = array[start];
    index = start;
@@ -481,7 +486,7 @@ float bound(float var, float lower, float upper)
  *Calls
  *   l_bound
  *   u_bound
- *   warning_error
+ *   warningError
  */
 
    {
@@ -493,21 +498,17 @@ float bound(float var, float lower, float upper)
    //check that lower & upper bounds are valid
    if (lower > upper)
       {
-      // bounds are invalid, don't constrain variable
+      // bounds are invalid
       char msg[80];
       sprintf(msg,
-            "Lower bound %f is > upper bound %f\n        Variable is not constrained",
+            "Lower bound %f is > upper bound %f\n",
             lower, upper);
-      warning_error (msg);
-      result = var;
+      throw std::invalid_argument(msg);
       }
-   else
-      {
-      // bounds valid, now constrain variable
-      high = u_bound (var, upper);
-      result = l_bound (high, lower);
-      }
-    return result;
+   // constrain variable
+   high = u_bound (var, upper);
+   result = l_bound (high, lower);
+   return result;
    }
 
 //===========================================================================
@@ -657,7 +658,8 @@ void subtract_real_array (const float *amount,// (INPUT) amount to be removed
 
 
 // ================================================================
-void bound_check_real_array (float *array,// (INPUT) array to be checked
+void bound_check_real_array (commsInterface *i,
+                             float *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              float  lower_bound,// (INPUT) lower bound of values
                              float  upper_bound,// (INPUT) upper bound of values
@@ -691,13 +693,14 @@ void bound_check_real_array (float *array,// (INPUT) array to be checked
   //- Implementation Section ----------------------------------
   for (int indx = 0; indx < array_size; indx++)
      {
-      bound_check_real_var (array[indx], lower_bound,
+      bound_check_real_var (i, array[indx], lower_bound,
                             upper_bound, array_name);
      }
 }
 
 // ================================================================
-void bound_check_integer_array (int *array,// (INPUT) array to be checked
+void bound_check_integer_array (commsInterface *i,
+                             int *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              int  lower_bound,// (INPUT) lower bound of values
                              int  upper_bound,// (INPUT) upper bound of values
@@ -731,7 +734,7 @@ void bound_check_integer_array (int *array,// (INPUT) array to be checked
   //- Implementation Section ----------------------------------
   for (int indx = 0; indx < array_size; indx++)
      {
-      bound_check_integer_var (array[indx], lower_bound,
+      bound_check_integer_var (i, array[indx], lower_bound,
                                upper_bound, array_name);
      }
 }

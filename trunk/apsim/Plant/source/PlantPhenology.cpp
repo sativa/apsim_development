@@ -1,9 +1,8 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Plantlibrary.h"
 
 
@@ -74,10 +73,7 @@ float legume_stage_code(
          // we have no valid table
          x_stage_code = 0.0;
 
-//         write (error_message,'(a, i10)')
-//     :               'Invalid lookup table - number of values ='
-//     :              , numvals
-         warning_error ("Bad stage lookup table");
+         throw std::runtime_error("Bad stage lookup table in legume_stage_code()");
          }
 
    return x_stage_code;
@@ -163,8 +159,8 @@ float plant_stage_code (float  *c_stage_code_list  // (INPUT)  list of stage num
         x_stage_code = stage_table[0];
 
         char msg[80];
-        sprintf(msg, "invalid stage code lookup table - number of values = %d", numvals);
-        warning_error (msg);
+        sprintf(msg, "invalid stage code lookup table in plant_stage_code(): number of values = %d", numvals);
+        throw std::runtime_error(msg);
         }
     return (x_stage_code);
     }
@@ -235,9 +231,8 @@ float crop_stage_code (float *c_stage_code_list,
       {
       //we have no valid table
       char  error_mess[80];
-      sprintf(error_mess, "Invalid lookup table - number of values = %d", numvals);
-      warning_error (error_mess);
-      x_stage_code = 0.0;
+      sprintf(error_mess, "Invalid lookup table in crop_stage_code(): number of values = %d", numvals);
+      throw std::runtime_error(error_mess);
       }
    return x_stage_code;
    }

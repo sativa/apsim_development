@@ -12,6 +12,7 @@
 #include <math.h>
 #include <map>
 #include <string>
+#include <stdexcept>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -51,18 +52,6 @@ static const char* logicalType =      "<type kind=\"boolean\"/>";
 /////////////These might be redundancies??//////////
 void push_routine (const char *) {};
 void pop_routine (const char *) {};
-
-void fatal_error (const char *msg) {
-    if (currentInstance) {currentInstance->error(msg, 1);}
-}
-
-void warning_error (const char *msg) {
-    if (currentInstance) {currentInstance->error(msg, 0);}
-}
-
-void Write_string (char *line) {
-    if (currentInstance) {currentInstance->write_string(line);}
-}
 
 /////////////////////////
 Plant::Plant(PlantComponent *P)
@@ -144,7 +133,6 @@ Plant::Plant(PlantComponent *P)
 
 void Plant::initialise(void)
   {
-  currentInstance = this;
   doIDs();                 // Gather IDs for getVariable requests
   plant_read_constants (); // Read constants
   plant_zero_variables (); // Zero global states
@@ -842,7 +830,6 @@ void Plant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
 // Set a variable from the system.
 bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd)
   {
-    currentInstance = this;
     ptr2setFn pf = IDtoSetFn[id];
     if (pf) {return((this->*pf)(qd));}
     return false;
@@ -979,7 +966,7 @@ void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option in plant_bio_actual");
+        throw std::invalid_argument("invalid template option in plant_bio_actual");
         }
 
     pop_routine (my_name);
@@ -1085,7 +1072,7 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option in plant_bio_grain_demand");
+        throw std::invalid_argument("invalid template option in plant_bio_grain_demand");
         }
 
     pop_routine (my_name);
@@ -1115,7 +1102,7 @@ void Plant::plant_bio_grain_oil (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ( "invalid template option in plant_bio_grain_oil");
+        throw std::invalid_argument( "invalid template option in plant_bio_grain_oil");
         }
 
     pop_routine (my_name);
@@ -1215,7 +1202,7 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option in plant_bio_partition");
+        throw std::invalid_argument("invalid template option in plant_bio_partition");
         }
 
     pop_routine (my_name);
@@ -1342,7 +1329,7 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option in plant_bio_retrans");
+        throw std::invalid_argument("invalid template option in plant_bio_retrans");
         }
 
     pop_routine (my_name);
@@ -1457,7 +1444,7 @@ void Plant::plant_water_stress (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option plant_water_stress");
+        throw std::invalid_argument ("invalid template option plant_water_stress");
         }
 
     pop_routine (my_name);
@@ -1486,7 +1473,7 @@ void Plant::plant_temp_stress (int option/* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option in temp_stress");
+        throw std::invalid_argument ("invalid template option in temp_stress");
         }
 
     pop_routine (my_name);
@@ -1531,7 +1518,7 @@ void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option in oxdef_stress");
+        throw std::invalid_argument ("invalid template option in oxdef_stress");
         }
 
     pop_routine (my_name);
@@ -1559,7 +1546,7 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option in bio_water");
+        throw std::invalid_argument ("invalid template option in bio_water");
         }
     pop_routine (my_name);
     return;
@@ -1622,7 +1609,7 @@ void Plant::plant_bio_init (int option)
         }
     else
         {
-        fatal_error ( "invalid template option in bio_init");
+        throw std::invalid_argument ( "invalid template option in bio_init");
         }
 
     pop_routine (myname);
@@ -1652,7 +1639,7 @@ void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number *
         }
     else
         {
-        fatal_error ( "invalid template option in bio_grain_demand_stress");
+        throw std::invalid_argument ( "invalid template option in bio_grain_demand_stress");
         }
 
     pop_routine (my_name);
@@ -1690,7 +1677,7 @@ void Plant::plant_retrans_init (int option)
         }
     else
         {
-        fatal_error ("invalid template option in  retrans_init");
+        throw std::invalid_argument ("invalid template option in  retrans_init");
         }
 
     pop_routine (myname);
@@ -1745,7 +1732,7 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ("invalid template option in detachment");
+        throw std::invalid_argument ("invalid template option in detachment");
         }
 
     pop_routine (my_name);
@@ -1773,14 +1760,14 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-        crop_failure_germination (sowing, germ, now,
+        crop_failure_germination (parent, sowing, germ, now,
                                   c.days_germ_limit,
                                   g.current_stage,
                                   g.days_tot,
                                   g.plants,
                                   &g.dlt_plants_failure_germ);
 
-        crop_failure_emergence (germ, emerg, now,
+        crop_failure_emergence (parent, germ, emerg, now,
                                 c.tt_emerg_limit,
                                 g.current_stage,
                                 g.plants,
@@ -1854,7 +1841,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option in plant_death");
+        throw std::invalid_argument ("invalid template option in plant_death");
         }
 
     pop_routine (my_name);
@@ -2109,7 +2096,7 @@ void Plant::plant_death_external_action(protocol::Variant &v         // (INPUT) 
        }
     else
        {
-       bound_check_real_var(killfr, 0.0, 1.0, "killfr");
+       bound_check_real_var(parent, killfr, 0.0, 1.0, "killfr");
        *dlt_plants = *dlt_plants - g_plants*killfr;
        }
 
@@ -2341,7 +2328,7 @@ void Plant::plant_leaf_area_potential (int option /* (INPUT) option number */)
         }
     else
         {
-        fatal_error ( "invalid template option inplant_leaf_area_potential");
+        throw std::invalid_argument ( "invalid template option inplant_leaf_area_potential");
         }
 
     pop_routine (my_name);
@@ -2378,7 +2365,7 @@ void Plant::plant_leaf_area_stressed (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ( "invalid template option in leaf_area_stresses");
+        throw std::invalid_argument ( "invalid template option in leaf_area_stresses");
         }
 
     pop_routine (my_name);
@@ -2418,7 +2405,7 @@ void Plant::plant_leaf_area_init (int option)
         }
     else
         {
-        fatal_error ( "invalid template option in leaf_area_init");
+        throw std::invalid_argument ( "invalid template option in leaf_area_init");
         }
 
     pop_routine (myname);
@@ -2456,7 +2443,7 @@ void Plant::plant_leaf_no_init (int option)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -2494,7 +2481,7 @@ void Plant::plant_leaf_area_actual (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -2525,7 +2512,7 @@ void Plant::plant_pod_area (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -2565,7 +2552,7 @@ void Plant::plant_leaf_no_actual (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -2630,7 +2617,7 @@ void Plant::plant_leaf_no_pot (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -2676,7 +2663,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -2776,7 +2763,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template N uptake option");
+        throw std::invalid_argument ("invalid template N uptake option");
         }
 
     pop_routine (my_name);
@@ -2826,7 +2813,7 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid n retrans option");
+        throw std::invalid_argument ("invalid n retrans option");
         }
 
     pop_routine (my_name);
@@ -2884,7 +2871,7 @@ void Plant::plant_nit_grain_demand (int Option)
       }
     else
       {
-      fatal_error ("Invalid n demand option");
+      throw std::invalid_argument ("Invalid n demand option");
       }
 }
 
@@ -2944,7 +2931,7 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid n demand option");
+        throw std::invalid_argument ("invalid n demand option");
         }
 
     pop_routine (my_name);
@@ -2961,7 +2948,7 @@ void Plant::plant_soil_nit_demand (int Option)
    if (Option == 1) {
       plant_soil_n_demand1(g.soil_n_demand);
    } else {
-      fatal_error ("Invalid template option");
+      throw std::invalid_argument ("Invalid template option");
    }
 }
 
@@ -3039,7 +3026,7 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3077,7 +3064,7 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3173,7 +3160,7 @@ void Plant::plant_nit_stress (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3263,12 +3250,12 @@ void Plant::plant_nit_demand_est (int option)
             }
         else
             {
-            fatal_error ("bad n supply preference");
+            throw std::invalid_argument ("bad n supply preference");
             }
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3306,7 +3293,7 @@ void Plant::plant_height (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3346,7 +3333,7 @@ void Plant::plant_width (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3478,7 +3465,7 @@ void Plant::plant_phenology_init (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3709,7 +3696,7 @@ void Plant::plant_phenology (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     if (sum_real_array(g.days_tot, max_stage) > 0)
@@ -3749,7 +3736,7 @@ void Plant::plant_fruit_cohort_number (int option)
        }
     else
        {
-       fatal_error ("Invalid template option");
+       throw std::invalid_argument ("Invalid template option");
        }
     }
 
@@ -3820,7 +3807,7 @@ void Plant::plant_sen_bio (int dm_senescence_option)
         }
     else
         {
-        fatal_error ("invalid template option in plant_sen_bio");
+        throw std::invalid_argument ("invalid template option in plant_sen_bio");
         }
     pop_routine (my_name);
     }
@@ -3869,7 +3856,7 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid sen nit option");
+        throw std::invalid_argument ("invalid sen nit option");
         }
 
     pop_routine (my_name);
@@ -3913,7 +3900,7 @@ void Plant::plant_leaf_death (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -3971,7 +3958,7 @@ void Plant::plant_leaf_area_sen (int   option/*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -4211,7 +4198,7 @@ void Plant::plant_check_leaf_record ()
 //      endif
     if (! reals_are_equal (leaf_area_tot, g.lai + g.slai, tolerance_lai))
       {
-      fatal_error ("bad record for total leaf area");
+      throw std::runtime_error ("bad record for total leaf area");
       }
 
     leaf_area_tot = 0.0;
@@ -4236,7 +4223,7 @@ void Plant::plant_check_leaf_record ()
     if (sum_real_array(g.leaf_no_dead, max_node) >
         sum_real_array(g.leaf_no, max_node))
         {
-        fatal_error ("bad record for dead leaf number");
+        throw std::runtime_error ("bad record for dead leaf number");
         }
 
 
@@ -4758,41 +4745,41 @@ void Plant::plant_check_bounds
 
     push_routine (my_name);
 
-    bound_check_real_var(g_root_depth
+    bound_check_real_var(parent,g_root_depth
                          , 0.0
                          , sum_real_array (g_dlayer, max_layer)
                          , "root_depth");
 
-    bound_check_real_var(g_current_stage
+    bound_check_real_var(parent,g_current_stage
                          , 1.0
                          , max_stage
                          , "current_stage");
 
-    bound_check_real_var(g_plants
+    bound_check_real_var(parent,g_plants
                          , 0.0
                          , 10000.0
                          , "plants");
 
-    bound_check_real_var(g_cover_green
+    bound_check_real_var(parent,g_cover_green
                          , 0.0
                          , 1.0
                          , "cover_green");
 
-    bound_check_real_var(g_cover_sen
+    bound_check_real_var(parent,g_cover_sen
                          , 0.0
                          , 1.0
                          , "cover_sen");
 
-    bound_check_real_var(g_cover_dead
+    bound_check_real_var(parent,g_cover_dead
                          , 0.0
                          , 1.0
                          , "cover_dead");
 
-    bound_check_real_var(sum_real_array (g_heat_stress_tt, max_stage)
+    bound_check_real_var(parent,sum_real_array (g_heat_stress_tt, max_stage)
                          , 0.0
                          , 1000000.0
                          , "heat_stress_tt");
-    bound_check_real_var(sum_real_array (g_dm_stress_max, max_stage)
+    bound_check_real_var(parent,sum_real_array (g_dm_stress_max, max_stage)
                          , 0.0
                          , 1000000.0
                          , "dm_stress_max");
@@ -5176,7 +5163,7 @@ void Plant::plant_root_depth (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5200,7 +5187,8 @@ void Plant::plant_water_supply (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-        cproc_sw_supply1 ( c.sw_lb
+        cproc_sw_supply1 (parent
+                          ,c.sw_lb
                           ,g.dlayer
                           ,p.ll_dep
                           ,g.dul_dep
@@ -5214,7 +5202,7 @@ void Plant::plant_water_supply (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5257,7 +5245,7 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5304,7 +5292,7 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5337,7 +5325,7 @@ void Plant::plant_light_supply (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5377,7 +5365,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5419,7 +5407,7 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5455,7 +5443,7 @@ void Plant::plant_sen_root_length (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5490,7 +5478,7 @@ void Plant::plant_root_depth_init (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5563,7 +5551,7 @@ void Plant::plant_root_length_growth (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5603,7 +5591,7 @@ void Plant::plant_root_length_init (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -5828,7 +5816,7 @@ void Plant::plant_n_conc_limits
         n_conc_crit[leaf] *= co2_modifier;
         if (n_conc_crit[leaf] <= n_conc_min[leaf])
            {
-           fatal_error("Aiieeee nconc_crit < nconc_min!");
+           throw std::runtime_error("Aiieeee nconc_crit < nconc_min!");
            }
 //        }
     }
@@ -6010,7 +5998,7 @@ void Plant::legnew_n_partition
               + ftoa(sum_real_array (dlt_n_green, max_part), ".6")
               + " vs "
               + ftoa(n_uptake_sum, ".6");
-        error(msg.c_str(), false);
+        parent->warningError(msg.c_str());
         }
 
     n_fix_demand_tot = l_bound (n_demand - n_uptake_sum, 0.0);
@@ -6051,7 +6039,7 @@ void Plant::legnew_bio_grain_oil (
 
     *grain_energy = 1.0 + c_grain_oil_conc * (c_carbo_oil_conv_ratio - 1.0);
 
-    bound_check_real_var (*grain_energy
+    bound_check_real_var (parent,*grain_energy
                           , 1.0
                           , 2.0
                           , "grain_energy");
@@ -6320,11 +6308,11 @@ void Plant::legnew_dm_partition1
           + ftoa(dlt_dm_green_tot, ".6")
           + " vs "
           + ftoa(g_dlt_dm, ".6");
-      error(msg.c_str(), 0);
+      parent->warningError(msg.c_str());
       }
 
     // check that deltas are in legal range
-    bound_check_real_array (dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+    bound_check_real_array (parent,dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
 
 //    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
 //            g.dm_green[root] + g.dm_green[leaf] + g.dm_green[stem],
@@ -6478,11 +6466,11 @@ void Plant::legnew_dm_partition2
           + ftoa(dlt_dm_green_tot, ".6")
           + " vs "
           + ftoa(g_dlt_dm, ".6");
-      error(msg.c_str(), 0);
+      parent->warningError(msg.c_str());
       }
 
     // check that deltas are in legal range
-    bound_check_real_array (dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+    bound_check_real_array (parent,dlt_dm_green, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
 
     pop_routine (my_name);
     return;
@@ -6718,7 +6706,7 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
              + ftoa(dlt_dm_green_tot, ".6")
              + " vs "
              + ftoa(g_dlt_dm, ".6");
-         error(msg.c_str(), 0);
+         parent->warningError(msg.c_str());
          }
 
       // check that deltas are in legal range
@@ -6732,8 +6720,8 @@ void Plant::legnew_dm_partition3(float  g_current_stage              //
            cohort++;
            } while (cohort < g_num_fruit_cohorts);
         }
-      bound_check_real_array(sum, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
-      bound_check_real_var (*dlt_dm_parasite, 0.0, g_dlt_dm, "dlt_dm_parasite");
+      bound_check_real_array(parent,sum, max_part, 0.0, g_dlt_dm, "dlt_dm_green");
+      bound_check_real_var (parent,*dlt_dm_parasite, 0.0, g_dlt_dm, "dlt_dm_parasite");
 
       delete [] sum;
       for (int cohort = 0; cohort < max_fruit_cohorts; cohort++) {
@@ -6906,7 +6894,7 @@ void Plant::legnew_dm_retranslocate1
           + ftoa(sum_real_array (dm_retranslocate, max_part), ".6")
           + " vs "
           + ftoa(*dm_oil_conv_retranslocate, ".6");
-      error(msg.c_str(), 0);
+      parent->warningError(msg.c_str());
       }
     pop_routine (my_name);
 //    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
@@ -7086,7 +7074,7 @@ void Plant::legnew_dm_retranslocate2
 
     mass_balance = sum_real_array (dm_retranslocate, max_part)
     + *dm_oil_conv_retranslocate;
-    bound_check_real_var (mass_balance, -1.0e-5, 1.0e-5
+    bound_check_real_var (parent,mass_balance, -1.0e-5, 1.0e-5
     , "dm_retranslocate mass balance");
 
     pop_routine (my_name);
@@ -7364,7 +7352,7 @@ void Plant::legnew_dm_retranslocate3(
    mass_balance = mass_balance
                 + sum_real_array(dm_oil_conv_retranslocate, max_part)
                 + *dm_parasite_retranslocate;
-   bound_check_real_var (mass_balance, -5.0e-5, 5.0e-5
+   bound_check_real_var (parent,mass_balance, -5.0e-5, 5.0e-5
                             , "dm_retranslocate mass balance");
 
    pop_routine (my_name);
@@ -7739,7 +7727,7 @@ void Plant::legnew_n_retranslocate
     // just check that we got the maths right.
     for (int part = root; part <= pod; part++)
         {
-        bound_check_real_var (fabs (dlt_n_retrans[part])
+        bound_check_real_var (parent,fabs (dlt_n_retrans[part])
                               , 0.0, n_avail[part] + tolerence
                               , "dlt_N_retrans(part)");
         }
@@ -7844,7 +7832,7 @@ void Plant::plant_n_retranslocate(float *g_n_conc_crit //! (INPUT)  critical N c
       // just check that we got the maths right.
      for (int part = root; part <= pod; part++)
         {
-        bound_check_real_var (fabs (dlt_n_retrans[part])
+        bound_check_real_var (parent,fabs (dlt_n_retrans[part])
                               , 0.0, n_avail[part] + tolerence
                               , "dlt_N_retrans(part)");
         }
@@ -8187,7 +8175,7 @@ void Plant::plant_grain_number (int option /*(INPUT) option number*/)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -8239,7 +8227,7 @@ void Plant::plant_fruit_site_number (int option)
                        , &g.dlt_fruit_site_no );
       }
    else
-      fatal_error ("Invalid template option for plant fruit number");
+      throw std::invalid_argument ("Invalid template option for plant fruit number");
 
    pop_routine (my_name);
    }
@@ -8297,7 +8285,7 @@ void Plant::plant_fruit_number (int option)
          }
       }
    else
-      fatal_error ("Invalid template option for plant fruit number");
+      throw std::invalid_argument ("Invalid template option for plant fruit number");
 
    pop_routine (my_name);
    }
@@ -8639,7 +8627,7 @@ void Plant::plant_harvest (protocol::Variant &v/*(INPUT) message variant*/)
         sprintf(msg, "%s%s"
                 , g.module_name.c_str()
                 , " is not in the ground - unable to harvest.");
-        warning_error (msg);
+        parent->warningError (msg);
         }
 
     pop_routine (my_name);
@@ -8703,7 +8691,7 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
 // crop harvested. Report status
     if (incomingApsimVariant.get("state", protocol::DTstring, false, dormancy_flag) == false)
          {
-         fatal_error("dormancy state must be specified");
+         throw std::invalid_argument("dormancy state must be specified");
          }
 
     if (dormancy_flag == "on")
@@ -8727,7 +8715,7 @@ void Plant::plant_dormancy (protocol::Variant &v/*(INPUT) incoming message varia
     else
         {
         // unknown dormancy_flag
-        fatal_error ("dormancy state is unknown - neither on nor off");
+        throw std::invalid_argument ("dormancy state is unknown - neither on nor off");
         }
 
     pop_routine (my_name);
@@ -8815,7 +8803,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        {
        height = 0.0;
        }
-    bound_check_real_var(height, 0.0, 1000.0, "height");
+    bound_check_real_var(parent,height, 0.0, 1000.0, "height");
 
     g.previous_stage = g.current_stage;
 
@@ -8826,7 +8814,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     // ==============================
     if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
         {
-        bound_check_real_var(temp, 0.0, 10000.0, "plants");
+        bound_check_real_var(parent,temp, 0.0, 10000.0, "plants");
         g.plants = temp;
         }
 
@@ -8834,7 +8822,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         {
         remove_fr = 0.0;
         }
-    bound_check_real_var(remove_fr, 0.0, 1.0, "remove");
+    bound_check_real_var(parent,remove_fr, 0.0, 1.0, "remove");
 
     for (part=0; part < max_part; part++)
         {
@@ -9308,7 +9296,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     // ==============================
     if (aV.get("plants", protocol::DTsingle, false, temp) == true)
         {
-        bound_check_real_var(temp, 0.0, 10000.0, "plants");
+        bound_check_real_var(parent,temp, 0.0, 10000.0, "plants");
         g.plants = temp;
         }
 
@@ -10518,7 +10506,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
         // Check anachronisms
         if (incomingApsimVariant.get("crop_type", protocol::DTstring, false, dummy) != false)
             {
-            warning_error ("crop type no longer used in sowing command");
+            parent->warningError ("crop type no longer used in sowing command");
             }
 
         // get species parameters
@@ -10537,7 +10525,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
         // get cultivar parameters
         if (incomingApsimVariant.get("cultivar", protocol::DTstring, false, dummy) == false)
             {
-            fatal_error("Cultivar not specified");
+            throw std::invalid_argument("Cultivar not specified");
             }
         else
             {
@@ -10552,35 +10540,35 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
         // get other sowing criteria
         if (incomingApsimVariant.get("plants", protocol::DTsingle, false, g.plants) == false)
             {
-            fatal_error("plant density ('plants') not specified");
+            throw std::invalid_argument("plant density ('plants') not specified");
             }
-        bound_check_real_var(g.plants, 0.0, 1000.0, "plants");
+        bound_check_real_var(parent,g.plants, 0.0, 1000.0, "plants");
 
         if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, g.sowing_depth) == false)
             {
-            fatal_error("sowing_depth not specified");
+            throw std::invalid_argument("sowing_depth not specified");
             }
-        bound_check_real_var(g.sowing_depth, 0.0, 100.0, "sowing_depth");
+        bound_check_real_var(parent,g.sowing_depth, 0.0, 100.0, "sowing_depth");
 
         if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
             {
             g.row_spacing = c.row_spacing_default;
             }
-        bound_check_real_var(g.row_spacing, 0.0, 2000.0, "row_spacing");
+        bound_check_real_var(parent,g.row_spacing, 0.0, 2000.0, "row_spacing");
 
 
         if (incomingApsimVariant.get("skipplant", protocol::DTsingle, false, g.skip_plant) == false)
             {
             g.skip_plant = c.skip_plant_default;
             }
-        bound_check_real_var(g.skip_plant, 0.0, 2.0, "skipplant");
+        bound_check_real_var(parent,g.skip_plant, 0.0, 2.0, "skipplant");
         g.skip_plant_fac = (2.0 + g.skip_plant)/2.0;
 
         if (incomingApsimVariant.get("skiprow", protocol::DTsingle, false, g.skip_row) == false)
             {
             g.skip_row = c.skip_row_default;
             }
-        bound_check_real_var(g.skip_row, 0.0, 2.0, "skiprow");
+        bound_check_real_var(parent,g.skip_row, 0.0, 2.0, "skiprow");
         g.skip_row_fac = (2.0 + g.skip_row)/2.0;
 
         // Bang.
@@ -10607,7 +10595,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     else
         {
         string m = string(g.module_name + " is still in the ground -\n unable to sow until it is\n taken out by \"end_crop\" action.");
-        fatal_error (m.c_str());
+        throw std::runtime_error (m.c_str());
         }
 
     pop_routine (my_name);
@@ -11513,7 +11501,7 @@ void Plant::plant_end_crop ()
         {
         sprintf(msg, "%s%s%s", g.module_name.c_str(), " is not in the ground -", " unable to end crop.");
 
-        warning_error (msg);
+        parent->warningError (msg);
         }
 
     pop_routine (my_name);
@@ -11568,7 +11556,7 @@ void Plant::plant_kill_crop_action (protocol::Variant &mVar)
          ,g.module_name.c_str()
          , " is not in the ground -"
          , " unable to kill crop.");
-        warning_error (msg);
+        parent->warningError (msg);
         }
 
     pop_routine (my_name);
@@ -13722,7 +13710,7 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
 bool Plant::set_plant_grain_oil_conc(protocol::QuerySetValueData&v)
     {
     v.variant.unpack(c.grain_oil_conc);
-    bound_check_real_var(c.grain_oil_conc, 0.0, 1.0, "grain_oil_conc");
+    bound_check_real_var(parent,c.grain_oil_conc, 0.0, 1.0, "grain_oil_conc");
     plant_read_species_const ();
     return true;
     }
@@ -14532,13 +14520,13 @@ void Plant::plant_root_incorp (float dlt_dm_root,        //(INPUT) new root resi
          crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_dm_incorp,
                         dlt_dm_root * gm2kg /sm2ha, max_layer);
 
-         bound_check_real_array(dlt_dm_incorp, max_layer, 0.0, dlt_dm_root * gm2kg / sm2ha,
+         bound_check_real_array(parent,dlt_dm_incorp, max_layer, 0.0, dlt_dm_root * gm2kg / sm2ha,
                                 "dlt_dm_incorp");
 
          crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_N_incorp,
                         dlt_N_root * gm2kg /sm2ha, max_layer);
 
-         bound_check_real_array(dlt_N_incorp,  max_layer, 0.0, dlt_N_root * gm2kg / sm2ha,
+         bound_check_real_array(parent,dlt_N_incorp,  max_layer, 0.0, dlt_N_root * gm2kg / sm2ha,
                                 "dlt_N_incorp");
 
          deepest_layer = find_layer_no(g_root_depth, g_dlayer, max_layer);
@@ -14913,7 +14901,7 @@ void Plant::plant_fruit_phenology_update (float g_previous_stage
       }
    if (*g_dlt_stage < 0.0)
       {
-      fatal_error ("negative dlt_stage in plant_fruit_phenology_update");
+      throw std::runtime_error ("negative dlt_stage in plant_fruit_phenology_update");
       }
    // C2
    //fprintf(stdout, "%d %f %f %d %d\n", g.day_of_year, *g_dlt_stage, *g_current_stage,g_num_fruit_cohorts, cohort);
@@ -14991,7 +14979,7 @@ void Plant::plant_fruit_abort (int option)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -15036,7 +15024,7 @@ void Plant::plant_fruit_cleanup (int option)
         }
     else
         {
-        fatal_error ("invalid template option");
+        throw std::invalid_argument ("invalid template option");
         }
 
     pop_routine (my_name);
@@ -15067,7 +15055,7 @@ void Plant::plant_fruit_cohort_init( int   init_stage_cohort
            }
        else
            {
-           fatal_error ("number of fruit cohorts exceeded maximum allowed");
+           throw std::runtime_error ("number of fruit cohorts exceeded maximum allowed");
            }
        }
     pop_routine (my_name);

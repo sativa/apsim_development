@@ -1,9 +1,8 @@
-#include <general/pch.h>
-#include <vcl.h>
 #include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "Plantlibrary.h"
 
 
@@ -72,11 +71,11 @@ void accumulate (float value,             //  (INPUT) value to add to array
          array[current_index] = array[current_index] + value;
          }
       }
-// Hmmmm.
-//   else
-//      {
-//      fatal_error (&err_internal, "accumulate index < 0!!");
-//      }
+
+   else
+      {
+      throw std::invalid_argument("accumulate index < 0!!");
+      }
    }
 
 //===========================================================================
@@ -114,12 +113,12 @@ float temp_3hr (float tmax, float tmin, int period)
    if (period < 1)
       {
       sprintf(error_mess," 3 hr. number '%d' is below 1", period);
-      fatal_error (error_mess);
+      throw std::invalid_argument(error_mess);
       }
    else if (period > 8)
       {
       sprintf(error_mess," 3 hr. number '%d' is above 8", period);
-      fatal_error (error_mess);
+      throw std::invalid_argument(error_mess);
       }
    else
       {
@@ -218,8 +217,7 @@ float stage_no_of (float stage_code,           //(INPUT) stage code to look up
       char error_mess[80];
       sprintf(error_mess,"Stage code not found in code list. Code number = %d",
               stage_code);
-      warning_error (error_mess);
-      return 0;  // We're on our way down...
+      throw std::invalid_argument(error_mess);
       }
    }
 
@@ -258,7 +256,7 @@ float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord)
    float y = 0.0;                         // interpolated value
 
    if (num_cord <= 0) {
-     warning_error ("no coords in linear_interp_real");
+     throw std::invalid_argument("no coordinates in linear_interp_real");
    }
 
    //Implementation
@@ -362,11 +360,10 @@ bool stage_is_between (int start, int finish, float current_stage)
  *   int *finish           (INPUT) final stage+ 1
  *   float *current_Stage  (INPUT) stage number to be tested
  *Calls
- *   bound_check_integer_var
  */
 
    {
-   bound_check_integer_var (start, 0.0, finish - 1, "start of stage_is_between");
+   if (start < 0 || start > finish) {throw std::invalid_argument("start of stage_is_between");}
    return ((int(current_stage) >= start) &&
            (int(current_stage) < finish));
    }
