@@ -13,6 +13,7 @@
 -import    ei_sendvariable
 -import    ei_componentresponded
 -import    ei_setcomponentresponded
+-import    ei_registersubscribedevent
 
 -implib  "apsimengine.dll"
 -import    apsimsystem_error_fatal
