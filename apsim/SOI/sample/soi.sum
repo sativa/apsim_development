@@ -9,55 +9,49 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
+     Version                = 2.2
+     Title                  = Goondiwindi may phase 4
+     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\apswork\apsim\soi\lib\soi.dll
 
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\soi\sample\run.sim
-     Title                  = * Insur Chin Sorg 15 Oct
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soi\lib\soi.dll(soi) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
-
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1980
-     Simulation end date   =  3/02/1990
+     Simulation end date   =  1/01/1989
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.today.dd/mm/yyyy(Date)
+        soi.soi[Jun](soi)
+     
      Output file = soi.out
      Format = normal
-     Output variables:
-        clock.today.dd/mm/yyyy (alias: Date)
-        soi.soi[jun] (alias: soi)
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\regr\apsim\soi\sample\028004.sg2
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\progra~1\apsim22\apsim\met\sample\goond.met
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      if (soi['may'] = 4) then
            report do_end_day_output
      endif
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
-     
-     Soil water in parameter file is being overridden by
-     the insoil parameter which is between 0 and 1
-     Initial soilwater distributed evenly using "insoil" parameter.
+     Initial soilwater distributed using "sw" parameter.
      
      
      
@@ -66,13 +60,13 @@
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
                 mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
         ---------------------------------------------------------------------
-            0.-  150.  0.084  0.188  0.345  0.433  0.345  1.500  0.762  0.100
-          150.-  300.  0.200  0.234  0.348  0.433  0.348  1.500  0.190  0.100
-          300.-  600.  0.200  0.232  0.370  0.422  0.370  1.530  0.048  0.100
-          600.-  900.  0.232  0.301  0.371  0.384  0.371  1.630  0.000  0.100
-          900.- 1200.  0.219  0.300  0.390  0.396  0.390  1.600  0.000  0.100
-         1200.- 1500.  0.226  0.284  0.384  0.388  0.384  1.620  0.000  0.100
-         1500.- 1800.  0.226  0.320  0.373  0.384  0.373  1.630  0.000  0.100
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
         ---------------------------------------------------------------------
      
      
@@ -83,15 +77,15 @@
                           (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
-            0.-  150.      28.20      23.55      23.55      13.20
-          150.-  300.      35.10      17.10      17.10      12.75
-          300.-  600.      69.60      41.40      41.40      15.60
-          600.-  900.      90.30      21.00      21.00       3.90
-          900.- 1200.      90.00      27.00      27.00       1.80
-         1200.- 1500.      85.20      30.00      30.00       1.20
-         1500.- 1800.      96.00      15.90      15.90       3.30
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
           ---------------------------------------------------------
-               Totals     494.40     175.95     175.95      51.75
+               Totals     460.50     260.10     314.85     115.50
           ---------------------------------------------------------
      
      
@@ -103,7 +97,7 @@
           ---------------------------------------------------------
                  Insoil        Salb     Dif_Con   Dif_Slope
           ---------------------------------------------------------
-                   1.00        0.13       40.00       16.00
+                   2.00        0.13       88.00       35.40
           ---------------------------------------------------------
      
      
@@ -112,81 +106,15 @@
                 Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
                                            mm
           ---------------------------------------------------------
-              73.00   20.00    0.80  450.00
+              80.00   20.00    0.80  450.00
           ---------------------------------------------------------
      
      
      
            Using Ritchie evaporation model
-            Cuml evap (U):            6.00 (mm^0.5)
-            CONA:                     3.50 ()
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
            Eo from priestly-taylor
-
-------- RESIDUE2 Initialisation ----------------------------------------------
-     
-         - Reading constants
-     
-         - Reading parameters
-     
-     
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-               500.0     2.6     0.0  sorghum
-         ------------------------------------------------
-
-------- SOILN2 Initialisation ------------------------------------------------
-     
-        - Reading Constants
-     
-        - Reading Parameters
-     
-     
-     
-           TAV and AMP supplied externally
-     
-     
-     
-                      Soil Profile Properties
-          ------------------------------------------------
-           Layer    pH    OC     NO3     NH4    Urea
-                         (%) (kg/ha) (kg/ha) (kg/ha)
-          ------------------------------------------------
-             1     8.38  1.13    1.39    1.46    0.00
-             2     8.99  0.79    0.20    1.13    0.00
-             3     8.99  0.76    0.41    2.29    0.00
-             4     8.99  0.64    0.32    1.96    0.00
-             5     8.10  0.40    0.26    1.92    0.00
-             6     7.22  0.27    0.39    1.22    0.00
-             7     5.50  0.29    0.39    1.22    0.00
-          ------------------------------------------------
-           Totals                3.37   11.20    0.00
-          ------------------------------------------------
-     
-     
-     
-     
-     
-     
-                  Initial Soil Organic Matter Status
-          ---------------------------------------------------------
-           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
-                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
-          ---------------------------------------------------------
-             1      24577.2  1966.2   735.3    91.9   138.9     2.8
-             2      17657.1  1412.6   185.4    23.2   108.1     2.2
-             3      34682.1  2774.6   247.8    31.0    65.6     1.3
-             4      31373.1  2509.8   118.5    14.8    39.8     0.8
-             5      19006.9  1520.6    49.1     6.1    24.1     0.5
-             6      13245.5  1059.6    22.3     2.8    14.6     0.3
-             7      13964.6  1117.2    20.8     2.6     8.9     0.2
-          ---------------------------------------------------------
-           Totals  154506.6 12360.5  1379.1   172.4   400.0     8.0
-          ---------------------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-3 February 1990 (Day of year=34):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+1 January 1989(Day of year=1), clock: 
+     Simulation is terminating due to end criteria being met.
