@@ -597,13 +597,6 @@ Public Class MainUI
 
     Private Sub SimulationExplorer_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationExplorer.DoubleClick
 
-        Dim path As String = SimulationExplorer.SelectedNode.FullPath
-        '        If InStr(path, "/") > 0 Then
-        '       path = Mid$(path, InStr(path, "/"))
-        '      End If
-        Dim Data As New APSIMData
-        Data = APSIMFile.Data(path)
-        MainUImanager.ShowUI(Data)
 
 
     End Sub
@@ -791,13 +784,32 @@ Public Class MainUI
 
     End Sub
 
-    Private Sub SimulationExplorer_AfterSelect_1(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles SimulationExplorer.AfterSelect
+    Private Sub SimulationExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles SimulationExplorer.AfterSelect
+        Dim path As String = SimulationExplorer.SelectedNode.FullPath
+        Dim Data As New APSIMData
+        Data = APSIMFile.Data(path)
+        MainUImanager.ShowUI(Data)
 
     End Sub
 
-    Private Sub SimulationExplorer_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles SimulationExplorer.DragDrop
-        Dim target As TreeNode = SimulationExplorer.GetNodeAt(e.X, e.Y)
-        MsgBox(target.Text)
+    Public Sub SimulationExplorer_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles SimulationExplorer.DragDrop
+        Try
+            Dim pt As Point
+            Dim DestinationNode As TreeNode
+            pt = CType(sender, TreeView).PointToClient(New Point(e.X, e.Y))
+            DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
+            'MsgBox(DestinationNode.Text)
+            'MsgBox(DestinationNode.FullPath)
+            'MsgBox(e.Data.GetData(DataFormats.Text))
+            APSIMFile.Data.Child(DestinationNode.Text).Add(e.Data.GetData(DataFormats.Text))
+
+
+
+            UpdateMainForm()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
     End Sub
 
     Private Sub TabContextMenu_Popup(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -843,5 +855,13 @@ Public Class MainUI
                 e.CancelEdit = True
             End If
         End If
+    End Sub
+
+    Private Sub SimulationExplorer_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles SimulationExplorer.DragEnter
+        e.Effect = DragDropEffects.Copy
+    End Sub
+
+    Private Sub SimulationExplorer_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles SimulationExplorer.Click
+
     End Sub
 End Class
