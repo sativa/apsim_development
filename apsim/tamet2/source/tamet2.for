@@ -1496,6 +1496,8 @@
       CHARACTER*4 STN
       CHARACTER RMESS*(*)
       character string*80
+      integer LAG, N2, K1, K3
+      
  
       LAG = N2
  
