@@ -8726,7 +8726,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
             {
             // Calculate Root Die Back
 
-            float chop_fr_green_leaf = divide(dltDmGreen[part], g.dm_green[part], 0.0);
+            float chop_fr_green_leaf = divide(dltDmGreen[leaf], g.dm_green[leaf], 0.0);
             dlt_dm_die = g.dm_green[part] * c.root_die_back_fr * chop_fr_green_leaf;
             g.dm_senesced[part] = g.dm_senesced[part] + dlt_dm_die;
             g.dm_green[part] = g.dm_green[part] - dlt_dm_die;
@@ -8992,11 +8992,21 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     float dlt_slai = g.slai * chop_fr_sen[leaf];
     float dlt_tlai_dead = g.tlai_dead * chop_fr_dead[leaf];
 
+    float lai_init = c.initial_tpla * smm2sm * g.plants;
+    float dlt_lai_max = g.lai - lai_init;
+    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
+
     g.lai = g.lai - dlt_lai;
     g.slai = g.slai - dlt_slai;
     g.tlai_dead = g.tlai_dead - dlt_tlai_dead;
 
-    float dlt_lai_tot = dlt_lai + dlt_slai;
+         // keep leaf area and dm above a minimum
+
+    dm_init = c.dm_init [part] * g.plants;
+    g.dm_green[leaf] = l_bound (g.dm_green[leaf], dm_init);
+
+    n_init = dm_init * c.n_init_conc[leaf];
+    g.n_green[leaf] = l_bound (g.n_green[leaf], n_init);
 
     plant_leaf_detachment (g.leaf_area
                             , dlt_slai
