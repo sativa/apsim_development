@@ -135,7 +135,10 @@ namespace YieldProphet
 						+ "   Crop          = " + Crop3.Text + "\r\n"
 						+ "   Variety       = " + Variety3.Text + "\r\n";
 
-			EmailClass.SendEmail("dean.holzworth@csiro.au", "yieldprophet.com.au", 
+			EmailClass.SendEmail("james.hunt@aanet.com.au", "Dean.Holzworth@csiro.au", 
+				                 "Yield Prophet online registration",
+								 body, new StringCollection(), System.Web.Mail.MailPriority.Normal);
+			EmailClass.SendEmail("info@bcg.org.au", "Dean.Holzworth@csiro.au", 
 				                 "Yield Prophet online registration",
 								 body, new StringCollection(), System.Web.Mail.MailPriority.Normal);
 			Server.Transfer("wfRegForm3.aspx");
