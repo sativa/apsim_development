@@ -390,6 +390,12 @@ cjh      endif
       string = '     ------------------------------------------------'
       call write_string ( string)
 
+      write (string,'(3x, a, f6.1, 1x, a)')
+     :   '    Crop factor for bounding water use is set to '
+     :   , p.eo_crop_factor
+     :   , ' times eo.'
+      call write_string ( new_line//string)
+
       call write_string ( new_line//new_line)
 
 
@@ -5618,6 +5624,7 @@ c      g%dlt_n_uptake_stover=0.0
       !maize
       p%hi_max_pot   =0.0
 
+      p%eo_crop_factor = 0.0;
 
 *================== Constants ======================================
 
@@ -5912,6 +5919,8 @@ c      g%dlt_n_uptake_stover=0.0
       c%num_fasw_emerg     =0
       c%year_ub            =0
       c%year_lb            =0
+
+      c%eo_crop_factor_default = 0.0;
 
       !newmaize_block/
       call fill_real_array(c%grno_grate,        0.0, max_table)
