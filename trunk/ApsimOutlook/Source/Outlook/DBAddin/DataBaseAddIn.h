@@ -16,7 +16,7 @@
 class DatabaseAddIn : public AddInBase
    {
    public:
-      DatabaseAddIn(const std::string& parameters);
+      DatabaseAddIn(const std::string& parameters, bool& success);
       ~DatabaseAddIn(void);
 
       // return a default scenario to caller.
@@ -45,9 +45,9 @@ class DatabaseAddIn : public AddInBase
       ImageMap images;
 
 
-      void askUserForMDBs(void);
-      void askUserForDataSets(void);
-      void readAllDatabases(std::vector<std::string>& databaseFilenames);
+      void askUserForMDBs(bool& success);
+      void askUserForDataSets(bool& success);
+      void readAllDatabases(std::vector<std::string>& databaseFilenames, bool& success);
       void readDatabase(const std::string& databaseFileName);
       Scenario convertSimulationToScenario(const DBSimulation& simulation,
                                            const std::string& scenarioName)const;

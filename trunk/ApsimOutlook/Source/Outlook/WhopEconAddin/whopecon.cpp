@@ -56,10 +56,12 @@ AnsiString GetStringFromFieldValues(AnsiString fieldName, TADOTable* table);
 //    DAH 29/8/01 created
 
 // ------------------------------------------------------------------
-extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
+extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bool& success)
    {
    // will be called with begin
    // and end years from the database
+   success = true; // this line may require more thought later, ie, success should really
+                   // be indicated by the WhopEcon constructor
    return new WhopEcon(parameters);
    }
 

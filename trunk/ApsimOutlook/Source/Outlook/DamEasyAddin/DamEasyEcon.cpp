@@ -31,10 +31,11 @@ int DamEasyEcon::numObjects;
 //    DAH 20/4/01
 
 // ------------------------------------------------------------------
-extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters)
+extern "C" AddInBase* _export __stdcall createAddIn(const string& parameters, bool& success)
    {
    // will be called with begin
    // and end years from the database
+   success = true;
    return new DamEasyEcon(parameters);
    }
 
