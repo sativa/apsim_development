@@ -109,7 +109,9 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fst
       messageData >> data.field.name[i];
    #elseif (field.ctype = FString)
    FString field.nameString(data.field.name, max_array_size, FORString);
-   messageData >> field.nameString;
+   FString field.nameAlias;
+   messageData >> field.nameAlias;
+   field.nameString = field.nameAlias;
    #else
    messageData >> data.field.name;
    #endif
