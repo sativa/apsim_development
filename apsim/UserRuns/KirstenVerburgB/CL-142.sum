@@ -22,7 +22,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
@@ -86,9 +86,9 @@
         soiln2.nh4()
         soiln2.urea() as urea
         tracker1.sum@soiln2_dlt_n_min[] as dlt_n_min
-        residue2.residue_n
-        residue2.residue_wt
-        residue2.residue_cover
+        surfaceom.surfaceom_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_cover
         wheat.biomass_wt as W_topbiom
         wheat.dleaf_wt as W_dleaf_wt
         wheat.root_wt as W_rootwt
@@ -187,9 +187,9 @@
         lucerne.root_wt as rootwt
         lucerne.leaf_wt as leafwt
         lucerne.stem_wt as stemwt
-        residue2.residue_n
-        residue2.residue_wt
-        residue2.residue_cover
+        surfaceom.surfaceom_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_cover
         manager.nit_020
         manager.nit_20100
      
@@ -208,28 +208,27 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       120 1993  Prepare      residue2 tillage type = rip()
+       120 1993  Prepare      surfaceom tillage type = rip()
        270 1993  Prepare      lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-       270 1993  Prepare      residue2 set pot_decomp_rate = 0.10 ()
         22 1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
         85 1994  Prepare      lucerne harvest height = 50 (mm)
-        87 1994  Prepare      residue2 tillage type = graze()
+        87 1994  Prepare      surfaceom tillage type = graze()
        292 1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
          6 1995  Prepare      lucerne harvest height = 50 (mm)
-         8 1995  Prepare      residue2 tillage type = graze()
+         8 1995  Prepare      surfaceom tillage type = graze()
         42 1995  Prepare      lucerne harvest height = 50 (mm)
-        44 1995  Prepare      residue2 tillage type = graze()
+        44 1995  Prepare      surfaceom tillage type = graze()
        235 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
        287 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
        335 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 200
         18 1996  Prepare      lucerne harvest height = 50 (mm)
-        20 1996  Prepare      residue2 tillage type = graze()
+        20 1996  Prepare      surfaceom tillage type = graze()
         74 1996  Prepare      lucerne harvest height = 50 (mm)
-        76 1996  Prepare      residue2 tillage type = graze()
+        76 1996  Prepare      surfaceom tillage type = graze()
        230 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 200
        298 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
        346 1996  Prepare      lucerne harvest height = 50 (mm)
-       348 1996  Prepare      residue2 tillage type = graze()
+       348 1996  Prepare      surfaceom tillage type = graze()
        150 1997  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
        255 1997  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 160
        323 1997  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 140
@@ -238,13 +237,13 @@
        287 1998  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
        339 1998  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
         65 1999  Prepare      lucerne harvest height = 50 (mm), plants = 110
-        67 1999  Prepare      residue2 tillage type = graze()
+        67 1999  Prepare      surfaceom tillage type = graze()
        112 1999  Prepare      lucerne harvest height = 50 (mm)
-       114 1999  Prepare      residue2 tillage type = graze()
+       114 1999  Prepare      surfaceom tillage type = graze()
        218 1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
        287 1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
        344 1999  Prepare      lucerne harvest height = 50 (mm)
-       346 1999  Prepare      residue2 tillage type = graze()
+       346 1999  Prepare      surfaceom tillage type = graze()
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -639,30 +638,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = grass
+      Residue type = grass
+      Overall mass =  1000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  200.000000
+                            C:N =  25.0000000
+      Lying cellulose mass =  700.000000
+                            C:N =  25.0000000
+      Lying lignin mass =  100.000000
+                            C:N =  25.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              1000.0    16.0     0.0  grass
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    25.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -804,8 +802,8 @@
 1 January 1993(Day of year=1), manager: 
      Manager sending message :- soiln2 add_roots  dlt_fom_wt = 1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, dlt_fom_cnr = 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
 30 April 1993(Day of year=120), operatns: 
-      Sending tillage message to residue2
-30 April 1993(Day of year=120), residue2: 
+      Sending tillage message to surfaceom
+30 April 1993(Day of year=120), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using rip
@@ -887,8 +885,6 @@
             270   40.0  100.0  150.0   0.0   0.0 trifecta
          ------------------------------------------------
      
-27 September 1993(Day of year=270), operatns: 
-      Sending set message to residue2
 28 September 1993(Day of year=271), lucerne: 
       stage 2.0 germination
 7 October 1993(Day of year=280), lucerne: 
@@ -1001,8 +997,8 @@
                      biomass =          49.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.56 (%)     extractable sw =   49.49 (mm)
 28 March 1994(Day of year=87), operatns: 
-      Sending tillage message to residue2
-28 March 1994(Day of year=87), residue2: 
+      Sending tillage message to surfaceom
+28 March 1994(Day of year=87), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -1121,8 +1117,8 @@
                      biomass =          37.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.52 (%)     extractable sw =  145.83 (mm)
 8 January 1995(Day of year=8), operatns: 
-      Sending tillage message to residue2
-8 January 1995(Day of year=8), residue2: 
+      Sending tillage message to surfaceom
+8 January 1995(Day of year=8), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -1177,8 +1173,8 @@
                      biomass =          36.21 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.61 (%)     extractable sw =  165.53 (mm)
 13 February 1995(Day of year=44), operatns: 
-      Sending tillage message to residue2
-13 February 1995(Day of year=44), residue2: 
+      Sending tillage message to surfaceom
+13 February 1995(Day of year=44), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -1389,8 +1385,8 @@
                      biomass =          71.62 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.72 (%)     extractable sw =  203.04 (mm)
 20 January 1996(Day of year=20), operatns: 
-      Sending tillage message to residue2
-20 January 1996(Day of year=20), residue2: 
+      Sending tillage message to surfaceom
+20 January 1996(Day of year=20), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -1449,8 +1445,8 @@
                      biomass =          58.49 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.78 (%)     extractable sw =  156.11 (mm)
 16 March 1996(Day of year=76), operatns: 
-      Sending tillage message to residue2
-16 March 1996(Day of year=76), residue2: 
+      Sending tillage message to surfaceom
+16 March 1996(Day of year=76), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -1613,8 +1609,8 @@
                      biomass =          79.19 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.04 (%)     extractable sw =  163.79 (mm)
 13 December 1996(Day of year=348), operatns: 
-      Sending tillage message to residue2
-13 December 1996(Day of year=348), residue2: 
+      Sending tillage message to surfaceom
+13 December 1996(Day of year=348), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -2033,8 +2029,8 @@
                      biomass =          31.33 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     4.77 (%)     extractable sw =   88.09 (mm)
 8 March 1999(Day of year=67), operatns: 
-      Sending tillage message to residue2
-8 March 1999(Day of year=67), residue2: 
+      Sending tillage message to surfaceom
+8 March 1999(Day of year=67), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -2093,8 +2089,8 @@
                      biomass =          27.08 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     2.80 (%)     extractable sw =   88.48 (mm)
 24 April 1999(Day of year=114), operatns: 
-      Sending tillage message to residue2
-24 April 1999(Day of year=114), residue2: 
+      Sending tillage message to surfaceom
+24 April 1999(Day of year=114), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
@@ -2256,8 +2252,8 @@
                      biomass =          41.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     3.21 (%)     extractable sw =   89.34 (mm)
 12 December 1999(Day of year=346), operatns: 
-      Sending tillage message to residue2
-12 December 1999(Day of year=346), residue2: 
+      Sending tillage message to surfaceom
+12 December 1999(Day of year=346), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using graze
