@@ -28,7 +28,8 @@ elseif day = 15 then
 elseif day = 20 then
    soilwat2 tillage type = disc ()
    residue2 tillage type = disc ()
-   soilp tillage type = disc ()
+   soilp tillage ! optional arguments are 'f_incorp' and 'tillage_depth', defaults for these are 
+                 !  1.0 and 'all into soil layer 1' respectively
 endif
 
 [sample.manager.end_of_day]
