@@ -1,36 +1,3 @@
-*     ===========================================================
-      character*(*) function solute_version ()
-*     ===========================================================
-      implicit none
-      include 'error.pub'
- 
-*+  Purpose
-*       return version number of solute module
- 
-*+  Mission Statement
-*     Version Number
- 
-*+  Changes
-*     <insert here>
- 
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.21 04/04/97')
-      character  myname*(*)            ! name of this procedure
-      parameter (myname = 'solute_version')
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine (myname)
- 
-      solute_version = version_number
- 
-      call pop_routine (myname)
-      return
-      end
- 
- 
- 
 * ====================================================================
        subroutine APSIM_solute (Action, Data_string)
 * ====================================================================
@@ -52,28 +19,17 @@
 *     Apsim Solute
  
 *+  Changes
-*     <insert here>
- 
-*+  Calls
-*       include 'solute.inc'          ! solute common block
-       character*20 solute_version   ! function
+*     SDB 5/5/99 Removed version function and presence action.
  
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
       parameter (myname = 'apsim_solute')
  
-*+  Local Variables
-      character Module_name*32         ! name of this module
- 
 *- Implementation Section ----------------------------------
  
       call push_routine (myname)
  
-      if (Action.eq.MES_Presence) then
-         call get_current_module (Module_name)
-         print*,Module_Name,' ',solute_version()
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
          call solute_Init ()
  
       else if (Action.eq.MES_Process) then
@@ -111,11 +67,7 @@
 *     Initialise all internal state variables
  
 *+  Changes
-*     <insert here>
- 
-*+  Calls
-*       include 'solute.inc'            ! solute model common
-       character solute_version*15     ! function
+*     SDB 5/5/99 Removed version function.
  
 *+  Constant Values
       character  myname*(*)            ! name of this procedure
@@ -134,7 +86,7 @@
  
       ! Notify system that we have initialised
  
-      Event_string = 'Initialising Version : ' // solute_version()
+      Event_string = 'Initialising Version'
       call report_event (Event_string)
  
       ! Get all parameters from parameter file
