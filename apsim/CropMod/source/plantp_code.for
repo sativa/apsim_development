@@ -1806,46 +1806,52 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 *- Implementation Section ----------------------------------          g%part_p_green(1:g%num_parts)
       call push_routine (myname)
 
-      P_grain_conc_percent = divide (g%part_p_green(grain)
+      if (g%phosphorus_aware) then
+
+         P_grain_conc_percent = divide (g%part_p_green(grain)
      :                              + g%part_p_dead(grain)
      :                            , g%dm_green(grain)
      :                              + g%dm_dead(grain)
      :                            , 0.0)
      :                     * fract2pcnt
 
-      P_grain = (g%part_p_green(grain) + g%part_p_dead(grain))
-     :        * gm2kg/sm2ha
+         P_grain = (g%part_p_green(grain) + g%part_p_dead(grain))
+     :           * gm2kg/sm2ha
 
-      P_green = (sum_real_array (g%part_p_green, max_parts)
-     :        - g%part_p_green(root) - g%part_p_green(grain))
-     :        * gm2kg / sm2ha
-
-      P_senesced = (sum_real_array (g%part_p_sen, max_parts)
-     :           - g%part_p_sen(root) - g%part_p_sen(grain))
+         P_green = (sum_real_array (g%part_p_green, max_parts)
+     :           - g%part_p_green(root) - g%part_p_green(grain))
      :           * gm2kg / sm2ha
 
-      P_dead = (sum_real_array (g%part_p_dead, max_parts)
-     :       - g%part_p_dead(root) - g%part_p_dead(grain))
-     :       * gm2kg / sm2ha
+         P_senesced = (sum_real_array (g%part_p_sen, max_parts)
+     :              - g%part_p_sen(root) - g%part_p_sen(grain))
+     :             * gm2kg / sm2ha
 
-      P_stover = P_green + P_senesced + P_dead
-      P_total = P_grain + P_stover
+         P_dead = (sum_real_array (g%part_p_dead, max_parts)
+     :          - g%part_p_dead(root) - g%part_p_dead(grain))
+     :          * gm2kg / sm2ha
 
-      write (string, '(a,f10.2,t40,a,f10.2)')
-     :            ' grain P percent =', P_grain_conc_percent
-     :          , ' total P content (kg/ha) =', P_total
-      call write_string ( string)
+         P_stover = P_green + P_senesced + P_dead
+         P_total = P_grain + P_stover
 
-      write (string, '(a,f10.2,t40,a,f10.2)')
-     :            ' grain P uptake (kg/ha) =', P_grain
+         write (string, '(a,f10.2,t55,a,f10.2)')
+     :            ' grain P percent            =', P_grain_conc_percent
+     :          , ' total P content (kg/ha)    =', P_total
+         call write_string ( string)
+
+         write (string, '(a,f10.2,t55,a,f10.2)')
+     :            ' grain P uptake (kg/ha)     =', P_grain
      :          , ' senesced P content (kg/ha) =', P_senesced
 
-      call write_string ( string)
+         call write_string ( string)
 
-      write (string, '(a,f10.2,t40,a,f10.2)')
-     :            ' green P content (kg/ha) =', P_green
-     :          , ' dead P content (kg/ha) =', P_dead
-      call write_string ( string)
+         write (string, '(a,f10.2,t55,a,f10.2)')
+     :            ' green P content (kg/ha)    =', P_green
+     :          , ' dead P content (kg/ha)     =', P_dead
+         call write_string ( string)
+
+      else
+            ! phosphorus not in
+      endif
 
       call pop_routine (myname)
       return
