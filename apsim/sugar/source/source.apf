@@ -2,8 +2,11 @@
 Dependency = %licensed_source(sugar)
 
 [Contents]
+ComponentInterface.for = ComponentInterface.for
+sugconst.inc = sugconst.inc
+sugar.inc = sugar.inc
 sugar.for = sugar.for
-sgr_main.for = sgr_main.for
+;sgr_main.for = sgr_main.for
 
 [APSBuild]
 binary = ..\lib\sugar.dll

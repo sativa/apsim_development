@@ -4,12 +4,8 @@ C     Last change:  E     6 Aug 2001    3:00 pm
       subroutine crop_process ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'
-      include 'error.pub'                         
 
 *+  Purpose
 *       Simulate crop processes.  These include biomass production,
@@ -180,10 +176,8 @@ cew    if (g%plant_status.eq.status_alive) then
       subroutine crop_read_cultivar_params (cultivar)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
@@ -488,10 +482,8 @@ cSCC changed lower limit from 0 to -1000
       subroutine crop_read_constants ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -1530,8 +1522,8 @@ c     :                    , 0.0, 100.0)
 * ====================================================================
        subroutine simulation_prepare ()
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     <insert here>

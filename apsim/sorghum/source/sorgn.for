@@ -3,11 +3,9 @@ C     Last change:  E    24 Aug 2001    1:02 pm
       subroutine sorg_nfact_photo(leaf,lai,
      :                  n_green, nfact)
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export sorg_nfact_photo
-      include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer leaf
@@ -68,10 +66,9 @@ cew   SLN = n_green(leaf)/lai
      :                              , g_nfact_expansion
      :                              , dlt_N_senesced)
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export cproc_n_senescence1
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer num_part            ! (INPUT) number of plant part
@@ -154,10 +151,9 @@ cew   SLN = n_green(leaf)/lai
      :              , N_green
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export sorg_N_init1
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       C_n_init_conc(*)      ! (INPUT)  initial N concentration (
@@ -227,12 +223,8 @@ cew   SLN = n_green(leaf)/lai
      :                N_demand
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! err_user
-      include 'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'science.pub'
 
 
 *+  Sub-Program Arguments
@@ -412,14 +404,9 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      :                dlt_NO3gsm
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
 !      dll_export sorg_N_uptake2
-      include 'const.inc'
-      include 'cropdefcons.inc'
-      include 'cmxlayer.inc'
-      include 'science.pub'                             
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
@@ -578,12 +565,9 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      .          dlt_N_green)
 
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export sorg_N_partition1
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'science.pub'                         
 
 *+  Sub-Program Arguments
         ! DEMAND
@@ -650,10 +634,8 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
      .          g_dlt_N_retrans)
 
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'cropdefcons.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)

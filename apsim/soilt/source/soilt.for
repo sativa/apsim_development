@@ -1,9 +1,9 @@
-      include 'SoilT.inc'
  !     ===========================================================
       Recursive
      :Subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
       use SoilTModule
+      Use infrastructure
       implicit none
 
  !+  Sub-Program Arguments
@@ -29,6 +29,7 @@
      :Subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
       use SoilTModule
+      Use infrastructure
       implicit none
 
  !+  Sub-Program Arguments
@@ -52,6 +53,7 @@
      :Subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
       use SoilTModule
+      Use infrastructure
       implicit none
 
  !+  Sub-Program Arguments
@@ -76,11 +78,8 @@
      :Subroutine Main (action, data_string)
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include   'action.inc'
-      include   'const.inc'           ! Global constant definitions
-      include   'event.inc'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character Action*(*)            ! Message action to perform
@@ -148,9 +147,8 @@
      :Subroutine soilt_Init ()
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include 'const.inc'             ! Constant definitions
-      include   'error.pub'
 
 *+  Purpose
 *      Initialise soilt module
@@ -169,7 +167,7 @@
       call push_routine(myname)
       ! Notify system that we have initialised
 
-      Event_string = 'Initialising: ' 
+      Event_string = 'Initialising: '
       call Write_string (Event_string)
 
       ! Get all parameters from parameter file
@@ -186,8 +184,8 @@
      :Subroutine soilt_read_param ()
 * ====================================================================
       use SoilTModule
-       implicit none
-      include   'error.pub'
+       Use infrastructure
+      implicit none
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -220,8 +218,8 @@
      :Subroutine soilt_zero_variables ()
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -246,9 +244,8 @@
      :Subroutine soilt_manager (Event_action, Event_data)
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! global_active
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character Event_action*(*)       ! (INPUT) Action to be performed
@@ -281,10 +278,8 @@
      :Subroutine soilt_get_other_variables ()
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -298,7 +293,6 @@
 *      DPH - 11/7/94   Fixed bug in detection of existence of N module.
 *      JNGH - 12/7/94 Changed dlayer in cm to g_dlayer_cm
 
-      real       divide                ! function
 
 *+  Local Variables
       integer    layer                 ! layer number
@@ -350,13 +344,13 @@
 cjh      call get_real_var (unknown_module, 'cover_green', '(mm)'
 cjh     :                                  , cover_green, numvals
 cjh     :                                  , 0.0, 1000.0)
-     
+
 cjh      if (cover + cover_green .gt.0.0) then
 cjh      g%estimated_lai = divide (alog (cover + cover_green), 0.5, 0.0)
 cjh      else
 cjh      endif
 cjh      goto 1001
-cjh      
+cjh
       crop = 0
       bare = (1.0 - cover)
 1000  continue
@@ -379,7 +373,7 @@ cjh
 
 cjh1001  continue
       call get_real_array (unknown_module, 'sw', max_layers, '(m3/m3)'
-     :                     , g%sw, g%num_layers 
+     :                     , g%sw, g%num_layers
      :                     , 0.0, 1.0)
 
 cjh      ! Convert water to plant available  (cm/cm)
@@ -398,9 +392,8 @@ cjh100   continue
      :Subroutine soilt_set_other_variables ()
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'error.pub'
 
 *+  Purpose
 *     Update variables owned by other modules.
@@ -431,10 +424,8 @@ cjh100   continue
      :Subroutine soilt_Send_my_variable (Variable_name)
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -486,8 +477,8 @@ c     1     ttav,hv,g%es,beta2,g%ys,g%phis
      :Subroutine soilt_set_my_variable (Variable_name)
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -515,9 +506,8 @@ c     endif
      :Subroutine soilt_Process ()
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include   'error.pub'
 
 *+  Purpose
 *      Perform actions for current day.
@@ -545,8 +535,8 @@ c     endif
       Recursive
      :Subroutine soilt_Prepare ()
 * ====================================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Purpose
 *     Perform calculations before the current timestep.
@@ -563,8 +553,8 @@ c     endif
       Recursive
      :Subroutine soilt_post ()
 * ====================================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Purpose
 *     Perform calculations after the current timestep.
@@ -581,8 +571,8 @@ c     endif
       Recursive
      :Subroutine soilt_end_run ()
 * ====================================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Purpose
 *     Perform cleanup because the current simulation is about to end.
@@ -600,8 +590,8 @@ c     endif
      :Subroutine TC1MAX ()
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Local Variables
       real A1        ! area of soil surface elements (m2/m2)
@@ -622,7 +612,7 @@ c     endif
       real SB1       ! proportion of intercepted shortwave radiation scattered backward by the soil surface (-)
       real ALPHA1    ! coefficient in the equations for thermal resistance RC1 to heat transfer by free convection from soil surface and mulch (W/m2/K(4/3)
       real BETA2     ! coefficient in the equations for thermal resistance RC2 to heat transfer by free convection from soil surface and mulch (W/m2/K(5/4)
-      REAL IPSI      ! proportion of radiation from direction PSI intercepted by mulch (-) 
+      REAL IPSI      ! proportion of radiation from direction PSI intercepted by mulch (-)
       real PAV       ! proportion of diffuse radiation which penetrates the mulch without interception (-)
       real IAV       ! proportion of diffuse radiation intercepted by mulch (-)
       real RHO1      ! reflection coefficient of soil surface for diffuse shortwave radiation (-)
@@ -651,9 +641,9 @@ c     endif
       real J21       ! partial derivative (W/m2/K)
       real J22       ! partial derivative (W/m2/K)
       real DJ        ! determinant of matrix (W2/m4/K2)
-      real DTC1      ! 
+      real DTC1      !
       real DTC2
-      REAL YEFF      ! 
+      REAL YEFF      !
       real F1        ! auxiliary variables ()
       real F2        ! auxiliary variables ()
       real F         ! auxiliary variables ()
@@ -675,16 +665,16 @@ c     endif
 
       REAL       SIGMA     ! Stefan-Boltzmann constant (W/m2/K4)
       parameter (SIGMA = 5.67E-8)
-      
+
       real       PI        ! ratio of circumference to diameter of circle
       parameter (PI = 3.1415927 )
-      
+
       real       OMEGA     ! daily angular frequency (rad/s)
       parameter (OMEGA = 2.0*PI / 86400.0)
-      
+
       real       TZ        ! temperature freezing point (K)
       parameter (TZ = 273.16)
-      
+
       real       w2        ! average width of mulch elements (m)
       parameter (w2 = 0.02)
 
@@ -804,8 +794,8 @@ c     endif
      :Subroutine SOILT (ys, phis, ratio_G, ratio_T)
 * ====================================================================
       use SoilTModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real       ys(*)                    ! (Output) magnitude of soil thermal admittance (W/m2/K)
@@ -848,10 +838,10 @@ c     endif
       real vsw(max_layers)     ! volumetric soil water content of SoilT layers (m3/m3)
       real tlayr(max_layers)   ! SoilT layer depths (7 is top, 1 is bottom)
 
-!      DATA Pp / 86400. / 
-!      data tlayr / 0.,0.,1.,1.,1.,1.,1. / 
-!      data vsw / 7*0.0 / 
-      
+!      DATA Pp / 86400. /
+!      data tlayr / 0.,0.,1.,1.,1.,1.,1. /
+!      data vsw / 7*0.0 /
+
       fun_M (CN) = cabs (CN)
       fun_A (CN) = aimag (clog (CN))
 
@@ -878,7 +868,7 @@ c     endif
             ! 6th layer is remainder of top dlayer.
         tlayr(2) = g%dlayer_cm(1) - 5.
         vsw(2) = (g%sw(1)*g%dlayer_cm(1) - topsw) / tlayr(2)
-            ! now put the remaining layers (dlayer(2) onwards to 75??) into one bottom layer        
+            ! now put the remaining layers (dlayer(2) onwards to 75??) into one bottom layer
          tlayr(1) = 0.
          subsw = 0.
         do 30 j = 2, 10
@@ -936,9 +926,9 @@ c     endif
       Recursive
      :Subroutine GETCK (VWC, C, K)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
-      
+
 *+  Sub-Program Arguments
       REAL VWC      ! (Input)
       real C        ! (Output)
@@ -959,7 +949,7 @@ c     endif
       parameter (K0 = 0.32)
       real K1
       parameter (K1 = 1.18)
-!      DATA C0, C1, K0, K1 / 1.4E6, 4.18E6, .32, 1.18 / 
+!      DATA C0, C1, K0, K1 / 1.4E6, 4.18E6, .32, 1.18 /
 *- Implementation Section ----------------------------------
 
       call push_routine(myname)
@@ -979,8 +969,8 @@ c     endif
       Recursive
      :Subroutine ADMIT1 (P, Z, C, K, YS1, Y, RG, RT)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       REAL P         ! (Input) period length (s)
@@ -996,7 +986,7 @@ c     endif
       REAL W
       real D
       COMPLEX YINF
-      COMPLEX R     
+      COMPLEX R
       COMPLEX SINH
       COMPLEX COSH
       COMPLEX TANH

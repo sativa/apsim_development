@@ -1,8 +1,8 @@
-      include 'SoilpH.inc'
  !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
  !     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
 
  !+  Sub-Program Arguments
@@ -27,6 +27,7 @@
       subroutine FreeInstance (anInstanceNo)
  !     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
 
  !+  Sub-Program Arguments
@@ -49,6 +50,7 @@
       subroutine SwapInstance (anInstanceNo)
  !     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
 
  !+  Sub-Program Arguments
@@ -72,11 +74,8 @@
       subroutine main (action, data_string)
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'action.inc'
-      include   'const.inc'           ! Global constant definitions
-      include   'event.inc'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
        character  action*(*)         ! (IN) Message action to perform
@@ -133,16 +132,16 @@
 
       else if (Action.eq.ACTION_Till) then
          call soilpH_tillage ()
- 
+
       else if ((action.eq.ACTION_reset)
      :          .or.(action.eq.ACTION_user_init)) then
          call SoilpH_zero_variables ()
          call SoilpH_get_soil_layers ()
          call SoilpH_init ()
- 
+
       else if (action.eq.ACTION_sum_report) then
          call SoilpH_sum_report ()
- 
+
       else if (action.eq.ACTION_init) then
          call SoilpH_zero_variables ()
          call SoilpH_get_soil_layers ()
@@ -151,7 +150,7 @@
 
       elseif (Action.eq.ACTION_Create) then
          call soilpH_zero_all_globals ()
- 
+
       elseif (action.eq.ACTION_end_run) then
          call SoilpH_endrun ()
 
@@ -171,8 +170,8 @@
       subroutine SoilpH_endrun ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Purpose
 *      Free up any resources etc.
@@ -200,10 +199,8 @@
       subroutine SoilpH_init ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'             
-      include   'convert.inc'           
-      include   'error.pub'
 
 *+  Purpose
 *      Initialise soilpH module
@@ -242,10 +239,8 @@
       subroutine SoilpH_read_constants ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'read.pub'
-      include   'error.pub'
 
 *+  Purpose
 *      Read in all constants from initialization file.
@@ -299,7 +294,7 @@
       call SoilpH_assert (c%lime_sol_tbl_size .gt. 1
      :             , 'Must be more than 1 entry in solubility table')
       do 1000 row = 2, c%lime_sol_tbl_size
-         call SoilpH_assert (c%lime_sol_tbl_pHCa(row-1) 
+         call SoilpH_assert (c%lime_sol_tbl_pHCa(row-1)
      :                      .lt. c%lime_sol_tbl_pHCa(row)
      :             , 'Strictly ascending ordered X in solubility table')
 1000  continue
@@ -337,7 +332,7 @@
       call soilpH_assert(c%pHCa2pH_tbl_size .gt. 1
      :      , 'Must be more than 1 entry in pH conversion table')
       do 1100 row=2, c%pHCa2pH_tbl_size
-         call soilpH_assert(c%pHCa2pH_tbl_pHca(row-1) 
+         call soilpH_assert(c%pHCa2pH_tbl_pHca(row-1)
      :                      .lt.  c%pHCa2pH_tbl_pHca(row)
      :   , 'Strictly ascending ordered pHCa in pH conversion table')
 1100  continue
@@ -352,7 +347,7 @@
       call soilpH_assert(numvals .eq. c%pHCa2pH_tbl_size
      :   , 'Same no of pHCa vals as pH vals in pH conversion table')
       do 1200 row=2, c%pHCa2pH_tbl_size
-         call soilpH_assert(c%pHCa2pH_tbl_pH(row-1) 
+         call soilpH_assert(c%pHCa2pH_tbl_pH(row-1)
      :                      .lt.  c%pHCa2pH_tbl_pH(row)
      :   , 'Strictly ascending ordered pHss in pH conversion table')
 1200  continue
@@ -366,13 +361,9 @@
       subroutine SoilpH_read_param ()
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include   'SoilpHcv.inc'
-      include   'data.pub'
-      include   'read.pub'
-      include   'error.pub'
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -572,7 +563,7 @@
      :                                 , p%sAls_supplied_use_flag
      :                                 , numvals)
       call SoilpH_assert (numvals.ge.e%num_layers .or. numvals.eq.0
-     :                   , 'sals_supplied_use_flag: ' 
+     :                   , 'sals_supplied_use_flag: '
      :                   // 'numvals.ge.e%num_layers .or. numvals.eq.0')
       call read_real_array_optional (section
      :                     , 'sals_supplied'
@@ -582,7 +573,7 @@
      :                     , numvals
      :                     , 4.0, 200.0)
       call SoilpH_assert (numvals.ge.e%num_layers .or. numvals.eq.0
-     :                  ,  'sals_supplied: ' 
+     :                  ,  'sals_supplied: '
      :                  //  'numvals.ge.e%num_layers .or. numvals.eq.0')
       if (numvals .eq. 0) then
             ! To indicate that no SALS was supplied by the user.
@@ -734,37 +725,34 @@
       subroutine SoilpH_sum_report ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'string.pub'
-      include 'data.pub'
-      include 'error.pub'
- 
+
 *+  Purpose
 *     Report SoilpH Module Status
- 
+
 *+  Mission Statement
-*     Report SoilpH Module Status      
- 
+*     Report SoilpH Module Status
+
 *+  Changes
 *       230500 Jngh - Programmed and Specified
- 
+
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
       parameter (my_name = 'SoilpH_sum_report')
- 
+
 *+  Local Variables
       integer    layer                 ! layer number
       integer    num_layers            ! number of soil profile layers
       real       depth_layer_top       ! depth to top of layer (mm)
       real       depth_layer_bottom    ! depth to bottom of layer (mm)
       character  line*80            ! output line
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
       call write_string (new_line//new_line)
- 
+
       write (line, '(2a)') 'Report residue additions = '
      :                     , trim(p%report_additions)
       call write_string (line)
@@ -781,25 +769,25 @@
      :                         // trim (p%pHBC_method))
 
       call write_string (new_line//new_line)
- 
+
       line = '                Soil Profile Inital values'
       call write_string (line)
- 
+
       line = '     ------------------------------------------------'
       call write_string (line)
- 
+
       line = 'Layer    Depth      Lime  Ionic   pHCa   pHBC   '
      :             //'ECEC  CO2 pressure'
       call write_string (line)
- 
+
       line = '         (mm)    (mol/ha) Strength ()  (KMol/Ha)'
      :             //' ()    (atm)'
       call write_string (line)
- 
+
       line = '-------------------------------------------------'
      :             //'------------'
       call write_string (line)
- 
+
       num_layers = count_of_real_vals(e%dlayer, max_layer)
       depth_layer_top = 0.0
 
@@ -818,28 +806,28 @@
          call write_string (line)
          depth_layer_top = depth_layer_bottom
   100 continue
- 
+
       line = '-------------------------------------------------'
      :             //'------------'
       call write_string (line)
- 
+
       call write_string (new_line//new_line)
- 
+
       line = '               Soil Profile Al Parameters'
       call write_string (line)
- 
+
       line = '     ------------------------------------------------'
       call write_string (line)
- 
+
       line = 'Layer    Depth   Al Conc   pAl-pHCa         sAls     '
       call write_string (line)
- 
+
       line = '         (mm)   (cMol/Kg) Slope Intercept   ()    Use'
       call write_string (line)
- 
+
       line = '-----------------------------------------------------'
       call write_string (line)
- 
+
       depth_layer_top = 0.0
 
       do 200 layer = 1,num_layers
@@ -855,26 +843,26 @@
          call write_string (line)
          depth_layer_top = depth_layer_bottom
   200 continue
- 
+
       line = '-----------------------------------------------------'
       call write_string (line)
       call write_string (new_line//new_line)
- 
+
       line = '           Soil Profile Humic Acid Coefficients'
       call write_string (line)
- 
+
       line = '     ------------------------------------------------'
       call write_string (line)
- 
+
       line = 'Layer    Depth     Slope Offset'
       call write_string (line)
- 
+
       line = '         (mm)        ()     () '
       call write_string (line)
- 
+
       line = '-------------------------------'
       call write_string (line)
- 
+
       depth_layer_top = 0.0
 
       do 300 layer = 1,num_layers
@@ -887,26 +875,26 @@
          call write_string (line)
          depth_layer_top = depth_layer_bottom
   300 continue
- 
+
       line = '-------------------------------'
       call write_string (line)
       call write_string (new_line//new_line)
- 
+
       line = '          Soil Profile Availability of elements'
       call write_string (line)
- 
+
       line = '     ------------------------------------------------'
       call write_string (line)
- 
+
       line = 'Layer    Depth     Ca   Mg    K   Na    P    S   Cl'
       call write_string (line)
- 
-      line = '         (mm)'     
+
+      line = '         (mm)'
       call write_string (line)
- 
+
       line = '----------------------------------------------------'
       call write_string (line)
- 
+
       depth_layer_top = 0.0
 
       do 400 layer = 1,num_layers
@@ -924,26 +912,26 @@
          call write_string (line)
          depth_layer_top = depth_layer_bottom
   400 continue
- 
+
       line = '----------------------------------------------------'
       call write_string (line)
       call write_string (new_line//new_line)
- 
+
       line = '          Uptakes of each element (% dry matter)'
       call write_string (line)
- 
+
       line = '     ------------------------------------------------'
       call write_string (line)
- 
+
       line = '    Ca     Mg      K     Na      P      S     Cl'
       call write_string (line)
- 
+
       line = '    (%)    (%)    (%)    (%)    (%)    (%)    (%)'
       call write_string (line)
- 
+
       line = '----------------------------------------------------'
       call write_string (line)
- 
+
          write (line
      :     , '(7f7.3)')
      :             p%ca_dm_percent
@@ -954,25 +942,24 @@
      :           , p%S_dm_percent
      :           , p%Cl_dm_percent
          call write_string (line)
- 
+
       line = '----------------------------------------------------'
       call write_string (line)
- 
+
       call write_string (new_line//new_line)
- 
+
       call pop_routine (my_name)
       return
       end
- 
- 
+
+
 
 *     ===========================================================
       subroutine soilpH_zero_all_globals ()
 *     ===========================================================
       use soilpHModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Purpose
 *       Zero all global variables & arrays
@@ -985,13 +972,13 @@
       parameter (my_name  = 'soilpH_zero_all_globals')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! Globals
 
-      g%H_equiv_infiltration(:)  = 0.0 
-      g%residue_ash_alk_wt       = 0.0 
+      g%H_equiv_infiltration(:)  = 0.0
+      g%residue_ash_alk_wt       = 0.0
       g%pHBC(:)                  = 0.0
       g%pHCa(:)                  = 0.0
       g%pHca_old(:)              = 0.0
@@ -1001,7 +988,7 @@
       g%dlt_lime_pool(:)         = 0.0
       g%H_equiv_mass_flow(:,:)     = 0.0
       g%H_equiv_mass_flow_tot(:,:) = 0.0
-      g%H_equiv_flow_net(:,:)      = 0.0 
+      g%H_equiv_flow_net(:,:)      = 0.0
       g%H_equiv_flow_net_tot(:,:)  = 0.0
       g%dlt_lime_dissl(:)        = 0.0
       g%acid_excretion_root(:)   = 0.0
@@ -1013,8 +1000,8 @@
       g%dlt_acid_N_cycle(:)      = 0.0
       g%dlt_acid_org_C_cycle(:)  = 0.0
       g%pH(:)                    = 0.0
-                                         
-         ! Parameters                    
+
+         ! Parameters
 
       p%pH_rain                 = 0.0
       p%ionic_strength_rain   = 0.0
@@ -1028,12 +1015,12 @@
       p%P_avail(:)             = 0.0
       p%S_avail(:)             = 0.0
       p%Cl_avail(:)            = 0.0
-      p%Ca_dm_percent          = 0.0     
-      p%Mg_dm_percent          = 0.0     
-      p%K_dm_percent           = 0.0     
-      p%Na_dm_percent          = 0.0     
-      p%P_dm_percent           = 0.0     
-      p%S_dm_percent           = 0.0     
+      p%Ca_dm_percent          = 0.0
+      p%Mg_dm_percent          = 0.0
+      p%K_dm_percent           = 0.0
+      p%Na_dm_percent          = 0.0
+      p%P_dm_percent           = 0.0
+      p%S_dm_percent           = 0.0
       p%Cl_dm_percent          = 0.0
       p%ionic_strength_initial(:) = 0.0
       p%pHCa_initial(:)        = 0.0
@@ -1045,21 +1032,21 @@
       p%sAls_supplied(:)       = 0.0
       p%ecec_init(:)           = 0.0
       p%hum_acid_slope(:)      = 0.0
-      p%hum_acid_pHCa_offset(:)= 0.0 
+      p%hum_acid_pHCa_offset(:)= 0.0
       p%pAl_pHca_slope(:)      = 0.0
       p%pAl_pHCa_intercept(:)  = 0.0
-                            
+
          ! Constants
 
       c%num_crops          = 0
       c%num_actions        = 0
       c%num_dm_type(:)     = 0
       c%name_dm_type(:,:)  = blank
-      c%lime_sol_tbl_size  = 0                 
-      c%hum_acid_slope            = 0.0          
-      c%hum_acid_pHCa_offset      = 0.0          
-      c%crop_type(:)       = blank 
-      c%action_type(:)     = blank   
+      c%lime_sol_tbl_size  = 0
+      c%hum_acid_slope            = 0.0
+      c%hum_acid_pHCa_offset      = 0.0
+      c%crop_type(:)       = blank
+      c%action_type(:)     = blank
       c%lime_sol_tbl_pHCa(:)      = 0.0
       c%lime_sol_tbl_lime(:)      = 0.0
       c%ash_alk_tbl_crop(:, :)    = 0.0
@@ -1067,8 +1054,8 @@
       c%pHCa2pH_tbl_pHca(:)       = 0.0
       c%pHCa2pH_tbl_pH(:)         = 0.0
       c%pHCa2pH_tbl_size          = 0
-      c%wr_coef                   = 0.0   
-                               
+      c%wr_coef                   = 0.0
+
          ! Externals
 
       e%num_layers                   = 0
@@ -1106,7 +1093,7 @@
       e%Cl_uptake_equiv_last(:)         = 0.0
       e%Cation_uptake_equiv_last(:)     = 0.0
       e%Anion_uptake_equiv_last(:)      = 0.0
-                                                                                                                                                         
+
       call pop_routine (my_name)
       return
       end
@@ -1114,10 +1101,8 @@
       subroutine SoilpH_zero_variables ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'data.pub'
-      include   'error.pub'
 
 *+  Purpose
 *       Zero soilpH variables
@@ -1229,7 +1214,7 @@
 
 
          !  Calculated variables.
-      g%H_equiv_infiltration(:) = 0.0 
+      g%H_equiv_infiltration(:) = 0.0
       g%residue_ash_alk_wt   = 0.0
       g%pHBC(:)              = 0.0
       g%pHCa(:)              = 0.0
@@ -1240,7 +1225,7 @@
       g%dlt_lime_pool(:)     = 0.0
       g%H_equiv_mass_flow(:,:)     = 0.0
       g%H_equiv_mass_flow_tot(:,:) = 0.0
-      g%H_equiv_flow_net(:,:)      = 0.0 
+      g%H_equiv_flow_net(:,:)      = 0.0
       g%H_equiv_flow_net_tot(:,:)  = 0.0
       g%dlt_lime_dissl(:)    = 0.0
       g%acid_excretion_root(:)= 0.0
@@ -1267,9 +1252,8 @@
       subroutine SoilpH_zero_event_variables ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'data.pub'
-      include   'error.pub'
 
 *+  Purpose
 *       Zero soilpH variables
@@ -1314,7 +1298,7 @@
       e%Cl_uptake_equiv(:)       = 0.0
       e%Cation_uptake_equiv(:)   = 0.0
       e%Anion_uptake_equiv(:)    = 0.0
- 
+
       e%crop_ash_alk_wt    = 0.0
 
       call pop_routine (my_name)
@@ -1328,13 +1312,8 @@
       subroutine SoilpH_get_other_variables ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include   'SoilpHcv.inc'            ! soilpH common block
-      include   'data.pub'
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -1389,11 +1368,8 @@
       subroutine SoilpH_get_soil_layers ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'data.pub'
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -1432,13 +1408,8 @@
       subroutine soilpH_get_org_C_fract ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include   'SoilpHcv.inc'            ! soilpH common block
-      include   'intrface.pub'
-      include   'data.pub'
-      include   'error.pub'
 
 *+  Purpose
 *     Get fraction of organic carbon in each layer.
@@ -1484,14 +1455,9 @@
       subroutine SoilpH_get_crop_uptakes ()
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include 'convert.inc'
-      include   'const.inc'
-      include 'SoilpHcv.inc'
-      include   'data.pub'
-      include   'intrface.pub'
-      include   'error.pub'
-      include   'postbox.pub'
 
 *+  Purpose
 *     Obtain uptakes of elements by each crop.
@@ -1532,7 +1498,7 @@
             goto 110
          else
          endif
-      
+
       if (numvals .eq. 1) then
          write (err_msg, '(A,I3,A)') 'More than ', max_crops, ' crops'
          call fatal_error (err_user, err_msg)
@@ -1541,7 +1507,7 @@
 
          ! Get the NO3 uptake_equiv for each crop.
       e%NO3_uptake_equiv(:) = 0.0
-      
+
       do 1200 index_crop=1, num_crops
          this_uptake(:) = 0.0
          call get_real_array (crop_module(index_crop)
@@ -1553,7 +1519,7 @@
      :                     , -1000.0, 1000.0 )
          call SoilpH_assert (numvals.eq.e%num_layers
      :                 , 'NO3_uptake: numvals.eq.e%num_layers')
-         e%NO3_uptake_equiv(:) = e%NO3_uptake_equiv(:) 
+         e%NO3_uptake_equiv(:) = e%NO3_uptake_equiv(:)
      :                   + this_uptake(:) * NH4_kg2mol * NO3_valency
 !         call add_real_array (this_uptake, e%NO3_uptake_equiv, e%num_layers)
 1200  continue
@@ -1571,7 +1537,7 @@
      :                     , -1000.0, 1000.0 )
          call SoilpH_assert (numvals.eq.e%num_layers
      :                 , 'NH4_uptake: numvals.eq.e%num_layers')
-         e%NH4_uptake_equiv(:) = e%NH4_uptake_equiv(:) 
+         e%NH4_uptake_equiv(:) = e%NH4_uptake_equiv(:)
      :                   + this_uptake(:) * NH4_kg2mol * NH4_valency
 !         call add_real_array (this_uptake, e%NH4_uptake_equiv, e%num_layers)
 1300  continue
@@ -1597,13 +1563,9 @@
      :                              )
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'const.inc'
-      include   'SoilpHcv.inc'
-      include   'data.pub'
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character  crop_module*(module_name_size) ! (INPUT) name of crop module
@@ -1655,7 +1617,7 @@
 
       if (crop_ash_alk_wt .gt. 0.0) then
             ! Estimate uptakes of other elements for each crop.
-   
+
             !  Zero out all uptakes.
          dlt_Ca_uptake_equiv(:)  = 0.0
          dlt_Mg_uptake_equiv(:)  = 0.0
@@ -1664,8 +1626,8 @@
          dlt_P_uptake_equiv(:)   = 0.0
          dlt_S_uptake_equiv(:)   = 0.0
          dlt_Cl_uptake_equiv(:)  = 0.0
-   
-   
+
+
                !  Get Root Length volume.  Uptakes are distributed in these proportions.
             call get_real_array_optional (crop_module
      :                        , 'rlv'
@@ -1674,16 +1636,16 @@
      :                        , rlv
      :                        , numvals
      :                        , 0.0, 1000000.0 )
-         
+
             if (numvals .gt.0) then
                   ! crop has rlv
                do 1400 layer=1, e%num_layers
-                  root_length_area(layer) = rlv(layer) 
+                  root_length_area(layer) = rlv(layer)
      :                                    * e%dlayer(layer)
 1400           continue
             else
                   ! crop has no rlv - get root depth
-   
+
                call get_real_var_optional (crop_module
      :                        , 'root_depth'
      :                        , '(mm)'
@@ -1697,10 +1659,10 @@
      :                         , e%num_layers
      :                         , c%wr_coef)
                do 1500 layer=1, e%num_layers
-                  root_length_area(layer) = rldf(layer) 
+                  root_length_area(layer) = rldf(layer)
      :                                    * e%dlayer(layer)
 1500           continue
-               
+
                else
                   call fatal_error (err_internal
      :                  , ' Cannot get RLV or ROOT_DEPTH from '
@@ -1792,47 +1754,47 @@
 1600     continue
 
          if (uptake_equiv_sum .gt. 0.0) then
-            Ca_uptake_equiv(:) = Ca_uptake_equiv(:)            
-     :                         + dlt_Ca_uptake_equiv(:)         
-     :                         / uptake_equiv_sum               
-     :                         * crop_ash_alk_wt                
-                                                                  
-            Mg_uptake_equiv(:) = Mg_uptake_equiv(:)            
-     :                         + dlt_Mg_uptake_equiv(:)         
-     :                         / uptake_equiv_sum               
-     :                         * crop_ash_alk_wt                
-                                                                  
-            K_uptake_equiv(:) =  K_uptake_equiv(:)             
-     :                        + dlt_K_uptake_equiv(:)          
-     :                        / uptake_equiv_sum               
-     :                        * crop_ash_alk_wt                
-                                                                  
-            Na_uptake_equiv(:) = Na_uptake_equiv(:)            
-     :                         + dlt_Na_uptake_equiv(:)         
-     :                         / uptake_equiv_sum               
-     :                         * crop_ash_alk_wt                
-                                                                  
-            P_uptake_equiv(:) =  P_uptake_equiv(:)             
-     :                        + dlt_P_uptake_equiv(:)          
-     :                        / uptake_equiv_sum               
-     :                        * crop_ash_alk_wt                
-                                                                  
-            S_uptake_equiv(:) =  S_uptake_equiv(:)             
-     :                        + dlt_S_uptake_equiv(:)          
-     :                        / uptake_equiv_sum               
-     :                        * crop_ash_alk_wt                
-                                                                  
-            Cl_uptake_equiv(:) = Cl_uptake_equiv(:)            
-     :                         + dlt_Cl_uptake_equiv(:)         
-     :                         / uptake_equiv_sum               
+            Ca_uptake_equiv(:) = Ca_uptake_equiv(:)
+     :                         + dlt_Ca_uptake_equiv(:)
+     :                         / uptake_equiv_sum
+     :                         * crop_ash_alk_wt
+
+            Mg_uptake_equiv(:) = Mg_uptake_equiv(:)
+     :                         + dlt_Mg_uptake_equiv(:)
+     :                         / uptake_equiv_sum
+     :                         * crop_ash_alk_wt
+
+            K_uptake_equiv(:) =  K_uptake_equiv(:)
+     :                        + dlt_K_uptake_equiv(:)
+     :                        / uptake_equiv_sum
+     :                        * crop_ash_alk_wt
+
+            Na_uptake_equiv(:) = Na_uptake_equiv(:)
+     :                         + dlt_Na_uptake_equiv(:)
+     :                         / uptake_equiv_sum
+     :                         * crop_ash_alk_wt
+
+            P_uptake_equiv(:) =  P_uptake_equiv(:)
+     :                        + dlt_P_uptake_equiv(:)
+     :                        / uptake_equiv_sum
+     :                        * crop_ash_alk_wt
+
+            S_uptake_equiv(:) =  S_uptake_equiv(:)
+     :                        + dlt_S_uptake_equiv(:)
+     :                        / uptake_equiv_sum
+     :                        * crop_ash_alk_wt
+
+            Cl_uptake_equiv(:) = Cl_uptake_equiv(:)
+     :                         + dlt_Cl_uptake_equiv(:)
+     :                         / uptake_equiv_sum
      :                         * crop_ash_alk_wt
          else
             ! no uptake
-         endif     
+         endif
       else
          ! no uptake
       endif
-             
+
       Cation_uptake_equiv(:) = Ca_uptake_equiv(:)
      :                       + Mg_uptake_equiv(:)
      :                       + K_uptake_equiv(:)
@@ -1841,7 +1803,7 @@
       Anion_uptake_equiv(:) = P_uptake_equiv(:)
      :                      + S_uptake_equiv(:)
      :                      + Cl_uptake_equiv(:)
-                                         
+
       call pop_routine (my_name)
       return
       end
@@ -1852,14 +1814,12 @@
      :                                       , root_length_area
      :                                       , num_layers
      :                                       , dm_percent
-     :                                       , fract_avail 
+     :                                       , fract_avail
      :                                       , valency
      :                                       , Kg2Mol)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'error.pub'
-      include   'data.pub'
 
 *+  Sub-Program Arguments
       integer    num_layers                     ! (IN)  No of layers.
@@ -1899,7 +1859,7 @@
          !  Sum the root lengths where stuff is available.
       root_length_sum = 0
       do 1100 layer=1, num_layers
-            root_length_sum = root_length_sum 
+            root_length_sum = root_length_sum
      :                      + root_length_area(layer)*fract_avail(layer)
 1100  continue
 
@@ -1911,7 +1871,7 @@
          ! Distribute proportionally according to root length.
          uptake_sum = dlt_dm * dm_percent * pcnt2fract * Kg2Mol*valency
          do 1200 layer=1, num_layers
-               uptake_equiv(layer) = uptake_sum 
+               uptake_equiv(layer) = uptake_sum
      :                             * fract_avail(layer)
      :                             * divide (root_length_area(layer)
      :                                     , root_length_sum, 0.0)
@@ -1932,10 +1892,8 @@
      :                      , num_layers
      :                      , wr_coef)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
-      include   'data.pub'
-      include   'science.pub'
 
 *+  Sub-Program Arguments
       integer num_layers                  ! (IN)  No of layers.
@@ -1981,7 +1939,7 @@
       else
       endif
       if (dlayer(deepest_layer) .le. 0.0) then
-         deepest_layer_fract = 1.0 
+         deepest_layer_fract = 1.0
      :                    - (cumdep - root_depth)/dlayer(deepest_layer)
          rldf(deepest_layer) = rldf(deepest_layer) * deepest_layer_fract
       else
@@ -1998,9 +1956,8 @@
       subroutine SoilpH_set_other_variables ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include    'const.inc'
-      include    'error.pub'
 
 *+  Purpose
 *     Update variables owned by other modules.
@@ -2028,11 +1985,9 @@
       subroutine SoilpH_send_my_variable (variable_name)
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'SoilpHcv.inc'
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character  variable_name*(*)     ! (IN) Variable name to
@@ -2357,7 +2312,7 @@
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'cation_uptake_equiv_excess') then
-         temp_array(:) = e%Cation_uptake_equiv_last(:) 
+         temp_array(:) = e%Cation_uptake_equiv_last(:)
      :                 + e%Anion_uptake_equiv_last(:)
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
@@ -2378,13 +2333,9 @@
       subroutine SoilpH_set_my_variable (variable_name)
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include   'SoilpHcv.inc'
-      include   'data.pub'
-      include   'intrface.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character  variable_name*(*)     ! (IN) Variable name to
@@ -2421,7 +2372,7 @@
          call SoilpH_assert (numvals.eq.e%num_layers
      :                 , 'dlt_CaCO3: numvals.eq.e%num_layers')
          message_str =
-     :     '     Received dlt_CaCO3 (Lime Pool) (Kg/Ha).  Values =' 
+     :     '     Received dlt_CaCO3 (Lime Pool) (Kg/Ha).  Values ='
      :     // new_line
          call soilpH_real_array2str (message_str
      :                             , temp_array
@@ -2461,12 +2412,9 @@
       subroutine soilpH_ON_Nbalance ()
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
 *+  Purpose
 *     Get information of N transformations
 
@@ -2495,7 +2443,7 @@
      :                         ,numvals
      :                         ,-100.0
      :                         ,100.0)
-      
+
 
       e%NH4_transform_net_mol(:) = e%NH4_transform_net_mol(:)
      :                           + NH4_transform_net(:) * NH4_kg2mol
@@ -2519,12 +2467,8 @@
       subroutine soilpH_ON_Cbalance ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
 *+  Purpose
 *     Get information of C transformations
 
@@ -2569,13 +2513,8 @@
       subroutine soilpH_ON_Residue_added ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
-      include   'read.pub'
 
 *+  Purpose
 *     Get information of Residue added
@@ -2672,12 +2611,8 @@
       subroutine soilpH_ON_Residue_removed ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
 
 *+  Purpose
 *     Get information of Residue removed
@@ -2792,14 +2727,8 @@
       subroutine soilpH_ON_Crop_chopped ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
-      include   'datastr.pub'
-      include   'read.pub'
 
 *+  Purpose
 *     Get information of Residue removed
@@ -2925,14 +2854,9 @@
       subroutine soilpH_ash_alk_rate (ash_alk_rate, crop_type, dm_type)
 *     ===========================================================
       use SoilpHModule
+      Use SoilpHConst
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
-      include   'datastr.pub'
-      include   'read.pub'
 
 *+  Sub-Program Arguments
       real      ash_alk_rate                 ! (OUTPUT) ash alkalinity of drymatter (mol/kg)
@@ -2989,7 +2913,7 @@
      :         , '()'                 ! Units
      :         , name_dm_type         ! Variable
      :         , num_dm_type)             ! Number of values returned
-      
+
          if (num_dm_type .lt. 1) then
             string = 'Cannot find dry matter type names '
      :          // 'for crop:- '  // trim(crop_type)
@@ -3034,7 +2958,7 @@
       else
          ! we already have read this crop's ash alkalinity data
       endif
-      
+
       if (index_crop_type.gt.0) then
          ! ----------------------------------------------------------
          !     Get Crop Ash Alkalinity from LookUp Table
@@ -3074,14 +2998,8 @@
      :                                    , action_type)
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'event.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
-      include   'intrface.pub'
-      include   'datastr.pub'
-      include   'read.pub'
 
 *+  Sub-Program Arguments
       real      ash_alk_loss_fract             ! (OUTPUT) fraction of ash alkalinity lost (0-1)
@@ -3151,14 +3069,14 @@
             ! ----------------------------------------------------------
             !     Get action Ash Alkalinity loss from LookUp Table
             ! ----------------------------------------------------------
-   
+
             ash_alk_loss_fract = c%ash_alk_tbl_action(index_action_type)
          else
             ash_alk_loss_fract = 0.0
          endif
 
       endif
-      
+
 
       call pop_routine (myname)
       return
@@ -3168,10 +3086,8 @@
       subroutine SoilpH_init_calc ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include   'error.pub'
 
 *+  Purpose
 *       Initialize soil pH variables.
@@ -3229,11 +3145,8 @@
      :                   , sAls_supplied_use_flag
      :                   , layer)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'datastr.pub'
-      include   'data.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real       sAls                     ! (IN) Slope of Al versus H+.
@@ -3324,9 +3237,8 @@
 *     ===========================================================
       subroutine soilpH_sAls_calc (sAls_calc, Al_conc, pHCa)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
-      include   'data.pub'
 
 *+  Sub-Program Arguments
       real       sAls_calc       ! (OUT) Slope of Al versus H (cMol/Kg/Mol/1000.0*L).
@@ -3368,9 +3280,8 @@
 *     ===========================================================
       subroutine SoilpH_assert (isOK, err_msg)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'              ! ERR_internal
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character  err_msg*(*)     ! (IN) Error message.
@@ -3406,10 +3317,8 @@
 *     ===========================================================
       subroutine soilpH_real_array2str (str, array, num_vars)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'string.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       character str*(*)       ! (INOUT)
@@ -3434,7 +3343,7 @@
 *+  Constant Values
       character   my_name*(*)           ! name of procedure
       parameter  (my_name = 'soilpH_real_array2str')
-      
+
       integer     nums_per_line
       parameter  (nums_per_line=5)
 
@@ -3453,12 +3362,12 @@
       do 10 i=1, num_vars
          write (num_str,'(1x,g13.5)') array(i)
          last_nb = len_trim (num_str)
-         
+
          if (last_nb .lt. num_width) then
             num_str = num_str(last_nb+1:) // num_str(1:last_nb)
          end if
          call append_string (str, num_str)
-         
+
          if (mod (i,nums_per_line) .eq. 0)  then
             call append_string (str,new_line)
          end if
@@ -3479,11 +3388,8 @@
       subroutine SoilpH_process ()
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include   'data.pub'
-      include   'error.pub'
 
 *+  Purpose
 *       Do things for each time step.
@@ -3583,7 +3489,7 @@
 1150  continue
          !  Root excretion of acid.
       do 1170 layer=1, e%num_layers
-         call soilpH_acid_excretion_root ( 
+         call soilpH_acid_excretion_root (
      :                            g%acid_excretion_root(layer)
      :                           , e%NO3_uptake_equiv(layer)
      :                           , e%NH4_uptake_equiv(layer)
@@ -3620,7 +3526,7 @@
 
       g%H_equiv_mass_flow(:,:)      = 0.0
       g%H_equiv_mass_flow_tot(:,:)  = 0.0
-      g%H_equiv_flow_net(:,:)       = 0.0 
+      g%H_equiv_flow_net(:,:)       = 0.0
       g%H_equiv_flow_net_tot(:,:)   = 0.0
 
       g%dlt_pHCa(:) = 0.0
@@ -3642,7 +3548,7 @@
             g%H_equiv_mass_flow(layer-1,:) = 0.0
          endif
             !  Net flow of hydrogen ions into each layer.
-         g%H_equiv_flow_net(layer,:) = g%H_equiv_mass_flow(layer-1,:) 
+         g%H_equiv_flow_net(layer,:) = g%H_equiv_mass_flow(layer-1,:)
      :                               - g%H_equiv_mass_flow(layer,:)
 
                !  Difference in pHCa for up flow.
@@ -3696,13 +3602,13 @@
          else
             g%H_equiv_mass_flow(layer,:) = 0.0
          endif
-            
+
             !  Net flow of hydrogen ions into each layer.
          if (layer .eq.1) then
-            g%H_equiv_flow_net(1,:) = g%H_equiv_infiltration(:) 
+            g%H_equiv_flow_net(1,:) = g%H_equiv_infiltration(:)
      :                              - g%H_equiv_mass_flow(1,:)
          else
-            g%H_equiv_flow_net(layer,:) = g%H_equiv_mass_flow(layer-1,:) 
+            g%H_equiv_flow_net(layer,:) = g%H_equiv_mass_flow(layer-1,:)
      :                                  - g%H_equiv_mass_flow(layer,:)
          endif
 
@@ -3745,7 +3651,7 @@
      :                        )
          g%pHCa(layer) = g%pHCa(layer) + g%dlt_pHCa(layer)
 1400  continue
-      
+
       g%dlt_pHCa_tot(:) = g%dlt_pHCa_tot(:)
      :                  + g%dlt_pHCa(:)
 
@@ -3768,10 +3674,9 @@
      :                                   , hum_acid_pHCa_offset
      :                                   , pHCa )
 *     ===========================================================
+      Use infrastructure
+      Use SoilpHConst
       implicit none
-      include   'error.pub'
-      include   'data.pub'
-      include   'soilpHCv.inc'
 
 *+  Sub-Program Arguments
       real dlt_acid_org_C_cycle           ! (OUT) Change in acid due to change in humic C. (mol/ha) H+ equiv
@@ -3814,9 +3719,8 @@
      :                   , org_C_fract
      :                   , pHCa )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
-      include   'data.pub'
 
 *+  Sub-Program Arguments
       real tec          ! (OUT) Total Cation Exchange Capacity (cMol/Kg).
@@ -3875,8 +3779,8 @@
      :                   , sAls
      :                   , pHCa )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real Al_exchangable  ! (OUT) Aluminium concentration (cMol/Kg).
@@ -3919,10 +3823,8 @@
 *     ===========================================================
       subroutine soilpH_pHBC_Parameters (pHBC, pHBC_param)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'soilpHCv.inc'
-      include   'error.pub'
-      include   'data.pub'
 
 *+  Sub-Program Arguments
       real pHBC            ! (OUT) pH buffer capacity. (Kmol/ha/100mm/ph_unit).
@@ -3960,10 +3862,9 @@
      :                   , org_C_fract
      :                   , pHCa )
 *     ===========================================================
+      Use infrastructure
+      Use SoilpHConst
       implicit none
-      include   'soilpHCv.inc'
-      include   'error.pub'
-      include   'data.pub'
 
 *+  Sub-Program Arguments
       real pHBC            ! (OUT) pH buffer capacity. (Kmol/ha/100mm/ph_unit).
@@ -4027,10 +3928,10 @@
            ! we have Al buffering dominating
          pAl_ex = 10**(-Al_exchangable)
          pHBC = divide (pHCa, pAl_ex, 9999.0)
-      
+
       else if (pHCa .ge. 8.2) then
          pHBC = 9999
-      
+
       else
          pHBC = divide (CaCO3_t2KMol, (lri / lime_dissolved_fract)
      :                 , 9999.0)
@@ -4057,11 +3958,9 @@
      :                   , dlt_acid_org_C_cycle
      :                   , dlayer)
 *     ===========================================================
+      Use infrastructure
+      Use SoilpHConst
       implicit none
-      include   'convert.inc'
-      include   'soilphcv.inc'
-      include   'data.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real dlt_pHCa              ! (OUT)
@@ -4101,7 +4000,7 @@
   ! Tally H+ ions.
       dlt_H = H_equiv_flow_net + acid_excretion_root
      :      + dlt_acid_N_cycle + dlt_acid_org_C_cycle
-     :      - (dlt_lime_dissl + ash_alk_wt) 
+     :      - (dlt_lime_dissl + ash_alk_wt)
 
 !       print*, 'H_diff, dlt_lime_dissl,+ ash_alk_wt '
 !     :       //',- H_equiv_flow_net,- acid_excretion_root '
@@ -4112,7 +4011,7 @@
 
  ! pHCa change for a soil layer.
       dlt_pHCa = divide (-dlt_H, (kmol2mol*pHBC_layer), 0.0)
-!      print*,'dlt_pHCa=',dlt_pHCa 
+!      print*,'dlt_pHCa=',dlt_pHCa
       call pop_routine (my_name)
       return
       end
@@ -4132,8 +4031,8 @@
      :                              , Cl_uptake_equiv
      :                              )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real acid_excretion_root ! (OUT) Adjusted estimate of root excretion of acid.
@@ -4184,8 +4083,8 @@
      :                              , NO3_transform_net_mol
      :                              , NH4_transform_net_mol)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real dlt_acid_N_cycle       ! (OUT) Acid added due to N cycle (Mol/Ha).
@@ -4231,12 +4130,9 @@
      :                   , lime_sol_tbl_lime
      :                   , lime_sol_tbl_size)
 *     ===========================================================
+      Use infrastructure
+      Use SoilpHConst
       implicit none
-      include   'convert.inc'
-      include   'SoilpHcv.inc'
-      include   'data.pub'
-      include   'science.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real dlt_lime_pool                        ! (OUT) Difference in lime pool (Mol/Ha).
@@ -4311,10 +4207,9 @@
      :                                    , ionic_strength)
 *     ===========================================================
       use soilpHModule
+      Use infrastructure
+      Use SoilpHConst
       implicit none
-      include   'convert.inc'
-      include   'SoilpHcv.inc'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real H_equiv_mass_flow(max_MF_equiv_type)  ! (OUT) Equivalent H+ flow out of the layer by component (Mol/ha).
@@ -4341,7 +4236,7 @@
 
 *+  Local Variables
       real H2O_mass_flow      ! Mass flow of water to next layer (L/ha/day)
-      real pAl                ! -log(Al_mass_flow) pAl as a function of soil pHCa 
+      real pAl                ! -log(Al_mass_flow) pAl as a function of soil pHCa
                               ! (-log10 of Al ionic activity in solution) (mol/L)
       real Al_conc            !  Al conc (Mol/L)
       real Al_mass_flow       ! labile aluminium (mol/Ha)  Mass flow of Al .
@@ -4377,7 +4272,7 @@
       HCO3_conc = soilpH_ionic_conc (pHCO3
      :                              , HCO3_valency
      :                              , ionic_strength)
-                                                                  
+
          ! Mass flow HCO3_conc- (mol/ha).
       HCO3_mass_flow = HCO3_conc * H2O_mass_flow
       HCO3_mass_flow_equiv = HCO3_mass_flow * HCO3_valency
@@ -4422,7 +4317,7 @@
          Al_conc       = soilpH_ionic_conc (pAl
      :                                     , Al_valency
      :                                     , ionic_strength)
- 
+
          Al_mass_flow  = Al_conc * H2O_mass_flow
       else
          Al_mass_flow = 0.0
@@ -4430,27 +4325,27 @@
       Al_mass_flow_equiv = Al_mass_flow * Al_valency
 
          ! Mass flow of H+ equivalents through the soil layer.
-!      H_equiv_mass_flow = H_mass_flow_equiv 
-!     :                  + OH_mass_flow_equiv 
-!     :                  + HCO3_mass_flow_equiv 
-!     :                  + CO3_mass_flow_equiv 
-!     :                  + Al_mass_flow_equiv 
-      H_equiv_mass_flow(H_index)    = H_mass_flow_equiv 
-      H_equiv_mass_flow(OH_index)   = OH_mass_flow_equiv 
-      H_equiv_mass_flow(HCO3_index) = HCO3_mass_flow_equiv 
-      H_equiv_mass_flow(CO3_index)  = CO3_mass_flow_equiv 
-      H_equiv_mass_flow(Al_index)   = Al_mass_flow_equiv 
+!      H_equiv_mass_flow = H_mass_flow_equiv
+!     :                  + OH_mass_flow_equiv
+!     :                  + HCO3_mass_flow_equiv
+!     :                  + CO3_mass_flow_equiv
+!     :                  + Al_mass_flow_equiv
+      H_equiv_mass_flow(H_index)    = H_mass_flow_equiv
+      H_equiv_mass_flow(OH_index)   = OH_mass_flow_equiv
+      H_equiv_mass_flow(HCO3_index) = HCO3_mass_flow_equiv
+      H_equiv_mass_flow(CO3_index)  = CO3_mass_flow_equiv
+      H_equiv_mass_flow(Al_index)   = Al_mass_flow_equiv
 
-!      print*, 'pHCa, H_equiv_mass_flow, H_mass_flow' 
+!      print*, 'pHCa, H_equiv_mass_flow, H_mass_flow'
 !     :                  //', -OH_mass_flow '
 !     :                  //', -HCO3_mass_flow '
 !     :                  //', - CO3_mass_flow '
 !     :                  //', + Al_equiv_mass_flow '
 
-!      print*, pHCa, H_equiv_mass_flow, H_mass_flow 
-!     :                  , -OH_mass_flow 
-!     :                  , -HCO3_mass_flow 
-!     :                  , - CO3_mass_flow 
+!      print*, pHCa, H_equiv_mass_flow, H_mass_flow
+!     :                  , -OH_mass_flow
+!     :                  , -HCO3_mass_flow
+!     :                  , - CO3_mass_flow
 !     :                  , + Al_equiv_mass_flow
 
       call pop_routine (my_name)
@@ -4463,8 +4358,8 @@
      :                                , ionic_strength)
 *     ===========================================================
       use soilpHModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       real    pIon         ! (IN) -ve log of [ion] in solution (mol/L)
@@ -4481,7 +4376,7 @@
 *     210499 jngh   created
 
 *+  Notes
-*     Extended Debye-Hückel equation simplified. Based on experimental data 
+*     Extended Debye-Hückel equation simplified. Based on experimental data
 *     suggested by Davies (1962)
 
 *+  Constant Values
@@ -4501,12 +4396,12 @@
 
       ionic_activity = 10.0 ** (-pIon)
       ionic_activity_coef = 10**(-A * valency**2
-     :                    * (ionic_strength**0.5 
+     :                    * (ionic_strength**0.5
      :                      / (1 + ionic_strength**0.5)
      :                      - 0.3*ionic_strength))
       conc = ionic_activity / ionic_activity_coef
       soilpH_ionic_conc = conc
-                                                                  
+
       call pop_routine (my_name)
       return
       end
@@ -4515,9 +4410,8 @@
       subroutine soilpH_pHCa2pH (pH, pHCa, num_layers)
 *     ===========================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'science.pub'
-      include   'error.pub'
 
 *+  Sub-Program Arguments
       integer  num_layers                     ! (IN) number of layers in profile ().
@@ -4559,12 +4453,8 @@
       subroutine soilpH_init_residue_ash_alk_wt()
 *     ================================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'SoilpHcv.inc'
-      include   'intrface.pub'
-      include   'error.pub'
-      include   'read.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4614,7 +4504,7 @@
      :                         , init_residue_dm_type)
 
          ! ----------------------------------------------------------
-         !    Calculate residue ash alkalinity 
+         !    Calculate residue ash alkalinity
          ! ----------------------------------------------------------
       g%residue_ash_alk_wt = ash_alk_rate
      :                     * init_residue_wt
@@ -4628,32 +4518,30 @@
       subroutine SoilpH_incorp (Tillage_depth)
 *     ================================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
- 
+
 *+  Sub-Program Arguments
       real       Tillage_depth
- 
+
 *+  Purpose
 *   Calculate ash alkalinity incorporation as a result of tillage and update
 *   ash alkalinity pool.
- 
+
 *+  Notes
 *   I do not like updating the pools here but we need to be able to handle
 *   the case of multiple tillage events per day.
- 
+
 *+  Mission Statement
 *     Incorporate ash alkalinity to %2 depth
- 
+
 *+  Changes
 *    131099 jngh  created
- 
+
 *+  Constant Values
       character*(*) my_name             ! name of current procedure
       parameter (my_name = 'SoilpH_incorp')
- 
+
 *+  Local Variables
       real       cum_depth             !
       integer    Deepest_Layer         !
@@ -4668,7 +4556,7 @@
       real       depth_to_layer_top    ! depth to top of layer (mm)
       real       depth_to_till         ! depth to till in layer (mm)
       real       depth_of_till_in_layer ! depth of till within layer (mm)
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
@@ -4678,40 +4566,40 @@
       if (Deepest_Layer .gt. 1) then
          Ash_Alk_wt = sum_real_array(e%ash_alk_wt_incorp, Deepest_Layer)
 !      print*, '1 e%ash_alk_wt_incorp', e%ash_alk_wt_incorp
- 
+
             ! correct bottom layer for actual tillage penetration
          depth_to_layer_bottom = sum_real_array(e%dlayer, Deepest_Layer)
-         depth_to_layer_top = depth_to_layer_bottom 
+         depth_to_layer_top = depth_to_layer_bottom
      :                   - e%dlayer(Deepest_Layer)
          depth_to_till  = min (depth_to_layer_bottom, Tillage_depth)
- 
+
          depth_of_till_in_layer = dim(depth_to_till, depth_to_layer_top)
          proportion = divide (depth_of_till_in_layer
      :                   , e%dlayer(deepest_layer), 0.0)
-         remainder =  e%ash_alk_wt_incorp(deepest_layer) 
+         remainder =  e%ash_alk_wt_incorp(deepest_layer)
      :          * (1.0 - proportion)
          Ash_Alk_wt = Ash_Alk_wt - remainder
 
          cum_depth = 0.0
          do 2000 layer = 1, Deepest_Layer
- 
+
             depth_to_go = tillage_depth - cum_depth
             layer_incorp_depth = min (depth_to_go, e%dlayer(layer))
             F_incorp_layer = divide (layer_incorp_depth
      :                          , tillage_depth, 0.0)
- 
+
             e%ash_alk_wt_incorp(layer) = Ash_Alk_wt *  F_incorp_layer
 
             cum_depth = cum_depth + e%dlayer(layer)
  2000    continue
- 
- 
-         e%ash_alk_wt_incorp(deepest_layer) 
+
+
+         e%ash_alk_wt_incorp(deepest_layer)
      :                  = e%ash_alk_wt_incorp(deepest_layer) + remainder
 !      print*, '2 ash_alk_wt_incorp ',e%ash_alk_wt_incorp
       else
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -4720,33 +4608,30 @@
       subroutine SoilpH_Tillage ()
 *     ================================================================
       use SoilpHModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'intrface.pub'
-      include 'error.pub'
- 
+
 *+  Purpose
 *   Calculates ash alkalinity incorporation as a result of tillage operations.
- 
+
 *+  Mission Statement
 *     Calculate ash alkalinity incorporation as a result of tillage operations
- 
+
 *+  Changes
 *     230600 jngh created
- 
+
 *+  Constant Values
       character*(*) my_name             ! name of current procedure
       parameter (my_name = 'SoilpH_tillage')
- 
+
 *+  Local Variables
       character String*300             ! message string
       integer   Numvals_T              ! Number of values found in data string
       real      Tillage_depth          ! depth of residue incorp (mm)
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! ----------------------------------------------------------
          !       Get User defined tillage effects on ash alkalinity
          ! ----------------------------------------------------------
@@ -4754,27 +4639,27 @@
       call collect_real_var_optional ('tillage_depth'
      :                              , '()', tillage_depth, numvals_t
      :                              , 0.0, 1000.0)
- 
+
       If (Numvals_t .eq.0) then
             tillage_depth = 0.0
- 
+
             string = 'Cannot find tillage depth:- '
             call FATAL_ERROR (ERR_user, string)
- 
+
       Else
             ! ----------------------------------------------------------
             !              Now incorporate the ash alkalinity
             ! ----------------------------------------------------------
          Call SoilpH_incorp (Tillage_Depth)
-    
-    
+
+
          Write (string, '(10x,a, f8.2)' )
      :     'Ash alkalinity incorporated Depth    = ', Tillage_Depth
-    
+
          call Write_string (string)
       Endif
- 
- 
+
+
       call pop_routine (my_name)
       return
       end

@@ -1,14 +1,11 @@
 C     Last change:  DSG  19 Jun 2000   12:25 pm
-      include 'sugar.inc'
 
 *     ===========================================================
       subroutine sugar_phenology (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_phen.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -82,9 +79,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       subroutine sugar_phenology_init (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -149,11 +145,9 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :              , dlt_canopy_height
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_height_max          ! (INPUT)  maximum canopy height (mm)
@@ -208,10 +202,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       subroutine sugar_root_depth (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -267,9 +259,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :              , G_lodge_redn_photo
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_nfact_photo         ! (INPUT)
@@ -318,10 +309,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :              , radn_int
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_extinction_coef     ! (INPUT)  radiation extinction coefficie
@@ -376,9 +365,8 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       subroutine sugar_leaf_area_potential (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -436,9 +424,8 @@ c     :                    * g%swdef_expansion
       subroutine sugar_leaf_area_init (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -497,11 +484,9 @@ c     :                    * g%swdef_expansion
      :              , dlt_lai_pot
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_leaf_no_correction  ! (INPUT)  corrects for other growing lea
@@ -590,10 +575,8 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :              , leaf_no
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_leaf_size(*)        ! (INPUT)
@@ -660,11 +643,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :              , C_sla_max
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
@@ -730,9 +711,8 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
       subroutine sugar_leaf_death (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -795,11 +775,9 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :              , dlt_dm_senesced
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_dm_root_sen_frac    ! (INPUT)  fraction of root dry matter senescing each day (0-1)
@@ -911,11 +889,9 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
      :              , lai
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_leaf_area(*)        ! (INPUT)  leaf area of each leaf (mm^2)
@@ -973,10 +949,9 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
      :              , dlt_N_senesced
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_n_cabbage_sen_conc  ! (INPUT)  N concentration of senesced ca
@@ -1026,13 +1001,8 @@ cnh what checks are there that there is enough N in plant to provide this
       subroutine sugar_detachment (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_cnpy.pub'
-      include 'crp_nitn.pub'
-      include 'crp_biom.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1111,12 +1081,9 @@ cnh what checks are there that there is enough N in plant to provide this
      :              , leaf_dm
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_dm_cabbage_init     ! (INPUT)  cabbage "    "        "        "
@@ -1214,10 +1181,8 @@ cnh     NO MINIMUMS SET AS YET
      :                              , partition_xs
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_fraction       ! (INPUT)
@@ -1288,10 +1253,9 @@ cnh     NO MINIMUMS SET AS YET
      :                dm_retranslocate
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dm_retranslocate(*)   ! (INPUT) actual change in plant part
@@ -1342,10 +1306,9 @@ cnh     NO MINIMUMS SET AS YET
      :              , dlt_N_retrans
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
@@ -1411,10 +1374,9 @@ cnh     NO MINIMUMS SET AS YET
      :              , N_avail
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
@@ -1482,11 +1444,9 @@ cnh     NO MINIMUMS SET AS YET
      :              , N_conc_crit, N_conc_min
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_n_conc_crit_root    ! (INPUT)  critical N concentration of ro
@@ -1677,12 +1637,9 @@ cnh     NO MINIMUMS SET AS YET
      :              , C_leaf_no_at_emerg
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_canopy_height       ! (INPUT)  canopy height (mm)
@@ -2042,10 +1999,8 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
       subroutine sugar_plant_death (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2172,13 +2127,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :              , P_ll_dep
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_stage_code_list(*)  ! (INPUT)  list of stage numbers
@@ -2303,10 +2254,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :              , N_green
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_n_cabbage_init_conc ! (INPUT)     "   cabbage    "
@@ -2367,10 +2317,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :              , leaf_no, sla_min
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_sla_lfno        ! (INPUT)
@@ -2419,10 +2367,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :              , leaf_no
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_sla_lfno        ! (INPUT)
@@ -2465,10 +2411,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
        real function sugar_profile_fasw ()
 * ====================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -2526,11 +2470,9 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :              , G_tt_tot
      :               )
 * ====================================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-       include 'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_dmf_tt(*)      ! (INPUT)
@@ -2545,7 +2487,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       REAL       G_dm_green(*)         ! (INPUT)
       REAL       G_dlt_plant_wc(*)     ! (INPUT)
       REAL       G_plant_wc(*)         ! (OUTPUT)
-      REAL       G_tt_tot              ! (INPUT)
+      REAL       G_tt_tot(*)           ! (INPUT)
 
 *+  Purpose
 *     <insert here>
@@ -2633,11 +2575,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :              , sucrose_fraction
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    c_num_stress_factor_Stalk ! (INPUT)
@@ -2702,13 +2641,8 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
       subroutine sugar_graze ()
 *     ===========================================================
             use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! lu_scr_sum, blank
-      include   'convert.inc'          ! smm2sm
-      include 'crp_comm.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'componentinterface.inc'
 
 *+  Purpose
 *       remove part of the green material as if grazed
@@ -2905,9 +2839,8 @@ c      call sugar_get_other_variables ()
       subroutine sugar_root_depth_init (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2952,10 +2885,8 @@ c      call sugar_get_other_variables ()
       subroutine sugar_root_dist (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3016,11 +2947,8 @@ c      call sugar_get_other_variables ()
       subroutine sugar_water_supply (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
-      include 'crp_comm.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3095,11 +3023,8 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine sugar_water_uptake (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3157,10 +3082,8 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine sugar_water_demand (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3214,9 +3137,8 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine sugar_light_supply (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3262,9 +3184,8 @@ c+!!!!!!!!! check order dependency of deltas
       subroutine sugar_bio_RUE (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3330,9 +3251,8 @@ c+!!!!!!!!! check order dependency of deltas
      :              , dlt_dm_pot
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_rue(*)              ! (INPUT)  radiation use efficiency (g dm
@@ -3406,9 +3326,8 @@ cnh      call sugar_radn_int (radn_int)
      :              , dlt_dm_pot
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'sugconst.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_rue(*)              ! (INPUT)  radiation use efficiency (g dm/mj)
@@ -3462,10 +3381,8 @@ cnh      call sugar_radn_int (radn_int)
       subroutine sugar_transpiration_eff (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3514,11 +3431,8 @@ cnh      call sugar_radn_int (radn_int)
      :              , tfac
      :               )
 * ====================================================================
+      Use infrastructure
       implicit none
-       include 'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_ave_temp        ! (INPUT)  size_of of critical temperatur
@@ -3568,10 +3482,8 @@ cnh      call sugar_radn_int (radn_int)
       subroutine sugar_water_stress_pheno (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'                         
 
 
 *+  Sub-Program Arguments
@@ -3613,10 +3525,8 @@ cnh      call sugar_radn_int (radn_int)
       subroutine sugar_water_stress_photo (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3655,10 +3565,8 @@ cnh      call sugar_radn_int (radn_int)
       subroutine sugar_water_stress_expansion (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3702,9 +3610,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_nit_stress_photo (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3752,9 +3659,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_nit_stress_expansion (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3802,10 +3708,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_height (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3857,9 +3761,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_bio_actual (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3915,10 +3818,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_bio_partition (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4013,12 +3914,9 @@ c      real       mungb_swdef           ! function
      :                              , partition_xs
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_fraction       ! (INPUT)
@@ -4194,10 +4092,8 @@ cnh Due to small rounding errors I will say that small errors are ok
      :                              , partition_xs
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_cane_fraction       ! (INPUT)
@@ -4266,10 +4162,8 @@ cnh Due to small rounding errors I will say that small errors are ok
       subroutine sugar_leaf_area_stressed (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4315,10 +4209,9 @@ cnh Due to small rounding errors I will say that small errors are ok
       subroutine sugar_leaf_actual (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
 
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4368,9 +4261,8 @@ cnh Due to small rounding errors I will say that small errors are ok
       subroutine sugar_bio_retrans (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4421,11 +4313,9 @@ cnh Due to small rounding errors I will say that small errors are ok
      :              , dlt_node_no_dead
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_green_leaf_no       ! (INPUT)
@@ -4514,11 +4404,9 @@ cnh Due to small rounding errors I will say that small errors are ok
      :              , dlt_slai_age
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_node_no_dead    ! (INPUT)  fraction of oldest green leaf
@@ -4601,9 +4489,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_leaf_area_sen_actual (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4647,9 +4534,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_sen_nit (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4695,9 +4581,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_sen_bio (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4752,10 +4637,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_sen_root_length (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4803,9 +4686,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_nit_init (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4854,11 +4736,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_nit_supply (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4920,9 +4799,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_nit_retrans (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4967,9 +4845,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_nit_demand (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5016,12 +4893,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_nit_uptake (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'
-      include 'crp_nitn.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5087,9 +4960,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_nit_partition (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5135,8 +5007,8 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
       subroutine sugar_cleanup ()
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       cleanup after crop processes
@@ -5293,11 +5165,9 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :              , G_transpiration_tot
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_current_stage       ! (INPUT)  current phenological stage
@@ -5394,9 +5264,8 @@ c     :                   * 0.5
       subroutine sugar_water_content_cane (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5456,12 +5325,9 @@ c     :                   * 0.5
      :              , dlt_plants
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'            ! new_line
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_days_germ_limit     ! (INPUT)  maximum days allowed after sowing for germination to take place (days)
@@ -5528,12 +5394,9 @@ c         call sugar_kill_crop ()
      :              , dlt_plants
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'            ! new_line
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'science.pub'
-            include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_tt_emerg_limit      ! (INPUT)  maximum degree days allowed for emergence to take place (deg day)
@@ -5595,12 +5458,9 @@ c         call sugar_kill_crop ()
      :              , dlt_plants
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'            ! new_line
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_current_stage       ! (INPUT)  current phenological stage
@@ -5663,11 +5523,9 @@ c         call sugar_kill_crop ()
      :              , dlt_plants
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line
-      include   'sugconst.inc'
 
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_plants_death_drought ! (INPUT)
@@ -5722,11 +5580,9 @@ c         call sugar_kill_crop ()
      :              , dlt_plants
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'            ! new_line
-      include   'sugconst.inc'
-      include 'data.pub'
-            include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_leaf_no_crit        ! (INPUT)  critical number of leaves below which portion of the crop may die due to water stress
@@ -5802,13 +5658,9 @@ c         call sugar_kill_crop ()
      :              , dlt_N_green
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'
-      include   'convert.inc'          ! gm2kg, sm2ha
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
@@ -5880,10 +5732,8 @@ c         call sugar_kill_crop ()
       subroutine sugar_water_log (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5938,9 +5788,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_water_stress_stalk (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5992,9 +5841,8 @@ c      real       mungb_swdef           ! function
       subroutine sugar_temp_stress_photo (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6043,9 +5891,8 @@ cnh I made it a subroutine like all the rest
       subroutine sugar_temp_stress_stalk (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6092,9 +5939,8 @@ cnh I made it a subroutine like all the rest
       subroutine sugar_lodge_redn_photo (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6136,9 +5982,8 @@ cnh I made it a subroutine like all the rest
       subroutine sugar_lodge_redn_sucrose (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6180,9 +6025,8 @@ cnh I made it a subroutine like all the rest
       subroutine sugar_lodge_redn_green_leaf (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6224,9 +6068,8 @@ cnh I made it a subroutine like all the rest
       subroutine sugar_nit_stress_stalk (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6281,11 +6124,9 @@ cnh I made it a subroutine like all the rest
      :              , nfact
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
@@ -6409,9 +6250,8 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :               )
 
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       logical g_lodge_flag
@@ -6467,11 +6307,8 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       subroutine sugar_min_sstem_sucrose (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6525,9 +6362,8 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       subroutine sugar_realloc (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6594,9 +6430,8 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :               )
 
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer leaf
@@ -6664,10 +6499,9 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :              , dlt_root_depth
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlayer(*)           ! (INPUT)  thickness of soil layer I (mm)
@@ -6736,10 +6570,8 @@ cnh for rlv at initialisation.
       subroutine sugar_bio_water (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6779,10 +6611,8 @@ cnh for rlv at initialisation.
        subroutine sugar_leaf_area_sen (Option)
 * ====================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -6860,11 +6690,9 @@ cnh for rlv at initialisation.
      :              , leaf_area
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'convert.inc'
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_initial_tpla        ! (INPUT)  initial plant leaf area (mm^2)
@@ -6909,10 +6737,8 @@ cnh for rlv at initialisation.
        subroutine sugar_nit_demand_est (Option)
 * ====================================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -6991,10 +6817,9 @@ cnh for rlv at initialisation.
      :              , N_demand
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dlt_dm_green_pot(*) ! (INPUT)  plant biomass growth (g/m^2)
@@ -7128,9 +6953,8 @@ cnh conc for CANE.
       subroutine sugar_nit_stress_pheno (Option)
 *     ===========================================================
             use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -7189,10 +7013,9 @@ cnh conc for CANE.
      :              , phase_tt
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       C_shoot_lag           ! (INPUT)  minimum growing degree days fo
@@ -7269,12 +7092,9 @@ cnh conc for CANE.
      :              , swdef
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use SugConst
       implicit none
-      include   'const.inc'
-      include   'sugconst.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER    C_num_sw_demand_ratio ! (INPUT)
@@ -7330,10 +7150,8 @@ cnh conc for CANE.
       subroutine sugar_leaf_no_init (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -7382,10 +7200,8 @@ cnh conc for CANE.
       subroutine sugar_leaf_no_pot (Option)
 *     ===========================================================
       use sugarModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
