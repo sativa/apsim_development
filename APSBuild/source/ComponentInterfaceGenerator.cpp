@@ -32,7 +32,7 @@ void GetSubscribedEvents(ApsimComponentData* component,
                          vector<string>& eventList)
    {
    for_each_if(component->regBegin(), component->regEnd(),
-               GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
+               GetName<ApsimRegistrationData>(eventList),
                IsOfType("respondToEvent"));
    }
 //---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ void GetPublishedEvents(ApsimComponentData* component,
                         vector<string>& eventList)
    {
    for_each_if(component->regBegin(), component->regEnd(),
-               GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
+               GetName<ApsimRegistrationData>(eventList),
                IsOfType("event"));
    }
 //---------------------------------------------------------------------------
@@ -52,7 +52,7 @@ void GetSubscribedMethods(ApsimComponentData* component,
                           vector<string>& eventList)
    {
    for_each_if(component->regBegin(), component->regEnd(),
-               GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
+               GetName<ApsimRegistrationData>(eventList),
                IsOfType("respondToMethodCall"));
    }
 //---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ void GetPublishedMethods(ApsimComponentData* component,
                          vector<string>& eventList)
    {
    for_each_if(component->regBegin(), component->regEnd(),
-               GetNameFunction<vector<string>, ApsimRegistrationData>(eventList),
+               GetName<ApsimRegistrationData>(eventList),
                IsOfType("methodCall"));
    }
 
