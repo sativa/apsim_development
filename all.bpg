@@ -1,0 +1,173 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = general.dll aps32.dll data.dll chart.dll apsgeneral.bpl apsui.bpl \
+  apsdata.bpl apsbuild.exe apsrun.exe compinterface.lib protocol.dll apsim.exe \
+  apsimexplorer.exe newapsfrontrun.exe apsimoutlook.exe dbaddin.dll \
+  filteraddin.dll dameasyaddin.dll soiaddin.dll rotationaddin.dll \
+  whopeconaddin.dll outlookmanager.exe apslook.exe apsvis.exe apsshowkey.exe \
+  ini_edit.exe dirreadwrite.exe editview.exe executeexplorermenu.exe icons.dll \
+  sendtoexcel.exe viewcmplmsg.exe ContFileGen.exe apswiz.exe templatepacks.dll \
+  soilwater.dll runselection.dll
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+
+general.dll: Shared\general\general.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+aps32.dll: Shared\aps\aps32.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+data.dll: shared\data\data.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+chart.dll: shared\chart\chart.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsgeneral.bpl: shared\components\general\apsgeneral.bpk
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsui.bpl: shared\components\ui\apsui.bpk
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsdata.bpl: shared\components\data\apsdata.bpk
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsbuild.exe: apsbuild\source\apsbuild.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+compinterface.lib: apsim\infra\componentinterface\compinterface.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+protocol.dll: apsim\infra\protocol\protocol.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsim.exe: apsim\infra\engine\apsim.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsimexplorer.exe: apsimexplorer\source\apsimexplorer.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+newapsfrontrun.exe: apsimexplorer\source\newapsfrontrun\newapsfrontrun.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsimoutlook.exe: apsimoutlook\source\outlook\apsimoutlook.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+dbaddin.dll: apsimoutlook\source\outlook\dbaddin\dbaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+filteraddin.dll: apsimoutlook\source\outlook\filteraddin\filteraddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+dameasyaddin.dll: apsimoutlook\source\outlook\dameasyaddin\dameasyaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+soiaddin.dll: apsimoutlook\source\outlook\soiaddin\soiaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+rotationaddin.dll: apsimoutlook\source\outlook\rotationaddin\rotationaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+whopeconaddin.dll: apsimoutlook\source\outlook\whopeconaddin\whopeconaddin.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+outlookmanager.exe: apsimoutlook\source\manager\outlookmanager.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apslook.exe: apslook\source\apslook.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsrun.exe: apsrun\source\apsrun.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsvis.exe: apsvis\source\apsvis.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apsshowkey.exe: diagnost\source\apsshowkey.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ini_edit.exe: ini_edit\source\ini_edit.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+dirreadwrite.exe: shellext\source\dirreadwrite.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+editview.exe: shellext\source\editview.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+executeexplorermenu.exe: shellext\source\executeexplorermenu.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+icons.dll: shellext\source\icons.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+sendtoexcel.exe: shellext\source\sendtoexcel.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+viewcmplmsg.exe: viewcmplmsg\source\viewcmplmsg.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+ContFileGen.exe: tools\ContFileGen\source\ContFileGen.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+apswiz.exe: apswiz\source\apswiz.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+templatepacks.dll: apsfront\source\templatepacks\templatepacks.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+soilwater.dll: apsfront\source\soilwater\soilwater.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+runselection.dll: apsfront\source\runselection\runselection.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+
