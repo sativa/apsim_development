@@ -176,6 +176,7 @@
 
       <respondToEventReg name="new_solute" type="new_soluteType"/>
       <respondToEventReg name="irrigated" type="irrigatedType"/>
+      <respondToMethodCallReg name="subsurfaceflow" type="SubSurfaceFlowType"/>
       <respondToEventReg name="prepare" type="prepareType"/>
       <respondToEventReg name="process" type="processType"/>
       <respondToEventReg name="post" type="postType"/>

@@ -116,7 +116,7 @@ cnh hey - wpf has no arguments !
 cnh         g%wp=wpf(p%n,p%dx,g%th)
          g%wp = apswim_wpf()
 
-         balerr=g%ron-g%roff-g%q(p%n+1)-g%rex-g%res-
+         balerr=g%ron-g%roff-g%q(p%n+1)-g%rex-g%res+g%rssf-
      1          (g%h-g%hold+g%wp-wpold+(g%hbp-g%hbpold)*p%sbp)/g%dt
          err=0.
          do 20 i=i1,i2
@@ -439,9 +439,11 @@ cnh - added initialisation to zero to eliminate ndp errors
          qp1(i)=0.d0
          qp2(i)=0.d0
          psios(i)=0.d0
+
     1 continue
       qp1(M+1) = 0.d0
       qp2(M+1) = 0.d0
+
 cnh - end subroutine
 
 *
@@ -570,6 +572,14 @@ cnh
       g%rex=0.
       do 25 i=0,p%n
 25    g%rex=g%rex+g%qex(i)
+
+***   NIH  get subsurface inflow fluxes
+      g%rssf = 0.
+      do 26 i=0,p%n
+         g%qssf(i) = g%SubSurfaceInFlow(i)/10./24d0 ! assumes mm and daily timestep - need something better !!!!
+         g%rssf = g%rssf + g%qssf(i)
+26    continue
+
 ***   get soil surface fluxes, taking account of top boundary condition
       if(p%itbc.eq.0)then
 **       infinite conductance
@@ -582,18 +592,22 @@ cnh
             g%res=g%resp
             respsi=0.
          end if
+
          if(p%isbc.eq.0)then
 *           no ponding allowed
             g%h=0.
             q0=g%ron-g%res+g%hold/g%dt
-            if(g%psi(0).lt.0..or.q0.lt.g%qs(0)+g%qex(0)+g%q(1))then
+
+            if(g%psi(0).lt.0..or.
+     :             q0.lt.g%qs(0)+g%qex(0)+g%q(1)-g%qssf(0))then
                g%q(0)=q0
                qp2(0)=-respsi*psip(0)
                g%roff=0.
+               roffd=0.d0
             else
 *              const zero potl
                ifirst=1
-               g%q(0)=g%qs(0)+g%qex(0)+g%q(1)
+               g%q(0)=g%qs(0)+g%qex(0)+g%q(1)-g%qssf(0)
                g%roff=q0-g%q(0)
                roffd=-qp2(1)
             end if
@@ -626,7 +640,7 @@ cnh
             g%res=g%resp
          end if
          g%h=max(g%psi(0),0d0)
-         g%q(0)=g%qs(0)+g%qex(0)+g%q(1)
+         g%q(0)=g%qs(0)+g%qex(0)+g%q(1)-g%qssf(0)
 *        flow to source of potl treated as "runoff" (but no bypass flow)
          g%roff=g%ron-g%res-(g%h-g%hold)/g%dt-g%q(0)
       end if
@@ -726,7 +740,7 @@ cnh
       else if(p%ibbc.eq.1)then
 **       const potl
          ilast=p%n-1
-         g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)
+         g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssf(p%n)
          if(p%ibp.eq.p%n)then
             g%q(p%n+1)=g%q(p%n+1)+g%qbp-qbps
             g%qbpd=0.
@@ -740,7 +754,7 @@ cnh
 cnh added to allow seepage to user potential at bbc
 cnh         if(g%psi(p%n).ge.0.)then
          if(g%psi(p%n).ge.p%constant_potential) then
-            g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)
+            g%q(p%n+1)=g%q(p%n)-g%qs(p%n)-g%qex(p%n)+g%qssf(p%n)
             if(p%ibp.eq.p%n)g%q(p%n+1)=g%q(p%n+1)+g%qbp
             if(g%q(p%n+1).ge.0.)then
                ilast=p%n-1
@@ -778,7 +792,7 @@ cnh         if(g%psi(p%n).ge.0.)then
             b(k)=qp2(i)-qp1(j)
             c_(k)=-qp2(j)
          end if
-         rhs(k)=rhs(k)+g%qs(i)+g%qex(i)
+         rhs(k)=rhs(k)+g%qs(i)+g%qex(i)-g%qssf(i)
          b(k)=b(k)-qsp(i)
 *        bypass flow?
          if(p%ibp.ne.0.and.i.eq.p%ibp)then
