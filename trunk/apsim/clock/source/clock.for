@@ -177,6 +177,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
          call Write_string (
      .       'Simulation is terminating due to end ' //
      .       'criteria being met.')
+         call terminate_simulation()
          g%end_current_run = .true.
       else
          ! convert julian day to day and year for speed reasons later.
