@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = cowpea Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -23,6 +23,11 @@
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date = 15/11/1988
      Simulation end date   =  1/03/1989
      Time step =           = 1440 (mins)
@@ -277,27 +282,27 @@
 11 January 1989(Day of year=11), cowpea: 
       stage    5.0 floral_initiation
                           biomass =           353.5244       lai =     4.852226
-                          stover N conc =    2.828658       extractable sw =    203.3116
+                          stover N conc =    2.835690       extractable sw =    203.3116
 12 January 1989(Day of year=12), cowpea: 
       stage    6.0 flowering
                           biomass =           378.9499       lai =     5.076070
-                          stover N conc =    2.764913       extractable sw =    192.9653
+                          stover N conc =    2.774577       extractable sw =    192.9653
 19 January 1989(Day of year=19), cowpea: 
       stage    7.0 start_grain_fill
                           biomass =           532.5305       lai =     5.967484
-                          stover N conc =    2.598481       extractable sw =    161.3206
+                          stover N conc =    2.626026       extractable sw =    161.3206
 9 February 1989(Day of year=40), cowpea: 
       stage    8.0 end_grain_fill
                           biomass =           800.7981       lai =     2.400552
-                          stover N conc =    1.908055       extractable sw =    91.76999
+                          stover N conc =    1.990914       extractable sw =    91.76999
 10 February 1989(Day of year=41), cowpea: 
       stage    9.0 maturity
                           biomass =           807.1030       lai =     2.150279
-                          stover N conc =    1.888442       extractable sw =    86.91897
+                          stover N conc =    2.015810       extractable sw =    86.91897
 11 February 1989(Day of year=42), cowpea: 
       stage   10.0 harvest_ripe
                           biomass =           807.1030       lai =     0.000000
-                          stover N conc =    1.896731       extractable sw =    85.68860
+                          stover N conc =    2.552219       extractable sw =    85.68860
 12 February 1989(Day of year=43), manager: 
      Manager sending message :- cowpea harvest
 12 February 1989(Day of year=43), cowpea: 
@@ -315,15 +320,15 @@
       senesced above ground biomass (kg/ha) =    2666.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  22.7
-      grain N percent =      4.50            total N content (kg/ha) =    225.21
-      grain N uptake (kg/ha) =    110.99     senesced N content (kg/ha) =     58.49
-      green N content (kg/ha) =     55.73    dead N content (kg/ha) =      0.00
+      grain N percent =      4.50            total N content (kg/ha) =    188.64
+      grain N uptake (kg/ha) =    110.99     senesced N content (kg/ha) =      2.67
+      green N content (kg/ha) =     74.99    dead N content (kg/ha) =      0.00
      
      
      
       stress indices for emergence
       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0044828
-      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0135015
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0122881
      
      
      
@@ -351,7 +356,7 @@
      
       Crop harvested.
                                                tops residue = 5604.6 kg/ha
-                                               tops N =  114.2 kg/ha
+                                               tops N =   77.7 kg/ha
                                                root residue =  346.2 kg/ha
                                                root N =    0.3 kg/ha
      
@@ -367,6 +372,6 @@
                                                straw residue =    0.0 kg/ha
                                                straw N =    0.0 kg/ha
                                                root residue = 3479.5 kg/ha
-                                               root N =   52.3 kg/ha
+                                               root N =   55.1 kg/ha
 1 March 1989(Day of year=60), clock: 
      Simulation is terminating due to end criteria being met.
