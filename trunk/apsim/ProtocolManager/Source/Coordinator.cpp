@@ -721,7 +721,13 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
       for (unsigned i = 0; i != componentNames.size(); ++i)
          {
          unsigned componentID = componentNameToID(componentNames[i]);
-         if (componentID == INT_MAX) {throw runtime_error("attempt to change order of non-existant module");}
+         if (componentID == INT_MAX)
+            {
+            string msg;
+            msg = "The CANOPY module has specified that " + componentNames[i]
+                + " be intercropped\nbut that module doesn't exist in the control file.";
+            throw runtime_error(msg);
+            }
          componentOrders.push_back(componentID);
          }
       }
