@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(irrigate)
-
-[Contents]
-irrigate.for = irrigate.for
-
-[APSBuild]
-binary = ..\lib\irrigate.dll
-moduletype=module

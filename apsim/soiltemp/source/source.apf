@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(soiltemp)
-
-[Contents]
-soiltemp.for = soiltemp.for
-
-[APSBuild]
-binary = ..\lib\soiltemp.dll
-moduletype=module

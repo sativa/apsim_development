@@ -1,9 +1,0 @@
-[Dependencies]
-Dependency = %licensed_source(infra)
-
-[Contents]
-ComponentInterface.for = ComponentInterface.for
-
-[APSBuild]
-binary = ComponentInterface.lib
-moduletype=infra

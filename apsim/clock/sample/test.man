@@ -1,6 +1,0 @@
-[test.manager.start_of_day]  
-
-if (today > date('31_Jan')) then
-   report do_output
-endif
-
