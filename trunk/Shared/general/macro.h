@@ -22,6 +22,13 @@ class Macro
       // ------------------------------------------------------------------
       void go(const XMLNode& macroValues,
               const std::string& macroContents,
+              std::ostream& out);
+
+      // ------------------------------------------------------------------
+      // generate the files.
+      // ------------------------------------------------------------------
+      void go(const XMLNode& macroValues,
+              const std::string& macroContents,
               std::vector<std::string>& filesGenerated,
               const std::string& outputDirectory = "");
 

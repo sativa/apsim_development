@@ -12,7 +12,7 @@
 XMLDocument::XMLDocument(const std::string& rootNode, RootName rootName)
    {
    doc = xmlNewDoc(BAD_CAST "1.0");
-   xmlDocSetRootElement(doc, xmlNewNode(NULL, BAD_CAST "root"));
+   xmlDocSetRootElement(doc, xmlNewNode(NULL, rootNode.c_str()));
    dirty = true;
    }
 //---------------------------------------------------------------------------
