@@ -27,7 +27,7 @@ CFLAG1 = -WD -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -c -tWD -tWM
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
@@ -54,3 +54,5 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 SiloInput.obj: SiloInput.cpp 
 SiloInputComponent.obj: SiloInputComponent.cpp SiloInputComponent.h
 
+clean:
+	del /f $(PROJECT) $(OBJFILES)

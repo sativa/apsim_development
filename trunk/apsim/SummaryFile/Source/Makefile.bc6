@@ -17,7 +17,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\Protocol\Protocol.lib
 
 USERDEFINES = 
-SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
@@ -27,7 +27,7 @@ CFLAG1 = -WD -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -c -tWD -tWM
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
@@ -54,3 +54,5 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 SummaryFile.obj: SummaryFile.cpp 
 SummaryFileComponent.obj: SummaryFileComponent.cpp SummaryFileComponent.h
 
+clean:
+	del /f $(PROJECT) $(OBJFILES)
