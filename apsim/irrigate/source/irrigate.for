@@ -1,4 +1,5 @@
       module IrrigateModule 
+      use ComponentInterfaceModule
       use Registrations
 !     ================================================================
 !     Irrigate array sizes and constants
@@ -36,6 +37,12 @@
       integer    max_solutes                  ! Maximum number of solutes
       parameter (max_solutes = 20)            ! applied in irrigation water
 
+      integer    max_sources                  ! Maximum number of water sources 
+      parameter (max_sources = 10)            ! for irrigation water
+
+      integer    module_name_size      ! maximum length of module name
+      parameter (module_name_size = 30)
+
       real       effirr                       ! input - fractional value for
       parameter (effirr = 1.0)                ! irrigation system efficiency
          ! note:- the only reason this constant has not been made into a
@@ -61,6 +68,16 @@
          real    dul_dep(max_layer)
          real    dlayer(max_layer)
          real    irrigation_solutes(max_solutes)     ! quantity of solutes in the current irrigation
+
+         real       solute(max_solutes)   ! APPLY_variable amount of solute in irrigation ()
+         character  time*10               ! APPLY_variables
+         real       duration              ! APPLY_variables
+         real       amount                ! APPLY_variable - amount of irrigation to apply mm
+         real       area                  ! APPLY_variable - area to be irrigated
+         character  irrig_source(max_sources)*(module_name_size) ! APPLY_variable - array of preferential water sources for irrigation
+         integer    tot_num_sources       ! APPLY_variable - number of water sources specified 
+         integer    source_counter        ! APPLY_variable - counter to keep track of which source is supplying water         
+         
       end type IrrigateGlobals
 ! ==================================================================
       type IrrigateParameters
@@ -122,14 +139,16 @@
 
 
 *+  Local Variables
-      real       amount                ! amount of irrigation to apply
       integer    numvals               ! number of values collected
       integer    numvals_solute(max_solutes) ! number of values collected for
                                        ! each solute
-      real       solute(max_solutes)   ! amount of solute in irrigation ()
       integer    solnum                ! solute number counter variable
-      character  time*10               !
-      real       duration              !
+      real       area                  ! irrigated area (ha)
+      real       volume                ! volume of water required for irrigation (Ml)
+      character  water_requester*200   ! the name of this instance which is 
+!                                     requesting a water supply for irrigation from a source
+      character err_string*200
+      
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -141,7 +160,7 @@
       Call collect_real_var (
      :                       'amount'
      :                     , '(mm)'
-     :                     , amount
+     :                     , g%amount
      :                     , numvals
      :                     , 0.0
      :                     , 1000.0)
@@ -151,19 +170,20 @@
      :                   , 'Irrigation amount not specified correctly')
       endif
 
-      call irrigate_check_allocation(amount)
+
+      call irrigate_check_allocation(g%amount)
 
       Call collect_real_var_optional (
      :                       'duration'
      :                     , '(min)'
-     :                     , duration
+     :                     , g%duration
      :                     , numvals
      :                     , 0.0
      :                     , 1440.0)
 
       if (numvals .eq. 0) then
             !set default
-         duration = p%default_duration
+         g%duration = p%default_duration
       else
           ! got a value
       endif
@@ -171,25 +191,84 @@
       Call collect_char_var_optional (
      :                       'time'
      :                     , '(hh:mm)'
-     :                     , time
+     :                     , g%time
      :                     , numvals)
 
       if (numvals .eq. 0) then
             !set default
-         time = p%default_time
+         g%time = p%default_time
       else
           ! got a value
       endif
 
+! dsg 190603  Check to see whether one or more water sources are specified.
+!             If sources are specified, then collect an irrigated area(ha), and send off 
+!             a 'gimme_water' method call to the first specified source.  If sources are 
+!             specified then there is no need to check for solute information, because it 
+!             will come by default with the source water. 
+
+      call collect_char_array_optional ('source'
+     :                                  ,max_sources
+     :                                  , '()'
+     :                                  ,g%irrig_source
+     :                                  ,g%tot_num_sources)
+ 
+      if (g%tot_num_sources.gt.0) then
+
+!   need to get an irrigated area for volume calculations (from Manager)
+
+         call get_real_var        (
+     :        unknown_module       ! Module that responds (Not Used)
+     :       ,'crop_area'               ! Variable Name
+     :       ,'()'               ! Units                (Not Used)
+     :       ,g%area            ! Variable
+     :       ,numvals              ! Number of values returned
+     :       ,0.0                  ! Lower Limit for bound checking
+     :       ,100000.0)            ! Upper Limit for bound checking
 
 
+      if (numvals.gt.0) then
+      else
+         call fatal_error (err_user
+     :   , 'Irrigation area not provided in MANAGER')
+      endif
+
+! calculate irrigation volume required in Ml
+        volume = g%amount * g%area /100.0
+         
+!         send gimme water
+!  Now send out a gimme_water method call to the first specified source
+      call new_postbox()
+
+       call get_name(water_requester)
+
+      call post_char_var ('water_requester'
+     :                     , '()'
+     :                     , water_requester)
+
+      call post_real_var ('amount'
+     :                   , '(Ml)'
+     :                   , volume)
+     
+      g%source_counter = 1
+      
+      
+      call Action_send(g%irrig_source(1),'gimme_water')      
+
+
+      call delete_postbox()
+
+         
+         
+      else   
+! &&&&&& LOOK FOR SOLUTE INFO&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
       ! look for any solute information in the postbox
       ! ----------------------------------------------
       do 100 solnum = 1, g%num_solutes
          Call collect_real_var_optional (
      :                       g%solute_names(solnum)
      :                     , '(kg/ha)'
-     :                     , solute(solnum)
+     :                     , g%solute(solnum)
      :                     , numvals_solute(solnum)
      :                     , 0.0
      :                     , 1000.0)
@@ -198,16 +277,51 @@
 *  if there are no solute quantities supplied, apply
 *  default solute concentrations if they are provided
 
-        solute(solnum)= amount*p%default_conc_solute(solnum)/100.0
+        g%solute(solnum)= g%amount*p%default_conc_solute(solnum)/100.0
 
       else
 
       endif
 
       g%irrigation_solutes(solnum) = g%irrigation_solutes(solnum) +
-     :  solute(solnum)
+     :  g%solute(solnum)
 
+ 
   100 continue
+       call irrigate_sendirrigated()
+
+!&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
+*     ===========================================================
+      subroutine irrigate_sendirrigated ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*      send an irrigated event
+
+*+  Mission Statement
+*     send an irrigated event
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'irrigate_sendirrigated')
+
+*+  Local Variables
+      integer solnum     !counter
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
 
       call new_postbox ()
 
@@ -215,40 +329,185 @@
 
       call post_real_var   (DATA_irrigate_amount
      :                        ,'(mm)'
-     :                        , amount*p%irrigation_efficiency)
+     :                        , g%amount*p%irrigation_efficiency)
 
       call post_real_var   (DATA_irrigate_duration
      :                        ,'(min)'
-     :                        , duration)
+     :                        , g%duration)
 
       call post_char_var   (DATA_irrigate_time
      :                        ,'(hh:mm)'
-     :                        , time)
+     :                        , g%time)
 
 
       do 200 solnum = 1, g%num_solutes
 
             call post_real_var   (g%solute_names(solnum)
      :                           ,'(kg/ha)'
-     :                           , solute(solnum))
+     :                           , g%solute(solnum))
 
 200   continue
-
 
       call event_send (EVENT_irrigated)
 
       call delete_postbox ()
 
       g%irrigation_applied = g%irrigation_applied
-     :                     + amount * p%irrigation_efficiency
-      g%irrigation_tot = g%irrigation_tot + amount
+     :                     + g%amount * p%irrigation_efficiency
+      g%irrigation_tot = g%irrigation_tot + g%amount
       g%irrigation_loss = g%irrigation_loss
-     :                  + amount * (1. - p%irrigation_efficiency)
+     :                  + g%amount * (1. - p%irrigation_efficiency)
+
 
 
       call pop_routine (my_name)
       return
       end subroutine
+
+
+*     ===========================================================
+      subroutine irrigate_ONwater_supplied ()
+*     ===========================================================
+      Use infrastructure
+
+*+  Purpose
+*       Receive irrigation water from a sending module
+
+*+  Mission Statement
+*     
+
+*+  Changes
+*    ???
+
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'Irrigate_ONwater_supplied')
+
+*+  Local Variables
+      integer    numvals                ! Number of values returned
+      character  water_provider*(module_name_size) ! name of module providing water for top-up
+      character  water_requester*(module_name_size)! the name of this instance which is requesting a top-up from another source
+      real       water_requested         ! top-up water requested by this module 
+      real       water_supplied         ! top-up water provided by module 'water-provider'
+      real       water_still_needed     ! top-up water still required following provision
+      real       deficit_mm             ! any remaining deficit (mm) after all irrig sources have been tried
+      character err_string*200
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+!****** collect information on the sender and the amount of water required ****************
+
+      call collect_char_var ('water_provider'
+     :                      ,'()'
+     :                      ,water_provider
+     :                      ,numvals)
+
+      if (numvals .ne. 1) then
+            call fatal_error (ERR_USER,
+     :             'Irrigation water provider not specified')
+      endif
+
+         call collect_real_var ('water_requested'
+     :                         ,'(Ml)'
+     :                         ,water_requested
+     :                         ,numvals
+     :                         ,0.0
+     :                         ,10000.0)
+
+      if (numvals .ne. 1) then
+            call fatal_error (ERR_USER,
+     :             'Irrigation water amount not returned by source')
+      endif
+
+
+         call collect_real_var ('water_supplied'
+     :                         ,'(Ml)'
+     :                         ,water_supplied
+     :                         ,numvals
+     :                         ,0.0
+     :                         ,10000.0)
+
+      if (numvals .ne. 1) then
+            call fatal_error (ERR_USER,
+     :             'Irrigation amount not provided by source')
+      endif
+
+!******* check if this water amount is enough to satisfy requirements ***************************
+
+      if (water_supplied.eq.water_requested) then
+
+!    Everyone happy, simply increment irrigation_applied pool
+
+
+        call irrigate_sendirrigated()
+      
+      else 
+
+!     More water still need to satisfy top-up requirements 
+        water_still_needed = water_requested - water_supplied
+
+        
+!     Send another gimme_water to the next preferred source with the amount still required        
+
+         write(err_string,*)
+     : 'Water_supplied to irrigate is less than water requested OH NO '
+         call write_string (err_string)
+         write(err_string,*)
+     :   'Still need ',water_still_needed,' ML of water'
+         call write_string (err_string)
+
+      call new_postbox()
+
+       call get_name(water_requester)
+
+      call post_char_var ('water_requester'
+     :                     , '()'
+     :                     , water_requester)
+
+      call post_real_var ('amount'
+     :                   , '(Ml)'
+     :                   , water_still_needed)
+     
+      g%source_counter = g%source_counter + 1
+
+      if(g%source_counter.gt.g%tot_num_sources) then
+!        in other words, all the specified sources have been tried
+         write(err_string,*)
+     :   'WARNING : No more water available from specified 
+     :    sources - irrigation deficit still equals',water_still_needed
+     :    ,' ML of water'
+          call write_string (err_string)
+
+!        Since actual irrigation amount will be less than that requested,
+!         calculate the actual amount and send an 'irrigated' event.
+
+          deficit_mm = water_still_needed*100/g%area
+          g%amount = g%amount - deficit_mm       
+
+                  call irrigate_sendirrigated()
+
+
+
+      else
+
+         call Action_send(g%irrig_source(g%source_counter)
+     :                    ,'gimme_water')       
+
+      endif
+
+      call delete_postbox()
+        
+        
+      endif
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
 
 
 
@@ -659,6 +918,44 @@
       return
       end subroutine
 
+*     ===========================================================
+      subroutine irrigate_zero_apply_variables ()
+*     ===========================================================
+      Use infrastructure
+      implicit none
+
+*+  Purpose
+*     Set all global variables used in 'apply' or 'irrigate' to zero.
+
+*+  Mission Statement
+*     Zero variables
+
+*+  Changes
+*     <insert here>
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'irrigate_zero_variables')
+
+*+  Local Variables
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      g%tot_num_sources = 0
+      g%source_counter = 0
+      call fill_char_array (g%irrig_source, ' ', max_sources)
+      g%amount = 0.0
+      g%duration = 0.0
+      g%time = ''
+      g%area = 0.0
+      
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+
 
 
 *     ===========================================================
@@ -772,6 +1069,12 @@
      :                              variable_name
      :                            , '(mm)'
      :                            , g%irrigation_applied)
+
+      elseif (Variable_name .eq. 'area') then
+         call respond2get_real_var (
+     :                              variable_name
+     :                            , '(ha)'
+     :                            , g%area)
 
       elseif (Variable_name .eq. 'irrig_tot') then
          call respond2get_real_var (
@@ -1844,8 +2147,12 @@ cnh note that results may be strange if swdep < ll15
          call irrigate_process ()
 
       else if ((Action.eq.'irrigate').or.(Action.eq.'apply')) then
+         call irrigate_zero_apply_variables()
          call irrigate_get_other_variables ()
          call irrigate_irrigate ()
+
+      else if (Action.eq.'water_supplied') then
+         call irrigate_ONwater_supplied()
 
       else if (Action .eq. ACTION_Set_variable) then
          call irrigate_set_my_variable (Data_String)
