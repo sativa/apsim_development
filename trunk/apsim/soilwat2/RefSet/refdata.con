@@ -54,7 +54,7 @@ variable_alias =  -
 units =        -   
 
 ! [water_uptake.sw_dep]
-! [add_water.sw_dep]
+! [irrigated.sw_dep]
 module_names =  soilwat2 soilwat2   
 variable_names =  sw_dep() sw_dep   
 variable_alias =  -     -   
@@ -98,8 +98,8 @@ observed_runoff =  obrunoff
 [swat.manager.start_of_day]  
 
 if day = 100 then
-   ! [add_water.add_water]
-   soilwat2 add_water amount = 30 (mm)
+   ! [irrigated.irrigated]
+   soilwat2 irrigated amount = 30 (mm)
 endif
 
 if day = 120 then
