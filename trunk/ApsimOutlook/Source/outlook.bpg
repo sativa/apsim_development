@@ -10,8 +10,7 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = ApsimOutlook.exe DBAddIn.dll FilterAddIn.dll SOIAddin.dll \
-  WhopEconAddin.dll RotationAddIn.dll APSData.bpl WhopEcon.exe DamEasyAddin.dll \
-  Project1.exe
+  WhopEconAddin.dll RotationAddIn.dll WhopEcon.exe DamEasyAddin.dll APSData.bpl
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -44,15 +43,11 @@ WhopEcon.exe: ..\..\Whopper\WhopEcon\WhopEcon.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
-APSData.bpl: ..\..\Shared\Components\Data\APSData.bpk
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
 RotationAddIn.dll: Outlook\RotationAddin\RotationAddIn.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
-Project1.exe: ..\..\proto\Project1.bpr
+APSData.bpl: ..\..\Shared\Components\Data\APSData.bpk
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
