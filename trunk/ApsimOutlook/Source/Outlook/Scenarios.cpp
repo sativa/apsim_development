@@ -414,6 +414,8 @@ struct FactorInfo
       if (value != v)
          isDifferent = true;
       }
+   bool operator==(const string& n)
+      {return name == n;}
    string name;
    string value;
    bool isDifferent;
@@ -460,10 +462,14 @@ void Scenarios::makeScenarioNamesValid(void)
                                  factor != allFactors.end();
                                  factor++)
          {
-         if (newName != "")
-            newName += ";";
-         newName += factor->name + "=" + (*scenario)->getFactorValue(factor->name);
+         if (factor->isDifferent)
+            {
+            if (newName != "")
+               newName += ";";
+            newName += factor->name + "=" + (*scenario)->getFactorValue(factor->name);
+            }
          }
+      (*scenario)->setName(newName);
       }
    }
 
