@@ -12,7 +12,6 @@
 #include <istream.h>
 #include <vector>
 #include "..\Addin.h"
-#include "TDEValueSelectionForm.h"
 #include "AddCostsBenefits.h"
 #include "..\Scenario.h"
 #include "DEEconConfig.h"

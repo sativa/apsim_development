@@ -6,22 +6,22 @@
     <PROJECT value="..\..\..\..\Bin\DamEasyAddin.dll"/>
     <OBJFILES value="DamEasyAddin.obj TDamEasy_form.obj DamEasyEcon.obj ..\scenario.obj 
       DEEconConfig.obj DEToolBar.obj AddCostsBenefits.obj ..\Scenarios.obj 
-      ..\TTabRenameForm.obj"/>
+      TTabRenameForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TDamEasy_form.dfm AddCostsBenefits.dfm ..\TTabRenameForm.dfm"/>
+    <RESDEPEN value="$(RESFILES) TDamEasy_form.dfm AddCostsBenefits.dfm TTabRenameForm.dfm"/>
     <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot; 
       ..\..\..\..\Shared\general\general.lib 
       ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="kbmMemC6Run.lib"/>
+    <LIBRARIES value="kbmMemC6Run.lib APSGENERAL.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib APSData.lib dbrtl.lib vcldb.lib bdertl.lib APSGENERAL.lib 
       adortl.lib vclx.lib TMSC6.lib Tee.lib TeePro.lib TeeUI.lib kbmMemC6Run.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
-      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi APSGeneral.bpi 
-      apsdata.bpi TMSC6.bpi TeeUI.bpi Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi 
-      TeePro.bpi TeeLanguage.bpi TeeImage.bpi"/>
-    <PATHCPP value=".;..;..;.."/>
+      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi APSData.bpi 
+      TMSC6.bpi TeeUI.bpi Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi 
+      TeeLanguage.bpi TeeImage.bpi"/>
+    <PATHCPP value=".;..;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -31,8 +31,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="DamEasyAddin.bpf"/>
-    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -63,9 +63,9 @@
       <FILE FILENAME="DEToolBar.cpp" FORMNAME="" UNITNAME="DEToolBar" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="AddCostsBenefits.cpp" FORMNAME="AddCostsBenefitsForm" UNITNAME="AddCostsBenefits" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\Scenarios.cpp" FORMNAME="" UNITNAME="Scenarios" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\TTabRenameForm.cpp" FORMNAME="TabRenameForm" UNITNAME="TTabRenameForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TTabRenameForm.cpp" FORMNAME="TabRenameForm" UNITNAME="TTabRenameForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -103,45 +103,52 @@ c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=20
-Item0=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
-Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item4=..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item5=..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item6=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item7=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item8=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\..\..\..\Shared\Components\General;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item9=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\..\..\..\Shared\Components\General;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item10=C:\Program Files\Borland\CBuilder5\Projects;..\;..\..\..\..\Shared\Components\General;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item11=..\..\..\..\Shared\Components\General;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item12=..\..\..\..\Shared\Components\General;..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item13=..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item14=..\;..\DBAddin;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item15=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item16=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
-Item17=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item18=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item19=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl
+Count=21
+Item0=..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data
+Item2=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item3=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item5=..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item6=..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item7=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item8=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item9=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\..\..\..\Shared\Components\General;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item10=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\..\..\..\Shared\Components\General;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item11=C:\Program Files\Borland\CBuilder5\Projects;..\;..\..\..\..\Shared\Components\General;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item12=..\..\..\..\Shared\Components\General;..\;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item13=..\..\..\..\Shared\Components\General;..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item14=..\;..;..\DBAddin;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item15=..\;..\DBAddin;..;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item16=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item17=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;k:\components\general\
+Item18=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item19=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item20=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=15
-Item0=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item2=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item3=..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item4=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item5=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item6=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\..\..\..\Shared\Components\General;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item7=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\..\..\..\Shared\Components\General;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item8=C:\Program Files\Borland\CBuilder5\Projects;..\;..\..\..\..\Shared\Components\General;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item9=..\..\..\..\Shared\Components\General;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item10=..\..\..\..\Shared\Components\General;..\;..;..\DBAddin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item11=..\;..\DBAddin;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item12=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\lib\obj;$(BCB)\lib
-Item13=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\lib\obj;$(BCB)\lib
-Item14=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\lib\obj;$(BCB)\lib
+Count=21
+Item0=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\general
+Item1=..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\;..;..\..\..\..\shared\components\data;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item5=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item6=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item8=..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item9=..;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item10=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item11=C:\Program Files\Borland\CBuilder5\Projects;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item12=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\..\..\..\Shared\Components\General;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item13=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\..\..\..\Shared\Components\General;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item14=C:\Program Files\Borland\CBuilder5\Projects;..\;..\..\..\..\Shared\Components\General;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item15=..\..\..\..\Shared\Components\General;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item16=..\..\..\..\Shared\Components\General;..\;..;..\DBAddin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item17=..\;..\DBAddin;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item18=..\;..;C:\Program Files\Borland\CBuilder5\Projects\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\lib\obj;$(BCB)\lib
+Item19=..\;C:\Program Files\Borland\CBuilder5\Projects\;..;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\lib\obj;$(BCB)\lib
+Item20=C:\Program Files\Borland\CBuilder5\Projects;..\;..\DBAddin;..\..\..\..\Shared\Components\Data;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

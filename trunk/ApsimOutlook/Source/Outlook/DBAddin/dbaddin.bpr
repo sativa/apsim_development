@@ -3,23 +3,23 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\..\..\..\Bin\dbaddin.dll"/>
+    <PROJECT value="..\..\..\..\Bin\DBAddIn.dll"/>
     <OBJFILES value="dbaddin.obj DataBaseAddIn.obj DBSimulation.obj ..\scenario.obj 
       TDirectory_select_form.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TDirectory_select_form.dfm"/>
-    <LIBFILES value="..\..\..\..\Shared\general\general.lib 
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="kbmMemC6Run.lib"/>
+    <LIBFILES value="..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\..\Shared\general\general.lib"/>
+    <LIBRARIES value="kbmMemC6Run.lib APSGENERAL.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib 
       APSGENERAL.lib vclx.lib TMSC6.lib Tee.lib TeePro.lib TeeUI.lib 
       kbmMemC6Run.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi 
       bdertl.bpi ibsmp.bpi vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi 
-      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi APSGeneral.bpi 
-      apsdata.bpi TMSC6.bpi TeeUI.bpi Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi 
-      TeePro.bpi TeeLanguage.bpi TeeImage.bpi"/>
+      inet.bpi nmfast.bpi dclocx.bpi bcb97axserver.bpi adortl.bpi APSData.bpi 
+      TMSC6.bpi TeeUI.bpi Tee.bpi TeeDB.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi 
+      TeeLanguage.bpi TeeImage.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -31,7 +31,7 @@
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="DBAddIn.bpf"/>
     <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general"/>
+    <LIBPATH value="..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -57,8 +57,8 @@
       <FILE FILENAME="DBSimulation.cpp" FORMNAME="" UNITNAME="DBSimulation" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\scenario.cpp" FORMNAME="" UNITNAME="Scenario" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TDirectory_select_form.cpp" FORMNAME="Directory_select_form" UNITNAME="TDirectory_select_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -119,15 +119,20 @@ Item18=$(BCB)\include;$(BCB)\include\vcl;k:\
 Item19=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=8
-Item0=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item1=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item3=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item4=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\rx\units\
-Item5=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
-Item6=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
-Item7=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=13
+Item0=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item1=..\..\..\..\shared\components\data;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(SHARED)\components\data;$(SHARED)\components\general
+Item2=..\;..;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item3=..\;..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item4=..\..\..\..\shared\components\data;..\..\..\..\shared\components\general;..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item5=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item6=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item7=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item8=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item9=..\;..;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;j:\rx\units\
+Item10=..\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general\
+Item11=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;k:\general
+Item12=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
