@@ -1,0 +1,105 @@
+body {
+	background-color: #F3F3F3;
+}
+
+a {
+	color: #0000FF;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #0000FF;
+}
+a:hover {
+	text-decoration: underline;
+	color: #FF9900;
+}
+a:active {
+	text-decoration: none;
+	color: #0000FF;
+}
+
+.Title1
+	{
+	margin:0cm;
+	font-size:18pt;
+	font-family:Arial Narrow;
+	color: #FF9900;
+	}
+
+.Title2
+	{
+	margin:0cm;
+	font-size:12pt;
+	font-family:Arial;
+	color: #0000FF;
+	font-style: italic;
+	font-weight: bold;
+	}
+
+.Normal
+	{
+	margin:0cm;
+	font-size:12pt;
+	font-family:Arial Narrow;
+	}
+
+.Code
+	{
+	margin:0cm;
+	font-size:8pt;
+	font-family:Courier;
+	}
+	
+.Formula
+	{
+	margin:0cm;
+	font-family:Times New Roman;
+	font-size: 14pt;
+	font-style: italic;
+	}
+	
+.Formula2
+	{
+	margin:0cm;
+	font-family:Times New Roman;
+	font-size: 14pt;
+	font-weight: bold;
+	}
+	
+.FormulaSym
+	{
+	margin:0cm;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 16pt;
+	font-style: normal;
+	}
+
+.TableTitle {
+	font-family: "Arial Narrow";
+	font-size: 14pt;
+	font-weight: bold;
+	color: #000000;
+	background-color: #CCCCCC;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #666666;
+}
+
+.TableBorder {
+	border: 1px solid #666666;
+}
+
+.TableOdd {
+	font-family: "Arial Narrow";
+	font-size: 10pt;
+	background-color: #EEEEEE;
+}
+
+.TableEven {
+	font-family: "Arial Narrow";
+	font-size: 10pt;
+	background-color: #DDDDDD;
+}
