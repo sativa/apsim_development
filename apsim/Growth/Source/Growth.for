@@ -1059,6 +1059,13 @@ cnh          cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(0-1)'              ! variable units
      :              ,g%Fn) ! variable
 
+      elseif (variable_name .eq. 'ff') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(0-1)'              ! variable units
+     :              ,g%Ff) ! variable
+
       elseif (variable_name .eq. 'fage') then
 
          call respond2get_real_var (
@@ -3497,12 +3504,6 @@ c      call Growth_foliage_fraction(foliage_fraction)
      :                   ,c%agnd_structure_fraction
      :                   ,c%num_individual_adm)
 
-c      print*, individual_adm
-c      print*, c%individual_adm(1:4)
-c      print*,c%agnd_structure_fraction(1:4)
-c      print*,c%num_individual_Adm
-c      print*, agnd_structure_Fraction
-c      pause
 
       foliage_fraction = above_gnd_fraction
      :                 * (1. - agnd_structure_fraction)
@@ -3518,12 +3519,7 @@ c      pause
      :                         , 0.0)
 
       root_fraction = 1. - foliage_fraction - structure_fraction
-c      print*,above_gnd_fraction
-c      print*, agnd_structure_Fraction
-c      print*,foliage_fraction
-c      print*,structure_fraction
-c      print*,root_fraction
-c      pause
+
       if (root_fraction.gt.0) then
          ! all is OK
       else
@@ -4491,12 +4487,7 @@ cvs adding the rest to foliage.
      :                - sum_real_array (g%dlt_bn_green, max_part)
      :                - g%dlt_root_n
 
-c      print*,g%dlt_foliage_n
-c     :      +g%dlt_root_n
-c     :      +sum(g%dlt_bn_green(1:c%num_below_gnd_parts))
-c     :      +sum(g%dlt_an_green(1:c%num_above_gnd_parts))
-c     :      ,tot_nsupply
-c     :      ,tot_demand
+
 
       call pop_routine (my_name)
       return
@@ -4719,9 +4710,7 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
          NO3_uptake = NO3_mflow * mflow_fract
      :              + NO3_diffn * diffn_fract
          dlt_NO3(layer) = - NO3_uptake
-         print*,layer, dlt_no3(layer)
-     :         ,NO3_mflow * mflow_fract
-     :         ,NO3_diffn * diffn_fract
+
 1100  continue
       pause
 
