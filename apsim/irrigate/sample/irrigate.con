@@ -1,8 +1,0 @@
-[apsim.sample_irrigate]  
-  Module = clock    irrigate.par [sample]      
-  Module = report   irrigate.par [sample]      
-  Module = met      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]      
-  Module = manager  irrigate.par [sample]      
-  Module = irrigate irrigate.par [sample]      
-  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-
