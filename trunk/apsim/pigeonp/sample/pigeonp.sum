@@ -298,8 +298,8 @@
 21 April 1989 (Day of year=111):
    PIGEONP:
        stage   10.0 harvest_ripe
-                           biomass =           1326.147       lai =    0.2384186e-06
-                           stover N conc =   0.6124390       extractable sw =    90.12469
+                           biomass =           1326.147       lai =     3.011176    
+                           stover N conc =    1.000524       extractable sw =    90.12469
 22 April 1989 (Day of year=112):
    MANAGER:
            Manager sending message :- pigeonp harvest
@@ -314,13 +314,13 @@
        grains/head =   0.0                    maximum lai = 4.162
        total above ground biomass (kg/ha) =   13261.5
        live above ground biomass (kg/ha) =   13261.5
-       green above ground biomass (kg/ha) =    8866.3
-       senesced above ground biomass (kg/ha) =    4395.2
+       green above ground biomass (kg/ha) =   10557.1
+       senesced above ground biomass (kg/ha) =    2704.4
        dead above ground biomass (kg/ha) =       0.0
        number of leaves = 464.8
        grain N percent =      4.00            total N content (kg/ha) =    295.05
-       grain N uptake (kg/ha) =    144.41     senesced N content (kg/ha) =    118.45
-       green N content (kg/ha) =     32.19    dead N content (kg/ha) =      0.00
+       grain N uptake (kg/ha) =    144.41     senesced N content (kg/ha) =     81.13
+       green N content (kg/ha) =     69.50    dead N content (kg/ha) =      0.00
       
       
       
@@ -355,8 +355,8 @@
            Manager sending message :- pigeonp end_crop
    PIGEONP:
           ended. Yield (dw) =     0.0
-                                                straw residue =    0.0 kg/ha
-                                                straw N =    0.0 kg/ha
+                                                straw residue =    4.0 kg/ha
+                                                straw N =    0.2 kg/ha
                                                 root residue = 2619.1 kg/ha
                                                 root N =   52.9 kg/ha
 30 April 1989 (Day of year=120):
