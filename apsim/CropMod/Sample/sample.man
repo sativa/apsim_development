@@ -65,68 +65,18 @@ crit_fr_asw = 0     (0-1) ! Critical fraction of available soil water to trigger
 asw_depth = 999     (mm)  ! Depth to use for available soil water calculations
 
 
-!===========================================================================================
-! Sorghum
-!===========================================================================================
-
-[sorghum.manager.start_of_day]
-if day = 305 and year = 1988 then
-   sorghum sow cultivar = early, plants = 10, sowing_depth = 30 (mm), tiller_no_fertile = 0 ()
-endif
-
-if (sorghum.stage = 11) then
-    sorghum harvest
-    sorghum end_crop
-endif
-
-! if crop killed due to stress, end simulation
-if (sorghum.plant_status = 'dead')  then
-    sorghum harvest
-    sorghum kill_crop
-    sorghum end_crop
-endif
-
-[sorghum.manager.end_of_day]
-if (sorghum.stage >=1 and sorghum.stage <= 11) then
-  report do_output
-endif
-
-
-!===========================================================================================
-! maize
-!===========================================================================================
-[maize.manager.start_of_day]
-if day = 305 and year = 1988 then
-   maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
-endif
-
-if (maize.stage = 11) then
-   maize harvest
-   maize end_crop
-endif
-
-[maize.manager.end_of_day]
-if (maize.stage >=1 and maize.stage <= 11) then
-    report do_output
-endif
 
 [intercropping.manager.start_of_day]
 if day = 10 and year = 1988 then
-    maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
+   sunflower sow cultivar = Sunfola68-2, plants = 5, sowing_depth = 50 (mm)
 endif
 if day = 10 and year = 1988 then
     cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
-if (maize.stage = 11) then
-   maize harvest
-   maize end_crop
-endif
-
-if ( maize.stage >=  1 and
-     maize.stage <= 11 and
-     maize.plant_status = 'dead') then
-     maize  end_crop
+if (sunflower.stage = 11) then
+  sunflower harvest
+  sunflower end_crop
 endif
 
 if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
@@ -134,7 +84,7 @@ if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
    cowpea end_crop
 endif
 
-if ((maize.stage >=1 and maize.stage <= 11) OR
+if ((sunflower.stage >= 0 and sunflower.stage <12) OR
     (cowpea.stage >= 1 and cowpea.stage <= 11 )) then
     report do_output
 endif

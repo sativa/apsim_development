@@ -50,19 +50,6 @@ ll =       .230 .240 .240 .250 .260 .270 .280
 xf =        1.00 0.60  0.45 0.22 0.10 0.08 0.05  ! Root Exploration factor (0-1)
 kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0-1)
 
-[sample.sorghum.parameters]
-uptake_source =    calc   ! calculate own uptakes.
-ll =   .230 .240 .240 .250 .260 .270 .280
-kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  ()
-XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
-
-[sample.maize.parameters]
-uptake_source =    calc   ! calculate own uptakes.
-   !layer    1    2    3    4    5    6    7
-ll =        .230 .240 .240 .250 .260 .270 .280   !crop lower limit
-xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ! Root Exploration factor (0-1)
-kl =      0.12 0.12 0.12 0.12 0.10 0.08 0.04   ! Water Extraction parameter (0-1)
-
 
 [sample.irrigate.parameters]
 
@@ -106,7 +93,7 @@ kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0
 
 [intercropping.canopy.parameters]
 
-intercrop = maize cowpea
+intercrop = sunflower cowpea
 
 [all.Screen.parameters]
 screen_output=on
@@ -116,12 +103,6 @@ summaryfile = wheat.sum
 
 [sunflower.summaryfile.parameters]
 summaryfile=sunflower.sum
-
-[sorghum.summaryfile.parameters]
-summaryfile=sorghum.sum
-
-[maize.summaryfile.parameters]
-summaryfile=maize.sum
 
 [intercropping.summaryfile.parameters]
 summaryfile=intercropping.sum
