@@ -34,6 +34,7 @@ class CompileThread : public TThread
       string Compiler_output_filename;
       string Message;
       string CommandLineToExecute;
+      string F90Compiler;
 
       void   __fastcall GoDisplayMessage (void);
       void   __fastcall RunCommandLine (void);
