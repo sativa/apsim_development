@@ -47,6 +47,8 @@ class IniFile
       void deleteSection(const std::string& Section);
       void getKeysInSection(const std::string& section,
                             std::vector<std::string>& keys) const;
+      void renameSection(const std::string& oldSection,
+                         const std::string& newSection) const;
 
    private:
       void flush(void) const;
