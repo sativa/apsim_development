@@ -33,6 +33,7 @@ USEUNIT("stream_processor.cpp");
 USEUNIT("string_functions.cpp");
 USEUNIT("stristr.cpp");
 USEUNIT("date_class.cpp");
+USELIB("C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
