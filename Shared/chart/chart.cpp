@@ -32,7 +32,6 @@ USEUNIT("low_level\Drawable.cpp");
 USEUNIT("low_level\Font.cpp");
 USEUNIT("low_level\Legend_class.cpp");
 USEUNIT("low_level\Line.cpp");
-USEUNIT("low_level\low_level.cpp");
 USEUNIT("low_level\Plot.cpp");
 USEUNIT("low_level\Position.cpp");
 USEUNIT("low_level\Rectangle.cpp");

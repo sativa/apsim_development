@@ -16,10 +16,10 @@ VERSION = BCB.03
 PROJECT = chart.dll
 OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\Brush.obj \
   low_level\Chart_base.obj low_level\Drawable.obj low_level\Font.obj \
-  low_level\Legend_class.obj low_level\Line.obj low_level\low_level.obj \
-  low_level\Plot.obj low_level\Position.obj low_level\Rectangle.obj \
-  low_level\Screen.obj low_level\Series_base.obj low_level\Text.obj \
-  low_level\Axis.obj high_level\Scatter_format.obj high_level\Bar_format.obj \
+  low_level\Legend_class.obj low_level\Line.obj low_level\Plot.obj \
+  low_level\Position.obj low_level\Rectangle.obj low_level\Screen.obj \
+  low_level\Series_base.obj low_level\Text.obj low_level\Axis.obj \
+  high_level\Scatter_format.obj high_level\Bar_format.obj \
   high_level\Depth_chart.obj high_level\Format_base.obj \
   high_level\Frequency_chart.obj high_level\High_level_chart_base.obj \
   high_level\High_level_screen.obj high_level\Pred_obs_chart.obj \
@@ -28,14 +28,13 @@ OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\
 RESFILES =
 DEFFILE =
 RESDEPEN = $(RESFILES)
-LIBFILES = "C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib" ..\general\general.lib \
-  ..\data\data.lib
-LIBRARIES = THIRDPARTY.lib TREE1C3.lib APSUI.lib tee35.lib
-SPARELIBS = VCL35.lib tee35.lib APSGeneral.lib VCLDB35.lib Rxctl.lib VCLX35.lib APSUI.lib \
-  TEE4C.lib TREE1C3.lib THIRDPARTY.lib
+LIBFILES = "..\..\..\..\Program Files\Borland\CBuilder3\Lib\memmgr.lib" \
+  ..\general\general.lib ..\data\data.lib
+LIBRARIES = 
+SPARELIBS = VCL35.lib VCLDB35.lib VCLX35.lib TEE4C.lib 
 PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
-  Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi Rxctl.bpi Rxdb.bpi \
-  tee4c.bpi teedb4c.bpi teeUI4c.bpi TeePro4c.bpi HyperGrid.bpi APSGeneral.bpi
+  Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi tee4c.bpi \
+  teedb4c.bpi teeUI4c.bpi TeePro4c.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;low_level;high_level
 PATHASM = .;
@@ -46,19 +45,21 @@ RELEASELIBPATH = $(BCB)\lib\release
 # ---------------------------------------------------------------------------
 CFLAG1 = -WD -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
 CFLAG2 = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
+  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\ \
   -H=$(BCB)\lib\vcl35.csm
 CFLAG3 = -Tkh30000
-PFLAGS = -U..\components\thirdparty;"c:\program files\borland\cbuilder3\lib";..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared -$Y \
-  -$W -$O- -v -JPHN -M
+PFLAGS = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
+  -U$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) \
+  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\ -$Y -$W -$O- -v \
+  -JPHN -M
 RFLAGS = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-AFLAGS = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl \
-  /id:\apsuite\shared /d_RTLDLL /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
-LFLAGS = -L..\components\thirdparty;"c:\program files\borland\cbuilder3\lib";..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
-  -aa -Tpd -x -Gn -Gi -v
+  -ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\ = /ihigh_level \
+  /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
+  /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
+AFLAGS = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
+  /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
+LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) -aa -Tpd -x \
+  -Gn -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------
 ALLOBJ = c0d32.obj $(PACKAGES) sysinit.obj $(OBJFILES)
@@ -94,17 +95,17 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-D:\apsuite\shared\components\data\APSData.bpl=APSuite data mining/analysis components.
-
 [HistoryLists\hlIncludePath]
-Count=1
-Item0=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=3
+Item0=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\
+Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item2=
 
 [HistoryLists\hlLibraryPath]
-Count=2
-Item0=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
-Item1=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item1=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
