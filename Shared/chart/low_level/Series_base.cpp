@@ -77,6 +77,8 @@ void Series_base::Design (TChart* TChart_ptr)
       TChart_ptr->AddSeries(Series_ptr);
       Series_ptr->Marks->Visible = Display_labels;
       Series_ptr->Title = Title.c_str();
+      if (x_data_type == Series_base::date)
+         Series_ptr->XValues->DateTime = true;
       }
    }
 
@@ -113,6 +115,12 @@ void Series_base::Add_data (const char* X, const char* Y)
       {
       Par1 = Num_points_so_far;
       Par3 = X;
+      }
+   else if (x_data_type == Series_base::date)
+      {
+      GDate d;
+      d.Read(X);
+      Par1 = d.Get_jday();
       }
 
    else
