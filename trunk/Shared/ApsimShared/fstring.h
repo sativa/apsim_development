@@ -60,6 +60,16 @@ class FString
          else
             calcRealLength();
          }
+      // copy constructor
+      FString(const FString& rhs)
+         {
+         text = rhs.text;
+         canModify = rhs.canModify;
+         len = rhs.len;
+         realLen = rhs.realLen;
+         ::MessageBox(NULL, text, "hh", MB_OK);
+         }
+
       // alias to the specified string
       void aliasTo(char* t, const unsigned int tLength)
          {

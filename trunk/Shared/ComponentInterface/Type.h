@@ -43,6 +43,17 @@ class Type
       Type(const char* typeString) : type(typeString), code(DTunknown) { }
       Type(FString& typeString) : type(typeString), code(DTunknown) { }
       Type(const FString& typeString) : type(typeString), code(DTunknown) { }
+      Type(const Type& rhs)
+         {
+         type = FString(rhs.type);
+         code = rhs.code;
+         }
+      Type& operator= (const Type& rhs)
+         {
+         type = FString(rhs.type);
+         code = rhs.code;
+         return *this;
+         }
 
       void initFrom(MessageData& messageData)
          {
@@ -69,7 +80,6 @@ class Type
       const FString& getTypeString(void) const {return type;}
 
       static FString codeToString(DataTypeCode code);
-
    private:
       FString type;
       mutable DataTypeCode code;
