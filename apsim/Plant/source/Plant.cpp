@@ -4407,8 +4407,7 @@ void Plant::plant_update
     // - why intrinsically limit processes to leaf etc right here!!! - NIH
     g_n_green[leaf] = g_n_green[leaf] - g_dlt_n_senesced_trans[leaf];
     g_n_green[stem] = g_n_green[stem] + g_dlt_n_senesced_trans[leaf];
-    g_n_green[leaf] = g_n_green[leaf]
-           - sum_real_array(g_dlt_n_senesced_retrans, max_part);
+    g_n_green[leaf] = g_n_green[leaf] - sum_real_array(g_dlt_n_senesced_retrans, max_part);
     add_real_array (g_dlt_n_senesced_retrans, g_n_green, max_part);
 
     subtract_real_array (g_dlt_n_detached, g_n_senesced, max_part);
@@ -4428,6 +4427,7 @@ void Plant::plant_update
        }
 
     // Transfer plant dry matter
+
     dlt_dm_plant = divide (g_dlt_dm, *g_plants, 0.0);
 
     accumulate (dlt_dm_plant, g_dm_plant_top_tot, g_previous_stage-1, g_dlt_stage);
@@ -4451,7 +4451,8 @@ void Plant::plant_update
          g_dm_senesced[part] = g_dm_senesced[part] - dlt_dm_senesced_dead;
          g_dm_dead[part] = g_dm_dead[part] + dlt_dm_senesced_dead;
          }
-//    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
+//         OutputDebugString("Update");
+         //    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
 //            g_dm_green[root] + g_dm_green[leaf] + g_dm_green[stem],
 //            g_dm_green[root], g_dm_green[leaf],g_dm_green[stem]);
     // transfer plant grain no.
@@ -8508,9 +8509,7 @@ void Plant::plant_process ( void )
         plant_nit_partition (1);                  // allows output of n fixed
         phosphorous->process(g.current_stage
                             , g.dm_green
-                            , g.dm_senesced
-                            , g.dlt_dm_senesced
-                            , g.dlt_dm_detached);
+                            , g.dlt_dm_senesced);
 
         if (c.n_retrans_option==2)
            {
@@ -8538,6 +8537,13 @@ void Plant::plant_process ( void )
         }
 
     plant_detachment (1);
+    phosphorous->detachment(g.dm_senesced
+                          , g.dm_dead
+                          , g.dlt_dm_detached
+                          , g.dlt_dm_dead_detached);
+
+    phosphorous->death(g.plants, g.dlt_plants);
+
     plant_fruit_cleanup(c.fruit_no_option);
     plant_cleanup();
 
@@ -8791,7 +8797,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     // ==============================
     if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
         {
-        bound_check_real_var(height, 0.0, 10000.0, "plants");
+        bound_check_real_var(temp, 0.0, 10000.0, "plants");
         g.plants = temp;
         }
 
@@ -8832,9 +8838,9 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
             dlt_dm_crop[part] = dlt_dm_die * gm2kg/sm2ha;
             dlt_dm_n[part] = dlt_n_die * gm2kg/sm2ha;
             fraction_to_residue[part] = 0.0;
-            chop_fr_green[part] = 1.0;
-            chop_fr_dead[part] = 1.0;
-            chop_fr_sen[part] = 1.0;
+            chop_fr_green[part] = 0.0;
+            chop_fr_dead[part] = 0.0;
+            chop_fr_sen[part] = 0.0;
             }
         else
             {
@@ -8928,7 +8934,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                 g.n_dead[part] = 0.0;
                 g.n_senesced[part] = 0.0;
                 g.n_green[part] = n_init;
-                chop_fr_green[part] = 1.0 - divide(n_init, g.n_green[part], 0.0);
+                chop_fr_green[part] = 1.0;
                 chop_fr_dead[part] = 1.0;
                 chop_fr_sen[part] = 1.0;
                 }
@@ -8950,12 +8956,11 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
          // Call plant P module so that it can add
          // its P to the message - green,senesced and dead
          // all removed using same fractions
-       phosphorous->residue_chopped(chop_fr_green  // green
+       phosphorous->crop_chopped(chop_fr_green  // green
                                   , chop_fr_sen    // senesced
                                   , chop_fr_dead   // dead
-                                  , fraction_to_residue
                                   , &P_tops
-                                  , dlt_dm_p);
+                                  , dlt_dm_p); // dlt_dm_p should be P harvested from green, sen and dead
 
         plant_send_crop_chopped_event (c.crop_type
                                      , part_name
@@ -11313,11 +11318,16 @@ void Plant::plant_end_crop ()
 
         phosphorous->incorp_fom(incorp_fr // green
                               , incorp_fr // senesced
-                              , incorp_fr // dead
                               , g.dlayer
                               , g.root_length
                               , g.root_depth
-                              , &P_root);
+                              , &P_root);  //  should be all root P all from green, sen and dead
+
+        phosphorous->incorp_fom_dead(incorp_fr // dead
+                                    , g.dlayer
+                                    , g.root_length_dead
+                                    , g.root_depth
+                                    , &P_root);  //  should be all root P all from green, sen and dead
 
         // put stover and any remaining grain into surface residue
         dm_residue =
@@ -11369,13 +11379,15 @@ void Plant::plant_end_crop ()
                chop_fr[part] = 1.0;
            }
            chop_fr[root] = 0.0;
+//
+//           phosphorous->residue_chopped(chop_fr  // green
+//                                      , chop_fr  // senesced
+//                                      , chop_fr  // dead
+//                                      , fraction_to_residue
+//                                      , &P_residue
+//                                      , dlt_dm_p);  // dlt_dm_p should be all P all from green, sen and dead
 
-           phosphorous->residue_chopped(chop_fr  // green
-                                      , chop_fr  // senesced
-                                      , chop_fr  // dead
-                                      , fraction_to_residue
-                                      , &P_residue
-                                      , dlt_dm_p);
+            phosphorous->end_crop(chop_fr, &P_residue, dlt_dm_p);  // dlt_dm_p should be all P all from green, sen and dead
 
             plant_send_crop_chopped_event ( c.crop_type
                   , part_name
@@ -11745,12 +11757,8 @@ void Plant::plant_update_other_variables (void)
     float n_residue[max_part+1];                    // nitrogen added to residue (kg/ha)
     float P_residue[max_part+1];                    // phosphorous added to residue (kg/ha)
     float fraction_to_residue[max_part+1];          // fraction sent to residue (0-1)
-    float chop_fr_green[max_part+1];
-    float chop_fr_sen[max_part+1];
-    float chop_fr_dead[max_part+1];
-    float incorp_fr_green[max_part+1];
-    float incorp_fr_sen[max_part+1];
-    float incorp_fr_dead[max_part+1];
+    float chop_fr[max_part+1];
+    float incorp_fr[max_part+1];
     float P_tops;                // Phosphorus added to residue (g/m^2)
     float P_root;                // Phosphorus added to soil (g/m^2)
     int   part;
@@ -11783,19 +11791,17 @@ void Plant::plant_update_other_variables (void)
              // calculate chop fractions for this biomass flow
         for (part = 0; part < max_part; part++)
         {
-              chop_fr_green[part] = 0.0;
-              chop_fr_dead[part] = 0.0;
-              chop_fr_sen[part] = divide(g.dlt_dm_detached[part]
-                                       , g.dm_senesced[part]
-                                       , 0.0);
+              chop_fr[part] = 1.0;
         }
-        chop_fr_sen[root] = 0.0;
-        phosphorous->residue_chopped(chop_fr_green
-                                   , chop_fr_sen
-                                   , chop_fr_dead
-                                   , fraction_to_residue
-                                   , &P_tops
-                                   , P_residue);
+        chop_fr[root] = 0.0;
+//        phosphorous->residue_chopped(chop_fr_green
+//                                   , chop_fr_sen
+//                                   , chop_fr_dead
+//                                   , fraction_to_residue
+//                                   , &P_tops
+//                                   , P_residue); // P residue should be just dlt_p_det here
+
+        phosphorous->detached (chop_fr, &P_tops, P_residue); // P residue should be just dlt_p_det here
 
         plant_send_crop_chopped_event (c.crop_type
                                      , part_name
@@ -11817,21 +11823,15 @@ void Plant::plant_update_other_variables (void)
 
     for (part =0; part < max_part; part++)
     {
-         incorp_fr_green[part] = 0.0;
-         incorp_fr_sen[part] = 0.0;
-         incorp_fr_dead[part] = 0.0;
+         incorp_fr[part] = 0.0;
     }
-    incorp_fr_sen[root] = divide(g.dlt_dm_detached[root]
-                               , g.dm_senesced[root]
-                               , 0.0);
+    incorp_fr[root] = 1.0;
 
-    phosphorous->incorp_fom( incorp_fr_green
-                           , incorp_fr_sen
-                           , incorp_fr_dead
-                           , g.dlayer
-                           , g.root_length
-                           , g.root_depth
-                           , &P_root);
+    phosphorous->incorp_fom_detached(incorp_fr
+                                    , g.dlayer
+                                    , g.root_length
+                                    , g.root_depth
+                                    , &P_root);    //  should be detached root P
 
     // now dispose of dead population detachments
     for (part =0; part < max_part; part++)
@@ -11856,20 +11856,19 @@ void Plant::plant_update_other_variables (void)
           // calculate chop fractions for this biomass flow
         for (part =0; part < max_part; part++)
         {
-           chop_fr_green[part] = 0.0;
-           chop_fr_sen[part] = 0.0;
-           chop_fr_dead[part] = divide(g.dlt_dm_dead_detached[part]
-                                     , g.dm_dead[part]
-                                     , 0.0);
+           chop_fr[part] = 1.0;
         }
-             // Call plant P module so that it can add
-             // its P to the message
-        phosphorous->residue_chopped(chop_fr_green
-                                    , chop_fr_sen
-                                    , chop_fr_dead
-                                    , fraction_to_residue
-                                    , &P_tops
-                                    , P_residue);
+        chop_fr[root] = 0.0;
+//             // Call plant P module so that it can add
+//             // its P to the message
+//        phosphorous->residue_chopped(chop_fr_green
+//                                    , chop_fr_sen
+//                                    , chop_fr_dead
+//                                    , fraction_to_residue
+//                                    , &P_tops
+//                                    , P_residue); // P residue should be just dlt_p_dead_det here
+
+        phosphorous->dead_detached (chop_fr, &P_tops, P_residue); // P residue should be just dlt_p_dead_det here
 
         plant_send_crop_chopped_event(c.crop_type
                                     , part_name
@@ -11891,21 +11890,15 @@ void Plant::plant_update_other_variables (void)
 
     for (part =0; part < max_part; part++)
     {
-         incorp_fr_green[part] = 0.0;
-         incorp_fr_sen[part] = 0.0;
-         incorp_fr_dead[part] = 0.0;
+         incorp_fr[part] = 0.0;
     }
-    incorp_fr_sen[root] = divide(g.dlt_dm_dead_detached[root]
-                               , g.dm_dead[root]
-                               , 0.0);
+    incorp_fr[root] = 1.0;
 
-    phosphorous->incorp_fom( incorp_fr_green
-                           , incorp_fr_sen
-                           , incorp_fr_dead
-                           , g.dlayer
-                           , g.root_length
-                           , g.root_depth
-                           , &P_root);
+    phosphorous->incorp_fom_dead_detached( incorp_fr
+                                          , g.dlayer
+                                          , g.root_length
+                                          , g.root_depth
+                                          , &P_root);      //  should be dead detached root P
 
     pop_routine (my_name);
     return;
