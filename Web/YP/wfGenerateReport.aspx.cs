@@ -75,28 +75,30 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void GenerateReport()
 			{
-			if(edtReportName.Text != "")
+			try
 				{
-				if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
+				if(edtReportName.Text != "")
 					{
-					if(EmailClass.SendReportEmail(edtReportName.Text, 
-						ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], null) == true)
+					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
 						{
-						Server.Transfer("wfEditPaddock.aspx");
+						if(EmailClass.SendReportEmail(edtReportName.Text, 
+							ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], null) == true)
+							{
+							Server.Transfer("wfEditPaddock.aspx");
+							}
+						else
+							throw new Exception("Error requesting report");
+
 						}
 					else
-						{
-						FunctionsClass.DisplayMessage(Page, "Error requesting report");
-						}
+						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
 					}
 				else
-					{
-					FunctionsClass.DisplayMessage(Page, "Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * ? \" < > |");
-					}
+					throw new Exception("Please enter a report name");
 				}
-			else
+			catch (Exception E)
 				{
-				FunctionsClass.DisplayMessage(Page,"Please enter a report name");
+				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
 		//-------------------------------------------------------------------------
