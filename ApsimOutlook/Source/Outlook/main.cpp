@@ -19,6 +19,9 @@
 using namespace std;
 //---------------------------------------------------------------------
 #pragma link "StrHlder"
+#pragma link "MDIWallp"
+#pragma link "MDIWallp"
+#pragma link "MDIWallp"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 extern AnsiString CommandLine;
@@ -39,6 +42,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
    Application->OnHint = ShowHint;
    Screen->OnActiveFormChange = UpdateMenuItems;
    Application->OnMinimize = Application_minimize;
+
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::ShowHint(TObject *Sender)
@@ -48,6 +52,7 @@ void __fastcall TMainForm::ShowHint(TObject *Sender)
 //---------------------------------------------------------------------
 void __fastcall TMainForm::CreateMDIChild(String Name)
    {
+   FixMDI = false;
 	TMDIChild *Child;
 
 	//--- create a new MDI child window ----
@@ -56,6 +61,7 @@ void __fastcall TMainForm::CreateMDIChild(String Name)
    Child->Caption = Name;
    Child->SetPresentationFonts(FilePresentationFontsMenu->Checked);
    Child->Show();
+   FixMDI = true;
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::File_exit(TObject *Sender)
@@ -101,6 +107,9 @@ void __fastcall TMainForm::UpdateMenuItems(TObject *Sender)
    Copy_button->Enabled = MDIChildCount > 0;
    Copy_without_button->Enabled = MDIChildCount > 0;
    Excel_button->Enabled = MDIChildCount > 0;
+
+//   if (FixMDI)
+//      FixMDIChild();
    }
 //---------------------------------------------------------------------
 void __fastcall TMainForm::FormDestroy(TObject *Sender)
@@ -304,24 +313,19 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    iniPath.Set_extension(".ini");
    Ini_file ini;
    ini.Set_file_name(iniPath.Get_path().c_str());
-   string originalContents;
-   ini.Read_section_contents("addins", originalContents);
-   string contents = originalContents;
-   To_lower(contents);
-   unsigned int posAddIn = contents.find("dbaddin.dll");
+   string contents;
+   ini.Read_section_contents("addins", contents);
+   unsigned int posAddIn = contents.find("DBAddin\DBAddin.dll");
    if (posAddIn != string::npos)
       {
-      // add the destination MDB to the .ini file so that the DBaddin
-      // can pick it up.
-      contents.insert(posAddIn+11, " " + destinationMDB);
-      ini.Write_section_contents("addins", contents);
+      posAddIn += 19;
+      contents.insert(19, " " + destinationMDB);
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
-
-      // now remove our modification to the .ini file.
-      ini.Write_section_contents("addins", originalContents);
+      contents.erase(19, destinationMDB.length() + 1);
+      ini.Write_section_contents("addins", contents);
       }
    else
-      ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");
+      ShowMessage("Cannot find line in .ini file.  Line: addIn = addDBAddIn\DBAddin.dll");
 
    Screen->Cursor = savedCursor;
    }
@@ -332,4 +336,36 @@ void __fastcall TMainForm::Timer1Timer(TObject *Sender)
    CreateDefaultDatabase(OpenDialog->Files);
    }
 //---------------------------------------------------------------------------
+
+
+void __fastcall TMainForm::FixMDIChild(void)
+{
+    if (ActiveMDIChild && ActiveMDIChild->WindowState == wsMaximized)
+    {
+        // Prevent screen updates
+        SNDMSG(ClientHandle, WM_SETREDRAW, false, 0);
+        try
+        {
+            TForm *frm = ActiveMDIChild;
+
+            // Minimize and maximize the child to restore its icons
+            SNDMSG(frm->Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+            SNDMSG(frm->Handle, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+
+            // Minimize and maximize the child a second time to prevent
+            //  the close button from appearing disabled
+            SNDMSG(frm->Handle, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+            SNDMSG(frm->Handle, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+
+        }
+        catch (...)
+        {
+            // Restore screen updates
+            SNDMSG(ClientHandle, WM_SETREDRAW, true, 0);
+        }
+
+        // Restore screen updates
+        SNDMSG(ClientHandle, WM_SETREDRAW, true, 0);
+    }
+}
 

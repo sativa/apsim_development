@@ -5,6 +5,8 @@
 
 #include <graphics.hpp>
 #include <TAPSTable.h>
+#include "TValueSelectionForm.h"
+
 class Scenario;
 class AddInBase;
 
@@ -58,6 +60,9 @@ class Scenarios {
       // specified factor.
       void getFactorValues(const std::string& factor_name, std::vector<std::string>& factorValues) const;
 
+      // Get a value selection form relevant to the requested factor_name
+      TValueSelectionForm*  getUIForm(const std::string& factor_name, TComponent* Owner);
+
       // Get and set the current scenario.
       void        setCurrentScenario(const std::string& name);
       std::string getCurrentScenario(void);
@@ -69,7 +74,9 @@ class Scenarios {
       void deleteCurrentScenario();
 
       // Delete all scenarios.
-      void deleteAllScenarios();
+      // if leaveDefaultScenario is set to true, create a default scenario after
+      // deleting all others.
+      void deleteAllScenarios(bool leaveDefaultScenario);
 
       void getAllData(TAPSTable* table);
 

@@ -23,7 +23,8 @@ Scenarios::Scenarios(void) {
 
 
 Scenarios::~Scenarios() {
-   deleteAllScenarios();
+   bool leaveDefault = false;
+   deleteAllScenarios(leaveDefault);
    while (!addIns.empty()) {
       AddInBase* ptr = addIns.back();
       addIns.pop_back();
@@ -31,7 +32,7 @@ Scenarios::~Scenarios() {
       }
    while (!dllHandles.empty()) {
       HINSTANCE dllHandle = dllHandles.back();
-      FreeLibrary(dllHandle);
+//      FreeLibrary(dllHandle);
       dllHandles.pop_back();
       }
 }
@@ -103,12 +104,14 @@ void Scenarios::deleteCurrentScenario() {
 }
 
 
-void Scenarios::deleteAllScenarios() {
+void Scenarios::deleteAllScenarios(bool leaveDefaultScenario) {
    while (!scenarios.empty()) {
       Scenario* ptr = scenarios.back();
       scenarios.pop_back();
       delete ptr;
    }
+   if (leaveDefaultScenario)
+      makeDefaultScenario();
 }
 
 // ------------------------------------------------------------------
@@ -295,4 +298,19 @@ void Scenarios::getAllData(TAPSTable* data)
       {
       (*a)->doCalculations(*data, scenarios);
       }
+   }
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//    Get a value selection form relevant to the requested factor_name
+
+//  Changes:
+//    dph 4/4/01
+
+// ------------------------------------------------------------------
+
+TValueSelectionForm*  Scenarios::getUIForm(const string& factor_name, TComponent* Owner)
+   {
+      return currentScenario->getUIForm(factor_name, Owner);
    }
