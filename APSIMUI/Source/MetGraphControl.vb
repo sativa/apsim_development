@@ -109,6 +109,7 @@ Public Class MetGraphControl
         '
         'RainfallGroup
         '
+        Me.RainfallGroup.Expanded = True
         Me.RainfallGroup.Items.AddRange(New Object() {Me.DailyRain, Me.MonthlyRainfall})
         Me.RainfallGroup.ItemsImageList = Me.ImageList
         Me.RainfallGroup.Text = "Rainfall"
@@ -144,7 +145,6 @@ Public Class MetGraphControl
         '
         'RadiationGroup
         '
-        Me.RadiationGroup.Expanded = True
         Me.RadiationGroup.Items.AddRange(New Object() {Me.DailyRadiation})
         Me.RadiationGroup.ItemsImageList = Me.ImageList
         Me.RadiationGroup.Text = "Radiation"
@@ -231,6 +231,7 @@ Public Class MetGraphControl
         'ChartHelper
         '
         Me.ChartHelper.Chart = Me.ChartBox
+        Me.ChartHelper.DataTable = Nothing
         Me.ChartHelper.Grid = Nothing
         '
         'MetGraphControl
@@ -275,10 +276,6 @@ Public Class MetGraphControl
         End Try
     End Sub
 
-
-    Private Sub ListBar_ItemClicked(ByVal sender As System.Object, ByVal e As vbAccelerator.Components.ListBarControl.ItemClickedEventArgs)
-        RedrawGraph()
-    End Sub
     Private Sub RedrawGraph()
 
         Select Case GraphType
