@@ -43,6 +43,7 @@ class IniFile
                  const std::vector<std::string>& values);
 
       void deleteKey(const std::string& section, const std::string& key);
+      void deleteKeys(const std::string& section, const std::string& key);
       void deleteSection(const std::string& Section);
       void getKeysInSection(const std::string& section, std::vector<std::string>& keys);
 
