@@ -1,155 +1,38 @@
-*     ===========================================================
-      character*(*) function erosion_version ()
-*     ===========================================================
- 
-*   Short description:
-*     return version number of erosion module
- 
-*   Assumptions:
-*     none
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*     Version:         Any hardware/Fortran77
-*     Extensions:      Long names <= 20 chars.
-*                      Lowercase
-*                      Underscore
-*                      Inline comments
-*                      Include
-*                      implicit none
- 
-*   Changes:
-*     DMS & NH 25/02/94
-*     DMS 25/02/94 (new template)
- 
-*   Calls:
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
-      implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
-*     none
- 
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'erosion_version')
- 
-      character  version_number*(*) ! version number of module
-      parameter (version_number = 'V1.14 170398')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
- 
-      erosion_version = version_number
- 
-      call pop_routine (my_name)
-      return
-      end
 * ====================================================================
       subroutine APSIM_erosion (Action, Data_string)
 * ====================================================================
- 
-*   Short description:
+      implicit none
+      include   'const.inc'            ! Global constant definitions
+      include   'erosion.inc'          ! module_name
+      include 'engine.pub'                        
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_string*(*)       ! Message data
+
+*+  Purpose
 *     This routine is the interface between the main system and the
 *     erosion module.
- 
-*   Assumptions:
-*     none
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 25/08/94
 *     011195 jngh  added call to message_unused
- 
-*   Calls:
-*     erosion_version
-*     erosion_init
-*     erosion_write_summary
-*     erosion_reset_dailies
-*     erosion_get_dailies
-*     erosion_get_other_variables
-*     erosion_process
-*     erosion_set_other_variables
-*     erosion_send_my_variable
-*     erosion_end_run
-*     message_unused
-*     pop_routine
-*     push_routine
-*     set_warning_off
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
-      dll_export apsim_erosion
- 
-*   Subroutine arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_string*(*)       ! Message data
- 
-*   Global variables
-      include   'const.inc'            ! Global constant definitions
-      include   'erosion.inc'          ! module_name
- 
-      character  erosion_version*20    ! function
- 
-      dll_import pop_routine                      
-      dll_import message_unused                   
-      dll_import get_current_module               
-      dll_import set_warning_off                  
-      dll_import push_routine                     
- 
-*   Internal variables
-      character  module_name*10
- 
-*   Constant values
+*     190599 jngh removed reference to version and removed mes_presence
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion')
- 
-*   Initial data values
-*     None
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
          ! initialise error flags
       call set_warning_off ()
  
-      if (action.eq.MES_presence) then      ! report presence
-         call get_current_module (module_name)
-         write(*, *) 'module_name = '
-     :              , trim(module_name)
-     :              // blank
-     :              // erosion_version ()
- 
-      else if (Action.eq.MES_Init) then
+      if (Action.eq.MES_Init) then
             ! initilization once per run
             ! start with a clean slate
          call erosion_zero_variables ()
@@ -184,78 +67,49 @@
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_init ()
 * ====================================================================
- 
-*   Short description:
-*     Initialise erosion module
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
- 
-*   Calls:
-*     a_erosion_version
-*     write_string
-*     erosion_zero_variables
-*     erosion_read_param
-*     pop_routine
-*     push_routine
- 
-*----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
       include   'const.inc'
       include   'convert.inc'          ! pcnt2fract
       include   'erosion.inc'          ! erosion model commons
- 
-      character  erosion_version*40    ! function
-      integer    count_of_real_vals    ! function
+      include 'data.pub'                          
+      include 'write.pub'                         
+      include 'error.pub'                         
+
+*+  Purpose
+*     Initialise erosion module
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     190599 jngh removed reference to version
+
+*+  Calls
       dll_import count_of_real_vals
-      real       sum_real_array        ! function
       dll_import sum_real_array
- 
-      dll_import pop_routine                      
-      dll_import fatal_error                      
-      dll_import report_event                     
-      dll_import push_routine                     
- 
-*   Internal variables
-      real       s                     ! temporary (USLE LS factor) slope (0-1)
-      real       a                     ! temporary (USLE LS factor)
- 
-*   Constant values
+*
+      dll_import pop_routine
+      dll_import fatal_error
+      dll_import report_event
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_init')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      real       s                     ! temporary (USLE LS factor) slope (0-1)
+      real       a                     ! temporary (USLE LS factor)
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
          ! Notify system that we have initialised
-      call report_event (' Initialising, Version : '
-     :                  // erosion_version ())
+      call report_event (' Initialising: ')
  
          ! Get all parameters from parameter file
       call erosion_read_param ()
@@ -295,62 +149,38 @@
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_write_summary ()
 * ====================================================================
- 
-*   Short description:
-*     Tell summary file what parameters we're using
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
-*     PdeV 2/10/94
- 
-*   Calls:
-*     write_string
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
       include   'const.inc'            ! Constant definitions
       include   'erosion.inc'          ! erosion model common
- 
-      dll_import pop_routine                      
-      dll_import write_string                     
-      dll_import push_routine                     
- 
-*   Internal variables
-      character  string*(500)          ! String to output
- 
-*   Constant values
+      include 'write.pub'                         
+      include 'error.pub'                         
+
+*+  Purpose
+*     Tell summary file what parameters we're using
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     PdeV 2/10/94
+
+*+  Calls
+      dll_import pop_routine
+      dll_import write_string
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_write_summary')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      character  string*(500)          ! String to output
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call write_string (lu_scr_sum, new_line//new_line)
@@ -453,72 +283,49 @@
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_read_param ()
 * ====================================================================
- 
-*   Short description:
+      implicit none
+      include   'const.inc'
+      include   'erosion.inc'          ! erosion model common block
+      include 'read.pub'                          
+      include 'write.pub'                         
+      include 'error.pub'                         
+
+*+  Purpose
 *     Read in all parameters from parameter file.
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 25/08/94
 *     210395 jngh changed from erosion_section to a parameters section
- 
-*   Calls:
-*     erosion_model_type
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
-      include   'const.inc'
-      include   'erosion.inc'          ! erosion model common block
- 
-      dll_import pop_routine                      
-      dll_import read_real_var_optional           
-      dll_import read_real_var                    
-      dll_import read_char_var                    
-      dll_import write_string                     
-      dll_import push_routine                     
- 
-*   Internal variables
+
+*+  Calls
+      dll_import pop_routine
+      dll_import read_real_var_optional
+      dll_import read_real_var
+      dll_import read_char_var
+      dll_import write_string
+      dll_import push_routine
+
+*+  Constant Values
+      character  section_name*(*)
+      parameter (section_name = 'parameters')
+*
+      character  my_name*(*)
+      parameter (my_name = 'erosion_read_param')
+
+*+  Local Variables
       integer    num_read              ! temporary
       integer    num_read_eteff        ! temporary
       integer    num_read_b2           ! temporary
       character  string*(80)           ! temporary
- 
-*   Constant values
-      character  section_name*(*)
-      parameter (section_name = 'parameters')
- 
-      character  my_name*(*)
-      parameter (my_name = 'erosion_read_param')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call write_string (lu_scr_sum
@@ -722,58 +529,31 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_zero_variables ()
 * ====================================================================
- 
-*   Short description:
-*     Set all variables in this module to zero.
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
- 
-*   Calls:
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
       include 'erosion.inc'     ! erosion common blocks
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
-*     none
- 
-*   Constant values
+      include 'error.pub'                         
+
+*+  Purpose
+*     Set all variables in this module to zero.
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+
+*+  Calls
+      dll_import pop_routine
+      dll_import push_routine
+
+*+  Constant Values
       character my_name*(*)
       parameter (my_name = 'erosion_zero_variables')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call erosion_zero_daily_variables ()
@@ -810,61 +590,35 @@ c      g_total_cover  = 0.0
       call pop_routine (my_name)
       return
       end
+
+
+
 *     ===========================================================
       subroutine erosion_zero_daily_variables ()
 *     ===========================================================
- 
-*   Short description:
+      implicit none
+      include   'erosion.inc'
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Purpose
 *       zero erosion daily variables & arrays
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     010994 jngh specified and programmed
 *     210498 pdev added profile resets here due to stale data left in dlayer
 *                 after an entire layer was eroded.
-*   Calls:
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
-      implicit none
- 
-*   Subroutine arguments
-*       none
- 
-*   Global variables
-      include   'erosion.inc'
- 
-      dll_import pop_routine                      
-      dll_import fill_real_array                  
-      dll_import push_routine                     
- 
-*   Internal variables
-*       none
- 
-*   Constant values
+
+*+  Calls
+      dll_import pop_routine
+      dll_import fill_real_array
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name  = 'erosion_zero_daily_variables')
- 
-*   Initial data values
-*       none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -883,71 +637,45 @@ c      g_resid_cover = 0.0
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_get_other_variables ()
 * ====================================================================
- 
-*   Short description:
-*     Get the values of variables from other modules
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
-*     PdeV 27/08/94
- 
-*   Calls:
-*     get_integer_var
-*     get_real_var
-*     get_real_array
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
       include   'const.inc'            ! Constant definitions
       include   'erosion.inc'          ! erosion common block
- 
-      real bound
+      include 'data.pub'                          
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+*+  Purpose
+*     Get the values of variables from other modules
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     PdeV 27/08/94
+
+*+  Calls
       dll_import bound
- 
-      dll_import pop_routine                      
-      dll_import get_real_array                   
-      dll_import get_real_var                     
-      dll_import get_integer_var                  
-      dll_import push_routine                     
- 
-*   Internal variables
+*
+      dll_import pop_routine
+      dll_import get_real_array
+      dll_import get_real_var
+      dll_import get_integer_var
+      dll_import push_routine
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name = 'erosion_get_other_variables')
+
+*+  Local Variables
 c      real       visible_contact_cover
       integer   numvals
       real      total_cover
- 
-*   Constant values
-      character  my_name*(*)
-      parameter (my_name = 'erosion_get_other_variables')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
                                 ! Get Year
@@ -1050,66 +778,45 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_set_my_variable (variable_name)
 * ====================================================================
- 
-*   Short description:
+      implicit none
+      include   'erosion.inc'          ! erosion common block
+      include 'engine.pub'                        
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character  variable_name*20      ! (INPUT)
+
+*+  Purpose
 *     Set the values of my variables from other modules
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 27/08/94
 *      011195 jngh  added call to message_unused
 *      090696 jngh changed respond2set to collect
- 
-*   Calls:
-*     message_unused
-*     collect_real_var
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
- 
-*   Subroutine arguments
-      character  variable_name*20      ! (INPUT)
- 
-*   Global variables
-      include   'erosion.inc'          ! erosion common block
- 
-      dll_import pop_routine                      
-      dll_import message_unused                   
-      dll_import collect_real_var                 
-      dll_import push_routine                     
- 
-*   Internal variables
-      integer    numvals
-      character*20 units               ! units of variable received
- 
-*   Constant values
+
+*+  Calls
+      dll_import pop_routine
+      dll_import message_unused
+      dll_import collect_real_var
+      dll_import push_routine
+
+*+  Constant Values
       character my_name*(*)
       parameter (my_name = 'erosion_set_my_variable')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer    numvals
+      character*20 units               ! units of variable received
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       if (variable_name .eq. 'cover_extra') then
@@ -1130,71 +837,46 @@ c$$$     :     g_crop_cover * p_crop_cover_wtg, 0.0, 1.0)
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_set_other_variables ()
 * ====================================================================
- 
-*   Short description:
+      implicit none
+      include   'const.inc'
+      include   'erosion.inc'          ! erosion common block
+      include 'data.pub'                          
+      include 'engine.pub'                        
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+*+  Purpose
 *     Update variables owned by other modules.
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (New template)
 *     300695 jngh changed number of values sent from max_layer to numvals
 *     090696 nih  changed set calls to post_var constructs
- 
-*   Calls:
-*     count_of_real_vals
-*     post_real_array
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
- 
-      implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
-      include   'const.inc'
-      include   'erosion.inc'          ! erosion common block
- 
-      integer    count_of_real_vals    ! function
+
+*+  Calls
       dll_import count_of_real_vals
- 
-      dll_import pop_routine                      
-      dll_import delete_postbox                   
-      dll_import message_send_immediate           
-      dll_import post_real_array                  
-      dll_import new_postbox                      
-      dll_import push_routine                     
- 
-*   Internal variables
-      integer    num_layers
- 
-*   Constant values
+*
+      dll_import pop_routine
+      dll_import delete_postbox
+      dll_import message_send_immediate
+      dll_import post_real_array
+      dll_import new_postbox
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_set_other_variables')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer    num_layers
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
          ! no soil loss -> no profile change
@@ -1228,72 +910,49 @@ c$$$     :        , max_layers)
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_send_my_variable (variable_name)
 * ====================================================================
- 
-*   Short description:
+      implicit none
+      include   'convert.inc'          ! t2g, ha2sqcm, cm2mm
+      include   'erosion.inc'          ! erosion Common block
+      include 'data.pub'                          
+      include 'engine.pub'                        
+      include 'intrface.pub'                      
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      character  variable_name*(*)     ! (INPUT) variable name to search for
+
+*+  Purpose
 *     Return the value of one of our variables to caller
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
-*     none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 27/08/94
 *      011195 jngh  added call to message_unused
- 
-*   Calls:
-*     divide
-*     count_of_real_vals
-*     message_unused
-*     sum_real_array
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
- 
-*   Subroutine arguments
-      character  variable_name*(*)     ! (INPUT) variable name to search for
- 
-*   Global variables
-      include   'convert.inc'          ! t2g, ha2sqcm, cm2mm
-      include   'erosion.inc'          ! erosion Common block
- 
-      real       divide                ! function
+
+*+  Calls
       dll_import divide
- 
-      dll_import pop_routine                      
-      dll_import message_unused                   
-      dll_import respond2get_real_var             
-      dll_import push_routine                     
- 
-*   Internal variables
+*
+      dll_import pop_routine
+      dll_import message_unused
+      dll_import respond2get_real_var
+      dll_import push_routine
+
+*+  Constant Values
+      character my_name*(*)
+      parameter (my_name = 'erosion_send_my_variable')
+
+*+  Local Variables
       real       soil_loss_tha         ! soil loss from surface (t/ha)
       real       soil_loss_mm          ! soil loss from surface (mm)
       real       sed_conc              ! sediment concentration (g/l)
- 
-*   Constant values
-      character my_name*(*)
-      parameter (my_name = 'erosion_send_my_variable')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
@@ -1367,65 +1026,33 @@ c$$$     :        , max_layers)
       call pop_routine (my_name)
       return
       end
+
+
+
 * ====================================================================
       subroutine erosion_process ( )
 * ====================================================================
- 
-*   Short description:
-*     Perform actions for current day.
- 
-*   Assumptions:
-*      None
- 
-*   Notes:
- 
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
-*     PdeV. 28/08/94
- 
-*   Calls:
-*     erosion_freeb
-*     erosion_rose
-*     count_of_real_vals
-*     erosion_depth_loss
-*     erosion_move_profile
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
       include   'const.inc'       ! Constant definitions
       include   'erosion.inc'     ! erosion common block
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
-*      none
- 
-*   Constant values
+      include 'error.pub'                         
+
+*+  Purpose
+*     Perform actions for current day.
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     PdeV. 28/08/94
+
+*+  Calls
+      dll_import pop_routine
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_process')
- 
-*   Initial data values
-*      none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       g_soil_loss_bed = 0.0
@@ -1451,64 +1078,42 @@ c$$$     :        , max_layers)
       call pop_routine (my_name)
       return
       end
- 
+
+
+
 *     ===========================================================
       subroutine erosion_freeb (bed_loss, susp_loss)
 *     ===========================================================
- 
-*   Short description:
-*     Freebairn cover-sediment concentration model
-*     from PERFECT. returns t/ha bed and suspended loss
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
-*       none
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     PdeV. 28/08/94
- 
-*   Calls:
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-      real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
-      real      susp_loss              ! (OUTPUT) soil loss in suspended load (t/ha)
- 
-*   Global variables
       include   'convert.inc'          ! fract2pcnt
       include   'erosion.inc'
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
+      real      susp_loss              ! (OUTPUT) soil loss in suspended load (t/ha)
+
+*+  Purpose
+*     Freebairn cover-sediment concentration model
+*     from PERFECT. returns t/ha bed and suspended loss
+
+*+  Changes
+*     PdeV. 28/08/94
+
+*+  Calls
+      dll_import pop_routine
+      dll_import push_routine
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name = 'erosion_freeb')
+
+*+  Local Variables
       real       erosion_cover_pcnt    ! erosion cover percent
       real       sed_conc              ! sediment concentration (%)
                                        ! ie. g soil/g water *100
- 
-*   Constant values
-      character  my_name*(*)
-      parameter (my_name = 'erosion_freeb')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       erosion_cover_pcnt = g_erosion_cover * fract2pcnt
@@ -1538,19 +1143,26 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
       call pop_routine (my_name)
       return
       end
- 
+
+
+
 *     ===========================================================
       subroutine erosion_rose (bed_loss, susp_loss)
 *     ===========================================================
- 
-*   Short description:
+      implicit none
+      include   'convert.inc'
+      include   'erosion.inc'
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
+      real      susp_loss              ! (OUTPUT) soil loss in suspended load (t/ha)
+
+*+  Purpose
 *     Simplified rose model from PERFECT
 *     returns t/ha bed and suspended loads
- 
-*   Assumptions:
-*       none
- 
-*   Notes:
+
+*+  Notes
 *******************************************************************
 *                                                                 *
 *  This subroutine calculates soil loss using the simplified Rose *
@@ -1564,49 +1176,23 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
 *     slope       - aslope -  slope (%)                           *
 *                                                                 *
 *******************************************************************
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     PdeV. 28/08/94
- 
-*   Calls:
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
- 
-*   Subroutine arguments
-      real      bed_loss               ! (OUTPUT) soil loss in bed load (t/ha)
-      real      susp_loss              ! (OUTPUT) soil loss in suspended load (t/ha)
- 
-*   Global variables
-      include   'convert.inc'
-      include   'erosion.inc'
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
-      real       lambda_bed                ! efficiency of entrainment ?
-      real       lambda_susp                ! efficiency of entrainment ?
- 
-*   Constant values
+
+*+  Calls
+      dll_import pop_routine
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_rose')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      real       lambda_bed                ! efficiency of entrainment ?
+      real       lambda_susp                ! efficiency of entrainment ?
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       lambda_bed = p_entrain_eff_bed
@@ -1633,73 +1219,44 @@ cjh           what is the unit conversion here???
       call pop_routine (my_name)
       return
       end
- 
+
+
+
 *     ================================================================
       subroutine erosion_move_profile ()
 *     ================================================================
- 
-*   Short description:
+      implicit none
+      include   'erosion.inc'          ! erosion common blocks
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Purpose
 *     move things in the profile
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
+
+*+  Notes
 *     N (ie kg/ha) variables move from top down.
 *     profile is eroded from the bottom up.
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
- 
-*   Calls:
-*     erosion_start_day_log
-*     erosion_move_conc
-*     erosion_move_depth
-*     erosion_move_dlayr
-*     count_of_real_vals
-*     sum_real_array
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
-      include   'erosion.inc'          ! erosion common blocks
- 
-      real       sum_real_array        ! function
+
+*+  Calls
       dll_import sum_real_array
-      integer    count_of_real_vals    ! function
       dll_import count_of_real_vals
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
-      integer    num_layers
-      real       dlt_bed_depth
- 
-*   Constant values
+*
+      dll_import pop_routine
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_move_profile')
- 
-*   Initial data values
-*      none
- 
-* --------------------- Executable code section ----------------------
+
+*+  Local Variables
+      integer    num_layers
+      real       dlt_bed_depth
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call erosion_move_dlayr (g_dlt_dlayer, dlt_bed_depth)
@@ -1723,62 +1280,34 @@ c      write (*,*) 'xxx',g_dlt_dlayer, dlt_bed_depth
       call pop_routine (my_name)
       return
       end
- 
+
+
+
 *     ================================================================
       subroutine erosion_bomb_run ()
 *     ================================================================
- 
-*   Short description:
-*      kill the run
- 
-*   Assumptions:
-*     None
- 
-*   Notes:
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
-*     PdeV. 28/08/94
- 
-*   Calls:
-*     fatal_error
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-*     none
- 
-*   Global variables
       include   'const.inc'            ! Constant definitions
       include   'erosion.inc'          ! erosion common block
- 
-      dll_import pop_routine                      
-      dll_import fatal_error                      
-      dll_import push_routine                     
- 
-*   Internal variables
-*     none
- 
-*   Constant values
+      include 'error.pub'                         
+
+*+  Purpose
+*      kill the run
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     PdeV. 28/08/94
+
+*+  Calls
+      dll_import pop_routine
+      dll_import fatal_error
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_bomb_run')
- 
-*   Initial data values
-*      none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call fatal_error (err_user, 'Out of soil to erode. Giving up.')
@@ -1786,64 +1315,48 @@ c      write (*,*) 'xxx',g_dlt_dlayer, dlt_bed_depth
       call pop_routine (my_name)
       return
       end
- 
+
+
+
 *     ================================================================
       subroutine erosion_move_dlayr (dlt_dlayer, dlt_bed_depth)
 *     ================================================================
- 
-*   Short description:
-*     move dlayr
- 
-*   Assumptions:
-*      None
- 
-*   Notes:
-*     Erodes profile from bottom up.
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
-*     DMS 25/02/94 (new template)
-*     PdeV. 28/08/94
- 
-*   Calls:
-*     count_of_real_vals
-*     sum_real_array
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
       implicit none
- 
-*   Subroutine arguments
-      real       dlt_dlayer(*)         ! (OUTPUT)
-      real       dlt_bed_depth         ! (OUTPUT)
- 
-*   Global variables
       include   'const.inc'            ! Constant definitions
       include   'convert.inc'
       include   'erosion.inc'          ! erosion common block
- 
-      integer    count_of_real_vals    ! function
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      real       dlt_dlayer(*)         ! (OUTPUT)
+      real       dlt_bed_depth         ! (OUTPUT)
+
+*+  Purpose
+*     move dlayr
+
+*+  Notes
+*     Erodes profile from bottom up.
+
+*+  Changes
+*     DMS 25/02/94 (new template)
+*     PdeV. 28/08/94
+
+*+  Calls
       dll_import count_of_real_vals
-      real       sum_real_array        ! function
       dll_import sum_real_array
-      real       divide                ! function
       dll_import divide
- 
-      dll_import pop_routine                      
-      dll_import warning_error                    
-      dll_import fill_real_array                  
-      dll_import push_routine                     
- 
-*   Internal variables
+*
+      dll_import pop_routine
+      dll_import warning_error
+      dll_import fill_real_array
+      dll_import push_routine
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name = 'erosion_move_dlayr')
+
+*+  Local Variables
       real       tot_depth
       real       overrun
       real       new_depth
@@ -1852,15 +1365,8 @@ c      write (*,*) 'xxx',g_dlt_dlayer, dlt_bed_depth
       integer    i
       real       dlt_depth_mm(max_layer) ! bd based change in depth
       character  string*80               ! message string
- 
-*   Constant values
-      character  my_name*(*)
-      parameter (my_name = 'erosion_move_dlayr')
- 
-*   Initial data values
-*      none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
       call push_routine (my_name)
  
       call fill_real_array (dlt_dlayer, 0.0, max_layer)
@@ -1932,64 +1438,41 @@ c     What happens when layer completely eroded?
       call pop_routine (my_name)
       return
       end
- 
+
+
+
 *     ================================================================
       subroutine erosion_end_run ()
 *     ================================================================
- 
-*   Short description:
+      implicit none
+      include   'erosion.inc'
+      include 'error.pub'                         
+
+*+  Purpose
 *      Perform cleanup because the current simulation is about to end.
- 
-*   Assumptions:
-*      None
- 
-*   Notes:
+
+*+  Notes
 *      closes log file if necessary
- 
-*   Procedure attributes:
-*      Version:         Any hardware/Fortran77
-*      Extensions:      Long names <= 20 chars.
-*                       Lowercase
-*                       Underscore
-*                       Inline comments
-*                       Include
-*                       implicit none
- 
-*   Changes:
+
+*+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
- 
-*   Calls:
-*     pop_routine
-*     push_routine
- 
-* ----------------------- Declaration section ------------------------
-      implicit none
- 
-*   Subroutine arguments
-*      none
- 
-*   Global variables
-      include   'erosion.inc'
- 
-      dll_import pop_routine                      
-      dll_import push_routine                     
- 
-*   Internal variables
-*      none
- 
-*   Constant values
+
+*+  Calls
+      dll_import pop_routine
+      dll_import push_routine
+
+*+  Constant Values
       character  my_name*(*)
       parameter (my_name = 'erosion_end_run')
- 
-*   Initial data values
-*     none
- 
-* --------------------- Executable code section ----------------------
+
+*- Implementation Section ----------------------------------
  
       call push_routine (my_name)
  
       call pop_routine (my_name)
       return
       end
- 
+
+
+
