@@ -1,0 +1,698 @@
+<Simulation executable="c:\mydata\development\apsim\protocolmanager\lib\protocolmanager.dll">
+   <title>WHEAT SAMPLE Simulation</title>
+   <component name="Log" executable="c:\mydata\development\apsim\log\lib\log.dll">
+      <initdata>
+      </initdata>
+   </component>
+   <component name="SummaryFile" executable="c:\mydata\development\apsim\SummaryFile\lib\SummaryFile.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="summaryfile">wheat.sum</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="Screen" executable="c:\mydata\development\apsim\Screen\lib\Screen.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="screen_output">on</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="clock" executable="c:\mydata\development\apsim\clock\lib\clock.dll">
+      <initdata>
+         <constants name="standard">
+            <property name="timestep_events">prepare process do_stock post</property>
+         </constants>
+         <parameters name="sample">
+            <property name="start_date">1/6/1988</property>
+            <property name="end_date">31/12/1988</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="report" executable="c:\mydata\development\apsim\report\lib\report.dll">
+      <initdata>
+         <parameters name="sample">
+            <property name="outputfile">wheat.out</property>
+         </parameters>
+         <variables>
+            <variable>clock.dd/mm/yyyy as Date</variable>
+            <variable>met.rain as rain</variable>
+            <variable>wheat.das</variable>
+            <variable>wheat.stage</variable>
+            <variable>wheat.lai</variable>
+            <variable>wheat.biomass</variable>
+            <variable>wheat.yield</variable>
+            <variable>wheat.root_depth</variable>
+            <variable>wheat.ep</variable>
+            <variable>stock.number</variable>
+         </variables>
+      </initdata>
+   </component>
+   <component name="Met" executable="c:\mydata\development\apsim\Input\lib\Input.dll">
+      <initdata>
+         <parameters name="file">
+            <property name="filename">c:\mydata\development\apsim\met\sample\dalby.met</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="manager" executable="c:\mydata\development\apsim\manager\lib\manager.dll">
+      <initdata>
+         <rules>
+            <rule name="sample.init" condition="init">
+               <![CDATA[area=100.0]]>
+            </rule>
+            <rule name="sample.start_of_day" condition="start_of_day">
+               <![CDATA[[cr]if day = 169 and year = 1988 then[cr]   wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)[cr]endif[cr][cr]if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then[cr]   wheat harvest[cr]   wheat end_crop[cr]endif[cr][cr]]]>
+            </rule>
+            <rule name="sample.end_of_day" condition="end_of_day">
+               <![CDATA[   report do_output[cr][cr][cr]]]>
+            </rule>
+         </rules>
+      </initdata>
+   </component>
+   <component name="soilwat2" executable="c:\mydata\development\apsim\soilwat2\lib\soilwat2.dll">
+      <initdata>
+         <constants name="standard">
+            <property name="min_crit_temp">5.0</property>
+            <property name="max_crit_temp">35.0</property>
+            <property name="max_albedo">0.23</property>
+            <property name="A_to_evap_fact">0.44</property>
+            <property name="canopy_eos_coef">1.7</property>
+            <property name="sw_top_crit">0.9</property>
+            <property name="sumes1_max">100.0</property>
+            <property name="sumes2_max">25.0</property>
+            <property name="solute_flow_eff">1.0</property>
+            <property name="solute_flux_eff">1.0</property>
+            <property name="gravity_gradient">0.00002</property>
+            <property name="specific_bd">2.65</property>
+            <property name="hydrol_effective_depth">450</property>
+            <property name="mobile_solutes">no3 urea cl br org_n org_c_pool1 org_c_pool2 org_c_pool3</property>
+            <property name="immobile_solutes">nh4</property>
+            <property name="canopy_fact">1.0  1.0  0.0  0.0</property>
+            <property name="canopy_fact_height">0  600  1800 30000</property>
+            <property name="canopy_fact_default">0.5</property>
+            <property name="act_evap_method">ritchie</property>
+         </constants>
+         <tillage name="standard">
+            <property name="chisel">0.0           0.</property>
+            <property name="disc">0.0           0.</property>
+            <property name="planter">0.0           0.</property>
+            <property name="burn">0.0           0.</property>
+         </tillage>
+         <parameters name="black_earth">
+            <property name="insoil">2.0</property>
+            <property name="diffus_const">88.</property>
+            <property name="diffus_slope">35.4</property>
+            <property name="cn2_bare">80</property>
+            <property name="cn_red">20</property>
+            <property name="cn_cov">.8</property>
+            <property name="salb">0.13</property>
+            <property name="cona">2.5</property>
+            <property name="u">4</property>
+            <property name="dlayer">150  150  300  300  300  300  300</property>
+            <property name="sat">.500 .509 .510 .505 .490 .480 .480</property>
+            <property name="dul">.450 .459  .45 .44  .42  .41  .41</property>
+            <property name="sw">.280 .364  .43 .43  .40  .41  .41</property>
+            <property name="ll15">.230 .240 .240 .250 .260 .270 .280</property>
+            <property name="air_dry">.10 .20 .20 .20 .20 .20 .20</property>
+            <property name="swcon">0.2  0.2  0.2  0.2  0.2  0.2  0.2</property>
+            <property name="bd">1.30 1.30 1.29 1.31 1.35 1.36 1.36</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="soiln2" executable="c:\mydata\development\apsim\soiln2\lib\soiln2.dll">
+      <initdata>
+         <constants name="standard">
+            <property name="cnrf_coeff">0.693</property>
+            <property name="cnrf_optcn">25.0</property>
+            <property name="ef_biom">0.4</property>
+            <property name="ef_fom">0.4</property>
+            <property name="ef_hum">0.4</property>
+            <property name="ef_res">0.4</property>
+            <property name="fom_min">0.5</property>
+            <property name="fr_biom_biom">0.6</property>
+            <property name="fr_fom_biom">0.9</property>
+            <property name="fr_res_biom">0.9</property>
+            <property name="fom_type">default manure  goose_poo  hippo</property>
+            <property name="fr_carb">0.2      0.3      0.3        0.2</property>
+            <property name="fr_cell">0.7      0.3     0.3        0.2</property>
+            <property name="fr_lign">0.1      0.4     0.4        0.6</property>
+            <property name="oc2om_factor">1.7</property>
+            <property name="mcn">8.0</property>
+            <property name="opt_temp">32.0</property>
+            <property name="rd_biom">0.0081</property>
+            <property name="rd_carb">0.2</property>
+            <property name="rd_cell">0.05</property>
+            <property name="rd_lign">0.0095</property>
+            <property name="rd_hum">0.00015</property>
+            <property name="nh4ppm_min">0.0</property>
+            <property name="no3ppm_min">0.0</property>
+            <property name="min_depth">100.</property>
+            <property name="wfmin_index">0.0 0.5 1.0 2.0</property>
+            <property name="wfmin_values">0.0 1.0 1.0 0.5</property>
+            <property name="wfnit_index">0.0 .25 1.0 2.0</property>
+            <property name="wfnit_values">0.0 1.0 1.0 0.0</property>
+            <property name="nitrification_pot">40.0</property>
+            <property name="nh4_at_half_pot">90</property>
+            <property name="pHf_nit_pH">4.5 6.0 8.0 9.0</property>
+            <property name="pHf_nit_values">0.0 1.0 1.0 0.0</property>
+            <property name="dnit_rate_coeff">0.0006</property>
+            <property name="dnit_wf_power">1</property>
+         </constants>
+         <parameters name="black_earth">
+            <property name="amp">15.0</property>
+            <property name="tav">20.0</property>
+            <property name="root_cn">20.</property>
+            <property name="root_wt">1000.</property>
+            <property name="soil_cn">14.5</property>
+            <property name="oc">1.00 0.84 0.77 0.65 0.54 0.48 0.43</property>
+            <property name="ph">8.20 8.50 8.60 8.60 7.40 5.30 5.00</property>
+            <property name="fbiom">.035 .025 .015 0.01 0.01 0.01 0.01</property>
+            <property name="finert">0.30 0.50 0.60 0.75 0.90 0.99 0.99</property>
+            <property name="no3ppm">9.2  7.6  4.9  2.7  1.5  1.8  1.4</property>
+            <property name="nh4ppm">0.30 0.30 0.30 0.30 0.30 0.50 0.50</property>
+            <property name="ureappm">0  0    0    0    0    0    0</property>
+            <property name="enr_a_coeff">7.4</property>
+            <property name="enr_b_coeff">0.2</property>
+            <property name="profile_reduction">off</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="wheat" executable="c:\mydata\development\apsim\plant\lib\plant.dll">
+      <initdata>
+         <constants name="standard">
+            <property name="crop_type">wheat</property>
+            <property name="default_crop_class">plant</property>
+            <property name="part_names">root leaf stem pod meal oil</property>
+            <property name="sw_ub">1.0</property>
+            <property name="sw_lb">0.0</property>
+            <property name="year_ub">2000</property>
+            <property name="year_lb">1800</property>
+            <property name="latitude_ub">90</property>
+            <property name="latitude_lb">-90</property>
+            <property name="maxt_ub">55</property>
+            <property name="maxt_lb">0</property>
+            <property name="mint_ub">40</property>
+            <property name="mint_lb">-10</property>
+            <property name="radn_ub">50</property>
+            <property name="radn_lb">1</property>
+            <property name="dlayer_ub">1000</property>
+            <property name="dlayer_lb">0</property>
+            <property name="dul_dep_ub">1000</property>
+            <property name="dul_dep_lb">0</property>
+            <property name="sw_dep_ub">1000</property>
+            <property name="sw_dep_lb">0</property>
+            <property name="no3_ub">10000</property>
+            <property name="no3_lb">0</property>
+            <property name="no3_min_ub">10000</property>
+            <property name="no3_min_lb">0</property>
+         </constants>
+         <wheat name="standard">
+            <property name="grain_no_option">2</property>
+            <property name="partition_option">2</property>
+            <property name="n_retrans_option">2</property>
+            <property name="n_retrans_fraction">1.0</property>
+            <property name="n_deficit_uptake_fraction">0.0</property>
+            <property name="grain_fill_option">2</property>
+            <property name="n_uptake_option">3</property>
+            <property name="no3_uptake_max">0.9e-6</property>
+            <property name="no3_conc_half_max">80</property>
+            <property name="kln">0.02</property>
+            <property name="total_n_uptake_max">0.6</property>
+            <property name="x_temp_grainfill">0 26 35</property>
+            <property name="y_rel_grainfill">0  1  1</property>
+            <property name="fruit_no_option">1</property>
+            <property name="parasite_option">1</property>
+            <property name="root_growth_option">1</property>
+            <property name="plant">wheat</property>
+            <property name="class_action">harvest</property>
+            <property name="class_change">unchanged</property>
+            <property name="co2_default">350</property>
+            <property name="photosynthetic_pathway">C3</property>
+            <property name="x_co2_te_modifier">0  350  700   1000</property>
+            <property name="y_co2_te_modifier">0  1.0  1.37  1.69</property>
+            <property name="x_co2_nconc_modifier">0  350  700   1000</property>
+            <property name="y_co2_nconc_modifier">0  1.0  0.93  0.9</property>
+            <property name="phenology_option">2</property>
+            <property name="stage_names">sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</property>
+            <property name="stage_code">1      2    3     4     5     6     7      8     9    10     11</property>
+            <property name="stage_stem_reduction_harvest">1      2    3     3     4     4     4      4     4     4     11</property>
+            <property name="stage_stem_reduction_kill_stem">1      2    3     3     4     4     4      4     4     4     11</property>
+            <property name="pesw_germ">0.00</property>
+            <property name="shoot_lag">40.0</property>
+            <property name="shoot_rate">1.50</property>
+            <property name="fasw_emerg">0.0  1.0</property>
+            <property name="rel_emerg_rate">1.0  1.0</property>
+            <property name="twilight">-6.0</property>
+            <property name="x_vernal_temp">0 2  8  15</property>
+            <property name="y_vernal_days">0 1  0.5  0</property>
+            <property name="x_temp">0  26  34</property>
+            <property name="y_tt">0  26   0</property>
+            <property name="leaf_no_at_emerg">2.0</property>
+            <property name="leaf_app_rate1">75.0</property>
+            <property name="leaf_app_rate2">2.0</property>
+            <property name="leaf_no_rate_change">7</property>
+            <property name="leaf_no_pot_option">2</property>
+            <property name="x_node_no_app">0    20</property>
+            <property name="y_node_app_rate">95   95</property>
+            <property name="x_node_no_leaf">0    2.5   6</property>
+            <property name="y_leaves_per_node">1    1   6.0</property>
+            <property name="x_lai_ratio">0.0  0.1 0.8 1.0</property>
+            <property name="y_leaf_no_frac">0.0  1.0 1.0 1.0</property>
+            <property name="x_stage_rue">1      2    3     4     5     6     7      8     9      10    11</property>
+            <property name="y_rue">0      0    1.24  1.24  1.24  1.24  1.24   1.24  0.00  0.00   0</property>
+            <property name="skiprow_default">0</property>
+            <property name="row_spacing_default">250</property>
+            <property name="x_row_spacing">200  350  1000</property>
+            <property name="y_extinct_coef">0.50 0.50 0.50</property>
+            <property name="y_extinct_coef_dead">0.30 0.30 0.30</property>
+            <property name="extinct_coef_pod">0.0</property>
+            <property name="spec_pod_area">0.0</property>
+            <property name="rue_pod">0.0</property>
+            <property name="x_ave_temp">0  10 25 35</property>
+            <property name="y_stress_photo">0  1  1  0</property>
+            <property name="dm_init">0.010  0.003  0.0016    0      0      0</property>
+            <property name="stem_trans_frac">0.35</property>
+            <property name="leaf_trans_frac">0.00</property>
+            <property name="pod_trans_frac">0</property>
+            <property name="x_stage_no_partition">1      2    3     4    4.9       5     5.4   6       6.9    7      8     9    10     11</property>
+            <property name="y_ratio_root_shoot">0      0    1.0   1.0  0.3       0.30  0.30  0.08    0.01   0      0     0     0      0</property>
+            <property name="y_frac_leaf">0      0    0.6   0.6  0.6       0.42  0.0   0.0     0.0    0      0     0     0      0</property>
+            <property name="y_frac_pod">0      0    0     0     0        0     0.33  0.33    0.33   0      0     0     0      0</property>
+            <property name="grain_n_option">2</property>
+            <property name="sw_fac_max">1.125</property>
+            <property name="temp_fac_min">0.69</property>
+            <property name="sfac_slope">-0.125</property>
+            <property name="tfac_slope">0.0125</property>
+            <property name="potential_grain_n_filling_rate">0.00004</property>
+            <property name="x_temp_grain_n_fill">0 25</property>
+            <property name="y_rel_grain_n_fill">0   1</property>
+            <property name="crit_grainfill_rate">0.0005</property>
+            <property name="x_temp_grain">0.0   15.0</property>
+            <property name="y_grain_rate">0.0   1.0</property>
+            <property name="carbo_oil_conv_ratio">1.0</property>
+            <property name="grain_oil_conc">0.0</property>
+            <property name="grn_water_cont">0.125</property>
+            <property name="node_no_correction">2.0</property>
+            <property name="x_node_no">1     5    8    10</property>
+            <property name="y_leaf_size">1400 3700 4800 5600</property>
+            <property name="x_lai">0     5</property>
+            <property name="y_sla_max">27000 22000</property>
+            <property name="sla_min">18000</property>
+            <property name="initial_tpla">200</property>
+            <property name="fr_height_cut">0.0  0.1    1</property>
+            <property name="fr_stem_remain">0.0  0.2    1</property>
+            <property name="root_depth_rate">0      5.0  30    30    30    30    30      0.0   0.0   0.0    0</property>
+            <property name="x_ws_root">0   1</property>
+            <property name="y_ws_root_fac">1   1</property>
+            <property name="x_sw_ratio">0.0 0.25</property>
+            <property name="y_sw_fac_root">0   1</property>
+            <property name="x_temp_root_advance">0 25 35</property>
+            <property name="y_rel_root_advance">0 1  0</property>
+            <property name="initial_root_depth">100</property>
+            <property name="specific_root_length">105000</property>
+            <property name="x_plant_rld">0   0.0001  0.0003</property>
+            <property name="y_rel_root_rate">0.02  0.10  1.0</property>
+            <property name="transp_eff_cf">0      0    .006  .006  .006  .006  .006  .006   .0025 .00    0</property>
+            <property name="svp_fract">0.75</property>
+            <property name="eo_crop_factor_default">1.1</property>
+            <property name="x_sw_demand_ratio">0.1 1.1</property>
+            <property name="y_swdef_leaf">0   1</property>
+            <property name="x_sw_avail_ratio">0.0 0.16</property>
+            <property name="y_swdef_pheno">1.0 1.0</property>
+            <property name="x_sw_avail_ratio_flower">0.2   0.50  1.0</property>
+            <property name="y_swdef_pheno_flower">1.0   1.0    1.0</property>
+            <property name="x_sw_avail_ratio_grainfill">0.2   0.50   1.0</property>
+            <property name="y_swdef_pheno_grainfill">1.0   1.0    1.0</property>
+            <property name="oxdef_photo_rtfr">0.0  0.8   1.0</property>
+            <property name="oxdef_photo">1.0  1.0   1.0</property>
+            <property name="n_supply_preference">active</property>
+            <property name="no3_diffn_const">4.0</property>
+            <property name="N_fix_rate">0      0    0     .00  0.00  0.00  0.00   0.00  0.00  0.00    0</property>
+            <property name="x_sw_avail_fix">0.0  0.50  0.95  1.0</property>
+            <property name="y_swdef_fix">1.0  1.0   1.0   1.0</property>
+            <property name="n_stress_option">2</property>
+            <property name="n_stress_start_stage">4.1</property>
+            <property name="N_fact_photo">1.5</property>
+            <property name="N_fact_expansion">1.0</property>
+            <property name="N_fact_pheno">100</property>
+            <property name="x_stage_code">3       4      5     6      8      10</property>
+            <property name="y_n_conc_min_leaf">0.025   0.025  0.021 0.010  0.005  0.0025</property>
+            <property name="y_n_conc_crit_leaf">0.063   0.063  0.042 0.015  0.008  0.0035</property>
+            <property name="y_n_conc_max_leaf">0.070   0.070  0.050 0.020  0.010  0.005</property>
+            <property name="y_n_conc_min_stem">0.025   0.025  0.004 0.003  0.003  0.0025</property>
+            <property name="y_n_conc_crit_stem">0.050   0.050  0.020 0.010  0.005  0.0035</property>
+            <property name="y_n_conc_max_stem">0.070   0.070  0.040 0.015  0.015  0.015</property>
+            <property name="y_n_conc_min_pod">0.025   0.025  0.004 0.003  0.003  0.0025</property>
+            <property name="y_n_conc_crit_pod">0.050   0.050  0.020 0.010  0.005  0.0035</property>
+            <property name="y_n_conc_max_pod">0.070   0.070  0.040 0.015  0.015  0.015</property>
+            <property name="n_conc_min_root">0.010   0.006  0.006 0.006  0.006  0.006</property>
+            <property name="n_conc_crit_root">0.020   0.010  0.010 0.010  0.010  0.010</property>
+            <property name="n_conc_max_root">0.020   0.020  0.020 0.020  0.020  0.020</property>
+            <property name="n_conc_min_grain">0.014</property>
+            <property name="n_conc_crit_grain">0.030</property>
+            <property name="n_conc_max_grain">0.030</property>
+            <property name="n_init_conc">0.020  0.063  0.050  0.063   0.000</property>
+            <property name="n_senescence_option">2</property>
+            <property name="n_sen_conc">0.005 0.005 0.0025 0.007  0.014</property>
+            <property name="root_die_back_fr">0.0</property>
+            <property name="dm_senescence_option">1</property>
+            <property name="x_dm_sen_frac_root">0    1</property>
+            <property name="y_dm_sen_frac_root">0.005 0.005</property>
+            <property name="x_dm_sen_frac_leaf">0    1</property>
+            <property name="y_dm_sen_frac_leaf">0    1</property>
+            <property name="x_dm_sen_frac_stem">0    1</property>
+            <property name="y_dm_sen_frac_stem">0    0</property>
+            <property name="x_dm_sen_frac_pod">0    1</property>
+            <property name="y_dm_sen_frac_pod">0    0</property>
+            <property name="x_dm_sen_frac_meal">0    1</property>
+            <property name="y_dm_sen_frac_meal">0    0</property>
+            <property name="x_dm_sen_frac_oil">0    1</property>
+            <property name="y_dm_sen_frac_oil">0    0</property>
+            <property name="min_tpla">5.0</property>
+            <property name="sen_start_stage">4.4</property>
+            <property name="node_sen_rate">60.0</property>
+            <property name="fr_lf_sen_rate">0.035</property>
+            <property name="n_fact_lf_sen_rate">0.0</property>
+            <property name="lai_sen_light">7.0</property>
+            <property name="sen_light_slope">0.005</property>
+            <property name="x_temp_senescence">-15.0 -5.0</property>
+            <property name="y_senescence_fac">1    0</property>
+            <property name="sen_rate_water">0.10</property>
+            <property name="dead_detach_frac">0 0 0 0 0 0</property>
+            <property name="sen_detach_frac">1 0 0 0 0 0</property>
+            <property name="leaf_no_crit">10.0</property>
+            <property name="tt_emerg_limit">300.0</property>
+            <property name="days_germ_limit">40.0</property>
+            <property name="swdf_photo_limit">99.0</property>
+            <property name="swdf_photo_rate">0.0</property>
+            <property name="swdf_pheno_limit">25</property>
+            <property name="x_weighted_temp">55.0  60.0</property>
+            <property name="y_plant_death">0.0   1.0</property>
+            <property name="ll_ub">1000.0</property>
+            <property name="kl_ub">1.0</property>
+            <property name="minsw">0.00001</property>
+            <property name="tt_emerg_to_endjuv_ub">1000.0</property>
+            <property name="tt_flower_to_maturity_ub">1500.0</property>
+            <property name="tt_maturity_to_ripe_ub">1000.0</property>
+            <property name="tt_flower_to_start_grain_ub">1000.0</property>
+            <property name="tt_init_to_flower_ub">1000.0</property>
+         </wheat>
+         <base_cultivar name="standard">
+            <property name="grains_per_gram_stem">25.0</property>
+            <property name="potential_grain_filling_rate">0.0023</property>
+            <property name="phyllochron">95.0</property>
+            <property name="startgf_to_mat">580</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+            <property name="x_pp_hi_incr">1      24</property>
+            <property name="y_hi_incr">0.013 0.013</property>
+            <property name="x_hi_max_pot_stress">0.00 1.00</property>
+            <property name="y_hi_max_pot">0.50 0.50</property>
+            <property name="cum_vernal_days">0    25</property>
+            <property name="tt_emerg_to_endjuv">800  600</property>
+            <property name="est_days_emerg_to_init">83</property>
+            <property name="x_pp_endjuv_to_init">10.8   16.3</property>
+            <property name="y_tt_endjuv_to_init">50     50</property>
+            <property name="x_pp_init_to_flower">10.8   16.3</property>
+            <property name="y_tt_init_to_flower">450    200</property>
+            <property name="x_pp_flower_to_start_grain">1      24</property>
+            <property name="y_tt_flower_to_start_grain">120     120</property>
+            <property name="x_pp_start_to_end_grain">1      24</property>
+            <property name="y_tt_start_to_end_grain">580    580</property>
+            <property name="tt_end_grain_to_maturity">50.0</property>
+            <property name="tt_maturity_to_ripe">1.0</property>
+            <property name="x_stem_wt">0  6</property>
+            <property name="y_height">0  1500</property>
+         </base_cultivar>
+         <hartog name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </hartog>
+         <janz name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.5</property>
+         </janz>
+         <cunningham name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.5</property>
+         </cunningham>
+         <sunco name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">2.0</property>
+            <property name="photop_sens">3.5</property>
+         </sunco>
+         <batavia name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">2.0</property>
+            <property name="photop_sens">4.0</property>
+         </batavia>
+         <suneca name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">2.8</property>
+            <property name="photop_sens">3.0</property>
+         </suneca>
+         <sunbri name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">2.5</property>
+            <property name="photop_sens">4.0</property>
+         </sunbri>
+         <pasture name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="potential_grain_n_filling_rate">0.0000</property>
+         </pasture>
+         <kulin name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="phyllochron">100.0</property>
+            <property name="startgf_to_mat">680</property>
+            <property name="vern_sens">1.6</property>
+            <property name="photop_sens">1.8</property>
+         </kulin>
+         <gamenya name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </gamenya>
+         <gutha name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="grains_per_gram_stem">20.0</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </gutha>
+         <yecora name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="grains_per_gram_stem">20.0</property>
+            <property name="vern_sens">2.5</property>
+            <property name="photop_sens">3.5</property>
+         </yecora>
+         <rongotea name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="grains_per_gram_stem">20.0</property>
+            <property name="vern_sens">2.0</property>
+            <property name="photop_sens">4.0</property>
+         </rongotea>
+         <xifeng24 name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="startgf_to_mat">650</property>
+            <property name="vern_sens">2.0</property>
+            <property name="photop_sens">2.0</property>
+            <property name="potential_grain_filling_rate">0.0025</property>
+         </xifeng24>
+         <dingxi24 name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">0.5</property>
+            <property name="photop_sens">1.0</property>
+         </dingxi24>
+         <hartog_wet name="standard">
+            <property name="derived_from">base_cultivar</property>
+         </hartog_wet>
+         <hartog_dry name="standard">
+            <property name="derived_from">base_cultivar</property>
+         </hartog_dry>
+         <gatton_hartog name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">2.5</property>
+            <property name="photop_sens">3.5</property>
+         </gatton_hartog>
+         <yitpi name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </yitpi>
+         <mitre name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </mitre>
+         <h45 name="standard">
+            <property name="derived_from">base_cultivar</property>
+            <property name="vern_sens">1.5</property>
+            <property name="photop_sens">3.0</property>
+         </h45>
+         <parameters name="sample">
+            <property name="ll">0.230   0.240   0.240   0.250   0.260   0.270   0.280</property>
+            <property name="kl">0.07    0.07    0.07    0.07    0.05    0.05    0.04</property>
+            <property name="XF">1.0     1.0     1.0     1.0     1.0     1.0     1.0</property>
+         </parameters>
+      </initdata>
+   </component>
+   <component name="stock" executable="c:\mydata\development\apsim\stock\lib\stock.dll">
+    <executable>"c:\mydata\development\apsim\stock\lib\stock.dll"</executable>
+    <initdata>
+       <![CDATA[
+           <initsection>
+             <init name="published_events" array="T">
+             </init>
+             <init name="driver_connections" array="T">
+             </init>
+             <init name="breed" kind="string">
+               <val>Medium Merino</val>
+             </init>
+             <init name="srw" kind="double" unit="kg">
+               <val>50.0</val>
+             </init>
+             <init name="male_breed" kind="string">
+               <val>Medium Merino</val>
+             </init>
+             <init name="male_srw" kind="double" unit="kg">
+               <val>50.0</val>
+             </init>
+             <init name="conception" kind="double" array="T">
+               <val>0.8</val>
+               <val>0.15</val>
+               <val>0.0</val>
+             </init>
+             <init name="death_rate" kind="double" unit="/y">
+               <val>0.02</val>
+             </init>
+             <init name="ref_fleece_wt" kind="double" unit="kg">
+               <val>4.5</val>
+             </init>
+             <init name="max_fibre_diam" kind="double" unit="um">
+               <val>20.0</val>
+             </init>
+             <init name="fleece_yield" kind="double" unit="kg/kg">
+               <val>0.7</val>
+             </init>
+             <init name="peak_milk" kind="double" unit="kg">
+               <val>25.0</val>
+             </init>
+             <init name="param_file" kind="string">
+               <val></val>
+             </init>
+             <init name="sheep" array="T">
+               <element>
+                 <field name="number" kind="integer4">
+                   <val>120</val>
+                 </field>
+                 <field name="sex" kind="string">
+                   <val>wether</val>
+                 </field>
+                 <field name="age" kind="double" unit="d">
+                   <val>730.0</val>
+                 </field>
+                 <field name="weight" kind="double" unit="kg">
+                   <val>50.0</val>
+                 </field>
+                 <field name="max_prev_wt" kind="double" unit="kg">
+                   <val>50.0</val>
+                 </field>
+                 <field name="fleece_wt" kind="double" unit="kg">
+                   <val>6.0</val>
+                 </field>
+                 <field name="fibre_diam" kind="double" unit="kg">
+                   <val>20.0</val>
+                 </field>
+                 <field name="pregnant" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="lactating" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="no_young" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="birth_cs" kind="double">
+                   <val>0.0</val>
+                 </field>
+                 <field name="lamb_wt" kind="double" unit="kg">
+                   <val>0.0</val>
+                 </field>
+                 <field name="lamb_fleece_wt" kind="double" unit="kg">
+                   <val>0.0</val>
+                 </field>
+                 <field name="paddock" kind="string">
+                   <val>paddock_1</val>
+                 </field>
+                 <field name="tag" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="priority" kind="integer4">
+                   <val>0</val>
+                 </field>
+               </element>
+               <element>
+                 <field name="number" kind="integer4">
+                   <val>50</val>
+                 </field>
+                 <field name="sex" kind="string">
+                   <val>wether</val>
+                 </field>
+                 <field name="age" kind="double" unit="d">
+                   <val>365.0</val>
+                 </field>
+                 <field name="weight" kind="double" unit="kg">
+                   <val>45.0</val>
+                 </field>
+                 <field name="max_prev_wt" kind="double" unit="kg">
+                   <val>50.0</val>
+                 </field>
+                 <field name="fleece_wt" kind="double" unit="kg">
+                   <val>6.0</val>
+                 </field>
+                 <field name="fibre_diam" kind="double" unit="kg">
+                   <val>20.0</val>
+                 </field>
+                 <field name="pregnant" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="lactating" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="no_young" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="birth_cs" kind="double">
+                   <val>0.0</val>
+                 </field>
+                 <field name="lamb_wt" kind="double" unit="kg">
+                   <val>0.0</val>
+                 </field>
+                 <field name="lamb_fleece_wt" kind="double" unit="kg">
+                   <val>0.0</val>
+                 </field>
+                 <field name="paddock" kind="string">
+                   <val>paddock_2</val>
+                 </field>
+                 <field name="tag" kind="integer4">
+                   <val>0</val>
+                 </field>
+                 <field name="priority" kind="integer4">
+                   <val>0</val>
+                 </field>
+               </element>
+             </init>
+             <init name="cattle" array="T">
+             </init>
+           </initsection>
+       ]]>
+     </initdata>
+   </component>
+   <component name="StockScienceConverter" executable="c:\mydata\development\apsim\stock\lib\StockScienceConverter.dll">
+      <initdata>
+      </initdata>
+   </component>
+</Simulation>
