@@ -152,10 +152,23 @@ namespace CSGeneral
 		// -------------------------------------------------------
 		// Indent the specified string a certain number of spaces.
 		// -------------------------------------------------------
-		public static string IndentText(string St, int indentLevel)
+		public static string IndentText(string St, int numChars)
 			{
-			string space = new string(' ', indentLevel);
+			string space = new string(' ', numChars);
 			return space + St.Replace("\r\n", "\r\n" + space);
+			}
+
+		// -------------------------------------------------------
+		// Indent the specified string a certain number of spaces.
+		// -------------------------------------------------------
+		public static string UnIndentText(string St, int numChars)
+			{
+			if (St.Length < numChars)
+				return St;
+			string returnString = St.Remove(0, numChars);
+
+			string space = "\r\n" + new string(' ', numChars);
+			return returnString.Replace(space, "\r\n");
 			}
 	}
 }
