@@ -101,10 +101,14 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- init
      fert_flag = 100
      mature_flag = 13
      crop_in = 0
      cum_drain_1 = 0
+     
+     SECTION:- start_of_day
      if (start_month = 1) then
         cum_drain_1 = 0
      endif
@@ -114,9 +118,13 @@
            phase = 1
         endif
      endif
+     
+     SECTION:- start_of_day
      if (today = date('15-apr')) then
         residue2 tillage type = tine ()
      endif
+     
+     SECTION:- process
      smi = (sw(1) - ll15(1))/(dul(1) - ll15(1))
      if (crop_in = 0) then
         if (date_within('1-may, 31-jul') = 1) and (rain[10] >= 25) and (rain = 0) and (esw >= 0) and (smi >= 0.5) then
@@ -136,6 +144,8 @@
            crop_in = 0
         endif
      endif
+     
+     SECTION:- end_of_day
      if (fert_flag <= 80) then
         fert_flag = fert_flag -1
         if (fert_flag = 0) then
@@ -146,6 +156,8 @@
      if (end_month = 1) then
         report do_end_day_output
      endif
+     END of rules
+     
      Manager creating a new local real variable : fert_flag =     100.000000000000
      Manager creating a new local real variable : mature_flag =     13.0000000000000
      Manager creating a new local real variable : crop_in =     0.00000000000000

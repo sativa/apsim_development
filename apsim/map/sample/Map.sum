@@ -56,10 +56,16 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
+     
+     SECTION:- start_of_day
      if day = 5 then
         solute set dlt_cl = 100 0 0 0 0 0 0 0 (kg/ha)
      endif
+     
+     SECTION:- end_of_day
      report do_output
+     END of rules
+     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
