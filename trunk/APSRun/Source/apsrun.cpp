@@ -10,8 +10,8 @@
 #include "TAPSIM_config_form.h"
 
 USERES("APSRun.res");
-USELIB("..\..\shared\aps\aps32.lib");
-USELIB("..\..\shared\general\general.lib");
+USELIB("aps32.lib");
+USELIB("general.lib");
 USEFORM("TAPSIM_config_form.cpp", APSIM_config_form);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
