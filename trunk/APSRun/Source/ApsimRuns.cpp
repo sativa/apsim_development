@@ -193,21 +193,25 @@ void ApsimRuns::runApsim(bool quiet)
 //---------------------------------------------------------------------------
 bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo)
    {
-   ApsimSettings settings;
-   if (moreToGo)
-      settings.write("Apsim|MoreRunsToGo", "true");
-   else
-      settings.write("Apsim|MoreRunsToGo", "false");
+   if (FileExists(simFileName.c_str()))
+      {
+      ApsimSettings settings;
+      if (moreToGo)
+         settings.write("Apsim|MoreRunsToGo", "true");
+      else
+         settings.write("Apsim|MoreRunsToGo", "false");
 
-   string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
-   if (console)
-      commandLine += "/console ";
-   commandLine += "\"" + simFileName + "\"";
-   Exec(commandLine.c_str(), SW_SHOW, true);
-   settings.refresh();
-   string nextWasClicked;
-   settings.read("Apsim|NextWasClicked", nextWasClicked);
-   return (nextWasClicked == "true");
+      string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
+      if (console)
+         commandLine += "/console ";
+      commandLine += "\"" + simFileName + "\"";
+      Exec(commandLine.c_str(), SW_SHOW, true);
+      settings.refresh();
+      string nextWasClicked;
+      settings.read("Apsim|NextWasClicked", nextWasClicked);
+      return (nextWasClicked == "true");
+      }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Create all sim files.
