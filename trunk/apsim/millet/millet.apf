@@ -1,14 +1,12 @@
 [general]
 name = millet
+apf = %this\..\base-croptemp.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=millet
+[dll]
+target  = target dll; %this\lib\millet.dll
 
-[millet]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\millet.for
-source  = source\millet_i.for
-target  = lib\millet.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Peter Carberry - Module Developer; mailto:Peter.Carberry@tag.csiro.au

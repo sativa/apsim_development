@@ -1,13 +1,12 @@
 [general]
 name = irrigate
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=irrigate
+[dll]
+target  = target dll; %this\lib\irrigate.dll
 
-[irrigate]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\irrigate.for
-target  = lib\irrigate.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au

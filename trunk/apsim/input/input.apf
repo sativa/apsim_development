@@ -1,13 +1,12 @@
 [general]
 name = input
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=input
+[dll]
+target  = target dll; %this\lib\input.dll
 
-[input]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\input.for
-target  = lib\input.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au

@@ -1,13 +1,12 @@
 [general]
 name = soi
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=soi
+[dll]
+target  = target dll; %this\lib\soi.dll
 
-[soi]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\soi.for
-target  = lib\soi.dll
-include = %apsuite\apsim\infra\
-
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Roger Stone - Module Developer; mailto:StoneR@dpi.qld.gov.au

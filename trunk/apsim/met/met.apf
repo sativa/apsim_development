@@ -1,12 +1,12 @@
 [general]
-name = MET
+name = met
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=met
+[dll]
+target  = target dll; %this\lib\met.dll
 
-[met]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\met.for
-target  = lib\met.dll
-include = %apsuite\apsim\infra\
-import  = %apsuite\apsim\infra\lib\APSinfra.imp
+[contacts]
+contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au

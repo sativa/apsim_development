@@ -1,14 +1,13 @@
 [general]
-name = CLOCK
-order = 2
+name = clock
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=clock
+[dll]
+target  = target dll; %this\lib\clock.dll
 
-[clock]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\clock.for
-target  = lib\clock.dll
-include = %apsuite\apsim\infra\
+[contacts]
+contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au
 
-import  = %apsuite\apsim\infra\lib\APSinfra.imp

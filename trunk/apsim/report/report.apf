@@ -1,12 +1,12 @@
 [general]
 name = report
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-[Binaries]
-binary=report
+[dll]
+target  = target dll; %this\lib\report.dll
 
-[report]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-source  = source\report.for
-target  = lib\report.dll
-include = %apsuite\apsim\infra\
-import  = %apsuite\apsim\infra\lib\apsinfra.imp
+[contacts]
+contact = Dean Holzworth - Module Developer; mailto:Dean.Holzworth@tag.csiro.au

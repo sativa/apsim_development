@@ -1,31 +1,12 @@
 [general]
 name = Crop Template
+apf = %this\..\base-module.apf
+apf = %this\source\source.apf
+apf = %this\docs\docs.apf
+apf = %this\sample\sample.apf
 
-;----------------------------------------------
-; This lists the DLLs that make up the package.
-;----------------------------------------------
-[Binaries]
-binary=croptemp
+[dll]
+target  = target dll; %this\lib\croptemp.dll
 
-;------------------------------------------------------
-; For each DLL we need to define the build instructions
-;------------------------------------------------------
-
-[croptemp]
-compiler_switches = %apsuite\apsim\infra\lf90.fig
-target  = lib\croptemp.dll
-source  = source\crp_fail.for
-source  = source\crp_temp.for
-source  = source\crp_watr.for
-source  = source\crp_nitn.for
-source  = source\crp_phen.for
-source  = source\crp_cnpy.for
-source  = source\crp_root.for
-source  = source\crp_util.for
-source  = source\crp_biom.for
-source  = source\crp_comm.for
-
-include = %apsuite\apsim\infra\
-include = %apsuite\apsim\croptemp\
-
-import  = %apsuite\apsim\infra\lib\apsInfra.imp
+[contacts]
+contact = Holger Meinke - Module Developer; mailto:meinkeh@dpi.qld.gov.au
