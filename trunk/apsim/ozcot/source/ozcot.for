@@ -1714,6 +1714,10 @@
          call respond2get_real_var (variable_name
      :        , '(1/m2)', g%squarz)
 
+      else if (Variable_name .eq. 'fru_no_cat') then
+         call respond2get_real_array (variable_name
+     :        , '(1/m2)', g%frucat, Max_categories)
+
       else if (Variable_name .eq. 'bollz') then
          call respond2get_real_var (variable_name
      :        , '(1/m2)', g%bollz)
@@ -1922,6 +1926,14 @@
       else if (variable_name .eq. 'lai_max') then
          call respond2get_real_var (variable_name
      :        , '(m2/m2)', g%alaiz)
+
+      else if (variable_name .eq. 'i_def') then
+         call respond2get_integer_var (variable_name
+     :        , '(das)', g%i_def)
+
+      else if (variable_name .eq. 'i_def2') then
+         call respond2get_integer_var (variable_name
+     :        , '(das)', g%i_def2)
 
       else
             ! Nothing
@@ -3339,6 +3351,7 @@
 !          if(i.le.idate)go to 202   ! use actual counts or not?
           g%openz=g%openz+g%fruno(cohort) ! simulated bolls open added to total
           g%openwt=g%openwt+g%fruwt(cohort)
+          g%frucat(cat)=g%frucat(cat)+g%fruno(cohort)       ! sum fruit nos in categories
 
 !202       continue
 
