@@ -2,6 +2,7 @@
 [sample.report.parameters]
 outputfile    =wheat.out
 
+
 variable = clock.today.dd/mm/yyyy as Date
 variable = met.rain as rain
 variable = wheat.das
@@ -19,7 +20,6 @@ variable = wheat.nfact_pheno as Ns_pheno
 variable = wheat.nfact_photo as Ns_photo
 variable = wheat.nfact_expan as Ns_expan
 variable = wheat.nfact_tiller as Ns_tiller
-
 [sample.clock.parameters]
 start_date=14/6/1988     ! dd/mm/yyyy
 end_date=17/11/1988     ! dd/mm/yyyy
@@ -46,3 +46,9 @@ ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soi
 kl =  0.07    0.07    0.07    0.07    0.05    0.05    0.04  ()
 XF =  1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
 
+[sample.Screen.parameters]
+screen_output = on
+[sample.tracker.parameters]
+
+[sample.summaryfile.parameters]
+summaryfile=wheat.sum
