@@ -635,6 +635,12 @@
                call New_postbox ()
                Data_stored = Store_in_postbox (Line)
                if (Data_stored) then
+                  if (Action .eq. 'init') then
+                     ! Init probably won't work via this method. Stop dead.
+                        call Fatal_error(ERR_user,
+     .                 'INIT messages do not work anymore. Use RESET')
+                  else
+                  endif
                   call Action_send(destination, Action)
                else
                   write(msg, '(2a)' )
