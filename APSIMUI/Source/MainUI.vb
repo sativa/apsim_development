@@ -5,7 +5,7 @@ Imports System.xml
 Imports System.xml.XmlNodeList
 Imports System.io
 Imports System.IO.Path
-Imports General
+Imports VBGeneral
 
 
 Public Class MainUI
@@ -592,6 +592,7 @@ Public Class MainUI
     Sub OpenNewFile()
         Try
             APSIMFile = New APSIMFile
+            APSIMFile.OpenNewDocument()
             SimulationExplorer.Data = APSIMFile.data
             UpdateMainForm()
 

@@ -1,4 +1,4 @@
-Imports General
+Imports VBGeneral
 Imports System.Collections.Specialized
 Public Class ReportVariablesListView
     Inherits BaseDataControl
@@ -44,11 +44,12 @@ Public Class ReportVariablesListView
         '
         'ListView
         '
+        Me.ListView.AllowDrop = True
         Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NameColumn, Me.ModuleColumn, Me.DescriptionColumn})
         Me.ListView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ListView.Location = New System.Drawing.Point(0, 0)
         Me.ListView.Name = "ListView"
-        Me.ListView.Size = New System.Drawing.Size(432, 336)
+        Me.ListView.Size = New System.Drawing.Size(648, 336)
         Me.ListView.TabIndex = 0
         Me.ListView.View = System.Windows.Forms.View.Details
         '
@@ -65,25 +66,57 @@ Public Class ReportVariablesListView
         'DescriptionColumn
         '
         Me.DescriptionColumn.Text = "Description"
-        Me.DescriptionColumn.Width = 144
+        Me.DescriptionColumn.Width = 366
         '
         'ReportVariablesListView
         '
         Me.Controls.Add(Me.ListView)
         Me.Name = "ReportVariablesListView"
-        Me.Size = New System.Drawing.Size(432, 336)
+        Me.Size = New System.Drawing.Size(648, 336)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
     Overrides Sub fill()
-        For Each child As String In MyData.ChildList
+        ListView.Items.Clear()
+        For Each child As String In MyData.ChildList("variable")
             Dim item As New ListViewItem
             item.Text = child
             item.SubItems.Add("???")
             item.SubItems.Add(MyData.Child(child).Attribute("description"))
             ListView.Items.Add(item)
         Next
+    End Sub
+
+    Private Sub ListView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragEnter
+        If AllowDrop = True Then
+            e.Effect = DragDropEffects.Copy
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+
+    End Sub
+
+    Private Sub ListView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragDrop
+        Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
+        Dim NewData As New APSIMData(NewDataString)
+        If NewData.Type = "variable" Then
+            MyData.Add(NewData)
+            fill()
+        Else
+            MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
+        End If
+    End Sub
+
+
+    Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
+        If e.KeyValue = 46 Then
+            For Each item As ListViewItem In ListView.SelectedItems
+                MyData.Delete(item.Text)
+                ListView.Items.Remove(item)
+            Next
+
+        End If
     End Sub
 End Class
