@@ -13,7 +13,7 @@ using namespace std;
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
-CropFields::CropFields(void)
+CropFields::CropFields(const TAPSRecord* record)
    {
    Path iniPath(Application->ExeName.c_str());
    iniPath.Set_extension(".ini");
@@ -25,6 +25,35 @@ CropFields::CropFields(void)
    Split_string(st, ",", recogCropAcronyms);
    ini.Read("crops", "crop_names", st);
    Split_string(st, ",", recogCropNames);
+
+   for (vector<string>::iterator i = recogCropAcronyms.begin();
+                                 i != recogCropAcronyms.end();
+                                 i++)
+      Strip(*i, " ");
+   for (vector<string>::iterator i = recogCropNames.begin();
+                                 i != recogCropNames.end();
+                                 i++)
+      Strip(*i, " ");
+
+   // get a list of field names
+   if (record != NULL)
+      {
+      fieldNames = record->getFieldNames();
+
+      // now create a list of field names minus the units.
+      for (vector<string>::iterator i = fieldNames.begin();
+                                    i != fieldNames.end();
+                                    i++)
+         {
+         unsigned posUnits = i->find("(");
+         if (posUnits == string::npos)
+            fieldNamesMinusUnits.push_back(*i);
+         else
+            fieldNamesMinusUnits.push_back(i->substr(0, posUnits));
+         }
+
+      calcCropAcronyms();
+      }
    }
 
 // ------------------------------------------------------------------
@@ -62,6 +91,33 @@ std::string CropFields::realCropName(const std::string& cropAcronym)
    }
 
 // ------------------------------------------------------------------
+// Calculate a list of crop names by looking through the field names.
+// The algorithm uses a list of crop acronyms read in the applications
+// .ini file. If it finds one of these at the start of a field name then it
+// is added to the list of crops.
+// ------------------------------------------------------------------
+void CropFields::calcCropAcronyms(void)
+   {
+   for (vector<string>::iterator fieldI = fieldNames.begin();
+                                 fieldI != fieldNames.end();
+                                 fieldI++)
+      {
+      for (vector<string>::const_iterator acronymI = recogCropAcronyms.begin();
+                                          acronymI != recogCropAcronyms.end();
+                                          acronymI++)
+         {
+         string acronym_ = *acronymI + "_";
+         if (fieldI->find(acronym_) == 0
+             && find(cropAcronyms.begin(), cropAcronyms.end(), *acronymI) == cropAcronyms.end())
+            {
+            // found one - store the acronym.
+            cropAcronyms.push_back(*acronymI);
+            }
+         }
+      }
+   }
+
+// ------------------------------------------------------------------
 // Return a list of crop names by looking through the field names
 // passed in on the record passed in.  The algorithm uses a list
 // of crop acronyms read in the applications .ini file.
@@ -69,34 +125,16 @@ std::string CropFields::realCropName(const std::string& cropAcronym)
 // is added to the list of crops.
 // ------------------------------------------------------------------
 void CropFields::getCropAcronyms(const TAPSRecord& record,
-                                 std::vector<std::string>& cropAcronyms) const
+                                 std::vector<std::string>& crops) const
    {
    string cropName = record.getFieldValue("crop");
    if (cropName == "")
-      {
-      vector<string> fieldNames = record.getFieldNames();
-
-      for (vector<string>::iterator fieldI = fieldNames.begin();
-                                    fieldI != fieldNames.end();
-                                    fieldI++)
-         {
-         for (vector<string>::const_iterator acronymI = recogCropAcronyms.begin();
-                                             acronymI != recogCropAcronyms.end();
-                                             acronymI++)
-            {
-            string acronym_ = *acronymI + "_";
-            if (fieldI->find(acronym_) == 0
-                && find(cropAcronyms.begin(), cropAcronyms.end(), *acronymI) == cropAcronyms.end())
-               {
-               // found one - store the acronym.
-               cropAcronyms.push_back(*acronymI);
-               }
-            }
-         }
-      }
+      copy(cropAcronyms.begin(), cropAcronyms.end(), back_inserter(crops));
    else
-      cropAcronyms.push_back(cropName);
+      crops.push_back(cropName);
    }
+
+
 // ------------------------------------------------------------------
 // Return true if the crop for the specified field was actually sown
 // for the current record.  A crop is sown if:
@@ -193,7 +231,7 @@ bool CropFields::getCropValue(const TAPSRecord& record,
       catch (Exception& error)
          {
          value = 0.0;
-         return false;
+         return true;
          }
       }
    else
@@ -216,17 +254,19 @@ std::string CropFields::getCropFieldName(const TAPSRecord& recordI,
 
    vector<string> fieldNames = recordI.getFieldNames();
 
-   for (vector<string>::iterator recognisedFieldI = recognisedFieldNames.begin();
-                                 recognisedFieldI != recognisedFieldNames.end();
-                                 recognisedFieldI++)
+   for (vector<string>::const_iterator recognisedFieldI = recognisedFieldNames.begin();
+                                       recognisedFieldI != recognisedFieldNames.end();
+                                       recognisedFieldI++)
       {
-      if (find(fieldNames.begin(), fieldNames.end(), *recognisedFieldI)
-          != fieldNames.end())
-         return *recognisedFieldI;
-
-      if (find(fieldNames.begin(), fieldNames.end(), cropAcronym + "_" + *recognisedFieldI)
-          != fieldNames.end())
-         return cropAcronym + "_" + *recognisedFieldI;
+      vector<string>::const_iterator fieldI = find_if
+         (fieldNamesMinusUnits.begin(), fieldNamesMinusUnits.end(),
+          CaseInsensitiveStringComparison(*recognisedFieldI));
+      if (fieldI == fieldNamesMinusUnits.end())
+         fieldI = find_if
+            (fieldNamesMinusUnits.begin(), fieldNamesMinusUnits.end(),
+             CaseInsensitiveStringComparison(cropAcronym + "_" + *recognisedFieldI));
+      if (fieldI != fieldNamesMinusUnits.end())
+         return fieldNames[fieldI-fieldNamesMinusUnits.begin()];
       }
    return "";
    }
