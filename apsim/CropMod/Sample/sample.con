@@ -13,15 +13,15 @@
 
 
 [apsim.sunflower]
-  Module = clock              sample.man [sunf]
-  Module = report             report.par [sunf]       report.par  [all]
+  Module = clock              sample.man [sunflower]
+  Module = report             report.par [sunflower]       report.par  [all]
   Module = met                gatton.met [weather]
-  Module = manager            sample.man [sunf]
-  Module = irrigate           sample.man [sunf]
-  Module = fertiliz           sample.man [sunf]       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+  Module = manager            sample.man [sunflower]
+  Module = irrigate           sample.man [sunflower]
+  Module = fertiliz           sample.man [sunflower]  %apsuite\apsim\fertiliz\fertiliz.ini [standard]
   Module = soilwat2           soil.par   [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
   Module = soiln2             soil.par   [sample]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
   Module = residue2           soil.par   [sample]     %apsuite\apsim\residue2\residue2.ini [standard]
-  Module = CropMod(sunf)      ..\sunf.ini [standard]  soil.par [sample]
+  Module = CropMod(sunflower)      ..\sunflower.ini [standard]  soil.par [sample]
 
 
