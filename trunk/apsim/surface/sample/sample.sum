@@ -1,6 +1,5 @@
-Output_file=sample.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=sample.out
+report - initialising,V1.6  21/8/98
 Title =
 Screen output =off
  
@@ -26,7 +25,7 @@ eo_durn =  720 (min)
 residue_cover =  0.5
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day=   1 date=  1  1 1995 manager  - Initialising, Version : V1.30  02/10/96
+ day=   1 date=  1  1 1995 manager  - Initialising, Version : V1.40  23/04/98
  
 Manager rules
 ------- -----
@@ -44,7 +43,7 @@ A warning error was found.  Routine traceback :-
 apswim_read_param
 apswim_init
 apsim_apswim
-Execute
+Message_deliver
  
 Current module name :- apswim
 Error type :- User error
@@ -150,3 +149,5 @@ initial_surface_storage =     20.00000
  Day=  10 Year =  1995     Manager sending message :- apswim tillage
  Day=  20 Year =  1995     Manager sending message :- apswim tillage
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================

@@ -1,6 +1,5 @@
-Output_file=stylo.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=stylo.out
+report - initialising,V1.6  21/8/98
 Title =stylo sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = stylo
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 310 date=  5 11 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -266,3 +265,5 @@ report do_output
                                           root residue =   72.7 kg/ha
                                           root N =    1.2 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================

@@ -1,6 +1,5 @@
-Output_file=referenc.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=referenc.out
+report - initialising,V1.6  21/8/98
 Title =sugar reference run
 Screen output =on
  
@@ -29,7 +28,7 @@ latitude =  -28.0
 rain =  0 (mm)
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day=  90 date= 30  3 1984 manager  - Initialising, Version : V1.30  02/10/96
+ day=  90 date= 30  3 1984 manager  - Initialising, Version : V1.40  23/04/98
  
 Manager rules
 ------- -----
@@ -63,7 +62,7 @@ report do_output
 endif
  
 -----------------------------------------------------------
- day=  90 date= 30  3 1984 soilwat2 -  Initialising, V2.12 270897
+ day=  90 date= 30  3 1984 soilwat2 -  Initialising, V2.13 010598
  
     - Reading constants
  
@@ -399,18 +398,14 @@ Sugar module is calculating its own soil uptakes
  day=   4 date=  4  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
  Day=   5 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
  day=   5 date=  5  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!           FATAL ERROR IN SYSTEM MODEL          !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-A fatal error was found.  Routine traceback :-
-Message_store
-Message_send
-sugar_graze
-sugar
+ Day=   6 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
+ day=   6 date=  6  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
+ Day=   7 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
+ day=   7 date=  7  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
+ Day=   8 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
+ day=   8 date=  8  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
+ Day=   9 Year =  1988     Manager sending message :- sugar graze fraction = 0.05, c_eff = 0.5, n_eff = 0.5, report = yes
+ day=   9 date=  9  1 1988 sugar    -  Grazing  5.0% of green material (N_eff = 0.50, C_eff = 0.50)
+Simulation is terminating due to end criteria being met.
  
-Current module name :- sugar
-Error type :- Internal error
- 
-Too many messages on message queue.  Limit =  30
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
+======= End of APSIM simulation ==============================

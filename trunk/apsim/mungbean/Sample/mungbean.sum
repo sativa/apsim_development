@@ -1,6 +1,5 @@
-Output_file=mungbean.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=mungbean.out
+report - initialising,V1.6  21/8/98
 Title =mungbean sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = mungbean
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -163,7 +162,7 @@ report do_output
     x_hi_max_pot_stress =    0.00   1.00
     y_hi_max_pot        =    0.50   0.50
     x_stem_wt      =    0.00  50.00
-    y_height      =    0.005000.00
+    y_height      =    0.001000.00
     ------------------------------------------------
  
  
@@ -213,7 +212,7 @@ report do_output
                      stover N conc =    2.119896       extractable sw =    154.3095
  day=  39 date=  8  2 1989 mungbean -  stage    9.0 maturity
                      biomass =           639.8419       lai =    0.3955923
-                     stover N conc =    2.083570       extractable sw =    150.2317
+                     stover N conc =    2.083570       extractable sw =    150.2318
  day=  40 date=  9  2 1989 mungbean -  stage   10.0 harvest_ripe
                      biomass =           639.8419       lai =    0.9760225e-01
                      stover N conc =    2.158433       extractable sw =    147.0488
@@ -283,7 +282,9 @@ report do_output
  Day=  50 Year =  1989     Manager sending message :- mungbean end_crop
  day=  50 date= 19  2 1989 mungbean -     ended. Yield (dw) =     0.0
                                           straw residue =   50.0 kg/ha
-                                          straw N =    3.1 kg/ha
+                                          straw N =    3.0 kg/ha
                                           root residue = 2163.9 kg/ha
                                           root N =   33.6 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================

@@ -1,6 +1,5 @@
-Output_file=peanut.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=peanut.out
+report - initialising,V1.6  21/8/98
 Title =peanut sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = peanut
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -212,19 +211,19 @@ report do_output
                      biomass =           1108.363       lai =     4.111656
                      stover N conc =    1.522046       extractable sw =    84.46259
  day= 100 date= 10  4 1989 peanut   -  stage    9.0 maturity
-                     biomass =           1167.673       lai =     3.962976
-                     stover N conc =    1.422121       extractable sw =    60.02340
+                     biomass =           1167.673       lai =     3.962977
+                     stover N conc =    1.422120       extractable sw =    60.02340
  day= 101 date= 11  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1185894e-02
+                     biomass =           1167.673       lai =    0.1186371e-02
                      stover N conc =    1.710973       extractable sw =    56.27549
  day= 102 date= 12  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1185894e-02
-                     stover N conc =    1.710972       extractable sw =    58.72914
+                     biomass =           1167.673       lai =    0.1186371e-02
+                     stover N conc =    1.710971       extractable sw =    58.72914
  day= 103 date= 13  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1185417e-02
-                     stover N conc =    1.710973       extractable sw =    57.76211
+                     biomass =           1167.673       lai =    0.1186371e-02
+                     stover N conc =    1.710972       extractable sw =    57.76211
  day= 104 date= 14  4 1989 peanut   -  stage   10.0 harvest_ripe
-                     biomass =           1167.673       lai =    0.1185417e-02
+                     biomass =           1167.673       lai =    0.1186371e-02
                      stover N conc =    1.710973       extractable sw =    56.58585
  Day= 105 Year =  1989     Manager sending message :- peanut harvest
  
@@ -265,7 +264,9 @@ report do_output
  Day= 105 Year =  1989     Manager sending message :- peanut end_crop
  day= 105 date= 15  4 1989 peanut   -     ended. Yield (dw) =     0.0
                                           straw residue =    0.6 kg/ha
-                                          straw N =    8.0 kg/ha
+                                          straw N =    0.0 kg/ha
                                           root residue = 1531.8 kg/ha
                                           root N =   31.7 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
