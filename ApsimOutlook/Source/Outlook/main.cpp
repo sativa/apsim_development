@@ -192,6 +192,7 @@ void __fastcall TMainForm::FilePresentationFontsMenuClick(TObject *Sender)
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
    Skin->InitApplication();
+   CalendarButton->Hint = "Day number calendar";
 
    // change caption.
    Path p(Application->ExeName.c_str());
@@ -346,6 +347,16 @@ void __fastcall TMainForm::FixMDIChild(void)
 void __fastcall TMainForm::FormResize(TObject *Sender)
    {
    LogoImage->Left = CoolBar1->Width - LogoImage->ClientWidth - 4;
+   }
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::CalendarButtonClick(TObject *Sender)
+   {
+   ApsimSettings settings;
+   string fileName;
+   settings.read("Outlook Skin|daynumberfile", fileName, true);
+   ShellExecute (MainForm->Handle, "open",
+                 fileName.c_str(), NULL, "", SW_SHOW);
    }
 //---------------------------------------------------------------------------
 
