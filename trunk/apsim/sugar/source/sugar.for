@@ -2705,6 +2705,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :               (
      :                C_dm_root_sen_frac
      :              , C_leaf_cabbage_ratio
+     :              , C_cabbage_sheath_fr
      :              , G_dlt_dm_green
      :              , G_dlt_lai
      :              , G_dlt_slai
@@ -2754,6 +2755,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 *   Subroutine arguments
       REAL       C_dm_root_sen_frac    ! (INPUT)  fraction of root dry matter senescing each day (0-1)
       REAL       C_leaf_cabbage_ratio  ! (INPUT)  ratio of leaf wt to cabbage wt ()
+      REAL       C_cabbage_sheath_fr   ! (INPUT)  fraction of cabbage that is leaf sheath (0-1)
       REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
       REAL       G_dlt_lai             ! (INPUT)  actual change in live plant lai
       REAL       G_dlt_slai            ! (INPUT)  area of leaf that senesces from plant
@@ -2830,6 +2832,8 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :                                      dlt_dm_senesced (leaf)
      :                                     ,c_leaf_cabbage_ratio
      :                                     ,0.0)
+     :                            * c_cabbage_sheath_fr
+
 c         dlt_dm_senesced(cabbage) =
 c     :         u_bound(dlt_dm_senesced(cabbage),
 c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
@@ -3073,7 +3077,7 @@ cnh what checks are there that there is enough N in plant to provide this
 
       if (Option .eq. 1) then
 
-         call sugar_dm_detachment 
+         call sugar_dm_detachment
      :               (
      :                C_dm_leaf_detach_frac
      :              , C_leaf_cabbage_ratio
@@ -3081,13 +3085,13 @@ cnh what checks are there that there is enough N in plant to provide this
      :              , G_dm_senesced
      :              , g_dlt_dm_detached
      :               )
-         call sugar_slai_detachment 
+         call sugar_slai_detachment
      :               (
      :                C_dm_leaf_detach_frac
      :              , G_slai
      :              , g_dlt_slai_detached
      :               )
-         call sugar_N_detachment 
+         call sugar_N_detachment
      :               (
      :                C_dm_leaf_detach_frac
      :              , G_dlt_n_senesced
@@ -3095,19 +3099,19 @@ cnh what checks are there that there is enough N in plant to provide this
      :              , g_dlt_N_detached
      :               )
 
-         call sugar_dm_dead_detachment 
+         call sugar_dm_dead_detachment
      :               (
      :                C_dead_detach_frac
      :              , G_dm_dead
      :              , g_dlt_dm_dead_detached
      :               )
-         call sugar_tlai_dead_detachment 
+         call sugar_tlai_dead_detachment
      :               (
      :                C_dead_detach_frac
      :              , G_tlai_dead
      :              , g_dlt_tlai_dead_detached
      :               )
-         call sugar_N_dead_detachment 
+         call sugar_N_dead_detachment
      :               (
      :                C_dead_detach_frac
      :              , G_n_dead
@@ -3122,7 +3126,7 @@ cnh what checks are there that there is enough N in plant to provide this
       return
       end
 *     ===========================================================
-      subroutine sugar_dm_detachment 
+      subroutine sugar_dm_detachment
      :               (
      :                C_dm_leaf_detach_frac
      :              , C_leaf_cabbage_ratio
@@ -3163,9 +3167,9 @@ cnh what checks are there that there is enough N in plant to provide this
       implicit none
 
 *   Subroutine arguments
-      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry matter detaching from live plant each day (0-1)
-      REAL       C_leaf_cabbage_ratio  ! (INPUT)  ratio of leaf wt to cabbage wt ()
-      REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^2)
+      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry
+      REAL       C_leaf_cabbage_ratio  ! (INPUT)  ratio of leaf wt to cabbage wt
+      REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^
       REAL       G_dm_senesced(*)      ! (INPUT)  senesced plant dry wt (g/m^2)
 
       real       dlt_dm_detached(*)    ! (OUTPUT) actual biomass detached
@@ -3195,8 +3199,12 @@ cnh what checks are there that there is enough N in plant to provide this
 
       dlt_dm_detached(leaf) = g_dm_senesced(leaf)
      :                      * c_dm_leaf_detach_frac
-      dlt_dm_detached(cabbage) = dlt_dm_detached(leaf)
-     :                         / c_leaf_cabbage_ratio
+cnh senesesced leaf:cabbage is not the same as green - some cabbage is
+c   reallocated to sstem
+c      dlt_dm_detached(cabbage) = dlt_dm_detached(leaf)
+c     :                         / c_leaf_cabbage_ratio
+      dlt_dm_detached(cabbage) = g_dm_senesced(cabbage)
+     :                      * c_dm_leaf_detach_frac
 
       dlt_dm_detached(root) = g_dlt_dm_senesced(root)
 
@@ -3273,7 +3281,7 @@ cnh what checks are there that there is enough N in plant to provide this
       return
       end
 *     ===========================================================
-      subroutine sugar_N_detachment 
+      subroutine sugar_N_detachment
      :               (
      :                C_dm_leaf_detach_frac
      :              , G_dlt_n_senesced
@@ -3313,9 +3321,9 @@ cnh what checks are there that there is enough N in plant to provide this
       implicit none
 
 *   Subroutine arguments
-      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry matter detaching from live plant each day (0-1)
-      REAL       G_dlt_n_senesced(*)   ! (INPUT)  actual N loss with senesced plant (g/m^2)
-      REAL       G_n_senesced(*)       ! (INPUT)  plant N content of senesced plant (g N/m^2)
+      REAL       C_dm_leaf_detach_frac ! (INPUT)  fraction of senesced leaf dry
+      REAL       G_dlt_n_senesced(*)   ! (INPUT)  actual N loss with senesced pl
+      REAL       G_n_senesced(*)       ! (INPUT)  plant N content of senesced pl
 
       real       dlt_N_detached(*)     ! (OUTPUT) actual nitrogen senesced
                                        ! from plant parts (g/m^2)
@@ -4617,6 +4625,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , G_dlt_dm_green
      :              , G_dlt_dm_green_retrans
      :              , G_dlt_dm_senesced
+     :              , G_dlt_dm_realloc
      :              , G_dlt_lai
      :              , G_dlt_leaf_no
      :              , G_dlt_leaf_no_dead
@@ -4625,6 +4634,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
      :              , G_dlt_n_green
      :              , G_dlt_n_retrans
      :              , G_dlt_n_senesced
+     :              , G_dlt_n_realloc
      :              , G_dlt_plants
      :              , G_dlt_plant_wc
      :              , G_dlt_rlv
@@ -4730,6 +4740,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       REAL       G_dlt_dm_green(*)     ! (INPUT)  plant biomass growth (g/m^2)
       REAL       G_dlt_dm_green_retrans(*) ! (INPUT)  plant biomass retranslocat
       REAL       G_dlt_dm_senesced(*)  ! (INPUT)  plant biomass senescence (g/m^
+      REAL       G_dlt_dm_realloc(*)   ! (INPUT)  
       REAL       G_dlt_lai             ! (INPUT)  actual change in live plant la
       REAL       G_dlt_leaf_no         ! (INPUT)  fraction of oldest leaf expand
       REAL       G_dlt_leaf_no_dead    ! (INPUT)  fraction of oldest green leaf
@@ -4738,6 +4749,7 @@ cnh            NO3gsm_mflow = NO3gsm_mflow_supply
       REAL       G_dlt_n_green(*)      ! (INPUT)  actual N uptake into plant (g/
       REAL       G_dlt_n_retrans(*)    ! (INPUT)  nitrogen retranslocated out fr
       REAL       G_dlt_n_senesced(*)   ! (INPUT)  actual N loss with senesced pl
+      REAL       G_dlt_n_realloc(*)   ! (INPUT)  
       REAL       G_dlt_plants          ! (INPUT)  change in Plant density (plant
       REAL       G_dlt_plant_wc(*)     ! (INPUT)
       REAL       G_dlt_rlv(*)          ! (INPUT)
@@ -4881,6 +4893,7 @@ cnh
 
       call add_real_array (g_dlt_N_green, g_N_green, max_part)
       call add_real_array (g_dlt_N_retrans, g_N_green, max_part)
+      call add_real_array (g_dlt_N_realloc, g_N_green, max_part)
       call subtract_real_array (g_dlt_N_senesced, g_N_green
      :                        , max_part)
 
@@ -4913,6 +4926,7 @@ cnh
 
       call add_real_array (g_dlt_dm_green, g_dm_green, max_part)
       call add_real_array (g_dlt_dm_green_retrans, g_dm_green, max_part)
+      call add_real_array (g_dlt_dm_realloc, g_dm_green, max_part)
       call subtract_real_array (g_dlt_dm_senesced, g_dm_green
      :                        , max_part)
 
@@ -5202,7 +5216,7 @@ c         call sugar_death_external_action (g_dlt_plants_death_external)
       return
       end
 *     ===========================================================
-      subroutine sugar_dm_dead_detachment 
+      subroutine sugar_dm_dead_detachment
      :               (
      :                C_dead_detach_frac
      :              , G_dm_dead
@@ -5240,7 +5254,7 @@ c         call sugar_death_external_action (g_dlt_plants_death_external)
       implicit none
 
 *   Subroutine arguments
-      REAL       C_dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts detaching each day (0-1)
+      REAL       C_dead_detach_frac(*) ! (INPUT)  fraction of dead plant parts d
       REAL       G_dm_dead(*)          ! (INPUT)  dry wt of dead plants (g/m^2)
       real       dlt_dm_dead_detached(*)   ! (OUTPUT) change in dm of dead
                                            ! plants (g/m^2)
@@ -10808,6 +10822,7 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
      :               (
      :                C_dm_root_sen_frac
      :              , C_leaf_cabbage_ratio
+     :              , C_cabbage_sheath_fr
      :              , G_dlt_dm_green
      :              , G_dlt_lai
      :              , G_dlt_slai
@@ -11415,6 +11430,7 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , G_dlt_dm_green
      :              , G_dlt_dm_green_retrans
      :              , G_dlt_dm_senesced
+     :              , G_dlt_dm_realloc
      :              , G_dlt_lai
      :              , G_dlt_leaf_no
      :              , G_dlt_leaf_no_dead
@@ -11423,6 +11439,7 @@ c      call sugar_N_uptake (g_dlt_NO3gsm, g_dlt_N_green)
      :              , G_dlt_n_green
      :              , G_dlt_n_retrans
      :              , G_dlt_n_senesced
+     :              , G_dlt_n_realloc
      :              , G_dlt_plants
      :              , G_dlt_plant_wc
      :              , G_dlt_rlv
@@ -13187,6 +13204,177 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
       else
          dlt_tt = g_dlt_tt
       endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_realloc (Option)
+*     ===========================================================
+
+*   Short description:
+*       Reallocate cabbage to cane as plant develops to maintain
+*       a fixed leaf:cabbage ratio
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       NIH - Not a generic realloc routine but will do for now
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+
+*   Calls:
+*     sugar_dm_senescence
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      integer    Option                ! (INPUT) option number
+
+*   Global variables
+      include   'const.inc'
+      include   'sugar.inc'
+
+*   Internal variables
+*       none
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_realloc')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      if (Option .eq. 1) then
+
+         call sugar_realloc_cabbage
+     :               (
+     :                leaf
+     :              , cabbage
+     :              , sstem
+     :              , max_part
+     :              , C_cabbage_sheath_fr
+     :              , G_dm_green
+     :              , g_dlt_dm_senesced
+     :              , G_n_green
+     :              , g_dlt_dm_realloc
+     :              , g_dlt_n_realloc
+     :               )
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid template option')
+      endif
+
+      call pop_routine (my_name)
+      return
+      end
+*     ===========================================================
+      subroutine sugar_realloc_cabbage
+     :               (
+     :                leaf
+     :              , cabbage
+     :              , sstem
+     :              , max_part
+     :              , C_cabbage_sheath_fr
+     :              , G_dm_green
+     :              , g_dlt_dm_senesced
+     :              , G_n_green
+     :              , g_dlt_dm_realloc
+     :              , g_dlt_n_realloc
+     :               )
+
+*     ===========================================================
+
+*   Short description:
+*       Reallocate cabbage to cane as plant develops to maintain
+*       a fixed leaf:cabbage ratio
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       NIH - Not a generic realloc routine but will do for now
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+
+*   Calls:
+*     sugar_dm_senescence
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+      integer leaf
+      integer cabbage
+      integer sstem
+      integer max_part
+      real C_cabbage_sheath_fr
+      real G_dm_green(*)
+      real g_dlt_dm_senesced(*)
+      real G_n_green(*)
+      real g_dlt_dm_realloc(*)
+      real g_dlt_n_realloc(*)
+
+*   Global variables
+      real divide
+
+*   Internal variables
+      real realloc_wt
+      real realloc_n
+
+*   Constant values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_realloc_cabbage')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+      call fill_real_array (g_dlt_dm_realloc, 0.0, max_part)
+      call fill_real_array (g_dlt_n_realloc, 0.0, max_part)
+
+      realloc_wt = g_dlt_dm_senesced(cabbage)
+     :           * (divide (1.0,c_cabbage_sheath_fr,0.0) - 1.0)
+      g_dlt_dm_realloc(cabbage) = - realloc_wt
+      g_dlt_dm_realloc(sstem) = realloc_wt
+
+      ! this is not 100% accurate but swings and round-abouts will look after
+      ! it - I hope (NIH)
+      realloc_n = divide (g_n_green (cabbage), g_dm_green(cabbage),0.0)
+     :          * realloc_wt
+      g_dlt_n_realloc(cabbage) = - realloc_n
+      g_dlt_n_realloc(sstem) = realloc_n
 
       call pop_routine (my_name)
       return

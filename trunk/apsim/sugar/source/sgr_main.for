@@ -343,7 +343,7 @@ c         call sugar_Nitrogen ()
 c         call sugar_water_content()
 c         call sugar_plant_death ()
          call sugar_plant_death (1)
-
+         call sugar_realloc (1)
       else
       endif
 
@@ -2070,6 +2070,8 @@ cmjr
       real       scmst                 ! sucrose conc in dry millable stalk
       real       temp
       real       tla
+      integer    layer
+      real       rwu(max_layer)        ! root water uptake (mm)
 
 *   Constant values
       character  my_name*(*)           ! name of procedure
@@ -2112,6 +2114,11 @@ cnh         if (c_crop_type.ne.' ') then
 cnh         else
 cnh             call message_unused ()
 cnh         endif
+
+      elseif (variable_name .eq. 'plants') then
+         call respond2get_real_var (variable_name
+     :                             , '(/m2)'
+     :                             , g_plants)
 
       elseif (variable_name .eq. 'ratoon_no') then
          call respond2get_integer_var (variable_name
@@ -2481,9 +2488,12 @@ c      call sugar_nit_stress_expansion (1)
 
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g_dlayer, max_layer)
+         do 10 layer = 1, num_layers
+            rwu(layer) = - g_dlt_sw_dep(layer)
+   10    continue
          call respond2get_real_array (variable_name
      :                               , '(mm)'
-     :                               , g_dlt_sw_dep
+     :                               , rwu
      :                               , num_layers)
 
       elseif (variable_name .eq. 'cep') then
@@ -3555,6 +3565,10 @@ cnh
      :                    , c_leaf_cabbage_ratio, numvals
      :                    , 0.0, 10.0)
 
+      call read_real_var (section_name
+     :                    , 'cabbage_sheath_fr', '()'
+     :                    , c_cabbage_sheath_fr, numvals
+     :                    , 0.0, 1.0)
 
          !    sugar_dm_senescence
 
