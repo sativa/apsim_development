@@ -6,7 +6,7 @@ C     Last change:  P    31 Oct 2000   11:55 am
       parameter (MAX_VARNAME_SIZE=100)  
  
       integer MAX_NUM_INSTANCE_NOS
-      parameter (MAX_NUM_INSTANCE_NOS=10)  
+      parameter (MAX_NUM_INSTANCE_NOS=50)  
 
       common /ComponentInterfaceData/
      .   MessageUsed,
