@@ -58,6 +58,9 @@ class Scenarios
       // Delete the specified scenario.
       void deleteScenario(const std::string& scenarioName);
 
+      // Move a scenario and insert it before the specified dest scenario.
+      void moveScenario(const std::string& sourceName, const std::string& destName);
+
       // Delete all scenarios - leaving a default scenario.
       void deleteAllScenarios();
 

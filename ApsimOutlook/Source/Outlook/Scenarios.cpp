@@ -152,6 +152,26 @@ void Scenarios::deleteScenario(const string& scenarioName)
    if (scenarios.size() == 0)
       makeDefaultScenario();
    }
+
+// ------------------------------------------------------------------
+// Move a scenario and insert it before the specified dest scenario.
+// ------------------------------------------------------------------
+void Scenarios::moveScenario(const string& sourceName, const string& destName)
+   {
+   ScenarioContainer::iterator i = find(scenarios.begin(), scenarios.end(),
+                                        sourceName);
+   if (i != scenarios.end())
+      {
+      Scenario scenarioToMove = *i;
+      scenarios.erase(i);
+
+      i = find(scenarios.begin(), scenarios.end(), destName);
+      if (i != scenarios.end())
+         {
+         scenarios.insert(i, scenarioToMove);
+         }
+      }
+   }
 // ------------------------------------------------------------------
 // Clear all scenarios.
 // ------------------------------------------------------------------
