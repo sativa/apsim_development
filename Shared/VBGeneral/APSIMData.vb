@@ -36,6 +36,11 @@ Public Class APSIMData
         Next
         Return Nothing
     End Function
+    Public Sub Clear()
+        For Each Child As String In ChildList()
+            Delete(Child)
+        Next
+    End Sub
     Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
         Dim name As String
         Dim CurrentData As New APSIMData(Node)
@@ -73,13 +78,36 @@ Public Class APSIMData
     End Function
     Property Value() As String
         Get
-            Return Node.InnerXml
+            Return Node.InnerText
         End Get
         Set(ByVal value As String)
-            Node.InnerXml = value
-
+            Dim InvalidChars As String = "&<>"
+            If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
+                Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
+                Node.AppendChild(cdata)
+            Else
+                Node.InnerXml = value
+            End If
         End Set
     End Property
+    Property Values(ByVal ChildName As String) As StringCollection
+        Get
+            Dim ReturnValues As New StringCollection
+            For Each Child As APSIMData In Children(ChildName)
+                ReturnValues.Add(Child.Value)
+            Next
+            Return ReturnValues
+        End Get
+        Set(ByVal Values As StringCollection)
+            Clear()
+            For Each Value As String In Values
+                Dim NewNode As New APSIMData(ChildName)
+                NewNode.Value = Value
+                Add(NewNode)
+            Next
+        End Set
+    End Property
+
     Function Attribute(ByVal AttributeName As String) As String
         Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
