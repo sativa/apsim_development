@@ -29,6 +29,13 @@ class Registrations
                              const FString& componentNameOrID="");
 
       //---------------------------------------------------------------------------
+      // Return the number of matching registrations
+      //---------------------------------------------------------------------------
+      unsigned count(RegistrationType kind,
+                     const FString& name,
+                     const FString& componentNameOrID);
+
+      //---------------------------------------------------------------------------
       // Add a registration and return a pointer to it if registration was added.  If
       // the registration already exists, then return NULL.
       //---------------------------------------------------------------------------

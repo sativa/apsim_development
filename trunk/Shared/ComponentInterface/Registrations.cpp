@@ -39,6 +39,22 @@ RegistrationItem* Registrations::find(RegistrationType kind,
    return NULL;
    }
 //---------------------------------------------------------------------------
+// Return the number of matching registrations
+//---------------------------------------------------------------------------
+unsigned Registrations::count(RegistrationType kind,
+                              const FString& name,
+                              const FString& componentNameOrID)
+   {
+   unsigned c = 0;
+   for (unsigned i = 0; i != registrations.size(); i++)
+      {
+      if (registrations[i]->isMatch(kind, name, componentNameOrID))
+         c++;
+      }
+   return c;
+   }
+
+//---------------------------------------------------------------------------
 // Add a registration and return a pointer to it if registration was added.  If
 // the registration already exists, then return NULL.
 //---------------------------------------------------------------------------
