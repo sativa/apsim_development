@@ -554,6 +554,31 @@ class RemoveSuffix : public std::unary_function<std::string, void>
             container.push_back(st);
          }
    };
+//---------------------------------------------------------------------------
+// functor to remove a specified substring from a string and store in
+// a new container.
+//---------------------------------------------------------------------------
+template <class CT>
+class RemoveSubStringAndStore : public std::unary_function<std::string, void>
+   {
+   private:
+      CT& container;
+      const std::string& subString;
+   public:
+      RemoveSubStringAndStore(const std::string& subSt, CT& c)
+         : subString(subSt), container(c) {}
+      void operator() (const std::string& st)
+         {
+         char* posSubString = stristr(st.c_str(), subString.c_str());
+         if (posSubString != NULL)
+            {
+            unsigned pos = posSubString - st.c_str();
+            string newString = st;
+            newString.erase(pos, subString.length());
+            container.push_back(newString);
+            }
+         }
+   };
 
 // restore the warnings about "Functions containing for are not expanded inline.
 #pragma warn .inl
