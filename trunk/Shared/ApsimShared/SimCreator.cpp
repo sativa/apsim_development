@@ -217,8 +217,6 @@ void SimCreator::createSim(const string& sectionName,
                            const std::string& simDirectory,
                            TSimCreatorEvent simCreatorEvent)
    {
-   string warnings;
-
    Path conPath(con->getFileName());
    conPath.Change_directory();
 
@@ -273,7 +271,7 @@ void SimCreator::createSim(const string& sectionName,
                {
                ApsimComponentData iniComponent;
                ImportSection importSection(iniComponent, moduleName);
-               warnings += con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
+               con->enumerateParametersForInstance(sectionName, instanceName, true, importSection.callback);
                componentXML = iniComponent.getXML();
                components.insert(make_pair(iniFileName + ":" + instanceName,
                                            componentXML));
@@ -299,7 +297,7 @@ void SimCreator::createSim(const string& sectionName,
          else
             {
             ImportSection importSection(*component, moduleName);
-            warnings += con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
+            con->enumerateParametersForInstance(sectionName, instanceName, false, importSection.callback);
             }
          delete component;
          }
@@ -307,8 +305,6 @@ void SimCreator::createSim(const string& sectionName,
       if (simCreatorEvent != NULL)
          simCreatorEvent(simulationFileName);
       }
-   if (warnings != "")
-      ShowMessage(warnings.c_str());
    }
 //---------------------------------------------------------------------------
 // Treat the file passed in as an .ini file and convert it
