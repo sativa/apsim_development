@@ -38,9 +38,10 @@ class PACKAGE TSEGTable : public TkbmMemTable
 
       void __fastcall setSourceDataset(TSEGTable* sourceDataset);
       virtual void __fastcall Loaded(void);
+      void __fastcall beforeOpen(TDataSet* dataset);
+      void __fastcall afterOpen(TDataSet* dataset);
 
    protected:
-      void refresh (void);
       virtual void createFields(void) throw(std::runtime_error) {}
       virtual void storeRecords(void) throw(std::runtime_error) {}
 
@@ -70,6 +71,7 @@ class PACKAGE TSEGTable : public TkbmMemTable
       bool firstSeries(void);
       bool nextSeries(void);
       void cancelSeries(void);
+      void refresh (void);
 
    __published:
       __property TSEGTable* source = {read=sourceDataset, write=setSourceDataset};

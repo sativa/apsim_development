@@ -21,6 +21,8 @@ __fastcall TSEGTable::TSEGTable(TComponent* Owner)
    {
    source = NULL;
    afterDataRefresh = NULL;
+   BeforeOpen = beforeOpen;
+   AfterOpen = afterOpen;
    }
 // ------------------------------------------------------------------
 // destructor
@@ -37,9 +39,10 @@ void __fastcall TSEGTable::Loaded(void)
    refresh();
    }
 // ------------------------------------------------------------------
-// refresh the control only if it is active.
+// User has just done a Active=true - go add fields before the
+// table is actually opened.
 // ------------------------------------------------------------------
-void TSEGTable::refresh (void)
+void __fastcall TSEGTable::beforeOpen(TDataSet* dataset)
    {
    if (!ComponentState.Contains(csLoading))
       {
@@ -55,40 +58,6 @@ void TSEGTable::refresh (void)
          fieldDef->Size = 200;
          SortFields = "";
          createFields();
-
-         // The active=true line may throw in a data aware control like TChart.
-         // If TChart can't find a field (for charting) that it is expecting,
-         // it throws an exception.
-         DisableControls();
-
-   //      try
-   //         {
-            Active = true;
-   //         }
-   //      __except(EXCEPTION_EXECUTE_HANDLER)
-   //         {
-   //         Active = true;
-   //         }
-
-         if (IndexDefs->Count > 0)
-            DeleteIndex("mainIndex");
-
-         // Go load all records.
-         storeRecords();
-
-/*         if (IndexDefs->Count == 0)
-            {
-            SortFields = "";
-            AnsiString indexFields = AnsiString(SERIES_FIELD_NAME);// + ";" + SortFields;
-            AddIndex("mainIndex", indexFields, TIndexOptions());
-            IndexFieldNames = indexFields;
-            }
-*///         SortFields = AnsiString(SERIES_FIELD_NAME) + ";" + SortFields;
-//         Sort(TkbmMemTableCompareOptions());
-
-         if (afterDataRefresh != NULL)
-            afterDataRefresh(this);
-         First();
          }
       catch (const exception& error)  // one of our error messages.
          {
@@ -100,11 +69,58 @@ void TSEGTable::refresh (void)
          ::MessageBox(NULL, error.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
          Active = false;
          }
-      EnableControls();
       Screen->Cursor = savedCursor;
       }
    }
+// ------------------------------------------------------------------
+// User has just done a Active=true - go add records now that the
+// table is open
+// ------------------------------------------------------------------
+void __fastcall TSEGTable::afterOpen(TDataSet* dataset)
+   {
+   DisableControls();
+   TCursor savedCursor = Screen->Cursor;
+   Screen->Cursor = crHourGlass;
+   try
+      {
+      if (IndexDefs->Count > 0)
+         DeleteIndex("mainIndex");
 
+      // Go load all records.
+      storeRecords();
+      if (afterDataRefresh != NULL)
+         afterDataRefresh(this);
+      EnableControls();
+
+      // force children to update themselves.
+      First();
+      Edit();
+      Post();
+      }
+   catch (const exception& error)  // one of our error messages.
+      {
+      ::MessageBox(NULL, error.what(), "Error", MB_ICONSTOP | MB_OK);
+      Active = false;
+      }
+   catch (const Exception& error)  // VCL error
+      {
+      ::MessageBox(NULL, error.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      Active = false;
+      }
+   EnableControls();
+   Screen->Cursor = savedCursor;
+   }
+// ------------------------------------------------------------------
+// refresh the control only if it is active.
+// ------------------------------------------------------------------
+void TSEGTable::refresh (void)
+   {
+   if (!ComponentState.Contains(csLoading))
+      {
+      Active = false;
+      Active = true;
+      }
+   }
 // ------------------------------------------------------------------
 // The source dataset property has changed.  May need to do a
 // refresh.
