@@ -1,7 +1,7 @@
 
 [standard.report.parameters]
 
-variable = today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 variable = clock.day
 variable = clock.year
 variable = soilwat2.sw_dep()
