@@ -11,22 +11,22 @@
 
      Version                = 3.3
      Title                  = P3 Base Simulation
-     Component DLL          = c:\program files\apsim33\apsim\log\lib\log.dll
-     Component DLL          = c:\program files\apsim33\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim33\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim33\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim33\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim33\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim33\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\program files\apsim33\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\program files\apsim33\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim33\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim33\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim33\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim33\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim33\apsim\solute\lib\solute.dll
-     Component DLL          = c:\program files\apsim33\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\program files\apsim33\apsim\growth\lib\growth.dll
+     Component DLL          = c:\development\apsim\log\lib\log.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\solute\lib\solute.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\growth\lib\growth.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -379,17 +379,6 @@
       Sending establish message to bambatsi
 1 January 1995(Day of year=1), bambatsi: 
      Establishing
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: plants
-     Value:  5000000.0000000
-     Bounds:        0.0000000 to    10000.0000000
-     Component name: bambatsi
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 9 October 1995(Day of year=282), operatns: 
       Sending cut message to bambatsi
 21 November 1995(Day of year=325), operatns: 
