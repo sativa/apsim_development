@@ -230,15 +230,15 @@
           Cultivar                   = hyola42
           est_days_emerg_to_init     =       83
           cum_vernal_days            =     0.00   25.00
-          tt_emerg_to_endjuv         =   200.00   70.00
-          x_pp_endjuv_to_init        =    10.50   14.00
-          y_tt_endjuv_to_init        =   520.00  110.00
+          tt_emerg_to_endjuv         =   300.00    0.00
+          x_pp_endjuv_to_init        =    10.80   16.30
+          y_tt_endjuv_to_init        =   500.00    0.00
           x_pp_init_to_flower        =     1.00   24.00
-          y_tt_init_to_flower        =   260.00  260.00
+          y_tt_init_to_flower        =   250.00  250.00
           x_pp_flower_to_start_grain =     1.00   24.00
           y_tt_flower_to_start_grain =   200.00  200.00
           x_pp_start_to_end_grain    =     1.00   24.00
-          y_tt_start_to_end_grain    =   900.00  900.00
+          y_tt_start_to_end_grain    =   700.00  700.00
           tt_end_grain_to_maturity   =      0.0
           tt_maturity_to_ripe        =      1.0
           x_pp_hi_incr               =     1.00   24.00
@@ -290,102 +290,119 @@
        stage    3.0 emergence
                            biomass =           1.200000       lai =    0.3200000E-01
                            stover N conc =    6.500000       extractable sw =    25.70317
-4 June 1988 (Day of year=156):
+10 June 1988 (Day of year=162):
    CANOLA:
        stage    4.0 end_of_juvenile
-                           biomass =           9.004879       lai =    0.1587482    
-                           stover N conc =    5.680712       extractable sw =    92.06075
-7 July 1988 (Day of year=189):
+                           biomass =           20.32717       lai =    0.3081265    
+                           stover N conc =    5.473908       extractable sw =    150.7758
+15 July 1988 (Day of year=197):
    CANOLA:
        stage    5.0 floral_initiation
-                           biomass =           197.0571       lai =     2.517571    
-                           stover N conc =    5.122339       extractable sw =    289.5137
-27 July 1988 (Day of year=209):
+                           biomass =           303.6115       lai =     4.056486    
+                           stover N conc =    4.999002       extractable sw =    283.3993
+3 August 1988 (Day of year=216):
    CANOLA:
        stage    6.0 flowering
-                           biomass =           475.2338       lai =     6.242457    
-                           stover N conc =    3.501037       extractable sw =    248.4673
-12 August 1988 (Day of year=225):
+                           biomass =           534.5772       lai =     5.421958    
+                           stover N conc =    3.335128       extractable sw =    231.2525
+19 August 1988 (Day of year=232):
    CANOLA:
        stage    7.0 start_grain_fill
-                           biomass =           745.3643       lai =     5.534105    
-                           stover N conc =    2.256953       extractable sw =    182.1454
-15 October 1988 (Day of year=289):
+                           biomass =           803.8832       lai =     4.734627    
+                           stover N conc =    2.167678       extractable sw =    162.9746
+7 October 1988 (Day of year=281):
    CANOLA:
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                       APSIM Warning Error               
+                       -------------------              
+      
+      Module name = canola
+      
+      Call stack  = Bound_check_real_array
+                    legnew_dm_partition1
+                    legume_bio_partition
+                    legume_process
+                    legume main
+      
+      User error:
+      
+      dlt_dm_green =   -0.8940697E-07
+              less than lower limit of    0.000000
+      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
        stage    8.0 end_grain_fill
-                           biomass =           1023.872       lai =    0.5728142    
-                           stover N conc =   0.3423123       extractable sw =    140.1959
-16 October 1988 (Day of year=290):
+                           biomass =           1093.329       lai =     1.113547    
+                           stover N conc =   0.2355483       extractable sw =    94.91267
+8 October 1988 (Day of year=282):
    CANOLA:
        stage    9.0 maturity
-                           biomass =           1025.417       lai =    0.5590484    
-                           stover N conc =   0.3470259       extractable sw =    139.0706
-17 October 1988 (Day of year=291):
+                           biomass =           1094.500       lai =     1.080387    
+                           stover N conc =   0.2360311       extractable sw =    93.58920
+9 October 1988 (Day of year=283):
    CANOLA:
        stage   10.0 harvest_ripe
-                           biomass =           1025.417       lai =    0.1999974E-02
-                           stover N conc =   0.3380735       extractable sw =    137.8064
-18 October 1988 (Day of year=292):
+                           biomass =           1094.500       lai =    0.1999974E-02
+                           stover N conc =   0.1981744       extractable sw =    92.55287
+10 October 1988 (Day of year=284):
    MANAGER:
            Manager sending message :- canola harvest
    CANOLA:
       
       
       
-       flowering day  =  209                  stover (kg/ha) =    7182.6
-       maturity day        =  290             grain yield (kg/ha) =    3071.6
-       grain % water content   =    8.5       grain yield wet (kg/ha) =    3357.0
+       flowering day  =  216                  stover (kg/ha) =    7824.6
+       maturity day        =  282             grain yield (kg/ha) =    3120.5
+       grain % water content   =    8.5       grain yield wet (kg/ha) =    3410.3
        grain wt (g) =     0.000               grains/m^2   =     0.000
-       grains/head =   0.0                    maximum lai = 6.255
-       total above ground biomass (kg/ha) =   10254.2
-       live above ground biomass (kg/ha) =   10254.2
-       green above ground biomass (kg/ha) =    7030.3
-       senesced above ground biomass (kg/ha) =    3223.9
+       grains/head =   0.0                    maximum lai = 5.790
+       total above ground biomass (kg/ha) =   10945.0
+       live above ground biomass (kg/ha) =   10945.0
+       green above ground biomass (kg/ha) =    8007.6
+       senesced above ground biomass (kg/ha) =    2937.4
        dead above ground biomass (kg/ha) =       0.0
-       number of leaves =  49.2
-       grain N percent =      4.08            total N content (kg/ha) =    176.63
-       grain N uptake (kg/ha) =    125.30     senesced N content (kg/ha) =     33.28
-       green N content (kg/ha) =     18.06    dead N content (kg/ha) =      0.00
+       number of leaves =  38.5
+       grain N percent =      4.09            total N content (kg/ha) =    178.18
+       grain N uptake (kg/ha) =    127.53     senesced N content (kg/ha) =     38.18
+       green N content (kg/ha) =     12.47    dead N content (kg/ha) =      0.00
       
       
       
        stress indices for emergence
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0459593
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.4481444
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0647535
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.4735925
       
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0017828
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.3178691
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0036321
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.2925063
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1165353
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.2843864
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.5915402
       
       
       
        stress indices for flowering
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.0854682
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0691753
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.4675851
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.0029703   nitrogen stress 1 =       0.5912402
-       water stress 2 =       0.0060823   nitrogen stress 2 =       0.6355613
+       water stress 1 =       0.0065682   nitrogen stress 1 =       0.4605725
+       water stress 2 =       0.0106202   nitrogen stress 2 =       0.7107084
          
        Crop harvested.
-                                                tops residue = 7181.7 kg/ha
-                                                tops N =   51.3 kg/ha
-                                                root residue =  369.3 kg/ha
-                                                root N =    3.0 kg/ha
+                                                tops residue = 7823.6 kg/ha
+                                                tops N =   50.6 kg/ha
+                                                root residue =  433.1 kg/ha
+                                                root N =    3.5 kg/ha
       
       
-                                                tops removed = 3071.6 kg/ha
-                                                tops N removed =  125.3 kg/ha
+                                                tops removed = 3120.5 kg/ha
+                                                tops N removed =  127.5 kg/ha
                                                 root removed =    0.0 kg/ha
                                                 root N removed =    0.0 kg/ha
    MANAGER:
@@ -394,8 +411,8 @@
           Crop ended. Yield (dw) =     0.0
                                                 straw residue =    0.9 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 3711.8 kg/ha
-                                                root N =   26.8 kg/ha
+                                                root residue = 4353.0 kg/ha
+                                                root N =   21.1 kg/ha
 26 October 1988 (Day of year=300):
    CLOCK:
       Simulation is terminating due to end criteria being met.
