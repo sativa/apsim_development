@@ -93,6 +93,7 @@
 !     APSWIM Globals
 ! =====================================================================
       Type APSwimGlobals
+         sequence
          real             swf(0:M)
          real             potet  ! from met file
          real             rain   ! from met file
@@ -257,6 +258,7 @@
 !     APSWIM Parameters
 ! =====================================================================
       Type APSwimParameters
+         sequence
          character        rainfall_source*50       ! source of rainfall data
          character        evap_source*50       ! file containing evap data
          character        evap_curve*5
@@ -349,6 +351,7 @@
 !     APSWIM Constants
 ! =====================================================================
       Type APSwimConstants
+         sequence
          double precision
      :       lb_exco ,ub_exco
      :      ,lb_fip ,ub_fip
@@ -385,20 +388,11 @@
       End Type APSwimConstants
 
       ! instance variables.
-      type (APSwimGlobals), pointer :: g
-      type (APSwimParameters), pointer :: p
-      type (APSwimConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type APSwimDataPtr
-         type (APSwimGlobals), pointer ::    gptr
-         type (APSwimParameters), pointer :: pptr
-         type (APSwimConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type APSwimDataPtr
-      type (APSwimDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (APSwimGlobals),pointer :: g
+      type (APSwimParameters),pointer :: p
+      type (APSwimConstants),pointer :: c
 
 
 
@@ -495,161 +489,6 @@
 
       contains
 
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-            use Infrastructure
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-            use Infrastructure
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-            use Infrastructure
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-C     Last change:  DSG  15 Jun 2000    4:33 pm
-* ====================================================================
-       subroutine Main (Action, Data_string)
-* ====================================================================
-            use Infrastructure
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_String*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      apswim module.
-
-*+  Changes
-*        18081998   igh   Changed to use MES_Till
-*        270899 nih added clock tick event
-*        121099 dph added ACTION_Create handler.
-
-*+  Constant Values
-      character myname*(*)
-      parameter (myname = 'APSwim Main')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      if (Action.eq.ACTION_Get_variable) then
-         call apswim_Send_my_variable (Data_string)
-
-      else if (Action.eq.ACTION_Create) then
-         call apswim_zero_module_links()
-         call apswim_zero_variables()
-
-      else if (Action.eq.ACTION_Init) then
-         call apswim_zero_module_links()
-         call apswim_reset ()
-         call apswim_sum_report ()
-
-      else if ((Action.eq.ACTION_reset)
-     :         .or.(Action.eq.ACTION_init)) then
-         call apswim_reset ()
-
-      else if (action.eq.ACTION_sum_report) then
-         call apswim_sum_report ()
-
-      else if (action.eq.EVENT_tick) then
-         call apswim_ONtick ()
-
-      else if (Action .eq. ACTION_Prepare) then
-         call apswim_prepare ()
-
-      else if (Action.eq.ACTION_Process) then
-         call apswim_Process ()
-
-      else if (Action .eq. ACTION_Post) then
-         call apswim_post ()
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call apswim_set_my_variable (Data_string)
-
-      else if (action.eq.EVENT_irrigated) then
-               ! respond to addition of irrigation
-         call apswim_ONirrigated ()
-
-      else if (action.eq.'add_water') then
-         call fatal_error (ERR_USER,
-     :   '"ADD_WATER" message no longer available - use "irrigated"')
-
-      else if (Action .eq. ACTION_Till) then
-         call apswim_tillage ()
-
-      else if (Action .eq. ACTION_End_run) then
-         call apswim_end_run ()
-
-      else if (Action .eq. EVENT_new_solute) then
-         call apswim_on_new_solute()
-
-      else
-         ! Don't use message
-         call Message_Unused ()
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
 
 
 
@@ -9032,3 +8871,122 @@ c      pause
       include 'swim.for'
 
       end module APSwimModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use APSwimModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+       subroutine Main (Action, Data_string)
+* ====================================================================
+
+      Use infrastructure
+      use APSwimModule
+      implicit none
+      ml_external Main
+
+
+*+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_String*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      apswim module.
+
+*+  Changes
+*        18081998   igh   Changed to use MES_Till
+*        270899 nih added clock tick event
+*        121099 dph added ACTION_Create handler.
+
+*+  Constant Values
+      character myname*(*)
+      parameter (myname = 'APSwim Main')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (Action.eq.ACTION_Get_variable) then
+         call apswim_Send_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Create) then
+         call apswim_zero_module_links()
+         call apswim_zero_variables()
+
+      else if (Action.eq.ACTION_Init) then
+         call apswim_zero_module_links()
+         call apswim_reset ()
+         call apswim_sum_report ()
+
+      else if ((Action.eq.ACTION_reset)
+     :         .or.(Action.eq.ACTION_init)) then
+         call apswim_reset ()
+
+      else if (action.eq.ACTION_sum_report) then
+         call apswim_sum_report ()
+
+      else if (action.eq.EVENT_tick) then
+         call apswim_ONtick ()
+
+      else if (Action .eq. ACTION_Prepare) then
+         call apswim_prepare ()
+
+      else if (Action.eq.ACTION_Process) then
+         call apswim_Process ()
+
+      else if (Action .eq. ACTION_Post) then
+         call apswim_post ()
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call apswim_set_my_variable (Data_string)
+
+      else if (action.eq.EVENT_irrigated) then
+               ! respond to addition of irrigation
+         call apswim_ONirrigated ()
+
+      else if (action.eq.'add_water') then
+         call fatal_error (ERR_USER,
+     :   '"ADD_WATER" message no longer available - use "irrigated"')
+
+      else if (Action .eq. ACTION_Till) then
+         call apswim_tillage ()
+
+      else if (Action .eq. ACTION_End_run) then
+         call apswim_end_run ()
+
+      else if (Action .eq. EVENT_new_solute) then
+         call apswim_on_new_solute()
+
+      else
+         ! Don't use message
+         call Message_Unused ()
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
