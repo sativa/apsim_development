@@ -8,7 +8,7 @@
    <type name="double" kind="double" builtin="T"/>
    <type name="double_array" kind="double" array="T" builtin="T"/>
    <type name="string" kind="string" builtin="T"/>
-   
+
    <type name="Layered" description="Layered soil data">
       <field name="layer" kind="double" array="T"/>
       <field name="value" kind="double" array="T"/>
@@ -32,7 +32,7 @@
    <type name="simulation_start_year" kind="integer4" unit="year" description="Simulation start year"/>
    <type name="simulation_end_day" kind="integer4" unit="day" description="Simulation end day"/>
    <type name="simulation_end_year" kind="integer4" unit="year" description="Simulation end year"/>
-   <type name="today" kind="double" unit="" description="Julian day number"/>
+   <type name="today" kind="integer4" unit="" description="Julian day number"/>
    <type name="today.day" kind="integer4" unit="day" description="Todays day of month"/>
    <type name="today.month" kind="integer4" unit="month" description="Todays month"/>
    <type name="today.year" kind="integer4" unit="year" description="Todays year"/>
@@ -72,65 +72,65 @@
    !!!!! APSWIM types !!!!!
 
    <type name="dlayer" kind="single" array="T" unit="mm" description="soil layer depth"/>
-   <type name="bd" kind="double" array="T" unit="g/cc" description="soil layer bulk density"/>
-   <type name="sw" kind="double" array="T" unit="cc/cc" description="soil layer moisture"/>
-   <type name="dlt_sw" kind="single" array="T" unit="cc/cc" description="delta soil layer moisture"/>   
-   <type name="sw_dep" kind="double" array="T" unit="mm" description="soil layer moisture"/>
+   <type name="bd" kind="single" array="T" unit="g/cc" description="soil layer bulk density"/>
+   <type name="sw" kind="single" array="T" unit="cc/cc" description="soil layer moisture"/>
+   <type name="dlt_sw" kind="single" array="T" unit="cc/cc" description="delta soil layer moisture"/>
+   <type name="sw_dep" kind="single" array="T" unit="mm" description="soil layer moisture"/>
    <type name="dlt_sw_dep" kind="single" array="T" unit="mm" description="soil layer moisture"/>
-   <type name="air_dry" kind="single" array="T" unit="cc/cc" description="air dry water content"/>   
+   <type name="air_dry" kind="single" array="T" unit="cc/cc" description="air dry water content"/>
    <type name="air_dry_dep" kind="single" array="T" unit="cc/cc" description="air dry water content"/>
-   <type name="ll15" kind="double" array="T" unit="cc/cc" description="lower limit 15 bar"/>
-   <type name="ll15_dep" kind="double" array="T" unit="mm" description="lower limit 15 bar"/>
-   <type name="dul" kind="double" array="T" unit="cc/cc" description="drained upper limit"/>
-   <type name="dul_dep" kind="double" array="T" unit="mm" description="drained upper limit"/>
-   <type name="sat" kind="double" array="T" unit="cc/cc" description="saturated soil moisture"/>
-   <type name="sat_dep" kind="double" array="T" unit="mm" description="saturated soil moisture"/>
-   <type name="wp" kind="double" unit="cm" description="Profile moisture content"/>
-   <type name="p" kind="double" array="T" unit="" description="Transformed water potential"/>
-   <type name="psi" kind="double" array="T" unit="cm" lower_bound="-1d10" upper_bound="0.0d0" description="matric potential"/>
-   <type name="daily_rain" kind="double" unit="mm" description="daily rain"/>
+   <type name="ll15" kind="single" array="T" unit="cc/cc" description="lower limit 15 bar"/>
+   <type name="ll15_dep" kind="single" array="T" unit="mm" description="lower limit 15 bar"/>
+   <type name="dul" kind="single" array="T" unit="cc/cc" description="drained upper limit"/>
+   <type name="dul_dep" kind="single" array="T" unit="mm" description="drained upper limit"/>
+   <type name="sat" kind="single" array="T" unit="cc/cc" description="saturated soil moisture"/>
+   <type name="sat_dep" kind="single" array="T" unit="mm" description="saturated soil moisture"/>
+   <type name="wp" kind="single" unit="cm" description="Profile moisture content"/>
+   <type name="p" kind="single" array="T" unit="" description="Transformed water potential"/>
+   <type name="psi" kind="single" array="T" unit="cm" lower_bound="-1d10" upper_bound="0.0d0" description="matric potential"/>
+   <type name="daily_rain" kind="single" unit="mm" description="daily rain"/>
    <type name="runoff_model" kind="integer4" unit="" description="runoff model choice flag"/>
-   <type name="runoff" kind="double" unit="mm" description="runoff"/>
+   <type name="runoff" kind="single" unit="mm" description="runoff"/>
    <type name="obsrunoff" kind="single" unit="mm" description="observed runoff"/>
-   <type name="infiltration" kind="double" unit="mm" description="infiltration"/>
-   <type name="es" kind="double" unit="mm" description="soil water evaporation"/>
-   <type name="eos" kind="double" unit="mm" description="potential soil water evaporation"/>
-   <type name="eo" kind="double" unit="mm" description=""/>
-   <type name="drain" kind="double" unit="mm" description="drainage"/>
-   <type name="obs_eo" kind="double" unit="mm" description="Observed Potential Evaporation rate"/>
-   <type name="flow" kind="double" array="T" unit="mm" description="Flow of water out of bottom of each layer"/>
+   <type name="infiltration" kind="single" unit="mm" description="infiltration"/>
+   <type name="es" kind="single" unit="mm" description="soil water evaporation"/>
+   <type name="eos" kind="single" unit="mm" description="potential soil water evaporation"/>
+   <type name="eo" kind="single" unit="mm" description=""/>
+   <type name="drain" kind="single" unit="mm" description="drainage"/>
+   <type name="obs_eo" kind="single" unit="mm" description="Observed Potential Evaporation rate"/>
+   <type name="flow" kind="single" array="T" unit="mm" description="Flow of water out of bottom of each layer"/>
    <type name="flux" kind="single" array="T" unit="mm" description="Flow of water out of bottom of each layer above DUL"/>
    <type name="flow_water" kind="single" array="T" unit="mm" description="Flow of water out of bottom of each layer"/>
    <type name="salb" kind="single" unit="??" description="soil albedo"/>
-   <type name="hmin" kind="double" unit="mm" description="Soil surface water storage capacity"/>
-   <type name="h" kind="double" unit="mm" description="Suface water storage"/>
-   <type name="scon" kind="double" unit="/hr" lower_bound="0.0d0" upper_bound="100.0d0" description="Surface seal conductance"/>
-   <type name="scon_min" kind="double" unit="/hr" description="Minimum surface seal conductance"/>
-   <type name="scon_max" kind="double" unit="/hr" description="Maximum surface seal conductance"/>
-   <type name="dr" kind="double" unit="mm" description="Rainfall increment in last SWIM timestep"/>
-   <type name="dt" kind="double" unit="min" description="Time increment for last SWIM timestep"/>
-   <type name="crop_cover" kind="double" unit="0-1" description="crop cover proportion"/>
-   <type name="bbc_potential" kind="double" unit="cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition potential"/>
-   <type name="bbc_gradient" kind="double" unit="cm/cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition gradient"/>
+   <type name="hmin" kind="single" unit="mm" description="Soil surface water storage capacity"/>
+   <type name="h" kind="single" unit="mm" description="Suface water storage"/>
+   <type name="scon" kind="single" unit="/hr" lower_bound="0.0d0" upper_bound="100.0d0" description="Surface seal conductance"/>
+   <type name="scon_min" kind="single" unit="/hr" description="Minimum surface seal conductance"/>
+   <type name="scon_max" kind="single" unit="/hr" description="Maximum surface seal conductance"/>
+   <type name="dr" kind="single" unit="mm" description="Rainfall increment in last SWIM timestep"/>
+   <type name="dt" kind="single" unit="min" description="Time increment for last SWIM timestep"/>
+   <type name="crop_cover" kind="single" unit="0-1" description="crop cover proportion"/>
+   <type name="bbc_potential" kind="single" unit="cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition potential"/>
+   <type name="bbc_gradient" kind="single" unit="cm/cm" lower_bound="-1d7" upper_bound="1d7" description="bottom boundary condition gradient"/>
    <type name="swim_timestep_preparation" description="Message from APSWIM to SURFACE"/>
    <type name="pre_swim_timestep" description="Message from APSWIM to SURFACE"/>
    <type name="post_swim_timestep" description="Message from APSWIM to SURFACE"/>
    <type name="prewaterbalance" kind="" description="Message sent to announce start of waterbalance calculations"/>
    <type name="rain_time" kind="string" unit="" description=""/>
-   <type name="rain_durn" kind="double" unit="" description=""/>
-   <type name="rain_int" kind="double" unit="" description="rainfall intensity"/>
+   <type name="rain_durn" kind="single" unit="" description=""/>
+   <type name="rain_int" kind="single" unit="" description="rainfall intensity"/>
    <type name="eo_time" kind="string" unit="" description=""/>
-   <type name="eo_durn" kind="double" unit="" description=""/>
-   <type name="obs_eo" kind="double" unit="" description=""/>
-   <type name="solute_n" kind="double" array="T" unit="kg/ha" description="solute concentration in layers"/>
-   <type name="solute_n_flow" kind="double" array="T" unit="" description=""/>
-   <type name="solute_n_up" kind="double" array="T" unit="" description=""/>
-   <type name="solute_n_leach" kind="double" unit="" description=""/>
-   <type name="solute_n_conc_water" kind="double" array="T" unit="" description=""/>
-   <type name="solute_n_conc_absorb" kind="double" array="T" unit="" description=""/>
+   <type name="eo_durn" kind="single" unit="" description=""/>
+   <type name="obs_eo" kind="single" unit="" description=""/>
+   <type name="solute_n" kind="single" array="T" unit="kg/ha" description="solute concentration in layers"/>
+   <type name="solute_n_flow" kind="single" array="T" unit="" description=""/>
+   <type name="solute_n_up" kind="single" array="T" unit="" description=""/>
+   <type name="solute_n_leach" kind="single" unit="" description=""/>
+   <type name="solute_n_conc_water" kind="single" array="T" unit="" description=""/>
+   <type name="solute_n_conc_absorb" kind="single" array="T" unit="" description=""/>
    <type name="EosCalculated" kind="single" unit="mm" description="potential soil water evaporation"/>
    <type name="esw" kind="single" unit="mm" description="Extractable soil water"/>
-   
+
    <type name="SoilWaterProfileLayer" array="T">
       <element>
       <field name="thickness" kind="single" units="mm"/>
@@ -142,7 +142,7 @@
       <field name="SWDepth" kind="single" units="mm"/>
       </element>
    </type>
-   
+
    <type name="SoilWaterLayer" array="T">
       <element>
       <field name="thickness" kind="single" units="mm"/>
@@ -191,14 +191,14 @@
    <type name="irr_fasw" kind="single" unit="mm" description="Fraction of available soil water within the critical irrigation soil depth"/>
    <type name="irr_deficit" kind="single" unit="mm" description="Deficit of soil water within the critical irrigation depth"/>
    <type name="carry_over" kind="single" unit="Ml" description="Amount of irrigation allocation unused as at reset of allocation"/>
-   
+
    <type name="irrigstring" kind="string" unit="" description="Irrigation string: amount=xx (kg/ha), time=xx:xx (hh:mm), duration=xx (min), {solute_name}...."/>
-   
+
    <type name="irrigated" description="Sent to SWIM when an irrigation occurs">
-      <field name="amount" kind="double" unit="mm" description="Amount of irrigation applied"/>
+      <field name="amount" kind="single" unit="mm" description="Amount of irrigation applied"/>
       <field name="time" kind="string" description="Time of application"/>
       <field name="duration" kind="integer4" unit="min" description="Duration of application"/>
-      <field name="intensity" kind="double" unit="mm/h" description="Intensity of application"/>
+      <field name="intensity" kind="single" unit="mm/h" description="Intensity of application"/>
    </type>
 
    !!!!! CROP types !!!!!
@@ -525,7 +525,7 @@
    <type name="nfact_grain_tot" kind="single" array="T" unit="" description="cumulative nitrogen stress type 2"/>
    <type name="ll_dep" kind="single" array="T" unit="" description="lower limit of plant-extractable soil water for soil layer l (mm)"/>
    <type name="Sow" kind="string" description="Sow a crop"/>
-   
+
 
    <type name="cropwatersupply" array = "T">
       <element>
@@ -535,10 +535,10 @@
          <field name="thickness" kind="single" unit="mm" />
          <field name="amount"    kind="single" unit="mm" />
          </element>
-      </field>   
+      </field>
       </element>
    </type>
-   
+
    <type name="cropwaterdemand" description="Message sent to add crop water demand terms to water balance calculations." array="T">
       <element>
       <field name="Name" kind = "string" description="cohort name + instance name"/>
@@ -563,7 +563,7 @@
              <field name="thickness" kind="single" units="mm"/>
              <field name="RootLengthDensity" kind="single" units="mm/mm3"/>
              <field name="PotentialUptakeNO3" kind="single" units="kg/ha"/>
-             <field name="PotentialUptakeNH4" kind="single" units="kg/ha"/>             
+             <field name="PotentialUptakeNH4" kind="single" units="kg/ha"/>
           </element>
       </field>
       <field name="amount" kind="single" unit="kg/ha"/>
@@ -572,10 +572,10 @@
 
    !!!!! MICROMET types !!!!!
 
-   <type name="cover_tot_sum" kind="double" unit="" description=""/>
-   <type name="cover_green_sum" kind="double" unit="" description=""/>
+   <type name="cover_tot_sum" kind="single" unit="" description=""/>
+   <type name="cover_green_sum" kind="single" unit="" description=""/>
    <type name="interception" kind="single" unit="" description=""/>
-   
+
    <type name="LightProfile">
       <field name="Interception" array="T">
          <element>
@@ -592,7 +592,7 @@
       </field>
       <field name="transmission" kind = "single"/>
    </type>
-   
+
    <type name="canopy" array="T">
       <element>
       <field name="name" kind="string"/>
@@ -607,14 +607,14 @@
       <field name="frgr" kind="single"/>
       </element>
    </type>
-   
+
    <type name="canopy_energy_balance" kind="????" unit="" description=""/>
    <type name="canopy_water_balance" kind="????" unit="" description=""/>
    <type name="interception" kind="single" unit="" description=""/>
 
    !!!!! RESIDUE types !!!!!
 
-   <type name="residue_cover" kind="double" unit="" description=""/>
+   <type name="residue_cover" kind="single" unit="" description=""/>
    <type name="add_residue" kind="string"/>
 
    <type name="Residue" array="T">
@@ -624,16 +624,16 @@
       <field name="amount"  kind="single" units="kg/ha"/>
       <field name="C"       kind="single" units="kg/ha"/>
       <field name="N"       kind="single" units="kg/ha"/>
-      <field name="P"       kind="single" units="kg/ha"/>      
+      <field name="P"       kind="single" units="kg/ha"/>
       <field name="AshAlk"  kind="single" units="kg/ha"/>
       <field name="Cover"  kind="single" units=""/>
       </element>
    </type>
-   
+
    !!!!! SURFACE types !!!!!
 
    <type name="pond" kind = "single" units = "mm"/>
-   
+
    <type name="SurfaceWater">
       <field name="amount" kind="single"/>
       <field name="solute" array="T">
@@ -643,7 +643,7 @@
          </element>
       </field>
    </type>
-   
+
    <type name="SurfaceWaterBalance">
       <field name="runoff" kind="single"/>
       <field name="evaporation" kind="single"/>
@@ -669,7 +669,7 @@
    </type>
 
     !!!! ORGANIC MATTER Types !!!!!!
-    
+
    <type name="OrganicMatter">
       <field name="amount"  kind="single" units="kg/ha"/>
       <field name="C"       kind="single" units="kg/ha"/>
@@ -699,5 +699,5 @@
 
 </types>
 
-    
+
     
