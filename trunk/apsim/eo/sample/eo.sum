@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\eo\sample\sample.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\eo\sample\sample.sim
      Title                  = eo sample
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -32,11 +31,12 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = eo.out
      Format = normal
-     Module_names = clock clock eo eo met 
-     Variable_names = year day eo_pm ra evap 
-     Variable_alias = - - - - - 
-     Units = - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        eo.eo_pm
+        eo.ra
+        met.evap
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\eo\sample\coopr96.met

@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\clock\sample\test.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\clock\sample\test.sim
      Title                  = Test of clock module
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -31,11 +30,12 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = test.out
      Format = normal
-     Module_names = clock clock clock clock clock 
-     Variable_names = year day today.dd_mmm_yyyy today.dd/mm/yyyy today.dd/mmm/yyyy 
-     Variable_alias = - - dd_mmm_yyyy dd/mm/yyyy - 
-     Units = - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        clock.today.dd_mmm_yyyy (alias: dd_mmm_yyyy)
+        clock.today.dd/mm/yyyy (alias: dd/mm/yyyy)
+        clock.today.dd/mmm/yyyy
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\sample\dalby.met
