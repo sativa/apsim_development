@@ -302,8 +302,8 @@
       <getVariableReg name="no3" type="no3"/>
       <getVariableReg name="no3_min" type="no3_min"/>
       <getVariableReg name="uptake_p_maize" type="uptake_p_maize"/>
-      <methodCallReg name="add_residue" type="add_residue"/>
-      <methodCallReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
