@@ -279,6 +279,7 @@
       <respondToEventReg name="spring" type="spring"/>
       <respondToEventReg name="dormancy" type="dormancy"/>
       <respondToEventReg name="kill_stem" type="kill_stem"/>
+      <respondToEventReg name="plant_remove_biomass" type="removeCropDm"/>
       <eventReg name="crop_chopped" type="crop_chopped"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
       <getVariableReg name="no3" type="no3"/>

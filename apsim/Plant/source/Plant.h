@@ -135,6 +135,7 @@ class Plant {
   void doEndCrop(unsigned &, unsigned &, protocol::Variant &v) ;
   void doKillCrop(unsigned &, unsigned &, protocol::Variant &v) ;
   void doKillStem(unsigned &, unsigned &, protocol::Variant &v) ;
+  void doRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v) ;
   void doEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
   void doAutoClassChange(unsigned &, unsigned &, protocol::Variant &v) ;
   void doTick(unsigned &, unsigned &, protocol::Variant &v) ;
@@ -771,9 +772,11 @@ void plant_grain_n_demand1(float C_sfac_slope            //   (INPUT)  soil wate
   void plant_dead (void);
   void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
   void plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message variant*/);
+  void plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/);
   void plant_dormancy (protocol::Variant &v/*(INPUT) incoming message variant*/);
   void plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments*/);
   void plant_kill_stem_update (protocol::Variant &v/*(INPUT) message arguments*/);
+  void plant_remove_biomass_update (protocol::Variant &v/*(INPUT) message arguments*/);
   void plant_zero_all_globals (void);
   void plant_zero_variables (void);
   void plant_zero_daily_variables ();
