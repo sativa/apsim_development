@@ -3,6 +3,7 @@
 #include <strstream>
 #include <iomanip>
 #include <sysutils.hpp>
+#include "stristr.h"
 using std::ostrstream;
 // ------------------------------------------------------------------
 //  Short description:
@@ -420,3 +421,31 @@ void getAttributeNameAndValue(const string& line,
    else
       value = "";
    }
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//     Remove an attribute from the specified line.
+
+//  Notes
+//     A line may look like:
+//        <property name="prop1" value="prop1value" type=""/>
+//     Where the attributes are name, value and type.
+
+//  Changes:
+//    dph 16/8/2001
+// ------------------------------------------------------------------
+void removeAttributeFromLine(std::string& line, const std::string& attribute)
+   {
+   string stToFind = " " + attribute + "=\"";
+
+   char* posAttribute = stristr((char*)line.c_str(), stToFind.c_str());
+   if (posAttribute != NULL)
+      {
+      unsigned startPos = posAttribute - line.c_str();
+      unsigned endPos = line.find("\"", startPos + stToFind.length());
+      if (endPos != string::npos)
+         line.erase(startPos, endPos-startPos+1);
+      }
+   }
+
