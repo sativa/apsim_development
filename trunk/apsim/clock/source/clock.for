@@ -3,8 +3,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       use ComponentInterfaceModule
       use DataTypesModule
 
-      integer, parameter :: MAX_EVENT_NAME_SIZE = 30
-      integer, parameter :: MAX_NUM_EVENTS = 30
+      integer, parameter :: MAX_EVENT_NAME_SIZE = 100
+      integer, parameter :: MAX_NUM_EVENTS = 50
 
       type ClockData
          sequence
@@ -76,10 +76,11 @@ C     Last change:  E     5 Dec 2000    8:52 am
       character (len=*), intent(in) :: sdml
 
 !- Implementation Section ----------------------------------
-
+      
       call do_registrations()
+      
       call clock_read_timesteps()
-
+      
       g%end_current_run = .false.
       return
       end
@@ -314,19 +315,11 @@ C     Last change:  E     5 Dec 2000    8:52 am
       call push_routine(this_routine)
 
       ! Read in all timestep events.
-      found = read_parameter('parameters',
+      found = read_parameter('constants',
      .                       'timestep_events',
      .                       timestepEvents,
-     .                       g%numTimestepEvents,
-     .                       .true.)
-      if (.not. found) then
-         timestepEvents(1) = 'prepare'
-         timestepEvents(2) = 'process'
-         timestepEvents(3) = 'post'
-         timestepEvents(4) = 'rep'
-         g%numTimestepEvents = 4
-      endif
-
+     .                       g%numTimestepEvents)
+      
       ! Register all timestep events.
       do i=1, g%numTimestepEvents
          g%timestepEvents(i) = add_registration
