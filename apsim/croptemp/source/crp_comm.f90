@@ -25,7 +25,6 @@
       use dataModule
       use errorModule
       use crp_rootModule
-      use postboxModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -164,7 +163,6 @@
       use convertmodule
       use interfaceModule
       use errorModule
-      use postboxModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -295,8 +293,8 @@
 !      dll_export crop_get_ext_uptakes
       use ConstantsModule
       use stringModule
-      use interfacemodule
       use errorModule
+      use ComponentInterfaceModule
       implicit none
 
 !+  Sub-Program Arguments
