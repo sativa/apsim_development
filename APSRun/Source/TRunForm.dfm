@@ -1,10 +1,11 @@
 object RunForm: TRunForm
   Left = 266
   Top = 162
-  Width = 569
-  Height = 403
+  AutoScroll = False
   BorderIcons = []
   Caption = 'Running APSIM...'
+  ClientHeight = 368
+  ClientWidth = 568
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,6 +14,7 @@ object RunForm: TRunForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
