@@ -1,26 +1,16 @@
 [sample.report.parameters]
-title =  Accum Sample Simulation
-screen_output =  on
-outputfile =  accum.out /overwrite
-summaryfile =  accum.sum /overwrite
-
-module_names =   clock clock
-variable_names =  day year
-variable_alias =  -    -
-Units =          -     -
-
-Module_names =   accum
-Variable_names =  rain[3]
-Variable_alias =   -
-Units =            -
+outputfile =accum.out
 
 
+
+
+variable = clock.day
+variable = clock.year
+variable = accum.rain[3]
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1
-simulation_start_year =  1988
-simulation_end_day =  100
-simulation_end_year =  1988
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=9/4/1988     ! dd/mm/yyyy
 
 
 [sample.accum.parameters]
