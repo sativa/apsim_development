@@ -138,7 +138,6 @@
       <respondToMethodCallReg name="reset" type="null"/>
       <respondToMethodCallReg name="sum_report" type="null"/>
       <respondToMethodCallReg name="tillage" type="null"/>
-      <respondToMethodCallReg name="cropwaterdemand" type="cropwaterdemand"/>
 
       <getVariableReg name="radn" type="radn"/>
       <getVariableReg name="maxt" type="maxt"/>
@@ -157,27 +156,19 @@
       <getVariableReg name="interception" type="interception_double"/>
       <getVariableReg name="day" type="day"/>
       <getVariableReg name="year" type="year"/>
-      <methodCallReg name="swim_timestep_preparation" type="swim_timestep_preparation"/>
-      <methodCallReg name="pre_swim_timestep" type="pre_swim_timestep"/>
-      <methodCallReg name="post_swim_timestep" type="post_swim_timestep"/>
-      <methodCallReg name="cropwatersupply" type="cropwatersupply"/>
 
       <respondToEventReg name="tick" type="time"/>
-      <respondToEventReg name="new_solute" type="new_solute"/>
-      <respondToEventReg name="SolutesChanged" type="solute_profiles"/>
-      <respondToEventReg name="CropWaterDemandCalculated" type="crop_water_demands"/>
-      <respondToEventReg name="SurfaceWaterChanged" type="Surface_Water"/>
-      <respondToEventReg name="EosCalculated" type="Eos_calculated"/>
-      <respondToEventReg name="irrigated" type="irrigated"/>
-      <respondToEventReg name="prepare" type="null"/>
-      <respondToEventReg name="process" type="null"/>
-      <respondToEventReg name="post" type="null"/>
-      <eventReg name="prewaterbalance" type="prewaterbalance"/>
-      <eventReg name="SoluteFluxesCalculated" type="solute_profiles"/>
-      <eventReg name="CropWaterSupplyCalculated" type="Crop_Water_Supplies"/>
-      <eventReg name="SoilWaterBalanceCalculated" type="Soil_Water_Balance"/>
-      <eventReg name="SoilWaterProfileChanged" type="Soil_Water_Profile_Layers"/>
-      <eventReg name="SoilWaterChanged" type="Soil_Water_Layers"/>
+      <respondToEventReg name="Solutes_Changed" type="solute_profiles"/>
+      <respondToEventReg name="Crop_Water_Demand_Calculated" type="crop_water_demands"/>
+      <respondToEventReg name="Surface_Water_Changed" type="Surface_Water"/>
+      <respondToEventReg name="Eos_Calculated" type="Eos_calculated"/>
+      <respondToEventReg name="Surface_Water_Changed" type="null"/>
+      <respondToEventReg name="Do_Soil_Water_Balance" type="null"/>
+      <eventReg name="Solute_Fluxes_Calculated" type="solute_profiles"/>
+      <eventReg name="Crop_Water_Supply_Calculated" type="Crop_Water_Supplies"/>
+      <eventReg name="Soil_Water_Balance_Calculated" type="Soil_Water_Balance"/>
+      <eventReg name="Soil_Water_Profile_Changed" type="Soil_Water_Profile_Layers"/>
+      <eventReg name="Soil_Water_Changed" type="Soil_Water_Layers"/>
 
       <setVariableReg name="solute_n" type="solute_n" autoregister="F"/>
       <getVariableReg name="solute_n" type="solute_n" autoregister="F"/>

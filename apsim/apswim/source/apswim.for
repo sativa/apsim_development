@@ -121,28 +121,16 @@
       if (eventID.eq.Tick_id) then
          call apswim_OnTick(variant)
 
-      elseif (eventID .eq. Prepare_id) then
-         call apswim_prepare()
-
-      elseif (eventID .eq. Process_id) then
-         call apswim_process()
-
-      elseif (eventID .eq. Post_id) then
-         call apswim_post()
-
-      elseif (eventID .eq. Irrigated_id) then
-         call apswim_ONirrigated (variant)
-
-      elseif (eventID .eq. SolutesChanged_id) then
+      elseif (eventID .eq. Solutes_Changed_id) then
          call apswim_OnSolutesChanged (variant)
 
-      else if (eventID .eq. CropWaterDemandCalculated_id) then
+      else if (eventID .eq. Crop_Water_Demand_Calculated_id) then
          call apswim_OnCropWaterDemandCalculated (fromID,variant)
 
-      else if (eventID .eq. SurfaceWaterChanged_id) then
+      else if (eventID .eq. Surface_Water_Changed_id) then
          call apswim_OnSurfaceWaterChanged (variant)
 
-      else if (eventID .eq. EosCalculated_id) then
+      else if (eventID .eq. Eos_Calculated_id) then
          call apswim_OnEosCalculated (variant)
 
       else
@@ -170,17 +158,20 @@
 
 !- Implementation Section ----------------------------------
 
-      if (methodID.eq.Reset_id) then
-         call apswim_reset()
+      if (methodID .eq. Do_Soil_Water_Balance_id) then
+         call apswim_DoSoilWaterBalance ()
 
-      else if (methodID.eq.Sum_report_id) then
+      else if (methodID .eq. Reset_id) then
+         call apswim_reset ()
+
+      else if (methodID .eq. Sum_report_id) then
          call apswim_sum_report ()
 
-      else if (methodID.eq.tillage_id) then
+      else if (methodID .eq. tillage_id) then
          call apswim_tillage ()
 
       else
-         call error('bad method ID',.true.)
+         call error ('bad method ID', .true.)
       endif
 
       return
@@ -614,7 +605,7 @@
       ! initialise solute information
       !call apswim_init_solute()
 
-      call apswim_New_Profile_Event()
+      call apswim_Publish_soil_water_profile ()
 
       call pop_routine (myname)
       return
@@ -1729,7 +1720,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 
 * ====================================================================
-       subroutine apswim_Prepare ()
+       subroutine apswim_prepare ()
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -1793,31 +1784,6 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       return
       end
-
-
-
-* ====================================================================
-       subroutine apswim_post ()
-* ====================================================================
-      use APSwimModule
-      implicit none
-
-*+  Purpose
-*     Perform calculations after the current timestep.
-
-*+  Changes
-*     <insert here>
-
-*- Implementation Section ----------------------------------
-
-      return
-      end
-
-
-
-
-
-
 
 
 * ====================================================================
@@ -2677,7 +2643,7 @@ cnh
 
 
 * ====================================================================
-       subroutine apswim_Process ()
+       subroutine apswim_DoSoilWaterBalance ()
 * ====================================================================
       use APSwimModule
       use ComponentInterfaceModule
@@ -2718,7 +2684,7 @@ cnh
       call apswim_reset_daily_totals()
       call apswim_reset_crop_comms()
 
-      call apswim_send_prewaterbalance_event()
+!jh      call apswim_send_prewaterbalance_event()
 
       call apswim_get_other_variables ()
 !jh      call apswim_get_solute_variables ()
@@ -3994,7 +3960,7 @@ cnh       double precision table_slscr(nsol)
 
   100 continue
 
-      call publish_Solute_Profiles (SoluteFluxesCalculated_ID
+      call publish_Solute_Profiles (Solute_Fluxes_Calculated_ID
      :                                    , SoluteProfiles
      :                                    , p%num_solutes
      :                                    , .false.)
@@ -4160,214 +4126,6 @@ cnh    character string_concat*(strsize)      ! function
 
       found = get_cover_tot_sum (cover_tot_sum_id, g%crop_cover)
 
-      return
-      end
-
-
-
-* ====================================================================
-       subroutine apswim_ONirrigated (variant)
-* ====================================================================
-      use APSwimModule
-      use ComponentInterfaceModule
-
-      implicit none
-*+  Sub-Program Arguments
-      integer, intent(in) :: variant
-
-*+  Purpose
-*     <insert here>
-
-*+  Assumptions
-*   That g%day and g%year have already been updated before entry into this
-*   routine. e.g. Prepare stage executed already.
-
-*+  Changes
-*   neilh - 19-01-1995 - Programmed and Specified
-*   neilh - 28-05-1996 - Added call to get_other_variables to make
-*                        sure g%day and g%year are up to date.
-*      21-06-96 NIH Changed extract calls to collect calls
-*   neilh - 22-07-1996 removed data_String from arguments
-*   neilh - 29-08-1997 added test for whether directives are to be echoed
-
-*+  Calls
-       double precision apswim_time
-       integer          apswim_time_to_mins
-       double precision ddivide
-
-*+  Constant Values
-      character myname*(*)               ! name of current procedure
-      parameter (myname = 'apswim_ONirrigated')
-
-*+  Local Variables
-       integer          counter
-       double precision amount
-       double precision duration
-       double precision intensity
-       double precision check_amount
-       integer          numvals_int
-       integer          numvals_dur
-       integer          numvals_amt
-       integer          numvals
-       double precision solconc
-       integer          solnum
-       integer          time_mins
-       character        time_string*10
-       double precision irrigation_time
-       double precision TEMPSolTime(SWIMLogSize)
-       double precision TEMPSolAmt(SWIMLogSize)
-       integer          TEMPSolNumPairs
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      if (p%echo_directives.eq.'on') then
-         ! flag this event in output file
-         call Write_string ('APSwim adding irrigation to log')
-      else
-      endif
-
-      call error(
-     :         'Irrigation event handler not implemented',
-     :         .true.)
-
-
-c      call collect_char_var (
-c     :                         DATA_irrigate_time
-c     :                        ,'(hh:mm)'
-c     :                        ,time_string
-c     :                        ,numvals)
-
-
-c      call collect_double_var_optional (
-c     :                         DATA_irrigate_amount
-c     :                        ,'(mm)'
-c     :                        ,amount
-c     :                        ,numvals_amt
-c     :                        ,0.d0
-c     :                        ,1000.d0)
-
-c      call collect_double_var_optional (
-c     :                         DATA_irrigate_duration
-c     :                        ,'(min)'
-c     :                        ,duration
-c     :                        ,numvals_dur
-c     :                        ,0.d0
-c     :                        ,24d0*60d0)
-
-cnh NOTE - intensity is not part of the official design !!!!?
-c      call collect_double_var_optional (
-c     :                         'intensity'
-c     :                        ,'(mm/g%h)'
-c     :                        ,intensity
-c     :                        ,numvals_int
-c     :                        ,0.d0
-c     :                        ,24d0*60d0)
-
-
-      if ((numvals_int.ne.0).and.(numvals_dur.ne.0)
-     :       .and.(numvals_amt.ne.0)) then
-         ! the user has specified all three
-         check_amount = intensity/60d0*duration
-
-         if (abs(amount-check_amount).ge.1.) then
-            call error (
-     :         'Irrigation information error greater than 1 mm'//
-     :         '(ie amount not equal to intensity/60*duration)', .true.)
-
-         elseif (abs(amount-check_amount).ge.0.1) then
-            call error (
-     :         'Irrigation information error greater than .1 mm'//
-     :         '(ie amount not equal to intensity/60*duration)'
-     :         , .false.)
-
-         else
-         endif
-
-      elseif ((numvals_amt.ne.0).and.(numvals_dur.ne.0)) then
-         ! We have all the information we require - do nothing
-
-      elseif ((numvals_int.ne.0).and.(numvals_dur.ne.0)) then
-         ! we need to calculate the amount
-         amount = intensity/60d0*duration
-
-      elseif ((numvals_int.ne.0).and.(numvals_amt.ne.0)) then
-         ! we need to calculate the duration
-         duration = ddivide (amount,intensity/60d0,0.d0)
-      else
-         ! We do not have enough information
-         call error ('Incomplete Irrigation information', .true.)
-
-         !  set defaults to allow completion
-         amount = 0.0
-         duration = 1.0
-
-      endif
-
-      ! get information regarding time etc.
-      call apswim_Get_other_variables()
-
-      time_mins = apswim_time_to_mins (time_string)
-      irrigation_time = apswim_time (g%year,g%day,time_mins)
-
-      ! allow 1 sec numerical error as data resolution is
-      ! 60 sec.
-      if (irrigation_time.lt.(g%t - 1.d0/3600.d0) )then
-
-         call error (
-     :                    'Irrigation has been specified for an '//
-     :                    'already processed time period', .true.)
-      else
-      endif
-
-      call apswim_insert_loginfo (
-     :                         irrigation_time
-     :                        ,duration
-     :                        ,amount
-     :                        ,g%SWIMRainTime
-     :                        ,g%SWIMRainAmt
-     :                        ,g%SWIMRainNumPairs
-     :                        ,SWIMLogSize)
-
-      call apswim_recalc_eqrain ()
-
-      do 100 solnum = 1, p%num_solutes
-c         call collect_double_var_optional (
-c     :                         p%solute_names(solnum)
-c     :                        ,'(kg/ha)'
-c     :                        ,solconc
-c     :                        ,numvals
-c     :                        ,c%lb_solute
-c     :                        ,c%ub_solute)
-
-        if (numvals.gt.0) then
-           TEMPSolNumPairs = g%SWIMSolNumPairs(solnum)
-           do 50 counter = 1, TEMPSolNumPairs
-              TEMPSolTime(counter) = g%SWIMSolTime(solnum,counter)
-              TEMPSolAmt(counter) = g%SWIMSolAmt(solnum,counter)
-   50      continue
-
-           call apswim_insert_loginfo (
-     :                         irrigation_time
-     :                        ,duration
-     :                        ,solconc
-     :                        ,TEMPSolTime
-     :                        ,TEMPSolAmt
-     :                        ,TEMPSolNumPairs
-     :                        ,SWIMLogSize)
-
-           g%SWIMSolNumPairs(solnum) = TEMPSolNumPairs
-           do 60 counter = 1, TEMPSolNumPairs
-              g%SWIMSolTime(solnum,counter) = TEMPSolTime(counter)
-              g%SWIMSolAmt(solnum,counter) = TEMPSolAmt(counter)
-   60      continue
-
-        else
-        endif
-  100 continue
-
-
-      call pop_routine (myname)
       return
       end
 
@@ -7364,103 +7122,6 @@ c      pause
       return
       end
 
-*     ===========================================================
-      subroutine apswim_New_Profile_Event ()
-*     ===========================================================
-      use APSwimModule
-      use ComponentInterfaceModule
-
-      implicit none
-
-*+  Purpose
-*     Advise other modules of new profile specification
-
-*+  Mission Statement
-*     Advise other modules of new profile specification
-
-*+  Changes
-*        210800 nih
-
-*+  Local Variables
-      double precision dummy(M)
-
-*+  Constant Values
-      character*(*) myname               ! name of current procedure
-      parameter (myname = 'APSwim_New_Profile_Event')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-c      call new_postbox ()
-c
-c      call post_double_array   (DATA_dlayer
-c     :                        ,'(mm)'
-c     :                        , g%dlayer(0)
-c     :                        , p%n+1)
-c
-c
-c      dummy(:) = 0d0
-c
-c      call post_double_array   (DATA_air_dry_dep
-c     :                        ,'(mm)'
-c     :                        , dummy
-c     :                        , p%n+1)
-c
-c      call post_double_array   (DATA_ll15_Dep
-c     :                        ,'(mm)'
-c     :                        , g%ll15(0:p%n)*g%dlayer(0:p%n)
-c     :                        , p%n+1)
-c
-c      call post_double_array   (DATA_dul_dep
-c     :                        ,'(mm)'
-c     :                        , g%dul(0:p%n)*g%dlayer(0:p%n)
-c     :                        , p%n+1)
-c
-c      call post_double_array   (DATA_sat_dep
-c     :                        ,'(mm)'
-c     :                        , g%sat(0:p%n)*g%dlayer(0:p%n)
-c     :                        , p%n+1)
-c
-c      call post_double_array   (DATA_sw_dep
-c     :                        ,'(mm)'
-c     :                        , g%th(0:p%n)*g%dlayer(0:p%n)
-c     :                        , p%n+1)
-c
-c      call post_double_array   (DATA_bd
-c     :                        ,'(g/cc)'
-c     :                        , p%rhob(0:p%n)
-c     :                        , p%n+1)
-c
-c      call event_send (EVENT_new_profile)
-c
-c      call delete_postbox ()
-
-
-      call pop_routine (myname)
-      return
-      end
-
-
-* ====================================================================
-       subroutine apswim_send_prewaterbalance_event ()
-* ====================================================================
-      use APSwimModule
-      use ComponentInterfaceModule
-      implicit none
-
-*+  Purpose
-*     Tell other modules of the coming water balance calculations
-
-*+  Changes
-*     <insert here>
-
-*- Implementation Section ----------------------------------
-
-      call publish_prewaterbalance(prewaterbalance_id, .true.)
-
-      return
-      end
-
 * ====================================================================
        subroutine apswim_reset_crop_comms ()
 * ====================================================================
@@ -7597,7 +7258,7 @@ c      g%cropIDs(:) = emptyID
       enddo
 
       call publish_Crop_Water_Supplies (
-     :                                CropWaterSupplyCalculated_ID
+     :                                Crop_Water_Supply_Calculated_ID
      :                              , CropWaterSupplies
      :                              , g%num_crops
      :                              , .false.)
@@ -7632,7 +7293,7 @@ c      g%cropIDs(:) = emptyID
       SoilWaterLayers(1:num_layers)
      :               %soil_water = g%th(0:p%n)*g%dlayer(0:p%n)
 
-      call publish_Soil_Water_Layers (SoilWaterChanged_ID
+      call publish_Soil_Water_Layers (Soil_Water_Changed_ID
      :                              , SoilWaterLayers
      :                              , num_layers
      :                              , .false.)
@@ -7670,7 +7331,7 @@ c      g%cropIDs(:) = emptyID
       SoilWaterBalance%lateral_flow_layers(:)%flow = 0.0
 
       call publish_Soil_Water_Balance (
-     :                               SoilWaterBalanceCalculated_ID
+     :                               Soil_Water_Balance_Calculated_ID
      :                              , SoilWaterBalance
      :                              , .false.)
 
@@ -7713,7 +7374,7 @@ c      g%cropIDs(:) = emptyID
      :                        %sw_dep = g%th(0:p%n)*g%dlayer(0:p%n)
 
       call publish_Soil_Water_Profile_Layers
-     :                              (SoilWaterProfileChanged_ID
+     :                              (Soil_Water_Profile_Changed_ID
      :                              , SoilWaterProfileLayers
      :                              , num_layers
      :                              , .false.)
