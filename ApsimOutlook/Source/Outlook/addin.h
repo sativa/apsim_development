@@ -5,6 +5,7 @@
 
 #include <tapstable.h>
 #include "scenario.h"
+#include "TValueSelectionForm.h"
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -55,14 +56,16 @@ class AddInBase
       // your add-in has the capability of inserting a panel between the
       // list of values and the radio buttons.  E.g. You may use this for adding
       // a button plus some text to the "value selection form"
-      virtual const TPanel*  getValueSelectionPanel(const std::string& tabName, const std::string& factorName) const {return NULL;};
+      virtual const TPanel*  getValueSelectionPanel(const std::string& factorName) const {return NULL;};
 
       // if you don't want to use the "value selection" form
       // then the following method can return a non NULL form.  This
       // form will be used instead of the value selection form whenever
       // the user clicks the button for this add-in.  APSIM Outlook will
       // NOT delete the form at any time.
-      virtual const TForm*  getUIForm(const std::string& tabName, const std::string& factorName) const {return NULL;};
+      // Changes:    DAH   2/7/01   Return type changed to TValueSelectionForm
+      virtual TValueSelectionForm*  getUIForm(const std::string& factorName, TComponent* Owner) const
+                                                                 {return NULL;};
 
       // given the data object, and the list of user selected
       // scenarios, perform all calculations and store all new data
