@@ -13,9 +13,9 @@
 #include <Dialogs.hpp>
 #include "TShape.h"
 #include "asgcombo.hpp"
-#include "ColorCombo.hpp"
 #include <QRCtrls.hpp>
 #include <QuickRpt.hpp>
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TShapeForm : public TForm
 {
@@ -29,8 +29,8 @@ __published:	// IDE-managed Components
    TLabel *Label2;
    TLabel *Label4;
    TComboBox *ShapeCombo;
-   TAdvColorComboBox *PenColourCombo;
-   TAdvColorComboBox *BrushColourCombo;
+   TColorBox *PenColourCombo;
+   TColorBox *BrushColourCombo;
    void __fastcall ShapeComboChange(TObject *Sender);
    void __fastcall PenColourComboChange(TObject *Sender);
    void __fastcall BrushColourComboChange(TObject *Sender);

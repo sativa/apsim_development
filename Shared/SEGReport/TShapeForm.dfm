@@ -62,69 +62,21 @@ object ShapeForm: TShapeForm
           'Top and Bottom'
           'Right and Left')
       end
-      object PenColourCombo: TAdvColorComboBox
+      object PenColourCombo: TColorBox
         Left = 72
         Top = 48
         Width = 129
         Height = 22
-        AutoFocus = False
-        ButtonWidth = 21
-        Style = csOwnerDrawFixed
-        Flat = False
-        Etched = False
-        FocusBorder = False
-        DropWidth = 0
         ItemHeight = 16
-        Items.Strings = (
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          '')
         TabOrder = 1
         OnChange = PenColourComboChange
       end
-      object BrushColourCombo: TAdvColorComboBox
+      object BrushColourCombo: TColorBox
         Left = 72
         Top = 72
         Width = 129
         Height = 22
-        AutoFocus = False
-        ButtonWidth = 21
-        Style = csOwnerDrawFixed
-        Flat = False
-        Etched = False
-        FocusBorder = False
-        DropWidth = 0
         ItemHeight = 16
-        Items.Strings = (
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          ''
-          '')
         TabOrder = 2
         OnChange = BrushColourComboChange
       end
