@@ -552,10 +552,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! condition of each rule
 
        character Rule_types(NUM_RULE_TYPES)*(20)
-       data Rule_types(1) /'_init'/
-       data Rule_types(2) /'_start_of_day'/
-       data Rule_types(3) /'_process'/
-       data Rule_types(4) /'_end_of_day'/
+       data Rule_types(1) /'.init'/
+       data Rule_types(2) /'.start_of_day'/
+       data Rule_types(3) /'.process'/
+       data Rule_types(4) /'.end_of_day'/
 
 
 !- Implementation Section ----------------------------------
@@ -567,11 +567,13 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                     Rule_names,
      .                                     MAX_RULES,
      .                                     Num_rules)
-
+      print *, 'num_rules=',num_rules
+      pause
       do Rule_type = 1, NUM_RULE_TYPES
 
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
+            print *, 'rule_name = ',rule_names(rule_index)
             if (index(Rule_names(Rule_index),
      .                rule_types(rule_type)) .ne. 0) then
                call apsimcomponentdata_loadrule(get_componentData(),
