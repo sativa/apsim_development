@@ -104,6 +104,11 @@
                     AssemblyName = "scpl"
                     HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\scpl.dll"
                 />
+                <Reference
+                    Name = "accllistbar"
+                    AssemblyName = "accllistbar"
+                    HintPath = "..\..\..\documents and settings\hut104\my documents\visual studio projects\windowsapplication1\accllistbar.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -213,6 +218,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "FertiliserUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FertiliserUI.resx"
+                    DependentUpon = "FertiliserUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "IrrigationUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -233,6 +248,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "LogUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LogUI.resx"
+                    DependentUpon = "LogUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "MainUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -240,6 +265,16 @@
                 <File
                     RelPath = "MainUI.resx"
                     DependentUpon = "MainUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "MetGraphControl.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MetGraphControl.resx"
+                    DependentUpon = "MetGraphControl.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

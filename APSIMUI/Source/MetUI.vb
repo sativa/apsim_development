@@ -42,7 +42,7 @@ Public Class MetUI
     Friend WithEvents FileContentsTab As System.Windows.Forms.TabPage
     Friend WithEvents GraphTab As System.Windows.Forms.TabPage
     Friend WithEvents RichTextBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents Graph As scpl.Windows.PlotSurface2D
+    Friend WithEvents MetGraphControl1 As APSIMUI.MetGraphControl
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetUI))
@@ -56,7 +56,7 @@ Public Class MetUI
         Me.FileContentsTab = New System.Windows.Forms.TabPage
         Me.RichTextBox = New System.Windows.Forms.RichTextBox
         Me.GraphTab = New System.Windows.Forms.TabPage
-        Me.Graph = New scpl.Windows.PlotSurface2D
+        Me.MetGraphControl1 = New APSIMUI.MetGraphControl
         Me.TabControl.SuspendLayout()
         Me.FileContentsTab.SuspendLayout()
         Me.GraphTab.SuspendLayout()
@@ -142,36 +142,20 @@ Public Class MetUI
         '
         'GraphTab
         '
-        Me.GraphTab.Controls.Add(Me.Graph)
+        Me.GraphTab.Controls.Add(Me.MetGraphControl1)
         Me.GraphTab.Location = New System.Drawing.Point(4, 22)
         Me.GraphTab.Name = "GraphTab"
         Me.GraphTab.Size = New System.Drawing.Size(1056, 422)
         Me.GraphTab.TabIndex = 1
         Me.GraphTab.Text = "Graph"
         '
-        'Graph
+        'MetGraphControl1
         '
-        Me.Graph.AllowSelection = False
-        Me.Graph.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.Graph.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Graph.HorizontalEdgeLegendPlacement = scpl.Legend.Placement.Inside
-        Me.Graph.LegendBorderStyle = scpl.Legend.BorderType.Shadow
-        Me.Graph.LegendXOffset = 10.0!
-        Me.Graph.LegendYOffset = 1.0!
-        Me.Graph.Location = New System.Drawing.Point(0, 0)
-        Me.Graph.Name = "Graph"
-        Me.Graph.Padding = 10
-        Me.Graph.PlotBackColor = System.Drawing.Color.White
-        Me.Graph.ShowLegend = False
-        Me.Graph.Size = New System.Drawing.Size(1056, 422)
-        Me.Graph.TabIndex = 0
-        Me.Graph.Title = ""
-        Me.Graph.TitleFont = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
-        Me.Graph.VerticalEdgeLegendPlacement = scpl.Legend.Placement.Outside
-        Me.Graph.XAxis1 = Nothing
-        Me.Graph.XAxis2 = Nothing
-        Me.Graph.YAxis1 = Nothing
-        Me.Graph.YAxis2 = Nothing
+        Me.MetGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.MetGraphControl1.Location = New System.Drawing.Point(0, 0)
+        Me.MetGraphControl1.Name = "MetGraphControl1"
+        Me.MetGraphControl1.Size = New System.Drawing.Size(1056, 422)
+        Me.MetGraphControl1.TabIndex = 0
         '
         'MetUI
         '
@@ -209,43 +193,6 @@ Public Class MetUI
 
             End If
 
-            With Graph
-                .Clear()
-                'Create a new line plot from array data via the ArrayAdapter class.
-                Dim lp As New LinePlot(New ArrayAdapter(makeDaub(256)))
-                lp.Color = Color.Green
-
-                ' Add it to the plot Surface
-                .Add(lp)
-                .Title = "Daubechies Wavelet"
-                ' Ok, the above will produce a decent default plot, but we would like to change
-                ' some of the Y Axis details. First, we'd like lots of small ticks (10) between 
-                ' large tick values. Secondly, we'd like to draw a grid for the Y values. To do 
-                ' this, we create a new LinearAxis (we could also use Label, Log etc). Rather than
-                ' starting from scratch, we use the constructor that takes an existing axis and
-                ' clones it (values in the superclass Axis only are cloned). PlotSurface2D
-                ' automatically determines a suitable axis when we add plots to it (merging
-                ' current requirements with old requirements), and we use this as our starting
-                ' point. Because we didn't specify which Y Axis we are using when we added the 
-                ' above line plot (there is one on the left - YAxis1 and one on the right - YAxis2)
-                ' PlotSurface2D.Add assumed we were using YAxis1. So, we create a new axis based on
-                ' YAxis1, update the details we want, then set the YAxis1 to be our updated one.
-                Dim lax As New LinearAxis(.YAxis1)
-                lax.NumberSmallTicks = 10
-                lax.GridDetail = Axis.GridType.Fine
-                .YAxis1 = lax
-
-                ' We would also like to modify the way in which the X Axis is printed. This time,
-                ' we'll just modify the relevant PlotSurface2D Axis directly. 
-                .XAxis1.GridDetail = Axis.GridType.Coarse
-                .XAxis1.WorldMax = 100.0F
-
-                .PlotBackColor = Color.Beige
-
-                ' Force a re-draw the control. 
-                .Refresh()
-
-            End With
 
 
         Catch E As Exception
@@ -253,44 +200,6 @@ Public Class MetUI
         End Try
 
     End Sub
-    Public Function makeDaub(ByVal len As Integer) As Single()
-
-        Dim daub4_h() As Single = {0.4829629F, 0.8365163F, 0.224143863F, -0.129409522F}
-        Dim daub4_g() As Single = {-0.129409522F, -0.224143863F, 0.8365163F, -0.4829629F}
-
-        Dim a(len) As Single
-        a(8) = 1
-        Dim t() As Single
-
-        Dim ns As Integer = 4
-
-        While (ns < len / 2)
-            t = a.Clone()
-
-            ns = ns * 2
-            Dim i As Integer
-            For i = 0 To ns * 2 - 1
-                a(i) = 0.0F
-            Next
-
-            ' wavelet contribution
-            For i = 0 To ns - 1
-                Dim j As Integer
-                For j = 0 To 3
-                    a((2 * i + j) Mod (2 * ns)) = a((2 * i + j) Mod (2 * ns)) + daub4_g(j) * t(i + ns)
-                Next j
-            Next i
-
-            ' smooth contribution
-            For i = 0 To ns - 1
-                Dim j As Integer
-                For j = 0 To 3
-                    a((2 * i + j) Mod (2 * ns)) = a((2 * i + j) Mod (2 * ns)) + daub4_h(j) * t(i)
-                Next j
-            Next i
-        End While
-        Return a
-    End Function
 
     Private Sub BrowseButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BrowseButton.Click
         Try

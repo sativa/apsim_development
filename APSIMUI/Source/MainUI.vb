@@ -175,8 +175,8 @@ Public Class MainUI
         Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
-        Me.DataTree1 = New DataTree
-        Me.SimulationExplorer = New DataTree
+        Me.DataTree1 = New APSIMUI.DataTree
+        Me.SimulationExplorer = New APSIMUI.DataTree
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
         Me.HelpBrowserPanel.SuspendLayout()
