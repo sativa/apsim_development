@@ -7,9 +7,11 @@
 #include <ApsimShared\ApsimControlFile.h>
 #include <ApsimShared\ApsimSimulationFile.h>
 #include <ApsimShared\ApsimDirectories.h>
+#include <ApsimShared\ApsimSettings.h>
 #include <general\path.h>
 #include <general\iniFile.h>
 #include <general\stringTokenizer.h>
+#include <general\stl_functions.h>
 
 #pragma package(smart_init)
 
@@ -75,13 +77,16 @@ class ImportSection
    {
    public:
       ImportSection(ApsimComponentData& c, const string& modName)
-         : component(c), moduleName(modName) { }
+         : component(c), moduleName(modName)
+         {
+         ApsimSettings settings;
+         settings.read("Apsim Manager Modules|module", managerModules);
+         }
 
       void callback(IniFile* par, const string& section)
          {
-         if (Str_i_Eq(moduleName, "manager")
-             || Str_i_Eq(moduleName, "operatns")
-             || Str_i_Eq(moduleName, "tcllink"))
+         if (find_if(managerModules.begin(), managerModules.end(),
+                     PartialStringComparison(moduleName)) != managerModules.end())
             importWholeSection(par, section);
 
          else
@@ -91,6 +96,7 @@ class ImportSection
    private:
       ApsimComponentData& component;
       const string& moduleName;
+      vector<string> managerModules;
 
       //---------------------------------------------------------------------------
       // Import the whole section as a rule
@@ -227,6 +233,12 @@ void SimCreator::createSim(const string& sectionName,
    simulation.setExecutableFileName(getApsimDirectory() + "\\apsim\\protocolmanager\\lib\\protocolmanager.dll");
    simulation.setTitle(con->getTitle(sectionName));
 
+   // get the names of all input modules.
+   ApsimSettings settings;
+   vector<string> inputModules;
+   settings.read("Apsim Input Modules|module", inputModules);
+
+
    ApsimControlFile::ModuleInstances moduleInstances;
    con->getAllModuleInstances(sectionName, moduleInstances);
    stable_sort(moduleInstances.begin(), moduleInstances.end(), ComponentOrder());
@@ -267,7 +279,8 @@ void SimCreator::createSim(const string& sectionName,
 
       component->setExecutableFileName(dllFileName);
 
-      if (Str_i_Eq(moduleName, "input") || Str_i_Eq(moduleName, "soi"))
+      if (find_if(inputModules.begin(), inputModules.end(),
+                  PartialStringComparison(moduleName)) != inputModules.end())
          {
          string fileName = con->getFileForInstance(sectionName, instanceName);
          component->setProperty("parameters", "file", "filename", fileName);
