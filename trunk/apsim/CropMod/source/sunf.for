@@ -1,4 +1,4 @@
-C     Last change:  E    20 Dec 2000   11:24 am
+C     Last change:  E     7 Feb 2001    1:11 pm
 
 
 ***************************************************************************
@@ -3174,26 +3174,10 @@ csc  true....
 
 
 *     ===========================================================
-      subroutine sunf_leaf_area_pot (
-     .          begin_stage,
-     .          end_stage_TPLA_plateau,
-     .          current,
-     .          g_phase_tt,
-     .          g_days_tot,
-     .          g_current_stage,
+      subroutine sunf_tpla_max (
      .          g_leaf_no_final,
-     .          c_initial_tpla,
-     .          g_tiller_no_fertile,
-     .          c_tiller_coef,
-     .          p_main_stem_coef,
-     .          g_tt_tot,
-     .          c_tpla_inflection_ratio,
-     .          g_tpla_today,
-     .          g_tpla_yesterday,
-     .          p_tpla_prod_coef,
      .          g_plants,
-     .          g_lai,
-     .          g_dlt_lai_pot)
+     .          tpla_max)
 *     ===========================================================
       implicit none
       include 'convert.inc'
@@ -3203,45 +3187,22 @@ csc  true....
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      integer    begin_stage                !stage number of start
-      integer    end_stage_TPLA_plateau     !stage number to stop TPLA growth
-      integer    current                    !stage number now
-      real       g_phase_tt(*)
-      real       g_days_tot(*)
-      real       g_current_stage
       real       g_leaf_no_final
-      real       c_initial_tpla
-      real       g_tiller_no_fertile
-      real       c_tiller_coef
-      real       p_main_stem_coef
-      real       g_tt_tot(*)
-      real       c_tpla_inflection_ratio
-      real       g_tpla_today
-      real       g_tpla_yesterday
-      real       p_tpla_prod_coef
       real       g_plants
-      real       g_lai
-      real       g_dlt_lai_pot           ! (OUTPUT) change in leaf area
+      real       tpla_max           ! (OUTPUT) change in leaf area
 
 *+  Purpose
-*   Return the potential increase in leaf area development (mm^2)
-*   calculated on a whole plant basis as determined by thermal time
+*   Return the maximum total plant leaf area  (mm^2)
 *
-*   Called by srop_leaf_area_potential(2) in croptree.for
 
 *+  Changes
-*     12-12-1998   EW modified based on the sorghum version
+*     12-12-1998   EW programmed
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'cproc_leaf_area_pot2')
 
 *+  Local Variables
-      real       tpla_max              ! maximum total plant leaf area (mm^2)
-      real       tt_since_begin        ! deg days since begin TPLA Period
-      real       tpla_inflection       ! inflection adjusted for leaf no.
-      real       tt_begin_to_end_TPLA  ! thermal time for TPLA period
-c     real       tt_emerg_to_init
       real       density_factor
 
 *  calls
@@ -3251,97 +3212,35 @@ c     real       tt_emerg_to_init
  
       call push_routine (my_name)
  
-      !Once leaf no is calculated maximum plant leaf area is determined
- 
-      if (on_day_of (begin_stage, g_current_stage, g_days_tot)) then
-         g_lai = c_initial_tpla * smm2sm * g_plants
-      endif
- 
-      if (stage_is_between (begin_stage, end_stage_TPLA_plateau,
-     .                      g_current_stage) .and.
-     .    g_phase_tt(end_stage_TPLA_plateau) .gt.0.0) then
- 
-        tt_begin_to_end_TPLA = sum_between(begin_stage,
-     :                          end_stage_TPLA_plateau,g_phase_tt)
 
-* the original sorghum equation 
-*         tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
-*     :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
-     
-*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Enli Begin
-*THE GENERIC WAY TO SIMULATE TPLA_MAX WOULD BE:
+      ! the original sorghum equation
+      !         tpla_max = (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
+      !     :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
 
-*         tpla_max = a * (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
-*     :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Enli Begin
+      !THE GENERIC WAY TO SIMULATE TPLA_MAX WOULD BE:
 
-* for sorghum    a = 1    <------ a is introduced to generalise the tpla_max equation
-* for sunflower  a = 16.005, g_tiller_no_fertile = 0, c_tiller_coef = 1.8117
+      !         tpla_max = a * (((g_tiller_no_fertile + 1.0) ** c_tiller_coef)
+      !     :            * g_leaf_no_final ** p_main_stem_coef) * scm2smm
 
-* 02/03/1999 Scott gave me the power equation for sunflower as y = 16.005*x^1.8117   
-*                                                              r2= 0.9334 
+      ! for sorghum    a = 1    <------ a is introduced to generalise the tpla_max equation
+      ! for sunflower  a = 16.005, g_tiller_no_fertile = 0, c_tiller_coef = 1.8117
 
-*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Enli End    
+      ! 02/03/1999 Scott gave me the power equation for sunflower as y = 16.005*x^1.8117
+      !                                                              r2= 0.9334
 
-*  scc introduced new function for tpla_max  on 25/09/98
-*  This works out tpla_max as function of final leaf number
-*==============================================================================
+      !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Enli End
 
+      !  scc introduced new function for tpla_max  on 25/09/98
+      !  This works out tpla_max as function of final leaf number
+      !==============================================================================
+         
        tpla_max = (445.97 * g_leaf_no_final - 5828.86) * scm2smm 
          
        density_factor = sunflower_dens_fact(g_plants) 
 
-         !density_factor = exp(0.2 - 0.16 * g_plants)
-         !density_factor = density_factor/0.549
-         
        tpla_max = tpla_max * density_factor  !In the sorghum version no density factor is used
- 
- 
-cscc 10/95 fixing the beta inflection coefficient as halfway to thermal
-c time of flag_leaf expanded. Code needs work as the halfway point jumps
-c around a bit as we progress (espec. when final_leaf_no is reset at floral in
 
-* scc fixed tpla_inflection  on 25/09/98
-* For sunflower, this inflection point is set to 0.65 in sunf.ini. This is not the
-* same as it was in the old model where the tpla_inflection is taken from the
-* estimate of tt_emerg_to_budvis
-* With tbase of 8 (original model), the fitted inflection was 517 deg days (over 5 genos)
-* With tbase of 4, this averaged should be 532 deg days (from SCC calculations in fit tpla.ssc)
-
-*the p_tpla_prod_coef is allowed to vary for cultivars in the sunf.par file
-
-         tt_since_begin = sum_between (begin_stage, current, g_tt_tot)
-
-         tpla_inflection = tt_begin_to_end_TPLA *
-     :           c_tpla_inflection_ratio
-
-c scc end of changes for tpla (more below)
-  
-!========================================================================
-!The following remains the same for sorghum and sunflower
-
-         g_tpla_today = divide (Tpla_max
-     :              , (1.0 + exp(-p_tpla_prod_coef
-     :                        * (tt_since_begin - tpla_inflection)))
-     :              , 0.0)
- 
-         if (g_tpla_today .lt. g_tpla_yesterday)then
-            g_tpla_today = g_tpla_yesterday
-         endif
- 
- 
-         g_dlt_lai_pot = (g_tpla_today - g_tpla_yesterday)
-     .                  *smm2sm * g_plants
- 
-         g_tpla_yesterday = g_tpla_today
- 
-      else
-      
-!Beyond TPLA growth stage
-         g_dlt_lai_pot = 0.0
- 
-      endif
- 
- 
       call pop_routine (my_name)
       return
       end
@@ -3412,8 +3311,6 @@ c scc end of changes for tpla (more below)
       call Pop_routine (myname)
       return
       end
-
-
 
 
 *     ===========================================================
