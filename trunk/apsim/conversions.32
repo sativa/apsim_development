@@ -1,3 +1,5 @@
+[Removed the default 'on process' from all tracker variables]
+command=RemoveTrackerDefault()
 
 [Converted 'module=legume(canola)' to 'module=plant(canola)']
 command=ChangeInstantiation(legume(canola),plant(canola))
