@@ -374,95 +374,136 @@ void Strings_to_olevariant (vector<string>& StlArray, VARIANT& OleVariant)
 
    SafeArrayUnaccessData (OleVariant.parray);
    }
+// ------------------------------------------------------------------
+// Load a component from a stream - NB The component must already
+// be created.  This method loads all it's properties.
+// ------------------------------------------------------------------
+void loadComponent(istream& in, TComponent* component)
+   {
+   if (component != NULL)
+      {
+      string contents;
+      string line;
+      while (getline(in, line) && line != "end")
+        contents += line + "\n";
+      contents += "end\n";
 
-// ------------------------------------------------------------------
-// Load a component from a file.
-// ------------------------------------------------------------------
-void loadComponent(AnsiString filename, TForm*& component)
-   {
-   if (component != NULL && component->Owner != NULL && FileExists(filename))
-      {
-      TFileStream* file = new TFileStream(filename, fmOpenRead);
-      TMemoryStream* memory = new TMemoryStream();
+      TMemoryStream* textStream = new TMemoryStream();
+      textStream->Write(contents.c_str(), contents.length());
+      textStream->Seek(0, 0);
+
+      TMemoryStream* binaryStream = new TMemoryStream();
+      TReader* reader;
       try
          {
-         ObjectTextToBinary(file, memory);
-         memory->Position = 0;
-         memory->ReadComponent(component);
+         ObjectTextToBinary(textStream, binaryStream);
+         binaryStream->Seek(0, 0);
+         reader = new TReader(binaryStream, 4096);
+         reader->BeginReferences();
+         reader->ReadSignature();
+         if (component->Owner == NULL)
+            reader->Root = component;
+         else
+            reader->Root = component->Owner;
+         reader->Parent = reader->Root;
+         reader->ReadComponent(component);
+         reader->FixupReferences();
          }
       __finally
          {
-         delete file;
-         delete memory;
+         delete reader;
+         delete textStream;
+         delete binaryStream;
          }
       }
    }
 // ------------------------------------------------------------------
-// Save a component to a file.
+// Load a series of components from a stream - NB The components must already
+// be created.  This method loads all it's properties.
 // ------------------------------------------------------------------
-void saveComponent(AnsiString filename, TForm* component)
+void loadComponents(istream& in, vector<TComponent*>& components)
    {
-   if (component != NULL && component->Owner != NULL)
+   TMemoryStream* binaryStream = new TMemoryStream();
+
+   for (unsigned c = 0; c != components.size(); c++)
       {
-      TMemoryStream* memory = new TMemoryStream();
-      TFileStream* file = new TFileStream(filename, fmCreate);
+      string contents;
+      string line;
+      while (getline(in, line) && line != "end")
+        contents += line + "\n";
+      contents += "end\n";
+
+      TMemoryStream* textStream = new TMemoryStream();
       try
          {
-         memory->WriteComponent(component);
-         memory->Position = 0;
-         ObjectBinaryToText(memory, file);
+         textStream->Write(contents.c_str(), contents.length());
+         textStream->Seek(0, 0);
+         ObjectTextToBinary(textStream, binaryStream);
          }
-      __finally
-        {
-        delete memory;
-        delete file;
-        }
+      catch (const Exception& err)
+         {
+         delete textStream;
+         delete binaryStream;
+         throw;
+         }
+      delete textStream;
       }
-   }
-// ------------------------------------------------------------------
-// Load a component from contents string.
-// ------------------------------------------------------------------
-void loadComponent(const string& contents, TForm*& component)
-   {
-   if (component != NULL && component->Owner != NULL)
+
+   binaryStream->Seek(0, 0);
+   TReader* reader = new TReader(binaryStream, 4096);
+   reader->BeginReferences();
+   for (unsigned c = 0; c != components.size(); c++)
       {
-      TMemoryStream* source = new TMemoryStream();
-      source->Write(contents.c_str(), contents.length());
-      source->Position = 0;
-      TMemoryStream* memory = new TMemoryStream();
+      if (components[c]->Owner == NULL)
+         reader->Root = components[c];
+      else
+         reader->Root = components[c]->Owner;
+      reader->Parent = reader->Root;
       try
          {
-         ObjectTextToBinary(source, memory);
-         memory->Position = 0;
-         memory->ReadComponent(component);
+         reader->ReadSignature();
+         reader->ReadComponent(components[c]);
          }
-      __finally
+      catch (const Exception& err)
          {
-         delete source;
-         delete memory;
+         delete reader;
+         delete binaryStream;
+         throw;
          }
       }
+   reader->FixupReferences();
+   delete reader;
+   delete binaryStream;
    }
 // ------------------------------------------------------------------
 // Save a component to the contents string.
 // ------------------------------------------------------------------
-void saveComponent(string& contents, TForm* component)
+void saveComponent(ostream& out, TComponent* component)
    {
-   if (component != NULL && component->Owner != NULL)
+   if (component != NULL)
       {
-      TMemoryStream* memory = new TMemoryStream();
-      TMemoryStream* dest = new TMemoryStream();
+      TMemoryStream* binaryStream = new TMemoryStream();
+      TMemoryStream* textStream = new TMemoryStream();
+      TWriter* writer = new TWriter(binaryStream, 4096);
       try
          {
-         memory->WriteComponent(component);
-         memory->Position = 0;
-         ObjectBinaryToText(memory, dest);
-         contents = string((char*) dest->Memory, dest->Position);
+         if (component->Owner == NULL)
+            writer->Root = component;
+         else
+            writer->Root = component->Owner;
+         writer->WriteSignature();
+         writer->WriteComponent(component);
+         delete writer;
+         binaryStream->Seek(0, 0);
+         textStream->Seek(0, 0);
+         ObjectBinaryToText(binaryStream, textStream);
+         string text = string((char*) textStream->Memory, textStream->Position);
+         out << text;
          }
       __finally
         {
-        delete memory;
-        delete dest;
+        delete binaryStream;
+        delete textStream;
         }
       }
    }
