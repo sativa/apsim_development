@@ -7,6 +7,9 @@
 
 void fatalError(const FString& st);
 
+// turn of the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
 namespace protocol {
 // ------------------------------------------------------------------
 //  Short description:
@@ -139,4 +142,8 @@ inline unsigned int memorySize(Variant& value)
    }
 
 } // namespace protocol
+
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
+
 #endif

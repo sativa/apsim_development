@@ -4,6 +4,10 @@
 #include "Messages.h"
 #include "ProtocolVector.h"
 class ApsimComponentData;
+
+// turn of the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
 namespace protocol {
 
 // forward declarations of our friends.
@@ -303,5 +307,8 @@ class Component
    } // end namespace protocol
 
 protocol::Component* createComponent(void);
+
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
 
 #endif
