@@ -4,8 +4,6 @@ What's been done:
  - removed 'save' statements to save local variables between calls - save will not work with multiple instantiations, eg intercropping or multi-paddock simulations. (not complete yet)
  - Cleaned up interface file
  - finish removing saves 
- 
-Still to be done:
  - properly connect to soilwater & nitrogen modules (ie set_other_variables()) *done, but needs check*
  - check no water & nitrogen uptake when dead.
  - clean up redundant globals/parameters. 
@@ -14,6 +12,8 @@ Still to be done:
        real COLDTT  ! Accumulated cold degree days (degree days)
 ...
  - separate constants/species/cultivar parameters in oryza_read_cultivar_params()
+
+Still to be done:
  - Build comprehensive test set (ie. both real data and 'problem' runs - try and deliberately crash the model)
  - Run with the compiler's "uninitialised variable" checking.
  - Write a program to translate a FSE oryza simulation to apsim con/par/met
