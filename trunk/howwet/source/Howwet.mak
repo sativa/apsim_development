@@ -1,6 +1,6 @@
 #
 # Borland C++ IDE generated makefile
-# Generated 15/07/2004 at 4:40:37 PM 
+# Generated 10/11/2004 at 12:38:12 PM 
 #
 .AUTODEPEND
 
@@ -31,10 +31,10 @@ BW32Debug_Info_lNoner =
 LinkerStyleSheetAtW32_howwetdexe = $(LinkerW32Debug_Info_lNoner)
 ResStyleSheetAtW32_howwetdexe = $(ResW32Debug_Info_lNoner)
 BStyleSheetAtW32_howwetdexe = $(BW32Debug_Info_lNoner)
-LinkerLocalOptsAtW32_howwetdexe =  -LC:\BC5\LIB;C:\MYDATA\DEVELOPMENT\HOWWET\SHARED -Tpe -aa -V4.0 -c
+LinkerLocalOptsAtW32_howwetdexe =  -LC:\BC5\LIB;..\SHARED -Tpe -aa -V4.0 -c
 ResLocalOptsAtW32_howwetdexe = 
 BLocalOptsAtW32_howwetdexe = 
-CompInheritOptsAt_howwetdexe = -I.\;C:\BC5\INCLUDE;C:\MYDATA\DEVELOPMENT\HOWWET\SHARED -DSTRICT;_OWLPCH;
+CompInheritOptsAt_howwetdexe = -I.\;C:\BC5\INCLUDE;..\SHARED -DSTRICT;_OWLPCH;
 LinkerInheritOptsAt_howwetdexe = -x
 LinkerOptsAt_howwetdexe = $(LinkerStyleSheetAtW32_howwetdexe) $(LinkerLocalOptsAtW32_howwetdexe)
 ResOptsAt_howwetdexe = $(ResStyleSheetAtW32_howwetdexe) $(ResLocalOptsAtW32_howwetdexe)
