@@ -51,6 +51,9 @@ command=DeleteParameter(report.variable_names)
 command=DeleteParameter(report.variable_alias)
 command=DeleteParameter(report.units)
 
+[Converted sum@ or avg@ variables to use the new TRACKER module]
+command=RemoveSumAvgToTracker()
+
 [Converted 'module=canola' to 'module=legume(canola)']
 command=ChangeInstantiation(canola, legume(canola))
 
