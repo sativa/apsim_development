@@ -142,6 +142,11 @@
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
+     SECTION:- start_of_day
+       if (day = 202 and year = 1995) then
+          crop_in = 1
+        endif
+     
      SECTION:- init
         crop_in = 0
         tiller0_finished = 0
@@ -150,11 +155,6 @@
         tiller3_finished = 0
         tiller4_finished = 0
         tiller5_finished = 0
-     
-     SECTION:- start_of_day
-       if (day = 202 and year = 1995) then
-          crop_in = 1
-        endif
      
      SECTION:- end_of_day
         report do_output
