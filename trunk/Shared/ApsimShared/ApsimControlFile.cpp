@@ -42,6 +42,10 @@ struct ParamFile
          moduleName = dllPath.Get_name_without_ext();
          dllFileName = dllPath.Get_path();
          }
+      else if (moduleName.find(".dll") != string::npos)
+         {
+         dllFileName = GetCurrentDir().c_str() + string("\\") + moduleName;
+         }
       else
          {
          dllFileName = getApsimDirectory() + "\\apsim\\" + moduleName + "\\lib\\"
@@ -146,7 +150,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                          p.instanceName = instanceName;
                          if (instanceName == "")
                             {
-                            if (moduleName.find("\\") != string::npos)
+                            if (moduleName.find('.') != string::npos)
                                p.instanceName = Path(moduleName).Get_name_without_ext();
                             else
                                p.instanceName = moduleName;
