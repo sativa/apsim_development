@@ -1,19 +1,17 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdio.h>
+#include <general/StringTokenizer.h>
+#include <general/Macro.h>
 #include "TestMacro.h"
-#include <general\StringTokenizer.h>
-#include <general\Macro.h>
-#include <general\xml.h>
 
-#pragma package(smart_init)
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test_framework;
+
 using namespace std;
 //---------------------------------------------------------------------------
 // Setup testbed
 //---------------------------------------------------------------------------
-void TestMacro::setUp(void)
+TestMacro::TestMacro()
    {
    const string dataContents
                 = "<data>\n"
@@ -51,7 +49,7 @@ void TestMacro::setUp(void)
 //---------------------------------------------------------------------------
 // Tear down the testbed
 //---------------------------------------------------------------------------
-void TestMacro::tearDown(void)
+TestMacro::~TestMacro()
    {
    unlink("test.data");
    }
