@@ -890,8 +890,8 @@ c     :              3)
      :           '()',
      :           year,
      :           numvals,
-     :           1800,
-     :           2000)
+     :           min_year,
+     :           max_year)
       call get_real_var (
      :           unknown_module,
      :           'radn',
