@@ -1,9 +1,0 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %thispath\..\..\base-source.apf
-
-[source]
-source  = sugar.for; %thispath\sugar.for
-source  = sgr_main.for; %thispath\sgr_main.for
-
