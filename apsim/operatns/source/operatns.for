@@ -584,7 +584,8 @@
       integer    recno
       character  Variable_name*32
       integer    modNameID
-      character  msg*200
+      character  msg*500
+      integer regID
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -608,12 +609,28 @@
             call get_next_word (Line, Destination)
             call get_next_word (Line, Action)
             Line = adjustl(line)
+            Line = Lower_case(Line)
+            Action = adjustl(Action)
+            Action = Lower_case(Action)
+            Destination = adjustl(Destination)
+            Destination = lower_case(Destination)
 
             call Write_string (
      :          ' Sending '
      :       // trim(Action)
      :       // ' message to '
      :       // trim(Destination))
+
+            if (Line <> ' ' .and.
+     :         index(Line, '=') .eq. 0) then
+               write (msg, '(50a)' )
+     :         'Operations message has data in a action line that does',
+     :         new_line,
+     :         ' not have a equals sign in it.  Please correct problem.'
+     :         , new_line
+     :         , 'Action line:- ', trim(Line)
+               call Fatal_error(ERR_user, msg)
+            endif
 
             if (Action .eq. 'set') then
                call Get_next_variable (Line,
@@ -631,22 +648,27 @@
      :               '.  Module doesnt exist.'
                   call fatal_error(err_user, msg)
                endif
-            else
-               call New_postbox ()
-               Data_stored = Store_in_postbox (Line)
-               if (Data_stored) then
-                  if (Action .eq. 'init') then
+            elseif (Action .eq. 'init') then
                      ! Init probably won't work via this method. Stop dead.
                         call Fatal_error(ERR_user,
      .                 'INIT messages do not work anymore. Use RESET')
+            else
+
+               call New_postbox ()
+               Data_stored = Store_message_data (Line)
+               if (Data_stored) then
+                  if (destination .eq. All_active_modules) then
+                     regID=Add_Registration (EventReg, Action
+     :                                       , ' ', ' ', ' ')
+                     call Event_Send (Action)
                   else
+                     call Action_send (destination, Action)
                   endif
-                  call Action_send(destination, Action)
                else
-                  write(msg, '(2a)' )
-     :               'Invalid operations line: ',
-     :               Line
-                  call Fatal_error(err_user, msg)
+!                  write(msg, '(2a)' )
+!     :               'Invalid operations line: ',
+!     :               Line
+!                  call Fatal_error(err_user, msg)
                endif
                call Delete_postbox ()
             endif
@@ -687,6 +709,110 @@
       return
       end subroutine
 
+* ====================================================================
+       logical function Store_message_data (Data_string)
+* ====================================================================
+      use ConstantsModule
+      use ErrorModule
+      use StringModule
+      use DataStrModule
+      Use infrastructure
+
+      implicit none
+!      include 'postbox.inc'
+
+*+ Sub-Program Arguments
+      character Data_string*(*)        ! (INPUT & OUTPUT) Data string to store into postbox.
+
+*+ Purpose
+*     Store the data string, as a scalar or array if possible into the current postbox.
+*     Return TRUE if something was stored.
+
+*+ Notes
+*     A data string will only be stored if an equals sign exists in the
+*     data_string somewhere.
+
+*+  Mission Statement
+*
+
+*+ Changes
+*     DPH 19/10/95
+*     dph 26/7/99 commented out test for fatal_error_found.  No longer
+*                 any such routine
+
+*+ Calls
+!      logical Fatal_error_found        ! function
+
+*+ Constant Values
+      character This_routine*(*)
+      parameter (This_routine='Store_message_data')
+
+*+ Local Variables
+      logical Stored                   ! Was message stored in postbox properly?
+      character Our_string*1000        ! Copy of string passed in.
+      character Variable_name*(MAX_VARIABLE_NAME_SIZE)
+                                       ! Our variable name
+      character Units*100              ! Units
+      character Variable_values*1000   ! Our variable values
+
+      integer MAX_ARRAY_SIZE
+      parameter (MAX_ARRAY_SIZE = 200)
+
+      character array(MAX_ARRAY_SIZE)*1000
+      integer numvals
+
+*- Implementation Section ----------------------------------
+
+      call push_routine(This_routine)
+
+         ! Make copy of string passed in.
+
+         call assign_string(Our_string, Data_string)
+
+         ! Loop through each variable on data string and store in postbox.
+
+
+10       continue
+         call Get_next_variable (Our_string, Variable_name,
+     :                           Variable_values)
+
+         if (Variable_values .ne. Blank) then
+            ! Found a variable all right.  Extract units and store variable.
+
+            call Split_off_units(Variable_values, Units)
+
+            !test if array and store in array and post char array
+            ! otherwise store in variable and send as char var
+            call String_to_char_array(Variable_values
+     :                              , array
+     :                              , MAX_ARRAY_SIZE
+     :                              , numvals)
+            if (numvals > 1) then
+               call Post_char_array (Variable_name
+     :                              , units
+     :                              , array
+     :                              , Numvals)
+            else if (numvals == 1) then
+               call Post_char_var (Variable_name
+     :                           , Units
+     :                           , array(1))
+            else
+               ! no values found - should never occur
+            endif
+
+            goto 10
+
+         else
+            ! No more variables found - exit.
+
+            Stored = .true.
+         endif
+
+      Store_message_data = Stored
+
+      call pop_routine(This_routine)
+      return
+      end function
 
       end module OperatnsModule
 
