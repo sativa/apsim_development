@@ -147,7 +147,7 @@ runoff_rate_power =        2   ! =P ______/
 ! ------------------- bottom boundary conditions --------------------
 [sample.apswim.bottom_boundary]  
 constant_gradient =    0   
-
+constant_potential = 0
 ! --------------------- top boundary conditions ---------------------
 [sample.apswim.top_boundary]  
 maximum_conductance =  4.0   ! (/h) initial soil surface conductance
