@@ -3,7 +3,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 *     ===========================================================
       subroutine sugar_phenology (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -71,14 +71,14 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_phenology_init (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -129,7 +129,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -146,7 +146,6 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
       implicit none
 
 *+  Sub-Program Arguments
@@ -194,14 +193,14 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_root_depth (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -246,7 +245,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -295,7 +294,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -357,14 +356,14 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_area_potential (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -416,14 +415,14 @@ c     :                    * g%swdef_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_area_init (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -464,7 +463,7 @@ c     :                    * g%swdef_expansion
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -485,7 +484,7 @@ c     :                    * g%swdef_expansion
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -514,10 +513,6 @@ c     :                    * g%swdef_expansion
 *                stress factors.  g_dlt_lai_pot can now be used
 *                in different places and stress applied only when
 *                required.
-
-*+  Calls
-      real       sugar_leaf_size       ! function
-cbak
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -559,7 +554,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -626,7 +621,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -644,7 +639,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -666,9 +661,6 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *+  Changes
 *      070495 nih taken from template
-
-*+  Calls
-      real       sugar_sla_max         ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -703,14 +695,14 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_death (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -752,7 +744,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -776,7 +768,7 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -805,9 +797,6 @@ cnh     :            * min (g_swdef_expansion, g_nfact_expansion)
 
 *+  Changes
 *       070495 nih taken from template
-
-*+  Calls
-      real       sugar_leaf_no_from_lai ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -877,7 +866,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -890,7 +879,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -935,7 +924,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
@@ -950,7 +939,7 @@ c     :         g_dm_green(cabbage)+g_dlt_dm_green(cabbage))
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -993,14 +982,14 @@ cnh what checks are there that there is enough N in plant to provide this
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_detachment (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -1060,7 +1049,7 @@ cnh what checks are there that there is enough N in plant to provide this
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1082,7 +1071,7 @@ cnh what checks are there that there is enough N in plant to provide this
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -1158,7 +1147,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1243,7 +1232,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1254,7 +1243,7 @@ cnh     NO MINIMUMS SET AS YET
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -1293,7 +1282,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1307,7 +1296,7 @@ cnh     NO MINIMUMS SET AS YET
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -1361,7 +1350,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1375,7 +1364,7 @@ cnh     NO MINIMUMS SET AS YET
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -1421,7 +1410,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1445,7 +1434,7 @@ cnh     NO MINIMUMS SET AS YET
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -1478,9 +1467,6 @@ cnh     NO MINIMUMS SET AS YET
 
 *+  Changes
 *       070495 nih taken from template
-
-*+  Calls
-      real       sugar_stage_code      ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1555,7 +1541,7 @@ cnh     NO MINIMUMS SET AS YET
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -1638,7 +1624,7 @@ cnh     NO MINIMUMS SET AS YET
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -1991,14 +1977,14 @@ c      leaf_no = 1.0 + sum_between (emerg, now, g_leaf_no)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_plant_death (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2103,7 +2089,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2128,7 +2114,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -2157,9 +2143,6 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
 *+  Changes
 *     070495 nih taken from template
-
-*+  Calls
-                                       ! lu_scr_sum
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2237,7 +2220,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2255,7 +2238,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -2304,7 +2287,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2354,7 +2337,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -2403,14 +2386,14 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (my_name)
       return
-      end
+      end function
 
 
 
 * ====================================================================
        real function sugar_profile_fasw ()
 * ====================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2448,7 +2431,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (myname)
       return
-      end
+      end function
 
 
 
@@ -2471,7 +2454,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
      :               )
 * ====================================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -2558,7 +2541,7 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -2633,14 +2616,14 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_graze ()
 *     ===========================================================
-            use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2653,9 +2636,6 @@ c         call sugar_death_external_action (g%dlt_plants_death_external)
 *+  Changes
 *     050996 nih specified and programmed
 *     271100 dph added eventInterface to call to crop_top_residue
-
-*+  Calls
-      real       sugar_leaf_no_from_lai! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2831,14 +2811,14 @@ c      call sugar_get_other_variables ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_root_depth_init (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2877,14 +2857,14 @@ c      call sugar_get_other_variables ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_root_dist (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -2939,14 +2919,14 @@ c      call sugar_get_other_variables ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_supply (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3015,14 +2995,14 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_uptake (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3074,14 +3054,14 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_demand (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3129,14 +3109,14 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_light_supply (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3176,14 +3156,14 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_bio_RUE (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3234,7 +3214,7 @@ c+!!!!!!!!! check order dependency of deltas
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3277,9 +3257,6 @@ c+!!!!!!!!! check order dependency of deltas
 *       060495 nih taken from template
 *       170700 nih added lodgine factor
 
-*+  Calls
-      real       sugar_rue_reduction   ! function
-
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'sugar_dm_pot_rue')
@@ -3313,7 +3290,7 @@ cnh      call sugar_radn_int (radn_int)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3373,14 +3350,14 @@ cnh      call sugar_radn_int (radn_int)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_transpiration_eff (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3416,7 +3393,7 @@ cnh      call sugar_radn_int (radn_int)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3474,14 +3451,14 @@ cnh      call sugar_radn_int (radn_int)
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_stress_pheno (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3517,14 +3494,14 @@ cnh      call sugar_radn_int (radn_int)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_stress_photo (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3557,14 +3534,14 @@ cnh      call sugar_radn_int (radn_int)
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_stress_expansion (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3579,9 +3556,6 @@ cnh      call sugar_radn_int (radn_int)
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
-c      real       mungb_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3602,14 +3576,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_stress_photo (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3651,14 +3625,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_stress_expansion (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3700,14 +3674,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_height (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3753,14 +3727,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_bio_actual (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3810,14 +3784,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_bio_partition (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -3891,7 +3865,7 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -3915,7 +3889,7 @@ c      real       mungb_swdef           ! function
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -4069,7 +4043,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4154,14 +4128,14 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_area_stressed (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4201,14 +4175,14 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_actual (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4253,14 +4227,14 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_bio_retrans (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4296,7 +4270,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4314,7 +4288,7 @@ cnh Due to small rounding errors I will say that small errors are ok
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -4386,7 +4360,7 @@ cnh Due to small rounding errors I will say that small errors are ok
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -4405,7 +4379,7 @@ cnh Due to small rounding errors I will say that small errors are ok
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -4481,14 +4455,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_area_sen_actual (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4526,14 +4500,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_sen_nit (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4573,14 +4547,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_sen_bio (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4629,14 +4603,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_sen_root_length (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4678,14 +4652,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_init (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4728,14 +4702,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_supply (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4791,14 +4765,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_retrans (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4837,14 +4811,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_demand (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4885,14 +4859,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_uptake (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4952,14 +4926,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_partition (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -4999,14 +4973,14 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_cleanup ()
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5141,7 +5115,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5166,7 +5140,7 @@ c     :                   + sum_between (emerg, now, g_leaf_no_dead))
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -5256,14 +5230,14 @@ c     :                   * 0.5
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_content_cane (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5311,7 +5285,7 @@ c     :                   * 0.5
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5326,7 +5300,7 @@ c     :                   * 0.5
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -5380,7 +5354,7 @@ c         call sugar_kill_crop ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5395,7 +5369,7 @@ c         call sugar_kill_crop ()
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -5445,7 +5419,7 @@ c         call sugar_kill_crop ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5459,7 +5433,7 @@ c         call sugar_kill_crop ()
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -5508,7 +5482,7 @@ c         call sugar_kill_crop ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5563,7 +5537,7 @@ c         call sugar_kill_crop ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5581,7 +5555,7 @@ c         call sugar_kill_crop ()
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -5644,7 +5618,7 @@ c         call sugar_kill_crop ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -5659,7 +5633,7 @@ c         call sugar_kill_crop ()
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -5724,14 +5698,14 @@ c         call sugar_kill_crop ()
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_log (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5746,9 +5720,6 @@ c         call sugar_kill_crop ()
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
-c      real       mungb_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5780,14 +5751,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_water_stress_stalk (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5802,9 +5773,6 @@ c      real       mungb_swdef           ! function
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
-c      real       mungb_swdef           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5833,14 +5801,14 @@ c      real       mungb_swdef           ! function
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_temp_stress_photo (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5883,14 +5851,14 @@ cnh I made it a subroutine like all the rest
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_temp_stress_stalk (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5933,12 +5901,12 @@ cnh I made it a subroutine like all the rest
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sugar_lodge_redn_photo (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -5976,12 +5944,12 @@ cnh I made it a subroutine like all the rest
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sugar_lodge_redn_sucrose (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6019,12 +5987,12 @@ cnh I made it a subroutine like all the rest
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sugar_lodge_redn_green_leaf (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6062,12 +6030,12 @@ cnh I made it a subroutine like all the rest
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine sugar_nit_stress_stalk (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6109,7 +6077,7 @@ cnh I made it a subroutine like all the rest
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6125,7 +6093,7 @@ cnh I made it a subroutine like all the rest
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -6232,7 +6200,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6299,14 +6267,14 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_min_sstem_sucrose (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6354,14 +6322,14 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_realloc (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6410,7 +6378,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6486,7 +6454,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6500,7 +6468,7 @@ c      N_stover_min = N_leaf_min + N_stem_min + N_cabbage_min
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -6562,14 +6530,14 @@ cnh for rlv at initialisation.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_bio_water (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6603,14 +6571,14 @@ cnh for rlv at initialisation.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sugar_leaf_area_sen (Option)
 * ====================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6675,7 +6643,7 @@ cnh for rlv at initialisation.
       endif
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
@@ -6691,7 +6659,7 @@ cnh for rlv at initialisation.
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -6729,14 +6697,14 @@ cnh for rlv at initialisation.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine sugar_nit_demand_est (Option)
 * ====================================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6802,7 +6770,7 @@ cnh for rlv at initialisation.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -6818,7 +6786,7 @@ cnh for rlv at initialisation.
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -6848,10 +6816,6 @@ cnh for rlv at initialisation.
 
 *+  Changes
 *     060495 nih taken from template
-
-*+  Calls
-cnh      real       bound                 ! function
-cnh      real       divide                ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -6945,14 +6909,14 @@ cnh conc for CANE.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_nit_stress_pheno (Option)
 *     ===========================================================
-            use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -6994,7 +6958,7 @@ cnh conc for CANE.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7014,7 +6978,7 @@ cnh conc for CANE.
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -7075,7 +7039,7 @@ cnh conc for CANE.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
@@ -7093,7 +7057,7 @@ cnh conc for CANE.
      :               )
 *     ===========================================================
       Use infrastructure
-      Use SugConst
+
       implicit none
 
 *+  Sub-Program Arguments
@@ -7142,14 +7106,14 @@ cnh conc for CANE.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_no_init (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -7192,14 +7156,14 @@ cnh conc for CANE.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine sugar_leaf_no_pot (Option)
 *     ===========================================================
-      use sugarModule
+
       Use infrastructure
       implicit none
 
@@ -7250,7 +7214,7 @@ cnh conc for CANE.
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
