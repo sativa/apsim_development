@@ -45,7 +45,7 @@
       parameter (myname = 'Eo_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V0.01 09/06/96')
+      parameter (version_number = 'V0.03 09/08/96')
 
 *   Initial data values
 *       none
@@ -932,12 +932,24 @@
       character  myname*(*)            ! Name of this procedure
       parameter (myname = 'Eo_get_other_variables')
 
+      character  fr_intc_radn_name*(*) ! name of fr_intc_radn variable
+      parameter (fr_intc_radn_name = 'fr_intc_radn_')
+      
+      integer    fr_intc_radn_name_length ! length of name
+      parameter (fr_intc_radn_name_length = 13)
+
+*   Internal variables - second round
+      character  temp_variable_name*(fr_intc_radn_name_length) 
+                                       ! temporary storage of first part of
+                                       !  variable name
 *   Initial data values
 *      none
 
 * --------------------- Executable code section ----------------------
       call push_routine (myname)
 
+cjh   this will never be got as nothing supplies this. To test for crops get the
+cjh   crop type.         
          !fr_intc_radn
       call get_real_var_optional (
      :      unknown_module
