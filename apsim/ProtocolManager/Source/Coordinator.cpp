@@ -498,7 +498,7 @@ void Coordinator::onReplyValueMessage(unsigned fromID, ReplyValueData replyValue
    try
       {
       unsigned toID = previousGetValueCompID.top();
-      if (toID == parentID)
+      if (toID == parentID || components[toID]->isSystem())
          {
          sendMessage(newReplyValueMessage(componentID,
                                           toID,

@@ -23,6 +23,7 @@ class ComponentAlias
          else
             return "";
          }
+      bool isSystem(void);
       unsigned int ID;
 
    private:

@@ -41,24 +41,30 @@ Field::Field (protocol::Component* p,
       {
       ModuleName = variable.substr(0, posPeriod);
       VariableName = variable.substr(posPeriod+1);
-      unsigned posAlias = VariableName.find(" as ");
-      if (posAlias != string::npos)
-         {
-         VariableAlias = VariableName.substr(posAlias+strlen(" as "));
-         VariableName.erase(posAlias, VariableName.length()-posAlias);
-         stripLeadingTrailing(VariableName, " ");
-         stripLeadingTrailing(VariableAlias, " ");
-         }
-
-      // at this stage simply register an interest in the variable.
-      variableID = parent->addRegistration(RegistrationType::get,
-                                           VariableName.c_str(),
-                                           stringArrayType,
-                                           "",
-                                           ModuleName.c_str());
-      if (posAlias != string::npos)
-         VariableName = VariableAlias;
       }
+   else
+      {
+      ModuleName = "";
+      VariableName = variable;
+      }
+
+   unsigned posAlias = VariableName.find(" as ");
+   if (posAlias != string::npos)
+      {
+      VariableAlias = VariableName.substr(posAlias+strlen(" as "));
+      VariableName.erase(posAlias, VariableName.length()-posAlias);
+      stripLeadingTrailing(VariableName, " ");
+      stripLeadingTrailing(VariableAlias, " ");
+      }
+
+   // at this stage simply register an interest in the variable.
+   variableID = parent->addRegistration(RegistrationType::get,
+                                        VariableName.c_str(),
+                                        stringArrayType,
+                                        "",
+                                        ModuleName.c_str());
+   if (posAlias != string::npos)
+      VariableName = VariableAlias;
    }
 
 // ------------------------------------------------------------------
