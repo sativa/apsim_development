@@ -21,10 +21,10 @@ OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\
   low_level\Rectangle.obj low_level\Screen.obj low_level\Series_base.obj \
   low_level\Text.obj low_level\Axis.obj high_level\Scatter_format.obj \
   high_level\Bar_format.obj high_level\Depth_chart.obj high_level\Format_base.obj \
-  high_level\Frequency_chart.obj high_level\high_level.obj \
-  high_level\High_level_chart_base.obj high_level\High_level_screen.obj \
-  high_level\Pred_obs_chart.obj high_level\Prob_chart.obj \
-  high_level\Scatter_chart.obj high_level\Apsim_depth_chart.obj
+  high_level\Frequency_chart.obj high_level\High_level_chart_base.obj \
+  high_level\High_level_screen.obj high_level\Pred_obs_chart.obj \
+  high_level\Prob_chart.obj high_level\Scatter_chart.obj \
+  high_level\Apsim_depth_chart.obj
 RESFILES =
 DEFFILE =
 RESDEPEN = $(RESFILES)
@@ -34,8 +34,7 @@ LIBRARIES =
 SPARELIBS = VCL35.lib tee35.lib
 PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
   Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi Rxctl.bpi Rxdb.bpi \
-  tee35.bpi teedb35.bpi teeUI35.bpi TeePro35.bpi HyperGrid.bpi APSGeneral.bpi \
-  UI.bpi
+  tee35.bpi teedb35.bpi teeUI35.bpi TeePro35.bpi HyperGrid.bpi APSGeneral.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;low_level;high_level
 PATHASM = .;
@@ -49,15 +48,15 @@ CFLAG2 = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
   -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared \
   -H=$(BCB)\lib\vcl35.csm
 CFLAG3 = -Tkh30000
-PFLAGS = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -U..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+PFLAGS = -U"c:\program files\borland\cbuilder3\lib";..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+  -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
   -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared -$Y \
   -$W -$O- -v -JPHN -M
 RFLAGS = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
   -ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 AFLAGS = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl \
   /id:\apsuite\shared /d_RTLDLL /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
-LFLAGS = -L..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
+LFLAGS = -L"c:\program files\borland\cbuilder3\lib";..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib;$(RELEASELIBPATH) \
   -aa -Tpd -x -Gn -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------

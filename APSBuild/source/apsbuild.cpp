@@ -15,6 +15,8 @@
 USELIB("..\..\shared\aps\aps32.lib");
 USELIB("..\..\shared\general\general.lib");
 USEFORM("TPlease_wait_form.cpp", Please_wait_form);
+USELIB("C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib");
+//---------------------------------------------------------------------------
 #include "TPlease_wait_form.h"
 //---------------------------------------------------------------------------
 static const char* MAKE_SWITCH = "-make";
@@ -38,7 +40,7 @@ void Read_response_file (const char* Response_file_name, string& File_contents)
    ifstream response (Response_file_name);
 
    Read_stream(response, File_contents);
-   }
+    }
 
 // ------------------------------------------------------------------
 //  Short description:
