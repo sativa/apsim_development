@@ -44,6 +44,8 @@ float CalcCropCost(void);
 float GetSeedWt(AnsiString Crop);
 float CalcUnitCost(float NRate, float SeedWt, float PlantingRate);
 float ProteinAdj(float Protein);
+float GetFloatFromFieldValues(AnsiString fieldName, TADOTable* table);
+AnsiString GetStringFromFieldValues(AnsiString fieldName, TADOTable* table);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -97,7 +99,7 @@ WhopEcon::WhopEcon(const string& parameters)
    EconForm->OpenEconDB();
    DATA->Scenario->First();
    if (!DATA->Scenario->Eof)
-      default_config_name =  String(DATA->Scenario->FieldValues["ScenarioName"]).c_str();
+      default_config_name =  GetStringFromFieldValues("ScenarioName", DATA->Scenario).c_str();
    else
       default_config_name = "Empty";
    EconForm->CloseEconDB();
@@ -141,7 +143,7 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
    DATA->Scenario->First();
    while (!DATA->Scenario->Eof)
    {
-      string name = String(DATA->Scenario->FieldValues["ScenarioName"]).c_str();
+      string name = GetStringFromFieldValues("ScenarioName", DATA->Scenario).c_str();
       factorValues.push_back(name);
       DATA->Scenario->Next();
    }
@@ -385,13 +387,13 @@ float GetPrice(int ScenarioIndex, AnsiString Crop, float *HarvestLoss, float Pro
    if(!DATA->Crop->Locate("ScenarioIndex;CropName",VarArrayOf(locvalues, 1),TLocateOptions()))
       return -1;
 
-   *HarvestLoss = DATA->Crop->FieldValues["HarvestLoss"];
+   *HarvestLoss = GetFloatFromFieldValues("HarvestLoss", DATA->Crop);
 
-   float DnGrde = DATA->Crop->FieldValues["Downgrade%"];
-   float Price = DATA->Crop->FieldValues["Price"];
-   float DnGrdeRetn = DATA->Crop->FieldValues["DowngradeReturn"];
-   float Levy = DATA->Crop->FieldValues["Levy"];
-   float Freight = DATA->Crop->FieldValues["Freight"];
+   float DnGrde = GetFloatFromFieldValues("Downgrade%", DATA->Crop);
+   float Price = GetFloatFromFieldValues("Price", DATA->Crop);
+   float DnGrdeRetn = GetFloatFromFieldValues("DowngradeReturn", DATA->Crop);
+   float Levy = GetFloatFromFieldValues("Levy", DATA->Crop);
+   float Freight = GetFloatFromFieldValues("Freight", DATA->Crop);
 
    // if crop is wheat, add protein adjustment
    if(Crop == "Wheat")Price += ProteinAdj(Protein);
@@ -401,6 +403,34 @@ float GetPrice(int ScenarioIndex, AnsiString Crop, float *HarvestLoss, float Pro
                                        Levy - Freight;
 }
 //---------------------------------------------------------------------------
+
+float GetFloatFromFieldValues(AnsiString fieldName, TADOTable* table)
+{
+   try
+   {
+      float fieldValue = table->FieldValues[fieldName];
+      return fieldValue;
+   }
+   catch(...)  // most likely error is that a blank or non-float was returned
+               // which couldn't be converted from Variant to float.
+   {
+      return 0.0;
+   }
+}
+
+AnsiString GetStringFromFieldValues(AnsiString fieldName, TADOTable* table)
+{
+   try
+   {
+      AnsiString fieldValue = table->FieldValues[fieldName];
+      return fieldValue;
+   }
+   catch(...)  // most likely error is that a blank or non-float was returned
+               // which couldn't be converted from Variant to float.
+   {
+      return "";
+   }
+}
 
 float ProteinAdj(float Protein)
 {
@@ -412,8 +442,8 @@ float ProteinAdj(float Protein)
    Protein = ((int)(Protein*10+0.5))/10.0;
 
    while(!DATA->WheatMatrix->Eof){
-      P1 = DATA->WheatMatrix->FieldValues["Protein%"];
-      I1 = DATA->WheatMatrix->FieldValues["Increment"];
+      P1 = GetFloatFromFieldValues("Protein%", DATA->WheatMatrix);
+      I1 = GetFloatFromFieldValues("Increment", DATA->WheatMatrix);
       if(Protein > P1){
          P0 = P1;
          I0 = I1;
@@ -441,8 +471,8 @@ float CalcAreaCost(void)
    DATA->AreaCosts->First();
    float AreaCost = 0.0;
    while(!DATA->AreaCosts->Eof){
-      AreaCost += (float)DATA->AreaCosts->FieldValues["OperationCost"];
-      AreaCost += (float)DATA->AreaCosts->FieldValues["ProductCost"];
+      AreaCost += GetFloatFromFieldValues("OperationCost", DATA->AreaCosts);
+      AreaCost += GetFloatFromFieldValues("ProductCost", DATA->AreaCosts);
       DATA->AreaCosts->Next();
    }
    return AreaCost;
@@ -454,7 +484,7 @@ float CalcCropCost(void)
    DATA->CropCosts->First();
    float CropCost = 0.0;
    while(!DATA->CropCosts->Eof){
-      CropCost += (float)DATA->CropCosts->FieldValues["OperationCost"];
+      CropCost += GetFloatFromFieldValues("OperationCost", DATA->CropCosts);
       DATA->CropCosts->Next();
    }
    return CropCost;
@@ -470,10 +500,10 @@ float CalcUnitCost(float NRate, float SeedWt, float PlantingRate)
    DATA->UnitCosts->First();
    float UnitCost = 0.0;
    while(!DATA->UnitCosts->Eof){
-      UnitCost += (float)DATA->UnitCosts->FieldValues["OperationCost"];
-      AnsiString Operation = DATA->UnitCosts->FieldValues["Operation"];
-      AnsiString Units = DATA->UnitCosts->FieldValues["ProductUnits"];
-      float Cost = (float)DATA->UnitCosts->FieldValues["ProductCost"];
+      UnitCost += GetFloatFromFieldValues("OperationCost", DATA->UnitCosts);
+      AnsiString Operation = GetStringFromFieldValues("Operation", DATA->UnitCosts);
+      AnsiString Units = GetStringFromFieldValues("ProductUnits", DATA->UnitCosts);
+      float Cost = GetFloatFromFieldValues("ProductCost", DATA->UnitCosts);
       float Factor;
       if(Operation == "Sowing *"){
          if(Units == "kg")Factor = 10.0;
@@ -488,7 +518,7 @@ float CalcUnitCost(float NRate, float SeedWt, float PlantingRate)
          UnitCost += Cost * Factor * NRate;
       }
       else{
-         float Rate = (float)DATA->UnitCosts->FieldValues["ProductRate"];
+         float Rate = GetFloatFromFieldValues("ProductRate", DATA->UnitCosts);
          UnitCost += Cost * Rate;
       }
       DATA->UnitCosts->Next();
