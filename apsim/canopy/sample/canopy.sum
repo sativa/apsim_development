@@ -20,8 +20,8 @@
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\maize\lib\maize.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\maize\lib\maize.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
@@ -48,7 +48,7 @@
 ------- canopy Initialisation -------------------------------------------------
       Initialising
       Module rotation for intercropping :
-     maize   cowpea
+     maize                           cowpea
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -195,15 +195,15 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
+------- cowpea Initialisation -------------------------------------------------
+      Initialising
+
 ------- maize Initialisation --------------------------------------------------
       Initialising, V1.0 2000.01.21
      
          - Reading constants
      
          - Reading constants
-
-------- cowpea Initialisation -------------------------------------------------
-      Initialising
 ------- Start of simulation  --------------------------------------------------
 10 January 1988(Day of year=10), manager: 
      Manager sending message :- maize sow  cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
