@@ -174,7 +174,6 @@
       <EventReg name="post_swim_timestep" type="post_swim_timestepType"/>
       <EventReg name="new_profile" type="new_profile"/>
 
-      <respondToEventReg name="tick" type="tickType"/>
       <respondToEventReg name="new_solute" type="new_soluteType"/>
       <respondToEventReg name="irrigated" type="irrigatedType"/>
       <respondToEventReg name="prepare" type="prepareType"/>
