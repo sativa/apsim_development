@@ -153,7 +153,7 @@ void TrackerVariable::doRegistrations(void)
                                            variable.c_str(),
                                            singleArrayDDML);
       protocol::Variant* variant;
-      bool ok = parent->getVariable(variableID, variant);
+      bool ok = parent->getVariable(variableID, variant, true);
       if (ok)
          {
          protocol::Type t = variant->getType();
