@@ -1,0 +1,68 @@
+[main]
+levels=1
+header=SurfaceH.htm
+title=Surface properties module
+inifile=
+parfile=
+rddfile=
+include_dir=c:\apsuite\apsim\main
+
+[contact1]
+Name=Mr Neil Huth
+JobDescription=Module Support Person
+Email=neil.huth@tag.csiro.au
+www=http://www.tcp.csiro.au
+
+[contact2]
+Name=Val Veraart
+JobDescription=APSIM Project Manager
+Email=valv@apsrusg.sth.dpi.qld.gov.au
+www=http://www.ind.dpi.qld.gov.au/apsru-bin/users.pl?user=valv&loc=toow&name=Val+Veraart
+
+[level1]
+inifile=no
+parfile=yes
+docname=surface1.htm
+header1=APSIM Surface Model, apsim_surface
+
+[style1]
+; g_ at start of name specifies a global variable
+; this information is not need for the documentation so it is deleted
+style=^g_
+meaning=""
+[style2]
+' changes to state variable are refered to as delta variables
+' We shall change this style element to the greek letter delta
+style=^dlt_
+meaning=|GREEK{D}
+
+[style3]
+style=_dep^
+meaning=|SUBSCRIPT{(in mm)}
+
+[style4]
+style=^theta
+meaning=|GREEK{T}
+
+[style5]
+style=^c_
+meaning=""
+
+[style6]
+style=^p_
+meaning=""
+
+[translation]
+surface_version=Current Version Number
+apsim_surface=Main interface routine
+surface_init=Perform module initialisation
+surface_read_param=Read all module parameters
+surface_zero_variables=Initialise all module variables
+surface_get_other_variables=Get values of state variables from other modules
+surface_send_my_variable=Provide data to other modules upon request
+surface_set_my_variable=Update internal state variable upon request
+surface_calc_scon=Calculate change in surface seal based upon rainfall information
+surface_get_swim_variables=Get the values of surface seal variables from apswim
+surface_scon_calc1=Calculate the surface conductance
+surface_scon_calc2=Calculate the surface conductance (Silburn & Connelly)
+surface_timestep_preparation=Get variables before swim timesteps
