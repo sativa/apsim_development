@@ -8,7 +8,7 @@
   Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step1]     [soilwat]     grasp.ini [standard]      
+  Module = grasp    [all]     [step1]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! Introduce dead grass
@@ -18,7 +18,7 @@
   Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step3]     [soilwat]     grasp.ini [standard]      
+  Module = grasp    [all]     [step3]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! Add growth by regrowth
@@ -28,7 +28,7 @@
   Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step5]     [soilwat]     grasp.ini [standard]      
+  Module = grasp    [all]     [step5]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! And growth by transpiration
@@ -38,7 +38,7 @@
   Module = met      NARAYEN.MET [weather]      
   Module = manager  [all]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [step6]     [soilwat]     grasp.ini [standard]      
+  Module = grasp    [all]     [step6]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
 
 ! SWIM interface.
@@ -48,7 +48,7 @@
   Module = met      GMTAPSIM.DAT [weather]      
   Module = manager  [all]      
   Module = apswim   [gmtb0]     ..\..\apswim\apswim.ini [standard]      
-  Module = grasp    [all]     [step8]     [swim]     grasp.ini [standard]      
+  Module = grasp    [all]     [step8]     [swim]     ..\grasp.ini [standard]      
   Module = residue2 [gmtb0]     residue2.ini [standard]      
   Module = surface  [gmtb0]      
 
@@ -59,7 +59,7 @@
   Module = met      NARAYEN.MET [weather]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
   Module = erosion  [ep]      
-  Module = grasp    [all]     [ep]     [soilwat]     grasp.ini [standard]      
+  Module = grasp    [all]     [ep]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
   Module = manager  [ep]      
 
@@ -68,7 +68,7 @@
   Module = report   [ep]     [ep-off]      
   Module = met      NARAYEN.MET [weather]      
   Module = soilwat2 [all]     soilwat2.ini [standard]      
-  Module = grasp    [all]     [ep]     [soilwat]     grasp.ini [standard]      
+  Module = grasp    [all]     [ep]     [soilwat]     ..\grasp.ini [standard]      
   Module = residue2 [all]     residue2.ini [standard]      
   Module = manager  [ep]      
 
