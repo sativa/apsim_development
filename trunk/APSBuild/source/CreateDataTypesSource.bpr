@@ -10,12 +10,13 @@
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="vcl.lib rtl.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
-      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
-      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
-      bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
-      bcb2kaxserver.bpi qrpt.bpi ibxpress.bpi nmfast.bpi indy.bpi"/>
+    <SPARELIBS value=""/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi qrpt.bpi 
+      bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeqr.bpi teeui.bpi 
+      teedb.bpi tee.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi vclie.bpi 
+      xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi nmfast.bpi 
+      bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi indy.bpi 
+      bcb2kaxserver.bpi adortl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -24,33 +25,34 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
-    <MAINSOURCE value="CreateDataTypesSource.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="CreateDataTypesSource.bpf"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
-      -tW -tWM"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC 
+      -tWM- -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32i.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
       <FILE FILENAME="CreateDataTypesSource.res" FORMNAME="" UNITNAME="CreateDataTypesSource.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CreateDataTypesSource.bpf" FORMNAME="" UNITNAME="CreateDataTypesSource" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CreateDataTypesSource.cpp" FORMNAME="" UNITNAME="CreateDataTypesSource" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CreateSource.cpp" FORMNAME="" UNITNAME="CreateSource" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
@@ -84,18 +86,14 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
-
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl
+Count=2
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=1
-Item0=..\..\shared\components\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item0=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -106,21 +104,14 @@ Count=1
 Item0=_DEBUG
 
 [HistoryLists\hlFinalOutputDir]
-Count=4
-Item0=..\..\Bin\
-Item1=..\..\Bin
-Item2=..\
-Item3=..
-
-[HistoryLists\hIBPIOutputDir]
 Count=1
-Item0=.
+Item0=..\..\Bin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/writexml
+RunParams=
 Launcher=
 UseLauncher=0
 DebugCWD=
