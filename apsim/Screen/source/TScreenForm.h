@@ -23,8 +23,11 @@ class TScreenForm : public TForm
       TMemo *Memo;
    TLabel *ErrorLabel;
    TLabel *FinishedLabel;
+   TLabel *CurrentDateLabel;
       void __fastcall PauseCheckBoxClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);
+   void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+   void __fastcall CloseButtonClick(TObject *Sender);
    private:	// User declarations
    public:		// User declarations
       __fastcall TScreenForm(TComponent* Owner);

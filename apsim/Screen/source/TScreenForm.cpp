@@ -20,9 +20,21 @@ void __fastcall TScreenForm::FormShow(TObject *Sender)
    {
    //
    ApsimSettings settings;
-   string pause;
-   settings.read("apsim|pauseOnComplete", pause);
-   PauseCheckBox->Checked = (pause == "" || Str_i_Eq(pause, "on"));
+   string st;
+   settings.read("apsim|pauseOnComplete", st);
+   PauseCheckBox->Checked = (st == "" || Str_i_Eq(st, "on"));
+
+   // restore position on screen
+   settings.read("apsim|left", st);
+   if (st != "")
+      {
+      Left = StrToInt(st.c_str());
+      settings.read("apsim|top", st);
+      Top = StrToInt(st.c_str());
+      settings.read("apsim|minimize", st);
+      if (st == "yes")
+         WindowState = wsMinimized;
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TScreenForm::PauseCheckBoxClick(TObject *Sender)
@@ -53,4 +65,21 @@ void TScreenForm::simulationHasFinished(void)
    FinishedLabel->Visible = true;
    CloseButton->Caption = "Close";
    }
+//---------------------------------------------------------------------------
+void __fastcall TScreenForm::FormClose(TObject *Sender, TCloseAction &Action)
+   {
+   CloseButtonClick(NULL);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TScreenForm::CloseButtonClick(TObject *Sender)
+   {
+   ApsimSettings settings;
+   settings.write("apsim|left", Left);
+   settings.write("apsim|top", Top);
+   if (WindowState == wsMinimized)
+      settings.write("apsim|minimize", "yes");
+   else
+      settings.write("apsim|minimize", "no");
+   }
+//---------------------------------------------------------------------------
 

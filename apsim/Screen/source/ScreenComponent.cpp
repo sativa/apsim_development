@@ -45,7 +45,7 @@ ScreenComponent::~ScreenComponent(void)
    ScreenForm->simulationHasFinished();
    if (ScreenForm->PauseCheckBox->Checked)
       {
-      while (ScreenForm->ModalResult != mrOk)
+      while (ScreenForm->Visible && ScreenForm->ModalResult != mrOk)
          Application->ProcessMessages();
       }
 
@@ -71,7 +71,7 @@ void ScreenComponent::doInit1(const FString& sdml)
    screenOutput = Str_i_Eq(componentData->getProperty("parameters", "screen_output"), "on");
    if (screenOutput)
       {
-      ScreenForm->Height = 450;
+      ScreenForm->Height = 466;
       summaryFileWriteID = addRegistration(respondToEventReg, "summaryFileWrite", "");
       }
    }
@@ -80,9 +80,17 @@ void ScreenComponent::doInit1(const FString& sdml)
 // ------------------------------------------------------------------
 void ScreenComponent::getStartEndDate(void)
    {
-   string st;
+   // put title on form.
    protocol::Variant* variant;
-   bool ok = getVariable(startDateID, variant);
+   bool ok = getVariable(titleID, variant);
+   if (ok)
+      {
+      string title;
+      variant->unpack(title);
+      ScreenForm->Caption = AnsiString("APSIM - ") + title.c_str();
+      }
+   string st;
+   ok = getVariable(startDateID, variant);
    if (ok)
       {
       double num;
@@ -116,21 +124,39 @@ void ScreenComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID
    if (eventID == tickID)
       {
       if (startDateJDay == 0)
+         {
          getStartEndDate();
+         updateInterval = (endDateJDay - startDateJDay) / 40;
+         if (updateInterval < 1)
+            {
+            updateInterval = 1;
+            ScreenForm->ProgressBar->Max = endDateJDay - startDateJDay;
+            }
+         else
+            ScreenForm->ProgressBar->Max = 40;
+         }
 
       protocol::ApsimVariant apsimVariant(this, variant);
       double jday;
       apsimVariant.get("jday", protocol::DTdouble, false, jday);
-//      unsigned jday;
-//      variant.unpack(jday);
       currentDate = jday;
-      int percent = (currentDate - startDateJDay) * 100 / (endDateJDay - startDateJDay);
-      if (percent / 5.0 == percent / 5)
+      static int interval = 0;
+      interval++;
+      if (interval == updateInterval || currentDate == endDateJDay)
          {
-         ScreenForm->ProgressBar->Position = percent;
+         interval = 0;
+         if (ScreenForm->ProgressBar->Position != ScreenForm->ProgressBar->Max)
+            ScreenForm->ProgressBar->StepIt();
+
+         GDate d;
+         d.Set(currentDate);
+         ostringstream out;
+         d.Write(out);
+         ScreenForm->CurrentDateLabel->Caption = out.str().c_str();
+
          Application->ProcessMessages();
          }
-      if (ScreenForm->ModalResult == mrOk)
+      if (!ScreenForm->Visible || ScreenForm->ModalResult == mrOk)
          terminateSimulation();
       }
    else if (eventID == summaryFileWriteID)
