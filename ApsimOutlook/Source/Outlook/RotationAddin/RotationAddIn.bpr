@@ -4,18 +4,19 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\ApsimOutlook\RotationAddIn\RotationAddIn.dll"/>
-    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj ..\CropFields.obj 
-      RotationValues.obj TRenameRotationForm.obj"/>
+    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj ..\CropFields.obj
+      RotationValues.obj TRenameRotationForm.obj K:\general\stristr.obj
+      K:\general\ini_file.obj K:\general\path.obj K:\general\string_functions.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRotationForm.dfm TRenameRotationForm.dfm"/>
-    <LIBFILES value="general.lib"/>
+    <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib VCLDB50.lib"/>
-    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
-      ibsmp50.bpi vcldbx50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi 
-      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi TEE4C5.bpi 
-      TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi OpenXML.bpi 
+    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi
+      ibsmp50.bpi vcldbx50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi Inet50.bpi
+      NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TeeGL4C5.bpi TEE4C5.bpi
+      TeeQR4C5.bpi TEEDB4C5.bpi TEEUI4C5.bpi TEEPRO4C5.bpi OpenXML.bpi
       dclusr50.bpi vclado50.bpi APSGENERAL.bpi tmsc5.bpi VCLIB50.bpi APSData.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
@@ -32,7 +33,7 @@
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>

@@ -7,13 +7,15 @@
     <OBJFILES value="WhopEconAddin.obj Crop.obj DataForm.obj Econ.obj About.obj
       ..\TVALUESELECTIONFORM.obj TWEValueSelectionForm.obj WhopEcon.obj
       ..\Scenario.obj WheatMatrix.obj SeedWeight.obj ..\CropFields.obj
-      EconConfigCropData.obj EconConfigData.obj"/>
+      EconConfigCropData.obj EconConfigData.obj K:\general\math_functions.obj
+      K:\general\path.obj K:\general\string_functions.obj
+      K:\general\ini_file.obj K:\general\db_functions.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) Crop.dfm DataForm.dfm Econ.dfm About.dfm
       ..\TVALUESELECTIONFORM.dfm TWEValueSelectionForm.dfm WheatMatrix.dfm
       SeedWeight.dfm"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot; &quot;C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib&quot;"/>
+    <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib Vcldb50.lib vclx50.lib vclbde50.lib vcldbx50.lib vclado50.lib
       dclusr50.lib APSData.lib TEE4C5.lib TEEUI4C5.lib TEEDB4C5.lib

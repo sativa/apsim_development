@@ -4,25 +4,26 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\APSIMOutlook\ApsimOutlook.exe"/>
-    <OBJFILES value="ApsimOutlook.obj about.obj ChildWin.obj Main.obj TChartSettingsForm.obj 
-      TDrill_down_form.obj TPreferences_form.obj TSkin.obj TSplashForm.obj 
-      TTabRenameForm.obj TValueSelectionForm.obj Scenarios.obj factor.obj 
-      Scenario.obj AddIn.obj ToolBarAddIn.obj"/>
+    <OBJFILES value="ApsimOutlook.obj about.obj ChildWin.obj Main.obj TChartSettingsForm.obj
+      TDrill_down_form.obj TPreferences_form.obj TSkin.obj TSplashForm.obj
+      TTabRenameForm.obj TValueSelectionForm.obj Scenarios.obj factor.obj
+      Scenario.obj AddIn.obj ToolBarAddIn.obj K:\general\string_functions.obj
+      K:\general\ini_file.obj K:\general\path.obj K:\general\stream_functions.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) about.dfm ChildWin.dfm Main.dfm TChartSettingsForm.dfm 
-      TDrill_down_form.dfm TPreferences_form.dfm TSplashForm.dfm 
+    <RESDEPEN value="$(RESFILES) about.dfm ChildWin.dfm Main.dfm TChartSettingsForm.dfm
+      TDrill_down_form.dfm TPreferences_form.dfm TSplashForm.dfm
       TTabRenameForm.dfm TValueSelectionForm.dfm"/>
-    <LIBFILES value="aps32.lib &quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot;"/>
+    <LIBFILES value="aps32.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="Vcl50.lib VCLX50.lib Vclbde50.lib vcldb50.lib APSData.lib TEE4C5.lib 
-      TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib thirdparty.lib 
+    <SPARELIBS value="Vcl50.lib VCLX50.lib Vclbde50.lib vcldb50.lib APSData.lib TEE4C5.lib
+      TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib thirdparty.lib
       VCLADO50.lib TMSC5.lib"/>
-    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi 
-      ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi 
-      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TEEDB4C5.bpi 
-      TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi 
-      thirdparty.bpi APSGENERAL.bpi VCLADO50.bpi tmsc5.bpi APSData.bpi 
+    <PACKAGES value="Vcl50.bpi Vclx50.bpi bcbsmp50.bpi Qrpt50.bpi Vcldb50.bpi Vclbde50.bpi
+      ibsmp50.bpi vcldbx50.bpi VCLIB50.bpi bcbie50.bpi vclie50.bpi Inetdb50.bpi
+      Inet50.bpi NMFast50.bpi dclocx50.bpi bcb97axserver50.bpi TEEDB4C5.bpi
+      TEE4C5.bpi TEEUI4C5.bpi TeeQR4C5.bpi TEEGL4C5.bpi TEEPRO4C5.bpi
+      thirdparty.bpi APSGENERAL.bpi VCLADO50.bpi tmsc5.bpi APSData.bpi
       vcljpg50.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -39,7 +40,7 @@
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl50.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -v -JPHNE -M"/>
     <RFLAGS value=""/>
