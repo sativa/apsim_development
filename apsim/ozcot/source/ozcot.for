@@ -46,7 +46,7 @@
 *   Constant values
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V3.29  250996' )
+      parameter (version_number = 'V3.3  30/04/98' )
 
 *   Initial data values
 *       none
@@ -278,6 +278,10 @@ cpsc      call Init()                      ! now called from o_zero_variables
 *      psc - 30/03/94 specified properly
 *      DPH - 7/7/94  Removed free format internal read to title.  Line now
 *                    reads title = param_string
+*      psc - 15/4/98 Add ll, remove title, asoil from read
+*      jngh - 30/4/98 kept numvals of ll read as global
+*                     made reading of ll optional with a warning error if not found
+*                    as ll15 will then be used.
 
 *   Calls:
 *      Get_param
@@ -292,6 +296,7 @@ cpsc      call Init()                      ! now called from o_zero_variables
 
 *   Global variables
        include 'ozcot.inc'            ! ozcot model common block
+       include 'const.inc'             ! Constant definitions
 
 *   Internal variables
        integer numvals
@@ -307,16 +312,30 @@ cpsc      call Init()                      ! now called from o_zero_variables
 
 * --------------------- Executable code section ----------------------
       call push_routine(myname)
-         ! Read in title from parameter file
-      call read_char_array (section_name
-     :                     , 'title', 15, '()'
-     :                     , title, numvals)
+!         ! Read in title from parameter file
+!      call read_char_array (section_name
+!     :                     , 'title', 15, '()'
+!     :                     , title, numvals)
 
-         ! Read in soil temperature factor from parameter file
-      call read_real_var (section_name
-     :                    , 'asoil', '()'
-     :                     , asoil, numvals
-     :                     , 0.0, 10000.0)
+!         ! Read in soil temperature factor from parameter file
+!      call read_real_var (section_name
+!     :                    , 'asoil', '()'
+!     :                     , asoil, numvals
+!     :                     , 0.0, 10000.0)
+
+      call read_real_array_optional (section_name
+     :                     , 'll', max_layers, '(mm/mm)'
+     :                     , unul, g_num_ll_vals
+     :                     , 0.0, 1.0)
+     
+      if (g_num_ll_vals.ne.0) then
+         ! LL found
+      else
+         ! LL not found
+         call warning_error (err_user
+     :         , ' Cotton LL not found. Using Soilwat LL15 instead.' )
+      endif
+
       call pop_routine(myname)
       return
       end
@@ -375,6 +394,7 @@ cpsc      call Init()                      ! now called from o_zero_variables
       das = 0
       delay = 0.0
       idayx = 0
+      g_num_ll_vals = 0
       Crop_in = .false.
       Zero_variables = .false.
       call pop_routine(myname)
@@ -631,6 +651,7 @@ cpsc         call cm_cultv (cv_name)
 *                   exist then seed no3ppm with some high values.
 *      DPH - 11/7/94   Fixed bug in detection of existence of N module.
 *      JNGH - 12/7/94 Changed dlayer in cm to dlayr_cm
+*      psc - commented out read of LL_DEP
 
 *   Calls:
 *     get_variable_value
@@ -711,11 +732,15 @@ cpsc         call cm_cultv (cv_name)
      :                                    , bulkd, numvals
      :                                    , 0.0, 1000.0)
 
-      ! Get unavailable sw
-      call get_real_array (unknown_module, 'll15_dep', max_layers
-     :                                    , '(mm)'
+      if (g_num_ll_vals .eq.0) then
+         ! Get unavailable sw - use ll15 because crop ll is unavailable
+         call get_real_array (unknown_module, 'll15', max_layers
+     :                                    , '(mm/mm)'
      :                                    , unul, numvals
-     :                                    , 0.0, 1000.0)
+     :                                    , 0.0, 1.0)
+      else
+         ! ll had been read at init
+      endif
 
       ! Get upper limit of available sw
       call get_real_array (unknown_module, 'dul_dep', max_layers
@@ -742,6 +767,7 @@ C      ULLAYR(J) = ULLAYR(J)*2.      !   simulate skip row
 C      UNUL(J)   = UNUL(J)*2.        !          ditto
 
       do 10 Layer = 1, nlayr
+         unul(layer) = unul(layer) * dlayr(layer)
          ullayr(Layer) = ullayr(Layer) - unul(Layer)
          ullayr(layer) = ullayr(layer) / dlayr(layer)
          stlayr(Layer) = stlayr(Layer) - unul(Layer)

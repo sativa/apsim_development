@@ -33,8 +33,8 @@
 [o97_1_1.report.parameters]
   Title        = Alan Hunter, Moree, cotton 1995/96
   Screen_output= on
-  Outputfile   = c:\apsim\ozcot\outputs\o_971_1.000    /overwrite 
-  Summaryfile  = c:\apsim\ozcot\outputs\s_971_1.000    /overwrite 
+  Outputfile   = o_971_1.000   ! /overwrite 
+  Summaryfile  = s_971_1.000   ! /overwrite 
 
 [o97_1_1.manager.end_of_day]
 
@@ -54,9 +54,9 @@
 
 [o97_1_2.report.parameters]
   Title        = James Clarke, Croppa Creek, cotton 1995/96
-  Screen_output= on
-  Outputfile   = c:\apsim\ozcot\outputs\o_971_2.000    /overwrite 
-  Summaryfile  = c:\apsim\ozcot\outputs\s_971_2.000    /overwrite 
+  Screen_output= on      
+  Outputfile   = o_971_2.000   ! /overwrite 
+  Summaryfile  = s_971_2.000   ! /overwrite 
 
 [o97_1_2.input.parameters]
   Start_day  =  190
@@ -88,8 +88,8 @@
 [o97_1_3.report.parameters]
   Title        = Mac Patterson, Billa Billa, cotton 1995/96
   Screen_output= on
-  Outputfile   = c:\apsim\ozcot\outputs\o_971_3.000    /overwrite 
-  Summaryfile  = c:\apsim\ozcot\outputs\s_971_3.000    /overwrite 
+  Outputfile   = o_971_3.000   ! /overwrite 
+  Summaryfile  = s_971_3.000   ! /overwrite 
 
 [o97_1_3.manager.end_of_day]
 
