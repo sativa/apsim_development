@@ -7,6 +7,7 @@
       include 'engine.pub'                        
       include 'error.pub'                         
       include 'event.inc'
+      include 'action.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -31,7 +32,16 @@
          call apswim_Send_my_variable (Data_string) 
 
       else if (Action.eq.MES_Init) then
-         call apswim_Init ()
+         call apswim_zero_module_links()
+         call apswim_reset ()
+         call apswim_sum_report ()
+
+      else if ((Action.eq.ACTION_reset)
+     :         .or.(Action.eq.ACTION_init)) then
+         call apswim_reset ()
+
+      else if (action.eq.mes_sum_report) then
+         call apswim_sum_report ()
  
       else if (action.eq.EVENT_tick) then
          call apswim_ONtick ()
@@ -39,8 +49,7 @@
       else if (Action .eq. MES_Prepare) then
          call apswim_prepare ()
  
-      else if (Action.eq.MES_Process) then
- 
+      else if (Action.eq.MES_Process) then 
          call apswim_Process ()
  
       else if (Action .eq. MES_Post) then
@@ -78,7 +87,7 @@
 
 
 * ====================================================================
-       subroutine apswim_Init ()
+       subroutine apswim_Reset ()
 * ====================================================================
       implicit none
        include 'const.inc'
@@ -95,7 +104,7 @@
 
 *+  Constant Values
       character myname*(*)
-      parameter (myname = 'apswim_init')
+      parameter (myname = 'apswim_reset')
 
 *+  Local Variables
        character Event_string*40       ! String to output
@@ -160,10 +169,7 @@
  
       ! check all inputs for errors
       call apswim_check_inputs()
- 
-      ! output initialisation parameters to summary file
-      call apswim_init_report()
- 
+  
       ! initialise solute information
       !call apswim_init_solute()
  
@@ -1862,8 +1868,6 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       do 102 vegnum=1,MV
          pep(vegnum) = 0d0
          do 101 solnum=1,nsol
-            solute_names(solnum) = ' '
-            solute_owners(solnum) = ' '
             solute_demand(vegnum,solnum) = 0d0
   101    continue
   102 continue
@@ -1872,6 +1876,33 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
  
       return
       end
+
+* ====================================================================
+       subroutine apswim_zero_module_links ()
+* ====================================================================
+      implicit none
+      include 'apswim.inc' 
+      include 'data.pub'                          
+
+*+  Purpose
+*     Reset all information regarding links to other modules
+
+*+  Changes
+*     100999 - NIH
+
+*+  Local Variables
+       integer solnum
+
+*- Implementation Section ----------------------------------
+ 
+      do 100 solnum=1,nsol
+         solute_names(solnum) = ' '
+         solute_owners(solnum) = ' '
+  100 continue
+  
+      return
+      end
+
 
 
 
@@ -3005,7 +3036,7 @@ cnh
 
 
 * ====================================================================
-       subroutine apswim_init_report ()
+       subroutine apswim_sum_report ()
 * ====================================================================
       implicit none
        include 'const.inc'
@@ -3023,7 +3054,7 @@ cnh
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
-      parameter (myname = 'apswim_init_report')
+      parameter (myname = 'apswim_sum_report')
 *
       integer num_psio
       parameter (num_psio = 4)
@@ -7824,15 +7855,23 @@ c      pause
 
       if (solnum .gt. 0) then
          ! only continue if solute exists. 
-         call get_double_array (
-     :           solute_owners(solnum),
-     :           solname,
-     :           n+1,
-     :           '(kg/ha)',
-     :           solute_n(0),
-     :           numvals,
-     :           c_lb_solute,
-     :           c_ub_solute)
+         if (solute_owners(solnum).ne.' ') then
+
+            call get_double_array (  
+     :              solute_owners(solnum),
+     :               solname,
+     :              n+1,
+     :              '(kg/ha)',
+     :              solute_n(0),
+     :              numvals,
+     :              c_lb_solute,
+     :              c_ub_solute)
+         else
+               call fatal_error (Err_User,
+     :            'No module has registered ownership for solute: '
+     :            //solname)
+
+         endif
  
          if (numvals.gt.0) then
  
