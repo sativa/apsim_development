@@ -30,10 +30,10 @@ end
 ; -----------------------------------------------------------
 class APSIMCorrelExternal
 ; variables from other modules by correl_get_other_variables_init
-    p%names(i)              : APSIMReal             = Data values for correlation - to determine which variables are available, (), GET, -1000.0, 10000.0, optional
+    p%names(i)              : APSIMReal             = Data values for correlation - to determine which variables are available, (), GET_OPT, -1000.0, 10000.0
 
 ; variables from other modules by correl_get_other_variables
-    g%name_found(i)         : APSIMReal             = Data values of variables found, used for correlation, (), GET, -1000.0, 10000.0, optional
+    g%name_found(i)         : APSIMReal             = Data values of variables found used for correlation, (), GET_OPT, -1000.0, 10000.0
 
 end
 
