@@ -10,8 +10,8 @@
 
 *   Notes:
 *   $Log$
-*   Revision 1.8  1996/08/15 00:42:54  WrightS
-*   Patch 10
+*   Revision 1.1  1996/11/04 00:10:24  SidWright
+*   Initial revision
 *r  $
 *      
 *         Rev 1.7   19 Jul 1995 18:21:16   PVCSUSER
@@ -52,7 +52,7 @@
       parameter (my_name = 'millet_version')
 
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.12 150896')
+      parameter (version_number = 'V1.11 230696')
 
 *   Initial data values
 *       none
@@ -1848,7 +1848,6 @@ cjh      endif
 *   Changes:
 *     010994 jngh specified and programmed
 *     220696 jngh optimised order of gets
-*     140896 jngh modified fr_intc_radn name to inclued a suffix of module name
 
 *   Calls:
 *     add_real_array
@@ -1883,7 +1882,6 @@ cjh      endif
       real       dlayer(max_layer)     ! soil layer depths (mm)
       real       NO3(max_layer)        ! soil NO3 content (kg/ha)
       real       NO3_min(max_layer)    ! soil NO3 minimum (kg/ha)
-      character  module_name*(Max_module_name_size) ! module name
       real       soil_temp             ! soil surface temperature (oC)
       
 *   Constant values
@@ -1908,14 +1906,9 @@ cjh      endif
      :                                    , c_year_lb, c_year_ub)
 
                                ! canopy
-      call get_current_module (module_name)
-      call get_real_var_optional (unknown_module
-     :                           , 'fr_intc_radn_'//module_name
-     :                           , '()'
-     :                           , g_fr_intc_radn
-     :                           , numvals
-     :                           , 0.0
-     :                           , 1.0)
+      call get_real_var_optional (unknown_module, 'fr_intc_radn', '()'
+     :                                  , g_fr_intc_radn, numvals
+     :                                  , 0.0, 1.0)
 
                                 ! climate
       call get_real_var (unknown_module, 'latitude', '(oL)'
