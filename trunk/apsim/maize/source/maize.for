@@ -4,7 +4,7 @@
 
       contains
 
-      include 'cropmodmain.for'
+      include 'cropmodcomms.for'
 
 
 C     Last change:  E    31 Jul 2001    1:26 pm
