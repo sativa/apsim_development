@@ -497,8 +497,25 @@ void DEToolBar::doCalculations(TAPSTable& data)
             vector<double> Base_cash_flow, Base_cash_flow_BIT, Base_cum_cash_flow,
                            Base_cum_cash_flow_BIT;
 
-            // loop through blocks and find base case:
+            TAPSTable* new_data = new TAPSTable(NULL);
+            vector<string> vSim, vYr;
+            bool ok = data.first();
+            new_data->first();
+            while (ok)
+            {
+               data.fieldAsStringArray("Simulation", vSim);
+               new_data->storeStringArray("Simulation", vSim);
+               data.fieldAsStringArray("Year", vYr);
+               new_data->storeStringArray("Year", vYr);
+               ok = data.next();
+               new_data->next();
+            }
+
+            new_data->copyAndFillPivots(data);
+
+           // loop through blocks and find base case:
             bool found = false;
+            data.first();
             while (!found)
             {
                string name = data.getDataBlockName();
@@ -522,7 +539,8 @@ void DEToolBar::doCalculations(TAPSTable& data)
                            cum_cash_flow_BIT;
 
             // loop through data calculating additional values and storing them.
-            bool ok = data.first();
+            ok = data.first();
+            new_data->first();
             while (ok)
             {
                data.fieldAsNumericArray("Net Cash Flow ($)", cash_flow);
@@ -535,13 +553,17 @@ void DEToolBar::doCalculations(TAPSTable& data)
                Add_cum_cash_flow = subtract(cum_cash_flow, Base_cum_cash_flow);
                Add_cum_cash_flow_BIT = subtract(cum_cash_flow_BIT, Base_cum_cash_flow_BIT);
 
-               data.storeNumericArray("Add Net Cash Flow ($)", Add_cash_flow);
-               data.storeNumericArray("Add Net Cash Flow BIT($)", Add_cash_flow_BIT);
-               data.storeNumericArray("Add Cum Cash Flow ($)", Add_cum_cash_flow);
-               data.storeNumericArray("Add Cum Cash Flow BIT($)", Add_cum_cash_flow_BIT);
+               new_data->storeNumericArray("Add Net Cash Flow ($)", Add_cash_flow);
+               new_data->storeNumericArray("Add Net Cash Flow BIT($)", Add_cash_flow_BIT);
+               new_data->storeNumericArray("Add Cum Cash Flow ($)", Add_cum_cash_flow);
+               new_data->storeNumericArray("Add Cum Cash Flow BIT($)", Add_cum_cash_flow_BIT);
 
+               new_data->next();
                ok = data.next();
             }
+
+            data.storeData(*new_data);
+            delete new_data;
             break;
          }
 
