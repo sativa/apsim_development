@@ -92,10 +92,19 @@ void IniFile::read(const string& section, const string& key,
 void IniFile::readSectionNames(vector<string>& sections) const
 	{
    sections.erase(sections.begin(), sections.end());
-
    flush();
-   GetPrivateProfileString(NULL, "", "", st, sizeof(st), fileName.c_str());
-   getWordsFromDoubleNullSt(st, sections);
+
+   // Go find all sections in the .ini file.  Can't use GetPrivateProfileString
+   // because you need a very large string buffer if there are a lot of
+   // sections.
+   ifstream in(fileName.c_str());
+   string line, section;
+   while (getline(in, line, '\n'))
+      {
+      section = getSectionName(line);
+      if (section != "")
+         sections.push_back(section);
+      }
    }
 // ------------------------------------------------------------------
 // Read and return the contents of the specified section.
