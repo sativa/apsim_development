@@ -11,7 +11,7 @@ wt_biomass = 0
 wt2_biomass = 0
 
 [all.canopy.parameters]
-intercrop = nwheat ryegrass radish nwheat2 ryegras2 radish2
+intercrop = wheat ryegrass radish wheat2 ryegras2 radish2
 
 [all.accum.parameters]
 accum_variables = rain[10]
@@ -36,22 +36,22 @@ variable = manager.rg2_sowdate
 variable = manager.wt2_sow_date
 variable = radish.flowering_date as rd_flower
 variable = ryegrass.flowering_date as rg_flower
-variable = nwheat.anth_date as wt_flower
+variable = wheat.flowering_date as wt_flower
 variable = radish2.flowering_date as rd2_flower
 variable = ryegras2.flowering_date as rg2_flower
-variable = nwheat2.anth_date as wt2_flower
+variable = wheat2.flowering_date as wt2_flower
 variable = radish.biomass as rd_biomass
 variable = radish.yield as rd_yield
 variable = ryegrass.biomass as rg_biomass
 variable = ryegrass.yield as rg_yield
 variable = manager.wt_biomass as wt_biomass
-variable = nwheat.yield as wt_yield
+variable = wheat.yield as wt_yield
 variable = radish2.biomass as rd2_biomass
 variable = radish2.yield as rd2_yield
 variable = ryegras2.biomass as rg2_biomass
 variable = ryegras2.yield as rg2_yield
 variable = manager.wt_biomass as wt2_biomass
-variable = nwheat2.yield as wt2_yield
+variable = wheat2.yield as wt2_yield
 [all.clock.parameters]
 start_date = 1/1/1957     ! dd/mm/yyyy
 end_date = 26/12/2001     ! dd/mm/yyyy
@@ -114,8 +114,8 @@ density2= 1000
 
 !report do_output
 
-wt_biomass = nwheat.tops_biom * 10.
-wt2_biomass = nwheat2.tops_biom * 10.
+wt_biomass = wheat.biomass_wt * 10.
+wt2_biomass = wheat2.biomass_wt * 10.
 
 ! Exponential decay curve to vary row spacing with density such that 1 plant/m2 has 1000mm row space and 1000 plants/m2 has 100mm row space
 rowspace1 = 10 + 978.102*2.72^(-0.433045*density1) + 360.258*2.72^(-0.012816*density1)
@@ -149,17 +149,19 @@ if day = 350 then
    radish2 harvest
 !   radish2 kill_crop
    radish2 end_crop
-   nwheat harvest
-   nwheat2 harvest
+   wheat harvest
+   wheat end_crop
+   wheat2 harvest
+   wheat2 end_crop
    first_op_to_sow = 0
 endif
 
 ! **** monocrops *****!
 
 [wt.manager.start_of_day]
-if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and nwheat.nwheat_status = 0 then
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and wheat.plant_status = 'out' then
    wt_sow_date = day
-   nwheat sow plants = density1(/m2), depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
    fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
 endif
 
@@ -181,15 +183,15 @@ endif
 ! **** intercrops *****!
 
 [wt_wt.manager.start_of_day]
-if ready_to_sow = 1 and nwheat.nwheat_status = 0 then
+if ready_to_sow = 1 and wheat.plant_status = 'out' then
    wt_sow_date = day
-   nwheat sow plants = density1(/m2), depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
    fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
 endif
 
-if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and nwheat2.nwheat_status = 0 then
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and wheat2.plant_status = 'out' then
    wt2_sow_date = day
-   nwheat2 sow plants = density2(/m2), depth = 45 (mm),row_spacing = rowspace2, cultivar = kulin
+   wheat2 sow plants = density2(/m2), sowing_depth = 45 (mm),row_spacing = rowspace2, cultivar = kulin
 endif
 
 [rg_rg.manager.start_of_day]
@@ -217,9 +219,9 @@ if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and radish.plant_st
 endif
 
 [wt_rg.manager.start_of_day]
-if ready_to_sow = 1 and nwheat.nwheat_status = 0 then
+if ready_to_sow = 1 and wheat.plant_status = 'out' then
    wt_sow_date = day
-   nwheat sow plants = density1(/m2), depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
    fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
 endif
 
@@ -229,9 +231,9 @@ if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and ryegrass.plant_
 endif
 
 [wt_rd.manager.start_of_day]
-if ready_to_sow = 1 and nwheat.nwheat_status = 0 then
+if ready_to_sow = 1 and wheat.plant_status = 'out' then
    wt_sow_date = day
-   nwheat sow plants = density1(/m2), depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
    fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
 endif
 
