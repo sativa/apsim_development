@@ -46,6 +46,9 @@ class __declspec(dllexport) ApsimSimulationFile
       ApsimServiceData getService(const std::string& name) const throw(std::runtime_error);
       ApsimServiceData addService(const std::string& name);
 
+      // return this simulation as a system.
+      ApsimSystemData asSystem(void);
+
       // return true if simulation is dirty.
       bool isDirty(void) const {return xmlDoc->isDirty();}
    protected:
