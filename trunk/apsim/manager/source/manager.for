@@ -1175,6 +1175,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer regID
       integer componentID
       character str*(300)
+      character fullName*(300)
 
 !- Implementation Section ----------------------------------
 
@@ -1189,8 +1190,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Error(str, .true.)
          methodIndex = 0
       else
+         fullName = componentName // '.' // name
          call assign_string(
-     .     g%ApsimMethods(g%numApsimMethods)%name, name)
+     .     g%ApsimMethods(g%numApsimMethods)%name, fullName)
          g%ApsimMethods(g%numApsimMethods)%regID
      .        = add_registration(methodCallReg, name,
      .                           stringddml, ' ', componentName)
@@ -1553,6 +1555,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character componentName*(MAX_COMPONENT_NAME_SIZE)
       character methodName*(MAX_METHOD_NAME_SIZE)
                                        ! Name of method to call
+      character fullMethodName*(MAX_COMPONENT_NAME_SIZE)
 
       character dataString*(Function_string_len)
                                        ! Data string to send with method
@@ -1578,9 +1581,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       dataString = adjustl(dataString)
       call split_line (dataString, methodName, dataString, Blank)
       methodName = adjustl(methodName)
+      fullMethodName = componentName // '.' // methodName
 
       ! perform the method call.
-      if (.not. find_apsim_method(methodName, methodIndex)) then
+      if (.not. find_apsim_method(fullMethodName, methodIndex)) then
          call add_apsim_method(methodName, componentName, methodIndex)
       endif
       call call_apsim_method(methodIndex, dataString)
