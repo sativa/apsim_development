@@ -1,4 +1,4 @@
-C     Last change:  E    18 Nov 1999    2:23 pm
+C     Last change:  P     8 Nov 2000   11:56 am
       include 'sorghum.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
@@ -5677,7 +5677,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       implicit none
       include 'const.inc'
       include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'componentinterface.inc'
 
 *+  Sub-Program Arguments
        integer option
@@ -5687,6 +5688,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Changes
 *     02-05-1997 - huth - Programmed and Specified
+*     08-11-2000 - dph  - added EventInterface param to call to crop_root_incorp
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -5730,8 +5732,9 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :         ,g%root_length
      :         ,g%root_depth
      :         ,c%crop_type
-     :         ,max_layer)
- 
+     :         ,max_layer
+     :         ,EventInterface)
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -5750,7 +5753,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       include 'const.inc'
       include 'data.pub'                          
       include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'componentinterface.inc'
 
 *+  Sub-Program Arguments
        integer option
@@ -5760,6 +5764,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Changes
 *     02-05-1997 - huth - Programmed and Specified
+*     08-11-2000 - dph  - added EventInterface param to call to crop_top_residue
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -5794,7 +5799,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
          call crop_top_residue (
      .                          c%crop_type
      .                         ,dm_residue
-     .                         ,N_residue)
+     .                         ,N_residue
+     .                         ,EventInterface)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5813,7 +5819,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       implicit none
       include 'const.inc'
       include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'componentinterface.inc'
 
 *+  Sub-Program Arguments
        integer option
@@ -5823,6 +5830,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Changes
 *     02-05-1997 - huth - Programmed and Specified
+*     08-11-2000 - dph  - added EventInterface param to call to crop_root_incorp
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -5848,7 +5856,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :         ,g%root_length
      :         ,g%root_depth
      :         ,c%crop_type
-     :         ,max_layer)
+     :         ,max_layer
+     :         ,EventInterface)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5868,7 +5877,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       include 'const.inc'
       include 'data.pub'                          
       include 'crp_comm.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'componentinterface.inc'
 
 *+  Sub-Program Arguments
        integer option
@@ -5878,6 +5888,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 *+  Changes
 *     02-05-1997 - huth - Programmed and Specified
+*     08-11-2000 - dph  - added EventInterface param to call to crop_top_residue
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -5899,7 +5910,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
          call crop_top_residue (
      .                          c%crop_type
      .                         ,dm_residue
-     .                         ,N_residue)
+     .                         ,N_residue
+     .                         ,EventInterface)
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
