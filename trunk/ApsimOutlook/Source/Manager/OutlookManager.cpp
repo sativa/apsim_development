@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
+#include <ole2.h>
 USEFORM("TMain_form.cpp", Main_form);
 USEFORM("TFilespec_form.cpp", Filespec_import_form);
 USEFORM("TBatch_import_form.cpp", Batch_import_form);
@@ -9,6 +10,8 @@ USELIB("C:\Program Files\Borland\CBuilder5\Lib\memmgr.lib");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+   CoInitialize(NULL);
+
    try
    {
       Application->Initialize();
@@ -23,6 +26,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {
       Application->ShowException(&exception);
    }
+   CoUninitialize();
    return 0;
 }
 //---------------------------------------------------------------------------
