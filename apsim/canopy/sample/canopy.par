@@ -1,51 +1,24 @@
 [sample.report.parameters]
-title =  Canopy Sample Simulation   
-screen_output =  on   
-debug_output = on
-outputfile =  Canopy.out /overwrite   
-summaryfile = Canopy.sum /overwrite   
+outputfile =Canopy.out   
 
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
-
-module_names   = grass     grass     tree      tree
-variable_names = sw_demand ep        sw_demand ep      
-variable_alias = grass_swd grass_ep  tree_swd tree_ep   
-units          = -         -         -         -       
-
-!module_names   = slurp     slurp     slurp       slurp slurp  slurp     slurp       slurp slurp      slurp          slurp      slurp
-!variable_names = crop_type sw_demand eo_fraction ep    cum_ep cover_tot cover_green rlv   no3_demand cum_uptake_no3 nh4_demand cum_uptake_nh4
-!variable_alias = -         -          -           -     -      -         -           -     -          -              -          -                
-!units          = -         -          -           -     -      -         -           -     -          -              -          -                
-
-!module_names   = soiln2 soiln2 soilwat2 
-!variable_names = no3    nh4    sw_dep
-!variable_alias = -         -   -
-!units          = -         -   -
+variable = clock.day
+variable = clock.year
+variable = grass.sw_demand(grass_swd)
+variable = grass.ep(grass_ep)
+variable = tree.sw_demand(tree_swd)
+variable = tree.ep(tree_ep)
+variable = canopy.eo
 
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1   
-simulation_start_year =  1988   
-simulation_end_day =  30   
-simulation_end_year =  1988   
-
-[sample.manager.start_of_day]  
-!if day = 1 or day = 15 then
-!   fertiliz apply amount = 100 (), type = nh4no3 ()
-!elseif day = 10 then
-!   slurp set eo_fraction = 0.75 ()
-!
-!endif
-
-
+start_date=1/1/1988
+end_date=30/1/1988
 
 [sample.manager.end_of_day]  
 if day = 1 then
    Canopy lai_table
    Canopy rs_table
-   Canopy pet_table
+   Canopy cover_table
 endif
 report do_output
 
