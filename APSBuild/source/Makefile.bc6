@@ -21,10 +21,9 @@ INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------
-
-CFLAG1 = $(SYSCFLAGS) -tWM
+CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
 WARNINGS = -w-par
-LFLAGS =  -l. -D"" -aa -Tpe -x -Gn -v
+LFLAGS =  -ap -Tpe -x -Gn -v
 
 STDOBJ = c0x32.obj vcl.bpi Memmgr.Lib sysinit.obj
 ALLRES = $(RESFILES)
