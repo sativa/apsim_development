@@ -426,6 +426,7 @@ bool replaceAll(std::string& St, const std::string& subString, const std::string
 
 // ------------------------------------------------------------------
 std::string ftoa(double Float, int Num_decplaces);
+std::string itoa(int Int);
 
 // ------------------------------------------------------------------
 //  Short description:

@@ -224,6 +224,13 @@ string ftoa(double Float, int Num_decplaces)
    return buf.str();
    }
 
+string itoa(int Int)
+   {
+   ostringstream buf;
+   buf << Int;
+   return buf.str();
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //     case insensitive string comparison routine.
