@@ -1,4 +1,4 @@
-C     Last change:  E    28 Nov 2000    4:38 pm
+C     Last change:  E    29 Nov 2000   11:54 am
 
       INCLUDE 'CropMod.inc'
 
@@ -860,6 +860,15 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%current_stage)
+
+
+      elseif ((variable_name .eq. 'zadok_stage') .or.
+     :        (variable_name .eq. 'dc_stage'))    then
+         stage_no = INT(g%zadok_stage + 0.5)
+         call respond2get_integer_var (variable_name
+     :                             , '()'
+     :                             , stage_no)
+
  
       elseif (variable_name .eq. 'stage_code') then
          if (g%plant_status.ne.status_out) then
@@ -4808,6 +4817,9 @@ c           string_to_integer_var(value_string, value, numvals)
       g%phase_devel    =0.0
       g%cumvd          =0.0
 
+      g%zadok_stage    =0.0
+
+
       call fill_real_array(g%tt_tot,         0.0, max_stage)
       call fill_real_array(g%phase_tt,       0.0, max_stage)
       call fill_real_array(g%tt_curv_tot,    0.0, max_stage)
@@ -5142,7 +5154,8 @@ c           string_to_integer_var(value_string, value, numvals)
       c%N_fact_pheno_lb      =0.0
       c%N_fact_expansion     =0.0
 
-      call fill_real_array(c%stage_code_list,     0.0, max_stage)
+      call fill_real_array(c%stage_code_list,       0.0, max_stage)
+      call fill_real_array(c%zadok_stage_code_list, 0.0, max_stage)
 
       call fill_real_array(c%x_temp_root,         0.0, max_table)
       call fill_real_array(c%y_temp_root_fac,     0.0, max_table)

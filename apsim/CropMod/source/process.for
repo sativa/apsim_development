@@ -1,4 +1,4 @@
-C     Last change:  E    28 Nov 2000   11:19 am
+C     Last change:  E    29 Nov 2000   12:03 pm
 
 *     ===========================================================
       subroutine cproc_transp_eff_co2(svp_fract,
@@ -1617,6 +1617,110 @@ c scc end of changes for tpla (more below)
       call pop_routine (my_name)
       return
       end
+
+
+*     ===========================================================
+      subroutine zadok_stage_decimal_code(
+     .          emerg,
+     .          now,
+     .          zadok_stage_code_list,
+     .          current_stage,
+     .          phase_tt,
+     .          tt_tot,
+     .          leaf_no,
+     .          tiller_no,
+     .          zadok_stage)
+*     ===========================================================
+      implicit none
+      !dll_export zadok_stage_decimal_code
+      include 'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+
+*+  Sub-Program Arguments
+      INTEGER    emerg
+      INTEGER    now
+      real       zadok_stage_code_list(*)
+      real       current_stage
+      real       phase_tt(*)
+      real       tt_tot(*)
+      real       leaf_no
+      real       tiller_no
+      real       zadok_stage
+
+*+  Purpose
+*       Return the Zadok stage code estimated from APSIM stages and leaf/tiller numbers
+
+*+  Changes
+*      20001129  ew generalised
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'zadok_stage')
+
+*+  Local Variables
+      INTEGER istage
+      REAL    leaf_no_now
+      REAL    tt_frac
+      REAL    zk_dist
+
+
+
+*- Implementation Section ----------------------------------
+ 
+      call push_routine (my_name)
+ 
+          !Crop not in the field
+          if (current_stage .lt.1.0 .and. current_stage.gt.12.0) then
+             zadok_stage = 0.0
+          end if
+
+          !Sowing to emergence
+          if (current_stage .ge.1.0 .and. current_stage.le.3.0) then
+             zadok_stage = 5.0 * (current_stage -1.0)
+          end if
+
+
+          !Emergence to flag leaf
+          if (current_stage .gt.3.0 .and. current_stage.lt.6.0 ) then
+
+
+            if (tiller_no.le.1.0) then
+                leaf_no_now = sum_between (emerg, now, leaf_no)
+                zadok_stage = 10.0 + leaf_no_now
+            else
+                zadok_stage = 20.0 + tiller_no -1.0
+            end if
+
+            istage = INT(current_stage)
+            tt_frac = divide(tt_tot(istage), phase_tt(istage), 1.0)
+
+            if (current_stage .gt. 5.0 .and. tt_frac .ge. 0.5) then
+                zadok_stage = 30.0 + 10.0*2.0*(tt_frac - 0.5)
+            end if
+
+          end if
+
+          !Flag leaf  to maturity
+          if (current_stage .ge.6.0 .and. current_stage.lt.12.0 ) then
+
+             istage = INT(current_stage)
+             tt_frac = divide(tt_tot(istage), phase_tt(istage), 1.0)
+             tt_frac = MIN(1.0, tt_frac)
+
+             zk_dist = zadok_stage_code_list(istage+1)
+     :               - zadok_stage_code_list(istage)
+
+             zadok_stage = zadok_stage_code_list(istage)
+     :                   + zk_dist * tt_frac
+           end if
+
+
+      call pop_routine (my_name)
+      return
+      end
+
 
 
 

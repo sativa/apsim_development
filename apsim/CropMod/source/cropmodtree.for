@@ -1,4 +1,4 @@
-C     Last change:  E    29 Nov 2000    9:25 am
+C     Last change:  E    29 Nov 2000   11:38 am
 
 C      INCLUDE 'CropMod.inc'
 
@@ -920,7 +920,21 @@ c          g%swdef_expansion = g%swdef_tiller
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
- 
+
+
+      call zadok_stage_decimal_code(
+     .          emerg,
+     .          now,
+     .          c%zadok_stage_code_list,
+     .          g%current_stage,
+     .          g%phase_tt,
+     .          g%tt_tot,
+     .          g%leaf_no,
+     .          g%tiller_no_fertile,
+     .          g%zadok_stage)
+
+
+
       call pop_routine (myname)
       return
       end
