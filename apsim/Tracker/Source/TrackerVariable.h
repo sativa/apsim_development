@@ -43,8 +43,9 @@ class TrackerVariable
       unsigned onID;
 
       bool inWindow;
+      bool isArray;
       int count;
-      vector<float> values;
+      vector<vector<float> > values;
 
       void parse(const std::string& fullName);
       void parseStat(StringTokenizer& tokenizer);
@@ -56,7 +57,7 @@ class TrackerVariable
       void doSample(void);
       void onStartPeriod(void);
       void onEndPeriod(void);
-      float getCurrentValue(void);
+      void getCurrentValues(vector<float>& values);
 
    };
 #endif
