@@ -1,6 +1,5 @@
-Output_file=cowpea.out
- 
-Report - initialising,V1.5  21/7/96
+report - Output_file=cowpea.out
+report - initialising,V1.6  21/8/98
 Title =cowpea sample simulation
 Screen output =on
  
@@ -13,7 +12,7 @@ Variables =day,year
 Module = cowpea
 Variables =lai,biomass,green_biomass
 ---------------------------------------------------------
-latitude=-27.11
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
  day= 320 date= 15 11 1988 manager  - Initialising, Version : V1.40  23/04/98
@@ -163,7 +162,7 @@ report do_output
     x_hi_max_pot_stress =    0.00   1.00
     y_hi_max_pot        =    0.50   0.50
     x_stem_wt      =    0.00  50.00
-    y_height      =    0.005000.00
+    y_height      =    0.001000.00
     ------------------------------------------------
  
  
@@ -206,22 +205,22 @@ report do_output
                      biomass =           571.4462       lai =     6.337610
                      stover N conc =    2.784801       extractable sw =    156.0393
  day=  23 date= 23  1 1989 cowpea   -  stage    7.0 start_grain_fill
-                     biomass =           652.9242       lai =     6.186650
+                     biomass =           652.9243       lai =     6.186650
                      stover N conc =    2.672744       extractable sw =    120.6873
  day=  45 date= 14  2 1989 cowpea   -  stage    8.0 end_grain_fill
                      biomass =           867.7928       lai =     1.974173
                      stover N conc =    2.245626       extractable sw =    67.62904
  day=  46 date= 15  2 1989 cowpea   -  stage    9.0 maturity
-                     biomass =           872.5904       lai =     1.749548
+                     biomass =           872.5905       lai =     1.749548
                      stover N conc =    2.271000       extractable sw =    63.78320
  day=  47 date= 16  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           872.5904       lai =    0.2621493
-                     stover N conc =    2.637035       extractable sw =    60.31710
+                     biomass =           872.5905       lai =    0.2621493
+                     stover N conc =    2.637034       extractable sw =    60.31710
  day=  48 date= 17  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           872.5904       lai =    0.2621493
+                     biomass =           872.5906       lai =    0.2621489
                      stover N conc =    2.637034       extractable sw =    59.55527
  day=  49 date= 18  2 1989 cowpea   -  stage   10.0 harvest_ripe
-                     biomass =           872.5904       lai =    0.2621493
+                     biomass =           872.5905       lai =    0.2621489
                      stover N conc =    2.637035       extractable sw =    58.90530
  Day=  50 Year =  1989     Manager sending message :- cowpea harvest
  
@@ -258,11 +257,13 @@ report do_output
  
  stress indices for start_grain_fill
  water stress 1 =       0.3714577   nitrogen stress 1 =       0.0000000
- water stress 2 =       0.4478145   nitrogen stress 2 =       0.0000000
+ water stress 2 =       0.4478144   nitrogen stress 2 =       0.0000000
  Day=  50 Year =  1989     Manager sending message :- cowpea end_crop
  day=  50 date= 19  2 1989 cowpea   -     ended. Yield (dw) =     0.0
                                           straw residue =    1.5 kg/ha
-                                          straw N =    6.0 kg/ha
+                                          straw N =    0.1 kg/ha
                                           root residue = 4465.7 kg/ha
                                           root N =   73.2 kg/ha
 Simulation is terminating due to end criteria being met.
+ 
+======= End of APSIM simulation ==============================
