@@ -126,6 +126,11 @@ void PreviousRuns::setCurrentRun(const string& controlFilename,
                                  const string& configurationName,
                                  const vector<string>&simulationNames)
    {
+   // Write the control file section to the .ini file.
+   APSConfig().Write("apsuite", controlFilename.c_str(),
+                     CONFIGURATION_KEY, configurationName.c_str());
+   writeList(controlFilename.c_str(), string(SIMULATION_KEY), simulationNames);
+
    // if this control file name isn't in the current list of
    // remembered runs, then add it to the front of the list.
    // If the number of remembered runs is > maxNumRememberedRuns
@@ -136,9 +141,6 @@ void PreviousRuns::setCurrentRun(const string& controlFilename,
                                      controlFilename);
    if (i == rememberedRuns.end())
       {
-      APSConfig().Write("apsuite", controlFilename.c_str(),
-                        CONFIGURATION_KEY, configurationName.c_str());
-      writeList(controlFilename.c_str(), string(SIMULATION_KEY), simulationNames);
 
       if (rememberedRuns.size() >= maxNumRememberedRuns)
          {
