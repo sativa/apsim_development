@@ -7,13 +7,13 @@
     <OBJFILES value="ApsimOutlook.obj about.obj ChildWin.obj Main.obj TChartSettingsForm.obj 
       TDrill_down_form.obj TPreferences_form.obj TSkin.obj TSplashForm.obj 
       TTabRenameForm.obj TValueSelectionForm.obj Scenarios.obj factor.obj 
-      Scenario.obj AddIn.obj"/>
+      Scenario.obj AddIn.obj ToolBarAddIn.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) about.dfm ChildWin.dfm Main.dfm TChartSettingsForm.dfm 
       TDrill_down_form.dfm TPreferences_form.dfm TSplashForm.dfm 
       TTabRenameForm.dfm TValueSelectionForm.dfm"/>
-    <LIBFILES value="general.lib aps32.lib"/>
+    <LIBFILES value="aps32.lib &quot;C:\Program Files\Borland\CBuilder5\Projects\Lib\general.lib&quot;"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib VCLX50.lib Vclbde50.lib vcldb50.lib APSData.lib TEE4C5.lib 
       TEEUI4C5.lib TEEDB4C5.lib APSGENERAL.lib TEEPRO4C5.lib thirdparty.lib 
@@ -96,15 +96,16 @@ Item4=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\li
 Item5=$(BCB)\Projects\Lib;C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=$(BCB)\source\vcl
+Count=2
+Item0=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
+Item1=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
 Count=1
 Item0=_DEBUG
 
 [Debugging]
-DebugSourceDirs=$(BCB)\source\vcl
+DebugSourceDirs=c:\program files\borland\cbuilder5\source\vcl;D:\APSIMDevelopment\3rdParty\ThirdParty\
 
 [Parameters]
 RunParams=
@@ -117,10 +118,5 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
-
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
   </IDEOPTIONS>
 </PROJECT>
