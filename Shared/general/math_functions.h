@@ -5,6 +5,7 @@
 #include <string>
 #include <algorith>
 #include <functional>
+#include <boost\lexical_cast.hpp>
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -144,13 +145,16 @@ container subtract (container& container1, container& container2)
 //    DPH 28/10/97
 
 // ------------------------------------------------------------------
-template < class container >
-container multiply (container& container1, container& container2)
+template < class c1, class c2 >
+c1 multiply (const c1& container1, const c2& container2)
    {
-   container return_container;
+   if (container1.size() != container2.size())
+      throw runtime_error("Cannot divide 2 containers of numbers. Different number of values in each container.");
 
-   container::iterator iterator1 = container1.begin();
-   container::iterator iterator2 = container2.begin();
+   c1 return_container;
+
+   c1::const_iterator iterator1 = container1.begin();
+   c2::const_iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -171,13 +175,15 @@ container multiply (container& container1, container& container2)
 //    DPH 28/10/97
 
 // ------------------------------------------------------------------
-template < class container >
-container devide (container& container1, container& container2)
+template < class c1, class c2 >
+c1 divide (const c1& container1, const c2& container2)
    {
-   container return_container;
+   if (container1.size() != container2.size())
+      throw runtime_error("Cannot divide 2 containers of numbers. Different number of values in each container.");
+   c1 return_container;
 
-   container::iterator iterator1 = container1.begin();
-   container::iterator iterator2 = container2.begin();
+   c1::const_iterator iterator1 = container1.begin();
+   c2::const_iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -244,14 +250,16 @@ void subtract_value (container_type& container1, value_type value)
 
 // ------------------------------------------------------------------
 template < class container_type, class value_type >
-void multiply_value (container_type& container1, value_type value)
+container_type multiply_value (const container_type& container1, value_type value)
    {
-   container_type::iterator iterator1 = container1.begin();
+   container_type values;
+   container_type::const_iterator iterator1 = container1.begin();
    while (iterator1 != container1.end())
       {
-      *iterator1 *= value;
+      values.push_back(*iterator1 * value);
       ++iterator1;
       }
+   return values;
    }
 
 // ------------------------------------------------------------------
@@ -265,14 +273,16 @@ void multiply_value (container_type& container1, value_type value)
 
 // ------------------------------------------------------------------
 template < class container_type, class value_type >
-void devide_value (container_type& container1, value_type value)
+container_type divide_value (const container_type& container1, value_type value)
    {
-   container_type::iterator iterator1 = container1.begin();
+   container_type values;
+   container_type::const_iterator iterator1 = container1.begin();
    while (iterator1 != container1.end())
       {
-      *iterator1 /= value;
+      values.push_back(*iterator1 / value);
       ++iterator1;
       }
+   return values;
    }
 
 // ------------------------------------------------------------------
@@ -506,6 +516,24 @@ void Minim (vector<double>& param,
             int NLOOP,
             int& IFAULT,
             TOptimEvent f);
+
+//---------------------------------------------------------------------------
+// Return true if value is missing.
+//---------------------------------------------------------------------------
+template <class T>
+T missingValue()
+   {
+   return boost::lexical_cast<T>(999999);
+   }
+//---------------------------------------------------------------------------
+// Return true if value is missing.
+//---------------------------------------------------------------------------
+template <class T>
+bool isMissingValue(const T& value)
+   {
+   return (boost::lexical_cast<T>(value) == missingValue<T>());
+   }
+
 
 #endif
 
