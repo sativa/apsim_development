@@ -3,7 +3,7 @@
 #pragma hdrstop
 
 #include "LogComponent.h"
-#include <ComponentInterface\transport.h>
+#include <Protocol\transport.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <general\string_functions.h>
