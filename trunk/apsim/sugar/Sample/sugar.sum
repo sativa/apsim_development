@@ -20,7 +20,7 @@
      Title                  = Sugar Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\irrigate\lib\irrigate.dll(irrigate) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
@@ -169,7 +169,7 @@
      Manager creating a new local variable : ratoonlen =     396.500000000000
      Manager creating a new local variable : plant_stalks =     10.0000000000000
      Manager creating a new local variable : ratoon_stalks =     10.0000000000000
-     Manager creating a new local variable : sowing_reset =    0.000000000000000
+     Manager creating a new local variable : sowing_reset =     0.00000000000000
      Manager creating a new local variable : irrigate_flag =     1.00000000000000
      Manager creating a new local variable : burn_flag =     1.00000000000000
      Manager creating a new local variable : max_irr =     10.0000000000000
@@ -178,9 +178,9 @@
      Manager creating a new local variable : plant_fert =     160.000000000000
      Manager creating a new local variable : ratoon_lag =     1.00000000000000
      Manager creating a new local variable : ratoon_fert =     160.000000000000
-     Manager creating a new local variable : dah =    0.000000000000000
-     Manager creating a new local variable : sample =    0.000000000000000
-     Manager creating a new local variable : num_irr =    0.000000000000000
+     Manager creating a new local variable : dah =     0.00000000000000
+     Manager creating a new local variable : sample =     0.00000000000000
+     Manager creating a new local variable : num_irr =     0.00000000000000
 
 ------- SOILWAT2 Initialisation ----------------------------------------------
      
@@ -384,13 +384,13 @@
 28 May 1980 (Day of year=149):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.529999       lai =    0.1000000e-01
+                           biomass =           3.529999       lai =    0.1000000E-01
                            stover N conc =    2.529744       extractable sw =    77.05048
 26 October 1980 (Day of year=300):
    SUGAR:
        stage    4.0 begin_cane
                            biomass =           2223.551       lai =     6.367001    
-                           stover N conc =   0.7651856       extractable sw =    198.3254
+                           stover N conc =   0.7651855       extractable sw =    198.3254
 4 July 1981 (Day of year=185):
    MANAGER:
       Manager setting apsim variable : irrigate.automatic_irrigation = off
@@ -403,8 +403,8 @@
       
        flowering day  =    0
        maximum lai = 6.975
-       total above ground biomass (kg/ha) =   91579.2
-       live above ground biomass (kg/ha) =   91579.2
+       total above ground biomass (kg/ha) =   91579.1
+       live above ground biomass (kg/ha) =   91579.1
        green above ground biomass (kg/ha) =   86800.9
        senesced above ground biomass (kg/ha) =    4778.3
        dead above ground biomass (kg/ha) =       0.0
@@ -415,20 +415,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.4983611e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.4983611E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.4539483e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.4539558E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =14797.6 kg/ha
                                                 straw N =   60.9 kg/ha
                                                 root residue = 2033.1 kg/ha
@@ -459,7 +459,7 @@
 12 August 1981 (Day of year=224):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.529968       lai =    0.1000000e-01
+                           biomass =           3.529968       lai =    0.1000000E-01
                            stover N conc =    2.529765       extractable sw =    150.6802
 13 December 1981 (Day of year=347):
    SUGAR:
@@ -480,7 +480,7 @@
        maximum lai = 6.615
        total above ground biomass (kg/ha) =   73243.4
        live above ground biomass (kg/ha) =   73243.4
-       green above ground biomass (kg/ha) =   69654.3
+       green above ground biomass (kg/ha) =   69654.4
        senesced above ground biomass (kg/ha) =    3589.1
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  50.0
@@ -490,20 +490,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.1074567e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.1074600E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.3810742e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.3810738E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =13265.9 kg/ha
                                                 straw N =   58.5 kg/ha
                                                 root residue = 2417.7 kg/ha
@@ -530,13 +530,13 @@
 12 September 1982 (Day of year=255):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.530029       lai =    0.1000000e-01
+                           biomass =           3.530029       lai =    0.1000000E-01
                            stover N conc =    2.529728       extractable sw =    176.6683
 10 January 1983 (Day of year=10):
    SUGAR:
        stage    4.0 begin_cane
-                           biomass =           2326.946       lai =     6.812239    
-                           stover N conc =   0.6086043       extractable sw =    148.7696
+                           biomass =           2326.946       lai =     6.812240    
+                           stover N conc =   0.6086044       extractable sw =    148.7696
 6 September 1983 (Day of year=249):
    MANAGER:
       Manager setting apsim variable : irrigate.automatic_irrigation = off
@@ -561,20 +561,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.9422665e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.9422652E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.3594666e-01
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.3594670E-01
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =13316.0 kg/ha
                                                 straw N =   54.1 kg/ha
                                                 root residue = 2678.0 kg/ha
@@ -601,13 +601,13 @@
 12 October 1983 (Day of year=285):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.530029       lai =    0.1000000e-01
-                           stover N conc =    2.529728       extractable sw =    166.8994
+                           biomass =           3.530029       lai =    0.1000000E-01
+                           stover N conc =    2.529728       extractable sw =    166.8995
 26 January 1984 (Day of year=26):
    SUGAR:
        stage    4.0 begin_cane
                            biomass =           1593.391       lai =     6.251214    
-                           stover N conc =   0.7949399       extractable sw =    268.7057
+                           stover N conc =   0.7949400       extractable sw =    268.7056
 7 October 1984 (Day of year=281):
    MANAGER:
       Manager setting apsim variable : irrigate.automatic_irrigation = off
@@ -620,8 +620,8 @@
       
        flowering day  =    0
        maximum lai = 6.518
-       total above ground biomass (kg/ha) =   77234.3
-       live above ground biomass (kg/ha) =   77234.3
+       total above ground biomass (kg/ha) =   77234.4
+       live above ground biomass (kg/ha) =   77234.4
        green above ground biomass (kg/ha) =   72955.8
        senesced above ground biomass (kg/ha) =    4278.5
        dead above ground biomass (kg/ha) =       0.0
@@ -632,21 +632,21 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.7788789e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.7788789E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.3803280e-01
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.3803257E-01
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
-                                                straw residue =13900.6 kg/ha
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
+                                                straw residue =13900.7 kg/ha
                                                 straw N =   57.6 kg/ha
                                                 root residue = 2717.4 kg/ha
                                                 root N =   17.5 kg/ha
@@ -672,13 +672,13 @@
 12 November 1984 (Day of year=317):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.530029       lai =    0.1000000e-01
-                           stover N conc =    2.529728       extractable sw =    159.0023
+                           biomass =           3.530029       lai =    0.1000000E-01
+                           stover N conc =    2.529728       extractable sw =    159.0021
 22 February 1985 (Day of year=53):
    SUGAR:
        stage    4.0 begin_cane
-                           biomass =           1528.847       lai =     6.437637    
-                           stover N conc =   0.8884068       extractable sw =    353.8455
+                           biomass =           1528.847       lai =     6.437636    
+                           stover N conc =   0.8884065       extractable sw =    353.8455
 8 November 1985 (Day of year=312):
    MANAGER:
       Manager setting apsim variable : irrigate.automatic_irrigation = off
@@ -703,20 +703,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.8371080e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.8371067E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.7300235e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.7300322E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =15486.6 kg/ha
                                                 straw N =   67.5 kg/ha
                                                 root residue = 2811.9 kg/ha
@@ -801,7 +801,7 @@
 30 May 1986 (Day of year=150):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.529999       lai =    0.1000000e-01
+                           biomass =           3.529999       lai =    0.1000000E-01
                            stover N conc =    2.529744       extractable sw =    71.17216
 21 October 1986 (Day of year=294):
    SUGAR:
@@ -832,20 +832,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.2607350e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.2607350E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =14640.9 kg/ha
                                                 straw N =   64.5 kg/ha
                                                 root residue = 2059.2 kg/ha
@@ -876,7 +876,7 @@
 14 August 1987 (Day of year=226):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.529968       lai =    0.1000000e-01
+                           biomass =           3.529968       lai =    0.1000000E-01
                            stover N conc =    2.529765       extractable sw =    181.3431
 15 December 1987 (Day of year=349):
    SUGAR:
@@ -897,7 +897,7 @@
        maximum lai = 6.656
        total above ground biomass (kg/ha) =   70663.4
        live above ground biomass (kg/ha) =   70663.4
-       green above ground biomass (kg/ha) =   66483.9
+       green above ground biomass (kg/ha) =   66484.0
        senesced above ground biomass (kg/ha) =    4179.4
        dead above ground biomass (kg/ha) =       0.0
        number of leaves =  51.1
@@ -907,20 +907,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.4265257e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.4265257E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.3485625e-01
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.3485603E-01
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =12278.5 kg/ha
                                                 straw N =   50.6 kg/ha
                                                 root residue = 2365.3 kg/ha
@@ -947,13 +947,13 @@
 11 September 1988 (Day of year=255):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.530029       lai =    0.1000000e-01
-                           stover N conc =    2.529728       extractable sw =    206.3204
+                           biomass =           3.530029       lai =    0.1000000E-01
+                           stover N conc =    2.529728       extractable sw =    206.3203
 3 January 1989 (Day of year=3):
    SUGAR:
        stage    4.0 begin_cane
                            biomass =           1652.593       lai =     6.560149    
-                           stover N conc =   0.7999570       extractable sw =    211.0287
+                           stover N conc =   0.7999566       extractable sw =    211.0287
 6 September 1989 (Day of year=249):
    MANAGER:
       Manager setting apsim variable : irrigate.automatic_irrigation = off
@@ -966,8 +966,8 @@
       
        flowering day  =    0
        maximum lai = 6.738
-       total above ground biomass (kg/ha) =   71712.6
-       live above ground biomass (kg/ha) =   71712.6
+       total above ground biomass (kg/ha) =   71712.5
+       live above ground biomass (kg/ha) =   71712.5
        green above ground biomass (kg/ha) =   68210.6
        senesced above ground biomass (kg/ha) =    3501.9
        dead above ground biomass (kg/ha) =       0.0
@@ -978,20 +978,20 @@
       
       
        stress indices for emergence
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.4570483e-02
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =   0.4570483E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for begin_cane
-       water stress 1 =   0.1419381e-02   nitrogen stress 1 =   0.1370191e-02
-       water stress 2 =   0.0000000
+       water stress 1 =   0.1419352E-02   nitrogen stress 1 =   0.1370254E-02
+       water stress 2 =    0.000000
       
       
       
        stress indices for flowering
-       water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
-       water stress 2 =   0.0000000
+       water stress 1 =    0.000000       nitrogen stress 1 =    0.000000
+       water stress 2 =    0.000000
                                                 straw residue =13433.4 kg/ha
                                                 straw N =   59.2 kg/ha
                                                 root residue = 2510.0 kg/ha
@@ -1018,13 +1018,13 @@
 12 October 1989 (Day of year=285):
    SUGAR:
        stage    3.0 emergence
-                           biomass =           3.530029       lai =    0.1000000e-01
+                           biomass =           3.530029       lai =    0.1000000E-01
                            stover N conc =    2.529728       extractable sw =    158.8981
 28 January 1990 (Day of year=28):
    SUGAR:
        stage    4.0 begin_cane
                            biomass =           1648.591       lai =     5.918003    
-                           stover N conc =   0.7366800       extractable sw =    159.1902
+                           stover N conc =   0.7366803       extractable sw =    159.1902
 10 April 1990 (Day of year=100):
    CLOCK:
       Simulation is terminating due to end criteria being met.

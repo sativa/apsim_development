@@ -20,7 +20,7 @@
      Title                  = WHEAT SAMPLE Simulation - N120
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\irrigate\lib\irrigate.dll(irrigate) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
@@ -324,12 +324,12 @@
 24 June 1992 (Day of year=176):
    WHEAT:
        stage    3.0 emergence
-                           biomass =          0.5715671       lai =    0.5594060e-02
+                           biomass =          0.5715671       lai =    0.5594060E-02
                            stover N conc =    6.299999       extractable sw =    42.02724
 25 June 1992 (Day of year=177):
    WHEAT:
        stage    4.0 end_of_juvenile
-                           biomass =          0.5861555       lai =    0.5812888e-02
+                           biomass =          0.5861555       lai =    0.5812888E-02
                            stover N conc =    6.143203       extractable sw =    39.53624
 4 August 1992 (Day of year=217):
    FERTILIZ:
@@ -345,33 +345,33 @@
 4 September 1992 (Day of year=248):
    WHEAT:
        stage    6.0 flag_leaf
-                           biomass =           447.0986       lai =     4.139282    
+                           biomass =           447.0986       lai =     4.139283    
                            stover N conc =    1.955864       extractable sw =    176.0017
 21 September 1992 (Day of year=265):
    WHEAT:
        stage    7.0 flowering
                            biomass =           752.2354       lai =     3.138230    
-                           stover N conc =    1.285445       extractable sw =    235.3931
+                           stover N conc =    1.285445       extractable sw =    235.3930
 27 September 1992 (Day of year=271):
    WHEAT:
        stage    8.0 start_grain_fill
-                           biomass =           878.0241       lai =     2.709451    
+                           biomass =           878.0240       lai =     2.709452    
                            stover N conc =    1.136718       extractable sw =    188.7551
 27 October 1992 (Day of year=301):
    WHEAT:
        stage    9.0 end_grain_fill
-                           biomass =           1206.274       lai =    0.0000000    
-                           stover N conc =    1.012381       extractable sw =    198.4502
+                           biomass =           1206.274       lai =     0.000000    
+                           stover N conc =    1.012381       extractable sw =    198.4501
 28 October 1992 (Day of year=302):
    WHEAT:
        stage   10.0 maturity
-                           biomass =           1206.274       lai =    0.0000000    
-                           stover N conc =    1.012381       extractable sw =    197.8338
+                           biomass =           1206.274       lai =     0.000000    
+                           stover N conc =    1.012381       extractable sw =    197.8337
 29 October 1992 (Day of year=303):
    WHEAT:
        stage   11.0 harvest_ripe
-                           biomass =           1206.274       lai =    0.0000000    
-                           stover N conc =    1.012381       extractable sw =    201.3802
+                           biomass =           1206.274       lai =     0.000000    
+                           stover N conc =    1.012381       extractable sw =    201.3801
 30 October 1992 (Day of year=304):
    MANAGER:
            Manager sending message :- wheat harvest
@@ -404,13 +404,13 @@
       
       
        stress indices for end_of_juvenile
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0151300
-       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1885466
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.0151301
+       water stress 2 =       0.0000000   nitrogen stress 2 =       0.1885467
       
       
       
        stress indices for floral_initiation
-       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4109058
+       water stress 1 =       0.0000000   nitrogen stress 1 =       0.4109057
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.6072705
       
       
@@ -423,7 +423,7 @@
       
        stress indices for flowering
        water stress 1 =       0.0152585   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.0311958   nitrogen stress 2 =       0.0213681
+       water stress 2 =       0.0311958   nitrogen stress 2 =       0.0213680
       
       
       
