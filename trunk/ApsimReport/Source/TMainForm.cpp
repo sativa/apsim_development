@@ -40,6 +40,8 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
    report.getPageNames(TabControl->Tabs);
    pageChanged(NULL);
 
+   report.OnObjectInspectorUpdate = OnObjectInspectorShow;
+
    ApsimSettings settings;
    string leftSt, topSt, widthSt, heightSt;
    settings.read("Apsim Report Pos|MainFormLeft", leftSt);
@@ -589,9 +591,13 @@ void TMainForm::saveFormPosition(TForm* form)
          }
       }
    }
-
 //---------------------------------------------------------------------------
+// The object inspector has just been shown - load the form position.
 //---------------------------------------------------------------------------
+void __fastcall TMainForm::OnObjectInspectorShow(TObject* sender)
+   {
+   loadFormPosition(ObjectInspectorForm);
+   }
 //---------------------------------------------------------------------------
 
 
