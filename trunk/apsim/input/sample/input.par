@@ -12,10 +12,10 @@ units =          -     -      -     -     -     -     -     -     -       -     
 
 
 [sample.clock.parameters]  
-start_day =  1   
-start_year =  1988   
-end_day =  11   
-end_year =  1988   
+simulation_start_day =  1   
+simulation_start_year =  1988   
+simulation_end_day =  11   
+simulation_end_year =  1988   
 
 [sample.manager.end_of_day]  
 report do_output
