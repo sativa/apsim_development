@@ -1491,8 +1491,6 @@ cnh added as per request by Dr Val Snow
  
       call apswim_reset_daily_totals ()
  
-      day = 0
-      year = 0
       do 7 counter = 0,M
          dlayer(counter) = 0d0
          ll15(counter) = 0d0
