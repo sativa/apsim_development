@@ -5,6 +5,7 @@
 
 #include "TDrill_down_form.h"
 #include "TValueSelectPopup.h"
+#include "TScenarioSelectForm.h"
 
 #include <general\vcl_functions.h>
 #include <general\math_functions.h>
@@ -143,7 +144,7 @@ void __fastcall TDrill_down_form::FormShow(TObject *Sender)
    {
    ValueSelectPopup = new TValueSelectPopup(this);
 
-   scenarios->restore();
+   scenarios->restore("Default");
    Refresh();
 
    string addInCaption = scenarios->getUIButtonCaption();
@@ -185,7 +186,7 @@ void __fastcall TDrill_down_form::FormClose(TObject *Sender,
    {
    delete ValueSelectPopup;
    if (ModalResult == mrOk)
-      scenarios->save();
+      scenarios->save("Default");
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
@@ -334,5 +335,44 @@ void __fastcall TDrill_down_form::Rename1Click(TObject *Sender)
 {
    ScenarioTree->Selected->EditText();
 }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::SaveLabelClick(TObject *Sender)
+   {
+   ApsimSettings settings;
+   vector<string> saved;
+   settings.read("Saved scenarios|saved", saved);
+   AnsiString value;
+   if (InputQuery("Save name", "Save scenarios under what name?", value))
+      {
+      bool doSave;
+      if (find(saved.begin(), saved.end(), value.c_str()) == saved.end())
+         {
+         saved.push_back(value.c_str());
+         doSave = true;
+         }
+      else
+         doSave = (MessageDlg("Overwrite existing scenario set?", mtConfirmation,
+                              TMsgDlgButtons() << mbYes << mbNo, 0) == mbYes);
+
+      if (doSave)
+         {
+         scenarios->save(value.c_str());
+         settings.write("Saved scenarios|saved", saved);
+         }
+      }
+   }
+//---------------------------------------------------------------------------
+void __fastcall TDrill_down_form::RestoreLabelClick(TObject *Sender)
+   {
+   ApsimSettings settings;
+   vector<string> saved;
+   settings.read("Saved scenarios|saved", saved);
+   Stl_2_tstrings(saved, ScenarioSelectForm->ScenarioList->Items);
+   if (ScenarioSelectForm->ShowModal())
+      {
+      scenarios->restore(ScenarioSelectForm->ScenarioList->Text.c_str());
+      Refresh();
+      }
+   }
 //---------------------------------------------------------------------------
 

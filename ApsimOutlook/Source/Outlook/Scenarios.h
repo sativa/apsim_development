@@ -64,8 +64,8 @@ class Scenarios
       void getAllData(TAPSTable* table);
 
       // Save and restore scenarios.
-      void save(void);
-      void restore(void);
+      void save(const std::string& name);
+      void restore(const std::string& name);
 
       // Allow the add-ins to display information in the settings window.
       std::string getDisplaySettings(void);

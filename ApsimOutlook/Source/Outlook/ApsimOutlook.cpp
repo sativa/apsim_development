@@ -14,12 +14,13 @@ USEFORM("TPreferences_form.cpp", Preferences_form);
 USEFORM("POPUPFORMUNIT.cpp", PopupForm);
 USEFORM("TValueSelectPopup.cpp", ValueSelectPopup);
 USEFORM("TOutlookSplashForm.cpp", OutlookSplashForm);
+USEFORM("TScenarioSelectForm.cpp", ScenarioSelectForm);
 //---------------------------------------------------------------------------
 AnsiString CommandLine;
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
    {
    CommandLine = cmdline;
-                                             
+
    Skin = new TSkin;
    Skin->DisplaySplashScreen();
 
@@ -35,6 +36,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdline, int)
        Application->CreateForm(__classid(TDrill_down_form), &Drill_down_form);
        Application->CreateForm(__classid(TPreferences_form), &Preferences_form);
        Application->CreateForm(__classid(TOutlookSplashForm), &OutlookSplashForm);
+       Application->CreateForm(__classid(TScenarioSelectForm), &ScenarioSelectForm);
        Application->Run();
    }
    catch (Exception &exception)
