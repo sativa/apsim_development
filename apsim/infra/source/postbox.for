@@ -27,6 +27,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       g_Empty_char_slot = 1
       g_Empty_variable_slot = 1
       EventInterface = 0
+      g_SavedEIStackPtr = 0
  
       postbox_init = .true.
       return
@@ -2871,6 +2872,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       dll_export set_ei
       include 'const.inc'              ! constant definitions
       include 'componentinterface.inc'
+      include 'postbox.inc'
 
 *+ Sub-Program Arguments
       integer EI                       ! (INPUT) event interface
@@ -2885,10 +2887,52 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 4/7/00
  
 *+ Calls
+      dll_import fatal_error
+
+*- Implementation Section ----------------------------------
+
+      g_SavedEIStackPtr = g_SavedEIStackPtr + 1
+      if (g_SavedEIStackPtr .gt. MAX_SAVED_EI) then
+         call Fatal_error(ERR_Internal, 
+     .   "Too many levels of recursion in postbox.set_ei routine")
+      endif
+
+      g_SavedEIStack(g_SavedEIStackPtr) = EI
+      EventInterface = EI
+
+      return 
+      end
+
+* ====================================================================
+      subroutine Restore_EI()
+* ====================================================================
+      implicit none
+      dll_export restore_ei
+      include 'const.inc'              ! constant definitions
+      include 'componentinterface.inc'
+      include 'postbox.inc'
+
+*+ Sub-Program Arguments
+
+*+ Purpose
+*     Set the variable type of from the previous repond call
+
+*+  Mission Statement
+*      
+ 
+*+ Changes
+*     DPH 4/7/00
+ 
+*+ Calls
  
 *- Implementation Section ----------------------------------
  
-      EventInterface = EI
-      
+      g_SavedEIStackPtr = g_SavedEIStackPtr - 1
+      if (g_SavedEIStackPtr .gt. 0) then
+         EventInterface = g_SavedEIStack(g_SavedEIStackPtr)
+      else
+         EventInterface = 0
+      endif
+
       return 
       end
