@@ -4,9 +4,10 @@
 #pragma hdrstop
 
 #include "GeneratorFromExcel.h"
-#include <general\macroSubstFile.h>
+#include <general\macro.h>
 #include <general\excel.h>
 #include <general\string_functions.h>
+#include <general\xml.h>
 
 #pragma package(smart_init)
 #pragma link "Excel_2K_SRVR"
@@ -22,7 +23,7 @@ GeneratorFromExcel::GeneratorFromExcel(void)
 //---------------------------------------------------------------------------
 // Parse the spreadsheet
 //---------------------------------------------------------------------------
-bool parseSpreadsheetTable(MacroSubstFile& macroFile,
+bool parseSpreadsheetTable(XMLNode& node,
                            ExcelWorksheetPtr worksheet,
                            unsigned& row)
    {
@@ -35,7 +36,7 @@ bool parseSpreadsheetTable(MacroSubstFile& macroFile,
    if (macroNames.size() > 0 && macroNames[0] != "")
       {
       string macroName = macroNames[0];
-      macroFile.addMacro(macroName);
+      XMLNode macroNode = node.appendChild(macroName);
       row++;
       vector<string> fieldNames;
       getXLSRow(worksheet, row, fieldNames);
@@ -46,13 +47,11 @@ bool parseSpreadsheetTable(MacroSubstFile& macroFile,
              && fieldValues.size() > 0
              && fieldValues[0] != "")
          {
-         MacroSubstFile::ValueAttributes attributes;
          for (unsigned col = 0; col != fieldValues.size(); col++)
             {
             if (fieldNames[col] != "")
-               attributes.push_back(make_pair(fieldNames[col], fieldValues[col]));
+               macroNode.appendChild(fieldNames[col]).setValue(fieldValues[col]);
             }
-         macroFile.addValue(macroName, attributes);
          row++;
          }
       return true;
@@ -101,13 +100,6 @@ void GeneratorFromExcel::go(const std::string& xlsFileName,
       throw;
       }
 
-   // setup the macroFile object
-   MacroSubstFile macroFile;
-   ifstream in(scriptFileName.c_str());
-   ostringstream contents;
-   contents << in.rdbuf();
-   macroFile.setContents(contents.str());
-
 //   Excel_2k::ShapesPtr shapes = generatorScriptSheet->get_Shapes();
 //   Excel_2k::TextBox* shape = (Excel_2k::TextBox*) shapes->Item((Variant) 1);
 //   AnsiString name = shape->Name;
@@ -117,8 +109,10 @@ void GeneratorFromExcel::go(const std::string& xlsFileName,
 //   wchar_t* text = shape->Text;
 
 
+   XMLDocument xml;
+   xml.setRootNode("data");
    unsigned row = 2;
-   while (parseSpreadsheetTable(macroFile, worksheet, row));
+   while (parseSpreadsheetTable(xml.documentElement(), worksheet, row));
 
    // shut down EXCEL.
    worksheet->Release();
@@ -128,9 +122,15 @@ void GeneratorFromExcel::go(const std::string& xlsFileName,
    excelApp->Disconnect();
    delete excelApp;
 
+   // setup the macroFile object
+   ifstream in(scriptFileName.c_str());
+   ostringstream contents;
+   contents << in.rdbuf();
+
    // generate all files.
    vector<string> filesGenerated;
-   macroFile.generateFiles(filesGenerated);
+   Macro macro;
+   macro.go(xml.documentElement(), contents.str(), filesGenerated);
 
    // display a message box showing which files have been generated.
    string msg;
