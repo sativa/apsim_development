@@ -1602,7 +1602,7 @@ c      integer    sysbal_module_number    ! function
      :               , g%Cstate_soil_yest
      :               )
 
-      if (g%Cerror_system .gt. error_threshold*0.4) then
+      if (g%Cerror_system .gt. error_threshold) then
          write (string, *)
      :                   '**** C balance - unaccounted gain (kg/ha) = '
      :                  , g%Cerror_system
@@ -1612,7 +1612,7 @@ c      integer    sysbal_module_number    ! function
      :                  , g%Cerror_system / 0.4
          call Write_string (string)
 
-      elseif (g%Cerror_system .lt. -error_threshold*0.4) then
+      elseif (g%Cerror_system .lt. -error_threshold) then
          write (string, *)
      :                   '**** C balance - unaccounted loss (kg/ha) = '
      :                  , g%Cerror_system
