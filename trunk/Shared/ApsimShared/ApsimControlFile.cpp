@@ -226,7 +226,7 @@ void ApsimControlFile::getAllFiles(vector<string>& fileNames) const throw(runtim
                                           paramFileI != paramFiles.end();
                                           paramFileI++)
       {
-      if (find(fileNames.begin(), fileNames.end(), paramFileI->fileName) != fileNames.end())
+      if (find(fileNames.begin(), fileNames.end(), paramFileI->fileName) == fileNames.end())
          fileNames.push_back(paramFileI->fileName);
       }
    }
@@ -270,7 +270,7 @@ void ApsimControlFile::getOutputFileNames(vector<string>& fileNames) const
 void ApsimControlFile::getSummaryFileNames(vector<string>& fileNames) const
    {
    vector<ApsimParameterFile> paramFiles;
-   getParameterFiles("report", paramFiles);
+   getParameterFiles("summaryfile", paramFiles);
 
    for (vector<ApsimParameterFile>::const_iterator
                  paramFile = paramFiles.begin();
