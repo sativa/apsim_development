@@ -17,7 +17,7 @@ PROJECTS = general.dll aps32.dll data.dll chart.dll apsgeneral.bpl apsui.bpl \
   whopeconaddin.dll outlookmanager.exe apslook.exe apsvis.exe apsshowkey.exe \
   ini_edit.exe dirreadwrite.exe editview.exe executeexplorermenu.exe icons.dll \
   sendtoexcel.exe viewcmplmsg.exe ContFileGen.exe apswiz.exe templatepacks.dll \
-  soilwater.dll runselection.dll
+  soilwater.dll runselection.dll report.dll input.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -183,4 +183,10 @@ runselection.dll: apsfront\source\runselection\runselection.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
+report.dll: apsim\report\lib\report.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
+input.dll: apsim\input\lib\input.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
