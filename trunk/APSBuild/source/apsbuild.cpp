@@ -1,22 +1,17 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 #include <dos.h>
 #include <fstream>
 #include <general\stream_functions.h>
-#include <aps\APSIMConfigurationCollection.h>
-#include <aps\apsuite.h>
 #include "TMainForm.h"
 
+USEFORM("TMainForm.cpp", MainForm);
+//---------------------------------------------------------------------------
 void Read_response_file (const char* Response_file_name, list<string>& Files);
 void Run (list<string>& Project_files);
 
-USERES("APSBuild.res");
-USEFORM("TMainForm.cpp", MainForm);
-USEUNIT("CompileThread.cpp");
-USELIB("general.lib");
-USELIB("aps32.lib");
-USELIB("odl.lib");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
    {

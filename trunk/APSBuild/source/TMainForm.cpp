@@ -1,12 +1,14 @@
 //---------------------------------------------------------------------------
+#include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
 #include "TMainForm.h"
 #include <fstream>
 #include <general\stream_functions.h>
-#include <general\ini_file.h>
-#include <aps\apsuite.h>
+#include <general\IniFile.h>
+#include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\ApsimDirectories.h>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -17,29 +19,15 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
    : TForm(Owner)
    {
    // load the onTop property from the .ini file.
-   string filename = APSDirectories().Get_working() + "\\config\\apsuite.ini";
+   ApsimSettings settings;
    string onTop;
-   Ini_file ini;
-   ini.Set_file_name(filename.c_str());
-   ini.Read("APSBuild", "on_top", onTop);
+   settings.read("on_top", onTop);
    OnTopRadio->Checked = !Str_i_Eq(onTop, "no");
    OnTopRadioClick(NULL);
    }
 //---------------------------------------------------------------------------
 __fastcall TMainForm::~TMainForm()
    {
-   if (!Quiet)
-      {
-      if (CompilerReportFile.Exists())
-         {
-         string command (APSDirectories().Get_home());
-         command += "\\viewcmplmsg\\viewcmplmsg ";
-         command += APSDirectories().Get_working() + "\\compiler.rpt";
-         WinExec (command.c_str(), SW_SHOW);
-         }
-      else
-         MessageBox(NULL, "Compiler not invoked.  Probable cause: nothing to compile.", "Information", MB_ICONINFORMATION | MB_OK);
-      }
    delete Thread;
    Thread = NULL;
    }
@@ -57,13 +45,6 @@ __fastcall TMainForm::~TMainForm()
 // ------------------------------------------------------------------
 void TMainForm::Go ()
    {
-   // create a compiler report filename
-   CompilerReportFile.Set_directory(APSDirectories().Get_working().c_str());
-   CompilerReportFile.Set_name ("compiler.rpt");
-
-   // delete old compiler report file.
-   DeleteFile (CompilerReportFile.Get_path().c_str());
-
    // go start the ball rolling and compile first project.
    Thread = NULL;
    ThreadTerminated(NULL);
@@ -130,10 +111,10 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          Thread = new CompileThread ( ProjectFilename.c_str() );
          Thread->Build = Build;
          Thread->Debug = Debug;
+         Thread->Quiet = Quiet;
          Thread->DisplayMessage1 = DisplayMessage1;
          Thread->DisplayMessage2 = DisplayMessage2;
          Thread->OnTerminate = ThreadTerminated;
-         Thread->CompileType = CompileType;
          Thread->Stdout = Stdout;
          Thread->Resume();
          }
@@ -150,7 +131,6 @@ void __fastcall TMainForm::Button1Click(TObject *Sender)
 void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    {
    // save the Left, Top and OnTop properties to the .ini file.
-   string filename = APSDirectories().Get_working() + "\\config\\apsuite.ini";
    string left, top, onTop;
    left = IntToStr(Left).c_str();
    top = IntToStr(Top).c_str();
@@ -159,11 +139,10 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    else
       onTop = "no";
 
-   Ini_file ini;
-   ini.Set_file_name(filename.c_str());
-   ini.Write("APSBuild", "left", left.c_str());
-   ini.Write("APSBuild", "top", top.c_str());
-   ini.Write("APSBuild", "on_top", onTop.c_str());
+   ApsimSettings settings;
+   settings.write("left", left);
+   settings.write("top", top);
+   settings.write("on_top", onTop);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OnTopRadioClick(TObject *Sender)
@@ -182,12 +161,10 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       firstTime = false;
 
       // load the Left, Top properties from the .ini file.
-      string filename = APSDirectories().Get_working() + "\\config\\apsuite.ini";
+      ApsimSettings settings;
       string left, top;
-      Ini_file ini;
-      ini.Set_file_name(filename.c_str());
-      ini.Read("APSBuild", "left", left);
-      ini.Read("APSBuild", "top", top);
+      settings.read("left", left);
+      settings.read("top", top);
       if (left != "" && top != "")
          {
          Left = StrToInt(left.c_str());
