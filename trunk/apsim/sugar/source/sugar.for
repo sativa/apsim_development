@@ -1,3 +1,4 @@
+C     Last change:  DSG  19 Jun 2000   12:25 pm
       include 'sugar.inc'
 
 *     ===========================================================
@@ -980,7 +981,8 @@ cnh what checks are there that there is enough N in plant to provide this
       include 'crp_cnpy.pub'                      
       include 'crp_nitn.pub'                      
       include 'crp_biom.pub'                      
-      include 'error.pub'                         
+      include 'error.pub'
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -999,7 +1001,8 @@ cnh what checks are there that there is enough N in plant to provide this
       call push_routine (my_name)
  
       if (Option .eq. 1) then
-         if (c%sen_detach_frac(leaf).ne.c%sen_detach_frac(cabbage)) then
+         if (.not.reals_are_equal(c%sen_detach_frac(leaf),
+     :    c%sen_detach_frac(cabbage))) then
             call Fatal_error (ERR_internal
      :               , 'Invalid detachment for leaf and cabbage ratio.')
          else
