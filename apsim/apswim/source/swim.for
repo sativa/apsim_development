@@ -45,7 +45,11 @@
             ceqrain = -grc * log(decay_Fraction)
  
             ! now add rainfall energy for this timestep
-            ceqrain = ceqrain + deqrain
+            if (c_cover_effects.eq.'on') then
+               ceqrain = ceqrain + deqrain * (1d0 - g_residue_cover)
+            else
+               ceqrain = ceqrain + deqrain
+            endif
  
             ! now calculate new surface storage from new energy
             g = g0+(g1-g0)*exp(-ceqrain/grc)
@@ -214,7 +218,7 @@ cnh      double precision cevap            ! function
       integer          apswim_time_to_mins ! function
       double precision apswim_transp_redn  ! function
       double precision ddivide             ! function
- 
+      double precision apswim_cover_eos_redn ! function 
  
 *     Subroutine Arguments
       integer istat
@@ -249,8 +253,12 @@ c      parameter (rad=0.1d0)
       if(istat.eq.0)then
 *        calc. potl evap.
          rep=(apswim_cevap(t)-apswim_cevap(t-dt))/dt
- 
-         sep = rep*dt * (1d0 - g_crop_cover)
+         if (c_cover_effects.eq.'on') then
+            !Use Soilwat cover effects on evaporation. 
+            sep = rep*dt * apswim_cover_eos_redn()
+         else
+            sep = rep*dt * (1d0 - g_crop_cover)
+         endif
  
          ! Note: pep is passed to swim as total ep for a plant for the
          ! entire apsim timestep. so rate will be (CEp = cum EP)
@@ -872,7 +880,9 @@ cnh         if(psi(n).ge.0.)then
       double precision w1
       double precision w2
       double precision wt
- 
+      double precision wtime
+      double precision wtime1
+
 *     Constant Values
       integer    itmax
       parameter (itmax=20)
@@ -935,8 +945,10 @@ cnh         j=indxsl(solnum,i)
          j = i
          rslprd(solnum)=rslprd(solnum)+qslprd(solnum,i)
          nonlin=.FALSE.
- 
-         if(fip(solnum,j).eq.1.)then
+
+*Peter's CHANGE 21/10/98 to ensure zero exchange is treated as linear
+*         if (fip(solnum,j).eq.1.) then
+         if ((ex(solnum,j).eq.0.).or.(fip(solnum,j).eq.1.)) then
 *           linear exchange isotherm
             c2(i)=1.
             exco1=ex(solnum,j)
@@ -986,8 +998,18 @@ cnh     :            +dis(solnum,indxsl(solnum,i)))*(aq/thav)**disp(solnum)
                w1=1.+wt
             end if
             w2=2.-w1
-            fq=.25*q(i)
-            fqc=fq*(w1*csl(solnum,i-1)+w2*csl(solnum,i))
+
+*Peter's CHANGE 21/10/98 to remove/restore Crank-Nicolson time weighting 
+*for convection
+*            fq=.25*q(i)
+*            fqc=fq*(w1*csl(solnum,i-1)+w2*csl(solnum,i))
+*            wtime=0.25D0
+*            wtime1=1.0D0
+            wtime=0.5D0
+            wtime1=0.0D0
+            fq=wtime*q(i)
+            fqc=wtime1*fq*(w1*csl(solnum,i-1)+w2*csl(solnum,i))
+
 *           get convective component from old time level
             qsl(solnum,i)=fqc
             b(i-1)=b(i-1)-dfac-fq*w1
@@ -1127,7 +1149,11 @@ cnh               kk=indxsl(solnum,i)
 *     get surface solute balance?
       if(rinf.lt.-min(ersoil,ernode))then
 *        flow out of surface
-         qsl(solnum,0)=.5*rinf*(csl0+csl(solnum,0))
+*CHANGES 6/11/98 to remove/restore Crank-Nicolson time weighting for convection
+*----- 
+*         qsl(solnum,0)=.5*rinf*(csl0+csl(solnum,0))
+         qsl(solnum,0)=.5*rinf*(wtime1*csl0+4D0*wtime*csl(solnum,0))
+
          rslout=-qsl(solnum,0)
          if(slsur(solnum).gt.0.)then
 *           allow for surface applied solute
@@ -1159,11 +1185,18 @@ cnh               kk=indxsl(solnum,i)
             accept=max(1d0,-slswt)
             wt=0.
             if(aq.ne.0.)wt=sign(max(0d0,1.-2.*accept*dfac/aq),q(i))
+*Peter's CHANGES 21/10/98 to remove/restore Crank-Nicolson time weighting
+*for convection
+*            qsl(solnum,i)=qsl(solnum,i)
+*     :                    +.25*q(i)*((1.+wt)*csl(solnum,i-1)
+*     :                    +(1.-wt)*csl(solnum,i))
+*     1                    +dfac*(csl(solnum,i-1)-csl(solnum,i))
             qsl(solnum,i)=qsl(solnum,i)
-     :                    +.25*q(i)*((1.+wt)*csl(solnum,i-1)
+     :                    +wtime*q(i)*((1.+wt)*csl(solnum,i-1)
      :                    +(1.-wt)*csl(solnum,i))
      1                    +dfac*(csl(solnum,i-1)-csl(solnum,i))
          end if
+
 70    continue
       do 75 i=2,n-1
          if(x(i-1).eq.x(i))then
@@ -1206,7 +1239,11 @@ cnh     :                  -qex(n)*csl(solnum,n)*slupf(solnum)
      :                  *dx(n)*csl(solnum,n)
       else
 *        convection only
-         qsl(solnum,n+1)=.5*q(n+1)*(csln+csl(solnum,n))
+*CHANGES 6/11/98 to remove/restore Crank-Nicolson time weighting for convection
+*----- 
+*         qsl(solnum,n+1)=.5*q(n+1)*(csln+csl(solnum,n))
+         qsl(solnum,n+1)=.5*q(n+1)*(wtime1*csln+4D0*wtime*csl(solnum,n))
+
       end if
 90    continue
       end
