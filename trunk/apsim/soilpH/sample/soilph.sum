@@ -21,7 +21,7 @@
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report1) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\accum\lib\accum.dll(accum) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\fertiliz\lib\fertiliz.dll(fertiliz) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
@@ -95,7 +95,7 @@
            report1 do_output
            first_day = 0
         endif
-     Manager creating a new local variable : crop_in =    0.000000000000000
+     Manager creating a new local variable : crop_in =     0.00000000000000
      Manager creating a new local variable : first_day =     1.00000000000000
 
 ------- SOILWAT2 Initialisation ----------------------------------------------
@@ -1037,8 +1037,8 @@
       
    NWHEAT:
       nwheat starting emergence
-                           biomas=          0.000000       lai=    0.000000    
-                           stover N conc=   0.000000       pesw=   0.000000
+                            biomas=        0.00000000E+00    lai=  0.00000000E+00 
+                           stover N conc= 0.00000000E+00    pesw= 0.00000000E+00
 26 May 1988 (Day of year=147):
    SOILPH:
         Removed Residue
@@ -1286,8 +1286,8 @@
       
    NWHEAT:
       nwheat starting end juvenile
-                           biomas=           302.005       lai=     3.67560    
-                           stover N conc=    3.10671       pesw=    202.946
+                            biomas=        302.004517    lai=  3.67559862 
+                           stover N conc= 3.10671401    pesw= 202.945587
 27 July 1988 (Day of year=209):
    SOILPH:
         Removed Residue
@@ -1444,8 +1444,8 @@
       
    NWHEAT:
       nwheat starting end vegetative
-                           biomas=           463.474       lai=     3.10357    
-                           stover N conc=    2.20546       pesw=    234.961
+                            biomas=        463.473480    lai=  3.10357261 
+                           stover N conc= 2.20546293    pesw= 234.961273
 18 August 1988 (Day of year=231):
    SOILPH:
         Removed Residue
@@ -1532,8 +1532,8 @@
       
    NWHEAT:
       nwheat starting end ear
-                           biomas=           633.229       lai=     2.84622    
-                           stover N conc=    1.65201       pesw=    241.596
+                            biomas=        633.228760    lai=  2.84622288 
+                           stover N conc= 1.65200996    pesw= 241.595688
 30 August 1988 (Day of year=243):
    SOILPH:
         Removed Residue
@@ -1620,8 +1620,8 @@
       
    NWHEAT:
       nwheat starting grain filling
-                           biomas=           822.586       lai=     2.43083    
-                           stover N conc=    1.29210       pesw=    212.832
+                            biomas=        822.585999    lai=  2.43082929 
+                           stover N conc= 1.29210353    pesw= 212.831573
 11 September 1988 (Day of year=255):
    SOILPH:
         Removed Residue
@@ -1834,8 +1834,8 @@
       
    NWHEAT:
       nwheat starting maturity
-                           biomas=           1201.75       lai=    0.000000    
-                           stover N conc=   0.899836       pesw=    142.946
+                            biomas=        1201.75171    lai=  0.00000000E+00 
+                           stover N conc= 0.899836183    pesw= 142.946136
       nwheat ready for harvest
 11 October 1988 (Day of year=285):
    MANAGER:
@@ -1849,7 +1849,7 @@
                                               Residue Type          = wheat
                                               Dry matter Type       = leaf
                                               Amount Added (kg/ha)  =    1842.40
-                                              Ash Alkalinity wt (Mole/ha)=    1713.44
+                                              Ash Alkalinity wt (Mole/ha)=    1713.43
       
         Residue Added
                                               Residue Type          = wheat
@@ -1873,7 +1873,7 @@
                                               Crop Type           = wheat
                                               Dry Matter Type     = leaf
                                               Dry matter Removed (kg/ha)  =    1842.40
-                                              Ash Alkalinity wt (Mole/ha) =    1713.44
+                                              Ash Alkalinity wt (Mole/ha) =    1713.43
       
         Crop Chopped
                                               Crop Type           = wheat
@@ -2820,7 +2820,7 @@
         Removed Residue
                                               Removed action  = decomposed
                                               Fraction Removed  =    0.00459
-                                              Ash Alkalinity wt (Mole/ha) =      11.45
+                                              Ash Alkalinity wt (Mole/ha) =      11.44
       
 3 April 1989 (Day of year=93):
    SOILPH:
@@ -3057,8 +3057,8 @@
       
    NWHEAT:
       nwheat starting emergence
-                           biomas=          0.000000       lai=    0.000000    
-                           stover N conc=   0.000000       pesw=   0.000000
+                            biomas=        0.00000000E+00    lai=  0.00000000E+00 
+                           stover N conc= 0.00000000E+00    pesw= 0.00000000E+00
 7 May 1989 (Day of year=127):
    SOILPH:
         Removed Residue
@@ -3460,8 +3460,8 @@
       
    NWHEAT:
       nwheat starting end juvenile
-                           biomas=           156.531       lai=     1.89706    
-                           stover N conc=    2.96762       pesw=    231.443
+                            biomas=        156.531143    lai=  1.89705384 
+                           stover N conc= 2.96761680    pesw= 231.443237
 3 July 1989 (Day of year=184):
    SOILPH:
         Removed Residue
@@ -3653,8 +3653,8 @@
       
    NWHEAT:
       nwheat starting end vegetative
-                           biomas=           265.660       lai=     1.81639    
-                           stover N conc=    2.11002       pesw=    257.809
+                            biomas=        265.660400    lai=  1.81639564 
+                           stover N conc= 2.11001992    pesw= 257.809448
 30 July 1989 (Day of year=211):
    SOILPH:
         Removed Residue
@@ -3783,8 +3783,8 @@
       
    NWHEAT:
       nwheat starting end ear
-                           biomas=           392.191       lai=     1.61417    
-                           stover N conc=    1.45271       pesw=    234.255
+                            biomas=        392.191559    lai=  1.61417186 
+                           stover N conc= 1.45271456    pesw= 234.254883
 17 August 1989 (Day of year=229):
    SOILPH:
         Removed Residue
@@ -3899,8 +3899,8 @@
       
    NWHEAT:
       nwheat starting grain filling
-                           biomas=           579.486       lai=     1.35118    
-                           stover N conc=   0.998387       pesw=    213.293
+                            biomas=        579.486084    lai=  1.35118210 
+                           stover N conc= 0.998387337    pesw= 213.293152
 2 September 1989 (Day of year=245):
    SOILPH:
         Removed Residue
@@ -4141,8 +4141,8 @@
       
    NWHEAT:
       nwheat starting maturity
-                           biomas=           694.827       lai=    0.000000    
-                           stover N conc=   0.845997       pesw=    176.149
+                            biomas=        694.827332    lai=  0.00000000E+00 
+                           stover N conc= 0.845997036    pesw= 176.148743
       nwheat ready for harvest
 6 October 1989 (Day of year=279):
    MANAGER:
