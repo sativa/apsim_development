@@ -48,13 +48,13 @@ report do_output
 
    !layer    1    2    3    4    5    6    7   
    dlayer =  150  150  300  300  300  300  300  ! layer thickness mm soil
-   air_dry = .10 .20 .20 .20 .20 .20 .20       ! air dry mm water/ mm soil
-   bd    = 1.30 1.30 1.29 1.31 1.35 1.36 1.36  ! bulk density gm dry soil/cc moist soil
-   ll15  = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
-   sw    = .280 .364  .43 .43  .40  .41  .41   ! initial soil water mm water/mm soil
-   dul   = .450 .459  .45 .44  .42  .41  .41   ! drained upper limit mm water/mm soil
    sat   = .500 .509 .510 .505 .490 .480 .480  ! saturation mm water/mm soil
+   dul   = .450 .459  .45 .44  .42  .41  .41   ! drained upper limit mm water/mm soil
+   sw    = .280 .364  .43 .43  .40  .41  .41   ! initial soil water mm water/mm soil
+   ll15  = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   air_dry = .10 .20 .20 .20 .20 .20 .20       ! air dry mm water/ mm soil
    swcon =  0.2  0.2  0.2  0.2  0.2  0.2  0.2  ! drainage coefficient
+   bd    = 1.30 1.30 1.29 1.31 1.35 1.36 1.36  ! bulk density gm dry soil/cc moist soil
 
 
 
