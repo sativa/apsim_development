@@ -222,13 +222,11 @@ void TSOI::readSoiData(void) throw (runtime_error)
    phaseNames.erase(phaseNames.begin(), phaseNames.end());
    phases.erase(phases.begin(), phases.end());
 
-   Path soiFilePath(Application->ExeName.c_str());
-   soiFilePath.Set_name(soiFilename.c_str());
-   if (!soiFilePath.Exists())
-      throw runtime_error("Cannot find soi data file: " + soiFilePath.Get_path());
+   if (!FileExists(soiFilename))
+      throw runtime_error("Cannot find soi data file: " + string(soiFilename.c_str()));
 
    // Read the first line of the file - may contain phase names.
-   ifstream in (soiFilePath.Get_path().c_str());
+   ifstream in (soiFilename.c_str());
    string line;
    getline(in, line);
    string phaseNamesString = getKeyValue(line, PHASE_NAMES_KEY);

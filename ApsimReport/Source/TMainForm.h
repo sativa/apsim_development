@@ -13,25 +13,10 @@
 #include <ImgList.hpp>
 #include <Menus.hpp>
 #include <ToolWin.hpp>
-#include <ExtCtrls.hpp>
 #include <FileCtrl.hpp>
-#include <QuickRpt.hpp>
-#include <Chart.hpp>
-#include <DBChart.hpp>
-#include <ExtCtrls.hpp>
-#include <QrTee.hpp>
-#include <QuickRpt.hpp>
-#include <TeEngine.hpp>
-#include <TeeProcs.hpp>
-#include <Qrctrls.hpp>
-#include <Dialogs.hpp>
-#include <ActnList.hpp>
-#include <ComCtrls.hpp>
-#include <ImgList.hpp>
-#include <Menus.hpp>
-#include <ToolWin.hpp>
-#include "TSEGLibrary.h"
 #include "MRUFList.hpp"
+#include <ExtCtrls.hpp>
+#include <SEGReport\report.h>
 //---------------------------------------------------------------------------
 class TMainForm : public TForm
 {
@@ -77,10 +62,6 @@ __published:	// IDE-managed Components
    TUpDown *ZoomUpDown;
    TAction *SendToLibraryAction;
    TAction *LibraryAction;
-   TMenuItem *Library1;
-   TMenuItem *SendToLibrary1;
-   TMenuItem *Library2;
-   TMenuItem *N5;
    TAction *RefreshAction;
    TToolButton *ToolButton4;
    TMenuItem *Refresh1;
@@ -104,7 +85,7 @@ __published:	// IDE-managed Components
    TPanel *RightDockPanel;
    TSplitter *RightSplitter;
    TToolBar *ReportToolBar;
-   TSEGLibrary *SEGLibrary1;
+   TTabControl *TabControl;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall ExitActionExecute(TObject *Sender);
    void __fastcall OpenActionExecute(TObject *Sender);
@@ -117,8 +98,6 @@ __published:	// IDE-managed Components
    void __fastcall PageSetupActionExecute(TObject *Sender);
    void __fastcall PrintActionExecute(TObject *Sender);
    void __fastcall ZoomEditChange(TObject *Sender);
-   void __fastcall SendToLibraryActionExecute(TObject *Sender);
-   void __fastcall LibraryActionExecute(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall RefreshActionExecute(TObject *Sender);
    void __fastcall MRUFileListMRUItemClick(TObject *Sender,
@@ -136,25 +115,16 @@ __published:	// IDE-managed Components
           TDragDockObject *Source, int X, int Y);
    void __fastcall EditReportActionExecute(TObject *Sender);
    void __fastcall EditDataActionExecute(TObject *Sender);
+   void __fastcall pageChanged(TObject* sender);
 private:	// User declarations
    AnsiString filename;
    AnsiString fileThatWasCopied;
+   Report report;
 
    //---------------------------------------------------------------------------
    // Tell report to go into edit mode.
    //---------------------------------------------------------------------------
    void edit(bool turnOn);
-
-   //---------------------------------------------------------------------------
-   // User has changed selections - update our data window and pass event along
-   // object inspector.
-   //---------------------------------------------------------------------------
-   void __fastcall selectionChanged(TObject* sender);
-
-   //---------------------------------------------------------------------------
-   // User has changed pages in tab control - update main form.
-   //---------------------------------------------------------------------------
-   void __fastcall pageChanged(TObject* sender);
 
    //---------------------------------------------------------------------------
    // Populate the toolbar.
@@ -183,11 +153,6 @@ private:	// User declarations
    //---------------------------------------------------------------------------
    void loadFormPosition(TForm* form);
    void saveFormPosition(TForm* form);
-
-   //---------------------------------------------------------------------------
-   // user has clicked a report toolbar button.
-   //---------------------------------------------------------------------------
-   void __fastcall ReportButtonClick(TObject* sender);
 
 public:		// User declarations
    __fastcall TMainForm(TComponent* Owner);

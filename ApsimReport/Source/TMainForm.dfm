@@ -164,6 +164,7 @@ object MainForm: TMainForm
       Flat = True
       TabOrder = 1
       Visible = False
+      Wrapable = False
     end
   end
   object LeftDockPanel: TPanel
@@ -202,6 +203,16 @@ object MainForm: TMainForm
     OnDockDrop = FormDockDrop
     OnDockOver = FormDockOver
     OnUnDock = FormUnDock
+  end
+  object TabControl: TTabControl
+    Left = 3
+    Top = 88
+    Width = 653
+    Height = 437
+    Align = alClient
+    TabOrder = 4
+    TabPosition = tpBottom
+    OnChange = pageChanged
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = 'report'
@@ -281,18 +292,6 @@ object MainForm: TMainForm
       object Editdatapage1: TMenuItem
         Action = EditDataAction
         AutoCheck = True
-      end
-    end
-    object Library1: TMenuItem
-      Caption = '&Library'
-      object SendToLibrary1: TMenuItem
-        Action = SendToLibraryAction
-      end
-      object N5: TMenuItem
-        Caption = '-'
-      end
-      object Library2: TMenuItem
-        Action = LibraryAction
       end
     end
   end
@@ -1204,13 +1203,11 @@ object MainForm: TMainForm
       Caption = 'Send report to library'
       Hint = 'Send the current report to the library'
       ImageIndex = 13
-      OnExecute = SendToLibraryActionExecute
     end
     object LibraryAction: TAction
       Caption = 'Explore library'
       Hint = 'Maintain the library'
       ImageIndex = 12
-      OnExecute = LibraryActionExecute
     end
     object RefreshAction: TAction
       Caption = '&Refresh'
@@ -1270,10 +1267,6 @@ object MainForm: TMainForm
     AutoSaveName = '\Software\ApsimReport'
     AutoSaveKey = 'MRU Items'
     Left = 248
-    Top = 104
-  end
-  object SEGLibrary1: TSEGLibrary
-    Left = 216
     Top = 104
   end
 end

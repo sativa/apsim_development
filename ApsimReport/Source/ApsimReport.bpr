@@ -4,27 +4,24 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\ApsimReport.exe"/>
-    <OBJFILES value="ApsimReport.obj TMainForm.obj TPageSetupForm.obj TReportForm.obj 
+    <OBJFILES value="ApsimReport.obj TMainForm.obj TPageSetupForm.obj TLibraryForm.obj 
       TObjectInspectorForm.obj TDataPreviewForm.obj"/>
     <RESFILES value="ApsimReport.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TMainForm.dfm TPageSetupForm.dfm TReportForm.dfm 
+    <RESDEPEN value="$(RESFILES) TMainForm.dfm TPageSetupForm.dfm TLibraryForm.dfm 
       TObjectInspectorForm.dfm TDataPreviewForm.dfm"/>
-    <LIBFILES value="..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="gtCompressionC60.lib VclSmp.lib gtQRC60Pro.lib bcb2kaxserver.lib 
-      kbmMemC6Run.lib ThirdParty.lib dcctc6.lib TMSC6.lib SEGReport.lib 
-      nmfast.lib qrpt.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib vclx.lib qrpt.lib bdertl.lib dbrtl.lib vcldb.lib 
-      nmfast.lib SEGReport.lib TMSC6.lib dcctc6.lib qrpt60.lib ThirdParty.lib 
-      kbmMemC6Run.lib adortl.lib bcb2kaxserver.lib Tee6C6.lib TeeDB6C6.lib 
-      TeeUI6C6.lib TeeQR6C6.lib gtQRC60Pro.lib VclSmp.lib TeePro6C6.lib 
-      gtCompressionC60.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi 
-      dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi 
-      inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi 
-      dclocx.bpi dbexpress.bpi dbxcds.bpi ibxpress.bpi indy.bpi vcljpg.bpi 
-      qrpt60.bpi adortl.bpi bdertl.bpi TeeDB6C6.bpi Tee6C6.bpi TeeUI6C6.bpi 
-      TeeQR6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeGL6C6.bpi"/>
+    <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\Shared\SEGReport\SEGReport.lib"/>
+    <LIBRARIES value="ThirdParty.lib VclSmp.lib TMSC6.lib gtQRC60Pro.lib TeeQR6C6.lib 
+      TeeUI6C6.lib Tee6C6.lib TeeDB6C6.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib qrpt60.lib vclx.lib dbrtl.lib bdertl.lib TeeDB6C6.lib 
+      vcldb.lib Tee6C6.lib TeeUI6C6.lib TeeQR6C6.lib gtQRC60Pro.lib TMSC6.lib 
+      VclSmp.lib ThirdParty.lib vcldbx.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      bdertl.bpi qrpt60.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
+      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
+      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
+      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi vcljpg.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -33,10 +30,10 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimReport.cpp"/>
-    <INCLUDEPATH value="$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport"/>
-    <LIBPATH value="$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6;$(SHARED)\SEGReport;$(SHARED)\General"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\tms;$(BCB)\Components\thirdparty;$(BCB)\Components\boost;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\Tms;$(BCB)\Components\Thirdparty"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -59,10 +56,11 @@
       <FILE FILENAME="ApsimReport.res" FORMNAME="" UNITNAME="ApsimReport.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ApsimReport.cpp" FORMNAME="" UNITNAME="ApsimReport" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TMainForm.cpp" FORMNAME="MainForm" UNITNAME="TMainForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TPageSetupForm.cpp" FORMNAME="PageSetupForm" UNITNAME="TPageSetupForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TReportForm.cpp" FORMNAME="ReportForm" UNITNAME="TReportForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\SEGReport\SEGReport.lib" FORMNAME="" UNITNAME="SEGReport.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TLibraryForm.cpp" FORMNAME="LibraryForm" UNITNAME="TLibraryForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TObjectInspectorForm.cpp" FORMNAME="ObjectInspectorForm" UNITNAME="TObjectInspectorForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TDataPreviewForm.cpp" FORMNAME="DataPreviewForm" UNITNAME="TDataPreviewForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
@@ -98,47 +96,65 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+C:\MyData\development\Bin\SEGReport.bpl=SEGReport
 C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
 
 [HistoryLists\hlIncludePath]
-Count=13
-Item0=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport
-Item2=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(SHARED);$(SHARED)\SegReport
-Item3=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(BCB)\components\memtable;$(SHARED);$(SHARED)\SegReport
-Item4=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport
-Item5=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport
-Item8=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(SHARED);$(SHARED)\SegReport
-Item9=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\SegReport
-Item10=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
-Item11=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item12=..\Shared\SEGReport;$(BCB)\include;$(BCB)\include\vcl
+Count=21
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\tms;$(BCB)\Components\thirdparty;$(BCB)\Components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\tms;$(BCB)\Components\thirdparty;$(SHARED)
+Item2=$(BCB)\Components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Include;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Include;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
+Item5=$(BCB)\include;$(BCB)\include\vcl;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Include;$(SHARED)
+Item6=$(BCB)\components\thirdparty;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6
+Item7=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6
+Item8=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport
+Item9=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport
+Item10=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(SHARED);$(SHARED)\SegReport
+Item11=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(BCB)\components\memtable;$(SHARED);$(SHARED)\SegReport
+Item12=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport
+Item13=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
+Item14=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
+Item15=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport
+Item16=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(SHARED);$(SHARED)\SegReport
+Item17=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\SegReport
+Item18=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
+Item19=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item20=..\Shared\SEGReport;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=21
-Item0=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6;$(SHARED)\SEGReport;$(SHARED)\General
-Item1=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6;$(SHARED)\SEGReport
-Item2=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6
-Item3=$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6
-Item4=$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
-Item5=C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
-Item6=C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
-Item7=..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
-Item8=..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(SHARED)\General
-Item9=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6;$(SHARED)\General
-Item10=..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6;$(SHARED)\General
-Item11=$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
-Item12=$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
-Item13=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
-Item14=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms
-Item15=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General
-Item16=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport
-Item17=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units
-Item18=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer
-Item19=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;($SHARED)\SEGReport;$(BCB)\components\lsFileExplorer
-Item20=..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=30
+Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\Tms;$(BCB)\Components\Thirdparty
+Item1=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\Tms
+Item2=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\dream\units;$(BCB)\Components\memtable;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6
+Item5=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\dream\units;$(BCB)\Components\memtable
+Item6=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\dream\units;$(BCB)\Components\memtable
+Item7=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\dream\units;$(BCB)\Components\memtable;$(SHARED)\SEGReport
+Item8=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\dream\units
+Item9=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6
+Item10=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6;$(BCB)\Components\tms;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item11=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\lib\release;$(BCB)\Projects\Lib;..\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\Program Files\Borland\CBuilder6\Components\QRExport3\Lib\C6
+Item12=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(BCB)\Projects\Lib;$(BCB)\lib;$(BCB)\lib\obj;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6;$(SHARED)\SEGReport;$(SHARED)\General
+Item13=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6;$(SHARED)\SEGReport;$(SHARED)\General
+Item14=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6;$(SHARED)\SEGReport
+Item15=$(BCB)\Components\QRExport3\Lib\C6;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6
+Item16=$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General;C:\Progra~1\Common~1\Gnosti~1\Compression\Lib\C6
+Item17=$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
+Item18=C:\Program Files\Borland\CBuilder6\Projects;C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
+Item19=C:\Program Files\Common Files\Gnostice Shared\Compression\Lib\C6;$(BCB)\Components\QRExport3\Lib\C6;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
+Item20=..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\General
+Item21=..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\thirdparty;$(BCB)\components\dream\units;$(BCB)\components\tms;$(SHARED)\General
+Item22=C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Lib;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6;$(SHARED)\General
+Item23=..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6;$(SHARED)\General
+Item24=$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
+Item25=$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
+Item26=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
+Item27=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms
+Item28=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General
+Item29=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport
 
 [HistoryLists\hlDebugSourcePath]
 Count=2

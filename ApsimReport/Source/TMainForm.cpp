@@ -5,19 +5,16 @@
 
 #include "TMainForm.h"
 #include "TPageSetupForm.h"
-#include "TReportForm.h"
-#include "TObjectInspectorForm.h"
 #include "TDataPreviewForm.h"
+#include "TObjectInspectorForm.h"
+#include "TLibraryForm.h"
 #include <general\vcl_functions.h>
 #include <general\io_functions.h>
 #include <general\inifile.h>
 #include <general\path.h>
 #include <ApsimShared\ApsimSettings.h>
-#include <TApsimFileReader.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "TSEGReport"
-#pragma link "TSEGLibrary"
 #pragma link "MRUFList"
 #pragma link "JPEG"
 #pragma resource "*.dfm"
@@ -28,7 +25,7 @@ extern AnsiString commandLine;
 // constructor.
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
-   : TForm(Owner)
+   : TForm(Owner), report(TabControl)
    {
    }
 //---------------------------------------------------------------------------
@@ -36,14 +33,12 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
-   ReportForm->Parent = this;
-   ReportForm->Visible = true;
-
-   ReportForm->Report->clear();
-   ReportForm->Report->createPage("Page1");
-   ZoomUpDown->Position = ReportForm->Report->zoom;
-   ReportForm->Report->getPageNames(ReportForm->TabControl->Tabs);
-   ReportForm->onPageChanged = pageChanged;
+//   report.clear();
+   report.createPage("Page1");
+   report.setObjectInspectorForm(ObjectInspectorForm, DataPreviewForm->DataSource);
+   ZoomUpDown->Position = report.getZoom();
+   report.getPageNames(TabControl->Tabs);
+   pageChanged(NULL);
 
    ApsimSettings settings;
    string leftSt, topSt, widthSt, heightSt;
@@ -66,7 +61,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    {
-   ReportForm->Report->edit(false);
+   report.edit(false);
    saveIfNecessary();
    ApsimSettings settings;
    settings.write("Apsim Report Pos|MainFormLeft", IntToStr(Left).c_str());
@@ -75,7 +70,7 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    settings.write("Apsim Report Pos|MainFormHeight", IntToStr(Height).c_str());
 
    // ApsimReport will throw an av when shut down without the following line.
-   ReportForm->Report->clear();
+//   report.clear();
    }
 //---------------------------------------------------------------------------
 // User wants to edit the report.
@@ -85,7 +80,7 @@ void __fastcall TMainForm::EditReportActionExecute(TObject *Sender)
    edit(false);
    if (EditReportAction->Checked)
       {
-      ReportForm->Report->showDataPage(false);
+      report.showDataPage(false);
       edit(true);
       }
    DataPreviewForm->Visible = false;
@@ -100,17 +95,17 @@ void __fastcall TMainForm::EditDataActionExecute(TObject *Sender)
    edit(false);
    if (EditDataAction->Checked)
       {
-      ReportForm->TabControl->TabHeight = 1;
-      ReportForm->TabControl->TabWidth = 1;
-      ReportForm->Report->showDataPage(true);
+      TabControl->TabHeight = 1;
+      TabControl->TabWidth = 1;
+      report.showDataPage(true);
       edit(true);
       loadFormPosition(DataPreviewForm);
       }
    else
       {
-      ReportForm->Report->showDataPage(false);
-      ReportForm->TabControl->TabHeight = 0;  // auto size.
-      ReportForm->TabControl->TabWidth = 0;
+      report.showDataPage(false);
+      TabControl->TabHeight = 0;  // auto size.
+      TabControl->TabWidth = 0;
       }
    }
 //---------------------------------------------------------------------------
@@ -124,12 +119,9 @@ void TMainForm::edit(bool turnOn)
       saveFormPosition(palette);
       saveFormPosition(ObjectInspectorForm);
       }
-   // Hook up the object inspector to the report and make it visible.
-   ReportForm->Report->OnSelectionChanged = selectionChanged;
-   ObjectInspectorForm->Visible = turnOn;
-
    // turn on edit mode and make palette dockable.
-   palette = ReportForm->Report->edit(turnOn);
+   ReportToolBar->Visible = !turnOn;
+   palette = report.edit(turnOn);
    if (palette != NULL)
       {
       palette->DragMode = dmAutomatic;
@@ -146,46 +138,20 @@ void TMainForm::edit(bool turnOn)
       }
    }
 //---------------------------------------------------------------------------
-// User has changed selections - update our data window and pass event along
-// object inspector.
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::selectionChanged(TObject* sender)
-   {
-   ObjectInspectorForm->ObjectInspector->update(sender);
-   loadFormPosition(ObjectInspectorForm);
-   TSEGTable* data = dynamic_cast<TSEGTable*> (sender);
-   if (data != NULL)
-      {
-      DataPreviewForm->DataSource->DataSet = data;
-      loadFormPosition(DataPreviewForm);
-      }
-   }
-//---------------------------------------------------------------------------
 // User has changed pages in tab control - update main form.
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::pageChanged(TObject* sender)
    {
-   ZoomUpDown->Position = ReportForm->Report->zoom;
+   ZoomUpDown->Position = report.getZoom();
+   report.showPage(TabControl->TabIndex);
    }
 //---------------------------------------------------------------------------
 // Populate the toolbar.
 //---------------------------------------------------------------------------
 void TMainForm::populateToolBar(void)
    {
-   ReportForm->Report->populateToolBar(ReportToolBar);
+   report.populateToolBar(ReportToolBar);
    ReportToolBar->Visible = (ReportToolBar->ButtonCount > 0);
-   for (int b = 0; b != ReportToolBar->ButtonCount; b++)
-      ReportToolBar->Buttons[b]->OnClick = ReportButtonClick;
-   }
-//---------------------------------------------------------------------------
-// user has clicked a report toolbar button.
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::ReportButtonClick(TObject* sender)
-   {
-   TToolButton* button = dynamic_cast<TToolButton*>(sender);
-   ObjectInspectorForm->Visible = true;
-   loadFormPosition(ObjectInspectorForm);
-   ObjectInspectorForm->ObjectInspector->update((TComponent*)button->Tag);
    }
 //---------------------------------------------------------------------------
 // User has clicked exit.
@@ -200,9 +166,9 @@ void __fastcall TMainForm::ExitActionExecute(TObject *Sender)
 void __fastcall TMainForm::NewActionExecute(TObject *Sender)
    {
    saveIfNecessary();
-   if (SEGLibrary1->letUserSelectFile(filename))
+   if (LibraryForm->ShowModal() == mrOk)
       {
-      open(filename);
+      open(LibraryForm->getSelectedFile());
       filename = "";
       setCaption();
       }
@@ -216,7 +182,7 @@ void __fastcall TMainForm::OpenActionExecute(TObject *Sender)
       {
       saveIfNecessary();
       open(OpenDialog1->FileName);
-      ZoomUpDown->Position = ReportForm->Report->zoom;
+      ZoomUpDown->Position = report.getZoom();
       }
    }
 //---------------------------------------------------------------------------
@@ -240,11 +206,11 @@ void __fastcall TMainForm::SaveAsActionExecute(TObject *Sender)
 void TMainForm::open(AnsiString file)
    {
    filename = file;
-   ReportForm->Report->load(filename);
+   report.load(filename.c_str());
    setCaption();
-   ZoomUpDown->Position = ReportForm->Report->zoom;
+   ZoomUpDown->Position = report.getZoom();
    MRUFileList->AddItem(filename);
-   ReportForm->Report->getPageNames(ReportForm->TabControl->Tabs);
+   report.getPageNames(TabControl->Tabs);
    populateToolBar();
    }
 //---------------------------------------------------------------------------
@@ -261,7 +227,7 @@ void TMainForm::save(AnsiString file)
          filename = file;
          setCaption();
          }
-      ReportForm->Report->save(file);
+      report.save(file.c_str());
       MRUFileList->AddItem(filename);
       }
    }
@@ -298,27 +264,25 @@ void __fastcall TMainForm::ZoomEditKeyDown(TObject *Sender, WORD &Key,
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CopyToClipboardActionExecute(TObject *Sender)
    {
-   ReportForm->Report->copyToClipboard();
+   report.copyToClipboard();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PageSetupActionExecute(TObject *Sender)
    {
-   PageSetupForm->PortraitButton->Down = ReportForm->Report->isPortrait;
-   PageSetupForm->LandscapeButton->Down = !ReportForm->Report->isPortrait;
+   PageSetupForm->PortraitButton->Down = report.getIsPortrait();
+   PageSetupForm->LandscapeButton->Down = !report.getIsPortrait();
    if (PageSetupForm->ShowModal() == mrOk)
-      {
-      ReportForm->Report->isPortrait = PageSetupForm->PortraitButton->Down;
-      }
+      report.setIsPortrait(PageSetupForm->PortraitButton->Down);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PrintActionExecute(TObject *Sender)
    {
-   ReportForm->Report->print(false);
+   report.print(false);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PrintCurrentPageActionExecute(TObject *Sender)
    {
-   ReportForm->Report->print(true);
+   report.print(true);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ZoomEditChange(TObject *Sender)
@@ -328,7 +292,7 @@ void __fastcall TMainForm::ZoomEditChange(TObject *Sender)
       {
       inHere = true;
       ZoomEdit->Text = IntToStr(ZoomUpDown->Position) + "%";
-      ReportForm->Report->zoom = ZoomUpDown->Position;
+      report.setZoom(ZoomUpDown->Position);
       inHere = false;
       }
    }
@@ -337,28 +301,16 @@ void __fastcall TMainForm::ZoomEditChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void TMainForm::saveIfNecessary(void)
    {
-   if (ReportForm->Report->needsSaving && MessageBox(NULL, "Save changes to report?", "Confirm",
-                             MB_ICONQUESTION | MB_YESNO) == IDYES)
+   if (report.needsSaving() && MessageBox(NULL, "Save changes to report?", "Confirm",
+                               MB_ICONQUESTION | MB_YESNO) == IDYES)
       save(filename);
    }
 //---------------------------------------------------------------------------
-// Send the current report to the library
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::SendToLibraryActionExecute(TObject *Sender)
-   {
-   saveIfNecessary();
-   if (filename != "")
-      SEGLibrary1->sendToLibrary(filename);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::LibraryActionExecute(TObject *Sender)
-   {
-   SEGLibrary1->letUserManipulate();
-   }
+// Refresh report
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::RefreshActionExecute(TObject *Sender)
    {
-   ReportForm->Report->refresh();
+   report.refresh();
    }
 //---------------------------------------------------------------------------
 // Use has clicked on a MRU filename - load it into the report.
@@ -400,12 +352,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
                   {
                   propertyName = propertyLine.substr(0, posEquals);
                   propertyValue = propertyLine.substr(posEquals+1);
-
-                  // get the first file reader and pass the output file to it.
-                  TComponent* dataComp = getComponent<TComponent> (ReportForm, "Data");
-                  TSEGTable* object = getComponent<TSEGTable> (dataComp, objectName.c_str());
-                  if (object != NULL)
-                     object->setProperty(propertyName, propertyValue);
+                  report.setProperty(objectName, propertyName, propertyValue);
                   }
                }
             }

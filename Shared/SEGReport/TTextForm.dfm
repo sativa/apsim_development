@@ -31,7 +31,7 @@ inherited TextForm: TTextForm
   end
   object FontButton: TSpeedButton [6]
     Left = 72
-    Top = 83
+    Top = 99
     Width = 71
     Height = 26
     Caption = '&Font'
@@ -79,10 +79,17 @@ inherited TextForm: TTextForm
   end
   object Label6: TLabel [7]
     Left = 7
-    Top = 96
+    Top = 120
     Width = 24
     Height = 13
     Caption = 'Text:'
+  end
+  object Label1: TLabel [8]
+    Left = 14
+    Top = 80
+    Width = 49
+    Height = 13
+    Caption = 'Alignment:'
   end
   inherited SourceCombo: TComboBox
     Width = 147
@@ -95,9 +102,9 @@ inherited TextForm: TTextForm
   end
   object TextEdit: TRichEdit
     Left = 8
-    Top = 112
+    Top = 136
     Width = 212
-    Height = 217
+    Height = 193
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelInner = bvNone
     BevelOuter = bvRaised
@@ -107,6 +114,21 @@ inherited TextForm: TTextForm
     TabOrder = 2
     WordWrap = False
     OnExit = TextEditExit
+  end
+  object AlignmentCombo: TComboBox
+    Left = 72
+    Top = 80
+    Width = 147
+    Height = 21
+    BevelKind = bkSoft
+    Anchors = [akLeft, akTop, akRight]
+    ItemHeight = 13
+    TabOrder = 4
+    OnChange = AlignmentComboChange
+    Items.Strings = (
+      'Left'
+      'Centre'
+      'Right')
   end
   object FontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET

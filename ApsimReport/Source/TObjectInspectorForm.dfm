@@ -6,7 +6,7 @@ object ObjectInspectorForm: TObjectInspectorForm
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeToolWin
   Caption = 'Object Inspector'
-  Color = clBtnFace
+  Color = clWindow
   UseDockManager = True
   DockSite = True
   DragKind = dkDock
@@ -20,14 +20,4 @@ object ObjectInspectorForm: TObjectInspectorForm
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object ObjectInspector: TSEGObjectInspector
-    Left = 0
-    Top = 0
-    Width = 217
-    Height = 454
-    Align = alClient
-    BevelOuter = bvNone
-    Color = clWindow
-    TabOrder = 0
-  end
 end

@@ -7,18 +7,16 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include "TSEGObjectInspector.h"
 #include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TObjectInspectorForm : public TForm
-{
-__published:	// IDE-managed Components
-   TSEGObjectInspector *ObjectInspector;
-   void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
-private:	// User declarations
-public:		// User declarations
-   __fastcall TObjectInspectorForm(TComponent* Owner);
-};
+   {
+   __published:	// IDE-managed Components
+      void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+   private:	// User declarations
+   public:		// User declarations
+      __fastcall TObjectInspectorForm(TComponent* Owner);
+   };
 //---------------------------------------------------------------------------
 extern PACKAGE TObjectInspectorForm *ObjectInspectorForm;
 //---------------------------------------------------------------------------
