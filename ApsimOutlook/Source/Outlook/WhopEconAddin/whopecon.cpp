@@ -249,77 +249,80 @@ void WhopEcon::doCalculations(TAPSTable& data,
                                        cropAcronymI != cropAcronyms.end();
                                        cropAcronymI++)
             {
-            string cropName = cropFields.realCropName(*cropAcronymI).c_str();
-            EconConfigCropData* cropData;
-            if (econConfig.getCropData(econConfigName, cropName, cropData))
+            if (cropFields.cropWasSownByAcronym(*record, *cropAcronymI))
                {
-               // if crop is wheat then get protein.
-               float protein = 0.0;
-               if (Str_i_Eq(cropName, "Wheat"))
+               string cropName = cropFields.realCropName(*cropAcronymI).c_str();
+               EconConfigCropData* cropData;
+               if (econConfig.getCropData(econConfigName, cropName, cropData))
                   {
-                  if (!cropFields.getCropValue(*record, "protein", *cropAcronymI, protein))
+                  // if crop is wheat then get protein.
+                  float protein = 0.0;
+                  if (Str_i_Eq(cropName, "Wheat"))
                      {
-                     addWarning("Cannot find a wheat protein column.");
-                     continue;
+                     if (!cropFields.getCropValue(*record, "protein", *cropAcronymI, protein))
+                        {
+                        addWarning("Cannot find a wheat protein column.");
+                        continue;
+                        }
+                     }
+
+                  // get yield from file, change yield in file from a WET weight
+                  // to a DRY weight and add a new WET weight column.
+                  string yieldFieldName = cropFields.getCropFieldName
+                     (*record, "yield", *cropAcronymI);
+                  string wetYieldFieldName = yieldFieldName + "WET";
+
+                  float yield = 0.0;
+                  if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, yield))
+                     addWarning("Cannot find a yield column for crop: " + cropName);
+                  record->setFieldValue(wetYieldFieldName, FloatToStr(yield).c_str());
+                  yield = cropData->calculateDryYield(yield);
+                  record->setFieldValue(yieldFieldName, FloatToStr(yield).c_str());
+
+                  // Calculate a return for this crop and store it as a new field
+                  // for this crop.
+                  float ret = cropData->calculateReturn(yield, protein);
+                  string returnFieldName = "Return-" + cropName + " ($/ha)";
+                  record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
+                  gmReturn += ret;
+
+                  // get an nrate, a planting rate and calculate cost in $/ha
+                  float nitrogenRate = 0.0;
+                  if (!cropFields.getCropValue(*record, "NRate", *cropAcronymI, nitrogenRate))
+                     addWarning("Cannot find a nitrogen rate column for crop: " + cropName);
+                  float plantingRate = 0.0;
+                  if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
+                     addWarning("Cannot find a planting rate column for crop: " + cropName);
+
+                  gmCost += cropData->calculateCost(nitrogenRate, plantingRate);
+
+                  // tell 'data' about the new crop fields.
+                  if (!haveInformedDataOfNewFields)
+                     {
+                     data.addField(wetYieldFieldName);
+                     data.addField(returnFieldName);
                      }
                   }
-
-               // get yield from file, change yield in file from a WET weight
-               // to a DRY weight and add a new WET weight column.
-               string yieldFieldName = cropFields.getCropFieldName
-                  (*record, "yield", *cropAcronymI);
-               string wetYieldFieldName = yieldFieldName + "WET";
-
-               float yield;
-               if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, yield))
-                  addWarning("Cannot find a yield column for crop: " + cropName);
-               record->setFieldValue(wetYieldFieldName, FloatToStr(yield).c_str());
-               yield = cropData->calculateDryYield(yield);
-               record->setFieldValue(yieldFieldName, FloatToStr(yield).c_str());
-
-               // Calculate a return for this crop and store it as a new field
-               // for this crop.
-               float ret = cropData->calculateReturn(yield, protein);
-               string returnFieldName = "Return-" + cropName + " ($/ha)";
-               record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
-               gmReturn += ret;
-
-               // get an nrate, a planting rate and calculate cost in $/ha
-               float nitrogenRate;
-               if (!cropFields.getCropValue(*record, "NRate", *cropAcronymI, nitrogenRate))
-                  addWarning("Cannot find a nitrogen rate column for crop: " + cropName);
-               float plantingRate;
-               if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
-                  addWarning("Cannot find a planting rate column for crop: " + cropName);
-
-               gmCost += cropData->calculateCost(nitrogenRate, plantingRate);
-
-               // tell 'data' about the new crop fields.
-               if (!haveInformedDataOfNewFields)
+               else
                   {
-                  data.addField(wetYieldFieldName);
-                  data.addField(returnFieldName);
+                  addWarning("No gross margin information has been specified for crop: " + cropName);
+                  continue;
                   }
                }
-            else
-               {
-               addWarning("No gross margin information has been specified for crop: " + cropName);
-               continue;
-               }
+            }
 
-            // create new columns for cost, return, gm and gm split by crop
-            record->setFieldValue("Cost ($/ha)", FloatToStr(gmCost).c_str());
-            record->setFieldValue("Return ($/ha)", FloatToStr(gmReturn).c_str());
-            record->setFieldValue("GM ($/ha)", FloatToStr(gmReturn - gmCost).c_str());
+         // create new columns for cost, return, gm and gm split by crop
+         record->setFieldValue("Cost ($/ha)", FloatToStr(gmCost).c_str());
+         record->setFieldValue("Return ($/ha)", FloatToStr(gmReturn).c_str());
+         record->setFieldValue("GM ($/ha)", FloatToStr(gmReturn - gmCost).c_str());
 
-            // tell 'data' about the new GM fields.
-            if (!haveInformedDataOfNewFields)
-               {
-               data.addField("Cost ($/ha)");
-               data.addField("Return ($/ha)");
-               data.addField("GM ($/ha)");
-               haveInformedDataOfNewFields = true;
-               }
+         // tell 'data' about the new GM fields.
+         if (!haveInformedDataOfNewFields)
+            {
+            data.addField("Cost ($/ha)");
+            data.addField("Return ($/ha)");
+            data.addField("GM ($/ha)");
+            haveInformedDataOfNewFields = true;
             }
          }
       ok = data.next();
