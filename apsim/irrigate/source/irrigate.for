@@ -288,7 +288,9 @@
 
  
   100 continue
+
        call irrigate_sendirrigated()
+
 
 !&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
@@ -385,12 +387,16 @@
 
 *+  Local Variables
       integer    numvals                ! Number of values returned
+      integer    num_solutes
+      integer    solnum                            ! simple counter - solutes
       character  water_provider*(module_name_size) ! name of module providing water for top-up
       character  water_requester*(module_name_size)! the name of this instance which is requesting a top-up from another source
       real       water_requested         ! top-up water requested by this module 
       real       water_supplied         ! top-up water provided by module 'water-provider'
       real       water_still_needed     ! top-up water still required following provision
       real       deficit_mm             ! any remaining deficit (mm) after all irrig sources have been tried
+      real       solute_conc(max_solutes) ! array of solutes supplied in water_supplied
+      
       character err_string*200
 
 *- Implementation Section ----------------------------------
@@ -429,10 +435,27 @@
      :                         ,0.0
      :                         ,10000.0)
 
+
       if (numvals .ne. 1) then
             call fatal_error (ERR_USER,
      :             'Irrigation amount not provided by source')
       endif
+
+      call collect_real_array ('solute_concentrations_supplied'
+     :                     ,max_solutes
+     :                     ,'(ppm)'
+     :                     , solute_conc
+     :                     , num_solutes
+     :                     ,0.0
+     :                     ,1000000.0)
+
+
+      if (num_solutes .ne. g%num_solutes) then
+            call fatal_error (ERR_USER,
+     : 'Number of solutes in supplied water do not match system ')
+      endif
+
+
 
 !******* check if this water amount is enough to satisfy requirements ***************************
 
@@ -440,6 +463,9 @@
 
 !    Everyone happy, simply increment irrigation_applied pool
 
+       do 100 solnum = 1,g%num_solutes
+        g%solute(solnum) = solute_conc(solnum)* (water_supplied/g%area)
+ 100   continue
 
         call irrigate_sendirrigated()
       
@@ -452,10 +478,12 @@
 !     Send another gimme_water to the next preferred source with the amount still required        
 
          write(err_string,*)
-     : 'Water_supplied to irrigate is less than water requested OH NO '
+     : 'Water_supplied to irrigate is less than water requested. '
          call write_string (err_string)
          write(err_string,*)
-     :   'Still need ',water_still_needed,' ML of water'
+     :   'Still need ',water_still_needed
+     :   ,' ML of water to perform specified irrigation.'
+     :   ,' Checking alternate sources specified.'
          call write_string (err_string)
 
       call new_postbox()
@@ -475,9 +503,9 @@
       if(g%source_counter.gt.g%tot_num_sources) then
 !        in other words, all the specified sources have been tried
          write(err_string,*)
-     :   'WARNING : No more water available from specified 
-     :    sources - irrigation deficit still equals',water_still_needed
-     :    ,' ML of water'
+     :   'WARNING : No more water available from specified', 
+     :    ' sources - irrigation deficit still equals '
+     :    ,water_still_needed,' ML of water'
           call write_string (err_string)
 
 !        Since actual irrigation amount will be less than that requested,
@@ -485,6 +513,12 @@
 
           deficit_mm = water_still_needed*100/g%area
           g%amount = g%amount - deficit_mm       
+
+!       Also calculate solutes supplied in water sent
+       do 200 solnum = 1,g%num_solutes
+        g%solute(solnum) = solute_conc(solnum)* (water_supplied/g%area)
+ 200   continue
+
 
                   call irrigate_sendirrigated()
 
