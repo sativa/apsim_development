@@ -84,7 +84,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
       // set the module name as an attribute of the module macro.
       string moduleName = Path(interfaceFileName).Get_name_without_ext();
       Macro* moduleMacro = AMF->getMacro("module");
-      moduleMacro->addAttribute("moduleName", moduleName);
+      moduleMacro->setAttribute("moduleName", moduleName);
 
       // Now to set macrovalues to be used in the
       // macrosubstitution file
