@@ -103,7 +103,7 @@ void tearDown(void)
 //---------------------------------------------------------------------------
 // test createSim method
 //---------------------------------------------------------------------------
-void testCreateSim(void)
+void testSimCreation(void)
    {
    setUp();
    SimCreator simCreate("accum.con");
@@ -111,5 +111,33 @@ void testCreateSim(void)
    BOOST_CHECK(FileExists("accum1.sim"));
    BOOST_CHECK(FileExists("accum2.sim"));
    tearDown();
+   }
+//---------------------------------------------------------------------------
+// test createSim method
+//---------------------------------------------------------------------------
+void testFileToSimConversion(void)
+   {
+   ofstream out("clock.ini");
+   out << "[standard.clock.constants]" << endl;
+   out << "timestep_events = prepare process post" << endl;
+   out << "[standard.clock.other]" << endl;
+   out << "a = 1" << endl;
+   out.close();
+
+   SimCreator simCreate;
+   string simContents = simCreate.convertIniToSim("clock.ini");
+   BOOST_CHECK(simContents ==
+      "<constants name=\"standard\"><property name=\"timestep_events\">prepare process post</property></constants>"
+      "<other name=\"standard\"><property name=\"a\">1</property></other>"
+      );
+   unlink("clock.ini");
+   }
+//---------------------------------------------------------------------------
+// test createSim method
+//---------------------------------------------------------------------------
+void testCreateSim(void)
+   {
+   testSimCreation();
+   testFileToSimConversion();
    }
 

@@ -301,4 +301,49 @@ void SimCreator::createSim(const string& sectionName,
          simCreatorEvent(simulationFileName);
       }
    }
+//---------------------------------------------------------------------------
+// Treat the file passed in as an .ini file and convert it
+// to a sim file format. Return the converted contents as a string.
+//---------------------------------------------------------------------------
+std::string SimCreator::convertIniToSim(const std::string& filename)
+   {
+   if (filename != "" && FileExists(filename.c_str()))
+      {
+      string moduleName = Path(filename).Get_name_without_ext();
+      ApsimComponentData iniComponent;
+      ImportSection importSection(iniComponent, moduleName);
+
+      IniFile* par = new IniFile(filename, true);
+      vector<string> paramFileSections;
+
+      string sectionToMatch = "standard." + moduleName + ".";
+      par->readSectionNames(paramFileSections);
+
+      for (unsigned s = 0; s != paramFileSections.size(); s++)
+         {
+         if (Str_i_Eq(paramFileSections[s].substr(0, sectionToMatch.length()), sectionToMatch))
+            importSection.callback(par, paramFileSections[s]);
+         }
+
+
+      string contents = iniComponent.getXML();
+
+      // Only return the bit between the <initdata> and </initdata> tags.
+      const char* START_TAG = "<initdata>";
+      const char* END_TAG = "</initdata>";
+
+      unsigned startPos = contents.find(START_TAG);
+      unsigned endPos = contents.find(END_TAG);
+      if (startPos != string::npos && endPos != string::npos)
+         {
+         startPos += strlen(START_TAG);
+         contents = contents.substr(startPos, endPos-startPos);
+         }
+      else
+         throw runtime_error("Cannot find <initdata> tags in .ini file: " + filename);
+      delete par;
+      return contents;
+      }
+   return "";
+   }
 

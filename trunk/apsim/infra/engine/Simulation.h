@@ -44,6 +44,8 @@ class Simulation : public ISimulation
 
       void logError(const char* simFilename, const char* msg);
 
+      // resolve any includes in the specified sdml.
+      void resolveIncludes(string& sdml);
    };
 
 } // namespace protocol
