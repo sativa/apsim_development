@@ -1593,6 +1593,7 @@
       real function radn_max (dyoyr, lat, sun_angle)
 *     ===========================================================
       implicit none
+	  include 'data.pub'
  
 *+ Sub-Program Arguments
       real       sun_angle             ! (INPUT) angle to measure time between
@@ -1630,12 +1631,7 @@
 *       071293 jngh added sun (twilight) angle to arguments
 *       270295 jngh put in function to test for equal reals.
  
-*+ Calls
-      dll_import reals_are_equal
-      dll_import bound
-      real       bound                 ! function
-      logical reals_are_equal          ! function
- 
+
 *+ Constant Values
       real       aeqnox                ! average day number of autumnal
       parameter (aeqnox = 82.25)       !   equinox
