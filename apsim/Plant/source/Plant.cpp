@@ -444,14 +444,20 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetVar("dlt_dm_green_retrans", max_part,
                g.dlt_dm_green_retrans, "g/m^2", "change in green pool from retranslocation");
 
-   setupGetVar("dlt_dm_detached", max_part,
-               g.dlt_dm_detached,  "g/m^2", "change in dry matter via detachment");
-
    setupGetVar("dlt_dm_senesced", max_part,
                g.dlt_dm_senesced,"g/m^2", "change in dry matter via senescence");
 
+   setupGetVar("dlt_dm_detached", max_part,
+               g.dlt_dm_detached,  "g/m^2", "change in dry matter via detachment");
+
    setupGetVar("dlt_dm_dead_detached", max_part,
-               g.dlt_dm_dead_detached,  "g/m^2", "change in dry matter via detachment");
+               g.dlt_dm_dead_detached,"g/m^2", "change in dry matter via detachment");
+
+   setupGetVar("dlt_dm_green_dead", max_part,
+               g.dlt_dm_green_dead,  "g/m^2", "change in dry matter via plant death");
+
+   setupGetVar("dlt_dm_senesced_dead", max_part,
+               g.dlt_dm_senesced_dead,  "g/m^2", "change in dry matter via plant death");
 
    setupGetVar("grain_oil_conc",
                c.grain_oil_conc, "%", "??");
@@ -3600,6 +3606,8 @@ void Plant::plant_cleanup ()
                 , g.dlt_dm_green
                 , g.dlt_dm_green_retrans
                 , g.dlt_dm_senesced
+                , g.dlt_dm_green_dead
+                , g.dlt_dm_senesced_dead
                 , g.dlt_dm_stress_max
                 , g.dlt_lai
                 , g.dlt_leaf_no
@@ -3853,6 +3861,8 @@ void Plant::plant_update(
     ,float *g_dlt_dm_green                                     // (INPUT)  plant biomass growth (g/m^2)
     ,float *g_dlt_dm_green_retrans                             // (INPUT)  plant biomass retranslocat
     ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^
+    ,float *g_dlt_dm_green_dead                                  // (INPUT)  plant biomass senescence (g/m^
+    ,float *g_dlt_dm_senesced_dead                                  // (INPUT)  plant biomass senescence (g/m^
     ,float  g_dlt_dm_stress_max                                // (INPUT)  maximum daily stress on dm pro
     ,float  g_dlt_lai                                          // (INPUT)  actual change in live plant la
     ,float  g_dlt_leaf_no                                      // (INPUT)  actual fraction of oldest leaf
@@ -3909,9 +3919,9 @@ void Plant::plant_update(
 //+  Local Variables
     float dlt_leaf_area;                          // leaf area increase (mm^2/plant)
     float dlt_leaf_dm;                            // leaf dm increase (g/plant)
-    double dlt_dm_green_dead;                      // dry matter of green plant part dying
-                                                   // (g/m^2)
-    double dlt_dm_senesced_dead;                   // dry matter of senesced plant part
+//    double dlt_dm_green_dead;                      // dry matter of green plant part dying
+//                                                   // (g/m^2)
+//    double dlt_dm_senesced_dead;                   // dry matter of senesced plant part
                                                    // dying (g/m^2)
     double dlt_n_green_dead;                       // N content of green plant part dying
                                                    // (g/m^2)
@@ -3999,13 +4009,13 @@ void Plant::plant_update(
 
     for (part = 0; part < max_part; part++)
          {
-         dlt_dm_green_dead = g_dm_green[part] * dying_fract_plants;
-         g_dm_green[part] = g_dm_green[part] - dlt_dm_green_dead;
-         g_dm_dead[part] = g_dm_dead[part] + dlt_dm_green_dead;
+         g_dlt_dm_green_dead[part] = g_dm_green[part] * dying_fract_plants;
+         g_dm_green[part] = g_dm_green[part] - g_dlt_dm_green_dead[part];
+         g_dm_dead[part] = g_dm_dead[part] + g_dlt_dm_green_dead[part];
 
-         dlt_dm_senesced_dead = g_dm_senesced[part] * dying_fract_plants;
-         g_dm_senesced[part] = g_dm_senesced[part] - dlt_dm_senesced_dead;
-         g_dm_dead[part] = g_dm_dead[part] + dlt_dm_senesced_dead;
+         g_dlt_dm_senesced_dead[part] = g_dm_senesced[part] * dying_fract_plants;
+         g_dm_senesced[part] = g_dm_senesced[part] - g_dlt_dm_senesced_dead[part];
+         g_dm_dead[part] = g_dm_dead[part] + g_dlt_dm_senesced_dead[part];
          }
 //         OutputDebugString("Update");
          //    fprintf(stdout, "%d,%.9f,%.9f,%.9f,%.9f\n", g.day_of_year,
@@ -9548,7 +9558,8 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dlt_dm_green, 0.0, max_part);
       fill_real_array (g.dlt_dm_senesced, 0.0, max_part);
       fill_real_array (g.dlt_dm_detached, 0.0, max_part);
-      fill_real_array (g.dlt_dm_dead, 0.0, max_part);
+      fill_real_array (g.dlt_dm_green_dead, 0.0, max_part);
+      fill_real_array (g.dlt_dm_senesced_dead, 0.0, max_part);
       fill_real_array (g.dlt_dm_dead_detached, 0.0, max_part);
       g.dlt_dm_oil_conv_retranslocate = 0.0;
       fill_real_array (g.dlt_dm_green_retrans, 0.0, max_part);
@@ -10176,6 +10187,8 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.dlt_dm_dead_detached, 0.0, max_part);
     fill_real_array (g.dlt_dm_detached , 0.0, max_part);
     fill_real_array (g.dlt_dm_senesced , 0.0, max_part);
+    fill_real_array (g.dlt_dm_green_dead , 0.0, max_part);
+    fill_real_array (g.dlt_dm_senesced_dead , 0.0, max_part);
     fill_real_array (g.dlt_n_dead_detached, 0.0, max_part);
     fill_real_array (g.dlt_n_detached , 0.0, max_part);
     fill_real_array (g.dlt_n_senesced , 0.0, max_part);

@@ -137,7 +137,7 @@ float environment_t::daylength(int dyoyr, float sun_angle) const
    // the twilight altitude between these.
 
    if (reals_are_equal(fabs(latitude), 90.0)) {
-     coshra = sign (1.0, -dec) * sign (1.0, latitude); 
+     coshra = sign (1.0, -dec) * sign (1.0, latitude);
    } else {
      latrn = latitude*dg2rdn;
      slsd = sin(latrn)*sin(dec);
@@ -957,7 +957,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
    }
 #endif
 
-void WheatPhenology::update(void) 
+void WheatPhenology::update(void)
    {
    PlantPhenology::update();
    if (on_day_of ("flowering"))
@@ -1209,15 +1209,15 @@ void LegumePhenology::onRemoveBiomass(float removeBiomPheno)
    }
 
 
-   float ttAboveGround = ttInPhase("above_ground");
+   float ttCritical = max(0.0, ttInPhase("above_ground") - ttInPhase("emergence"));
    float removeFractPheno = y_removeFractPheno[removeBiomPheno];
-   float removeTTPheno = ttAboveGround * removeFractPheno;
+   float removeTTPheno = ttCritical * removeFractPheno;
 
    ostrstream msg;
    msg << "Phenology change:-" << endl;
    msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
    msg << "    Fraction TT removed  = " << removeFractPheno << endl;
-   msg << "    Above ground TT      = " << ttAboveGround << endl;
+   msg << "    Critical TT          = " << ttCritical << endl;
    msg << "    Remove TT            = " << removeTTPheno << endl;
 
    float ttRemaining = removeTTPheno;
@@ -1690,7 +1690,7 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    }
 #endif
 
-void LegumePhenology::update(void) 
+void LegumePhenology::update(void)
    {
    PlantPhenology::update();
    if (on_day_of ("flowering"))

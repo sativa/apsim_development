@@ -221,6 +221,8 @@ class Plant : public plantInterface {
     ,float *g_dlt_dm_green
     ,float *g_dlt_dm_green_retrans
     ,float *g_dlt_dm_senesced
+    ,float *g_dlt_dm_green_dead
+    ,float *g_dlt_dm_senesced_dead
     ,float  g_dlt_dm_stress_max
     ,float  g_dlt_lai
     ,float  g_dlt_leaf_no
@@ -1310,7 +1312,8 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float dlt_dm_green[max_part];                     // plant biomass growth (g/m^2)
       float dlt_dm_senesced[max_part];                  // plant biomass senescence (g/m^2)
       float dlt_dm_detached[max_part];                  // plant biomass detached (g/m^2)
-      float dlt_dm_dead[max_part];                      // plant biomass dead (g/m^2)
+      float dlt_dm_green_dead[max_part];                // plant biomass to dead population(g/m^2)
+      float dlt_dm_senesced_dead[max_part];             // plant biomass to dead population(g/m^2)
       float dlt_dm_dead_detached[max_part];             // plant biomass detached from dead plant (g/m^2)
       float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
       float dlt_dm_green_retrans[max_part];             // plant biomass retranslocated (g/m^2)
