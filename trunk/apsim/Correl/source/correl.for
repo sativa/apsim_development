@@ -27,6 +27,7 @@
 !     ================================================================
 
       type CorrelGlobals
+         sequence
          character   name_found(max_numvars)*8
          integer     records
          real        values(40000,max_numvars)
@@ -36,7 +37,7 @@
 !     ================================================================
 
       type CorrelParameters
-
+         sequence
          character   names(max_numvars)*8
          character   check_name(max_numvars)*8
 
@@ -50,158 +51,19 @@
 
 
       type CorrelConstants
+         sequence
          logical dummyConstant
       end type CorrelConstants
 !     ================================================================
 
       ! instance variables.
-      type (CorrelGlobals), pointer :: g
-      type (CorrelParameters), pointer :: p
-      type (CorrelConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type CorrelDataPtr
-         type (CorrelGlobals), pointer ::    gptr
-         type (CorrelParameters), pointer :: pptr
-         type (CorrelConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type CorrelDataPtr
-      type (CorrelDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (CorrelGlobals),pointer :: g
+      type (CorrelParameters),pointer :: g
+      type (CorrelConstants),pointer :: g
 
       contains
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      ! DPH - added this to open the output file.  For some reason
-      ! unknown to me, if this is done later in say the Init routine
-      ! it fails with a run-time error stating that
-      ! "File sharing is not loaded, requested ACTION not available."
-      ! Something in the new C++ infrastructure must be causing this.
-      open (unit=50, file='correl.out')
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-
-
-*====================================================================
-      subroutine Main (Action, Data_string)
-*====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_string*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      correl module.
-
-*+  Changes
-*       210995 jngh programmed
-*       090696 jngh changed presence report to standard
-*       190599 jngh removed version references and ACTION_presence
-
-*+  Constant Values
-      character  myname*(*)            ! Name of this procedure
-      parameter (myname = 'Correl_main')
-
-*- Implementation Section ----------------------------------
-      call push_routine (myname)
-
-      if (Action.eq.ACTION_Init) then
-         call correl_zero_variables ()
-         call correl_init ()
-         call correl_get_other_variables_init ()
-
-      elseif (Action.eq.ACTION_Prepare) then
-         call correl_prepare ()
-
-      elseif (Action.eq.ACTION_Get_variable) then
-         call correl_send_my_variable (Data_string)
-
-      elseif (Action.eq.ACTION_Process) then
-         call correl_zero_daily_variables ()
-         call correl_get_other_variables ()
-         call correl_process ()
-
-      elseif (Action.eq.ACTION_End_Run) then
-         call correl_calculate (Data_string)
-         close(50)
-
-      else
-            ! don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (myname)
-      return
-      end subroutine
 
 
 
@@ -744,3 +606,89 @@ c      character  line*80               ! output string
 
 
       end module CorrelModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use CorrelModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+      else
+         deallocate(g)
+      end if
+      return
+      end subroutine
+
+
+
+*====================================================================
+      subroutine Main (Action, Data_string)
+*====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_string*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      correl module.
+
+*+  Changes
+*       210995 jngh programmed
+*       090696 jngh changed presence report to standard
+*       190599 jngh removed version references and ACTION_presence
+
+*+  Constant Values
+      character  myname*(*)            ! Name of this procedure
+      parameter (myname = 'Correl_main')
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+
+      if (Action.eq.ACTION_Init) then
+         call correl_zero_variables ()
+         call correl_init ()
+         call correl_get_other_variables_init ()
+
+      elseif (Action.eq.ACTION_Prepare) then
+         call correl_prepare ()
+
+      elseif (Action.eq.ACTION_Get_variable) then
+         call correl_send_my_variable (Data_string)
+
+      elseif (Action.eq.ACTION_Process) then
+         call correl_zero_daily_variables ()
+         call correl_get_other_variables ()
+         call correl_process ()
+
+      elseif (Action.eq.ACTION_End_Run) then
+         call correl_calculate (Data_string)
+         close(50)
+
+      else
+            ! don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (myname)
+      return
+      end subroutine
+
+
