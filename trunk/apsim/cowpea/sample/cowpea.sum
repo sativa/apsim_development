@@ -20,7 +20,7 @@
      Title                  = cowpea Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -263,7 +263,7 @@
 1 December 1988 (Day of year=336):
    COWPEA:
        stage    3.0 emergence
-                           biomass =          0.7500000       lai =    0.2500000e-01
+                           biomass =          0.7500000       lai =    0.2500000E-01
                            stover N conc =    6.000000       extractable sw =    45.57298
 9 January 1989 (Day of year=9):
    COWPEA:
@@ -298,7 +298,7 @@
 14 February 1989 (Day of year=45):
    COWPEA:
        stage   10.0 harvest_ripe
-                           biomass =           830.1585       lai =    0.0000000    
+                           biomass =           830.1585       lai =     0.000000    
                            stover N conc =    2.696314       extractable sw =    68.02391
 15 February 1989 (Day of year=46):
    MANAGER:

@@ -20,7 +20,7 @@
      Title                  = chickpea Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -263,8 +263,8 @@
 16 May 1988 (Day of year=137):
    CHICKPEA:
        stage    3.0 emergence
-                           biomass =           5.000000       lai =    0.2500000e-01
-                           stover N conc =    5.999999       extractable sw =    18.70777
+                           biomass =           5.000000       lai =    0.2500000E-01
+                           stover N conc =    5.999999       extractable sw =    18.70776
 20 June 1988 (Day of year=172):
    CHICKPEA:
        stage    4.0 end_of_juvenile
@@ -298,7 +298,7 @@
 6 October 1988 (Day of year=280):
    CHICKPEA:
        stage   10.0 harvest_ripe
-                           biomass =           735.0220       lai =    0.4768372e-06
+                           biomass =           735.0220       lai =    0.4768372E-06
                            stover N conc =    2.073499       extractable sw =    179.9178
 7 October 1988 (Day of year=281):
    MANAGER:
