@@ -49,8 +49,13 @@
       else if (Action .eq. MES_Set_variable) then
          call apswim_set_my_variable (Data_string)
  
-      else if (Action .eq. 'add_water') then
-         call apswim_add_water ()
+      else if (action.eq.EVENT_irrigated) then
+               ! respond to addition of irrigation
+         call apswim_ONirrigated ()
+
+      else if (action.eq.'add_water') then
+         call fatal_error (ERR_USER,
+     :   '"ADD_WATER" message no longer available - use "irrigated"') 
 
       else if (Action .eq. MES_Till) then 
          call apswim_tillage ()
@@ -4763,11 +4768,12 @@ cnh
 
 
 * ====================================================================
-       subroutine apswim_add_water ()
+       subroutine apswim_ONirrigated ()
 * ====================================================================
       implicit none
-       include 'const.inc'
-       include 'apswim.inc'
+      include 'const.inc'
+      include 'apswim.inc'
+      include 'event.inc'
       include 'intrface.pub'                      
       include 'write.pub'                         
       include 'error.pub'                         
@@ -4794,7 +4800,7 @@ cnh
 
 *+  Constant Values
       character myname*(*)               ! name of current procedure
-      parameter (myname = 'apswim_add_water')
+      parameter (myname = 'apswim_ONirrigated')
 
 *+  Local Variables
        integer          counter
@@ -4825,14 +4831,14 @@ cnh
       endif
  
       call collect_char_var (
-     :                         'time'
+     :                         DATA_irrigate_time
      :                        ,'(hh:mm)'
      :                        ,time_string
      :                        ,numvals)
  
  
       call collect_double_var_optional (
-     :                         'amount'
+     :                         DATA_irrigate_amount
      :                        ,'(mm)'
      :                        ,amount
      :                        ,numvals_amt
@@ -4840,13 +4846,14 @@ cnh
      :                        ,1000.d0)
  
       call collect_double_var_optional (
-     :                         'duration'
+     :                         DATA_irrigate_duration
      :                        ,'(min)'
      :                        ,duration
      :                        ,numvals_dur
      :                        ,0.d0
      :                        ,24d0*60d0)
  
+cnh NOTE - intensity is not part of the official design!!!!?
       call collect_double_var_optional (
      :                         'intensity'
      :                        ,'(mm/h)'
