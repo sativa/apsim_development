@@ -12,7 +12,7 @@ std::string ftoa(double Float, char *fmtwidth=".2");
 std::string itoa(int value, int width);
 
 
-      const int numDmdPools = 6;
+      const int maxDmdPools = 6;
 
 // ------------------------------------------------------------------
 // TRACKER component for APSIM.
@@ -33,6 +33,7 @@ class ScienceConverterComponent : public protocol::Component
       virtual void stockBuy (protocol::Variant &v/*(INPUT) message variant*/);
 
    private:
+      void doRunTimeReg(void);
       void daylengthRelay (protocol::QueryValueData& queryData);
       void sendFeedOnOffer(protocol::QueryValueData& queryData);
       void sendFeedRemoved(protocol::QueryValueData& queryData);
@@ -91,10 +92,51 @@ class ScienceConverterComponent : public protocol::Component
 //         PlantPartType dead;
 //         };
 
-      PlantPool partFraction[numDmdPools];
+      PlantPool partFraction[maxDmdPools];
 
       struct
       {
+         string herbageModuleName;
+
+         float dmdValue[maxDmdPools];
+         int   numDmdPools;
+
+         float pConcGreenStemDefault;
+         float pConcGreenLeafDefault;
+         float pConcDeadStemDefault;
+         float pConcDeadLeafDefault;
+         float pConcSenescedStemDefault;
+         float pConcSenescedLeafDefault;
+
+         float AshAlkGreenStemDefault;
+         float AshAlkGreenLeafDefault;
+         float AshAlkDeadStemDefault;
+         float AshAlkDeadLeafDefault;
+         float AshAlkSenescedStemDefault;
+         float AshAlkSenescedLeafDefault;
+
+         float NSRatioGreenStemDefault;
+         float NSRatioGreenLeafDefault;
+         float NSRatioDeadStemDefault;
+         float NSRatioDeadLeafDefault;
+         float NSRatioSenescedStemDefault;
+         float NSRatioSenescedLeafDefault;
+
+         float NPRatioGreenStemDefault;
+         float NPRatioGreenLeafDefault;
+         float NPRatioDeadStemDefault;
+         float NPRatioDeadLeafDefault;
+         float NPRatioSenescedStemDefault;
+         float NPRatioSenescedLeafDefault;
+
+         float dmdGreenLeaf[3];
+         float dmdGreenStem[3];
+         float dmdSenescedLeaf[3];
+         float dmdSenescedStem[3];
+         float dmdDeadLeaf[3];
+         float dmdDeadStem[3];
+
+         float cpNRatio;
 
       } c;
 
