@@ -611,6 +611,7 @@
       SoilWaterBalance%evaporation =
      :                  sum_real_array (g%es_layers, max_layer)
 
+      SoilWaterBalance%NumLateralFlowLayers = num_layers
       SoilWaterBalance%LateralFlowLayer(1:num_layers)
      :                %thickness = p%dlayer(1:num_layers)
       SoilWaterBalance%LateralFlowLayer(:)%amount = 0.0
