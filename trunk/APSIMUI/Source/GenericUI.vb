@@ -42,17 +42,18 @@ Public Class GenericUI
         Me.Grid.DataMember = ""
         Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Grid.HeaderForeColor = System.Drawing.SystemColors.ControlText
-        Me.Grid.Location = New System.Drawing.Point(0, 0)
+        Me.Grid.Location = New System.Drawing.Point(0, 23)
         Me.Grid.Name = "Grid"
-        Me.Grid.Size = New System.Drawing.Size(984, 611)
+        Me.Grid.Size = New System.Drawing.Size(940, 602)
         Me.Grid.TabIndex = 0
         '
         'GenericUI
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(984, 611)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
+        Me.ClientSize = New System.Drawing.Size(940, 668)
         Me.Controls.Add(Me.Grid)
         Me.Name = "GenericUI"
+        Me.Controls.SetChildIndex(Me.Grid, 0)
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

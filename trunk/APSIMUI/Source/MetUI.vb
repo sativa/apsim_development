@@ -111,15 +111,13 @@ Public Class MetUI
         '
         'TabControl
         '
-        Me.TabControl.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl.Controls.Add(Me.FileContentsTab)
         Me.TabControl.Controls.Add(Me.GraphTab)
-        Me.TabControl.Location = New System.Drawing.Point(0, 96)
+        Me.TabControl.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.TabControl.Location = New System.Drawing.Point(0, 102)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(936, 872)
+        Me.TabControl.Size = New System.Drawing.Size(940, 400)
         Me.TabControl.TabIndex = 4
         '
         'FileContentsTab
@@ -127,7 +125,7 @@ Public Class MetUI
         Me.FileContentsTab.Controls.Add(Me.RichTextBox)
         Me.FileContentsTab.Location = New System.Drawing.Point(4, 25)
         Me.FileContentsTab.Name = "FileContentsTab"
-        Me.FileContentsTab.Size = New System.Drawing.Size(928, 843)
+        Me.FileContentsTab.Size = New System.Drawing.Size(932, 371)
         Me.FileContentsTab.TabIndex = 0
         Me.FileContentsTab.Text = "FileContents"
         '
@@ -138,7 +136,7 @@ Public Class MetUI
         Me.RichTextBox.Location = New System.Drawing.Point(0, 0)
         Me.RichTextBox.Name = "RichTextBox"
         Me.RichTextBox.ReadOnly = True
-        Me.RichTextBox.Size = New System.Drawing.Size(928, 843)
+        Me.RichTextBox.Size = New System.Drawing.Size(932, 371)
         Me.RichTextBox.TabIndex = 4
         Me.RichTextBox.Text = ""
         '
@@ -147,7 +145,7 @@ Public Class MetUI
         Me.GraphTab.Controls.Add(Me.MetGraphControl1)
         Me.GraphTab.Location = New System.Drawing.Point(4, 25)
         Me.GraphTab.Name = "GraphTab"
-        Me.GraphTab.Size = New System.Drawing.Size(90, 432)
+        Me.GraphTab.Size = New System.Drawing.Size(911, 1267)
         Me.GraphTab.TabIndex = 1
         Me.GraphTab.Text = "Graph"
         '
@@ -156,8 +154,9 @@ Public Class MetUI
         Me.MetGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MetGraphControl1.Location = New System.Drawing.Point(0, 0)
         Me.MetGraphControl1.Name = "MetGraphControl1"
-        Me.MetGraphControl1.Size = New System.Drawing.Size(90, 432)
+        Me.MetGraphControl1.Size = New System.Drawing.Size(911, 1267)
         Me.MetGraphControl1.TabIndex = 0
+        Me.MetGraphControl1.UIManager = Nothing
         '
         'FileMissingLabel
         '
@@ -198,6 +197,7 @@ Public Class MetUI
     Overrides Sub refresh()
         Try
             MyBase.Refresh()
+            MetGraphControl1.Data = MyData
             Dim filename As String = GetValue("filename")
             MetFileTextBox.Text = filename
             OpenFileDialog.InitialDirectory = Path.GetDirectoryName(filename)

@@ -63,11 +63,11 @@ namespace test
 			int FirstRow = 0;
 			Assert.AreEqual(MetData.Rows[FirstRow]["Site"], "DALB");
 			Assert.AreEqual(MetData.Rows[FirstRow]["Date"], new DateTime(1988, 1, 1));
-			Assert.AreEqual(MetData.Rows[FirstRow]["radn"], "20.74");
-			Assert.AreEqual(MetData.Rows[FirstRow]["maxt"], "33.0");
-			Assert.AreEqual(MetData.Rows[FirstRow]["mint"], "17.4");
-			Assert.AreEqual(MetData.Rows[FirstRow]["rain"], "0.2");
-			Assert.AreEqual(MetData.Rows[FirstRow]["evap"], "7.41");
+			Assert.AreEqual(MetData.Rows[FirstRow]["radn"], 20.74);
+			Assert.AreEqual(MetData.Rows[FirstRow]["maxt"], 33.0);
+			Assert.AreEqual(MetData.Rows[FirstRow]["mint"], 17.4);
+			Assert.AreEqual(MetData.Rows[FirstRow]["rain"], 0.2);
+			Assert.AreEqual(MetData.Rows[FirstRow]["evap"], 7.41);
 
 			int LastRow = MetData.Rows.Count-1;
 			Assert.AreEqual(LastRow, 3);

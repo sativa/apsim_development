@@ -49,10 +49,10 @@ Public Class MetGraphControl
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetGraphControl))
         Me.Description = New System.Windows.Forms.Label
         Me.ListBar = New vbAccelerator.Components.ListBarControl.ListBar
+        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.ScrollBar = New System.Windows.Forms.HScrollBar
         Me.Graph = New scpl.Windows.PlotSurface2D
-        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.SuspendLayout()
         '
         'Description
@@ -71,28 +71,34 @@ Public Class MetGraphControl
         Me.ListBar.Dock = System.Windows.Forms.DockStyle.Left
         Me.ListBar.DrawStyle = vbAccelerator.Components.ListBarControl.ListBarDrawStyle.ListBarDrawStyleOfficeXP
         Me.ListBar.LargeImageList = Me.ImageList
-        Me.ListBar.Location = New System.Drawing.Point(0, 0)
+        Me.ListBar.Location = New System.Drawing.Point(5, 23)
         Me.ListBar.Name = "ListBar"
         Me.ListBar.SelectOnMouseDown = False
-        Me.ListBar.Size = New System.Drawing.Size(136, 456)
+        Me.ListBar.Size = New System.Drawing.Size(136, 413)
         Me.ListBar.SmallImageList = Me.ImageList
         Me.ListBar.TabIndex = 3
         Me.ListBar.ToolTip = Nothing
         '
+        'ImageList
+        '
+        Me.ImageList.ImageSize = New System.Drawing.Size(32, 32)
+        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        '
         'Splitter1
         '
-        Me.Splitter1.Location = New System.Drawing.Point(136, 0)
+        Me.Splitter1.Location = New System.Drawing.Point(0, 23)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(5, 456)
+        Me.Splitter1.Size = New System.Drawing.Size(5, 433)
         Me.Splitter1.TabIndex = 4
         Me.Splitter1.TabStop = False
         '
         'ScrollBar
         '
         Me.ScrollBar.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ScrollBar.Location = New System.Drawing.Point(141, 436)
+        Me.ScrollBar.Location = New System.Drawing.Point(5, 436)
         Me.ScrollBar.Name = "ScrollBar"
-        Me.ScrollBar.Size = New System.Drawing.Size(747, 20)
+        Me.ScrollBar.Size = New System.Drawing.Size(883, 20)
         Me.ScrollBar.TabIndex = 5
         '
         'Graph
@@ -104,12 +110,12 @@ Public Class MetGraphControl
         Me.Graph.LegendBorderStyle = scpl.Legend.BorderType.Shadow
         Me.Graph.LegendXOffset = 10.0!
         Me.Graph.LegendYOffset = 1.0!
-        Me.Graph.Location = New System.Drawing.Point(141, 0)
+        Me.Graph.Location = New System.Drawing.Point(141, 23)
         Me.Graph.Name = "Graph"
         Me.Graph.Padding = 10
         Me.Graph.PlotBackColor = System.Drawing.Color.White
         Me.Graph.ShowLegend = False
-        Me.Graph.Size = New System.Drawing.Size(747, 436)
+        Me.Graph.Size = New System.Drawing.Size(747, 413)
         Me.Graph.TabIndex = 6
         Me.Graph.Title = ""
         Me.Graph.TitleFont = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel)
@@ -119,21 +125,20 @@ Public Class MetGraphControl
         Me.Graph.YAxis1 = Nothing
         Me.Graph.YAxis2 = Nothing
         '
-        'ImageList
-        '
-        Me.ImageList.ImageSize = New System.Drawing.Size(32, 32)
-        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
-        '
         'MetGraphControl
         '
         Me.Controls.Add(Me.Graph)
+        Me.Controls.Add(Me.ListBar)
         Me.Controls.Add(Me.ScrollBar)
         Me.Controls.Add(Me.Splitter1)
-        Me.Controls.Add(Me.ListBar)
         Me.Controls.Add(Me.Description)
         Me.Name = "MetGraphControl"
         Me.Size = New System.Drawing.Size(888, 536)
+        Me.Controls.SetChildIndex(Me.Description, 0)
+        Me.Controls.SetChildIndex(Me.Splitter1, 0)
+        Me.Controls.SetChildIndex(Me.ScrollBar, 0)
+        Me.Controls.SetChildIndex(Me.ListBar, 0)
+        Me.Controls.SetChildIndex(Me.Graph, 0)
         Me.ResumeLayout(False)
 
     End Sub
