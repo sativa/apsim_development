@@ -357,19 +357,27 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& componentNameOrID)
    {
    static char regName[200];
+   strncpy(regName, name.f_str(), name.length());
+   regName[name.length()] = 0;
 
    unsigned destID = 0;
    if (componentNameOrID.length() != 0)
       {
       strncpy(regName, componentNameOrID.f_str(), componentNameOrID.length());
+      regName[componentNameOrID.length()] = 0;
       char* endPtr;
       destID = strtol(regName, &endPtr, 10);
       if (endPtr == NULL)
+         {
          strncpy(regName, name.f_str(), name.length());
+         regName[name.length()] = 0;
+         }
+
       else
          {
          strcat(regName, ".");
          strncat(regName, name.f_str(), name.length());
+         regName[componentNameOrID.length() + name.length() + 1] = 0;
          }
       }
 
