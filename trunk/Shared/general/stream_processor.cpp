@@ -38,7 +38,7 @@ bool Line_processor::Replace_macros (string& Line)
    // search for a macro character.
 
    size_t Macro_pos = Line.find (Macro_char);
-   while (Macro_pos != NPOS)
+   while (Macro_pos != string::npos)
       {
       // get macro name from line
       istrstream Word_stream (&Line[Macro_pos]);

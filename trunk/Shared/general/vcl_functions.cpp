@@ -4,7 +4,8 @@
 #include <general\vcl_functions.h>
 #include <general\string_functions.h>
 #include <general\path.h>
-#include <general\mylist.h>
+#include <list>
+using std::list;
 #include <vcl\dbtables.hpp>
 
 // ------------------------------------------------------------------
@@ -256,7 +257,7 @@ void GENERAL_EXPORT Get_field_list (TDataSet* dataset, TStringList* field_names)
    {
    field_names->Clear();
    for (int i = 0; i < dataset->FieldCount; i++)
-      field_names->Add (dataset->Fields[i]->FieldName);
+      field_names->Add (dataset->Fields->Fields[i]->FieldName);
    }
 
 #if __BORLANDC__ == 0x530

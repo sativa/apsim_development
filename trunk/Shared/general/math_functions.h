@@ -2,8 +2,10 @@
 #define MATH_FUNCTIONS_H
 
 #include <general\general.h>
-#include <general\myvector.h>
-#include <general\mystring.h>
+#include <vector>
+#include <string>
+using std::vector;
+using std::string;
 #include <algorith>
 #include <functional>
 // ------------------------------------------------------------------

@@ -110,7 +110,7 @@ int Month_string_2_integer (string& Month_string)
       This_string = Month_str[Month];
 
       if (Month_string.length() == 3)
-         This_string.replace (3, NPOS, "");
+         This_string.replace (3, string::npos, "");
 
       Found = (Str_i_Eq(This_string, Month_string));
       }
@@ -210,7 +210,7 @@ int Month_string_2_integer (string& Month_string)
 //  Changes:
 //    DPH 13/1/95
 //    dph 6/8/97  changed to new formatting system.
-//    dph 27/3/98 changed NPOS to NPOS in line with standard.
+//    dph 27/3/98 changed string::npos to string::npos in line with standard.
 
 //  Calls:
 
@@ -228,7 +228,7 @@ int Month_string_2_integer (string& Month_string)
 
       // replace DD
       size_t Pos = Our_string.find("DD");
-      if (Pos != NPOS)
+      if (Pos != string::npos)
          {
          sprintf (St, "%02i", Day);
          Our_string.replace (Pos, 2, St);
@@ -236,7 +236,7 @@ int Month_string_2_integer (string& Month_string)
 
       // replace D
       Pos = Our_string.find("D");
-      if (Pos != NPOS)
+      if (Pos != string::npos)
          {
          sprintf (St, "%i", Day);
          Our_string.replace (Pos, 1, St);
@@ -244,13 +244,13 @@ int Month_string_2_integer (string& Month_string)
 
       // replace MMMMMM
       Pos = Our_string.find("MMMMMM");
-      if (Pos != NPOS)
+      if (Pos != string::npos)
          Our_string.replace (Pos, 6, Month_str[Month - 1]);
       else
          {
          // replace MMM
          Pos = Our_string.find("MMM");
-         if (Pos != NPOS)
+         if (Pos != string::npos)
             {
             strncpy(St, Month_str[Month - 1], 3);
             St[3] = 0;
@@ -260,7 +260,7 @@ int Month_string_2_integer (string& Month_string)
             {
             // replace MM
             Pos = Our_string.find("MM");
-            if (Pos != NPOS)
+            if (Pos != string::npos)
                {
                sprintf (St, "%02i", Month);
                Our_string.replace (Pos, 2, St);
@@ -269,7 +269,7 @@ int Month_string_2_integer (string& Month_string)
                {
                // replace M
                Pos = Our_string.find("M");
-               if (Pos != NPOS)
+               if (Pos != string::npos)
                   {
                   sprintf (St, "%i", Month);
                   Our_string.replace (Pos, 1, St);
@@ -280,7 +280,7 @@ int Month_string_2_integer (string& Month_string)
 
       // replace YYYY
       Pos = Our_string.find("YYYY");
-      if (Pos != NPOS)
+      if (Pos != string::npos)
          {
          sprintf (St, "%i", Year);
          Our_string.replace (Pos, 4, St);
@@ -288,7 +288,7 @@ int Month_string_2_integer (string& Month_string)
 
       // replace YY
       Pos = Our_string.find("YY");
-      if (Pos != NPOS)
+      if (Pos != string::npos)
          {
          sprintf (St, "%i", Year - 1900);
          Our_string.replace (Pos, 2, St);

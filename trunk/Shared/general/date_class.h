@@ -4,7 +4,8 @@
 #include <general\general.h>
 
 #include <iostream.h>
-#include <general\mystring.h>
+#include <string>
+using std::string;
 #include <vcl\sysutils.hpp>
 // ------------------------------------------------------------------
 //  Short description:

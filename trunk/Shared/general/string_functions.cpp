@@ -2,7 +2,7 @@
 #include <tchar.h>
 #include <strstream>
 #include <iomanip>
-
+using std::ostrstream;
 // ------------------------------------------------------------------
 //  Short description:
 //    removes leading and trailing characters.
@@ -29,7 +29,7 @@ void GENERAL_EXPORT Strip (string& text, const char* separators)
    text = "`" + text;
    Pos = text.find_last_not_of(separators);
    if (Pos < text.length())
-      text.replace (Pos+1, NPOS, "");
+      text.replace (Pos+1, string::npos, "");
    text.replace (0, 1, "");
    }
 
@@ -213,13 +213,13 @@ void GENERAL_EXPORT To_upper (string& St)
 
 //  Changes:
 //    DPH 17/3/97
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed string::npos to string::string::npos in line with standard.
 
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
    {
    size_t Pos = St.find(Sub_string);
-   while (Pos != NPOS)
+   while (Pos != string::npos)
       {
       St.replace(Pos, strlen(Sub_string), Replacement_string);
       Pos = St.find(Sub_string);
@@ -234,14 +234,14 @@ void GENERAL_EXPORT Replace_all (string& St, const char* Sub_string, const char*
 
 //  Changes:
 //    DPH 17/3/97
-//    dph 27/3/98 changed NPOS to string::npos in line with standard.
+//    dph 27/3/98 changed npos to string::npos in line with standard.
 
 // ------------------------------------------------------------------
 string GENERAL_EXPORT ftoa(double Float, int Num_decplaces)
    {
    ostrstream buf;
-   buf.setf(ios::fixed, ios::floatfield);
-   buf << setprecision(Num_decplaces) << Float << ends;
+   buf.setf(std::ios::fixed, std::ios::floatfield);
+   buf << std::setprecision(Num_decplaces) << Float << std::ends;
    return buf.str();
    }
 
