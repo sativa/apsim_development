@@ -1524,15 +1524,27 @@
       <type name="top_up" kind="????" unit="" description="Manager message telling a water source to increase its holdings"/>
       <type name="water_supplied" kind="????" unit="" description="Water source replying to a top_up or irrigate request by sending back the details of water supplied"/>
 
-
-
-
+      <type name="crop_chopped">
+         <field name="crop_type" kind="string"/>
+         <field name="dm_type" kind="string" array="T"/>
+         <field name="dlt_crop_dm" kind="single" array="T"/>
+         <field name="dlt_dm_n" kind="single" array="T"/>
+         <field name="fraction_to_residue" kind="single" array="T"/>
+      </type>
+      <type name="new_profile">
+         <field name="dlayer" kind="single" array="T"/>
+         <field name="ll15_dep" kind="single" array="T"/>
+         <field name="dul_dep" kind="single" array="T"/>
+         <field name="sat_dep" kind="single" array="T"/>
+         <field name="sw_dep" kind="single" array="T"/>
+         <field name="bd" kind="single" array="T"/>
+      </type>
+      
 ! dsg 041202  ALL 'OLD' APSIM 2.2 EVENTS AND METHODS
 
       <type name="incorp_fom" kind="????" unit="" description="Message to report a residue decomposition"/>
       <type name="tick" kind="????" unit="" description="Change in the simulation system time and the duration of the new time step"/>
       <type name="newmet" kind="????" unit="" description="To notify all interested modules in a change in the simulation met data for the current time step"/>
-      <type name="new_profile" kind="????" unit="" description="To notify all interested modules of the change in soil water profile characteristic information"/>
       <type name="prepare" kind="????" unit="" description="Message to prepare for process"/>
       <type name="process" kind="????" unit="" description="Message to process"/>
       <type name="post" kind="????" unit="" description="System post stage"/>
