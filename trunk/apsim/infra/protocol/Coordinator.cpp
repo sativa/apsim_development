@@ -42,6 +42,55 @@ class EventRegistration
             }
          }
 
+      // ------------------------------------------------------------------
+      //  Short description:
+      //     change the order of the specified components for this event
+      //     registration
+
+      //  Notes:
+      //     Modules are swapped thus:
+      //      e.g. if ComponentsToChange(1) = 'x',
+      //              ComponentsToChange(2) = 'y',
+      //              ComponentsToChange(3) = 'z'
+      //         Then y will replace x, z will replace y, and x will replace z
+      //         in the loader instantiation vector leaving: y, z, x
+
+      //  Changes:
+      //    DPH 5/2/2001
+
+      // ------------------------------------------------------------------
+      void changeComponentOrder(vector<string>& componentsToChange)
+         {
+         if (componentsToChange.size() > 0)
+            {
+            // work out the first component index - this is then the base component for
+            // all swaps.
+            ComponentSet::iterator baseComponentI
+               = find_if(registeredComponents.begin(),
+                         registeredComponents.end(),
+                         PEqualToName<PROTOCOLComponent>(componentsToChange[0]));
+            if (baseComponentI != registeredComponents.end())
+               {
+               // for all other components swap with the base component.
+               for (unsigned int i = 1; i < componentsToChange.size(); i++)
+                  {
+                  ComponentSet::iterator swapComponentI
+                     = find_if(registeredComponents.begin(),
+                               registeredComponents.end(),
+                               PEqualToName<PROTOCOLComponent>(componentsToChange[i]));
+                  if (swapComponentI != registeredComponents.end())
+                     {
+                     ComponentList::iterator baseComponentIPlus1 = baseComponentI;
+                     baseComponentIPlus1++;
+                     baseComponentI = swap_ranges(baseComponentI, baseComponentIPlus1, swapComponentI);
+                     baseComponentI--;
+                     }
+                  }
+               }
+            }
+         }
+
+
    private:
       typedef list<PROTOCOLComponent*> ComponentSet;
       ComponentSet registeredComponents;
@@ -575,8 +624,18 @@ void PROTOCOLCoordinator::changeComponentOrder(vector<string>& componentsToChang
    // initialise the previous component - used in sendMessageToFirst.
    previousComponent = components.begin();
 
+   // need to also re-order the event registrations.
+   for (EventRegistrationList::iterator i = eventRegistrations.begin();
+                                        i != eventRegistrations.end();
+                                        i++)
+      {
+		EventRegistration* Ptr = (*i).second;
+      Ptr->changeComponentOrder(componentsToChange);
+      }
+
 //   string out2;
 //   for (ComponentList::iterator i = components.begin(); i != components.end(); i++)
 //      out2 += (*i)->getName();
+
    }
 
