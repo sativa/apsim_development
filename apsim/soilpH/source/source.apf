@@ -2,9 +2,9 @@
 Dependency = %licensed_source(soilph)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 soilph.for = soilph.for
 
 [APSBuild]
 binary = ..\lib\soilph.dll
-moduletype=module
+compilerfile=release.compile

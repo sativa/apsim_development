@@ -560,6 +560,7 @@
        subroutine Main (Action, Data_string)
 * ====================================================================
       Use Infrastructure
+      Use SoluteModule
       implicit none
       ml_external Main
 

@@ -1321,6 +1321,7 @@
      :subroutine Main (Action, Data_string)
 * ====================================================================
       Use infrastructure
+      Use SoilTempModule
       implicit none
       ml_external Main
 

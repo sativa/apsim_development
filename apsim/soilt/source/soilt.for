@@ -973,7 +973,8 @@ c     endif
       Recursive
      :Subroutine Main (action, data_string)
 * ====================================================================
-      Use infrastructure
+      Use infrastructure 
+      Use SoilTModule
       implicit none
       ml_external Main
 
