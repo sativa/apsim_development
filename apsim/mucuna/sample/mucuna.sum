@@ -19,7 +19,7 @@ Variables =lai,biomass,green_biomass
 Manager rules
 ------- -----
 if day = 330 and year  = 1988 then
-mucuna sow cultivar = mucuna, plants = 25 (/m2), sowing_depth = 40 (mm)
+mucuna sow cultivar = mucuna_gen, plants = 25 (/m2), sowing_depth = 40 (mm)
 elseif day = 50 and year = 1989 then
 mucuna harvest
 mucuna end_crop
@@ -142,14 +142,14 @@ report do_output
     - Reading constants
  
 ======= Start of APSIM simulation ============================
- Day= 330 Year =  1988     Manager sending message :- mucuna sow cultivar = mucuna, plants = 25 (/m2), sowing_depth = 40 (mm)
+ Day= 330 Year =  1988     Manager sending message :- mucuna sow cultivar = mucuna_gen, plants = 25 (/m2), sowing_depth = 40 (mm)
  day= 330 date= 25 11 1988 mucuna   - Sow
  
  - Reading constants for plant
  
    - Reading Cultivar Parameters
     ------------------------------------------------
-    Cultivar                 = mucuna
+    Cultivar                 = mucuna_gen
     est_days_emerg_to_init  =      20
     tt_emerg_to_endjuv       =   600.0
     photoperiod      =   13.30  18.00
@@ -189,7 +189,7 @@ report do_output
     Sowing  Depth Plants Spacing Cultivar
     Day no   mm     m^2     m     Name
     ------------------------------------------------
-       330   40.0   25.0  500.0 mucuna
+       330   40.0   25.0  500.0 mucuna_gen
     ------------------------------------------------
  day= 331 date= 26 11 1988 mucuna   -  stage    2.0 germination
  day= 336 date=  1 12 1988 mucuna   -  stage    3.0 emergence
