@@ -86,6 +86,9 @@ void __fastcall TScreenForm::CancelButtonClick(TObject *Sender)
       settings.write("apsim|minimize", "no");
 
    settings.write("apsim|MoreRunsToGo", "false");
+
+   // Post a message to parent that we have finished.
+   PostMessage(Handle, WM_CLOSE_CLICKED_MSG, 0, 0);
    }
 //---------------------------------------------------------------------------
 void __fastcall TScreenForm::PauseButtonClick(TObject *Sender)

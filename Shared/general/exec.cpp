@@ -8,28 +8,40 @@
 #include <process.h>
 #include <fstream>
 using namespace std;
+
+#define UWM_PROCESS_TERMINATED_MSG _T("UWM_PROCESS_TERMINATED-{F7113F80-6D03-11d3-9FDD-006067718D04}")
+UINT UWM_PROCESS_TERMINATED = ::RegisterWindowMessage(UWM_PROCESS_TERMINATED_MSG);
+class ExecThread : public TThread
+   {
+   public:
+      __fastcall ExecThread(HWND par, HANDLE processHandle, bool createSuspended)
+         : TThread(createSuspended)
+            {
+            parent = par;
+            hProcess = processHandle;
+            }
+
+      virtual void __fastcall Execute(void)
+         {
+         ::WaitForSingleObject(hProcess, INFINITE);
+         PostMessage(parent, UWM_PROCESS_TERMINATED, 0, (LPARAM)hProcess);
+         }
+
+   private:
+      HANDLE hProcess;
+      HWND parent;
+
+   };
+
 // ------------------------------------------------------------------
-//  Short description:
 //    executes a program and optionally waits until it has finished.
 //    Returns true if program was successfully executed.  NOTE:  This
 //    routine is NOT THREAD SAFE.  Wrap inside a Synchronize method call
 //    if being called from a thread.
-//    If the terminateFlagToCheck is specified, then the routine will
-//    check the doTerminate flag periodically and if true, the process
-//    will terminate the child process and exit the routine.
-
-//  Notes:
-
-//  Changes:
-//    DPH 17/4/1997
-//    dph 20/5/98  added new algorithm based on createprocess.
-//    dph 21/4/99  added better error handling code.
-
 // ------------------------------------------------------------------
 bool Exec(const char* Command_line,
           unsigned int Show_flag,
-          bool Wait_for_finish,
-          bool* doTerminateFlag)
+          bool waitForFinish)
    {
    STARTUPINFO StartupInfo;
    PROCESS_INFORMATION ProcessInfo;
@@ -65,20 +77,18 @@ bool Exec(const char* Command_line,
       // Free the buffer.
       LocalFree( lpMsgBuf );
       }
-   else
+   else if (waitForFinish)
       {
-      DWORD exitCode;
-      GetExitCodeProcess(ProcessInfo.hProcess, &exitCode);
-      while (exitCode == STILL_ACTIVE)
+      HWND parent = GetForegroundWindow();
+      ExecThread* waitThread = new ExecThread(parent, ProcessInfo.hProcess, false);
+      MSG msg;
+      while (GetMessage(&msg, 0, 0, 0) && msg.message != UWM_PROCESS_TERMINATED)
          {
-         Application->ProcessMessages();
-         if (doTerminateFlag != NULL && *doTerminateFlag)
-            {
-            TerminateProcess(ProcessInfo.hProcess, 1);
-            return false;
-            }
-         GetExitCodeProcess(ProcessInfo.hProcess, &exitCode);
+         TranslateMessage(&msg);
+         DispatchMessage(&msg);
          }
+      CloseHandle(ProcessInfo.hProcess);
+      delete waitThread;
       return true;
       }
    return false;
