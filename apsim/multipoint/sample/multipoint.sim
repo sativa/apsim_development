@@ -40,7 +40,7 @@
             <property name="outputfile">wheat.out</property>
          </parameters>
          <variables>
-            <variable>clock.today.dd/mm/yyyy as Date</variable>
+            <variable>clock.dd/mm/yyyy as Date</variable>
             <variable>SubSystem.rain as rain</variable>
          </variables>
       </initdata>
@@ -76,7 +76,7 @@
                <property name="outputfile">wheat2.out</property>
             </parameters>
             <variables>
-               <variable>today.day</variable>
+               <variable>subsystem.day</variable>
             </variables>
          </initdata>
       </component>
@@ -85,8 +85,8 @@
          <eventReg name="summaryFileWrite" type="summaryFileWrite"/>
          <respondToGetReg name="rain" type="rain"/>
          <respondToEventReg name="tick" type="time"/>
-         <respondToMethodCallReg name="do_output" type="do_output"/>
-         <getVariableReg name="today.day" type="today.day"/>
+         <respondToMethodCallReg name="do_output" type="do_output" internalName="report2.do_output"/>
+         <getVariableReg name="day" type="integer4"/>
          <getVariableReg name="title" type="string"/>
          <respondToSetReg name="rain" type="rain"/>
       </registrations>
