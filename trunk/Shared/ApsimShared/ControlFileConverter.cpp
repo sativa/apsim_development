@@ -172,6 +172,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = executeRemoveSumAvgToTracker(arguments) || ok;
       else if (routineName == "RemoveTrackerDefault")
          ok = executeRemoveTrackerDefault(arguments) || ok;
+      else if (routineName == "SearchReplaceReportVariables")
+         ok = executeSearchReplaceReportVariables(arguments) || ok;
 
       if (!ok)
          return false;
@@ -607,4 +609,35 @@ bool ControlFileConverter::executeRemoveTrackerDefault(const string& arguments) 
       }
    return someHaveChanged;
    }
+//---------------------------------------------------------------------------
+// To a search and replace on all report variables
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeSearchReplaceReportVariables(const string& arguments) throw(runtime_error)
+   {
+   unsigned posComma = arguments.find(',');
+   if (posComma == string::npos)
+      throw runtime_error("Bad arguments in call to SearchReplaceReportVariables: " + arguments);
 
+   string arg1 = arguments.substr(0, posComma);
+   string arg2 = arguments.substr(posComma+1, arguments.length()-posComma-1);
+   Strip(arg1, " ");
+   Strip(arg2, " ");
+
+   vector<string> instanceNames;
+   con->getInstances(conSection, "report", instanceNames);
+   bool someHaveChanged = false;
+   for (unsigned i = 0; i != instanceNames.size(); i++)
+      {
+      vector<string> variables;
+      con->getParameterValues(conSection, instanceNames[i], "variable", variables);
+      for (unsigned v = 0; v != variables.size(); v++)
+         someHaveChanged = (replaceAll(variables[v], arg1, arg2) || someHaveChanged);
+
+      if (someHaveChanged)
+         {
+         con->setParameterValues(conSection, instanceNames[i], "variable",
+                                 "", variables);
+         }
+      }
+   return someHaveChanged;
+   }
