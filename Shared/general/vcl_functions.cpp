@@ -84,6 +84,49 @@ void Grid_clear (TStringGrid* grid)
 
 // ------------------------------------------------------------------
 //  Short description:
+//      select a list of items in specified multi-select listbox.  If items
+//      don't exist in listbox then they are added.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select)
+   {
+   for (int i = 0; i < Items_to_select->Count; i++)
+      {
+      int index = listbox->Items->IndexOf(Items_to_select->Strings[i]);
+      if (index < 0)
+         index = listbox->Items->Add(Items_to_select->Strings[i]);
+
+      listbox->Selected[index] = true;
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      get a list of items that are selected in the specified listbox.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items)
+   {
+   Selected_items->Clear();
+   for (int i = 0; i < listbox->Items->Count; i++)
+      {
+      if (listbox->Selected[i])
+         Selected_items->Add(listbox->Items->Strings[i]);
+      }
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //      retrieve a list of names of all active datasets in a component
 
 //  Notes:
@@ -105,7 +148,7 @@ void Get_active_datasets(TComponent* component, TStrings* Dataset_names)
    }
 // ------------------------------------------------------------------
 //  Short description:
-//      retrieve a list of names of all active dataset names in component
+//      Retrieve a list of names of all active database names in current session
 
 //  Notes:
 
@@ -113,16 +156,13 @@ void Get_active_datasets(TComponent* component, TStrings* Dataset_names)
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_active_databases(TComponent* component, TStrings* Database_names)
+void Get_active_databases(TStrings* Database_names)
    {
-   // loop through all components in parent form.
    Database_names->Clear();
-   for (int i = 0; i < component->ComponentCount; i++)
-      {
-      TDatabase* database = dynamic_cast<TDatabase*> (component->Components[i]);
-      if (database != NULL)
-         Database_names->Add(database->Name);
-      }
+
+   // loop through all components in parent form.
+   for (int i = 0; i < Session->DatabaseCount; i++)
+      Database_names->Add(Session->Databases[i]->DatabaseName);
    }
 
 // ------------------------------------------------------------------
@@ -161,10 +201,9 @@ TDataSet* Get_active_dataset(TComponent* component, const char* Dataset_name)
 void Get_tables_from_databases (TStringList* Database_names,
                                 TStringList* Table_names)
    {
+   Table_names->Clear();
    for (int i = 0; i < Database_names->Count; i++)
-      {
-      Session->GetTableNames(Database_names->Strings[i], "", true, false, Table_names);
-      }
+      Session->GetTableNames(Database_names->Strings[i], "", false, false, Table_names);
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -199,6 +238,7 @@ TComponent* Locate_component(TComponent* component, const char* Component_name)
 // ------------------------------------------------------------------
 void Get_field_list (TDataSet* dataset, TStringList* field_names)
    {
+   field_names->Clear();
    for (int i = 0; i < dataset->FieldCount; i++)
       field_names->Add (dataset->Fields[i]->FieldName);
    }
