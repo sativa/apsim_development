@@ -552,10 +552,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! condition of each rule
 
        character Rule_types(NUM_RULE_TYPES)*(20)
-       data Rule_types(1) /'init'/
-       data Rule_types(2) /'start_of_day'/
-       data Rule_types(3) /'process'/
-       data Rule_types(4) /'end_of_day'/
+       data Rule_types(1) /'_init'/
+       data Rule_types(2) /'_start_of_day'/
+       data Rule_types(3) /'_process'/
+       data Rule_types(4) /'_end_of_day'/
 
 
 !- Implementation Section ----------------------------------
@@ -563,37 +563,32 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call push_routine (Routine_name)
 
       ! get a list of all rule names that user has defined.
-      call somcomponent_getpropertynames(get_componentData(),
-     .                                   Rule_names,
-     .                                   'rule',
-     .                                   MAX_RULES,
-     .                                   Num_rules)
+      call apsimcomponentdata_getrulenames(get_componentData(),
+     .                                     Rule_names,
+     .                                     MAX_RULES,
+     .                                     Num_rules)
 
       do Rule_type = 1, NUM_RULE_TYPES
 
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
-            g%rule = component_getrule(get_componentData(),
-     .                                 Rule_names(Rule_index),
-     .                                 ' ')
-            if (g%rule .ne. 0) then
-               call rule_getcondition(g%rule, condition)
-
-               if (condition .eq. rule_types(rule_type)) then
-                  if (g%rule_indexes(rule_type) .eq. 0) then
-                     g%rule_indexes(rule_type) = g%last_token + 2
-                     g%start_token = g%last_token + 2
-                  else
-                     g%start_token = g%last_token
-                  end if
-                  g%line_number = 0
-                  g%num_lines = rule_getactionlinecount(g%rule)
-                  call Tokenize (g%token_array
-     .                          , g%token_array2
-     .                          , max_tokens)
+            if (index(Rule_names(Rule_index),
+     .                rule_types(rule_type)) .ne. 0) then
+               call apsimcomponentdata_loadrule(get_componentData(),
+     .                                          Rule_names(Rule_index))
+               if (g%rule_indexes(rule_type) .eq. 0) then
+                  g%rule_indexes(rule_type) = g%last_token + 2
+                  g%start_token = g%last_token + 2
+               else
+                  g%start_token = g%last_token
                end if
-               call component_freerule(g%rule)
-           end if
+               g%line_number = 0
+               g%num_lines = apsimcomponentdata_getnumrulelines
+     .             (get_componentData())
+               call Tokenize (g%token_array
+     .                      , g%token_array2
+     .                      , max_tokens)
+            end if
          end do
 
       end do
@@ -767,6 +762,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
        subroutine Parse_read_line(Line, EOF_flag)
 ! ====================================================================
       use ManagerModule
+      use ComponentInterfaceModule
       implicit none
 
 !+  Sub-Program Arguments
@@ -798,7 +794,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
          EOF_flag = 1
 
       else
-         call Rule_GetActionLine(g%rule, g%line_number, Line)
+         call apsimcomponentdata_getruleline(g%rule,
+     .                                       g%line_number,
+     .                                       Line)
          Line = lower_case(Line)
 
          ! advance line number
