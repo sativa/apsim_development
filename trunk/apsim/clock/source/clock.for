@@ -102,6 +102,7 @@
        use ClockModule
       implicit none
        include 'const.inc'             ! Global common block
+      include 'action.inc' 
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -116,22 +117,22 @@
 
 *- Implementation Section ----------------------------------
 
-      if (Action.eq.MES_Get_variable) then
+      if (Action.eq.ACTION_Get_variable) then
          call clock_send_my_variable (Data)
  
-      else if (Action .eq. MES_Init) then
+      else if (Action .eq. ACTION_Init) then
          call clock_init ()
  
-      else if (Action.eq.MES_Start) then
+      else if (Action.eq.ACTION_Start) then
          call clock_start ()
  
-      else if (Action.eq.MES_Pause) then
+      else if (Action.eq.ACTION_Pause) then
          g%pause_current_run = .true.
  
-      else if (Action.eq.MES_Continue) then
+      else if (Action.eq.ACTION_Continue) then
          g%pause_current_run = .false.
  
-      else if (Action.eq.MES_End_run) then
+      else if (Action.eq.ACTION_End_run) then
          g%end_current_run = .true.
  
       else
@@ -728,6 +729,7 @@ cih
       implicit none
       include 'const.inc'              ! constant definitions
       include 'error.pub'                         
+      include 'action.inc' 
 
 *+  Purpose
 *     start the clock going. ie. start the simulation
@@ -753,7 +755,7 @@ cih
  
       ! send end run message to all modules.
  
-      call Action_send (MES_End_run)
+      call Action_send (ACTION_End_run)
  
       call pop_routine (This_routine)
       return
@@ -768,6 +770,7 @@ cih
       implicit none
        include 'const.inc'             ! Constant definitions
       include 'error.pub'                         
+      include 'action.inc' 
 
 *+  Purpose
 *     Cycle through all phases for an entire simulation.  Exit routine
@@ -788,10 +791,10 @@ cih
        integer Instruction_Index       ! index into instruction list
 
 *+  Initial Data Values
-       data Instructions(1) /MES_Prepare/
-       data Instructions(2) /MES_Process/
-       data Instructions(3) /MES_Post/
-       data Instructions(4) /MES_Report/
+       data Instructions(1) /ACTION_Prepare/
+       data Instructions(2) /ACTION_Process/
+       data Instructions(3) /ACTION_Post/
+       data Instructions(4) /ACTION_Report/
 
 *- Implementation Section ----------------------------------
  
@@ -839,6 +842,7 @@ cih
       use ClockModule
       implicit none
        include 'const.inc'             ! Constant definitions
+      include 'action.inc' 
 
 *+  Purpose
 *     Enter a idle loop where only idle messages are sent to all modules.
@@ -852,7 +856,7 @@ cih
  
 10    continue
       if (g%Pause_current_run) then
-         call Action_send (MES_Idle)
+         call Action_send (ACTION_Idle)
          goto 10
       endif
  
