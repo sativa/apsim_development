@@ -6,7 +6,7 @@
 #include "Scenario.h"
 #include "AddIn.h"
 #include <general\stl_functions.h>
-using namespace std;
+
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -106,12 +106,12 @@ void Scenario::makeUsValid(void)
    factors.assign(newFactors.begin(), newFactors.end());
    }
 
-Scenario Scenario::createScenarioForAddIn(const AddInBase* addIn) const
+Scenario Scenario::createScenarioForAddIn(const AddInBase* addIn)
    {
    // loop through all factors.  Create a new scenario that contains all
    // factors for the AddIn passed into this method.
    vector<Factor> allFactors;
-   for (FactorContainer::const_iterator f = factors.begin();
+   for (FactorContainer::iterator f = factors.begin();
                                         f != factors.end();
                                         f++)
       {
@@ -122,9 +122,9 @@ Scenario Scenario::createScenarioForAddIn(const AddInBase* addIn) const
    }
 
 void Scenario::getFactorValues(const std::string& factorName,
-                               std::vector<std::string>& values) const
+                               std::vector<std::string>& values)
    {
-   FactorContainer::const_iterator found_pos = find(factors.begin(), factors.end(), factorName);
+   FactorContainer::iterator found_pos = find(factors.begin(), factors.end(), factorName);
    if (found_pos != factors.end())
       {
       const AddInBase* addIn = (*found_pos).getAddIn();
@@ -132,3 +132,14 @@ void Scenario::getFactorValues(const std::string& factorName,
       }
    }
 
+TValueSelectionForm*  Scenario::getUIForm(const string& factor_name, TComponent* Owner)
+   {
+   FactorContainer::iterator found_pos = find(factors.begin(), factors.end(), factor_name);
+   if (found_pos != factors.end())
+      {
+      const AddInBase* addIn = (*found_pos).getAddIn();
+      return addIn->getUIForm(factor_name, Owner);
+      }
+   else
+      return NULL;
+   }

@@ -183,27 +183,32 @@ void __fastcall TDrill_down_form::ButtonClick(TObject *Sender)
    Graphics::TBitmap* temp;
    scenarios->getFactorAttributes(Factor_name, Factor_value, temp);
 
+   TValueSelectionForm* ValSelectionForm  =
+                                scenarios->getUIForm(Factor_name,this) ;
+   if (ValSelectionForm == NULL)
+      ValSelectionForm = ValueSelectionForm;
+
    // delete old selections.
-   ValueSelectionForm->SelectedItems.erase(ValueSelectionForm->SelectedItems.begin(),
-                                           ValueSelectionForm->SelectedItems.end());
+   ValSelectionForm->SelectedItems.erase(ValSelectionForm->SelectedItems.begin(),
+                                           ValSelectionForm->SelectedItems.end());
 
    // get a list of identifier values that the user can select from.
-   scenarios->getFactorValues(Factor_name, ValueSelectionForm->SelectedItems);
-   ValueSelectionForm->CurrentValue = Factor_value;
+   scenarios->getFactorValues(Factor_name, ValSelectionForm->SelectedItems);
+   ValSelectionForm->CurrentValue = Factor_value;
 
    // put identifier into listview.
-   ValueSelectionForm->ListView->Columns->Items[0]->Caption = Factor_name.c_str();
+   ValSelectionForm->ListView->Columns->Items[0]->Caption = Factor_name.c_str();
 
    // display form.
-   if (ValueSelectionForm->ShowModal() == mrOk)
+   if (ValSelectionForm->ShowModal() == mrOk)
       {
       // User has clicked ok.  Create the multiple simulations.
-      if (ValueSelectionForm->ChangeCurrentRadio->Checked)
+      if (ValSelectionForm->ChangeCurrentRadio->Checked)
          scenarios->createScenariosFromCurrent
-            (Factor_name.c_str(), ValueSelectionForm->SelectedItems);
+            (Factor_name.c_str(), ValSelectionForm->SelectedItems);
       else
          scenarios->createScenarioPermutation
-            (Factor_name.c_str(), ValueSelectionForm->SelectedItems);
+            (Factor_name.c_str(), ValSelectionForm->SelectedItems);
       Refresh();
       }
    }
@@ -298,7 +303,8 @@ void TDrill_down_form::SetPresentationFonts(bool LargeFonts)
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
    {
-   scenarios->deleteAllScenarios();
+   bool leaveDefault = true;
+   scenarios->deleteAllScenarios(leaveDefault);
    Refresh();
    }
 //---------------------------------------------------------------------------

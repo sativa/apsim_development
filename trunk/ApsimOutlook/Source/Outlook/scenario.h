@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include "factor.h"
+#include "TValueSelectionForm.h"
 // ------------------------------------------------------------------
 //  Short description:
 //      This class encapsulates a single scenario.  A Scenario has
@@ -46,7 +47,9 @@ class Scenario {
 
       // return a list of factor values for the specified factor.
       void getFactorValues(const std::string& factor_name,
-                           std::vector<std::string>& values) const;
+                           std::vector<std::string>& values);
+
+      TValueSelectionForm*  getUIForm(const std::string& factor_name, TComponent* Owner);
 
    private:
       typedef std::vector<Factor> FactorContainer;
@@ -54,7 +57,7 @@ class Scenario {
       FactorContainer factors;
 
       void makeUsValid(void);
-      Scenario createScenarioForAddIn(const AddInBase* addIn) const;
+      Scenario createScenarioForAddIn(const AddInBase* addIn);
 };
 
 //---------------------------------------------------------------------------

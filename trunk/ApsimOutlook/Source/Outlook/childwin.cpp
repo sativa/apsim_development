@@ -31,28 +31,68 @@
 
 static const char* OPTIONS_SECTION = "options";
 static const char* ECONOMICS_KEY_WORD = "economics";
+
+// static member variable declarations:
+int TMDIChild::numObjects;
+vector<int> TMDIChild::vHow_many_precede;
+vector<int> TMDIChild::vHow_many_this_addin;
+vector<ToolBarAddInBase*> TMDIChild::addIns;
+vector<HINSTANCE> TMDIChild::dllHandles;
+vector<AddInEventMap>  TMDIChild::Toolbar_events;
+TToolBar* TMDIChild::Toolbar;
+
+
+
 //---------------------------------------------------------------------
 __fastcall TMDIChild::TMDIChild(TComponent *Owner)
 	: TForm(Owner)
    {
    Analysis_panel = NULL;
    FirstTime = true;
+   numObjects++;
    }
 //---------------------------------------------------------------------
 __fastcall TMDIChild::~TMDIChild()
 //    changes: DAH - 5/12/00: fixing d383
+//    changes: DAH - 10/5/01: adding toolbar addin stuff
    {
    OnResize = NULL;
    delete Settings_form;
+   delete scenarios;
+
+   if (numObjects == 1)
+   {
+      while (!addIns.empty()) {
+         ToolBarAddInBase* ptr = addIns.back();
+         addIns.pop_back();
+         delete ptr;
+         }
+      while (!dllHandles.empty()) {
+         HINSTANCE dllHandle = dllHandles.back();
+         //FreeLibrary(dllHandle);
+         dllHandles.pop_back();
+         }
+      vHow_many_precede.clear();
+      vHow_many_this_addin.clear();
    }
+   numObjects--;
+}
+
+
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormShow(TObject *Sender)
    {
+   scenarios = new Scenarios();
    // Create child settings window.
    Settings_form = new TChartSettingsForm(this);
    Settings_form->Parent = this;
    Settings_form->Show();
    Settings_form->OnClose = On_settings_form_close;
+
+   // could load the toolbar addins here
+   // for each toolbar addin, add a divider, and place the buttons after it
+   if (numObjects == 1)
+      loadAllToolbarAddIns();
 
    SelectSimulations(NULL);
    }
@@ -60,7 +100,7 @@ void __fastcall TMDIChild::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FormResize(TObject *Sender)
    {
-   if (WindowState == wsMaximized)
+   if (true /*WindowState == wsMaximized*/)
       {
       Settings_form->Left = ClientWidth - 250;
       Settings_form->Top = 0;
@@ -80,16 +120,16 @@ void TMDIChild::Enable_options(void)
    EditCopyMenu->Enabled = (Analysis_panel != NULL);
    EditCopyWithoutMenu->Enabled = (Analysis_panel != NULL);
 
-   ChartsSummaryMenu->Enabled = (scenarios.count() > 0);
-   ChartsTimeSeriesMenu->Enabled = (scenarios.count() > 0);
-   ChartsPieMenu->Enabled = (scenarios.count() > 0);
-   ChartsDifferenceMenu->Enabled = (scenarios.count() > 0);
-   ChartsFrequencyMenu->Enabled = (scenarios.count() > 0);
-   ChartsProbabilityMenu->Enabled = (scenarios.count() > 0);
-   ChartsXYMenu->Enabled = (scenarios.count() > 0);
+   ChartsSummaryMenu->Enabled = (scenarios->count() > 0);
+   ChartsTimeSeriesMenu->Enabled = (scenarios->count() > 0);
+   ChartsPieMenu->Enabled = (scenarios->count() > 0);
+   ChartsDifferenceMenu->Enabled = (scenarios->count() > 0);
+   ChartsFrequencyMenu->Enabled = (scenarios->count() > 0);
+   ChartsProbabilityMenu->Enabled = (scenarios->count() > 0);
+   ChartsXYMenu->Enabled = (scenarios->count() > 0);
    ChartsPropertiesMenu->Enabled = (Analysis_panel != NULL);
-   ChartsViewDataMenu->Enabled = (scenarios.count() > 0);
-   EditSendDatatoEXCELMenu->Enabled = (scenarios.count() > 0);
+   ChartsViewDataMenu->Enabled = (scenarios->count() > 0);
+   EditSendDatatoEXCELMenu->Enabled = (scenarios->count() > 0);
 
    ChartsSummaryMenu->Checked = (dynamic_cast<TSummary_panel*> (Analysis_panel) != NULL);
    ChartsTimeSeriesMenu->Checked = (dynamic_cast<TTime_series_panel*> (Analysis_panel) != NULL);
@@ -103,14 +143,14 @@ void TMDIChild::Enable_options(void)
    // buttons on button bar.
    if (Get_button ("Time_series_button") != NULL)
       {
-      Get_button ("Time_series_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("Difference_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("Pie_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("Frequency_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("Probability_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("Summary_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("XY_button")->Enabled = (scenarios.count() > 0);
-      Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL && !ChartsSummaryMenu->Checked);
+      Get_button ("Time_series_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("Difference_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("Pie_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("Frequency_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("Probability_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("Summary_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("XY_button")->Enabled = (scenarios->count() > 0);
+      Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL);
       }
 
    // setup button bar event handlers.
@@ -132,73 +172,109 @@ void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
    {
    bool ok;
    Drill_down_form = new TDrill_down_form(this);
-   Drill_down_form->scenarios = &scenarios;
+   Drill_down_form->scenarios = scenarios;
    ok = (Drill_down_form->ShowModal() == mrOk);
    delete Drill_down_form;
 
    if (ok)
       {
-      scenarios.getAllData(AllData);
-      Create_chart("Raw data");
+      scenarios->getAllData(AllData);
+      Try_refresh();
       Display_settings();
       }
    }
 //---------------------------------------------------------------------------
-void TMDIChild::Create_chart(AnsiString Analysis_name)
-   {
+void TMDIChild::Create_chart(TAnalysis_panel* new_panel)
+{
    Settings_form->Parent = this;
-   TAnalysis_panel* Saved_panel = Analysis_panel;
-   Analysis_panel = NULL;
+   TAnalysis_panel* saved_panel;
+   saved_panel = Analysis_panel;
+   Analysis_panel = new_panel;
+   Analysis_panel->Init();
+   Analysis_panel->Source_data = working;
 
-   if (Analysis_name == "probability chart")
-      Analysis_panel = new TProbability_panel(this);
-
-   else if (Analysis_name == "time series chart")
-      Analysis_panel = new TTime_series_panel(this);
-
-   else if (Analysis_name == "difference chart")
-      Analysis_panel = new TDifference_panel(this);
-
-   else if (Analysis_name == "pie chart")
-      Analysis_panel = new TPie_frequency_panel(this);
-
-   else if (Analysis_name == "xy chart")
-      Analysis_panel = new TXY_panel(this);
-
-   else if (Analysis_name == "frequency chart")
-      Analysis_panel = new TFrequency_panel(this);
-
-   else if (Analysis_name == "summary table")
-      Analysis_panel = new TSummary_panel(this);
-
-   if (Analysis_panel != NULL)
-      {
-      Analysis_panel->Init();
+   if (Edit_panel())
+   {
+      delete saved_panel;
       Hook_panel_to_this_form();
-      Hook_components_together();
-      if (!Edit_analysis_and_refresh())
-         {
-         delete Analysis_panel;
-         Analysis_panel = Saved_panel;
-         Hook_panel_to_this_form();
-         Hook_components_together();
-         }
-      else
-         delete Saved_panel;
-      if (Saved_panel != NULL)
-         Settings_form->Parent = Analysis_panel;
-      }
-   else
-      {
-      delete Saved_panel;
-      Hook_components_together();
-      Refresh_components();
-      }
-   if (Settings_form->Visible)
-      Settings_form->Show();
-   Enable_options();
+      Enable_options();
    }
+   else
+   {
+      Analysis_panel = saved_panel;
+   }
+   if (ChartsViewSettingsMenu->Checked)
+      Settings_form->BringToFront();
+}
+
+
 //---------------------------------------------------------------------------
+bool TMDIChild::Edit_panel()
+{
+   if (Analysis_panel->Edit())
+   {
+      Analysis_panel->Refresh();
+      APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
+      APSTable_2_TDataSet->Refresh();
+      return true;
+   }
+   else
+   {
+      delete Analysis_panel;
+      Analysis_panel = NULL;
+      return false;
+   }
+}
+
+
+//---------------------------------------------------------------------------
+void TMDIChild::Try_refresh()
+{
+   for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
+         t != addIns.end(); t++)
+   {
+         (*t)->youNeedUpdating();
+   }
+   Refresh_if_needed();
+
+}
+
+
+//---------------------------------------------------------------------------
+void TMDIChild::Refresh_if_needed()
+{
+   // if any addin needs updating, need to update all addIns, otherwise do nothing
+   bool update_necessary = false;
+   for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
+         t != addIns.end(); t++)
+   {
+      update_necessary = update_necessary || (*t)->needsUpdate();
+   }
+
+   if (update_necessary)
+   {
+      working->storeData(*AllData);
+      for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
+            t != addIns.end(); t++)
+      {
+         (*t)->doCalculations(*working);
+      }
+
+      if (Analysis_panel != NULL)
+      {
+         Analysis_panel->Refresh();
+         APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
+      }
+      else
+         APSTable_2_TDataSet->APSTable =  working;
+
+      APSTable_2_TDataSet->Refresh();
+   }
+}
+
+
+
+
 void TMDIChild::Hook_panel_to_this_form (void)
    {
    if (Analysis_panel != NULL)
@@ -217,95 +293,50 @@ void TMDIChild::Hook_panel_to_this_form (void)
       }
    }
 
-//---------------------------------------------------------------------------
-void TMDIChild::Hook_components_together (void)
-   {
-   // setup the analysis component.
-   if (Analysis_panel != NULL)
-      Analysis_panel->Source_data = AllData;
 
-   // setup the apstable_2_dataset component
-   if (Analysis_panel != NULL)
-      APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
-   else
-      APSTable_2_TDataSet->APSTable = AllData;
-   }
-//---------------------------------------------------------------------------
-void TMDIChild::Refresh_components(void)
-   {
-   if (Analysis_panel != NULL)
-      Analysis_panel->Refresh();
-
-   APSTable_2_TDataSet->Refresh();
-
-   // invalidate doesn't seem to work here!!!
-   ClientWidth = ClientWidth + 1;
-   ClientWidth = ClientWidth - 1;
-
-   Display_settings();
-
-   if (Analysis_panel != NULL && Analysis_panel->ShowData())
-      {
-      ChartsViewDataMenu->Checked = true;
-      Grid->Visible = true;
-      }
-   }
-//---------------------------------------------------------------------------
-bool TMDIChild::Edit_analysis_and_refresh(void)
-   {
-   bool UserHitOk = false;
-   if (Analysis_panel != NULL)
-      {
-      if (Analysis_panel->Edit())
-         {
-         Analysis_panel->Refresh();
-         UserHitOk = true;
-         }
-      }
-   if (Grid->Visible)
-      APSTable_2_TDataSet->Refresh();
-   Display_settings();
-   return UserHitOk;
-   }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SummaryTable(TObject *Sender)
    {
-   Create_chart ("summary table");
+   TAnalysis_panel* new_panel = new TSummary_panel(this);
+   Create_chart(new_panel);
+   if (!ChartsViewDataMenu->Checked && dynamic_cast<TSummary_panel*>(new_panel)->ShowData())
+      ViewData(Sender);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::TimeSeriesChart(TObject *Sender)
    {
-   Create_chart ("time series chart");
+   TAnalysis_panel* new_panel = new TTime_series_panel(this);
+   Create_chart (new_panel);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::PieChart(TObject *Sender)
    {
-   Create_chart ("pie chart");
+   TAnalysis_panel* new_panel = new TPie_frequency_panel(this);
+   Create_chart (new_panel);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::DifferenceChart(TObject *Sender)
    {
-   Create_chart ("difference chart");
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMDIChild::BoxChart(TObject *Sender)
-   {
-   Create_chart ("box chart");
+   TAnalysis_panel* new_panel = new TDifference_panel(this);
+   Create_chart (new_panel);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::FrequencyChart(TObject *Sender)
    {
-   Create_chart ("frequency chart");
+   TAnalysis_panel* new_panel = new TFrequency_panel(this);
+   Create_chart (new_panel);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ProbabilityChart(TObject *Sender)
    {
-   Create_chart ("probability chart");
+   TAnalysis_panel* new_panel = new TProbability_panel(this);
+   Create_chart (new_panel);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::XYChart(TObject *Sender)
    {
-   Create_chart ("xy chart");
+   TAnalysis_panel* new_panel = new TXY_panel(this);
+   Create_chart (new_panel);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::Properties(TObject *Sender)
@@ -318,13 +349,14 @@ void __fastcall TMDIChild::ViewData(TObject *Sender)
    ChartsViewDataMenu->Checked = !ChartsViewDataMenu->Checked;
    Splitter->Visible = ChartsViewDataMenu->Checked;
    Grid->Visible = ChartsViewDataMenu->Checked;
-   Hook_components_together();
-   Refresh_components();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::ChartsNoChartMenuClick(TObject *Sender)
    {
-   Create_chart ("raw data");
+      delete Analysis_panel;
+      Analysis_panel = NULL;
+      APSTable_2_TDataSet->APSTable =  working;
+      APSTable_2_TDataSet->Refresh();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
@@ -346,24 +378,24 @@ void TMDIChild::Display_settings(void)
    Settings_form->Settings_list->Text = "";
 
    vector<string> Simulation_names;
-   scenarios.getScenarioNames(Simulation_names);
+   scenarios->getScenarioNames(Simulation_names);
 
    string Text;
    for (vector<string>::iterator i = Simulation_names.begin();
                                  i != Simulation_names.end();
                                  i++)
       {
-      scenarios.setCurrentScenario(*i);
+      scenarios->setCurrentScenario(*i);
 
       // build up a factor string.
       vector<string> factors;
-      scenarios.getFactorNames(factors);
+      scenarios->getFactorNames(factors);
       Text += *i + ":";
       for (unsigned int i = 0; i < factors.size(); i++)
          {
          string value;
          Graphics::TBitmap* bitmap;
-         scenarios.getFactorAttributes(factors[i], value, bitmap);
+         scenarios->getFactorAttributes(factors[i], value, bitmap);
 
          Text += "\r\n";
          Text += "   " + factors[i] + "=" + value;
@@ -387,13 +419,20 @@ void __fastcall TMDIChild::EditCopyWithout(TObject *Sender)
 void __fastcall TMDIChild::OptionsPreferences(TObject *Sender)
    {
    if (Preferences_form->ShowModal() == mrOk)
-      Refresh_components();
+      Refresh_if_needed();
    }
 //---------------------------------------------------------------------------
 void TMDIChild::Set_toolbar (TToolBar* toolbar)
    {
-   Toolbar = toolbar;
+   if (numObjects == 1)
+      Toolbar = toolbar;
    Enable_options();
+   if (numObjects == 1)
+   {
+      decorateWithAddins();
+      buildToolbarEvents();
+   }
+   pointToolBarToThisInstance();
    }
 //---------------------------------------------------------------------------
 TToolButton* TMDIChild::Get_button (const char* Button_name)
@@ -435,5 +474,122 @@ void __fastcall TMDIChild::On_settings_form_close(TObject* Sender, TCloseAction&
    {
    ChartsViewSettingsMenu->Checked = false;
    }
+//---------------------------------------------------------------------------
+
+
+
+void TMDIChild::loadAllToolbarAddIns(void)
+   {
+   // get a list of add-in filenames from the .ini file.
+   Path iniPath(Application->ExeName.c_str());
+   iniPath.Set_extension(".ini");
+
+   Ini_file ini;
+   ini.Set_file_name(iniPath.Get_path().c_str());
+   list<string> addInFileNames;
+   ini.Read_list("ToolBarAddins", "addin", addInFileNames);
+
+   // Loop through all filenames, load the DLL, call the DLL to create an
+   // instance of an AddInBase and store in our list of addins.
+   for (list<string>::iterator a = addInFileNames.begin();
+                               a != addInFileNames.end();
+                               a++)
+      {
+      // look for add in parameters after a space.
+      unsigned int posSpace = (*a).find(" ");
+      string addInParameters;
+      if (posSpace != string::npos)
+         {
+         addInParameters = (*a).substr(posSpace+1);
+         (*a).erase(posSpace);
+         }
+      HINSTANCE dllHandle = LoadLibrary( (*a).c_str() );
+      if (dllHandle != NULL)
+         {
+         dllHandles.push_back(dllHandle);
+
+         ToolBarAddInBase* __stdcall (*createToolBarAddInProc) (const string& addInParameters);
+         (FARPROC) createToolBarAddInProc = GetProcAddress(dllHandle, "createToolBarAddIn");
+         if (createToolBarAddInProc != NULL)
+            addIns.push_back( (*createToolBarAddInProc)(addInParameters) );
+         }
+      }
+
+   }
+
+
+void TMDIChild::decorateWithAddins()
+{
+   for (vector<ToolBarAddInBase*>::iterator t = addIns.begin();
+         t != addIns.end(); t++)
+   {
+      int how_many_controls = Toolbar->ButtonCount;
+      (*t)->decorateToolBar(Toolbar); // ASSUMPTION: THAT THE WRITER OF
+                                      // decorateToolbar has added the buttons
+                                      // to the right hand side of Toolbar
+
+      int how_many_new_controls = Toolbar->ButtonCount - how_many_controls;
+      vHow_many_precede.push_back(how_many_controls);
+      vHow_many_this_addin.push_back(how_many_new_controls);
+   }
+}
+
+
+void TMDIChild::buildToolbarEvents()
+{
+   for (int j = 0; j < vHow_many_precede.size(); j++)
+   {
+      int how_many_controls = vHow_many_precede[j];
+      int how_many_new_controls = vHow_many_this_addin[j];
+
+      for (int i = how_many_controls; i < how_many_controls+how_many_new_controls;
+               i++)
+      {
+         TNotifyEvent onClick = Toolbar->Buttons[i]->OnClick;
+         AddInEventMap map(Toolbar->Buttons[i], onClick, addIns[j]);
+         Toolbar_events.push_back(map);
+      }
+   }
+}
+
+
+void TMDIChild::pointToolBarToThisInstance()
+{
+   for (int j = 0; j < vHow_many_precede.size(); j++)
+   {
+      int how_many_controls = vHow_many_precede[j];
+      int how_many_new_controls = vHow_many_this_addin[j];
+
+      for (int i = how_many_controls; i < how_many_controls+how_many_new_controls;
+               i++)
+      {
+         Toolbar->Buttons[i]->OnClick = ToolBarAddInButtonClick;
+      }
+   }
+}
+
+
+void __fastcall  TMDIChild::ToolBarAddInButtonClick(TObject* Sender)
+{
+   TControl* sender = dynamic_cast<TControl*>(Sender);
+
+   vector<AddInEventMap>::iterator i;
+   i = find(Toolbar_events.begin(), Toolbar_events.end(), sender);
+
+   if (i != Toolbar_events.end())
+   {
+      ToolBarAddInBase* addin = (*i).getToolBarAddIn();
+      addin->setScenarios(scenarios);
+      TNotifyEvent trueOnClick = (*i).getEvent();
+      trueOnClick(Sender);
+   }
+   Refresh_if_needed();
+}
+
+void __fastcall TMDIChild::FormActivate(TObject *Sender)
+{
+   pointToolBarToThisInstance();
+   Enable_options();
+}
 //---------------------------------------------------------------------------
 

@@ -30,6 +30,10 @@
 #include "TChartSettingsForm.h"
 #include "kbmMemTable.hpp"
 #include "Scenarios.h"
+#include "ToolBarAddIn.h"
+
+class AddInEventMap;  // see bottom of page for class definition
+
 //----------------------------------------------------------------------------
 class TMDIChild : public TForm
 {
@@ -66,6 +70,7 @@ __published:
    TMenuItem *View1;
    TMenuItem *ChartsNoChartMenu;
    TAPSTable *AllData;
+   TAPSTable *working;
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall SelectSimulations(TObject *Sender);
    void __fastcall TimeSeriesChart(TObject *Sender);
@@ -75,7 +80,7 @@ __published:
    void __fastcall ViewData(TObject *Sender);
    void __fastcall SendDataToEXCEL(TObject *Sender);
    void __fastcall Properties(TObject *Sender);
-   void __fastcall BoxChart(TObject *Sender);
+//   void __fastcall BoxChart(TObject *Sender);
    void __fastcall XYChart(TObject *Sender);
 
    void __fastcall SummaryTable(TObject *Sender);
@@ -88,26 +93,43 @@ __published:
 
    void __fastcall FormResize(TObject *Sender);
    void __fastcall ChartsNoChartMenuClick(TObject *Sender);
+   void __fastcall FormActivate(TObject *Sender);
 private:
    bool Large_fonts;
    bool FirstTime;
-   TToolBar* Toolbar;
+   static int numObjects;
+   static TToolBar* Toolbar;
    TChartSettingsForm* Settings_form;
-//   TDamEasy* DamEasy;
-   Scenarios scenarios;
+   Scenarios* scenarios;
+   static std::vector<ToolBarAddInBase*> addIns;
+   static std::vector<HINSTANCE> dllHandles;
 
    TAnalysis_panel* Analysis_panel;
    void Display_settings(void);
    void Enable_options (void);
    void Select_simulations(void);
-   void Create_chart (AnsiString Analysis_name);
+   void Create_chart (TAnalysis_panel*);
    void Hook_panel_to_this_form (void);
-   void Hook_components_together (void);
-   void Refresh_components(void);
-   bool Edit_analysis_and_refresh(void);
    void __fastcall On_settings_form_close(TObject* Sender, TCloseAction& Action);
 
    TToolButton* Get_button (const char* Button_name);
+   void loadAllToolbarAddIns(void);
+   void decorateWithAddins(void);
+   void Try_refresh();
+   void Refresh_if_needed();
+
+   bool Edit_panel();
+
+   static std::vector<AddInEventMap>  Toolbar_events;
+   static std::vector<int> vHow_many_precede;        // these used to build Toolbar_events
+   static std::vector<int> vHow_many_this_addin;     // for each child window
+   void buildToolbarEvents();
+   void pointToolBarToThisInstance();
+
+   void __fastcall  ToolBarAddInButtonClick(TObject* Sender);
+
+
+
 
 public:
 	virtual __fastcall TMDIChild(TComponent *Owner);
@@ -115,5 +137,26 @@ public:
    void Set_toolbar (TToolBar* Toolbar);
    void SetPresentationFonts(bool Large_fonts);
 };
+
+
+class AddInEventMap
+{
+   private:
+      ToolBarAddInBase* addin;
+      TControl* control;
+      TNotifyEvent event;
+
+   public:
+      AddInEventMap(TControl* Control, TNotifyEvent Event, ToolBarAddInBase* Addin)
+         : control(Control), event(Event), addin(Addin)   {};
+      operator!= (TControl* rhs)
+         {  return rhs != control;    };
+      TNotifyEvent getEvent()
+         {  return event;  };
+      ToolBarAddInBase* getToolBarAddIn()
+         {  return addin;  };
+};
+
+
 //----------------------------------------------------------------------------
 #endif
