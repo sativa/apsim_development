@@ -4,7 +4,7 @@
 #pragma hdrstop
 
 #include "TREMS.h"
-
+#include <general\string_functions.h>
 using namespace std;
 #pragma package(smart_init)
 
@@ -28,15 +28,36 @@ __fastcall TREMS::~TREMS()
    delete treatmentNames;
    }
 //---------------------------------------------------------------------------
+// Component has loaded - assume the current dir is the reportDirectory.
+//---------------------------------------------------------------------------
+void __fastcall TREMS::Loaded(void)
+   {
+   reportDirectory = GetCurrentDir();
+   getExperimentNames();
+   getTreatmentNames();
+   if (!Active)
+      Active = true;
+
+   TSEGTable::Loaded();
+   }
+//---------------------------------------------------------------------------
 // set the 'mdbFile' property and refresh all data.
 //---------------------------------------------------------------------------
 void __fastcall TREMS::setFilename(AnsiString file)
    {
    if (mdbFilename != file)
       {
-      mdbFilename = file;
-      Active = false;
-      Active = true;
+      if (reportDirectory == "")
+         mdbFilename = file;
+      else
+         mdbFilename = ExtractRelativePath(reportDirectory + "\\", file);
+      getExperimentNames();
+
+      if (Active)
+         {
+         Active = false;
+         Active = true;
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -48,8 +69,11 @@ void __fastcall TREMS::setExperimentName(AnsiString ExperimentName)
       {
       experimentName = ExperimentName;
       getTreatmentNames();
-      Active = false;
-      Active = true;
+      if (Active)
+         {
+         Active = false;
+         Active = true;
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -60,8 +84,11 @@ void __fastcall TREMS::setTreatmentName(AnsiString TreatmentName)
    if (treatmentName != TreatmentName)
       {
       treatmentName = TreatmentName;
-      Active = false;
-      Active = true;
+      if (Active)
+         {
+         Active = false;
+         Active = true;
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -72,9 +99,26 @@ void __fastcall TREMS::setDatasource(AnsiString dataSource)
    if (datasourceName != dataSource)
       {
       datasourceName = dataSource;
-      Active = false;
-      Active = true;
+      if (Active)
+         {
+         Active = false;
+         Active = true;
+         }
       }
+   }
+//---------------------------------------------------------------------------
+// If we already have a report directory then the current paths will be
+// relative to that dir.  Convert to absolute.
+//---------------------------------------------------------------------------
+AnsiString relativeToAbsoluteFile(AnsiString baseDirectory, AnsiString fileName)
+   {
+   if (baseDirectory != "")
+      {
+      SetCurrentDir(baseDirectory);
+      return ExpandFileName(fileName);
+      }
+   else
+      return fileName;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.
@@ -88,13 +132,11 @@ void TREMS::createFields(void) throw(runtime_error)
       // has a TREMS component on it.  When this happens, treatmentIDs doesn't
       // have any values because the 'getExperimentNames' and 'getTreatmentNames'
       // routines have never been called.
-      getExperimentNames();
-      getTreatmentNames();
       int treatmentID = treatmentIDs[treatmentNames->IndexOf(treatmentName)];
 
       query = new TADOQuery(this);
       String Provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-         mdbFilename + ";Persist Security Info=False";
+         relativeToAbsoluteFile(reportDirectory, mdbFilename) + ";Persist Security Info=False";
       query->ConnectionString = Provider;
       String SQL;
       if(datasourceName == "Statistics")
@@ -160,26 +202,29 @@ void TREMS::storeRecords(void) throw(runtime_error)
 //---------------------------------------------------------------------------
 TStrings* __fastcall TREMS::getExperimentNames(void)
    {
-   TADOQuery *query = new TADOQuery(NULL);
-   String Provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-         mdbFilename + ";Persist Security Info=False";
-   query->ConnectionString = Provider;
-   String SQL = "SELECT Experiments.ExpID, Experiments.Experiment FROM Experiments;";
-
-   query->SQL->Add(SQL);
-   query->Active = true;
-
-   experimentNames->Clear();
-   experimentIDs.erase(experimentIDs.begin(), experimentIDs.end());
-
-   while(!query->Eof)
+   if (mdbFilename != "" && reportDirectory != "")
       {
-      experimentNames->Add(query->FieldValues["Experiment"]);
-      experimentIDs.push_back(query->FieldValues["ExpID"]);
-      query->Next();
-      }
+      TADOQuery *query = new TADOQuery(NULL);
+      String Provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+            relativeToAbsoluteFile(reportDirectory, mdbFilename) + ";Persist Security Info=False";
+      query->ConnectionString = Provider;
+      String SQL = "SELECT Experiments.ExpID, Experiments.Experiment FROM Experiments;";
 
-   delete query;
+      query->SQL->Add(SQL);
+      query->Active = true;
+
+      experimentNames->Clear();
+      experimentIDs.erase(experimentIDs.begin(), experimentIDs.end());
+
+      while(!query->Eof)
+         {
+         experimentNames->Add(query->FieldValues["Experiment"]);
+         experimentIDs.push_back(query->FieldValues["ExpID"]);
+         query->Next();
+         }
+
+      delete query;
+      }
    return experimentNames;
    }
 //---------------------------------------------------------------------------
@@ -187,40 +232,56 @@ TStrings* __fastcall TREMS::getExperimentNames(void)
 //---------------------------------------------------------------------------
 TStrings* __fastcall TREMS::getTreatmentNames(void)
    {
-   int experimentID = experimentIDs[experimentNames->IndexOf(experimentName)];
-
-   TADOQuery *query = new TADOQuery(NULL);
-   String Provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-         mdbFilename + ";Persist Security Info=False";
-   query->ConnectionString = Provider;
-   String SQL = "TRANSFORM First(Levels.Level) AS FirstOfLevel \
-      SELECT Experiments.ExpID, Designs.TreatmentID \
-      FROM (Experiments INNER JOIN Treatments ON Experiments.ExpID = \
-      Treatments.ExpID) INNER JOIN ((Factors INNER JOIN Levels ON \
-      Factors.FactorID = Levels.FactorID) INNER JOIN Designs ON Levels.LevelID = \
-      Designs.LevelID) ON Treatments.TreatmentID = Designs.TreatmentID \
-      WHERE (((Experiments.ExpID)=" + String(experimentID) + ")) \
-      GROUP BY Experiments.ExpID, Designs.TreatmentID \
-      ORDER BY Designs.TreatmentID \
-      PIVOT Factors.Factor;";
-
-   query->SQL->Add(SQL);
-   query->Active = true;
-
-   treatmentNames->Clear();
-   treatmentIDs.erase(treatmentIDs.begin(), treatmentIDs.end());
-
-   while(!query->Eof)
+   if (mdbFilename != "" && reportDirectory != "")
       {
-      String Treatment;
-      for(int i=2;i < query->FieldCount;i++)
-         Treatment += query->Fields->Fields[i]->AsString + " ";
-      treatmentNames->Add(Treatment);
-      treatmentIDs.push_back(query->FieldValues["TreatmentID"]);
-      query->Next();
-      }
+      int experimentID = experimentIDs[experimentNames->IndexOf(experimentName)];
 
-   delete query;
+      TADOQuery *query = new TADOQuery(NULL);
+      String Provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+            relativeToAbsoluteFile(reportDirectory, mdbFilename) + ";Persist Security Info=False";
+      query->ConnectionString = Provider;
+      String SQL = "TRANSFORM First(Levels.Level) AS FirstOfLevel \
+         SELECT Experiments.ExpID, Designs.TreatmentID \
+         FROM (Experiments INNER JOIN Treatments ON Experiments.ExpID = \
+         Treatments.ExpID) INNER JOIN ((Factors INNER JOIN Levels ON \
+         Factors.FactorID = Levels.FactorID) INNER JOIN Designs ON Levels.LevelID = \
+         Designs.LevelID) ON Treatments.TreatmentID = Designs.TreatmentID \
+         WHERE (((Experiments.ExpID)=" + String(experimentID) + ")) \
+         GROUP BY Experiments.ExpID, Designs.TreatmentID \
+         ORDER BY Designs.TreatmentID \
+         PIVOT Factors.Factor;";
+
+      query->SQL->Add(SQL);
+      query->Active = true;
+
+      treatmentNames->Clear();
+      treatmentIDs.erase(treatmentIDs.begin(), treatmentIDs.end());
+
+      while(!query->Eof)
+         {
+         String Treatment;
+         for(int i=2;i < query->FieldCount;i++)
+            Treatment += query->Fields->Fields[i]->AsString + " ";
+         treatmentNames->Add(Treatment);
+         treatmentIDs.push_back(query->FieldValues["TreatmentID"]);
+         query->Next();
+         }
+
+      delete query;
+      }
    return treatmentNames;
+   }
+// ------------------------------------------------------------------
+// set one of our properties.
+// ------------------------------------------------------------------
+void TREMS::setProperty(const std::string& propertyName,
+                        const std::string& propertyValue)
+   {
+   if (Str_i_Eq(propertyName, "filename"))
+      filename = propertyValue.c_str();
+   else if (Str_i_Eq(propertyName, "experiment"))
+      experiment = propertyValue.c_str();
+   else if (Str_i_Eq(propertyName, "treatment"))
+      treatment = propertyValue.c_str();
    }
 
