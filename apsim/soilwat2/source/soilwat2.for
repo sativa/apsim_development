@@ -58,7 +58,7 @@
 * jpd V1.1 includes selected changes from PhilV1.0 30/9/94
 *
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V2.13 010598')
+      parameter (version_number = 'V2.14 081298')
  
 *- Implementation Section ----------------------------------
  
@@ -413,6 +413,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
 *        210896 jngh removed the bound check on the sum of WF.
 *                    removed redundant l_bound of cn2_new
 *        071097 pdev added tillage reduction on CN.
+*        081298 jngh added zeroing of cnpd before accumulation
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -457,6 +458,7 @@ cnh     :  'Revision:   1.6  Date:   7 Jun 1996 17:08:26  '
  
       call soilwat2_runoff_depth_factor (runoff_wf)
  
+      cnpd = 0.0
       do 100 layer = 1, num_layers
          cnpd = cnpd
      :        + divide (g_sw_dep(layer) - g_ll15_dep(layer)
