@@ -4000,6 +4000,8 @@ void Plant::plant_update(
     *g_slai -=  dlt_slai_dead;
     *g_tlai_dead +=  dlt_lai_dead + dlt_slai_dead - g_dlt_tlai_dead_detached;
 
+    *g_pai = *g_pai + g_dlt_pai;
+
     *g_canopy_width += g_dlt_canopy_width;
 
     if (p_num_canopy_widths > 0)
@@ -4169,8 +4171,6 @@ void Plant::plant_update(
         g_root_length[layer] = g_root_length[layer] - g_dlt_root_length_dead[layer];
         g_root_length_dead[layer] = g_root_length_dead[layer] + g_dlt_root_length_dead[layer];
         }
-
-    *g_pai = *g_pai + g_dlt_pai;
 
     plant_n_conc_limits(c_n_conc_crit_meal
                         , c_n_conc_crit_root
@@ -4855,8 +4855,6 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
     if (option == 1)
     {
 
-//        crop_radn_int0(g.cover_green, g.fr_intc_radn, g.radn, &g.radn_int);
-
              // calc the green fruit interception
           float paiGreen = g.pai;
           float frIntcRadnGreenFruit = g.fr_intc_radn * divide (fruit->calcCover (c.extinct_coef_pod, paiGreen), g.cover_green, 0.0);
@@ -4879,12 +4877,16 @@ void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
           float radnIntGreenVeg = 0.0;
           float coverGreenVeg = (1.0 - (1.0-g.cover_green)/(1.0 - fruit->calcCover (c.extinct_coef_pod, paiTot)));   // FIXME temporary
           crop_radn_int0(coverGreenVeg
-                       , g.fr_intc_radn
-                       , g.radn - radnIntTotFruit
+                       , g.fr_intc_radn - frIntcRadnTotFruit
+                       , g.radn
                        , &radnIntGreenVeg);
 
                // for now, put both interceptions into radn_int
           g.radn_int =  radnIntGreenVeg + g.radnIntGreenFruit;  // FIXME when turned into proper fruit class
+
+//Remove
+//        crop_radn_int0(g.cover_green, g.fr_intc_radn, g.radn, &g.radn_int);
+
         //cradn
         //fprintf(stdout, "%d %f\n", g.day_of_year, g.cover_green);
     }
@@ -4939,6 +4941,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 
         g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + g.dltDmPotRueFruit;  // FIXME when fruit is made proper class
 
+//Remove
 //        plant_dm_pot_rue(&c.rue
 //                         , c.rue_pod
 //                         , g.cover_green
