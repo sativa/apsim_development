@@ -41,15 +41,18 @@ void __fastcall TRunForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRunForm::FormCloseQuery(TObject *Sender, bool &CanClose)
    {
-   // write all selected simulations to .ini file
-   string configurationName = configurationList->Items->
-                        Strings[configurationList->ItemIndex].c_str();
-   vector<string> simulations;
-   for (int i = 0; i < simulationList->Items->Count; i++)
-      if (simulationList->Selected[i])
-         simulations.push_back(simulationList->Items->Strings[i].c_str());
+   if (configurationList->ItemIndex >= 0)
+      {
+      // write all selected simulations to .ini file
+      string configurationName = configurationList->Items->
+                           Strings[configurationList->ItemIndex].c_str();
+      vector<string> simulations;
+      for (int i = 0; i < simulationList->Items->Count; i++)
+         if (simulationList->Selected[i])
+            simulations.push_back(simulationList->Items->Strings[i].c_str());
 
-   previousRuns.setCurrentRun(controlFileName, configurationName, simulations);
+      previousRuns.setCurrentRun(controlFileName, configurationName, simulations);
+      }
    }
 //---------------------------------------------------------------------------
 void __fastcall TRunForm::NextButtonClick(TObject *Sender)
