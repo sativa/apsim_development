@@ -42,7 +42,7 @@
 *   Constant values
  
       character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.30  02/10/96')
+      parameter (version_number = 'V1.40  23/04/98')
  
 *   Initial data values
 *       none
@@ -87,6 +87,7 @@
 *     DPH 19/7/95  Added call to manager_process
 *     DPH 27/10/95 Added call to message_unused
 *     jngh - 08/06/96 removed a_ from front of version function
+*     jngh - 23/04/98 added call to zero variables at initialisation
  
 *   Calls:
 *     Manager_init
@@ -126,7 +127,11 @@
          call Write_string (LU_Scr_sum,
      .       'Module = manager ' // Manager_version())
  
+      else if (action .eq. mes_get_variable) then
+         call manager_send_my_variable (Data_string)
+ 
       else if (Action.eq.MES_Init) then
+         call Manager_zero_variables ()
          call Manager_Init ()
  
       else if (Action.eq.MES_Prepare) then
@@ -140,9 +145,6 @@
  
       else if (Action .eq. MES_Event) then
          call Manager_Event (Data_string)
- 
-      else if (action .eq. mes_get_variable) then
-         call manager_send_my_variable (Data_string)
  
       else
          ! Don't use message
@@ -258,6 +260,125 @@
       end
 
 
+
+
+* ====================================================================
+       subroutine Manager_zero_variables ()
+* ====================================================================
+ 
+*   Short description:
+*     Zero all common block arrays
+*     routine.
+ 
+*   Assumptions:
+*      None
+ 
+*   Notes:
+ 
+*   Procedure attributes:
+*      Version:         Any hardware/Fortran77
+*      Extensions:      Long names <= 20 chars.
+*                       Lowercase
+*                       Underscore
+*                       Inline comments
+*                       Include
+*                       implicit none
+ 
+*   Changes:
+*     230498 jngh
+ 
+*   Calls:
+*      None
+ 
+* ----------------------- Declaration section ------------------------
+ 
+       implicit none
+ 
+*   Subroutine arguments
+*     none
+ 
+*   Global variables
+      include 'const.inc'              ! constant definitions
+      include 'manager.inc'            ! Manager common block
+      include 'parse.inc'              ! Parse common block
+ 
+*   Internal variables
+*     none
+ 
+*   Constant values
+      character Routine_name*(*)       ! Name of this routine
+      parameter (Routine_name='Manager_zero_variables')
+ 
+*   Initial data values
+*      none
+ 
+* --------------------- Executable code section ----------------------
+ 
+      call push_routine (Routine_name)
+ 
+      g_buffer = blank
+      g_expression_result = blank
+                                 
+      call fill_char_array (g_expression_array, blank, Variable_maximum)
+      call fill_char_array (g_stack, blank, stack_maximum)
+                                  
+      call fill_char_array (g_expression_sub_array
+     :                     , blank, Variable_maximum)
+      call fill_char_array (g_and_or_array, blank, Variable_maximum)
+      g_line = blank      
+      g_last_line = blank
+      g_ch = blank
+      call fill_char_array (g_local_variable_names
+     :                     , blank, Max_local_variables)
+      call fill_char_array (g_local_variable_values
+     :                     , blank, Max_local_variables)
+
+      call fill_char_array (g_token_array, blank, Max_tokens)
+      g_current_section = blank
+      g_token         = 0        
+      g_end_of_file   = 0         
+      g_start_token   = 0          
+      g_last_token    = 0            
+      g_save_token    = 0            
+      g_first         = 0            
+      g_last          = 0            
+      g_all_ok        = 0            
+      g_number_of_variables = 0
+      g_number_of_tokens    = 0      
+      g_number_and_or       = 0      
+      g_number_expressions  = 0      
+      g_current_token       = 0      
+                                  
+      g_next_token          = 0      
+                                  
+      g_word_or_number      = 0      
+                                  
+      call fill_integer_array (g_expression_array2, 0, Variable_maximum) 
+                                 
+      call fill_integer_array (g_expression_sub_array2
+     :                        , 0, Variable_maximum)
+                                   
+      call fill_integer_array (g_and_or_array2, 0, Variable_maximum)
+      
+      g_num_local_variables      = 0
+      g_read_flag                = 0
+                               
+      call fill_integer_array (g_token_array2, 0, Max_tokens)
+                               
+      g_start_day_index1         = 0
+      g_start_day_index2         = 0
+      g_end_day_index            = 0
+
+      g_init_index               = 0
+      g_prepare_index            = 0
+      g_process_index            = 0
+      g_post_index               = 0
+      
+      g_lines_been_read          = .false.
+      
+      call pop_routine(Routine_name)
+      return
+      end
 
 
 * ====================================================================
@@ -2389,7 +2510,7 @@
              if (left .eq. 0) then
                 left = 1
              endif
- 
+       
              g_expression_result = pop_stack()
  
           end if
@@ -3083,9 +3204,11 @@
        if (g_number_of_variables .gt. Variable_maximum) then
           call   Parse_error('Too many variables  ',
      .                       'push_stack          ')
-       else
+       else if (g_number_of_variables .gt. 0) then
           call assign_string (g_stack(g_number_of_variables)
      :                      , Variable_Value)
+       else
+         ! we have a problem elsewhere
        endif
  
  
@@ -3146,20 +3269,20 @@
 * --------------------- Executable code section ----------------------
  
        g_number_of_variables = g_number_of_variables - 1
+       
        if (g_number_of_variables .lt. 0) then
           call   Parse_error('Too few variables   ',
      .                       'pop_stack           ')
-       else
+       else if (g_number_of_variables .le. Variable_maximum) then
           call assign_string (pop_stack
      :                      , g_stack(g_number_of_variables + 1))
+       else
+         ! we have a problem elsewhere
        endif
  
  
        return
        end
- 
- 
- 
  
 * =====================================================================
        subroutine Get_sub_token ()
@@ -3622,7 +3745,6 @@
        if (ind .lt. 0) then
           ind = 0
        endif
- 
        call   Get_Char()
  
 10     continue
@@ -3831,7 +3953,6 @@
 * --------------------- Executable code section ----------------------
  
        g_first = g_first + 1
- 
        if     (g_first .gt. g_last) then
            call    assign_string (g_last_line, g_line)
               call   Parse_read_line (g_line, g_end_of_file)
@@ -3842,7 +3963,7 @@
        else
               g_ch = g_line(g_first:g_first)
        end if
- 
+       
        return
        end
  
@@ -3873,6 +3994,7 @@
 *   Changes:
 *      TM - 21/11/94*      TM - 05/10/95 - added check for left bracket
 *     DPH - 12/4/96  - added check for strings in quotes.
+*     JNGH - 23/4/98 - added % character to variable name list
  
 *   Calls:
 *      Get_char
@@ -3900,7 +4022,6 @@
 *      none
  
 * --------------------- Executable code section ----------------------
- 
        if (g_ch .eq. '''') then
           Inside_quotes = .true.
        else
@@ -3927,6 +4048,7 @@
      .      g_ch .eq. '.' .or.
      .     (g_ch .ge. '0' .and. g_ch .le. '9') .or. 
      :     (g_ch .eq. '_'     .or.
+     :      g_ch .eq. '%'     .or. 
      .      g_ch .eq. '['     .or. 
      :      g_ch .eq. ']'     .or. 
      :      g_ch .eq. '(')     .or.
@@ -4123,6 +4245,7 @@
  
 *   Changes:
 *      TM - 21/11/94
+*      JNGH - 23/4/98 added warning error when special character found
  
 *   Calls:
 *      Get_char
@@ -4135,10 +4258,14 @@
 *   Subroutine arguments
  
 *   Global variables
+       include 'const.inc'
        include 'parse.inc'                  ! Manager common block
+       
+       integer  lastNB                       ! function
  
 *   Internal variables
-*      none
+      character str*200
+      integer   i
  
 *   Constant values
 *      none
@@ -4220,6 +4347,19 @@
        
        else
               g_token = C_SPECIAL
+              
+             write (str, '(200a)' )
+     .      'Cannot use character "', 
+     :      g_ch, 
+     :      '" where it is indicated in line',
+     :      new_line,
+     :      g_line(:lastNB(g_line)),
+     :      new_line,
+     :      (blank, i=1,g_first-1), '^'
+            
+            call Warning_error(ERR_user, str)
+
+              
               call Get_Char()
  
        endif
