@@ -11,7 +11,7 @@
      .                    dm_green, dm_plant_min)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -130,7 +130,7 @@
 *     27/5/97 scc tried to fix it.
 
 *+  Calls
-*      include   'sorgcons.inc'
+*      include   'cropdefcons.inc'
 *      include 'const.inc'
 
 *+  Constant Values
@@ -393,7 +393,7 @@ c scc end of changes for tpla (more below)
      .          g_node_no)
 *     ===========================================================
       implicit none
-      include 'sorgcons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
+      include 'cropdefcons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -570,7 +570,7 @@ c scc end of changes for tpla (more below)
      .          g_dlt_leaf_no)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -698,9 +698,9 @@ cglh uses sowing, not emerg to calc leaf no.
  
 *     ===========================================================
       implicit none
-      include 'sorgcons.inc'
+      include 'cropdefcons.inc'
       include 'const.inc'
-      include 'stress.inc' !to set value of photo - not sure if correct way
+!      include 'stress.inc' !to set value of photo - not sure if correct way
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -931,7 +931,7 @@ c (how do we do this w. TPLA approach?)
      .          g_phase_tt)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -1107,9 +1107,9 @@ c (how do we do this w. TPLA approach?)
  
 *     ===========================================================
       implicit none
-      include 'sorgcons.inc'
+      include 'cropdefcons.inc'
       include 'const.inc'
-      include 'stress.inc' !to set value of photo - not sure if correct way
+!      include 'stress.inc' !to set value of photo - not sure if correct way
       include 'science.pub'                       
       include 'crp_phen.pub'                      
       include 'error.pub'                         
@@ -1368,7 +1368,7 @@ c (how do we do this w. TPLA approach?)
      .          phase_dvl)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -1789,7 +1789,7 @@ cjh  changed 0.0 to 1.0
      .          g_days_tot)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'error.pub'                         
@@ -1873,7 +1873,7 @@ cjh  changed 0.0 to 1.0
      .          g_dlt_tt)
 *     ===========================================================
       implicit none
-      include    'sorgcons.inc'
+      include    'cropdefcons.inc'
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -1934,7 +1934,7 @@ cjh  changed 0.0 to 1.0
      .          g_dlt_tt_fm)
 *     ===========================================================
       implicit none
-      include    'sorgcons.inc'
+      include    'cropdefcons.inc'
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
@@ -2172,7 +2172,7 @@ cjh  changed 0.0 to 1.0
      .          g_dlt_slai_age)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -3074,7 +3074,7 @@ c the leaf can't sustain itself.
      .          g_phase_tt)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'science.pub'                       
       include 'error.pub'                         
@@ -3417,7 +3417,7 @@ c+!!!!!!!!!! return to orig cm
 *     ===========================================================
       implicit none
       include   'const.inc'
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -3532,9 +3532,9 @@ c+!!!!!!!!!! return to orig cm
  
 *     ===========================================================
       implicit none
-      include 'sorgcons.inc'
+      include 'cropdefcons.inc'
       include 'const.inc'
-      include 'stress.inc' !to set value of photo - not sure if correct way
+!      include 'stress.inc' !to set value of photo - not sure if correct way
       include 'science.pub'                       
       include 'error.pub'                         
 
@@ -3750,7 +3750,7 @@ c (how do we do this w. TPLA approach?)
      .          g_dlt_lai_pot)
 *     ===========================================================
       implicit none
-      include 'sorgcons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
+      include 'cropdefcons.inc' !!!THESE SHOULD BE READ IN as part of initialisation
       include   'convert.inc'
       include 'science.pub'                       
       include 'data.pub'                          
@@ -3911,7 +3911,7 @@ c gmc following 2 lines commented out and replaced by 2 above
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4084,7 +4084,7 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      .          o_dlt_N_retrans)
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
 
@@ -4226,7 +4226,7 @@ csc  true....
      .                     )
 *     ===========================================================
       implicit none
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'data.pub'                          
       include 'error.pub'                         
       include 'science.pub'                         
@@ -4345,7 +4345,7 @@ csc  true....
 *     ===========================================================
       implicit none
       include 'const.inc'
-      include 'sorgcons.inc'
+      include 'cropdefcons.inc'
       include 'error.pub'                         
       include 'science.pub'                         
 
@@ -4444,7 +4444,7 @@ csc  true....
 *     ===========================================================
       implicit none
       include   'convert.inc'
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
@@ -4559,7 +4559,7 @@ c################################################################
 *   Global variables
 
       include   'convert.inc'
-      include   'sorgcons.inc'
+      include   'cropdefcons.inc'
       include 'science.pub'                       
       include 'data.pub'                          
       include 'error.pub'                         
