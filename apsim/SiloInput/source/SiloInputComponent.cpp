@@ -5,6 +5,7 @@
 #include "SiloInputComponent.h"
 #include <ApsimShared\ApsimComponentData.h>
 #include <general\path.h>
+#include <process.h>
 #include <IdBaseComponent.hpp>
 #include <IdComponent.hpp>
 #include <IdHTTP.hpp>
@@ -26,7 +27,8 @@ protocol::Component* createComponent(void)
 // ------------------------------------------------------------------
 SiloInputComponent::SiloInputComponent(void)
    {
-   fileName = Path::getTempFolder().Get_path() + "\\temp.met";
+   unsigned int pid = getpid();
+   fileName = Path::getTempFolder().Get_path() + "\\temp" + itoa(pid) + ".met";
    }
 // ------------------------------------------------------------------
 // destructor
