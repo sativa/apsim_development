@@ -46,6 +46,8 @@ class PROTOCOL_EXPORT Simulation : public ISimulation
       // terminate the simulation
       virtual void term (void);
 
+      void logError(const char* simFilename, const char* msg);
+
    };
 
 } // namespace protocol
