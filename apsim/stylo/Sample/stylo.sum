@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\stylo\sample\stylo.sim
      Title                  = stylo Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -62,6 +62,7 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
      
      
      
@@ -204,32 +205,32 @@
       
          - Reading Cultivar Parameters
           ------------------------------------------------
-          Cultivar                 = verano
-          est_days_emerg_to_init  =      30
-          cum_vernal_days  =    0.00 100.00
-          tt_emerg_to_endjuv  =  700.00 700.00
-          x_pp_endjuv_to_init      =   10.70  17.00
-          y_tt_endjuv_to_init      =    0.00 446.00
-          x_pp_init_to_flower      =    1.00  24.00
-          y_tt_init_to_flower      =   33.00  33.00
-          x_pp_flower_to_start_grain      =    1.00  24.00
-          y_tt_flower_to_start_grain      =  355.00 355.00
-          x_pp_start_to_end_grain      =    1.00  24.00
-          y_tt_start_to_end_grain      =  694.75 694.75
-          tt_end_grain_to_maturity      =    55.3
-          tt_maturity_to_ripe      =     5.0
-          hi_incr                  =     0.0
-          x_hi_max_pot_stress =    0.00   1.00
-          y_hi_max_pot        =    0.50   0.50
-          x_stem_wt      =    0.00  10.00
-          y_height      =    0.001500.00
+          Cultivar                   = verano
+          est_days_emerg_to_init     =       30
+          cum_vernal_days            =     0.00  100.00
+          tt_emerg_to_endjuv         =   700.00  700.00
+          x_pp_endjuv_to_init        =    10.70   17.00
+          y_tt_endjuv_to_init        =     0.00  446.00
+          x_pp_init_to_flower        =     1.00   24.00
+          y_tt_init_to_flower        =    33.00   33.00
+          x_pp_flower_to_start_grain =     1.00   24.00
+          y_tt_flower_to_start_grain =   355.00  355.00
+          x_pp_start_to_end_grain    =     1.00   24.00
+          y_tt_start_to_end_grain    =   694.75  694.75
+          tt_end_grain_to_maturity   =     55.3
+          tt_maturity_to_ripe        =      5.0
+          x_pp_hi_incr               =     1.00   24.00
+          y_hi_incr                  =  0.00010 0.00010
+          x_hi_max_pot_stress        =     0.00    1.00
+          y_hi_max_pot               =     0.50    0.50
+          x_stem_wt                  =     0.00   10.00
+          y_height                   =     0.00 1500.00
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
-      
       
       
                           Root Profile
@@ -250,8 +251,6 @@
       
       
       
-      
-      
                        Crop Sowing Data
           ------------------------------------------------
           Sowing  Depth Plants Spacing Cultivar
@@ -259,6 +258,8 @@
           ------------------------------------------------
              320   40.0  250.0  500.0 verano
           ------------------------------------------------
+      
+      
 16 November 1988 (Day of year=321):
    STYLO:
        stage    2.0 germination
@@ -353,10 +354,21 @@
        stress indices for start_grain_fill
        water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+         
+       Crop harvested.
+                                                tops residue = 1240.7 kg/ha
+                                                tops N =   28.9 kg/ha
+                                                root residue =   58.1 kg/ha
+                                                root N =    0.5 kg/ha
+                                              
+        tops removed =    5.7 kg/ha
+                                                tops N removed =    0.1 kg/ha
+                                                root removed =    0.0 kg/ha
+                                                root N removed =    0.0 kg/ha
    MANAGER:
            Manager sending message :- stylo end_crop
    STYLO:
-          ended. Yield (dw) =     0.0
+          Crop ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
                                                 root residue =  584.3 kg/ha
