@@ -743,7 +743,8 @@ C     Last change:  E     5 Dec 2000    8:52 am
       implicit none
        include 'const.inc'             ! Constant definitions
       include 'error.pub'                         
-      include 'action.inc' 
+      include 'action.inc'
+      include 'postbox.pub'
 
 *+  Purpose
 *     Cycle through all phases for an entire simulation.  Exit routine
@@ -775,16 +776,17 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *- Implementation Section ----------------------------------
 
       call push_routine (This_routine)
-       
+
       ! Main timestep loop
- 
+
 10    continue
       do 20 Instruction_index = 1, Num_instructions
- 
+
          ! Send message to all modules.
- 
-         call Action_send_to_all_comps (Instructions(Instruction_Index))
- 
+         call new_postbox()
+         call event_send (Instructions(Instruction_Index))
+         call delete_postbox()
+          
          ! Check the end of simulation flag and exit if necessary
  
          if (g%End_current_run) then
