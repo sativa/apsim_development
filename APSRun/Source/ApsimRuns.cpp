@@ -91,9 +91,14 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
 void ApsimRuns::runAll(bool withConsole, bool quiet)
    {
    console = withConsole;
-   RunForm = new TRunForm(NULL);
-   RunForm->runs = this;
-   RunForm->ShowModal();
+   if (!quiet)
+      {
+      RunForm = new TRunForm(NULL);
+      RunForm->runs = this;
+      RunForm->ShowModal();
+      }
+   else
+      runApsim();
    }
 //---------------------------------------------------------------------------
 // Create SIM files for all runs.
