@@ -150,7 +150,8 @@ void __fastcall TMainForm::EXCEL_buttonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Application_minimize (TObject* Sender)
    {
-   ShowWindow(Handle, SW_MINIMIZE);
+   Application->Minimize();
+//   ShowWindow(Handle, SW_MINIMIZE);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FileOpenMenuClick(TObject *Sender)
