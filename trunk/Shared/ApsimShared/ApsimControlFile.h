@@ -7,6 +7,7 @@
 #include <general\StringTokenizer.h>
 #include "ApsimParameterFile.h"
 #include <ApsimShared\ApsimConfigurationFile.h>
+#include "TControlFileConversionForm.h"
 // ------------------------------------------------------------------
 // This class encapsulates an apsim control file.  It provides several
 // methods to extract information from the control file and associated
@@ -43,7 +44,9 @@ class __declspec(dllexport) ApsimControlFile
                bool quiet = false) const throw(std::runtime_error);
 
       // Create a SIM file for the specified section and return its filename.
-      std::string createSIM(const std::string& configurationFile) const throw(std::runtime_error);
+      // Return true if SIM was created.
+      bool createSIM(const std::string& configurationFile,
+                     std::string& simFile) const throw(std::runtime_error);
 
    private:
       string fileName;
@@ -83,6 +86,9 @@ class __declspec(dllexport) ApsimControlFile
 
       // Convert the control / parameter file.
       bool convertControlFile(void) const throw(std::runtime_error);
+
+      void putDescriptionsInForm(const std::string& scriptFileName,
+                                 TControlFileConversionForm* form) const;
       void parseName(StringTokenizer& tokenizer,
                      std::string& moduleName, std::string& parameterName) const;
       std::string parseValue(const ApsimParameterFile& paramFile,

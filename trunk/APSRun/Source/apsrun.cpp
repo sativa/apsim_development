@@ -61,7 +61,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
                                              sectionI++)
                   {
                   ApsimControlFile controlFile(fileName, *sectionI);
-                  controlFile.createSIM(configurationFile);
+                  string simFileName;
+                  controlFile.createSIM(configurationFile, simFileName);
                   }
                }
             else
