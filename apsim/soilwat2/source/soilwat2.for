@@ -147,7 +147,7 @@
       else if (eventID .eq. SolutesChangedID) then
          call soilwat2_OnSolutesChanged (variant)
 
-      else if (eventID .eq. CropDemandCalculatedID) then
+      else if (eventID .eq. CropWaterDemandCalculatedId) then
          call soilwat2_OnCropDemandCalculated (variant)
 
       else if (eventID .eq. SurfaceWaterChangedID) then
@@ -240,6 +240,8 @@
       integer counter
       integer layer
       integer num_layers
+      integer mobile_no
+      integer immobile_no
 
 *- Implementation Section ----------------------------------
 
@@ -259,7 +261,7 @@
                g%num_solutes = g%num_solutes + 1
                solnum = g%num_solutes
                g%solute_names(solnum)
-     :                     = SoluteProfilesChanged(counter)%Solute_name
+     :                     = SoluteProfilesChanged(counter)%name
             else
             endif
             mobile_no = position_in_char_array(
@@ -375,7 +377,7 @@
 
       call push_routine (my_name)
 
-      call unpackSurfaceWater (variant, Surface_Water)
+      call unpack_SurfaceWater (variant, Surface_Water)
       g%infiltration_pot = Surface_Water%amount
 
       call pop_routine (my_name)
@@ -417,7 +419,7 @@
 
       call push_routine (my_name)
 
-      call unpack_Eos_calculated (variant, g%Eos)
+      call unpack_EosCalculated (variant, g%Eos)
 
       call pop_routine (my_name)
       return
@@ -441,15 +443,17 @@
 *     <insert here>
 
 *+  Local Variables
-      type(CropDemandType), dimension(max_array_size)
+      type(CropWaterDemandType), dimension(max_array_size)
      :                             :: CropDemands
       integer crop_no
       integer num_layers
+      integer NumCropDemands
 
 *- Implementation Section ----------------------------------
 
-      call unpackCropDemand(variant, CropDemands
+      call unpack_CropWaterDemand(variant, CropDemands
      :                                  , NumCropDemands)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
 
       do 100 crop_no = 1, NumCropDemands
 
@@ -463,11 +467,11 @@
      :                          %numRootLayers
             g%Crop(g%num_crops)%RootLayer(1:num_layers)%rld =
      :                           CropDemands(crop_no)
-     :                           %RootLayers(1:num_layers)
+     :                           %RootLayer(1:num_layers)
      :                           %RootLengthDensity
             g%Crop(g%num_crops)%RootLayer(1:num_layers)%uptakePot =
      :                           CropDemands(crop_no)
-     :                           %RootLayers(1:num_layers)
+     :                           %RootLayer(1:num_layers)
      :                           %PotentialUptake
             g%Crop(g%num_crops)%demand = CropDemands(crop_no)
      :                                   %amount
@@ -518,7 +522,7 @@
 *     <insert here>
 
 *+  Local variables
-      type(CropSupplyType), dimension(max_array_size)
+      type(CropWaterSupplyType), dimension(max_array_size)
      :                              :: CropSupplies
       integer crop_no
       integer num_layers
@@ -532,13 +536,13 @@
          CropSupplies(crop_no)%layer(1:num_layers)
      :                             %thickness = p%dlayer(1:num_layers)
          CropSupplies(crop_no)%layer(1:num_layers)
-     :                             %supply = g%Crop(crop_no)
+     :                             %amount = g%Crop(crop_no)
      :                                        %RootLayer(1:num_layers)
      :                                        %Uptake
       enddo
 
-      call publishCropSupply (
-     :                                CropSupplyCalculatedID
+      call publish_CropWaterSupply (
+     :                                CropWaterSupplyCalculatedID
      :                              , CropSupplies
      :                              , g%num_crops
      :                              , .false.)
@@ -573,7 +577,7 @@
       SoilWaterLayers(1:num_layers)
      :               %amount = g%sw_dep(1:num_layers)
 
-      call publishSoilWaterLayer (SoilWaterChangedID
+      call publish_SoilWaterLayer (SoilWaterChangedID
      :                              , SoilWaterLayers
      :                              , num_layers
      :                              , .false.)
@@ -607,11 +611,11 @@
       SoilWaterBalance%evaporation =
      :                  sum_real_array (g%es_layers, max_layer)
 
-      SoilWaterBalance%lateral_flow_layers(1:num_layers)
+      SoilWaterBalance%LateralFlowLayer(1:num_layers)
      :                %thickness = p%dlayer(1:num_layers)
-      SoilWaterBalance%lateral_flow_layers(:)%flow = 0.0
+      SoilWaterBalance%LateralFlowLayer(:)%amount = 0.0
 
-      call publishSoilWaterBalance (
+      call publish_SoilWaterBalance (
      :                               SoilWaterBalanceCalculatedID
      :                              , SoilWaterBalance
      :                              , .false.)
@@ -647,17 +651,17 @@
       SoilWaterProfileLayers(1:num_layers)
      :                        %BulkDensity = g%bd(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %SatDep = g%sat_dep(1:num_layers)
+     :                        %SatDepth = g%sat_dep(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %DulDep = g%dul_dep(1:num_layers)
+     :                        %DulDepth = g%dul_dep(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %Ll15Dep = g%ll15_dep(1:num_layers)
+     :                        %Ll15Depth = g%ll15_dep(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %AirdryDep = g%air_dry_dep(1:num_layers)
+     :                        %AirdryDepth = g%air_dry_dep(1:num_layers)
       SoilWaterProfileLayers(1:num_layers)
-     :                        %SwDep = g%sw_dep(1:num_layers)
+     :                        %SwDepth = g%sw_dep(1:num_layers)
 
-      call publishSoilWaterProfileLayer
+      call publish_SoilWaterProfileLayer
      :                              (SoilWaterProfileChangedID
      :                              , SoilWaterProfileLayers
      :                              , num_layers
@@ -682,7 +686,7 @@
 
 *+  Local Variables
 
-      type (SoluteProfilesType), dimension(nsol) :: SoluteProfiles
+      type (SoluteProfileType), dimension(max_solute) :: SoluteProfiles
       integer solnum                   ! solute array index counter
       integer layer
 
@@ -691,16 +695,16 @@
       do 100 solnum = 1, g%num_solutes
          do 50 layer=1,max_layer
 
-            SoluteProfiles(solnum)%solute_layers(layer)
+            SoluteProfiles(solnum)%layer(layer)
      :                            %thickness = p%dlayer(layer)
-            SoluteProfiles(solnum)%solute_layers(layer)
+            SoluteProfiles(solnum)%layer(layer)
      :                            %amount = g%dlt_solute (solnum, layer)
    50    continue
-         SoluteProfiles(solnum)%solute_name = g%solute_names(solnum)
+         SoluteProfiles(solnum)%name = g%solute_names(solnum)
 
   100 continue
 
-      call publishSoluteProfiles (SoluteFluxesCalculatedID
+      call publish_SoluteProfile (SoluteFluxesCalculatedID
      :                                    , SoluteProfiles
      :                                    , g%num_solutes
      :                                    , .false.)
@@ -865,7 +869,7 @@
             ! now move the solutes with flow
       call soilwat2_move_solute_up ()
 
-      call Do_Crop_Water_Uptake ()
+      call Soilwat2_Do_Crop_Water_Uptake ()
 
             ! end
       call pop_routine (my_name)
@@ -2302,6 +2306,7 @@ cjh
 *+  Local Variables
        integer numvals                 ! number of values read from file
        character  evap_method*300
+       logical    found
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -2316,7 +2321,7 @@ cjh
 
       found = read_parameter (section_name
      :                   , 'A_to_evap_fact'          !, '()'
-     :                   , c%A_to_evap_fact, numvals
+     :                   , c%A_to_evap_fact           !, numvals
      :                   , 0.0, 1.0)
 
 !      found = read_parameter (section_name
@@ -2326,37 +2331,37 @@ cjh
 
       found = read_parameter (section_name
      :                   , 'sw_top_crit'          !, '()'
-     :                   , c%sw_top_crit, numvals
+     :                   , c%sw_top_crit           !, numvals
      :                   , 0.0, 1.0)
 
       found = read_parameter (section_name
      :                   , 'sumes1_max'          !, '()'
-     :                   , c%sumes1_max, numvals
+     :                   , c%sumes1_max            !, numvals
      :                   , 0.0, 1000.0)
 
       found = read_parameter (section_name
      :                   , 'sumes2_max'          !, '()'
-     :                   , c%sumes2_max, numvals
+     :                   , c%sumes2_max            !, numvals
      :                   , 0.0, 1000.0)
 
       found = read_parameter (section_name
      :                   , 'solute_flow_eff'          !, '()'
-     :                   , c%Solute_flow_eff, numvals
+     :                   , c%Solute_flow_eff            !, numvals
      :                   , 0.0, 1.0)
 
       found = read_parameter (section_name
      :                   , 'solute_flux_eff'          !, '()'
-     :                   , c%Solute_flux_eff, numvals
+     :                   , c%Solute_flux_eff            !, numvals
      :                   , 0.0, 1.0)
 
       found = read_parameter (section_name
      :                   , 'gravity_gradient'          !, '()'
-     :                   , c%gravity_gradient, numvals
+     :                   , c%gravity_gradient            !, numvals
      :                   , 0.0, 1.0)
 
       found = read_parameter (section_name
      :                   , 'specific_bd'          !, '()'
-     :                   , c%specific_bd, numvals
+     :                   , c%specific_bd            !, numvals
      :                   , 0.0, 3.0)
 
 !      found = read_parameter (section_name
@@ -2366,15 +2371,13 @@ cjh
 !
       found = read_parameter (section_name
      :                   , 'mobile_solutes'
-     :                   , max_solute
-     :                   , '()'
+     :                             !, max_solute              !'()'
      :                   , c%mobile_solutes
      :                   , numvals)
 
       found = read_parameter (section_name
      :                   , 'immobile_solutes'
-     :                   , max_solute
-     :                   , '()'
+     :                             !, max_solute              !, '()'
      :                   , c%immobile_solutes
      :                   , numvals)
 
@@ -2403,8 +2406,8 @@ cjh
       evap_method = 'unknown'
       found = read_parameter (section_name
      :                   , 'act_evap_method'          !, '()'
-     :                   , evap_method
-     :                   , numvals)
+     :                   , evap_method)
+            !     :                   , numvals)
 
       if (evap_method .eq. 'ritchie') then
          c%evap_method = ritchie_method
@@ -2486,6 +2489,7 @@ cjh
 
 *+  Local Variables
       integer    numvals               ! number of values returned
+      logical    found
 
 *- Implementation Section ----------------------------------
 
@@ -2512,39 +2516,36 @@ cjh
 
       found = read_parameter (section_name
      :                   , 'insoil'          !, '()'
-     :                   , p%insoil, g%numvals_insoil
+     :                   , p%insoil          !, g%numvals_insoil
      :                   , 0.0, 10.0
      :                   , IsOptional)   ! optional data
 
       found = read_parameter (section_name
      :                 , 'profile_esw_depth'          !, '(mm)'
-     :                 , p%profile_esw_depth
-     :                 , g%numvals_profile_esw_depth
+     :                 , p%profile_esw_depth          !, g%numvals_profile_esw_depth
      :                 , 0.0, 10000.0
      :                   , IsOptional)  ! optional data
 
       found = read_parameter (section_name
      :                 , 'wet_soil_depth'          !, '(mm)'
-     :                 , p%wet_soil_depth
-     :                 , g%numvals_wet_soil_depth
+     :                 , p%wet_soil_depth          !, g%numvals_wet_soil_depth
      :                 , 0.0, 10000.0
      :                   , IsOptional)   ! optional data
 
       found = read_parameter (section_name
      :                 , 'profile_fesw'          !, '()'
-     :                 , p%profile_fesw
-     :                 , g%numvals_profile_fesw
+     :                 , p%profile_fesw          !, g%numvals_profile_fesw
      :                 , 0.0, 1.0
      :                   , IsOptional)   ! optional data
 
       found = read_parameter (section_name
      :                   , 'diffus_const'          !, '()'
-     :                   , p%diffus_const, numvals
+     :                   , p%diffus_const          !, numvals
      :                   , 0.0, 1000.0)
 
       found = read_parameter (section_name
      :                   , 'diffus_slope'          !, '()'
-     :                   , p%diffus_slope, numvals
+     :                   , p%diffus_slope          !, numvals
      :                   , 0.0, 100.0)
 
 !      found = read_parameter (section_name
@@ -2579,7 +2580,7 @@ cjh
      :     c%evap_method .eq. bs_acs_method) then
          found = read_parameter (section_name
      :        , 'cona'          !, '()'
-     :        , p%cona, numvals
+     :        , p%cona          !, numvals
      :        , 0.0001, 10.0)
 
       else
@@ -2591,7 +2592,7 @@ cjh
      :     c%evap_method .eq. bs_acs_method) then
          found = read_parameter (section_name
      :        , 'u'          !, '()'
-     :        , p%u, numvals
+     :        , p%u          !, numvals
      :        , 0.0001, 40.0)
       else
          p%u = 0.0001
@@ -2602,7 +2603,7 @@ cjh
      :     c%evap_method .eq. bs_acs_method) then
          found = read_parameter (section_name
      :        , 'beta'          !, '()'
-     :        , p%beta, numvals
+     :        , p%beta          !, numvals
      :        , 0.0, 3.5)
 
       else
@@ -2613,7 +2614,7 @@ cjh
       if (c%evap_method .eq. rickert_method) then
          found = read_parameter (section_name
      :        , 'max_evap'          !, '()'
-     :        , p%max_evap, numvals
+     :        , p%max_evap          !, numvals
      :        , 0.9, 20.0)
 
       else
@@ -2686,6 +2687,7 @@ cjh
                                        ! (mm water/mm soil)
       real       sw(max_layer)         ! soil water content (mm water/mm soil)
       character msg*200                ! message to summary file
+      logical   found
 
 *- Implementation Section ----------------------------------
 
@@ -2698,48 +2700,48 @@ cjh
 
       found = read_parameter (section_name
      :                     , 'irrigation_layer'          !,'()'
-     :                     , p%irrigation_layer, numvals
+     :                     , p%irrigation_layer          !, numvals
      :                     , 0, 100
      :                   , IsOptional)     ! optional data
 
       found = read_parameter (section_name
-     :                     , 'dlayer', max_layer      !, '(mm)'
+     :                     , 'dlayer'          !, max_layer      !, '(mm)'
      :                     , p%dlayer, numvals
      :                     , 0.0, 10000.0)
 
       found = read_parameter (section_name
-     :                     , 'sat', max_layer      !, '()'
+     :                     , 'sat'          !, max_layer      !, '()'
      :                     , sat, numvals
      :                     , 0.0, 1000.0)
 
       found = read_parameter (section_name
-     :                     , 'dul', max_layer      !, '()'
+     :                     , 'dul'          !, max_layer      !, '()'
      :                     , dul, numvals
      :                     , 0.0, 1000.0)
 
       found = read_parameter (section_name
-     :                     , 'sw', max_layer    !, '()'
+     :                     , 'sw'          !, max_layer    !, '()'
      :                     , sw, g%numvals_sw
      :                     , 0.0, 1000.0
      :                   , IsOptional)    ! optional data
 
       found = read_parameter (section_name
-     :                     , 'll15', max_layer     !, '()'
+     :                     , 'll15'          !, max_layer     !, '()'
      :                     , ll15, numvals
      :                     , 0.0, 1000.0)
 
       found = read_parameter (section_name
-     :                     , 'air_dry', max_layer     !, '()'
+     :                     , 'air_dry'          !, max_layer     !, '()'
      :                     , air_dry, numvals
      :                     , 0.0, 10.0)
 
       found = read_parameter (section_name
-     :                     , 'swcon', max_layer    !, '()'
+     :                     , 'swcon'          !, max_layer    !, '()'
      :                     , p%swcon, numvals
      :                     , 0.0, 1000.0)
 
       found = read_parameter (section_name
-     :                     , 'mwcon', max_layer    !, '()'
+     :                     , 'mwcon'          !, max_layer    !, '()'
      :                     , p%mwcon, numvals
      :                     , 0.0, 1000.0
      :                   , IsOptional)     ! optional data
@@ -2753,7 +2755,7 @@ c       be set to '1' in all layers by default
 
 
       found = read_parameter ( section_name
-     :                     , 'bd', max_layer    !, '(g/cc)'
+     :                     , 'bd'          !, max_layer    !, '(g/cc)'
      :                     , g%bd, numvals
      :                     , 0.01, 10.0)
 
@@ -3485,7 +3487,7 @@ c     he should have. Any ideas? Perhaps
 *- Implementation Section ----------------------------------
 
 !      if (variable_name .eq. 'sw') then
-      if (VariableID .eq. sw_id) then
+      if (VariableID .eq. swID) then
          call soilwat2_zero_default_variables ()
 
 !         call collect_real_array (variable_name, max_layer, '()'
@@ -3500,19 +3502,19 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 1000     continue
 
-      elseif (VariableID .eq. sw_dep_ID) then
+      elseif (VariableID .eq. sw_depID) then
          call soilwat2_zero_default_variables ()
 
-         call Unpack_sw (Variant, g%sw_dep, g%numvals_sw)
+         call Unpack_sw_dep (Variant, g%sw_dep, g%numvals_sw)
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 2000 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 2000     continue
 
-      elseif (VariableID .eq. insoil_ID) then
+      elseif (VariableID .eq. insoilID) then
 
          call soilwat2_zero_default_variables ()
-         call Unpack_sw (Variant, p%insoil, g%numvals_insoil)
+         call Unpack_insoil (Variant, p%insoil)
 
          call soilwat2_set_default ()
          num_layers = count_of_real_vals (p%dlayer, max_layer)
@@ -3520,12 +3522,11 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 2100     continue
 
-      elseif (VariableID .eq. profile_esw_depth_ID) then
+      elseif (VariableID .eq. profile_esw_depthID) then
          call soilwat2_zero_default_variables ()
 
-         call Unpack_sw (Variant,
-     :                 , p%profile_esw_depth
-     :                 , g%numvals_profile_esw_depth)
+         call Unpack_profile_esw_depth (Variant
+     :                 , p%profile_esw_depth)
 
          call soilwat2_set_default ()
          num_layers = count_of_real_vals (p%dlayer, max_layer)
@@ -3533,12 +3534,11 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 2200     continue
 
-      elseif (VariableID .eq. wet_soil_depth_ID) then
+      elseif (VariableID .eq. wet_soil_depthID) then
          call soilwat2_zero_default_variables ()
 
-         call Unpack_sw (Variant,
-     :                 , p%wet_soil_depth
-     :                 , g%numvals_wet_soil_depth)
+         call Unpack_wet_soil_depth (Variant
+     :                 , p%wet_soil_depth)
 
          call soilwat2_set_default ()
          num_layers = count_of_real_vals (p%dlayer, max_layer)
@@ -3546,12 +3546,11 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 2300     continue
 
-      elseif (VariableID .eq. profile_fesw_ID) then
+      elseif (VariableID .eq. profile_feswID) then
          call soilwat2_zero_default_variables ()
 
-         call Unpack_sw (Variant,
-     :                 , p%profile_fesw
-     :                 , g%numvals_profile_fesw)
+         call Unpack_profile_fesw (Variant
+     :                 , p%profile_fesw)
 
          call soilwat2_set_default ()
          num_layers = count_of_real_vals (p%dlayer, max_layer)
@@ -3560,9 +3559,9 @@ c     he should have. Any ideas? Perhaps
 2400     continue
 
 
-      elseif (VariableID .eq. dlt_sw_ID) then
+      elseif (VariableID .eq. dlt_swID) then
 
-         call Unpack_sw (Variant, temp, numvals)
+         call Unpack_dlt_sw (Variant, temp, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 3000 layer = 1,num_layers
@@ -3571,8 +3570,8 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 3000     continue
 
-      elseif (VariableID .eq. dlt_sw_dep_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. dlt_sw_depID) then
+         call Unpack_dlt_sw_dep (Variant, temp, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4000 layer = 1,num_layers
@@ -3582,16 +3581,16 @@ c     he should have. Any ideas? Perhaps
 
 * code for erosion
 
-      elseif (VariableID .eq. dul_dep_ID) then
-         call Unpack_sw (Variant, g%dul_dep, numvals)
+      elseif (VariableID .eq. dul_depID) then
+         call Unpack_dul_dep (Variant, g%dul_dep, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4100 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4100     continue
 
-      elseif (VariableID .eq. dul_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. dulID) then
+         call Unpack_dul (Variant, temp, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4110 layer = 1,num_layers
@@ -3599,16 +3598,16 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 4110     continue
 
-      elseif (VariableID .eq. ll15_dep_ID) then
-         call Unpack_sw (Variant, g%ll15_dep, numvals)
+      elseif (VariableID .eq. ll15_depID) then
+         call Unpack_ll15_dep (Variant, g%ll15_dep, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4200 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4200     continue
 
-      elseif (VariableID .eq. ll15_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. ll15_depID) then
+         call Unpack_ll15_dep (Variant, temp, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4210 layer = 1,num_layers
@@ -3616,16 +3615,16 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 4210     continue
 
-      elseif (VariableID .eq. sat_dep_ID) then
-         call Unpack_sw (Variant, g%sat_dep, numvals)
+      elseif (VariableID .eq. sat_depID) then
+         call Unpack_sat_dep (Variant, g%sat_dep, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4300 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4300     continue
 
-      elseif (VariableID .eq. sat_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. satID) then
+         call Unpack_sat (Variant, temp, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4310 layer = 1,num_layers
@@ -3633,16 +3632,16 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 4310     continue
 
-      elseif (VariableID .eq. air_dry_dep_ID) then
-         call Unpack_sw (Variant, g%air_dry_dep, numvals)
+      elseif (VariableID .eq. air_dry_depID) then
+         call Unpack_air_dry_dep (Variant, g%air_dry_dep, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4500 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4500     continue
 
-      elseif (VariableID .eq. air_dry_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. air_dryID) then
+         call Unpack_air_dry (Variant, temp, numvals)
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4510 layer = 1,num_layers
@@ -3650,8 +3649,8 @@ c     he should have. Any ideas? Perhaps
             call soilwat2_check_profile (layer)
 4510     continue
 
-      elseif (VariableID .eq. dlayer_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. dlayerID) then
+         call Unpack_dlayer (Variant, temp, numvals)
 
          do 5000 layer = 1, numvals
             fract = divide (temp(layer), p%dlayer(layer), 0.0)
@@ -3678,8 +3677,8 @@ c     he should have. Any ideas? Perhaps
 
          call soilwat2_Publish_soil_water_profile ()
 
-      elseif (VariableID .eq. dlt_dlayer_ID) then
-         call Unpack_sw (Variant, temp, numvals)
+      elseif (VariableID .eq. dlt_dlayerID) then
+         call Unpack_dlt_dlayer (Variant, temp, numvals)
 
          do 6000 layer = 1, numvals
             temp(layer) = p%dlayer(layer) + temp(layer)
@@ -3707,13 +3706,13 @@ c     he should have. Any ideas? Perhaps
          call soilwat2_Publish_soil_water_profile ()
 * end code for erosion
 
-      elseif (VariableID .eq. cona_ID) then
-         call Unpack_sw (Variant, p%cona, numvals)
+      elseif (VariableID .eq. conaID) then
+         call Unpack_cona (Variant, p%cona)
 
-      elseif (VariableID .eq. u_ID) then
-         call Unpack_sw (Variant, p%u, numvals)
+      elseif (VariableID .eq. uID) then
+         call Unpack_u (Variant, p%u)
       else
-         call Message_unused ()
+!         call Message_unused ()
 
       endif
 
@@ -3782,70 +3781,71 @@ c     he should have. Any ideas? Perhaps
 !      real       total_cover           ! total ground cover (0-1)
       real       es                    ! total es
 !      real       eff_rain              ! daily effective rainfall (mm)
+      logical    soilwat2_solute_output
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
 
-      if (Variable_info%id .eq. es_ID) then
+      if (Variable_info%id .eq. esID) then
          es = sum_real_array(g%es_layers, max_layer)
-         call return_es (Variable_info,           ! '(mm)'
+         call return_es (Variable_info           ! '(mm)'
      :                              , es)
 
-!      else if (Variable_info%id .eq. eo_ID) then
-!         call return_eo (Variable_info,           ! '(mm)'
+!      else if (Variable_info%id .eq. eoID) then
+!         call return_eo (Variable_info           ! '(mm)'
 !     :                              , g%eo)
 !
-!      else if (Variable_info%id .eq. eos_ID) then
-!         call return_eos (Variable_info,           ! '(mm)'
+!      else if (Variable_info%id .eq. eosID) then
+!         call return_eos (Variable_info           ! '(mm)'
 !     :                              , g%eos)
 !
-!      else if (Variable_info%id .eq. total_cover_ID) then
+!      else if (Variable_info%id .eq. total_coverID) then
 !         crop_cover = sum_cover_array (g%cover_tot, g%num_crops)
 !         total_cover = add_cover (crop_cover, g%residue_cover)
-!         call return_ (Variable_info,           ! '()'
+!         call return_ (Variable_info           ! '()'
 !     :                             , total_cover)
 
-!      else if (Variable_info%id .eq. cover_surface_runoff_ID) then
-!         call return_cover_surface_runoff (Variable_info,           ! '()'
+!      else if (Variable_info%id .eq. cover_surface_runoffID) then
+!         call return_cover_surface_runoff (Variable_info           ! '()'
 !     :                             , g%cover_surface_runoff)
 
-!      else if (Variable_info%id .eq. cn2_new_ID) then
-!         call return_cn2_new (Variable_info,           ! '()'
+!      else if (Variable_info%id .eq. cn2_newID) then
+!         call return_cn2_new (Variable_info           ! '()'
 !     :                              , g%cn2_new)
 
-!      else if (Variable_info%id .eq. runoff_ID) then
-!         call return_runoff (Variable_info,           ! '(mm)'
+!      else if (Variable_info%id .eq. runoffID) then
+!         call return_runoff (Variable_info           ! '(mm)'
 !     :                              , g%runoff)
 
-!      else if (Variable_info%id .eq. pond_ID) then
+!      else if (Variable_info%id .eq. pondID) then
 !         call return_pond (Variable_info%id,           ! '(mm)'
 !     :                              , g%pond)
 
-      else if (Variable_info%id .eq. drain_ID) then
-         call return_drain (Variable_info,           ! '(mm)'
+      else if (Variable_info%id .eq. drainID) then
+         call return_drain (Variable_info           ! '(mm)'
      :                              , g%drain)
 
-      else if (Variable_info%id .eq. infiltration_ID) then
-         call return_infiltration (Variable_info,           ! '(mm)'
+      else if (Variable_info%id .eq. infiltrationID) then
+         call return_infiltration (Variable_info           ! '(mm)'
      :                             , g%infiltration)
 
-!      else if (Variable_info%id .eq. eff_rain_ID) then
+!      else if (Variable_info%id .eq. eff_rainID) then
 !         es = sum_real_array(g%es_layers, max_layer)
 !         eff_rain = g%rain - g%runoff - g%drain
-!         call return_eff_rain (Variable_info,           ! '(mm)'
+!         call return_eff_rain (Variable_info           ! '(mm)'
 !     :                             , eff_rain)
 
-!      else if (Variable_info%id .eq. salb_ID) then
-!         call return_salb (Variable_info,           ! '(mm)'
+!      else if (Variable_info%id .eq. salbID) then
+!         call return_salb (Variable_info           ! '(mm)'
 !     :                              , p%salb)
 
-      elseif (Variable_info%id .eq. bd_ID) then
+      elseif (Variable_info%id .eq. bdID) then
          num_layers = count_of_real_vals (p%dlayer, max_layer)
-         call return_bd (Variable_info,           ! '(g/cc)'
+         call return_bd (Variable_info           ! '(g/cc)'
      :                               , g%bd, num_layers)
 
-      else if (Variable_info%id .eq. esw_ID) then
+      else if (Variable_info%id .eq. eswID) then
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          esw = 0.0
@@ -3853,123 +3853,123 @@ c     he should have. Any ideas? Perhaps
             esw = esw + l_bound (g%sw_dep(layer) - g%ll15_dep(layer)
      :                        , 0.0)
 1000     continue
-         call return_esw (Variable_info,           ! '(mm)'
+         call return_esw (Variable_info           ! '(mm)'
      :                              , esw)
 
-      else if (Variable_info%id .eq. sw_dep_ID) then
+      else if (Variable_info%id .eq. sw_depID) then
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
-         call return_sw_dep (Variable_info,           ! '(mm)'
+         call return_sw_dep (Variable_info           ! '(mm)'
      :                               , g%sw_dep, num_layers)
 
-      else if (Variable_info%id .eq. sw_ID) then
+      else if (Variable_info%id .eq. swID) then
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 2000 layer = 1, num_layers
             temp_array(layer) = divide (g%sw_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 2000     continue
-         call return_sw (Variable_info,           ! '(mm/mm)'
+         call return_sw (Variable_info           ! '(mm/mm)'
      :                               , temp_array, num_layers)
 
-      else if (Variable_info%id .eq. dlayer_ID) then
+      else if (Variable_info%id .eq. dlayerID) then
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_dlayer (Variable_info,           ! '(mm)'
+         call return_dlayer (Variable_info           ! '(mm)'
      :                               , p%dlayer, num_layers)
 
-      else if (Variable_info%id .eq. ll15_dep_ID) then
+      else if (Variable_info%id .eq. ll15_depID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_ll15_dep (Variable_info,           ! '(mm)'
+         call return_ll15_dep (Variable_info           ! '(mm)'
      :                               , g%ll15_dep, num_layers)
 
-      else if (Variable_info%id .eq. ll15_ID) then
+      else if (Variable_info%id .eq. ll15ID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 3000 layer = 1, num_layers
             temp_array(layer) = divide (g%ll15_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 3000     continue
-         call return_ll15 (Variable_info,           ! '(mm/mm)'
+         call return_ll15 (Variable_info           ! '(mm/mm)'
      :                               , temp_array, num_layers)
 
-      else if (Variable_info%id .eq. dul_dep_ID) then
+      else if (Variable_info%id .eq. dul_depID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_dul_dep (Variable_info,           ! '(mm)'
+         call return_dul_dep (Variable_info           ! '(mm)'
      :                               , g%dul_dep, num_layers)
 
-      else if (Variable_info%id .eq. dul_ID) then
+      else if (Variable_info%id .eq. dulID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 4000 layer = 1, num_layers
             temp_array(layer) = divide (g%dul_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 4000     continue
-         call return_dul (Variable_info,           ! '(mm/mm)'
+         call return_dul (Variable_info           ! '(mm/mm)'
      :                               , temp_array, num_layers)
 
-      else if (Variable_info%id .eq. sat_dep_ID) then
+      else if (Variable_info%id .eq. sat_depID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_sat_dep (Variable_info,           ! '(mm)'
+         call return_sat_dep (Variable_info           ! '(mm)'
      :                               , g%sat_dep, num_layers)
 
-      else if (Variable_info%id .eq. sat_ID) then
+      else if (Variable_info%id .eq. satID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 5000 layer = 1, num_layers
             temp_array(layer) = divide (g%sat_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 5000     continue
-         call return_sat (Variable_info,           ! '(mm/mm)'
+         call return_sat (Variable_info           ! '(mm/mm)'
      :                               , temp_array, num_layers)
 
-      else if (Variable_info%id .eq. air_dry_dep_ID) then
+      else if (Variable_info%id .eq. air_dry_depID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_air_dry_dep (Variable_info,           ! '(mm)'
+         call return_air_dry_dep (Variable_info           ! '(mm)'
      :                               , g%air_dry_dep, num_layers)
 
-      else if (Variable_info%id .eq. air_dry_ID) then
+      else if (Variable_info%id .eq. air_dryID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 6000 layer = 1, num_layers
             temp_array(layer) = divide (g%air_dry_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 6000     continue
-         call return_air_dry (Variable_info,           ! '(mm/mm)'
+         call return_air_dry (Variable_info           ! '(mm/mm)'
      :                               , temp_array, num_layers)
 
-      else if (Variable_info%id .eq. flux_ID) then
+      else if (Variable_info%id .eq. fluxID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_flux (Variable_info,           ! '(mm)'
+         call return_flux (Variable_info           ! '(mm)'
      :                               , g%flux, num_layers)
 
-      else if (Variable_info%id .eq. flow_ID) then
+      else if (Variable_info%id .eq. flowID) then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call return_flow (Variable_info,           ! '(mm)'
+         call return_flow (Variable_info           ! '(mm)'
      :                    , g%flow, num_layers)
 
       ! --- Resultant water and solute flow output variables ---
-      else if (Variable_info%id .eq. flow_water_ID) then
+      else if (Variable_info%id .eq. flow_waterID) then
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 6100 layer = 1, num_layers
             temp_array(layer) = g%flux (layer)
      :                        - g%flow (layer)
  6100    continue
-         call return_flow_water (Variable_info,           ! '(mm)'
+         call return_flow_water (Variable_info           ! '(mm)'
      :                          , temp_array, num_layers)
 
-      else if (Variable_info%id .eq. water_table_ID) then
-         call return_water_table (Variable_info,     ! '(mm)'
+      else if (Variable_info%id .eq. water_tableID) then
+         call return_water_table (Variable_info     ! '(mm)'
      :                           , g%water_table)
 
-      else if (Variable_info%id .eq. sws_ID) then
+      else if (Variable_info%id .eq. swsID) then
          num_layers = count_of_real_vals (p%dlayer, max_layer)
-         call return_sws (Variable_info,           ! '(mm/mm)'
+         call return_sws (Variable_info           ! '(mm/mm)'
      :                   , g%sws, num_layers)
 
       else if (soilwat2_solute_output(Variable_info%id)) then
@@ -3978,7 +3978,7 @@ c     he should have. Any ideas? Perhaps
       else
          ! not my variable
 
-         call Message_unused ()
+!         call Message_unused ()
       endif
 
       call pop_routine (my_name)
@@ -3999,7 +3999,7 @@ c     he should have. Any ideas? Perhaps
 
 
 *+  Local variables
-      real flow_array(max_layers)
+      real flow_array(max_layer)
       integer layer
       integer num_layers
       integer solnum
@@ -4022,8 +4022,7 @@ c     he should have. Any ideas? Perhaps
 
          elseif (Variable_info%ID .eq. g%soluteIDs(solnum)%leach) then
             call return_Solute_N_Leach (Variable_info
-     :                             , g%solute_leach(solnum,:num_layers)
-     :                             , num_layers)
+     :                             , g%solute_leach(solnum, num_layers))
             soilwat2_solute_output = .true.
             exit
 
@@ -4062,6 +4061,9 @@ c     he should have. Any ideas? Perhaps
 *       201099 dph  zeroed g%irrigation
 *       240800 jngh moved rain, eadn, mint, maxt, day and year to separate s/r
 *       250800 jngh removed g%num_solutes
+
+*+  Local Variables
+       integer layer
 
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4172,12 +4174,14 @@ c         g%crop_module(:) = ' '               ! list of modules
          g%infiltration_pot  =  0.0                       ! surface ponding depth (mm)
          g%water_table = 0.0                  ! water table depth (mm)
          g%sws (:) = 0.0                      ! soil water (mm/layer)
-         g%Crop(:)%RootLayer(:)%Uptake= 0.0            ! Water uptake by crops over soil profile
          g%Crop(:)%demand = 0.0                    !
-         g%Crop(:)%RootLayer(:)%uptakePot = 0.0
-         g%Crop(:)%RootLayer(:)%rld = 0.0
          g%Crop(:)%numLayers  = 0
          g%Crop(:)%name    = ' '
+         do layer = 1, max_layer
+            g%Crop(1:max_crops)%RootLayer(layer)%Uptake= 0.0            ! Water uptake by crops over soil profile
+            g%Crop(1:max_crops)%RootLayer(layer)%uptakePot = 0.0
+            g%Crop(1:max_crops)%RootLayer(layer)%rld = 0.0
+         enddo
 
 * ====================================================================
 * Parameters
@@ -4263,8 +4267,8 @@ c         g%crop_module(:) = ' '               ! list of modules
       parameter (my_name  = 'soilwat2_zero_data_links')
 
 *+  Local Variables
-       integer solnum
-       type(SoluteID)::empty
+       integer layer
+       type(SoluteComponentIDs)::empty
 
 *- Implementation Section ----------------------------------
 
@@ -4274,13 +4278,15 @@ c         g%crop_module(:) = ' '               ! list of modules
 !      call fill_char_array (g%solute_owners, ' ', max_solute)
       call fill_logical_array (g%solute_mobility, .false., max_solute)
 
-      g%Crop(:)%RootLayer(:)%Uptake = 0.0
       g%Crop(:)%demand = 0.0
-      g%Crop(:)%RootLayer(:)%uptakePot = 0.0
-      g%Crop(:)%RootLayer(:)%rld = 0.0
       g%Crop(:)%numLayers  = 0
       g%num_crops = 0
       g%Crop(:)%name    = ' '
+      do layer = 1, max_layer
+         g%Crop(:)%RootLayer(layer)%Uptake = 0.0
+         g%Crop(:)%RootLayer(layer)%uptakePot = 0.0
+         g%Crop(:)%RootLayer(layer)%rld = 0.0
+      enddo
 
       empty%get = 0
       empty%set = 0
@@ -4289,7 +4295,7 @@ c         g%crop_module(:) = ' '               ! list of modules
       empty%up = 0
 
       g%num_solutes = 0
-      p%solute_names(:) = ' '
+      g%solute_names(:) = ' '
       g%soluteIDs(:) = empty
 
 !      g%num_crop_modules = 0
@@ -4391,7 +4397,7 @@ c         g%crop_module(:) = ' '               ! list of modules
       g%drain              = 0.0
       g%infiltration       = 0.0
 !      g%runoff             = 0.0
-      g%runoff_pot         = 0.0
+!      g%runoff_pot         = 0.0
 !      g%num_crops          = 0
 !      g%obsrunoff          = 0.0
 !      g%obsrunoff_found    = .false.
@@ -4732,7 +4738,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       integer    layer                 ! layer number
       integer    num_layers            ! number of soil profile layers
       character  line*100              ! temp output record
-      real       runoff_wf(max_layer)  ! weighting factor for runoff
+!      real       runoff_wf(max_layer)  ! weighting factor for runoff
       real       usw(max_layer)        ! unavail. sw (mm)
       real       asw(max_layer)        ! avail. sw (mm)
       real       masw(max_layer)       ! max unavail. sw (mm)
@@ -4753,11 +4759,13 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       line =
      :'         Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   '
-     ://'Runoff  SWCON'
+     ://' SWCON'
+!       ://'Runoff  SWCON'
       call write_string (line)
 
       line =
-     :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'
+     :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc'
+!     :'           mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf'
       call write_string (line)
 
       line =
@@ -4767,7 +4775,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
       num_layers = count_of_real_vals (p%dlayer, max_layer)
       depth_layer_top = 0.0
-      call soilwat2_runoff_depth_factor (runoff_wf)
+!      call soilwat2_runoff_depth_factor (runoff_wf)
 
       do 1000 layer = 1,num_layers
          depth_layer_bottom = depth_layer_top + p%dlayer(layer)
@@ -4782,7 +4790,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :          , divide (g%sat_dep(layer), p%dlayer(layer), 0.0)
      :          , divide (g%sw_dep(layer), p%dlayer(layer), 0.0)
      :          , g%bd(layer)
-     :          , runoff_wf(layer)
+     :                 !, runoff_wf(layer)
      :          , p%swcon(layer)
 
          call write_string (line)
@@ -5344,13 +5352,14 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      do 1000 crop_no = 1, g%num_crops
+      do crop_no = 1, g%num_crops
          num_layers = g%Crop(crop_no)%numLayers
          call soilwat2_sw_uptake(
      :          num_layers
      :        , g%Crop(crop_no)%demand
      :        , g%Crop(crop_no)%RootLayer(1:num_layers)%uptakePot
      :        , g%Crop(crop_no)%RootLayer(1:num_layers)%Uptake)
+      enddo
 
       call pop_routine (myname)
       return
