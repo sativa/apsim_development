@@ -971,6 +971,7 @@ cjh      call Set_real_array('no3', sno3, nlayr, '(kg/ha)' )
 
 *   Global variables
        include 'ozcot.inc'           ! ozcot Common block
+       real    l_bound
 
 *   Internal variables
       real    yield                    ! lint yield kg/ha
@@ -1039,7 +1040,7 @@ cjh      call Set_real_array('no3', sno3, nlayr, '(kg/ha)' )
      :        , '(m^2/m^2)', alai)
 
       elseif (variable_name .eq. 'cover_green') then
-         cover = 1.0 - exp (-ozcot_kvalue * alai)
+         cover = l_bound (1.0 - exp (-ozcot_kvalue * alai), 0.0)
 
          call respond2get_real_var (variable_name
      :                             , '()'
@@ -1829,9 +1830,13 @@ cpsc      IF(I.EQ. ISQ+1) THEN
           IRELIEFCO = 0                 ! reset stress relief counter
       ENDIF
 
-      IF(BLOAD.GT.CUTOUT .AND. SMI.LT.0.75) ISTRESS = 1 ! set stress cutout flag
+cpsc      IF(BLOAD.GT.CUTOUT .AND. SMI.LT.0.75) ISTRESS = 1 ! set stress cutout flag
 
-      IF(SMI.GT.0.75 .AND. ISTRESS.GT.0) THEN
+cpsc      IF(SMI.GT.0.75 .AND. ISTRESS.GT.0) THEN
+
+      if(bload.gt.cutout.and.smi.lt.0.25) istress=1   ! 0.25 replaced 0.75 - ABH 5/11/96
+      if(smi.gt.0.25.and.istress.gt.0) then           ! 0.25 replaced 0.75 - ABH 5/11/96
+
           IRELIEFCO = IRELIEFCO + 1     ! count days since relief of stress
           IF(IRELIEFCO.EQ.7) THEN
               ISTRESS = 0               ! end stress effect on wterlogging
@@ -1840,8 +1845,13 @@ cpsc      IF(I.EQ. ISQ+1) THEN
       ENDIF
 
 C----Photosynthetic capacity --------------------------------------------------
+C-----light interception modified to give hedgerow effect with skip row - ABH 5/11/96 ------      
+      
+      ALAI = ALAI*RS               ! lai in hedgerow
+      ALIGHT = (1.-EXP(-ozcot_kvalue*ALAI)) ! original code  - now gives interception in hedgerow
+      ALIGHT =ALIGHT/RS            ! interception on ground area basis
+      ALAI = ALAI/RS               ! restore LAI to ground area basis
 
-      ALIGHT = (1.-EXP(-ozcot_kvalue*ALAI)) ! light interception, Beer's law.
       RADN_watts = SOLRAD*0.8942        ! convert RADN from ly to watts m**2
       P_gossym = 2.391+RADN_watts*(1.374-RADN_watts*0.0005414) ! GOSSYM line1275
       POT_PN = P_gossym*0.068           ! potential photosynthesis g/m2 CH2O
@@ -2054,11 +2064,19 @@ C       CULLS FUNCTIONS(UNPUBLISHED)
 
 
         XN1=0.404*ALOG(S)+1.49
+cpsc
+        ALAI = ALAI*RS              ! lai in hedgerow
         IF(ALAI.LT.XN1) THEN       ! when LAI below XN1 threshold
             TR=EXP(-0.6*ALAI)
         ELSE                        ! when LAI above XN1 threshold
             TR=EXP(-0.398*ALAI)
         ENDIF
+
+cpsc
+        F_INT = 1-TR                ! intercetion in hedgerow
+        F_INT = F_INT/RS            ! interception on ground area basis
+        TR =  1.-F_INT              ! transmission on ground area basis
+        ALAI = ALAI/RS              ! restore LAI to ground area basis
 
 C        IF(RS.GT.1.) TR = (TR+RS-1.)/RS ! adjust for rows wider than Im
 
@@ -3424,6 +3442,9 @@ c        RAINEF=RAINSI-Q
 c       CALL SEVAP(RAINSI)
 
 C------ CALCULATE POTENTIAL EP -------------------------------------------------
+C-------light interception modified to give hedgerow effect with skip row - ABH 5/11/96 ------      
+cpsc      
+        ALAI = ALAI*RS                   ! lai in hedgerow
 
         IF(ALAI.GT.3.) THEN
             EP=EO-ES
@@ -3435,6 +3456,9 @@ C------ CALCULATE POTENTIAL EP -------------------------------------------------
 
         IF(ALAI.EQ.0.0) EP=0.0
         IF(EP.LT.0.) EP=0.
+cpsc
+        EP = EP/RS                       ! EP on ground area basis
+        ALAI = ALAI/RS                   ! restore LAI to ground area basis
 
 C------ LIMIT EP USING WATCO(SMI) STRESS FACTOR --------------------------------
 
@@ -3851,7 +3875,7 @@ C     Estimates yield and gross margin at end of season
 C     calculate yield **********************************************************
 
       ALINT = OPENWT*10.*PCLINT          ! g sc/m to kg lint/ha
-      ALINT = ALINT/RS                   ! adjust for row spacing 2/5/90
+cpsc      ALINT = ALINT/RS                   ! adjust for row spacing 2/5/90
 
 c      PLNTZ = UPTAKN                     ! nitrogen uptake
 cpc   BOLLSC = 0.
