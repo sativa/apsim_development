@@ -633,8 +633,9 @@ void Coordinator::pollComponentsForGetVariable(const string& variableName)
       {
       string regComponent = lowerName.substr(0, posPeriod);
       string regName = lowerName.substr(posPeriod+1);
-      sendMessage(newApsimGetQueryMessage(componentID, componentNameToID(regComponent),
-                                          regName.c_str()));
+      unsigned toID = componentNameToID(regComponent);
+      if (toID != INT_MAX)
+         sendMessage(newApsimGetQueryMessage(componentID, toID, regName.c_str()));
       }
    else
       {
