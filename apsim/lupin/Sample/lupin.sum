@@ -20,7 +20,7 @@
      Title                  = lupin Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
@@ -263,18 +263,18 @@
 16 May 1988 (Day of year=137):
    LUPIN:
        stage    3.0 emergence
-                           biomass =           5.000000       lai =    0.2500000e-01
-                           stover N conc =    5.999999       extractable sw =    18.70777
+                           biomass =           5.000000       lai =    0.2500000E-01
+                           stover N conc =    5.999999       extractable sw =    18.70776
 20 June 1988 (Day of year=172):
    LUPIN:
        stage    4.0 end_of_juvenile
                            biomass =           12.32051       lai =    0.2105270    
-                           stover N conc =    4.454634       extractable sw =    144.5708
+                           stover N conc =    4.454634       extractable sw =    144.5707
 20 July 1988 (Day of year=202):
    LUPIN:
        stage    5.0 floral_initiation
                            biomass =           52.96671       lai =     1.210069    
-                           stover N conc =    3.140202       extractable sw =    261.5826
+                           stover N conc =    3.140202       extractable sw =    261.5825
 22 July 1988 (Day of year=204):
    LUPIN:
        stage    6.0 flowering
@@ -284,7 +284,7 @@
    LUPIN:
        stage    7.0 start_grain_fill
                            biomass =           208.8169       lai =     2.812331    
-                           stover N conc =    2.046027       extractable sw =    281.3923
+                           stover N conc =    2.046027       extractable sw =    281.3922
 2 October 1988 (Day of year=276):
    LUPIN:
        stage    8.0 end_grain_fill
@@ -294,11 +294,11 @@
    LUPIN:
        stage    9.0 maturity
                            biomass =           498.5793       lai =     1.832900    
-                           stover N conc =    2.010342       extractable sw =    226.3066
+                           stover N conc =    2.010342       extractable sw =    226.3065
 6 October 1988 (Day of year=280):
    LUPIN:
        stage   10.0 harvest_ripe
-                           biomass =           498.5793       lai =    0.4768372e-06
+                           biomass =           498.5793       lai =    0.4768372E-06
                            stover N conc =    2.261842       extractable sw =    221.8035
 7 October 1988 (Day of year=281):
    MANAGER:
