@@ -27,6 +27,43 @@ struct ParamFile
    string fileName;
    string sectionName;
    };
+
+// ------------------------------------------------------------------
+// This class implements a component compare method based on the
+// order of components listed in the component.ordering file.
+// This class is used to sort modules before writing the .sim file.
+// ------------------------------------------------------------------
+class ComponentOrder
+   {
+   public:
+
+      // ------------------------------------------------------------------
+      // constructor - read in component order.
+      // ------------------------------------------------------------------
+      ComponentOrder(void)
+         {
+         IniFile componentOrdering(getApsimDirectory() + "\\apsim\\component.ordering");
+         componentOrdering.read("component_order", "component", components);
+         }
+      // ------------------------------------------------------------------
+      // Compare method used by sort.  Returns true if arg1 < arg2.
+      // ------------------------------------------------------------------
+      bool operator() (const ParamFile& arg1, const ParamFile& arg2)
+         {
+         for (unsigned i = 0; i != components.size(); i++)
+            {
+            if (Str_i_Eq(components[i], arg1.moduleName))
+               return true;
+            if (Str_i_Eq(components[i], arg2.moduleName))
+               return false;
+            }
+         return true; // neither are in list!!
+         }
+
+   private:
+      vector<string> components;
+   };
+
 // ------------------------------------------------------------------
 // Parse the specified 'module=' line to extract the module name,
 // the instance name and the parameter files and sections referenced.
@@ -453,6 +490,7 @@ bool ApsimControlFile::createSIM(const string& configurationFile,
 
       vector<ParamFile> modules;
       parseControlSection(fileName, section, modules);
+      sort(modules.begin(), modules.end(), ComponentOrder());
       for (vector<ParamFile>::iterator m = modules.begin();
                                        m != modules.end();
                                        m++)
@@ -486,7 +524,6 @@ bool ApsimControlFile::createSIM(const string& configurationFile,
       }
    return false;
    }
-
 // ------------------------------------------------------------------
 // Create default services in specified simulation
 // ------------------------------------------------------------------
