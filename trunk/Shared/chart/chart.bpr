@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 # section.
 # ---------------------------------------------------------------------------
 
-VERSION = BCB.03
+VERSION = BCB.04.04
 # ---------------------------------------------------------------------------
 PROJECT = chart.dll
 OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\Brush.obj \
@@ -28,13 +28,13 @@ OBJFILES = chart.obj low_level\XY_series.obj low_level\Bar_series.obj low_level\
 RESFILES =
 DEFFILE =
 RESDEPEN = $(RESFILES)
-LIBFILES = "..\..\..\..\Program Files\Borland\CBuilder3\Lib\memmgr.lib" \
-  ..\general\general.lib ..\data\data.lib
-LIBRARIES = 
-SPARELIBS = VCL35.lib VCLDB35.lib VCLX35.lib TEE4C.lib 
-PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
-  Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi tee4c.bpi \
-  teedb4c.bpi teeUI4c.bpi TeePro4c.bpi
+LIBFILES = "C:\Program Files\Borland\CBuilder3\Lib\memmgr.lib" ..\general\general.lib \
+  ..\data\data.lib
+LIBRARIES =
+SPARELIBS = vcl40.lib vcldb40.lib vclx40.lib TEE4C.lib
+PACKAGES = vclx40.bpi vcl40.bpi vcldb40.bpi vcldbx40.bpi bcbsmp40.bpi dclocx40.bpi \
+  qrpt40.bpi ibsmp40.bpi nmfast40.bpi tee4c.bpi teedb4c.bpi teeUI4c.bpi \
+  TeePro4c.bpi
 # ---------------------------------------------------------------------------
 PATHCPP = .;low_level;high_level
 PATHASM = .;
@@ -42,27 +42,27 @@ PATHPAS = .;
 PATHRC = .;
 DEBUGLIBPATH = $(BCB)\lib\debug
 RELEASELIBPATH = $(BCB)\lib\release
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
+USERDEFINES = BUILDING_CHART
 # ---------------------------------------------------------------------------
-CFLAG1 = -WD -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
-CFLAG2 = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\ \
-  -H=$(BCB)\lib\vcl35.csm
-CFLAG3 = -Tkh30000
-PFLAGS = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -U$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) \
-  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\ -$Y -$W -$O- -v \
-  -JPHN -M
-RFLAGS = -D_RTLDLL;BUILDING_CHART;USEPACKAGES \
-  -ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\ = /ihigh_level \
-  /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
+CFLAG1 = -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;.. -WD -Od -Hc \
+  -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
+  -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tWM
+CFLAG2 =
+CFLAG3 =
+PFLAGS = -U$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) \
+  -Ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;.. -DBUILDING_CHART \
+  -$YD -$W -$O- -v -M -JPHNE
+RFLAGS = -ihigh_level;low_level;$(BCB)\include;$(BCB)\include\vcl;.. -DBUILDING_CHART = \
+  /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
   /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
-AFLAGS = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL \
-  /dBUILDING_CHART /dUSEPACKAGES /mx /w2 /zd
-LFLAGS = -L$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) -aa -Tpd -x \
-  -Gn -Gi -v
+AFLAGS = /ihigh_level /ilow_level /i$(BCB)\include /i$(BCB)\include\vcl /i.. \
+  /dBUILDING_CHART /mx /w2 /zd
+LFLAGS = -L$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level;$(RELEASELIBPATH) \
+  -aa -Tpd -x -Gn -Gi -v
 IFLAGS =
 # ---------------------------------------------------------------------------
-ALLOBJ = c0d32.obj $(PACKAGES) sysinit.obj $(OBJFILES)
+ALLOBJ = c0d32.obj Memmgr.Lib $(PACKAGES) sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
@@ -96,26 +96,31 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..\
-Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=5
+Item0=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..
+Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;..Item1=high_level;low_level;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 Item2=
+Item3=
+Item4=
 
 [HistoryLists\hlLibraryPath]
-Count=3
-Item0=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
-Item1=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
-Item2=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Count=5
+Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib;low_level;high_level
+Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item2=$(BCB)\lib\obj;$(BCB)\lib;low_level;high_level
+Item3=c:\program files\borland\cbuilder3\lib;..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..\components\ui;..\components\general;c:\thypergrid;c:\rx-30\units;high_level;low_level;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=3
-Item0=_RTLDLL;BUILDING_CHART;USEPACKAGES
-Item1=_RTLDLL;USEPACKAGES;BUILDING_CHART
-Item2=_RTLDLL;USEPACKAGES
+Count=4
+Item0=BUILDING_CHART
+Item1=_RTLDLL;BUILDING_CHART;USEPACKAGES
+Item2=_RTLDLL;USEPACKAGES;BUILDING_CHART
+Item3=_RTLDLL;USEPACKAGES
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
@@ -123,6 +128,13 @@ DebugSourceDirs=$(BCB)\source\vcl
 [Parameters]
 RunParams=
 HostApplication=
+RemoteHost=
+RemotePath=
+RemoteDebug=0
+
+[Compiler]
+InMemoryExe=0
+ShowInfoMsgs=0
 
 !endif
 
