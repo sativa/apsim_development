@@ -2,5 +2,5 @@ pushd
 cd \development\apsim\wheat\validation
 c:\progra~1\rems\rems.exe wheat.mdb crop.tem met.tem validation
 ..\..\..\bin\apsrun.exe /Q  validation.con  
-rem pause
+c:\progra~1\R\rw1090pat\bin\Rterm.exe -slave < validation-1.r
 popd
