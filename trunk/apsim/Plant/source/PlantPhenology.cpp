@@ -403,23 +403,24 @@ void PlantPhenology::zeroStateVariables(void)
       phases[i].reset();
    }
 
-/////+  Purpose
-/////       Return an interpolated stage code from a table of stage_codes
-/////       and a nominated stage number. Returns the first or last table value if the stage number is not
-/////       found. Interpolation is done on thermal time.
-///// Hmmmmmm. This is very dodgy.
-///float PlantPhenology::stageCode (void) 
-///    {
-///if (currentStage < 3.0) return 3.0;
-///if (phases[currentStage].isFirstDay()) {
-///    float tt_tot = phases[currentStage].getTT();
-///    float phase_tt = phases[currentStage].getTTTarget();
-///    float fraction_of = divide (tt_tot, phase_tt, 0.0);
-///    fraction_of = bound(fraction_of, 0.0, 0.999);
-///    return((int)currentStage +  fraction_of);
-///}
-///return currentStage;
-///}
+//+  Purpose
+//       Return an interpolated stage code from a table of stage_codes
+//       and a nominated stage number. Returns the first or last table value if the stage number is not
+//       found. Interpolation is done on thermal time.
+// Hmmmmmm. This is very dodgy.
+float PlantPhenology::stageCode (void) 
+    {
+    if (currentStage < 3.0) return 3.0;
+    if (phases[currentStage].isFirstDay()) 
+        {
+        float tt_tot = phases[currentStage].getTT();
+        float phase_tt = phases[currentStage].getTTTarget();
+        float fraction_of = divide (tt_tot, phase_tt, 0.0);
+        fraction_of = bound(fraction_of, 0.0, 0.999);
+        return((int)currentStage +  fraction_of);
+        }
+    return currentStage;
+    }
 
 
 //////////////////////GetVariable etc////////////////////////////

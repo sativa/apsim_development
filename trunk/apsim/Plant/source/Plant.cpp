@@ -1050,7 +1050,7 @@ void Plant::plant_bio_grain_demand (int option /* (INPUT) option number */)
             , p.y_hi_max_pot
             , p.num_hi_max_pot
             , g.grain_energy
-                                   , &g.dlt_dm_grain_demand);
+            , &g.dlt_dm_grain_demand);
 
         }
     else if (option == 2)
@@ -5185,7 +5185,8 @@ void Plant::plant_n_conc_limits
 // (non-grain shoot) concentration below which N concentration
 // begins to affect plant growth.
 
-        stage_code = phenology->stageNumber();  /*was stageCode(), which uses "floor(stageNumber) + ttfrac". Not exactly the same..*/
+        //stage_code = phenology->stageNumber();
+        stage_code = phenology->stageCode();  /* uses "floor(stageNumber) + ttfrac". Not exactly the same..*/
         numvals = 1+count_of_real_vals( c_x_stage_code, max_table);
         n_conc_crit[stem] = linear_interp_real (stage_code
                                                 , c_x_stage_code
@@ -5199,7 +5200,7 @@ void Plant::plant_n_conc_limits
                                                , c_x_stage_code
                                                , c_y_n_conc_crit_pod
                                                , numvals);
-
+//fprintf(stdout, "ncl:%d,%.6f,%.6f,%.6f,%.6f\n", g.day_of_year, stage_code,n_conc_crit[stem],n_conc_crit[leaf], n_conc_crit[pod] );
 // the  minimum N concentration is the N concentration
 // below which N does not fall.
 
