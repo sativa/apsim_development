@@ -1,81 +1,184 @@
+      module ErosionModule
+!     ================================================================
+!     Erosion array sizes and constants
+!     ================================================================
+
+!   Short description:
+!      array size settings and constants
+
+!   Notes:
+!      none
+
+!   Attributes:
+!      Version:         Any hardware/Fortran77
+!      Extensions:      Long names <= 20 chars.
+!                       Lowercase
+!                       Underscore
+!                       Inline comments
+
+!   Changes:
+!     ML - 22/07/93
+!     PdeV 28/08/94
+!      081294 jngh
+!      300695 jngh changed max_layer from 11 to 100
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+      integer    max_layer             ! Maximum number of layers
+      parameter (max_layer = 100)
+
+      integer    freeb_model           ! start types at 1.
+      parameter (freeb_model = 1)
+
+      integer    rose_model
+      parameter (rose_model = 2)
+
+      integer    on
+      parameter (on = 1)
+
+      integer    off
+      parameter (off = 0)
+
+      type ErosionGlobals
+         real       bed_depth              ! depth to bedrock (mm)
+         real       runoff                 ! daily runoff (mm)
+         real       erosion_cover          ! cover used in soil loss eqn (0 - 1)
+         real       cover_extra            ! fudge factor for extra cover (0 - 1)
+!        real       total_cover            ! total cover (0 - 1) (may be redundant)
+!        real       resid_cover            ! residue cover (0 - 1)
+!        real       crop_cover             ! crop canopy cover (0 - 1)
+!        real       basal_cover            ! basal area of crop (0 - 1)
+!        real       contact_cover          ! contact cover used in soil loss eqn (0 - 1)
+         real       soil_loss_bed          ! daily soil loss in bed (t/ha)
+         real       soil_loss_susp         ! daily soil loss in suspension (t/ha)
+         integer    day_of_year
+         integer    year
+         real       dlayer(max_layer)
+         real       dlt_dlayer(max_layer)
+         real       bd(max_layer)          ! moist bulk density of soil (g/cm^3)
+      end type ErosionGlobals
+
+! ==============================================================================================
+
+      type ErosionParameters
+         real       slope                  ! field slope (%)  [input]
+         real       slope_length           ! slope length (m) [input]
+         real       k_factor_bed           ! USLE K factor (bedload)() [input]
+	 real       k_factor_susp          ! USLE K factor (suspended load)() [input]
+         real       p_factor               ! USLE P factor () [input]
+         real       ls_factor              ! USLE slope-length factor [calculated]
+         real       entrain_eff_bed        ! efficency of bedload entrainmnt (bare) [inp]
+         real       entrain_eff_susp       ! efficency of suspended load entrainmnt (bare) [inp]
+         real       profile_layer_merge    ! layer thickness threshold - below
+                                             !  this fraction of original layer,
+                                             !  the layer is absorbed into the
+                                             !  layer above.
+         real       layer_merge_mm         ! mm reflecting above
+         real       minimum_depth          ! mm of dirt below which model stops
+!        real       crop_cover_wtg         ! weighting factor to use crop cover
+         real       eros_rose_b2_bed       !  ??jpd?? coeff for calculating
+                                             ! lambda in Rose model (bedload)
+         real       eros_rose_b2_susp      !  ??jpd?? coeff for calculating
+                                             ! lambda in Rose model (suspended load)
+         integer    model_type             ! whose model we're using
+         integer    profile_reduction      ! on or off..
+      end type ErosionParameters
+
+! ==============================================================================================
+      ! instance variables.
+      type (ErosionGlobals), pointer :: g
+      type (ErosionParameters), pointer :: p
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type ErosionDataPtr
+         type (ErosionGlobals), pointer ::    gptr
+         type (ErosionParameters), pointer :: pptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type ErosionDataPtr
+      type (ErosionDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+
+      contains
+
+
+
 C     Last change:  P     8 Nov 2000    3:30 pm
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use ErosionModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
 
 *+  Mission Statement
 *     Instantiate routine
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use ErosionModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
 
 *+  Mission Statement
 *     De-Instantiate routine
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
-       
+
       return
-      end
-     
+      end subroutine
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use ErosionModule
       Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
 
 *+  Mission Statement
 *     Swap an instance into global pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
-       
+
       return
-      end
+      end subroutine
 * ====================================================================
       subroutine Main (Action, Data_string)
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -101,11 +204,11 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       parameter (my_name = 'erosion')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! initialise error flags
- 
+
       if (Action.eq.ACTION_Init) then
             ! initilization once per run
             ! start with a clean slate
@@ -113,7 +216,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
          call erosion_get_other_variables ()
          call erosion_init ()   ! get parameters & do initial one-off calc's
          call erosion_write_summary () ! tell summary file what we're using
- 
+
       else if (Action.eq.ACTION_Process) then
          call erosion_zero_daily_variables ()
             ! get todays variables
@@ -122,32 +225,31 @@ C     Last change:  P     8 Nov 2000    3:30 pm
          call erosion_process ()
             ! send back changed variables.
          call erosion_set_other_variables ()
- 
+
       else if (Action.eq.ACTION_Get_variable) then
             ! respond to requests from other modules
          call erosion_send_my_variable (Data_string)
- 
+
       else if (Action.eq.ACTION_Set_variable) then
          call erosion_set_my_variable (data_string)
- 
+
       else if (Action.eq.ACTION_end_run) then
          call erosion_end_run ()
- 
+
       else
             ! Do nothing..
          call Message_unused ()
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_init ()
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -155,7 +257,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
 *     Initialise erosion module
 
 *+  Mission Statement
-*       Initialise SoilWat module      
+*       Initialise SoilWat module
 
 *+  Changes
 *     DMS 25/02/94 (new template)
@@ -171,55 +273,54 @@ C     Last change:  P     8 Nov 2000    3:30 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! Notify system that we have initialised
       call Write_string (' Initialising: ')
- 
+
          ! Get all parameters from parameter file
       call erosion_read_param ()
- 
+
          ! Sanity checking
       if (g%bed_depth .lt. sum_real_array(g%dlayer, max_layer)) then
           call fatal_error(err_user,
      :                  'Depth to bedrock is less than profile depth')
       else
       endif
- 
+
       if (p%model_type .ne. freeb_model .and.
      :    p%model_type .ne. rose_model ) then
          call fatal_error(err_user, 'Unknown model_type.')
       else
       endif
- 
+
          ! Calculate USLE LS factor
       s = p%slope * pcnt2fract
       a = 0.6 * (1.0 - exp (-35.835 * s))
       p%ls_factor = ((p%slope_length / 22.1) ** a)
      :            * (65.41*s*s + 4.56*s + 0.065)
- 
+
       if (p%profile_reduction .eq. on) then
- 
+
             ! find soil profile to calculate
             ! initial layer_merge_mm
          p%layer_merge_mm = g%dlayer(
      :                      count_of_real_vals (g%dlayer, max_layer))
      :                    * p%profile_layer_merge
- 
+
       else
          p%layer_merge_mm = 0.0
       endif
- 
- 
+
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_write_summary ()
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -242,42 +343,42 @@ C     Last change:  P     8 Nov 2000    3:30 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call write_string (new_line//new_line)
- 
+
       string = '                 Erosion Parameters'
       call write_string (string)
- 
+
       string = '     -----------------------------------------------'
       call write_string (string)
- 
+
       if (p%profile_reduction .eq. on) then
          write (string, '(a)')
      :          '      Profile reduction:                     on'
          call write_string (string)
- 
+
          write (string, '(a, f4.3)')
      :          '      Fraction of original layer for merge: '
      :                  , p%profile_layer_merge
          call write_string (string)
- 
+
       else
          write (string, '(a)')
      :          '      Profile reduction:                     off'
          call write_string (string)
       endif
- 
+
       if (p%model_type .eq. freeb_model) then
          write (string, '(2a)')
      :          '      Freebairn cover-sediment concentration model'
      :             , new_line
          call write_string (string)
- 
+
          write (string, '(a, f6.4, a)')
      :          '      LS factor:                             ',
      :          p%ls_factor, new_line
          call write_string (string)
- 
+
                      ! susp load K is 0.0 if not being used
          if (p%k_factor_susp .le. 0.0) then
            write (string, '(a, f6.4, a)')
@@ -294,19 +395,19 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :          p%k_factor_susp, new_line
            call write_string (string)
          endif
- 
+
          write (string, '(a, f6.4, a)')
      :          '      P factor:                              ',
      :          p%p_factor, new_line
          call write_string (string)
- 
+
       else if (p%model_type .eq. rose_model) then
- 
+
          write (string, '(2a)')
      :          '      Rose sediment concentration model'
      :                  , new_line
          call write_string (string)
- 
+
          if (p%entrain_eff_susp .le. 0.0) then
            write (string, '(a, f6.4, a)')
      :          '       Efficiency of entrainment:            '
@@ -322,34 +423,33 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :               , p%entrain_eff_susp, new_line
            call write_string (string)
          endif
- 
+
          write (string, '(a, f6.2, a)')
      :          '       Slope (%):                            ',
      :          p%slope, new_line
          call write_string (string)
- 
+
       else
             ! whoops - whats going on?
          write (string, '(2a)')
      :          '      ? Unknown model type ?'
      :                  , new_line
          call write_string (string)
- 
+
       endif
- 
+
       string = '     -----------------------------------------------'
       call write_string (string)
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_read_param ()
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -379,10 +479,10 @@ C     Last change:  P     8 Nov 2000    3:30 pm
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call write_string (
      :                 new_line//'   - Reading Parameters')
- 
+
                                 ! determine model type
       call read_char_var (
      :     section_name         ! Section header
@@ -390,31 +490,31 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :   , '()'                 ! Units
      :   , string               ! Variable
      :   , num_read)            ! Number of values returned
- 
+
       if (string(1:4) .eq. 'rose') then
          p%model_type = rose_model
- 
+
       else if (string(1:4) .eq. 'free') then
          p%model_type = freeb_model
- 
+
       else
          p%model_type = 0
- 
+
       endif
- 
+
       call read_char_var (
      :     section_name         ! Section header
      :   , 'profile_reduction'  ! Keyword
      :   , '()'                 ! Units
      :   , string               ! Variable
      :   , num_read)            ! Number of values returned
- 
+
       if (string(1:2) .eq. 'on') then
          p%profile_reduction = on
       else
          p%profile_reduction = off
       endif
- 
+
       call read_real_var (
      :     section_name         ! Section header
      :   , 'profile_layer_merge'  ! Keyword
@@ -423,7 +523,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :   , num_read             ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1.0)                 ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name         ! Section header
      :   , 'minimum_depth'      ! Keyword
@@ -432,7 +532,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :   , num_read             ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1000.0)              ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name         ! Section header
      :   , 'slope'              ! Keyword
@@ -441,7 +541,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :   , num_read             ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 100.0)               ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name         ! Section header
      :   , 'slope_length'       ! Keyword
@@ -450,7 +550,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :   , num_read             ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 100.0)               ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name         ! Section header
      :   , 'bed_depth'          ! Keyword
@@ -459,7 +559,7 @@ C     Last change:  P     8 Nov 2000    3:30 pm
      :   , num_read             ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 5000.0)              ! Upper Limit for bound checking
- 
+
 cPdeV - used for fudges
 c      call read_real_var (
 c     :     section_name         ! Section header
@@ -469,7 +569,7 @@ c     :   , p%crop_cover_wtg     ! Variable
 c     :   , num_read             ! Number of values returned
 c     :   , 0.0                  ! Lower Limit for bound checking
 c     :   , 1.0)                 ! Upper Limit for bound checking
- 
+
       call read_real_var_optional (
      :     section_name         ! Section header
      :   , 'cover_extra'        ! Keyword
@@ -478,10 +578,10 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
      :   , num_read             ! Number of values returned
      :   , -1.0                 ! Lower Limit for bound checking
      :   , 1.0)                 ! Upper Limit for bound checking
- 
+
                                 ! model specific parameters..
       if (p%model_type .eq. freeb_model) then
- 
+
          call read_real_var_optional (
      :        section_name      ! Section header
      :      , 'k_factor'        ! Keyword
@@ -518,9 +618,9 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
      :      , num_read          ! Number of values returned
      :      , 0.0               ! Lower Limit for bound checking
      :      , 1.0)              ! Upper Limit for bound checking
- 
+
       else if (p%model_type .eq. rose_model) then
- 
+
          call read_real_var_optional (
      :        section_name      ! Section header
      :      , 'entrain_eff'     ! Keyword
@@ -537,7 +637,7 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
      :      , num_read_b2       ! Number of values returned
      :      , 0.01              ! Lower Limit for bound checking
      :      , 0.2)              ! Upper Limit for bound checking
- 
+
          if (num_read_eteff .ne. 1 .or. num_read_b2 .ne. 1) then
            call read_real_var (
      :          section_name      ! Section header
@@ -577,17 +677,16 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
       else
                                 ! nothing - unknown model type. A fatal error will be sent.
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_zero_variables ()
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -606,9 +705,9 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call erosion_zero_daily_variables ()
- 
+
 c      p%crop_cover_wtg       = 0.0
       p%entrain_eff_bed      = 0.0
       p%eros_rose_b2_bed     = 0.0
@@ -618,7 +717,7 @@ c      p%crop_cover_wtg       = 0.0
       p%model_type           = 0
       p%profile_reduction    = 0
       p%profile_layer_merge  = 0.0
- 
+
       p%slope        = 0.0
       p%slope_length = 0.0
       p%ls_factor    = 0.0
@@ -626,7 +725,7 @@ c      p%crop_cover_wtg       = 0.0
       p%k_factor_susp= 0.0
       p%p_factor     = 0.0
       p%layer_merge_mm = 0.0
- 
+
       g%bed_depth    = 0.0
       g%runoff       = 0.0
       g%soil_loss_bed  = 0.0
@@ -637,17 +736,16 @@ c      p%crop_cover_wtg       = 0.0
       g%cover_extra  = 0.0
 c      g%contact_cover= 0.0
 c      g%total_cover  = 0.0
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine erosion_zero_daily_variables ()
 *     ===========================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -667,31 +765,30 @@ c      g%total_cover  = 0.0
       parameter (my_name  = 'erosion_zero_daily_variables')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
           !  zero pools etc.
       call fill_real_array (g%dlayer, 0.0, max_layer)
       call fill_real_array (g%dlt_dlayer, 0.0, max_layer)
       call fill_real_array (g%bd, 0.0, max_layer)
- 
+
       g%soil_loss_bed = 0.0
       g%soil_loss_susp = 0.0
 c      g%crop_cover = 0.0
 c      g%basal_cover = 0.0
 c      g%resid_cover = 0.0
- 
- 
+
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_get_other_variables ()
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -717,7 +814,7 @@ c      real       visible_contact_cover
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
                                 ! Get Year
       call get_integer_var(
      :     unknown_module       ! Module that responds (Not Used)
@@ -727,7 +824,7 @@ c      real       visible_contact_cover
      :   , numvals              ! Number of values returned
      :   , min_year             ! Lower Limit for bound checking
      :   , max_year  )          ! Upper Limit for bound checking
- 
+
       call get_integer_var(
      :     unknown_module       ! Module that responds (Not Used)
      :   , 'day'                ! Variable Name
@@ -736,7 +833,7 @@ c      real       visible_contact_cover
      :   , numvals              ! Number of values returned
      :   , 0                    ! Lower Limit for bound checking
      :   , 366  )               ! Upper Limit for bound checking
- 
+
                                 ! Get runoff
       call Get_real_var(
      :     unknown_module       ! Module that responds (Not Used)
@@ -746,7 +843,7 @@ c      real       visible_contact_cover
      :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1000.0)              ! Upper Limit for bound checking
- 
+
 !      call Get_real_var (
 !     :     unknown_module       ! Module that responds (Not Used)
 !     :   , 'total_cover'        ! Variable Name
@@ -755,7 +852,7 @@ c      real       visible_contact_cover
 !     :   , numvals              ! Number of values returned
 !     :   , 0.0                  ! Lower Limit for bound checking
 !     :   , 1.0 )                ! Upper Limit for bound checking
- 
+
       call Get_real_var (
      :     unknown_module       ! Module that responds (Not Used)
      :   , 'cover_surface_runoff' ! Variable Name
@@ -764,7 +861,7 @@ c      real       visible_contact_cover
      :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 1.0 )                ! Upper Limit for bound checking
- 
+
 !      g%erosion_cover = bound(total_cover + g%cover_extra, 0.0, 1.0)
       g%erosion_cover = bound(cover_surface_runoff + g%cover_extra
      :                        , 0.0, 1.0)
@@ -818,7 +915,7 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
      :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 2000.0)              ! Upper Limit for bound checking
- 
+
       call get_real_array(
      :     unknown_module       ! Module that responds (Not Used)
      :   , 'bd'                 ! Variable Name
@@ -828,17 +925,16 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
      :   , numvals              ! Number of values returned
      :   , 0.0                  ! Lower Limit for bound checking
      :   , 10.0)               ! Upper Limit for bound checking
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_set_my_variable (variable_name)
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -867,9 +963,9 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (variable_name .eq. 'cover_extra') then
- 
+
          call collect_real_var (
      :       variable_name      ! Name of Variable  (not used)
      :      , units             ! Units of variable (not used)
@@ -877,22 +973,21 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
      :      , numvals
      :      , -1.0
      :      , 1.0)
- 
+
       else
              ! nothing
          call Message_unused ()
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_set_other_variables ()
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -917,34 +1012,33 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
          ! no soil loss -> no profile change
       if ((g%soil_loss_bed + g%soil_loss_susp) .gt. 0.0 .and.
      :     p%profile_reduction .eq. on) then
- 
+
          num_layers = count_of_real_vals (g%dlayer, max_layer)
- 
+
          call set_real_array (
      :          unknown_module
      :        , 'dlt_dlayer'
      :        , '(mm)'
      :        , g%dlt_dlayer
      :        , num_layers)      ! trailing 0s
- 
+
       else
          ! nothing
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_send_my_variable (variable_name)
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -972,86 +1066,85 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       real       sed_conc              ! sediment concentration (g/l)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       soil_loss_tha = g%soil_loss_bed + g%soil_loss_susp
- 
+
       if (Variable_name .eq. 'soil_loss') then
          call respond2get_real_var (variable_name
      :                             , '(t/ha)'
      :                             , soil_loss_tha)
- 
+
       else if (Variable_name .eq. 'soil_loss_bed') then
          call respond2get_real_var (variable_name
      :                             , '(t/ha)'
      :                             , g%soil_loss_bed)
- 
+
       else if (Variable_name .eq. 'soil_loss_susp') then
          call respond2get_real_var (variable_name
      :                             , '(t/ha)'
      :                             , g%soil_loss_susp)
- 
+
       else if (Variable_name .eq. 'soil_loss_mm') then
          soil_loss_mm = divide (soil_loss_tha * t2g/ha2scm
      :                        , g%bd(1), 0.0)
      :                * cm2mm
- 
+
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , soil_loss_mm)
- 
+
       else if (Variable_name .eq. 'sed_conc') then
          sed_conc = divide (soil_loss_tha * t2g/ha2sm
      :                    , g%runoff * mm2lpsm, 0.0)
          call respond2get_real_var (variable_name
      :                             , '(g/l)'
      :                             , sed_conc)
- 
+
       else if (Variable_name .eq. 'sed_conc_bed') then
          sed_conc = divide (g%soil_loss_bed * t2g/ha2sm
      :                    , g%runoff * mm2lpsm, 0.0)
          call respond2get_real_var (variable_name
      :                             , '(g/l)'
      :                             , sed_conc)
- 
+
       else if (Variable_name .eq. 'sed_conc_susp') then
          sed_conc = divide (g%soil_loss_susp * t2g/ha2sm
      :                    , g%runoff * mm2lpsm, 0.0)
          call respond2get_real_var (variable_name
      :                             , '(g/l)'
      :                             , sed_conc)
- 
+
       else if (Variable_name .eq. 'bed_depth') then
          call respond2get_real_var (variable_name
      :                             , '(mm)'
      :                             , g%bed_depth )
- 
+
       else if (Variable_name .eq. 'erosion_cover') then
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%erosion_cover)
- 
+
       else if (Variable_name .eq. 'cover_extra') then
          call respond2get_real_var (variable_name
      :                             , '()'
      :                             , g%cover_extra)
- 
+
       else
             ! nothing
          call Message_unused ()
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
       subroutine erosion_process ( )
 * ====================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1071,19 +1164,19 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       g%soil_loss_bed = 0.0
       g%soil_loss_susp = 0.0
- 
+
       if (p%model_type .eq. freeb_model) then
          call erosion_freeb (g%soil_loss_bed, g%soil_loss_susp)
- 
+
       else if (p%model_type .eq. rose_model) then
          call erosion_rose (g%soil_loss_bed, g%soil_loss_susp)
- 
+
       else
       endif
- 
+
       if ((g%soil_loss_bed + g%soil_loss_susp .gt. 0.0) .and.
      :    p%profile_reduction .eq. on) then
             ! move profile
@@ -1091,17 +1184,16 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
       else
          ! nothing
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine erosion_freeb (bed_loss, susp_loss)
 *     ===========================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1130,41 +1222,40 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       erosion_cover_pcnt = g%erosion_cover * fract2pcnt
       if (g%erosion_cover.lt.0.5)then
          sed_conc = 16.52
      :            - 0.46 * erosion_cover_pcnt
      :            + 0.0031 * erosion_cover_pcnt * erosion_cover_pcnt
- 
+
       else
          sed_conc = 2.54 - 0.0254 * erosion_cover_pcnt
- 
+
       endif
- 
+
       bed_loss = sed_conc * pcnt2fract * g2t/(g2mm * sm2ha)
      :              * p%ls_factor * p%k_factor_bed
      :              * p%p_factor * g%runoff
- 
+
       susp_loss = sed_conc * pcnt2fract * g2t/(g2mm * sm2ha)
      :              * p%ls_factor * p%k_factor_susp
      :              * p%p_factor * g%runoff
- 
+
 cjh      erosion_freeb = sed_conc
 cjh     :              * p%ls_factor * p%k_factor
 cjh     :              * p%p_factor * g%runoff  / 10.0
 cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine erosion_rose (bed_loss, susp_loss)
 *     ===========================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1207,38 +1298,37 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       lambda_bed = p%entrain_eff_bed
      :       * exp (- p%eros_rose_b2_bed * g%erosion_cover * fract2pcnt)
- 
+
       bed_loss = 2700.0 * (p%slope * pcnt2fract)
      :             * (1.0 - g%erosion_cover)
      :             * lambda_bed * g%runoff / 100.0
- 
- 
+
+
       lambda_susp = p%entrain_eff_susp
      :       * exp (- p%eros_rose_b2_susp *
      :               g%erosion_cover * fract2pcnt)
- 
+
       susp_loss = 2700.0 * (p%slope * pcnt2fract)
      :             * (1.0 - g%erosion_cover)
      :             * lambda_susp * g%runoff / 100.0
- 
+
 c      erosion_rose = 2700.0 * (p%slope * pcnt2fract)
 c     :             * (1.0 - g%erosion_cover)
 c     :             * lambda * g%runoff / 100.0
 cjh           what is the unit conversion here???
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine erosion_move_profile ()
 *     ================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1266,35 +1356,34 @@ cjh           what is the unit conversion here???
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call erosion_move_dlayr (g%dlt_dlayer, dlt_bed_depth)
- 
+
 c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
- 
+
       num_layers = count_of_real_vals (g%dlayer, max_layer)
- 
+
          ! was that too much?
       if (sum_real_array (g%dlayer, num_layers)
      :     + sum_real_array (g%dlt_dlayer, num_layers)
      :     .lt.  p%minimum_depth) then
- 
+
          call erosion_bomb_run ()
       else
          ! nothing
       endif
          ! update depth to bedrock
       g%bed_depth = g%bed_depth + dlt_bed_depth
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine erosion_bomb_run ()
 *     ================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1314,19 +1403,18 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call fatal_error (err_user, 'Out of soil to erode. Giving up.')
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine erosion_move_dlayr (dlt_dlayer, dlt_bed_depth)
 *     ================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1364,19 +1452,19 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call fill_real_array (dlt_dlayer, 0.0, max_layer)
       dlt_bed_depth = 0.0
- 
+
       num_layers = count_of_real_vals (g%dlayer, max_layer)
- 
+
          ! find density based change in each layer
- 
+
 
       top = (g%soil_loss_bed + g%soil_loss_susp) * t2g/ha2scm
       dlt_depth_mm =  divide (top, g%bd(1), 0.0) * cm2mm
 
- 
+
 c     What happens when layer completely eroded?
       if (dlt_depth_mm .gt. g%dlayer(1) ) then
          write (string, '(a)')
@@ -1386,9 +1474,9 @@ c     What happens when layer completely eroded?
       else
          ! nothing
       endif
-         
+
       dlt_depth_mm =  divide (top, g%bd(num_layers), 0.0) * cm2mm
- 
+
 c     What happens when layer completely eroded?
        if (dlt_depth_mm .gt. g%dlayer(num_layers) ) then
           write (string, '(a, i3, a)')
@@ -1397,23 +1485,23 @@ c     What happens when layer completely eroded?
      :          , ').' // New_line
      :          // 'PAWC calculations may be incorrect if BD '
      :         // 'is different to layer above.'
- 
+
          call warning_error (err_user, string)
       else
          ! nothing
       endif
 
- 
- 
+
+
          ! Check whether we've moved bedrock
          ! into the profile. If so, we have to change dlayer.
       tot_depth = sum_real_array(g%dlayer, num_layers)
      :          + dlt_depth_mm
- 
+
       if (tot_depth .gt. g%bed_depth ) then
          overrun = tot_depth - g%bed_depth
          dlt_bed_depth = - overrun
- 
+
          do 2000 i = num_layers, 1, -1
             if (overrun .gt. 0.0) then
                   ! yes - eroded into bedrock.
@@ -1445,17 +1533,16 @@ c     What happens when layer completely eroded?
             endif
  2000    continue
       endif
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ================================================================
       subroutine erosion_end_run ()
 *     ================================================================
-      use ErosionModule
       Use infrastructure
       implicit none
 
@@ -1463,7 +1550,7 @@ c     What happens when layer completely eroded?
 *      Perform cleanup because the current simulation is about to end.
 
 *+  Mission statement
-*      Perform cleanup because the current simulation is about to end
+*      Perform cleanup because the current simulation is about to end subroutine
 
 *+  Notes
 *      closes log file if necessary
@@ -1477,12 +1564,13 @@ c     What happens when layer completely eroded?
       parameter (my_name = 'erosion_end_run')
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
+      end module ErosionModule
