@@ -22,6 +22,7 @@
 #define BITMAP_NAME_KEY "WhopEcon|bitmap"
 #define SIMULATION_FACTOR_NAME "Simulation"
 #define WHOPECON_FIELDS "Crops"
+#define NO_ECONOMICS_NAME "(no economics)"
 // ------------------------------------------------------------------
 // Exported function for created an instance of this add-in
 // ------------------------------------------------------------------
@@ -50,17 +51,8 @@ void WhopEcon::setStartupParameters(const std::string& parameters)
    settings.read(MDB_KEY, econMDB, true);
    gm.open(econMDB);
 
-   // get a default econ config name
-   vector<string> scenarioNames;
-   gm.getScenarioNames(scenarioNames);
-   string defaultScenarioName;
-   if (scenarioNames.size() > 0)
-      defaultScenarioName =  scenarioNames[0];
-   else
-      defaultScenarioName = "Empty";
-
    // create a factor with the default name
-   Factor econ(WHOPECON_FACTOR_NAME, defaultScenarioName.c_str());
+   Factor econ(WHOPECON_FACTOR_NAME, NO_ECONOMICS_NAME);
    factors.push_back(econ);
    }
 // ------------------------------------------------------------------
@@ -104,7 +96,10 @@ void WhopEcon::getFactorValues(const Scenario& scenario,
                                    std::vector<std::string>& factorValues) const
    {
    if (factorName == WHOPECON_FACTOR_NAME)
+      {
+      factorValues.push_back(NO_ECONOMICS_NAME);
       gm.getScenarioNames(factorValues);
+      }
    }
 // ------------------------------------------------------------------
 // display our form.
@@ -138,113 +133,115 @@ void WhopEcon::doCalculations(TAPSTable& data, const Scenario& scenario)
       // find the corresponding Scenario and the economic configuration name
       // that is used for this data block.
       string econConfigName = scenario.getFactorValue(WHOPECON_FACTOR_NAME);
-
-      // get a list of crops that have variables on the current record.
-      CropFields cropFields(data.begin());
-
-      // dph - need to remove const record iterators.
-      typedef vector<TAPSRecord>::iterator RecordsIterator;
-      for (RecordsIterator record = const_cast<RecordsIterator> (data.begin());
-                           record != const_cast<RecordsIterator> (data.end());
-                           record++)
+      if (econConfigName != NO_ECONOMICS_NAME)
          {
-         string rec_name = record->getFieldValue(SIMULATION_FACTOR_NAME);
-         unsigned posEconFactorName = rec_name.find(string(WHOPECON_FACTOR_NAME) + "=");
-         string recordEconName;
-         if (posEconFactorName != string::npos)
+         // get a list of crops that have variables on the current record.
+         CropFields cropFields(data.begin());
+
+         // dph - need to remove const record iterators.
+         typedef vector<TAPSRecord>::iterator RecordsIterator;
+         for (RecordsIterator record = const_cast<RecordsIterator> (data.begin());
+                              record != const_cast<RecordsIterator> (data.end());
+                              record++)
             {
-            recordEconName = rec_name.substr(posEconFactorName+strlen(WHOPECON_FACTOR_NAME)+1);
-            unsigned posSemiColon = recordEconName.find(';');
-            if (posSemiColon != string::npos)
-               recordEconName.erase(posSemiColon);
-            }
-         if (recordEconName != "" && recordEconName != econConfigName)
-            break;
-
-         // create a new column for the configuration name.
-         record->setFieldValue(WHOPECON_FACTOR_NAME, econConfigName);
-
-         // go get a list of crop acronyms.
-         vector<string> cropAcronyms;
-         cropFields.getCropAcronyms(*record, cropAcronyms);
-
-         // Loop through all crops on this record and calculate a total
-         // cost and return.
-         float gmCost = 0.0;
-         float gmReturn = 0.0;
-         for (vector<string>::iterator cropAcronymI = cropAcronyms.begin();
-                                       cropAcronymI != cropAcronyms.end();
-                                       cropAcronymI++)
-            {
-            if (cropFields.cropWasSownByAcronym(*record, *cropAcronymI))
+            string rec_name = record->getFieldValue(SIMULATION_FACTOR_NAME);
+            unsigned posEconFactorName = rec_name.find(string(WHOPECON_FACTOR_NAME) + "=");
+            string recordEconName;
+            if (posEconFactorName != string::npos)
                {
-               string cropName = cropFields.realCropName(*cropAcronymI).c_str();
-               try
+               recordEconName = rec_name.substr(posEconFactorName+strlen(WHOPECON_FACTOR_NAME)+1);
+               unsigned posSemiColon = recordEconName.find(';');
+               if (posSemiColon != string::npos)
+                  recordEconName.erase(posSemiColon);
+               }
+            if (recordEconName != "" && recordEconName != econConfigName)
+               break;
+
+            // create a new column for the configuration name.
+            record->setFieldValue(WHOPECON_FACTOR_NAME, econConfigName);
+
+            // go get a list of crop acronyms.
+            vector<string> cropAcronyms;
+            cropFields.getCropAcronyms(*record, cropAcronyms);
+
+            // Loop through all crops on this record and calculate a total
+            // cost and return.
+            float gmCost = 0.0;
+            float gmReturn = 0.0;
+            for (vector<string>::iterator cropAcronymI = cropAcronyms.begin();
+                                          cropAcronymI != cropAcronyms.end();
+                                          cropAcronymI++)
+               {
+               if (cropFields.cropWasSownByAcronym(*record, *cropAcronymI))
                   {
-                  // if crop is wheat then get protein.
-                  float protein = 0.0;
-                  if (Str_i_Eq(cropName, "Wheat"))
+                  string cropName = cropFields.realCropName(*cropAcronymI).c_str();
+                  try
                      {
-                     if (!cropFields.getCropValue(*record, "protein", *cropAcronymI, protein))
+                     // if crop is wheat then get protein.
+                     float protein = 0.0;
+                     if (Str_i_Eq(cropName, "Wheat"))
                         {
-                        addWarning("Cannot find a wheat protein column.");
-                        continue;
+                        if (!cropFields.getCropValue(*record, "protein", *cropAcronymI, protein))
+                           {
+                           addWarning("Cannot find a wheat protein column.");
+                           continue;
+                           }
                         }
+
+                     // get yield from file and add a new WET weight column.
+                     string yieldFieldName = cropFields.getCropFieldName
+                        (*record, "yield", *cropAcronymI);
+                     string wetYieldFieldName = yieldFieldName + "WET";
+
+                     float dryYield = 0.0;
+                     if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, dryYield))
+                        addWarning("Cannot find a yield column for crop: " + cropName);
+                     gm.adjustYieldForHarvestLoss(econConfigName, cropName, dryYield);
+                     float wetYield = gm.calculateWetYield(econConfigName, cropName, dryYield);
+                     record->setFieldValue(wetYieldFieldName, FloatToStr(wetYield).c_str());
+
+                     // Calculate a return for this crop and store it as a new field
+                     // for this crop.
+                     float ret = gm.calculateReturn(econConfigName, cropName, wetYield, protein);
+                     string returnFieldName = *cropAcronymI + "_Return($ per ha)";
+                     record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
+                     gmReturn += ret;
+
+                     // get an nrate, a planting rate and calculate cost in $/ha
+                     float nitrogenRate = 0.0;
+                     if (!cropFields.getCropValue(*record, "NRate", *cropAcronymI, nitrogenRate))
+                        addWarning("Cannot find a nitrogen rate column for crop: " + cropName);
+                     float plantingRate = 0.0;
+                     if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
+                        addWarning("Cannot find a planting rate column for crop: " + cropName);
+
+                     gmCost += gm.calculateCost(econConfigName, cropName, nitrogenRate, plantingRate, wetYield);
+
+                     // tell 'data' about the new crop fields.
+                     data.addField(wetYieldFieldName);
+                     data.addField(returnFieldName);
                      }
-
-                  // get yield from file and add a new WET weight column.
-                  string yieldFieldName = cropFields.getCropFieldName
-                     (*record, "yield", *cropAcronymI);
-                  string wetYieldFieldName = yieldFieldName + "WET";
-
-                  float dryYield = 0.0;
-                  if (!cropFields.getCropValue(*record, "yield", *cropAcronymI, dryYield))
-                     addWarning("Cannot find a yield column for crop: " + cropName);
-                  gm.adjustYieldForHarvestLoss(econConfigName, cropName, dryYield);
-                  float wetYield = gm.calculateWetYield(econConfigName, cropName, dryYield);
-                  record->setFieldValue(wetYieldFieldName, FloatToStr(wetYield).c_str());
-
-                  // Calculate a return for this crop and store it as a new field
-                  // for this crop.
-                  float ret = gm.calculateReturn(econConfigName, cropName, wetYield, protein);
-                  string returnFieldName = *cropAcronymI + "_Return($ per ha)";
-                  record->setFieldValue(returnFieldName, FloatToStr(ret).c_str());
-                  gmReturn += ret;
-
-                  // get an nrate, a planting rate and calculate cost in $/ha
-                  float nitrogenRate = 0.0;
-                  if (!cropFields.getCropValue(*record, "NRate", *cropAcronymI, nitrogenRate))
-                     addWarning("Cannot find a nitrogen rate column for crop: " + cropName);
-                  float plantingRate = 0.0;
-                  if (!cropFields.getCropValue(*record, "PlantRate", *cropAcronymI, plantingRate))
-                     addWarning("Cannot find a planting rate column for crop: " + cropName);
-
-                  gmCost += gm.calculateCost(econConfigName, cropName, nitrogenRate, plantingRate, wetYield);
-
-                  // tell 'data' about the new crop fields.
-                  data.addField(wetYieldFieldName);
-                  data.addField(returnFieldName);
-                  }
-               catch (const runtime_error& err)
-                  {
-                  addWarning(err.what());
-                  continue;
+                  catch (const runtime_error& err)
+                     {
+                     addWarning(err.what());
+                     continue;
+                     }
                   }
                }
-            }
 
-         // create new columns for cost, return, gm and gm split by crop
-         record->setFieldValue("Cost($ per ha)", FloatToStr(gmCost).c_str());
-         record->setFieldValue("Return($ per ha)", FloatToStr(gmReturn).c_str());
-         record->setFieldValue("GM($ per ha)", FloatToStr(gmReturn - gmCost).c_str());
+            // create new columns for cost, return, gm and gm split by crop
+            record->setFieldValue("Cost($ per ha)", FloatToStr(gmCost).c_str());
+            record->setFieldValue("Return($ per ha)", FloatToStr(gmReturn).c_str());
+            record->setFieldValue("GM($ per ha)", FloatToStr(gmReturn - gmCost).c_str());
 
-         // tell 'data' about the new GM fields.
-         if (!haveInformedDataOfNewFields)
-            {
-            data.addField("Cost($ per ha)");
-            data.addField("Return($ per ha)");
-            data.addField("GM($ per ha)");
-            haveInformedDataOfNewFields = true;
+            // tell 'data' about the new GM fields.
+            if (!haveInformedDataOfNewFields)
+               {
+               data.addField("Cost($ per ha)");
+               data.addField("Return($ per ha)");
+               data.addField("GM($ per ha)");
+               haveInformedDataOfNewFields = true;
+               }
             }
          }
       ok = data.next();
