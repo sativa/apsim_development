@@ -16,19 +16,19 @@
 # Main target
 source: ..\lib\surfaceom.dll
 
-..\lib\surfaceom.dll: Registrations.obj surfaceom.obj surfaceom.imp $(STATICLINKEDOBJECTS) 
+..\lib\surfaceom.dll: Registrations.obj surfaceom.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
 	$(LF95) surfaceom.obj Registrations.obj  \
  -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\surfaceom.dll @linker.tmp
 	$(RM) linker.tmp
-   
+
 surfaceom.obj: surfaceom.f90
 
 Registrations.obj: Registrations.f90
 
-Registrations.f90: ..\surfaceom.interface 
+Registrations.f90: ..\surfaceom.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\surfaceom.interface
 
 clean:
