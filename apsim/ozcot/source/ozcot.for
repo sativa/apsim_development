@@ -652,6 +652,8 @@
 *      07/07/94 - jngh changed residue module reference to global_active
 *      170895 jngh changed message send to message pass to module
 *      250996 jngh changed to post_ construct
+*      191200 dph  changed from unknown_module to all_active_modules
+*                  unknown_module not supported in APSIM2.
 
 *+  Constant Values
       character  myname*(*)            ! name of subroutine
@@ -698,7 +700,7 @@
      :                        ,res_N)
 
          call Action_send (
-     :                              unknown_module
+     :                              All_active_modules
      :                            , 'add_residue'
      :                            , Blank
      :                            )
@@ -5847,6 +5849,9 @@
 
 *+  Changes
 *     010994 jngh specified and programmed
+*      191200 dph  changed from unknown_module to all_active_modules
+*                  unknown_module not supported in APSIM2.
+
 
 *+  Calls
                                        ! lu_scr_sum
@@ -5885,7 +5890,7 @@
      :                        ,res_N)
 
          call Action_send (
-     :                              unknown_module
+     :                              All_active_modules
      :                            , 'add_residue'
      :                            , Blank
      :                            )
