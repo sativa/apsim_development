@@ -2060,7 +2060,8 @@ cjh  changed 0.0 to 1.0
       dlt_slai_low_temp = sen_fac_temp * g_lai
       g_dlt_slai_frost = bound (dlt_slai_low_temp, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_frost, g_lai)) then
+      if (g_dlt_slai_frost .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_frost, g_lai)) then
          call Write_string ('Frost kills all leaves.')
       endif
       call pop_routine (my_name)
@@ -2111,7 +2112,8 @@ cjh  changed 0.0 to 1.0
       endif
       g_dlt_slai_frost = bound (g_dlt_slai_frost, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_frost, g_lai)) then
+      if (g_dlt_slai_frost .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_frost, g_lai)) then
          call Write_string ('Frost kills all leaves.')
       endif
 
@@ -2235,7 +2237,8 @@ c      write(*,1000)tt_since_emerg, g_lai, g_slai, slai_today
 c     :   , g_lai_max_possible, g_dlt_slai_age
 
 1000  format(6f10.3)
-      if (reals_are_equal(g_dlt_slai_age, g_lai)) then
+      if (g_dlt_slai_age .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_age, g_lai)) then
          call Write_string ('Age kills all leaves.')
       endif
 
@@ -2315,7 +2318,8 @@ c     :   , g_lai_max_possible, g_dlt_slai_age
 
       g_dlt_slai_age = bound (slai_age - g_slai, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_age, g_lai)) then
+      if (g_dlt_slai_age .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_age, g_lai)) then
          call Write_string ('Age kills all leaves.')
       endif
 
@@ -2378,7 +2382,8 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       g_dlt_slai_light = g_lai * slai_light_fac
       g_dlt_slai_light = bound (g_dlt_slai_light, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_light, g_lai)) then
+      if (g_dlt_slai_light .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_light, g_lai)) then
          call Write_string ('Low light kills all leaves.')
       endif
 
@@ -2429,7 +2434,8 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       g_dlt_slai_water = g_lai * slai_water_fac
       g_dlt_slai_water = bound (g_dlt_slai_water, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_water, g_lai)) then
+      if (g_dlt_slai_water .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_water, g_lai)) then
          call Write_string ('Lack of water kills all leaves.')
       endif
 
@@ -2519,7 +2525,8 @@ c+!!!!!!!! should be based on reduction of intercepted light and k*lai
       endif
       g_dlt_slai_water = bound (g_dlt_slai_water, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_water, g_lai)) then
+      if (g_dlt_slai_water .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_water, g_lai)) then
          call Write_string ('Lack of water kills all leaves.')
       endif
 
@@ -2607,7 +2614,8 @@ c the leaf can't sustain itself.
 
       g_dlt_slai_light = bound (g_dlt_slai_light, 0.0, g_lai)
 
-      if (reals_are_equal(g_dlt_slai_light, g_lai)) then
+      if (g_dlt_slai_light .gt. 0.0 .and.
+     :    reals_are_equal(g_dlt_slai_light, g_lai)) then
          call Write_string ('Low light kills all leaves.')
       endif
 
