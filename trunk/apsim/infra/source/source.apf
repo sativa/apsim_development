@@ -2,6 +2,7 @@
 Dependency = %licensed_source(infra)
 
 [Contents]
+ProtocolModule.f90 = ProtocolModule.f90
 ComponentInterfaceModule.f90 = ComponentInterfaceModule.f90
 convertmodule.f90 = convertmodule.f90
 constantsModule.f90 = constantsModule.f90
@@ -11,10 +12,8 @@ data.f90 = data.f90
 date.f90 = date.f90
 science.f90 = science.f90
 datastr.f90 = datastr.f90
-intrface.for = intrface.for
-postbox.for = postbox.for
+event.for = event.for 
 read.for = read.for
-event.for = event.for
 Infrastructure.f90 = Infrastructure.f90
 
 [APSBuild]

@@ -771,7 +771,7 @@ module ScienceModule
          write (error_message,'(2a, f10.2)')              &
                     'Stage code not found in code list.' &
                    , ' Code number =', stage_code
-         call error (error_message, .false.)
+         call warning_error (ERR_Internal, error_message)
 
       endif
 
@@ -914,12 +914,12 @@ module ScienceModule
       if (period.lt.1) then
          write (e_messg, '(a, g16.7e2, a)')  &
               ' 3 hr. number', period, ' is below 1'
-         call error (e_messg, .true.)
+         call fatal_error (ERR_Internal, e_messg)
 
       elseif (period.gt.8) then
          write (e_messg, '(a, g16.7e2, a)')   &
               ' 3 hr. number', period, ' is above 8'
-         call error (e_messg, .true.)
+         call fatal_error (ERR_Internal, e_messg)
 
       else
 

@@ -259,6 +259,10 @@ void Component::messageToLogic(Message* message)
                                  messageData >> completeData;
                                  onCompleteMessage(completeData);
                                  break;}
+      case ApsimQuery:          {ApsimQueryData apsimQueryData;
+                                 messageData >> apsimQueryData;
+                                 onApsimQuery(apsimQueryData);
+                                 break;}
 
       }
 
@@ -356,6 +360,16 @@ unsigned Component::addRegistration(RegistrationType kind,
                                     const FString& alias,
                                     const FString& componentNameOrID)
    {
+   // If this is a getVariableReg then see if we have already registered this name.
+   // If so then return the registration id.
+   if (kind == getVariableReg)
+      {
+      unsigned id = getRegistrationID(kind, name);
+      if (id != 0)
+         return id;
+      }
+
+   // Not already registered - register now.
    static char regName[200];
    strncpy(regName, name.f_str(), name.length());
    regName[name.length()] = 0;
@@ -380,7 +394,6 @@ unsigned Component::addRegistration(RegistrationType kind,
          regName[componentNameOrID.length() + name.length() + 1] = 0;
          }
       }
-
    RegistrationItem* newRegistration = new RegistrationItem
          (this, kind, name, type);
    unsigned id = (unsigned) newRegistration;
@@ -704,7 +717,19 @@ Type& Component::getRegistrationType(unsigned int regID)
    {
    return ((RegistrationItem*) regID)->getType();
    }
-
+// ------------------------------------------------------------------
+// Return a registration id to caller.
+// ------------------------------------------------------------------
+unsigned Component::getRegistrationID(const RegistrationType& type, const FString& eventName)
+   {
+   for (unsigned reg = 0; reg != registrations.size(); reg++)
+      {
+      if (registrations[reg]->getName() == eventName
+          && type == registrations[reg]->getKind())
+         return (unsigned) registrations[reg];
+      }
+   return 0;
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     return a reference to a registration type to caller.

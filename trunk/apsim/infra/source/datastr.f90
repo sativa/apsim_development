@@ -135,7 +135,7 @@ module DataStrModule
              // new_line                          &
              // trim(record)
 
-         call error (e_message, .false.)
+         call warning_error (ERR_User, e_message)
       else
       endif
 
@@ -383,7 +383,7 @@ module DataStrModule
          numvals = 0
          value = 0.0
 
-         call error (e_message, .true.)
+         call fatal_error (ERR_User, e_message)
       else
          ! Read was successful.
 
@@ -457,7 +457,7 @@ module DataStrModule
                 , new_line                               &
                 , 'Remaining', numvals - limit, ' values ignored.'
 
-         call error (e_message, .false.)
+         call warning_error (ERR_User, e_message)
          numvals = limit
 
       else
@@ -667,7 +667,7 @@ module DataStrModule
             , new_line                                              &
             , value_string(1:100)
 
-         call error (e_message, .true.)
+         call fatal_error (ERR_User, e_message)
       else
          ! Read was successful.
 
@@ -755,7 +755,7 @@ module DataStrModule
                 , new_line                                &
                 , 'Remaining', numvals - limit, ' values ignored.'
 
-         call error (e_message, .false.)
+         call warning_error (ERR_Internal, e_message)
          numvals = limit
 
       else
@@ -848,7 +848,7 @@ module DataStrModule
          e_message =                               &
              'Invalid logical variable found :- '  &
             // Value_string(1:100)
-         call error (e_message, .true.)
+         call fatal_error (ERR_User, e_message)
          Numvals = 0
          Value = .false.
       endif
@@ -930,7 +930,7 @@ module DataStrModule
                 , new_line                                &
                 , 'Remaining', numvals - limit, ' values ignored.'
 
-         call error (e_message, .false.)
+         call warning_error (ERR_User, e_message)
          numvals = limit
 
       else
@@ -1036,7 +1036,7 @@ module DataStrModule
                 , new_line                                &
                 , 'Remaining', numvals - limit, ' values ignored.'
 
-         call error (e_message, .false.)
+         call warning_error (ERR_User, e_message)
          numvals = limit
 
       else
@@ -1736,6 +1736,7 @@ module DataStrModule
       logical function get_char_variable(line, key, value, optval)
 ! ====================================================================
       use ErrorModule
+      use ConstantsModule
       implicit none
 
       character key*(*)
@@ -1775,7 +1776,7 @@ module DataStrModule
       if (isoptional) then
          !  carry on because the value is optional
       else
-         call error (trim(key) // ' : variable not found',.true.)
+         call fatal_error (ERR_User, trim(key) // ' : variable not found')
       endif  
       ok = .false.
 

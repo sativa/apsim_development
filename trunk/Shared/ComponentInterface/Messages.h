@@ -507,5 +507,26 @@ inline Message* newTerminateSimulationMessage(unsigned int from,
    return constructMessage(TerminateSimulation, from, to, false, 0);
    }
 
+// -------------- ApsimQuery -------------
+struct ApsimQueryData
+   {
+   FString name;
+   };
+inline MessageData& operator>> (MessageData& messageData, ApsimQueryData& data)
+   {
+   messageData >> data.name;
+   return messageData;
+   }
+inline Message* newApsimQueryMessage(unsigned int from,
+                                     unsigned int to,
+                                     const FString& name)
+   {
+   Message* msg = constructMessage(ApsimQuery, from, to, false,
+                                   memorySize(name));
+   MessageData messageData(msg);
+   messageData << name;
+   return msg;
+   }
+
 } // end namespace protocol
 #endif

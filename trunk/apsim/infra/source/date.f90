@@ -1053,7 +1053,7 @@ module DateModule
            'Invalid date string passed to the date function.',  &
            new_line,                                            &
            'Date string = ', Date_string
-         call error (msg, .true.)
+         call fatal_error (ERR_Internal, msg)
          String_to_jday_with_error = 0.0d0
 
       else

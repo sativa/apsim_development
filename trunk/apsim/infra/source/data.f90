@@ -362,7 +362,7 @@
                          ,')'                            &
                          ,new_line                       &
                          ,'        Variable is not checked'
-         call error (e_messg, .false.)
+         call warning_error (ERR_User, e_messg)
 
             ! is the value too big?
 
@@ -375,7 +375,7 @@
                          , new_line                        &
                          ,'        exceeds upper limit of' &
                          , upper
-         call error (e_messg, .false.)
+         call warning_error (ERR_User, e_messg)
 
             ! is the value too small?
 
@@ -388,7 +388,7 @@
                          , new_line                           &
                          ,'        less than lower limit of'  &
                          , lower
-         call error (e_messg, .false.)
+         call warning_error (ERR_User, e_messg)
 
       else
             ! all ok!
@@ -810,7 +810,7 @@
                         , new_line                               &
                         , '        Variable is not constrained'
 
-         call error (e_messg, .false.)
+         call warning_error (ERR_User, e_messg)
 
          bound = var
 
@@ -1055,7 +1055,7 @@
       if (lastnz.eq.0) then
 
          write (e_messg, '(3a)') 'Array ', aname, ' is empty'
-         call error (e_messg, .false.)
+         call warning_error (ERR_User, e_messg)
 
       else
       endif
@@ -2409,7 +2409,7 @@
       call push_routine(my_name)
 
       if (.not. isok) then
-         call error('ASSERT FAIL: '//whatchkd, .true.)
+         call fatal_error(ERR_Internal, 'ASSERT FAIL: '//whatchkd)
       end if
 
       call pop_routine(my_name)

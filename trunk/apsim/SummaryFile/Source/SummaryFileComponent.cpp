@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "SummaryFileComponent.h"
+#include <ComponentInterface\ApsimVariant.h>
 #include <ApsimShared\FStringExt.h>
 #include <ApsimShared\ApsimServiceData.h>
 #include <general\date_class.h>
@@ -90,9 +91,9 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
    {
    if (eventID == tickID)
       {
-      int jday;
-      variant.unpack(jday);
-
+      protocol::ApsimVariant apsimVariant(variant);
+      double jday;
+      apsimVariant.get("jday", protocol::DTdouble, jday);
       currentDate = jday;
       }
    else if (eventID == prepareID && !inDiaryState)

@@ -13,6 +13,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataStrModule
       use DataModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -45,12 +46,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter (variable_name, section_name)
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
  
-      if (return_string .ne. blank) then
+      if (found) then
          call string_to_real_var
      .      (return_string, variable, numvals)
          call bound_check_real_var
@@ -73,6 +76,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataStrModule
       use DataModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -105,12 +109,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter (variable_name, section_name)
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
  
-      if (return_string .ne. blank) then
+      if (found) then
          call string_to_integer_var
      .      (return_string, variable, numvals)
          call bound_check_integer_var
@@ -133,6 +139,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataStrModule
       use DataModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -164,12 +171,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter(variable_name, section_name)
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
  
-      if (return_string .ne. blank) then
+      if (found) then
          call string_to_double_var
      .      (return_string, variable, numvals)
  
@@ -191,6 +200,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 * ====================================================================
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -221,12 +231,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = read_parameter (variable_name, section_name)
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
  
-      if (return_string .ne. blank) then
+      if (found) then
          call string_to_logical_var
      .      (return_string, variable, numvals)
       endif
@@ -244,6 +256,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .     units, variable, numvals)
 * ====================================================================
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -270,11 +283,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Constant Values
  
 *+ Local Variables
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      variable = read_parameter(variable_name, section_name)
-      if (variable .eq. blank) then
+      found = read_parameter (variable_name, section_name, 
+     .                        variable, .false.)
+ 
+      if (found) then
          numvals = 0
  
       else
@@ -293,6 +309,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -322,15 +339,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
 
-      if (read_parameter_optional (variable_name, 
-     .                             section_name,
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_real_var
      .      (return_string, variable, numvals)
          call bound_check_real_var
@@ -352,6 +368,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -383,15 +400,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name,
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_integer_var
      .      (return_string, variable, numvals)
          call bound_check_integer_var
@@ -414,6 +430,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -445,15 +462,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name,
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_double_var
      .      (return_string, variable, numvals)
  
@@ -474,6 +490,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 * ====================================================================
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -503,15 +520,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name,
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_logical_var
      .      (return_string, variable, numvals)
  
@@ -532,6 +548,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
      .    (section_name, variable_name,
      .     units, variable, numvals)
 * ====================================================================
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -558,15 +575,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Constant Values
  
 *+ Local Variables
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name,
-     .                             variable,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        variable, .true.)
+ 
+      if (found) then
          numvals = 1
  
       else
@@ -585,6 +601,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -618,11 +635,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
 
-      return_string = Read_parameter (variable_name, section_name)
-      if (return_string .ne. Blank) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
+ 
+      if (found) then
          call string_to_real_array
      .      (return_string, variable, size_of, numvals)
          call bound_check_real_array
@@ -642,6 +662,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -675,11 +696,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name, section_name)
-      if (return_string .ne. Blank) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
+ 
+      if (found) then
          call string_to_integer_array
      .      (return_string, variable, size_of, numvals)
          call bound_check_integer_array
@@ -698,6 +722,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -731,11 +756,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name, section_name)
-      if (return_string .ne. Blank) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
+ 
+      if (found) then
          call string_to_double_array
      .      (return_string, variable, size_of, numvals)
          call bound_check_double_array
@@ -752,6 +780,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 * ====================================================================
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -783,11 +812,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name, section_name)
-      if (return_string .ne. Blank) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
+ 
+      if (found) then
          call string_to_logical_array
      .      (return_string, variable, size_of, numvals)
       endif
@@ -802,6 +834,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 * ====================================================================
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -833,11 +866,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      return_string = Read_parameter (variable_name, section_name)
-      if (return_string .ne. Blank) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .false.)
+ 
+      if (found) then
          call string_to_char_array
      .      (return_string, variable, size_of, numvals)
       endif
@@ -854,6 +890,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -886,15 +923,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name, 
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_real_array
      .     (return_string, variable, size_of, numvals)
          call bound_check_real_array
@@ -917,6 +953,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -949,15 +986,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name, 
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_integer_array
      .      (return_string, variable, size_of, numvals)
          call bound_check_integer_array
@@ -980,6 +1016,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -1012,15 +1049,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name, 
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_double_array
      .      (return_string, variable, size_of, numvals)
          call bound_check_double_array
@@ -1042,6 +1078,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -1072,15 +1109,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name, 
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_logical_array
      .      (return_string, variable, size_of, numvals)
  
@@ -1100,6 +1136,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       use DataModule
       use DataStrModule
       use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
  
 *+ Sub-Program Arguments
@@ -1130,15 +1167,14 @@ C     Last change:  P     8 Nov 2000   12:19 pm
 *+ Local Variables
       character return_string*(function_string_len)
                                        ! String returned from read_file_string
-      character return_units*(100)
-                                       ! Units returned from read_file_string
+      logical found
  
 *- Implementation Section ----------------------------------
  
-      if (read_parameter_optional (variable_name, 
-     .                             section_name, 
-     .                             return_string,
-     .                             return_units)) then
+      found = read_parameter (variable_name, section_name, 
+     .                        return_string, .true.)
+ 
+      if (found) then
          call string_to_char_array
      .      (return_string, variable, size_of, numvals)
  
@@ -1150,138 +1186,6 @@ C     Last change:  P     8 Nov 2000   12:19 pm
       return
       end subroutine
  
-* ====================================================================
-       logical function Read_parameter_optional 
-     .  (Parameter_name, Section_name, Parameter_value, Parameter_units)
-* ====================================================================
-      use DataModule
-      use DataStrModule
-      use ConstantsModule
-      use ErrorModule
-      implicit none
- 
-*+ Sub-Program Arguments
-      character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
-      character Section_name*(*)       ! (INPUT) name of section to retrieve from
-      character Parameter_value*(*)    ! (OUTPUT) value of parameter
-      character Parameter_units*(*)    ! (OUTPUT) units of parameter
-
-*+ Purpose
-*     Retrieve a parameter from system with the specified name. Returns
-*     true and the value of the property if found or false otherwise.
- 
-*+  Mission Statement
-*      
- 
-*+ Changes
-*     dph 13/7/99 Created as part of the new infrastructure re-design.
-*     dph 20/10/00 Updated to use new property, constant or generic types.
- 
-*+ Calls
-      
-*+ Constant Values
-      character myname*(*)             ! Name of this routine
-      parameter (myname='Read_parameter_optional')
- 
-*+ Local Variables
-      integer*4 property               ! Property handle from infrastructure
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine(myname)
-
-      ! Get property value.
-!      property = component_getproperty(ComponentData,
-!     .                                 Parameter_name,
-!     .                                 section_name)
-!      if (property .ne. 0) then
-!         call property_getvalue(property, parameter_value)
-!      end if
-!
-!      ! If we got a property, convert value to lower_case.
-!      ! If we didn't get a property, then return .false.
-!      if (property .ne. 0) then
-!         Parameter_value = Lower_case(Parameter_value)
-!         Parameter_units = ' '
-!         Read_parameter_optional = .true.
-!         call component_freeproperty(property)
-!
-!      else
-!         ! couldn't find property.  Signal that all is not ok.
-!         Parameter_value = " "
-!         Read_parameter_optional = .false.
-!      endif
-
-      Read_parameter_optional = .false.
-
-      call pop_routine(myname)
-      
-      return
-      end function
-
-* ====================================================================
-       character*(1000) function Read_parameter 
-     .     (Parameter_name, Section_name)
-* ====================================================================
-      use ErrorModule
-      use ConstantsModule
-      implicit none
-
-*+ Sub-Program Arguments
-      character Parameter_name*(*)     ! (INPUT) name of parameter to retrieve
-      character Section_name*(*)       ! (INPUT) name of section to retrieve from
- 
-*+ Purpose
-*     Retrieve a parameter from system with the specified name.  Calls
-*     fatal_error if parameter not found.
- 
-*+  Mission Statement
-*      
- 
-*+ Changes
-*     dph 13/7/99 Created as part of the new infrastructure re-design.
- 
-*+ Calls
- 
-*+ Constant Values
-      character myname*(*)             ! Name of this routine
-      parameter (myname='Read_parameter')
- 
-*+ Local Variables
-      character msg*300                ! err message to display
-      character Parameter_value*(500)  ! value of parameter
-      character Parameter_units*(100)  ! units of parameter
- 
-*- Implementation Section ----------------------------------
- 
-      call push_routine(myname)
- 
-      if (Read_parameter_optional(Parameter_name, 
-     .                            Section_name, 
-     .                            Parameter_value,
-     .                            Parameter_units)) then
-         Read_parameter = Parameter_value
-         
-      else
-         ! Cannot find parameter.  Issue fatal err message.
- 
-         msg =
-     .      'Cannot find a parameter in any of the files/sections'//
-     .      new_line//
-     .      'specified in the control file.'//
-     .      new_line//
-     .      'Parameter name = ' // Parameter_name//
-     .      new_line//
-     .      'Section name = ' // Section_name
- 
-         call fatal_error(err_user, msg)
- 
-      endif
- 
-      Read_parameter = Parameter_value
-      call pop_routine(myname)
-      return
-      end function
 
 
 * ====================================================================

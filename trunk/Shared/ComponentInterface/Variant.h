@@ -35,6 +35,8 @@ class Variant
          }
       bool isValid(void) {return ourMessageData.isValid();}
       Type& getType(void) {return type;}
+      unsigned getFromId(void) {return fromId;}
+      void setFromId(unsigned id) {fromId = id;}
 
       template <class T>
       void unpack(T& obj)
@@ -69,6 +71,7 @@ class Variant
       Type type;
       MessageData ourMessageData;
       TypeConverter* typeConverter;
+      unsigned fromId;
 
       void copyFrom(const Variant& from)
          {

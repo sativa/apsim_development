@@ -691,7 +691,7 @@ module StringModule
                ' String bounds error. String length =', string_length  &
               ,' Character position = ', position
 
-         call error (error_message, .true.)
+         call fatal_error (ERR_internal, error_message)
 
       else
             ! we are within bounds
@@ -763,7 +763,7 @@ module StringModule
                   ' Truncated sub-string ='  &
                  , substring(:substring_stop)
 
-            call error (error_message, .false.)
+            call warning_error (ERR_Internal, error_message)
 
          else
             ! we are within bounds - let trailing blanks be truncated

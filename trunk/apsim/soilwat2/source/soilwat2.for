@@ -1,5 +1,7 @@
       module Soilwat2Module
       use ComponentInterfaceModule
+      use LateralModule
+      use EvapModule
 
 ! ====================================================================
 !     soilwat2 constants
@@ -168,10 +170,9 @@
          character solute_names(max_solute)*32        ! names of solutes in the
                                                       ! soil system that will
                                                       ! be leached by soilwat2
-         character solute_owners(max_solute)*32       ! names of owner module for each
+         integer solute_owners(max_solute)            ! names of owner module for each
                                                       ! solutes in the system
-         character crop_module(max_crops)*(module_name_size)
-                                                      ! list of modules
+         integer crop_module(max_crops)               ! list of modules
                                                       ! replying
          integer    numvals_profile_esw_depth         ! number of values returned for profile_esw_depth
          integer    numvals_insoil                    ! number of values returned for insoil
@@ -253,12 +254,15 @@
 
       end type Soilwat2Constants
 ! ====================================================================
+
       ! instance variables.
-      common /InstancePointers/ ID,g,p,c
+      common /InstancePointers/ ID,g,p,c,lateral,evap
       save InstancePointers
       type (Soilwat2Globals),pointer :: g
       type (Soilwat2Parameters),pointer :: p
-      type (Soilwat2Constants),pointer :: c
+      type (Soilwat2Constants),pointer :: c          
+      type (LateralData),pointer :: lateral
+      type (EvapData), pointer :: evap
 
 
       contains
@@ -317,7 +321,7 @@
 
 
 
-      call lateral_process(g%sw_dep
+      call lateral_process(lateral, g%sw_dep
      :                            ,g%dul_dep
      :                            ,g%sat_dep
      :                            ,p%dlayer)
@@ -1118,7 +1122,7 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
          call soilwat2_rickert_evaporation (es, eos)
 
       else if (c%evap_method .eq. rwc_method) then
-         call Evap_process(g%sw_dep
+         call Evap_process(evap, g%sw_dep
      :                    ,g%pond
      :                    ,g%infiltration
      :                    ,g%eo
@@ -2749,7 +2753,7 @@ cjh
       endif
 
       if (c%evap_method .eq. rwc_method) then
-         call Evap_read()
+         call Evap_read(evap)
       else
       endif
 
@@ -3215,7 +3219,8 @@ c       be set to '1' in all layers by default
       else if (c%evap_method .eq. rwc_method) then
          num_layers = count_of_real_vals (p%dlayer, max_layer)
 
-         call Evap_init(num_layers,p%dlayer,g%air_dry_dep,g%dul_dep)
+         call Evap_init(evap, num_layers,p%dlayer,
+     .                  g%air_dry_dep,g%dul_dep)
 
       else
          call fatal_error(err_user,
@@ -3662,14 +3667,12 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
-               call get_posting_Module (Owner_module)
-               g%crop_module(crop) = owner_module
+               g%crop_module(crop) = get_posting_Module()
                g%cover_green(crop) = cover
                goto 1000
             else
                call fatal_error (err_user
-     :            , 'Too many modules with green cover. Last module ='
-     :            // owner_module)
+     :            , 'Too many modules with green cover.')
             endif
          else
          endif
@@ -4288,16 +4291,12 @@ c  dsg   070302  added runon
    50    continue
 
          dlt_name = string_concat ('dlt_',g%solute_names(solnum))
-
-         call new_postbox()
-         call post_real_array (dlt_name
+              
+         call set_real_array(g%solute_owners(solnum) 
+     :                       , dlt_name 
      :                       , '(kg/ha)'
      :                       , temp_dlt_solute
      :                       , num_layers)
-         call action_send (g%solute_owners(solnum)
-     :                    ,ACTION_set_variable
-     :                    ,dlt_name)
-         call delete_postbox()
   100 continue
 
       call pop_routine (my_name)
@@ -4614,7 +4613,7 @@ c dsg 070302 added runon
          call respond2get_real_array ('sws', '(mm/mm)'
      :                               , g%sws, num_layers)
 
-      else if (lateral_send_my_variable(variable_name)) then
+      else if (lateral_send_my_variable(lateral, variable_name)) then
          ! we dont need to do anything here
 
 
@@ -4845,7 +4844,7 @@ c         g%crop_module(:) = ' '               ! list of modules
       call push_routine (my_name)
 
       call fill_char_array (g%solute_names, ' ', max_solute)
-      call fill_char_array (g%solute_owners, ' ', max_solute)
+      call fill_integer_array(g%solute_owners, 0, max_solute)
       call fill_logical_array (g%solute_mobility, .false., max_solute)
       g%num_solutes = 0
 
@@ -4929,7 +4928,7 @@ c         g%crop_module(:) = ' '               ! list of modules
       call fill_real_array (g%es_layers, 0.0, max_layer)
       call fill_real_array (g%cover_tot, 0.0, max_crops)
       call fill_real_array (g%cover_green, 0.0, max_crops)
-      call fill_char_array (g%crop_module, ' ', max_crops)
+      call fill_integer_array (g%crop_module, 0, max_crops)
       call fill_real_array (g%canopy_height, 0.0, max_crops)
 
       g%residue_cover      = 0.0
@@ -5650,7 +5649,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call soilwat2_soil_profile_param ()
 
       call soilwat2_evap_init ()
-      call lateral_init()
+      call lateral_init(lateral)
 
       call soilwat2_New_Profile_Event()
 
@@ -6177,7 +6176,7 @@ c dsg 070302 added runon
 *+  Local Variables
       integer numvals
       character names(max_solute)*32
-      character sender*(max_module_name_size)
+      integer sender
       integer counter
       integer mobile_no
       integer immobile_no
@@ -6186,10 +6185,12 @@ c dsg 070302 added runon
 
       call push_routine (my_name)
 
-      call collect_char_var (DATA_sender
-     :                      ,'()'
-     :                      ,sender
-     :                      ,numvals)
+      call collect_integer_var (DATA_sender
+     :                          ,'()'
+     :                          ,sender
+     :                          ,numvals
+     :                          ,0
+     :                          ,10000)
 
       call collect_char_array (DATA_new_solute_names
      :                        ,max_solute
@@ -6520,7 +6521,7 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call Evap_create()
+      call Evap_create(evap)
 
       call pop_routine (myname)
       return
@@ -6546,14 +6547,16 @@ c dsg 150302  saturated layer = layer, layer above not over dul
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(lateral)
+         allocate(evap)
       else
          deallocate(g)
          deallocate(p)
-         deallocate(c)
+         deallocate(c) 
+         deallocate(lateral)
+         deallocate(evap)
       end if
 
-      call Lateral_alloc_dealloc_instance(doAllocate)
-      call Evap_alloc_dealloc_instance(doAllocate)
       return
       end subroutine
 

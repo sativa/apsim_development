@@ -48,7 +48,10 @@ class RegistrationItem
             isError = !createTypeConverter(returnValueData.variant.getType());
 
          if (!isError)
+            {
+            returnValueData.variant.setFromId(fromID);
             variants.addVariant(returnValueData.variant);
+            }
          }
       bool createTypeConverter(Type& actualType)
          {

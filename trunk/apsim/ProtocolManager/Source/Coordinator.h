@@ -60,6 +60,8 @@ class Coordinator : public protocol::Component
       void resolveRegistrations(void);
       void resolveRegistrations(ComponentAlias::Registrations* registrations);
       void resolveRegistration(PMRegistrationItem* reg);
-      void fixupRegistrationIDs(protocol::RegistrationType& type);
+      void fixupRegistrationIDs(const protocol::RegistrationType& type);
+      void fixupRegistrationID(PMRegistrationItem& registrationItem);
+      void pollComponentsForVariable(PMRegistrationItem& registrationItem);
    };
 #endif

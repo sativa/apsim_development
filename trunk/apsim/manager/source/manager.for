@@ -160,7 +160,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (NUM_RULE_TYPES=4)
 
       type ManagerData
-
+         sequence
 !   Global variables
          character Instance_name*(MAX_INSTANCE_NAME_SIZE)
                                           ! instance name
@@ -228,143 +228,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
       end type ManagerData
 
       ! instance variables.
-      type (ManagerData), pointer :: g
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      type ManagerDataPtr
-         type (ManagerData), pointer :: ptr
-      end type ManagerDataPtr
-      type (ManagerDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (ManagerData),pointer :: g
 
-
-      contains
-
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%ptr)
-      Instances(InstanceNo)%ptr%Instance_name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%ptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%ptr
-
-      return
-      end subroutine
-
-
-! ====================================================================
-       subroutine Main (Action, Data_string)
-! ====================================================================
-      Use Infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-       character Action*(*)            ! Message action to perform
-       character Data_string*(*)       ! Message data
-
-!+  Purpose
-!      This module acts as the APSIM manager.
-
-!+  Changes
-!      DPH - 7/10/92
-!      DPH - 9/02/95 Substantially modified to incorporate a better
-!                    parsing method allowing nesting of brackets in
-!                    rules, nesting of ANDS and ORs and allowing
-!                    local variables to be defined.
-!     jngh 24/2/95 changed data to data_string
-!     DPH 19/7/95  Added call to manager_process
-!     DPH 27/10/95 Added call to message_unused
-!     jngh - 08/06/96 removed a_ from front of version function
-!     jngh - 23/04/98 added call to zero variables at initialisation
-!     dph - 7/5/99 removed version and presence report c186
-
-!+  Calls
-
-!+  Constant Values
-      character  my_name*(*)           ! name of this procedure
-      parameter (my_name='manager')
-
-!- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (action .eq. ACTION_get_variable) then
-         call manager_send_my_variable (Data_string)
-
-      else if (action .eq. ACTION_set_variable) then
-         call manager_set_my_variable (Data_string)
-
-      else if (Action.eq.ACTION_Init) then
-         call Manager_zero_variables ()
-         call Manager_Init ()
-
-      else if (Action.eq.ACTION_Prepare) then
-         call Manager_Prepare ()
-
-      else if (Action.eq.ACTION_Process) then
-         call Manager_Process ()
-
-      else if (Action.eq.ACTION_Post) then
-         call Manager_Post ()
-
-      else
-         ! Don't use message
-
-         call Message_unused ()
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
-
+      contains 
 
 ! ====================================================================
        subroutine Manager_Init ()
@@ -542,6 +410,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! condition of each rule
 
        character Rule_types(NUM_RULE_TYPES)*(20)
+       character(len=*), parameter :: RULE_SECTION = "rules"
        data Rule_types(1) /'init'/
        data Rule_types(2) /'start_of_day'/
        data Rule_types(3) /'process'/
@@ -553,38 +422,32 @@ C     Last change:  P    25 Oct 2000    9:26 am
       call push_routine (Routine_name)
 
       ! get a list of all rule names that user has defined.
-      call somcomponent_getpropertynames(componentData,
-     .                                   Rule_names,
-     .                                   'rule',
-     .                                   MAX_RULES,
-     .                                   Num_rules)
-
+      call apsimcomponentdata_getrulenames(get_componentData(),
+     .                                     Rule_names,
+     .                                     MAX_RULES,
+     .                                     Num_rules)
       do Rule_type = 1, NUM_RULE_TYPES
 
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
-            g%rule = component_getrule(ComponentData,
-     .                                 Rule_names(Rule_index),
-     .                                 ' ')
-            if (g%rule .ne. 0) then
-               call rule_getcondition(g%rule, condition)
-               if (condition .eq. rule_types(rule_type)) then
-                  if (g%rule_indexes(rule_type) .eq. 0) then
-                     g%rule_indexes(rule_type) = g%last_token + 2
-                     g%start_token = g%last_token + 2
-                  else
-                     g%start_token = g%last_token
-                  end if
-                  g%line_number = 0
-                  g%num_lines = rule_getactionlinecount(g%rule)
-                  call Tokenize (g%token_array
-     .                          , g%token_array2
-     .                          , max_tokens)
+            if (index(Rule_names(Rule_index),
+     .                rule_types(rule_type)) .ne. 0) then
+               call apsimcomponentdata_loadrule(get_componentData(),
+     .                                          Rule_names(Rule_index))
+               if (g%rule_indexes(rule_type) .eq. 0) then
+                  g%rule_indexes(rule_type) = g%last_token + 2
+                  g%start_token = g%last_token + 2
+               else
+                  g%start_token = g%last_token
                end if
-               call component_freerule(g%rule)
-           end if
+               g%line_number = 0
+               g%num_lines = apsimcomponentdata_getnumrulelines
+     .             ()
+               call Tokenize (g%token_array
+     .                      , g%token_array2
+     .                      , max_tokens)
+            end if
          end do
-
       end do
 
       call pop_routine(Routine_name)
@@ -879,7 +742,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          EOF_flag = 1
 
       else
-         call Rule_GetActionLine(g%rule, g%line_number, Line)
+         call apsimcomponentdata_getruleline(g%line_number,
+     .                                       Line)
          Line = lower_case(Line)
 
          ! advance line number
@@ -1063,7 +927,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Str*300                ! Dummy value returned by APSIM
       character Params(2)*(50)         ! params from function call
       double precision d_var_val       ! double precision of variable_value
-      double precision today           ! todays date.
+      double precision today           ! todays date.            
+      character todayStr*(50)
 
 !- Implementation Section ----------------------------------
 
@@ -1071,8 +936,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
-         call Get_double_var (Unknown_module, 'today', '', Today,
-     .                        numvals, 0d0, 10000000d0)
+         call Get_char_var (Unknown_module, 'today', '', Todaystr,
+     .                        numvals)
+         call string_to_double_var (Todaystr, Today, numvals)
          call Double_var_to_string (Date(Params(1), Today),
      .                              Variable_value)
 
@@ -1081,8 +947,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          call Manager_get_params (variable_name, Params)
 
-         call Get_double_var (Unknown_module, 'today', '', Today,
-     .                        numvals, 0d0, 10000000d0)
+         call Get_char_var (Unknown_module, 'today', '', Todaystr,
+     .                        numvals)
+         call string_to_double_var (Todaystr, Today, numvals)
 
          if (Date_within(Params(1), Params(2), Today)) then
             Variable_value = '1'
@@ -1297,7 +1164,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       logical Data_was_stored          ! Was data stored in postbox?
 
 !- Implementation Section ----------------------------------
-
+       
       call split_line (Action_string, Module_name, Data_string, Blank)
       Data_string = adjustl(Data_string)
       call split_line (Data_string, Action, Data_string, Blank)
@@ -1341,15 +1208,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Get_next_variable (Data_string,
      .                           Variable_name,
      .                           Data_string)
-
-         Data_string = Variable_name
+         call set_char_var(Module_name, Variable_name, 
+     .                     ' ', Data_string)
 
       else if (Data_was_stored) then
-         Data_string = Blank
+         call Action_send (Module_name, Action)
 
       endif
 
-      call Action_send (Module_name, Action, Data_string)
       call Delete_postbox ()
 
       return
@@ -3376,3 +3242,95 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
       end module ManagerModule
+      
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use ManagerModule
+      implicit none
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+      else
+         deallocate(g)
+      end if
+      return
+      end subroutine
+
+
+! ====================================================================
+       subroutine Main (Action, Data_string)
+! ====================================================================
+      use ManagerModule
+      Use Infrastructure
+      implicit none
+      ml_external Main
+
+!+  Sub-Program Arguments
+       character Action*(*)            ! Message action to perform
+       character Data_string*(*)       ! Message data
+
+!+  Purpose
+!      This module acts as the APSIM manager.
+
+!+  Changes
+!      DPH - 7/10/92
+!      DPH - 9/02/95 Substantially modified to incorporate a better
+!                    parsing method allowing nesting of brackets in
+!                    rules, nesting of ANDS and ORs and allowing
+!                    local variables to be defined.
+!     jngh 24/2/95 changed data to data_string
+!     DPH 19/7/95  Added call to manager_process
+!     DPH 27/10/95 Added call to message_unused
+!     jngh - 08/06/96 removed a_ from front of version function
+!     jngh - 23/04/98 added call to zero variables at initialisation
+!     dph - 7/5/99 removed version and presence report c186
+
+!+  Calls
+
+!+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name='manager')
+
+!- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      if (action .eq. ACTION_get_variable) then
+         call manager_send_my_variable (Data_string)
+
+      else if (action .eq. ACTION_set_variable) then
+         call manager_set_my_variable (Data_string)
+
+      else if (Action.eq.ACTION_Init) then
+         call Manager_zero_variables ()
+         call Manager_Init ()
+
+      else if (Action.eq.ACTION_Prepare) then
+         call Manager_Prepare ()
+
+      else if (Action.eq.ACTION_Process) then
+         call Manager_Process ()
+
+      else if (Action.eq.ACTION_Post) then
+         call Manager_Post ()
+
+      else
+         ! Don't use message
+
+         call Message_unused ()
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+      

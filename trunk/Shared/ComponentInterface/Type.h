@@ -1,5 +1,5 @@
-#ifndef DDMLH
-#define DDMLH
+#ifndef TypeH
+#define TypeH
 #include "MessageData.h"
 #include <ApsimShared\fstring.h>
 

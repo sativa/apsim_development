@@ -67,7 +67,7 @@ class Component
 
       // Set the value of a variable.  Returns true if value was changed.
       template <class T>
-      bool setVariable(unsigned int variableID, T& data)
+      bool setVariable(unsigned int variableID, const T& data)
          {
          setVariableSuccess = false;
          sendMessage(newRequestSetValueMessage(componentID, parentID, variableID,
@@ -146,22 +146,25 @@ class Component
       virtual void onQueryInfoMessage(unsigned int fromID, unsigned int messageID, QueryInfoData& queryInfo) { }
       virtual void onQueryValueMessage(unsigned int fromID, QueryValueData& queryData);
       virtual void onCompleteMessage(CompleteData& completeData);
+      virtual void onApsimQuery(ApsimQueryData& apsimQueryData) { }
 
       // Send a message
       void sendMessage(Message* message)
          {
-         if (message->toAcknowledge)
+         bool doAck = message->toAcknowledge;
+         if (doAck)
             {
             completeIDs.push_back(message->messageID);
             completeFound = false;
             }
          (*messageCallback)(callbackArg, message);
-         if (message->toAcknowledge)
+         if (doAck)
             waitForComplete();
          deleteMessage(message);
          }
       Type& getRegistrationType(unsigned int regID);
       FString getRegistrationName(unsigned int regID);
+      unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
       bool getSetVariableSuccess(void)
          {return setVariableSuccess;}
 
