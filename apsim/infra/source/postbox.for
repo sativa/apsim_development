@@ -1153,6 +1153,7 @@
       implicit none
       dll_export deliver_get_message
       include 'const.inc'
+      include 'action.inc'
       include 'error.pub'
  
 *+ Sub-Program Arguments
@@ -1191,11 +1192,11 @@
       call Remove_array_spec (our_variable_name)
  
       if (Module_name .eq. First_active_module) then
-         ok = Loader_SendActionToFirstComp (MES_Get_variable, 
+         ok = Loader_SendActionToFirstComp (ACTION_Get_variable, 
      .                                      Our_variable_name)
       else
          ok = Loader_SendAction (Module_name, 
-     .                           MES_Get_variable, 
+     .                           ACTION_Get_variable, 
      .                           Our_variable_name)
       endif
       if (.not. ok .and. .not. optional) then
@@ -1216,6 +1217,7 @@
       implicit none
       dll_export deliver_set_message
       include 'const.inc'
+      include 'action.inc'
       include 'error.pub'
  
 *+ Sub-Program Arguments
@@ -1243,11 +1245,11 @@
 *- Implementation Section ----------------------------------
  
       if (Module_name .eq. First_active_module) then
-         ok = Loader_SendActionToFirstComp (MES_Set_variable, 
+         ok = Loader_SendActionToFirstComp (ACTION_Set_variable, 
      .                                      Variable_name)
       else
          ok = Loader_SendAction (Module_name, 
-     .                           MES_Set_variable, 
+     .                           ACTION_Set_variable, 
      .                           Variable_name)
       endif
       if (.not. ok) then
