@@ -773,6 +773,10 @@
                                        ! sunset and end of twilight - altitude
                                        ! of sun. (deg)
 
+      real x_afps(max_table), y_afps_fac(max_table) ! lookup factors used for
+                                       ! reducing effective root length due to
+                                       ! reduced air filled pore space.
+      integer num_afps
 
       End Type SugarConstants
 
@@ -3303,7 +3307,20 @@ c      call sugar_nit_stress_expansion (1)
             rlv(layer) = divide (g%root_length(layer)
      :                          ,g%dlayer(layer)
      :                          ,0.0)
+     :                 * sugar_afps_fac(layer)
  2000    continue
+         call respond2get_real_array (variable_name
+     :                               , '(mm/mm3)'
+     :                               , rlv
+     :                               , num_layers)
+
+      elseif (variable_name .eq. 'rlv_tot') then
+         num_layers = count_of_real_vals (g%dlayer, max_layer)
+         do 2001 layer = 1, num_layers
+            rlv(layer) = divide (g%root_length(layer)
+     :                          ,g%dlayer(layer)
+     :                          ,0.0)
+ 2001    continue
          call respond2get_real_array (variable_name
      :                               , '(mm/mm3)'
      :                               , rlv
@@ -4354,8 +4371,8 @@ cnh      c%crop_type = ' '
      :                   , c%k_nfact_pheno, numvals
      :                   , 0.0, 100.0)
 
-      ! Water logging function
-      ! ----------------------
+      ! Water logging functions
+      ! -----------------------
       call read_real_array (section_name
      :                     , 'oxdef_photo_rtfr', max_table, '()'
      :                     , c%oxdef_photo_rtfr, c%num_oxdef_photo
@@ -4363,8 +4380,24 @@ cnh      c%crop_type = ' '
       call read_real_array (section_name
      :                     , 'oxdef_photo', max_table, '()'
      :                     , c%oxdef_photo, c%num_oxdef_photo
-
      :                     , 0.0, 1.0)
+
+      call read_real_array (section_name
+     :                     , 'x_afps'
+     :                     , max_table, '()'
+     :                     , c%x_afps
+     :                     , c%num_afps
+     :                     , 0.0
+     :                     , 0.20)
+
+      call read_real_array (section_name
+     :                     , 'y_afps_fac'
+     :                     , max_table, '()'
+     :                     , c%y_afps_fac
+     :                     , c%num_afps
+     :                     , 0.0
+     :                     , 1.0)
+
 
       ! Plant Water Content function
       ! ----------------------------

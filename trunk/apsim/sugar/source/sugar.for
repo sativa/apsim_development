@@ -225,11 +225,14 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
 
       if (Option .eq. 1) then
 
-         call cproc_root_depth1 (
+         call sugar_root_depth_growth (
      :                              g%dlayer
      :                             ,c%num_sw_ratio
      :                             ,c%x_sw_ratio
      :                             ,c%y_sw_fac_root
+     :                             ,c%x_afps
+     :                             ,c%y_afps_fac
+     :                             ,c%num_afps
      :                             ,g%dul_dep
      :                             ,g%sw_dep
      :                             ,p%ll_dep
@@ -239,6 +242,7 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
      :                             ,g%dlt_root_depth
      :                             ,g%root_depth
      :                             )
+
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
@@ -247,6 +251,145 @@ C     Last change:  DSG  19 Jun 2000   12:25 pm
       return
       end subroutine
 
+!     ===========================================================
+      subroutine sugar_root_depth_growth (
+     :                        g_dlayer
+     :                       ,C_num_sw_ratio
+     :                       ,C_x_sw_ratio
+     :                       ,C_y_sw_fac_root
+     :                       ,c_x_afps
+     :                       ,c_y_afps_fac
+     :                       ,c_num_afps
+     :                       ,G_dul_dep
+     :                       ,G_sw_dep
+     :                       ,P_ll_dep
+     :                       ,C_root_depth_rate
+     :                       ,G_current_stage
+     :                       ,p_xf
+     :                       ,g_dlt_root_depth
+     :                       ,g_root_depth
+     :                       )
+!     ===========================================================
+
+      use infrastructure
+      implicit none
+
+!+  Sub-Program Arguments
+      real    g_dlayer(*)             ! (INPUT)  layer thicknesses (mm)
+      integer C_num_sw_ratio          ! (INPUT) number of sw lookup pairs
+      real    C_x_sw_ratio(*)         ! (INPUT) sw factor lookup x
+      real    C_y_sw_fac_root(*)      ! (INPUT) sw factor lookup y
+      real    c_x_afps(*)
+      real    c_y_afps_fac(*)
+      integer c_num_afps
+      real    G_dul_dep(*)            ! (INPUT) DUL (mm)
+      real    G_sw_dep(*)             ! (INPUT) SW (mm)
+      real    P_ll_dep(*)             ! (INPUT) LL (mm)
+      real    C_root_depth_rate(*)    ! (INPUT) root front velocity (mm)
+      real    G_current_stage         ! (INPUT) current growth stage
+      real    p_xf(*)                 ! (INPUT) exploration factor
+      real    g_dlt_root_depth        ! (OUTPUT) increase in rooting depth (mm)
+      real    g_root_Depth            ! (OUTPUT) root depth (mm)
+
+!+  Purpose
+!       Calculate plant rooting depth through time limited by soil water content
+!       in layer through which roots are penetrating.
+
+!+  Mission Statement
+!   Calculate today's rooting depth
+
+!+  Changes
+!     170498 nih specified and programmed
+
+!+  Calls
+
+
+!+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_root_depth_growth')
+
+!+  Local Variables
+      integer    deepest_layer         ! deepest layer in which the roots are
+                                       ! growing
+      real sw_avail_fac_deepest_layer  !
+      real afps_fac_deepest_layer
+      real sw_Fac_deepest_layer
+
+!- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      deepest_layer = find_layer_no (g_root_depth, g_dlayer
+     :                        , max_layer)
+
+      sw_avail_fac_deepest_layer = crop_sw_avail_fac
+     :        (
+     :          C_num_sw_ratio
+     :        , C_x_sw_ratio
+     :        , C_y_sw_fac_root
+     :        , G_dul_dep
+     :        , G_sw_dep
+     :        , P_ll_dep
+     :        , deepest_layer
+     :         )
+
+      afps_Fac_deepest_layer = sugar_afps_fac(deepest_layer)
+
+      sw_fac_deepest_layer = min(afps_fac_deepest_layer
+     :                          ,sw_avail_fac_deepest_layer)
+
+         call crop_root_depth_increase
+     :         (
+     :          C_root_depth_rate
+     :        , G_current_stage
+     :        , G_dlayer
+     :        , G_root_depth
+     :        , sw_fac_deepest_layer
+     :        , p_xf
+     :        , g_dlt_root_depth
+     :         )
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      real function Sugar_afps_fac(layer)
+*     ===========================================================
+      use infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      integer layer
+
+*+  Purpose
+*       Calculate factor for Air Filled Pore Space (AFPS)
+*       on root function with a given layer.
+
+*+  Changes
+*      150699 nih
+
+*+  Local Variables
+      real afps
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'sugar_afps_fac')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      afps = divide(g%sat_dep(layer) - g%sw_dep(layer)
+     :             ,g%dlayer(layer)
+     :             , 0.0)
+
+      sugar_afps_fac = linear_interp_real (afps
+     :                                     ,c%x_afps
+     :                                     ,c%y_afps_fac
+     :                                     ,c%num_afps)
+
+      call pop_routine (my_name)
+      return
+      end function
 
 
 *     ===========================================================
