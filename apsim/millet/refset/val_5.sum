@@ -11,25 +11,25 @@
 
      Version                = 2.2
      Title                  = pat82_d2
-     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\canopy\lib\canopy.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\residue2\lib\residue2.dll
-     Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\millet\lib\millet.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
 
 ------- clock Initialisation --------------------------------------------------
      Simulation start date =  9/06/1982
@@ -75,8 +75,8 @@
      Operations Schedule
      ===================
        170 1982  Prepare       millet sow plants =  14.9, sowing_depth = 30, cultivar = bj104
-       185 1982  Prepare       fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can ()
-       192 1982  Prepare       fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can ()
+       185 1982  Prepare       fertiliz apply amount = 23 (kg/ha), depth=10(mm), type=can
+       192 1982  Prepare       fertiliz apply amount =  5 (kg/ha), depth=10(mm), type=can
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -378,9 +378,6 @@
       Initialising:
      
          - Reading constants
-
-------- tracker Initialisation ------------------------------------------------
-     Tracker variables:
 ------- Start of simulation  --------------------------------------------------
 19 June 1982(Day of year=170), operatns: 
       Sending sow message to millet
