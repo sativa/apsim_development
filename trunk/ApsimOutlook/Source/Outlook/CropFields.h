@@ -6,6 +6,7 @@
 #include <string>
 #include <TAPSRecord.h>
 #include <general\ini_file.h>
+#include <general\stl_functions.h>
 // ---------------------------------------------------------------------------
 // This class handles all the mess to do with crop fields
 // ie. it handles the crop acronyms on field names like wht_yield, can_yield etc.
@@ -13,7 +14,7 @@
 class CropFields
    {
    public:
-      CropFields(void);
+      CropFields(const TAPSRecord* record);
 
       // Return a list of crop names by looking through the field names
       // passed in on the record passed in.  The algorithm uses a list
@@ -58,12 +59,18 @@ class CropFields
    private:
       std::vector<std::string> recogCropAcronyms;
       std::vector<std::string> recogCropNames;
+      std::vector<std::string> fieldNames;
+      std::vector<std::string> fieldNamesMinusUnits;
+      std::vector<std::string> cropAcronyms;
       Ini_file ini;
 
       // Return true if there is any field for the specified crop, in the
       // specified record that has a non zero value.
       bool cropHasNonZeroValue(const TAPSRecord& recordI,
                                const std::string& crop_acronym) const;
-      
+
+      void calcCropAcronyms(void);
+
+
    };
 #endif
