@@ -8,7 +8,7 @@ variable = clock.today.dd/mm/yyyy as date
 !                [profile.root_depth]
 variable = tree.root_depth
 !           [dul.sw_index] [soil_moisture.sw_index]
-variable = tree.sw_index
+variable = tree.total_swi
 !               [pan.ep]         [reset_sw.sw_dep]
 variable = manager.transpiration
 !               [basal_area.ep]
