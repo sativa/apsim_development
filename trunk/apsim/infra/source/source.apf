@@ -1,0 +1,23 @@
+[general]
+name = source
+uses = %this\*.*
+
+[source]
+source  = profile.for; %this\profile.f90
+source  = error.for; %this\error.for
+source  = datastr.for; %this\datastr.for
+source  = data.for; %this\data.for
+source  = date.for; %this\date.for
+source  = string.for; %this\string.for
+source  = engine.for; %this\engine.for
+source  = license.for; %this\license.for
+source  = intrface.for; %this\intrface.for
+source  = read.for; %this\read.for
+source  = science.for; %this\science.for
+source  = write.for; %this\write.for
+
+include = Infrastructure include directory; %apsuite\apsim\infra\
+
+[dll]
+import  = APSIM loader import file; %apsuite\apsim\infra\lib\apsload.imp
+

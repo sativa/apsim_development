@@ -1,0 +1,7 @@
+[general]
+name = source
+uses = %this\*.*
+
+[source]
+source  = manager.for; %this\manager.for
+

@@ -1,0 +1,8 @@
+[general]
+name = source
+uses = %this\*.*
+
+[source]
+source  = millet.for; %this\millet.for
+source  = millet_i.for; %this\millet_i.for
+
