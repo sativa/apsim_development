@@ -531,7 +531,7 @@ APSIMComponent* CreateInstance(const FString& name,
 ReportComponent::ReportComponent(const FString& name,
                                  IComputation& computation,
                                  const std::string& ssdl)
-   : APSIMComponent(name, computation, ssdl)
+   : APSIMComponent(name, computation, ssdl), Out(NULL)
    {
    OutputOnThisDay = false;
    HaveAccumulatedVarsToday = false;
@@ -540,6 +540,22 @@ ReportComponent::ReportComponent(const FString& name,
    // added event registration stuff.
    eventInterface->registerSubscribedEvent("prepare");
    eventInterface->registerSubscribedEvent("rep");
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//     initialise the REPORT component.
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/7/99
+//    dph 19/12/00
+
+// ------------------------------------------------------------------
+ReportComponent::~ReportComponent(void)
+   {
+   delete Out;
    }
 
 // ------------------------------------------------------------------
@@ -586,8 +602,16 @@ class CreateFields : CallbackFunction<APSIMOutputVariable*>
 // ------------------------------------------------------------------
 void ReportComponent::init(void)
    {
-   Out = componentData->getProperty<APSIMOutputFile>("outputfile");
-   if (Out != NULL)
+   SOMPropertyGroup group = componentData->findGroupWithProperty("outputfile",
+                                                                 "",
+                                                                 "outputfile");
+   bool ok = group.isValid();
+   if (ok)
+      {
+      Out = new APSIMOutputFile(group.getProperty("outputfile", "outputfile"));
+      ok = Out->isValid();
+      }
+   if (ok)
       Out->open();
 
    else
@@ -596,26 +620,36 @@ void ReportComponent::init(void)
                                  "infrastructure");
 
    // get format specifier.
-   APSIMProperty* formatProperty =
-      componentData->getProperty<APSIMProperty>("format");
-   CSVFormat = (formatProperty != NULL &&
-                Str_i_Eq(formatProperty->getValue(), "csv"));
+   SOMPropertyGroup formatGroup = componentData->findGroupWithProperty("format",
+                                                                       "",
+                                                                       "property");
 
-   // enumerate through all output variables and create a field for each.
-   list<string> names;
-   componentData->getPropertyNames("OutputVariable", names);
-   for (list<string>::iterator nameI = names.begin();
-                               nameI != names.end();
-                               nameI++)
+   APSIMProperty formatProperty(formatGroup.getProperty("property", "format"));
+   CSVFormat = (Str_i_Eq(formatProperty.getValue(), "csv"));
+
+   // enumerate through all output variables in all groups
+   // and create a field for each.
+   list<string> groupNames;
+   componentData->getGroupNames(groupNames);
+   for (list<string>::iterator groupNameI = groupNames.begin();
+                               groupNameI != groupNames.end();
+                               groupNameI++)
       {
-      APSIMOutputVariable* variable
-         = componentData->getProperty<APSIMOutputVariable>(*nameI);
-      if (variable != NULL)
-         Fields.push_back(Field(eventInterface,
-                                variable->getOwnerModule(),
-                                variable->getVariableName(),
-                                variable->getAlias(),
-                                CSVFormat));
+      SOMPropertyGroup group = componentData->getGroup(*groupNameI);
+      list<string> propertyNames;
+      group.getPropertyNames("outputvariable", propertyNames);
+      for (list<string>::iterator propertyNameI = propertyNames.begin();
+                                  propertyNameI != propertyNames.end();
+                                  propertyNameI++)
+         {
+         APSIMOutputVariable variable(group.getProperty("outputvariable", *propertyNameI));
+         if (variable.isValid())
+            Fields.push_back(Field(eventInterface,
+                                   variable.getOwnerModule(),
+                                   variable.getVariableName(),
+                                   variable.getAlias(),
+                                   CSVFormat));
+         }
       }
 
    DaysSinceLastReport = 1;
