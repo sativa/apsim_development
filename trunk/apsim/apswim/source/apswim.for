@@ -2531,8 +2531,15 @@ c   47       continue
    11 continue
  
       ! Take intital guess at Z
-      Z = (theta1 - wc(node,i))/(wc(node,j)-wc(node,i))
- 
+      if ((wc(node,j)-wc(node,i)).eq.0.d0) then
+         write (error_string,'(A,i3)')
+     :      'Cannot determine unique psi for given theta for node'
+     :      ,node
+         call Fatal_Error (Err_User, error_string)
+         Z = 0.d0
+      else
+         Z = (theta1 - wc(node,i))/(wc(node,j)-wc(node,i))
+      endif
       ! calculate coefficients for section of moisture characteristic
       deltasl = sl(node,j) - sl(node,i)
       deltawc = wc(node,j) - wc(node,i)
