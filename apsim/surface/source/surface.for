@@ -38,6 +38,7 @@
          real   cover_tot_all(max_crops)
          real   cover_height_all(max_crops)
          integer          num_crops
+         integer          SWIM_id
       end type SurfaceGlobals
 ! ====================================================================
       type SurfaceParameters
@@ -83,23 +84,30 @@
 
 *+  Local Variables
       character  Event_string*79       ! String to output
+      logical ok
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
-      call surface_get_other_variables ()
+     
+      ok = component_name_to_id('apswim', g%SWIM_id)
+      if (ok) then
+         call surface_get_other_variables ()
 
          ! Notify system that we have initialised
 
-      Event_string = 'Initialising'
-      call Write_string (Event_string)
+         Event_string = 'Initialising'
+         call Write_string (Event_string)
 
          ! Get all parameters from parameter file
 
-      call surface_read_param ()
+         call surface_read_param ()
 
-      g%rr = p%rr_max
-
+         g%rr = p%rr_max
+      else
+         call error('Cannot find APSWIM in simulation.  The surface'
+     .              // new_line 
+     .              // 'module needs APSWIM to function', .true.)
+      endif
 
       call pop_routine (my_name)
       return
@@ -461,7 +469,7 @@ c RDC
       call push_routine (my_name)
 
       call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
+     :      g%SWIM_id         ! Module that responds (Not Used)
      :    , 'dr'            ! Variable Name
      :    , '(mm)'          ! Units                (Not Used)
      :    , rainfall        ! Variable
@@ -470,7 +478,7 @@ c RDC
      :    , 1000d0)         ! Upper Limit for bound checking
 
       call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
+     :      g%SWIM_id         ! Module that responds (Not Used)
      :    , 'dt'            ! Variable Name
      :    , '(min)'         ! Units                (Not Used)
      :    , duration        ! Variable
@@ -486,20 +494,10 @@ c RDC
       endif
 
 
-      call new_postbox()
-
-      call Post_double_var (
-     :                      'scon'
+      call set_double_var (g%SWIM_id
+     :                    , 'scon'
      :                    , '(/h)'
      :                    , Scon)
-
-      call Action_send(
-     :                            'apswim'
-     :                           ,ACTION_Set_variable
-     :                           ,'scon'
-     :                           )
-
-      call delete_postbox ()
 
       call pop_routine (my_name)
       return
@@ -536,7 +534,7 @@ c RDC
       call push_routine (my_name)
 
       call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
+     :      g%SWIM_id        ! Module that responds (Not Used)
      :    , 'scon'          ! Variable Name
      :    , '(/h)'          ! Units                (Not Used)
      :    , g%scon          ! Variable
@@ -545,7 +543,7 @@ c RDC
      :    , 1000d0)         ! Upper Limit for bound checking
 
       call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
+     :      g%SWIM_id        ! Module that responds (Not Used)
      :    , 'scon_min'      ! Variable Name
      :    , '(/h)'          ! Units                (Not Used)
      :    , g%scon_min      ! Variable
@@ -554,7 +552,7 @@ c RDC
      :    , 1000d0)         ! Upper Limit for bound checking
 
       call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
+     :      g%SWIM_id        ! Module that responds (Not Used)
      :    , 'scon_max'      ! Variable Name
      :    , '(/h)'          ! Units                (Not Used)
      :    , g%scon_max      ! Variable
@@ -563,7 +561,7 @@ c RDC
      :    , 1000d0)         ! Upper Limit for bound checking
 
 !      call Get_double_var (
-!     :      'apswim'        ! Module that responds (Not Used)
+!     :      g%SWIM_id        ! Module that responds (Not Used)
 !     :    , 'crop_cover'    ! Variable Name
 !     :    , '(0-1)'         ! Units                (Not Used)
 !     :    , g%cover         ! Variable
@@ -873,7 +871,7 @@ cnh but is more sensible at low rainfall intensities.
       call push_routine (my_name)
 *RDC
       call Get_double_var (
-     :      'apswim'        ! Module that responds (Not Used)
+     :      g%SWIM_id        ! Module that responds (Not Used)
      :    , 'dr'            ! Variable Name
      :    , '(mm)'          ! Units                (Not Used)
      :    , dr              ! Variable
@@ -978,6 +976,7 @@ cnh but is more sensible at low rainfall intensities.
       subroutine Main (Action, Data_String)
 *     ===========================================================
       Use infrastructure
+      Use SurfaceModule
       implicit none
       ml_external Main
 
