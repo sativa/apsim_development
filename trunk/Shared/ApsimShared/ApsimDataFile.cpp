@@ -263,10 +263,12 @@ gregorian::date ApsimDataFile::getDate(void) const
    else
       {
       int year = lexical_cast<int>(yearI->values[0]);
-      int day  = lexical_cast<int>(dayI->values[0]);
-      if (monthI == temporalData.end())
+      if (dayI != temporalData.end())
+         {
+         int day  = lexical_cast<int>(dayI->values[0]);
          return date(year, 1, 1) + date_duration(day-1);
-      else
+         }
+      else if (monthI != temporalData.end() && domI != temporalData.end())
          {
          int month  = lexical_cast<int>(monthI->values[0]);
          int dom    = lexical_cast<int>(domI->values[0]);
