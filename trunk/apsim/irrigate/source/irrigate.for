@@ -855,6 +855,7 @@
  
 *+  Local Variables
       integer    numvals               ! number of values returned
+      real       amount
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -918,6 +919,18 @@
      :              , 0.0               ! lower limit for bounds checking
      :              , 10000.)           ! upper limit for bounds checking
  
+      elseif (Variable_name .eq. 'amount') then
+ 
+         call collect_real_var (
+     :                variable_name     ! array name
+     :              , '(mm)'            ! units
+     :              , amount            ! array
+     :              , numvals           ! number of elements returned
+     :              , 0.0               ! lower limit for bounds checking
+     :              , 1000.)            ! upper limit for bounds checking
+
+         call irrigate_set_amount(amount)
+
       else
             ! Don't know this variable name
          call Message_unused ()
@@ -1289,5 +1302,70 @@ cnh note that results may be strange if swdep < ll15
       return
       end
  
+*     ===========================================================
+      subroutine irrigate_set_amount (amount)
+*     ===========================================================
+      implicit none
+      include    'const.inc'
+      include    'irrigate.inc'        ! irrigation common block
+      include 'data.pub'
+      include 'engine.pub'
+      include 'intrface.pub'
+      include 'error.pub'
+
+*+  Sub-Program Arguments
+      real amount ! (INPUT)
  
+*+  Purpose
+*       To apply an amount of irrigation as specified by user.
+ 
+*+  Mission Statement
+*     Apply Set Amount from Manager
+ 
+*+  Changes
+*     091298 nih  created
+ 
+*+  Constant Values
+      character  my_name*(*)           ! name of this procedure
+      parameter (my_name = 'irrigate_set_amount')
+ 
+*+  Local Variables
+      real actual_amount
+ 
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+      if (amount.ge.0.) then
+
+         actual_amount = amount * effirr
+ 
+         call new_postbox ()
+ 
+         call post_real_var   ('amount'
+     :                        ,'(mm)'
+     :                        , actual_amount)
+ 
+         call post_real_var   ('duration'
+     :                        ,'(min)'
+     :                        , p_default_duration)
+ 
+         call post_char_var   ('time'
+     :                        ,'(hh:mm)'
+     :                        , p_default_time)
+ 
+ 
+         call message_send_immediate (unknown_module
+     :                               , 'add_water'
+     :                               , blank)
+ 
+         call delete_postbox ()
+ 
+         g_irrigation_applied = g_irrigation_applied + amount
+      else
+         call fatal_error (ERR_User,'negative irrigation amount')
+      endif
+ 
+      call pop_routine (my_name)
+      return
+      end
+  
  

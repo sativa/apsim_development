@@ -27,6 +27,14 @@ end_day =  30
 end_year =  1988   
 
 [sample.manager.start_of_day]  
+if day = 1 then
+   ! Add more than enough to fill the top 2 layers
+   deficit = (dul_dep(1) - sw_dep(1)) + (dul_dep(2) - sw_dep(2))
+   if deficit > 0 then
+      irrigate.amount = deficit * 1.5
+   endif
+endif
+
 if day = 10 then
    irrigate apply amount = 30 (mm)
 endif
