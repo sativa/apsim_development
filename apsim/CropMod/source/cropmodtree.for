@@ -240,11 +240,15 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
 
 
       !SECTION 9: PLANT P RELATIONS
+      if (g%phosphorus_aware) then
          call PlantP_Process(g%current_stage
      :                      ,g%dm_green
      :                      ,g%dm_senesced
      :                      ,g%dlt_dm_senesced
      :                      ,g%dlt_dm_detached)
+      else
+           ! Phonphorus not plugged in
+      endif
 
 
       !SECTION 9: DEATH of PLANTS (cf. plant part pools)
@@ -6352,9 +6356,13 @@ c         g%nfact_tiller = g%nfact_expansion
 
         endif
 
+      if (g%phosphorus_aware) then
          call PlantP_prepare(g%current_stage
      :                      ,g%dm_green
      :                      ,g%dlt_dm_light)
+      else
+           ! Phonphorus not plugged in
+      endif
 
 
       else

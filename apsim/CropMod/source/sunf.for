@@ -93,6 +93,7 @@ c     real       leaf_no_change
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       ! set estimates of phase thermal time targets at germination
 
@@ -278,6 +279,7 @@ c     dll_export cproc_bio_yieldpart_demand1
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (stage_is_between (start_grainfill_stage
      :                    , end_grainfill_Stage
@@ -409,6 +411,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! set total leaf number
 
@@ -507,6 +510,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       leaf_no_now = sum_between (emerg, now, g_leaf_no)
@@ -599,6 +603,7 @@ c      print *, "min_temp_fact_hi_incr", min_temp_fact_hi_incr
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! Standard routines derived from Ceres - simpler ?
          !TEMPLATE OPTION alternatives developed by GLH - mechanistic
@@ -775,6 +780,7 @@ c applied at flowering also)
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
          ! calculate senescence due to ageing
       if (stage_is_between (floral_init, harvest_ripe
      :                     , g_current_stage)) then
@@ -890,6 +896,7 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       if (stage_is_between (germ, emerg, g_current_stage)
      :       .and. sum_between (germ, now, g_tt_tot)
@@ -948,6 +955,7 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       start_day = offset_day_of_year(g_year,
      :                              g_day_of_year, - number_of_days)
@@ -996,6 +1004,7 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       array(g_day_of_year) = value
 
@@ -1063,6 +1072,7 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
       cswd_photo = sum_between (emerg, flag_leaf, g_cswd_photo)
       leaf_no = sum_between (emerg, now, g_leaf_no)
@@ -1166,6 +1176,7 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
          ! Root must be satisfied. The roots don't take any of the
          ! carbohydrate produced - that is for tops only.  Here we assume
@@ -1361,6 +1372,7 @@ c What if you harvest the crop and leave it to rattoon?
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
                ! find proportion of uptake to be
                ! distributed to to each plant part and distribute it.
@@ -1476,6 +1488,7 @@ c What if you harvest the crop and leave it to rattoon?
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
+      call print_routine (my_name)
 
          call srop_failure_emergence1 (sowing, emerg, now,
      .          c_tt_emerg_limit,
@@ -1556,6 +1569,7 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
 
 
       ! the original sorghum equation
@@ -1687,6 +1701,8 @@ c What if you harvest the crop and leave it to rattoon?
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
+      call print_routine (my_name)
 
 
 
@@ -2171,6 +2187,8 @@ cew - added this section
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
+      call print_routine (my_name)
+      call print_routine (my_name)
 
       call write_string (
      :                 new_line//'   - Reading Cultivar Parameters')
