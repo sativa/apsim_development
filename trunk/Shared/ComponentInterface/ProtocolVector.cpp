@@ -17,11 +17,10 @@ namespace protocol {
 // ------------------------------------------------------------------
 void tooManyError(unsigned int maxCount)
    {           
-   char st[100];
+   char st[500];
    strcpy(st, "Internal Error - Too many items have been inserted in the \n");
    strcat(st, "component interface vector.  Maximum number of items: ");
    itoa(maxCount, &st[strlen(st)], 10);
-   strcat(st, "\nPlease contact APSIM-Help.");
    ::MessageBox(NULL, st, "Internal error", MB_ICONSTOP | MB_OK);
    }
 
@@ -37,14 +36,13 @@ void tooManyError(unsigned int maxCount)
 // ------------------------------------------------------------------
 void rangeError(unsigned int index, unsigned int maxCount)
    {
-   char st[300];
+   char st[500];
    strcpy(st, "Internal Error - Invalid item index passed into \n");
    strcat(st, "component interface vector. \n");
    strcat(st, "Index: ");
    itoa(index, &st[strlen(st)], 10);
    strcat(st, " Maximum number of items: ");
    itoa(maxCount, &st[strlen(st)], 10);
-   strcat(st, "\nPlease contact APSIM-Help.");
    ::MessageBox(NULL, st, "Internal error", MB_ICONSTOP | MB_OK);
    }
 } // namespace protocol

@@ -13,70 +13,30 @@ namespace protocol {
 //---------------------------------------------------------------------------
 // This class encapsulates the array indexing and summing support in all
 // APSIM components.  It allows:
-//    name() - return sum of array
+//    name() - return sum of array (for backwards compatibility)
+//    sum(name) - return sum of array
 //    name(n) - return nth element of array
 //    name(2-5) - return sum of elements 2 to 5 of array.
 //    name(2:4) - return elements 2 to 4 of array.
+//    sum(name(2-5)) - sum elements 2 to 5.
 //---------------------------------------------------------------------------
 class ArraySpecifier
    {
    public:
       ArraySpecifier(unsigned num);
-      ArraySpecifier(unsigned number1, unsigned number2, char separator);
+      ArraySpecifier(unsigned number1, unsigned number2, bool doSum);
 
       //---------------------------------------------------------------------------
-      // Calculate the required stats (eg. sum array, return specific elements)
-      // and return in same array as passed in.  Returns true if all ok.
+      // return the lower and upper bounds of the array.
       //---------------------------------------------------------------------------
-      template <class T>
-      bool calcStats(T& obj)
-         {
-         return false;
-         }
-      bool calcStats(vector<double>& v)
-         {
-         bool ok = convertArray(v);
-         if (!ok)
-            v.empty();
-         return ok;
-         }
-      bool calcStats(vector<float>& v)
-         {
-         bool ok = convertArray(v);
-         if (!ok)
-            v.empty();
-         return ok;
-         }
-      bool calcStats(vector<int>& v)
-         {
-         bool ok = convertArray(v);
-         if (!ok)
-            v.empty();
-         return ok;
-         }
-      #ifdef MessageDataExt
-      bool calcStats(std::vector<std::string>& v)
-         {
-         vector<double> values;
-         for (unsigned i = 0; i != v.size(); ++i)
-            values.push_back(atof(v[i].c_str()));
+      unsigned getLowerBound(void);
+      unsigned getUpperBound(void);
 
-         bool ok = convertArray(values);
-         if (!ok)
-            v.empty();
-         else
-            {
-            v.erase(v.begin(), v.end());
-            static char arraySpecBuffer[100];
-            for (unsigned i = 0; i != values.size(); ++i)
-               {
-               sprintf(arraySpecBuffer, "%10.3f", values[i]);
-               v.push_back(arraySpecBuffer);
-               }
-            }
-         return ok;
-         }
-      #endif
+      //---------------------------------------------------------------------------
+      // Convert the array of numbers in the specified messageData
+      // to the required element(s).
+      //---------------------------------------------------------------------------
+      void convert(MessageData& messageData, DataTypeCode typeCode);
 
       //---------------------------------------------------------------------------
       // Create an array specifier if necessary.  The caller assumes ownership
@@ -92,19 +52,28 @@ class ArraySpecifier
       unsigned number2;
       bool doSum;
 
+
       //---------------------------------------------------------------------------
       // Convert the specified array of numbers to the required element(s).
       // returns true if all ok.
       //---------------------------------------------------------------------------
       template <class T>
-      bool ArraySpecifier::convertArray(vector<T>& values)
+      bool ArraySpecifier::convertArray(MessageData& messageData, vector<T>& values)
          {
+         messageData >> values;
+
          unsigned start = number1;
          unsigned end = number2;
+         if (start == 0)
+            {
+            start++;
+            end = values.size();
+            }
+         start--;
+         end--;
+
          if (doSum)
             {
-            if (start == 0)
-               end = values.size() - 1;
             T sum = 0;
             for (unsigned i = start; i <= end; ++i)
                sum += values[i];
@@ -120,6 +89,10 @@ class ArraySpecifier
             while (values.size() > end-start+1)
                values.erase(values.size()-1);
             }
+
+         messageData.reset();
+         messageData << values;
+         messageData.reset();
          return true;
          }
 

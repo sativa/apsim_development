@@ -117,7 +117,7 @@ class StringFromSingle : public TypeConverter
          messageData >> value;
          char st[100];
          sprintf(st, "%10.3f", value);
-         bufferMessageData << FString(st, strlen(st), CString);
+         bufferMessageData << FString(st);
          }
       virtual TypeConverter* clone(void)
          {
@@ -254,6 +254,28 @@ class DoubleFromSingle : public TypeConverter
          return new DoubleFromSingle;
          }
    } doubleFromSingle;
+class StringFromSingleA : public TypeConverter
+   {
+   public:
+      void doConvert(MessageData& messageData)
+         {
+         unsigned int numValues;
+         messageData >> numValues;
+         unsigned pos = 4;
+         for (unsigned int v = 0; v < numValues; v++)
+            {
+            float value;
+            messageData >> value;
+            sprintf(&buffer[pos], "%10.3f", value);
+            pos += 10;
+            }
+         bufferMessageData << pos;
+         }
+      virtual TypeConverter* clone(void)
+         {
+         return new StringFromSingleA;
+         }
+   } stringFromSingleA;
 class StringFromDoubleA : public TypeConverter
    {
    public:
@@ -353,8 +375,8 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 
 static TypeConverter* arrayToStringConversionMatrix[9] =  {
 //                                             SOURCE (FROM)
-//                 int1      int2    int4    int8   single  double              boolean     char    string
-/*    string*/     NULL,    NULL,   NULL,   NULL,  NULL,   &stringFromDoubleA,   NULL,      NULL,   NULL
+//                 int1      int2    int4    int8   single                double            boolean     char    string
+/*    string*/     NULL,    NULL,   NULL,   NULL,  &stringFromSingleA, &stringFromDoubleA,   NULL,      NULL,   NULL
      };
 
 

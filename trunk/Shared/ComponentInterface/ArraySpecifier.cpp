@@ -19,11 +19,55 @@ ArraySpecifier::ArraySpecifier(unsigned number)
 //---------------------------------------------------------------------------
 // constructor
 //---------------------------------------------------------------------------
-ArraySpecifier::ArraySpecifier(unsigned num1, unsigned num2, char separator)
+ArraySpecifier::ArraySpecifier(unsigned num1, unsigned num2, bool sum)
    : number1(num1), number2(num2)
    {
-   doSum = (separator == '-');
+   doSum = sum;
    }
+//---------------------------------------------------------------------------
+// return the lower bounds of the array.
+//---------------------------------------------------------------------------
+unsigned ArraySpecifier::getLowerBound(void)
+   {
+   if (doSum)
+      return 1;
+   else
+      return number1;
+   }
+//---------------------------------------------------------------------------
+// return the upper bounds of the array.
+//---------------------------------------------------------------------------
+unsigned ArraySpecifier::getUpperBound(void)
+   {
+   if (doSum)
+      return 1;
+   else
+      return number2;
+   }
+
+//---------------------------------------------------------------------------
+// Convert the array of numbers in the specified messageData
+// to the required element(s).
+//---------------------------------------------------------------------------
+void ArraySpecifier::convert(MessageData& messageData, DataTypeCode typeCode)
+   {
+   if (typeCode == DTint4)
+      {
+      vector<int> values;
+      convertArray(messageData, values);
+      }
+   else if (typeCode == DTsingle)
+      {
+      vector<float> values;
+      convertArray(messageData, values);
+      }
+   else if (typeCode == DTdouble)
+      {
+      vector<float> values;
+      convertArray(messageData, values);
+      }
+   }
+
 //---------------------------------------------------------------------------
 // Create an array specifier if necessary.  The caller assumes ownership
 // of the returned arraySpecifier and should delete it accordingly.
@@ -33,6 +77,15 @@ ArraySpecifier::ArraySpecifier(unsigned num1, unsigned num2, char separator)
 //---------------------------------------------------------------------------
 ArraySpecifier* ArraySpecifier::create(char* name, char* type)
    {
+   static const char* sumString = "sum(";
+   bool doSum = (strncmp(name, sumString, strlen(sumString)) == 0);
+   if (doSum)
+      {
+      strcpy(name, name+strlen(sumString)); // remove the sum(
+      if (name[strlen(name)-1] == ')')
+         name[strlen(name)-1] = 0;          // remove the trailing )
+      }
+
    ArraySpecifier* arraySpecifier = NULL;
    char* posOpenBracket = strchr(name, '(');
    if (posOpenBracket != NULL)
@@ -56,7 +109,7 @@ ArraySpecifier* ArraySpecifier::create(char* name, char* type)
             char* endNumber2;
             int number2 = strtol(++endNumber1, &endNumber2, 10);
             if (*endNumber2 == ')')
-               arraySpecifier = new ArraySpecifier(number1, number2, *--endNumber1);
+               arraySpecifier = new ArraySpecifier(number1, number2, doSum);
             }
          }
       // If we have created an arraySpecifier then remove it from the name passed in
@@ -65,9 +118,12 @@ ArraySpecifier* ArraySpecifier::create(char* name, char* type)
          {
          *--posOpenBracket = 0;  // removes the array specifier.
          FString typeString(type, 1000, CString);
-         Type(typeString).setArray(true);  // assume there is plenty of space!
+//         Type(typeString).setArray(true);  // assume there is plenty of space!
          }
       }
+   // Need to catch the case: sum(sw) ie. no range specified
+   if (doSum && arraySpecifier == NULL)
+      arraySpecifier = new ArraySpecifier(0);
    return arraySpecifier;
    }
 
