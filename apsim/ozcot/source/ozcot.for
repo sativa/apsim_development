@@ -5177,12 +5177,12 @@
      :                     , 0.0, 10.0)
  
       call read_real_var (section_name
-     :                     , 'e_par', '(g/MJ)'
+     :                     , 'e_par', '(g/mj)'
      :                     , c%e_par, numvals
      :                     , 0.0, 10.0)
  
       call read_real_var (section_name
-     :                     , 'specific_lw', '(/m2)'
+     :                     , 'specific_lw', '(g/m2)'
      :                     , c%specific_lw, numvals
      :                     , 0.0, 100.0)
  
@@ -5519,6 +5519,8 @@
 *+  Local Variables
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
+      real       sdepth_mm             ! sowing depth in mm
+      real       rs_mm                 ! row spacing in mm
 !      character  module_name*8         ! module name
 
 *- Implementation Section ----------------------------------
@@ -5531,6 +5533,9 @@
 
  
               ! get cultivar parameters
+
+      sdepth_mm = 0.0
+      rs_mm = 0.0
  
       call collect_char_var ('cultivar', '()'
      :                      , g%cultivar, numvals)
@@ -5549,19 +5554,21 @@
  
       call collect_real_var (
      :                       'sowing_depth', '(mm)'
-     :                      , g%sdepth, numvals
+     :                      , sdepth_mm, numvals
      :                      , 0.0, 100.0)
  
       call collect_real_var_optional (
      :                         'row_spacing', '(mm)'
-     :                        , g%rs, numvals
+     :                        , rs_mm, numvals
      :                        , 0.0, 2000.)
       if (numvals.eq.0) then
          g%rs = c%row_spacing_default
       else
       endif
- 
+       
       g%crop_in = .true.
+      g%sdepth = sdepth_mm / 10.0
+      g%rs = rs_mm /1000.0
          g%isow = g%jdate
            g%rtdep=g%sdepth
          g%ppm = g%ppm/g%rs  !  adjust for non standard rows incl skip
@@ -5585,14 +5592,14 @@
  
       call write_string ('    Sowing  Depth Plants Spacing Cultivar')
  
-      call write_string ('    Day no   mm     m       m     Name   ')
+      call write_string ('    Day no   mm     m       mm     Name   ')
  
       string = '    ------------------------------------------------'
       call write_string (string)
  
-      write (string, '(3x, i7, 3f7.1, 1x, a10)')
-     :                g%isow, g%sdepth
-     :              , g%pp, g%rs, g%cultivar
+      write (string, '(3x, i7, f7.1, f6.1, f9.1, 1x, a10)')
+     :                g%isow, sdepth_mm
+     :              , g%pp, rs_mm, g%cultivar
       call write_string (string)
  
       string = '    ------------------------------------------------'
