@@ -10,7 +10,7 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = general.dll aps32.dll data.dll chart.dll apsgeneral.bpl apsui.bpl \
-  apsdata.bpl apsbuild.exe apsrun.exe compinterface.lib protocol.dll apsim.exe \
+  apsdata.bpl apsbuild.exe apsrun.exe datatypescreate.exe protocol.dll apsim.exe \
   apsimexplorer.exe newapsfrontrun.exe apsimoutlook.exe dbaddin.dll \
   filteraddin.dll dameasyaddin.dll soiaddin.dll rotationaddin.dll \
   whopeconaddin.dll outlookmanager.exe apslook.exe apsvis.exe apsshowkey.exe \
@@ -51,6 +51,10 @@ apsdata.bpl: shared\components\data\apsdata.bpk
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 apsbuild.exe: apsbuild\source\apsbuild.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+datatypescreate.exe: apsim\infra\datatypes\datatypescreate.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
