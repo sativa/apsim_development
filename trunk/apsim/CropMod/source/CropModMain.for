@@ -1,4 +1,4 @@
-C     Last change:  E    14 Feb 2001    2:09 pm
+C     Last change:  E    14 Feb 2001    3:17 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -6291,7 +6291,7 @@ c%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       call read_real_array (section_name
      :                     , 'x_plant_rld', max_table, '(mm)'
      :                     , c%x_plant_rld, c%num_plant_rld
-     :                     , 0.0, 0.1)
+     :                     , 0.0, 0.5)
       call read_real_array (section_name
      :                     , 'y_rel_root_rate', max_table, '()'
      :                     , c%y_rel_root_rate, c%num_plant_rld
@@ -6636,7 +6636,7 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       call read_real_var (section_name
      :                    , 'maxt_lb', '(oC)'
      :                    , c%maxt_lb, numvals
-     :                    , 0.0, 60.0)
+     :                    , -10.0, 60.0)
  
       call read_real_var (section_name
      :                    , 'mint_ub', '(oC)'
