@@ -13543,7 +13543,8 @@ void Plant::get_leaf_no_dead(protocol::QueryValueData &qd)
 
 void Plant::get_leaf_area(protocol::QueryValueData &qd)
 {
-    parent->sendVariable(qd, protocol::vector<float>(g.leaf_area, g.leaf_area+max_node));
+    // XX can't handle big arrays..
+    parent->sendVariable(qd, protocol::vector<float>(g.leaf_area, g.leaf_area+20/*max_node*/));
 }
 
 
@@ -16245,11 +16246,14 @@ bool Plant::read_var(const char * sectionName,
     return true;
 }
 
-//XX is search order an anachronism? the change_class mechanism still uses it.. 
+//XX is search order an anachronism? the change_class mechanism still uses it..
 bool Plant::read_var(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                float& value, float lower, float upper)
+                                float& value,
+                                float lower,
+                                float upper,
+                                bool isOptional)
    {
    for (vector<std::string>::const_iterator i = search_order.begin();
         i != search_order.end();
@@ -16260,12 +16264,25 @@ bool Plant::read_var(const vector<std::string>& search_order,
          return true;
          }
      }
+   if (!isOptional)
+     {
+     char msg[200];
+     strcpy(msg, "Cannot find a parameter in parameter/ini file.\n"
+                     "Parameter name = ");
+     strcat(msg, variableName);
+     strcat(msg, "\n");
+     fatal_error(&err_user, msg, strlen(msg));
+     }
    return false;
    }
 bool Plant::read_array(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                float *value, int &numVals, float lower, float upper)
+                                float *value,
+                                int &numVals,
+                                float lower,
+                                float upper,
+                                bool isOptional)
    {
    for (vector<std::string>::const_iterator i = search_order.begin();
         i != search_order.end();
@@ -16275,6 +16292,15 @@ bool Plant::read_array(const vector<std::string>& search_order,
          {
          return true;
          }
+     }
+   if (!isOptional)
+     {
+     char msg[200];
+     strcpy(msg, "Cannot find a parameter in parameter/ini file.\n"
+                     "Parameter name = ");
+     strcat(msg, variableName);
+     strcat(msg, "\n");
+     fatal_error(&err_user, msg, strlen(msg));
      }
    return false;
    }
@@ -16436,7 +16462,8 @@ bool Plant::read_var(const char * sectionName,
 bool Plant::read_var(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                int& value, int lower, int upper)
+                                int& value, int lower, int upper,
+                                bool isOptional)
    {
    for (vector<std::string>::const_iterator i = search_order.begin();
         i != search_order.end();
@@ -16447,12 +16474,22 @@ bool Plant::read_var(const vector<std::string>& search_order,
          return true;
          }
      }
+   if (!isOptional)
+     {
+     char msg[200];
+     strcpy(msg, "Cannot find a parameter in parameter/ini file.\n"
+                     "Parameter name = ");
+     strcat(msg, variableName);
+     strcat(msg, "\n");
+     fatal_error(&err_user, msg, strlen(msg));
+     }
    return false;
    }
 bool Plant::read_array(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                int *value, int &numVals, int lower, int upper)
+                                int *value, int &numVals, int lower, int upper,
+                                bool isOptional)
    {
    for (vector<std::string>::const_iterator i = search_order.begin();
         i != search_order.end();
@@ -16462,6 +16499,15 @@ bool Plant::read_array(const vector<std::string>& search_order,
          {
          return true;
          }
+     }
+   if (!isOptional)
+     {
+     char msg[200];
+     strcpy(msg, "Cannot find a paremeter in parameter/ini file.\n"
+                     "Parameter name = ");
+     strcat(msg, variableName);
+     strcat(msg, "\n");
+     fatal_error(&err_user, msg, strlen(msg));
      }
    return false;
    }
@@ -16491,7 +16537,7 @@ bool Plant::read_var(const char * sectionName,
 bool Plant::read_var(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                string &value)
+                                string &value, bool isOptional)
 {
    for (vector<std::string>::const_iterator i = search_order.begin();
         i != search_order.end();
@@ -16501,6 +16547,15 @@ bool Plant::read_var(const vector<std::string>& search_order,
          {
          return true;
          }
+     }
+   if (!isOptional)
+     {
+     char msg[200];
+     strcpy(msg, "Cannot find a paremeter in parameter/ini file.\n"
+                     "Parameter name = ");
+     strcat(msg, variableName);
+     strcat(msg, "\n");
+     fatal_error(&err_user, msg, strlen(msg));
      }
    return false;
 }
@@ -16532,7 +16587,8 @@ bool Plant::read_array(const char * sectionName,
 bool Plant::read_array(const vector<std::string>& search_order,
                   const char * variableName,
                   const char * units,
-                  vector<string> &values)
+                  vector<string> &values,
+                  bool isOptional)
 {
    for (vector<std::string>::const_iterator i = search_order.begin();
         i != search_order.end();
@@ -16542,6 +16598,15 @@ bool Plant::read_array(const vector<std::string>& search_order,
          {
          return true;
          }
+     }
+   if (!isOptional)
+     {
+     char msg[200];
+     strcpy(msg, "Cannot find a paremeter in parameter/ini file.\n"
+                     "Parameter name = ");
+     strcat(msg, variableName);
+     strcat(msg, "\n");
+     fatal_error(&err_user, msg, strlen(msg));
      }
    return false;
 }
