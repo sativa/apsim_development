@@ -10,3 +10,15 @@ target  = target dll; %thispath\lib\surface.dll
 
 [contacts]
 contact = Robin Connelly - Module Developer; mailto:ConnelR@dpi.qld.gov.au
+
+[apseudo]
+title=The APSIM Surface Model
+parfile=%thispath\sample\sample.par
+parshowall=yes
+inifile=
+inishowall=yes
+rddfile=
+
+heading = APSIM Surface Model; apsim_surface
+
+
