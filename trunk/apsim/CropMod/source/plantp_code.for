@@ -894,10 +894,10 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
       g%dlt_part_p_green(:) = 0.0
       g%part_demand(:) = 0.0
-      g%plantPfact_photo = 1.0
-      g%plantPfact_expansion = 1.0
-      g%plantPfact_pheno = 1.0
-      g%plantPfact_grain = 1.0
+      g%plantPfact_photo = 0.0
+      g%plantPfact_expansion = 0.0
+      g%plantPfact_pheno = 0.0
+      g%plantPfact_grain = 0.0
 
       call pop_routine (myname)
       return
@@ -1667,10 +1667,10 @@ c     :          ,1.0)                 ! Upper Limit for bound check
          g%plantPfact_grain = pfact * c%pfact_grain_slope
          g%plantPfact_grain = bound(g%plantPfact_grain,0.0,1.0)
       else
-         g%plantPfact_photo = 1.0
-         g%plantPfact_expansion = 1.0
-         g%plantPfact_pheno = 1.0
-         g%plantPfact_grain = 1.0
+         g%plantPfact_photo = 0.0
+         g%plantPfact_expansion = 0.0
+         g%plantPfact_pheno = 0.0
+         g%plantPfact_grain = 0.0
       endif
 
       call pop_routine (myname)
