@@ -1012,6 +1012,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
 
 *+  Changes
 *       29/08/97 NIH check for output unknown solute for 'flow_' and others
+*       02/11/99 jngh removed crop_cover
 
 *+  Calls
        double precision apswim_cevap   ! function
@@ -1314,11 +1315,11 @@ cnh      print*,g%TD_pevap
      :            '(min)',
      :            g%dt*60d0)
 
-      else if (Variable_name .eq. 'crop_cover') then
-         call respond2Get_double_var (
-     :            Variable_name,
-     :            '(0-1)',
-     :            g%crop_cover)
+!      else if (Variable_name .eq. 'crop_cover') then
+!         call respond2Get_double_var (
+!     :            Variable_name,
+!     :            '(0-1)',
+!     :            g%crop_cover)
 
 cnh added as per request by Dr Val Snow
 
