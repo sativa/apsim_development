@@ -146,7 +146,7 @@ Public Class SummaryFileUI
                 'MsgBox("The specified summary data file does not exist at the given location.  Please check file specification.", MsgBoxStyle.Critical, "File does not exist.")
 
             End If
-        Catch E As Exception
+        Catch E as system.exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Summary File UI")
         End Try
 
@@ -159,7 +159,7 @@ Public Class SummaryFileUI
                 Me.Refresh()
             Else
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in browsing to new summary file")
         End Try
     End Sub
@@ -170,7 +170,7 @@ Public Class SummaryFileUI
                 MyData.Child("filename").Value = SummaryFileTextBox.Text
                 Me.Refresh()
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating summary file name information")
         End Try
     End Sub

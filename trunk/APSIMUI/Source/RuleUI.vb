@@ -281,7 +281,7 @@ Public Class RuleUI
         Dim Settings As New APSIMSettings
         Dim CultivarFilename As String = Settings.GetSetting("ApsimUI", "CultivarFile")
         If Not File.Exists(CultivarFilename) Then
-            Throw New Exception("Cannot find cultivar file: " + CultivarFilename)
+            Throw New System.Exception("Cannot find cultivar file: " + CultivarFilename)
         Else
             Dim file As New APSIMFile
             file.Open(CultivarFilename)

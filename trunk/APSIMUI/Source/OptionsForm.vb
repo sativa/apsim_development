@@ -229,7 +229,7 @@ Public Class OptionsForm
             Else
                 ' User cancelled file open operation
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Selecting new Toolbox file")
         End Try
 
@@ -244,7 +244,7 @@ Public Class OptionsForm
             If ToolBoxListBox.SelectedIndex >= 0 Then
                 ToolBoxListBox.Items.Remove(ToolBoxListBox.SelectedItem)
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error removing Toolbox from list")
         End Try
     End Sub
@@ -259,7 +259,7 @@ Public Class OptionsForm
             For Each FileName As String In toolboxes.Filenames
                 ToolBoxListBox.Items.Add(FileName)
             Next
-        Catch e As Exception
+        Catch e as system.exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error building tool box List")
         End Try
     End Sub

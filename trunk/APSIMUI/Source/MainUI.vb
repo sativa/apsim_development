@@ -649,7 +649,7 @@ Public Class MainUI
             SimulationExplorer.Data = SimulationFile.data
             UpdateMainForm()
 
-        Catch e As Exception
+        Catch e as system.exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Cannot open APSIM file")
         End Try
 
@@ -662,7 +662,7 @@ Public Class MainUI
             SimulationExplorer.Data = SimulationFile.data
             UpdateMainForm()
 
-        Catch e As Exception
+        Catch e as system.exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
         End Try
     End Sub
@@ -805,7 +805,7 @@ Public Class MainUI
                 AddHandler Item.Click, AddressOf Me.ToolBoxes_Click
                 toolBoxContextMenu.MenuItems.Add(Item)
             Next
-        Catch e As Exception
+        Catch e as system.exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error building tool box menus")
         End Try
     End Sub
@@ -913,7 +913,7 @@ Public Class MainUI
                 MsgBox("Cannot make simulation until apsim file has been saved to a target location.", MsgBoxStyle.Critical, "Error")
             End If
             Return SimFiles
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Function
@@ -949,7 +949,7 @@ Public Class MainUI
                 Me.WindowState = FormWindowState.Maximized
             End If
 
-        Catch ex As Exception
+        Catch ex as system.exception
 
         End Try
     End Sub
@@ -961,7 +961,7 @@ Public Class MainUI
             inifile.SetSetting("apsimui", "left", Str(Me.Left))
             inifile.SetSetting("apsimui", "width", Str(Me.Width))
             inifile.SetSetting("apsimui", "height", Str(Me.Height))
-        Catch ex As Exception
+        Catch ex as system.exception
 
         End Try
     End Sub
