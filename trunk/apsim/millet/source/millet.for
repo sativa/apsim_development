@@ -3562,21 +3562,24 @@ csc  true....
      :                         * divide (N_avail(flower)
      :                                 , N_avail_stover, 0.0)
  
-         dlt_N_retrans(stem) = - grain_N_demand
+        dlt_N_retrans(stem) = - grain_N_demand
      :                         - dlt_N_retrans(leaf)   ! note - these are
      :                         - dlt_N_retrans(flower) ! -ve values.
+         dlt_N_retrans(stem) = bound(dlt_N_retrans(stem)
+     :                               , - N_avail(stem), 0.0)  ! to remove rounding errors from the divisions.
  
          dlt_N_retrans(grain) = grain_N_demand
- 
       endif
  
              ! just check that we got the maths right.
- 
       do 1000 part = root, flower
          call bound_check_real_var (abs (dlt_N_retrans(part))
      :                            , 0.0, N_avail(part)
      :                            , 'dlt_N_retrans(part)')
 1000  continue
+      if (N_avail(stem).eq.0.0 .and.  dlt_N_retrans(stem).ne.0) then
+         read*,part
+      endif
  
       call pop_routine (my_name)
       return
