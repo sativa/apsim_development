@@ -8,6 +8,7 @@
 #include "Plantlibrary.h"
 
 //==========================================================================
+#if 0
 void crop_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag             
                            const char *crop_type,            //(INPUT) crop type name          
                            const char *uptake_type,          //(INPUT) uptake name             
@@ -55,4 +56,4 @@ void crop_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake fl
       }
 
    }
-
+#endif

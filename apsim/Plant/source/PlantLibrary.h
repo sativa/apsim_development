@@ -1145,6 +1145,7 @@ void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
     ,int   end_development_stage
     ,int   start_stress_stage
     ,int   end_stress_stage
+    ,int   end_flower_stage
     ,int   max_stage
     ,int   c_num_temp
     ,float *c_x_temp
@@ -1153,12 +1154,14 @@ void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
     ,float g_mint
     ,float g_nfact_pheno
     ,float g_swdef_pheno
+    ,float g_swdef_pheno_flower
+    ,float g_swdef_pheno_grainfill
     ,float g_vern_eff
     ,float g_photop_eff
     ,float c_pesw_germ
-    ,float *c_fasw_emerg
-    ,float *c_rel_emerg_rate
-    ,int   c_num_fasw_emerg
+    ,float *c_fasw_emerg            // (INPUT)
+    ,float *c_rel_emerg_rate        // (INPUT)
+    ,int   c_num_fasw_emerg         // (INPUT)
     ,float *g_dlayer
     ,int   max_layer
     ,float g_sowing_depth
@@ -1170,8 +1173,7 @@ void cproc_n_supply2 (float *g_dlayer,                // (INPUT)
     ,float *g_phase_devel
     ,float *g_dlt_stage
     ,float *g_tt_tot
-    ,float *g_days_tot
-    ) ;
+    ,float *g_days_tot) ;
 
 float legume_stage_code( float *C_stage_code_list //(INPUT)  list of stage numbers
                    , float *G_phase_tt        //(INPUT)  Cumulative growing degree days required for each stage (deg days)
@@ -1248,37 +1250,40 @@ void crop_phase_devel(int   sowing_stage,              //(INPUT)
                       float *G_tt_tot,                 // (INPUT)  the sum of growing degree days               
                       float *phase_devel);              // (OUTPUT) fraction of current phase                    
                                                        //          elapsed ()                             
-void plant_phenology3 (float *g_previous_stage  // out
-                      ,float *g_current_stage   // in/OUT
-                      ,int   sowing_stage
-                      ,int   germ_stage
-                      ,int   end_development_stage
-                      ,int   start_stress_stage
-                      ,int   end_stress_stage
-                      ,int   max_stage
-                      ,int   c_num_temp
-                      ,float *c_x_temp
-                      ,float *c_y_tt
-                      ,float g_maxt
-                      ,float g_mint
-                      ,float g_nfact_pheno
-                      ,float g_swdef_pheno
-                      ,float c_pesw_germ
-                      ,float *c_fasw_emerg
-                      ,float *c_rel_emerg_rate
-                      ,int   c_num_fasw_emerg
-                      ,float *g_dlayer
-                      ,int   max_layer
-                      ,float g_sowing_depth
-                      ,float *g_sw_dep
-                      ,float *g_dul_dep
-                      ,float *p_ll_dep
-                      ,float *g_dlt_tt  //OUT
-                      ,float *g_phase_tt
-                      ,float *g_phase_devel //OUT
-                      ,float *g_dlt_stage
-                      ,float *g_tt_tot
-                      ,float *g_days_tot);
+void plant_phenology3 (float *g_previous_stage
+                             ,float *g_current_stage
+                             ,int   sowing_stage
+                             ,int   germ_stage
+                             ,int   end_flowering_stage
+                             ,int   end_development_stage
+                             ,int   start_stress_stage
+                             ,int   end_stress_stage
+                             ,int   max_stage
+                             ,int   c_num_temp
+                             ,float *c_x_temp
+                             ,float *c_y_tt
+                             ,float g_maxt
+                             ,float g_mint
+                             ,float g_nfact_pheno
+                             ,float g_swdef_pheno
+                             ,float g_swdef_pheno_flower
+                             ,float g_swdef_pheno_grainfill
+                             ,float c_pesw_germ
+                             ,float *c_fasw_emerg
+                             ,float *c_rel_emerg_rate
+                             ,int   c_num_fasw_emerg
+                             ,float *g_dlayer
+                             ,int   max_layer
+                             ,float g_sowing_depth
+                             ,float *g_sw_dep
+                             ,float *g_dul_dep
+                             ,float *p_ll_dep
+                             ,float *g_dlt_tt
+                             ,float *g_phase_tt
+                             ,float *g_phase_devel // OUT
+                             ,float *g_dlt_stage
+                             ,float *g_tt_tot
+                             ,float *g_days_tot);
 
 void cproc_phenology1 (float  *G_previous_stage,         //   OUTPUT
                        float  *G_current_stage,          //   OUTPUT
