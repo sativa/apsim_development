@@ -255,7 +255,7 @@ inline Message* newPublishEventMessage(unsigned int from,
    {
    Message* msg = constructMessage(PublishEvent, from, to, false,
                                    memorySize(ID) + memorySize(type) + memorySize(numValues) +
-                                   numValues * memorySize(data));
+                                   numValues * memorySize(data[0]));
    MessageData messageData(msg);
    messageData << ID << type << numValues;
    for (unsigned i = 0; i != numValues; i++)

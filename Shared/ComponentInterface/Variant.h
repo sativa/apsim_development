@@ -80,7 +80,7 @@ class Variant
             }
          messageData >> numValues;
          for (unsigned i = 0; i != numValues; i++)
-            messageData >> obj[0];  
+            messageData >> obj[i];
          return true;
          }
       void setTypeConverter(TypeConverter* typeconv)
