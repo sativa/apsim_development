@@ -380,12 +380,18 @@ void __fastcall TMDIChild::SendDataToEXCEL(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMDIChild::SOIToggle(TObject *Sender)
    {
-   SOI_on = !SOI_on;
-   if (SOI_on)
-     SOI->Edit();
-   Hook_components_together();
-   Refresh_components();
-   OptionsSOIMenu->Checked = SOI_on;
+   bool OriginalSOIStatus = SOI_on;
+   if (!SOI_on)
+      SOI_on = SOI->Edit();
+   else
+      SOI_on = false;
+
+   if (OriginalSOIStatus != SOI_on)
+      {
+      Hook_components_together();
+      Refresh_components();
+      }
+    OptionsSOIMenu->Checked = SOI_on;
    }
 //---------------------------------------------------------------------------
 void TMDIChild::Display_settings(void)
