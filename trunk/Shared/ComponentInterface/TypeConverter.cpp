@@ -342,9 +342,9 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 //                int1      int2    int4              int8   single                double              boolean             char             string
 /*D   int1*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
 /*E   int2*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
-/*S   int4*/    {  NULL,    NULL,    &int4FromInt4,   NULL, &int4FromSingle,        NULL,              NULL,               NULL,        &int4FromString},
+/*S   int4*/    {  NULL,    NULL,  &int4FromInt4,     NULL, &int4FromSingle,        NULL,              NULL,               NULL,        &int4FromString},
 /*T   int8*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
-/*    single*/  {  NULL,    NULL,    NULL,            NULL, &singleFromSingle,   &singleFromDouble,    NULL,               NULL,        &singleFromString},
+/*    single*/  {  NULL,    NULL,  &singleFromInt4,   NULL, &singleFromSingle,   &singleFromDouble,    NULL,               NULL,        &singleFromString},
 /*    double*/  {  NULL,    NULL,    NULL,            NULL, &doubleFromSingle,   &doubleFromDouble,    NULL,               NULL,            NULL},
 /*    boolean*/ {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,        &booleanFromString},
 /*    char*/    {  NULL,    NULL,    NULL,            NULL,   NULL,                 NULL,              NULL,               NULL,            NULL},
