@@ -16,7 +16,8 @@
       &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot; 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
       FarmWebLib.lib"/>
-    <LIBRARIES value="IW7TMSGRIDC6.lib IntrawebDB_70_60.lib IW7TMSC6.lib Intraweb_70_60.lib"/>
+    <LIBRARIES value="IW7TMSGRIDC6.lib IntrawebDB_70_60.lib IW7TMSC6.lib Intraweb_70_60.lib 
+      adortl.lib dclocx.lib vcldb.lib dbrtl.lib inet.lib vclx.lib vcl.lib rtl.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib vclx.lib inet.lib dbrtl.lib vcldb.lib dclocx.lib 
       adortl.lib Intraweb_70_60.lib IW7TMSC6.lib IntrawebDB_70_60.lib 
       IW7TMSGRIDC6.lib"/>
@@ -32,7 +33,7 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="NO_STRICT;USEPACKAGES"/>
+    <SYSDEFINES value="NO_STRICT"/>
     <MAINSOURCE value="AfloApp.cpp"/>
     <INCLUDEPATH value="..\..\Shared\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb;$(BCB)\components\boost;$(SHARED)"/>
     <LIBPATH value="..\..\Shared\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\Components\IntraWeb\LibCB6;$(BCB)\components\tms\intraweb"/>
@@ -49,7 +50,7 @@
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0w32.obj $(PACKAGES) sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0w32.obj sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib"/>
     <OTHERFILES value=""/>
@@ -98,6 +99,9 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
+
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
 
 [HistoryLists\hlIncludePath]
 Count=8
