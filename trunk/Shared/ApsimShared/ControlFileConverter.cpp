@@ -12,6 +12,7 @@
 #include <general\stringTokenizer.h>
 #include <general\path.h>
 #include <general\date_class.h>
+#include <general\inifile.h>
 using namespace std;
 
 // ------------------------------------------------------------------
@@ -489,24 +490,14 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
             delete MoveParametersForm;
             }
 
-
-         ApsimParameterFile newParamFile(parFileToUse,
-                                         paramFiles[i].getModuleName(),
-                                         paramFiles[i].getInstanceName(),
-                                         paramFiles[i].getSection());
-
-         // parameters need to be moved.
-         vector<string> names;
-         paramFiles[i].getParameterNames(names);
-         for (unsigned p = 0; p != names.size(); ++p)
-            {
-            vector<string> values;
-            paramFiles[i].getParamValues(names[p], values);
-            newParamFile.setParamValues(names[p], values);
-            }
+         IniFile oldParamFile(paramFiles[i].getFileName());
+         IniFile newParamFile(parFileToUse);
+         string contents;
+         oldParamFile.readSection(paramFiles[i].getSection(), contents);
+         newParamFile.writeSection(paramFiles[i].getSection(), contents);
 
          // delete entire section.
-         paramFiles[i].deleteSection();
+         oldParamFile.deleteSection(paramFiles[i].getSection());
          }
       }
    // tell control file to remove the self reference for this instance.
