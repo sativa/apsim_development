@@ -1,6 +1,6 @@
 [sample.report.parameters]
 outputfile  =erosion.out
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 variable = erosion.soil_loss
 variable = soilwat2.runoff
 
