@@ -449,6 +449,8 @@ cih
 
 *+  Changes
 *     dph 3/8/99
+*     dph 3/11/99 modified to only call Screen_writepercentcomplete
+*                 if percent is a multiple of 5.
 
 *+  Constant Values
 
@@ -460,7 +462,8 @@ cih
       ! print out percent complete to screen if necessary
       New_percent_complete = (g%current_date - g%start_date) 
      .                   / (g%end_date - g%start_date) * 100.0
-      if (New_percent_complete .ne. g%Percent_complete) then
+      if (New_percent_complete - g%Percent_complete .ge. 5 .or.
+     .    g%Percent_complete .eq. 0) then
          call Screen_WritePercentComplete (New_percent_complete)
          g%Percent_complete = New_percent_complete
       endif
