@@ -1,4 +1,4 @@
-C     Last change:  E    31 Jul 2001    5:13 pm
+C     Last change:  E    16 Aug 2001    1:43 pm
 
 
 
@@ -124,10 +124,13 @@ C     Last change:  E    31 Jul 2001    5:13 pm
      :               , c_leaf_no_min
      :               , c_leaf_no_max
      .               , g_leaf_no_final
+     .               , g_leaf_no
 
-     .               , c_leaf_app_rate0
+     .               , c_leaf_init_rate
      .               , c_leaf_app_rate1
      .               , c_leaf_app_rate2
+
+     .               , p_startgf_to_mat
 
      .               , p_tt_germ_to_emerg
      .               , p_tt_emerg_to_endjuv
@@ -180,10 +183,13 @@ C     Last change:  E    31 Jul 2001    5:13 pm
       REAL       c_leaf_no_min
       REAL       c_leaf_no_max
       REAL       g_leaf_no_final
+      REAL       g_leaf_no(*)
 
-      REAL       c_leaf_app_rate0
+      REAL       c_leaf_init_rate
       REAL       c_leaf_app_rate1
       REAL       c_leaf_app_rate2
+
+      REAl       p_startgf_to_mat
 
       REAL       p_tt_germ_to_emerg
       REAL       p_tt_emerg_to_endjuv
@@ -218,33 +224,89 @@ C     Last change:  E    31 Jul 2001    5:13 pm
        REAL photoperiod
        REAL leaf_no
        REAL tt_emerg_to_flag_leaf
+       REAL tt_endjuv_init
+       REAL p_phyllochron
+       REAL leaf_no_now
+
+
 
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
 
-* On the sowing day, calculate the tt for emergence
-      if (on_day_of (sowing, g_current_stage, g_days_tot)) then
+      p_phyllochron = c_leaf_app_rate1
+      leaf_no_now   = sum_between(emerg, now, g_leaf_no)
 
-       if (p_tt_germ_to_emerg.le.0.0) then
+* On the sowing day, calculate the tt for emergence
+      if (on_day_of (sowing, g_current_stage, g_days_tot) .or.
+     :    stage_is_between(sowing, emerg, g_current_stage)) then
+
+
+       if (p_tt_germ_to_emerg.le.1.0) then
           g_phase_tt(germ_to_emerg) = c_shoot_lag
      :                         + g_sowing_depth*c_shoot_rate
        else
           g_phase_tt(germ_to_emerg) = p_tt_germ_to_emerg
        end if
 
-       !This is to avoid a varning in leaf number final
-       g_phase_tt(emerg_to_endjuv)       = p_tt_emerg_to_endjuv
-       g_phase_tt(endjuv_to_init)        = p_tt_endjuv_to_init
-       g_phase_tt(init_to_flag)          = p_tt_init_to_flag
-       g_phase_tt(flag_to_flower)        = p_tt_flag_to_flower
-       g_phase_tt(flower_to_start_grain) = p_tt_flower_to_start_grain
-       g_phase_tt(start_to_end_grain)    = p_tt_start_to_end_grain
-       g_phase_tt(end_grain_to_maturity) = p_tt_end_grain_to_maturity
-       g_phase_tt(maturity_to_ripe)      = p_tt_maturity_to_ripe
-       g_phase_tt(ripe_to_harvest)       = p_tt_ripe_to_harvest
+c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 
-* On the day of emergence,make an estimate of phase duration for endjuv to floral init  
+       !This is to avoid a varning in leaf number final
+
+       g_phase_tt(emerg_to_endjuv) = MAX(1.0, p_tt_emerg_to_endjuv)
+
+       if (p_tt_endjuv_to_init .gt. 1.0) then
+         g_phase_tt(endjuv_to_init)  = p_tt_endjuv_to_init
+       else
+         g_phase_tt(endjuv_to_init)  = 400.0
+       end if
+
+       if (p_tt_init_to_flag .gt. 1.0) then
+         g_phase_tt(init_to_flag)    = p_tt_init_to_flag
+       else
+         g_phase_tt(init_to_flag)    = 3.0 * p_phyllochron
+       endif
+
+       if (p_tt_flag_to_flower .gt. 1.0) then
+         g_phase_tt(flag_to_flower)  = p_tt_flag_to_flower
+       else
+         g_phase_tt(flag_to_flower)  = 2.0 * p_phyllochron + 80.0
+       endif
+
+       if (p_tt_flower_to_start_grain .gt. 1.0) then
+         g_phase_tt(flower_to_start_grain) = p_tt_flower_to_start_grain
+       else
+         g_phase_tt(flower_to_start_grain) = 200.0 - 80.0
+       endif
+
+       if (p_tt_end_grain_to_maturity .gt. 1.0) then
+         g_phase_tt(end_grain_to_maturity) = p_tt_end_grain_to_maturity
+       else
+         g_phase_tt(end_grain_to_maturity) =
+     :                     0.05*(  g_phase_tt(flower_to_start_grain)
+     :                            + p_startgf_to_mat)
+       endif
+
+       if (p_tt_start_to_end_grain .gt. 1.0) then
+         g_phase_tt(start_to_end_grain)    = p_tt_start_to_end_grain
+       else
+         g_phase_tt(start_to_end_grain)    = p_startgf_to_mat
+     :                   - g_phase_tt(end_grain_to_maturity)
+       endif
+
+       if (p_tt_maturity_to_ripe .gt. 1.0) then
+         g_phase_tt(maturity_to_ripe) = p_tt_maturity_to_ripe
+       else
+         g_phase_tt(maturity_to_ripe) = 1.0
+       endif
+
+       if (p_tt_ripe_to_harvest .gt. 1.0) then
+         g_phase_tt(ripe_to_harvest)  = p_tt_ripe_to_harvest
+       else
+         g_phase_tt(ripe_to_harvest)  = 1.0
+       endif
+
+* On the day of emergence,make an estimate of phase duration for endjuv to floral init
       elseif (stage_is_between(endjuv,floral_init,g_current_stage)) then
 
 
@@ -281,10 +343,19 @@ C     Last change:  E    31 Jul 2001    5:13 pm
      :                         * c_leaf_app_rate1
      :                         + (g_leaf_no_final - leaf_no)
      :                         * c_leaf_app_rate2
- 
+
+         tt_endjuv_init = MAX(g_phase_tt(endjuv_to_init),
+     :                        g_tt_tot(endjuv_to_init))
+
+         PRINT *,  g_phase_tt(endjuv_to_init),g_tt_tot(endjuv_to_init)
+
          g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :                            - g_phase_tt(emerg_to_endjuv)
-     :                            - g_phase_tt(endjuv_to_init)
+     :                            - tt_endjuv_init
+
+
+         g_phase_tt(init_to_flag) = (g_leaf_no_final - leaf_no_now)
+     :                             *  p_phyllochron
 
       else
  
@@ -917,6 +988,9 @@ cglh uses sowing, not emerg to calc leaf no.
  
       leaf_no_now = sum_between (emerg, now, g_leaf_no)
       leaf_no_remaining = g_leaf_no_final - leaf_no_now
+
+c      PRINT *, 'leaf_appearan = ',g_current_stage, g_leaf_no_final,
+c     :  leaf_no_now
  
 !scc Peter's 2 stage version used here, modified to apply
 ! to last few leaves before flag

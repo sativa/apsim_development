@@ -1,4 +1,4 @@
-C     Last change:  E     3 Aug 2001    2:08 pm
+C     Last change:  E    24 Aug 2001    4:46 pm
 
 *     ===========================================================
       subroutine Crop_Read_Constants ()
@@ -163,7 +163,7 @@ C     Last change:  E     3 Aug 2001    2:08 pm
 
          !------------------------------------------------
          !CROP DEATH of PLANTS (cf. plant part pools)
-         !call Crop_Death(1)
+         call Crop_Death(1)
  
          !Check to see if plant death should terminate crop
          if(reals_are_equal (g%dlt_plants_dead + g%plants, 0.0))then
@@ -226,6 +226,9 @@ C     Last change:  E     3 Aug 2001    2:08 pm
       call nitrogen_stress           (GetSwitchCode(c%nit_switch,8))
 
 
+      call leaf_area_initialisation  (GetSwitchCode(c%can_switch,1))
+
+
       !SECTION 1:  PLANT WATER REALTION
       call water_supply              (GetSwitchCode(c%wat_switch,1))
       call water_demand              (GetSwitchCode(c%wat_switch,2))
@@ -246,6 +249,9 @@ C     Last change:  E     3 Aug 2001    2:08 pm
       call leaf_number_final         (GetSwitchCode(c%leafno_switch,2))
       call leaf_initiation           (GetSwitchCode(c%leafno_switch,3))
       call leaf_appearance           (GetSwitchCode(c%leafno_switch,4))
+
+
+
 
 
 
@@ -938,13 +944,23 @@ c       PAUSE
       call push_routine (my_name)
 
 
-      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
-      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
-      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
+c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
+c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
+c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN THE FUTURE
 
 
-      if (option .eq. 1) then       !NEW OPTION
+      if (option .eq. 2) then       !NEW OPTION
 
+          photoperiod = day_length (g%day_of_year,
+     :                              g%latitude,
+     :                              c%twilight)
+
+           call wheat_photoperiod_effect(g%current_stage,
+     :                                 emerg,
+     :                                 floral_init,
+     :                                 photoperiod,
+     :                                 p%photop_sen_internal,
+     :                                 g%photop_eff)
            call Crop_phenology_init
      :               (
      :                 g%current_stage
@@ -974,10 +990,13 @@ c       PAUSE
      :               , c%leaf_no_min
      :               , c%leaf_no_max
      .               , g%leaf_no_final
+     .               , g%leaf_no
 
-     .               , c%leaf_app_rate0
+     .               , c%leaf_init_rate
      .               , c%leaf_app_rate1
      .               , c%leaf_app_rate2
+
+     .               , p%startgf_to_mat
 
      .               , p%tt_germ_to_emerg
      .               , p%tt_emerg_to_endjuv
@@ -997,7 +1016,7 @@ c       PAUSE
 
 
 
-      elseif ((option.eq.2).OR.(option.eq.3))  then
+      elseif ((option.eq.1).OR.(option.eq.3))  then
 
           photoperiod = day_length (g%day_of_year,
      :                              g%latitude,
@@ -2998,6 +3017,31 @@ c         PRINT *, 'option = ', option
      :                  g%dlt_tiller_no,
      :                  g%dlt_stiller_no)
 
+      elseif (Option.eq.9) then
+
+             call tillering_Wang_1 (
+     :                  g%current_stage,
+     :                  emerg,
+     :                  floral_init,
+     :                  flag_leaf,
+     :                  g%dm_green(stem),
+     :                  g%dlt_dm_green(stem),
+     :                  g%tt_tot,
+     :                  g%phase_tt,
+     :                  g%dlt_tt,
+     :                  c%leaf_app_rate1,
+     :                  g%leaf_no,
+     :                  g%dlt_leaf_no,
+     :                  g%tiller_no_pot,
+     :                  g%tiller_no_fertile,
+     :                  g%plants,
+     :                  g%swdef_tiller,
+     :                  g%nfact_tiller,
+     :                  g%dm_tiller_pot,
+     :                  p%dm_tiller_max,
+     :                  g%dlt_tiller_no_pot,
+     :                  g%dlt_tiller_no,
+     :                  g%dlt_stiller_no)
 
       else if (Option.eq.0) then
 
@@ -3067,6 +3111,7 @@ c         PRINT *, 'option = ', option
       implicit none
       include 'const.inc'
       include 'convert.inc'
+      include 'data.pub'
       include 'error.pub'
       include 'crp_cnpy.pub'
 
@@ -3083,6 +3128,7 @@ c         PRINT *, 'option = ', option
       REAL tpla_max
 
       REAL tiller_stop_stage
+      REAL tt_emerg_to_flag
 
       INTEGER GetSwitchCode
 
@@ -3209,6 +3255,43 @@ c         PRINT *, 'option = ', option
      .          g%leaf_no,
      .          g%dlt_lai_pot,
      .          g%tiller_no_fertile)
+
+
+       elseif (Option.eq.9) then
+
+         if (GetSwitchCode(c%phen_switch,3).eq.9) then
+            tiller_stop_stage = 5.5
+         else
+            tiller_stop_stage = 5.0
+         end if
+
+         tt_emerg_to_flag = sum_between(emerg, flowering, g%phase_tt)
+
+         call cproc_leaf_area_pot_iw_EW (
+     .          tt_emerg_to_flag,
+     .          g%tt_tiller_emergence,
+     .          tiller_stop_stage,
+     .          g%plants,
+     .          g%current_stage,
+     .          c%leaf_app_rate1,
+     .          g%dlt_tt,
+
+     .          c%max_tiller_area,
+     .          c%tiller_area_tt_steepness,
+     .          c%tiller_area_tt_inflection,
+
+     .          g%tiller_area_max,
+     .          p%tiller_curve,
+     .          p%tiller_tt_infl,
+     .          g%tiller_tt_tot,
+     .          g%tiller_area_pot,
+     .          g%dlt_tiller_area_pot,
+     .          g%dlt_lai_pot,
+     .          g%tiller_no_fertile)
+
+
+        PRINT *,tt_emerg_to_flag,g%tt_tiller_emergence(1:6)
+
 
       elseif ((Option .eq. 0).or.(Option .eq. 3)) then
 
@@ -5693,11 +5776,16 @@ c         g%nfact_tiller = g%nfact_expansion
       use CropModModule
       implicit none
       include 'const.inc'
+      include 'crp_fail.pub'
       include 'convert.inc'
       include 'error.pub'                         
+      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
+
+      INTEGER    days_after_emerg
+
 
 *+  Purpose
 *     <insert here>
@@ -5714,24 +5802,67 @@ c         g%nfact_tiller = g%nfact_expansion
  
       If (Option .eq. 1) then
  
-c      call sproc_plant_death1 (
-c     .          c%tt_emerg_limit,
-c     .          g%current_stage,
-c     .          g%plants,
-c     .          g%tt_tot,
-c     .          g%dlt_plants_all,
-c
-c     .          g%lai,
-c     .          g%dlt_slai,
-c
-c     .          g%cswd_photo,
-c     .          g%leaf_no,
-c     .          c%leaf_no_crit,
-c     .          c%swdf_photo_limit,
-c     .          g%swdef_photo,
-c     .          c%swdf_photo_rate,
-c     .          g%dlt_plants_water,
-c     .          g%dlt_plants_dead)
+         call crop_failure_germination (sowing, germ, now
+     :        , c%days_germ_limit
+     :        , g%current_stage
+     :        , g%days_tot
+     :        , g%plants
+     :        , g%dlt_plants_failure_germ)
+
+         call crop_failure_emergence (germ, emerg, now
+     :        , c%tt_emerg_limit
+     :        , g%current_stage
+     :        , g%plants
+     :        , g%tt_tot
+     :        , g%dlt_plants_failure_emergence)
+
+         call crop_failure_leaf_senescence (
+     :          floral_init
+     :        , start_grain_fill
+     :        , g%lai
+     :        , g%current_stage
+     :        , g%plants
+     :        , g%dlt_plants_failure_leaf_sen)
+
+
+        days_after_emerg = int(sum_between (emerg, now, g%days_tot)) - 1
+
+         call crop_death_seedling_hightemp (
+     :          days_after_emerg
+     :        , g%year
+     :        , g%day_of_year
+     :        , g%soil_temp
+     :        , c%x_weighted_temp
+     :        , c%y_plant_death
+     :        , c%num_weighted_temp
+     :        , g%plants
+     :        , g%dlt_plants_death_seedling)
+
+
+         call crop_death_drought (
+     :          emerg
+     :        , flag_leaf
+     :        , plant_end
+     :        , g%cswd_photo
+     :        , g%leaf_no
+     :        , c%leaf_no_crit
+     :        , c%swdf_photo_limit
+     :        , g%swdef_photo
+     :        , c%swdf_photo_rate
+     :        , g%plants
+     :        , g%dlt_plants_death_drought)
+
+         call crop_death_actual (
+     :          g%dlt_plants_failure_germ
+     :        , g%dlt_plants_failure_emergence
+     :        , g%dlt_plants_failure_leaf_sen
+     :        , g%dlt_plants_failure_phen_delay
+     :        , g%dlt_plants_death_seedling
+     :        , g%dlt_plants_death_drought
+     :        , g%dlt_plants_death_barrenness
+     :        , g%dlt_plants
+     :            )
+
  
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
@@ -5740,7 +5871,6 @@ c     .          g%dlt_plants_dead)
       call pop_routine (myname)
       return
       end
-
 
 
 

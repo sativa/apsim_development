@@ -1,4 +1,4 @@
-C     Last change:  E     3 Jul 2001   10:10 am
+C     Last change:  E    16 Aug 2001    1:31 pm
 
 *     ===========================================================
       subroutine Read_Constants_Wheat ()
@@ -197,22 +197,23 @@ C%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      :                    , p%photop_sen, numvals
      :                    , 0.0, 10.0)
 
-      call read_real_var (cultivar
-     :                    , 'tt_startgf_to_mat', '()'
-     :                    , p%startgf_to_mat, numvals
-     :                    , 0.0, 1000.0)
-
-
       vern_sens    = p%vern_sen
       photop_sens  = p%photop_sen
-
-c      PRINT *, "===================================="
-c      PRINT *, 'p%vern_sen  =', p%vern_sen
-c      PRINT *, 'p%photop_sen=', p%photop_sen
 
       p%vern_sen_internal   = p%vern_sen   * 0.0054545 + 0.0003
       p%photop_sen_internal = p%photop_sen * 0.002
 
+
+      call read_real_var_optional (cultivar
+     :                    , 'tt_endjuv_to_init', '()'
+     :                    , p%tt_endjuv_to_init, numvals
+     :                    , 0.0, 1000.0)
+
+
+      call read_real_var (cultivar
+     :                    , 'tt_startgf_to_mat', '()'
+     :                    , p%startgf_to_mat, numvals
+     :                    , 0.0, 1000.0)
 
       !----------------------------------------------------------------------
       ! New approach
@@ -2593,6 +2594,7 @@ c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !original
      :                         , c_leaf_init_rate, 0.0)
      :                    + c_leaf_no_seed
 
+
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cew added the following section for wheat approach
 
@@ -4148,6 +4150,7 @@ c     :    stage_is_between(sowing, emerg, g_current_stage)) then
        else
          phase_tt(endjuv_to_init)  = 400.0
        end if
+
 
        if (p_tt_init_to_flag .gt. 1.0) then
          phase_tt(init_to_flag)    = p_tt_init_to_flag
@@ -10694,15 +10697,43 @@ C     Last change:  E    18 Aug 2000    3:51 pm
       REAL dlt_leaf_no
       REAL leaf_no_after_fi
       REAL current_leaf_size
-c     real leaf_no_now
-      REAL leaf_size
+      real leaf_no_now
+      REAL leaf_no_new
+      REAL leaf_no_fi
+      INTEGER leaf_no
+      REAL tiller_no
+
+      REAL leaf_size1
+      REAL increase1
+      REAL increase2
+      REAL leaf_size(100)
+      integer LFN
+      REAL dLFN1
+      REAL dLFN2
+      REAL dlt_LAI
+      integer leaf_no_size_change
+
+      SAVE leaf_size
+      SAVE leaf_no_fi
+
+
+
 
 *+  Calls
 
       
 *+ --Implementation section ---------------------------
        call push_routine (my_name)
-       
+
+
+       leaf_size1          = 300  !653  !653.0
+       increase1           = 1.46 !05 !5% increase
+       increase2           = 1.46 !20% increase
+       leaf_no_size_change = 1
+
+
+       leaf_no_now      = sum_between(emerg,      12,g_leaf_no)
+       leaf_no_after_fi = sum_between(floral_init,12,g_leaf_no)
 
        if (stage_is_between(emerg,flag_leaf,g_current_stage)) then
           dlt_leaf_no = divide(g_dlt_tt, phint, 0.0)
@@ -10711,44 +10742,48 @@ c     real leaf_no_now
        endif
 
 
-c      leaf_no_now      = sum_between(emerg,      12,g_leaf_no)
-       leaf_no_after_fi = sum_between(floral_init,12,g_leaf_no)
+       tiller_no = g_tiller_no  !) MAX(1.0, leaf_no_now - 2.5)
+       LFN = INT(leaf_no_now)+1
 
-
-       leaf_size = 653.0
-
-       if (leaf_no_after_fi.le.0.0) then
-         current_leaf_size = leaf_size !653.0 !mm2
+c      if (leaf_no_after_fi.le.0.0) then
+       if (LFN.le.leaf_no_size_change) then
+          leaf_size(LFN) = increase1**(LFN-1)*leaf_size1
+          leaf_no_fi     = LFN
        else
-         current_leaf_size = 653.0+INT(leaf_no_after_fi+1.0)*522.0 !mm2
-         current_leaf_size = leaf_size
-     :                  +INT(leaf_no_after_fi+1.0)*522.0 !mm2
+          leaf_no        = INT(leaf_no_now - leaf_no_fi) +1
+          leaf_size(LFN) = increase2**(leaf_no-1)*leaf_size(leaf_no_fi)
        end if
 
+       leaf_no_new = leaf_no_now + dlt_leaf_no
 
-       !CERES
-c       if (leaf_no_after_fi.le.0.0) then
-c          current_leaf_size = 1400.0*(leaf_no_now**0.6)
-c       else
-c         current_leaf_size = 1400.0+INT(leaf_no_after_fi+1.0)*2*522.0 !mm2
-c       endif
+       if (INT(leaf_no_new).GT.INT(leaf_no_now)) then
+           dLFN1 = 1.0 - (leaf_no_now- INT(leaf_no_now))
+	   dLFN2 = leaf_no_new - INT(leaf_no_new)
+       else
+           dLFN1 = dlt_leaf_no
+           dLFN2 = 0.0
+       end if
 
-       !leaf_area = leaf_area * (0.3 + 0.7 * g_tiller_no)
-       
+       dlt_LAI = dLFN1 * leaf_size(LFN) + dLFN2 * leaf_size(LFN+1)
 
 
+c      PRINT *, '============================='
+c      PRINT *, 'dlt_LAI       =', dlt_LAI
 
-      !mm2 per plant
-       dlt_tpla_today = current_leaf_size * dlt_leaf_no *g_tiller_no
-
-c       dlt_tpla_today =711.95*(EXP(0.2824*(leaf_no_now + dlt_leaf_no))
-c     :                        - EXP(0.2824*leaf_no_now))
-c     :                        * g_tiller_no
-
+       dlt_LAI = dlt_LAI * tiller_no
 
 
       ! m2 leaf area / m2
-      g_dlt_lai_pot = dlt_tpla_today * g_plants *1E-6
+      g_dlt_lai_pot = dlt_LAI * g_plants *1E-6
+
+c      PRINT *, 'g_plants      =', g_plants
+c      PRINT *, 'leaf_no_now   =', leaf_no_now
+c      PRINT *, 'tiller_no     =', tiller_no
+c      PRINT *, 'dlt_LAI       =', dlt_LAI
+c      PRINT *, 'leaf_no_fi    =', leaf_no_fi
+c      PRINT *, 'g_dlt_lai_pot =', g_dlt_lai_pot
+
+c      PRINT *, 'leaf_size     =', leaf_size(1:14)
 
 
       call pop_routine (my_name)
@@ -11326,6 +11361,14 @@ c             tt_til = tt_tot - (1.5+n-1) * phint
 
        INTEGER flower
 
+       REAL sumtt
+       REAL cumtt
+       REAL tt_fract
+       REAL dm_tiller
+       REAL dm_tiller_stem
+       REAL dlt_tiller_no
+
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
@@ -11336,6 +11379,12 @@ c             tt_til = tt_tot - (1.5+n-1) * phint
       leaf_no_now = sum_between(emerg,12,g_leaf_no)
 
       flower = flag_leaf + 1
+
+      sumtt = sum_between(emerg, 7, g_tt_tot)
+      cumtt = sum_between(emerg, 7, g_phase_tt)
+      tt_fract = sumtt/cumtt
+
+
 
       if (stage_is_between(emerg, flower, g_current_stage)) then
       
@@ -11371,5 +11420,368 @@ c             tt_til = tt_tot - (1.5+n-1) * phint
       call pop_routine (myname)
       return
       end
+
+
+* ====================================================================
+       subroutine tillering_Wang_1 (
+     :                  g_current_stage,
+     :                  emerg,
+     :                  floral_init,
+     :                  flag_leaf,
+     :                  dm_stem,
+     :                  dlt_dm_stem,
+     :                  g_tt_tot,
+     :                  g_phase_tt,
+     :                  g_dlt_tt,
+     :                  g_phint,
+     :                  g_leaf_no,
+     :                  g_tiller_no_pot,
+     :                  g_dlt_leaf_no,
+     :                  g_tiller_no,
+     :                  g_plants,
+     :                  g_swdef_tiller,
+     :                  g_nfact_tiller,
+     :                  g_dm_tiller_pot,
+     :                  p_dm_tiller_max,
+     :                  g_dlt_tiller_no_pot,
+     :                  g_dlt_tiller_no,
+     :                  g_dlt_tiller_no_sen)
+* ====================================================================
+      implicit none
+      include 'science.pub'
+      include 'data.pub'
+      include 'error.pub'
+
+* arguments
+      real      g_current_stage    !(INPUT) current dev stage
+      integer   emerg              !(INPUT) stage of emergence
+      integer   floral_init        !(INPUT) stage of floral initiation
+      integer   flag_leaf          !(INPUT) stage of flag leaf
+      real      dm_stem            !(INPUT) stem biomass (g/m2)
+      real      dlt_dm_stem        !(INPUT) stem biomass growth rate (g/m/d)
+      real      g_tt_tot(*)        !(INPUT) accumulated thermal time each stage (Cd)
+      real      g_phase_tt(*)      !(INPUT) thermal time needed for each stage to finish (Cd)
+      real      g_dlt_tt           !(INPUT) daily thermal time (Cd)
+      real      g_phint            !(INPUT) phyllochron interval (Cd)
+      real      g_leaf_no(*)       !(INPUT) leaves developed in each stage
+      real      g_dlt_leaf_no      !(INPUT) leaf no growth rate (leaves/d)
+      real      g_tiller_no_pot    !(INPUT)
+      real      g_tiller_no        !(INPUT) tiller number per plant (tillers/plt)
+      real      g_plants           !(INPUT) plant density (plants/m2)
+      real      g_swdef_tiller     !(INPUT) water stress factor for tillering
+      real      g_nfact_tiller     !(INPUT) n stress factor for tillering
+      real      g_dm_tiller_pot    !(OUTPUT)potential tiller weight (g/tl)
+      real      p_dm_tiller_max    !(INPUT) single tiller weight when elongation ceases (g/tiller)
+      real      g_dlt_tiller_no_pot
+      real      g_dlt_tiller_no    !(OUTPUT)tiller num growth rate (tillers/d)
+      real      g_dlt_tiller_no_sen!(OUTPUT)tiller num senesced today (tillers/d)
+      
+      
+*+  Purpose
+*     <insert here>
+ 
+*+  Notes
+*    if translocation from stem is to occur during stages for tillering
+*    - it will have to effect this.
+ 
+*+  Mission Statement
+*     Calculate tiller development
+ 
+*+  Changes
+*     990311 ew  reprogrammed based on nwheat routine
+ 
+*+  Constant Values
+      character*(*) myname               ! name of current procedure
+      parameter (myname = 'tillering_wang')
+ 
+*+  Local Variables
+       REAL    leaf_no_now
+
+       INTEGER flower
+
+       REAL sumtt
+       REAL cumtt
+       REAL tt_fract
+       REAL dm_tiller
+       REAL dm_tiller_stem
+       REAL dlt_tiller_no_dm
+       REAL dlt_tiller_no_stressed
+
+
+       REAL dlt_leaf_no
+       REAL primary_tillers
+
+
+*- Implementation Section ----------------------------------
+      call push_routine (myname)
+ 
+
+
+      !tiller_no_sq = g_tiller_no * g_plants
+
+      leaf_no_now = sum_between(emerg,12,g_leaf_no)
+
+      flower = flag_leaf + 1
+
+      sumtt = sum_between(emerg, 8, g_tt_tot)
+      cumtt = sum_between(emerg, 8, g_phase_tt)
+      tt_fract = sumtt/cumtt
+
+
+      if (stage_is_between(emerg, flag_leaf, g_current_stage)) then
+            dlt_leaf_no = divide(g_dlt_tt, g_phint, 0.0)
+      else
+            dlt_leaf_no = 0.0
+      endif
+
+
+      !After 2.5 leaves, tiller emerges at a potential rate of one tiller/phyllochron
+
+      primary_tillers = MAX(0.0, leaf_no_now - 2.5)
+
+c     g_dlt_tiller_no_pot = dlt_leaf_no
+      g_dlt_tiller_no_pot = dlt_leaf_no * primary_tillers
+
+      dlt_tiller_no_stressed = g_dlt_tiller_no_pot *
+     :                      min (g_swdef_tiller,g_nfact_tiller)
+
+c      g_dlt_tiller_no = dlt_tiller_no_stressed
+
+
+      if (stage_is_between(emerg, flower+1, g_current_stage)) then
+
+         dm_tiller      = p_dm_tiller_max*tt_fract**2.3531  !0.8143*tt_fract**2.3531
+         dm_tiller_stem = (dm_stem +dlt_dm_stem)/g_plants
+
+         dlt_tiller_no_dm=  MAX(0.0,
+     :                       dm_tiller_stem/dm_tiller-g_tiller_no)
+
+         dlt_tiller_no_dm=  dm_tiller_stem/dm_tiller - g_tiller_no
+
+         g_dlt_tiller_no = MIN(dlt_tiller_no_stressed,
+     :                      dlt_tiller_no_dm)
+      else
+         g_dlt_tiller_no = dlt_tiller_no_stressed
+      endif
+
+
+      if ((g_dlt_tiller_no .lt. 0.0) .and.
+     :    (g_tiller_no + g_dlt_tiller_no .lt. 1.0)) then
+         ! this delta would drop tiln below 1 tiller/plant
+         g_dlt_tiller_no = -1.0*(g_tiller_no - 1.)
+      endif
+
+ 
+      if (g_dlt_tiller_no .lt. 0.0) then
+         ! we are actually killing tillers - keep track of these
+         g_dlt_tiller_no_sen =  - g_dlt_tiller_no
+      endif
+ 
+
+      call pop_routine (myname)
+      return
+      end
+
+
+*     ===========================================================
+      subroutine cproc_leaf_area_pot_iw_EW (
+     .          tt_emerg_to_flag,
+     .          tt_tiller_emergence,
+     .          tiller_stop_stage,
+     .          g_plants,
+     .          g_current_stage,
+     .          phint,
+     .          g_dlt_tt,
+
+     .          c_max_tiller_area,
+     .          c_tiller_area_tt_steepness,
+     .          c_tiller_area_tt_inflection,
+
+
+     .          g_tiller_area_max,
+     .          c_tiller_curve,
+     .          c_tiller_tt_infl,
+     .          g_tiller_tt_tot,
+     .          g_tiller_area_pot,
+     .          g_dlt_tiller_area_pot,
+     .          g_dlt_lai_pot,
+     .          g_tiller_no)
+*     ===========================================================
+*+  Purpose
+*       returns increment in total leaf area
+
+*+  Changes
+*    Enli programmed based on the old i-wheat routine
+
+      implicit none
+      include 'CropDefCons.inc'
+      include 'convert.inc'
+      include 'science.pub'                       
+      include 'data.pub'                          
+      include 'error.pub'                         
+ 
+*+  Constant Values
+      character  my_name*(*)            ! name of subroutine
+      parameter (my_name = 'cproc_leaf_area_pot_iw_EW')
+
+*+  Local Variables
+      real tpla_dlt_today
+
+*+  Arguments
+      real tt_emerg_to_flag
+      real tt_tiller_emergence(*)
+      real tiller_stop_stage
+      real g_plants
+      real g_current_stage
+      real phint
+      real g_dlt_tt
+
+      real c_max_tiller_area
+      real c_tiller_area_tt_steepness
+      real c_tiller_area_tt_inflection
+
+
+      real g_tiller_area_max(*)
+
+      real c_tiller_curve(*)
+      real c_tiller_tt_infl(*)
+      real g_tiller_tt_tot
+      real g_tiller_area_pot(*)
+
+      real g_dlt_tiller_area_pot(*)
+      real g_dlt_lai_pot
+      REAL g_tiller_no
+
+*+  Calls
+
+*+  Local Variables
+      integer   n                      ! do loop counter
+      integer   istage
+      REAL      tiller_tt_tot_today
+      real      tiller_area_pot(max_leaf)
+
+
+      
+*+ --Implementation section ---------------------------
+       call push_routine (my_name)
+       
+
+       call fill_real_array(g_dlt_tiller_area_pot, 0.0, max_leaf)
+       call fill_real_array(      tiller_area_pot, 0.0, max_leaf)
+       
+       istage = int(g_current_stage)
+      
+       !=====================================================================
+       !Before emergence, initialisation, parameters should be externalised later
+
+       if (istage .lt. emerg) then ! crop hasn't emerged yet
+          ! till_curve and till_tt_infl are inversly related and
+          ! their product equals 7.2. till_tt_infl for the first
+          ! tiller is half of that for the whole plant. all subsequent
+          ! tillers have half of till_tt_infl of tiller 1.
+
+          !the coefficient for tiller_area_max is changed from 1.0 to 2.0 based on Porter JR, 1984.
+          !A model of canopy development in winter wheat. J. Agric. Sci. Camb. 102:383-392.
+
+          !Millet data indicates max leaf area for main shoot is pretty comparable to that of the tillers
+
+          !Max tiller area should be related to final leaf number
+
+          g_tiller_area_pot(1)   = 0.0
+          g_tiller_area_max(1)   = c_max_tiller_area * 100.0/ g_plants  !2.0 / (g_plants/sm2smm*100.0) !cm2 per tiller  - this should be related to final leaf number
+          g_tiller_area_max(1)   = MIN(200.0, g_tiller_area_max(1))
+
+          c_tiller_curve  (1)    = c_tiller_area_tt_steepness
+          c_tiller_tt_infl(1)    = 0.5*tt_emerg_to_flag  !c_tiller_area_tt_inflection
+
+
+          do n = 2, max_leaf
+            g_tiller_area_pot(n) = 0.0
+            g_tiller_area_max(n) =  c_max_tiller_area * 100.0/ g_plants  !2.0/(g_plants/sm2smm*100.0)
+            g_tiller_area_max(n)   = MIN(200.0, g_tiller_area_max(n))
+ 
+            c_tiller_curve(n)    = c_tiller_curve(1)   * 1.5
+            c_tiller_tt_infl(n)  = 0.5 *(tt_emerg_to_flag
+     :                                   - tt_tiller_emergence(n))  !c_tiller_tt_infl(1) / 1.5
+
+          end do
+
+
+c        if (istage.lt.germ) then
+         if (istage.lt.emerg) then
+                g_tiller_tt_tot = 0.0   ! in original i_wheat tt accumulated from germination - ew
+          endif
+ 
+
+       !=====================================================================
+       !After emergence till flowering, calculation
+
+
+c      elseif (stage_is_between(emerg,flowering,g_current_stage)) then !originally in i_wheat is flowering
+       elseif (stage_is_between(emerg,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+
+        ! crop has emerged, calculate leaf area
+
+         tiller_tt_tot_today = g_tiller_tt_tot + g_dlt_tt
+
+         call iw_tiller_area_pot_anyday_new (
+     .                               tiller_tt_tot_today,
+     .                               phint,
+     .                               g_tiller_area_max,
+     .                               c_tiller_curve,
+     .                               c_tiller_tt_infl,
+     .                               tiller_area_pot,
+     .                               g_tiller_no)
+
+         do n = 1, max_leaf
+
+           g_dlt_tiller_area_pot(n)= l_bound(tiller_area_pot(n)-
+     .                                     g_tiller_area_pot(n),0.0)
+         end do
+
+
+
+
+
+       !Tillering stops after floral initiation
+c       if (stage_is_between(floral_init,flag_leaf,g_current_stage)) then !originally in i_wheat is flowering
+       if (g_current_stage.ge.tiller_stop_stage) then !originally in i_wheat is flowering
+
+         do n = 1, max_leaf
+
+           if (tiller_area_pot(n) .eq. 0.0) then
+            g_tiller_area_max(n) = 0.0
+           endif
+         end do
+       endif
+
+
+
+
+
+
+
+
+       else
+         continue       ! don't do anything. leaves have stopped growing
+
+       endif
+ 
+
+      !cm2 per plant
+      tpla_dlt_today = sum_real_array (g_dlt_tiller_area_pot, max_leaf)
+      tpla_dlt_today = MAX(0.0, tpla_dlt_today)
+
+      ! m2 leaf area / m2
+      g_dlt_lai_pot = tpla_dlt_today* smm2sm * g_plants * 100.0
+
+
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+
 
 
