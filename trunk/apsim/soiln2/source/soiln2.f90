@@ -82,7 +82,7 @@ module Soiln2Module
       real         root_CN                ! initial C:N ratio of roots ()
       real         root_CN_pool(nfract)   ! initial C:N ratio of each of the three root composition pools (carbohydrate, cellulose, and lignin)
       real         root_wt                ! initial root weight
-                                          ! in whole profile (kg/ha)
+      real         root_depth             ! initial depth over which roots are distributed (mm)
       real         soil_CN                ! soil C:N ratio ()
 
       ! POOLS
@@ -424,10 +424,10 @@ subroutine soiln2_read_param ()
    call read_real_var (section_name, 'root_cn', '()', g%root_cn, numvals, 0.0, 500.0)              
 
 
-!dsg   Optionally read in CN ratio in each of the fractions
+   !dsg   Optionally read in CN ratio in each of the fractions
    call read_real_array_optional (section_name, 'root_cn_pool', 3, '()', g%root_cn_pool, numvals, 0.0, 1000.0)            
 
-!dsg    Check if all values supplied.  If not use average C:N ratio in all pools
+   !dsg    Check if all values supplied.  If not use average C:N ratio in all pools
    if (numvals.lt.3) then
      do  i = 1,3
        g%root_cn_pool(i)=g%root_cn
@@ -436,6 +436,12 @@ subroutine soiln2_read_param ()
 
 
    call read_real_var (section_name, 'root_wt', '(kg/ha)', g%root_wt, numvals, 0.0, 100000.0)         
+
+   call read_real_var_optional (section_name, 'root_depth', '(kg/ha)', g%root_depth, numvals, 0.0, 10000.0)
+     ! dsg 180604 if 'root_depth' not provided, assume that 'root_wt' is distributed over whole profile
+     if (numvals.eq.0) then
+        g%root_depth = sum_real_array (g%dlayer, max_layer)
+     endif                        
 
    call read_real_var (section_name, 'soil_cn', '()', g%soil_cn, numvals, 5.0, 30.0)             
 
@@ -809,6 +815,7 @@ subroutine soiln2_get_other_variables ()
    call push_routine (my_name)
 
    call get_real_array (unknown_module, 'sw_dep', max_layer, '(mm)', g%sw_dep, numvals, 0.00001, 1000.0)         
+   call get_real_array (unknown_module, 'dlayer', max_layer, '(mm)', g%dlayer, numvals, 0.0, 10000.0)         
 
     if (g%p_n_reduction.eq.on) then
       ! ONLY need soil loss if profile reduction is on
@@ -1730,7 +1737,9 @@ subroutine soiln2_init_calc ()
                                      
 !+  Local Variables                                        
    real       cum_depth             ! cumulative depth of profile (mm)     
-   real       depth_max             ! total depth of profile (mm)          
+   real       deepest_layer         ! deepest layer number to which initial root_wt is distributed          
+   real       previous_cum_depth    ! previous value of cum_depth as layer loop is stepped through (mm)
+   real       factor                ! factor representing the proportion of layer into which the roots have delved
    real       fom                   ! fresh organic matter in layer (kg/ha)
    integer    layer                 ! layer number in loop ()              
    integer    i                     ! counter                              
@@ -1741,7 +1750,6 @@ subroutine soiln2_init_calc ()
    real       ave_temp              ! averave temperature (oC)
    real       carbon_tot            ! total soil carbon in layer (kg/ha)
    real       root_distrib_tot      ! total root distribution weighting ()
-    character err_string*80
 
 !- Implementation Section ----------------------------------
 
@@ -1754,13 +1762,15 @@ subroutine soiln2_init_calc ()
    call fill_real_array (root_distrib, 0.0, max_layer)
 
    num_layers = count_of_real_vals (g%dlayer, max_layer)
-   depth_max = sum_real_array (g%dlayer, num_layers)
+   deepest_layer = get_cumulative_index_real (g%root_depth, g%dlayer, max_layer)
 
    cum_depth = 0.0
 
-   do layer = 1,num_layers
+   do layer = 1,deepest_layer
       cum_depth = cum_depth + g%dlayer(layer)
-      root_distrib(layer) = exp (-3.0*cum_depth/depth_max)
+      factor=min(g%dlayer(layer),divide((g%root_depth - previous_cum_depth),g%dlayer(layer),0.0))
+      root_distrib(layer) = exp (-3.0*min(1.0,cum_depth/g%root_depth))*factor
+      previous_cum_depth = cum_depth
    end do
 
    root_distrib_tot = sum_real_array (root_distrib, num_layers)
@@ -2229,6 +2239,7 @@ subroutine soiln2_incorp_min_n ()
    endif
 
    do layer = 1, numvals
+   
       g%no3(layer) = g%no3(layer) + dlt_no3_incorp(layer)
       g%nh4(layer) = g%nh4(layer) + dlt_nh4_incorp(layer)
    end do
@@ -2342,7 +2353,7 @@ subroutine soiln2_soil_temp (soil_temp)
       ! another module is supplying soil temperature
       g%soil_temp = 0.0
 
-      call get_real_array (unknown_module, 'st', max_layer, '(oC)', g%soil_temp, numvals, -20.0, 80.0)           
+      call get_real_array (unknown_module, 'ave_soil_temp', max_layer, '(oC)', g%soil_temp, numvals, -20.0, 80.0)           
 
 
    else
@@ -4086,7 +4097,7 @@ subroutine soiln2_check_data_supply ()
 
    call push_routine (my_name)
 
-   call get_real_var_optional (unknown_module, 'st()', '(oC)', temp_var, numvals, -20.0, 80.0)         
+   call get_real_var_optional (unknown_module, 'ave_soil_temp()', '(oC)', temp_var, numvals, -20.0, 80.0)         
 
    if(numvals .gt. 0.0)then
       ! another module owns soil temperature
@@ -4559,6 +4570,7 @@ subroutine Main (action, data_string)
 !+  Constant Values
    character  my_name*(*)
    parameter (my_name='APSIM_SoilN2')
+   character  err_string*120         ! Error message string
 
 !- Implementation Section ----------------------------------
 
@@ -4583,7 +4595,7 @@ subroutine Main (action, data_string)
    else if (action .eq. ACTION_incorp_fom) then
       call soiln2_incorp_fom ()
 
-   else if (action .eq. 'add_roots') then
+   else if (action .eq. ACTION_add_roots) then
       ! Add Roots has exact same syntax as incorp FOM so use the same handler
       call soiln2_incorp_fom ()
 

@@ -23,11 +23,11 @@ source: ..\lib\soiln2.dll
  -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soiln2.dll @linker.tmp
 	$(RM) linker.tmp
 
-soiln2.obj: soiln2.for
+soiln2.obj: soiln2.f90
 	$(ECHO) $(F90FLAGS) > compiler.tmp
 	$(ECHO) $(F90INCLUDES) >> compiler.tmp
 	$(ECHO) $(F90MODS) >> compiler.tmp
-	$(LF95) -c soiln2.for @compiler.tmp
+	$(LF95) -c soiln2.f90 @compiler.tmp
 	$(RM) compiler.tmp
 
 Registrations.obj: Registrations.f90

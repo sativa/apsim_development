@@ -119,6 +119,7 @@
       <eventReg name="new_solute" type="new_solute"/>
       <eventReg name="n_balance" type="n_balance"/>
       <eventReg name="c_balance" type="c_balance"/>
+      <eventReg name="ActualResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
       <getVariableReg name="amp" type="amp"/>
       <getVariableReg name="tav" type="tav"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
@@ -131,7 +132,8 @@
       <getVariableReg name="ph" type="ph"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="pot_decomp" type="pot_decomp"/>
+      <respondToEventReg name="PotentialResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <respondToEventReg name="FreshOrganicMatterIncorporated" type="FPoolProfileLayer"/>
       <respondToEventReg name="new_profile" type="new_profile"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
