@@ -152,7 +152,7 @@ class Component
          {
          if (message->toAcknowledge)
             {
-            completeID = message->messageID;
+            completeIDs.push_back(message->messageID);
             completeFound = false;
             }
          (*messageCallback)(callbackArg, message);
@@ -180,7 +180,7 @@ class Component
       unsigned int errorID;
       unsigned int summaryID;
       bool setVariableSuccess;
-      unsigned completeID;
+      vector<unsigned> completeIDs;
       bool completeFound;
 
       const unsigned int* callbackArg;
