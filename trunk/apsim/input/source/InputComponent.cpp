@@ -13,6 +13,7 @@
 #include <list>
 #include <math.h>
 #include <boost\bind.hpp>
+#include <stdexcept>
 
 using namespace std;
 using namespace boost;
@@ -137,9 +138,19 @@ void InputComponent::checkForSparseData(void)
 // ------------------------------------------------------------------
 date InputComponent::advanceToTodaysData(void)
    {
-   while (data.getDate() < todaysDate && !data.eof())
-      data.next();
-   return data.getDate();
+   try
+      {
+      while (data.getDate() < todaysDate && !data.eof())
+         data.next();
+      return data.getDate();
+      }
+   catch (const exception& err)
+      {
+      string msg = err.what();
+      msg +=". This error occurred while trying to read from input file " + fileName;
+      error(msg.c_str(), true);
+      return date(pos_infin);
+      }
    }
 // ------------------------------------------------------------------
 // return a variable to caller.
