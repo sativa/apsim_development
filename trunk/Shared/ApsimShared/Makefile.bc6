@@ -6,11 +6,7 @@ BCB = $(MAKEDIR)\..
 
 CC=$(BCB)\Bin\bcc32.exe
 LINKER=$(BCB)\Bin\ilink32.exe
-
-
-# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
-#APSROOT=c:/progra~1/apsim33
-#APSROOT=c:\development
+IMPDEF=$(BCB)\Bin\impdef.exe
 
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
@@ -31,6 +27,7 @@ INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\comp
 LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms
 RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
+    $(APSROOT)\Shared\general\general_vcl.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
     $(BCB)\Components\Boost\libs\date_time\date_time.lib
 
@@ -55,7 +52,9 @@ $(ALLLIB), +
 $(DEFFILE), +
 $(ALLRES)
 !
-
+	$(IMPDEF) ApsimShared.def $(TARGET)
+	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimShared.def ApsimShared.imp
+	
 .cpp.obj:
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
