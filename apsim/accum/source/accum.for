@@ -123,7 +123,7 @@
 
 !- Implementation Section ----------------------------------
 
-      if (eventID .eq. post_id) then
+      if (eventID .eq. postId) then
          call Accum_get_other_variables()
 
       else
@@ -309,7 +309,7 @@
             ! Register the variable as a respondToGet
             g%Variable_respondtogetids(indx) = add_registration
      .            (respondToGetReg, g%variable_names(indx),
-     .             single_ddml)
+     .             singleddml)
 
 
             ! Extract size component.
@@ -328,7 +328,7 @@
                ! Also register that we are going to get the value of the raw variable
                g%Variable_getids(indx) = add_registration
      .               (getVariableReg, g%variable_names(indx),
-     .                single_ddml)
+     .                singleddml)
 
                if (g%variable_sizes(indx) .gt. 0 .and.
      .             g%variable_sizes(g%num_variables) .le. Max_days) then
