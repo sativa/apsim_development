@@ -206,9 +206,6 @@ void Plant::doIDs(void)
                                        "incorp_fom", "",
                                        "", "");
 
-       id.harvesting = parent->addRegistration(protocol::eventReg,
-                                       "harvesting", "",
-                                       "", "");
   }
 
 // Register Methods, Events,
@@ -776,6 +773,14 @@ bool Plant::setVariable(unsigned id, protocol::QuerySetValueData& qd)
     ptr2setFn pf = IDtoSetFn[id];
     if (pf) {return((this->*pf)(qd));}
     return false;
+  }
+void Plant::sendStageMessage(const char *what)
+  {
+  unsigned int id = parent->addRegistration(protocol::eventReg,
+                                            what, "",
+                                            "", "");
+  protocol::ApsimVariant outgoingApsimVariant(parent);
+  parent->publish (id, outgoingApsimVariant);
   }
 /////////////////////////These routines are portions of the fortran "main" routine.
 
@@ -4907,7 +4912,9 @@ void Plant::plant_event
 
     if (on_day_of (stage_no, g_current_stage))
         {
-// new phase has begun.
+        // new phase has begun.
+        sendStageMessage(c.stage_names[stage_no-1].c_str());
+
         char msg[80];
         sprintf(msg, " stage %.1f %s"
                       , c.stage_code_list[stage_no-1]
@@ -8686,8 +8693,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     push_routine (my_name);
 
     // Tell the rest of the system we are about to harvest
-    protocol::ApsimVariant outgoingApsimVariant(parent);
-    parent->publish (id.harvesting, outgoingApsimVariant);
+    sendStageMessage("harvesting");
 
     protocol::ApsimVariant incomingApsimVariant(parent);
     incomingApsimVariant.aliasTo(v.getMessageData());
@@ -10379,6 +10385,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
         // Bang.
         g.current_stage = (float) sowing;
         g.plant_status = alive;
+        sendStageMessage("sowing");
 
         parent->writeString ("");
         parent->writeString ("                 Crop Sowing Data");

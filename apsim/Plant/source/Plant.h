@@ -146,6 +146,7 @@ class Plant {
   void doNewProfile(unsigned &, protocol::Variant &v) ;
   void registerClassActions(void);
   void onApsimGetQuery(protocol::ApsimGetQueryData&);
+  void sendStageMessage(const char *what);
   ////////////////////Interface code///////////////////////
   // FLOATs
   bool read_array(const char * sectionName,
@@ -1457,7 +1458,6 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
        // events.
        unsigned int crop_chopped;
        unsigned int incorp_fom;
-       unsigned int harvesting;
   } id;
   struct crop_chopped {
     string crop_type;
