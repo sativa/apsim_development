@@ -8,7 +8,7 @@ outputfile =  calib.out
 
 [swat.report.parameters]
 
-variable = clock.today.dd/mm/yyyy as date
+variable = clock.dd/mm/yyyy as date
 variable = soilwat2.eo
 variable = soilwat2.eos
 variable = soilwat2.runoff
