@@ -178,6 +178,38 @@ class Get_filename_and_store_function
          };
    };
 
+template <class CT, class T>
+class GetNameAndStoreFunction
+   {
+   private:
+      CT& Container;
+   public:
+      GetNameAndStoreFunction(CT& container)
+         : Container (container)
+         { }
+
+      void operator () (T arg)
+         {
+         Container.push_back (arg.GetName());
+         };
+   };
+
+template <class CT, class T>
+class GetFilenameAndStoreFunction
+   {
+   private:
+      CT& Container;
+   public:
+      GetFilenameAndStoreFunction(CT& container)
+         : Container (container)
+         { }
+
+      void operator () (T arg)
+         {
+         Container.push_back (arg.GetFilename());
+         };
+   };
+
 template <class T>
 class Find_by_name_predicate
    {
@@ -209,5 +241,17 @@ class Find_by_filename_predicate
          return (strcmpi(arg.Get_filename().c_str(), File_name.c_str()) == 0);
          };
    };
+
+template <class T>
+class ForEachFunction
+   {
+   public:
+      void operator () (T& x)
+         {ForEach(x);}
+
+      virtual void ForEach(T& x) {}
+
+   };
+
 
 #endif

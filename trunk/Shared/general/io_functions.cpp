@@ -2,6 +2,7 @@
 #pragma hdrstop
 #include "io_functions.h"
 #include <general\path.h>
+#include <general\stristr.h>
 #include <dos.h>
 #include <dir.h>
 #include <shellapi.h>
@@ -266,6 +267,91 @@ void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
 
 // ------------------------------------------------------------------
 //  Short description:
+//     copy or move the specified source files to the destination
+//     directory preserving the directory structure.
+
+//     The source_base_directory is used to determine the root of all the
+//     source files.  It is assumed that all source files are located
+//     under this base directory.  Any that aren't are NOT copied.
+//
+//     Each source file has the "source_base_directory" part of its
+//     path replaced with the destination directory. eg:
+//        If           source file = c:\apsuite\apsim\chickpea\chickpea.apf
+//           source_base_directory = c:\apsuite\apsim
+//           destination_directory = c:\apswork
+//        Then    destination file = c:\apswork\chickpea\chickpea.apf
+
+//  Notes:
+
+//  Changes:
+//    DPH 11/9/98
+
+// ------------------------------------------------------------------
+void GENERAL_EXPORT Copy_files_preserve_directories
+                                     (list<string>& Source_files,
+                                      const char* Source_base_directory,
+                                      const char* Destination_directory,
+                                      bool Do_move_files,
+                                      bool Make_files_read_write)
+   {
+   string source_st, destination_st;
+   // loop through all source files and replace source_base_directory
+   // with destination_directory.
+   for (list<string>::iterator file = Source_files.begin();
+                               file != Source_files.end();
+                               file++)
+      {
+      string filest = *file;
+      if (stristr((char*) filest.c_str(), Source_base_directory) == filest.c_str())
+         {
+         filest.replace (0, strlen(Source_base_directory), Destination_directory);
+         source_st += (*file) + ";";
+         destination_st += filest + ";";
+         }
+      }
+
+   // convert source_st and destination_st to double null terminated strings.
+   char* source_string = new char[source_st.length() + 1];
+   strcpy (source_string, source_st.c_str());
+   Replace_all_chars (source_string, ';', '\0');
+
+   char* destination_string = new char[destination_st.length() + 1];
+   strcpy (destination_string, destination_st.c_str());
+   Replace_all_chars (destination_string, ';', '\0');
+
+   // call Windows api routine
+   SHFILEOPSTRUCT op;
+   ZeroMemory(&op,sizeof(op));
+   op.hwnd=GetForegroundWindow();
+   if (Do_move_files)
+      op.wFunc = FO_MOVE;
+   else
+      op.wFunc=FO_COPY;
+   op.pFrom=source_string;
+   op.pTo=destination_string;
+   op.fFlags = FOF_MULTIDESTFILES + FOF_NOCONFIRMMKDIR;
+   SHFileOperation(&op);
+
+   // if we need to make sure files are read/write then do so.
+   if (Make_files_read_write)
+      {
+      list<string> Destination_files;
+      Split_string (destination_st, ";", Destination_files);
+      for (list<string>::iterator file = Destination_files.begin();
+                                  file != Destination_files.end();
+                                  file++)
+         {
+         SetFileAttributes ( (*file).c_str(), FILE_ATTRIBUTE_ARCHIVE);
+         }
+      }
+
+   // cleanup
+   delete [] source_string;
+   delete [] destination_string;
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
 //     send the specified directory and all directories below it to the
 //     recycle bin.
 
@@ -275,7 +361,7 @@ void GENERAL_EXPORT Copy_directories (list<string>& Source_directories,
 //    DPH 11/9/98
 
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Delete_directories (list<string>& Directories)
+void GENERAL_EXPORT Delete_files_or_directories (list<string>& Directories)
    {
    // create a string to hold all filenames.
    string st;
@@ -287,14 +373,13 @@ void GENERAL_EXPORT Delete_directories (list<string>& Directories)
    strcpy (source_string, st.c_str());
    Replace_all_chars (source_string, ';', '\0');
 
-
    // call Windows api routine
    SHFILEOPSTRUCT op;
    ZeroMemory(&op,sizeof(op));
    op.hwnd=GetForegroundWindow();
    op.wFunc=FO_DELETE;
    op.pFrom=source_string;
-   op.fFlags = FOF_NOCONFIRMATION + FOF_ALLOWUNDO;
+   op.fFlags = FOF_ALLOWUNDO;
    SHFileOperation(&op);
 
    // cleanup

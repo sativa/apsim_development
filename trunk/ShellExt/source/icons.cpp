@@ -1,6 +1,6 @@
-//---------------------------------------------------------------------------
 #include <vcl.h>
-#pragma hdrstop
+//---------------------------------------------------------------------------
+#pragma resource "icons.res"
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
 //   static version of the RunTime Library:
@@ -14,29 +14,15 @@
 //   DLL. Adding MEMMGR.LIB to your project will change the DLL and its calling
 //   EXE's to use the BORLNDMM.DLL as their memory manager.  In these cases,
 //   the file BORLNDMM.DLL should be deployed along with your DLL.
-//
+//                                    
 //   To avoid using BORLNDMM.DLL, pass string information using "char *" or
 //   ShortString parameters.
 //
 //   If your DLL uses the dynamic version of the RTL, you do not need to
 //   explicitly add MEMMGR.LIB as this will be done implicitly for you
 //---------------------------------------------------------------------------
-USEUNIT("vcl_functions.cpp");
-USEUNIT("exec.cpp");
-USEUNIT("ini_file.cpp");
-USEUNIT("io_functions.cpp");
-USEUNIT("macros.cpp");
-USEUNIT("math_functions.cpp");
-USEUNIT("path.cpp");
-USEUNIT("stream_functions.cpp");
-USEUNIT("stream_processor.cpp");
-USEUNIT("string_functions.cpp");
-USEUNIT("stristr.cpp");
-USEUNIT("date_class.cpp");
-//---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
    return 1;
 }
 //---------------------------------------------------------------------------
- 

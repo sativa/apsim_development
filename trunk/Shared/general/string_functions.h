@@ -405,5 +405,19 @@ int GENERAL_EXPORT Str_i_Cmp(const string &a, const string &b);
 // ------------------------------------------------------------------
 void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 
+// ------------------------------------------------------------------
+//  Short description:
+//     Get all words from a double null terminated string where each
+//     word is separated by a null.  Windows API routines sometimes
+//     do things this way.
+
+//  Notes:
+
+//  Changes:
+//    DPH 4/1/1999
+
+// ------------------------------------------------------------------
+void Get_words_from_double_null_term (char* St, list<string>& Words);
+
 #endif
 

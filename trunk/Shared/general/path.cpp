@@ -281,7 +281,7 @@ void Path::Set_path (const char* New_path)
 
       // remove file name part of path.
       size_t Pos_directory = New_path_string.find_last_of("\\");
-      size_t Pos_name = New_path_string.find(".");
+      size_t Pos_name = New_path_string.find_last_of(".");
       if (Pos_name != NPOS)
          {
          if (Pos_directory == NPOS)
