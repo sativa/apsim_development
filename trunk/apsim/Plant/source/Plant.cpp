@@ -911,7 +911,7 @@ void Plant::doEndCrop(unsigned &, protocol::Variant &v)
 // Field a Kill crop event
 void Plant::doKillCrop(unsigned &, protocol::Variant &v)
    {
-   plant_kill_crop_action (v);  //kill crop - turn into residue
+   plant_kill_crop_action (v);  //kill crop - turn into dead population
    }
 
 // Field a Kill Stem event
@@ -8780,6 +8780,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float chop_fr_green[max_part];                      // fraction chopped (0-1)
     float chop_fr_sen[max_part];                      // fraction chopped (0-1)
     float chop_fr_dead[max_part];                      // fraction chopped (0-1)
+    float chop_fr;                                 // fraction chopped (0-1)
     float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
     float dlt_dm_crop[max_part];                  // change in dry matter of crop (kg/ha)
     float dlt_dm_n[max_part];                     // change in N content of dry matter (kg/ha)
@@ -8845,21 +8846,38 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         if (part==root)
             {
             // Calculate Root Die Back
+            retain_fr = 1.0;
+            chop_fr = 1.0 - retain_fr;
+            fraction_to_residue[part] = 0.0;
+
             dlt_dm_die = g.dm_green[part] * c.root_die_back_fr;
             g.dm_senesced[part] = g.dm_senesced[part] + dlt_dm_die;
-            dlt_n_die =  g.dm_green[part] * c.root_die_back_fr * c.n_sen_conc[part];
+            g.dm_green[part] = g.dm_green[part] - dlt_dm_die;
+
+            dlt_n_die =  dlt_dm_die * c.n_sen_conc[part];
             g.n_senesced[part] = g.n_senesced[part] + dlt_n_die;
             g.n_green[part]= g.n_green[part] - dlt_n_die;
 
-            g.dm_green[part] = g.dm_green[part] * (1.0 - c.root_die_back_fr);
-            g.dm_fruit_green[0][part] = g.dm_green[part];
+             dlt_n_harvest = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part]) * chop_fr;
+             dlt_dm_harvest = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part]) * chop_fr;
 
-            dlt_dm_crop[part] = dlt_dm_die * gm2kg/sm2ha;
-            dlt_dm_n[part] = dlt_n_die * gm2kg/sm2ha;
-            fraction_to_residue[part] = 0.0;
-            chop_fr_green[part] = 0.0;
-            chop_fr_dead[part] = 0.0;
-            chop_fr_sen[part] = 0.0;
+             dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
+             dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
+
+             fraction_to_residue[part] = 0.0;
+
+             g.dm_dead[part] = retain_fr * g.dm_dead[part];
+             g.dm_senesced[part] = retain_fr * g.dm_senesced[part];
+             g.dm_green[part] = retain_fr * g.dm_green[part];
+
+             g.dm_fruit_dead[0][part] = g.dm_dead[part];
+             g.dm_fruit_senesced[0][part] = g.dm_senesced[part];
+             g.dm_fruit_green[0][part] = g.dm_green[part];
+
+             g.n_dead[part] = retain_fr * g.n_dead[part];
+             g.n_senesced[part] = retain_fr * g.n_senesced[part];
+             g.n_green[part] = retain_fr * g.n_green[part];
+
             }
         else
             {
@@ -8868,48 +8886,51 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
             if (part==meal || part==oil)
                 {
                 // biomass is removed
-                dlt_dm_n[part] = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part])
-                                     * gm2kg/sm2ha;
-
-                dlt_dm_crop[part] = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part])
-                                       * gm2kg/sm2ha;
-
+                retain_fr = 0.0;
+                chop_fr   = 1.0 - retain_fr;
                 fraction_to_residue[part] = 0.0;
 
-                g.dm_dead[part] = 0.0;
-                g.dm_senesced[part] = 0.0;
-                g.dm_green[part] = 0.0;
+                dlt_n_harvest = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part]) * chop_fr;
+                dlt_dm_harvest = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part]) * chop_fr;
+
+                dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
+                dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
+
+                g.dm_dead[part] = retain_fr * g.dm_dead[part];
+                g.dm_senesced[part] = retain_fr * g.dm_senesced[part];
+                g.dm_green[part] = retain_fr * g.dm_green[part];
+
                 for (int cohort = 0; cohort < max_fruit_cohorts; cohort++)
                    {
-                   g.dm_fruit_dead[cohort][part] = 0.0;
-                   g.dm_fruit_senesced[cohort][part] = 0.0;
-                   g.dm_fruit_green[cohort][part] = 0.0;
+                   g.dm_fruit_dead[cohort][part]     = g.dm_fruit_dead[cohort][part] * retain_fr;
+                   g.dm_fruit_senesced[cohort][part] = g.dm_fruit_senesced[cohort][part] * retain_fr;
+                   g.dm_fruit_green[cohort][part]    = g.dm_fruit_green[cohort][part] * retain_fr;
                    }
-                g.n_dead[part] = 0.0;
-                g.n_senesced[part] = 0.0;
-                g.n_green[part] = 0.0;
-                chop_fr_green[part] = 1.0;
-                chop_fr_dead[part] = 1.0;
-                chop_fr_sen[part] = 1.0;
+
+                g.n_dead[part] = retain_fr * g.n_dead[part];
+                g.n_senesced[part] = retain_fr * g.n_senesced[part];
+                g.n_green[part] = retain_fr * g.n_green[part];
+
                 }
             else if (part==stem)
                 {
                 // Some biomass is removed according to harvest height
+
                 fr_height = divide (height,g.canopy_height, 0.0);
                 retain_fr = linear_interp_real (fr_height
                    ,c.fr_height_cut
                    ,c.fr_stem_remain
                    ,c.num_fr_height_cut);
-                dlt_n_harvest = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part])
-                                 * (1.0-retain_fr);
 
-                dlt_dm_harvest = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part])
-                                  * (1.0-retain_fr);
+                chop_fr = 1.0 -retain_fr;
+                fraction_to_residue[part] = (1.0 - remove_fr);
+
+                dlt_n_harvest = (g.n_dead[part] + g.n_green[part] + g.n_senesced[part]) * chop_fr;
+                dlt_dm_harvest = (g.dm_dead[part] + g.dm_green[part] + g.dm_senesced[part]) * chop_fr;
 
                 dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
-
                 dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
-                fraction_to_residue[part] = (1.0 - remove_fr);
+
 
                 g.dm_dead[part] = retain_fr * g.dm_dead[part];
                 g.dm_senesced[part] = retain_fr * g.dm_senesced[part];
@@ -8922,42 +8943,43 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                 g.n_dead[part] = retain_fr * g.n_dead[part];
                 g.n_senesced[part] = retain_fr * g.n_senesced[part];
                 g.n_green[part] = retain_fr * g.n_green[part];
-                chop_fr_green[part] = 1.0-retain_fr;
-                chop_fr_dead[part] = 1.0-retain_fr;
-                chop_fr_sen[part] = 1.0-retain_fr;
                 }
             else
                 {
                 // this includes leaf, pod
+                retain_fr = 0.0;
+                chop_fr = 1.0 - retain_fr;
+                fraction_to_residue[part] = (1.0 - remove_fr);
+
                 dm_init = u_bound(c.dm_init [part] * g.plants, g.dm_green[part]);
                 n_init = u_bound(dm_init * c.n_init_conc[part],g.n_green[part]);
 
-                dlt_n_harvest = g.n_dead[part] + (g.n_green[part] - n_init) + g.n_senesced[part];
-                dlt_dm_harvest = g.dm_dead[part] + (g.dm_green[part] - dm_init) + g.dm_senesced[part];
+                dlt_n_harvest = (g.n_dead[part] + (g.n_green[part] - n_init) + g.n_senesced[part]) * chop_fr;
+                dlt_dm_harvest = (g.dm_dead[part] + (g.dm_green[part] - dm_init) + g.dm_senesced[part]) * chop_fr;
 
                 dlt_dm_crop[part] = dlt_dm_harvest * gm2kg/sm2ha;
-
                 dlt_dm_n[part] = dlt_n_harvest * gm2kg/sm2ha;
-                fraction_to_residue[part] = (1.0 - remove_fr);
 
-                g.dm_dead[part] = 0.0;
-                g.dm_senesced[part] = 0.0;
-                g.dm_green[part] = dm_init;
+                g.dm_dead[part] = retain_fr * g.dm_dead[part];
+                g.dm_senesced[part] = retain_fr * g.dm_senesced[part];
+                g.dm_green[part] = retain_fr * g.dm_green[part];
 
                 for (int cohort = 0; cohort < max_fruit_cohorts; cohort++)
                    {
-                   g.dm_fruit_dead[cohort][part] = 0.0;
-                   g.dm_fruit_senesced[cohort][part] = 0.0;
-                   g.dm_fruit_green[cohort][part] = 0.0;
+                   g.dm_fruit_dead[cohort][part]     = g.dm_fruit_dead[cohort][part] * retain_fr;
+                   g.dm_fruit_senesced[cohort][part] = g.dm_fruit_senesced[cohort][part] * retain_fr;
+                   g.dm_fruit_green[cohort][part]    = g.dm_fruit_green[cohort][part] * retain_fr;
                    }
-                g.n_dead[part] = 0.0;
-                g.n_senesced[part] = 0.0;
-                g.n_green[part] = n_init;
-                chop_fr_green[part] = 1.0;
-                chop_fr_dead[part] = 1.0;
-                chop_fr_sen[part] = 1.0;
+
+                g.n_dead[part] = retain_fr * g.n_dead[part];
+                g.n_senesced[part] = retain_fr * g.n_senesced[part];
+                g.n_green[part] = retain_fr * g.n_green[part];
+
                 }
             }
+        chop_fr_green[part] = chop_fr;
+        chop_fr_dead[part]  = chop_fr;
+        chop_fr_sen[part]   = chop_fr;
         }
 
     //     call crop_top_residue (c%crop_type, dm_residue, N_residue)
@@ -9011,29 +9033,39 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     n_tops_residue = n_residue - n_root_residue;
 
     parent->writeString ("\nCrop harvested.");
-    parent->writeString (string("    tops residue =  " + ftoa(dm_tops_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    tops N       =  " + ftoa(n_tops_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root residue =  " + ftoa(dm_root_residue, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root N       =  " + ftoa(n_root_residue, ".2") + " kg/ha\n").c_str());
 
-    dm_removed = 0.0;
-    for (part=0; part < max_part; part++)
-      dm_removed = dm_removed + dlt_dm_crop[part] * chop_fr_green[part];  // assumes chop_fr is same for green, dead and senesced
+    char  msg[400];
 
-    n_removed = 0.0;
-    for (part=0; part < max_part; part++)
-      n_removed = n_removed + dlt_dm_n[part] * chop_fr_green[part];   // assumes chop_fr is same for green, dead and senesced
+        parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
 
-    dm_root = dlt_dm_crop[root] * chop_fr_green[root];
-    n_root  = dlt_dm_n[root] * chop_fr_green[root];
+        sprintf (msg, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_tops_residue, dm_root_residue);
+        parent->writeString (msg);
 
-    dm_removed = dm_removed - dm_root - dm_tops_residue - dm_root_residue;
-    n_removed = n_removed - n_root - n_tops_residue - n_root_residue;
+        sprintf (msg, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_tops_residue, n_root_residue);
+        parent->writeString (msg);
 
-    parent->writeString (string("    tops removed =  "+ ftoa(dm_removed, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    tops N removed= "+ ftoa(n_removed, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root removed =  "+ ftoa(dm_root, ".2") + " kg/ha").c_str());
-    parent->writeString (string("    root N removed= "+ ftoa(n_root, ".2") + " kg/ha\n").c_str());
+        parent->writeString (" ");
+
+
+    float dm_chopped_tops = sum_real_array(dlt_dm_crop, max_part) - dlt_dm_crop[root];
+    float dm_chopped_root = dlt_dm_crop[root];
+    float dm_removed_tops = dm_chopped_tops - dm_tops_residue;
+    float dm_removed_root = dm_chopped_root - dm_root_residue;
+
+    float n_chopped_tops = sum_real_array(dlt_dm_n, max_part) - dlt_dm_n[root];
+    float n_chopped_root = dlt_dm_n[root];
+    float n_removed_tops = n_chopped_tops - n_tops_residue;
+    float n_removed_root = n_chopped_root - n_root_residue;
+
+        parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
+
+        sprintf (msg, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
+        parent->writeString (msg);
+
+        sprintf (msg, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+        parent->writeString (msg);
+
+        parent->writeString (" ");
 
     // put roots into root residue
 
@@ -11431,38 +11463,25 @@ void Plant::plant_end_crop ()
         dm_root = g.dm_green[root] + g.dm_dead[root] + g.dm_senesced[root];
         n_root  = g.n_green[root] + g.n_dead[root] + g.n_senesced[root];
 
-        sprintf (msg, "%s%7.1f%s"
-        , "    straw residue = "
-        , dm_residue * gm2kg /sm2ha, " kg/ha");
+        parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
+
+        sprintf (msg, "%48s%7.2f%24.2f"
+                           , "DM (kg/ha) =               ", dm_residue * gm2kg /sm2ha, dm_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
-        sprintf (msg, "%s%7.1f%s"
-        , "    straw N =       "
-        , n_residue * gm2kg /sm2ha, " kg/ha");
+        sprintf (msg, "%48s%7.2f%24.2f"
+                           , "N  (kg/ha) =               ", n_residue * gm2kg /sm2ha, n_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
-        sprintf (msg, "%s%7.1f%s"
-        , "    root residue =  "
-        , dm_root * gm2kg /sm2ha, " kg/ha");
+        sprintf (msg, "%48s%7s%24.2f"
+                           , "P  (kg/ha) =               ", " ", P_root * gm2kg /sm2ha);
         parent->writeString (msg);
 
-        sprintf (msg, "%s%7.1f%s"
-        , "    root N =        "
-        , n_root * gm2kg /sm2ha, " kg/ha");
-        parent->writeString (msg);
-
-        sprintf (msg, "%s%7.1f%s"
-        , "    root P =        "
-        , P_root * gm2kg /sm2ha, " kg/ha");
-        parent->writeString (msg);
-
+        parent->writeString (" ");
         }
     else
         {
-        sprintf(msg, "%s%s%s"
-         ,g.module_name.c_str()
-         , " is not in the ground -"
-         , " unable to end crop.");
+        sprintf(msg, "%s%s%s", g.module_name.c_str(), " is not in the ground -", " unable to end crop.");
 
         warning_error (&err_user, msg);
         }
@@ -13235,6 +13254,8 @@ void Plant::plant_harvest_report ()
     {
 //+  Constant Values
     const char*  my_name = "plant_harvest_report" ;
+    const float  plant_c_frac = 0.4;    // fraction of c in resiudes
+
 
 //+  Local Variables
     float biomass_dead;                           // above ground dead plant wt (kg/ha)
@@ -13267,9 +13288,8 @@ void Plant::plant_harvest_report ()
     push_routine (my_name);
 
     // crop harvested. Report status
-    yield = (g.dm_green[meal] + g.dm_dead[meal]
-    + g.dm_green[oil] + g.dm_dead[oil])
-    * gm2kg / sm2ha;
+    yield = (g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil])
+          * gm2kg / sm2ha;
 
     // include the grain water content
     yield_wet = yield / (1.0 - c.grn_water_cont);
@@ -13289,23 +13309,20 @@ void Plant::plant_harvest_report ()
     // include the grain water content
     fruit_yield_wet = fruit_yield / (1.0 - c.grn_water_cont);
 
-    grain_wt = divide (g.dm_green[meal] + g.dm_dead[meal]
-       + g.dm_green[oil] + g.dm_dead[oil], g.grain_no, 0.0);
+    grain_wt = divide (g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
+                     , g.grain_no, 0.0);
 
     head_grain_no = divide (g.grain_no, g.plants, 0.0);
 
-    biomass_green = (sum_real_array (g.dm_green, max_part)
-      - g.dm_green[root]) * gm2kg / sm2ha;
-
-    biomass_senesced = (sum_real_array (g.dm_senesced, max_part)
-      - g.dm_senesced[root]) * gm2kg / sm2ha;
-
-    biomass_dead = (sum_real_array (g.dm_dead, max_part)
-      - g.dm_dead[root]) * gm2kg / sm2ha;
-
+    biomass_green = (sum_real_array (g.dm_green, max_part) - g.dm_green[root]) * gm2kg / sm2ha;
+    biomass_senesced = (sum_real_array (g.dm_senesced, max_part) - g.dm_senesced[root]) * gm2kg / sm2ha;
+    biomass_dead = (sum_real_array (g.dm_dead, max_part) - g.dm_dead[root]) * gm2kg / sm2ha;
     dm = (biomass_green + biomass_senesced + biomass_dead);
 
     stover = dm - yield;
+
+    float dmRoot = (g.dm_green[root] + g.dm_dead[root] + g.dm_senesced[root]) * gm2kg / sm2ha;
+    float nRoot = (g.n_green[root] + g.n_dead[root] + g.n_senesced[root]) * gm2kg / sm2ha;
 
     leaf_no = sum_real_array (g.leaf_no, max_node);
 
@@ -13314,20 +13331,18 @@ void Plant::plant_harvest_report ()
       , g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
       , 0.0) * fract2pcnt;
 
-    n_grain = (g.n_green[meal] + g.n_dead[meal]
-        + g.n_green[oil] + g.n_dead[oil]) * gm2kg/sm2ha;
-
-    n_green = (sum_real_array (g.n_green, max_part)
-        - g.n_green[root] - g.n_green[meal] - g.n_green[oil]) * gm2kg / sm2ha;
-
-    n_senesced = (sum_real_array (g.n_senesced, max_part)
-        - g.n_senesced[root] - g.n_senesced[meal]- g.n_senesced[oil]) * gm2kg / sm2ha;
-
-    n_dead = (sum_real_array (g.n_dead, max_part)
-        - g.n_dead[root] - g.n_dead[meal] - g.n_dead[oil]) * gm2kg / sm2ha;
+    n_grain = (g.n_green[meal] + g.n_dead[meal]+ g.n_green[oil] + g.n_dead[oil]) * gm2kg/sm2ha;
+    n_green = (sum_real_array (g.n_green, max_part) - g.n_green[root] - g.n_green[meal] - g.n_green[oil]) * gm2kg / sm2ha;
+    n_senesced = (sum_real_array (g.n_senesced, max_part) - g.n_senesced[root] - g.n_senesced[meal]- g.n_senesced[oil]) * gm2kg / sm2ha;
+    n_dead = (sum_real_array (g.n_dead, max_part) - g.n_dead[root] - g.n_dead[meal] - g.n_dead[oil]) * gm2kg / sm2ha;
 
     n_stover = n_green + n_senesced + n_dead;
     n_total = n_grain + n_stover;
+
+    float DMRrootShootRatio = divide(dmRoot, dm, 0.0);
+    float HarvestIndex      = divide(yield, dm, 0.0);
+    float StoverCNRatio     = divide(stover*plant_c_frac, n_stover, 0.0);
+    float RootCNRatio       = divide(dmRoot*plant_c_frac, nRoot, 0.0);
 
     parent->writeString ("");
 
@@ -13389,6 +13404,16 @@ void Plant::plant_harvest_report ()
              , " number of leaves       = ", leaf_no);
     parent->writeString (msg);
 
+    sprintf (msg, "%s%8.3f%22s%s%10.3f"
+             , " DM Root:Shoot ratio    = ", DMRrootShootRatio, " "
+             , " Harvest Index          = ", HarvestIndex);
+    parent->writeString (msg);
+
+    sprintf (msg, "%s%8.3f%22s%s%10.3f"
+             , " Stover C:N ratio       = ", StoverCNRatio, " "
+             , " Root C:N ratio         = ", RootCNRatio);
+    parent->writeString (msg);
+
     sprintf (msg, "%s%10.2f%20s%s%10.2f"
              , " grain N percent        = ", n_grain_conc_percent, " "
              , " total N content (kg/ha)= ", n_total);
@@ -13406,6 +13431,11 @@ void Plant::plant_harvest_report ()
 
     phosphorous->summary (g.dm_green, g.dm_dead);
 
+    parent->writeString ("");
+
+    sprintf (msg,"%s", " Average Stress indices:                          water Photo  water Pheno  N Photo      N grain conc");
+    parent->writeString (msg);
+
     for (phase = emerg_to_endjuv; phase <= start_to_end_grain; phase++)
          {
          si1 = divide (g.cswd_photo[phase-1], g.days_tot[phase-1], 0.0);
@@ -13413,21 +13443,9 @@ void Plant::plant_harvest_report ()
          si4 = divide (g.cnd_photo[phase-1], g.days_tot[phase-1], 0.0);
          si5 = divide (g.cnd_grain_conc[phase-1], g.days_tot[phase-1], 0.0);
 
-         parent->writeString ("");
-
-         sprintf (msg,"%s%s"
-                  , " stress indices for ", c.stage_names[phase-1].c_str());
+         sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f", " ", c.stage_names[phase-1].c_str(), " to ", c.stage_names[phase].c_str(), si1, si2, si4, si5);
          parent->writeString (msg);
 
-         sprintf (msg,"%s%7.3f%s%7.3f"
-                  , "    water stress 1 =", si1
-                  , "     nitrogen stress 1 =", si4);
-         parent->writeString (msg);
-
-         sprintf (msg,"%s%7.3f%s%7.3f"
-                  , "    water stress 2 =", si2
-                  , "     nitrogen stress 2 =", si5);
-         parent->writeString (msg);
          }
 
     pop_routine (my_name);
