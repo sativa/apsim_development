@@ -4,12 +4,11 @@
   <MACROS>
     <VERSION value="BCB.05.03"/>
     <PROJECT value="L:\ApsimOutlook\RotationAddIn\RotationAddIn.dll"/>
-    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj
-      ..\..\..\RotationAddin\TRenameRotationForm.obj ..\CropFields.obj
-      RotationValues.obj"/>
+    <OBJFILES value="RotationAddIn.obj TRotationForm.obj RotAddIn.obj ..\CropFields.obj
+      RotationValues.obj TRenameRotationForm.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TRotationForm.dfm ..\..\..\RotationAddin\TRenameRotationForm.dfm"/>
+    <RESDEPEN value="$(RESFILES) TRotationForm.dfm TRenameRotationForm.dfm"/>
     <LIBFILES value="general.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="Vcl50.lib VCLDB50.lib"/>
@@ -28,8 +27,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="RotationAddIn.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;&quot;k:\&quot;"/>
-    <LIBPATH value="&quot;c:\program files\borland\cbuilder5\projects\lib&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;..;k:\components\data\;k:\components\general\;j:\tms;&quot;k:\&quot;"/>
+    <LIBPATH value="&quot;c:\program files\borland\cbuilder5\projects\lib&quot;$(BCB)\lib\obj;$(BCB)\lib;j:\tms;"/>
     <WARNINGS value="-w-par"/>
   </MACROS>
   <OPTIONS>
