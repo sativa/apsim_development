@@ -8,11 +8,13 @@
 #include "TPageSetupForm.h"
 #include <general\vcl_functions.h>
 #include <general\inifile.h>
+#include <ApsimShared\ApsimSettings.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "TSEGReport"
 #pragma link "TSEGLibrary"
 #pragma link "MRUFList"
+#pragma link "JPEG"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 
@@ -28,15 +30,12 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
    SEGReport1->clear();
    SEGReport1->showReportInspector = true;
 
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Set_extension(".ini");
-   IniFile ini;
-   ini.setFileName(iniPath.Get_path());
+   ApsimSettings settings;
    string leftSt, topSt, widthSt, heightSt;
-   ini.read("MainFormPos", "Left", leftSt);
-   ini.read("MainFormPos", "Top", topSt);
-   ini.read("MainFormPos", "Width", widthSt);
-   ini.read("MainFormPos", "Height", heightSt);
+   settings.read("MainFormPos|Left", leftSt);
+   settings.read("MainFormPos|Top", topSt);
+   settings.read("MainFormPos|Width", widthSt);
+   settings.read("MainFormPos|Height", heightSt);
    if (leftSt != "" && topSt != "" && widthSt != "" && heightSt != "")
       {
       Left = atoi(leftSt.c_str());
@@ -207,14 +206,11 @@ void __fastcall TMainForm::RenameFileExecute(TObject *Sender)
 void __fastcall TMainForm::SaveEnvironmentExecute(TObject *Sender)
    {
    SEGReport1->saveEnvironment();
-   Path iniPath(Application->ExeName.c_str());
-   iniPath.Set_extension(".ini");
-   IniFile ini;
-   ini.setFileName(iniPath.Get_path());
-   ini.write("MainFormPos", "Left", IntToStr(Left).c_str());
-   ini.write("MainFormPos", "Top", IntToStr(Top).c_str());
-   ini.write("MainFormPos", "Width", IntToStr(Width).c_str());
-   ini.write("MainFormPos", "Height", IntToStr(Height).c_str());
+   ApsimSettings settings;
+   settings.write("MainFormPos|Left", IntToStr(Left).c_str());
+   settings.write("MainFormPos|Top", IntToStr(Top).c_str());
+   settings.write("MainFormPos|Width", IntToStr(Width).c_str());
+   settings.write("MainFormPos|Height", IntToStr(Height).c_str());
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::PageSetupExecute(TObject *Sender)

@@ -3,8 +3,8 @@
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
-USEFORM("TMainForm.cpp", MainForm);
 USEFORM("TRenameFileForm.cpp", RenameFileForm);
+USEFORM("TMainForm.cpp", MainForm);
 USEFORM("TPageSetupForm.cpp", PageSetupForm);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)

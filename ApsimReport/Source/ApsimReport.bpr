@@ -8,17 +8,19 @@
     <RESFILES value="ApsimReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRenameFileForm.dfm TMainForm.dfm TPageSetupForm.dfm"/>
-    <LIBFILES value="..\Shared\general\general.lib"/>
-    <LIBRARIES value="ThirdParty.lib TeeQR.lib TeeUI.lib TeeDB.lib Tee.lib"/>
+    <LIBFILES value="..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
+    <LIBRARIES value="bcb2kaxserver.lib kbmMemC6Run.lib ThirdParty.lib PsQRC60.lib dcctc6.lib 
+      TMSC6.lib LsFileExplorer.lib SEGReport.lib bdertl.lib qrpt.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib qrpt.lib bdertl.lib dbrtl.lib Tee.lib TeeDB.lib 
       vcldb.lib TeeUI.lib TeeQR.lib SEGReport.lib LsFileExplorer.lib TMSC6.lib 
-      dcctc6.lib qrpt60.lib PsQRC60.lib ThirdParty.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi qrpt.bpi 
-      bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi 
-      visualclx.bpi visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
-      inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi 
-      dbexpress.bpi dbxcds.bpi indy.bpi bcb2kaxserver.bpi adortl.bpi qrpt60.bpi 
-      dcctc6.bpi TMSC6.bpi PsQRC60.bpi SEGReport.bpi LsFileExplorer.bpi"/>
+      dcctc6.lib qrpt60.lib PsQRC60.lib ThirdParty.lib kbmMemC6Run.lib 
+      TeePro.lib adortl.lib bcb2kaxserver.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi 
+      dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi 
+      inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi 
+      dclocx.bpi dbexpress.bpi dbxcds.bpi ibxpress.bpi indy.bpi vcljpg.bpi 
+      Tee.bpi TeeDB.bpi TeeUI.bpi TeeGL.bpi TeeQR.bpi TeePro.bpi TeeLanguage.bpi 
+      qrpt60.bpi adortl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -29,8 +31,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ApsimReport.cpp"/>
-    <INCLUDEPATH value="$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6"/>
-    <LIBPATH value="$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6"/>
+    <INCLUDEPATH value="$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport"/>
+    <LIBPATH value="$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -56,6 +58,7 @@
       <FILE FILENAME="TMainForm.cpp" FORMNAME="MainForm" UNITNAME="TMainForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TPageSetupForm.cpp" FORMNAME="PageSetupForm" UNITNAME="TPageSetupForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -89,28 +92,33 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\MyData\development\Bin\APSData.bpl=APSuite data components
+C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
+C:\MyData\development\Bin\SEGReport.bpl=SEGReport
 
 [HistoryLists\hlIncludePath]
-Count=7
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(SHARED);$(SHARED)\SegReport
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\SegReport
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
-Item5=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item6=..\Shared\SEGReport;$(BCB)\include;$(BCB)\include\vcl
+Count=9
+Item0=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(BCB)\components\psqrfilters\lib\c6;$(BCB)\components\boost;$(SHARED);$(SHARED)\SegReport
+Item1=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport;$(BCB)\components\psqrfilters\lib\c6
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED);$(SHARED)\SegReport
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\lsFileExplorer;$(SHARED);$(SHARED)\SegReport
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED);$(SHARED)\SegReport
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\SegReport
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item8=..\Shared\SEGReport;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=8
-Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
-Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms
-Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General
-Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport
-Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units
-Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer
-Item6=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;($SHARED)\SEGReport;$(BCB)\components\lsFileExplorer
-Item7=..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Count=10
+Item0=$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
+Item1=$(BCB)\components\thirdparty;..\..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
+Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms;$(BCB)\components\psqrfilters\lib\c6
+Item3=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General;$(BCB)\components\tms
+Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport;$(SHARED)\General
+Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units;$(SHARED)\SEGReport
+Item6=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer;$(BCB)\components\dream\units
+Item7=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\lsFileExplorer
+Item8=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;($SHARED)\SEGReport;$(BCB)\components\lsFileExplorer
+Item9=..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
