@@ -3,7 +3,9 @@
 #include <tchar.h>
 #include <sstream>
 #include <iomanip>
+#include <boost\lexical_cast.hpp> // lexical_cast<string>()
 #include "stristr.h"
+
 using namespace std;
 // ------------------------------------------------------------------
 // removes leading and trailing characters.
@@ -99,6 +101,8 @@ string splitOffBracketedValue(string& value,
 // ------------------------------------------------------------------
 bool Is_numerical (const char* Text)
    {
+   if (*Text=='\0') throw std::runtime_error("Unexpected empty string.");
+
    char *endptr;
    strtod(Text, &endptr);
    return (*endptr == '\0');
@@ -156,6 +160,9 @@ void To_upper (string& St)
 // ------------------------------------------------------------------
 bool Replace_all (string& St, const char* Sub_string, const char* Replacement_string)
    {
+   if(*Sub_string=='\0')
+       throw std::runtime_error("Empty search string.");
+
    bool replacementMade = false;
    size_t Pos = St.find(Sub_string);
    while (Pos != string::npos)
@@ -173,6 +180,8 @@ bool Replace_all (string& St, const char* Sub_string, const char* Replacement_st
 // ------------------------------------------------------------------
 bool replaceAll(string& St, unsigned position, const string& subString, const string& replacementString)
    {
+   if (subString=="")
+       throw std::runtime_error("Empty search string.");
    bool replacementMade = false;
    char* pos = (char*)St.c_str();
    pos += position;
@@ -194,6 +203,8 @@ bool replaceAll(string& St, unsigned position, const string& subString, const st
 // ------------------------------------------------------------------
 bool replaceAll(string& St, const string& subString, const string& replacementString)
    {
+   if (subString=="")
+       throw std::runtime_error("Empty search string.");
    bool replacementMade = false;
    char* pos = stristr(St.c_str(), subString.c_str());
    while (pos != NULL)
@@ -226,10 +237,15 @@ string ftoa(double Float, int Num_decplaces)
 
 string itoa(int Int)
    {
-   ostringstream buf;
-   buf << Int;
-   return buf.str();
+   string buf = boost::lexical_cast<string>(Int);
+   return buf;
    }
+// Eventually migrate to:
+//template <class T> string asc(T value)
+//   {
+//   string buf = boost::lexical_cast<string>(value);
+//   return buf;
+//   }
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -269,152 +285,6 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
    }
 
 // ------------------------------------------------------------------
-// Get all words from a double null terminated string where each
-// word is separated by a null.  Windows API routines sometimes
-// do things this way.
-// ------------------------------------------------------------------
-void getWordsFromDoubleNullSt(char* st, std::vector<std::string>& words)
-   {
-   char* StartPtr = st;
-   char* EndPtr = st;
-   EndPtr = strchr(StartPtr, 0);
-   while (StartPtr != EndPtr)
-      {
-      words.push_back(StartPtr);
-      StartPtr = ++EndPtr;
-      EndPtr = strchr(StartPtr, 0);
-      }
-   }
-
-//----------------------------------------------------------------------------
-int NumOccurrences (string text, string substring)
-//----------------------------------------------------------------------------
-// Description:
-//   Return the number of occurrences of a given substring with the given string
-//
-// Notes:
-//
-//  Changes:
-//    NH 13/12/2000
-
-   {
-   int counter = 0;       // count of occurences
-   unsigned int pos = 0;  // search position - start at the beginning
-
-
-   while (text.find(substring,pos)!=text.npos)
-      {
-      counter++;
-      pos =text.find(substring,pos)+1;
-      };
-   return counter;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Return an attribute of the type.
-
-//  Notes:
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-string getAttributeFromLine(const string& attributeName,
-                            const string& line)
-   {
-   unsigned posEquals = 0;
-   bool found = false;
-   string value;
-
-   while ((posEquals = line.find("=", posEquals)) != string::npos && !found)
-      {
-      string name;
-      getAttributeNameAndValue(line, posEquals, name, value);
-
-      // is the attribute name the one we're looking for?
-      found = Str_i_Eq(name, attributeName);
-      }
-   if (!found)
-      value = "";
-   return value;
-   }
-
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Given the position of an equals sign within a line, extract
-//     the name and value from the left and right hand side of the
-//     equals.
-
-//  Notes:
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-void getAttributeNameAndValue(const string& line,
-                              unsigned int posEquals,
-                              string& name,
-                              string& value)
-   {
-   // get the bit to the left of the equals sign.
-   string leftOfEquals = line.substr(0, posEquals);
-   stripLeadingTrailing(leftOfEquals, " ");
-
-   // get the last word on the left of the equals i.e. the attribute name
-   unsigned lastSpace = leftOfEquals.find_last_of(" \t");
-   if (lastSpace == string::npos)
-      name = leftOfEquals;
-   else
-      name = leftOfEquals.substr(lastSpace+1);
-
-   string rightOfEquals = line.substr(posEquals+1);
-
-   // Need to get bit inside of quotes.
-   unsigned int firstQuote = rightOfEquals.find("\"");
-   unsigned int secondQuote;
-   if (firstQuote != string::npos)
-       secondQuote= rightOfEquals.find("\"", firstQuote+1);
-   if (firstQuote != string::npos && secondQuote != string::npos)
-      value = rightOfEquals.substr(firstQuote+1, secondQuote-firstQuote-1);
-   else
-      value = "";
-   }
-
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Remove an attribute from the specified line.
-
-//  Notes
-//     A line may look like:
-//        <property name="prop1" value="prop1value" type=""/>
-//     Where the attributes are name, value and type.
-
-//  Changes:
-//    dph 16/8/2001
-// ------------------------------------------------------------------
-void removeAttributeFromLine(std::string& line, const std::string& attribute)
-   {
-   string stToFind = " " + attribute + "=\"";
-
-   char* posAttribute = stristr((char*)line.c_str(), stToFind.c_str());
-   if (posAttribute != NULL)
-      {
-      unsigned startPos = posAttribute - line.c_str();
-      unsigned endPos = line.find("\"", startPos + stToFind.length());
-      if (endPos != string::npos)
-         line.erase(startPos, endPos-startPos+1);
-      }
-   }
-   // ------------------------------------------------------------------
 // Helper function - Get a section name from the specified line.
 // ie look for [section] on the line passed in.
 // Returns name if found.  Blank otherwise.
@@ -434,7 +304,7 @@ void removeAttributeFromLine(std::string& line, const std::string& attribute)
       }
 // ------------------------------------------------------------------
 // Get a value from an .ini line. ie look for keyname = keyvalue
-// on the line passed in.  Returns the value if found or blank otherwise.
+// on the line passed in.  Returns the value (keyvalue) if found or blank otherwise.
 // ------------------------------------------------------------------
    string getKeyValue(const string& line, const string& key)
       {

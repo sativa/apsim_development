@@ -271,6 +271,8 @@ string XMLNode::write() const
    ostringstream out;
    out << in.rdbuf();
    string returnString = out.str();
+   in.close();
+   unlink(tempFileName.c_str());
    return returnString;
    }
 
