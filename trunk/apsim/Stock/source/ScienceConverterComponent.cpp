@@ -46,7 +46,7 @@ using namespace std;
       const float cmol2mol = 1.0/100.0 ;
       const float mm2m = 1.0/1000.0;
 
-      const float dmdValue[numDmdPools] = {0.8, 0.7, 0.6, 0.5, 0.4, 0.3};
+//      const float dmdValue[numDmdPools] = {0.8, 0.7, 0.6, 0.5, 0.4, 0.3};
 
       inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
       float divide (float dividend, float divisor, float default_value);
@@ -91,27 +91,12 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
    plant2stockID = addRegistration(RegistrationType::respondToGet, "plant2stock", plant2stockTypeDDML);
    removeHerbageID = addRegistration(RegistrationType::respondToEvent, "remove_herbage", remove_herbageTypeDDML);
 
-   dmGreenID = addRegistration(RegistrationType::get, "dm_green", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-   nGreenID = addRegistration(RegistrationType::get, "n_green", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-   pGreenID = addRegistration(RegistrationType::get, "p_green", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-
-   dmSenescedID = addRegistration(RegistrationType::get, "dm_senesced", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-   nSenescedID = addRegistration(RegistrationType::get, "n_senesced", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-   pSenescedID = addRegistration(RegistrationType::get, "p_senesced", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-
-   dmDeadID = addRegistration(RegistrationType::get, "dm_dead", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-   nDeadID = addRegistration(RegistrationType::get, "n_dead", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-   pDeadID = addRegistration(RegistrationType::get, "p_dead", singleArrayTypeDDML,"","lablab");   // parameter crop name=lablab
-
-   heightID = addRegistration(RegistrationType::get, "height", singleTypeDDML);
-
    dmFeedOnOfferID = addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
    dmFeedRemovedID = addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);
 
    stockBuyID = addRegistration(RegistrationType::respondToEvent, "buystock", stringTypeDDML);
    buyID = addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
 
-   removeCropBiomassID = addRegistration(RegistrationType::event, "remove_crop_biomass", removeCropDmTypeDDML);
    }
 // ------------------------------------------------------------------
 // Init2 phase.
@@ -119,6 +104,33 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
 void ScienceConverterComponent::doInit2(void)
    {
       plant2StockSent = false;
+      read_constants (); // Read constants
+      doRunTimeReg ();
+
+//     zero_variables (); // Zero global states
+//     init ();           // Site specific init
+//     get_other_variables (); // sw etc..
+   }
+// ------------------------------------------------------------------
+// Runtime Registrations.
+// ------------------------------------------------------------------
+void ScienceConverterComponent::doRunTimeReg(void)
+   {
+   dmGreenID = addRegistration(RegistrationType::get, "dm_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   nGreenID = addRegistration(RegistrationType::get, "n_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   pGreenID = addRegistration(RegistrationType::get, "p_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+
+   dmSenescedID = addRegistration(RegistrationType::get, "dm_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   nSenescedID = addRegistration(RegistrationType::get, "n_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   pSenescedID = addRegistration(RegistrationType::get, "p_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+
+   dmDeadID = addRegistration(RegistrationType::get, "dm_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   nDeadID = addRegistration(RegistrationType::get, "n_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   pDeadID = addRegistration(RegistrationType::get, "p_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+
+   heightID = addRegistration(RegistrationType::get, "height", singleTypeDDML,"", c.herbageModuleName.c_str());
+
+   removeCropBiomassID = addRegistration(RegistrationType::event, "remove_crop_biomass", removeCropDmTypeDDML,"", c.herbageModuleName.c_str());
    }
 // ------------------------------------------------------------------
 // Event handler.
@@ -164,12 +176,12 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
       dm.pool = "green";
       dm.part.push_back("leaf");
       float dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.leaf;
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.leaf;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("stem");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.stem;
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.stem;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -179,12 +191,12 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
       dm.pool = "senesced";
       dm.part.push_back("leaf");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.leaf;
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.leaf;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("stem");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.stem;
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.stem;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -194,12 +206,12 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
       dm.pool = "dead";
       dm.part.push_back("leaf");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.leaf;
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.leaf;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("stem");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.stem;
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.stem;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -597,8 +609,8 @@ void ScienceConverterComponent::getPGreen(PlantPool &P, vector<float>  &pGreen, 
                }
                else
                {
-                  P.green.stem = 0.003 * dm.green.stem;  // parameter for default P contents
-                  P.green.leaf = 0.004 * dm.green.leaf;
+                  P.green.stem = c.pConcGreenStemDefault * dm.green.stem;  // parameter for default P contents
+                  P.green.leaf = c.pConcGreenStemDefault * dm.green.leaf;
                }
             }
             else
@@ -632,8 +644,8 @@ void ScienceConverterComponent::getPSenesced(PlantPool &P, vector<float>  &pSene
                }
                else
                {
-                  P.senesced.stem = 0.003 * dm.senesced.stem;  // parameter for default P contents
-                  P.senesced.leaf = 0.004 * dm.senesced.leaf;
+                  P.senesced.stem = c.pConcSenescedStemDefault * dm.senesced.stem;  // parameter for default P contents
+                  P.senesced.leaf = c.pConcSenescedLeafDefault * dm.senesced.leaf;
                }
             }
             else
@@ -667,8 +679,8 @@ void ScienceConverterComponent::getPDead(PlantPool &P, vector<float>  &pDead, Pl
                }
                else
                {
-                  P.dead.stem = 0.003 * dm.dead.stem;  // parameter for default P contents
-                  P.dead.leaf = 0.004 * dm.dead.leaf;
+                  P.dead.stem = c.pConcDeadStemDefault * dm.dead.stem;  // parameter for default P contents
+                  P.dead.leaf = c.pConcDeadLeafDefault * dm.dead.leaf;
                }
             }
             else
@@ -753,47 +765,55 @@ void ScienceConverterComponent::getPDead(PlantPool &P, vector<float>  &pDead, Pl
 
 void ScienceConverterComponent::calcDmdDistribution(PlantPool dmdFraction[])
 {
+   const int MAX = 0;
+   const int AVG = 1;
+   const int MIN = 2;
          //plant pools  GL    GS   SL    SS   DL   DS
-      PlantPool dmdMax(0.80, 0.60, 0.6, 0.5, 0.4, 0.3);
-      PlantPool dmdAvg(0.65, 0.55, 0.5, 0.35, 0.4, 0.3);
-      PlantPool dmdMin(0.60, 0.50, 0.4, 0.3, 0.4, 0.3);
+//      PlantPool dmdMax(c.dmdGreenLeaf, c.dmdMaxGreenStem, c.dmdMaxSenescedLeaf, c.dmdMaxSenescedStem, c.dmdMaxDeadLeaf, c.dmdMaxDeadStem);
+      PlantPool dmdMax(c.dmdGreenLeaf[MAX], c.dmdGreenStem[MAX], c.dmdSenescedLeaf[MAX], c.dmdSenescedStem[MAX], c.dmdDeadLeaf[MAX], c.dmdDeadStem[MAX]);
+      PlantPool dmdAvg(c.dmdGreenLeaf[AVG], c.dmdGreenStem[AVG], c.dmdSenescedLeaf[AVG], c.dmdSenescedStem[AVG], c.dmdDeadLeaf[AVG], c.dmdDeadStem[AVG]);
+      PlantPool dmdMin(c.dmdGreenLeaf[MIN], c.dmdGreenStem[MIN], c.dmdSenescedLeaf[MIN], c.dmdSenescedStem[MIN], c.dmdDeadLeaf[MIN], c.dmdDeadStem[MIN]);
+
+//      PlantPool dmdMax(0.80, 0.60, 0.6, 0.5, 0.4, 0.3);
+//      PlantPool dmdAvg(0.65, 0.55, 0.5, 0.35, 0.4, 0.3);
+//      PlantPool dmdMin(0.60, 0.50, 0.4, 0.3, 0.4, 0.3);
 
 //      PlantPool dmdAvg(0.7, 0.55, 0.4, 0.4, 0.3, 0.3);
 //      PlantPool dmdMax(0.7, 0.55, 0.4, 0.4, 0.3, 0.3);
 //      PlantPool dmdMin(0.7, 0.55, 0.4, 0.4, 0.3, 0.3);
 
 
-      float fraction[numDmdPools];
+      float fraction[maxDmdPools];
 
 // get GREEN Leaf dmd fractions
-      for (int pool = 0; pool < numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
       proportion (dmdAvg.green.leaf, dmdMax.green.leaf, dmdMin.green.leaf, fraction);
-      for (int pool = 0; pool < numDmdPools; pool++) dmdFraction[pool].green.leaf = fraction[pool];
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].green.leaf = fraction[pool];
 
 // get GREEN stem dmd fractions
-      for (int pool = 0; pool < numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
       proportion (dmdAvg.green.stem, dmdMax.green.stem, dmdMin.green.stem, fraction);
-      for (int pool = 0; pool < numDmdPools; pool++) dmdFraction[pool].green.stem = fraction[pool];
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].green.stem = fraction[pool];
 
 // get SENESCED Leaf dmd fractions
-      for (int pool = 0; pool < numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
       proportion (dmdAvg.senesced.leaf, dmdMax.senesced.leaf, dmdMin.senesced.leaf, fraction);
-      for (int pool = 0; pool < numDmdPools; pool++) dmdFraction[pool].senesced.leaf = fraction[pool];
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].senesced.leaf = fraction[pool];
 
 // get SENESCED stem dmd fractions
-      for (int pool = 0; pool < numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
       proportion (dmdAvg.senesced.stem, dmdMax.senesced.stem, dmdMin.senesced.stem, fraction);
-      for (int pool = 0; pool < numDmdPools; pool++) dmdFraction[pool].senesced.stem = fraction[pool];
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].senesced.stem = fraction[pool];
 
 // get DEAD Leaf dmd fractions
-      for (int pool = 0; pool < numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
       proportion (dmdAvg.dead.leaf, dmdMax.dead.leaf, dmdMin.dead.leaf, fraction);
-      for (int pool = 0; pool < numDmdPools; pool++) dmdFraction[pool].dead.leaf = fraction[pool];
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].dead.leaf = fraction[pool];
 
 // get DEAD Stem dmd fractions
-      for (int pool = 0; pool < numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
       proportion (dmdAvg.dead.stem, dmdMax.dead.stem, dmdMin.dead.stem, fraction);
-      for (int pool = 0; pool < numDmdPools; pool++) dmdFraction[pool].dead.stem = fraction[pool];
+      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].dead.stem = fraction[pool];
 }
 
 void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryData)
@@ -814,7 +834,7 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
 
 // distribute herbage
 
-      PlantPool dmdFraction[numDmdPools];
+      PlantPool dmdFraction[maxDmdPools];
 
       calcDmdDistribution(dmdFraction);
 
@@ -824,9 +844,13 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
       PlantPool poolP;
       PlantPool poolS;
       PlantPool poolAA;
-      PlantPool partAshAlk(254.0, 96.0, 254.0, 96.0, 254.0, 96.0);
-      PlantPool NSRatio(19.0, 11.0, 19.0, 11.0, 19.0, 11.0);
-      PlantPool NPRatio( 8.0,  8.0,  8.0,  8.0,  8.0,  8.0);
+      PlantPool partAshAlk(c.AshAlkGreenLeafDefault, c.AshAlkGreenStemDefault, c.AshAlkSenescedLeafDefault, c.AshAlkSenescedStemDefault, c.AshAlkDeadLeafDefault, c.AshAlkDeadStemDefault);
+      PlantPool NSRatio(c.NSRatioGreenLeafDefault, c.NSRatioGreenStemDefault, c.NSRatioSenescedLeafDefault, c.NSRatioSenescedStemDefault, c.NSRatioDeadLeafDefault, c.NSRatioDeadStemDefault);
+      PlantPool NPRatio(c.NPRatioGreenLeafDefault,  c.NPRatioGreenStemDefault,  c.NPRatioSenescedLeafDefault,  c.NPRatioSenescedStemDefault,  c.NPRatioDeadStemDefault,  c.NPRatioDeadStemDefault);
+
+//      PlantPool partAshAlk(254.0, 96.0, 254.0, 96.0, 254.0, 96.0);
+//      PlantPool NSRatio(19.0, 11.0, 19.0, 11.0, 19.0, 11.0);
+//      PlantPool NPRatio( 8.0,  8.0,  8.0,  8.0,  8.0,  8.0);
 
 
       partAshAlk = partAshAlk*cmol2mol;
@@ -842,7 +866,7 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
       float sConc;
       float ashAlk;
 
-      for (int pool = 0; pool < numDmdPools; pool++)
+      for (int pool = 0; pool < c.numDmdPools; pool++)
       {
 
          ostrstream msgFraction;
@@ -855,12 +879,12 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
          herbage.dm = dmTot;
          partFraction[pool] = poolDm / dmTot;
 
-         herbage.dmd = dmdValue[pool];        // kg/ha
+         herbage.dmd = c.dmdValue[pool];        // kg/ha
 
          poolN     = N * dmdFraction[pool];
          nTot = poolN.total();
          nConc = divide (nTot, herbage.dm, 0.0);
-         herbage.cp_conc = nConc * 6.25;   // (kg/ha) - parameter cpNRatio = 6.25
+         herbage.cp_conc = nConc * c.cpNRatio;   // (kg/ha) - parameter cpNRatio = 6.25
 
 //         poolP = P * dmdFraction[pool];
          poolP = N/NPRatio * dmdFraction[pool];
@@ -902,7 +926,7 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
                 << "   prot_dg      = " <<              herbage.prot_dg << " (kg/kg)" << endl
                 << "   bd           = " <<              bd << " (g/m^3)" << endl
                 << "   dm total     = " <<              dm.total() *kg2g/ha2sm << " (g/m2)" << endl
-                << "   height       = " <<              height/1000.0 << " (m)" << endl
+                << "   height       = " <<              height*mm2m << " (m)" << endl
                 << "   height_ratio = " <<              herbage.height_ratio << " (-)" << ends;
             writeString (msg.str());
          }
@@ -954,11 +978,11 @@ void ScienceConverterComponent::proportion (float dmdAvg, float dmdMax, float dm
 {
    //Constant Values
 
-   const float MAXDMD = dmdValue[0];
-   const float MINDMD = dmdValue[numDmdPools-1];
+   const float MAXDMD = c.dmdValue[0];
+   const float MINDMD = c.dmdValue[c.numDmdPools-1];
 //   const float MAXDMD = 0.8;
 //   const float MINDMD = 0.3;
-   const float errorMargin = 1.0e-6;
+   const float errorMargin = 1.0e-5;
 
    //Local Varialbes
 
@@ -966,12 +990,48 @@ void ScienceConverterComponent::proportion (float dmdAvg, float dmdMax, float dm
 
    // Check that dmds are legal
 
-   if (dmdAvg > MAXDMD + errorMargin) throw std::runtime_error("Average digestibility too high");
-   if (dmdAvg < MINDMD - errorMargin) throw std::runtime_error("Average digestibility too low");
-   if (dmdMin > MAXDMD + errorMargin) throw std::runtime_error("Minimum digestibility too high");
-   if (dmdMin < MINDMD - errorMargin) throw std::runtime_error("Minimum digestibility too low");
-   if (dmdMax > MAXDMD + errorMargin) throw std::runtime_error("Maximum digestibility too high");
-   if (dmdMax < MINDMD - errorMargin) throw std::runtime_error("Maximum digestibility too low");
+   if (dmdAvg > dmdMax + errorMargin)
+   {  ostrstream msg;
+      msg << endl << "Average digestibility > Maximum digestibility:-" << endl
+          << "   Average      = " <<  dmdAvg << endl
+          << "   Maximum      = " <<  dmdMax << endl  << ends;
+      throw std::runtime_error(msg.str());
+   }
+   if (dmdAvg < dmdMin - errorMargin)
+   {  ostrstream msg;
+      msg << endl << "Average digestibility < Minimum digestibility:-" << endl
+          << "   Average      = " <<  dmdAvg << endl
+          << "   Minimum      = " <<  dmdMin << endl  << ends;
+      throw std::runtime_error(msg.str());
+   }
+   if (dmdMin > dmdAvg + errorMargin)
+   {  ostrstream msg;
+      msg << endl << "Minimum digestibility > Average digestibility:-" << endl
+          << "   Minimum      = " <<  dmdMin << endl
+          << "   Average      = " <<  dmdAvg << endl  << ends;
+      throw std::runtime_error(msg.str());
+   }
+   if (dmdMin < MINDMD - errorMargin)
+   {  ostrstream msg;
+      msg << endl << "Minimum digestibility < Lower Limit:-" << endl
+          << "   Minimum      = " <<  dmdMin << endl
+          << "   Lower Limit  = " <<  MINDMD << endl  << ends;
+      throw std::runtime_error(msg.str());
+   }
+   if (dmdMax > MAXDMD + errorMargin)
+   {  ostrstream msg;
+      msg << endl << "Maximum digestibility > Upper Limit:-" << endl
+          << "   Maximum      = " <<  dmdMax << endl
+          << "   Upper Limit  = " <<  MAXDMD << endl  << ends;
+      throw std::runtime_error(msg.str());
+   }
+   if (dmdMax < dmdAvg - errorMargin)
+   {  ostrstream msg;
+      msg << endl << "Maximum digestibility < Average digestibility:-" << endl
+          << "   Maximum      = " <<  dmdMax << endl
+          << "   Average      = " <<  dmdAvg << endl  << ends;
+      throw std::runtime_error(msg.str());
+   }
 
 
    float x = (dmdAvg - dmdMin) / (dmdMax - dmdMin);
@@ -1102,14 +1162,51 @@ void ScienceConverterComponent::read_constants ( void )
 
 //- Implementation Section ----------------------------------
 
-    // call write_string (new_line            //"    - reading constants");
+    writeString (" - reading constants\n");
 
 //    c.crop_type = parent->readParameter (section_name, "crop_type");
 //
-//    readParameter (section_name
-//    , "sw_ub"//, "(mm/mm)"
-//    , c.sw_ub
-//    , 0.0, 1.0);
+    c.herbageModuleName = readParameter (section_name, "herbageModuleName");
+
+    readParameter (section_name, "dmdValue", c.dmdValue, c.numDmdPools, 0.0, 1.0);
+
+    readParameter (section_name, "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);
+    readParameter (section_name, "p_conc_green_leaf_default", c.pConcGreenLeafDefault, 0.0, 1.0);
+    readParameter (section_name, "p_conc_senesced_stem_default", c.pConcSenescedStemDefault, 0.0, 1.0);
+    readParameter (section_name, "p_conc_senesced_leaf_default", c.pConcSenescedLeafDefault, 0.0, 1.0);
+    readParameter (section_name, "p_conc_dead_stem_default", c.pConcDeadStemDefault, 0.0, 1.0);
+    readParameter (section_name, "p_conc_dead_leaf_default", c.pConcDeadLeafDefault, 0.0, 1.0);
+
+    readParameter (section_name, "ash_alk_green_stem_default", c.AshAlkGreenStemDefault, 0.0, 500.0);
+    readParameter (section_name, "ash_alk_green_leaf_default", c.AshAlkGreenLeafDefault, 0.0, 500.0);
+    readParameter (section_name, "ash_alk_senesced_stem_default", c.AshAlkSenescedStemDefault, 0.0, 500.0);
+    readParameter (section_name, "ash_alk_senesced_leaf_default", c.AshAlkSenescedLeafDefault, 0.0, 500.0);
+    readParameter (section_name, "ash_alk_dead_stem_default", c.AshAlkDeadStemDefault, 0.0, 500.0);
+    readParameter (section_name, "ash_alk_dead_leaf_default", c.AshAlkDeadLeafDefault, 0.0, 500.0);
+
+    readParameter (section_name, "ns_ratio_green_stem_default", c.NSRatioGreenStemDefault, 0.0, 30.0);
+    readParameter (section_name, "ns_ratio_green_leaf_default", c.NSRatioGreenLeafDefault, 0.0, 30.0);
+    readParameter (section_name, "ns_ratio_senesced_stem_default", c.NSRatioSenescedStemDefault, 0.0, 30.0);
+    readParameter (section_name, "ns_ratio_senesced_leaf_default", c.NSRatioSenescedLeafDefault, 0.0, 30.0);
+    readParameter (section_name, "ns_ratio_dead_stem_default", c.NSRatioDeadStemDefault, 0.0, 30.0);
+    readParameter (section_name, "ns_ratio_dead_leaf_default", c.NSRatioDeadLeafDefault, 0.0, 30.0);
+
+    readParameter (section_name, "np_ratio_green_stem_default", c.NPRatioGreenStemDefault, 0.0, 10.0);
+    readParameter (section_name, "np_ratio_green_leaf_default", c.NPRatioGreenLeafDefault, 0.0, 10.0);
+    readParameter (section_name, "np_ratio_senesced_stem_default", c.NPRatioSenescedStemDefault, 0.0, 10.0);
+    readParameter (section_name, "np_ratio_senesced_leaf_default", c.NPRatioSenescedLeafDefault, 0.0, 10.0);
+    readParameter (section_name, "np_ratio_dead_stem_default", c.NPRatioDeadStemDefault, 0.0, 10.0);
+    readParameter (section_name, "np_ratio_dead_leaf_default", c.NPRatioDeadLeafDefault, 0.0, 10.0);
+
+    int numClasses = 3;
+    readParameter (section_name, "dmd_green_leaf", c.dmdGreenLeaf, numClasses, 0.0, 1.0);
+    readParameter (section_name, "dmd_green_stem", c.dmdGreenStem, numClasses, 0.0, 1.0);
+    readParameter (section_name, "dmd_senesced_leaf", c.dmdSenescedLeaf, numClasses, 0.0, 1.0);
+    readParameter (section_name, "dmd_senesced_stem", c.dmdSenescedStem, numClasses, 0.0, 1.0);
+    readParameter (section_name, "dmd_dead_leaf", c.dmdDeadLeaf, numClasses, 0.0, 1.0);
+    readParameter (section_name, "dmd_dead_stem", c.dmdDeadStem, numClasses, 0.0, 1.0);
+
+    readParameter (section_name, "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
 
 //      PlantPool partAshAlk(254.0, 96.0, 254.0, 96.0, 254.0, 96.0);
 //      PlantPool NSRatio(19.0, 11.0, 19.0, 11.0, 19.0, 11.0);
