@@ -4,20 +4,36 @@ cnr = 80
 type = wheat
 name = wheat
 
+[standard.SurfaceOM.cohort1]
+derived_from = base_type
+fom_type = cohort1
+specific_area    =  0.0004  ! specific area of residue (ha/kg
 
-[standard.residue2.specific_areas]
+[standard.SurfaceOM.cohort2]
+derived_from = base_type
+fom_type = cohort2
+specific_area    =  0.0004  ! specific area of residue (ha/kg
 
-     ! --------------------------------
-     ! Residue   Specific
-     ! Type        Area
-     !            ha/kg
-     ! --------------------------------
-     cohort1      =  0.0004
-     cohort2      =  0.0004
-     cohort3      =  0.0004
-     cohort4      =  0.0004
-     cohort5      =  0.0004
-     cohort6      =  0.0004
+[standard.SurfaceOM.cohort3]
+derived_from = base_type
+fom_type = cohort3
+specific_area    =  0.0004  ! specific area of residue (ha/kg
+
+[standard.SurfaceOM.cohort4]
+derived_from = base_type
+fom_type = cohort4
+specific_area    =  0.0004  ! specific area of residue (ha/kg
+
+[standard.SurfaceOM.cohort5]
+derived_from = base_type
+fom_type = cohort5
+specific_area    =  0.0004  ! specific area of residue (ha/kg
+
+[standard.SurfaceOM.cohort6]
+derived_from = base_type
+fom_type = cohort6
+specific_area    =  0.0004  ! specific area of residue (ha/kg
+
 
 ! ******** mallee soil **************
 
