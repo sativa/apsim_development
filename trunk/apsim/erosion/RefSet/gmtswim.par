@@ -25,10 +25,10 @@ summaryfile =  gmtb0s.sum  /overwrite
 
 [gmtb0.clock.parameters]  
 ! Entire period
-start_day =  218   
-start_year =  1976   
-end_day =  365   
-end_year =  1989   
+simulation_start_day =  218   
+simulation_start_year =  1976   
+simulation_end_day =  365   
+simulation_end_year =  1989   
 
 [gmtb0.manager.init]  
 total_cover = 0.0
