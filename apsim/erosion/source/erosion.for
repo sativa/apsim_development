@@ -12,6 +12,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
  
 !+  Purpose
 !      Module instantiation routine.
+
+*+  Mission Statement
+*     Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -33,6 +36,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
  
 !+  Purpose
 !      Module de-instantiation routine.
+
+*+  Mission Statement
+*     De-Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -53,6 +59,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
  
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
+
+*+  Mission Statement
+*     Swap an instance into global pointer
  
 !- Implementation Section ----------------------------------
                
@@ -77,6 +86,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
 *+  Purpose
 *     This routine is the interface between the main system and the
 *     erosion module.
+
+*+  Mission Statement
+*     Handles communication for the Erosion module
 
 *+  Changes
 *     DMS 25/02/94 (new template)
@@ -144,6 +156,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
 
 *+  Purpose
 *     Initialise erosion module
+
+*+  Mission Statement
+*       Initialise SoilWat module      
 
 *+  Changes
 *     DMS 25/02/94 (new template)
@@ -213,6 +228,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       include 'error.pub'                         
 
 *+  Purpose
+*     Tell summary file what parameters we're using
+
+*+  Mission statement
 *     Tell summary file what parameters we're using
 
 *+  Changes
@@ -342,6 +360,9 @@ C     Last change:  P     8 Nov 2000    3:30 pm
       include 'error.pub'                         
 
 *+  Purpose
+*     Read in all parameters from parameter file.
+
+*+  Mission statement
 *     Read in all parameters from parameter file.
 
 *+  Changes
@@ -579,6 +600,9 @@ c     :   , 1.0)                 ! Upper Limit for bound checking
 *+  Purpose
 *     Set all variables in this module to zero.
 
+*+  Mission Statement
+*     Zero Variables
+
 *+  Changes
 *     DMS 25/02/94 (new template)
 
@@ -637,6 +661,9 @@ c      g%total_cover  = 0.0
 *+  Purpose
 *       zero erosion daily variables & arrays
 
+*+  Mission Statement
+*     Zero Daily Variables
+
 *+  Changes
 *     010994 jngh specified and programmed
 *     210498 pdev added profile resets here due to stale data left in dlayer
@@ -680,6 +707,9 @@ c      g%resid_cover = 0.0
 
 *+  Purpose
 *     Get the values of variables from other modules
+
+*+  Mission Statement
+*     Get Other Variables
 
 *+  Changes
 *     DMS 25/02/94 (new template)
@@ -829,6 +859,9 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 *+  Purpose
 *     Set the values of my variables from other modules
 
+*+  Mission Statement
+*     Set Variable as Requested
+
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV 27/08/94
@@ -881,6 +914,9 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 
 *+  Purpose
 *     Update variables owned by other modules.
+
+*+  Mission Statement
+*     Set Variables in other Modules
 
 *+  Changes
 *     DMS 25/02/94 (New template)
@@ -936,6 +972,9 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 
 *+  Purpose
 *     Return the value of one of our variables to caller
+
+*+  Mission Statement
+*     Send Value of Requested Variable
 
 *+  Changes
 *     DMS 25/02/94 (new template)
@@ -1039,6 +1078,9 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 *+  Purpose
 *     Perform actions for current day.
 
+*+  Mission Statement
+*     Perform all APSIM Timestep calculations
+
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
@@ -1091,6 +1133,9 @@ c$$$     :     g%crop_cover * p%crop_cover_wtg, 0.0, 1.0)
 *+  Purpose
 *     Freebairn cover-sediment concentration model
 *     from PERFECT. returns t/ha bed and suspended loss
+
+*+  Mission statement
+*     Calculate bed and suspended loss using the Freebairn model
 
 *+  Changes
 *     PdeV. 28/08/94
@@ -1152,6 +1197,9 @@ cjh       (100*g/(1000*1000))/(g*1000/1000000) *mm  -> t/ha
 *+  Purpose
 *     Simplified rose model from PERFECT
 *     returns t/ha bed and suspended loads
+
+*+  Mission statement
+*     Calculate bed and suspended loss using the Rose model
 
 *+  Notes
 *******************************************************************
@@ -1220,6 +1268,9 @@ cjh           what is the unit conversion here???
 *+  Purpose
 *     move things in the profile
 
+*+  Mission statement
+*     Move the layers to account for erosion
+
 *+  Notes
 *     N (ie kg/ha) variables move from top down.
 *     profile is eroded from the bottom up.
@@ -1274,6 +1325,9 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
 *+  Purpose
 *      kill the run
 
+*+  Mission statement
+*     End the simulation due to no soil
+
 *+  Changes
 *     DMS 25/02/94 (new template)
 *     PdeV. 28/08/94
@@ -1309,6 +1363,9 @@ c      write (*,*) 'xxx',g%dlt_dlayer, dlt_bed_depth
 
 *+  Purpose
 *     move dlayr
+
+*+  Mission statement
+*     Move the layers - erode from the bottom up
 
 *+  Notes
 *     Erodes profile from bottom up.
@@ -1431,6 +1488,9 @@ c     What happens when layer completely eroded?
 
 *+  Purpose
 *      Perform cleanup because the current simulation is about to end.
+
+*+  Mission statement
+*      Perform cleanup because the current simulation is about to end
 
 *+  Notes
 *      closes log file if necessary
