@@ -1100,65 +1100,40 @@ C     Last change:  P    25 Oct 2000    9:26 am
          valueIsReal = .true.
 
       else
-         Is_apsim_variable = (index(variable_name, '.') .gt. 0)
+         ! Try to find variable in local variable list.
 
-         if (Is_apsim_variable) then
-            call Split_line(variable_name, Mod_name, Var_name, '.')
-            ok = component_name_to_id(Mod_name, modNameID)
-            if (ok) then
-               call Get_char_var
-     .              (modNameID, Var_name, '()',
-     .               Variable_value, Numvals)
-               call str_to_real_var (Variable_value
-     :                                    , value, io_result)
-               valueIsReal = (io_result .eq. 0)
+         Variable_index = find_string_in_array
+     .      (variable_name, g%local_variable_names,
+     .       g%num_local_variables)
+
+         ! If not in local variable list then ask APSIM for it.
+
+         if (Variable_index .le. 0) then
+            call Get_char_var_optional
+     .           (Unknown_module, variable_name, '()',
+     .            Variable_value, Numvals)
+
+            ! If not found anywhere in APSIM then it must be a local
+            ! variable not already defined.  Add variable to list.
+
+            if (Numvals .eq. 0) then
+               Variable_value = Real_or_not('0')
+               valueIsReal = .true.
+               call manager_new_local_variable
+     .             (variable_name, Variable_value, .not.valueIsReal)
 
             else
-               str = 'Cannot find APSIM variable: '
-     .                // Trim(variable_name)
-               call error(str, .true.)
-               Variable_value = ' '
-               valueIsReal = .false.
+               ! Found variable elsewhere in APSIM
+               call str_to_real_var
+     .                  (Variable_value, value, io_result)
+               valueIsReal = (io_result .eq. 0)
             endif
 
          else
-
-            ! Try to find variable in local variable list.
-
-            Variable_index = find_string_in_array
-     .         (variable_name, g%local_variable_names,
-     .          g%num_local_variables)
-
-            ! If not in local variable list then ask APSIM for it.
-
-            if (Variable_index .le. 0) then
-               call Get_char_var_optional
-     .              (Unknown_module, variable_name, '()',
-     .               Variable_value, Numvals)
-
-               ! If not found anywhere in APSIM then it must be a local
-               ! variable not already defined.  Add variable to list.
-
-               if (Numvals .eq. 0) then
-                  Variable_value = Real_or_not('0')
-                  valueIsReal = .true.
-                  call manager_new_local_variable
-     .                (variable_name, Variable_value, .not.valueIsReal)
-
-               else
-                  ! Found variable elsewhere in APSIM
-                  call str_to_real_var
-     .                     (Variable_value, value, io_result)
-                  valueIsReal = (io_result .eq. 0)
-               endif
-
-            else
-               call assign_string (Variable_value
-     .                      , g%local_variable_values(Variable_index))
-               valueIsReal = g%local_variable_is_real(variable_index)
-            endif
+            call assign_string (Variable_value
+     .                   , g%local_variable_values(Variable_index))
+            valueIsReal = g%local_variable_is_real(variable_index)
          endif
-
       endif
 
       return
