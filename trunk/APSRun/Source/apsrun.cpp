@@ -77,7 +77,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
             simulations = new APSIMSimulationCollection;
             Path simPath(filename.c_str());
             simulations->addSimulation(new APSIMSimulation
-               (simPath.Get_name_without_ext(), simPath.Get_path()));
+               (simPath.Get_name_without_ext(), simPath.Get_path(), ""));
             }
 
          try
