@@ -130,27 +130,27 @@ void PlantP::doRegistrations(PlantComponent *systemInterface)
                                    "", "P factor in grain");
 
    myFn = boost::bind(&PlantP::get_pstress_photo, this, _1, _2);
-   systemInterface->addGettableVar("pstress_photo", protocol::DTsingle, 1,
+   systemInterface->addGettableVar("p_stress_photo", protocol::DTsingle, 1,
                                    myFn,
                                    "", "P stress in photosynthesis");
 
    myFn = boost::bind(&PlantP::get_pstress_pheno, this, _1, _2);
-   systemInterface->addGettableVar("pstress_pheno", protocol::DTsingle, 1,
+   systemInterface->addGettableVar("p_stress_pheno", protocol::DTsingle, 1,
                                    myFn,
                                    "", "P stress in phenology");
 
    myFn = boost::bind(&PlantP::get_pstress_expansion, this, _1, _2);
-   systemInterface->addGettableVar("pstress_expansion", protocol::DTsingle, 1,
+   systemInterface->addGettableVar("p_stress_expansion", protocol::DTsingle, 1,
                                    myFn,
                                    "", "P stress in leaf expansion");
 
    myFn = boost::bind(&PlantP::get_pstress_expansion, this, _1, _2);
-   systemInterface->addGettableVar("pstress_expan", protocol::DTsingle, 1,
+   systemInterface->addGettableVar("p_stress_expan", protocol::DTsingle, 1,
                                    myFn,
                                    "", "P stress in leaf expansion");
 
    myFn = boost::bind(&PlantP::get_pstress_grain, this, _1, _2);
-   systemInterface->addGettableVar("pstress_grain", protocol::DTsingle, 1,
+   systemInterface->addGettableVar("p_stress_grain", protocol::DTsingle, 1,
                                    myFn,
                                    "", "P stress in grain");
 

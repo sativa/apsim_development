@@ -549,19 +549,19 @@ void Plant::doRegistrations(void)
    setupGetVar("oxdef_photo", protocol::DTsingle, 1,
                &g.oxdef_photo, "", "Oxygen deficit in photosynthesis");
 
-   setupGetFunction("swstress_pheno", protocol::DTsingle, 1,
+   setupGetFunction("sw_stress_pheno", protocol::DTsingle, 1,
                          &Plant::get_swstress_pheno,
                           "","Soil water stress for phenological development");
 
-   setupGetFunction("swstress_photo", protocol::DTsingle, 1,
+   setupGetFunction("sw_stress_photo", protocol::DTsingle, 1,
                          &Plant::get_swstress_photo,
                           "","Soil water stress for photosynthesis");
 
-   setupGetFunction("swstress_expan", protocol::DTsingle, 1,
+   setupGetFunction("sw_stress_expan", protocol::DTsingle, 1,
                          &Plant::get_swstress_expan,
                           "","Soil water stress for leaf expansion");
 
-   setupGetFunction("swstress_fixation", protocol::DTsingle, 1,
+   setupGetFunction("sw_stress_fixation", protocol::DTsingle, 1,
                          &Plant::get_swstress_fixation,
                           "","Soil water stress for N fixation");
 
@@ -687,19 +687,19 @@ void Plant::doRegistrations(void)
                           &g.cnd_grain_conc,
                           "", "N factor for ??");
 
-   setupGetFunction("nstress_photo", protocol::DTsingle, 1,
+   setupGetFunction("n_stress_photo", protocol::DTsingle, 1,
                          &Plant::get_nstress_photo,
                           "","N stress for photosyntesis");
 
-   setupGetFunction("nstress_pheno", protocol::DTsingle, 1,
+   setupGetFunction("n_stress_pheno", protocol::DTsingle, 1,
                          &Plant::get_nstress_pheno,
                           "","N stress for phenology");
 
-   setupGetFunction("nstress_expan", protocol::DTsingle, 1,
+   setupGetFunction("n_stress_expan", protocol::DTsingle, 1,
                          &Plant::get_nstress_expan,
                           "","N stress for leaf expansion");
 
-   setupGetFunction("nstress_grain", protocol::DTsingle, 1,
+   setupGetFunction("n_stress_grain", protocol::DTsingle, 1,
                          &Plant::get_nstress_grain,
                           "","N stress for grain filling");
 
@@ -825,6 +825,11 @@ void Plant::doRegistrations(void)
    setupGetFunction("dlt_fruit_no_abort", protocol::DTsingle, 1,
                           &Plant::get_dlt_fruit_no_abort,
                     "fruit/m2", "");
+
+   setupGetFunction("zadok_stage", protocol::DTsingle, 1,
+                    &Plant::get_zadok_stage,
+                    "0-100", "Zadok's growth developmental stage");
+
 #undef setupGetVar
 #undef setupGetFunction
 
@@ -895,6 +900,7 @@ void Plant::doPrepare(unsigned &, protocol::Variant &)
     plant_zero_daily_variables ();
     phosphorus->zero_daily_variables();
 
+    plant_get_other_variables ();     // request and receive variables from owner-modules
     if (g.plant_status == out)
      {
      plant_zero_variables ();          /// XXX UGLY HACK
@@ -10255,8 +10261,7 @@ void Plant::plant_zero_variables (void)
     fill_real_array (g.dlt_n_senesced_retrans , 0.0, max_part);
 
     fill_real_array (g.leaf_area , 0.0, max_node);
-
-    fill_real_array (p.ll_dep , 0.0, max_layer);
+//    fill_real_array (p.ll_dep , 0.0, max_layer);
     fill_real_array (p.xf , 0.0, max_layer);
     fill_real_array (g.root_length , 0.0, max_layer);
     fill_real_array (g.root_length_dead, 0.0, max_layer);
@@ -10501,6 +10506,15 @@ void Plant::plant_init (void)
     g.current_stage = (float)plant_end;
     g.plant_status = out;
     g.module_name = parent->getName();
+
+    float ll[max_layer]; int num_layers;
+    read_array ("parameters"
+              , "ll", "()"
+              , ll, num_layers
+              , 0.0, 1.0);
+    fill_real_array (p.ll_dep, 0.0, max_layer);
+    for (int layer = 0; layer < num_layers; layer++)
+       p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
 
     phosphorus->doInit(parent, c.crop_type, c.part_names);
 
@@ -16644,5 +16658,62 @@ bool Plant::read_array(const vector<std::string>& search_order,
      fatal_error(&err_user, msg, strlen(msg));
      }
    return false;
+}
+
+// NB. "5.2" is half way between FI and flag leaf in wheat 
+void Plant::get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float zadok_stage = 0.0;
+ 
+    if (g.current_stage >= sowing &&
+        g.current_stage <= emerg)
+       {
+       zadok_stage = 5.0 * (g.current_stage - sowing);
+       }
+    else if (g.current_stage > emerg &&
+             g.current_stage <= 5.2)  
+       {
+       // NB. Odd approximation of tiller number here..
+       float tiller_no = max(0.0, g.leaves_per_node -1.0);
+ 
+       if (tiller_no <= 1.0)
+           {
+           float leaf_no_now = sum_between (emerg-1, now-1, g.leaf_no);
+           zadok_stage = 10.0 + leaf_no_now;
+           }
+        else
+           {
+           zadok_stage = 20.0 + tiller_no - 1.0;  // Assumes max_tillers=10
+           }
+       }
+    else if (g.current_stage > 5.2 &&
+             g.current_stage < plant_end )
+       {
+// from senthold's archive:
+//1    2    3         4.5     5       6
+//eme  ej   eveg(fl)  anth    sgf   mat
+//10   30   43 	     65      70     9
+
+// from CropMod
+//                 sow ger eme  juv    fi   flag    fl st_gf end_gf mat hv_rpe end_crop
+//stage_code       = 1   2   3    4      5     6     7    8    9    10   11   12
+//Zadok_stage      = 0   5  10   10     15    40    60   71   87    90   93  100
+
+// Plant:
+//                 sow    ger   eme  juv    fi       fl   st_gf end_gf  mat hv_rpe  end
+//stage_code      = 1      2    3     4     5   5.2 5.4   6     7      8     9    10     11  ()     ! numeric code for phenological stages
+//                  na     na   na    na    na   30  50   60    71     87    90    100
+
+       static float zadok_code_y[] =
+           {30, 50, 60, 71, 87, 90, 100};
+       static float zadok_code_x[] =
+           {5.2, 5.4, 6,  7,  8,  9,  10};
+
+      zadok_stage = linear_interp_real (g.current_stage
+                                       , zadok_code_x
+                                       , zadok_code_y
+                                       , sizeof(zadok_code_x)/sizeof(float));
+       }
+    system->sendVariable(qd, zadok_stage);
 }
 
