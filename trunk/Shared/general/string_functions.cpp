@@ -310,7 +310,7 @@ void Get_words_from_double_null_term (char* St, list<string>& Words)
    }
 
 //----------------------------------------------------------------------------
-int NumOccurrences (string text, string substring)
+int GENERAL_EXPORT NumOccurrences (string text, string substring)
 //----------------------------------------------------------------------------
 // Description:
 //   Return the number of occurrences of a given substring with the given string
