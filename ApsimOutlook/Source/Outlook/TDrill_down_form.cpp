@@ -181,7 +181,8 @@ void __fastcall TDrill_down_form::FormClose(TObject *Sender,
       TCloseAction &Action)
    {
    delete ValueSelectPopup;
-   scenarios->save();
+   if (ModalResult == mrOk)
+      scenarios->save();
    }
 //---------------------------------------------------------------------------
 void __fastcall TDrill_down_form::ClearButtonClick(TObject *Sender)
