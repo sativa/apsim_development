@@ -117,7 +117,7 @@
       integer    lastnb                ! function
 
 *   Internal variables
-      character  module_name*max_module_name_size ! name of current module
+      character  module_name*(max_module_name_size) ! name of current module
 
 *   Constant values
       character  my_name*(*)
@@ -291,7 +291,7 @@
 
 *   Changes:
 *     090896 jngh - Programmed and Specified
-*     261196 jngh lengthened crop_type to 100 from 20 and set it blank before use
+*     261196 jngh lengthened crop_type to 100 from 20 and set it blank before us
 
 *   Calls:
 *   Popsr
@@ -312,7 +312,7 @@
       integer    crop                  ! index for crops
       character  crop_type*100         ! type of crop
       integer    numvals               ! number of values in string
-      character  owner_module*max_module_name_size ! owner module of variable
+      character  owner_module*(max_module_name_size) ! owner module of variable
 
 *   Constant values
       character*(*) myname               ! name of current procedure
@@ -459,7 +459,7 @@
 
 * ----------------------- Declaration section ------------------------
 
-      implicit none                                                              
+      implicit none
 
 *   Subroutine arguments
 *      none
@@ -472,12 +472,12 @@
       integer    crop                  ! index for crops
       real       temp                  !
       integer    numvals               ! number of values in string
-      character  owner_module*max_module_name_size ! owner module of variable
+      character  owner_module*(max_module_name_size) ! owner module of variable
 
 *   Constant values
       real       c_max_height          ! maximum crop canopy height (mm)
       parameter (c_max_height  = 10000.0)
-      
+
       real       c_k_lai_full_cover    ! a value for k*lai when cover is 100%
       parameter (c_k_lai_full_cover = 100.0)
 
@@ -655,20 +655,20 @@
 *   Internal variables
       real       cover                 ! temporary cover variable
       integer    module                ! module counter
-      character  module_name*max_module_name_size ! module name
-      
+      character  module_name*(max_module_name_size) ! module name
+
 *   Constant values
       character  my_name*(*)           ! procedure name
       parameter (my_name='canopy_send_my_variable')
-      
+
       character  fr_intc_radn_name*(*) ! name of fr_intc_radn variable
       parameter (fr_intc_radn_name = 'fr_intc_radn_')
-      
+
       integer    fr_intc_radn_name_length ! length of name
       parameter (fr_intc_radn_name_length = 13)
 
 *   Internal variables - second round
-      character  temp_variable_name*(fr_intc_radn_name_length) 
+      character  temp_variable_name*(fr_intc_radn_name_length)
                                        ! temporary storage of first part of
                                        !  variable name
 *   Initial data values
@@ -677,7 +677,7 @@
 * --------------------- Executable code section ----------------------
 
       call push_routine (my_name)
-   
+
       temp_variable_name = variable_name
 
       if (temp_variable_name .eq. fr_intc_radn_name) then
@@ -695,12 +695,12 @@
          endif
 
       else if (variable_name.eq.'cover_tot_sum') then
-         cover = 1.0 
+         cover = 1.0
      :         - exp (-sum_real_array (g_K_lai_total, g_num_crops))
          call respond2get_real_var (variable_name, '()', cover)
 
       else if (variable_name.eq.'cover_green_sum') then
-         cover = 1.0 
+         cover = 1.0
      :         - exp (-sum_real_array (g_K_lai_green, g_num_crops))
          call respond2get_real_var (variable_name, '()', cover)
 
@@ -1407,7 +1407,6 @@ cjh            of the canopies within the layer.
 
       return
       end
-
 *     ===========================================================
       subroutine canopy_post ()
 *     ===========================================================
@@ -1474,11 +1473,11 @@ cjh            of the canopies within the layer.
          if (module_change_order (g_intercrop_list, num_in_list)) then
             ! all ok - order changed
          else
-   
+
             write (e_messg,'(a)')
      :             ' Error in names in intercrop list - please check'
             call warning_error (err_user, e_messg)
-   
+
          endif
       else
          ! no swapping required
