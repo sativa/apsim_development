@@ -1,4 +1,4 @@
-C     Last change:  E     1 Aug 2001   12:18 pm
+C     Last change:  E     3 Aug 2001    2:00 pm
 
       INCLUDE 'CropMod.inc'
 
@@ -1230,6 +1230,11 @@ cjh      endif
          call respond2get_real_var (variable_name
      :                             , '(m^2/m^2)'
      :                             , g%dlt_lai_pot)
+
+      elseif (variable_name .eq. 'dlt_lai_stressed') then
+         call respond2get_real_var (variable_name
+     :                             , '(m^2/m^2)'
+     :                             , g%dlt_lai_stressed)
 
       elseif (variable_name .eq. 'tiller_tt_tot') then
          call respond2get_real_var (variable_name
@@ -3918,7 +3923,9 @@ c     :                                         - g%dlt_stiller_no
       g%slai = g%slai - dlt_slai_dead
       g%tlai_dead = g%tlai_dead + dlt_lai_dead + dlt_slai_dead
      :            - g%dlt_tlai_dead_detached
- 
+
+
+      g%tpla_yesterday = g%tpla_today
 
         ! now update new canopy covers for erosion etc?
 

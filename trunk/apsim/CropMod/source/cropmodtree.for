@@ -1,4 +1,4 @@
-C     Last change:  E     1 Aug 2001   12:49 pm
+C     Last change:  E     3 Aug 2001    2:08 pm
 
 *     ===========================================================
       subroutine Crop_Read_Constants ()
@@ -3171,7 +3171,6 @@ c         PRINT *, 'option = ', option
      .          g%lai,
      .          g%dlt_lai_pot)
 
-
       else if (Option.eq.5) then
 
          call cproc_tpla_max (
@@ -3256,6 +3255,7 @@ c      REAL sla_est
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
+
       if ((Option.eq.1).or.(Option.eq.2)) then
  
          call cproc_leaf_area_stressed1 (
@@ -3315,6 +3315,14 @@ c      endif
 
 
       elseif (Option .eq. 4) then
+
+         call cproc_leaf_area_stressed1 (
+     :                       g%dlt_lai_pot
+     :                      ,g%swdef_expansion
+     :                      ,g%nfact_expansion
+     :                      ,g%dlt_lai_stressed
+     :                      )
+
 
         call sproc_leaf_area_actual1 (
      .          g%current_stage,
