@@ -378,6 +378,8 @@ bool Field::retrieveValue(void)
       }
    else
       {
+      if (FunctionValues.size() == 0)
+         return false;
       if (Str_i_Eq(FunctionName, "avg"))
          devide_value(FunctionValues, NumTimesAccumulated);
 
