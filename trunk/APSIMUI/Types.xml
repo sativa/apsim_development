@@ -328,6 +328,22 @@
      </drops>
      <variables link="stock.xml"/>
    </stock>
+   <StockScienceConverter>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>Images\wheat.jpg</Image>
+      <Documentation>www.apsim.info</Documentation>
+      <PerformanceDocumentation>www.apsim.info</PerformanceDocumentation>
+      <LargeIcon>Images\stock32.bmp</LargeIcon>
+      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <commentvariables link="stock.xml"/>
+   </StockScienceConverter>
    <cattle>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
