@@ -1,0 +1,116 @@
+<html>
+
+<head>
+<title>Trouble shooting fallows</title>
+</head>
+
+<body>
+
+<p><a NAME="top"></a></p>
+<!--BEGIN HEADER-->
+<!--END HEADER-->
+<!--BEGIN MAIN CONTENT-->
+<!--=========<< LEFT SIDE CONTENT >>>>===========-->
+
+<table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="602" BGCOLOR="#FFFFFF">
+  <tr>
+    <td VALIGN="TOP" ROWSPAN="2" ALIGN="LEFT" WIDTH="200"><table BORDER="0" CELLPADDING="0"
+    CELLSPACING="0" WIDTH="202" BGCOLOR="#999999">
+      <tr>
+        <td VALIGN="TOP" BGCOLOR="#FFFFFF"></td>
+      </tr>
+    </table>
+    <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="191" BGCOLOR="#FFFFFF">
+      <tr>
+        <td VALIGN="TOP"><img SRC="../shared/top_plate.jpg" WIDTH="190" HEIGHT="16"></td>
+      </tr>
+<!--spacer-->
+<!--end spacer-->
+<!--END RELATED LINKS-->
+    </table>
+    <table BORDER="0" CELLPADDING="8" CELLSPACING="0" WIDTH="190" BGCOLOR="#EFFBB9">
+      <tr>
+        <td VALIGN="TOP"><font size="2" face="helvetica, arial, sans serif"><a
+        href="online_inst_problems.htm">Installation Problems</a><br>
+        <a HREF="online_sim_failure.htm">Simulation Failure</a><br>
+        <a HREF="online_sim_malfunction.htm">Simulation Malfunction</a><br>
+        <a HREF="online_sim_tbl_shooting.htm">Science Trouble Shooting</a><br>
+        - <a href="online_sim_tbl_shooting_crop_proc.htm">Crop growth &amp; development</a><br>
+        - <a href="online_sim_tbl_shooting_water_proc.htm">Soil water balance</a><br>
+        - <a href="online_sim_tbl_shooting_nitrogen_proc.htm">Soil nitrogen balance</a></font></td>
+      </tr>
+    </table>
+    <table BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="191" BGCOLOR="#FFFFFF">
+      <tr>
+        <td VALIGN="TOP"><img SRC="../shared/Base_plate.jpg" WIDTH="190" HEIGHT="16"></td>
+      </tr>
+<!--spacer-->
+      <tr>
+        <td></td>
+      </tr>
+<!--end spacer-->
+<!--END RELATED LINKS-->
+    </table>
+    </td>
+<!--=========<<<<< RIGHT SIDE CONTENT >>>>>==========-->
+    <td ALIGN="RIGHT" VALIGN="TOP"><img SRC="../shared/spacer.gif" WIDTH="390" HEIGHT="8"><br>
+    </td>
+  </tr>
+  <tr>
+    <td ALIGN="LEFT" VALIGN="TOP"><!-- MAIN CONTENT --> <table BORDER="0" WIDTH="390">
+<!-- SUPPORT HEADER, INDEX & INTRO -->
+      <tr>
+        <td VALIGN="TOP"><font size="5" color="#00376F">Soil nitrogen balance</font></td>
+      </tr>
+      <tr>
+        <td VALIGN="TOP" HEIGHT="2"><p class="subtitle"><big><b>Trouble shooting fallows.</b></big></td>
+      </tr>
+      <tr>
+        <td VALIGN="TOP">If your simulation contains extended periods with the absence of crops
+        then it should be possible to calibrate the soil fertility status to the observed
+        mineralisation rates. &nbsp; This procedure is VERY useful and can save many hours of work
+        later on by removing some of the unknowns in the more complicated cropping periods.&nbsp;
+        The steps to follow are <ol>
+          <li>Set the simulation to run the duration of the experiment but configure the management to
+            initialise the soil water and nitrogen at the beginning of the fallow (ie harvest) to
+            observed data.&nbsp; It is useful also to initialise the simulation after the fallow as
+            well to constrain cumulative error in the simulation.</li>
+          <li>Set the simulation to output the soil nitrogen status at the end of each fallow. &nbsp;
+            Make sure you output both mineral and organic soil nitrogen pools as well as the amount
+            and nitrogen status of surface residues.&nbsp; It is also useful to have outputs of
+            mineralisation rates throughout the soil profile.</li>
+          <li>You may decide to minimise error introduced by errors in crop models by removing
+            predicted residues at harvest and manually adding observed residue information when
+            available.&nbsp; This can be done as part of the crop managment for this phase of testing.</li>
+          <li>Run the simulation and calibrate the fallow water balance (see section on <a
+            href="online_sim_tbl_shooting_water_fallow_bal.htm">Trouble shooting fallow water balances</a>).
+            &nbsp; The feedback of nitrogen/residue dynamics upon the water balance is usually less
+            than the water balance effect on the nitrogen/residue dynamics.&nbsp; This shall minimise
+            the error in&nbsp; the water balance upon the mineralisation processes.</li>
+          <li>Test the Nitrogen and residue dynamics against observed data. </li>
+        </ol>
+        <blockquote>
+          <ul>
+            <li><p align="left">Plot nitrogen depth profiles for each sampling period and compare with
+              measured data.</p>
+            </li>
+            <li><p align="left">Use mineralisation rate information to deduce causes of error.</p>
+            </li>
+            <li><p align="left">Check the <a href="online_sim_tbl_shooting_nitrogen_test_stab.htm">stability
+              of soil organic pools</a> through time</p>
+            </li>
+          </ul>
+        </blockquote>
+        </td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+<!--END MAIN CONTENT -->
+<!--BEGIN FOOTER -->
+<!--END FOOTER -->
+
+<p>&nbsp;</p>
+</body>
+</html>
