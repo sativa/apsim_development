@@ -1,10 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(correl)
 
-[source]
-source  = correl.for; %thispath\correl.for
+[Contents]
+correl.for = correl.for
 
-
-
+[APSBuild]
+binary = ..\lib\correl.dll
+lf90file = %apsuite\apsbuild\module.lf90

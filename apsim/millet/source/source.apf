@@ -1,9 +1,10 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(millet)
 
-[source]
-source  = millet.for; %thispath\millet.for
-source  = millet_i.for; %thispath\millet_i.for
+[Contents]
+millet.for = millet.for
+millet_i.for = millet_i.for
 
+[APSBuild]
+binary = ..\lib\millet.dll
+lf90file = %apsuite\apsbuild\croptemplate.lf90

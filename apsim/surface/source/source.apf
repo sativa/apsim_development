@@ -1,8 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(surface)
 
-[source]
-source  = surface.for; %thispath\surface.for
+[Contents]
+surface.for = surface.for
 
+[APSBuild]
+binary = ..\lib\surface.dll
+lf90file = %apsuite\apsbuild\module.lf90

@@ -1,9 +1,4 @@
-[general]
-name = docs
-uses = *.*
-apf = %apsuite\apsim\base-docs.apf
-
-[docs]
-doc = Interface document; %thispath\soilp_int.pdf
-doc = Science document; %thispath\soilp_science.pdf
-doc = Pseudo code; %thispath\soilp_pseudo.html
+[Contents]
+soilp_int.pdf = soilp_int.pdf
+soilp_science.pdf = soilp_science.pdf
+soilp_pseudo.html = soilp_pseudo.html

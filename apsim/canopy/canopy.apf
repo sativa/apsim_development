@@ -1,12 +1,11 @@
-[general]
-name = canopy
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(canopy)
 
-[dll]
-target  = target dll; %thispath\lib\canopy.dll
-
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+infra.apf = infra\infra.apf
 [contacts]
 contact = John Hargreaves - Module Developer; mailto:John.Hargreaves@tag.csiro.au

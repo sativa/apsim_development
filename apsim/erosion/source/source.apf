@@ -1,10 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(erosion)
 
-[source]
-source  = erosion.for; %thispath\erosion.for
+[Contents]
+erosion.for = erosion.for
 
-
-
+[APSBuild]
+binary = ..\lib\erosion.dll
+lf90file = %apsuite\apsbuild\module.lf90

@@ -1,8 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(ozcot)
 
-[source]
-source  = ozcot.for; %thispath\ozcot.for
+[Contents]
+ozcot.for = ozcot.for
 
+[APSBuild]
+binary = ..\lib\ozcot.dll
+lf90file = %apsuite\apsbuild\module.lf90

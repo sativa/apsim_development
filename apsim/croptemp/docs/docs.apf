@@ -1,12 +1,6 @@
-[general]
-name = docs
-uses = *.*
-apf = %apsuite\apsim\base-docs.apf
-
-[docs]
-doc = Science document; %thispath\croptemp_science.html
-doc = Interface document; %thispath\croptemp_int.pdf
-doc = Crop template APSeudo document; %thispath\croptemp_pseudo.html
-doc = Crop template programming guide; %thispath\crop template programming.html
-doc = April 1998 Crop template statistics; %thispath\april 1998 crop template statistics.xls
-doc = Pseudo Code; %thispath\croptemp_pseudo.html
+[Contents]
+croptemp_science.html = croptemp_science.html
+croptemp_int.pdf = croptemp_int.pdf
+crop template programming.html = crop template programming.html
+april 1998 crop template statistics.xls = april 1998 crop template statistics.xls
+croptemp_pseudo.html = croptemp_pseudo.html

@@ -1,10 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(eo)
 
-[source]
-source  = eo.for; %thispath\eo.for
+[Contents]
+eo.for = eo.for
 
-
-
+[APSBuild]
+binary = ..\lib\eo.dll
+lf90file = %apsuite\apsbuild\module.lf90

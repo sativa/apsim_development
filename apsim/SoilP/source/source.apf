@@ -1,8 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(soilp)
 
-[source]
-source  = soilp.for; %thispath\soilp.for
+[Contents]
+soilp.for = soilp.for
 
+[APSBuild]
+binary = ..\lib\soilp.dll
+lf90file = %apsuite\apsbuild\module.lf90

@@ -1,10 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(accum)
 
-[source]
-source  = accum.for; %thispath\accum.for
+[Contents]
+accum.for = accum.for
 
-
-
+[APSBuild]
+binary = ..\lib\accum.dll
+lf90file = %apsuite\apsbuild\module.lf90

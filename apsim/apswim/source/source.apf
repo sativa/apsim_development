@@ -1,11 +1,10 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(apswim)
 
-[source]
-source  = apswim.for; %thispath\apswim.for
-source  = swim.for; %thispath\swim.for
+[Contents]
+apswim.for = apswim.for
+swim.for = swim.for
 
-
-
+[APSBuild]
+binary = ..\lib\apswim.dll
+lf90file = %apsuite\apsbuild\module.lf90

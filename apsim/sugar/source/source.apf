@@ -1,9 +1,10 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(sugar)
 
-[source]
-source  = sugar.for; %thispath\sugar.for
-source  = sgr_main.for; %thispath\sgr_main.for
+[Contents]
+sugar.for = sugar.for
+sgr_main.for = sgr_main.for
 
+[APSBuild]
+binary = ..\lib\sugar.dll
+lf90file = %apsuite\apsbuild\croptemplate.lf90

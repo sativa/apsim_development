@@ -1,8 +1,3 @@
-[general]
-name = docs
-uses = *.*
-apf = %apsuite\apsim\base-docs.apf
-
-[docs]
-doc = Interface document; %thispath\maize_int.pdf
-doc = Science document; %thispath\maize_science.pdf
+[Contents]
+maize_int.pdf = maize_int.pdf
+maize_science.pdf = maize_science.pdf

@@ -1,24 +1,20 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(infra)
 
-[source]
-source  = profile.for; %thispath\profile.f90
-source  = error.for; %thispath\error.for
-source  = datastr.for; %thispath\datastr.for
-source  = data.for; %thispath\data.for
-source  = date.for; %thispath\date.for
-source  = string.for; %thispath\string.for
-source  = engine.for; %thispath\engine.for
-source  = license.for; %thispath\license.for
-source  = intrface.for; %thispath\intrface.for
-source  = read.for; %thispath\read.for
-source  = science.for; %thispath\science.for
-source  = write.for; %thispath\write.for
+[Contents]
+profile.f90 = profile.f90
+error.for = error.for
+datastr.for = datastr.for
+data.for = data.for
+date.for = date.for
+string.for = string.for
+engine.for = engine.for
+license.for = license.for
+intrface.for = intrface.for
+read.for = read.for
+science.for = science.for
+write.for = write.for
 
-include = Infrastructure include directory; %apsuite\apsim\infra\
-
-[dll]
-import  = APSIM loader import file; %apsuite\apsim\infra\lib\apsload.imp
-
+[APSBuild]
+binary = ..\lib\apsinfra.dll
+lf90file = %apsuite\apsbuild\infra.lf90

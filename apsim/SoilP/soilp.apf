@@ -1,14 +1,15 @@
-[general]
-name = soilp
-apf = %apsuite\apsim\Base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(soilp)
 
-[dll]
-target  = target dll; %thispath\lib\soilp.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Merv Probert - Module Developer; mailto:Merv.Probert@tag.csiro.au
+
 
 [apseudo]
 title=The APSIM SoilP Model

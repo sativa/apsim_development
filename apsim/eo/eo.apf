@@ -1,12 +1,11 @@
-[general]
-name = eo
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(eo)
 
-[dll]
-target  = target dll; %thispath\lib\eo.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Holger Meinke- Module Developer; mailto:meinkeh@dpi.qld.gov.au

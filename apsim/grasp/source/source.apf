@@ -1,10 +1,9 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(grasp)
 
-[source]
-source  = grasp.for; %thispath\grasp.for
+[Contents]
+grasp.for = grasp.for
 
-
-
+[APSBuild]
+binary = ..\lib\grasp.dll
+lf90file = %apsuite\apsbuild\module.lf90

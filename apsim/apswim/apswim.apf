@@ -1,12 +1,11 @@
-[general]
-name = apswim
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(apswim)
 
-[dll]
-target  = target dll; %thispath\lib\apswim.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Neil Huth - Module Developer; mailto:Neil.Huth@tag.csiro.au

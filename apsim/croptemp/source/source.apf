@@ -1,18 +1,18 @@
-[general]
-name = source
-uses = %thispath\*.*
-apf = %apsuite\apsim\base-source.apf
+[Dependencies]
+Dependency = %licensed_source(croptemp)
 
-[source]
-source  = crp_biom.for; %thispath\crp_biom.for
-source  = crp_cnpy.for; %thispath\crp_cnpy.for
-source  = crp_comm.for; %thispath\crp_comm.for
-source  = crp_fail.for; %thispath\crp_fail.for
-source  = crp_nitn.for; %thispath\crp_nitn.for
-source  = crp_phen.for; %thispath\crp_phen.for
-source  = crp_root.for; %thispath\crp_root.for
-source  = crp_temp.for; %thispath\crp_temp.for
-source  = crp_util.for; %thispath\crp_util.for
-source  = crp_watr.for; %thispath\crp_watr.for
-include = Crop template include directory; %apsuite\apsim\croptemp\
+[Contents]
+crp_biom.for = crp_biom.for
+crp_cnpy.for = crp_cnpy.for
+crp_comm.for = crp_comm.for
+crp_fail.for = crp_fail.for
+crp_nitn.for = crp_nitn.for
+crp_phen.for = crp_phen.for
+crp_root.for = crp_root.for
+crp_temp.for = crp_temp.for
+crp_util.for = crp_util.for
+crp_watr.for = crp_watr.for
 
+[APSBuild]
+binary = ..\lib\croptemp.dll
+lf90file = %apsuite\apsbuild\module.lf90

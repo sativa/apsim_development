@@ -1,9 +1,4 @@
-[general]
-name = docs
-uses = *.*
-apf = %apsuite\apsim\base-docs.apf
-
-[docs]
-doc = Interface document; %thispath\fertiliz_int.pdf
-doc = Science document; %thispath\fertiliz_science.pdf
-doc = Pseudo Code; %thispath\fertiliz_pseudo.html
+[Contents]
+fertiliz_int.pdf = fertiliz_int.pdf
+fertiliz_science.pdf = fertiliz_science.pdf
+fertiliz_pseudo.html = fertiliz_pseudo.html

@@ -1,15 +1,15 @@
-[general]
-name = surface
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(surface)
 
-[dll]
-target  = target dll; %thispath\lib\surface.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Robin Connelly - Module Developer; mailto:ConnelR@dpi.qld.gov.au
+
 
 [apseudo]
 title=The APSIM Surface Model

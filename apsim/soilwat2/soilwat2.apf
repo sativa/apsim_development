@@ -1,15 +1,15 @@
-[general]
-name = soilwat2
-apf = %apsuite\apsim\base-module.apf
-apf = %thispath\docs\docs.apf
-optional_apf = %thispath\sample\sample.apf
-optional_apf = %thispath\source\source.apf
+[Dependencies]
+Dependency = %licensed(soilwat2)
 
-[dll]
-target  = target dll; %thispath\lib\soilwat2.dll
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
 
 [contacts]
 contact = Mark Silburn - Module Developer; mailto:SilburM@dpi.qld.gov.au
+
 
 [apseudo]
 title=The APSIM SoilWat2 Model
