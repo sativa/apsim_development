@@ -165,6 +165,7 @@ void TMDIChild::Enable_options(void)
          Get_button ("Summary_button")->Enabled = (scenarios->count() > 0);
          Get_button ("XY_button")->Enabled = (scenarios->count() > 0);
          Get_button ("Properties_button")->Enabled = (Analysis_panel != NULL);
+         Get_button ("NoChartButton")->Enabled = (Analysis_panel != NULL);
          }
 
       // setup button bar event handlers.
@@ -179,6 +180,7 @@ void TMDIChild::Enable_options(void)
          Get_button ("XY_button")->OnClick = XYChart;
          Get_button ("Select_simulation_button")->OnClick = SelectSimulations;
          Get_button ("Properties_button")->OnClick = Properties;
+         Get_button ("NoChartButton")->OnClick = ChartsNoChartMenuClick;
          }
 
       // See if we need to disable the pie chart option.
