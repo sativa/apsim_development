@@ -5815,6 +5815,57 @@
       return
       end
  
+* ====================================================================
+       subroutine Get_variables_in_postbox (Variable_names, Num_vars)
+* ====================================================================
+      implicit none
+      dll_export Get_variables_in_postbox
+      include 'const.inc'
+      include 'intrface.inc'
+ 
+*+ Sub-Program Arguments
+      character Variable_names(MAX_VARIABLES)*(*)
+                                       ! (OUTPUT) Variable names currently in postbox.
+      integer Num_vars                 ! (OUTPUT) Number of variables returned.
+
+*+ Purpose
+*     Return a list of variable names currently in postbox.
+ 
+*+ Notes
+ 
+*+  Mission Statement
+*      
+ 
+*+ Changes
+*     DPH 22/10/98 in response to C133
+ 
+*+ Calls
+      dll_import push_routine
+      dll_import pop_routine
+ 
+*+ Constant Values
+      character This_routine*(*)
+      parameter (This_routine='Get_variables_in_postbox')
+ 
+*+ Local Variables
+      integer Variable_ptr             ! Pointer into variable arrays
+      integer Message_ptr              ! message pointer
+ 
+*- Implementation Section ----------------------------------
+ 
+      call Push_routine(This_routine)
+
+      Num_vars = 1
+      do 10 Variable_ptr = g_Variable_start(g_current_message),
+     .                     g_Variable_start(g_Current_message + 1)-1
+
+         Variable_names(Num_vars) = g_Variable_name(Variable_ptr)
+         Num_vars = Num_vars + 1
+10    continue
+ 
+      call Pop_routine(This_routine)
+      return
+      end
  
  
 * ====================================================================
