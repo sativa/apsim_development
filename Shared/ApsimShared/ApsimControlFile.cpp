@@ -97,7 +97,7 @@ void parseModuleLine(const string& controlFileName, const string& moduleLine,
                          state = READ_PARAM_FILE;
                          if (paramFile.length() == 0)
                             {
-                            throw runtime_error("APSIM 3 no longer supports module parameters being "
+                            throw runtime_error("APSIM 2.2 and above no longer supports module parameters being "
                                                 " in the control file.  Please move all module parameters "
                                                 " from the control file to a parameter file.");
                             }
@@ -169,6 +169,14 @@ ApsimControlFile::ApsimControlFile (const string& filename,
    {
    fileName = filename;
    section = s;
+
+   // This will throw if there is an error.
+   vector<ParamFile> paramFiles;
+   parseControlSection(fileName, section, paramFiles);
+   if (paramFiles.size() == 0)
+       throw runtime_error("APSIM 2.2 and above no longer supports module parameters being "
+                           " in the control file.  Please move all module parameters "
+                           " from the control file to a parameter file.");
    }
 // ------------------------------------------------------------------
 // Return a list of all section names to caller.
@@ -258,7 +266,7 @@ void ApsimControlFile::getSummaryFileNames(vector<string>& fileNames) const
 // Run apsim using the specified configuration file.
 // ------------------------------------------------------------------
 void ApsimControlFile::run(const string& configurationFile,
-                           bool quiet) const throw(runtime_error)
+                           bool console) const throw(runtime_error)
    {
    try
       {
@@ -266,7 +274,7 @@ void ApsimControlFile::run(const string& configurationFile,
       if (createSIM(configurationFile, simFileName))
          {
          ApsimSimulationFile simulation(simFileName);
-         simulation.run(quiet);
+         simulation.run(console);
          }
       }
    catch (const runtime_error& error)
@@ -511,12 +519,9 @@ bool ApsimControlFile::convertControlFile(void) const throw(runtime_error)
    string controlFileVersion = controlFile.getParamValue("version");
    if (controlFileVersion != version)
       {
-      string logFileName = section;
-      Replace_all(logFileName, ".", "_");
       Path logPath(fileName);
-      logPath.Set_name(logFileName.c_str());
       logPath.Set_extension(".conversions");
-      ofstream log(logPath.Get_path().c_str());
+      ofstream log(logPath.Get_path().c_str(), ios::app);
 
       string scriptFileName = getAppHomeDirectory() + "\\conversion.script";
 

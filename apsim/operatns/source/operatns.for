@@ -16,7 +16,7 @@
 ! ----------------------- Declaration section ------------------------
 
 !   Constant values
-
+                             !
       integer    numfiles
       parameter (numfiles = 10)
 
@@ -514,6 +514,7 @@
       logical    Data_stored
       character  destination*15
       character  Line*(Record_Length)
+      character  Value*(Record_length)
       integer    NextDay
       integer    NextPhase
       integer    NextYear
@@ -554,10 +555,10 @@
             if (Action .eq. 'set') then
                call Get_next_variable (Line,
      :                                 Variable_name,
-     :                                 Line)
+     :                                 value)
                if (component_name_to_id(destination, modNameID)) then
                   call set_char_var(modNameID, Variable_name, 
-     .                     ' ', Line)
+     .                     ' ', Value)
                else
                   write(msg, '(3a)' ) 
      :               'Cannot set variable value in module ',

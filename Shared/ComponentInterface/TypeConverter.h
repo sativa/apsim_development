@@ -49,8 +49,8 @@ class TypeConverter
 // ------------------------------------------------------------------
 bool getTypeConverter(Component* parent,
                       const FString& name,
-                      Type& sourceType,
-                      Type& destType,
+                      const Type& sourceType,
+                      const Type& destType,
                       TypeConverter*& converter);
 
 // ------------------------------------------------------------------

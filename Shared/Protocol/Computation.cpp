@@ -144,6 +144,8 @@ string Computation::getWrapperFilename(const string& filename) throw (runtime_er
 // ------------------------------------------------------------------
 bool Computation::loadComponent(const std::string& filename) throw (runtime_error)
    {
+   executableFileName = filename;
+   
    createInstanceProc = NULL;
    deleteInstanceProc = NULL;
    messageToLogicProc = NULL;

@@ -33,6 +33,7 @@ class Coordinator : public protocol::Component
       bool afterInit2;
       string title;
       unsigned titleID;
+      unsigned componentsID;
 
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);

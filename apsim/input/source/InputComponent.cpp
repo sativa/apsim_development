@@ -11,6 +11,7 @@
 #include <general\date_class.h>
 #include <ApsimShared\ApsimDataFile.h>
 #include <list>
+#include <math.h>
 
 using namespace std;
 
@@ -22,6 +23,9 @@ static const char* newmetType =
    "   <field name=\"rain\"  kind=\"single\" units=\"mm/d\">"
    "   <field name=\"vp\"    kind=\"single\" units=\"????\">"
    "</type>";
+
+static const char* dayLengthType =
+   "<type name=\"daylength\" kind=\"single\" units=\"hours\"/>";
 
 // ------------------------------------------------------------------
 // createComponent
@@ -57,11 +61,18 @@ void InputComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
 
+   // register a few things.
+   tickID = addRegistration(protocol::respondToEventReg, "tick", "");
+   newmetID = addRegistration(protocol::eventReg, "newmet", "");
    iAmMet = (stricmp(name, "met") == 0);
+   if (iAmMet)
+      daylengthID = addRegistration(protocol::respondToGetReg, "day_length", dayLengthType);
+   else
+      daylengthID = 0;
 
    try
       {
-      string fileName = componentData->getProperty("parameters", "filename");
+      fileName = componentData->getProperty("parameters", "filename");
       if (fileName == "")
          throw runtime_error("Cannot find a filename parameter for module: "
                              + string(name));
@@ -74,30 +85,24 @@ void InputComponent::doInit1(const FString& sdml)
       // read in a line from the file so that the fields know what data
       // type they're dealing with.
       readLineFromFile();
-
-      // register a few things.
-      tickID = addRegistration(protocol::respondToEventReg, "tick", "");
-      newmetID = addRegistration(protocol::eventReg, "newmet", "");
-
       checkForSparseData();
-      if (allowSparseData)
-         writeString("Sparse data is allowed");
-      else
-         writeString("Sparse data is not allowed");
-      string msg = "INPUT File name: " + fileName;
-      writeString(msg.c_str());
       }
    catch (const runtime_error& errormsg)
       {
       error(errormsg.what(), true);
       }
    }
-
 // ------------------------------------------------------------------
 // INIT 2 - temporary
 // ------------------------------------------------------------------
 void InputComponent::doInit2(void)
    {
+   if (allowSparseData)
+      writeString("Sparse data is allowed");
+   else
+      writeString("Sparse data is not allowed");
+   string msg = "INPUT File name: " + fileName;
+   writeString(msg.c_str());
    }
 // ------------------------------------------------------------------
 // read in all constants from file.
@@ -113,14 +118,18 @@ void InputComponent::readConstants(void)
                                  constantI++)
       {
       string value = data->getConstant(*constantI);
+      string units;
       unsigned posStartUnit = value.find("(");
       if (posStartUnit != string::npos)
          {
          unsigned posEndUnit = value.find(")");
          if (posEndUnit == value.length()-1)
+            {
+            units = value.substr(posStartUnit, posEndUnit-posStartUnit+1);
             value = value.erase(posStartUnit, posEndUnit-posStartUnit+1);
+            }
          }
-      addVariable(*constantI, value, 1);
+      addVariable(*constantI, units, value, 1);
       }
    }
 // ------------------------------------------------------------------
@@ -145,6 +154,7 @@ void InputComponent::readHeadings(void)
       removeArraySpec(fieldNames[fieldI], fieldNameMinusSpec, arraySpec);
 
       addVariable(fieldNameMinusSpec,
+                  fieldUnits[fieldI],
                   data->getFieldValue(fieldI),
                   arraySpec, true);
       }
@@ -201,6 +211,7 @@ void InputComponent::removeArraySpec(const string& fieldName,
 // Register all our variables.
 // ------------------------------------------------------------------
 void InputComponent::addVariable(const std::string& name,
+                                 const std::string& units,
                                  const std::string& value,
                                  unsigned arrayIndex,
                                  bool isTemporal)
@@ -209,7 +220,7 @@ void InputComponent::addVariable(const std::string& name,
    InputVariables::iterator variableI = findVariable(name);
    if (variableI == variables.end())
       {
-      stringVariant = new StringVariant(this, name, value);
+      stringVariant = new StringVariant(this, name, units, value);
       if (isTemporal)
          temporalVariables.push_back(stringVariant);
       }
@@ -338,7 +349,10 @@ void InputComponent::readLineFromFile()
 // ------------------------------------------------------------------
 void InputComponent::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
    {
-   variables[queryData.ID]->sendVariable(queryData);
+   if (queryData.ID == daylengthID)
+      sendVariable(queryData, calcDayLength());
+   else
+      variables[queryData.ID]->sendVariable(queryData);
    }
 
 // ------------------------------------------------------------------
@@ -390,6 +404,29 @@ bool InputComponent::getVariableValue(const string& name, float& value)
       return false;
    }
 // ------------------------------------------------------------------
+// Calculate and return day length.
+// ------------------------------------------------------------------
+float InputComponent::calcDayLength(void)
+   {
+   GDate currentDate;
+   currentDate.Set(todaysDate);
+
+   float latitude;
+   if (getVariableValue("latitude", latitude))
+      {
+      // Twilight is defined as the interval between sunrise or sunset and the
+      // time when the true centre of the sun is 6 degrees below the horizon.
+      // Sunrise or sunset is defined as when the true centre of the sun is 50'
+      // below the horizon.
+      float twligt = -6.0;
+      unsigned dayOfYear = currentDate.Get_day_of_year();
+      return dayLength(dayOfYear, latitude, twligt);
+      }
+   else
+      return 0.0;
+   }
+
+// ------------------------------------------------------------------
 // Publish a tick event.
 // ------------------------------------------------------------------
 namespace protocol {
@@ -426,5 +463,119 @@ void InputComponent::publishNewMetEvent(void)
    variant.store("rain", protocol::DTsingle, rain);
    variant.store("vp", protocol::DTsingle, vp);
    publish(newmetID, variant);
+   }
+
+
+// ------------------------------------------------------------------
+// Transfer of sign - from FORTRAN.
+// The result is of the same type and kind as a. Its value is the abs(a) of a,
+// if b is greater than or equal positive zero; and -abs(a), if b is less than
+// or equal to negative zero.
+// Example a = sign (30,-2) ! a is assigned the value -30
+// ------------------------------------------------------------------
+float sign(float a, float b)
+   {
+   if (b >= 0)
+      return fabs(a);
+   else
+      return -fabs(a);
+   }
+// ------------------------------------------------------------------
+// constrains a variable within bounds of lower and upper
+//    Returns "lower", if "var" is less than "lower".  Returns "upper"
+//    if "var" is greater than "upper".  Otherwise returns "var".
+// ------------------------------------------------------------------
+float bound(float var, float lower, float upper)
+   {
+   if (var < lower)
+      return lower;
+   else if (var > upper)
+      return upper;
+   else
+      return var;
+   }
+// ------------------------------------------------------------------
+// return the time elasped in hours between the specified sun angle
+// from 90 deg in am and pm. +ve above the horizon, -ve below the horizon.
+// NB There is a small err in cos (90), thus a special
+// case is made for this.
+// ------------------------------------------------------------------
+float InputComponent::dayLength(int dyoyr, float lat, float sun_angle)
+   {
+   float aeqnox = 82.25;               // equinox
+   float pi =  3.14159265359;
+   float dg2rdn = (2.0*pi) / 360.0;
+   float decsol = 23.45116 * dg2rdn;   // amplitude of declination of sun
+                                       //   - declination of sun at solstices.
+                                       // cm says here that the maximum
+                                       // declination is 23.45116 or 23 degrees
+                                       // 27 minutes.
+                                       // I have seen else_where that it should
+                                       // be 23 degrees 26 minutes 30 seconds -
+                                       // 23.44167
+   float dy2rdn = (2.0*pi) /365.25;    // convert days to radians
+   float rdn2hr = 24.0/(2.0*pi);       // convert radians to hours
+
+   float alt;                          // twilight altitude limited to max/min
+                                       //   sun altitudes end of twilight
+                                       //   - altitude of sun. (radians)
+   float altmn;                        // altitude of sun at midnight
+   float altmx;                        // altitude of sun at midday
+   float clcd;                         // cos of latitude * cos of declination
+   float coshra;                       // cos of hour angle - angle between the
+                                       //   sun and the meridian.
+   float dec;                          // declination of sun in radians - this
+                                       //   is the angular distance at solar
+                                       //   noon between the sun and the equator.
+   float hrangl;                       // hour angle - angle between the sun
+                                       //   and the meridian (radians).
+   float hrlt;                         // day_length in hours
+   float latrn;                        // latitude in radians
+   float slsd;                         // sin of latitude * sin of declination
+   float sun_alt;                      // angular distance between
+                                       // sunset and end of twilight - altitude
+                                       // of sun. (radians)
+                                       // Twilight is defined as the interval
+                                       // between sunrise or sunset and the
+                                       // time when the true centre of the sun
+                                       // is 6 degrees below the horizon.
+                                       // Sunrise or sunset is defined as when
+                                       // the true centre of the sun is 50'
+                                       // below the horizon.
+
+   sun_alt = sun_angle * dg2rdn;
+
+   // calculate daylangth in hours by getting the
+   // solar declination (radians) from the day of year, then using
+   // the sin and cos of the latitude.
+
+   // declination ranges from -.41 to .41 (summer and winter solstices)
+
+   dec = decsol*sin (dy2rdn* (dyoyr - aeqnox));
+
+   // get the max and min altitude of sun for today and limit
+   // the twilight altitude between these.
+
+   if (fabs(lat) == 90.0)
+      coshra = sign (1.0, -dec) * sign (1.0, lat);
+   else
+      {
+      latrn = lat*dg2rdn;
+      slsd = sin(latrn)*sin(dec);
+      clcd = cos(latrn)*cos(dec);
+
+      altmn = asin (bound (slsd - clcd, -1.0, 1.0));
+      altmx = asin (bound (slsd + clcd, -1.0, 1.0));
+      alt = bound (sun_alt, altmn, altmx);
+
+      // get cos of the hour angle
+      coshra = (sin (alt) - slsd) /clcd;
+      coshra = bound (coshra, -1.0, 1.0);
+      }
+
+   // now get the hour angle and the hours of light
+   hrangl = acos (coshra);
+   hrlt = hrangl*rdn2hr*2.0;
+   return hrlt;
    }
 

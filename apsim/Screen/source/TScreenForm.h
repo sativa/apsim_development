@@ -21,6 +21,8 @@ class TScreenForm : public TForm
       TButton *CloseButton;
       TCheckBox *PauseCheckBox;
       TMemo *Memo;
+   TLabel *ErrorLabel;
+   TLabel *FinishedLabel;
       void __fastcall PauseCheckBoxClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);
    private:	// User declarations
@@ -28,6 +30,8 @@ class TScreenForm : public TForm
       __fastcall TScreenForm(TComponent* Owner);
 
       void addLine(const string& line);
+      void errorsWereEncountered();
+      void simulationHasFinished(void);
    };
 //---------------------------------------------------------------------------
 extern PACKAGE TScreenForm *ScreenForm;

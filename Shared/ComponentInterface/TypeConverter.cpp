@@ -324,8 +324,8 @@ static TypeConverter* arrayToStringConversionMatrix[9] =  {
 // ------------------------------------------------------------------
 bool protocol::getTypeConverter(Component* parent,
                                 const FString& name,
-                                Type& sourceType,
-                                Type& destType,
+                                const Type& sourceType,
+                                const Type& destType,
                                 TypeConverter*& converter)
    {
    return getTypeConverter(parent, name,

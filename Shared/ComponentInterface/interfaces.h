@@ -57,6 +57,7 @@ class IComputation
 
       virtual bool isOk(void) const = 0;
       virtual void messageToLogic(const Message* Message) const = 0;
+      virtual std::string getExecutable(void) = 0;
    };
 // ------------------------------------------------------------------
 //  Short description:

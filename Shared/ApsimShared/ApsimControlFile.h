@@ -41,7 +41,7 @@ class __declspec(dllexport) ApsimControlFile
       // If sections.size() > 0 then only those sections specified will be run
       // If sections.size() == 0 then all sections will be run.
       void run(const std::string& configurationFile,
-               bool quiet = false) const throw(std::runtime_error);
+               bool console = false) const throw(std::runtime_error);
 
       // Create a SIM file for the specified section and return its filename.
       // Return true if SIM was created.

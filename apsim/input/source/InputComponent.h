@@ -27,9 +27,11 @@ class InputComponent : public protocol::Component
       bool iAmMet;
       bool allowSparseData;
       ApsimDataFile* data;
+      std::string fileName;      
 
       unsigned newmetID;
       unsigned tickID;
+      unsigned daylengthID;
       double todaysDate;
       StringVariant* yearI;
       StringVariant* dayOfYearI;
@@ -51,8 +53,11 @@ class InputComponent : public protocol::Component
       bool getVariableValue(const std::string& name, float& value);
       void publishNewMetEvent(void);
       void addVariable(const std::string& name,
+                       const std::string& units,
                        const std::string& value,
                        unsigned arrayIndex,
                        bool isTemporal = false);
+      float calcDayLength(void);
+      float dayLength(int dyoyr, float lat, float sun_angle);
    };
 #endif

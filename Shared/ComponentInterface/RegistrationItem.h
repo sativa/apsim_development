@@ -3,7 +3,7 @@
 #define RegistrationItemH
 #include "Variants.h"
 #include <ApsimShared\fstring.h>
-
+#define MAX_TYPE_STRING_SIZE 500
 namespace protocol {
 
 // ------------------------------------------------------------------
@@ -23,12 +23,15 @@ class RegistrationItem
    public:
       RegistrationItem(Component* p, RegistrationType k,
                        const FString& n, const Type& t)
-         : variants(p, t), kind(k), registeredType(t),
+         : variants(p, t), kind(k),
            haveCreatedTypeConverter(false), parent(p)
          {
          name = new char[n.length()+1];
          strncpy(name, n.f_str(), n.length());
          name[n.length()] = 0;
+         typeString[0] = 0;
+         strncat(typeString, t.getTypeString().f_str(), t.getTypeString().length());
+         registeredType = Type(typeString);
          isError = true;
          }
       ~RegistrationItem(void)
@@ -67,6 +70,7 @@ class RegistrationItem
       Component* parent;
       RegistrationType kind;
       char* name;
+      char typeString[MAX_TYPE_STRING_SIZE];
       Type registeredType;
       Variants variants;
       bool haveCreatedTypeConverter;

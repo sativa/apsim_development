@@ -58,7 +58,7 @@ class Type
          return protocol::memorySize(type);
          }
 
-      FString getUnit(void) const {return getAttribute("unit");}
+      FString getUnit(void) const {return getAttribute("units");}
       bool isArray(void) const {return (getAttribute("array") == "T");}
       DataTypeCode getCode(void)
          {

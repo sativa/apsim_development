@@ -56,7 +56,10 @@ inline MessageData& operator>>(MessageData& messageData, std::vector<T>& values)
 template <class T>
 inline unsigned int memorySize(const std::vector<T>& values)
    {
-   return values.size() * memorySize(values[0]) + 4;
+   unsigned size = 4;
+   for (unsigned i = 0; i != values.size(); i++)
+      size += memorySize(values[i]);
+   return size;
    }
 
 // restore the warnings about "Functions containing for are not expanded inline.

@@ -35,8 +35,9 @@ StringVariant::StringVariant(Component* p, const string& n)
 //    DPH 27/6/2001
 
 // ------------------------------------------------------------------
-StringVariant::StringVariant(Component* p, const string& n, const string& value)
-   : name(n), parent(p)
+StringVariant::StringVariant(Component* p, const string& n, const string& u,
+   const string& value)
+   : name(n), units(u), parent(p)
    {
    addValues(value);
    }
@@ -149,6 +150,14 @@ void StringVariant::sendVariable(QueryValueData& queryData)
 // ------------------------------------------------------------------
 void StringVariant::setVariable(QuerySetValueData& setValueData)
    {
+   protocol::TypeConverter* converter = NULL;
+   if (getTypeConverter(parent,
+                        name.c_str(),
+                        setValueData.variant.getType(),
+                        protocol::Type(typeString.c_str()),
+                        converter))
+      setValueData.variant.setTypeConverter(converter);
+
    switch (type)
       {
       case Real:         {float realValue;
@@ -176,6 +185,7 @@ void StringVariant::setVariable(QuerySetValueData& setValueData)
       case StringArray:  {setValueData.variant.unpack(values);
                          break;}
       }
+   delete converter;
    }
 
 
@@ -248,7 +258,7 @@ void StringVariant::determineType(void)
    if (values.size() == 0)
       {
       type = String;
-      typeString = "<type kind=\"string\"/>";
+      typeString = "<type kind=\"string\"";
       }
    else if (values[0].length() > 0)
       {
@@ -257,19 +267,19 @@ void StringVariant::determineType(void)
          if (Str_i_Eq(name, "year") || Str_i_Eq(name, "day"))
             {
             type = Integer;
-            typeString = "<type kind=\"integer4\"/>";
+            typeString = "<type kind=\"integer4\"";
             }
          else
             {
             if (values.size() > 1)
                {
                type = RealArray;
-               typeString = "<type kind=\"single\" array=\"T\"/>";
+               typeString = "<type kind=\"single\" array=\"T\"";
                }
             else
                {
                type = Real;
-               typeString = "<type kind=\"single\"/>";
+               typeString = "<type kind=\"single\"";
                }
             }
          }
@@ -278,15 +288,16 @@ void StringVariant::determineType(void)
          if (values.size() > 1)
             {
             type = StringArray;
-            typeString = "<type kind=\"string\"/ array=\"T\">";
+            typeString = "<type kind=\"string\"/ array=\"T\"";
             }
          else
             {
             type = String;
-            typeString = "<type kind=\"string\"/>";
+            typeString = "<type kind=\"string\"";
             }
          }
       }
+   typeString += "units=\"" + units + "\"/>";
    }
 // ------------------------------------------------------------------
 //  Short description:

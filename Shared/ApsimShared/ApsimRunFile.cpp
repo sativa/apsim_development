@@ -26,7 +26,7 @@ ApsimRunFile::ApsimRunFile(const std::string& file)
 // ------------------------------------------------------------------
 // Run this run file
 // ------------------------------------------------------------------
-void ApsimRunFile::run(bool quiet) const
+void ApsimRunFile::run(bool console) const
    {
    IniFile ini(fileName);
    vector<string> sections;
@@ -45,7 +45,7 @@ void ApsimRunFile::run(bool quiet) const
       if (ExtractFileExt(simulationFileName.c_str()).AnsiCompareIC(".sim") == 0)
          {
          ApsimSimulationFile simulation(simulationFileName);
-         simulation.run(true);
+         simulation.run(console);
          }
       else
          {
@@ -56,12 +56,10 @@ void ApsimRunFile::run(bool quiet) const
                                        sim++)
             {
             ApsimControlFile simulation(simulationFileName, *sim);
-            simulation.run(configFileName, true);
+            simulation.run(configFileName, console);
             }
          }
       }
-   if (!quiet)
-      MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
    }
 
 

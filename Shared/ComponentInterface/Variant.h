@@ -59,6 +59,7 @@ class Variant
 
       void aliasTo(Variant& variant)
          {
+         type = variant.getType();
          messageData = MessageData(variant.messageData.ptr(), variant.messageData.bytesUnRead());
          }
       void aliasTo(MessageData& fromMessageData)

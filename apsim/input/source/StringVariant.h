@@ -32,6 +32,7 @@ class StringVariant
       StringVariant(protocol::Component* parent, const std::string& name);
       StringVariant(protocol::Component* parent,
                     const std::string& name,
+                    const std::string& units,
                     const std::string& value);
       void addValue(const std::string& value, unsigned arrayIndex);
       void addValues(const std::string& valueString);
@@ -53,6 +54,7 @@ class StringVariant
    private:
       protocol::Component* parent;
       std::string name;
+      std::string units;
       std::string typeString;
       typedef std::vector<std::string> Values;
       Values values;

@@ -45,7 +45,9 @@ Field::Field (protocol::Component* p,
          {
          VariableAlias = VariableName.substr(posAlias+1);
          VariableAlias.erase(VariableAlias.length()-1, 1);
-         VariableName = VariableName.substr(0, posAlias);
+         VariableName.erase(posAlias, VariableName.length()-posAlias);
+         Strip(VariableName, " ");
+         Strip(VariableAlias, " ");
          }
 
       // at this stage simply register an interest in the variable.
@@ -54,6 +56,8 @@ Field::Field (protocol::Component* p,
                                            stringArrayType,
                                            "",
                                            ModuleName.c_str());
+      if (posAlias != string::npos)
+         VariableName = VariableAlias;
       }
    }
 
@@ -76,7 +80,8 @@ bool Field::getValues(void)
       {
       variant->unpack(values);
       unit = asString(variant->getType().getUnit());
-      unit = "(" + unit + ")";
+      if (unit[0] != '(')
+         unit = "(" + unit + ")";
       }
    else
       unit = "(?)";
@@ -248,20 +253,32 @@ ReportComponent::~ReportComponent(void)
 // ------------------------------------------------------------------
 void ReportComponent::doInit1(const FString& sdml)
    {
+   Component::doInit1(sdml);
+   static const char* stringDDML = "<type kind=\"string\"\\>";
+   titleID = addRegistration(getVariableReg, "title", stringDDML);
+   summaryFileID = addRegistration(getVariableReg, "summaryFile", stringDDML);
+   repEventID = addRegistration(respondToEventReg, "rep", "");
+   doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
+   doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
+   daysSinceLastReportVariableID = addRegistration(respondToGetReg,
+                                                   "days_since_last_report",
+                                                   daysSinceLastReportType);
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     initialise the REPORT component - STAGE 2.
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/7/99
+//    dph 19/12/00
+
+// ------------------------------------------------------------------
+void ReportComponent::doInit2(void)
+   {
    try
       {
-      Component::doInit1(sdml);
-
-      static const char* stringDDML = "<type kind=\"string\"\\>";
-
-      titleID = addRegistration(getVariableReg, "title", stringDDML);
-      summaryFileID = addRegistration(getVariableReg, "summaryFile", stringDDML);
-      repEventID = addRegistration(respondToEventReg, "rep", "");
-      doOutputID = addRegistration(respondToMethodCallReg, "do_output", "");
-      doEndDayOutputID = addRegistration(respondToMethodCallReg, "do_end_day_output", "");
-      daysSinceLastReportVariableID = addRegistration(respondToGetReg,
-                                                      "days_since_last_report",
-                                                      daysSinceLastReportType);
       string fileName = componentData->getProperty("parameters", "outputfile");
       if (fileName == "")
          throw runtime_error("Cannot find name of output file in parameter file. ");
@@ -273,12 +290,19 @@ void ReportComponent::doInit1(const FString& sdml)
 
       // enumerate through all output variables
       // and create a field for each.
+      writeString("Output variables:");
       std::vector<string> variables;
       componentData->getVariables(variables);
       for (std::vector<string>::iterator variableI = variables.begin();
                                          variableI != variables.end();
                                          variableI++)
+         {
+         string name = *variableI;
+         name = "   " + name;
+         writeString(name.c_str());
          fields.push_back(Field(this, *variableI, CSVFormat));
+         }
+      writeString("");
 
       DaysSinceLastReport = 1;
 
@@ -291,10 +315,6 @@ void ReportComponent::doInit1(const FString& sdml)
       else
          msg += "normal";
       writeString(msg.c_str());
-
-      // write all fields to summary file.
-      writeString("Output variables:");
-      for_each(fields.begin(), fields.end(), mem_fun_ref(&Field::writeToSummary));
       }
    catch (const runtime_error& err)
       {
@@ -410,23 +430,21 @@ void ReportComponent::writeHeadings(void)
    headingLine << ends;
    unitLine << ends;
 
+   // output summary_file
+   protocol::Variant* variant;
+   string summaryFile;
+   if (getVariable(summaryFileID, variant, true))
+      variant->unpack(summaryFile);
+   out << "Summary_file = " << summaryFile << endl;
+
    // output title
    string title;
-   protocol::Variant* variant;
    if (getVariable(titleID, variant, true))
       variant->unpack(title);
    out << "Title = " << title << endl;
 
-   // output summary_file
-   string summaryFile;
-   if (getVariable(summaryFileID, variant, true))
-      variant->unpack(summaryFile);
-   out << "SummaryFile = " << summaryFile << endl;
+   // output headings and units
    out << headingLine.str() << endl;
    out << unitLine.str() << endl;
-   }
-
-void ReportComponent::doInit2(void)
-   {
    }
 

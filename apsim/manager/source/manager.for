@@ -169,6 +169,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .       (Max_manager_var_name_size)  !  Array to hold local variables names
          character local_variable_values(Max_local_variables)*
      .       (Max_variable_value_size)    ! Array to hold local variables
+         logical   local_variable_is_real(Max_local_variables)
+                                          ! True if the local variable is a floating point variable.
 
          character token_array(Max_tokens)*(Max_token_size)
                                           ! Array to hold tokens.
@@ -506,8 +508,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       parameter (my_name='manager_prepare')
 
 !- Implementation Section ----------------------------------
-      call push_routine (my_name)
 
+      call push_routine (my_name)
+      print *, 'here'
+      
       ! Go call the parsing routine.
 
       g%start_token = g%rule_indexes(2)
@@ -640,6 +644,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !+  Local Variables
       integer Variable_index           ! index into local variable list
+      real realValue
+      integer numvals
 
 !- Implementation Section ----------------------------------
 
@@ -651,8 +657,16 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .   (Variable_name, g%local_variable_names, g%num_local_variables)
 
       if (Variable_index .gt. 0) then
-         call respond2get_char_var (Variable_name, '()',
-     .                     g%local_variable_values(Variable_index))
+         if (g%local_variable_is_real(Variable_index)) then
+            call string_to_real_var
+     .          (g%local_variable_values(Variable_index), realValue, 
+     .           numvals)
+            call respond2get_real_var (Variable_name, '()',
+     .                                 realValue)
+         else
+            call respond2get_char_var (Variable_name, '()',
+     .                        g%local_variable_values(Variable_index))
+         endif
       else
          ! not our variable
 
@@ -790,6 +804,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !+  Local Variables
       character Str*300                ! Dummy value returned by APSIM
+      integer read_status
+      real realValue       
+      
+      integer, parameter :: Ok_status=0                 
 
 !- Implementation Section ----------------------------------
 
@@ -803,12 +821,20 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Fatal_error(ERR_user, str)
 
       else
+         read (Variable_value, '(g25.0)', 
+     .      iostat=read_status) realValue
+
+         g%local_variable_is_real(g%num_local_variables) 
+     .       = (read_status.eq.OK_status)
+
          call assign_string (
      :        g%local_variable_names(g%num_local_variables)
      :      , Variable_name)
          call assign_string (
      :        g%local_variable_values(g%num_local_variables)
      :      , Variable_value)
+     
+     
       endif
 
       return
@@ -1165,6 +1191,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
                                        ! Action to send to APSIM
       character Data_string*(Function_string_len)
                                        ! Data string to send to APSIM
+      character value*(Function_string_len)
       character Variable_name*(Max_manager_var_name_size)
                                        ! variable name in set actions.
       integer Numvals                  ! Number of values returned
@@ -1218,10 +1245,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
       if (Action .eq. 'set') then
          call Get_next_variable (Data_string,
      .                           Variable_name,
-     .                           Data_string)
-         ok = component_name_to_id(Module_name, modNameID)
+     .                           value)
+         ok = component_name_to_id(Module_name, modNameID) 
          call set_char_var(modNameID, Variable_name, 
-     .                     ' ', Data_string)
+     .                     ' ', value)
 
       else if (Data_was_stored) then
          call Action_send (Module_name, Action)
