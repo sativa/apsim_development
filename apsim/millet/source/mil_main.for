@@ -201,8 +201,8 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
       call get_current_module (module_name)
+
 
 !        call write_string('millet('// module_name // ' '
 !       :         // g%last_mdl_name //' ' //g%stem_class//action)
@@ -240,7 +240,7 @@
          if (g%plant_status.ne.status_out) then
 !            call millet_zero_daily_variables ()
                ! request and receive variables from owner-modules
-            call millet_get_other_variables ()
+           call millet_get_other_variables ()
                ! do crop processes
             call millet_process ()
                ! send changes to owner-modules
@@ -269,7 +269,7 @@
      :                      'Cannot sow initiated tiller!')
             else
 
-               ! request and receive variables from owner-modules
+              ! request and receive variables from owner-modules
                call millet_get_other_variables ()
                ! start crop and do  more initialisations
                call millet_start_crop ()
@@ -1331,6 +1331,11 @@ cjh special for erik - end
       g%num_layers = 0
       g%isdate = 0
       g%mdate = 0
+cjh special for erik - start
+      g%stop_growth = .false.
+      g%set_leaf_no_final = .false.
+cjh special for erik - end
+
 
       call pop_routine (my_name)
       return
@@ -2788,7 +2793,6 @@ cused for validation of leaf area model only
      :                              , '()'
      :                              , g%leaf_no_final, numvals
      :                              , 0.0, 40.0)
-
 cjh special for erik - start
          g%set_leaf_no_final = .true.
 cjh special for erik - end
