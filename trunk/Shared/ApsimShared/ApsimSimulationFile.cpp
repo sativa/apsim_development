@@ -44,13 +44,11 @@ ApsimSimulationFile::~ApsimSimulationFile(void)
 // ------------------------------------------------------------------
 void ApsimSimulationFile::run(bool quiet) const
    {
-   AllocConsole();
    string commandLine = getApsimDirectory() + "\\bin\\apsim.exe " +
                         fileName;
    Exec(commandLine.c_str(), SW_SHOW, true);
    if (!quiet)
       MessageBox(NULL, "APSIM has finished", "For your information", MB_ICONINFORMATION | MB_OK);
-   FreeConsole();
    }
 // ------------------------------------------------------------------
 // Read in the contents of the simulation file.
