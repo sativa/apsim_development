@@ -4,6 +4,7 @@
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use Soilwat2Module
+      use LateralModule
       implicit none
  
 !+  Sub-Program Arguments
@@ -22,6 +23,8 @@
       allocate (Instances(InstanceNo)%pptr)
       allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
+      call LateralAllocInstance (InstanceName, InstanceNo)
+
  
       return
       end
@@ -30,6 +33,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use Soilwat2Module
+      use LateralModule
       implicit none
  
 !+  Sub-Program Arguments
@@ -46,7 +50,7 @@
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
       deallocate (Instances(anInstanceNo)%cptr)
- 
+      call  LateralFreeInstance (anInstanceNo)
       return
       end
      
@@ -54,6 +58,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use Soilwat2Module
+      use LateralModule      
       implicit none
  
 !+  Sub-Program Arguments
@@ -70,7 +75,7 @@
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
       c => Instances(anInstanceNo)%cptr
- 
+      call LateralSwapInstance (anInstanceNo)
       return
       end
 
@@ -144,6 +149,7 @@
       parameter (my_name = 'soilwat2')
  
 *- Implementation Section ----------------------------------
+
       call push_routine (my_name)
       if (action.eq.ACTION_set_variable) then
                ! respond to request to reset variable values - from modules
@@ -184,6 +190,8 @@
          call soilwat2_on_new_solute ()
  
       else if (action.eq.ACTION_init) then
+
+
          call soilwat2_zero_variables ()
          call soilwat2_zero_data_links ()
          call soilwat2_zero_event_data ()
@@ -220,6 +228,7 @@
       subroutine soilwat2_process
 *     ===========================================================
       use Soilwat2Module
+      use LateralModule
       implicit none
       include 'data.pub'
       include 'error.pub'
@@ -263,10 +272,18 @@
                                        ! that was unable to enter profile
       integer    layer                 ! layer number counter variable
       integer    num_layers            ! number of layers
- 
+
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
+
+
+
+      call lateral_process(g%sw_dep
+     :                            ,g%dul_dep
+     :                            ,g%sat_dep
+     :                            ,p%dlayer)
+
  
             ! water balance
  
@@ -275,8 +292,8 @@
          ! runoff
  
       call soilwat2_cover_surface_runoff (g%cover_surface_runoff)
- 
-      call soilwat2_runoff (g%rain, g%runoff_pot)
+c dsg 070302 added runon 
+      call soilwat2_runoff (g%rain, g%runon, g%runoff_pot)
 
       ! DSG  041200
       ! g%runoff_pot is the runoff which would have occurred without 
@@ -286,8 +303,6 @@
       g%pond = g%pond + g%runoff_pot
       g%runoff = max(g%pond - p%max_pond, 0.0)
       g%pond = min (g%pond, p%max_pond)
-
-
 
 
       call soilwat2_infiltration (g%infiltration)
@@ -380,7 +395,7 @@
  
  
 *     ===========================================================
-      subroutine soilwat2_runoff ( rain, runoff )
+      subroutine soilwat2_runoff ( rain,runon, runoff )
 *     ===========================================================
       use Soilwat2Module
       implicit none
@@ -389,6 +404,7 @@
  
 *+  Sub-Program Arguments
       real       rain            ! (INPUT) rainfall (mm)
+      real       runon           ! (INPUT) run on (mm)   
       real       runoff          ! (OUTPUT) runoff (mm)
  
 *+  Purpose
@@ -405,6 +421,7 @@
  
 *+  Changes
 *       221090 specified (jngh)
+*       070302 added runon (dsg)
  
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -419,9 +436,9 @@
  
       runoff = 0.0
  
-      if (rain .gt. 0.0) then
+      if ((rain+runon) .gt. 0.0) then
          if (g%obsrunoff_name .eq. blank ) then
-            call soilwat2_scs_runoff (rain, runoff)
+            call soilwat2_scs_runoff (rain,runon, runoff)
          else
            if ( g%obsrunoff_found ) then
                runoff = g%obsrunoff
@@ -432,11 +449,12 @@
      :      ', Using predicted runoff for missing observation'
  
                call warning_error (err_user, string)
-               call soilwat2_scs_runoff (rain, runoff)
+               call soilwat2_scs_runoff (rain,runon, runoff)
            endif
          endif
- 
-         call soilwat2_tillage_addrain(g%rain)  ! Update rain since tillage accumulator
+
+c dsg 070302 added runon 
+         call soilwat2_tillage_addrain(g%rain,g%runon)  ! Update rain since tillage accumulator
                                                 ! NB. this needs to be done _after_ cn
                                                 ! calculation.
  
@@ -451,7 +469,7 @@
  
  
 *     ===========================================================
-      subroutine soilwat2_scs_runoff (rain, runoff)
+      subroutine soilwat2_scs_runoff (rain,runon, runoff)
 *     ===========================================================
       use Soilwat2Module
       implicit none
@@ -460,6 +478,7 @@
  
 *+  Sub-Program Arguments
       real       rain                  ! (input) rainfall for day (mm)
+      real       runon                 ! (input) run on for day (mm)
       real       runoff                ! (output) runoff for day (mm)
  
 *+  Purpose
@@ -491,6 +510,7 @@
 *                    removed redundant l_bound of cn2_new
 *        071097 pdev added tillage reduction on CN.
 *        081298 jngh added zeroing of cnpd before accumulation
+*        070302 dsg  added runon
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -576,11 +596,11 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
           ! curve number will be decided from scs curve number table ??dms
  
       s = 254.0* (divide (100.0, cn, 1000000.0) - 1.0)
-      xpb = rain - 0.2*s
+      xpb = (rain + runon) - 0.2*s
       xpb = l_bound (xpb, 0.0)
  
-      runoff = divide (xpb*xpb, (rain + 0.8*s), 0.0)
-      call bound_check_real_var (runoff, 0.0, rain, 'runoff')
+      runoff = divide (xpb*xpb, (rain + runon + 0.8*s), 0.0)
+      call bound_check_real_var (runoff, 0.0, (rain + runon), 'runoff')
  
       call pop_routine (my_name)
       return
@@ -707,6 +727,28 @@ cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
           call soilwat2_priestly_taylor (eo) ! eo from priestly taylor
       else
           eo = g%eo_system                   ! eo is provided by system
+      endif
+ 
+!dsg we wish to retain a 'real eo' and an 'effective eo'.  The real eo is used in the reporting of eo,
+!    and the effective eo takes into account ponding evaporation, and is used in further calculations. 
+           g%real_eo = eo
+
+! dsg 270502  check to see if there is any ponding.  If there is, evaporate straight out of it and transfer 
+!             any remaining potential to the soil layer 1, as per usual.  Introduce new term g%pond_evap
+!             which is the daily evaporation from the pond.
+
+
+      if (g%pond .gt. 0.0) then
+          if(g%pond.ge.eo) then
+             g%pond = g%pond - eo
+             g%pond_evap = eo
+             eo =0.0
+          else
+             eo = eo - g%pond
+             g%pond_evap = g%pond
+             g%pond = 0.0
+          endif 
+            
       endif
  
       call pop_routine (my_name)
@@ -1824,7 +1866,6 @@ c     should suffice.
       num_layers = count_of_real_vals (p%dlayer, max_layer)
  
       do 240 layer = 1, num_layers
- 
              ! get total water concentration in layer
  
          w_tot = g%sw_dep(layer) + w_in
@@ -1862,16 +1903,15 @@ c     should suffice.
  
             else
                ! Calculate amount of water to backup and push down
- 
                ! Firstly top up this layer (to saturation)
                add = min (excess, w_drain)
                excess = excess - add
                new_sw_dep(layer) = g%sat_dep(layer) - w_drain + add
- 
+
                ! partition between flow back up and flow down
                backup = (1. - p%mwcon(layer))*excess
                excess = p%mwcon(layer) * excess
- 
+
                w_out = excess + w_drain
                flux(layer) = w_out
  
@@ -1988,9 +2028,12 @@ c     should suffice.
       real       sat_dep1              ! saturated sw depth in current layer
                                        ! (mm)
       real       sat_dep2              ! saturated sw depth in next layer (mm)
+      real       dul_dep1              ! drained upper limit in current layer
+                                       ! (mm)
+      real       dul_dep2              ! drained upper limit in next layer (mm)
       real       swg                   ! sw differential due to gravitational
                                        ! pressure head (mm)
- 
+
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
@@ -2022,6 +2065,10 @@ c     should suffice.
          sat_dep1   = g%sat_dep(layer)
          sat_dep2   = g%sat_dep(next_layer)
  
+         dul_dep1   = g%dul_dep(layer)
+         dul_dep2   = g%dul_dep(next_layer)
+
+
          esw_dep1   = l_bound ((sw_dep1 - w_out) - ll15_dep1, 0.0)
          esw_dep2   = l_bound (sw_dep2 - ll15_dep2, 0.0)
  
@@ -2071,21 +2118,31 @@ cjh          flow_max is -ve, resulting in sw > sat.
      :                      + divide (1.0, dlayer2, 0.0)
          flow_max = divide ((sw2 - sw1 - swg), sum_inverse_dlayer, 0.0)
 
-c dsg    un-incorporated code from senthold version
-!         if (g%sw_dep(layer).gt.g%dul_Dep(layer)) then
-!            flow(layer) = 0.0
-!
-!         elseif (g%sw_dep(next_layer).gt.g%dul_Dep(next_layer)) then
-!            flow(layer) = 0.0
-!
-!         endif
+c dsg 260202
+c dsg    this code will stop a saturated layer difusing water into a partially saturated 
+c        layer above for Water_table height calculations
+         if (g%sw_dep(layer).ge.g%dul_Dep(layer).and.
+     &       g%sw_dep(next_layer).ge.g%dul_Dep(next_layer)) then
+            flow(layer) = 0.0
+         endif
+
+c dsg 260202
+c dsg    this code will stop unsaturated flow downwards through an impermeable layer, but will allow flow up
+         if (p%mwcon(layer).eq.0.and.flow(layer).lt.0.0) then
+            flow(layer) = 0.0
+
+         endif
+
+
 
          if (flow(layer) .lt. 0.0) then
             ! flow is down to layer below
             ! check capacity of layer below for holding water from this layer
             ! and the ability of this layer to supply the water
  
-            next_layer_cap = l_bound (sat_dep2 - sw_dep2, 0.0)
+!            next_layer_cap = l_bound (sat_dep2 - sw_dep2, 0.0)
+!    dsg 150302   limit unsaturated downflow to a max of dul in next layer
+            next_layer_cap = l_bound (dul_dep2 - sw_dep2, 0.0)
             flow_max = l_bound (flow_max, -next_layer_cap)
 cjh
             flow_max = l_bound (flow_max, -esw_dep1)
@@ -2095,8 +2152,10 @@ cjh
             ! flow is up from layer below
             ! check capacity of this layer for holding water from layer below
             ! and the ability of the layer below to supply the water
- 
-            this_layer_cap = l_bound (sat_dep1 - (sw_dep1 - w_out), 0.0)
+
+!            this_layer_cap = l_bound (dul_dep1 - (sw_dep1 - w_out), 0.0) 
+!    dsg 150302   limit unsaturated upflow to a max of dul in this layer
+            this_layer_cap = l_bound (dul_dep1 - (sw_dep1 - w_out), 0.0)
             flow_max = u_bound (flow_max, this_layer_cap)
 cjh
             flow_max = u_bound (flow_max, esw_dep2)
@@ -3860,6 +3919,16 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
  
          g%obsrunoff_found = numvals .gt. 0
       endif
+
+c  dsg   070302  added runon 
+         call get_real_var_optional (unknown_module,
+     :                               'runon', '()',
+     :                               g%runon, numvals,
+     :                               0.0, 1000.0)
+ 
+      if (numvals.eq.0) then
+          g%runon = 0.0
+      endif
  
       call pop_routine (my_name)
       return
@@ -4328,6 +4397,7 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
       subroutine soilwat2_send_my_variable (variable_name)
 * ====================================================================
       use Soilwat2Module
+      use LateralModule
       implicit none
       include 'string.pub'
       include 'science.pub'
@@ -4389,11 +4459,19 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
       call push_routine (my_name)
  
       if (variable_name .eq. 'es') then
-         es = sum_real_array(g%es_layers, max_layer)
+         es = sum_real_array(g%es_layers, max_layer) + g%pond_evap
          call respond2get_real_var (variable_name, '(mm)', es)
+
+! dsg 310502  Evaporation from the surface of any ponding.
+      else if (variable_name .eq. 'pond_evap') then
+         call respond2get_real_var (variable_name, '(mm)', g%pond_evap)
+
+      else if (variable_name .eq. 't') then
+         call respond2get_real_var (variable_name, '(days)', g%t)
+
  
       else if (variable_name .eq. 'eo') then
-         call respond2get_real_var (variable_name, '(mm)', g%eo)
+         call respond2get_real_var (variable_name, '(mm)', g%real_eo)
  
       else if (variable_name .eq. 'eos') then
          call respond2get_real_var (variable_name, '(mm)', g%eos)
@@ -4426,7 +4504,8 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
 
       else if (variable_name .eq. 'eff_rain') then
          es = sum_real_array(g%es_layers, max_layer)
-         eff_rain = g%rain - g%runoff - g%drain
+c dsg 070302 added runon
+         eff_rain = g%rain + g%runon - g%runoff - g%drain
          call respond2get_real_var (variable_name, '(mm)'
      :                             , eff_rain)
  
@@ -4538,7 +4617,7 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
      :                               , g%flux, num_layers)
- 
+
       else if (variable_name .eq. 'flow') then
  
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
@@ -4628,9 +4707,13 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
          call respond2get_real_array ('sws', '(mm/mm)'
      :                               , g%sws, num_layers)
 
+      else if (lateral_send_my_variable(variable_name)) then
+         ! we dont need to do anything here
+
 
       else
          ! not my variable
+         
  
          call Message_unused ()
       endif
@@ -4772,7 +4855,8 @@ c         g%crop_module(:) = ' '               ! list of modules
          g%pond  =  0.0                       ! surface ponding depth (mm)
          g%water_table = 0.0                  ! water table depth (mm)
          g%sws (:) = 0.0                      ! soil water (mm/layer)
-
+         g%pond_evap = 0.0                    ! evaporation from the pond surface (mm)
+         g%real_eo = 0.0                      ! eo determined before any ponded water is evaporated (mm)
 * ====================================================================
 * Parameters
          p%irrigation_layer = 0                  ! trickle irrigation input layer
@@ -4899,6 +4983,7 @@ c         g%crop_module(:) = ' '               ! list of modules
          g%year = 0                           ! year
          g%day  = 0                           ! day of year
          g%rain = 0.0                         ! precipitation (mm/d)
+         g%runon = 0.0                        ! run on H20 (mm/d)
          g%radn = 0.0                         ! solar radiation (mj/m^2/day)
          g%mint = 0.0                         ! minimum air temperature (oC)
          g%maxt = 0.0                         ! maximum air temperature (oC)
@@ -4966,6 +5051,9 @@ c         g%crop_module(:) = ' '               ! list of modules
       g%num_crops          = 0
       g%obsrunoff          = 0.0
       g%obsrunoff_found    = .false.
+      g%pond_evap = 0.0                    ! evaporation from the pond surface (mm)
+      g%real_eo = 0.0                      ! eo determined before any ponded water is evaporated (mm)
+      
  
       ! initialise all solute information
  
@@ -5641,6 +5729,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       subroutine soilwat2_init ()
 *     ===========================================================
       use Soilwat2Module
+      use LateralModule
       implicit none
       include   'const.inc'
       include   'error.pub'
@@ -5682,6 +5771,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call soilwat2_soil_profile_param ()
  
       call soilwat2_evap_init ()
+      call lateral_init()
  
       call soilwat2_New_Profile_Event()
 
@@ -6031,7 +6121,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
     ! considered as consisting of two components - that from the (rain + 
     ! irrigation) and that from ponding.
 
-      infiltration_1 = g%rain -  g%runoff_pot
+c dsg 070302 added runon
+      infiltration_1 = g%rain + g%runon -  g%runoff_pot
 
       if (p%irrigation_layer.eq.0) then
         infiltration_1 = infiltration_1 + g%irrigation 
@@ -6163,7 +6254,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
  
 *     ===========================================================
-      subroutine soilwat2_tillage_addrain ( rain )
+      subroutine soilwat2_tillage_addrain ( rain, runon )
 *     ===========================================================
       use Soilwat2Module
       implicit none
@@ -6172,7 +6263,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
 *+  Sub-Program Arguments
       real      rain                   ! (INPUT) today's rainfall (mm)
- 
+      real      runon                  ! (INPUT) today's run on (mm)
 *+  Purpose
 *     accumulate rainfall fo  r tillage cn reduction
  
@@ -6181,6 +6272,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
 *+  Changes
 *       221090 specified (jngh)
+*       070302  dsg   added runon
  
 *+  Constant Values
       character  my_name*(*)           ! this subroutine name
@@ -6193,7 +6285,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call push_routine (my_name)
  
-      g%tillage_rain_sum = g%tillage_rain_sum + rain
+      g%tillage_rain_sum = g%tillage_rain_sum + rain + runon
  
       if (g%tillage_cn_rain .gt. 0.0 .and.
      :    g%tillage_rain_sum .gt. g%tillage_cn_rain) then
@@ -6499,6 +6591,7 @@ c
 
 *+  Changes
 *   neilh - 28-03-1996 - Programmed and Specified
+*    dsg     150302  -  changed definition of 'saturated' for layer with mwcon =0
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
@@ -6508,6 +6601,7 @@ c
       integer layer
       integer num_layers
       integer sat_layer
+      real  margin   ! dsg 110302  allowable looseness in definition of sat
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -6515,7 +6609,16 @@ c
       num_layers = count_of_real_vals (p%dlayer, max_layer)
  
       do 100 layer = 1, num_layers
-         if (reals_are_equal(g%sw_dep(layer),g%sat_dep(layer))) then
+
+          margin = 0.0
+
+         if ((g%sat_dep(layer)- g%sw_dep(layer)).le.margin) then
+            sat_layer = layer
+            goto 200
+
+         elseif (p%mwcon(layer).lt.1.0.and
+     :    .g%sw_dep(layer).gt.g%dul_dep(layer)) then
+!  dsg 150302     also check whether impermeable layer is above dul. If so then consider it to be saturated
             sat_layer = layer
             goto 200
          else
@@ -6527,15 +6630,37 @@ c
          soilwat_water_table = 10000.
  
       elseif (sat_layer.eq.1) then
-         soilwat_water_table = 0.0
+
+c dsg 150302  top of water table is somewhere in the first layer
+
+!         soilwat_water_table = 0.0
+            soilwat_water_table = sum_real_array(p%dlayer,sat_layer)
+     :         -  divide (g%sw_dep(sat_layer)-g%dul_dep(sat_layer)
+     :                   ,g%sat_Dep(sat_layer)-g%dul_dep(sat_layer)
+     :                   ,0.0) * p%dlayer(sat_layer)
+
       else
-         if (g%sw_dep(sat_layer-1).gt.g%dul_dep(sat_layer-1)) then
+
+c dsg 150302  saturated layer = layer, layer above is over dul
+
+         if (g%sw_dep(sat_layer).ge.g%sat_dep(sat_layer).and.
+     :         g%sw_dep(sat_layer-1).gt.g%dul_dep(sat_layer-1)) then
+
+
             soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
      :         -  divide (g%sw_dep(sat_layer-1)-g%dul_dep(sat_layer-1)
      :                   ,g%sat_Dep(sat_layer-1)-g%dul_dep(sat_layer-1)
      :                   ,0.0) * p%dlayer(sat_layer-1)
          else
-            soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
+
+c dsg 150302  saturated layer = layer, layer above not over dul
+
+!            soilwat_water_table = sum_real_array(p%dlayer,sat_layer-1)
+            soilwat_water_table = sum_real_array(p%dlayer,sat_layer)
+     :         -  divide (g%sw_dep(sat_layer)-g%dul_dep(sat_layer)
+     :                   ,g%sat_Dep(sat_layer)-g%dul_dep(sat_layer)
+     :                   ,0.0) * p%dlayer(sat_layer)
+
          endif
       endif
  
