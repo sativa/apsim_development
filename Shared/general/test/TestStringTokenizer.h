@@ -1,17 +1,18 @@
 //---------------------------------------------------------------------------
-
 #ifndef TestStringTokenizerH
 #define TestStringTokenizerH
-#include <test\framework\testcase.h>
+
+#include <cppunit\testcase.h>
+#include <cppunit\extensions\HelperMacros.h>
 #include <string>
 //---------------------------------------------------------------------------
-class TestStringTokenizer : public TestCase
+class TestStringTokenizer : public CppUnit::TestCase
    {
    public:
-      TestStringTokenizer(const std::string& name)
-         : TestCase(name) { }
-
       void all(void);
-      static Test* suite (void);
+      CPPUNIT_TEST_SUITE(TestStringTokenizer);
+         CPPUNIT_TEST(all);
+      CPPUNIT_TEST_SUITE_END();
+
    };
 #endif
