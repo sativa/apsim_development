@@ -19,11 +19,13 @@
          allocate(g)
          allocate(p)
          allocate(c)
+         allocate(ID)
 
       else
          deallocate(g)
          deallocate(p)
          deallocate(c)
+         deallocate(ID)
 
       end if
       return

@@ -29,7 +29,7 @@ C     Last change:  E     5 Dec 2000    8:52 am
       end type ClockData
 
       ! instance variables.
-      common /InstancePointers/ g,p,c,ID
+      common /InstancePointers/ ID,g,p,c
       save InstancePointers
       type (ClockData),pointer :: g
       type (IDsType), pointer :: ID
@@ -57,8 +57,10 @@ C     Last change:  E     5 Dec 2000    8:52 am
 
       if (doAllocate) then
          allocate(g)
+         allocate(ID)
       else
          deallocate(g)
+         deallocate(ID)
       end if
       return
       end
