@@ -26,7 +26,7 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value="_DEBUG"/>
+    <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="PlantComponent.cpp"/>
     <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
@@ -36,11 +36,11 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
-    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <CFLAG1 value="-WD -O2 -Vx -Ve -X- -a8 -b- -k- -vi -c -tWM"/>
+    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zi"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -160,7 +160,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=/console &quot;C:\development\apsim\canopy\sample\canopy.sim&quot;
+RunParams=/console &quot;c:/development/apsim/wheat/sample/wheat.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
