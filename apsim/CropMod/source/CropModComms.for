@@ -5204,7 +5204,6 @@ c           string_to_integer_var(value_string, value, numvals)
 
       ! zero pools etc.
 
-      call PlantP_zero_variables()
       call Zero_Daily_Variables ()
 
 
@@ -5490,10 +5489,10 @@ c      g%dlt_n_uptake_stover=0.0
       call fill_real_array(g%uptake_P,  0.0,max_layer)
 
 
-      g%pfact_photo      =0.0
-      g%pfact_pheno      =0.0
-      g%pfact_expansion  =0.0
-      g%pfact_grain      =0.0
+      g%pfact_photo      =1.0
+      g%pfact_pheno      =1.0
+      g%pfact_expansion  =1.0
+      g%pfact_grain      =1.0
 
       !...................maiz_p_int
       g%num_uptake_P     =0
