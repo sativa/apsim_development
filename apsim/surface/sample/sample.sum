@@ -1,32 +1,13 @@
 Output_file=sample.out
  
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
----------------------------------------------------------
-Registered to      : Neil Huth
-                   : APSRU
-Module : report
-Module : input
-Module : manager
-Module : apswim
-Module : slurp
-Module : surface  - unknown in APSRU version control system.
----------------------------------------------------------
- 
-Report - initialising,V1.3  11/10/96
+Report - initialising,V1.5  21/7/96
 Title =
 Screen output =off
  
 Variable list
 -------------
  
-Module = input
+Module = clock
 Variables =day
  
 Module = apswim
@@ -35,141 +16,35 @@ Variables =scon
 Module = surface
 Variables =rr
 ---------------------------------------------------------
- 
- File opened ok. -> sample.met
-site = somewhere
-latitude = -27.0
-rain_time = 00:00 (hh:mm)
-rain_int = 25.0 (mm/h)
-eo = 6 (mm)
-eo_time = 6:00 (hh:mm)
-eo_durn = 720 (min)
-residue_cover = 0.5
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
-start_year =1995
-end_year =1995
-start_day =1
-end_day =31
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.met
-site = somewhere
-latitude = -27.0
-rain_time = 00:00 (hh:mm)
-rain_int = 25.0 (mm/h)
-eo = 6 (mm)
-eo_time = 6:00 (hh:mm)
-eo_durn = 720 (min)
-residue_cover = 0.5
- INPUT Initialised, Version: V1.02  05/08/96
+site =  somewhere
+latitude =  -27.0
+rain_time =  00:00 (hh:mm)
+rain_int =  25.0 (mm/h)
+eo =  6 (mm)
+eo_time =  6:00 (hh:mm)
+eo_durn =  720 (min)
+residue_cover =  0.5
+ MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day=   1 date=  1  1 1995 manager  - Initialising, Version : V1.20  04/09/96
+ day=   1 date=  1  1 1995 manager  - Initialising, Version : V1.30  02/10/96
  
 Manager rules
 ------- -----
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
 if day = 10 or day = 20 then
 apswim tillage
 endif
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
 report do_output
  
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
 -----------------------------------------------------------
- day=   1 date=  1  1 1995 apswim   - Initialising Version : V1.2  22/7/96
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> apswim.ini
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
+ day=   1 date=  1  1 1995 apswim   - Initialising Version : V1.6  13/6/97
 ??????????????????????????????????????????????????
 ?          WARNING ERROR IN SYSTEM MODEL         ?
 ??????????????????????????????????????????????????
-A warning error was found.  Routine traceback :-   apswim_read_param  apswim_init  apsim_apswim  Execute
+A warning error was found.  Routine traceback :-
+apswim_read_param
+apswim_init
+apsim_apswim
+Execute
  
 Current module name :- apswim
 Error type :- User error
@@ -178,16 +53,6 @@ initial_surface_storage =     20.00000
         exceeds upper limit of    19.99500
 ??????????????????????????????????????????????????
  
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
- 
- File opened ok. -> sample.par
  
  
       APSIM soil profile
@@ -277,15 +142,11 @@ initial_surface_storage =     20.00000
      Evaporation Source: apsim
  
  day=   1 date=  1  1 1995 slurp    - Initialising Version : V0.1 7/6/96
- 
- File opened ok. -> sample.par
  day=   1 date=  1  1 1995 surface  -  Initialising, Version : V0.0  150197
  
    - Reading Parameters
  
- File opened ok. -> sample.par
- 
 ======= Start of APSIM simulation ============================
  Day=  10 Year =  1995     Manager sending message :- apswim tillage
  Day=  20 Year =  1995     Manager sending message :- apswim tillage
-Simulation is terminating due to satisfying end of run conditions.
+Simulation is terminating due to end criteria being met.

@@ -2,14 +2,14 @@
 !    Section common to all runs
 !********************************************************************
 
-[o97_1_all.input.parameters]
-  Start_day  =  265
-  Start_year = 1995
-  End_day    =  140
-  End_year   = 1996
+[o97_1_all.clock.parameters]  
+Start_day =     265   
+Start_year =   1995   
+End_day =       140   
+End_year =     1996   
 
 
-[o97_1_all.manager.end_of_day]
+[o97_1_all.manager.end_of_day]  
 
    report do_output
    
@@ -23,20 +23,20 @@
    endif
 
   
-[o97_1_all.accum.parameters]
+[o97_1_all.accum.parameters]  
 
-  accum_variables = rain[5]
+accum_variables =   rain[5]   
 
 
 !******************************* Alan Hunter *****************************************
 
-[o97_1_1.report.parameters]
-  Title        = Alan Hunter, Moree, cotton 1995/96
-  Screen_output= on
-  Outputfile   = o_971_1.000   ! /overwrite 
-  Summaryfile  = s_971_1.000   ! /overwrite 
+[o97_1_1.report.parameters]  
+Title =          Alan Hunter   
+Screen_output =  on   
+Outputfile =     o_971_1.000   ! /overwrite 
+Summaryfile =    s_971_1.000   ! /overwrite 
 
-[o97_1_1.manager.end_of_day]
+[o97_1_1.manager.end_of_day]  
 
   yield_acre = yield/2.5
 
@@ -52,19 +52,19 @@
 
 !******************************* James Claerke **************************
 
-[o97_1_2.report.parameters]
-  Title        = James Clarke, Croppa Creek, cotton 1995/96
-  Screen_output= on      
-  Outputfile   = o_971_2.000   ! /overwrite 
-  Summaryfile  = s_971_2.000   ! /overwrite 
+[o97_1_2.report.parameters]  
+Title =          James Clarke   
+Screen_output =  on   
+Outputfile =     o_971_2.000   ! /overwrite 
+Summaryfile =    s_971_2.000   ! /overwrite 
 
-[o97_1_2.input.parameters]
-  Start_day  =  190
-  Start_year = 1995
-  End_day    =  160
-  End_year   = 1996
+[o97_1_2.input.parameters]  
+Start_day =     190   
+Start_year =   1995   
+End_day =       160   
+End_year =     1996   
 
-[o97_1_2.manager.end_of_day]
+[o97_1_2.manager.end_of_day]  
 
   yield_acre = yield/2.5
 
@@ -85,13 +85,13 @@
 
 !******************************* Mac Patterson *************************
 
-[o97_1_3.report.parameters]
-  Title        = Mac Patterson, Billa Billa, cotton 1995/96
-  Screen_output= on
-  Outputfile   = o_971_3.000   ! /overwrite 
-  Summaryfile  = s_971_3.000   ! /overwrite 
+[o97_1_3.report.parameters]  
+Title =          Mac Patterson   
+Screen_output =  on   
+Outputfile =     o_971_3.000   ! /overwrite 
+Summaryfile =    s_971_3.000   ! /overwrite 
 
-[o97_1_3.manager.end_of_day]
+[o97_1_3.manager.end_of_day]  
 
   yield_acre = yield/2.5
 

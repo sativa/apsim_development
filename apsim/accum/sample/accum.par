@@ -1,35 +1,35 @@
-[sample.report.parameters]
-title = Accum Sample Simulation
-screen_output = on
-outputfile  = accum.out /overwrite
-summaryfile = accum.sum /overwrite
+[sample.report.parameters]  
+title =  Accum Sample Simulation   
+screen_output =  on   
+outputfile =  accum.out /overwrite   
+summaryfile =  accum.sum /overwrite   
 
-module_names=    input input  
-variable_names=  day year     
-variable_alias=  -     -      
-Units         =  -     -
+module_names =   clock clock   
+variable_names =  day year   
+variable_alias =  -    -   
+Units =          -     -   
 
-Module_names   = accum
-Variable_names = rain[3]
-Variable_alias =   -
-Units          =   -
+Module_names =   accum   
+Variable_names =  rain[3]   
+Variable_alias =   -   
+Units =            -   
 
 
-[sample.input.parameters]
+[sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-start_day =  1
-start_year = 1988
-end_day =  100
-end_year = 1988
+start_day =  1   
+start_year =  1988   
+end_day =  100   
+end_year =  1988   
 
 
-[sample.accum.parameters]
+[sample.accum.parameters]  
 ! Accumulate rainfall for 5 days.
 ! We can then use this variable in manager
-accum_variables = rain[5]
+accum_variables =  rain[5]   
 
 
-[sample.manager.start_of_day]
+[sample.manager.start_of_day]  
 ! tell report module to output when accumulated rainfall is 
 ! greater than 20 mm.
 

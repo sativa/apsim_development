@@ -1,21 +1,28 @@
-Output_file=correl.out
+Output_file=met.out
  
 Report - initialising,V1.5  21/7/96
-Title =eo_gatton_9394
+Title =met sample simulation
 Screen output =on
  
 Variable list
 -------------
  
 Module = clock
-Variables =year,day
+Variables =day,year
+ 
+Module = met
+Variables =radn,maxt,mint,rain
 ---------------------------------------------------------
-latitude =  -27.31
+latitude =  -27.11
  MET Initialised, Version: V1.4 25/11/96
 ---------------------------------------------------------
- day= 116 date= 26  4 1975 correl   - Initialising Version : V1.0 27/02/98
+ day=   1 date=  1  1 1988 manager  - Initialising, Version : V1.30  02/10/96
  
-   - Reading correl Parameters
+Manager rules
+------- -----
+report do_output
+ 
+-----------------------------------------------------------
  
 ======= Start of APSIM simulation ============================
 Simulation is terminating due to end criteria being met.
