@@ -44,3 +44,9 @@ report do_output
 1988 10 manager set rain_amount = 50 
 1988 20 manager set fixed_rain = no
 1988 20 manager set rain_amount = 0 
+
+[sample.screen.parameters]
+screen_output = on
+
+[sample.summaryfile.parameters]
+summaryfile=manager.sum

@@ -1,9 +1,13 @@
+version = 2.2
 [apsim.sample_operatns]  
-  Module = clock    operatns.par [sample]      
-  Module = report   operatns.par [sample]      
-  Module = met      %apsuite\apsim\met\sample\dalby.met[weather] 
-  Module = operatns operatns.par [sample]      
-  Module = irrigate
-  Module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
-  Module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]      
-  Module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]      
+title=Operatns Sample Simulation
+module = clock    operatns.par [sample]
+module = report   operatns.par [sample]
+module = input(met)      %apsuite\apsim\met\sample\dalby.met[weather]
+module = operatns operatns.par [sample]
+module = irrigate
+module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SummaryFile  operatns.par[sample]
+module = Screen  operatns.par[sample]

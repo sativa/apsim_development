@@ -1,30 +1,18 @@
 [sample.report.parameters]  
-title =  Irrigate Sample Simulation   
-screen_output =  on   
-outputfile =  irrigate.out /overwrite   
-summaryfile =  irrigate.sum /overwrite   
-
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
-
-module_names =   soilwat2   
-variable_names =  sw_dep()   
-variable_alias =   -   
-units =            -   
-
-module_names =   irrigate   
-variable_names =  irrigation   
-variable_alias =   -   
-units =            -   
+outputfile =irrigate.out   
 
 
+
+
+
+variable = clock.day
+variable = clock.year
+variable = soilwat2.sw_dep()
+variable = irrigate.irrigation
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1   
-simulation_start_year =  1988   
-simulation_end_day =  30   
-simulation_end_year =  1988   
+start_date=1/1/1988
+end_date=30/1/1988
 
 [sample.manager.start_of_day]  
 if day = 1 then
@@ -58,3 +46,7 @@ crit_fr_asw =  0.5 (0-1)   ! Critical fraction of available soil water
                        ! to trigger irrigation
 asw_depth =   500 (mm)   ! Depth to use for available soil water
                        ! calculations
+[sample.SummaryFile.parameters]
+summaryfile=irrigate.sum
+[sample.Screen.parameters]
+screen_output=on
