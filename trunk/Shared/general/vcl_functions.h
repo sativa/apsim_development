@@ -86,6 +86,31 @@ void Grid_clear (TStringGrid* grid);
 
 // ------------------------------------------------------------------
 //  Short description:
+//      select a list of items in specified multi-select listbox.  If items
+//      don't exist in listbox then they are added.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Select_items_in_listbox(TListBox* listbox, TStrings* Items_to_select);
+
+// ------------------------------------------------------------------
+//  Short description:
+//      get a list of items that are selected in the specified listbox.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items);
+
+// ------------------------------------------------------------------
+//  Short description:
 //      retrieve a list of names of all active datasets in a component
 
 //  Notes:
@@ -106,7 +131,7 @@ void Get_active_datasets(TComponent* component, TStrings* Dataset_names);
 //    DPH 5/2/98
 
 // ------------------------------------------------------------------
-void Get_active_databases(TComponent* component, TStrings* Database_names);
+void Get_active_databases(TStrings* Database_names);
 
 // ------------------------------------------------------------------
 //  Short description:
