@@ -26,7 +26,7 @@ end_date=21/12/2002
 if today = date('15-may') then
    soilwat2 reset
    soiln2 reset
-   residue2 reset
+   surfaceom reset
    chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
 endif
 
