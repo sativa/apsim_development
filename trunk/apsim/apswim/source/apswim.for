@@ -7643,7 +7643,8 @@ cnh      end if
 c      double precision demand
 c      integer          layer
 c      double precision tpsuptake
-
+       integer active_crop
+       integer i
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -7656,9 +7657,22 @@ c  400 continue
 c      demand =
 c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
 
-      if (g%demand_is_met(crop, solnum)
+      ! First - need to find the active crop
+      ! Let me say just how messy this lot is - we need to get this out of swim!
+      active_crop = 0
+      do 100 i=1,g%nveg
+         if (g%solute_demand (i,solnum).gt.0) then
+           active_crop = i
+           goto 999
+        endif
+ 100  continue
+
+ 999  continue
+
+      if ((g%demand_is_met(active_crop, solnum)
      :         .and.
      : p%solute_exclusion_flag.eq.'on')
+     : .or. (active_crop.eq.0))
      :         then
          apswim_slupf = 0d0
       else
