@@ -1,6 +1,5 @@
-C     Last change:  E    14 Feb 2001   10:39 am
-      include 'cropmodmain.for'
-      
+C     Last change:  E     6 Aug 2001    3:00 pm
+
 *     ===========================================================
       subroutine crop_process ()
 *     ===========================================================
@@ -40,7 +39,16 @@ C     Last change:  E    14 Feb 2001   10:39 am
                                         ! option 2 initial root depth = sowing depth
       call Sorg_water_supply(1)        !CT
       call Sorg_water_stress(1)        !CT
- 
+
+
+c      if (g%current_stage .lt. 3.0) then
+c        g%swdef_pheno     = 1.0
+c        g%swdef_photo     = 1.0
+c        g%swdef_expansion = 1.0
+c        g%swdef_tiller    = 1.0
+c      end if
+
+
 !CROP WATER DEMAND (following are in PREPARE section for APSWIM version)
 !cf Sorg light_supply is based on direct calculation of k from rowspacing etc
 !rather than looking for cover calculation (that is only done at end of day)
