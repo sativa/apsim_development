@@ -75,9 +75,9 @@
     </rule>
   </manager>
   <logic name="logic">
-    <script name="init">dummy=10</script>
-    <script name="startofday"> !hello[cr]if day = 120 then[cr]irrigate apply amount = 10 [cr] wheat sow cultivar = hartog, plants = 120, sowing_depth = 30 (mm)[cr] fertiliz apply amount = 100, type = no3_n, depth = 10 [cr]endif [cr]</script>
-    <script name="endofday">report do_output</script>
+    <script name="init"></script>
+    <script name="startofday"></script>
+    <script name="endofday"></script>
   </logic>
   <fertiliser name="fertiliser" />
   <irrigation name="irrigation">
