@@ -1274,7 +1274,6 @@ cnh         call report_event (string)
       include   'convert.inc'
       include   'sugar.inc'
       include 'data.pub'                          
-      include 'crp_comm.pub'                      
       include 'engine.pub'                        
       include 'intrface.pub'                      
       include 'error.pub'                         
@@ -1378,31 +1377,6 @@ cnh         call add_real_array (dlayer, g_dlayer, numvals)
      :                                    , '(mm)'
      :                                    , g_ll15_dep, numvals
      :                                    , c_sw_dep_lb, c_sw_dep_ub)
-      if ((g_uptake_source.eq.'apsim')
-     :          .and.
-     :    (c_crop_type.ne.' '))
-     :then
-            call crop_get_ext_uptakes (unknown_module
-     :                                ,c_crop_type
-     :                                ,'water'
-     :                                ,1.0
-     :                                ,0.0
-     :                                ,500.0
-     :                                ,g_uptake_water
-     :                                ,g_num_uptake_water
-     :                                )
-            call crop_get_ext_uptakes (unknown_module
-     :                                ,c_crop_type
-     :                                ,'no3'
-     :                                ,1.0
-     :                                ,0.0
-     :                                ,500.0
-     :                                ,g_uptake_no3
-     :                                ,g_num_uptake_no3
-     :                                )
- 
-      else
-      endif
  
       ! soil nitrogen module
       ! --------------------
