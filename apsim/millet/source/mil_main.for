@@ -94,7 +94,8 @@
       include 'Millet.inc'
 
 !     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
+      Recursive
+     :subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use MilletModule
       implicit none
@@ -117,7 +118,8 @@
       end
 
 !     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
+      Recursive
+     :subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use MilletModule
       implicit none
@@ -138,7 +140,8 @@
       end
 
 !     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
+      Recursive
+     :subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use MilletModule
       implicit none
@@ -160,7 +163,8 @@
 
 
 *     ================================================================
-      subroutine Main (action, data_string)
+      Recursive
+     :subroutine Main (action, data_string)
 *     ================================================================
       use MilletModule
       implicit none
@@ -349,7 +353,8 @@ cjh special for erik - end
       end
 
 * ====================================================================
-       subroutine Millet_prepare ()
+      Recursive
+     :subroutine Millet_prepare ()
 * ====================================================================
       use MilletModule
       implicit none
@@ -395,7 +400,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_process ()
+      Recursive
+     :subroutine millet_process ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -496,7 +502,8 @@ c+!!!!!!!!! check order dependency of deltas
 
 
 *     ===========================================================
-      subroutine millet_dead ()
+      Recursive
+     :subroutine millet_dead ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -524,7 +531,8 @@ c+!!!!!!!!! check order dependency of deltas
 
 
 *     ===========================================================
-      subroutine millet_harvest ()
+      Recursive
+     :subroutine millet_harvest ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -742,7 +750,8 @@ cejvo      leaf_no = sum_between (germ, harvest_ripe, g%leaf_no)
 
 
 *     ===========================================================
-      subroutine millet_zero_all_globals ()
+      Recursive
+     :subroutine millet_zero_all_globals ()
 *     ===========================================================
       use milletModule
       implicit none
@@ -1178,7 +1187,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_zero_variables ()
+      Recursive
+     :subroutine millet_zero_variables ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1329,7 +1339,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_zero_daily_variables ()
+      Recursive
+     :subroutine millet_zero_daily_variables ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1408,7 +1419,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_init ()
+      Recursive
+     :subroutine millet_init ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1445,7 +1457,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_start_crop ()
+      Recursive
+     :subroutine millet_start_crop ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1552,7 +1565,8 @@ cjh      endif
 
 
 *     ===========================================================
-      subroutine millet_initiate ()
+      Recursive
+     :subroutine millet_initiate ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1996,7 +2010,8 @@ cgd   Eriks modifications for Leaf Area
       end
 
 *     ================================================================
-      subroutine millet_get_other_parameters ()
+      Recursive
+     :subroutine millet_get_other_parameters ()
 *     ================================================================
       use MilletModule
       implicit none
@@ -2040,7 +2055,8 @@ cgd   Eriks modifications for Leaf Area
 
 
 *     ===========================================================
-      subroutine millet_end_crop ()
+      Recursive
+     :subroutine millet_end_crop ()
 *     ===========================================================
       use milletModule
       implicit none
@@ -2174,7 +2190,8 @@ cgd   Eriks modifications for Leaf Area
 
 
 *     ===========================================================
-      subroutine millet_store_value (array, value)
+      Recursive
+     :subroutine millet_store_value (array, value)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -2212,7 +2229,8 @@ cgd   Eriks modifications for Leaf Area
       end
 
 *     ===========================================================
-      subroutine millet_ONtick ()
+      Recursive
+     :subroutine millet_ONtick ()
 *     ===========================================================
       use milletModule
       implicit none
@@ -2267,7 +2285,8 @@ cgd   Eriks modifications for Leaf Area
       end
 
 *     ===========================================================
-      subroutine millet_ONnewmet ()
+      Recursive
+     :subroutine millet_ONnewmet ()
 *     ===========================================================
       use milletModule
       implicit none
@@ -2333,7 +2352,8 @@ cgd   Eriks modifications for Leaf Area
 
 
 *     ================================================================
-      subroutine millet_get_other_variables ()
+      Recursive
+     :subroutine millet_get_other_variables ()
 *     ================================================================
       use MilletModule
       implicit none
@@ -2478,7 +2498,8 @@ c+!!!!!!!! what to do if no waterbalance variables found
 
 
 *     ================================================================
-      subroutine millet_set_other_variables ()
+      Recursive
+     :subroutine millet_set_other_variables ()
 *     ================================================================
       use MilletModule
       implicit none
@@ -2547,7 +2568,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
       end
 
 *     ===========================================================
-      subroutine millet_update_other_variables ()
+      Recursive
+     :subroutine millet_update_other_variables ()
 *     ===========================================================
       use milletModule
       implicit none
@@ -2634,7 +2656,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
       end
 
 * ====================================================================
-      subroutine millet_Send_Crop_Chopped_Event (crop_type
+      Recursive
+     :subroutine millet_Send_Crop_Chopped_Event (crop_type
      :                                           , dm_type
      :                                           , dlt_crop_dm
      :                                           , dlt_dm_n
@@ -2721,7 +2744,8 @@ c+!!!! perhaps we should get number of layers at init and keep it
 
 
 *     ===============================================================
-      subroutine millet_set_my_variable (Variable_name)
+      Recursive
+     :subroutine millet_set_my_variable (Variable_name)
 *     ===============================================================
       use MilletModule
       implicit none
@@ -2795,7 +2819,8 @@ cjh special for erik - end
 
 
 *     ================================================================
-      subroutine millet_send_my_variable (variable_name)
+      Recursive
+     :subroutine millet_send_my_variable (variable_name)
 *     ================================================================
       use MilletModule
       implicit none
@@ -3587,7 +3612,8 @@ cejvo
       end
 
 *     ===========================================================
-      logical function millet_my_type ()
+      Recursive
+     :logical function millet_my_type ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -4716,7 +4742,8 @@ cpsc
 
 
 *     ===========================================================
-      subroutine millet_set_my_class (module_name)
+      Recursive
+     :subroutine millet_set_my_class (module_name)
 *     ===========================================================
       use MilletModule
       implicit none

@@ -5,7 +5,8 @@
 
 
 *     ===========================================================
-      subroutine millet_dm_init (dm_green, dm_plant_min)
+      Recursive
+     :subroutine millet_dm_init (dm_green, dm_plant_min)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -88,7 +89,8 @@
 
 
 *     ===========================================================
-      subroutine millet_dm_retranslocate (dm_retranslocate)
+      Recursive
+     :subroutine millet_dm_retranslocate (dm_retranslocate)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -209,7 +211,8 @@
 
 
 *     ===========================================================
-      subroutine millet_leaf_number_final (leaf_no_final)
+      Recursive
+     :subroutine millet_leaf_number_final (leaf_no_final)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -320,7 +323,8 @@ cgd
 
 
 *     ===========================================================
-      subroutine millet_leaf_appearance (dlt_leaf_no_pot)
+      Recursive
+     :subroutine millet_leaf_appearance (dlt_leaf_no_pot)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -404,7 +408,8 @@ cgd
 
 
 *     ===========================================================
-      subroutine millet_leaf_area ()
+      Recursive
+     :subroutine millet_leaf_area ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -490,7 +495,8 @@ cejvo
 
 
 *     ===========================================================
-      subroutine millet_N_init (N_green)
+      Recursive
+     :subroutine millet_N_init (N_green)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -532,7 +538,8 @@ cejvo
 
 
 *     ===========================================================
-      subroutine millet_tt (dlt_tt)
+      Recursive
+     :subroutine millet_tt (dlt_tt)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -595,7 +602,8 @@ cejvo
 
 
 *     ===========================================================
-      subroutine millet_phenology_init_o (phase_tt)
+      Recursive
+     :subroutine millet_phenology_init_o (phase_tt)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -707,7 +715,8 @@ cjh
 
 
 *     ===========================================================
-      subroutine millet_devel (dlt_stage, current_stage)
+      Recursive
+     :subroutine millet_devel (dlt_stage, current_stage)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -764,7 +773,8 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
 
 
 *     ===========================================================
-      subroutine millet_phase_devel (phase_devel)
+      Recursive
+     :subroutine millet_phase_devel (phase_devel)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -814,7 +824,8 @@ cjh         phase_devel = 0.0
 
 
 *     ===========================================================
-      real function millet_germination (current_stage)
+      Recursive
+     :real function millet_germination (current_stage)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -882,7 +893,8 @@ cjh         phase_devel = 0.0
 
 
 *     ===========================================================
-      real function millet_phase_tt (stage_no)
+      Recursive
+     :real function millet_phase_tt (stage_no)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -926,7 +938,8 @@ cjh  changed 0.0 to 1.0
 
 
 *     ===========================================================
-      subroutine millet_leaf_death_o (dlt_leaf_no_dead)
+      Recursive
+     :subroutine millet_leaf_death_o (dlt_leaf_no_dead)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1069,7 +1082,8 @@ cccc
 
 
 *     ===========================================================
-      subroutine millet_N_senescence (dlt_N_senesced)
+      Recursive
+     :subroutine millet_N_senescence (dlt_N_senesced)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1110,7 +1124,8 @@ cccc
 
 
 *     ===========================================================
-      subroutine millet_update ()
+      Recursive
+     :subroutine millet_update ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1424,7 +1439,8 @@ cjh
 
 
 *     ===========================================================
-      subroutine millet_check_bounds ()
+      Recursive
+     :subroutine millet_check_bounds ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1629,7 +1645,8 @@ cjh
 
 
 *     ===========================================================
-      subroutine millet_totals ()
+      Recursive
+     :subroutine millet_totals ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1757,7 +1774,8 @@ cpsc  add above
 
 
 *     ===========================================================
-      subroutine millet_event ()
+      Recursive
+     :subroutine millet_event ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1859,7 +1877,8 @@ cpsc  add above
 
 
 *     ===========================================================
-      subroutine millet_root_distrib (root_array, root_sum)
+      Recursive
+     :subroutine millet_root_distrib (root_array, root_sum)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -1923,7 +1942,8 @@ cpsc  add above
 
 
 *     ===========================================================
-      subroutine millet_root_incorp (dlt_dm_root, dlt_N_root)
+      Recursive
+     :subroutine millet_root_incorp (dlt_dm_root, dlt_N_root)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -2028,7 +2048,8 @@ cjh     :                               , string)
 
 
 *     ===========================================================
-      subroutine millet_tillering ()
+      Recursive
+     :subroutine millet_tillering ()
 *     ===========================================================
       use MilletModule
       implicit none
@@ -2077,7 +2098,8 @@ cjh     :                               , string)
 
 
 *     ===========================================================
-      subroutine millet_tiller_appearance_tt (dlt_tiller_no)
+      Recursive
+     :subroutine millet_tiller_appearance_tt (dlt_tiller_no)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -2201,7 +2223,8 @@ cgol bounds added to tiller number determination
 
 
 *     ===========================================================
-      subroutine millet_tiller_appearance_dm (dlt_tiller_no)
+      Recursive
+     :subroutine millet_tiller_appearance_dm (dlt_tiller_no)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -2255,7 +2278,8 @@ cgol bounds added to tiller number determination
 
 
 *     ===========================================================
-      subroutine millet_tiller_independence (tiller_independence
+      Recursive
+     :subroutine millet_tiller_independence (tiller_independence
      :                                    , dm_tiller_independence
      :                                    , N_tiller_independence)
 *     ===========================================================
@@ -2323,7 +2347,8 @@ cgol bounds added to tiller number determination
 
 
 *     ===========================================================
-      subroutine millet_tiller_initiate (dm_tiller_independence
+      Recursive
+     :subroutine millet_tiller_initiate (dm_tiller_independence
      :                                , N_tiller_independence)
 *     ===========================================================
       use MilletModule
@@ -2463,7 +2488,8 @@ cgol bounds added to tiller number determination
 
 
 *     ===========================================================
-      subroutine millet_leaf_area_devel1 (
+      Recursive
+     :subroutine millet_leaf_area_devel1 (
      :          g_leaf_no
      :        , leaf_no_effective
      :        , c_leaf_no_correction
@@ -2561,7 +2587,8 @@ cgol bounds added to tiller number determination
       end
 
 *     ===========================================================
-      real function Millet_leaf_size1 (
+      Recursive
+     :real function Millet_leaf_size1 (
      :          c_x0_const
      :        , c_x0_slope
      :        , g_leaf_no_final
@@ -2640,7 +2667,8 @@ cgol bounds added to tiller number determination
       return
       end
 *     ===========================================================
-      subroutine millet_dm_partition (
+      Recursive
+     :subroutine millet_dm_partition (
      :          g_current_stage
      :        , c_ratio_root_shoot
      :        , g_dlt_dm
@@ -2852,7 +2880,8 @@ cgol bounds added to tiller number determination
       end
 
 *     ===========================================================
-      subroutine millet_dm_partition1 (
+      Recursive
+     :subroutine millet_dm_partition1 (
      :          g_current_stage
      :        , c_stage_code_list
      :        , c_ratio_root_shoot
@@ -2974,6 +3003,7 @@ cgol bounds added to tiller number determination
 
          endif
          dlt_dm_green(stem) = dlt_dm_axis - dlt_dm_green(leaf)
+         dlt_dm_green(stem) = l_bound (dlt_dm_green(stem), 0.0)
 
 
       elseif (stage_is_between (floral_init, flag_leaf
@@ -3082,7 +3112,8 @@ cgol bounds added to tiller number determination
 
 
 *     ===========================================================
-      subroutine millet_heat_stress (g_maxt
+      Recursive
+     :subroutine millet_heat_stress (g_maxt
      :        ,               c_temp_grain_crit_stress
      :        ,               dlt_tt_heat_stress)
 *     ===========================================================
@@ -3124,7 +3155,8 @@ cgol bounds added to tiller number determination
       end
 
 *     ===========================================================
-      subroutine millet_grain_no (
+      Recursive
+     :subroutine millet_grain_no (
      :          g_current_stage
      :        , g_days_tot
      :        , g_dm_plant_top_tot
@@ -3278,7 +3310,8 @@ cgol bounds added to tiller number determination
 
 
 *     ===========================================================
-      subroutine millet_grain_no1 (
+      Recursive
+     :subroutine millet_grain_no1 (
      :          g_current_stage
      :        , g_days_tot
      :        , g_dm_plant_top_tot
@@ -3431,7 +3464,8 @@ c     :                           , 'grain_no_fract')
 
 
 *     ===========================================================
-      subroutine millet_dm_grain (
+      Recursive
+     :subroutine millet_dm_grain (
      :          g_current_stage
      :        , g_maxt
      :        , g_mint
@@ -3575,7 +3609,8 @@ c     :                           , 'grain_no_fract')
       end
 
 *     ===========================================================
-      real function millet_dm_grain_max (
+      Recursive
+     :real function millet_dm_grain_max (
      :          g_N_conc_min
      :        , g_dm_green
      :        , g_N_green
@@ -3663,7 +3698,8 @@ c     :                           , 'grain_no_fract')
 
 
 *     ===========================================================
-      subroutine millet_N_retranslocate (
+      Recursive
+     :subroutine millet_N_retranslocate (
      :          g_dlt_dm_green
      :        , g_maxt
      :        , g_mint
@@ -3815,7 +3851,8 @@ csc  true....
 
 
 *     ===========================================================
-      subroutine millet_N_partition(
+      Recursive
+     :subroutine millet_N_partition(
      :          g_root_depth
      :        , g_dlayer
      :        , g_N_demand
@@ -3918,7 +3955,8 @@ csc  true....
 
 
 *     ===========================================================
-      subroutine millet_N_conc_limits (
+      Recursive
+     :subroutine millet_N_conc_limits (
      :          g_current_stage
      :        , c_N_conc_crit_grain
      :        , c_N_conc_max_grain
@@ -4084,7 +4122,8 @@ csc  true....
       end
 
 * ====================================================================
-       subroutine millet_cover1 (
+      Recursive
+     :subroutine millet_cover1 (
      :                                 g_row_spacing
      :                                ,c_x_row_spacing
      :                                ,c_y_extinct_coef
@@ -4134,7 +4173,8 @@ csc  true....
       end
 
 *     ===========================================================
-      subroutine millet_P_conc_limits (
+      Recursive
+     :subroutine millet_P_conc_limits (
      :          g_current_stage
      :        , c_p_stage_code
      :        , c_stage_code_list
@@ -4222,7 +4262,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       return
       end
 *     ===========================================================
-      subroutine millet_pfact
+      Recursive
+     :subroutine millet_pfact
      :               (
      :                G_dm_green
      :              , G_dm_dead
@@ -4298,7 +4339,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       return
       end
 *     ===========================================================
-      subroutine millet_P_demand
+      Recursive
+     :subroutine millet_P_demand
      :               (
      :          g_current_stage
      :        , g_radn_int
@@ -4376,7 +4418,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       return
       end
 *     ===========================================================
-      subroutine millet_P_init (
+      Recursive
+     :subroutine millet_P_init (
      :          init_stage
      :        , g_current_stage
      :        , g_days_tot
@@ -4429,7 +4472,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine failure_leaf_sen (
+      Recursive
+     :subroutine failure_leaf_sen (
      :                            g_lai
      :                          , g_current_stage
      :                          , g_plants
@@ -4484,7 +4528,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine failure_phen_delay (
+      Recursive
+     :subroutine failure_phen_delay (
      :              g_cswd_pheno
      :            , g_current_stage
      :            , c_swdf_pheno_limit
@@ -4546,7 +4591,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine death_seedling (
+      Recursive
+     :subroutine death_seedling (
      :            g_days_tot
      :          , g_year
      :          , g_day_of_year
@@ -4633,7 +4679,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine death_drought (
+      Recursive
+     :subroutine death_drought (
      :              g_cswd_photo
      :            , g_leaf_no
      :            , c_leaf_no_crit
@@ -4710,7 +4757,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine death_barrenness (
+      Recursive
+     :subroutine death_barrenness (
      :              g_current_stage
      :            , g_days_tot
      :            , c_head_grain_no_crit
@@ -4790,7 +4838,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine millet_death_actual (
+      Recursive
+     :subroutine millet_death_actual (
      :              g_dlt_plants_all
      :            , g_dlt_plants_temp
      :            , g_dlt_plants_water
@@ -4836,7 +4885,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine plants_temp (
+      Recursive
+     :subroutine plants_temp (
      :          g_year
      :        , g_day_of_year
      :        , g_soil_temp
@@ -4899,7 +4949,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine plants_barren (
+      Recursive
+     :subroutine plants_barren (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit
@@ -4977,7 +5028,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine check_grain_no (
+      Recursive
+     :subroutine check_grain_no (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit)
@@ -5031,7 +5083,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 
 *     ===========================================================
-      subroutine millet_kill_crop (
+      Recursive
+     :subroutine millet_kill_crop (
      :          g_plant_status
      :        , g_dm_green
      :        , g_dm_senesced
@@ -5097,7 +5150,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 
 *     ===========================================================
-      subroutine millet_death_barrenness0 (
+      Recursive
+     :subroutine millet_death_barrenness0 (
      :              g_current_stage
      :            , g_days_tot
      :            , c_head_grain_no_crit
@@ -5175,7 +5229,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       end
 
 *     ===========================================================
-      subroutine millet_plants_barren0 (
+      Recursive
+     :subroutine millet_plants_barren0 (
      :          c_head_grain_no_crit
      :        , p_head_grain_no_max
      :        , c_barren_crit
@@ -5251,7 +5306,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
 cjh special for erik - start
 *     ===========================================================
-      subroutine millet_stop_growth (switch)
+      Recursive
+     :subroutine millet_stop_growth (switch)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -5284,7 +5340,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_cleanup ()
+      Recursive
+     :subroutine millet_cleanup ()
 *     ===========================================================
       use milletModule
       implicit none
