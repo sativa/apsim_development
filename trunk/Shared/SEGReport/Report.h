@@ -6,6 +6,9 @@
 namespace Quickrpt {
    class TQuickRep;
    };
+namespace Classes {
+   class TComponent;
+   };
 //---------------------------------------------------------------------------
 // Report class.
 //---------------------------------------------------------------------------
@@ -84,6 +87,11 @@ class __declspec(dllexport) Report
       void refresh(void);
 
       //---------------------------------------------------------------------------
+      // Refresh all components linked to datasets but not the datasets themselves.
+      //---------------------------------------------------------------------------
+      void refreshLinkedComponents(void);
+
+      //---------------------------------------------------------------------------
       // Return true if the report needs saving.
       //---------------------------------------------------------------------------
       bool needsSaving(void) {return isDirty;}
@@ -96,9 +104,19 @@ class __declspec(dllexport) Report
                        const std::string& propertyValue);
 
       //---------------------------------------------------------------------------
+      // Return a component to caller.
+      //---------------------------------------------------------------------------
+      TComponent* getAComponent(const std::string& componentName);
+
+      //---------------------------------------------------------------------------
       // Event that triggers when object inspector is updated.
       //---------------------------------------------------------------------------
       TNotifyEvent OnObjectInspectorUpdate;
+
+      //---------------------------------------------------------------------------
+      // Set zoom to fit.
+      //---------------------------------------------------------------------------
+      void setZoomToFit(bool fit) {zoomToFit = fit;}
 
    private:
       TWinControl* parent;
@@ -106,6 +124,7 @@ class __declspec(dllexport) Report
       Quickrpt::TQuickRep* currentPage;
       bool isDirty;
       bool isEditing;
+      bool zoomToFit;
       TForm* reportForm;
       TForm* dataForm;
       TForm* objectInspectorForm;

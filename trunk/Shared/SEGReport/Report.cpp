@@ -41,6 +41,7 @@ Report::Report(TWinControl* p)
    clear();
    isEditing = false;
    isDirty = false;
+   zoomToFit = false;
 
    buttonImages = new TImageList(parent);
    buttonImages->Width = 24;
@@ -146,6 +147,7 @@ void Report::save(const std::string& fileName)
    {
    if (ExtractFileExt(fileName.c_str()) == ".report")
       {
+      dataForm->Visible = false;
       setReportDirectory(ExtractFileDir(fileName.c_str()).c_str());
 
       ofstream out(fileName.c_str(), ios::binary);
@@ -408,12 +410,16 @@ void Report::centrePage(void)
    {
    if (currentPage != NULL)
       {
+      if (zoomToFit)
+         {
+         scrollBox->AutoScroll = false;
+         currentPage->Zoom *= 1.0 * parent->Width / currentPage->Width;
+         }
+
       int left = (scrollBox->Width - currentPage->Width) / 2;
       int top = max((scrollBox->Height - currentPage->Height) / 2, 0);
-      if (left >= 0)
-         currentPage->Left = left;
-      if (top >= 0)
-         currentPage->Top  = top;
+      currentPage->Left = max(left, 0);
+      currentPage->Top  = max(top, 0);
 
       // position the title band.
 
@@ -563,6 +569,23 @@ void Report::refresh(void)
       TSEGTable::errorMessage = "";
       }
    }
+//---------------------------------------------------------------------------
+// Refresh all components linked to datasets but not the datasets themselves.
+//---------------------------------------------------------------------------
+void Report::refreshLinkedComponents(void)
+   {
+   TSEGTable::errorMessage = "";
+
+   // loop through all dataset components and refresh them.  This will then
+   // cause all data aware components to refresh.
+   for (int componentI = 0; componentI < dataForm->ComponentCount; componentI++)
+      {
+      TSEGTable* table = dynamic_cast<TSEGTable*> (dataForm->Components[componentI]);
+      if (table != NULL)
+         table->refreshLinkedComponents();
+      }
+   }
+
 //---------------------------------------------------------------------------
 // Export the current page to the specified file.
 //---------------------------------------------------------------------------
@@ -720,8 +743,16 @@ void Report::setProperty(const std::string& componentName,
    if (data != NULL)
       data->setProperty(propertyName, propertyValue);
    }
-
-
+//---------------------------------------------------------------------------
+// Return a component to caller.
+//---------------------------------------------------------------------------
+TComponent* Report::getAComponent(const std::string& componentName)
+   {
+   TComponent* component = getComponent<TComponent> (dataForm, componentName.c_str());
+   if (component == NULL)
+      component = getComponent<TComponent> (reportForm, componentName.c_str());
+   return component;
+   }
 
 
 
