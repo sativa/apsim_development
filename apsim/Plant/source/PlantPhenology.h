@@ -1,3 +1,11 @@
+// notes 21/2/2005 PdeV
+///[tt,days]In(Current)Phase: private 
+///phenology to provide a lookup service for variables vs stage/phases
+///delete previousstageno, name and replace with event
+///delete stageCode, stageName, dtt, getDAS
+///define phases between any two stages
+
+
 #ifndef PLANTPHENOLOGY_H
 #define PLANTPHENOLOGY_H
 
@@ -56,28 +64,30 @@ class pPhase
    };
 
 bool operator == (const pPhase &a, const pPhase &b) {
-	return (a.name() == b.name());
+   return (a.name() == b.name());
 };
 
 // A collection of phases (eg leaf growth phases, grain filling phases)
 class compositePhase {
  private:
-   vector<pPhase> phases;
+   vector<pPhase *> phases;
  public:
-   compositePhase(const string& n)  {};
    compositePhase()  {};
-   void add(const pPhase &p) {phases.push_back(p);}
+   void add(pPhase *p) {phases.push_back(p);}
    bool contains(const pPhase &p) const;
    bool isEmpty(void) const {return phases.size() == 0;};
-   float getTT(vector<pPhase> &pPhases);
+   float getTT(void) const;
+   float getDays(void) const;
 };
 
 // An abstract phenology class.
 class PlantPhenology {
  private:
  protected:
-   // The plant to talk to
+   // The plant to talk to for "plant" things
    plantInterface *plant;
+
+   // The system to talk to for "system" things - (XX should be a protocol::Component??)
    PlantComponent *parentPlant;
 
    // State variables
@@ -87,9 +97,10 @@ class PlantPhenology {
    string2composite   composites;                    // Composite phases we know about
 
    float previousStage, currentStage, dltStage;
-
+   int   day_of_year;                                // Todays julian daynumber
+   int   flowering_das, maturity_das;
    // Parameters
-   vector<string>   iniSectionList;                        // list of sections to search in ini file
+   vector<string>   iniSectionList;                  // list of sections to search in ini file
    bool initialOnBiomassRemove;
 
    float twilight;                                   // twilight in angular distance between
@@ -97,7 +108,16 @@ class PlantPhenology {
                                                      // of sun. (deg)
 
    float phase_fraction(float dlt_tt);               // return the fraction through the current phase we are in
-   pPhase *getPhase(const char *);
+   pPhase *getStage(const string &);
+
+   void get_stage(protocol::Component *, protocol::QueryValueData &);
+   void get_stage_name(protocol::Component *, protocol::QueryValueData &);
+   void get_stage_code(protocol::Component *, protocol::QueryValueData &);
+   void get_phase_tt(protocol::Component *, protocol::QueryValueData &);
+   void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
+   void get_days_tot(protocol::Component *, protocol::QueryValueData &);
+
+   virtual void zeroStateVariables(void);
 
  public:
    PlantPhenology(plantInterface *p) {plant = p;};
@@ -114,42 +134,26 @@ class PlantPhenology {
    bool on_day_of(const string &);
 
    bool inPhase(const string &);
-   void setStage(const pPhase &);
-   pPhase *getStage(const string &);
 
-   int   daysInCurrentStage(void);
-   int   daysInStage(const pPhase &);
+   int   daysInPhase(const string &phaseName); //XX should be private
+   int   daysInCurrentPhase(void);             //XX should be private
+   float ttInPhase(const string &phaseName);   //XX should be private
+   float ttInCurrentPhase(void);               //XX should be private
 
-   float ttInPhase(const string &phaseName);
-   float ttInCurrentStage(void);
-   float ttInStage(const pPhase &);
+   float stageNumber(void) {return currentStage;};//XXX a bad thing
 
-   float stageNumber(void) {return currentStage;};
-   float previousStageNumber(void) {return previousStage;};
+   string stageName(void);//xxxbad
+   string previousStageName(void);//xxxbad
+   string stageName(int);//xxxbad
+   float  stageCode (void);//xxxbad
 
-   string stageName(void);
-   string previousStageName(void);
-   string stageName(int);
-   float stageCode (void);
+   virtual void onSow(unsigned &, unsigned &, protocol::Variant &v){};
+   virtual void onEndCrop(unsigned &, unsigned &, protocol::Variant &v){};
+   virtual void onHarvest(unsigned &, unsigned &, protocol::Variant &v){};
+   virtual void onKillStem(unsigned &, unsigned &, protocol::Variant &v){};
+   virtual void onRemoveBiomass(float removeBiomPheno){}; // XX arg should be protocol::Variant &v
 
-   void get_stage(protocol::Component *, protocol::QueryValueData &);
-   void get_stage_name(protocol::Component *, protocol::QueryValueData &);
-   void get_stage_code(protocol::Component *, protocol::QueryValueData &);
-   void get_phase_tt(protocol::Component *, protocol::QueryValueData &);
-   void get_tt_tot(protocol::Component *, protocol::QueryValueData &);
-   void get_days_tot(protocol::Component *, protocol::QueryValueData &);
-
-   virtual void onSow(float depth){};
-   virtual void onEndCrop(void){};
-   virtual void onHarvest(void){};
-   virtual void onKillStem(void){};
-   virtual void onRemoveBiomass(float removeBiomPheno){};
-
-   virtual float get_dlt_tt(void) = 0;
-   virtual float get_das(void) = 0;
-
-   virtual void zeroStateVariables(void);
-   virtual void zeroEverything(void) {};
+   virtual float get_dlt_tt(void) = 0;                          // XX remove when leaf number development is finished
 };
 
 class WheatPhenology : public PlantPhenology {
@@ -188,6 +192,10 @@ class WheatPhenology : public PlantPhenology {
 
    void vernalisation (const environment_t &);
    void setupTTTargets(void);
+   void zeroStateVariables(void);
+
+   void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
+
  public:
    WheatPhenology(plantInterface *p) : PlantPhenology(p) {};
 
@@ -199,20 +207,15 @@ class WheatPhenology : public PlantPhenology {
 
    void prepare(const environment_t &sw);
    void process(const environment_t &e, const pheno_stress_t &ps);
-
-   void onSow(float depth);
-   void onEndCrop(void);
-   void onHarvest(void);
-   void onKillStem(void);
+   void update(void);
+   
+   void onSow(unsigned &, unsigned &, protocol::Variant &v);
+   void onEndCrop(unsigned &, unsigned &, protocol::Variant &v);
+   void onHarvest(unsigned &, unsigned &, protocol::Variant &v);
+   void onKillStem(unsigned &, unsigned &, protocol::Variant &v);
    void onRemoveBiomass(float removeBiomPheno){};
 
-   void zeroStateVariables(void);
-   void zeroEverything(void){};
-
-   float get_dlt_tt(void) {return dlt_tt;};
-   float get_das(void)    {return das;};
-
-   void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
+   float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
 };
 
 class LegumePhenology : public PlantPhenology {
@@ -264,27 +267,27 @@ class LegumePhenology : public PlantPhenology {
    // private members
    void setupTTTargets(void);
    void updateTTTargets(const environment_t &e);
+   void zeroStateVariables(void);
 
  public:
    LegumePhenology(plantInterface *p) : PlantPhenology(p) {};
    void prepare(const environment_t &e);
    void process(const environment_t &e, const pheno_stress_t &ps);
+   void update(void);
+
    void doRegistrations (protocol::Component *);
    void initialise (PlantComponent *, const string &);              // read structure etc from constants
    void readSpeciesParameters (PlantComponent *, vector<string> &); // read species parameters
    void readCultivarParameters (PlantComponent *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (PlantComponent *);
 
-   void onSow(float depth);
-   void onEndCrop(void);
-   void onHarvest(void);
-   void onKillStem(void);
+   void onSow(unsigned &, unsigned &, protocol::Variant &v);
+   void onEndCrop(unsigned &, unsigned &, protocol::Variant &v);
+   void onHarvest(unsigned &, unsigned &, protocol::Variant &v);
+   void onKillStem(unsigned &, unsigned &, protocol::Variant &v);
    void onRemoveBiomass(float removeBiomPheno);
 
-   void zeroStateVariables(void);
-   void zeroEverything(void);
-   float get_dlt_tt(void) {return dlt_tt;};
-   float get_das(void)    {return das;};
+   float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
 };
 
 class LegumeCohortPhenology : public PlantPhenology {

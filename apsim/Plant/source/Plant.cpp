@@ -294,12 +294,6 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetVar("maturity_date",
                g.maturity_date, "doy", "Day of maturity");
 
-   setupGetVar("flowering_das",
-               g.flowering_das, "days", "Days from sowing to flowering");
-
-   setupGetVar("maturity_das",
-               g.maturity_das, "days", "Days from sowing to maturity");
-
    setupGetFunction("leaf_no", protocol::DTsingle, false,
                     &Plant::get_leaf_no, "leaves/m2", "number of leaves per square meter");
 
@@ -1783,7 +1777,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
            g.dlt_plants_failure_germ =
                   crop_failure_germination (parent,
                                             c.days_germ_limit,
-                                            phenology->daysInCurrentStage(),
+                                            phenology->daysInCurrentPhase(),
                                             g.plants);
         else
            g.dlt_plants_failure_germ = 0.0;
@@ -1792,7 +1786,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
            g.dlt_plants_failure_emergence =
                   crop_failure_emergence (parent,
                                           c.tt_emerg_limit,
-                                          phenology->ttInCurrentStage(),
+                                          phenology->ttInCurrentPhase(),
                                           g.plants);
         else
            g.dlt_plants_failure_emergence = 0.0;
@@ -1800,7 +1794,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
         g.dlt_plants_death_seedling = 0.0;
         if (phenology->inPhase("emergence"))
            {
-           int days_after_emerg = phenology->daysInCurrentStage();
+           int days_after_emerg = phenology->daysInCurrentPhase();//XZZZZ Can do this on emergence day?
            if (days_after_emerg == 1)
               {
               g.dlt_plants_death_seedling =
@@ -3577,11 +3571,9 @@ void Plant::plant_cleanup ()
                 , g.dlt_sw_dep
                 , g.dm_green
                 , &g.flowering_date
-                , &g.flowering_das
                 , &g.lai
                 , &g.lai_max
                 , &g.maturity_date
-                , &g.maturity_das
                 , &g.n_conc_act_stover_tot
                 , g.n_conc_crit
                 , &g.n_conc_crit_stover_tot
@@ -3615,13 +3607,13 @@ void Plant::plant_cleanup ()
                     , p.ll_dep);
         if (phenology->inPhase("stress_reporting")) {
             float si1 = divide (g.cswd_photo.getSum(),
-                                phenology->daysInStage(phenology->previousStageName()), 0.0);
+                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
             float si2 = divide (g.cswd_expansion.getSum(),
-                                phenology->daysInStage(phenology->previousStageName()), 0.0);
+                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
             float si4 = divide (g.cnd_photo.getSum(),
-                                phenology->daysInStage(phenology->previousStageName()), 0.0);
+                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
             float si5 = divide (g.cnd_grain_conc.getSum(),
-                                phenology->daysInStage(phenology->previousStageName()), 0.0);
+                                phenology->daysInPhase(phenology->previousStageName()), 0.0);
             char msg[1024];
             sprintf (msg,"%4s%-20s%s%-23s%6.3f%13.3f%13.3f%13.3f\n", " ",
                       phenology->previousStageName().c_str(),
@@ -4215,11 +4207,9 @@ void Plant::plant_totals
     ,float *g_dlt_sw_dep                 // (INPUT)  water uptake in each layer (mm water)
     ,float *g_dm_green                   // (INPUT)  live plant dry weight (biomass) (g/m^2)
     ,int   *g_flowering_date             // (INPUT)  flowering day number
-    ,int   *g_flowering_das              // (INPUT)  flowering day number
     ,float *g_lai                        // (INPUT)  live plant green lai
     ,float *g_lai_max                    // (INPUT)  maximum lai - occurs at flowering
     ,int   *g_maturity_date              // (INPUT)  maturity day number
-    ,int   *g_maturity_das               // (INPUT)  maturity day number
     ,float  *g_n_conc_act_stover_tot           // (INPUT)  sum of tops actual N concentration (g N/g biomass)
     ,float  *g_n_conc_crit                     // (INPUT)  critical N concentration (g N/g biomass)
     ,float  *g_n_conc_crit_stover_tot          // (INPUT)  sum of tops critical N concentration (g N/g biomass)
@@ -4314,13 +4304,11 @@ void Plant::plant_totals
     if (phenology->on_day_of ("flowering"))
         {
         *g_flowering_date = g_day_of_year;
-        *g_flowering_das = phenology->get_das();
 
         }
     else if (phenology->on_day_of ("maturity"))
         {
         *g_maturity_date = g_day_of_year;
-        *g_maturity_das = phenology->get_das();
         }
 // note - oil has no N, thus it is not included in calculations
 
@@ -7621,7 +7609,7 @@ void Plant::plant_process ( void )
 //      091095 jngh specified and programmed
 void Plant::plant_dead (void)
     {
-   phenology->setStage("out"); ///XXx should be "end"
+
     }
 
 
@@ -7869,8 +7857,9 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        }
     bound_check_real_var(parent,height, 0.0, 1000.0, "height");
 
-    phenology->onHarvest();
-
+    unsigned int junk = 0L;
+    phenology->onHarvest(junk,junk,v);
+    
     // determine the new stem density
     // ==============================
     if (incomingApsimVariant.get("plants", protocol::DTsingle, false, temp) == true)
@@ -8302,7 +8291,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     protocol::ApsimVariant aV(parent);
     aV.aliasTo(v.getMessageData());
 
-    phenology->onKillStem();
+    unsigned int junk = 0L;
+    phenology->onKillStem(junk,junk,v);
 
     // determine the new stem density
     // ==============================
@@ -9219,7 +9209,6 @@ void Plant::plant_zero_all_globals (void)
       g.skip_plant = 0;
       g.skip_row_fac = 0;
       g.skip_plant_fac = 0;
-      g.sowing_depth = 0;
       g.year = 0;
       g.day_of_year = 0;
       g.fr_intc_radn = 0;
@@ -9784,7 +9773,6 @@ void Plant::plant_zero_variables (void)
     g.n_uptake_tot          = 0.0;
     g.transpiration_tot     = 0.0;
 
-    g.sowing_depth          = 0.0;
     g.skip_row              = 0.0;
     g.skip_row_fac          = 0.0;
     g.skip_plant            = 0.0;
@@ -10042,9 +10030,10 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
 //+  Local Variables
     int   numvals;                                // number of values found in array
-    char  msg[200];                             // output string
+    char  msg[200];                               // output string
     FString  dummy;                               // dummy variable
-
+    float  sowing_depth;                          // sowing depth for reporting
+    
 //- Implementation Section ----------------------------------
 
     push_routine (my_name);
@@ -10099,11 +10088,10 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            bound_check_real_var(parent,g.plants, 0.0, 1000.0, "plants");
 
-           if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, g.sowing_depth) == false)
+           if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
                {
                throw std::invalid_argument("sowing_depth not specified");
                }
-           bound_check_real_var(parent,g.sowing_depth, 0.0, 100.0, "sowing_depth");
 
            if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
                {
@@ -10127,7 +10115,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            g.skip_row_fac = (2.0 + g.skip_row)/2.0;
 
            // Bang.
-        phenology->onSow(g.sowing_depth);
            g.plant_status = alive;
            sendStageMessage("sowing");
 
@@ -10139,7 +10126,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString ("    ------------------------------------------------");
 
            sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
-                  , g.day_of_year, g.sowing_depth
+                  , g.day_of_year, sowing_depth
                   , g.plants, g.row_spacing
                   , g.skip_row, g.skip_plant, g.cultivar.c_str());
            parent->writeString (msg);
@@ -10659,7 +10646,6 @@ void Plant::plant_end_crop ()
         {
         g.plant_status_out_today = true;
         g.plant_status = out;
-        phenology->onEndCrop();
 
         stageObservers.reset();
         otherObservers.reset();
