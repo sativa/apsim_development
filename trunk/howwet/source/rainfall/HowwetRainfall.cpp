@@ -11,7 +11,7 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\inifile.h>
-#include <general\filesystem.h>
+#include <general\io_functions.h>
 #include <numeric>
 
 #pragma package(smart_init)
