@@ -60,18 +60,18 @@ start_date=1/1/1992
 end_date=31/12/1992
 
 [sample.manager.start_of_day]
-if (day = 15) then
-  oryza sow cultivar = cv1
-endif
-
-if (day = 135) then
-  oryza sow cultivar = cv1
-endif
+!if (day = 15) then
+!  oryza sow cultivar = cv1
+!endif
+!
+!if (day = 135) then
+!  oryza sow cultivar = cv1
+!endif
 
 [sample.manager.end_of_day]
-if (oryza.plant_status = 'dead') then
-  oryza end_crop
-endif
+!if (oryza.plant_status = 'dead') then
+!  oryza end_crop
+!endif
 
 report do_output
 

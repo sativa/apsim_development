@@ -9,24 +9,19 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.2
      Title                  = oryza Sample Simulation
-     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\input\lib\input.dll
-     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\eo\lib\eo.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\clock\lib\clock.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\input\lib\input.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\manager\lib\manager.dll
+     Component DLL          = c:\progra~1\apsim32\apsim\eo\lib\eo.dll
      Component DLL          = c:\development\apsim\oryza\lib\oryza.dll
 
 ------- clock Initialisation --------------------------------------------------
-     Sequencer phases:
-        prepare
-        process
-        post
-        report
      Simulation start date =  1/01/1992
      Simulation end date   = 31/12/1992
      Time step =           = 1440 (mins)
@@ -35,15 +30,18 @@
      Output variables:
         clock.day
         clock.year
-        soiln2.no3()
-        soiln2.no3
+        oryza.cropsta
+        oryza.dvs
+        soilwat2.sw_dep()
+        oryza.rlai
+        oryza.rnstrs
      
      Output file = oryza-fp.out
      Format = normal
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\MET\SAMPLE\bundabrg.MET
+     INPUT File name: c:\progra~1\apsim32\apsim\MET\SAMPLE\PHIL1.MET
 
 ------- micromet Initialisation -----------------------------------------------
      Initialising
@@ -94,7 +92,7 @@
      
      
           Default instrument height used =      2000. (mm)
-          Source of VPD is mint
+          Source of VPD is vpd
           Default atmospheric pressure used =   1000.0 (mb)
           Default wind used =     60.0 (km/day)
 
@@ -108,20 +106,30 @@
 15 January 1992(Day of year=15), oryza: 
         - Reading Parameters
         - Reading Cultivar Parameters
+2 May 1992(Day of year=123), oryza: 
+     Maturity
+2 May 1992(Day of year=123), manager: 
+     Manager sending message :- oryza end_crop
+2 May 1992(Day of year=123), oryza: 
+         Crop ended. Rough Rice Yield (dw) = 10380.1 (kg/ha)
+                             straw residue =11502.7 (kg/ha)
+                             straw N       =    0.0 (kg/ha)
+                             root residue  = 1895.1 (kg/ha)
+                             root N        =    0.0 (kg/ha)
 14 May 1992(Day of year=135), manager: 
      Manager sending message :- oryza sow  cultivar = cv1
 14 May 1992(Day of year=135), oryza: 
         - Reading Parameters
         - Reading Cultivar Parameters
-16 May 1992(Day of year=137), oryza: 
+26 August 1992(Day of year=239), oryza: 
      Maturity
-16 May 1992(Day of year=137), manager: 
+26 August 1992(Day of year=239), manager: 
      Manager sending message :- oryza end_crop
-16 May 1992(Day of year=137), oryza: 
-         Crop ended. Rough Rice Yield (dw) =  9325.2 (kg/ha)
-                             straw residue = 2863.9 (kg/ha)
+26 August 1992(Day of year=239), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  8053.1 (kg/ha)
+                             straw residue = 9419.8 (kg/ha)
                              straw N       =    0.0 (kg/ha)
-                             root residue  = 1910.3 (kg/ha)
+                             root residue  = 1649.1 (kg/ha)
                              root N        =    0.0 (kg/ha)
 31 December 1992(Day of year=366), clock: 
      Simulation is terminating due to end criteria being met.

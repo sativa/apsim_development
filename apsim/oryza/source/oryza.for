@@ -1228,20 +1228,6 @@
      :              ,'()'          ! variable units
      :              ,g%pcew)         ! variable
       
-      elseif (variable_name .eq. 'nflv') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,g%nflv)         ! variable
-      
-      elseif (variable_name .eq. 'fnlv') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,g%fnlv)         ! variable
-      
       elseif (variable_name .eq. 'nacr') then
 
          call respond2get_real_var (
@@ -1262,13 +1248,6 @@
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wso)         ! variable
-      
-      elseif (variable_name .eq. 'wst') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,g%wst)         ! variable
       
       elseif (variable_name .eq. 'ancr') then
 
@@ -1311,13 +1290,6 @@
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%wlvg)         ! variable
-      
-      elseif (variable_name .eq. 'wlvd') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,g%wlvd)         ! variable
       
       elseif (variable_name .eq. 'dtga') then
 
@@ -2556,7 +2528,6 @@
 
 *+  Local Variables
       real    no3(max_layer)
-      integer deepest_layer
       integer numvals,I
 
 *- Implementation Section ----------------------------------
@@ -2576,11 +2547,7 @@
      :                                    , '(kg/ha)'
      :                                    , g%no3, numvals
      :                                    , 0.0, 10000.0)
-       
-       deepest_layer = find_layer_no (1000*g%zrt
-     :                                  ,p%tkl          
-     :                                  ,max_layer)
-       g%tnsoil = sum_real_array(g%no3, deepest_layer)
+          g%TNSOIL = sum_real_array(g%no3, numvals)
       else    
           g%TNSOIL = 10000.0
       endif
@@ -3039,7 +3006,7 @@
          TMPR1 = g%DTR*g%SINB*(1.+0.4*g%SINB)/g%DSINBE
          ATMTR = TMPR1/(g%SOLCON*g%SINB)
 !          
-         IF (ATMTR.GT.0.92) then
+         IF (ATMTR.GT.0.9) then
             WRITE (string,'(A,G12.5,A)') 
      :        ' Oryza_SSKYC: ATMTR =',
      :         ATMTR,', value very large'
@@ -5265,7 +5232,7 @@
             dlt_no3(layer) = g%nacr * nfract(layer)
          enddo
          call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
-     :                            ,-1.0*dlt_no3, deepest_layer)
+     :                       , dlt_no3, deepest_layer)
       endif
 
       if (p%prodenv .eq. env_limited) then
