@@ -114,56 +114,6 @@ void GENERAL_EXPORT Get_selected_items_from_listbox(TListBox* listbox, TStrings*
 
 // ------------------------------------------------------------------
 //  Short description:
-//      retrieve a list of names of all active datasets in a component
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
-// ------------------------------------------------------------------
-void GENERAL_EXPORT Get_active_datasets(TComponent* component, TStrings* Dataset_names);
-
-// ------------------------------------------------------------------
-//  Short description:
-//      retrieve a list of names of all active dataset names in component
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
-// ------------------------------------------------------------------
-void GENERAL_EXPORT Get_active_databases(TStrings* Database_names);
-
-// ------------------------------------------------------------------
-//  Short description:
-//      retrieve a specific active dataset on specified component.
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
-// ------------------------------------------------------------------
-TDataSet* GENERAL_EXPORT Get_active_dataset(TComponent* component, const char* Dataset_name);
-
-// ------------------------------------------------------------------
-//  Short description:
-//      return a list of tables for the specified databases.  The database
-//      names passed in are database aliases.
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
-// ------------------------------------------------------------------
-void GENERAL_EXPORT Get_tables_from_databases (TStringList* Database_names,
-                                               TStringList* Table_names);
-
-// ------------------------------------------------------------------
-//  Short description:
 //      retrieve a specified component from a parent component
 
 //  Notes:
@@ -174,33 +124,40 @@ void GENERAL_EXPORT Get_tables_from_databases (TStringList* Database_names,
 // ------------------------------------------------------------------
 TComponent* GENERAL_EXPORT Locate_component(TComponent* component, const char* Component_name);
 
+// ------------------------------------------------------------------
+// Retrieve a component of type T, from the specified owner component
+// Does not recursively search children of the specified owner.
+// to use: TDataSet* dataset = getComponent<TDataSet>(owner, "mydataset");
+// ------------------------------------------------------------------
+template <class T>
+T* getComponent(TComponent* owner, const AnsiString& componentName)
+   {
+   // loop through all components in parent form.
+   for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+      {
+      if (owner->Components[componentI]->Name.AnsiCompareIC(componentName) == 0)
+         return dynamic_cast<T*> (owner->Components[componentI]);
+      }
+   return NULL;
+   }
 
 // ------------------------------------------------------------------
-//  Short description:
-//      retrieve a list of all field names in a specified dataset.
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
+// Loop through all components owned by the specified component and
+// retrieve a list of component names that match T.
+// Does not recursively search children of the specified owner.
+// to use: getComponentNames<TDataSet>(owner, datasetNames);
 // ------------------------------------------------------------------
-void GENERAL_EXPORT Get_field_list (TDataSet* dataset, TStringList* field_names);
-
-// ------------------------------------------------------------------
-//  Short description:
-//      copy the structure from one dataset to another for those
-//      fields specified.
-
-//  Notes:
-
-//  Changes:
-//    DPH 5/2/98
-
-// ------------------------------------------------------------------
-void GENERAL_EXPORT Copy_dataset_structure (TDataSet* source,
-                                            TDataSet* destination,
-                                            TStringList* field_names);
+template <class T>
+void getComponentNames(TComponent* owner, TStrings* componentNames)
+   {
+   // loop through all components in parent form.
+   for (int componentI = 0; componentI < owner->ComponentCount; componentI++)
+      {
+      TComponent* component = dynamic_cast<T*>(owner->Components[componentI]);
+      if (component != NULL)
+         componentNames->Add(component->Name);
+      }
+   }
 
 // ------------------------------------------------------------------
 //  Short description:

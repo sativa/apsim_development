@@ -8,7 +8,8 @@
       macros.obj math_functions.obj path.obj stream_functions.obj 
       stream_processor.obj string_functions.obj stristr.obj date_class.obj 
       StringTokenizer.obj XMLTreeNode.obj TreeNode.obj VirtualTreeNode.obj 
-      XMLTreeData.obj TreeData.obj MacroSubstFile.obj Macro.obj MacroValue.obj"/>
+      XMLTreeData.obj TreeData.obj MacroSubstFile.obj Macro.obj MacroValue.obj 
+      db_functions.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -78,11 +79,9 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-c:\progra~1\Borland\CBuild~1\Projects\Bpl\APSGENERAL.BPL=APSuite General Components
-$(BCB)\Projects\Bpl\TAChartPackage.bpl=TAChart
-$(BCB)\projects\bpl\APSData.bpl=APSuite data components
-$(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
-$(BCB)\Projects\Bpl\DB.bpl=c:\program files\borland\cbuilder5\Projects\Bpl\DB
+$(BCB)\Projects\Bpl\SEGReport.bpl=SEG Report Component
+$(BCB)\projects\bpl\APSGeneral.bpl=APSuite General Components
+$(BCB)\Projects\Bpl\DclTee4C5.bpl=TeeChart 4.0 Components
 
 [HistoryLists\hlIncludePath]
 Count=8

@@ -42,6 +42,7 @@ USEUNIT("TreeData.cpp");
 USEUNIT("MacroSubstFile.cpp");
 USEUNIT("Macro.cpp");
 USEUNIT("MacroValue.cpp");
+USEUNIT("db_functions.cpp");
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
 {
