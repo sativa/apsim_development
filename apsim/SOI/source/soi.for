@@ -22,6 +22,7 @@
       parameter (SOI_max = 2100)
 
       type SOIGlobals
+         sequence
          integer   LU_SOI                        ! Unit number for SOI file
          integer   SOI_phase
          integer   SOI_array(SOI_min:SOI_max,12) ! SOI phases array
@@ -29,121 +30,14 @@
       end type SOIGlobals
 
 ! ========================================================================
+
       ! instance variables.
-      type (SOIGlobals), pointer :: g
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type SOIDataPtr
-         type (SOIGlobals), pointer ::    gptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type SOIDataPtr
-      type (SOIDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (SOIGlobals),pointer :: g
+
 
       contains
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-
-      return
-      end subroutine
-* ====================================================================
-      recursive subroutine Main (action, data)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  action*(*)            ! (INPUT) Message action to perform
-      character  data*(*)              ! (INPUT) Message data
-
-*+  Purpose
-*     <insert here>
-
-*+  Changes
-*     dph 7/5/99 removed version and presence report c186
-
-*+  Calls
-
-*+  Constant Values
-
-*- Implementation Section ----------------------------------
-
-      if (action .eq. ACTION_init) then
-
-         ! initialise variables for run (called once only)
-
-         call SOI_init ()
-
-      else if (action .eq. ACTION_get_variable) then
-
-         ! return one of our variables to calling module
-
-      call SOI_send_my_variable (data)
-
-      else
-         ! don't use message
-
-         call Message_unused ()
-      endif
-
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -496,3 +390,74 @@
 
 
       end module SOIModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use SOIModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+      else
+         deallocate(g)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+      recursive subroutine Main (action, data)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  action*(*)            ! (INPUT) Message action to perform
+      character  data*(*)              ! (INPUT) Message data
+
+*+  Purpose
+*     <insert here>
+
+*+  Changes
+*     dph 7/5/99 removed version and presence report c186
+
+*+  Calls
+
+*+  Constant Values
+
+*- Implementation Section ----------------------------------
+
+      if (action .eq. ACTION_init) then
+
+         ! initialise variables for run (called once only)
+
+         call SOI_init ()
+
+      else if (action .eq. ACTION_get_variable) then
+
+         ! return one of our variables to calling module
+
+      call SOI_send_my_variable (data)
+
+      else
+         ! don't use message
+
+         call Message_unused ()
+      endif
+
+      return
+      end subroutine
+
+

@@ -101,6 +101,7 @@
 !      ====================================================================
 
       type GraspGlobals
+         sequence
          ! /grasp1_general/
          integer    year         ! year
          integer    day_of_year  ! day of year
@@ -204,6 +205,7 @@
 
 
       type GraspParameters
+         sequence
          ! /grasp1_name/
 
          character    stage_names*500 ! full names of stages for reporting
@@ -253,7 +255,7 @@
 
 !      ====================================================================
       type GraspConstants
-
+         sequence
          ! /grasp1_deficits/
          real         x_sw_ratio (max_table)
          real         y_sw_fac_root (max_table)
@@ -363,187 +365,18 @@
          real   dead_cover_slope   ! cover per kilo of dead pool (ie. linear)
 
       end type GraspConstants
+
 !      ====================================================================
+
       ! instance variables.
-      type (GraspGlobals), pointer :: g
-      type (GraspParameters), pointer :: p
-      type (GraspConstants), pointer :: c
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type GraspDataPtr
-         type (GraspGlobals), pointer ::    gptr
-         type (GraspParameters), pointer :: pptr
-         type (GraspConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type GraspDataPtr
-      type (GraspDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (GraspGlobals),pointer :: g
+      type (GraspParameters),pointer :: p
+      type (GraspConstants),pointer :: c
+
 
       contains
-
-
-
-
-C     Last change:  P     9 Nov 2000   10:15 am
-
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-*     ================================================================
-      subroutine Main (action, data_string)
-*     ================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  action*(*)     ! (INPUT) Message action to perform
-      character  data_string*(*) ! (INPUT) Message data
-
-*+  Purpose
-*      this module models a sward of grass.
-*
-*      requirements :-
-*        input - daily timestep
-*             from other modules:-
-*                day of year
-*                year
-*                minimum temperature (oC),
-*                maximum temperature (oC)
-*                solar radiation (mj/m^2),
-*                latitude (olat)
-*
-*                layer depth (mm soil)
-*                drained upper limit (mm water)
-*
-*                nitrate nitrogen in each layer (kg N/ha)
-*                water content mm water
-*
-*             from parameter file, grasp section:-
-*                ll = n1 ... nm  ! lower limit mm water/mm soil
-*
-*             from manager:-
-*
-*
-*        output -
-*             to other modules:-
-
-*+  Changes
-*      250894 jngh specified and programmed
-*      050996 pdev upgraded to postbox (1.35)
-*      261197 pdev added swim communication
-*      170398 pdev max_n changed to distribution over profile. (EP)
-*      310398 pdev bugs in root_proportion() causing max_n weirdness
-*      190599 jngh removed reference to version and mes_presence
-
-*+  Constant Values
-      character  my_name*(*)    ! name of this procedure
-      parameter (my_name='Grasp_main')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (action.eq.ACTION_init) then
-            ! zero pools
-         call grasp_zero_variables ()
-            ! Get constants
-         call grasp_init ()
-
-      elseif (action.eq.ACTION_set_variable) then
-                                ! respond to request to reset
-                                ! variable values - from modules
-         call grasp_set_my_variable (data_string)
-
-      elseif (action.eq.ACTION_get_variable) then
-                                ! respond to request for
-                                ! variable values - from modules
-         call grasp_send_my_variable (Data_string)
-
-      elseif (action.eq.ACTION_prepare) then
-
-         call grasp_prepare ()  ! Calculate potentials for swim
-
-      elseif (action.eq.ACTION_process) then
-         call grasp_zero_daily_variables ()
-                                ! request and receive variables
-                                ! from owner-modules
-         call grasp_get_other_variables ()
-                                ! do crop processes
-         call grasp_process ()
-                                ! send changes to owner-modules
-         call grasp_set_other_variables ()
-
-      else
-         call message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -4969,3 +4802,126 @@ c     :                    , 0.0, 10000.0)
 
 
       end module GraspModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use GraspModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+*     ================================================================
+      subroutine Main (action, data_string)
+*     ================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  action*(*)     ! (INPUT) Message action to perform
+      character  data_string*(*) ! (INPUT) Message data
+
+*+  Purpose
+*      this module models a sward of grass.
+*
+*      requirements :-
+*        input - daily timestep
+*             from other modules:-
+*                day of year
+*                year
+*                minimum temperature (oC),
+*                maximum temperature (oC)
+*                solar radiation (mj/m^2),
+*                latitude (olat)
+*
+*                layer depth (mm soil)
+*                drained upper limit (mm water)
+*
+*                nitrate nitrogen in each layer (kg N/ha)
+*                water content mm water
+*
+*             from parameter file, grasp section:-
+*                ll = n1 ... nm  ! lower limit mm water/mm soil
+*
+*             from manager:-
+*
+*
+*        output -
+*             to other modules:-
+
+*+  Changes
+*      250894 jngh specified and programmed
+*      050996 pdev upgraded to postbox (1.35)
+*      261197 pdev added swim communication
+*      170398 pdev max_n changed to distribution over profile. (EP)
+*      310398 pdev bugs in root_proportion() causing max_n weirdness
+*      190599 jngh removed reference to version and mes_presence
+
+*+  Constant Values
+      character  my_name*(*)    ! name of this procedure
+      parameter (my_name='Grasp_main')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      if (action.eq.ACTION_init) then
+            ! zero pools
+         call grasp_zero_variables ()
+            ! Get constants
+         call grasp_init ()
+
+      elseif (action.eq.ACTION_set_variable) then
+                                ! respond to request to reset
+                                ! variable values - from modules
+         call grasp_set_my_variable (data_string)
+
+      elseif (action.eq.ACTION_get_variable) then
+                                ! respond to request for
+                                ! variable values - from modules
+         call grasp_send_my_variable (Data_string)
+
+      elseif (action.eq.ACTION_prepare) then
+
+         call grasp_prepare ()  ! Calculate potentials for swim
+
+      elseif (action.eq.ACTION_process) then
+         call grasp_zero_daily_variables ()
+                                ! request and receive variables
+                                ! from owner-modules
+         call grasp_get_other_variables ()
+                                ! do crop processes
+         call grasp_process ()
+                                ! send changes to owner-modules
+         call grasp_set_other_variables ()
+
+      else
+         call message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+

@@ -36,6 +36,7 @@
       parameter (post_phase = 3)
 
       type OperatnsGlobals
+         sequence
          integer    today
          integer    thisyear
          integer    oplun
@@ -49,131 +50,13 @@
       end type OperatnsGlobals
 
       ! instance variables.
-      type (OperatnsGlobals), pointer :: g
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-      type OperatnsDataPtr
-         type (OperatnsGlobals), pointer ::    gptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type OperatnsDataPtr
-      type (OperatnsDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      common /InstancePointers/ ID,g,p,c
+      save InstancePointers
+      type (OperatnsGlobals),pointer :: g
 
       contains
 
 
-!     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Module de-instantiation routine.
-
-!- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-
-      return
-      end subroutine
-
-!     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
-!     ===========================================================
-      Use infrastructure
-      implicit none
-
-!+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
-!+  Purpose
-!      Swap an instance into the global 'g' pointer
-
-!- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-
-      return
-      end subroutine
-
-*     ===========================================================
-      subroutine Main (Action, Data_String)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character  Action*(*)            ! Message action to perform
-      character  Data_String*(*)       ! Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      operatns module.
-
-*+  Changes
-*     dph 10/5/99 removed version and presence reports c186
-
-*+  Calls
-
-*+  Constant Values
-      character*(*) my_name            ! name of current procedure
-      parameter (my_name = 'operatns')
-
-*+  Local Variables
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-      if (Action.eq.ACTION_Init) then
-         call operatns_Get_Other_Variables ()
-         call operatns_zero_variables ()
-         call operatns_Init ()
-
-      else if (Action.eq.ACTION_Prepare) then
-         call operatns_Get_Other_Variables ()
-         call operatns_schedule (Prepare_Phase)
-
-      else if (Action.eq.ACTION_Process) then
-         call operatns_schedule (Process_Phase)
-
-      else if (Action.eq.ACTION_Post) then
-         call operatns_schedule (Post_Phase)
-
-      else
-            ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 *     ===========================================================
       subroutine operatns_Init ()
@@ -728,3 +611,84 @@
 
 
       end module OperatnsModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use OperatnsModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+      else
+         deallocate(g)
+      end if
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine Main (Action, Data_String)
+*     ===========================================================
+      Use infrastructure
+      use OperatnsModule
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character  Action*(*)            ! Message action to perform
+      character  Data_String*(*)       ! Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      operatns module.
+
+*+  Changes
+*     dph 10/5/99 removed version and presence reports c186
+
+*+  Calls
+
+*+  Constant Values
+      character*(*) my_name            ! name of current procedure
+      parameter (my_name = 'operatns')
+
+*+  Local Variables
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+      if (Action.eq.ACTION_Init) then
+         call operatns_Get_Other_Variables ()
+         call operatns_zero_variables ()
+         call operatns_Init ()
+
+      else if (Action.eq.ACTION_Prepare) then
+         call operatns_Get_Other_Variables ()
+         call operatns_schedule (Prepare_Phase)
+
+      else if (Action.eq.ACTION_Process) then
+         call operatns_schedule (Process_Phase)
+
+      else if (Action.eq.ACTION_Post) then
+         call operatns_schedule (Post_Phase)
+
+      else
+            ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
