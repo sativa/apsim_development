@@ -68,7 +68,7 @@
       type SoilTempExternals
          sequence
          real t_ave                       !annual average soil temperature
-         real  timestep
+         real  timestepsec
          real dlayer(max_layer)
          real  sw(max_layer)              !volumetric water content
          real  rhob(max_node)
@@ -196,11 +196,11 @@
       enddo
 
 !calculate dt and the number it iterations
-      g%dt = e%timestep/48.0    !seconds  dt is real
-      do time = nint(g%dt), nint(e%timestep), nint(g%dt)
+      g%dt = e%timestepsec/48.0    !seconds  dt is real
+      do time = nint(g%dt), nint(e%timestepsec), nint(g%dt)
          g%time = time
 
-         if (e%timestep.lt.1440.0*60.0) then
+         if (e%timestepsec .lt. 1440.0*60.0) then
             g%airt = 0.5 * ( e%maxt + e%mint )
          else
             g%airt = soiltemp_InterpTemp (
@@ -388,7 +388,7 @@
      :       + g%t(2) * (1-c%nu) * therm(1)
      :       + therm(0)* g%tn(0) * c%nu
       if ((e%eos - e%es) .gt. 0.2) then
-         d(1) = d(1) - (e%eos - e%es) * lambda / e%timestep
+         d(1) = d(1) - (e%eos - e%es) * lambda / e%timestepsec
       endif
 !last line is unfullfilled soil water evaporation
 !the main loop
@@ -533,7 +533,7 @@
          g%maxt_soil(:)   = 0.0
 
          e%t_ave       = 0.0
-         e%timestep    = 0.0
+         e%timestepsec    = 0.0
          e%dlayer(:)   = 0.0
          e%sw(:)       = 0.0
          e%rhob(:)     = 0.0
@@ -644,6 +644,7 @@
 *+  Local Variables
        integer numvals              ! number of values returned
        integer i
+       integer    timestep
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -660,15 +661,15 @@
 
 
 !timestep
-      call get_real_var (
+      call get_integer_var (
      :      unknown_module ! module that responds (not used)
      :     ,'timestep'          ! variable name
      :     ,'(min)'        ! units                (not used)
-     :     ,e%timestep            ! variable
+     :     ,timestep            ! variable
      :     ,numvals         ! number of values returned
-     :     ,0.0            ! lower limit for bound checking
-     :     ,1440.0)           ! upper limit for bound checking
-      e%timestep = e%timestep * 60.0 !to convert to seconds
+     :     ,0               ! lower limit for bound checking
+     :     ,1440)           ! upper limit for bound checking
+      e%timestepsec = real(timestep) * 60.0 !to convert to seconds
 !dlayer(i)
       call get_real_array (
      :      unknown_module ! module that responds (not used)
@@ -1213,6 +1214,7 @@
 *+  Local Variables
        integer numvals              ! number of values returned
        integer i
+       integer timestep
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1229,15 +1231,15 @@
 
 
 !timestep
-      call get_real_var (
+      call get_integer_var (
      :      unknown_module ! module that responds (not used)
      :     ,'timestep'          ! variable name
      :     ,'(min)'        ! units                (not used)
-     :     ,e%timestep            ! variable
+     :     ,timestep            ! variable
      :     ,numvals         ! number of values returned
-     :     ,0.0            ! lower limit for bound checking
-     :     ,1440.0)           ! upper limit for bound checking
-      e%timestep = e%timestep * 60.0 !to convert to seconds
+     :     ,0            ! lower limit for bound checking
+     :     ,1440)           ! upper limit for bound checking
+      e%timestepsec = real(timestep) * 60.0 !to convert to seconds
 
 !dlayer(i)
       call get_real_array (
@@ -1289,7 +1291,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use SoilTempModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
