@@ -28,7 +28,7 @@ int main (int argc, char** argv)
       vector<string> words;
       Split_string (line, " ;", words);
       if (words.size() > 0 &&
-          words[0].find("@") == string::npos)
+          words[0].find("@") == string::npos && words[0][0] != '_')
          {
            out << "-import " << words[0].c_str() << endl;
          }
