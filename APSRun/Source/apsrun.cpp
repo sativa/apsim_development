@@ -4,6 +4,7 @@
 #include <aps\apsim_simulation_collection.h>
 #include <general\string_functions.h>
 #include <fstream>
+#include <dos.h>
 
 USERES("APSRun.res");
 USELIB("..\..\shared\aps\aps32.lib");
@@ -44,7 +45,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR command_line, int)
       }
    else
       {
-      Split_string (Command_line, " ", Control_filenames);
+      for (int i = 1; i < _argc; i++)
+         Control_filenames.push_back (_argv[i]);
 
       for (list<string>::iterator i = Control_filenames.begin();
                                   i != Control_filenames.end();
