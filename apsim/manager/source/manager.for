@@ -344,6 +344,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (g%lines_been_read) then
          ! we're ok - lines were found
+         msg = 'END of rules'//new_line
+         call Write_string(msg)
 
       else
          msg = 'No manager lines were found in any parameter file.'
@@ -502,6 +504,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
          do Rule_Index = 1, Num_rules
             if (index(Rule_names(Rule_index),
      .                rule_types(rule_type)) .ne. 0) then
+               call write_string (new_line
+     :                           //'SECTION:- '//rule_types(rule_type))
                call apsimcomponentdata_loadrule(get_componentData(),
      .                                          Rule_names(Rule_index))
                if (g%rule_indexes(rule_type) .eq. 0) then
