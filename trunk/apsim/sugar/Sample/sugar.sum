@@ -11,19 +11,19 @@
 
      Version                = 4.0
      Title                  = Sugar Sample Simulation
-     Component DLL          = c:\temp3\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\temp3\development\apsim\screen\lib\screen.dll
-     Component DLL          = c:\temp3\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\temp3\development\apsim\report\lib\report.dll
-     Component DLL          = c:\temp3\development\apsim\Input\lib\Input.dll
-     Component DLL          = c:\temp3\development\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\temp3\development\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\temp3\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\temp3\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\temp3\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\temp3\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\temp3\development\apsim\sugar\lib\sugar.dll
-     Component DLL          = c:\temp3\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\sugar\lib\sugar.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -58,7 +58,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\temp3\development\apsim\met\SAMPLE\INGHAM.MET
+     INPUT File name: c:\development\apsim\met\SAMPLE\INGHAM.MET
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising

@@ -216,6 +216,13 @@
 
 ------- lablab Initialisation -------------------------------------------------
       initialising
+
+------- cattle Initialisation -------------------------------------------------
+      - reading parameters
+     Herbage module name = lablab
+     Debug = on
+      - reading  herbage parameters for module 'lablab'
+     
 ------- Start of simulation  --------------------------------------------------
 6 October 1988(Day of year=280), manager: 
      Manager sending message :- lablab sow  cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
@@ -423,7 +430,6 @@
 19 October 1988(Day of year=293), sysbal: 
       **** N balance - unaccounted gain (kg/ha) =  4.19003916
       **** C balance - unaccounted gain (kg/ha) =  35.9963837
-      **** DM balance - unaccounted gain (kg/ha) =  89.9909515
 20 October 1988(Day of year=294), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -2499,7 +2505,7 @@
         prot_dg      = 0.9 (kg/kg)
         bd           = 664.778 (g/m^3)
         dm total     = 62.5626 (g/m2)
-        height       = 0.0941105 (m)
+        height       = 0.0941106 (m)
         height_ratio = 5.01421 (-)
      
      Herbage dmd distribution, pool 2:-
@@ -2523,7 +2529,7 @@
         prot_dg      = 0.8 (kg/kg)
         bd           = 664.778 (g/m^3)
         dm total     = 62.5626 (g/m2)
-        height       = 0.0941105 (m)
+        height       = 0.0941106 (m)
         height_ratio = 5.01421 (-)
      
      Herbage dmd distribution, pool 3:-
@@ -2547,7 +2553,7 @@
         prot_dg      = 0.7 (kg/kg)
         bd           = 664.778 (g/m^3)
         dm total     = 62.5626 (g/m2)
-        height       = 0.0941105 (m)
+        height       = 0.0941106 (m)
         height_ratio = 5.01421 (-)
      
      Herbage dmd distribution, pool 4:-
@@ -2571,7 +2577,7 @@
         prot_dg      = 0.6 (kg/kg)
         bd           = 664.778 (g/m^3)
         dm total     = 62.5626 (g/m2)
-        height       = 0.0941105 (m)
+        height       = 0.0941106 (m)
         height_ratio = 5.01421 (-)
      
      Herbage dmd distribution, pool 5:-
@@ -2595,7 +2601,7 @@
         prot_dg      = 0.5 (kg/kg)
         bd           = 664.778 (g/m^3)
         dm total     = 62.5626 (g/m2)
-        height       = 0.0941105 (m)
+        height       = 0.0941106 (m)
         height_ratio = 5.01421 (-)
      
      Herbage dmd distribution, pool 6:-
@@ -6065,7 +6071,6 @@
 25 November 1988(Day of year=330), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.80795383
       **** C balance - unaccounted loss (kg/ha) =  -18.9726486
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3925591
 26 November 1988(Day of year=331), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -6260,7 +6265,6 @@
 26 November 1988(Day of year=331), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.80208564
       **** C balance - unaccounted loss (kg/ha) =  -18.9470291
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3988228
 27 November 1988(Day of year=332), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -6455,7 +6459,6 @@
 27 November 1988(Day of year=332), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.78209400
       **** C balance - unaccounted loss (kg/ha) =  -18.9642639
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3950348
 28 November 1988(Day of year=333), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -6650,7 +6653,6 @@
 28 November 1988(Day of year=333), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.77069998
       **** C balance - unaccounted loss (kg/ha) =  -18.9622307
-      **** DM balance - unaccounted loss (kg/ha) =  -47.4055710
 29 November 1988(Day of year=334), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -6845,7 +6847,6 @@
 29 November 1988(Day of year=334), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.76462817
       **** C balance - unaccounted loss (kg/ha) =  -18.9741859
-      **** DM balance - unaccounted loss (kg/ha) =  -47.4042130
 30 November 1988(Day of year=335), lablab: 
       stage 4.0 end_of_juvenile
                      biomass =         211.24 (g/m^2)   lai          =   1.742 (m^2/m^2)
@@ -7044,7 +7045,6 @@
 30 November 1988(Day of year=335), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.78545427
       **** C balance - unaccounted loss (kg/ha) =  -18.9487686
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3953590
 1 December 1988(Day of year=336), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -7239,7 +7239,6 @@
 1 December 1988(Day of year=336), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.79192042
       **** C balance - unaccounted loss (kg/ha) =  -18.8910675
-      **** DM balance - unaccounted loss (kg/ha) =  -47.2198524
 2 December 1988(Day of year=337), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -7434,7 +7433,6 @@
 2 December 1988(Day of year=337), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.80150890
       **** C balance - unaccounted loss (kg/ha) =  -18.8874626
-      **** DM balance - unaccounted loss (kg/ha) =  -47.2499046
 3 December 1988(Day of year=338), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -7629,7 +7627,6 @@
 3 December 1988(Day of year=338), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.77337408
       **** C balance - unaccounted loss (kg/ha) =  -18.9019527
-      **** DM balance - unaccounted loss (kg/ha) =  -47.2001953
 4 December 1988(Day of year=339), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -7824,7 +7821,6 @@
 4 December 1988(Day of year=339), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.76473284
       **** C balance - unaccounted loss (kg/ha) =  -18.8987808
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3016357
 5 December 1988(Day of year=340), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -8019,7 +8015,6 @@
 5 December 1988(Day of year=340), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.74240875
       **** C balance - unaccounted loss (kg/ha) =  -18.8882999
-      **** DM balance - unaccounted loss (kg/ha) =  -47.1816826
 6 December 1988(Day of year=341), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -8214,7 +8209,6 @@
 6 December 1988(Day of year=341), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.70963335
       **** C balance - unaccounted loss (kg/ha) =  -18.9209347
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3101501
 7 December 1988(Day of year=342), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -8409,7 +8403,6 @@
 7 December 1988(Day of year=342), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.63057232
       **** C balance - unaccounted loss (kg/ha) =  -18.9159966
-      **** DM balance - unaccounted loss (kg/ha) =  -47.2665634
 8 December 1988(Day of year=343), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -8604,7 +8597,6 @@
 8 December 1988(Day of year=343), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.54607081
       **** C balance - unaccounted loss (kg/ha) =  -19.0171013
-      **** DM balance - unaccounted loss (kg/ha) =  -47.5661812
 9 December 1988(Day of year=344), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -8799,7 +8791,6 @@
 9 December 1988(Day of year=344), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.53286934
       **** C balance - unaccounted loss (kg/ha) =  -19.0399437
-      **** DM balance - unaccounted loss (kg/ha) =  -47.6389313
 10 December 1988(Day of year=345), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -8994,7 +8985,6 @@
 10 December 1988(Day of year=345), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.47673798
       **** C balance - unaccounted loss (kg/ha) =  -19.1989784
-      **** DM balance - unaccounted loss (kg/ha) =  -47.9740067
 11 December 1988(Day of year=346), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -9189,7 +9179,6 @@
 11 December 1988(Day of year=346), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.45128345
       **** C balance - unaccounted loss (kg/ha) =  -19.2984314
-      **** DM balance - unaccounted loss (kg/ha) =  -48.2538834
 12 December 1988(Day of year=347), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -9384,7 +9373,6 @@
 12 December 1988(Day of year=347), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.45317888
       **** C balance - unaccounted loss (kg/ha) =  -19.4492302
-      **** DM balance - unaccounted loss (kg/ha) =  -48.6230774
 13 December 1988(Day of year=348), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -9579,7 +9567,6 @@
 13 December 1988(Day of year=348), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.40793943
       **** C balance - unaccounted loss (kg/ha) =  -19.6480255
-      **** DM balance - unaccounted loss (kg/ha) =  -49.0966110
 14 December 1988(Day of year=349), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -9774,7 +9761,6 @@
 14 December 1988(Day of year=349), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.38688040
       **** C balance - unaccounted loss (kg/ha) =  -19.8192482
-      **** DM balance - unaccounted loss (kg/ha) =  -49.5559311
 15 December 1988(Day of year=350), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -9969,7 +9955,6 @@
 15 December 1988(Day of year=350), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.39083624
       **** C balance - unaccounted loss (kg/ha) =  -19.9587631
-      **** DM balance - unaccounted loss (kg/ha) =  -49.9125443
 16 December 1988(Day of year=351), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -10164,7 +10149,6 @@
 16 December 1988(Day of year=351), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.42370033
       **** C balance - unaccounted loss (kg/ha) =  -20.1115799
-      **** DM balance - unaccounted loss (kg/ha) =  -50.2633438
 17 December 1988(Day of year=352), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -10359,7 +10343,6 @@
 17 December 1988(Day of year=352), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.52711391
       **** C balance - unaccounted loss (kg/ha) =  -20.2158585
-      **** DM balance - unaccounted loss (kg/ha) =  -50.5396423
 18 December 1988(Day of year=353), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -10554,7 +10537,6 @@
 18 December 1988(Day of year=353), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.64670706
       **** C balance - unaccounted loss (kg/ha) =  -20.2807846
-      **** DM balance - unaccounted loss (kg/ha) =  -50.6785202
 19 December 1988(Day of year=354), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -10749,7 +10731,6 @@
 19 December 1988(Day of year=354), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.60354853
       **** C balance - unaccounted loss (kg/ha) =  -20.4368153
-      **** DM balance - unaccounted loss (kg/ha) =  -51.1389084
 20 December 1988(Day of year=355), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -10944,7 +10925,6 @@
 20 December 1988(Day of year=355), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.59709978
       **** C balance - unaccounted loss (kg/ha) =  -20.5578766
-      **** DM balance - unaccounted loss (kg/ha) =  -51.3477936
 21 December 1988(Day of year=356), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -11139,7 +11119,6 @@
 21 December 1988(Day of year=356), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.63108206
       **** C balance - unaccounted loss (kg/ha) =  -20.6339264
-      **** DM balance - unaccounted loss (kg/ha) =  -51.6473083
 22 December 1988(Day of year=357), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -11334,7 +11313,6 @@
 22 December 1988(Day of year=357), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.47583199
       **** C balance - unaccounted loss (kg/ha) =  -19.6460629
-      **** DM balance - unaccounted loss (kg/ha) =  -49.0760803
 23 December 1988(Day of year=358), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -11529,7 +11507,6 @@
 23 December 1988(Day of year=358), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.64347267
       **** C balance - unaccounted loss (kg/ha) =  -20.8339233
-      **** DM balance - unaccounted loss (kg/ha) =  -52.0691757
 24 December 1988(Day of year=359), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -11724,7 +11701,6 @@
 24 December 1988(Day of year=359), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.50266552
       **** C balance - unaccounted loss (kg/ha) =  -19.7032967
-      **** DM balance - unaccounted loss (kg/ha) =  -49.2894897
 25 December 1988(Day of year=360), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -11919,7 +11895,6 @@
 25 December 1988(Day of year=360), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.69246006
       **** C balance - unaccounted loss (kg/ha) =  -20.9506187
-      **** DM balance - unaccounted loss (kg/ha) =  -52.3843460
 26 December 1988(Day of year=361), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -12114,7 +12089,6 @@
 26 December 1988(Day of year=361), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.73412275
       **** C balance - unaccounted loss (kg/ha) =  -20.9525490
-      **** DM balance - unaccounted loss (kg/ha) =  -52.3813629
 27 December 1988(Day of year=362), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -12309,7 +12283,6 @@
 27 December 1988(Day of year=362), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.73109388
       **** C balance - unaccounted loss (kg/ha) =  -21.0553474
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6383820
 28 December 1988(Day of year=363), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -12504,7 +12477,6 @@
 28 December 1988(Day of year=363), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.78399324
       **** C balance - unaccounted loss (kg/ha) =  -21.0556412
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6000328
 29 December 1988(Day of year=364), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -12699,7 +12671,6 @@
 29 December 1988(Day of year=364), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.82226229
       **** C balance - unaccounted loss (kg/ha) =  -21.0562611
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6406403
 30 December 1988(Day of year=365), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -12894,7 +12865,6 @@
 30 December 1988(Day of year=365), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.83995342
       **** C balance - unaccounted loss (kg/ha) =  -21.0407295
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6330795
 31 December 1988(Day of year=366), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -13089,7 +13059,6 @@
 31 December 1988(Day of year=366), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.84014082
       **** C balance - unaccounted loss (kg/ha) =  -21.0754070
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6728973
 1 January 1989(Day of year=1), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -13284,7 +13253,6 @@
 1 January 1989(Day of year=1), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.87156105
       **** C balance - unaccounted loss (kg/ha) =  -21.0487175
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6217842
 2 January 1989(Day of year=2), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -13479,7 +13447,6 @@
 2 January 1989(Day of year=2), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.83333445
       **** C balance - unaccounted loss (kg/ha) =  -21.0942154
-      **** DM balance - unaccounted loss (kg/ha) =  -52.7199020
 3 January 1989(Day of year=3), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -13674,7 +13641,6 @@
 3 January 1989(Day of year=3), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.86873198
       **** C balance - unaccounted loss (kg/ha) =  -21.0854225
-      **** DM balance - unaccounted loss (kg/ha) =  -52.7448044
 4 January 1989(Day of year=4), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -13869,7 +13835,6 @@
 4 January 1989(Day of year=4), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.91617060
       **** C balance - unaccounted loss (kg/ha) =  -21.0332222
-      **** DM balance - unaccounted loss (kg/ha) =  -52.5986710
 5 January 1989(Day of year=5), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -14064,7 +14029,6 @@
 5 January 1989(Day of year=5), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.97097111
       **** C balance - unaccounted loss (kg/ha) =  -21.0210228
-      **** DM balance - unaccounted loss (kg/ha) =  -52.5213089
 6 January 1989(Day of year=6), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -14259,7 +14223,6 @@
 6 January 1989(Day of year=6), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.93154144
       **** C balance - unaccounted loss (kg/ha) =  -21.0910454
-      **** DM balance - unaccounted loss (kg/ha) =  -52.7120056
 7 January 1989(Day of year=7), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -14454,7 +14417,6 @@
 7 January 1989(Day of year=7), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.94569349
       **** C balance - unaccounted loss (kg/ha) =  -21.0560989
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6402397
 8 January 1989(Day of year=8), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -14649,7 +14611,6 @@
 8 January 1989(Day of year=8), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.95568228
       **** C balance - unaccounted loss (kg/ha) =  -21.0832062
-      **** DM balance - unaccounted loss (kg/ha) =  -52.7314529
 9 January 1989(Day of year=9), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -14844,7 +14805,6 @@
 9 January 1989(Day of year=9), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.98261309
       **** C balance - unaccounted loss (kg/ha) =  -21.0642376
-      **** DM balance - unaccounted loss (kg/ha) =  -52.6449699
 10 January 1989(Day of year=10), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -15039,7 +14999,6 @@
 10 January 1989(Day of year=10), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -3.04234838
       **** C balance - unaccounted loss (kg/ha) =  -20.9896049
-      **** DM balance - unaccounted loss (kg/ha) =  -52.4974518
 11 January 1989(Day of year=11), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -15234,7 +15193,6 @@
 11 January 1989(Day of year=11), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.99413109
       **** C balance - unaccounted loss (kg/ha) =  -21.0289803
-      **** DM balance - unaccounted loss (kg/ha) =  -52.5880814
 12 January 1989(Day of year=12), lablab: 
       stage 5.0 floral_initiation
                      biomass =         466.47 (g/m^2)   lai          =   3.672 (m^2/m^2)
@@ -15433,7 +15391,6 @@
 12 January 1989(Day of year=12), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -3.00525570
       **** C balance - unaccounted loss (kg/ha) =  -20.9807472
-      **** DM balance - unaccounted loss (kg/ha) =  -52.4206238
 13 January 1989(Day of year=13), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -15628,7 +15585,6 @@
 13 January 1989(Day of year=13), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.99273968
       **** C balance - unaccounted loss (kg/ha) =  -20.9677620
-      **** DM balance - unaccounted loss (kg/ha) =  -52.4037781
 14 January 1989(Day of year=14), lablab: 
       stage 6.0 flowering
                      biomass =         481.33 (g/m^2)   lai          =   3.562 (m^2/m^2)
@@ -15827,7 +15783,6 @@
 14 January 1989(Day of year=14), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.88052297
       **** C balance - unaccounted loss (kg/ha) =  -20.9110947
-      **** DM balance - unaccounted loss (kg/ha) =  -52.3167877
 15 January 1989(Day of year=15), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -16022,7 +15977,6 @@
 15 January 1989(Day of year=15), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.86815023
       **** C balance - unaccounted loss (kg/ha) =  -20.8946228
-      **** DM balance - unaccounted loss (kg/ha) =  -52.1974983
 16 January 1989(Day of year=16), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -16217,7 +16171,6 @@
 16 January 1989(Day of year=16), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.88103008
       **** C balance - unaccounted loss (kg/ha) =  -20.8185234
-      **** DM balance - unaccounted loss (kg/ha) =  -52.0463028
 17 January 1989(Day of year=17), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -16412,7 +16365,6 @@
 17 January 1989(Day of year=17), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.88109732
       **** C balance - unaccounted loss (kg/ha) =  -20.7476177
-      **** DM balance - unaccounted loss (kg/ha) =  -51.8846664
 18 January 1989(Day of year=18), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -16607,7 +16559,6 @@
 18 January 1989(Day of year=18), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.87753797
       **** C balance - unaccounted loss (kg/ha) =  -20.6591568
-      **** DM balance - unaccounted loss (kg/ha) =  -51.6322632
 19 January 1989(Day of year=19), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -16802,7 +16753,6 @@
 19 January 1989(Day of year=19), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.86118126
       **** C balance - unaccounted loss (kg/ha) =  -20.5678024
-      **** DM balance - unaccounted loss (kg/ha) =  -51.4585724
 20 January 1989(Day of year=20), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -16997,7 +16947,6 @@
 20 January 1989(Day of year=20), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.79486752
       **** C balance - unaccounted loss (kg/ha) =  -20.4773369
-      **** DM balance - unaccounted loss (kg/ha) =  -51.1699066
 21 January 1989(Day of year=21), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -17192,7 +17141,6 @@
 21 January 1989(Day of year=21), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.80579185
       **** C balance - unaccounted loss (kg/ha) =  -20.3863697
-      **** DM balance - unaccounted loss (kg/ha) =  -50.9581146
 22 January 1989(Day of year=22), lablab: 
       stage 7.0 start_grain_fill
                      biomass =         496.94 (g/m^2)   lai          =   2.144 (m^2/m^2)
@@ -17391,7 +17339,6 @@
 22 January 1989(Day of year=22), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.62480235
       **** C balance - unaccounted loss (kg/ha) =  -20.2970028
-      **** DM balance - unaccounted loss (kg/ha) =  -50.7737579
 23 January 1989(Day of year=23), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -17586,7 +17533,6 @@
 23 January 1989(Day of year=23), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.52785373
       **** C balance - unaccounted loss (kg/ha) =  -20.2969933
-      **** DM balance - unaccounted loss (kg/ha) =  -50.7502975
 24 January 1989(Day of year=24), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -17781,7 +17727,6 @@
 24 January 1989(Day of year=24), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.40267682
       **** C balance - unaccounted loss (kg/ha) =  -20.2520485
-      **** DM balance - unaccounted loss (kg/ha) =  -50.5910606
 25 January 1989(Day of year=25), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -17976,7 +17921,6 @@
 25 January 1989(Day of year=25), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.22695065
       **** C balance - unaccounted loss (kg/ha) =  -20.2159710
-      **** DM balance - unaccounted loss (kg/ha) =  -50.5633621
 26 January 1989(Day of year=26), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -18171,7 +18115,6 @@
 26 January 1989(Day of year=26), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.03693342
       **** C balance - unaccounted loss (kg/ha) =  -20.1182594
-      **** DM balance - unaccounted loss (kg/ha) =  -50.2722092
 27 January 1989(Day of year=27), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -18366,7 +18309,6 @@
 27 January 1989(Day of year=27), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.04144216
       **** C balance - unaccounted loss (kg/ha) =  -19.9724236
-      **** DM balance - unaccounted loss (kg/ha) =  -49.9154320
 28 January 1989(Day of year=28), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -18561,7 +18503,6 @@
 28 January 1989(Day of year=28), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.02698827
       **** C balance - unaccounted loss (kg/ha) =  -19.7773132
-      **** DM balance - unaccounted loss (kg/ha) =  -49.4823456
 29 January 1989(Day of year=29), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -18756,7 +18697,6 @@
 29 January 1989(Day of year=29), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -2.00401330
       **** C balance - unaccounted loss (kg/ha) =  -19.5923996
-      **** DM balance - unaccounted loss (kg/ha) =  -48.9575577
 30 January 1989(Day of year=30), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -18951,7 +18891,6 @@
 30 January 1989(Day of year=30), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.97566843
       **** C balance - unaccounted loss (kg/ha) =  -19.2737770
-      **** DM balance - unaccounted loss (kg/ha) =  -48.2235069
 31 January 1989(Day of year=31), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -19146,7 +19085,6 @@
 31 January 1989(Day of year=31), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.93755746
       **** C balance - unaccounted loss (kg/ha) =  -18.9639511
-      **** DM balance - unaccounted loss (kg/ha) =  -47.3864403
 1 February 1989(Day of year=32), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -19341,7 +19279,6 @@
 1 February 1989(Day of year=32), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.87100613
       **** C balance - unaccounted loss (kg/ha) =  -18.6180458
-      **** DM balance - unaccounted loss (kg/ha) =  -46.5451164
 2 February 1989(Day of year=33), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -19536,7 +19473,6 @@
 2 February 1989(Day of year=33), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.79872084
       **** C balance - unaccounted loss (kg/ha) =  -18.3374062
-      **** DM balance - unaccounted loss (kg/ha) =  -45.8435173
 3 February 1989(Day of year=34), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -19731,7 +19667,6 @@
 3 February 1989(Day of year=34), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.72011936
       **** C balance - unaccounted loss (kg/ha) =  -18.0095062
-      **** DM balance - unaccounted loss (kg/ha) =  -44.9925156
 4 February 1989(Day of year=35), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -19926,7 +19861,6 @@
 4 February 1989(Day of year=35), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.65085757
       **** C balance - unaccounted loss (kg/ha) =  -17.6876259
-      **** DM balance - unaccounted loss (kg/ha) =  -44.2425003
 5 February 1989(Day of year=36), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -20121,7 +20055,6 @@
 5 February 1989(Day of year=36), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.57577634
       **** C balance - unaccounted loss (kg/ha) =  -17.3989468
-      **** DM balance - unaccounted loss (kg/ha) =  -43.5129929
 6 February 1989(Day of year=37), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -20316,7 +20249,6 @@
 6 February 1989(Day of year=37), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.48547006
       **** C balance - unaccounted loss (kg/ha) =  -17.1594048
-      **** DM balance - unaccounted loss (kg/ha) =  -42.8906975
 7 February 1989(Day of year=38), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -20511,7 +20443,6 @@
 7 February 1989(Day of year=38), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.40577877
       **** C balance - unaccounted loss (kg/ha) =  -16.9457531
-      **** DM balance - unaccounted loss (kg/ha) =  -42.3487549
 8 February 1989(Day of year=39), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -20535,7 +20466,7 @@
         prot_dg      = 0.9 (kg/kg)
         bd           = 326.033 (g/m^3)
         dm total     = 319.041 (g/m2)
-        height       = 0.978553 (m)
+        height       = 0.978554 (m)
         height_ratio = 10.2239 (-)
      
      Herbage dmd distribution, pool 2:-
@@ -20559,7 +20490,7 @@
         prot_dg      = 0.8 (kg/kg)
         bd           = 326.033 (g/m^3)
         dm total     = 319.041 (g/m2)
-        height       = 0.978553 (m)
+        height       = 0.978554 (m)
         height_ratio = 10.2239 (-)
      
      Herbage dmd distribution, pool 3:-
@@ -20583,7 +20514,7 @@
         prot_dg      = 0.7 (kg/kg)
         bd           = 326.033 (g/m^3)
         dm total     = 319.041 (g/m2)
-        height       = 0.978553 (m)
+        height       = 0.978554 (m)
         height_ratio = 10.2239 (-)
      
      Herbage dmd distribution, pool 4:-
@@ -20607,7 +20538,7 @@
         prot_dg      = 0.6 (kg/kg)
         bd           = 326.033 (g/m^3)
         dm total     = 319.041 (g/m2)
-        height       = 0.978553 (m)
+        height       = 0.978554 (m)
         height_ratio = 10.2239 (-)
      
      Herbage dmd distribution, pool 5:-
@@ -20631,7 +20562,7 @@
         prot_dg      = 0.5 (kg/kg)
         bd           = 326.033 (g/m^3)
         dm total     = 319.041 (g/m2)
-        height       = 0.978553 (m)
+        height       = 0.978554 (m)
         height_ratio = 10.2239 (-)
      
      Herbage dmd distribution, pool 6:-
@@ -20706,7 +20637,6 @@
 8 February 1989(Day of year=39), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.33253586
       **** C balance - unaccounted loss (kg/ha) =  -16.7442188
-      **** DM balance - unaccounted loss (kg/ha) =  -41.8683624
 9 February 1989(Day of year=40), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -20901,7 +20831,6 @@
 9 February 1989(Day of year=40), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.27436161
       **** C balance - unaccounted loss (kg/ha) =  -16.5969620
-      **** DM balance - unaccounted loss (kg/ha) =  -41.5080299
 10 February 1989(Day of year=41), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -21096,7 +21025,6 @@
 10 February 1989(Day of year=41), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.22425079
       **** C balance - unaccounted loss (kg/ha) =  -16.4698067
-      **** DM balance - unaccounted loss (kg/ha) =  -41.1588936
 11 February 1989(Day of year=42), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -21291,7 +21219,6 @@
 11 February 1989(Day of year=42), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.17981923
       **** C balance - unaccounted loss (kg/ha) =  -16.3632698
-      **** DM balance - unaccounted loss (kg/ha) =  -40.8691139
 12 February 1989(Day of year=43), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -21486,7 +21413,6 @@
 12 February 1989(Day of year=43), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.14432383
       **** C balance - unaccounted loss (kg/ha) =  -16.2496204
-      **** DM balance - unaccounted loss (kg/ha) =  -40.6553001
 13 February 1989(Day of year=44), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -21681,7 +21607,6 @@
 13 February 1989(Day of year=44), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.11433005
       **** C balance - unaccounted loss (kg/ha) =  -16.1848183
-      **** DM balance - unaccounted loss (kg/ha) =  -40.4542313
 14 February 1989(Day of year=45), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -21876,7 +21801,6 @@
 14 February 1989(Day of year=45), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.09225225
       **** C balance - unaccounted loss (kg/ha) =  -16.1696434
-      **** DM balance - unaccounted loss (kg/ha) =  -40.4475479
 15 February 1989(Day of year=46), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -22071,7 +21995,6 @@
 15 February 1989(Day of year=46), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.07444990
       **** C balance - unaccounted loss (kg/ha) =  -16.0892525
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1996956
 16 February 1989(Day of year=47), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -22266,7 +22189,6 @@
 16 February 1989(Day of year=47), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.05907822
       **** C balance - unaccounted loss (kg/ha) =  -16.0623341
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1558380
 17 February 1989(Day of year=48), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -22461,7 +22383,6 @@
 17 February 1989(Day of year=48), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.04689085
       **** C balance - unaccounted loss (kg/ha) =  -16.0441628
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1729088
 18 February 1989(Day of year=49), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -22656,7 +22577,6 @@
 18 February 1989(Day of year=49), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.03707075
       **** C balance - unaccounted loss (kg/ha) =  -16.0099335
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0092125
 19 February 1989(Day of year=50), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -22851,7 +22771,6 @@
 19 February 1989(Day of year=50), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.02858734
       **** C balance - unaccounted loss (kg/ha) =  -16.0532265
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1018181
 20 February 1989(Day of year=51), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -23046,7 +22965,6 @@
 20 February 1989(Day of year=51), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.02120805
       **** C balance - unaccounted loss (kg/ha) =  -16.0002670
-      **** DM balance - unaccounted loss (kg/ha) =  -39.9928551
 21 February 1989(Day of year=52), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -23241,7 +23159,6 @@
 21 February 1989(Day of year=52), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.01622176
       **** C balance - unaccounted loss (kg/ha) =  -15.9907503
-      **** DM balance - unaccounted loss (kg/ha) =  -39.9690666
 22 February 1989(Day of year=53), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -23436,7 +23353,6 @@
 22 February 1989(Day of year=53), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.00964236
       **** C balance - unaccounted loss (kg/ha) =  -16.0156555
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0313301
 23 February 1989(Day of year=54), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -23631,7 +23547,6 @@
 23 February 1989(Day of year=54), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.00698793
       **** C balance - unaccounted loss (kg/ha) =  -15.9986801
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0201378
 24 February 1989(Day of year=55), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -23826,7 +23741,6 @@
 24 February 1989(Day of year=55), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -1.00230682
       **** C balance - unaccounted loss (kg/ha) =  -15.9910345
-      **** DM balance - unaccounted loss (kg/ha) =  -39.9775848
 25 February 1989(Day of year=56), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -24021,7 +23935,6 @@
 25 February 1989(Day of year=56), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.998414457
       **** C balance - unaccounted loss (kg/ha) =  -16.0127983
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0476227
 26 February 1989(Day of year=57), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -24216,7 +24129,6 @@
 26 February 1989(Day of year=57), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.994416654
       **** C balance - unaccounted loss (kg/ha) =  -16.0103054
-      **** DM balance - unaccounted loss (kg/ha) =  -39.9867020
 27 February 1989(Day of year=58), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -24411,7 +24323,6 @@
 27 February 1989(Day of year=58), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.993380308
       **** C balance - unaccounted loss (kg/ha) =  -16.0015621
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0195351
 28 February 1989(Day of year=59), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -24606,7 +24517,6 @@
 28 February 1989(Day of year=59), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.988395333
       **** C balance - unaccounted loss (kg/ha) =  -16.0219173
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0704193
 1 March 1989(Day of year=60), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -24630,7 +24540,7 @@
         prot_dg      = 0.9 (kg/kg)
         bd           = 356.53 (g/m^3)
         dm total     = 236.515 (g/m2)
-        height       = 0.663381 (m)
+        height       = 0.663382 (m)
         height_ratio = 9.34938 (-)
      
      Herbage dmd distribution, pool 2:-
@@ -24654,7 +24564,7 @@
         prot_dg      = 0.8 (kg/kg)
         bd           = 356.53 (g/m^3)
         dm total     = 236.515 (g/m2)
-        height       = 0.663381 (m)
+        height       = 0.663382 (m)
         height_ratio = 9.34938 (-)
      
      Herbage dmd distribution, pool 3:-
@@ -24678,7 +24588,7 @@
         prot_dg      = 0.7 (kg/kg)
         bd           = 356.53 (g/m^3)
         dm total     = 236.515 (g/m2)
-        height       = 0.663381 (m)
+        height       = 0.663382 (m)
         height_ratio = 9.34938 (-)
      
      Herbage dmd distribution, pool 4:-
@@ -24702,7 +24612,7 @@
         prot_dg      = 0.6 (kg/kg)
         bd           = 356.53 (g/m^3)
         dm total     = 236.515 (g/m2)
-        height       = 0.663381 (m)
+        height       = 0.663382 (m)
         height_ratio = 9.34938 (-)
      
      Herbage dmd distribution, pool 5:-
@@ -24726,7 +24636,7 @@
         prot_dg      = 0.5 (kg/kg)
         bd           = 356.53 (g/m^3)
         dm total     = 236.515 (g/m2)
-        height       = 0.663381 (m)
+        height       = 0.663382 (m)
         height_ratio = 9.34938 (-)
      
      Herbage dmd distribution, pool 6:-
@@ -24801,7 +24711,6 @@
 1 March 1989(Day of year=60), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.987424672
       **** C balance - unaccounted loss (kg/ha) =  -16.0218811
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0468864
 2 March 1989(Day of year=61), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -24996,7 +24905,6 @@
 2 March 1989(Day of year=61), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.981548250
       **** C balance - unaccounted loss (kg/ha) =  -15.9985228
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0275574
 3 March 1989(Day of year=62), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -25191,7 +25099,6 @@
 3 March 1989(Day of year=62), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.979542911
       **** C balance - unaccounted loss (kg/ha) =  -16.0312920
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0782318
 4 March 1989(Day of year=63), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -25386,7 +25293,6 @@
 4 March 1989(Day of year=63), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.978561044
       **** C balance - unaccounted loss (kg/ha) =  -16.0217686
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0075455
 5 March 1989(Day of year=64), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -25581,7 +25487,6 @@
 5 March 1989(Day of year=64), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.971709549
       **** C balance - unaccounted loss (kg/ha) =  -16.0171299
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0740776
 6 March 1989(Day of year=65), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -25776,7 +25681,6 @@
 6 March 1989(Day of year=65), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.971712410
       **** C balance - unaccounted loss (kg/ha) =  -16.0596352
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1178398
 7 March 1989(Day of year=66), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -25971,7 +25875,6 @@
 7 March 1989(Day of year=66), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.966821551
       **** C balance - unaccounted loss (kg/ha) =  -16.0154171
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0932274
 8 March 1989(Day of year=67), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -26166,7 +26069,6 @@
 8 March 1989(Day of year=67), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.963884830
       **** C balance - unaccounted loss (kg/ha) =  -16.0432758
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0847473
 9 March 1989(Day of year=68), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -26361,7 +26263,6 @@
 9 March 1989(Day of year=68), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.959975004
       **** C balance - unaccounted loss (kg/ha) =  -16.0268917
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0672302
 10 March 1989(Day of year=69), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -26556,7 +26457,6 @@
 10 March 1989(Day of year=69), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.956066072
       **** C balance - unaccounted loss (kg/ha) =  -16.0326595
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0503960
 11 March 1989(Day of year=70), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -26751,7 +26651,6 @@
 11 March 1989(Day of year=70), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.952156782
       **** C balance - unaccounted loss (kg/ha) =  -16.0409489
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1258087
 12 March 1989(Day of year=71), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -26946,7 +26845,6 @@
 12 March 1989(Day of year=71), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.949227810
       **** C balance - unaccounted loss (kg/ha) =  -16.0160675
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0557976
 13 March 1989(Day of year=72), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -27141,7 +27039,6 @@
 13 March 1989(Day of year=72), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.944343865
       **** C balance - unaccounted loss (kg/ha) =  -16.0154514
-      **** DM balance - unaccounted loss (kg/ha) =  -40.0073814
 14 March 1989(Day of year=73), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -27336,7 +27233,6 @@
 14 March 1989(Day of year=73), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.939463735
       **** C balance - unaccounted loss (kg/ha) =  -16.0441055
-      **** DM balance - unaccounted loss (kg/ha) =  -40.1415138
 15 March 1989(Day of year=74), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -27531,7 +27427,6 @@
 15 March 1989(Day of year=74), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.856448531
       **** C balance - unaccounted loss (kg/ha) =  -14.6684341
-      **** DM balance - unaccounted loss (kg/ha) =  -36.6710854
 16 March 1989(Day of year=75), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -27726,7 +27621,6 @@
 16 March 1989(Day of year=75), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.908206224
       **** C balance - unaccounted loss (kg/ha) =  -15.6273632
-      **** DM balance - unaccounted loss (kg/ha) =  -39.0449715
 17 March 1989(Day of year=76), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -27921,7 +27815,6 @@
 17 March 1989(Day of year=76), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.925783515
       **** C balance - unaccounted loss (kg/ha) =  -15.9958935
-      **** DM balance - unaccounted loss (kg/ha) =  -39.9662971
 18 March 1989(Day of year=77), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -28116,7 +28009,6 @@
 18 March 1989(Day of year=77), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.920900583
       **** C balance - unaccounted loss (kg/ha) =  -15.9797115
-      **** DM balance - unaccounted loss (kg/ha) =  -39.9883423
 19 March 1989(Day of year=78), lablab: 
      Crop failure because of total leaf senescence.
      Plant death. standing above-ground dm = 3162.02 (kg/ha)
@@ -28275,7 +28167,6 @@
 19 March 1989(Day of year=78), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182619467
       **** C balance - unaccounted loss (kg/ha) =  -7.24923849
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1152840
 20 March 1989(Day of year=79), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -28431,7 +28322,6 @@
 20 March 1989(Day of year=79), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.180666342
       **** C balance - unaccounted loss (kg/ha) =  -7.23690510
-      **** DM balance - unaccounted loss (kg/ha) =  -18.0844498
 21 March 1989(Day of year=80), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -28587,7 +28477,6 @@
 21 March 1989(Day of year=80), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.180666342
       **** C balance - unaccounted loss (kg/ha) =  -7.24592686
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1148186
 22 March 1989(Day of year=81), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -28743,7 +28632,6 @@
 22 March 1989(Day of year=81), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181642905
       **** C balance - unaccounted loss (kg/ha) =  -7.25625610
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1484528
 23 March 1989(Day of year=82), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -28899,7 +28787,6 @@
 23 March 1989(Day of year=82), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181642905
       **** C balance - unaccounted loss (kg/ha) =  -7.24225426
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1056347
 24 March 1989(Day of year=83), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29055,7 +28942,6 @@
 24 March 1989(Day of year=83), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.166017905
       **** C balance - unaccounted loss (kg/ha) =  -6.69125175
-      **** DM balance - unaccounted loss (kg/ha) =  -16.7203178
 25 March 1989(Day of year=84), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29211,7 +29097,6 @@
 25 March 1989(Day of year=84), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.179689780
       **** C balance - unaccounted loss (kg/ha) =  -7.10694218
-      **** DM balance - unaccounted loss (kg/ha) =  -17.7673569
 26 March 1989(Day of year=85), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29367,7 +29252,6 @@
 26 March 1989(Day of year=85), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182010695
       **** C balance - unaccounted loss (kg/ha) =  -7.24370766
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1248932
 27 March 1989(Day of year=86), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29523,7 +29407,6 @@
 27 March 1989(Day of year=86), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181850106
       **** C balance - unaccounted loss (kg/ha) =  -7.28391171
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2175922
 28 March 1989(Day of year=87), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29679,7 +29562,6 @@
 28 March 1989(Day of year=87), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181210995
       **** C balance - unaccounted loss (kg/ha) =  -7.25531864
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1070480
 29 March 1989(Day of year=88), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29835,7 +29717,6 @@
 29 March 1989(Day of year=88), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182710946
       **** C balance - unaccounted loss (kg/ha) =  -7.27311373
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1749725
 30 March 1989(Day of year=89), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -29991,7 +29872,6 @@
 30 March 1989(Day of year=89), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181064352
       **** C balance - unaccounted loss (kg/ha) =  -7.26533842
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2024097
 31 March 1989(Day of year=90), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -30147,7 +30027,6 @@
 31 March 1989(Day of year=90), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182747304
       **** C balance - unaccounted loss (kg/ha) =  -7.25991058
-      **** DM balance - unaccounted loss (kg/ha) =  -18.0950890
 1 April 1989(Day of year=91), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -30303,7 +30182,6 @@
 1 April 1989(Day of year=91), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181642905
       **** C balance - unaccounted loss (kg/ha) =  -7.26554680
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2029285
 2 April 1989(Day of year=92), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -30459,7 +30337,6 @@
 2 April 1989(Day of year=92), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182247996
       **** C balance - unaccounted loss (kg/ha) =  -7.25506115
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1298409
 3 April 1989(Day of year=93), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -30615,7 +30492,6 @@
 3 April 1989(Day of year=93), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182360888
       **** C balance - unaccounted loss (kg/ha) =  -7.27442026
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1938629
 4 April 1989(Day of year=94), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -30771,7 +30647,6 @@
 4 April 1989(Day of year=94), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183239222
       **** C balance - unaccounted loss (kg/ha) =  -7.25041294
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1416569
 5 April 1989(Day of year=95), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -30927,7 +30802,6 @@
 5 April 1989(Day of year=95), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182619467
       **** C balance - unaccounted loss (kg/ha) =  -7.29969406
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2336102
 6 April 1989(Day of year=96), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -31083,7 +30957,6 @@
 6 April 1989(Day of year=96), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182619467
       **** C balance - unaccounted loss (kg/ha) =  -7.24717760
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1257572
 7 April 1989(Day of year=97), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -31239,7 +31112,6 @@
 7 April 1989(Day of year=97), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181642905
       **** C balance - unaccounted loss (kg/ha) =  -7.28754854
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2188721
 8 April 1989(Day of year=98), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -31395,7 +31267,6 @@
 8 April 1989(Day of year=98), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.27466488
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1866627
 9 April 1989(Day of year=99), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -31551,7 +31422,6 @@
 9 April 1989(Day of year=99), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.181642905
       **** C balance - unaccounted loss (kg/ha) =  -7.27455807
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1785831
 10 April 1989(Day of year=100), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -31707,7 +31577,6 @@
 10 April 1989(Day of year=100), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.29570675
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2314548
 11 April 1989(Day of year=101), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -31863,7 +31732,6 @@
 11 April 1989(Day of year=101), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.24571228
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1299057
 12 April 1989(Day of year=102), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32019,7 +31887,6 @@
 12 April 1989(Day of year=102), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.182619467
       **** C balance - unaccounted loss (kg/ha) =  -7.27278423
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1741486
 13 April 1989(Day of year=103), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32175,7 +32042,6 @@
 13 April 1989(Day of year=103), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.28365517
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1857014
 14 April 1989(Day of year=104), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32331,7 +32197,6 @@
 14 April 1989(Day of year=104), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.29077053
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2113018
 15 April 1989(Day of year=105), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32487,7 +32352,6 @@
 15 April 1989(Day of year=105), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.25583124
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2020779
 16 April 1989(Day of year=106), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32643,7 +32507,6 @@
 16 April 1989(Day of year=106), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.27527618
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1569405
 17 April 1989(Day of year=107), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32799,7 +32662,6 @@
 17 April 1989(Day of year=107), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.28723717
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2571564
 18 April 1989(Day of year=108), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -32955,7 +32817,6 @@
 18 April 1989(Day of year=108), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.183596030
       **** C balance - unaccounted loss (kg/ha) =  -7.27862549
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1809387
 19 April 1989(Day of year=109), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -33111,7 +32972,6 @@
 19 April 1989(Day of year=109), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.185549155
       **** C balance - unaccounted loss (kg/ha) =  -7.30031490
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2117252
 20 April 1989(Day of year=110), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -33267,7 +33127,6 @@
 20 April 1989(Day of year=110), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.185549155
       **** C balance - unaccounted loss (kg/ha) =  -7.28765011
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2425632
 21 April 1989(Day of year=111), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -33423,7 +33282,6 @@
 21 April 1989(Day of year=111), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.184572592
       **** C balance - unaccounted loss (kg/ha) =  -7.27571487
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2049122
 22 April 1989(Day of year=112), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -33579,7 +33437,6 @@
 22 April 1989(Day of year=112), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.186525717
       **** C balance - unaccounted loss (kg/ha) =  -7.29539299
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1994190
 23 April 1989(Day of year=113), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -33735,7 +33592,6 @@
 23 April 1989(Day of year=113), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.185549155
       **** C balance - unaccounted loss (kg/ha) =  -7.31277704
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2975674
 24 April 1989(Day of year=114), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -33891,7 +33747,6 @@
 24 April 1989(Day of year=114), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.187539697
       **** C balance - unaccounted loss (kg/ha) =  -7.27782202
-      **** DM balance - unaccounted loss (kg/ha) =  -18.2179928
 25 April 1989(Day of year=115), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -34047,7 +33902,6 @@
 25 April 1989(Day of year=115), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.186741561
       **** C balance - unaccounted loss (kg/ha) =  -7.30043221
-      **** DM balance - unaccounted loss (kg/ha) =  -18.1963940
 26 April 1989(Day of year=116), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -34203,7 +34057,6 @@
 26 April 1989(Day of year=116), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.187323093
       **** C balance - unaccounted loss (kg/ha) =  -7.32067585
-      **** DM balance - unaccounted loss (kg/ha) =  -18.3251266
 27 April 1989(Day of year=117), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -34359,7 +34212,6 @@
 27 April 1989(Day of year=117), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.188717425
       **** C balance - unaccounted loss (kg/ha) =  -7.31594086
-      **** DM balance - unaccounted loss (kg/ha) =  -18.3211021
 28 April 1989(Day of year=118), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -34515,7 +34367,6 @@
 28 April 1989(Day of year=118), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.192222551
       **** C balance - unaccounted loss (kg/ha) =  -7.33602190
-      **** DM balance - unaccounted loss (kg/ha) =  -18.3322411
 29 April 1989(Day of year=119), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -34671,7 +34522,6 @@
 29 April 1989(Day of year=119), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.192699477
       **** C balance - unaccounted loss (kg/ha) =  -7.32630444
-      **** DM balance - unaccounted loss (kg/ha) =  -18.3313866
 30 April 1989(Day of year=120), cattle: 
      
      Herbage dmd distribution, pool 1:-
@@ -34827,6 +34677,5 @@
 30 April 1989(Day of year=120), sysbal: 
       **** N balance - unaccounted loss (kg/ha) =  -0.193061054
       **** C balance - unaccounted loss (kg/ha) =  -7.36968613
-      **** DM balance - unaccounted loss (kg/ha) =  -18.3929672
 30 April 1989(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.
