@@ -37,3 +37,9 @@ trackerVariable = sum of rain last 3 as rain[3] on post
 if (rain[3] >= 20) then
    report do_output
 endif
+
+[sample.summaryfile.parameters]
+summaryfile=tracker.sum
+
+[sample.screen.parameters]
+screen_output=on
