@@ -2,6 +2,7 @@
 Module=clock input.par [sample]  
 Module=report input.par [sample]  
 Module=met DALBY.MET [weather]  
+Module=input (input1) input1.dat [test]
+Module=input (sparse) sparse.dat [test]
 Module=manager input.par [sample]  
-Module=input (input1) input.par [test]
-Module=input (sparse) sparse.par [test]
+
