@@ -171,14 +171,15 @@ void Coordinator::addComponent(SOMComponent componentData)
    if (Str_i_Eq(componentData.getName(), "clock"))
       sequencerID = childID;
 
-   ComponentAlias* componentAlias = new ComponentAlias
-      (componentData.getName(),
-       componentData.getExecutableFilename(),
-       childID,
-       parentID);
-
-   if (componentAlias->isOk())
+   ComponentAlias* componentAlias = NULL;
+   try
       {
+      componentAlias = new ComponentAlias
+         (componentData.getName(),
+          componentData.getExecutableFilename(),
+          childID,
+          parentID);
+
       components.insert(Components::value_type(childID, componentAlias));
 
       string fqn = name;
@@ -194,8 +195,11 @@ void Coordinator::addComponent(SOMComponent componentData)
                                   fqn.c_str(),
                                   true));
       }
-   else
+   catch (const runtime_error& except)
+      {
       delete componentAlias;
+      error(except.what(), true);
+      }
    }
 
 // ------------------------------------------------------------------

@@ -3,6 +3,7 @@
 #define SimulationH
 #include "interfaces.h"
 #include "protocolexport.h"
+#include <iostream>
 
 class SOMSimulation;
 class XMLTreeData;
@@ -25,6 +26,17 @@ class PROTOCOL_EXPORT Simulation : public ISimulation
       Simulation(void);
       ~Simulation(void);
 
+      // go execute the simulation
+      void go(const std::string& simFilename);
+
+      // set a hook into the message stream.
+      void setMessageHook(IMessageHook* hook);
+
+   private:
+      IComputation* masterPM;
+      XMLTreeData* data;
+      SOMSimulation* simulationConfiguration;
+
       // initialise the simulation
       virtual void init(const std::string& sdml);
 
@@ -34,13 +46,6 @@ class PROTOCOL_EXPORT Simulation : public ISimulation
       // terminate the simulation
       virtual void term (void);
 
-      // set a hook into the message stream.
-      void setMessageHook(IMessageHook* hook);
-
-   private:
-      IComputation* masterPM;
-      XMLTreeData* data;
-      SOMSimulation* simulationConfiguration;
    };
 
 } // namespace protocol

@@ -23,7 +23,6 @@ class ComponentAlias
                      unsigned int parentId);
       ~ComponentAlias(void);
 
-      bool isOk(void) const {return (computation != NULL && computation->isOk());}
       std::string getName(void) {return name;}
       unsigned int ID;
 

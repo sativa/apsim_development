@@ -4,6 +4,7 @@
 //#include "IConfiguration.h"
 
 #include <string>
+
 namespace protocol {
 
 class Message;
@@ -28,9 +29,8 @@ class ISimulation
    public:
       virtual ~ISimulation(void) { };
 
-      virtual void init(const std::string& sdml) = 0;
-      virtual void commence(void) = 0;
-      virtual void term(void) = 0;
+      // go execute the simulation
+      virtual void go(const std::string& simFilename) = 0;
 
       // set a hook into the message stream.
       virtual void setMessageHook(IMessageHook* hook) = 0;

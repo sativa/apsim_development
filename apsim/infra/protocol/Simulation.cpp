@@ -3,6 +3,10 @@
 #include <aps\SOMSimulation.h>
 #include <general\XMLTreeData.h>
 #include <sstream>
+#include <fstream>
+#include <general\path.h>
+#include <dir.h>
+
 #include "messages.h"
 #include "Transport.h"
 #include "Computation.h"
@@ -48,6 +52,44 @@ Simulation::~Simulation(void)
    }
 
 // ------------------------------------------------------------------
+// Start the simulation.
+// ------------------------------------------------------------------
+void Simulation::go(const string& simFilename)
+   {
+   try
+      {
+      ifstream in(simFilename.c_str());
+      if (in)
+         {
+         chdir(Path(simFilename.c_str()).Get_directory().c_str());
+         stringstream sdmlStream;
+         sdmlStream << in.rdbuf();
+         string sdml = sdmlStream.str();
+
+         init(sdml);
+         commence();
+         term();
+         }
+      else
+         throw runtime_error("Cannot find simulation file: " + simFilename);
+      }
+   catch (const runtime_error& error)
+      {
+      // At this point there is no log file to report the error so
+      // create and write to a log file and also write to screen.
+      Path logPath(simFilename.c_str());
+      logPath.Set_extension(".log");
+      ofstream log(logPath.Get_path().c_str());
+      log << "APSIM Infrastructure Error" << endl;
+      log << "--------------------------" << endl;
+      log << error.what() << endl;
+      cout << "APSIM Infrastructure Error" << endl;
+      cout << "--------------------------" << endl;
+      cout << error.what() << endl;
+      }
+   }
+
+// ------------------------------------------------------------------
 //  Short description:
 //    create the simulation.
 
@@ -59,9 +101,9 @@ Simulation::~Simulation(void)
 // ------------------------------------------------------------------
 void Simulation::init(const string& sdml)
    {
+   istringstream in(sdml.c_str());
    data = new XMLTreeData;
-   istringstream sdmlStream(sdml.c_str());
-   data->read(sdmlStream);
+   data->read(in);
    simulationConfiguration = new SOMSimulation(data->getRootNode());
 
    // get dll filename for master PM.
