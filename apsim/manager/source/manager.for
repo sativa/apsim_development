@@ -656,19 +656,19 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       call push_routine (my_name)
 
-      if (eventID .eq. prepare_id) then
+      if (eventID .eq. prepareId) then
          g%start_token = g%rule_indexes(2)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
          end if
 
-      else if (eventID .eq. process_id) then
+      else if (eventID .eq. processId) then
          g%start_token = g%rule_indexes(3)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
          end if
 
-      else if (eventID .eq. post_id) then
+      else if (eventID .eq. postId) then
          g%start_token = g%rule_indexes(4)
          if (g%start_token .gt. 0) then
             call Parse (g%token_array, g%token_array2)
@@ -873,10 +873,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          if (g%localVariables(g%numLocalVariables)%isNumeric) then
             g%localVariables(g%numLocalVariables)%regID =
-     .      add_registration(respondToGetReg, name, single_ddml)
+     .      add_registration(respondToGetReg, name, singleddml)
          else
             g%localVariables(g%numLocalVariables)%regID =
-     .      add_registration(respondToGetReg, name, string_ddml)
+     .      add_registration(respondToGetReg, name, stringddml)
          endif
 
          variableIndex = g%numLocalVariables
@@ -1051,7 +1051,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .        g%ApsimVariables(g%numApsimVariables)%name, name)
             g%ApsimVariables(g%numApsimVariables)%regID
      .          = add_registration(getVariableReg, name,
-     .                             string_ddml)
+     .                             stringddml)
             g%ApsimVariables(g%numApsimVariables)%setRegID = 0
             add_apsim_variable = .true.
             variableIndex = g%numApsimVariables
@@ -1151,7 +1151,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          g%ApsimVariables(g%numApsimVariables)%setRegID
      .      = add_registration(setVariableReg,
      .            g%ApsimVariables(g%numApsimVariables)%name,
-     .            string_ddml)
+     .            stringddml)
       endif
 
       ok=set_string(g%apsimVariables(variableIndex)%setRegID, value)
@@ -1196,7 +1196,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .     g%ApsimMethods(g%numApsimMethods)%name, name)
          g%ApsimMethods(g%numApsimMethods)%regID
      .        = add_registration(methodCallReg, name,
-     .                           string_ddml)
+     .                           stringddml)
          methodIndex = g%numApsimMethods
       endif
 
@@ -1386,7 +1386,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       ! Look for a date function first.
       if (fullName(1:5) .eq. 'date(') then
          call Manager_get_params (fullName, Params)
-         if (Get_today(today_id, today)) then
+         if (Get_today(todayId, today)) then
             call Double_var_to_string
      .         (String_to_jday_with_error(Params(1), Today), value)
          endif
@@ -1395,7 +1395,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
       else if (fullName(1:12) .eq. 'date_within(') then
          call Manager_get_params (fullName, Params)
 
-         if (Get_today(today_id, today)) then
+         if (Get_today(todayId, today)) then
             if (Date_within(Params(1), Params(2), today)) then
                value = '1'
             else
@@ -1567,7 +1567,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (index(Action_string, 'do_output') .eq. 0 .and.
      .    index(Action_string, 'do_end_day_output') .eq. 0) then
-         if (Get_today(today_id, today)) then
+         if (Get_today(todayId, today)) then
             call jday_to_day_of_year (today, day, year)
 
             msg = '     Manager sending message :- ' // Action_string
