@@ -1,8 +1,5 @@
 [sample.report.parameters]  
-title =  Canopy Sample Simulation   
-screen_output =  on   
-outputfile  =  canopy.out /overwrite   
-summaryfile =  canopy.sum /overwrite   
+outputfile  =canopy.out   
 
 !  ********************************************************************************************
 ! For the purpose of this sample simulation, and to demonstrate the capacity of the CANOPY module
@@ -11,21 +8,19 @@ summaryfile =  canopy.sum /overwrite
 !  ********************************************************************************************
 
 
-module_names =    clock clock   
-variable_names =  day   year   
-variable_alias =  -     -   
 
-module_names =     soilwat2     maize       maize         cowpea        cowpea      
-variable_names =   sw_dep()      lai       biomass          lai         biomass     
-variable_alias =      -       lai_maize   biom_maize     lai_cowpea    biom_cowpea    
-units =               -          -            -              -              -      
 
+variable = clock.day
+variable = clock.year
+variable = soilwat2.sw_dep()
+variable = maize.lai as lai_maize
+variable = maize.biomass as biom_maize
+variable = cowpea.lai as lai_cowpea
+variable = cowpea.biomass as biom_cowpea
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day  =  1   
-simulation_start_year =  1988   
-simulation_end_day    =  365  
-simulation_end_year   =  1988   
+start_date=1/1/1988
+end_date=30/12/1988
 
 [sample.manager.start_of_day]  
 
@@ -72,3 +67,7 @@ kl =      0.12 0.12 0.12 0.12 0.10 0.08 0.04   ! Water Extraction parameter (0-1
 [sample.canopy.parameters]  
 
 intercrop = maize cowpea
+[sample.SummaryFile.parameters]
+summaryfile=canopy.sum
+[sample.Screen.parameters]
+screen_output=on

@@ -1,25 +1,17 @@
 [sample.report.parameters]  
-title =  APSwim Sample Simulation   
-screen_output =  on   
-outputfile =  apswim.out /overwrite   
-summaryfile =  apswim.sum /overwrite   
-
-module_names =   clock clock   
-variable_names =  day year   
-variable_alias =  -    -   
-
-module_names =   apswim  solute   
-variable_names =   sw      br   
-variable_alias =   -       -   
-units =            -       -   
+outputfile =apswim.out   
 
 
+
+
+variable = clock.day
+variable = clock.year
+variable = apswim.sw
+variable = solute.br
 [sample.clock.parameters]  
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1   
-simulation_end_day =  10   
-simulation_start_year =   1995   
-simulation_end_year =     1995
+start_date=1/1/1995
+end_date=10/1/1995
 
 [sample.manager.end_of_day]  
 report do_output
@@ -174,3 +166,7 @@ root_conductance =         1.4d-7 1.4d-7 1.4d-7
 [sample.solute.parameters]  
 solute_names =  br   
 br =  100 0 0 0 0 0 0 0 0 0 0 0 0 0   
+[sample.SummaryFile.parameters]
+summaryfile=apswim.sum
+[sample.Screen.parameters]
+screen_output=on
