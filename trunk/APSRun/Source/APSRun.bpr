@@ -19,12 +19,11 @@ RESFILES = APSRun.res
 DEFFILE =
 RESDEPEN = $(RESFILES)
 LIBFILES = ..\..\shared\aps\aps32.lib ..\..\shared\general\general.lib
-LIBRARIES = 
-SPARELIBS = VCL35.lib Rxctl.lib VCLX35.lib APSGeneral.lib VCLDB35.lib APSUI.lib TEE4C.lib \
-  TREE1C3.lib THIRDPARTY.lib
-PACKAGES = vclx35.bpi VCL35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
-  Qrpt35.bpi tee4c.bpi teedb4c.bpi teeUI4c.bpi ibsmp35.bpi NMFast35.bpi \
-  inetdb35.bpi inet35.bpi
+LIBRARIES = VCLDB35.lib VCLX35.lib VCL35.lib
+SPARELIBS = VCL35.lib VCLX35.lib VCLDB35.lib
+PACKAGES = VCL35.bpi vclx35.bpi vcldb35.bpi vcldbx35.bpi bcbsmp35.bpi dclocx35.bpi \
+  Qrpt35.bpi ibsmp35.bpi NMFast35.bpi inetdb35.bpi inet35.bpi
+PACKAGES =
 # ---------------------------------------------------------------------------
 PATHCPP = .;
 PATHASM = .;
@@ -100,14 +99,15 @@ Count=1
 Item0=_RTLDLL;USEPACKAGES
 
 [HistoryLists\hlRunParameters]
-Count=1
-Item0=c:\apswork\apsim\mungbean\sample\mungbean.con
+Count=2
+Item0=@confiles.lst
+Item1=c:\apswork\apsim\mungbean\sample\mungbean.con
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\apswork\apsim\mungbean\sample\mungbean.con
+RunParams=@confiles.lst
 HostApplication=
 
 !endif
