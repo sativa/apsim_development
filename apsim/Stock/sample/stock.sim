@@ -505,6 +505,48 @@
    </component>
    <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
       <initdata>
+         <constants name="standard">
+            <property name="herbage_module_name">lablab</property>
+            <property name="dmdValue">0.8 0.7 0.6 0.5 0.4 0.3</property>
+
+            <property name="p_conc_green_leaf_default">0.004</property>
+            <property name="p_conc_green_stem_default">0.003</property>
+            <property name="p_conc_senesced_leaf_default">0.004</property>
+            <property name="p_conc_senesced_stem_default">0.003</property>
+            <property name="p_conc_dead_leaf_default">0.004</property>
+            <property name="p_conc_dead_stem_default">0.003</property>
+
+            <property name="ash_alk_green_leaf_default">254.0</property>
+            <property name="ash_alk_green_stem_default">96.0</property>
+            <property name="ash_alk_senesced_leaf_default">254.0</property>
+            <property name="ash_alk_senesced_stem_default">96.0</property>
+            <property name="ash_alk_dead_leaf_default">254.0</property>
+            <property name="ash_alk_dead_stem_default">96.0</property>
+
+            <property name="ns_ratio_green_leaf_default">19.0</property>
+            <property name="ns_ratio_green_stem_default">11.0</property>
+            <property name="ns_ratio_senesced_leaf_default">19.0</property>
+            <property name="ns_ratio_senesced_stem_default">11.0</property>
+            <property name="ns_ratio_dead_leaf_default">19.0</property>
+            <property name="ns_ratio_dead_stem_default">11.0</property>
+
+            <property name="np_ratio_green_leaf_default">8.0</property>
+            <property name="np_ratio_green_stem_default">8.0</property>
+            <property name="np_ratio_senesced_leaf_default">8.0</property>
+            <property name="np_ratio_senesced_stem_default">8.0</property>
+            <property name="np_ratio_dead_leaf_default">8.0</property>
+            <property name="np_ratio_dead_stem_default">8.0</property>
+
+            <property name="dmd_green_leaf">0.80 0.65 0.60</property>
+            <property name="dmd_green_stem">0.60 0.55 0.50</property>
+            <property name="dmd_senesced_leaf">0.60 0.50 0.40</property>
+            <property name="dmd_senesced_stem">0.50 0.35 0.30</property>
+            <property name="dmd_dead_leaf">0.40 0.40 0.40</property>
+            <property name="dmd_dead_stem">0.30 0.30 0.30</property>
+
+            <property name="cp_n_ratio">6.25</property>
+
+         </constants>
       </initdata>
    </component>
    <component name="sysbal" executable="%apsuite\apsim\sysbal\lib\sysbal.dll">
