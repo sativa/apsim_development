@@ -145,7 +145,6 @@
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
       if (action.eq.ACTION_set_variable) then
                ! respond to request to reset variable values - from modules
          call soilwat2_set_my_variable (data_string)
@@ -2616,9 +2615,9 @@ cjh
      :                 , 0.0, 10000.0)
  
       call read_real_var_optional (section_name
-     :                 , 'profile_field_capacity_depth', '(mm)'
-     :                 , p%profile_field_capacity_depth
-     :                 , g%numvals_profile_field_capacity_depth
+     :                 , 'wet_soil_depth', '(mm)'
+     :                 , p%wet_soil_depth
+     :                 , g%numvals_wet_soil_depth
      :                 , 0.0, 10000.0)
  
       call read_real_var_optional (section_name
@@ -2922,11 +2921,11 @@ c       be set to '1' in all layers by default
          if (g%numvals_insoil .gt. 0
      :       .or. g%numvals_sw .gt. 0 
      :       .or. g%numvals_profile_fesw .gt. 0 
-     :       .or. g%numvals_profile_field_capacity_depth .gt. 0) then
+     :       .or. g%numvals_wet_soil_depth .gt. 0) then
                ! others present
             call fatal_error (ERR_USER,
      :             'Insoil, Sw, profile_fesw or '
-     :           //'Profile_field_capacity_depth cannot be '
+     :           //'wet_soil_depth cannot be '
      :           //'specified with "profile_esw_depth".')
          else
             ! numvals_profile_esw_depth present only
@@ -2935,7 +2934,7 @@ c       be set to '1' in all layers by default
             call write_string (line)
          endif
 
-      elseif (g%numvals_profile_field_capacity_depth .gt. 0) then
+      elseif (g%numvals_wet_soil_depth .gt. 0) then
             ! numvals_profile_esw_depth absent
          if (g%numvals_insoil .gt. 0
      :       .or. g%numvals_profile_fesw .gt. 0 
@@ -2944,10 +2943,10 @@ c       be set to '1' in all layers by default
             call fatal_error (ERR_USER,
      :             'Insoil, Profile_fesw or Sw '
      :           //'cannot be specified with '
-     :           //'"profile_field_capacity_depth".')
+     :           //'"wet_soil_depth".')
          else
             line = 'Initial soilwater distributed from top down '
-     :           //'using "profile_field_capacity_depth" parameter.'
+     :           //'using "wet_soil_depth" parameter.'
             call write_string (line)
          endif
       elseif (g%numvals_profile_fesw .gt. 0) then
@@ -2989,7 +2988,7 @@ c       be set to '1' in all layers by default
                ! all absent - must have one
             call fatal_error (ERR_USER,
      :             'Must specify one of '
-     :           //'Insoil, Sw, Profile_field_capacity_depth, '
+     :           //'Insoil, Sw, wet_soil_depth, '
      :           //'Profile_fesw or Profile_esw_depth '
      :           //'to specify initial soilwater distribution.')
       endif
@@ -3017,20 +3016,20 @@ c       be set to '1' in all layers by default
             call soilwat2_check_profile (layer)
  
 1000     continue
-      elseif (g%numvals_profile_field_capacity_depth .gt. 0) then
+      elseif (g%numvals_wet_soil_depth .gt. 0) then
             ! profile_field capacity_depth parameter set - distribute top down
          g%sw_dep(:) = 0.0
          num_layers = count_of_real_vals (p%dlayer, max_layer)
          g%sw_dep(1:num_layers) = g%ll15_dep(1:num_layers)
  
          num_layers_filled = find_layer_no (
-     :                              p%profile_field_capacity_depth
+     :                              p%wet_soil_depth
      :                            , p%dlayer
      :                            , num_layers)
      
          do 2000 layer = 1,num_layers_filled
  
-                 ! set default according to profile_field_capacity_depth of plant-
+                 ! set default according to wet_soil_depth of plant-
                  ! available water
  
             g%sw_dep(layer) = g%dul_dep(layer)
@@ -3042,9 +3041,9 @@ c       be set to '1' in all layers by default
      :                                 - g%ll15_dep(num_layers_filled))
      :                            * root_proportion (num_layers_filled
      :                                 , p%dlayer
-     :                                 , p%profile_field_capacity_depth)
+     :                                 , p%wet_soil_depth)
 
-         if (sum (p%dlayer) .lt. p%profile_field_capacity_depth) then
+         if (sum (p%dlayer) .lt. p%wet_soil_depth) then
            call fatal_error (ERR_USER,
      :       'Can''t fit profile field capacity depth into profile.') 
 
@@ -3877,13 +3876,13 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
          g%numvals_insoil = 0
          g%numvals_sw = 0
          g%numvals_profile_esw_depth = 0
-         g%numvals_profile_field_capacity_depth = 0
+         g%numvals_wet_soil_depth = 0
          g%numvals_profile_fesw = 0
 
          p%insoil = 0
          g%sw_dep(:) = 0
          p%profile_esw_depth = 0
-         p%profile_field_capacity_depth = 0
+         p%wet_soil_depth = 0
          p%profile_fesw = 0
  
       call pop_routine (my_name)
@@ -3995,12 +3994,12 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
             call soilwat2_check_profile (layer)
 2200     continue
  
-      elseif (variable_name .eq. 'profile_field_capacity_depth') then
+      elseif (variable_name .eq. 'wet_soil_depth') then
          call soilwat2_zero_default_variables ()
 
          call collect_real_var (variable_name, '(mm)'
-     :                 , p%profile_field_capacity_depth
-     :                 , g%numvals_profile_field_capacity_depth
+     :                 , p%wet_soil_depth
+     :                 , g%numvals_wet_soil_depth
      :                 , 0.0, 10000.0)
  
          call soilwat2_set_default ()
@@ -4726,7 +4725,7 @@ cjngh DMS requested that this facility be retained! That's why it was implemente
          g%obsrunoff_name = ' '               ! system name of observed runoff
          g%numvals_profile_esw_depth = 0      ! number of values returned for profile_esw_depth
          g%numvals_insoil = 0                 ! number of values returned for insoil
-         g%numvals_profile_field_capacity_depth = 0 ! number of values returned for profile_field_capacity_depth
+         g%numvals_wet_soil_depth = 0         ! number of values returned for wet_soil_depth
          g%numvals_profile_fesw = 0           ! number of values returned for profile_fesw
          g%numvals_sw = 0                     ! number of values returned for sw
 
@@ -4772,7 +4771,7 @@ c         g%crop_module(:) = ' '               ! list of modules
                                               ! (mm)
          p%insoil = 0.0                       ! switch describing initial soil water distributed evenly
          p%profile_esw_depth = 0.0            ! initial depth of esw in profile filled top down with soil water (mm)
-         p%profile_field_capacity_depth = 0.0 ! initial depth profile filled top down with soil water (mm)
+         p%wet_soil_depth = 0.0                ! initial depth profile filled top down with soil water (mm)
          p%profile_fesw = 0.0                 ! initial fraction of profile esw filled top down with soil water (mm)
          p%max_evap = 0.0                     ! maximum daily evaporation for rickert
          p%beta = 0.0                         ! beta for b&s model
