@@ -1285,6 +1285,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
    real       N_pool(MaxFr,max_layer)      ! total N in each Om fraction and layer (from all surfOM's) incorporated
    real       P_pool(MaxFr,max_layer)      ! total P in each Om fraction and layer (from all surfOM's) incorporated
    real       AshAlk_pool(MaxFr,max_layer) ! total AshAlk in each Om fraction and layer (from all surfOM's) incorporated
+   real       no3(max_layer)               ! total no3 to go into each soil layer (from all surfOM's) 
+   real       nh4(max_layer)               ! total nh4 to go into each soil layer (from all surfOM's) 
+   real       po4(max_layer)               ! total po4 to go into each soil layer (from all surfOM's) 
    type (FPoolProfileLayerType), dimension(max_layer)::FPoolProfileLayer
 
 
@@ -1299,6 +1302,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
    N_Pool(:,:) = 0.0
    P_Pool(:,:) = 0.0
    AshAlk_Pool(:,:) = 0.0
+   no3(:)=0.0
+   nh4(:)=0.0
+   po4(:)=0.0
 
    cum_depth = 0.0
 
@@ -1318,6 +1324,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
                                + g%SurfOM(residue)%Standing(1:MaxFr)%P) * F_incorp * F_incorp_layer
          AshAlk_pool(1:MaxFr,layer) = AshAlk_pool(1:MaxFr,layer)+ (g%SurfOM(residue)%Lying(1:MaxFr)%AshAlk &
                                + g%SurfOM(residue)%Standing(1:MaxFr)%AshAlk) * F_incorp * F_incorp_layer
+         no3(layer) = no3(layer) + g%SurfOM(residue)%no3 * F_incorp * F_incorp_layer
+         nh4(layer) = nh4(layer) + g%SurfOM(residue)%nh4 * F_incorp * F_incorp_layer
+         po4(layer) = po4(layer) + g%SurfOM(residue)%po4 * F_incorp * F_incorp_layer
       end do
 
       cum_depth = cum_depth + g%dlayer(layer)
@@ -1335,6 +1344,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
       do layer = 1, Deepest_Layer
 
          FPoolProfileLayer(layer)%thickness = g%dlayer(layer)
+         FPoolProfileLayer(layer)%no3 = no3(layer)
+         FPoolProfileLayer(layer)%nh4 = nh4(layer)
+         FPoolProfileLayer(layer)%po4 = po4(layer)
          FPoolProfileLayer(layer)%num_fpool = 3
          FPoolProfileLayer(layer)%fpool(1:MaxFr)%C = C_pool(1:MaxFr,layer)
          FPoolProfileLayer(layer)%fpool(1:MaxFr)%N = N_pool(1:MaxFr,layer)
@@ -1374,6 +1386,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
 
    end do
 
+      g%SurfOM(:)%no3 = g%SurfOM(:)%no3 * (1-F_incorp)      
+      g%SurfOM(:)%nh4 = g%SurfOM(:)%nh4 * (1-F_incorp)      
+      g%SurfOM(:)%po4 = g%SurfOM(:)%po4 * (1-F_incorp)      
 
    call pop_routine (my_name)
    return
