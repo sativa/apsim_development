@@ -2,6 +2,7 @@
 #define MATH_FUNCTIONS_H
 
 #include <general\myvector.h>
+#include <general\mystring.h>
 #include <algorith>
 #include <functional>
 // ------------------------------------------------------------------
