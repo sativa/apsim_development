@@ -726,7 +726,7 @@ Public Class MainUI
         ElseIf e.Button Is FileOpenButton Then
             OpenAPSIMFile()
         ElseIf e.Button Is FileSaveButton Then
-            SimulationExplorer.UIManager.SaveDocument(SimulationFile)
+            SimulationExplorer.UIManager.SaveDocument()
             SimulationFile.Save()
             UpdateMainForm()
         ElseIf e.Button Is UIHelpButton Then
@@ -752,7 +752,7 @@ Public Class MainUI
 
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
 
-        SimulationExplorer.UIManager.SaveDocument(SimulationFile)
+        SimulationExplorer.UIManager.SaveDocument()
         SimulationFile.Save()
         UpdateMainForm()
     End Sub
@@ -985,6 +985,7 @@ Public Class MainUI
     ' Go run the currently open set of simulations
     ' -----------------------------------------------
     Private Sub RunSimulations()
+        SimulationExplorer.UIManager.SaveDocument()
         Dim SimFiles As StringCollection = MakeSimFiles()
         For Each simfile As String In SimFiles
             Dim CommandLine As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe /run """ + simfile + """"
