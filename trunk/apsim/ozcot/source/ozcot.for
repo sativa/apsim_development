@@ -6801,11 +6801,7 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
      :                   ,'(kg/ha)'
      :                   ,res_N)
 
-      call Action_send (
-     :                    All_active_modules
-     :                  , 'add_residue'
-     :                  , Blank
-     :                  )
+      call event_send ('add_residue')
 
       call Delete_postbox ()
 

@@ -2,9 +2,9 @@
 Dependency = %licensed_source(operatns)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 operatns.for = operatns.for
 
 [APSBuild]
 binary = ..\lib\operatns.dll
-moduletype=module
+compilerfile=release.compile

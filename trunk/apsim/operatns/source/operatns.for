@@ -287,51 +287,49 @@
       call push_routine (my_name)
 
       ! get a list of all rule names that user has defined.
-      call somcomponent_getpropertynames(componentData,
-     .                                   Rule_names,
-     .                                   'rule',
-     .                                   MAX_RULES,
-     .                                   Num_rules)
+      call apsimcomponentdata_getrulenames(get_componentData(),
+     .                                     Rule_names,
+     .                                     MAX_RULES,
+     .                                     Num_rules)
+
       ! loop through all rules looking for ones that match our section
       do Rule_Index = 1, Num_rules
-         rule_object = component_getrule(ComponentData,
-     .                                   Rule_names(Rule_index),
-     .                                   ' ')
-         if (rule_object .ne. 0) then
-            call rule_getcondition(rule_object, condition)
-            condition = lower_case(condition)
-            if (condition .eq. section) then
-               num_lines = rule_getActionLineCount(rule_object)
+         call apsimcomponentdata_loadrule(get_componentData(),
+     .                                    Rule_names(Rule_index))
+         if (index(Rule_names(Rule_index),
+     .             section) .ne. 0) then
+            call apsimcomponentdata_loadrule(get_componentData(),
+     .                                       Rule_names(Rule_index))
 
-               do 100 Line_number = 0, num_lines-1
-                  call rule_getActionLine(rule_object,
-     .                                    Line_number, Line)
+            num_lines = apsimcomponentdata_getnumrulelines()
 
-                  ! remove any comments
-                  if (index(Line, '!') .gt. 0) then
-                     Line(index(Line, '!'):) = Blank
+            do 100 Line_number = 0, num_lines-1
+               call apsimcomponentdata_getruleline(Line_number,
+     .                                             Line)
+
+               ! remove any comments
+               if (index(Line, '!') .gt. 0) then
+                  Line(index(Line, '!'):) = Blank
+               endif
+
+               if (line .ne. blank) then
+                  if (g%last_record .lt. max_ops) then
+                     g%last_record = g%last_record + 1
+                     call operatns_extract_date (line
+     :                            , g%op_days(g%last_record)
+     :                            , g%op_years(g%last_record))
+                     write (g%oplun, '(A)', rec=g%last_record) line
+                     g%op_order(g%last_record) = g%last_record
+                     g%op_phase(g%last_record) = phase_no
+
+                  else
+                     call fatal_error (Err_User,
+     :                  'Too many operations file to deal with')
+                     goto 200
                   endif
-
-                  if (line .ne. blank) then
-                     if (g%last_record .lt. max_ops) then
-                        g%last_record = g%last_record + 1
-                        call operatns_extract_date (line
-     :                               , g%op_days(g%last_record)
-     :                               , g%op_years(g%last_record))
-                        write (g%oplun, '(A)', rec=g%last_record) line
-                        g%op_order(g%last_record) = g%last_record
-                        g%op_phase(g%last_record) = phase_no
-
-                     else
-                        call fatal_error (Err_User,
-     :                     'Too many operations file to deal with')
-                        goto 200
-                     endif
-                  endif
-100            continue
-200            continue
-            endif
-            call component_freerule(rule_object)
+               endif
+100         continue
+200         continue
          endif
       end do
 
@@ -521,6 +519,8 @@
       integer    NextYear
       integer    recno
       character  Variable_name*32
+      integer    modNameID   
+      character  msg*200
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -551,27 +551,33 @@
      :       // ' message to '
      :       // trim(Destination))
 
-            call New_postbox ()
-            Data_stored = Store_in_postbox (Line)
-
-            if (Data_stored) then
-
-               if (Action .eq. 'set') then
-                  call Get_next_variable (Line,
-     :                                    Variable_name,
-     :                                    Line)
-                  call Action_send subroutine
-     :                      (destination, Action, Variable_name)
+            if (Action .eq. 'set') then
+               call Get_next_variable (Line,
+     :                                 Variable_name,
+     :                                 Line)
+               if (component_name_to_id(destination, modNameID)) then
+                  call set_char_var(modNameID, Variable_name, 
+     .                     ' ', Line)
                else
-                  call Action_send subroutine
-     :                      (destination, Action, Blank)
+                  write(msg, '(3a)' ) 
+     :               'Cannot set variable value in module ',
+     :               destination,
+     :               '.  Module doesnt exist.' 
+                  call fatal_error(err_user, msg)
                endif
-
             else
-               call Action_send (destination, Action, Line)
+               call New_postbox ()
+               Data_stored = Store_in_postbox (Line)
+               if (Data_stored) then
+                  call Action_send(destination, Action)
+               else
+                  write(msg, '(2a)' )
+     :               'Invalid operations line: ',
+     :               Line
+                  call Fatal_error(err_user, msg)
+               endif
+               call Delete_postbox ()
             endif
-
-            call Delete_postbox ()
 
             g%op_pointer = g%op_pointer + 1
             goto 100
