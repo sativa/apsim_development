@@ -403,12 +403,18 @@ inline unsigned int memorySize(const NewMet& newmet)
 }; // protocol
 void InputComponent::publishNewMetEvent(void)
    {
-   protocol::NewMet newmet;
-   getVariableValue("maxt", newmet.maxt);
-   getVariableValue("mint", newmet.mint);
-   getVariableValue("radn", newmet.radn);
-   getVariableValue("rain", newmet.rain);
-   getVariableValue("vp", newmet.vp);
-   publish(newmetID, newmet);
+   protocol::ApsimVariant variant;
+   float maxt, mint, radn, rain, vp;
+   getVariableValue("maxt", maxt);
+   getVariableValue("mint", mint);
+   getVariableValue("radn", radn);
+   getVariableValue("rain", rain);
+   getVariableValue("vp", vp);
+   variant.store("maxt", protocol::DTsingle, maxt);
+   variant.store("mint", protocol::DTsingle, mint);
+   variant.store("radn", protocol::DTsingle, radn);
+   variant.store("rain", protocol::DTsingle, rain);
+   variant.store("vp", protocol::DTsingle, vp);
+   publish(newmetID, variant);
    }
 
