@@ -1520,6 +1520,7 @@
 
       <type name="gimme_water" kind="????" unit="" description="Method requesting transfer of water"/>
       <type name="top_up" kind="????" unit="" description="Manager message telling a water source to increase its holdings"/>
+      <type name="water_supplied" kind="????" unit="" description="Water source replying to a top_up or irrigate request by sending back the details of water supplied"/>
 
 
 
