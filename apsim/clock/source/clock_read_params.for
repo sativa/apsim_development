@@ -56,6 +56,52 @@
      .                       // TRIM(date_st)
      .                       //' to a valid date (dd/mm/yyyy)')
          endif
+      else 
+         ! Try start_day/month/year combo
+         call read_integer_var_optional ('parameters',
+     .                                'start_day',
+     .                                '(day)',
+     .                                thisdate(1),
+     .                                numvals,1,31)
+         if (numvals .eq. 1) then
+            call read_integer_var ('parameters',
+     .                             'start_month',
+     .                             '(day)',
+     .                             thisdate(2),
+     .                             numvals,1,12)
+            call read_integer_var ('parameters',
+     .                             'start_year',
+     .                             '(day)',
+     .                             thisdate(3),
+     .                             numvals,1583,4000)
+            g%start_date = Date_to_jday (thisdate(1),
+     .                                   thisdate(2),
+     .                                   thisdate(3))
+
+            call read_integer_var ('parameters',
+     .                             'end_day',
+     .                             '(day)',
+     .                             thisdate(1),
+     .                             numvals,1,31)
+
+            call read_integer_var ('parameters',
+     .                             'end_month',
+     .                             '(day)',
+     .                             thisdate(2),
+     .                             numvals,1,12)
+            call read_integer_var ('parameters',
+     .                             'end_year',
+     .                             '(day)',
+     .                             thisdate(3),
+     .                             numvals,1583,4000)
+
+            g%end_date = Date_to_jday (thisdate(1),
+     .                                 thisdate(2),
+     .                                 thisdate(3))
+         
+         else
+            ! no start/end given. Give up and get them from the met file later.
+         endif
       endif
       call read_integer_var_optional ('parameters',
      .                       'timestep',
