@@ -270,16 +270,10 @@ void loadComponent(AnsiString filename, TComponent*& component);
 void saveComponent(AnsiString filename, TComponent* component);
 
 //---------------------------------------------------------------------------
-// Replace all macros of the form $componentName.propertyName$ with the value
+// Resolve the componentName.propertyName passed in with the value
 // of the specified property.  Only component owned by the specified owner
 // will be found.
 //---------------------------------------------------------------------------
-AnsiString replaceComponentPropertyMacros
-      (TComponent* owner, AnsiString text);
-
-//---------------------------------------------------------------------------
-// Return a list of component names in the macros in the specified string.
-//---------------------------------------------------------------------------
-void getComponentNamesFromMacros(AnsiString st, TStrings* componentNames);
+AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text);
 
 #endif

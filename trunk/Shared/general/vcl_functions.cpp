@@ -419,85 +419,46 @@ void saveComponent(AnsiString filename, TComponent* component)
         }
       }
 
-   }
+   }                  
 
 //---------------------------------------------------------------------------
-// Replace all macros of the form $componentName.propertyName$ with the value
+// Resolve the componentName.propertyName passed in with the value
 // of the specified property.  Only component owned by the specified owner
 // will be found.
 //---------------------------------------------------------------------------
-AnsiString replaceComponentPropertyMacros(TComponent* owner, AnsiString text)
+AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text)
    {
-   string newText = text.c_str();
-   unsigned posStartMacro = newText.find("$");
-   while (posStartMacro != string::npos)
+   AnsiString value;
+
+   StringTokenizer tokenizer(text.c_str(), ".");
+   string componentName = tokenizer.nextToken();
+   string propertyName = tokenizer.nextToken();
+
+   TComponent* component = getComponent<TComponent>(owner, componentName.c_str());
+   if (component != NULL)
       {
-      StringTokenizer tokenizer(newText.substr(posStartMacro+1), " .$", true);
-      string componentName = tokenizer.nextToken();
-      string delimiter = tokenizer.nextToken();
-      if (delimiter == ".")
+      TDataSet* dataset = dynamic_cast<TDataSet*> (component);
+      if (dataset != NULL)
          {
-         string propertyName = tokenizer.nextToken();
-         string macroChar = tokenizer.nextToken();
-         if (macroChar == "$")
+         try
             {
-            TComponent* component = getComponent<TComponent>(owner, componentName.c_str());
-            if (component != NULL)
-               {
-               AnsiString value;
-               TDataSet* dataset = dynamic_cast<TDataSet*> (component);
-               if (dataset != NULL)
-                  {
-                  try
-                     {
-                     // try and get a field value.
-                     value = dataset->FieldValues[propertyName.c_str()];
-                     }
-                  catch (Exception& error)
-                     { }
-                  }
-               if (value == "")
-                  {
-                  try
-                     {
-                     // try and get the value of a property.
-                     value = GetPropValue(component, propertyName.c_str(), true);
-                     }
-                  catch (Exception& error)
-                     { }
-                  }
-               if (value != "")
-                  {
-                  int posEndMacro = newText.find("$", posStartMacro+1);
-                  newText.replace(posStartMacro, posEndMacro-posStartMacro+1, value.c_str());
-                  }
-               }
+            // try and get a field value.
+            value = dataset->FieldValues[propertyName.c_str()];
             }
+         catch (Exception& error)
+            { }
          }
-      posStartMacro = newText.find("$", posStartMacro+1);
-      }
-   return newText.c_str();
-   }
-//---------------------------------------------------------------------------
-// Return a list of component names in the macros in the specified string.
-//---------------------------------------------------------------------------
-void getComponentNamesFromMacros(AnsiString text, TStrings* componentNames)
-   {
-   string newText = text.c_str();
-   unsigned posStartMacro = newText.find("$");
-   while (posStartMacro != string::npos)
-      {
-      StringTokenizer tokenizer(newText.substr(posStartMacro+1), " .$", true);
-      string componentName = tokenizer.nextToken();
-      string delimiter = tokenizer.nextToken();
-      if (delimiter == ".")
+      if (value == "")
          {
-         string propertyName = tokenizer.nextToken();
-         string macroChar = tokenizer.nextToken();
-         if (macroChar == "$" && componentNames->IndexOf(componentName.c_str()) == -1)
-            componentNames->Add(componentName.c_str());
+         try
+            {
+            // try and get the value of a property.
+            value = GetPropValue(component, propertyName.c_str(), true);
+            }
+         catch (Exception& error)
+            { }
          }
-      posStartMacro = newText.find("$", posStartMacro+1);
       }
+   return value;
    }
 
