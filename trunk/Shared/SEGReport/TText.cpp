@@ -59,11 +59,14 @@ void TText::trapSourceDataRefresh(void)
          source->removeDataChangeSubscription(Name.c_str());
       }
 
+   // find data component on owner.
+   TForm* data = getComponent<TForm>(Owner, "data");
+
    // add ourself to all source components.
    macros.getReferencedComponents(sourceNames);
    for (unsigned i = 0; i != sourceNames.size(); i++)
       {
-      TSEGTable* source = getComponent<TSEGTable>(Owner, sourceNames[i].c_str());
+      TSEGTable* source = getComponent<TSEGTable>(data, sourceNames[i].c_str());
       if (source != NULL)
          source->addDataChangeSubscription(Name + ".afterDataRefresh");
       }
