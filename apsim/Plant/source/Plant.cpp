@@ -7985,9 +7985,22 @@ void Plant::plant_kill_stem (protocol::Variant &v/*(INPUT) incoming message vari
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    plant_auto_class_change("kill_stem");
+    if (g.plant_status != out)
+        {
+          plant_auto_class_change("kill_stem");
 
-    plant_kill_stem_update(v);
+          plant_kill_stem_update(v);
+        }
+    else
+        {
+        char msg[500];
+        sprintf(msg, "%s%s%s"
+         ,g.module_name.c_str()
+         , " is not in the ground -"
+         , " unable to kill stem.");
+        parent->warningError (msg);
+        }
+
 
     pop_routine (my_name);
     return;

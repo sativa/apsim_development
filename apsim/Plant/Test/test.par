@@ -35,6 +35,15 @@ if chickpea.stage_name = 'harvest_ripe' or chickpea.plant_status = 'dead' then
    harvest = 1
 endif
 
+[test4.SummaryFile.parameters]
+summaryfile=test4.sum
+[test4.report.parameters]
+outputfile  =test4.out
+[test4.manager.start_of_day]
+if day = 130 and year  = 1988 then
+   chickpea kill_stem
+endif
+
 
 [all.report.parameters]
 variable = clock.day
