@@ -427,6 +427,14 @@ float InputComponent::calcDayLength(void)
    }
 
 // ------------------------------------------------------------------
+// Calculate vp
+// ------------------------------------------------------------------
+float calcVP(float temp_arg)
+   {
+   return 6.1078 * exp(17.269*temp_arg / (237.3 + temp_arg));
+   }
+
+// ------------------------------------------------------------------
 // Publish a tick event.
 // ------------------------------------------------------------------
 namespace protocol {
@@ -456,7 +464,9 @@ void InputComponent::publishNewMetEvent(void)
    getVariableValue("mint", mint);
    getVariableValue("radn", radn);
    getVariableValue("rain", rain);
-   getVariableValue("vp", vp);
+   if (!getVariableValue("vp", vp))
+      vp = calcVP(mint);
+
    variant.store("maxt", protocol::DTsingle, maxt);
    variant.store("mint", protocol::DTsingle, mint);
    variant.store("radn", protocol::DTsingle, radn);
@@ -464,7 +474,6 @@ void InputComponent::publishNewMetEvent(void)
    variant.store("vp", protocol::DTsingle, vp);
    publish(newmetID, variant);
    }
-
 
 // ------------------------------------------------------------------
 // Transfer of sign - from FORTRAN.
