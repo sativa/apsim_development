@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = south plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -910,48 +910,48 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of met.rain since report1.reported as sum@met_rain on post
-        sum of weed.ep since report1.reported as sum@weed_ep on post
-        sum of wheat.ep since report1.reported as sum@wheat_ep on post
-        sum of lucerne.ep since report1.reported as sum@lucerne_ep on post
-        sum of canola.ep since report1.reported as sum@canola_ep on post
-        sum of apswim.es since report1.reported as sum@apswim_es on post
-        sum of apswim.runoff since report1.reported as sum@apswim_runoff on post
-        sum of apswim.drain since report1.reported as sum@apswim_drain on post
-        sum of apswim.eo since report1.reported as sum@apswim_eo on post
-        sum of apswim.leach_no3 since report1.reported as sum@apswim_leach_no3 on post
-        sum of soiln2.dnit() since report1.reported as sum@soiln2_dnit[] on post
-        sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2_dlt_n_min[] on post
-        sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne_dlt_n_fixed on post
-        sum of canola.dlt_n_fixed since report1.reported as sum@canola_dlt_n_fixed on post
+        sum of met.rain on end_of_day from report1.reported to now as sum@met_rain
+        sum of weed.ep on end_of_day from report1.reported to now as sum@weed_ep
+        sum of wheat.ep on end_of_day from report1.reported to now as sum@wheat_ep
+        sum of lucerne.ep on end_of_day from report1.reported to now as sum@lucerne_ep
+        sum of canola.ep on end_of_day from report1.reported to now as sum@canola_ep
+        sum of apswim.es on end_of_day from report1.reported to now as sum@apswim_es
+        sum of apswim.runoff on end_of_day from report1.reported to now as sum@apswim_runoff
+        sum of apswim.drain on end_of_day from report1.reported to now as sum@apswim_drain
+        sum of apswim.eo on end_of_day from report1.reported to now as sum@apswim_eo
+        sum of apswim.leach_no3 on end_of_day from report1.reported to now as sum@apswim_leach_no3
+        sum of soiln2.dnit() on end_of_day from report1.reported to now as sum@soiln2_dnit[]
+        sum of soiln2.dlt_n_min() on end_of_day from report1.reported to now as sum@soiln2_dlt_n_min[]
+        sum of lucerne.dlt_n_fixed on end_of_day from report1.reported to now as sum@lucerne_dlt_n_fixed
+        sum of canola.dlt_n_fixed on end_of_day from report1.reported to now as sum@canola_dlt_n_fixed
 
 ------- tracker2 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of lucerne.dlt_n_fixed since report2.reported as sum@lucerne_dlt_n_fixed on post
-        sum of canola.dlt_n_fixed since report2.reported as sum@canola_dlt_n_fixed on post
+        sum of lucerne.dlt_n_fixed on end_of_day from report2.reported to now as sum@lucerne_dlt_n_fixed
+        sum of canola.dlt_n_fixed on end_of_day from report2.reported to now as sum@canola_dlt_n_fixed
 
 ------- tracker3 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of met.rain since report4.reported as sum@met_rain on post
-        sum of weed.ep since report4.reported as sum@weed_ep on post
-        sum of wheat.ep since report4.reported as sum@wheat_ep on post
-        sum of lucerne.ep since report4.reported as sum@lucerne_ep on post
-        sum of canola.ep since report4.reported as sum@canola_ep on post
-        sum of apswim.es since report4.reported as sum@apswim_es on post
-        sum of apswim.runoff since report4.reported as sum@apswim_runoff on post
-        sum of apswim.drain since report4.reported as sum@apswim_drain on post
-        sum of apswim.eo since report4.reported as sum@apswim_eo on post
+        sum of met.rain on end_of_day from report4.reported to now as sum@met_rain
+        sum of weed.ep on end_of_day from report4.reported to now as sum@weed_ep
+        sum of wheat.ep on end_of_day from report4.reported to now as sum@wheat_ep
+        sum of lucerne.ep on end_of_day from report4.reported to now as sum@lucerne_ep
+        sum of canola.ep on end_of_day from report4.reported to now as sum@canola_ep
+        sum of apswim.es on end_of_day from report4.reported to now as sum@apswim_es
+        sum of apswim.runoff on end_of_day from report4.reported to now as sum@apswim_runoff
+        sum of apswim.drain on end_of_day from report4.reported to now as sum@apswim_drain
+        sum of apswim.eo on end_of_day from report4.reported to now as sum@apswim_eo
 
 ------- tracker4 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of apswim.leach_brA since report6.reported as sum@apswim_leach_brA on post
-        sum of apswim.leach_brB since report6.reported as sum@apswim_leach_brB on post
-        sum of apswim.leach_brC since report6.reported as sum@apswim_leach_brC on post
-        sum of apswim.leach_brD since report6.reported as sum@apswim_leach_brD on post
-        sum of apswim.uptake_brA_wheat() since report6.reported as sum@apswim_uptake_brA_wheat[] on post
-        sum of apswim.uptake_brB_wheat() since report6.reported as sum@apswim_uptake_brB_wheat[] on post
-        sum of apswim.uptake_brC_wheat() since report6.reported as sum@apswim_uptake_brC_wheat[] on post
-        sum of apswim.uptake_brD_wheat() since report6.reported as sum@apswim_uptake_brD_wheat[] on post
+        sum of apswim.leach_brA on end_of_day from report6.reported to now as sum@apswim_leach_brA
+        sum of apswim.leach_brB on end_of_day from report6.reported to now as sum@apswim_leach_brB
+        sum of apswim.leach_brC on end_of_day from report6.reported to now as sum@apswim_leach_brC
+        sum of apswim.leach_brD on end_of_day from report6.reported to now as sum@apswim_leach_brD
+        sum of apswim.uptake_brA_wheat() on end_of_day from report6.reported to now as sum@apswim_uptake_brA_wheat[]
+        sum of apswim.uptake_brB_wheat() on end_of_day from report6.reported to now as sum@apswim_uptake_brB_wheat[]
+        sum of apswim.uptake_brC_wheat() on end_of_day from report6.reported to now as sum@apswim_uptake_brC_wheat[]
+        sum of apswim.uptake_brD_wheat() on end_of_day from report6.reported to now as sum@apswim_uptake_brD_wheat[]
 ------- Start of simulation  --------------------------------------------------
 15 December 1992(Day of year=350), manager: 
      Manager sending message :- soiln2 add_roots  dlt_fom_wt = 500 2500 1500 1000 500 300 200 150 50 10 0 0 0 0 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50 50

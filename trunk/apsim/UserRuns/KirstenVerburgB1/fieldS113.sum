@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = south plots field
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -1255,71 +1255,71 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of met.rain since report1.reported as sum@met_rain on process
-        sum of manager.T since report1.reported as sum@manager_T on process
-        sum of manager.ET since report1.reported as sum@manager_ET on process
-        sum of apswim.es since report1.reported as sum@apswim_es on process
-        sum of apswim.runoff since report1.reported as sum@apswim_runoff on process
-        sum of apswim.drain since report1.reported as sum@apswim_drain on process
-        sum of apswim.eo since report1.reported as sum@apswim_eo on process
-        sum of manager.drain_25 since report1.reported as sum@manager_drain_25 on process
-        sum of manager.drain_90 since report1.reported as sum@manager_drain_90 on process
-        sum of manager.drain180 since report1.reported as sum@manager_drain180 on process
-        sum of apswim.leach_no3 since report1.reported as sum@apswim_leach_no3 on process
-        sum of soiln2.dnit() since report1.reported as sum@soiln2_dnit[] on process
-        sum of soiln2.dlt_n_min() since report1.reported as sum@soiln2_dlt_n_min[] on process
-        sum of lucerne.dlt_n_fixed since report1.reported as sum@lucerne_dlt_n_fixed on process
-        sum of lupin.dlt_n_fixed since report1.reported as sum@lupin_dlt_n_fixed on process
+        sum of met.rain on process from report1.reported to now as sum@met_rain
+        sum of manager.T on process from report1.reported to now as sum@manager_T
+        sum of manager.ET on process from report1.reported to now as sum@manager_ET
+        sum of apswim.es on process from report1.reported to now as sum@apswim_es
+        sum of apswim.runoff on process from report1.reported to now as sum@apswim_runoff
+        sum of apswim.drain on process from report1.reported to now as sum@apswim_drain
+        sum of apswim.eo on process from report1.reported to now as sum@apswim_eo
+        sum of manager.drain_25 on process from report1.reported to now as sum@manager_drain_25
+        sum of manager.drain_90 on process from report1.reported to now as sum@manager_drain_90
+        sum of manager.drain180 on process from report1.reported to now as sum@manager_drain180
+        sum of apswim.leach_no3 on process from report1.reported to now as sum@apswim_leach_no3
+        sum of soiln2.dnit() on process from report1.reported to now as sum@soiln2_dnit[]
+        sum of soiln2.dlt_n_min() on process from report1.reported to now as sum@soiln2_dlt_n_min[]
+        sum of lucerne.dlt_n_fixed on process from report1.reported to now as sum@lucerne_dlt_n_fixed
+        sum of lupin.dlt_n_fixed on process from report1.reported to now as sum@lupin_dlt_n_fixed
 
 ------- tracker2 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of met.rain since report2.reported as sum@met_rain on process
-        sum of wheat.ep since report2.reported as sum@wheat_ep on process
-        sum of lucerne.ep since report2.reported as sum@lucerne_ep on process
-        sum of canola.ep since report2.reported as sum@canola_ep on process
-        sum of lupin.ep since report2.reported as sum@lupin_ep on process
-        sum of manager.T since report2.reported as sum@manager_T on process
-        sum of manager.ET since report2.reported as sum@manager_ET on process
-        sum of weed1.ep since report2.reported as sum@weed1_ep on process
-        sum of weed2.ep since report2.reported as sum@weed2_ep on process
-        sum of apswim.es since report2.reported as sum@apswim_es on process
-        sum of apswim.runoff since report2.reported as sum@apswim_runoff on process
-        sum of apswim.drain since report2.reported as sum@apswim_drain on process
-        sum of apswim.eo since report2.reported as sum@apswim_eo on process
-        sum of apswim.eos since report2.reported as sum@apswim_eos on process
+        sum of met.rain on process from report2.reported to now as sum@met_rain
+        sum of wheat.ep on process from report2.reported to now as sum@wheat_ep
+        sum of lucerne.ep on process from report2.reported to now as sum@lucerne_ep
+        sum of canola.ep on process from report2.reported to now as sum@canola_ep
+        sum of lupin.ep on process from report2.reported to now as sum@lupin_ep
+        sum of manager.T on process from report2.reported to now as sum@manager_T
+        sum of manager.ET on process from report2.reported to now as sum@manager_ET
+        sum of weed1.ep on process from report2.reported to now as sum@weed1_ep
+        sum of weed2.ep on process from report2.reported to now as sum@weed2_ep
+        sum of apswim.es on process from report2.reported to now as sum@apswim_es
+        sum of apswim.runoff on process from report2.reported to now as sum@apswim_runoff
+        sum of apswim.drain on process from report2.reported to now as sum@apswim_drain
+        sum of apswim.eo on process from report2.reported to now as sum@apswim_eo
+        sum of apswim.eos on process from report2.reported to now as sum@apswim_eos
 
 ------- tracker3 Initialisation -----------------------------------------------
      Tracker variables:
-        average of wheat.swdef_photo since report3.reported as avg@wheat_swdef_photo on process
-        average of wheat.nfact_photo since report3.reported as avg@wheat_nfact_photo on process
-        average of lucerne.swdef_photo since report3.reported as avg@lucerne_swdef_photo on process
-        average of lucerne.nfact_photo since report3.reported as avg@lucerne_nfact_photo on process
-        sum of lucerne.dlt_n_fixed since report3.reported as sum@lucerne_dlt_n_fixed on process
-        average of canola.swdef_photo since report3.reported as avg@canola_swdef_photo on process
-        average of canola.nfact_photo since report3.reported as avg@canola_nfact_photo on process
-        average of lupin.swdef_photo since report3.reported as avg@lupin_swdef_photo on process
-        average of lupin.nfact_photo since report3.reported as avg@lupin_nfact_photo on process
-        sum of lupin.dlt_n_fixed since report3.reported as sum@lupin_dlt_n_fixed on process
+        average of wheat.swdef_photo on process from report3.reported to now as avg@wheat_swdef_photo
+        average of wheat.nfact_photo on process from report3.reported to now as avg@wheat_nfact_photo
+        average of lucerne.swdef_photo on process from report3.reported to now as avg@lucerne_swdef_photo
+        average of lucerne.nfact_photo on process from report3.reported to now as avg@lucerne_nfact_photo
+        sum of lucerne.dlt_n_fixed on process from report3.reported to now as sum@lucerne_dlt_n_fixed
+        average of canola.swdef_photo on process from report3.reported to now as avg@canola_swdef_photo
+        average of canola.nfact_photo on process from report3.reported to now as avg@canola_nfact_photo
+        average of lupin.swdef_photo on process from report3.reported to now as avg@lupin_swdef_photo
+        average of lupin.nfact_photo on process from report3.reported to now as avg@lupin_nfact_photo
+        sum of lupin.dlt_n_fixed on process from report3.reported to now as sum@lupin_dlt_n_fixed
 
 ------- tracker5 Initialisation -----------------------------------------------
      Tracker variables:
-        average of weed1.nfact_photo since report5.reported as avg@weed1_nfact_photo on process
-        average of weed1.swdef_photo since report5.reported as avg@weed1_swdef_photo on process
-        sum of weed1.sw_uptake(1-10) since report5.reported as sum@weed1_sw_uptake[1-10] on process
-        average of weed2.nfact_photo since report5.reported as avg@weed2_nfact_photo on process
-        average of weed2.swdef_photo since report5.reported as avg@weed2_swdef_photo on process
-        sum of weed2.sw_uptake(1-10) since report5.reported as sum@weed2_sw_uptake[1-10] on process
+        average of weed1.nfact_photo on process from report5.reported to now as avg@weed1_nfact_photo
+        average of weed1.swdef_photo on process from report5.reported to now as avg@weed1_swdef_photo
+        sum of weed1.sw_uptake(1-10) on process from report5.reported to now as sum@weed1_sw_uptake[1-10]
+        average of weed2.nfact_photo on process from report5.reported to now as avg@weed2_nfact_photo
+        average of weed2.swdef_photo on process from report5.reported to now as avg@weed2_swdef_photo
+        sum of weed2.sw_uptake(1-10) on process from report5.reported to now as sum@weed2_sw_uptake[1-10]
 
 ------- tracker8 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of apswim.leach_brA since report8.reported as sum@apswim_leach_brA on process
-        sum of apswim.leach_brB since report8.reported as sum@apswim_leach_brB on process
-        sum of apswim.leach_brC since report8.reported as sum@apswim_leach_brC on process
-        sum of apswim.leach_brD since report8.reported as sum@apswim_leach_brD on process
-        sum of apswim.uptake_brA_wheat() since report8.reported as sum@apswim_uptake_brA_wheat[] on process
-        sum of apswim.uptake_brB_wheat() since report8.reported as sum@apswim_uptake_brB_wheat[] on process
-        sum of apswim.uptake_brC_wheat() since report8.reported as sum@apswim_uptake_brC_wheat[] on process
-        sum of apswim.uptake_brD_wheat() since report8.reported as sum@apswim_uptake_brD_wheat[] on process
+        sum of apswim.leach_brA on process from report8.reported to now as sum@apswim_leach_brA
+        sum of apswim.leach_brB on process from report8.reported to now as sum@apswim_leach_brB
+        sum of apswim.leach_brC on process from report8.reported to now as sum@apswim_leach_brC
+        sum of apswim.leach_brD on process from report8.reported to now as sum@apswim_leach_brD
+        sum of apswim.uptake_brA_wheat() on process from report8.reported to now as sum@apswim_uptake_brA_wheat[]
+        sum of apswim.uptake_brB_wheat() on process from report8.reported to now as sum@apswim_uptake_brB_wheat[]
+        sum of apswim.uptake_brC_wheat() on process from report8.reported to now as sum@apswim_uptake_brC_wheat[]
+        sum of apswim.uptake_brD_wheat() on process from report8.reported to now as sum@apswim_uptake_brD_wheat[]
 ------- Start of simulation  --------------------------------------------------
 15 December 1992(Day of year=350), operatns: 
       Sending add_roots message to soiln2

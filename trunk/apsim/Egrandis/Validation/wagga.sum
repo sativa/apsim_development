@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Wagga Effluent Irrigated E. grandis
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -253,12 +253,12 @@
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
-        average of Egrandis.fn since report.reported as avg@fn on process
-        average of Egrandis.fw since report.reported as avg@fw on process
-        average of Egrandis.fvpd since report.reported as avg@fvpd on process
-        average of Egrandis.ft since report.reported as avg@ft on process
-        sum of Egrandis.ep() since report.reported as sum@ep() on process
-        sum of Egrandis.dlt_foliage_mass_detached since report.reported as litterfall on process
+        average of Egrandis.fn on process from report.reported to now as avg@fn
+        average of Egrandis.fw on process from report.reported to now as avg@fw
+        average of Egrandis.fvpd on process from report.reported to now as avg@fvpd
+        average of Egrandis.ft on process from report.reported to now as avg@ft
+        sum of Egrandis.ep() on process from report.reported to now as sum@ep()
+        sum of Egrandis.dlt_foliage_mass_detached on process from report.reported to now as litterfall
 ------- Start of simulation  --------------------------------------------------
 1 July 1991(Day of year=182), manager: 
      Manager sending message :- egrandis establish  plants = 1333, init_section = seedling

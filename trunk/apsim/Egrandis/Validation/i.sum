@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = Gympie Irrigated
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -720,28 +720,28 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process
-        sum of soilwat2.drain since report.reported as sum@soilwat2_drain on process
-        sum of soilwat2.es since report.reported as sum@soilwat2_es on process
-        sum of irrigate.irrigation since report.reported as sum@irrigate_irrigation on process
-        sum of soiln2.dlt_n_min() since report.reported as sum@soiln2_dlt_n_min[] on process
-        average of Egrandis.Fn since report.reported as avg@Egrandis_Fn on process
-        average of Egrandis.Fw since report.reported as avg@Egrandis_Fw on process
-        average of Egrandis.Fvpd since report.reported as avg@Egrandis_Fvpd on process
-        average of Egrandis.ft since report.reported as avg@Egrandis_ft on process
-        average of Egrandis.sw_demand since report.reported as avg@Egrandis_sw_demand on process
-        sum of Egrandis.dlt_adm_green(1) since report.reported as sum@Egrandis_dlt_adm_green[1] on process
-        sum of Egrandis.dlt_adm_green(2) since report.reported as sum@Egrandis_dlt_adm_green[2] on process
-        sum of Egrandis.dlt_adm_green(3) since report.reported as sum@Egrandis_dlt_adm_green[3] on process
-        sum of Egrandis.dlt_foliage_mass since report.reported as sum@Egrandis_dlt_foliage_mass on process
-        sum of Egrandis.n_demand since report.reported as sum@Egrandis_n_demand on process
-        sum of Egrandis.dlt_no3() since report.reported as sum@Egrandis_dlt_no3[] on process
-        sum of soilwat2.flow_no3(5) since report.reported as sum@soilwat2_flow_no3[5] on process
-        sum of soilwat2.flow_no3(8) since report.reported as sum@soilwat2_flow_no3[8] on process
-        sum of Egrandis.dlt_no3 since report.reported as sum@Egrandis_dlt_no3 on process
-        sum of micromet.interception since report.reported as sum@micromet_interception on process
-        sum of met.rain since report.reported as sum@met_rain on process
-        sum of fertiliz.fertilizer since report.reported as sum@fertiliz_fertiliser on process
+        sum of soilwat2.runoff on process from report.reported to now as sum@soilwat2_runoff
+        sum of soilwat2.drain on process from report.reported to now as sum@soilwat2_drain
+        sum of soilwat2.es on process from report.reported to now as sum@soilwat2_es
+        sum of irrigate.irrigation on process from report.reported to now as sum@irrigate_irrigation
+        sum of soiln2.dlt_n_min() on process from report.reported to now as sum@soiln2_dlt_n_min[]
+        average of Egrandis.Fn on process from report.reported to now as avg@Egrandis_Fn
+        average of Egrandis.Fw on process from report.reported to now as avg@Egrandis_Fw
+        average of Egrandis.Fvpd on process from report.reported to now as avg@Egrandis_Fvpd
+        average of Egrandis.ft on process from report.reported to now as avg@Egrandis_ft
+        average of Egrandis.sw_demand on process from report.reported to now as avg@Egrandis_sw_demand
+        sum of Egrandis.dlt_adm_green(1) on process from report.reported to now as sum@Egrandis_dlt_adm_green[1]
+        sum of Egrandis.dlt_adm_green(2) on process from report.reported to now as sum@Egrandis_dlt_adm_green[2]
+        sum of Egrandis.dlt_adm_green(3) on process from report.reported to now as sum@Egrandis_dlt_adm_green[3]
+        sum of Egrandis.dlt_foliage_mass on process from report.reported to now as sum@Egrandis_dlt_foliage_mass
+        sum of Egrandis.n_demand on process from report.reported to now as sum@Egrandis_n_demand
+        sum of Egrandis.dlt_no3() on process from report.reported to now as sum@Egrandis_dlt_no3[]
+        sum of soilwat2.flow_no3(5) on process from report.reported to now as sum@soilwat2_flow_no3[5]
+        sum of soilwat2.flow_no3(8) on process from report.reported to now as sum@soilwat2_flow_no3[8]
+        sum of Egrandis.dlt_no3 on process from report.reported to now as sum@Egrandis_dlt_no3
+        sum of micromet.interception on process from report.reported to now as sum@micromet_interception
+        sum of met.rain on process from report.reported to now as sum@met_rain
+        sum of fertiliz.fertilizer on process from report.reported to now as sum@fertiliz_fertiliser
 ------- Start of simulation  --------------------------------------------------
 4 February 1987(Day of year=35), manager: 
      Manager sending message :- egrandis establish  plants = 1111, init_section = seedling

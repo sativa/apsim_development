@@ -277,8 +277,8 @@ report do_output
 [all.Screen.parameters]
 screen_output = on
 [all.tracker1.parameters]
-variable = sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process
-variable = sum of soilwat2.drain since report.reported as sum@soilwat2_drain on process
-variable = sum of soilwat2.es since report.reported as sum@soilwat2_es on process
-variable = sum of soiln2.dnit() since report.reported as sum@soiln2_dnit[] on process
-variable = sum of soilwat2.flow_no3(16) since report.reported as sum@soilwat2_flow_no3[16] on process
+variable = sum of soilwat2.runoff on process from report.reported to now as sum@soilwat2_runoff
+variable = sum of soilwat2.drain on process from report.reported to now as sum@soilwat2_drain
+variable = sum of soilwat2.es on process from report.reported to now as sum@soilwat2_es
+variable = sum of soiln2.dnit() on process from report.reported to now as sum@soiln2_dnit[]
+variable = sum of soilwat2.flow_no3(16) on process from report.reported to now as sum@soilwat2_flow_no3[16]

@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = sugar reference run
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
@@ -266,9 +266,9 @@
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
-        average of sugar.swdef_photo since reported as avg@swdef_photo on process
-        average of sugar.nfact_photo since reported as avg@nfact_photo on process
-        average of sugar.oxdef_photo since reported as avg@oxdef_photo on process
+        average of sugar.swdef_photo on process from reported to now as avg@swdef_photo
+        average of sugar.nfact_photo on process from reported to now as avg@nfact_photo
+        average of sugar.oxdef_photo on process from reported to now as avg@oxdef_photo
 ------- Start of simulation  --------------------------------------------------
 31 March 1984(Day of year=91), manager: 
      Manager sending message :- sugar sow  plants = 10, sowing_depth = 150, cultivar = q138, ratoon = 0

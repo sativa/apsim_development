@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.4
+     Version                = 3.5
      Title                  = P3 Base Simulation
      Component DLL          = c:\development\apsim\log\lib\log.dll
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
@@ -352,11 +352,11 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process
-        sum of soilwat2.drain since report.reported as sum@soilwat2_drain on process
-        sum of soilwat2.es since report.reported as sum@soilwat2_es on process
-        sum of soiln2.dnit() since report.reported as sum@soiln2_dnit[] on process
-        sum of soilwat2.flow_no3(16) since report.reported as sum@soilwat2_flow_no3[16] on process
+        sum of soilwat2.runoff on process from report.reported to now as sum@soilwat2_runoff
+        sum of soilwat2.drain on process from report.reported to now as sum@soilwat2_drain
+        sum of soilwat2.es on process from report.reported to now as sum@soilwat2_es
+        sum of soiln2.dnit() on process from report.reported to now as sum@soiln2_dnit[]
+        sum of soilwat2.flow_no3(16) on process from report.reported to now as sum@soilwat2_flow_no3[16]
 ------- Start of simulation  --------------------------------------------------
 5 August 1994(Day of year=217), manager: 
      Manager creating a new local real variable : surf_biomn =     28.0230007000000

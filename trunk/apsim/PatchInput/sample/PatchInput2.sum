@@ -10,55 +10,50 @@
              Copyright(c) APSRU               
 
      Version                = 3.5
-     Title                  = Simple System Simulation
-     Component DLL          = c:\development\apsim\log\lib\log.dll
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\screen\lib\screen.dll
+     Title                  = PatchInput2 Simulation
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\development\apsim\PatchInput\lib\PatchInput.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
         prepare
         process
         post
-        rep
-     Simulation start date = 14/06/1988
-     Simulation end date   = 17/11/1988
+        report
+     Simulation start date =  1/01/1988
+     Simulation end date   = 31/01/1989
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.dd/mm/yyyy as Date
-        SubSystem.rain as rain
+        clock.day
+        clock.year
+        met.rain
+        patch.patch_rain
      
-     Output file = wheat.out
+     Output file = PatchInput2.out
      Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
-     if (day = 200) then
-        subsystem.rain = 123
-     endif
      report do_output
-     subsystem do_output
      END of rules
      
 
-------- Met Initialisation ----------------------------------------------------
-     Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\sample\dalby.met
-
-------- report2 Initialisation ------------------------------------------------
-     Output variables:
-        subsystem.day
-     
-     Output file = wheat2.out
-     Format = normal
+------- patch Initialisation --------------------------------------------------
+     Sparse data is allowed
+     INPUT File name: patch2.dat
 ------- Start of simulation  --------------------------------------------------
-17 November 1988(Day of year=322), clock: 
+31 January 1989(Day of year=31), clock: 
      Simulation is terminating due to end criteria being met.

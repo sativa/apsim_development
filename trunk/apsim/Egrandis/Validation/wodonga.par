@@ -215,10 +215,10 @@ summaryfile = grandis.sum
 [all.Screen.parameters]
 screen_output = on
 [all.tracker1.parameters]
-variable = average of Egrandis.Fn since report.reported as avg@Egrandis_Fn on process
-variable = average of Egrandis.Fw since report.reported as avg@Egrandis_Fw on process
-variable = average of Egrandis.Fvpd since report.reported as avg@Egrandis_Fvpd on process
-variable = average of Egrandis.ft since report.reported as avg@Egrandis_ft on process
+variable = average of Egrandis.Fn on process from report.reported to now as avg@Egrandis_Fn
+variable = average of Egrandis.Fw on process from report.reported to now as avg@Egrandis_Fw
+variable = average of Egrandis.Fvpd on process from report.reported to now as avg@Egrandis_Fvpd
+variable = average of Egrandis.ft on process from report.reported to now as avg@Egrandis_ft
 
 
 [all.micromet.parameters]
