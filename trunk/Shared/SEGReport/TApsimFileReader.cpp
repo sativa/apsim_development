@@ -31,12 +31,56 @@ __fastcall TApsimFileReader::~TApsimFileReader()
    delete files;
    }
 //---------------------------------------------------------------------------
+// Component has loaded - assume the current dir is the reportDirectory.
+//---------------------------------------------------------------------------
+void __fastcall TApsimFileReader::Loaded(void)
+   {
+   TSEGTable::Loaded();
+   reportDirectory = GetCurrentDir();
+   }
+//---------------------------------------------------------------------------
 // set the 'apsimFiles' property and refresh all data.
 //---------------------------------------------------------------------------
 void __fastcall TApsimFileReader::setFileNames(TStrings* apsimFiles)
    {
    files->Assign(apsimFiles);
+   absoluteToRelativeFiles();
    refresh();
+   }
+//---------------------------------------------------------------------------
+// If we already have a report directory then the current paths will be
+// relative to that dir.  Convert to absolute.
+//---------------------------------------------------------------------------
+void TApsimFileReader::relativeToAbsoluteFiles(void)
+   {
+   if (reportDirectory != "")
+      {
+      SetCurrentDir(reportDirectory);
+      for (int i = 0; i != files->Count; i++)
+         files->Strings[i] = ExpandFileName(files->Strings[i]);
+      }
+   }
+//---------------------------------------------------------------------------
+// If we already have a report directory then the current paths will be
+// relative to that dir.  Convert to absolute.
+//---------------------------------------------------------------------------
+void TApsimFileReader::absoluteToRelativeFiles(void)
+   {
+   if (reportDirectory != "")
+      {
+      for (int i = 0; i != files->Count; i++)
+         files->Strings[i] = ExtractRelativePath(reportDirectory + "\\", files->Strings[i]);
+      }
+   }
+//---------------------------------------------------------------------------
+// Called by SEGReport to give components a chance to know the current
+// report directory.  Used by ApsimFileReader to use relative paths.
+//---------------------------------------------------------------------------
+void TApsimFileReader::setReportDirectory(AnsiString reportDir)
+   {
+   relativeToAbsoluteFiles();
+   reportDirectory = reportDir;
+   absoluteToRelativeFiles();
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.
@@ -49,14 +93,16 @@ void TApsimFileReader::createFields(void) throw(runtime_error)
       {
       try
          {
+         relativeToAbsoluteFiles();
          readAndStoreFields(files->Strings[fileIndex].c_str());
+         absoluteToRelativeFiles();
          }
       catch (const runtime_error& error)
          {
          string msg = error.what();
          msg += " File: ";
          msg += files->Strings[fileIndex].c_str();
-         Application->MessageBox(msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
+         throw runtime_error(msg);
          }
       }
    try
@@ -80,8 +126,10 @@ void TApsimFileReader::storeRecords(void) throw(runtime_error)
 
       try
          {
+         relativeToAbsoluteFiles();
          readAndStoreRecords(files->Strings[fileIndex].c_str(),
                              factorNames, factorValues);
+         absoluteToRelativeFiles();
          }
       catch (const runtime_error& error)
          {
@@ -129,7 +177,6 @@ void TApsimFileReader::readAndStoreRecords(const string& filename,
    {
    if (FileExists(filename.c_str()))
       {
-      // read in field names, title and then import all records.
       ifstream in(filename.c_str());
       vector<string> fieldNames;
       string title;
