@@ -567,13 +567,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .                                     Rule_names,
      .                                     MAX_RULES,
      .                                     Num_rules)
-      print *, 'num_rules=',num_rules
-      pause
       do Rule_type = 1, NUM_RULE_TYPES
 
          ! Go tokenize each rule.
          do Rule_Index = 1, Num_rules
-            print *, 'rule_name = ',rule_names(rule_index)
             if (index(Rule_names(Rule_index),
      .                rule_types(rule_type)) .ne. 0) then
                call apsimcomponentdata_loadrule(get_componentData(),
