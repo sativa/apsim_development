@@ -4,19 +4,17 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\..\Bin\WhopEconAddin.dll"/>
-    <OBJFILES value="WhopEconAddin.obj crop.obj dataform.obj econ.obj about.obj WhopEcon.obj 
-      ..\Scenario.obj WheatMatrix.obj SeedWeight.obj ..\CropFields.obj 
-      EconConfigCropData.obj EconConfigData.obj SysSuppAddIn.obj"/>
+    <OBJFILES value="WhopEconAddin.obj WhopEcon.obj ..\Scenario.obj ..\CropFields.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) crop.dfm dataform.dfm econ.dfm about.dfm WheatMatrix.dfm 
-      SeedWeight.dfm"/>
+    <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="..\..\..\..\Shared\general\general.lib 
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib 
-      APSData.lib"/>
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
+      ..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib"/>
+    <LIBRARIES value="VclSmp.lib kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib vclx.lib bdertl.lib vcldbx.lib 
-      adortl.lib APSData.lib APSGENERAL.lib TMSC6.lib kbmMemC6Run.lib"/>
+      adortl.lib APSData.lib APSGENERAL.lib TMSC6.lib kbmMemC6Run.lib VclSmp.lib 
+      Tee6C6.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
       vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
       dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi Tee6C6.bpi TeeDB6C6.bpi 
@@ -32,8 +30,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="WhopEconAddin.bpf"/>
-    <INCLUDEPATH value="..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\components\general"/>
+    <INCLUDEPATH value="..\..;..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\..;..\;$(BCB)\Components\TeeChart\CBuilder6\Lib;..;..\..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -55,20 +53,12 @@
   <FILELIST>
       <FILE FILENAME="WhopEconAddin.bpf" FORMNAME="" UNITNAME="WhopEconAddin" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="WhopEconAddin.cpp" FORMNAME="" UNITNAME="WhopEconAddin" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="crop.cpp" FORMNAME="CropForm" UNITNAME="Crop" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="dataform.cpp" FORMNAME="DATA" UNITNAME="DataForm" CONTAINERID="CCompiler" DESIGNCLASS="TDataModule" LOCALCOMMAND=""/>
-      <FILE FILENAME="econ.cpp" FORMNAME="EconForm" UNITNAME="Econ" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="about.cpp" FORMNAME="AboutBox" UNITNAME="About" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="WhopEcon.cpp" FORMNAME="" UNITNAME="WhopEcon" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\Scenario.cpp" FORMNAME="" UNITNAME="Scenario" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="WheatMatrix.cpp" FORMNAME="WheatMatrixForm" UNITNAME="WheatMatrix" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SeedWeight.cpp" FORMNAME="SeedWeightsForm" UNITNAME="SeedWeight" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\CropFields.cpp" FORMNAME="" UNITNAME="CropFields" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="EconConfigCropData.cpp" FORMNAME="" UNITNAME="EconConfigCropData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="EconConfigData.cpp" FORMNAME="" UNITNAME="EconConfigData" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="SysSuppAddIn.cpp" FORMNAME="" UNITNAME="SysSuppAddIn" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\..\Shared\GrossMarginCalculator\GrossMarginCalculator.lib" FORMNAME="" UNITNAME="GrossMarginCalculator.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -183,7 +173,7 @@ RunParams=
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=
+HostApplication=C:\MyData\development\Bin\ApsimOutlook.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

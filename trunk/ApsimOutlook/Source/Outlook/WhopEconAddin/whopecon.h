@@ -7,6 +7,7 @@
 #include "..\Scenario.h"
 #include <set>
 #include <ApsimShared\ApsimSettings.h>
+#include <GrossMarginCalculator\GMCalculator.h>
 // ------------------------------------------------------------------
 //  Short description:
 //      Defines the WhopEcon class which implements economics for Whopper Cropper
@@ -59,6 +60,8 @@ class WhopEcon : public AddInBase
       virtual std::string getDisplaySettings(void);
       
    private:
+      string econMDB;
+      GMCalculator gm;
       ApsimSettings settings;
       static int numObjects;
       std::set<std::string, std::less<std::string> > warnings;
