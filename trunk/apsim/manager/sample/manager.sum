@@ -20,7 +20,7 @@
      Title                  = accum dalby
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\met\lib\met.dll(met) - Licensed
+     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
 
 ------- CLOCK Initialisation -------------------------------------------------
@@ -53,7 +53,7 @@
    MANAGER:
       Manager creating a new local variable : avtemp =     25.1999988500000
       Manager creating a new local variable : avtempi =     25.0000000000000
-      Manager creating a new local variable : feb_or_not =    0.000000000000000
+      Manager creating a new local variable : feb_or_not =     0.00000000000000
 8 April 1988 (Day of year=99):
    CLOCK:
       Simulation is terminating due to end criteria being met.
