@@ -210,7 +210,7 @@ Public Class FileUI
             ExcelMenuItem.Visible = ApsvisMenuItem.Visible
             OutlookMenuItem.Visible = ApsvisMenuItem.Visible
 
-        Catch E As Exception
+        Catch E as system.exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Summary File UI")
         End Try
 
@@ -222,7 +222,7 @@ Public Class FileUI
                 MyData.Child("filename").Value = SummaryFileTextBox.Text
                 Me.Refresh()
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating summary file name information")
         End Try
     End Sub
@@ -242,7 +242,7 @@ Public Class FileUI
                 SummaryFileTextBox.Text = OpenFileDialog.FileName
             Else
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in browsing to new summary file")
         End Try
     End Sub

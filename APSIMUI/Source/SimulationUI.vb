@@ -158,7 +158,7 @@ Public Class SimulationUI
             MyData.Child("start_date").Value = StartDatePicker.Value.Date
             Me.Refresh()
 
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating simulation starting date information")
         End Try
     End Sub
@@ -168,7 +168,7 @@ Public Class SimulationUI
             MyData.Child("end_date").Value = EndDatePicker.Value.Date
             Me.Refresh()
 
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating simulation ending date information")
         End Try
     End Sub
@@ -178,7 +178,7 @@ Public Class SimulationUI
             MyData.Child("title").Value = TitleTextBox.Text
             Me.Refresh()
 
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating title information")
         End Try
     End Sub

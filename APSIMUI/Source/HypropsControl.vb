@@ -195,7 +195,7 @@ Public Class HypropsControl
                 APSIMData = Value
 
                 If APSIMData.Type <> "hyprops" Then
-                    Throw New Exception("Hyprops class not provided with correct data type")
+                    Throw New System.Exception("Hyprops class not provided with correct data type")
                 End If
             End Set
         End Property

@@ -81,7 +81,7 @@ Public Class Toolboxes
                 Return FName
             End If
         Next
-        Throw New Exception("Cannot find toolbox filename for name: " + Name)
+        Throw New System.Exception("Cannot find toolbox filename for name: " + Name)
     End Function
 
 End Class

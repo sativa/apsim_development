@@ -225,7 +225,7 @@ Public Class MetUI
 
             End If
 
-        Catch E As Exception
+        Catch E as system.exception
             MsgBox(E.Message, MsgBoxStyle.Critical, "Error in refreshing Met UI")
         End Try
 
@@ -239,7 +239,7 @@ Public Class MetUI
                 Me.Refresh()
             Else
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in browsing to new met file")
         End Try
     End Sub
@@ -250,7 +250,7 @@ Public Class MetUI
                 MyData.Child("filename").Value = MetFileTextBox.Text
                 Me.Refresh()
             End If
-        Catch ex As Exception
+        Catch ex as system.exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error in updating met file name information")
         End Try
     End Sub
