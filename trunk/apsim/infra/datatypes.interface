@@ -1356,6 +1356,21 @@
    </type>
 
 
+!080903 dsg and nih  This structure will carry SOM 'potential residue decomposition' data 
+!       and also the returned 'actual residue decomposition' from soiln2
+   <type name="SurfaceOrganicMatterDecomp" array="T">
+      <element>
+      <field name="Name" kind="string"/>
+      <field name="OrganicMatterType" kind="string"/>
+      <field name="amount"  kind="single" units="kg/ha"/>
+      <field name="C"       kind="single" units="kg/ha"/>
+      <field name="N"       kind="single" units="kg/ha"/>
+      <field name="P"       kind="single" units="kg/ha"/>
+      <field name="AshAlk"  kind="single" units="kg/ha"/>
+      </element>
+   </type>
+
+
 
 !
 !   !!!!! SOILN2  types  !!!!!!!!!!!!!!!!!!!!!!
