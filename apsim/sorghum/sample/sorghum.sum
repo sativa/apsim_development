@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\sorghum\sample\sorghum.sim
      Title                  = sorghum Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -34,8 +34,8 @@
      Output file = sorghum.out
      Format = normal
      Output variables:
-        clock.day
         clock.year
+        clock.day
         sorghum.das
         sorghum.stage
         sorghum.lai
@@ -44,6 +44,12 @@
         sorghum.biomass_n
         sorghum.swdef_expan
         sorghum.nfact_expan
+        sorghum.swdef_pheno
+        sorghum.nfact_pheno
+        sorghum.dlt_dm_light
+        sorghum.dlt_dm_water
+        sorghum.dlt_dm
+        sorghum.extinct_coeff
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\build\apsuite\apsim\met\sample\dalby.met
@@ -62,7 +68,9 @@
            sorghum kill_crop
            sorghum end_crop
      endif
-     report do_output
+      if (sorghum.stage >=1 and sorghum.stage <= 11) then
+         report do_output
+      endif
 
 ------- SOILWAT2 Initialisation ----------------------------------------------
      
@@ -71,6 +79,7 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
      
      
      
