@@ -16,7 +16,7 @@
       parameter (max_table = 10)
 
       integer max_parts
-      parameter (max_parts = 10)
+      parameter (max_parts = 6)
 
 
 !     ================================================================
