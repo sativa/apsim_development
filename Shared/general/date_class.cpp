@@ -514,27 +514,31 @@ int Month_string_2_integer (string& Month_string)
       int Month = 11;                  // Month number
       int Day;                         // Day number
       bool Leap;                       // Is year a leap year?
-
 // -------------------- Executable code section ----------------------
 
    Leap = (Year & 3) == 0 && Year % 100 != 0 || Year % 400 == 0;
 
-   // Calculate the month first.
+   if (Leap && Day_of_year == 60)
+      Set(29, 2, Year);
+   else
+      {
+      // Calculate the month first.
 
-   if (Leap && Day_of_year > 59)
-      Day_of_year--;
+      if (Leap && Day_of_year > 59)
+         Day_of_year--;
 
-   while (Month > 0 && Acc_days_in_month[Month] >= Day_of_year)
-      Month--;
-   Month++;
+      while (Month > 0 && Acc_days_in_month[Month] >= Day_of_year)
+         Month--;
+      Month++;
 
-   // Now calculate the day number
+      // Now calculate the day number
 
-   Day = Day_of_year - Acc_days_in_month[Month - 1];
+      Day = Day_of_year - Acc_days_in_month[Month - 1];
 
-   // Call the other set routine
+      // Call the other set routine
 
-   Set(Day, Month, Year);
+      Set(Day, Month, Year);
+      }
    }
 
 // *******************************************************************
