@@ -1,11 +1,13 @@
 //---------------------------------------------------------------------------
+#include <stdlib.h>
+#include <fstream>
 #include "Macro.h"
 #include <general\xml.h>
 #include <general\string_functions.h>
-#include <general\stl_functions.h>
 #include <general\io_functions.h>
+#include <general\stl_functions.h>
 #include <general\stringtokenizer.h>
-#include <fstream>
+
 using namespace std;
 // ------------------------------------------------------------------
 // Do all macro replacement in specified text for the given macro node.
@@ -15,15 +17,14 @@ string replaceMacros(const string& originalContents,
                      const XMLNode& node)
    {
    string contents = originalContents;
-   string prefix = parentName + ".";
-   string stringToReplace = prefix + "name";
+   string stringToReplace = parentName + ".name";
    replaceAll(contents, stringToReplace, node.getAttribute("name"));
 
    vector<string> attributes;
    node.getAttributes(attributes);
    for (unsigned i = 0; i != attributes.size(); i++)
       {
-      stringToReplace = prefix + attributes[i];
+      stringToReplace = parentName + "." + attributes[i];
       replaceAll(contents, stringToReplace, node.getAttribute(attributes[i]));
       }
 
@@ -31,19 +32,16 @@ string replaceMacros(const string& originalContents,
    unsigned counter = 0;
    for (XMLNode::iterator i = node.begin(); i != node.end(); i++)
       {
-      counter++;
-      stringToReplace = prefix + "counter";
       char buf[40];
-      itoa(counter, buf, 10);
-      replaceAll(contents, stringToReplace, buf);
+      counter++;
+      stringToReplace = parentName + ".counter";
+      replaceAll(contents, stringToReplace, itoa(counter,buf,10));
 
-      stringToReplace = prefix + i->getName();
+      stringToReplace = parentName + "." + i->getName();
       replaceAll(contents, stringToReplace, i->getValue());
       }
    return contents;
    }
-
-
 // ------------------------------------------------------------------
 // Constructor
 // ------------------------------------------------------------------
@@ -68,9 +66,6 @@ void Macro::go(const XMLNode& values,
    filesGenerated.erase(filesGenerated.begin(), filesGenerated.end());
    string contents = macroContents;
    contents = parseForEach(contents, "", *macroValues);
-//   contents = replaceMacros(contents, "", *macroValues);
-   parseIf(contents);
-
    writeStringToFiles(contents, filesGenerated, outputDirectory);
    }
 // ------------------------------------------------------------------
@@ -88,7 +83,6 @@ void Macro::go(const XMLNode& values,
 
    out << contents;
    }
-
 // ------------------------------------------------------------------
 // Adjust the start of the specified tag. This routine will remove
 // unwanted spaces on the front of the tag.
@@ -201,6 +195,9 @@ string Macro::parseForEach(const string& originalContents,
          }
       forEachBody = body;
 
+      // Resolve any #if defines.
+      parseIf(forEachBody);
+
       contents = preBody + forEachBody + postBody;
 
       // locate next for_each
@@ -281,10 +278,8 @@ void Macro::replaceGlobalCounter(string& contents) const
       else
          {
          char buf[40];
-         itoa(globalCounter, buf, 10);
-         contents.replace(posCounter, strlen("global.counter"), buf);
+         contents.replace(posCounter, strlen("global.counter"), itoa(globalCounter,buf,10));
          }
-
       posGlobalCounter = stristr(contents.c_str(), "global.counter");
       }
    }
