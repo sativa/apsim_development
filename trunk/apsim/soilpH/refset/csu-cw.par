@@ -67,7 +67,7 @@ smi = (sw(1) - ll15(1))/(dul(1) - ll15(1))
 
 if (crop_in = 0) then
    if (date_within('1-may, 31-jul') = 1) and (rain[10] >= 25) and (rain = 0) and (esw >= 0) and (smi >= 0.5) then
-      nwheat sow plants = 100, depth = 40, cultivar = janz
+      wheat sow plants = 100, depth = 40, cultivar = janz
       residue2 tillage type = planter ()
       fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 40 (mm)
       fert_flag = 62
@@ -78,10 +78,11 @@ if (crop_in = 0) then
    endif
 endif
 
-if (nwheat_status = 10) then
+if (wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
    mature_flag = mature_flag - 1
    if (mature_flag = 0) then
-      nwheat harvest
+      wheat harvest
+      wheat end_crop
       crop_in = 0
    endif
 endif
@@ -111,12 +112,14 @@ sw =       .081  .158  .220  .255  .281  .290  .290  .290     .290 ()   ! vol  s
 
 insoil =  1.5
 
-[all.nwheat.parameters]
+[all.wheat.parameters]
 !Layers    0-10  10-20 20-30 30-50 50-70 70-90 90-120 120-150 150-200
 !layer     1     2     3     4     5     6     7      8       9
-wr =       1     .8    .6    .4    .2    .1    .05    0       0
-nem =      .4    .4    .4    .4    .4    .4    .4     .4     .4
-ll =       .15   .15   .15   .17   .22   .24   .27    .27     .27
+!wr =       1     .8    .6    .4    .2    .1    .05    0       0
+!nem =      .4    .4    .4    .4    .4    .4    .4     .4     .4
+ll =       .15     .15     .15     .17     .22     .24     .27     .27     .27
+kl =       0.07    0.07    0.07    0.07    0.05    0.05    0.04    0.04    0.04  ()
+XF =       1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
 
 !******************** Residue2 module ********************
 [all.residue2.parameters]
@@ -204,7 +207,7 @@ variable = average of met.maxt since report.reported as avg@maxt on process
 variable = average of met.mint since report.reported as avg@mint on process
 variable = average of met.radn since report.reported as avg@radn on process
 variable = sum of met.rain since report.reported as sum@rain on process
-variable = sum of nwheat.ep since report.reported as sum@ep() on process
+variable = sum of wheat.ep since report.reported as sum@ep() on process
 variable = sum of soilwat2.es since report.reported as sum@es on process
 variable = sum of soilwat2.runoff since report.reported as sum@runoff on process
 variable = sum of soilwat2.drain since report.reported as sum@drain on process
