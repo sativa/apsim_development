@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
@@ -110,7 +110,7 @@
                     chickpea sow plants = 25, sowing_depth = 80, cultivar = amethyst
                  endif
               endif
-              residue2 tillage type = planter ()
+              surfaceom tillage type = planter ()
               crop_in = 1
               system_fallow = 0
               days_since_wheat = day - wht_win1
@@ -135,7 +135,7 @@
                  sor_fert = srg_fert_target - rz_no3
                  fertiliz.fert_no3_n = sor_fert
               endif
-              residue2 tillage type = planter ()
+              surfaceom tillage type = planter ()
               crop_in = 1
               system_fallow = 0
               if day <= srg_win3 then
@@ -353,30 +353,29 @@
             CONA:                     5.00 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = wheat
+      Residue type = wheat
+      Overall mass =  10.0000000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  2.00000000
+                            C:N =  100.000000
+      Lying cellulose mass =  7.00000000
+                            C:N =  100.000000
+      Lying lignin mass =  1.00000000
+                            C:N =  100.000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-                10.0     0.0     0.0  wheat
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100   100.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -462,9 +461,9 @@
         maximum of sorghum.yield on end_of_day from reported to now as sor_yield
         sum of sorghum.ep on end_of_day from reported to now as sor_ep
         maximum of sorghum.lai on end_of_day from reported to now as sor_laimax
-        average of residue2.residue_wt on end_of_day from reported to now as avg_residue
-        maximum of residue2.residue_wt on end_of_day from reported to now as max_residue
-        minimum of residue2.residue_wt on end_of_day from reported to now as min_residue
+        average of surfaceom.surfaceom_wt on end_of_day from reported to now as avg_residue
+        maximum of surfaceom.surfaceom_wt on end_of_day from reported to now as max_residue
+        minimum of surfaceom.surfaceom_wt on end_of_day from reported to now as min_residue
         sum of met.rain on end_of_day from reported to now as annual_rainfall
         sum of soilwat2.runoff on end_of_day from reported to now as annual_runoff
         sum of soilwat2.es on end_of_day from reported to now as annual_es
@@ -582,8 +581,8 @@
        127.00 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 June 1957(Day of year=175), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 June 1957(Day of year=175), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 June 1957(Day of year=175), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -748,8 +747,8 @@
        118.84 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 11 June 1958(Day of year=162), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-11 June 1958(Day of year=162), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+11 June 1958(Day of year=162), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -819,7 +818,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7569.90                    0.00
+                          DM (kg/ha) =               7569.91                    0.00
                           N  (kg/ha) =                 77.71                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -913,8 +912,8 @@
        140.54 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 23 May 1959(Day of year=143), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-23 May 1959(Day of year=143), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+23 May 1959(Day of year=143), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1078,8 +1077,8 @@
        102.96 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1960(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1960(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1960(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1243,8 +1242,8 @@
         88.57 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 26 July 1961(Day of year=207), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-26 July 1961(Day of year=207), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+26 July 1961(Day of year=207), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1291,7 +1290,7 @@
       flowering day          =  291                           stover (kg/ha)         =     2642.2
       maturity day           =  322                           grain yield (kg/ha)    =     1425.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1629.0
-      grain wt (g)           =    0.038                       grains/m^2             =   3706.042
+      grain wt (g)           =    0.038                       grains/m^2             =   3706.045
       grains/plant           =   37.1                         maximum lai            =      2.047
       total above ground biomass (kg/ha)    =     4067.6
       live above ground biomass (kg/ha)     =     4067.6
@@ -1408,8 +1407,8 @@
         51.40 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 21 May 1963(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 May 1963(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 May 1963(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1573,8 +1572,8 @@
         84.77 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 1 June 1964(Day of year=153), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-1 June 1964(Day of year=153), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+1 June 1964(Day of year=153), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1738,8 +1737,8 @@
         46.85 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 3 June 1966(Day of year=154), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-3 June 1966(Day of year=154), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+3 June 1966(Day of year=154), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1903,8 +1902,8 @@
        136.82 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 May 1967(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 May 1967(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 May 1967(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -1951,7 +1950,7 @@
       flowering day          =  265                           stover (kg/ha)         =     6938.4
       maturity day           =  295                           grain yield (kg/ha)    =     2178.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2490.1
-      grain wt (g)           =    0.018                       grains/m^2             =  11782.596
+      grain wt (g)           =    0.018                       grains/m^2             =  11782.593
       grains/plant           =  117.8                         maximum lai            =      6.054
       total above ground biomass (kg/ha)    =     9117.3
       live above ground biomass (kg/ha)     =     9117.3
@@ -2068,8 +2067,8 @@
         95.13 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1968(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1968(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1968(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2233,8 +2232,8 @@
         64.17 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 29 May 1969(Day of year=149), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-29 May 1969(Day of year=149), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+29 May 1969(Day of year=149), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2398,8 +2397,8 @@
         87.29 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 30 May 1970(Day of year=150), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-30 May 1970(Day of year=150), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+30 May 1970(Day of year=150), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2563,8 +2562,8 @@
        113.27 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 25 July 1971(Day of year=206), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-25 July 1971(Day of year=206), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+25 July 1971(Day of year=206), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2728,8 +2727,8 @@
         23.39 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 8 July 1973(Day of year=189), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-8 July 1973(Day of year=189), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+8 July 1973(Day of year=189), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -2893,8 +2892,8 @@
         44.37 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 June 1975(Day of year=175), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 June 1975(Day of year=175), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 June 1975(Day of year=175), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3058,8 +3057,8 @@
        148.86 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 26 May 1976(Day of year=147), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-26 May 1976(Day of year=147), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+26 May 1976(Day of year=147), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3106,7 +3105,7 @@
       flowering day          =  266                           stover (kg/ha)         =     9275.4
       maturity day           =  305                           grain yield (kg/ha)    =     5500.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     6286.6
-      grain wt (g)           =    0.040                       grains/m^2             =  13780.444
+      grain wt (g)           =    0.040                       grains/m^2             =  13780.449
       grains/plant           =  137.8                         maximum lai            =      7.177
       total above ground biomass (kg/ha)    =    14776.2
       live above ground biomass (kg/ha)     =    14776.2
@@ -3223,8 +3222,8 @@
        155.26 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1977(Day of year=140), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1977(Day of year=140), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1977(Day of year=140), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3271,7 +3270,7 @@
       flowering day          =  263                           stover (kg/ha)         =     6659.8
       maturity day           =  296                           grain yield (kg/ha)    =     3054.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3491.4
-      grain wt (g)           =    0.028                       grains/m^2             =  10995.397
+      grain wt (g)           =    0.028                       grains/m^2             =  10995.398
       grains/plant           =  110.0                         maximum lai            =      4.455
       total above ground biomass (kg/ha)    =     9714.8
       live above ground biomass (kg/ha)     =     9714.8
@@ -3388,8 +3387,8 @@
         78.82 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 21 May 1978(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 May 1978(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 May 1978(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3445,7 +3444,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   48.8
       DM Root:Shoot ratio    =    0.143                       Harvest Index          =      0.374
-      Stover C:N ratio       =  110.654                       Root C:N ratio         =     17.126
+      Stover C:N ratio       =  110.655                       Root C:N ratio         =     17.126
       grain N percent        =       2.59                     total N content (kg/ha)=     195.27
       grain N uptake (kg/ha) =     158.27                     senesced N content (kg/ha)=   14.27
       green N content (kg/ha)=      22.73                     dead N content (kg/ha) =       0.00
@@ -3463,7 +3462,7 @@
                           N  (kg/ha) =                 36.98                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               6103.37                    0.00
+                          DM (kg/ha) =               6103.36                    0.00
                           N  (kg/ha) =                158.27                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3553,8 +3552,8 @@
        148.95 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 21 May 1979(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 May 1979(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 May 1979(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3576,7 +3575,7 @@
                      stover N conc =     2.82 (%)     extractable sw =  109.16 (mm)
 13 September 1979(Day of year=256), wheat: 
       stage 6.0 flowering
-                     biomass =         926.93 (g/m^2)   lai          =   3.264 (m^2/m^2)
+                     biomass =         926.94 (g/m^2)   lai          =   3.264 (m^2/m^2)
                      stover N conc =     1.48 (%)     extractable sw =   77.32 (mm)
 19 September 1979(Day of year=262), wheat: 
       stage 7.0 start_grain_fill
@@ -3601,18 +3600,18 @@
       flowering day          =  256                           stover (kg/ha)         =     7878.4
       maturity day           =  292                           grain yield (kg/ha)    =     4076.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4658.8
-      grain wt (g)           =    0.033                       grains/m^2             =  12493.771
+      grain wt (g)           =    0.033                       grains/m^2             =  12493.814
       grains/plant           =  124.9                         maximum lai            =      6.402
       total above ground biomass (kg/ha)    =    11954.9
       live above ground biomass (kg/ha)     =    11954.9
-      green above ground biomass (kg/ha)    =     8989.4
+      green above ground biomass (kg/ha)    =     8989.5
       senesced above ground biomass (kg/ha) =     2965.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   49.4
       DM Root:Shoot ratio    =    0.169                       Harvest Index          =      0.341
-      Stover C:N ratio       =   67.541                       Root C:N ratio         =     17.292
+      Stover C:N ratio       =   67.542                       Root C:N ratio         =     17.292
       grain N percent        =       2.71                     total N content (kg/ha)=     156.97
-      grain N uptake (kg/ha) =     110.31                     senesced N content (kg/ha)=   14.83
+      grain N uptake (kg/ha) =     110.32                     senesced N content (kg/ha)=   14.83
       green N content (kg/ha)=      31.83                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -3624,12 +3623,12 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7878.21                    0.00
-                          N  (kg/ha) =                 46.65                    0.00
+                          DM (kg/ha) =               7878.24                    0.00
+                          N  (kg/ha) =                 46.64                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4076.46                    0.00
-                          N  (kg/ha) =                110.31                    0.00
+                          DM (kg/ha) =               4076.48                    0.00
+                          N  (kg/ha) =                110.32                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
@@ -3643,7 +3642,7 @@
 21 October 1979(Day of year=294), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.21                 2020.54
+                          DM (kg/ha) =                  0.21                 2020.55
                           N  (kg/ha) =                  0.01                   46.74
                           P  (kg/ha) =                                          0.00
      
@@ -3718,8 +3717,8 @@
        120.57 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 30 May 1980(Day of year=151), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-30 May 1980(Day of year=151), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+30 May 1980(Day of year=151), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3749,15 +3748,15 @@
                      stover N conc =     1.00 (%)     extractable sw =   27.84 (mm)
 19 October 1980(Day of year=293), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         576.10 (g/m^2)   lai          =   0.188 (m^2/m^2)
+                     biomass =         576.11 (g/m^2)   lai          =   0.188 (m^2/m^2)
                      stover N conc =     0.61 (%)     extractable sw =   45.00 (mm)
 20 October 1980(Day of year=294), wheat: 
       stage 9.0 maturity
-                     biomass =         576.10 (g/m^2)   lai          =   0.169 (m^2/m^2)
+                     biomass =         576.11 (g/m^2)   lai          =   0.169 (m^2/m^2)
                      stover N conc =     0.61 (%)     extractable sw =   47.21 (mm)
 21 October 1980(Day of year=295), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         576.10 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         576.11 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     0.61 (%)     extractable sw =   55.52 (mm)
 22 October 1980(Day of year=296), manager: 
      Manager sending message :- wheat harvest
@@ -3766,10 +3765,10 @@
       flowering day          =  262                           stover (kg/ha)         =     4381.7
       maturity day           =  294                           grain yield (kg/ha)    =     1379.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1576.4
-      grain wt (g)           =    0.022                       grains/m^2             =   6328.266
+      grain wt (g)           =    0.022                       grains/m^2             =   6328.297
       grains/plant           =   63.3                         maximum lai            =      4.584
-      total above ground biomass (kg/ha)    =     5761.0
-      live above ground biomass (kg/ha)     =     5761.0
+      total above ground biomass (kg/ha)    =     5761.1
+      live above ground biomass (kg/ha)     =     5761.1
       green above ground biomass (kg/ha)    =     3693.0
       senesced above ground biomass (kg/ha) =     2068.1
       dead above ground biomass (kg/ha)     =        0.0
@@ -3789,11 +3788,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4381.45                    0.00
+                          DM (kg/ha) =               4381.47                    0.00
                           N  (kg/ha) =                 24.54                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1379.37                    0.00
+                          DM (kg/ha) =               1379.38                    0.00
                           N  (kg/ha) =                 34.36                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3883,8 +3882,8 @@
         45.99 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 May 1981(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 May 1981(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 May 1981(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -3906,7 +3905,7 @@
                      stover N conc =     3.24 (%)     extractable sw =  147.54 (mm)
 20 September 1981(Day of year=263), wheat: 
       stage 6.0 flowering
-                     biomass =        1070.95 (g/m^2)   lai          =   3.141 (m^2/m^2)
+                     biomass =        1070.95 (g/m^2)   lai          =   3.142 (m^2/m^2)
                      stover N conc =     1.75 (%)     extractable sw =   46.17 (mm)
 25 September 1981(Day of year=268), wheat: 
       stage 7.0 start_grain_fill
@@ -3931,11 +3930,11 @@
       flowering day          =  263                           stover (kg/ha)         =     8808.4
       maturity day           =  298                           grain yield (kg/ha)    =     3428.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3917.8
-      grain wt (g)           =    0.023                       grains/m^2             =  14781.410
+      grain wt (g)           =    0.023                       grains/m^2             =  14781.438
       grains/plant           =  147.8                         maximum lai            =      7.415
       total above ground biomass (kg/ha)    =    12236.4
       live above ground biomass (kg/ha)     =    12236.4
-      green above ground biomass (kg/ha)    =     8848.4
+      green above ground biomass (kg/ha)    =     8848.5
       senesced above ground biomass (kg/ha) =     3388.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   50.5
@@ -3954,11 +3953,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8808.14                    0.00
+                          DM (kg/ha) =               8808.15                    0.00
                           N  (kg/ha) =                 90.12                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3428.05                    0.00
+                          DM (kg/ha) =               3428.07                    0.00
                           N  (kg/ha) =                 79.00                    0.00
      
       stage 4.0 end_of_juvenile
@@ -3973,7 +3972,7 @@
 27 October 1981(Day of year=300), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.21                 2439.67
+                          DM (kg/ha) =                  0.21                 2439.68
                           N  (kg/ha) =                  0.01                   59.25
                           P  (kg/ha) =                                          0.00
      
@@ -4048,8 +4047,8 @@
         82.14 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 23 May 1983(Day of year=143), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-23 May 1983(Day of year=143), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+23 May 1983(Day of year=143), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4213,8 +4212,8 @@
        163.58 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 June 1984(Day of year=172), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 June 1984(Day of year=172), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 June 1984(Day of year=172), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4284,7 +4283,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               8204.95                    0.00
+                          DM (kg/ha) =               8204.96                    0.00
                           N  (kg/ha) =                 29.25                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4378,8 +4377,8 @@
        139.14 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1985(Day of year=140), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1985(Day of year=140), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1985(Day of year=140), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4405,7 +4404,7 @@
                      stover N conc =     1.56 (%)     extractable sw =   68.49 (mm)
 24 September 1985(Day of year=267), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1145.50 (g/m^2)   lai          =   3.078 (m^2/m^2)
+                     biomass =        1145.49 (g/m^2)   lai          =   3.078 (m^2/m^2)
                      stover N conc =     1.24 (%)     extractable sw =   52.34 (mm)
 22 October 1985(Day of year=295), wheat: 
       stage 8.0 end_grain_fill
@@ -4426,7 +4425,7 @@
       flowering day          =  260                           stover (kg/ha)         =     9197.2
       maturity day           =  297                           grain yield (kg/ha)    =     3755.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4292.4
-      grain wt (g)           =    0.025                       grains/m^2             =  14868.059
+      grain wt (g)           =    0.025                       grains/m^2             =  14868.047
       grains/plant           =  148.7                         maximum lai            =      7.003
       total above ground biomass (kg/ha)    =    12953.1
       live above ground biomass (kg/ha)     =    12953.1
@@ -4543,8 +4542,8 @@
        136.07 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 30 July 1986(Day of year=211), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-30 July 1986(Day of year=211), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+30 July 1986(Day of year=211), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4566,7 +4565,7 @@
                      stover N conc =     2.75 (%)     extractable sw =   57.44 (mm)
 21 October 1986(Day of year=294), wheat: 
       stage 6.0 flowering
-                     biomass =         530.48 (g/m^2)   lai          =   1.687 (m^2/m^2)
+                     biomass =         530.47 (g/m^2)   lai          =   1.687 (m^2/m^2)
                      stover N conc =     1.59 (%)     extractable sw =   43.17 (mm)
 27 October 1986(Day of year=300), wheat: 
       stage 7.0 start_grain_fill
@@ -4574,15 +4573,15 @@
                      stover N conc =     1.40 (%)     extractable sw =   36.87 (mm)
 22 November 1986(Day of year=326), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         697.90 (g/m^2)   lai          =   0.319 (m^2/m^2)
+                     biomass =         697.89 (g/m^2)   lai          =   0.319 (m^2/m^2)
                      stover N conc =     1.53 (%)     extractable sw =   47.04 (mm)
 23 November 1986(Day of year=327), wheat: 
       stage 9.0 maturity
-                     biomass =         697.90 (g/m^2)   lai          =   0.297 (m^2/m^2)
+                     biomass =         697.89 (g/m^2)   lai          =   0.297 (m^2/m^2)
                      stover N conc =     1.53 (%)     extractable sw =   44.13 (mm)
 24 November 1986(Day of year=328), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         697.90 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     biomass =         697.89 (g/m^2)   lai          =   0.000 (m^2/m^2)
                      stover N conc =     1.57 (%)     extractable sw =   41.75 (mm)
 25 November 1986(Day of year=329), manager: 
      Manager sending message :- wheat harvest
@@ -4591,11 +4590,11 @@
       flowering day          =  294                           stover (kg/ha)         =     4607.6
       maturity day           =  327                           grain yield (kg/ha)    =     2371.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2710.1
-      grain wt (g)           =    0.033                       grains/m^2             =   7240.563
+      grain wt (g)           =    0.033                       grains/m^2             =   7240.533
       grains/plant           =   72.4                         maximum lai            =      2.910
-      total above ground biomass (kg/ha)    =     6979.0
-      live above ground biomass (kg/ha)     =     6979.0
-      green above ground biomass (kg/ha)    =     5437.9
+      total above ground biomass (kg/ha)    =     6978.9
+      live above ground biomass (kg/ha)     =     6978.9
+      green above ground biomass (kg/ha)    =     5437.8
       senesced above ground biomass (kg/ha) =     1541.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   36.6
@@ -4614,11 +4613,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4607.45                    0.00
+                          DM (kg/ha) =               4607.43                    0.00
                           N  (kg/ha) =                 55.89                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2371.31                    0.00
+                          DM (kg/ha) =               2371.30                    0.00
                           N  (kg/ha) =                 75.27                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4708,8 +4707,8 @@
         55.65 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 May 1987(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 May 1987(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 May 1987(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -4753,10 +4752,10 @@
      Manager sending message :- wheat harvest
 25 October 1987(Day of year=298), wheat: 
      
-      flowering day          =  260                           stover (kg/ha)         =     5308.9
+      flowering day          =  260                           stover (kg/ha)         =     5308.8
       maturity day           =  296                           grain yield (kg/ha)    =     1845.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2108.8
-      grain wt (g)           =    0.021                       grains/m^2             =   8749.238
+      grain wt (g)           =    0.021                       grains/m^2             =   8749.226
       grains/plant           =   87.5                         maximum lai            =      3.139
       total above ground biomass (kg/ha)    =     7154.0
       live above ground biomass (kg/ha)     =     7154.0
@@ -4766,7 +4765,7 @@
       number of leaves       =   44.7
       DM Root:Shoot ratio    =    0.196                       Harvest Index          =      0.258
       Stover C:N ratio       =   29.763                       Root C:N ratio         =     17.014
-      grain N percent        =       2.41                     total N content (kg/ha)=     115.89
+      grain N percent        =       2.41                     total N content (kg/ha)=     115.88
       grain N uptake (kg/ha) =      44.54                     senesced N content (kg/ha)=    9.25
       green N content (kg/ha)=      62.09                     dead N content (kg/ha) =       0.00
      
@@ -4783,7 +4782,7 @@
                           N  (kg/ha) =                 71.34                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1845.17                    0.00
+                          DM (kg/ha) =               1845.16                    0.00
                           N  (kg/ha) =                 44.54                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4873,8 +4872,8 @@
        111.30 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 23 May 1988(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-23 May 1988(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+23 May 1988(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5038,8 +5037,8 @@
        158.39 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1989(Day of year=140), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1989(Day of year=140), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1989(Day of year=140), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5086,7 +5085,7 @@
       flowering day          =  264                           stover (kg/ha)         =     8367.0
       maturity day           =  299                           grain yield (kg/ha)    =     2943.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3363.7
-      grain wt (g)           =    0.022                       grains/m^2             =  13648.210
+      grain wt (g)           =    0.022                       grains/m^2             =  13648.213
       grains/plant           =  136.5                         maximum lai            =      7.036
       total above ground biomass (kg/ha)    =    11310.2
       live above ground biomass (kg/ha)     =    11310.2
@@ -5113,7 +5112,7 @@
                           N  (kg/ha) =                 86.57                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2943.22                    0.00
+                          DM (kg/ha) =               2943.23                    0.00
                           N  (kg/ha) =                 74.95                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5128,7 +5127,7 @@
 28 October 1989(Day of year=301), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.21                 2172.37
+                          DM (kg/ha) =                  0.21                 2172.38
                           N  (kg/ha) =                  0.01                   50.55
                           P  (kg/ha) =                                          0.00
      
@@ -5203,8 +5202,8 @@
        102.18 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 21 May 1990(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 May 1990(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 May 1990(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5368,8 +5367,8 @@
        144.63 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 24 May 1991(Day of year=144), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-24 May 1991(Day of year=144), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+24 May 1991(Day of year=144), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5395,7 +5394,7 @@
                      stover N conc =     1.97 (%)     extractable sw =   46.14 (mm)
 27 September 1991(Day of year=270), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         830.73 (g/m^2)   lai          =   1.086 (m^2/m^2)
+                     biomass =         830.72 (g/m^2)   lai          =   1.086 (m^2/m^2)
                      stover N conc =     1.65 (%)     extractable sw =   37.50 (mm)
 23 October 1991(Day of year=296), wheat: 
       stage 8.0 end_grain_fill
@@ -5416,7 +5415,7 @@
       flowering day          =  263                           stover (kg/ha)         =     6720.7
       maturity day           =  297                           grain yield (kg/ha)    =     2131.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2436.4
-      grain wt (g)           =    0.020                       grains/m^2             =  10754.253
+      grain wt (g)           =    0.020                       grains/m^2             =  10754.247
       grains/plant           =  107.5                         maximum lai            =      5.761
       total above ground biomass (kg/ha)    =     8852.6
       live above ground biomass (kg/ha)     =     8852.6
@@ -5459,7 +5458,7 @@
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
                           DM (kg/ha) =                  0.21                 1803.09
-                          N  (kg/ha) =                  0.01                   43.72
+                          N  (kg/ha) =                  0.01                   43.73
                           P  (kg/ha) =                                          0.00
      
 5 June 1993(Day of year=156), manager: 
@@ -5528,8 +5527,8 @@
          ------------------------------------------------
      
 5 June 1993(Day of year=156), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-5 June 1993(Day of year=156), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+5 June 1993(Day of year=156), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5576,7 +5575,7 @@
       flowering day          =  268                           stover (kg/ha)         =     5955.0
       maturity day           =  303                           grain yield (kg/ha)    =     2510.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2869.5
-      grain wt (g)           =    0.026                       grains/m^2             =   9629.037
+      grain wt (g)           =    0.026                       grains/m^2             =   9629.046
       grains/plant           =   96.3                         maximum lai            =      3.965
       total above ground biomass (kg/ha)    =     8465.8
       live above ground biomass (kg/ha)     =     8465.8
@@ -5599,7 +5598,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5954.78                    0.00
+                          DM (kg/ha) =               5954.79                    0.00
                           N  (kg/ha) =                 78.85                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5693,8 +5692,8 @@
         33.90 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 18 June 1995(Day of year=169), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-18 June 1995(Day of year=169), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+18 June 1995(Day of year=169), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -5858,8 +5857,8 @@
        129.85 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1996(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1996(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1996(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6023,8 +6022,8 @@
        140.71 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 20 May 1997(Day of year=140), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-20 May 1997(Day of year=140), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+20 May 1997(Day of year=140), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6070,8 +6069,8 @@
      
       flowering day          =  259                           stover (kg/ha)         =     6278.6
       maturity day           =  294                           grain yield (kg/ha)    =     3481.1
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3978.4
-      grain wt (g)           =    0.034                       grains/m^2             =  10153.509
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3978.3
+      grain wt (g)           =    0.034                       grains/m^2             =  10153.507
       grains/plant           =  101.5                         maximum lai            =      4.331
       total above ground biomass (kg/ha)    =     9759.6
       live above ground biomass (kg/ha)     =     9759.6
@@ -6098,7 +6097,7 @@
                           N  (kg/ha) =                 28.12                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3481.06                    0.00
+                          DM (kg/ha) =               3481.05                    0.00
                           N  (kg/ha) =                100.65                    0.00
      
       stage 4.0 end_of_juvenile
@@ -6188,8 +6187,8 @@
         74.97 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 21 May 1998(Day of year=141), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-21 May 1998(Day of year=141), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+21 May 1998(Day of year=141), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6353,8 +6352,8 @@
        152.21 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 11 June 1999(Day of year=162), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-11 June 1999(Day of year=162), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+11 June 1999(Day of year=162), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
@@ -6518,8 +6517,8 @@
         44.95 of n as nitrate (no3_n)
                                               added at depth    1.00 (layer   1)
 11 June 2001(Day of year=162), manager: 
-     Manager sending message :- residue2 tillage  type = planter
-11 June 2001(Day of year=162), residue2: 
+     Manager sending message :- surfaceom tillage  type = planter
+11 June 2001(Day of year=162), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using planter
