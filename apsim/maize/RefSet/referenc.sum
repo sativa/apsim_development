@@ -29,6 +29,27 @@ Variables =leaf_no()
 ---------------------------------------------------------
  INPUT (met) Initialised
 ---------------------------------------------------------
+ day=   1 date=  1  1 1993 fertiliz -  Initialising
+ 
+   - Reading Parameters
+ 
+               Fertiliser Schedule (kg/ha)
+     -----------------------------------------------
+      No fertiliser schedule is used
+     -----------------------------------------------
+ day=   1 date=  1  1 1993 irrigate -  Initialising
+ 
+   - Reading Parameters
+ 
+                 Irrigation parameters
+     -----------------------------------------------
+      Irrigation Schedule (Disabled)
+      Automatic Irrigation Application (Disabled)
+      critical fraction of available soil water =  0.50
+      depth for calculating available soil water =     500.00
+      Irrigation Allocation Budget (Disabled)
+     -----------------------------------------------
+The following solutes can be added with irrigation water
  day=   1 date=  1  1 1993 manager  - Initialising
  
 Manager rules
@@ -89,27 +110,6 @@ report do_output
 endif
  
 -----------------------------------------------------------
- day=   1 date=  1  1 1993 fertiliz -  Initialising
- 
-   - Reading Parameters
- 
-               Fertiliser Schedule (kg/ha)
-     -----------------------------------------------
-      No fertiliser schedule is used
-     -----------------------------------------------
- day=   1 date=  1  1 1993 irrigate -  Initialising
- 
-   - Reading Parameters
- 
-                 Irrigation parameters
-     -----------------------------------------------
-      Irrigation Schedule (Disabled)
-      Automatic Irrigation Application (Disabled)
-      critical fraction of available soil water =  0.50
-      depth for calculating available soil water =     500.00
-      Irrigation Allocation Budget (Disabled)
-     -----------------------------------------------
-The following solutes can be added with irrigation water
  day=   1 date=  1  1 1993 soilwat2 -  Initialising
  
     - Reading constants
