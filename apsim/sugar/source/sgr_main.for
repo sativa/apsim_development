@@ -200,6 +200,7 @@
       call sugar_water_stress_expansion (1)
       call sugar_water_stress_stalk (1)
       call sugar_water_stress_pheno (1)
+      call sugar_water_stress_photo (1)
  
       if (g_crop_status.eq.crop_alive) then
          call sugar_min_sstem_sucrose(1)
@@ -240,30 +241,14 @@
  
  
          call sugar_water_content_cane (1)
-c         call sugar_water_content()
-c         call sugar_plant_death ()
          call sugar_plant_death (1)
          call sugar_realloc (1)
       else
       endif
  
-c      call sugar_detachment ()
       call sugar_detachment (1)
  
       call sugar_cleanup()
-c      call sugar_update ()
-c      call sugar_crop_totals ()
-c      call sugar_event ()
- 
-cjh      call sugar_water_stress (1)
-cjh      call sugar_nit_stress (1)
-      call sugar_water_stress_expansion (1)
-      call sugar_water_stress_photo (1)
-      call sugar_water_stress_pheno (1)
- 
-      call sugar_nit_stress_photo (1)
-      call sugar_nit_stress_expansion (1)
-      call sugar_nit_stress_stalk (1)
  
       ! send changes to owner-modules
       call sugar_set_other_variables ()
@@ -686,6 +671,20 @@ cjh      call sugar_nit_stress (1)
       g_n_graze = 0.0
  
       g_dlt_min_sstem_sucrose = 0.0
+
+c      g_temp_stress_photo = 0.0
+c      g_temp_stress_stalk = 0.0
+c      g_swdef_expansion = 0.0
+c      g_swdef_stalk = 0.0
+c      g_swdef_photo = 0.0
+c      g_swdef_pheno = 0.0
+c      g_swdef_fixation = 0.0
+c      g_nfact_expansion = 0.0
+c      g_nfact_stalk = 0.0
+c      g_nfact_photo = 0.0
+c      g_nfact_pheno = 0.0
+c      g_oxdef_photo = 0.0
+
  
       call pop_routine (my_name)
       return
