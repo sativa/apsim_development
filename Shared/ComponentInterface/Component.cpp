@@ -649,6 +649,13 @@ Type Component::getRegistrationType(unsigned int regID)
    return ((RegistrationItem*) regID)->getType();
    }
 // ------------------------------------------------------------------
+// Set the registration type of the specified registration.
+// ------------------------------------------------------------------
+void Component::setRegistrationType(unsigned int regID, const Type& type)
+   {
+   ((RegistrationItem*) regID)->setType(type);
+   }
+// ------------------------------------------------------------------
 // Return a registration id to caller.  Returns 0 if not found
 // ------------------------------------------------------------------
 unsigned Component::getRegistrationID(const RegistrationType& kind, const FString& name)

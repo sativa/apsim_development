@@ -25,9 +25,8 @@ RegistrationItem::RegistrationItem(Component* p, RegistrationType k,
    strncat(originalName, n.f_str(), n.length());
 
    // create a buffer for type string and point our type object to it.
-   type = new char[t.getTypeString().length()+20];
-   strcpy(type, "");
-   strncat(type, t.getTypeString().f_str(), t.getTypeString().length());
+   type = NULL;
+   setType(t);
 
    // create a buffer for component name string and point our component name object to it.
    componentName = new char[comp.length()+1];
@@ -86,5 +85,17 @@ void RegistrationItem::addReturnValueMessage(unsigned int fromID,
       returnValueData.variant.setArraySpecifier(arraySpecifier);
       variants.addVariant(returnValueData.variant);
       }
+   }
+// ------------------------------------------------------------------
+// Set the type of the registration.
+// ------------------------------------------------------------------
+void RegistrationItem::setType(const Type& t)
+   {
+   delete [] type;
+
+   // create a buffer for type string and point our type object to it.
+   type = new char[t.getTypeString().length()+20];
+   strcpy(type, "");
+   strncat(type, t.getTypeString().f_str(), t.getTypeString().length());
    }
 
