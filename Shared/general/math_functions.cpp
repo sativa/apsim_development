@@ -157,8 +157,8 @@ void Calc_regression_stats (double X[], double Y[], int Num_points,
 
 // ------------------------------------------------------------------
 double linear_interp_real (double x,     
-                           vector<double>& x_cord,
-                           vector<double>& y_cord,
+                           const vector<double>& x_cord,
+                           const vector<double>& y_cord,
                            bool& Did_interpolate)
    {
    // find where x lies in the x cord
