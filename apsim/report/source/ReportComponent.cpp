@@ -201,7 +201,8 @@ void Field::writeToSummary(void)
 // ------------------------------------------------------------------
 void Field::writeTo(ostream& out, const string& value)
    {
-   out.width(fieldWidth);
+   if (!CSVFormat)
+      out.width(fieldWidth);
    out << value;
    }
 // ------------------------------------------------------------------
@@ -435,7 +436,11 @@ void ReportComponent::WriteLineOfOutput(void)
    for (Fields::iterator f = fields.begin();
                          f != fields.end();
                          f++)
+      {
+      if (CSVFormat && f != fields.begin())
+         out << ',';
       (*f).writeValue(out);
+      }
 
    out << endl;
 
@@ -461,7 +466,14 @@ void ReportComponent::writeHeadings(void)
    for (Fields::iterator f = fields.begin();
                          f != fields.end();
                          f++)
+      {
+      if (CSVFormat && f != fields.begin())
+         {
+         headingLine << ',';
+         unitLine << ',';
+         }
       (*f).writeHeadings(headingLine, unitLine);
+      }
 
 //   headingLine << ends;
 //   unitLine << ends;
