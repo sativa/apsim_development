@@ -109,6 +109,8 @@
 *      050996 pdev upgraded to postbox (1.35)
 *      261197 pdev added swim communication
 *      170398 pdev max_n changed to distribution over profile. (EP)
+*      310398 pdev bugs in root_proportion() causing max_n weirdness
+
 *   Calls:
 *     grasp_version
 *     grasp_get_other_variables
@@ -327,6 +329,7 @@ c     do N at start of day to calculate N indexes for growth.
 *     none
 
 *   Global variables
+      include   'const.inc'
       include   'grasp.inc'
       real      grasp_sw_pot
       real      grasp_total_cover
@@ -344,8 +347,13 @@ c     do N at start of day to calculate N indexes for growth.
 * --------------------- Executable code section ----------------------
       call push_routine (my_name)
 
-      g_out_sw_demand = grasp_sw_pot ()
-      g_out_total_cover = grasp_total_cover ()
+      call grasp_zero_daily_variables ()
+      call grasp_get_other_variables ()
+
+      call grasp_calculate_swi ()
+
+      g_out_sw_demand = grasp_sw_pot ()        !!  = f(pan)
+      g_out_total_cover = grasp_total_cover () !!  = f(pool size)
 
       call pop_routine (my_name)
       return
@@ -633,13 +641,9 @@ c     do N at start of day to calculate N indexes for growth.
       include   'const.inc'     ! Constant definitions
       include   'grasp.inc'
       character string_concat*32 ! ?Really? 
-      integer   find_layer_no
-      real      bound
-      real      grasp_swi
 
 *   Internal variables
       integer   layer
-      integer   deepest_layer
       integer   numvals
       character dlt_name*32
 
@@ -659,26 +663,7 @@ c     do N at start of day to calculate N indexes for growth.
                                 ! increase in root depth
       call grasp_root_depth (g_dlt_root_depth)
 
-cpdev Doing these calculations here avoids the problem of setting
-c     globals further down the call tree. These used to be functions
-c     but this made them impossible to report at the end of the day.
-c
-c     There are 3 swi globals used
-c     throughout grasp; rawswi_total, swi_total, swi(layer).
-
-                                ! calculate sw supply indices
-      call fill_real_array (g_swi, 0.0, max_layer)
-      g_rawswi_total = 0.0
-      deepest_layer = find_layer_no (g_root_depth, g_dlayer,
-     :     max_layer)
-
-      do 1000 layer = 1, deepest_layer
-         g_swi(layer) = grasp_swi (layer)
-         g_rawswi_total = g_rawswi_total + g_swi(layer)
- 1000 continue
-
-                                ! restricted swi
-      g_swi_total = bound (g_rawswi_total, 0.0, 1.0)
+      call grasp_calculate_swi ()
 
                                 ! actual uptake
       call fill_real_array (g_dlt_sw_dep, 0.0, max_layer)
@@ -701,6 +686,10 @@ c     throughout grasp; rawswi_total, swi_total, swi(layer).
      :     ,0.0             ! Lower Limit for bound checking
      :     ,1000.)          ! Upper Limit for bound checking
 
+         do 2000 layer = 1, numvals
+             g_dlt_sw_dep(layer) = - g_dlt_sw_dep(layer) ! convert uptake to delta
+ 2000    continue
+
       else
          ! Whoops!!!
       endif
@@ -708,6 +697,85 @@ c     throughout grasp; rawswi_total, swi_total, swi(layer).
       call pop_routine (my_name)
       return
       end
+*     ===========================================================
+      subroutine grasp_calculate_swi ()
+*     ===========================================================
+
+*   Short description:
+*       Calculate soil water indices
+
+*   Assumptions:
+*       none
+
+*   Notes:
+*       none
+
+*   Procedure attributes:
+*      Version:         any hardware/fortran77
+*      Extensions:      long names <= 20 chars.
+*                       lowercase
+*                       underscore
+*                       inline comments
+*                       include
+*                       implicit none
+
+*   Changes:
+*      250894 jngh specified and programmed
+
+*   Calls:
+*     pop_routine
+*     push_routine
+
+* ----------------------- Declaration section ------------------------
+
+      implicit none
+
+*   Subroutine arguments
+*       none
+
+*   Global variables
+      include   'const.inc'     ! Constant definitions
+      include   'grasp.inc'
+      integer   find_layer_no
+      real      bound
+      real      grasp_swi
+
+*   Internal variables
+      integer   layer
+      integer   deepest_layer
+
+*   Constant values
+      character  my_name*(*)    ! name of procedure
+      parameter (my_name = 'grasp_calculate_swi')
+
+*   Initial data values
+*       none
+
+* --------------------- Executable code section ----------------------
+      call push_routine (my_name)
+
+c     There are 3 swi globals used
+c     throughout grasp; rawswi_total, swi_total, swi(layer).
+
+                                ! calculate sw supply indices
+      call fill_real_array (g_swi, 0.0, max_layer)
+      g_rawswi_total = 0.0
+
+      deepest_layer = find_layer_no (g_root_depth, g_dlayer,
+     :     max_layer)
+
+      do 1000 layer = 1, deepest_layer
+         g_swi(layer) = grasp_swi (layer)
+         g_rawswi_total = g_rawswi_total + g_swi(layer)
+ 1000 continue
+
+                                ! restricted swi
+      g_swi_total = bound (g_rawswi_total, 0.0, 1.0)
+
+      call pop_routine (my_name)
+      return
+      end
+
 *     ===========================================================
       subroutine grasp_root_depth (dlt_root_depth)
 *     ===========================================================
@@ -1299,7 +1367,6 @@ c cover...  FIXME!
 
 *   Global variables
       include   'grasp.inc'
-      real       grasp_radn_cover
       real       grasp_nfact
       real       grasp_tfact
 
@@ -1307,6 +1374,7 @@ c cover...  FIXME!
       integer    current_phase  ! current phase number
       real       rue            ! radiation use efficiency under
                                 ! no stress (g biomass/mj)
+      real       radn_int       ! Radiation intercepted by leaves (mj/m^2)
 
 *   Constant values
       character  my_name*(*)    ! name of procedure
@@ -1322,13 +1390,14 @@ c cover...  FIXME!
       current_phase = int (g_current_stage)
       rue = p_rue(current_phase)
 
+      call grasp_radn_int (radn_int)
+
 c     potential dry matter production with temperature
 c     and N content stresses is calculated.
 c     This is kg of dry biomass produced per MJ of intercepted
 c     radiation under stressed conditions.
 
-      grasp_dm_photo = g_radn *
-     :      grasp_radn_cover () *
+      grasp_dm_photo = radn_int *
      :      rue *
      :      min(grasp_tfact (), grasp_nfact ())
 
@@ -2202,7 +2271,7 @@ C     Limit cover to potential maximum
       real       sum_real_array
 
 *   Internal variables
-*     none
+      real       transpiration
 
 *   Constant values
       character  my_name*(*)    ! name of procedure
@@ -2216,19 +2285,21 @@ C     Limit cover to potential maximum
 
                                 ! potential by mass flow
       if (p_uptake_source .eq. 'calc') then
+
                                 ! By us
-         dlt_dm_transp =  g_swi_total * grasp_sw_pot () *
-     :        grasp_transp_eff ()
+         transpiration = g_swi_total * grasp_sw_pot () 
 
       else if (p_uptake_source .eq. 'apsim') then
-                                ! By swim
-         dlt_dm_transp = -1.0 * 
-     :       sum_real_array(g_dlt_sw_dep, max_layer) *
-     :       grasp_transp_eff ()
 
+                                ! By swim
+         transpiration = -1.0 * 
+     :       sum_real_array(g_dlt_sw_dep, max_layer) 
       else
-         dlt_dm_transp = 0.0    ! ??
+
+         transpiration = 0.0    ! ??
       endif
+
+      dlt_dm_transp = transpiration * grasp_transp_eff ()
 
                                 ! potential by photosynthesis
       dlt_dm_photo = grasp_dm_photo ()
@@ -2423,7 +2494,7 @@ C     Limit cover to potential maximum
 *       none
 
 *   Notes:
-*       none
+*       PdeV 6/4/98. This ignores radiaton shading from canopy. FIXME???
 
 *   Procedure attributes:
 *      Version:         any hardware/fortran77
@@ -2611,7 +2682,6 @@ c     NB. straight from grasp - may be another method:
          max_n_sum = max_n_sum + p_max_n_avail(layer) *
      :        root_proportion (layer, g_dlayer,
      :        g_root_depth)
- 
  500  continue
 
       N_uptake = c_residual_plant_N +
@@ -3061,7 +3131,6 @@ C     Proportions are different for wet season or dry season.
       real       grasp_radn_cover
       real       grasp_transp_cover
       real       grasp_total_cover
-      real       grasp_surface_cover
       real       grasp_clothesline
       real       grasp_rfact
       real       grasp_tfact
@@ -3082,7 +3151,6 @@ C     Proportions are different for wet season or dry season.
       g_out_radn_cover = grasp_radn_cover ()
       g_out_transp_cover = grasp_transp_cover ()
       g_out_total_cover = grasp_total_cover ()
-      g_out_surface_cover = grasp_surface_cover ()
 
       g_out_clothesline = grasp_clothesline ()
 
@@ -3168,100 +3236,13 @@ C     Proportions are different for wet season or dry season.
       dead_cover = bound (c_dead_cover_slope * dead_pool
      &                    , 0.0, 1.0)
 
-c     Beers law:
+c     Beers law:??
       grasp_total_cover = 1.0 - (1.0 - green_cover) *
      &          (1.0 - dead_cover)
 
 c     Bound to reasonable values:
       grasp_total_cover =
      &     bound(grasp_total_cover, 0.0, 1.0)
-
-      call pop_routine (my_name)
-      return
-      end
-
-*     ===========================================================
-      real function grasp_surface_cover ()
-*     ===========================================================
-
-*   Short description:                                  vvvvvv
-*      Surface cover for soilwat. Total green, dead and LITTER cover.
-*                                                       ^^^^^^
-*      Used to emulate mckeon's cover:soil evaporation relationship.
-
-*   Assumptions:
-*       none
-
-*   Notes:
-*
-
-*   Procedure attributes:
-*      Version:         any hardware/fortran77
-*      Extensions:      long names <= 20 chars.
-*                       lowercase
-*                       underscore
-*                       inline comments
-*                       include
-*                       implicit none
-
-*   Changes:
-*     010994 jngh specified and programmed
-
-*   Calls:
-
-* ----------------------- Declaration section ------------------------
-
-      implicit none
-
-*   Subroutine arguments
-*       none
-
-*   Global variables
-      include   'grasp.inc'
-      real      bound
-      real      sum_real_array
-
-*   Internal variables
-      real       green_pool
-      real       dead_pool
-      real       green_cover
-      real       dead_cover
-
-*   Constant values
-      character  my_name*(*)           ! name of procedure
-      parameter (my_name = 'grasp_surface_cover')
-
-*   Initial data values
-*       none
-
-* --------------------- Executable code section ----------------------
-      call push_routine (my_name)
-
-      green_pool = sum_real_array(g_dm_green, max_part) -
-     &                 g_dm_green(root)
-
-      dead_pool = sum_real_array(g_dm_dead, max_part) -
-     &                 g_dm_dead(root)
-
-      if (green_pool .gt. 1.0) then
-          green_cover = 1.0 -
-     &          exp(green_pool *
-     &          (-p_yld_cover_slope / p_yld_COV50))
-      else
-          green_cover = 0.0
-      endif
-
-      dead_cover = bound (c_dead_cover_slope *
-     &                    (dead_pool + g_litter_pool),
-     &                    0.0, 1.0)
-
-c     Beers law:
-      grasp_surface_cover = 1.0 - (1.0 - green_cover) *
-     &          (1.0 - dead_cover)
-
-c     Bound to reasonable values:
-      grasp_surface_cover =
-     &     bound(grasp_surface_cover, 0.0, 1.0)
 
       call pop_routine (my_name)
       return
@@ -3534,6 +3515,7 @@ c     Bound to reasonable values:
       call grasp_zero_daily_variables ()
 
       call fill_real_array (g_ll_dep, 0.0, max_layer)
+      call fill_real_array (p_max_n_avail, 0.0, max_layer)
       g_num_layers = 0
       g_canopy_height = 0.0
       g_previous_stage = 0.0
@@ -3541,7 +3523,6 @@ c     Bound to reasonable values:
       g_acc_growth_last_summer = 0.0
       g_acc_growth = 0.0
       g_acc_et_summer = 0.0
-      g_litter_pool = 0.0
 
       call pop_routine (my_name)
       return
@@ -4303,9 +4284,6 @@ cpdev  bound required?..
       else
       endif
                                 ! climate
-      call get_real_var (unknown_module, 'latitude', '(oL)'
-     :     , g_latitude, numvals, c_latitude_lb, c_latitude_ub)
-
       call get_real_var (unknown_module, 'maxt', '(oC)'
      :     , g_maxt, numvals, c_maxt_lb, c_maxt_ub)
 
@@ -4385,20 +4363,15 @@ cpdev  bound required?..
             ! we have no N supply - make non-limiting.
          call fill_real_array (g_No3, 10000.0, g_num_layers)
       else
+! PdeV 6/4/98 - This is probably a good idea.
+!         call warning_error (err_internal, 
+!     :                   'Grasp does not work sensibly with soiln.')
       endif
 
       call fill_real_array (g_No3_min, c_No3_min_lb, max_layer)
       call get_real_array_optional (unknown_module, 'no3_min', max_layer
      :     ,  '(kg/ha)', g_No3_min, numvals, c_No3_min_lb, c_No3_min_ub)
 
-      call get_real_var_optional (unknown_module
-     :     ,'residue_wt', '(kg/ha)'
-     :     ,g_litter_pool, numvals, 0.0, 50000.0)
-
-      if (numvals.eq.0) then
-         g_litter_pool = 0.0
-      else
-      endif
                                 !  For profile erosion
       call get_real_var_optional (unknown_module
      :     ,'soil_loss', '(t/ha)'
@@ -4764,12 +4737,13 @@ cpdev  bound required?..
       real       grasp_total_cover
       integer    count_of_real_vals    ! function
       real       sum_real_array
-	real       root_proportion
+      real       root_proportion
+      integer    find_layer_no
 
 *   Internal variables
-c     real       act_n_up              ! cumulative total N uptake by plant
+c     real       act_n_up       ! cumulative total N uptake by plant
                                 !   (kg/ha)
-c     integer    deepest_layer         ! deepest layer in which the roots are
+      integer    deepest_layer  ! deepest layer in which the roots are
                                 ! growing
       real       biomass
       integer    num_layers     ! number of layers in profile
@@ -4831,7 +4805,6 @@ c     real       N_demand              ! sum N demand for plant parts (g/plant)
 ! total          green + dead
 ! green          green                  (radiation intercepting)
 ! transpiring    green                  (internal)
-! surface cover  green + dead + litter  (soil evaporation)
 
       elseif (variable_name .eq. 'cover_tot') then
          call respond2get_real_var (
@@ -4858,11 +4831,6 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'transp_cover',
      :        '()', g_out_transp_cover)
-
-      elseif (variable_name .eq. 'surface_cover') then
-         call respond2get_real_var (
-     :        'surface_cover',
-     :        '()', g_out_surface_cover)
 
       elseif (variable_name .eq. 'clothesline') then
          call respond2get_real_var (
@@ -5092,18 +5060,17 @@ cpdev. One of these is right. I don't know which...
      :        '()', g_rlv, num_layers)
          
       elseif (variable_name .eq. 'max_n_avail') then
-         num_layers = count_of_real_vals (g_dlayer, max_layer)
-         do 500 layer = 1, num_layers
-
-         temp(layer) =  p_max_n_avail(layer) *
+         deepest_layer = find_layer_no (g_root_depth, g_dlayer
+     :                                , max_layer)
+         do 500 layer = 1, deepest_layer
+            temp(layer) =  p_max_n_avail(layer) *
      :           root_proportion (layer, g_dlayer,
      :           g_root_depth)
- 
  500  continue
 
          call respond2get_real_array (
      :        'max_n_avail',
-     :        '()', temp, num_layers)
+     :        '()', temp, deepest_layer)
 
       else
          call message_unused ()
@@ -5839,7 +5806,7 @@ c     :                    , 0.0, 10000.0)
 *   Global variables
       include   'const.inc'            ! lu_scr_sum, blank
       include   'grasp.inc'
-      real      root_proportion
+      integer   lastnb
 
 *   Internal variables
       character string*200
@@ -5917,9 +5884,7 @@ c     :                    , 0.0, 10000.0)
      :        layer
      :        , g_ll_dep(layer) 
      :        , p_kl(layer) 
-     :        , p_max_n_avail(layer) * 
-     :            root_proportion (
-     :              layer, g_dlayer, g_root_depth)
+     :        , p_max_n_avail(layer)
          call write_string (lu_scr_sum, string)
 2000  continue                           
 
@@ -5968,8 +5933,9 @@ c     :                    , 0.0, 10000.0)
          string = '  Using vpd approximated from maxt, mint.'
       else
          call get_posting_module (owner_module)
-         write (string, '(a, a8, a)')
-     :        '  Using vpd from ', owner_module, ' module.'
+         write (string, '(a, a, a)')
+     :        '  Using vpd from ', 
+     :        owner_module(:lastnb(owner_module)), ' module.'
       endif
       call write_string (lu_scr_sum, string)
 
@@ -5977,11 +5943,18 @@ c     :                    , 0.0, 10000.0)
      :     , value, numvals, c_pan_lb, c_pan_ub)
 
       if (numvals .le. 0) then
-         string = 'NB.  Pan evap. approximated by eo.'
+         call get_real_var_optional (unknown_module, 'eo', '(mm)'
+     :     , value, numvals, c_pan_lb, c_pan_ub)
+         call get_posting_module (owner_module)
+         write (string, '(a,a,a)')
+     :        '  NB. Pan evap approximated by ',
+     :        owner_module(:lastnb(owner_module)),
+     :        '.eo'
       else
          call get_posting_module (owner_module)
-         write (string, '(a, a8, a)')
-     :        '  Using Pan evap from ', owner_module, ' module.'
+         write (string, '(a, a, a)')
+     :        '  Using Pan evap from ', 
+     :        owner_module(:lastnb(owner_module)), ' module.'
       endif
       call write_string (lu_scr_sum, string)
 
