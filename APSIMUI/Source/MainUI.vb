@@ -574,7 +574,7 @@ Public Class MainUI
         ElseIf e.Button Is FileOpenButton Then
             GetAndOpenAPSimFile()
         ElseIf e.Button Is FileSaveButton Then
-            MainUImanager.APSIMFile.save()
+            MainUImanager.SaveDocument()
         ElseIf e.Button Is UIHelpButton Then
             UpdateHelpBrowser()
         End If
@@ -591,11 +591,12 @@ Public Class MainUI
     End Sub
 
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
-        MainUImanager.APSIMFile.save()
+        MainUImanager.SaveDocument()
     End Sub
 
     Private Sub TabContextMenuClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenuClose.Click
-        MainTabControl.TabPages.Remove(MainTabControl.SelectedTab)
+        MainUImanager.CloseUI()
+
     End Sub
 
     Private Sub MainUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -650,7 +651,7 @@ Public Class MainUI
 
     Private Sub SimulationMenuMake_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationMenuMake.Click
         Dim mf As New MacroFile
-        mf.Transform(MainUImanager.APSIMFile.XMLFilename, "C:\temp\macro.txt", "C:\temp")
+        mf.Transform(MainUImanager.APSIMFileName, "C:\temp\macro.txt", "C:\temp")
     End Sub
 
     Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem6.Click
@@ -720,8 +721,8 @@ Public Class MainUI
         End Try
     End Sub
     Private Sub UpdateHelpBrowser()
-        Dim type As String = MainUImanager.APSIMFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
-        MsgBox(type)
+        'Dim type As String = MainUImanager.APSIMFile.GetDataType(SimulationExplorer.SelectedNode.FullPath)
+        'MsgBox(type)
 
     End Sub
 
@@ -785,5 +786,9 @@ Public Class MainUI
     Private Sub SimulationExplorer_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles SimulationExplorer.DragDrop
         Dim target As TreeNode = SimulationExplorer.GetNodeAt(e.X, e.Y)
         MsgBox(target.Text)
+    End Sub
+
+    Private Sub TabContextMenu_Popup(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenu.Popup
+
     End Sub
 End Class
