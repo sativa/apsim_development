@@ -3352,6 +3352,7 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Main (Action, Data_string)
 *====================================================================
       Use infrastructure
+      use EoModule
       implicit none
       ml_external Main
 

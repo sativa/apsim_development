@@ -2,9 +2,9 @@
 Dependency = %licensed_source(fertiliz)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 fertiliz.for = fertiliz.for
 
 [APSBuild]
 binary = ..\lib\fertiliz.dll
-moduletype=module
+compilerfile=release.compile

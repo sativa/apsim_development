@@ -3,8 +3,8 @@
       use croplibrary
 
       contains
-
-      include 'cropmodmain.for'
+                       
+      include 'cropmodcomms.for'                 
       include 'cropmodtree.for'
       include 'maize.for'
       include 'process.for'

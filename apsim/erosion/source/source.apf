@@ -2,9 +2,9 @@
 Dependency = %licensed_source(erosion)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 erosion.for = erosion.for
 
 [APSBuild]
 binary = ..\lib\erosion.dll
-moduletype=module
+compilerfile=release.compile

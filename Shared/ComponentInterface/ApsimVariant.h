@@ -73,6 +73,7 @@ class ApsimVariant
                return true;
                }
             }
+         return false;
          }
 
       void aliasTo(const MessageData& fromMessageData)

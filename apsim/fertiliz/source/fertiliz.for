@@ -348,7 +348,7 @@ c     include   'fertiliz.inc'
       character  full_name*50          ! full name of fertilizer added
       integer    layer                 ! layer number of fertiliser placement
       integer    numvals               ! number of values returned
-      character  owner_module*32       ! module that owns 'array'
+      integer    owner_module          ! module that owns 'array'
       character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
@@ -405,22 +405,18 @@ c     include   'fertiliz.inc'
             if (array_size .gt. 0) then
                   ! this variable is being tracked - send the delta to it
 
-               call Get_posting_Module (Owner_module)
+               Owner_module = Get_posting_Module ()
 
                call fill_real_array (delta_array, 0.0, max_layer)
                delta_array(layer) = amount * fraction(counter)
 
-               call new_postbox()
                dlt_name = 'dlt_'//components(counter)
-               call post_real_array (
-     :                      dlt_name
+               call set_real_array (
+     :                      Owner_module
+     :                    , dlt_name
      :                    , '(kg/ha)'
      :                    , delta_array
      :                    , array_size)
-               call Action_send (Owner_module
-     :                                     ,ACTION_set_variable
-     :                                     ,dlt_name)
-               call delete_postbox()
 
             else
                ! nobody knows about this component - forget it!
@@ -836,6 +832,7 @@ c     include   'fertiliz.inc'
       subroutine Main (Action, Data_string)
 *     ===========================================================
       Use infrastructure
+      Use FertilizModule
       implicit none
       ml_external Main
 

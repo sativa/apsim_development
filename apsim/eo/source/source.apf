@@ -2,9 +2,9 @@
 Dependency = %licensed_source(eo)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 eo.for = eo.for
 
 [APSBuild]
 binary = ..\lib\eo.dll
-moduletype=module
+compilerfile=release.compile

@@ -44,9 +44,8 @@
          character  intercrop_list(max_crops)*(module_name_size)  ! list of modules to
                                                                     ! swap for
                                                                     ! intercropping
-         character  crop_module(max_crops)*(module_name_size)     ! list of modules
-                                                                    ! replying
-
+         integer  crop_module(max_crops)        ! list of modules replying
+                                                                     
       end type CanopyGlobals
 ! ====================================================================
       ! instance variables.
@@ -146,7 +145,7 @@
       integer    crop                  ! index for crops
       character  crop_type*100         ! type of crop
       integer    numvals               ! number of values in string
-      character  owner_module*(max_module_name_size) ! owner module of variable
+      integer owner_module             ! owner module of variable
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -166,14 +165,13 @@
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
-               call get_posting_Module (Owner_module)
+               Owner_module = get_posting_Module ()
 
                g%crop_module(crop) = owner_module
                goto 1000
             else
                call fatal_error (err_user
-     :            , 'Too many modules with crop type. Last module ='
-     :            // owner_module)
+     :            , 'Too many modules with crop type.')
             endif
          else
          endif
@@ -217,7 +215,7 @@
       g%top_layer_light = 0.0
 
       g%intercrop_list = blank
-      g%crop_module    = blank
+      g%crop_module    = 0
 
 
 
@@ -290,7 +288,7 @@
       integer    crop                  ! index for crops
       real       temp                  !
       integer    numvals               ! number of values in string
-      character  owner_module*(max_module_name_size) ! owner module of variable
+      integer    owner_module          ! owner module of variable
 
 *- Implementation Section ----------------------------------
 
@@ -308,7 +306,7 @@
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
-               call get_posting_Module (Owner_module)
+               Owner_module = get_posting_Module ()
                g%crop_module(crop) = owner_module
                if (temp.lt.1) then
                   g%K_lai_green(crop) = - log (1.0 - temp)
@@ -318,8 +316,7 @@
                goto 1000
             else
                call fatal_error (err_user
-     :            , 'Too many modules with green cover. Last module ='
-     :            // owner_module)
+     :            , 'Too many modules with green cover.')
             endif
          else
          endif
@@ -341,7 +338,7 @@
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
-               call get_posting_Module (Owner_module)
+               Owner_module = get_posting_Module ()
                if (owner_module.eq.g%crop_module(crop)) then
                   if (temp.lt.1) then
                      g%K_lai_total(crop) = - log (1.0 - temp)
@@ -356,8 +353,7 @@
                endif
             else
                call fatal_error (err_user
-     :            , 'Too many modules with total cover. Last module ='
-     :            // owner_module)
+     :            , 'Too many modules with total cover.')
             endif
          else
          endif
@@ -379,7 +375,7 @@
          if (numvals.ne.0) then
             if (crop+1.le.max_crops) then
                crop = crop + 1
-               call get_posting_Module (Owner_module)
+               Owner_module = get_posting_Module ()
                if (owner_module.eq.g%crop_module(crop)) then
                   g%height(crop) = temp
                   goto 3000
@@ -390,8 +386,7 @@
                endif
             else
                call fatal_error (err_user
-     :                  , 'Too many modules with height. Last module ='
-     :                  // owner_module)
+     :                  , 'Too many modules with height.')
             endif
          else
          endif
@@ -449,9 +444,11 @@ c      integer    canopy_crop_number    ! function
 *+  Local Variables
       real       cover                 ! temporary cover variable
       integer    module                ! module counter
-      character  module_name*(max_module_name_size) ! module name
+      character  module_id_string*(max_module_name_size) ! module name
       real       cover_tot_all(max_crops)   ! total cover of each crop (0-1)
       real       cover_green_all(max_crops) ! green cover of each crop (0-1)
+      integer    moduleID 
+      integer    numvals
 
 *- Implementation Section ----------------------------------
 
@@ -460,19 +457,29 @@ c      integer    canopy_crop_number    ! function
       temp_variable_name = variable_name
 
       if (temp_variable_name .eq. fr_intc_radn_name) then
-         module_name = Variable_name(fr_intc_radn_name_length+1:)
-         module = canopy_crop_number (module_name)
-         if (module.gt.0) then
-            call respond2get_real_var (variable_name, '()'
-     :                                , g%intc_light(module))
+         module_id_string = Variable_name(fr_intc_radn_name_length+1:)
+         call string_to_integer_var (module_id_string
+     :                             , moduleID, numvals)
+         if (numvals .eq. 0) then
+            call fatal_error(err_internal
+     :                       , 'Bad module id sent with fr_intc_radn.'
+     :                       // 'Module id = '
+     :                       // module_id_string)
          else
+           
+            module = canopy_crop_number (moduleID)
+            if (module.gt.0) then
+               call respond2get_real_var (variable_name, '()'
+     :                                   , g%intc_light(module))
+            else
                call fatal_error (err_user
-     :              , module_name
+     :              , 'Module with id: ' // module_id_string
      :              // ' requested fr_intc_radn and does not '
      :              // 'have a canopy')
-
+   
+            endif
          endif
-
+         
       else if (variable_name.eq.'cover_tot_sum') then
          cover = 1.0
      :         - exp (-sum_real_array (g%K_lai_total, g%num_crops))
@@ -506,7 +513,8 @@ c      integer    canopy_crop_number    ! function
      :                                 , cover_green_all, g%num_crops)
 
       else if (variable_name.eq.'cover_crops_all') then
-         call respond2get_char_array (variable_name, '()', g%crop_module
+         call respond2get_integer_array (variable_name, '()'
+     :                                 , g%crop_module
      :                                 , g%num_crops)
 
       else
@@ -521,14 +529,14 @@ c      integer    canopy_crop_number    ! function
 
 
 * ====================================================================
-       integer function canopy_crop_number (module_name)
+       integer function canopy_crop_number (module_id)
 * ====================================================================
 
       Use Infrastructure
       implicit none
 
 *+  Sub-Program Arguments
-      character  module_name*(*)         ! (INPUT) name of crop to locate
+      integer  module_id         ! (INPUT) id of crop to locate
 
 *+  Purpose
 *     Return the position of the module_name in module_names array
@@ -548,7 +556,7 @@ c      integer    canopy_crop_number    ! function
       call push_routine (myname)
 
       do 1000 crop = 1, g%num_crops
-         if (module_name.eq.g%crop_module(crop)) then
+         if (module_id.eq.g%crop_module(crop)) then
             crop_num = crop
             goto 1100
          else
@@ -1013,7 +1021,7 @@ c      real       canopy_width          ! function
 
       num_in_list = count_of_char_vals (g%intercrop_list, max_crops)
       if (num_in_list.gt.1) then
-         call Loader_ChangeComponentOrder(g%intercrop_list, num_in_list)
+         call Change_component_order(g%intercrop_list, num_in_list)
       else
          ! no swapping required
       endif

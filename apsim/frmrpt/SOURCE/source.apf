@@ -2,9 +2,9 @@
 Dependency = %licensed_source(frmrpt)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
+ComponentInterface.f90 = ComponentInterface.f90
 frmrpt.for = frmrpt.for
 
 [APSBuild]
 binary = ..\lib\frmrpt.dll
-moduletype=module
+compilerfile=release.compile

@@ -188,7 +188,7 @@
 
          logical demand_is_met(MV,nsol)
 
-         character solute_owners (nsol)*(strsize)
+         integer solute_owners (nsol)
 
          double precision work
          double precision slwork
@@ -219,7 +219,7 @@
                                      ! because it is not used.
 
          character crop_names (MV)*(strsize)
-         character crop_owners (MV)*(strsize)
+         integer crop_owners (MV)
          integer num_crops
          integer          nveg
          double precision root_radius(MV)
@@ -2310,7 +2310,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
       p%num_solutes = 0
       do 100 solnum=1,nsol
          p%solute_names(solnum) = ' '
-         g%solute_owners(solnum) = ' '
+         g%solute_owners(solnum) = 0
   100 continue
 
       return
@@ -2990,12 +2990,7 @@ c      double precision psiold(0:M)
 
 10    continue
 cnh
-      call new_postbox()
-      call Action_Send_to_all_comps('swim_timestep_preparation')
-      call delete_postbox()
-
-
-
+      call event_send('swim_timestep_preparation')
 
 *        calculate next step size_of g%dt
 c         print*,g%t
@@ -3153,9 +3148,7 @@ cnh
             call apswim_check_demand()
 
 cnh
-         call new_postbox()
-         call Action_send_to_all_comps('pre_swim_timestep')
-         call delete_postbox()
+         call event_send('pre_swim_timestep')
 ***
 *           integrate for step g%dt
             call apswim_solve(itlim,fail)
@@ -3240,10 +3233,7 @@ cnh
                end if
 
 cnh
-               call new_postbox()
-               call Action_send_to_all_comps('post_swim_timestep')
-               call delete_postbox()
-
+               call event_send('post_swim_timestep')
 
             end if
 
@@ -4755,17 +4745,12 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
    50    continue
 
-         call new_postbox()
-         call Post_double_array (
+         call Set_double_array (
+     :           g%solute_owners(solnum),
      :           p%solute_names(solnum),
      :           '(kg/ha)',
      :           solute_n(0),
      :           p%n+1)
-
-         call Action_send(g%solute_owners(solnum)
-     :                              ,ACTION_set_variable
-     :                              ,p%solute_names(solnum))
-         call delete_postbox()
   100 continue
 
       return
@@ -4914,7 +4899,6 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 * ====================================================================
        subroutine apswim_find_crops ()
 * ====================================================================
-            use Infrastructure
       Use infrastructure
       implicit none
 
@@ -4962,10 +4946,9 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
             if (crpname.eq.'inactive') then
                ! do not add this crop to the list
             elseif (g%num_crops.lt.MV) then
-               call get_posting_module (owner_module)
                g%num_crops = g%num_crops + 1
                g%crop_names(g%num_crops) = crpname
-               g%crop_owners(g%num_crops) = owner_module
+               g%crop_owners(g%num_crops) = get_posting_module()
             else
                call fatal_error (err_internal, 'too many crops')
             endif
@@ -5033,7 +5016,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
          else
             call fatal_error (Err_Internal,
-     :        'no rlv returned from '//g%crop_owners(vegnum))
+     :        'no rlv returned from '//g%crop_names(vegnum))
          endif
 
          call get_double_var (
@@ -5049,7 +5032,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
             g%pep(vegnum) = g%pep(vegnum)/10d0 ! convert mm to cm
          else
             call fatal_error (Err_Internal,
-     :        'no sw demand returned from '//g%crop_owners(vegnum))
+     :        'no sw demand returned from '//g%crop_names(vegnum))
          endif
 
          do 99 solnum = 1, p%num_solutes
@@ -5571,8 +5554,8 @@ cnh NOTE - intensity is not part of the official design !!!!?
       double precision intensity       ! intensity of rainfall (mm/g%h)
       integer time_of_day              ! time of g%day (min)
       double precision time_mins       ! time of rainfall (min)
-      character owner_module*(strsize)   ! name of module providing info.
-      character module_name*(strsize)         ! name of this module
+      integer owner_module             ! id of module providing info.
+      integer this_module              ! id of this module
 
 *- Implementation Section ----------------------------------
 
@@ -5586,9 +5569,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :           1000.d0)
 
       ! Check that apswim is not getting rainfall from itself.
-      call get_posting_module (owner_module)
-      call Get_current_module (module_name)
-      if (owner_module.eq.module_name) then
+      owner_module = get_posting_module ()
+      this_module = get_componentID ()
+      if (owner_module.eq.this_module) then
          call fatal_error (ERR_User,
      :      'No module provided rainfall values for APSwim')
          amount = 0.d0
@@ -7071,8 +7054,8 @@ cnh      end if
       double precision duration        ! duration of evaporation (min)
       integer time_of_day              ! time of g%day (min)
       double precision time_mins       ! time of evaporation (min)
-      character owner_module*(strsize)   ! name of module providing info.
-      character module_name*(strsize)    ! name of this module
+      integer owner_module             ! id of module providing info.
+      integer this_module              ! id of this module
 
 *- Implementation Section ----------------------------------
 
@@ -7089,9 +7072,9 @@ cnh      end if
       ! Not really necessary if trap in send_my_variable routine
       ! is working correctly.
 
-      call get_posting_module (owner_module)
-      call Get_current_module (module_name)
-      if (owner_module.eq.module_name) then
+      owner_module = get_posting_module ()
+      this_module = get_componentID ()
+      if (owner_module.eq.this_module) then
          call fatal_error (ERR_User,
      :      'No module provided Eo value for APSwim')
          amount = 0.d0
@@ -8152,7 +8135,7 @@ c      pause
 
       if (solnum .gt. 0) then
          ! only continue if solute exists.
-         if (g%solute_owners(solnum).ne.' ') then
+         if (g%solute_owners(solnum).ne.0) then
 
             call get_double_array (
      :              g%solute_owners(solnum),
@@ -8590,7 +8573,7 @@ c      pause
 *+  Local Variables
       integer numvals
       character names(nsol)*32
-      character sender*(max_module_name_size)
+      integer sender
       integer counter
       integer solnum
 
@@ -8598,10 +8581,12 @@ c      pause
 
       call push_routine (my_name)
 
-      call collect_char_var (DATA_sender
-     :                      ,'()'
-     :                      ,sender
-     :                      ,numvals)
+      call collect_integer_var (DATA_sender
+     :                          ,'()'
+     :                          ,sender
+     :                          ,numvals
+     :                          ,0
+     :                          ,10000000)
 
       call collect_char_array (DATA_new_solute_names
      :                        ,nsol
