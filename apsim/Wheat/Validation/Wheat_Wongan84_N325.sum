@@ -287,78 +287,69 @@
           ---------------------------------------------------------
 
 ------- Wheat Initialisation --------------------------------------------------
-      Initialising
+      initialising
 ------- Start of simulation  --------------------------------------------------
 12 June 1984(Day of year=164), operatns: 
       Sending sow message to wheat
 12 June 1984(Day of year=164), Wheat: 
-     Sow
-     
-      - Reading constants for plant
-     
-        - Reading Cultivar Parameters
+     Crop Sow
+      - reading constants for plant(wheat)
+      - reading cultivar parameters
          ------------------------------------------------
-         Cultivar                   = gamenya
-         est_days_emerg_to_init     =        0
-         cum_vernal_days            =
-         tt_emerg_to_endjuv         =
-         x_pp_endjuv_to_init        =
-         y_tt_endjuv_to_init        =
-         x_pp_init_to_flower        =
-         y_tt_init_to_flower        =
-         x_pp_flower_to_start_grain =
-         y_tt_flower_to_start_grain =
-         x_pp_start_to_end_grain    =
-         y_tt_start_to_end_grain    =
-         tt_end_grain_to_maturity   =      0.0
-         tt_maturity_to_ripe        =      0.0
-         x_pp_hi_incr               =     1.00   24.00
-         y_hi_incr                  =  0.01300 0.01300
-         x_hi_max_pot_stress        =     0.00    1.00
-         y_hi_max_pot               =     0.50    0.50
-         x_stem_wt                  =     0.00    6.00
-         y_height                   =     0.00 1500.00
+        cultivar                   = gamenya
+        est_days_emerg_to_init     =        0
+        cum_vernal_days            =
+        tt_emerg_to_endjuv         =
+        x_pp_endjuv_to_init        =
+        y_tt_endjuv_to_init        =
+        x_pp_init_to_flower        =
+        y_tt_init_to_flower        =
+        x_pp_flower_to_start_grain =
+        y_tt_flower_to_start_grain =
+        x_pp_start_to_end_grain    =
+        y_tt_start_to_end_grain    =
+        tt_end_grain_to_maturity   =       0.00
+        tt_maturity_to_ripe        =       0.00
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+        x_stem_wt                  =       0.00       6.00
+        y_height                   =       0.00    1500.00
          ------------------------------------------------
      
      
-     
-     
-        - Reading root profile parameters
-     
-     
-                         Root Profile
+        - reading root profile parameters
+                        Root Profile
      ---------------------------------------------------
           Layer       Kl           Lower    Exploration
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
      ---------------------------------------------------
-           50.0     0.060          0.050       0.400
-           50.0     0.060          0.050       0.400
-          100.0     0.060          0.080       0.600
-          200.0     0.060          0.090       0.800
-          200.0     0.060          0.090       1.000
-          200.0     0.060          0.100       1.000
-          400.0     0.060          0.100       1.000
-          400.0     0.060          0.110       1.000
-          600.0     0.060          0.120       0.700
-          600.0     0.060          0.130       0.700
+          50.0     0.060          0.050       0.400
+          50.0     0.060          0.050       0.400
+         100.0     0.060          0.080       0.600
+         200.0     0.060          0.090       0.800
+         200.0     0.060          0.090       1.000
+         200.0     0.060          0.100       1.000
+         400.0     0.060          0.100       1.000
+         400.0     0.060          0.110       1.000
+         600.0     0.060          0.120       0.700
+         600.0     0.060          0.130       0.700
      ---------------------------------------------------
      
-     
-       Crop factor for bounding water use is set to   1.1 times Eo
-     
+     (Crop factor for bounding water use is set to   1.1 times eo)
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
-         Day no   mm     m^2     mm   Row   Plant Name
+         Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            164   80.0  157.0  250.0   0.0   0.0  gamenya
+            164   80.0  157.0  250.0   0.0   0.0 gamenya
          ------------------------------------------------
-     
      
 13 June 1984(Day of year=165), Wheat: 
-      stage    2.0 germination
+      stage 2.0 germination
 14 June 1984(Day of year=166), operatns: 
       Sending apply message to fertiliz
 14 June 1984(Day of year=166), fertiliz: 
@@ -367,13 +358,13 @@
         74.00 of n as nitrate (no3_n)
                                               added at depth   10.00 (layer   1)
 26 June 1984(Day of year=178), Wheat: 
-      stage    3.0 emergence
-                          biomass =          0.7222000       lai =    0.3140000E-01
-                          stover N conc =    5.847826       extractable sw =    10.99175
+      stage 3.0 emergence
+                     biomass =           0.72 (g/m^2)   lai          =   0.031 (m^2/m^2)
+                     stover N conc =     5.85 (%)     extractable sw =   10.99 (mm)
 27 June 1984(Day of year=179), Wheat: 
-      stage    4.0 end_of_juvenile
-                          biomass =          0.9570822       lai =    0.3520067E-01
-                          stover N conc =    5.831181       extractable sw =    9.078470
+      stage 4.0 end_of_juvenile
+                     biomass =           0.96 (g/m^2)   lai          =   0.035 (m^2/m^2)
+                     stover N conc =     5.83 (%)     extractable sw =    9.08 (mm)
 7 August 1984(Day of year=220), operatns: 
       Sending apply message to fertiliz
 7 August 1984(Day of year=220), fertiliz: 
@@ -382,32 +373,30 @@
        113.00 of n as nitrate (no3_n)
                                               added at depth   10.00 (layer   1)
 28 August 1984(Day of year=241), Wheat: 
-      stage    5.0 floral_initiation
-                          biomass =           297.1658       lai =     3.214971
-                          stover N conc =    3.558972       extractable sw =    41.33951
+      stage 5.0 floral_initiation
+                     biomass =         297.17 (g/m^2)   lai          =   3.215 (m^2/m^2)
+                     stover N conc =     3.56 (%)     extractable sw =   41.34 (mm)
 7 October 1984(Day of year=281), Wheat: 
-      stage    6.0 flowering
-                          biomass =           635.7441       lai =    0.8627971
-                          stover N conc =    1.801836       extractable sw =    20.85090
+      stage 6.0 flowering
+                     biomass =         635.74 (g/m^2)   lai          =   0.863 (m^2/m^2)
+                     stover N conc =     1.80 (%)     extractable sw =   20.85 (mm)
 14 October 1984(Day of year=288), Wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1145890
-             less than lower limit of   0.2294511
+     dlt_n_green mass balance is off: 0.114589 vs 0.229451
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
-      stage    7.0 start_grain_fill
-                          biomass =           669.5590       lai =    0.6577543
-                          stover N conc =    1.721059       extractable sw =    36.93025
+      stage 7.0 start_grain_fill
+                     biomass =         669.56 (g/m^2)   lai          =   0.658 (m^2/m^2)
+                     stover N conc =     1.72 (%)     extractable sw =   36.93 (mm)
 15 October 1984(Day of year=289), Wheat: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1063983
-             less than lower limit of   0.2143827
+     dlt_n_green mass balance is off: 0.106398 vs 0.214383
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -416,8 +405,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1510132
-             less than lower limit of   0.2465743
+     dlt_n_green mass balance is off: 0.151013 vs 0.246574
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -426,8 +414,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1481094
-             less than lower limit of   0.2431497
+     dlt_n_green mass balance is off: 0.148109 vs 0.243150
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -436,8 +423,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1847302
-             less than lower limit of   0.2773961
+     dlt_n_green mass balance is off: 0.184730 vs 0.277396
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -446,8 +432,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2412739
-             less than lower limit of   0.2502900
+     dlt_n_green mass balance is off: 0.241274 vs 0.250290
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -456,8 +441,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.2144466
-             less than lower limit of   0.2243168
+     dlt_n_green mass balance is off: 0.214447 vs 0.224317
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -466,23 +450,22 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     dlt_N_green mass balance =    0.1879794
-             less than lower limit of   0.2017492
+     dlt_n_green mass balance is off: 0.187979 vs 0.201749
      Component name: Wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
 12 November 1984(Day of year=317), Wheat: 
-      stage    8.0 end_grain_fill
-                          biomass =           770.7943       lai =    0.3259411
-                          stover N conc =    1.905063       extractable sw =    21.37766
+      stage 8.0 end_grain_fill
+                     biomass =         770.79 (g/m^2)   lai          =   0.326 (m^2/m^2)
+                     stover N conc =     1.91 (%)     extractable sw =   21.38 (mm)
 13 November 1984(Day of year=318), Wheat: 
-      stage    9.0 maturity
-                          biomass =           770.7943       lai =    0.3189428
-                          stover N conc =    1.906200       extractable sw =    18.99630
+      stage 9.0 maturity
+                     biomass =         770.79 (g/m^2)   lai          =   0.319 (m^2/m^2)
+                     stover N conc =     1.91 (%)     extractable sw =   19.00 (mm)
 14 November 1984(Day of year=319), Wheat: 
-      stage   10.0 harvest_ripe
-                          biomass =           770.7944       lai =    0.7849932E-03
-                          stover N conc =    1.959971       extractable sw =    17.74854
+      stage 10.0 harvest_ripe
+                     biomass =         770.79 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     1.96 (%)     extractable sw =   17.75 (mm)
 25 November 1984(Day of year=330), clock: 
      Simulation is terminating due to end criteria being met.
