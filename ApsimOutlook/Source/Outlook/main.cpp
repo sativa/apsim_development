@@ -272,6 +272,7 @@ void __fastcall TMainForm::ApsimOutlookExecuteMacro(TObject *Sender,
             // We then need to wait a short while to make sure we got all the
             // files.
             TStringList* files = new TStringList;
+            Macro_parameters = "\"" + Macro_parameters + "\"";
             files->CommaText = Macro_parameters.c_str();
             AddToOpenDialog(OpenDialog, files);
             Timer1->Enabled = false;
