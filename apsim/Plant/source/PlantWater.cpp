@@ -222,7 +222,7 @@ void crop_swdef_photo(int   num_layer,    //(INPUT)  number of layers in profile
                       float *dlayer,      //(INPUT)  thickness of soil layer I (mm)
                       float root_depth,   //(INPUT)  depth of roots (mm)
                       float sw_demand,   //(INPUT)  total crop demand for water (mm)
-                      float *sw_supply,   //(INPUT)  potential water to take up (supply) from current soil water (mm)
+                      float *dlt_sw_dep,   //(INPUT)  daily soil water uptake (mm)
                       float *swdef)       //(OUTPUT) sw stress factor (0-1)
 //========================================================================
 /*  Purpose
@@ -241,15 +241,15 @@ void crop_swdef_photo(int   num_layer,    //(INPUT)  number of layers in profile
    //  Local Variables
    int deepest_layer;      // deepest layer in which the roots are growing
    float sw_demand_ratio;  // water supply:demand ratio
-   float sw_supply_sum;    // total supply over profile (mm)
+   float sw_uptake_sum;    // total uptake over profile (mm)
    // Implementation Section ----------------------------------
    if (root_depth > 0.0)
    {
       deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
 
       //get potential water that can be taken up when profile is full
-      sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
-      sw_demand_ratio = divide (sw_supply_sum, sw_demand, 1.0);
+      sw_uptake_sum = -sum_real_array (dlt_sw_dep, deepest_layer+1);
+      sw_demand_ratio = divide (sw_uptake_sum, sw_demand, 1.0);
       *swdef = bound (sw_demand_ratio , 0.0, 1.0);
    }
    else
@@ -689,7 +689,7 @@ void cproc_transp_eff1(float svp_fract,         ///  (INPUT)  fraction of distan
 void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profile
                       float *dlayer,        //(INPUT)  thickness of soil layer I (mm)
                       float root_depth,    //(INPUT)  depth of roots (mm)
-                      float *sw_supply,     //(INPUT)  potential water to take up (supply)
+                      float *dlt_sw_dep,     //(INPUT)  potential water to take up (supply)
                       float transp_eff,    //(INPUT)  transpiration efficiency (g dm/m^2/m
                       float *dlt_dm_pot_te) //(OUTPUT) potential dry matter production
                                             //         by transpiration (g/m^2)
@@ -708,17 +708,17 @@ void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profi
    {
    //  Local Variables
    int deepest_layer;     // deepest layer in which the roots are growing
-   float sw_supply_sum;   // Water available to roots (mm)
+   float sw_uptake_sum;   // Water available to roots (mm)
    // Implementation Section ----------------------------------
 
    // potential (supply) by transpiration
 
    deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
-   sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
+   sw_uptake_sum = -sum_real_array (dlt_sw_dep, deepest_layer+1);
 //   static int ctr = 0;
 //fprintf(stdout, "%d, %f %f\n", ctr, sw_supply_sum, transp_eff);
 //ctr = ctr + 1;
-   *dlt_dm_pot_te = sw_supply_sum * transp_eff;
+   *dlt_dm_pot_te = sw_uptake_sum * transp_eff;
    }
 
 //=========================================================================
