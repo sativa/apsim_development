@@ -315,39 +315,39 @@ Sugar module is calculating its own soil uptakes
  day= 124 date=  3  5 1980 sugar    -  stage    2.0 sprouting
  day= 149 date= 28  5 1980 sugar    -  stage    3.0 emergence
                      biomass =           3.529999       lai =    0.1000000e-01
-                     stover N conc =    2.529746       extractable sw =    77.05064
+                     stover N conc =    2.529744       extractable sw =    77.05064
  day= 300 date= 26 10 1980 sugar    -  stage    4.0 begin_cane
-                     biomass =           2223.552       lai =     6.367001
-                     stover N conc =   0.8190308       extractable sw =    198.3256
+                     biomass =           2223.551       lai =     6.367001
+                     stover N conc =   0.7527879       extractable sw =    198.3256
  day= 185 date=  4  7 1981 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 214 Year =  1981     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.989
- total above ground biomass (kg/ha) =   91960.2
- live above ground biomass (kg/ha) =   91960.2
- green above ground biomass (kg/ha) =   87180.7
- senesced above ground biomass (kg/ha) =    4779.4
+ maximum lai = 6.942
+ total above ground biomass (kg/ha) =   91169.3
+ live above ground biomass (kg/ha) =   91169.3
+ green above ground biomass (kg/ha) =   86395.2
+ senesced above ground biomass (kg/ha) =    4774.2
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  53.6
- total N content (kg/ha) =    217.93    senesced N content (kg/ha) =     17.51
- green N content (kg/ha) =    200.43    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =    187.19    senesced N content (kg/ha) =     17.49
+ green N content (kg/ha) =    169.70    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.4983611e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.9217981e-02
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =15189.1 kg/ha
-                                          straw N =   65.9 kg/ha
-                                          root residue = 2042.6 kg/ha
-                                          root N =    4.2 kg/ha
+                                          straw residue =14633.5 kg/ha
+                                          straw N =   59.7 kg/ha
+                                          root residue = 2023.1 kg/ha
+                                          root N =    6.0 kg/ha
  
     - Reading constants from ratoon_crop
  
@@ -365,41 +365,41 @@ Sugar module is calculating its own soil uptakes
  day= 215 date=  3  8 1981 fertiliz -   160.00 of n as nitrate (no3_n)
                                          added at depth    1.00 (layer   1)
  day= 215 date=  3  8 1981 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
- day= 225 date= 13  8 1981 sugar    -  stage    3.0 emergence
+ day= 224 date= 12  8 1981 sugar    -  stage    3.0 emergence
                      biomass =           3.529968       lai =    0.1000000e-01
-                     stover N conc =    2.529769       extractable sw =    204.3406
+                     stover N conc =    2.529765       extractable sw =    156.3981
  day= 347 date= 13 12 1981 sugar    -  stage    4.0 begin_cane
-                     biomass =           1739.653       lai =     6.527781
-                     stover N conc =   0.9021890       extractable sw =    243.0090
+                     biomass =           1772.480       lai =     6.459587
+                     stover N conc =   0.7268940       extractable sw =    238.1159
  day= 217 date=  5  8 1982 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 246 Year =  1982     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.808
- total above ground biomass (kg/ha) =   73824.2
- live above ground biomass (kg/ha) =   73824.2
- green above ground biomass (kg/ha) =   70190.7
- senesced above ground biomass (kg/ha) =    3633.4
+ maximum lai = 6.576
+ total above ground biomass (kg/ha) =   72738.6
+ live above ground biomass (kg/ha) =   72738.6
+ green above ground biomass (kg/ha) =   69164.0
+ senesced above ground biomass (kg/ha) =    3574.6
  dead above ground biomass (kg/ha) =       0.0
- number of leaves =  49.8
- total N content (kg/ha) =    183.51    senesced N content (kg/ha) =     13.31
- green N content (kg/ha) =    170.20    dead N content (kg/ha) =      0.00
+ number of leaves =  49.9
+ total N content (kg/ha) =    138.37    senesced N content (kg/ha) =     13.09
+ green N content (kg/ha) =    125.28    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.7387325e-02
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.2695385e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.9792060e-02
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =13768.0 kg/ha
-                                          straw N =   71.7 kg/ha
-                                          root residue = 2433.0 kg/ha
-                                          root N =    8.3 kg/ha
+                                          straw residue =13061.4 kg/ha
+                                          straw N =   56.5 kg/ha
+                                          root residue = 2400.4 kg/ha
+                                          root N =   13.9 kg/ha
  Day= 246 Year =  1982     Manager sending message :- residue2 tillage type = burn
  
     - Reading residue tillage info
@@ -415,39 +415,39 @@ Sugar module is calculating its own soil uptakes
  day= 247 date=  4  9 1982 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
  day= 255 date= 12  9 1982 sugar    -  stage    3.0 emergence
                      biomass =           3.530029       lai =    0.1000000e-01
-                     stover N conc =    2.529728       extractable sw =    173.1077
+                     stover N conc =    2.529728       extractable sw =    180.0284
  day=  10 date= 10  1 1983 sugar    -  stage    4.0 begin_cane
-                     biomass =           2344.849       lai =     7.012085
-                     stover N conc =   0.6863511       extractable sw =    146.0320
+                     biomass =           2319.323       lai =     6.777351
+                     stover N conc =   0.5984710       extractable sw =    150.3483
  day= 249 date=  6  9 1983 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 278 Year =  1983     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 7.061
- total above ground biomass (kg/ha) =   82071.1
- live above ground biomass (kg/ha) =   82071.1
- green above ground biomass (kg/ha) =   77905.8
- senesced above ground biomass (kg/ha) =    4165.3
+ maximum lai = 6.834
+ total above ground biomass (kg/ha) =   77827.0
+ live above ground biomass (kg/ha) =   77827.0
+ green above ground biomass (kg/ha) =   73774.4
+ senesced above ground biomass (kg/ha) =    4052.6
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  51.0
- total N content (kg/ha) =    175.69    senesced N content (kg/ha) =     15.26
- green N content (kg/ha) =    160.43    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =    144.20    senesced N content (kg/ha) =     14.85
+ green N content (kg/ha) =    129.35    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.6537446e-02
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.1086088e-01
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.1328366e-03   nitrogen stress 1 =   0.2550363e-02
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.4413771e-01
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =14537.5 kg/ha
-                                          straw N =   62.8 kg/ha
-                                          root residue = 2767.2 kg/ha
-                                          root N =    9.3 kg/ha
+                                          straw residue =13102.0 kg/ha
+                                          straw N =   52.8 kg/ha
+                                          root residue = 2650.2 kg/ha
+                                          root N =   16.0 kg/ha
  Day= 278 Year =  1983     Manager sending message :- residue2 tillage type = burn
  
     - Reading residue tillage info
@@ -463,39 +463,39 @@ Sugar module is calculating its own soil uptakes
  day= 279 date=  6 10 1983 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
  day= 285 date= 12 10 1983 sugar    -  stage    3.0 emergence
                      biomass =           3.530029       lai =    0.1000000e-01
-                     stover N conc =    2.529728       extractable sw =    144.5111
+                     stover N conc =    2.529728       extractable sw =    172.2550
  day=  26 date= 26  1 1984 sugar    -  stage    4.0 begin_cane
-                     biomass =           1593.480       lai =     6.277678
-                     stover N conc =   0.8391183       extractable sw =    295.2325
+                     biomass =           1593.307       lai =     6.232749
+                     stover N conc =   0.7812884       extractable sw =    273.2263
  day= 281 date=  7 10 1984 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 310 Year =  1984     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.561
- total above ground biomass (kg/ha) =   79305.8
- live above ground biomass (kg/ha) =   79305.8
- green above ground biomass (kg/ha) =   75013.4
- senesced above ground biomass (kg/ha) =    4292.4
+ maximum lai = 6.492
+ total above ground biomass (kg/ha) =   76402.0
+ live above ground biomass (kg/ha) =   76402.0
+ green above ground biomass (kg/ha) =   72132.1
+ senesced above ground biomass (kg/ha) =    4269.9
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  50.9
- total N content (kg/ha) =    160.30    senesced N content (kg/ha) =     15.72
- green N content (kg/ha) =    144.58    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =    143.09    senesced N content (kg/ha) =     15.64
+ green N content (kg/ha) =    127.45    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.7788789e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.1911413e-01
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.4507683e-01
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =14555.7 kg/ha
-                                          straw N =   61.7 kg/ha
-                                          root residue = 2801.4 kg/ha
-                                          root N =    9.8 kg/ha
+                                          straw residue =13651.8 kg/ha
+                                          straw N =   56.0 kg/ha
+                                          root residue = 2686.9 kg/ha
+                                          root N =   17.2 kg/ha
  Day= 310 Year =  1984     Manager sending message :- residue2 tillage type = burn
  
     - Reading residue tillage info
@@ -511,39 +511,39 @@ Sugar module is calculating its own soil uptakes
  day= 311 date=  6 11 1984 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
  day= 316 date= 11 11 1984 sugar    -  stage    3.0 emergence
                      biomass =           3.530029       lai =    0.1000000e-01
-                     stover N conc =    2.529728       extractable sw =    184.9603
+                     stover N conc =    2.529728       extractable sw =    174.1670
  day=  53 date= 22  2 1985 sugar    -  stage    4.0 begin_cane
-                     biomass =           1569.703       lai =     6.488192
-                     stover N conc =   0.8757573       extractable sw =    357.9310
+                     biomass =           1569.703       lai =     6.488183
+                     stover N conc =   0.8392320       extractable sw =    354.8138
  day= 312 date=  8 11 1985 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 341 Year =  1985     Manager sending message :- sugar harvest
  
  flowering day  =    0
  maximum lai = 6.782
- total above ground biomass (kg/ha) =   80760.0
- live above ground biomass (kg/ha) =   80760.0
- green above ground biomass (kg/ha) =   76188.4
+ total above ground biomass (kg/ha) =   79556.8
+ live above ground biomass (kg/ha) =   79556.8
+ green above ground biomass (kg/ha) =   74985.1
  senesced above ground biomass (kg/ha) =    4571.6
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  51.1
- total N content (kg/ha) =    162.90    senesced N content (kg/ha) =     16.75
- green N content (kg/ha) =    146.15    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =    150.18    senesced N content (kg/ha) =     16.75
+ green N content (kg/ha) =    133.43    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.1856242e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.5617520e-02
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.1728369e-01
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =15438.3 kg/ha
-                                          straw N =   67.4 kg/ha
-                                          root residue = 2850.0 kg/ha
-                                          root N =    9.9 kg/ha
+                                          straw residue =14959.1 kg/ha
+                                          straw N =   64.0 kg/ha
+                                          root residue = 2777.5 kg/ha
+                                          root N =   17.5 kg/ha
  Day= 341 Year =  1985     Manager sending message :- residue2 tillage type = burn
  
     - Reading residue tillage info
@@ -556,7 +556,7 @@ Sugar module is calculating its own soil uptakes
                                           straw residue =    0.0 kg/ha
                                           straw N =    0.0 kg/ha
                                           root residue = ****** kg/ha
-                                          root N =   47.8 kg/ha
+                                          root N =   84.8 kg/ha
  Day= 122 Year =  1986     Manager sending message :- sugar sow plants = 10 (), cultivar = q117, sowing_depth = 150
  day= 122 date=  2  5 1986 sugar    - Sowing initiate
  
@@ -600,39 +600,39 @@ Sugar module is calculating its own soil uptakes
  day= 124 date=  4  5 1986 sugar    -  stage    2.0 sprouting
  day= 150 date= 30  5 1986 sugar    -  stage    3.0 emergence
                      biomass =           3.529999       lai =    0.1000000e-01
-                     stover N conc =    2.529746       extractable sw =    71.17216
+                     stover N conc =    2.529744       extractable sw =    71.17216
  day= 294 date= 21 10 1986 sugar    -  stage    4.0 begin_cane
                      biomass =           2046.769       lai =     6.248514
-                     stover N conc =   0.7762157       extractable sw =    162.5393
+                     stover N conc =   0.8911893       extractable sw =    162.5393
  day= 186 date=  5  7 1987 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 215 Year =  1987     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.835
- total above ground biomass (kg/ha) =   92385.7
- live above ground biomass (kg/ha) =   92385.7
- green above ground biomass (kg/ha) =   87514.6
- senesced above ground biomass (kg/ha) =    4871.1
+ maximum lai = 6.882
+ total above ground biomass (kg/ha) =   93632.5
+ live above ground biomass (kg/ha) =   93632.5
+ green above ground biomass (kg/ha) =   88690.2
+ senesced above ground biomass (kg/ha) =    4942.3
  dead above ground biomass (kg/ha) =       0.0
  number of leaves =  54.5
- total N content (kg/ha) =    183.33    senesced N content (kg/ha) =     17.84
- green N content (kg/ha) =    165.49    dead N content (kg/ha) =      0.00
+ total N content (kg/ha) =    212.75    senesced N content (kg/ha) =     18.10
+ green N content (kg/ha) =    194.64    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.2607350e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.1251425e-01
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =13889.6 kg/ha
-                                          straw N =   55.1 kg/ha
-                                          root residue = 2028.1 kg/ha
-                                          root N =    3.4 kg/ha
+                                          straw residue =14640.9 kg/ha
+                                          straw N =   63.9 kg/ha
+                                          root residue = 2059.2 kg/ha
+                                          root N =    7.3 kg/ha
  
     - Reading constants from ratoon_crop
  
@@ -652,39 +652,39 @@ Sugar module is calculating its own soil uptakes
  day= 216 date=  4  8 1987 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
  day= 226 date= 14  8 1987 sugar    -  stage    3.0 emergence
                      biomass =           3.529968       lai =    0.1000000e-01
-                     stover N conc =    2.529765       extractable sw =    194.9526
+                     stover N conc =    2.529765       extractable sw =    181.3400
  day= 349 date= 15 12 1987 sugar    -  stage    4.0 begin_cane
-                     biomass =           1869.654       lai =     6.750072
-                     stover N conc =   0.7457576       extractable sw =    179.3634
+                     biomass =           1847.469       lai =     6.512650
+                     stover N conc =   0.6204013       extractable sw =    169.9131
  day= 218 date=  5  8 1988 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 247 Year =  1988     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.907
- total above ground biomass (kg/ha) =   74040.8
- live above ground biomass (kg/ha) =   74040.8
- green above ground biomass (kg/ha) =   69719.0
- senesced above ground biomass (kg/ha) =    4321.7
+ maximum lai = 6.611
+ total above ground biomass (kg/ha) =   69473.9
+ live above ground biomass (kg/ha) =   69473.9
+ green above ground biomass (kg/ha) =   65326.1
+ senesced above ground biomass (kg/ha) =    4147.8
  dead above ground biomass (kg/ha) =       0.0
- number of leaves =  51.0
- total N content (kg/ha) =    158.70    senesced N content (kg/ha) =     15.83
- green N content (kg/ha) =    142.87    dead N content (kg/ha) =      0.00
+ number of leaves =  51.1
+ total N content (kg/ha) =    124.68    senesced N content (kg/ha) =     15.19
+ green N content (kg/ha) =    109.49    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.6475540e-02
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.5761683e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.4925562e-01
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =13407.2 kg/ha
-                                          straw N =   60.6 kg/ha
-                                          root residue = 2434.1 kg/ha
-                                          root N =    7.9 kg/ha
+                                          straw residue =11998.6 kg/ha
+                                          straw N =   48.9 kg/ha
+                                          root residue = 2337.7 kg/ha
+                                          root N =   13.6 kg/ha
  Day= 247 Year =  1988     Manager sending message :- residue2 tillage type = burn
  
     - Reading residue tillage info
@@ -700,39 +700,39 @@ Sugar module is calculating its own soil uptakes
  day= 248 date=  4  9 1988 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
  day= 255 date= 11  9 1988 sugar    -  stage    3.0 emergence
                      biomass =           3.530029       lai =    0.1000000e-01
-                     stover N conc =    2.529722       extractable sw =    189.7625
+                     stover N conc =    2.529728       extractable sw =    213.2966
  day=   3 date=  3  1 1989 sugar    -  stage    4.0 begin_cane
-                     biomass =           1652.814       lai =     6.586184
-                     stover N conc =   0.8216633       extractable sw =    239.1525
+                     biomass =           1652.353       lai =     6.521256
+                     stover N conc =   0.7714733       extractable sw =    216.6339
  day= 249 date=  6  9 1989 manager  - Manager setting apsim variable : irrigate.automatic_irrigation = off
  Day= 278 Year =  1989     Manager sending message :- sugar harvest
  
  flowering day  =    0
- maximum lai = 6.808
- total above ground biomass (kg/ha) =   71916.9
- live above ground biomass (kg/ha) =   71916.9
- green above ground biomass (kg/ha) =   68408.5
- senesced above ground biomass (kg/ha) =    3508.4
+ maximum lai = 6.679
+ total above ground biomass (kg/ha) =   71143.1
+ live above ground biomass (kg/ha) =   71143.1
+ green above ground biomass (kg/ha) =   67655.5
+ senesced above ground biomass (kg/ha) =    3487.6
  dead above ground biomass (kg/ha) =       0.0
- number of leaves =  50.5
- total N content (kg/ha) =    149.02    senesced N content (kg/ha) =     12.85
- green N content (kg/ha) =    136.16    dead N content (kg/ha) =      0.00
+ number of leaves =  50.6
+ total N content (kg/ha) =    132.33    senesced N content (kg/ha) =     12.78
+ green N content (kg/ha) =    119.55    dead N content (kg/ha) =      0.00
  
  stress indices for emergence
- water stress 1 =   0.0000000       nitrogen stress 1 =   0.7111407e-02
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.2437617e-02
  water stress 2 =   0.0000000
  
  stress indices for begin_cane
- water stress 1 =   0.1021968e-02   nitrogen stress 1 =   0.1532453e-04
+ water stress 1 =   0.0000000       nitrogen stress 1 =   0.7010286e-02
  water stress 2 =   0.0000000
  
  stress indices for flowering
  water stress 1 =   0.0000000       nitrogen stress 1 =   0.0000000
  water stress 2 =   0.0000000
-                                          straw residue =13617.0 kg/ha
-                                          straw N =   61.2 kg/ha
-                                          root residue = 2540.0 kg/ha
-                                          root N =    8.7 kg/ha
+                                          straw residue =13103.7 kg/ha
+                                          straw N =   56.0 kg/ha
+                                          root residue = 2485.9 kg/ha
+                                          root N =   15.3 kg/ha
  Day= 278 Year =  1989     Manager sending message :- residue2 tillage type = burn
  
     - Reading residue tillage info
@@ -748,10 +748,10 @@ Sugar module is calculating its own soil uptakes
  day= 279 date=  6 10 1989 manager  - Manager setting apsim variable : fertiliz.fert_no3_n =     160.000000000000
  day= 285 date= 12 10 1989 sugar    -  stage    3.0 emergence
                      biomass =           3.530029       lai =    0.1000000e-01
-                     stover N conc =    2.529728       extractable sw =    157.8847
+                     stover N conc =    2.529728       extractable sw =    163.7267
  day=  28 date= 28  1 1990 sugar    -  stage    4.0 begin_cane
-                     biomass =           1648.635       lai =     5.925886
-                     stover N conc =   0.7436036       extractable sw =    158.3799
+                     biomass =           1648.417       lai =     5.893560
+                     stover N conc =   0.7204630       extractable sw =    161.5555
 Simulation is terminating due to end criteria being met.
  
 ======= End of APSIM simulation ==============================
