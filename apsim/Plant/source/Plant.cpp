@@ -1633,6 +1633,8 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
+//        fruit->bio_water1 (sw_supply, g.transpEffFruit, &g.dltDmPotTeFruit);
+
         cproc_bio_water1 (max_layer, g.dlayer, g.root_depth,
                           g.dlt_sw_dep, g.transp_eff, &g.dlt_dm_pot_te);
         }
@@ -4670,9 +4672,22 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     if (option == 1)
         {
 
-        cproc_sw_demand1 (g.dlt_dm_pot_rue,
-                          g.transp_eff,
-                          &g.sw_demand_te);
+        float swDemandTEFruit = 0.0;
+        fruit->sw_demand1 (g.dltDmPotRueFruit
+                         , g.transpEffFruit
+                         , &swDemandTEFruit);
+
+        float swDemandTEVeg = 0.0;                                        //
+        float dltDmPotRueveg = g.dlt_dm_pot_rue - g.dltDmPotRueFruit;     // FIXME when fruit is proper class
+        cproc_sw_demand1 (dltDmPotRueveg,                                 //
+                          g.transp_eff,                                   //
+                          &swDemandTEVeg);                                //
+
+        g.sw_demand_te = swDemandTEVeg + swDemandTEFruit;
+
+//        cproc_sw_demand1 (g.dlt_dm_pot_rue,
+//                          g.transp_eff,
+//                          &g.sw_demand_te);
 
         //g.sw_demand_te = g.sw_demand_te + g.dlt_dm_parasite_demand
 
@@ -4743,7 +4758,10 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
     return;
     }
 
-
+//===========================================================================
+void Plant::plant_water_distribute (int option /*(INPUT) option number*/)
+//===========================================================================
+{
 //+  Purpose
 //       light supply
 
@@ -4752,25 +4770,121 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
 
 //+  Changes
 //      5/9/96 dph
-void Plant::plant_light_supply (int option /*(INPUT) option number*/)
-    {
 
 //+  Constant Values
-    const char*  my_name = "plant_light_supply" ;
+    const char*  my_name = "plant_water_supply_distribute" ;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
     if (option == 1)
-        {
-        crop_radn_int0(g.cover_green, g.fr_intc_radn, g.radn, &g.radn_int);
+    {
+//      plant_water_supply_partition(float g.sw_demand
+//                                 , float g.sw_demand_veg
+//                                 , float *g.sw_supply
+//                                 , float g.sw_supply_veg
+//                                 , float g.swSupplyFruit)
+
+    }
+    else
+    {
+        throw std::invalid_argument ("invalid template option");
+    }
+
+    pop_routine (my_name);
+    }
+
+//===========================================================================
+void Plant::plant_water_supply_partition(float g_sw_demand
+                                       , float g_sw_demand_veg
+                                       , float *g_sw_supply
+                                       , float g_sw_supply_veg
+                                       , float g_sw_supply_fruit)
+//===========================================================================
+{
+
+//+  Purpose
+//       Partitions water uptake between plant components (g/m^2)
+
+//+  Mission Statement
+//     Partitions water between plant components
+
+//+  Changes
+//       010994 jngh specified and programmed
+
+//+  Constant Values
+    const char*  my_name = "plant_water_supply_partition" ;
+
+//- Implementation Section ----------------------------------
+    push_routine (my_name);
+
+         float swSupply  = sum_real_array(g_sw_supply, max_layer);
+         g_sw_supply_veg = swSupply * divide (g_sw_demand_veg, g_sw_demand, 0.0);
+         g_sw_supply_veg = bound (g_sw_supply_veg, 0.0, 1.0);
+         g_sw_supply_fruit = swSupply - g_sw_supply_veg;
+
+    pop_routine (my_name);
+}
+
+
+//===========================================================================
+void Plant::plant_light_supply_partition (int option /*(INPUT) option number*/)
+//===========================================================================
+{
+//+  Purpose
+//       light supply
+
+//+  Mission Statement
+//     Seek the light intercepted by the leaves
+
+//+  Changes
+//      5/9/96 dph
+
+//+  Constant Values
+    const char*  my_name = "plant_light_supply_partition" ;
+
+//- Implementation Section ----------------------------------
+    push_routine (my_name);
+
+    if (option == 1)
+    {
+
+//        crop_radn_int0(g.cover_green, g.fr_intc_radn, g.radn, &g.radn_int);
+
+             // calc the green fruit interception
+          float radnIntGreenFruit = 0.0;
+          float paiGreen = g.pai;
+          crop_radn_int0(fruit->calcCover (c.extinct_coef_pod, paiGreen)
+                       , g.fr_intc_radn
+                       , g.radn
+                       , &radnIntGreenFruit);
+
+             // calc the total fruit interception - what is left is transmitted to the vegetative parts)
+             // fruit is considered to be at top of canopy
+          float radnIntTotFruit = 0.0;
+          float paiTot = g.pai;   // for now same as green (should include sen and dead)
+          crop_radn_int0(fruit->calcCover (c.extinct_coef_pod, paiTot)
+                       , g.fr_intc_radn
+                       , g.radn
+                       , &radnIntTotFruit);
+
+             // calc the green veg interception
+          float radnIntGreenVeg = 0.0;
+          float coverGreenVeg = (1.0 - (1.0-g.cover_green)/(1.0 - fruit->calcCover (c.extinct_coef_pod, paiTot)));   // FIXME temporary
+          crop_radn_int0(coverGreenVeg
+                       , g.fr_intc_radn
+                       , g.radn - radnIntTotFruit
+                       , &radnIntGreenVeg);
+
+               // for now, put both interceptions into radn_int
+          g.radn_int =  radnIntGreenVeg + radnIntGreenFruit;  // FIXME when turned into proper fruit class
         //cradn
         //fprintf(stdout, "%d %f\n", g.day_of_year, g.cover_green);
-        }
+    }
     else
-        {
+    {
         throw std::invalid_argument ("invalid template option");
-        }
+    }
 
     pop_routine (my_name);
     }
@@ -4792,16 +4906,50 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
 
     if (option == 1)
         {
-        plant_dm_pot_rue(&c.rue
-                         , c.rue_pod
-                         , g.cover_green
-                         , g.cover_pod
-                         , g.radn_int
+        float radnIntGreenFruit = 0.0;                                    //
+        float paiGreen = g.pai;                                           //  FIXME temporary until proper fruit class
+        crop_radn_int0(fruit->calcCover (c.extinct_coef_pod, paiGreen)    //
+                     , g.fr_intc_radn                                     //
+                     , g.radn                                             //
+                     , &radnIntGreenFruit);
+
+        float meanT = 0.5*(g.maxt + g.mint);
+
+        fruit->dm_pot_rue( c.rue_pod
+                         , radnIntGreenFruit
                          , min(min(min(g.temp_stress_photo, g.nfact_photo),
                              g.oxdef_photo), phosphorus->fact_photo())
-                         , g.co2, g.maxt, g.mint
+                         , g.co2
+                         , meanT
                          , c.photosynthetic_pathway
-                         , &g.dlt_dm_pot_rue);
+                         , &g.dltDmPotRueFruit);
+
+
+        float radnIntGreenVeg = g.radn_int - radnIntGreenFruit;  //  FIXME temporary until proper fruit class
+
+        float dlt_dm_pot_rue_veg = 0.0;
+        plant_dm_pot_rue_veg(&c.rue
+                           , radnIntGreenVeg
+                           , min(min(min(g.temp_stress_photo, g.nfact_photo),
+                               g.oxdef_photo), phosphorus->fact_photo())
+                           , g.co2
+                           , g.maxt, g.mint
+                           , c.photosynthetic_pathway
+                           , &dlt_dm_pot_rue_veg);
+
+        g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + g.dltDmPotRueFruit;  // FIXME when fruit is made proper class
+
+//        plant_dm_pot_rue(&c.rue
+//                         , c.rue_pod
+//                         , g.cover_green
+//                         , g.cover_pod
+//                         , g.radn_int
+//                         , min(min(min(g.temp_stress_photo, g.nfact_photo),
+//                             g.oxdef_photo), phosphorus->fact_photo())
+//                         , g.co2, g.maxt, g.mint
+//                         , c.photosynthetic_pathway
+//                         , &g.dlt_dm_pot_rue);
+
         }
     else
         {
@@ -4854,6 +5002,44 @@ void Plant::plant_dm_pot_rue (externalFunction *c_rue
   *dlt_dm_pot = (radn_int * podfr * rue_pod +
                  radn_int * (1.0 - podfr) * rue_leaf) *
                 stress_factor * co2_modifier;
+//  fprintf(stdout, "%f,%f,%f\n", phenology->stageNumber(), stress_factor, *dlt_dm_pot);
+  }
+
+
+//+  Purpose
+//       Potential biomass (carbohydrate) production from
+//       photosynthesis (g/m^2).  The effect of factors such
+//       temperature and nutritional status of the plant are
+//       taken into account in the radiation use efficiency.
+
+//+  Mission Statement
+//     Get the potential biomass production - limited by stress factors
+
+//+  Changes
+//       181197 nih specified and programmed
+void Plant::plant_dm_pot_rue_veg (externalFunction *c_rue
+                                , double  radn_int
+                                , double  stress_factor
+                                , float g_co2
+                                , float g_maxt
+                                , float g_mint
+                                , photosynthetic_pathway_t c_photosynthetic_pathway
+                                , float  *dlt_dm_pot)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+  {
+  //+  Local Variables
+  double rue_leaf;
+  float co2_modifier = 0.0;
+
+  rue_leaf = c_rue->value(phenology->stageNumber());
+
+  plant_rue_co2_modifier(c_photosynthetic_pathway,
+                         g_co2,
+                         g_maxt,
+                         g_mint,
+                         &co2_modifier);
+
+  *dlt_dm_pot = (radn_int * rue_leaf) * stress_factor * co2_modifier;
+
 //  fprintf(stdout, "%f,%f,%f\n", phenology->stageNumber(), stress_factor, *dlt_dm_pot);
   }
 
@@ -4934,6 +5120,12 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
     if (option == 1)
         {
         float te_coeff = c.transp_eff_cf[(int)phenology->stageNumber()-1];
+
+        fruit->transp_eff_co2(c.svp_fract, te_coeff,
+                             g.maxt, g.mint, g.co2,
+                             c.x_co2_te_modifier, c.y_co2_te_modifier,
+                             c.num_co2_te_modifier,
+                             &g.transpEffFruit);
 
         cproc_transp_eff_co2(c.svp_fract, te_coeff,
                              g.maxt, g.mint, g.co2,
@@ -7622,6 +7814,7 @@ void Plant::plant_process ( void )
         plant_leaf_area_potential (1);            // linear interp leaf size
         plant_leaf_area_stressed (1);
 
+        plant_water_distribute (1);
         plant_bio_water (1);
         plant_bio_rue (1);
         //fprintf(stdout, "%d,%.9f,%.9f,%.9f\n", g.day_of_year,g.dlt_dm, g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
@@ -9374,6 +9567,8 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_dm = 0.0;
       g.dlt_dm_pot_rue = 0.0;
       g.dlt_dm_pot_te = 0.0;
+      g.dltDmPotRueFruit = 0.0;
+      g.dltDmPotTeFruit = 0.0;
       g.dlt_dm_oil_conv = 0.0;
       g.dlt_dm_supply_to_fruit = 0.0;
       g.dlt_dm_yield_demand_fruit = 0.0;
@@ -9396,6 +9591,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dm_senesced, 0.0, max_part);
       g.radn_int = 0.0;
       g.transp_eff = 0.0;
+      g.transpEffFruit = 0.0;
       g.slai = 0.0;
       g.dlt_slai = 0.0;
       g.dlt_lai = 0.0;
@@ -11604,7 +11800,7 @@ void Plant::plant_prepare (void)
 
     plant_nit_stress (c.n_stress_option);
     plant_temp_stress (1);
-    plant_light_supply (1);
+    plant_light_supply_partition (1);
     plant_bio_rue (1);
     plant_transpiration_eff (1);
     plant_water_demand (1);
