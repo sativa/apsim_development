@@ -1333,7 +1333,7 @@
       <element>
       <field name="name" kind="string"/>
       <field name="OrganicMatterType" kind="string"/>
-      <field name="OrganicMatterFraction" array="T">
+      <field name="StandingFraction" array="T">
          <element>
          <field name="amount"  kind="single" units="kg/ha"/>
          <field name="C"       kind="single" units="kg/ha"/>
@@ -1341,6 +1341,14 @@
          <field name="P"       kind="single" units="kg/ha"/>
          <field name="AshAlk"  kind="single" units="kg/ha"/>
          </element>
+      <field name="LyingFraction" array="T">
+         <element>
+         <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="C"       kind="single" units="kg/ha"/>
+         <field name="N"       kind="single" units="kg/ha"/>
+         <field name="P"       kind="single" units="kg/ha"/>
+         <field name="AshAlk"  kind="single" units="kg/ha"/>
+         </element>         
       </field>
       </element>
    </type>
