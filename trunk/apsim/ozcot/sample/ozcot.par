@@ -103,17 +103,17 @@ enr_a_coeff =       7.4  ()
 enr_b_coeff =       0.2  ()   
 
 
-[belah.residue2.parameters]  
+[belah.SurfaceOM.parameters]  
 
 root_fom =           0.   ()   ! root residues as biomass (kg/ha)- added in .MAN file on day 321
 root_cn =            36.  ()   ! root residue C:N ratio
-residue_wt =         0.   ()   ! surface residues as biomass (kg/ha)
-residue_cnr =        33.  ()   ! cn ratio of surface residues
-residue_type =       wheat   
-pot_decomp_rate =    0.1  ()   
+mass = 0.   ()   ! surface residues as biomass (kg/ha)
+cnr = 33.  ()   ! cn ratio of surface residues
+type = wheat
 
 
 
+name = wheat
 [o97_1_1.SummaryFile.parameters]
 summaryfile=s_971_1.sum
 [standard.Screen.parameters]

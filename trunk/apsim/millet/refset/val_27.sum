@@ -22,7 +22,7 @@
      Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\millet\lib\millet.dll
      Component DLL          = c:\development\apsim\millet\lib\millet.dll
@@ -153,7 +153,7 @@
           millet harvest
           millet kill_crop
           millet end_crop
-          residue2 tillage type = burn
+          surfaceom tillage type = burn
           tiller0_finished = 2
           endif
           if (millet1.stage_name = 'harvest_ripe' and millet1.plant_status = 'alive') or
@@ -162,7 +162,7 @@
           millet1 harvest
           millet1 kill_crop
           millet1 end_crop
-          residue2 tillage type = burn
+          surfaceom tillage type = burn
           tiller1_finished = 2
           endif
           if (millet2.stage_name = 'harvest_ripe' and millet2.plant_status = 'alive') or
@@ -171,7 +171,7 @@
           millet2 harvest
           millet2 kill_crop
           millet2 end_crop
-          residue2 tillage type = burn
+          surfaceom tillage type = burn
           tiller2_finished = 2
           endif
           if (millet3.stage_name = 'harvest_ripe' and millet3.plant_status = 'alive') or
@@ -180,7 +180,7 @@
           millet3 harvest
           millet3 kill_crop
           millet3 end_crop
-          residue2 tillage type = burn
+          surfaceom tillage type = burn
           tiller3_finished = 2
           endif
           if (millet4.stage_name = 'harvest_ripe' and millet4.plant_status = 'alive') or
@@ -189,7 +189,7 @@
           millet4 harvest
           millet4 kill_crop
           millet4 end_crop
-          residue2 tillage type = burn
+          surfaceom tillage type = burn
           tiller4_finished = 2
           endif
           if (millet5.stage_name = 'harvest_ripe' and millet5.plant_status = 'alive') or
@@ -198,7 +198,7 @@
           millet5 harvest
           millet5 kill_crop
           millet5 end_crop
-          residue2 tillage type = burn
+          surfaceom tillage type = burn
           tiller5_finished = 2
           endif
      if (tiller0_finished = 2 and tiller1_finished = 2 and tiller2_finished = 2) and
@@ -296,30 +296,29 @@
             CONA:                     6.60 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = millet
+      Residue type = millet
+      Overall mass =  0.00000000E+00
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying lignin mass =  0.00000000E+00
+                            C:N =  -NaN
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-                 0.0     0.0     0.0  millet
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    33.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -973,8 +972,8 @@
                                                root residue =   13.6 kg/ha
                                                root N =    0.1 kg/ha
 7 August 1994(Day of year=219), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-7 August 1994(Day of year=219), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+7 August 1994(Day of year=219), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -1093,8 +1092,8 @@
                                                root residue =  540.5 kg/ha
                                                root N =    5.7 kg/ha
 29 August 1994(Day of year=241), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-29 August 1994(Day of year=241), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+29 August 1994(Day of year=241), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -1169,8 +1168,8 @@
                                                root residue =   91.9 kg/ha
                                                root N =    1.0 kg/ha
 29 August 1994(Day of year=241), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-29 August 1994(Day of year=241), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+29 August 1994(Day of year=241), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -1257,8 +1256,8 @@
                                                root residue =  298.1 kg/ha
                                                root N =    3.2 kg/ha
 30 August 1994(Day of year=242), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-30 August 1994(Day of year=242), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+30 August 1994(Day of year=242), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -1333,8 +1332,8 @@
                                                root residue =   53.9 kg/ha
                                                root N =    0.6 kg/ha
 30 August 1994(Day of year=242), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-30 August 1994(Day of year=242), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+30 August 1994(Day of year=242), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn
@@ -1413,8 +1412,8 @@
                                                root residue =  174.1 kg/ha
                                                root N =    1.8 kg/ha
 31 August 1994(Day of year=243), manager: 
-     Manager sending message :- residue2 tillage  type = burn
-31 August 1994(Day of year=243), residue2: 
+     Manager sending message :- surfaceom tillage  type = burn
+31 August 1994(Day of year=243), SurfaceOM: 
      
          - Reading residue tillage info
      Residue removed using burn

@@ -26,7 +26,7 @@ end_date=21/12/2002
 if today = date('1-dec') then
    soilwat2 reset
    soiln2 reset
-   residue2 reset
+   surfaceom reset
    mungbean sow cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 endif
 

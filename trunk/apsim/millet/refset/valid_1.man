@@ -602,13 +602,13 @@ variable = millet5.lai as lai5
 [valid_1.canopy.parameters]    
 intercrop =  millet millet1 millet2 millet3 millet4 millet5   
 
-[valid_1.residue2.parameters]    
+[valid_1.SurfaceOM.parameters]    
 
-residue_wt =            0.0   ()   ! surface residues as biomass (kg/ha)
-residue_cnr =          33.0   ()   ! cn ratio of surface residues
-pot_decomp_rate =       0.1   ()   
-residue_type =        millet   
+mass = 0.0   ()   ! surface residues as biomass (kg/ha)
+cnr = 33.0   ()   ! cn ratio of surface residues
+type = millet
 
+name = millet
 [pat77.manager.start_of_day]    
   if (day = 286 and year = 1977) then
      crop_in = 1
@@ -698,7 +698,7 @@ endif
      millet harvest 
      millet kill_crop 
      millet end_crop
-     residue2 tillage type = burn
+     surfaceom tillage type = burn
      tiller0_finished = 2
      endif
 
@@ -709,7 +709,7 @@ endif
      millet1 harvest 
      millet1 kill_crop 
      millet1 end_crop
-     residue2 tillage type = burn
+     surfaceom tillage type = burn
      tiller1_finished = 2
      endif
 
@@ -720,7 +720,7 @@ endif
      millet2 harvest 
      millet2 kill_crop 
      millet2 end_crop
-     residue2 tillage type = burn
+     surfaceom tillage type = burn
      tiller2_finished = 2
      endif
 
@@ -731,7 +731,7 @@ endif
      millet3 harvest 
      millet3 kill_crop 
      millet3 end_crop
-     residue2 tillage type = burn
+     surfaceom tillage type = burn
      tiller3_finished = 2
      endif
 
@@ -742,7 +742,7 @@ endif
      millet4 harvest 
      millet4 kill_crop 
      millet4 end_crop
-     residue2 tillage type = burn
+     surfaceom tillage type = burn
      tiller4_finished = 2
      endif
 
@@ -753,7 +753,7 @@ endif
      millet5 harvest 
      millet5 kill_crop 
      millet5 end_crop
-     residue2 tillage type = burn
+     surfaceom tillage type = burn
      tiller5_finished = 2
      endif
 

@@ -18,7 +18,7 @@
      Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\plant\lib\plant.dll
      Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
@@ -55,7 +55,7 @@
      if today = date('1-dec') then
         soilwat2 reset
         soiln2 reset
-        residue2 reset
+        surfaceom reset
         mungbean sow cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
      endif
      
@@ -136,30 +136,29 @@
             CONA:                     3.50 ()
            Eo from priestly-taylor
 
-------- residue2 Initialisation -----------------------------------------------
+------- SurfaceOM Initialisation ----------------------------------------------
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
      
      
-     
-                      Residue Initial Data
-         ------------------------------------------------
-            Dry matter   N       P    Type
-             (kg/ha)  (kg/ha) (kg/ha)
-         ------------------------------------------------
-              2000.0    26.7     0.0  mungbean
-         ------------------------------------------------
-     
-     
-                      Residue Initial Parameters
-         ------------------------------------------------
-           Pot Decomp Rate  C:N     C:P  Phosphorus  Report
-           (fraction/day) (ratio) (ratio)  aware      additions
-         ------------------------------------------------
-                  0.100    30.0     0.0       F       no
-         ------------------------------------------------
 
 ------- soiln2 Initialisation -------------------------------------------------
      
@@ -231,12 +230,30 @@
      
         - Reading Parameters
 1 December 1957(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1957(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1957(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1957(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1957(Day of year=335), mungbean: 
@@ -389,12 +406,30 @@
      
         - Reading Parameters
 1 December 1958(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1958(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1958(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1958(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1958(Day of year=335), mungbean: 
@@ -547,12 +582,30 @@
      
         - Reading Parameters
 1 December 1959(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1959(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1959(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1959(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1959(Day of year=335), mungbean: 
@@ -705,12 +758,30 @@
      
         - Reading Parameters
 1 December 1960(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1960(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1960(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1960(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1960(Day of year=336), mungbean: 
@@ -863,12 +934,30 @@
      
         - Reading Parameters
 1 December 1961(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1961(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1961(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1961(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1961(Day of year=335), mungbean: 
@@ -1021,12 +1110,30 @@
      
         - Reading Parameters
 1 December 1962(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1962(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1962(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1962(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1962(Day of year=335), mungbean: 
@@ -1179,12 +1286,30 @@
      
         - Reading Parameters
 1 December 1963(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1963(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1963(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1963(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1963(Day of year=335), mungbean: 
@@ -1337,12 +1462,30 @@
      
         - Reading Parameters
 1 December 1964(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1964(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1964(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1964(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1964(Day of year=336), mungbean: 
@@ -1495,12 +1638,30 @@
      
         - Reading Parameters
 1 December 1965(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1965(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1965(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1965(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1965(Day of year=335), mungbean: 
@@ -1653,12 +1814,30 @@
      
         - Reading Parameters
 1 December 1966(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1966(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1966(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1966(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1966(Day of year=335), mungbean: 
@@ -1811,12 +1990,30 @@
      
         - Reading Parameters
 1 December 1967(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1967(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1967(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1967(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1967(Day of year=335), mungbean: 
@@ -1969,12 +2166,30 @@
      
         - Reading Parameters
 1 December 1968(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1968(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1968(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1968(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1968(Day of year=336), mungbean: 
@@ -2127,12 +2342,30 @@
      
         - Reading Parameters
 1 December 1969(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1969(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1969(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1969(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1969(Day of year=335), mungbean: 
@@ -2285,12 +2518,30 @@
      
         - Reading Parameters
 1 December 1970(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1970(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1970(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1970(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1970(Day of year=335), mungbean: 
@@ -2443,12 +2694,30 @@
      
         - Reading Parameters
 1 December 1971(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1971(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1971(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1971(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1971(Day of year=335), mungbean: 
@@ -2601,12 +2870,30 @@
      
         - Reading Parameters
 1 December 1972(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1972(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1972(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1972(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1972(Day of year=336), mungbean: 
@@ -2759,12 +3046,30 @@
      
         - Reading Parameters
 1 December 1973(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1973(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1973(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1973(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1973(Day of year=335), mungbean: 
@@ -2917,12 +3222,30 @@
      
         - Reading Parameters
 1 December 1974(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1974(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1974(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1974(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1974(Day of year=335), mungbean: 
@@ -3075,12 +3398,30 @@
      
         - Reading Parameters
 1 December 1975(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1975(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1975(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1975(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1975(Day of year=335), mungbean: 
@@ -3233,12 +3574,30 @@
      
         - Reading Parameters
 1 December 1976(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1976(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1976(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1976(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1976(Day of year=336), mungbean: 
@@ -3391,12 +3750,30 @@
      
         - Reading Parameters
 1 December 1977(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1977(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1977(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1977(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1977(Day of year=335), mungbean: 
@@ -3549,12 +3926,30 @@
      
         - Reading Parameters
 1 December 1978(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1978(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1978(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1978(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1978(Day of year=335), mungbean: 
@@ -3707,12 +4102,30 @@
      
         - Reading Parameters
 1 December 1979(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1979(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1979(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1979(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1979(Day of year=335), mungbean: 
@@ -3865,12 +4278,30 @@
      
         - Reading Parameters
 1 December 1980(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1980(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1980(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1980(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1980(Day of year=336), mungbean: 
@@ -4023,12 +4454,30 @@
      
         - Reading Parameters
 1 December 1981(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1981(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1981(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1981(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1981(Day of year=335), mungbean: 
@@ -4181,12 +4630,30 @@
      
         - Reading Parameters
 1 December 1982(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1982(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1982(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1982(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1982(Day of year=335), mungbean: 
@@ -4339,12 +4806,30 @@
      
         - Reading Parameters
 1 December 1983(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1983(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1983(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1983(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1983(Day of year=335), mungbean: 
@@ -4497,12 +4982,30 @@
      
         - Reading Parameters
 1 December 1984(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1984(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1984(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1984(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1984(Day of year=336), mungbean: 
@@ -4655,12 +5158,30 @@
      
         - Reading Parameters
 1 December 1985(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1985(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1985(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1985(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1985(Day of year=335), mungbean: 
@@ -4813,12 +5334,30 @@
      
         - Reading Parameters
 1 December 1986(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1986(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1986(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1986(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1986(Day of year=335), mungbean: 
@@ -4971,12 +5510,30 @@
      
         - Reading Parameters
 1 December 1987(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1987(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1987(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1987(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1987(Day of year=335), mungbean: 
@@ -5129,12 +5686,30 @@
      
         - Reading Parameters
 1 December 1988(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1988(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1988(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1988(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1988(Day of year=336), mungbean: 
@@ -5287,12 +5862,30 @@
      
         - Reading Parameters
 1 December 1989(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1989(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1989(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1989(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1989(Day of year=335), mungbean: 
@@ -5445,12 +6038,30 @@
      
         - Reading Parameters
 1 December 1990(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1990(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1990(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1990(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1990(Day of year=335), mungbean: 
@@ -5603,12 +6214,30 @@
      
         - Reading Parameters
 1 December 1991(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1991(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1991(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1991(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1991(Day of year=335), mungbean: 
@@ -5761,12 +6390,30 @@
      
         - Reading Parameters
 1 December 1992(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1992(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1992(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1992(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1992(Day of year=336), mungbean: 
@@ -5919,12 +6566,30 @@
      
         - Reading Parameters
 1 December 1993(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1993(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1993(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1993(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1993(Day of year=335), mungbean: 
@@ -6077,12 +6742,30 @@
      
         - Reading Parameters
 1 December 1994(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1994(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1994(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1994(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1994(Day of year=335), mungbean: 
@@ -6235,12 +6918,30 @@
      
         - Reading Parameters
 1 December 1995(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1995(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1995(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1995(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1995(Day of year=335), mungbean: 
@@ -6393,12 +7094,30 @@
      
         - Reading Parameters
 1 December 1996(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 1996(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1996(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1996(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1996(Day of year=336), mungbean: 
@@ -6551,12 +7270,30 @@
      
         - Reading Parameters
 1 December 1997(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1997(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1997(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1997(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1997(Day of year=335), mungbean: 
@@ -6709,12 +7446,30 @@
      
         - Reading Parameters
 1 December 1998(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1998(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1998(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1998(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1998(Day of year=335), mungbean: 
@@ -6867,12 +7622,30 @@
      
         - Reading Parameters
 1 December 1999(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 1999(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 1999(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 1999(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 1999(Day of year=335), mungbean: 
@@ -7025,12 +7798,30 @@
      
         - Reading Parameters
 1 December 2000(Day of year=336), manager: 
-     Manager sending message :- residue2 reset
-1 December 2000(Day of year=336), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 2000(Day of year=336), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 2000(Day of year=336), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 2000(Day of year=336), mungbean: 
@@ -7183,12 +7974,30 @@
      
         - Reading Parameters
 1 December 2001(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 2001(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 2001(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 2001(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 2001(Day of year=335), mungbean: 
@@ -7341,12 +8150,30 @@
      
         - Reading Parameters
 1 December 2002(Day of year=335), manager: 
-     Manager sending message :- residue2 reset
-1 December 2002(Day of year=335), residue2: 
+     Manager sending message :- surfaceom reset
+1 December 2002(Day of year=335), SurfaceOM: 
      
          - Reading constants
      
          - Reading parameters
+      Residue name = mungbean
+      Residue type = mungbean
+      Overall mass =  2000.00000
+      Pot Decomposition Rate =  0.100000001
+      Standing carbohydrate mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing cellulose mass =  0.00000000E+00
+                            C:N =  -NaN
+      Standing lignin mass =  0.00000000E+00
+                            C:N =  -NaN
+      Lying carbohydrate mass =  400.000000
+                            C:N =  30.0000000
+      Lying cellulose mass =  1400.00000
+                            C:N =  30.0000019
+      Lying lignin mass =  200.000000
+                            C:N =  30.0000000
+     
+     
 1 December 2002(Day of year=335), manager: 
      Manager sending message :- mungbean sow  cultivar = emerald, plants = 25 (/m2), sowing_depth = 40 (mm), row_spacing = 350.0
 1 December 2002(Day of year=335), mungbean: 
