@@ -396,17 +396,9 @@ void Path::Change_directory(void)
 //    DPH 13/5/1997 - reworked to use standard template library.
 
 // ------------------------------------------------------------------
-void Path::Append_directory (const char* Additional_directory)
+void Path::Append_path (const char* path)
    {
-   if (Directory.length() > 0)
-      {
-      // make sure last char of directory is a slash.
-      char Last_char = Directory[Directory.length()-1];
-      if (Last_char != '\\')
-         Directory += "\\";
-      }
-   Directory += Additional_directory;
-   To_lower(Directory);
+   Path New_path(path);
 
    // need to make sure path is an absolute one.
    // get the current directory because we're going to change it.
@@ -420,17 +412,16 @@ void Path::Append_directory (const char* Additional_directory)
    // properly converts any relative paths to full paths.
    char Full_path[500];
    char* Ptr_to_name;
-   GetFullPathName(Additional_directory, sizeof Full_path, Full_path, &Ptr_to_name);
+   GetFullPathName(New_path.Get_directory().c_str(), sizeof Full_path, Full_path, &Ptr_to_name);
 
    // setup drive.
-   Drive.assign(Full_path, 2);
+   Drive.assign(string(Full_path), 0, 2);
 
    // setup directory.
-   size_t Directory_size = Ptr_to_name - (char*) &Full_path - 2;
-   Directory.assign (&Full_path[2], Directory_size);
+   Directory.assign (string(Full_path), 2);
 
    // setup name
-   Name.assign (Ptr_to_name);
+   Name.assign (New_path.Get_name().c_str());
 
    // restore current directory.
    SetCurrentDirectory (Saved_directory);

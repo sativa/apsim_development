@@ -54,8 +54,7 @@ class Path
       bool Exists(void);
       void Change_directory(void);
 
-      void Append_directory (const char* Directory);
-      void Append_relative_path (const char* Relative_path);
+      void Append_path (const char* Path);
       string Back_up_directory (void);
 	};
 
