@@ -36,6 +36,8 @@ void TScreenForm::setup(void)
       if (st == "yes")
          WindowState = wsMinimized;
       }
+   settings.read("apsim|PauseOnComplete", st);
+   PauseCheckBox->Checked = !Str_i_Eq(st, "no");
    }
 //---------------------------------------------------------------------------
 void TScreenForm::addLine(const string& line)
@@ -61,6 +63,8 @@ void TScreenForm::simulationHasFinished(void)
    if (moreToGo == "false" && quiet == "false")
       {
       CancelButton->Caption = "Close";
+      CancelButton->Default = true;
+      CancelButton->SetFocus();
       settings.write("apsim|NextWasClicked", "false");
       }
    else
@@ -106,6 +110,15 @@ void __fastcall TScreenForm::PauseButtonClick(TObject *Sender)
    else
       PauseButton->Caption = "Pause";
 
+   }
+//---------------------------------------------------------------------------
+void __fastcall TScreenForm::PauseCheckBoxClick(TObject *Sender)
+   {
+   ApsimSettings settings;
+   if (PauseCheckBox->Checked)
+      settings.write("Apsim|PauseOnComplete", "yes");
+   else
+      settings.write("Apsim|PauseOnComplete", "no");
    }
 //---------------------------------------------------------------------------
 

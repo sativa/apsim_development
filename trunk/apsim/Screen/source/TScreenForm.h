@@ -20,16 +20,17 @@ class TScreenForm : public TForm
       TLabel *StartDateLabel;
       TLabel *EndDateLabel;
    TLabel *TitleLabel;
-      TMemo *Memo;
       TLabel *ErrorLabel;
       TLabel *FinishedLabel;
       TLabel *CurrentDateLabel;
    TButton *CancelButton;
-   TBevel *Bevel1;
    TButton *PauseButton;
+   TMemo *Memo;
+   TCheckBox *PauseCheckBox;
       void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
       void __fastcall CancelButtonClick(TObject *Sender);
    void __fastcall PauseButtonClick(TObject *Sender);
+   void __fastcall PauseCheckBoxClick(TObject *Sender);
    private:	// User declarations
    public:		// User declarations
       __fastcall TScreenForm(TComponent* Owner);
