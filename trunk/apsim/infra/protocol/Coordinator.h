@@ -8,10 +8,12 @@
 #include <vector>
 class EventRegistration;
 class VariableRegistration;
+class MethodRegistration;
 
 typedef std::list<PROTOCOLComponent*> ComponentList;
 typedef std::map<string, EventRegistration*> EventRegistrationList;
 typedef std::map<string, VariableRegistration*> VariableRegistrationList;
+typedef std::map<string, MethodRegistration*> MethodRegistrationList;
 // ------------------------------------------------------------------
 //  Short description:
 //    This unit provides the functionality to manage a "system".
@@ -54,9 +56,6 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
       // broadcast a message to all components.
       virtual void broadcastMessage(PROTOCOLMessage& aMsg) const;
 
-      // send a message to first component that responds.
-      virtual bool sendMessageToFirst(PROTOCOLMessage& aMsg);
-
       // publish an event.
       virtual void publishEvent(PROTOCOLEvent& anEvent) const;
 
@@ -81,9 +80,20 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
          {
          publishEvent(Event);
          }
+      // method call comming in from another system
+      bool doSystemMessage(PROTOCOLMessage& Message);
+
       // retrieve a variable from system.
       virtual bool getVariable(const FString& variableName);
 
+      // retrieve a variable from a specific component.
+      virtual bool getVariable(const FString& componentName, const FString& variableName);
+
+      virtual bool setVariable(const FString& variableName);
+
+      // get and set a variable from this system only - don't search other systesm.
+      virtual bool getSystemVariable(const FString& variableName);
+      virtual bool setSystemVariable(const FString& variableName);
 
    private:
       ComponentList components;
@@ -94,6 +104,7 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
 
       EventRegistrationList eventRegistrations;
       VariableRegistrationList variableRegistrations;
+      MethodRegistrationList methodRegistrations;
 
       void getComponentInfo(const string& name);
       void getComponentList(list<string>& names);
@@ -104,13 +115,17 @@ class PROTOCOL_EXPORT PROTOCOLCoordinator : public PROTOCOLComponent,
                                       const string& ssdl);
       PROTOCOLComponent* addCoordinator(const string& name,
                                         ISystemConfiguration* sysConfiguration);
+
+      // send a message to first component that responds.
+      virtual bool sendMessageToFirst(PROTOCOLMessage& aMsg);
+
       void deleteComponent(const string& name);
       PROTOCOLTransportAddress componentNameToAddress(const FString& componentName) const;
       void readEventRegistrations(void);
       void readVariableRegistrations(void);
-      virtual void addVariableExport(const string& variableName,
-                                     PROTOCOLCoordinator* component);
-      virtual void addVariableImport(const string& variableName);
+      void readMethodRegistrations(void);
+
+      friend VariableRegistration;
 
    };
 #endif
