@@ -9,18 +9,20 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRenameFileForm.dfm TMainForm.dfm TPageSetupForm.dfm"/>
     <LIBFILES value="..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="gtQRC60Pro.lib bcb2kaxserver.lib kbmMemC6Run.lib ThirdParty.lib dcctc6.lib 
-      TMSC6.lib SEGReport.lib nmfast.lib qrpt.lib"/>
+    <LIBRARIES value="gtCompressionC60.lib VclSmp.lib gtQRC60Pro.lib kbmMemC6Run.lib 
+      ThirdParty.lib dcctc6.lib TMSC6.lib SEGReport.lib qrpt.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib qrpt.lib bdertl.lib dbrtl.lib vcldb.lib 
       nmfast.lib SEGReport.lib TMSC6.lib dcctc6.lib qrpt60.lib ThirdParty.lib 
       kbmMemC6Run.lib adortl.lib bcb2kaxserver.lib Tee6C6.lib TeeDB6C6.lib 
-      TeeUI6C6.lib TeeQR6C6.lib gtQRC60Pro.lib"/>
+      TeeUI6C6.lib TeeQR6C6.lib gtQRC60Pro.lib VclSmp.lib TeePro6C6.lib 
+      gtCompressionC60.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi 
       dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi 
       inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi 
       dclocx.bpi dbexpress.bpi dbxcds.bpi ibxpress.bpi indy.bpi vcljpg.bpi 
       qrpt60.bpi adortl.bpi bdertl.bpi TeeDB6C6.bpi Tee6C6.bpi TeeUI6C6.bpi 
-      TeeQR6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeGL6C6.bpi"/>
+      TeeQR6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeGL6C6.bpi 
+      bcb2kaxserver.bpi nmfast.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -91,6 +93,9 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Bin\dclclxstd60.bpl=Borland CLX Standard Components
+
 [HistoryLists\hlIncludePath]
 Count=12
 Item0=$(BCB)\components\thirdparty;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\dream\units;$(BCB)\components\boost;$(BCB)\components\memtable;$(BCB)\components\teechart\cbuilder6\include;$(SHARED);$(SHARED)\SegReport
@@ -125,8 +130,9 @@ Item13=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;($SHARED)\SEGReport;$(BCB)\
 Item14=..\Shared\SEGReport;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=$(BCB)\source\vcl
+Count=2
+Item0=$(BCB)\source\vcl;C:\Program Files\Borland\CBuilder6\Components\MemTable\
+Item1=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
 Count=1
@@ -139,7 +145,7 @@ Item1=..\Bin\
 Item2=..\Bin
 
 [Debugging]
-DebugSourceDirs=$(BCB)\source\vcl
+DebugSourceDirs=$(BCB)\source\vcl;C:\Program Files\Borland\CBuilder6\Components\MemTable\
 
 [Parameters]
 RunParams=

@@ -43,7 +43,8 @@ void __fastcall TExcel::setFilename(AnsiString file)
       vector<string> sheetNames;
       getXLSSheetNames(xlsFileName.c_str(), sheetNames);
       Stl_2_tstrings(sheetNames, xlsPageNames);
-      refresh();
+      Active = false;
+      Active = true;
       }
    }
 //---------------------------------------------------------------------------
@@ -65,7 +66,8 @@ void __fastcall TExcel::setPageName(AnsiString pageName)
    if (xlsPageIndex != index)
       {
       xlsPageIndex = index;
-      refresh();
+      Active = false;
+      Active = true;
       }
    }
 //---------------------------------------------------------------------------
