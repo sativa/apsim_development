@@ -1,0 +1,291 @@
+Output_file=sample.out
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+---------------------------------------------------------
+Registered to      : Neil Huth
+                   : APSRU
+Module : report
+Module : input
+Module : manager
+Module : apswim
+Module : slurp
+Module : surface  - unknown in APSRU version control system.
+---------------------------------------------------------
+ 
+Report - initialising,V1.3  11/10/96
+Title =
+Screen output =off
+ 
+Variable list
+-------------
+ 
+Module = input
+Variables =day
+ 
+Module = apswim
+Variables =scon
+ 
+Module = surface
+Variables =rr
+---------------------------------------------------------
+ 
+ File opened ok. -> sample.met
+site = somewhere
+latitude = -27.0
+rain_time = 00:00 (hh:mm)
+rain_int = 25.0 (mm/h)
+eo = 6 (mm)
+eo_time = 6:00 (hh:mm)
+eo_durn = 720 (min)
+residue_cover = 0.5
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+start_year =1995
+end_year =1995
+start_day =1
+end_day =31
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.met
+site = somewhere
+latitude = -27.0
+rain_time = 00:00 (hh:mm)
+rain_int = 25.0 (mm/h)
+eo = 6 (mm)
+eo_time = 6:00 (hh:mm)
+eo_durn = 720 (min)
+residue_cover = 0.5
+ INPUT Initialised, Version: V1.02  05/08/96
+---------------------------------------------------------
+ day=   1 date=  1  1 1995 manager  - Initialising, Version : V1.20  04/09/96
+ 
+Manager rules
+------- -----
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+if day = 10 or day = 20 then
+apswim tillage
+endif
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+report do_output
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+-----------------------------------------------------------
+ day=   1 date=  1  1 1995 apswim   - Initialising Version : V1.2  22/7/96
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> apswim.ini
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+??????????????????????????????????????????????????
+?          WARNING ERROR IN SYSTEM MODEL         ?
+??????????????????????????????????????????????????
+A warning error was found.  Routine traceback :-   apswim_read_param  apswim_init  apsim_apswim  Execute
+ 
+Current module name :- apswim
+Error type :- User error
+ 
+initial_surface_storage =     20.00000
+        exceeds upper limit of    19.99500
+??????????????????????????????????????????????????
+ 
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ File opened ok. -> sample.par
+ 
+ 
+      APSIM soil profile
+      ------------------
+      ---------------------------------------
+      dlayer   BD   SW     LL15   DUL    SAT
+      ---------------------------------------
+        5.0  1.00  0.188  0.070  0.247  0.370
+       25.0  1.00  0.188  0.070  0.247  0.370
+       70.0  1.00  0.188  0.070  0.247  0.370
+      125.0  1.00  0.188  0.070  0.247  0.370
+      150.0  1.00  0.188  0.070  0.247  0.370
+      150.0  1.00  0.188  0.070  0.247  0.370
+      150.0  1.00  0.188  0.070  0.247  0.370
+      150.0  1.00  0.188  0.070  0.247  0.370
+      225.0  1.00  0.188  0.070  0.247  0.370
+      300.0  1.00  0.188  0.070  0.247  0.370
+      300.0  1.00  0.188  0.070  0.247  0.370
+      250.0  1.00  0.188  0.070  0.247  0.370
+      100.0  1.00  0.188  0.070  0.247  0.370
+ 
+ 
+      APSWIM soil profile
+      -------------------
+     -------------------------------------------------
+      depth   Soil Type     Theta   Psi        Ks
+      ------------------------------------------------
+        0.0  soil1         0.1875785     -0.300    130.000
+       10.0  -             0.1875785     -0.300    130.000
+       50.0  -             0.1875785     -0.300    130.000
+      150.0  -             0.1875785     -0.300    130.000
+      300.0  -             0.1875785     -0.300    130.000
+      450.0  -             0.1875785     -0.300    130.000
+      600.0  -             0.1875785     -0.300    130.000
+      750.0  -             0.1875785     -0.300    130.000
+      900.0  -             0.1875785     -0.300    130.000
+     1200.0  -             0.1875785     -0.300    130.000
+     1500.0  -             0.1875785     -0.300    130.000
+     1800.0  -             0.1875785     -0.300    130.000
+     2000.0  soil1         0.1875785     -0.300    130.000
+ 
+ 
+      Soil Moisture Characteristics
+      -----------------------------
+                             nodes(0-6)
+       Psi   |        0          1          2          3          4          5          6
+     --------------------------------------------------------------------------------------
+      -15.00 |    0.07023    0.07023    0.07023    0.07023    0.07023    0.07023    0.07023
+       -1.00 |    0.13907    0.13907    0.13907    0.13907    0.13907    0.13907    0.13907
+       -0.10 |    0.24712    0.24712    0.24712    0.24712    0.24712    0.24712    0.24712
+       -0.01 |    0.36599    0.36599    0.36599    0.36599    0.36599    0.36599    0.36599
+ 
+ 
+      Soil Hydraulic Conductivity
+      ---------------------------
+                             nodes(0-6)
+       Psi   |        0          1          2          3          4          5          6
+     --------------------------------------------------------------------------------------
+      -15.00 |    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       -1.00 |    0.00277    0.00277    0.00277    0.00277    0.00277    0.00277    0.00277
+       -0.10 |    1.55516    1.55516    1.55516    1.55516    1.55516    1.55516    1.55516
+       -0.01 |  115.32992  115.32992  115.32992  115.32992  115.32992  115.32992  115.32992
+ 
+ 
+      Swim calculation parameters
+      ---------------------------
+      dtmin dtmax   ersoil   ernode    errex dppl dpnl max_water_increment
+      --------------------------------------------------------------------
+       0.0   0.5 .100E-05 .100E-05 .100E-01 2.00 1.00        0.100
+ 
+     Bypass flow is INactive
+     Runoff calculated using runoff functions
+     hm1   hm0   hrc   roff0   roff1
+     2.0   1.0   5.0    2.00    2.00
+ 
+     top boundary condition = conductance function
+       initial      minimum    precipitation
+     conductance  conductance     constant
+     ---------------------------------------
+          3.9000       0.0200         2.5000
+ 
+     bottom boundary condition = constant gradient (     0.000)
+ 
+ 
+     vapour conductivity = off
+     Rainfall Source: apsim
+     Evaporation Source: apsim
+ 
+ day=   1 date=  1  1 1995 slurp    - Initialising Version : V0.1 7/6/96
+ 
+ File opened ok. -> sample.par
+ day=   1 date=  1  1 1995 surface  -  Initialising, Version : V0.0  150197
+ 
+   - Reading Parameters
+ 
+ File opened ok. -> sample.par
+ 
+======= Start of APSIM simulation ============================
+ Day=  10 Year =  1995     Manager sending message :- apswim tillage
+ Day=  20 Year =  1995     Manager sending message :- apswim tillage
+Simulation is terminating due to satisfying end of run conditions.
