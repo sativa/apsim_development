@@ -236,7 +236,7 @@
 
 !     ================================================================
       type soilpHGlobals
-
+         sequence
          real   infiltration_mol
          real   H_equiv_infiltration(max_MF_equiv_type)! H+ ion equivalents into the top layer by component (Mol/ha)
                                           ! (rain).
@@ -269,7 +269,7 @@
       end type soilpHGlobals
 !     ================================================================
       type soilpHParameters
-
+         sequence
          real    pH_rain                      ! The pHCa of the rainfall.
          real    ionic_strength_rain          ! ionic strength of rain
 
@@ -311,7 +311,7 @@
       end type soilpHParameters
 !     ================================================================
       type soilpHConstants
-
+         sequence
          integer       num_crops
          integer       num_actions
          integer       num_dm_type(max_crops)
@@ -339,7 +339,7 @@
       end type soilpHConstants
 !     ================================================================
       type soilpHExternals
-
+         sequence
          integer   num_layers                ! Number of layers used for this simulation.
  !cjh         integer   day
  !cjh         integer   year
@@ -389,195 +389,21 @@
 
       end type soilpHExternals
 !     ================================================================
-         ! instance variables.
 
-      type (SoilpHGlobals), pointer :: g
-      type (SoilpHExternals), pointer :: e
-      type (SoilpHParameters), pointer :: p
-      type (SoilpHConstants), pointer :: c
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c,e
+      save InstancePointers
+      type (soilpHGlobals),pointer :: g
+      type (soilpHParameters),pointer :: p
+      type (soilpHConstants),pointer :: c
+      type (soilpHExternals),pointer :: e
 
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type SoilpHDataPtr
-         type (SoilpHGlobals), pointer ::    gptr
-         type (SoilpHExternals), pointer ::  eptr
-         type (SoilpHParameters), pointer :: pptr
-         type (SoilpHConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type SoilpHDataPtr
-
-      type (SoilpHDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
 
       contains
 
 
 
 
- !     ===========================================================
-      subroutine AllocInstance (InstanceName, InstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
- !+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Module instantiation routine.
-
- !- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%eptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
- !     ===========================================================
-      subroutine FreeInstance (anInstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
- !+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Module de-instantiation routine.
-
- !- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%eptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
- !     ===========================================================
-      subroutine SwapInstance (anInstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
- !+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Swap an instance into the global 'g' pointer
-
- !- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      e => Instances(anInstanceNo)%eptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-
-*     ===========================================================
-      subroutine main (action, data_string)
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-       character  action*(*)         ! (IN) Message action to perform
-       character  data_string*(*)    ! (IN) Message data
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      SoilPh module.
-
-*+  Mission Statement
-*      Simulate soil acidity
-
-*+  Changes
-*     170699 sb   created
-*     220500 jngh changed the main processing from post to process phase
-
-*+  Constant Values
-      character  my_name*(*)
-      parameter (my_name='SoilPh_Main')
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
- !        call write_string (
- !       :            'message: - ' // action // ' || ' // data_string)
-
-      if (action.eq.ACTION_get_variable) then
-         call SoilpH_send_my_variable (data_string)
-
-      else if (action .eq. ACTION_set_variable) then
-         call SoilpH_set_my_variable (data_string)
-
-      else if (action.eq.ACTION_process) then
-!      else if (action.eq.ACTION_post) then
-         call SoilpH_get_other_variables ()
-         call SoilpH_process ()
-         call SoilpH_zero_event_variables ()
-         call SoilpH_set_other_variables ()
-
-      elseif (action .eq. EVENT_N_Balance) then
-         call soilpH_ON_Nbalance ()
-
-      elseif (action .eq. EVENT_C_Balance) then
-         call soilpH_ON_Cbalance ()
-
-      elseif (action .eq. EVENT_Residue_removed) then
-         call soilpH_ON_Residue_removed ()
-
-      elseif (action .eq. EVENT_Residue_added) then
-         call soilpH_ON_Residue_added ()
-
-      elseif (action .eq. EVENT_Crop_Chopped) then
-         call soilpH_ON_Crop_Chopped ()
-
-      else if (Action.eq.ACTION_Till) then
-         call soilpH_tillage ()
-
-      else if ((action.eq.ACTION_reset)
-     :          .or.(action.eq.ACTION_user_init)) then
-         call SoilpH_zero_variables ()
-         call SoilpH_get_soil_layers ()
-         call SoilpH_init ()
-
-      else if (action.eq.ACTION_sum_report) then
-         call SoilpH_sum_report ()
-
-      else if (action.eq.ACTION_init) then
-         call SoilpH_zero_variables ()
-         call SoilpH_get_soil_layers ()
-         call SoilpH_init ()
-         call SoilpH_sum_report ()
-
-      elseif (Action.eq.ACTION_Create) then
-         call soilpH_zero_all_globals ()
-
-      elseif (action.eq.ACTION_end_run) then
-         call SoilpH_endrun ()
-
-      else
-            ! Don't use message
-         call message_unused ()
-
-      endif
-
-      call pop_routine (my_name)
-      return
-      end subroutine
 
 
 
@@ -5037,3 +4863,130 @@
 
 
       end module SoilpHModule
+
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use SoilpHModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(e)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(e)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+*     ===========================================================
+      subroutine main (action, data_string)
+*     ===========================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+       character  action*(*)         ! (IN) Message action to perform
+       character  data_string*(*)    ! (IN) Message data
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      SoilPh module.
+
+*+  Mission Statement
+*      Simulate soil acidity
+
+*+  Changes
+*     170699 sb   created
+*     220500 jngh changed the main processing from post to process phase
+
+*+  Constant Values
+      character  my_name*(*)
+      parameter (my_name='SoilPh_Main')
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+
+ !        call write_string (
+ !       :            'message: - ' // action // ' || ' // data_string)
+
+      if (action.eq.ACTION_get_variable) then
+         call SoilpH_send_my_variable (data_string)
+
+      else if (action .eq. ACTION_set_variable) then
+         call SoilpH_set_my_variable (data_string)
+
+      else if (action.eq.ACTION_process) then
+!      else if (action.eq.ACTION_post) then
+         call SoilpH_get_other_variables ()
+         call SoilpH_process ()
+         call SoilpH_zero_event_variables ()
+         call SoilpH_set_other_variables ()
+
+      elseif (action .eq. EVENT_N_Balance) then
+         call soilpH_ON_Nbalance ()
+
+      elseif (action .eq. EVENT_C_Balance) then
+         call soilpH_ON_Cbalance ()
+
+      elseif (action .eq. EVENT_Residue_removed) then
+         call soilpH_ON_Residue_removed ()
+
+      elseif (action .eq. EVENT_Residue_added) then
+         call soilpH_ON_Residue_added ()
+
+      elseif (action .eq. EVENT_Crop_Chopped) then
+         call soilpH_ON_Crop_Chopped ()
+
+      else if (Action.eq.ACTION_Till) then
+         call soilpH_tillage ()
+
+      else if ((action.eq.ACTION_reset)
+     :          .or.(action.eq.ACTION_user_init)) then
+         call SoilpH_zero_variables ()
+         call SoilpH_get_soil_layers ()
+         call SoilpH_init ()
+
+      else if (action.eq.ACTION_sum_report) then
+         call SoilpH_sum_report ()
+
+      else if (action.eq.ACTION_init) then
+         call SoilpH_zero_variables ()
+         call SoilpH_get_soil_layers ()
+         call SoilpH_init ()
+         call SoilpH_sum_report ()
+
+      elseif (Action.eq.ACTION_Create) then
+         call soilpH_zero_all_globals ()
+
+      elseif (action.eq.ACTION_end_run) then
+         call SoilpH_endrun ()
+
+      else
+            ! Don't use message
+         call message_unused ()
+
+      endif
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
