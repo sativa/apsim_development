@@ -4,7 +4,8 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\Bin\OutlookManager.exe"/>
-    <OBJFILES value="OutlookManager.obj TMain_form.obj TFilespec_form.obj TBatch_import_form.obj"/>
+    <OBJFILES value="OutlookManager.obj TMain_form.obj TFilespec_form.obj 
+      TBatch_import_form.obj ..\..\..\Shared\Components\Data\TSimulation_database.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -12,13 +13,13 @@
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib bdertl.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib 
-      vclx.lib bcbsmp.lib adortl.lib TMSC6.lib kbmMemC6Run.lib"/>
+    <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib vclx.lib bcbsmp.lib 
+      adortl.lib TMSC6.lib kbmMemC6Run.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi qrpt.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
       vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
-      dclocx.bpi bcb97axserver.bpi adortl.bpi"/>
-    <PATHCPP value=".;"/>
+      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi qrpt60.bpi"/>
+    <PATHCPP value=".;..\..\..\Shared\Components\Data"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -57,6 +58,7 @@
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\Components\Data\TSimulation_database.cpp" FORMNAME="" UNITNAME="TSimulation_database" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -90,31 +92,32 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=24
-Item0=..;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item1=..\;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
-Item2=..\;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
-Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\&quot;\
-Item6=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\&quot;
-Item7=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;&quot;
-Item8=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;j:\thypergrid\
-Item9=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data;j:\rx\units;j:\thypergrid
-Item10=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\..\progra~1\borland\components\thypergrid
-Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;$(BCB)\..\components\rx\units\;$(BCB)\..\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;&quot;c:\program files\borland\components\rx\units\&quot;;&quot;c:\program files\borland\components\thypergrid\&quot;
-Item12=
-Item13=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\progra~1\borland\components\rx\units\;c:\progra~1\borland\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid
-Item14=
-Item15=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units
-Item16=
-Item17=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data
-Item18=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units;c:\program files\borland\components\THyperGrid
-Item19=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c:\rx\units;c:\THyperGrid
-Item20=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c;\rx\units;c;\THyperGrid
-Item21=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data
-Item22=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\data
-Item23=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=25
+Item0=..;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(SHARED)\components\data
+Item1=..;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item2=..\;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(SHARED)\components\data
+Item3=..\;$(BCB)\components\tms;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\
+Item6=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\&quot;\
+Item7=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\&quot;
+Item8=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;&quot;
+Item9=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;j:\thypergrid\
+Item10=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data;j:\rx\units;j:\thypergrid
+Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\..\progra~1\borland\components\thypergrid
+Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;$(BCB)\..\components\rx\units\;$(BCB)\..\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;&quot;c:\program files\borland\components\rx\units\&quot;;&quot;c:\program files\borland\components\thypergrid\&quot;
+Item13=
+Item14=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\progra~1\borland\components\rx\units\;c:\progra~1\borland\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid
+Item15=
+Item16=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units
+Item17=
+Item18=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data
+Item19=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units;c:\program files\borland\components\THyperGrid
+Item20=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c:\rx\units;c:\THyperGrid
+Item21=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c;\rx\units;c;\THyperGrid
+Item22=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data
+Item23=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\data
+Item24=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 
 [HistoryLists\hlLibraryPath]
 Count=29
