@@ -158,4 +158,8 @@ else
    dah = dah + 1
 endif
 
+[sample.summaryfile.parameters]
+summaryfile=sugar.sum
 
+[sample.screen.parameters]
+screen_output=on

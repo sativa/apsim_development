@@ -34,3 +34,9 @@ report do_output
    ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
    xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
    kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+[sample.summaryfile.parameters]
+summaryfile=stylo.sum
+
+[sample.screen.parameters]
+screen_output=on

@@ -1,27 +1,34 @@
 [sample.report.parameters]
 
-   screen_output = on
-   title         =  Sunflower sample simulation
-   outputfile    =  sunflower.out  /overwrite
-   summaryfile   =  sunflower.sum  /overwrite
-
-   module_names   =    clock clock              sunflower  sunflower  sunflower  sunflower   sunflower sunflower  sunflower  sunflower          sunflower
-   variable_names =    year  today.dd/mm/yyyy   das_int    stage      lai        biomass_wt  grain_wt  yield      grain_n    tiller_no_fertile  root_depth
-   variable_alias =    -     -                  das        -          -          biomass     grain      -         grain_n    tillers            rootdepth
-   units          =    -     -                  -          -          -          -             -        -           -          -                  -
-
-   module_names   =   sunflower sunflower   sunflower   sunflower   sunflower     sunflower   sunflower   sunflower   sunflower
-   variable_names =   cep       swdef_pheno swdef_photo swdef_expan swdef_tiller  nfact_pheno nfact_photo nfact_expan nfact_tiller
-   variable_alias =   cep       ws_pheno    ws_photo    ws_expan    ws_tiller     Ns_pheno    Ns_photo    Ns_expan    Ns_tiller
-   units          =   -         -           -           -           -             -           -           -           -
+   outputfile    =sunflower.out
 
 
+
+
+variable = clock.year
+variable = clock.today.dd/mm/yyyy
+variable = sunflower.das_int as das
+variable = sunflower.stage
+variable = sunflower.lai
+variable = sunflower.biomass_wt as biomass
+variable = sunflower.grain_wt as grain
+variable = sunflower.yield
+variable = sunflower.grain_n as grain_n
+variable = sunflower.tiller_no_fertile as tillers
+variable = sunflower.root_depth as rootdepth
+variable = sunflower.cep as cep
+variable = sunflower.swdef_pheno as ws_pheno
+variable = sunflower.swdef_photo as ws_photo
+variable = sunflower.swdef_expan as ws_expan
+variable = sunflower.swdef_tiller as ws_tiller
+variable = sunflower.nfact_pheno as Ns_pheno
+variable = sunflower.nfact_photo as Ns_photo
+variable = sunflower.nfact_expan as Ns_expan
+variable = sunflower.nfact_tiller as Ns_tiller
 [sample.clock.parameters]
 
-   simulation_start_day  = 340
-   simulation_start_year = 1988
-   simulation_end_day    = 181
-   simulation_end_year   = 1989
+start_date=5/12/1988
+end_date=30/6/1989
 
 
 [sample.manager.start_of_day]
@@ -56,3 +63,7 @@
 
 
 
+[sample.SummaryFile.parameters]
+summaryfile=sunflower.sum
+[sample.Screen.parameters]
+screen_output=on

@@ -41,3 +41,8 @@ radn_ub = 1.12   ()
 radn_low = 0.65  ()
 radn_vlow = 0.2  ()
 
+[sample.summaryfile.parameters]
+summaryfile=tamet2.sum
+
+[sample.screen.parameters]
+screen_output=on
