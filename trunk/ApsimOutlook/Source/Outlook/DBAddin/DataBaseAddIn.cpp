@@ -262,7 +262,6 @@ void DatabaseAddIn::readAllDatabases(vector<string>& databaseFilenames)
 // ------------------------------------------------------------------
 void DatabaseAddIn::readDatabase(const string& databaseFileName)
    {
-   ShowMessage("beginning readDatabase");
    // show hourglass.
    TCursor Saved_cursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
@@ -277,7 +276,6 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
    db->LoginPrompt = false;
    db->Mode = cmShareExclusive;
    db->Connected = true;
-   ShowMessage("connected");
 
    // Open the index table.
    TADOTable* indexTable = new TADOTable(NULL);
@@ -285,13 +283,10 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
    indexTable->TableName = "[Index]";
    indexTable->CursorLocation = clUseServer;
    indexTable->Open();
-   ShowMessage("indexTable opened");
 
-   //simulations.reserve(10000);
    // loop through all records in the index table.  For each, create a
    // simulation object, get it to read itself in and then store in list.
    DBSimulation* newSimulation;
-   ShowMessage("begin loop");
    while (!indexTable->Eof)
       {
       newSimulation = new DBSimulation();
@@ -299,7 +294,6 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
       simulations.push_back(newSimulation);
       indexTable->Next();
       }
-   ShowMessage("end loop");
 
    // cleanup
    delete indexTable;
@@ -307,7 +301,6 @@ void DatabaseAddIn::readDatabase(const string& databaseFileName)
 
    // show hourglass.
    Screen->Cursor = Saved_cursor;
-   ShowMessage("ending readDatabase");
    }
 
 // ------------------------------------------------------------------
