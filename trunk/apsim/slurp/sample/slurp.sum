@@ -18,7 +18,7 @@ Variables =no3,nh4
 Module = soilwat2
 Variables =sw_dep
 ---------------------------------------------------------
- INPUT (met) Initialised
+ INPUT (met) Initialising:
 ---------------------------------------------------------
  day=   1 date=  1  1 1988 fertiliz -  Initialising
  
@@ -137,7 +137,7 @@ report do_output
      ---------------------------------------------------------
       Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
      ---------------------------------------------------------
- day=   1 date=  1  1 1988 slurp    - Initialising Version : V0.1 7/6/96
+ day=   1 date=  1  1 1988 slurp    - Initialising:
  
 ======= Start of APSIM simulation ============================
  Day=   1 Year =  1988     Manager sending message :- fertiliz apply amount = 100 (), type = nh4no3 ()
