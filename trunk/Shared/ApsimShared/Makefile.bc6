@@ -24,7 +24,7 @@ RESFILES = ApsimShared.res
 USERDEFINES =
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
-LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms
+LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
 RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
 LIBFILES = $(APSROOT)\Shared\general\general.lib \
     $(APSROOT)\Shared\general\general_vcl.lib \
@@ -36,7 +36,7 @@ LIBRARIES = xmlrtl.lib TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi
 
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -tWM
+CFLAG1 = $(SYSCFLAGS) -tWM -DBOOST_REGEX_STATIC_LINK
 WARNINGS = -w-par
 LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
 
