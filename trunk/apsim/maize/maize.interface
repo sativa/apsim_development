@@ -108,18 +108,10 @@ class APSIMMaizePublic
   plant_p_max             : APSIMReal           = Total plant P at maximum P concentration, (g/m2), GET         
   pconc_max               : APSIMReal           = Maximum P concentration, (), GET         
   pconc                   : APSIMReal           = Plant P concentration, (%), GET
-  main_stem_coef          : APSIMReal           = Exponent_of for determining leaf area on main culm, (), READ, 0.0, 10.0
-  tpla_prod_coef          : APSIMReal           = Curvature coefficient for leaf area production function, (1/oC), READ, 0.0, 10.0
-  tpla_inflection         : APSIMReal           = Inflection point of leaf area production function , (oC), READ, 0.0, 1000.0
-  spla_prod_coef          : APSIMReal           = Curvature coefficient for leaf area senescence function, (1/oC), READ, 0.0, 100.0
-  spla_intercept          : APSIMReal           = Intercept of regression for calculating inflection point of senescence function, (oC),READ, -1000.0, 100.0
-  hi_incr                 : APSIMReal           = Harvest index increment per day, (), READ, 0.0, 1.0
-  hi_max_pot              : APSIMReal           = Maximum harvest index, (g grain/g biomass), READ, 0.0, 1.0
   head_grain_no_max       : APSIMReal           = Maximum kernel number (was G2), (grains/plant), READ
   grain_gth_rate          : APSIMReal           = Potential grain growth rate (G3), (mg/grain/day), READ
   tt_emerg_to_endjuv      : APSIMReal           = Growing degree days to complete emerg_to_endjuv stage (emergence to end of emerg_to_endjuv), (oC-days), READ
   est_days_endjuv_to_init : APSIMInteger        = Estimated days from end juv, (days), READ, 0, 100
-  pp_endjuv_init          : APSIMReal           = Photoperiod sensitivity coefficient, (dtt/hr), READ
   tt_endjuv_init          : APSIMReal           = Growing degree days to complete endjuv_to_init stage, (oC-days), READ, 0.0, 1000.0
   photoperiod_crit1       : APSIMReal           = Critical photoperiod for endjuv to init (non-responsive at shorter photoperiods), (hrs), READ, 0.0, 24.0
   photoperiod_crit2       : APSIMReal           = Critical photoperiod for endjuv to init (non-responsive at longer photoperiods), (hrs), READ, 0.0, 24.0
@@ -141,7 +133,6 @@ class APSIMMaizePublic
   ratio_root_shoot        : APSIMRealArray      = Root to shoot ratio of new dm, (), READ, 0.0, 1000.0
   extinction_coef         : APSIMReal           = Radiation extinction coefficient, (), READ, 0.0, 10.0
   extinction_coef_dead    : APSIMReal           = Radiation extinction coefficient of dead leaves, (), READ, 0.0, 10.0
-  extinction_coef_change  : APSIMReal           = (=X) effect of row spacing on extinction coef i.e. k=exp(X*RS), (), READ, 0.0, 10.0
   kvalue_rowspace         : APSIMRealArray      = Row-spacing for extinction coefficient, (mm), READ, 0.0, 2000.0
   kvalue_adjustment       : APSIMRealArray      = Adjustment factor for extinction coefficient as a function of row-spacing, (), READ, 0.0, 1.0
   leaf_no_crit            : APSIMReal           = Critical number of leaves below which portion of the crop may die due to water stress, (), READ, 0.0, 100.0
@@ -155,15 +146,9 @@ class APSIMMaizePublic
   x_plant_rld             : APSIMRealArray      = Root length density to affect root proliferation, (mm), READ, 0.0, 0.1
   y_rel_root_rate         : APSIMRealArray      = Relative rate of root proliferation as a funtion of root length density, (), READ, 0.0, 1.0
   initial_tpla            : APSIMReal           = Initial plant leaf area, (mm2), READ, 0.0, 100000.0
-  sla_max                 : APSIMReal           = Maximum specific leaf area for new leaf area, (mm2/g), READ, 0.0, 100000.0
-  x_leaf_no               : APSIMRealArray      = Leaf number, (), READ, 0.0, 1000.0
-  leaf_no_sla_max         : APSIMRealArray      = Maximum specific leaf area as a function of leaf number, (mm2/g), READ, 0.0, 100000.0
-  leaf_no_sla_min         : APSIMRealArray      = Minimum specific leaf area as a function of leaf number, (mm2/g), READ, 0.0, 100000.0
   x_lai                   : APSIMRealArray      = Leaf area index to affect specific leaf area for new leaf growth, (mm2/g), READ, 0.0, 100.0
   y_lai_sla_max           : APSIMRealArray      = Maximum specifc leaf area for new leaf growth as a function of lai, (mm2/g), READ, 0.0, 100000.0
   lai_sla_min             : APSIMRealArray      = Minimum specifc leaf area for new leaf growth as a function of lai, (mm2/g), READ, 0.0, 100000.0
-  tiller_coef             : APSIMReal           = Exponent_of for determining leaf area on each additional tiller, (), READ, 0.0, 10.0
-  tpla_inflection_ratio   : APSIMReal           = Replacement for the tpla_inflection function is ratio of time of tpla_inflection to tt from emerg to flag leaf (or flowering), (), READ, 0.0, 1.0
   tpla_min                : APSIMReal           = Minimum total plant leaf area, (), READ, 0.0, 1000.0
   head_grain_no_max_ub    : APSIMReal           = Grain number upper limit, (), READ, 0.0, 10000.0
   grain_gth_rate_ub       : APSIMReal           = Grain growth rate upper limit, (), READ, 0.0, 1000.0
@@ -179,13 +164,10 @@ class APSIMMaizePublic
   head_grain_no_crit      : APSIMReal           = Grains per plant minimum which all heads are barren, (), READ, 0.0, 1000.0
   barren_crit             : APSIMReal           = Fraction of maximum grains per plant below which barrenness occurs, (0-1), READ, 0.0, 1.0
   pesw_germ               : APSIMReal           = Plant extractable soil water in seedling layer inadequate for germination, (mm/mm), READ, 0.0, 1.0
-  fr_pesw_germ            : APSIMReal           = Fraction of plant extractable soil water in seedling layer inadequate for germination, (0-1), READ, 0.0, 1.0
   fasw_emerg              : APSIMRealArray      = Fraction of available soil water in the seedling layer affecting rate of emergence, (), READ, 0.0, 1.0
   rel_emerg_rate          : APSIMRealArray      = Relative rate of seedling emergence affected by available soil water, (), READ, 0.0, 1.0
   grain_n_conc_min        : APSIMReal           = Minimum nitrogen concentration of grain, (), READ, 0.0, 100.0
   seed_wt_min             : APSIMReal           = Minimum grain weight, (g/seed), READ, 0.0, 100.0
-  growth_rate_min         : APSIMReal           = Minimum rate of photosynthesis below which there is no grain produced, (g/plant), READ, 0.0, 1000.0
-  growth_rate_crit        : APSIMReal           = Threshold rate of photosynthesis below which heat stress has no effect (g/plant). This is also the rate at which the grains/plant is half of the maximum grains, (g/plant), READ, 0.0, 1000.0
   grno_grate              : APSIMRealArray      = Growth rate per plant affecting grain set, (g/day), READ, 0.0, 10.0
   grno_fract              : APSIMRealArray      = Reduction factor on grain set affectd by plant growth rate, (0-1), READ, 0.0, 1.0
   leaf_no_at_emerg        : APSIMReal           = Leaf number at emergence, (), READ, 0.0, 100.0
@@ -193,10 +175,6 @@ class APSIMMaizePublic
   n_supply_preference     : APSIMString         = Preference for N uptake, (), READ
   shoot_lag               : APSIMReal           = Minimum growing degree days for germination (deg days), (oC-days), READ, 0.0, 100.0
   shoot_rate              : APSIMReal           = Growing deg day increase with depth for germination, (oC-days/mm), READ, 0.0, 100.0
-  x_node_no_app           : APSIMRealArray      = Node number for leaf appearance rate, (), READ, 0.0, 100.0
-  y_node_app_rate         : APSIMRealArray      = Leaf appearance rate as a function of node number, (), READ, 0.0, 100.0
-  y_leaves_per_node       : APSIMRealArray      = Leaves per node as a function of node number, (), READ, 0.0, 100.0
-  photoperiod_base        : APSIMReal           = Lower threshold of hours of light, (hr), READ, 0.0, 24.0
   leaf_app_rate           : APSIMReal           = Thermal time required to develop a leaf ligule for all leaves, (oC-days), READ, 0.0, 100.0
   leaf_app_rate1          : APSIMReal           = Thermal time required to develop a leaf ligule for first leaves, (oC-days), READ, 0.0, 100.0
   leaf_app_rate2          : APSIMReal           = Thermal time required to develop a leaf ligule for later leaves, (oC-days), READ, 0.0, 100.0
@@ -214,7 +192,6 @@ class APSIMMaizePublic
   leaf_trans_frac         : APSIMReal           = Fraction of leaf used in translocat to grain, (), READ, 0.0, 1.0
   minsw                   : APSIMReal           = Lowest acceptable value for ll, (), READ, 0.0, 1000.0
   swdf_grain_min          : APSIMReal           = Minimum of water stress factor, (), READ, 0.0, 100.0
-  hi_min                  : APSIMReal           = Minimum harvest index, (g grain/ g biomass), READ, 0.0, 100.0
   sw_fac_max              : APSIMReal           = Soil water stress factor maximum, (), READ, 0.0, 100.0
   temp_fac_min            : APSIMReal           = Temperature stress factor minimum optimum temp, (), READ, 0.0, 100.0
   sfac_slope              : APSIMReal           = Soil water stress factor slope, (), READ, -10.0, 0.0
@@ -240,7 +217,6 @@ class APSIMMaizePublic
   no3_min_ub              : APSIMReal           = Upper limit of minimum soil NO3, (kg/ha), READ, 0.0, 100000.0
   no3_min_lb              : APSIMReal           = Lower limit of minimum soil NO3, (kg/ha), READ, 0.0, 100000.0
   grn_water_con           : APSIMReal           = Water content of grain, (g/g), READ, 0.0, 1.0
-  sla_min                 : APSIMReal           = Minimum specific leaf area for new leaf area, (mm2/g), READ, 0.0, 100000.0
   partition_rate_leaf     : APSIMReal           = Rate coefficient of sigmoidal function between leaf partition fraction and internode no**2, (0-1), READ, 0.0, 1.0
   frac_stem2flower        : APSIMReal           = Fraction of dm allocated_z to stem that goes to developing head, (), READ, 0.0, 1.0
   htstress_coeff          : APSIMReal           = Coeff for conversion of heat stress during flowering to heat stress factor on grain number development, (), READ, 0.0, 1.0
@@ -265,12 +241,6 @@ class APSIMMaizePublic
   x_temp_senescence       : APSIMRealArray      = Temperature senescence table, (oC), READ, -20.0, 20.0
   y_senescence_fac        : APSIMRealArray      = Temperature factor senescence table, (0-1), READ, 0.0, 1.0
   sen_rate_water          : APSIMReal           = Slope in linear eqn relating soil water stress during photosynthesis to leaf senesense rate, (), READ, 0.0, 100.0
-  sen_light_time_const    : APSIMReal           = Delay factor for light senescence, (days), READ, 0.0, 50.0
-  sen_radn_crit           : APSIMReal           = Radiation level for onset of light senescence, (MJ/m2), READ, 0.0, 10.0
-  frost_kill              : APSIMReal           = Temperature threshold for leaf death, (oC), READ, -6.0, 6.0
-  sen_water_time_const    : APSIMReal           = Delay factor for water senescence, (days), READ, 0.0, 50.0
-  sen_threshold           : APSIMReal           = Supply:demand ratio for onset of water senescence, (), READ, 0.0, 10.0
-  spla_slope              : APSIMReal           = Regression slope for calculating inflection point for leaf senescence, (oC/leaf), READ, 0.0, 1000.0
   twilight                : APSIMReal           = Twilight in angular distance between sunset and end of twilight - altitude of sun, (o), READ, -90.0, 90.0
   temp_grain_crit_stress  : APSIMReal           = Temperature above which heat stress occurs, (oC), READ, 20.0, 50.0
   x_stage_code            : APSIMRealArray      = Stage table for N concentrations, (g N/g biomass), READ, 0.0, 100.0
@@ -303,7 +273,6 @@ class APSIMMaizePublic
   k_pfact_grain           : APSIMReal           = Multiplier for p-stress effect on grain growth, (), READ, 0.0, 100.0
   p_uptake_factor         : APSIMReal           = Multiplier to limit p uptake as a function of p demand, (), READ, 0.0, 10.0
   x_ave_temp              : APSIMRealArray      = Critical temperatures for photosynthesis, (oC), READ, 0.0, 100.0
-  x_temp_photo            : APSIMRealArray      = Critical temp. for photosyn (oC) on 3-hour, (oC), READ, 0.0, 100.0
   y_stress_photo          : APSIMRealArray      = Factors for critical temperatures, (0-1), READ, 0.0, 1.0
   x_temp_grain            : APSIMRealArray      = Critical temperatures controlling grain fill rates, (oC), READ, 0.0, 100.0
   y_grain_rate            : APSIMRealArray      = Relative grain fill rates for critical temperatures, (0-1), READ, 0.0, 1.0
@@ -319,10 +288,6 @@ class APSIMMaizePublic
   y_swdef_pheno           : APSIMRealArray      = Soil water availability ratio effect on phenology, (), READ, 0.0, 100.0
   x_sw_ratio              : APSIMRealArray      = Soil water ratio, (), READ, 0.0, 100.0
   y_sw_fac_root           : APSIMRealArray      = Soil water ratio effect on root elongation, (), READ, 0.0, 100.0
-  advection_fact          : APSIMReal           = Multiplier for advective effect on evaporation, (), READ, 0.0, 100.0
-  pot_leaf_area_option    : APSIMReal           = Option for pot leaf area routine to use 0 = CERES 1 = TPLA, (), READ, 0.0, 1.0
-  sen_leaf_area_option    : APSIMReal           = Option for sen leaf area routine to use 0 = CERES 1 = SPLA, (), READ, 0.0, 1.0
-  grain_yield_option      : APSIMReal           = Option for grain yield routine to use 0 = CERES 1 = HI, (), READ, 0.0, 1.0
   prepare                 : APSIMMethod         = Prepare
   process                 : APSIMMethod         = Process
   sow                     : APSIMMethod         = Plant crop
