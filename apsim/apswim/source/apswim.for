@@ -1048,6 +1048,7 @@ c      read(ret_string, *, iostat = err_code) rain
        character        flow_name*(strsize) ! Name of flow
        character        flow_units*(strsize) !
        logical          flow_found
+       double precision infiltration
 
 *- Implementation Section ----------------------------------
  
@@ -1159,6 +1160,17 @@ c      read(ret_string, *, iostat = err_code) rain
      :            'runoff',
      :            '(mm)',
      :            TD_runoff)
+
+      else if (Variable_name .eq. 'infiltration') then
+
+         infiltration = max(0d0
+     :                     ,TD_wflow(0) + TD_evap)
+
+         call respond2Get_double_var (
+     :            'infiltration',
+     :            '(mm)',
+     :            infiltration)
+
       else if (Variable_name .eq. 'es') then
          call respond2Get_double_var (
      :            'es',
@@ -1215,6 +1227,9 @@ cnh      print*,TD_pevap
         endif
  
       else if (index(Variable_name,'flow_').eq.1) then
+         ! Flow represents flow downward out of a layer
+         ! and so start at node 1 (not 0)
+
          flow_name = Variable_name(len('flow_')+1:)
          call apswim_get_flow (flow_name
      :                        ,flow_array
@@ -1224,17 +1239,19 @@ cnh      print*,TD_pevap
             call respond2Get_double_array (
      :            Variable_name,
      :            flow_units,
-     :            flow_array(0),
+     :            flow_array(1),
      :            n+1)
          else
             Call Message_Unused()
          endif
  
       else if (Variable_name.eq. 'flow') then
+         ! Flow represents flow downward out of a layer
+         ! and so start at node 1 (not 0)
          call respond2Get_double_array (
      :            Variable_name,
      :            '(kg/ha)',
-     :            TD_wflow(0),
+     :            TD_wflow(1),
      :            n+1)
  
       else if (Variable_name .eq. 'salb') then
@@ -2916,7 +2933,7 @@ cnh               print*, t,resp*dt*10d0
                TD_drain  = TD_drain  + q(n+1)*dt*10d0
                TD_rain   = TD_rain   + ron*dt*10d0
                TD_pevap  = TD_pevap  + resp*dt*10d0
-               do 53 node = 0,n
+               do 53 node = 0,n+1
                   TD_wflow(node) = TD_wflow(node)
      :                           + q(node)*dt*10d0
    53          continue
@@ -2932,7 +2949,7 @@ cnh               print*, t,resp*dt*10d0
      :                     * (1d4)**2   ! cm^2/ha = g/ha
      :                     * 1d-9       ! kg/ug
      :                       )
-                  do 52 node=0,n
+                  do 52 node=0,n+1
                      TD_sflow(solnum,node) =
      :                    TD_sflow(solnum,node)
      :                  + qsl(solnum,node)*dt*(1d4)**2*1d-9
@@ -8119,7 +8136,7 @@ c      pause
       include 'error.pub'                         
 
 *+  Sub-Program Arguments
-      double precision flow_array(0:n)
+      double precision flow_array(0:n+1)
       character        flow_name *(*)
       character        flow_units*(*)
       logical          flow_flag
@@ -8148,19 +8165,19 @@ c      pause
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      call fill_double_array (flow_array(0), 0d0, n+1)
+      call fill_double_array (flow_array(0), 0d0, n+2)
  
       if (flow_name.eq.'water') then
           flow_flag = .true.
           flow_units = '(mm)'
-          do 40 node=0,n
+          do 40 node=0,n+1
              flow_array(node) = TD_wflow(node)
    40     continue
  
       else
          do 100 solnum = 1, num_solutes
             if (solute_names(solnum).eq.flow_name) then
-               do 50 node=0,n
+               do 50 node=0,n+1
                   flow_array(node) = TD_sflow(solnum,node)
    50          continue
                flow_flag = .true.
