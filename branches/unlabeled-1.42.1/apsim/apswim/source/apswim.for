@@ -1070,6 +1070,12 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            '(cc/cc)',
      :            g%th(0),
      :            p%n+1)
+      else if (Variable_name .eq. 'swf') then
+         call respond2Get_double_array (
+     :            'swf',
+     :            '()',
+     :            g%swf(0),
+     :            p%n+1)     
       else if (Variable_name .eq. 'sw_dep') then
          do 11 node=0,p%n
             dummy(node) = g%th(node)*g%dlayer(node)
@@ -2650,7 +2656,7 @@ c      double precision psiold(0:M)
       double precision old_hmin
       double precision old_gsurf
       double precision evap_Demand
-
+       
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -2856,6 +2862,7 @@ cnh
 42             continue
                if(g%dt.ge.dtiny)go to 40
             else
+
 *
 *              update variables
                g%TD_runoff = g%TD_runoff + g%roff*g%dt*10d0
