@@ -17,7 +17,7 @@ __fastcall TREMS::TREMS(TComponent* owner)
    {
    experimentNames = new TStringList;
    treatmentNames = new TStringList;
-   datasource = "Crop";
+   datasourceName = "Crop";
    }
 
 //---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ AnsiString relativeToAbsoluteFile(AnsiString baseDirectory, AnsiString fileName)
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
-void TREMS::createFields(void) throw(runtime_error)
+bool TREMS::createFields(void) throw(runtime_error)
    {
    if (treatmentName != "")
       {
@@ -159,14 +159,17 @@ void TREMS::createFields(void) throw(runtime_error)
       // casts it back to a TDataSet to get around this.
       TDataSet* tds = query;
 
-      for(int i=1;i < tds->FieldDefs->Count;i++)
+      FieldDefs->Clear();
+      for(int i=0;i < tds->FieldDefs->Count;i++)
          {
          TFieldDef* field = FieldDefs->AddFieldDef();
          field->Assign(tds->FieldDefs->Items[i]);
 //         field->Name = tds->FieldDefs->Items[i]->Name;
 //         field->DataType = tds->FieldDefs->Items[i]->DataType;
          }
+      return (tds->FieldDefs->Count > 0);
       }
+   return false;
    }
 //---------------------------------------------------------------------------
 // Called by our base class to allow us to add records to the table.
@@ -179,10 +182,10 @@ void TREMS::storeRecords(void) throw(runtime_error)
       while(!query->Eof)
          {
          Append();
-         FieldValues["Series"] = experimentName + " " + treatmentName;
-         for(int i=1;i < query->FieldCount;i++)
+         for(int i=0;i < query->FieldCount;i++)
             Fields->Fields[i] = query->Fields->Fields[i];
          Post();
+         addFactorToSeriesName(AnsiString(experimentName + " " + treatmentName).c_str());
          query->Next();
          }
 

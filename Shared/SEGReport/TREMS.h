@@ -31,7 +31,7 @@ class TREMS : public TSEGTable
       TStrings* __fastcall getTreatmentNames(void);
 
       virtual void __fastcall Loaded(void);
-      virtual void createFields(void) throw(std::runtime_error);
+      virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
 
    public:
