@@ -45,6 +45,7 @@
       <respondToMethodCallReg name="sysinit" type="sysinit"/>
       <respondToMethodCallReg name="sum_report" type="sum_report"/>
       <respondToMethodCallReg name="tillage" type="tillage"/>
+      <respondToEventReg name="incorp_fom" type="incorp_fom"/>
       <respondToEventReg name="incorp_fom_p" type="incorp_fom_p"/>
       <respondToEventReg name="decomposed" type="decomposed"/>
       <getVariableReg name="dlayer" type="dlayer"/>
