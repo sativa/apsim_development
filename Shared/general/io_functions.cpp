@@ -11,50 +11,42 @@
 #include <FileCtrl.hpp>
 using namespace std;
 // ------------------------------------------------------------------
-//  Short description:
-//      return a list of files/directories to caller.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/6/1997
-//    dph 11/1/1998 modified to use VCL findfirst routines.
-
+// Return a list of files/directories to caller.
 // ------------------------------------------------------------------
-void Get_directory_listing (const char* Directory_name,
-                            const char* Extension,
-                            list<string>& Dir_list,
-                            unsigned int Attribute,
-                            bool Full_path)
+void getDirectoryListing(const std::string& directoryName,
+                         const std::string& extension,
+                         std::vector<std::string>& dirList,
+                         unsigned int attribute,
+                         bool fullPath)
    {
-   if (Attribute == 0)
-      Attribute = faAnyFile;
+   if (attribute == 0)
+      attribute = faAnyFile;
 
    Path p;
 
    TSearchRec SearchRec;
    int done;
-   p.Set_path (Directory_name);
-   p.Set_name (Extension);
-   done = FindFirst(p.Get_path().c_str(), Attribute, SearchRec);
+   p.Set_path (directoryName.c_str());
+   p.Set_name (extension.c_str());
+   done = FindFirst(p.Get_path().c_str(), attribute, SearchRec);
    while (!done)
       {
       bool NormalFile = ((SearchRec.Attr & faDirectory) == 0);
       bool Keep = (SearchRec.Name != "." && SearchRec.Name != "..");
 
-      if (Attribute == faAnyFile)
+      if (attribute == faAnyFile)
          Keep = Keep && NormalFile;
 
       else
-         Keep = Keep && ((SearchRec.Attr & Attribute) > 0);
+         Keep = Keep && ((SearchRec.Attr & attribute) > 0);
 
       if (Keep)
          {
          Path p;
-         if (Full_path)
-            p.Set_directory (Directory_name);
+         if (fullPath)
+            p.Set_directory (directoryName.c_str());
          p.Set_name(SearchRec.Name.c_str());
-         Dir_list.push_back (p.Get_path());
+         dirList.push_back (p.Get_path());
          }
       done = FindNext (SearchRec);
       }
@@ -62,29 +54,21 @@ void Get_directory_listing (const char* Directory_name,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//      locate a file and return it's full absolute path name
-
-//  Notes:
-//      search file passed in should not contain any directory info.
-
-//  Changes:
-//    DPH 11/6/1997
-
+// Locate a file and return it's full absolute path name
 // ------------------------------------------------------------------
-string Locate_file (list<string>& Search_directories,
-                    const char* Search_file)
+std::string locateFile(std::vector<std::string>& searchDirectories,
+                       const std::string& searchFile)
    {
    Path p;
    bool found = false;
 
    // loop through all directories.
-   for (list<string>::iterator Iter = Search_directories.begin();
-                               Iter != Search_directories.end() && !found;
-                               Iter++)
+   for (vector<string>::iterator Iter = searchDirectories.begin();
+                                 Iter != searchDirectories.end() && !found;
+                                 Iter++)
       {
       p.Set_directory ( (*Iter).c_str() );
-      p.Set_name (Search_file);
+      p.Set_name (searchFile.c_str());
       struct ffblk ffblk;
       found = (findfirst(p.Get_path().c_str(), &ffblk, FA_NORMAL) == false);
       }
@@ -96,76 +80,54 @@ string Locate_file (list<string>& Search_directories,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//      get a directory listing but make it recursive.
-
-//  Notes:
+// Get a directory listing but make it recursive.
 //      The max_num_levels_to_descend should be set to the number of
 //      nested directories to descend into.  If set to some high number
 //      (eg 10000) then all directories will be recursed into.  If set
-//      to zero then no directories will be recursed into.
-
-//  Changes:
-//    DPH 11/9/98
-
+//      to zero then no directories will be recursed into.  If
+//      "include_specified_directory" is true then files in the specified
+//      "directory" will be returned along with files in child directories.
 // ------------------------------------------------------------------
-void Get_recursive_directory_listing(const char* Directory,
-                                     const char* File_spec,
-                                     int Max_num_levels_to_descend,
-                                     bool Include_specified_directory,
-                                     list<string>& Files)
+void getRecursiveDirectoryListing(const std::string& directory,
+                                  const std::string& fileSpec,
+                                  int maxNumLevelsToDescend,
+                                  bool includeSpecifiedDirectory,
+                                  std::vector<std::string>& files)
    {
    // get matching files in this directory if necessary
-   if (Include_specified_directory)
-      {
-      Get_directory_listing (Directory,
-                             File_spec,
-                             Files,
-                             FA_NORMAL,
-                             true);
-      }
+   if (includeSpecifiedDirectory)
+      getDirectoryListing(directory, fileSpec, files, FA_NORMAL, true);
 
    // get all sub directories.
-   list<string> Sub_dirs;
-   Get_directory_listing (Directory,
-                          "*.*",
-                          Sub_dirs,
-                          FA_DIREC,
-                          false);
+   vector<string> Sub_dirs;
+   getDirectoryListing(directory, "*.*", Sub_dirs, FA_DIREC, false);
 
    // loop through all sub directories and recurse through them if
    // we haven't reached the maximum number of nested levels.
-   if (Max_num_levels_to_descend > 0)
+   if (maxNumLevelsToDescend > 0)
       {
-      Max_num_levels_to_descend--;
-      for (list<string>::iterator i = Sub_dirs.begin();
-                                  i != Sub_dirs.end();
-                                  i++)
+      maxNumLevelsToDescend--;
+      for (vector<string>::iterator i = Sub_dirs.begin();
+                                    i != Sub_dirs.end();
+                                    i++)
          {
-         string dir = Directory;
+         string dir = directory;
          dir += "\\";
          dir += *i;
-         Get_recursive_directory_listing (dir.c_str(), File_spec, Max_num_levels_to_descend, true, Files);
+         getRecursiveDirectoryListing(dir.c_str(), fileSpec, maxNumLevelsToDescend, true, files);
          }
       }
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     copy or move the specified source files to the destination directory
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
+// Copy or move the specified source files to the destination directory
 // ------------------------------------------------------------------
-void Copy_files (list<string>& Source_files,
-                 const char* Destination_directory,
-                 bool Do_move_files)
+void copyFiles(std::vector<std::string>& sourceFiles,
+               const std::string& destinationDirectory,
+               bool doMoveFiles)
    {
    string source_st;
-   Build_string(Source_files, ";", source_st);
+   Build_string(sourceFiles, ";", source_st);
    source_st += ";";
 
    // convert source_st to double null terminated strings.
@@ -177,12 +139,12 @@ void Copy_files (list<string>& Source_files,
    SHFILEOPSTRUCT op;
    ZeroMemory(&op,sizeof(op));
    op.hwnd=GetForegroundWindow();
-   if (Do_move_files)
+   if (doMoveFiles)
       op.wFunc = FO_MOVE;
    else
       op.wFunc=FO_COPY;
    op.pFrom=source_string;
-   op.pTo=Destination_directory;
+   op.pTo=destinationDirectory.c_str();
    op.fFlags = FOF_NOCONFIRMMKDIR;
    SHFileOperation(&op);
 
@@ -191,42 +153,35 @@ void Copy_files (list<string>& Source_files,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     copy or move the specified source directories and all directories below them
-//     to the destination directory.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
+// Copy or move the specified source directories and all directories below them
+// to the destination directory.
 // ------------------------------------------------------------------
-void Copy_directories (list<string>& Source_directories,
-                       const char* Destination_directory,
-                       bool Do_move_files)
+void copyDirectories(std::vector<std::string>& sourceDirectories,
+                     const std::string& destinationDirectory,
+                     bool doMoveFiles)
    {
    string source_st, destination_st;
 
    // use the first directories parent as the base directory.  Assumes that
    // all directories are located under this parent.
    Path Home_directory;
-   if (Source_directories.size() > 0)
+   if (sourceDirectories.size() > 0)
       {
-      Home_directory.Set_path ( (*Source_directories.begin()).c_str() );
+      Home_directory.Set_path ( (*sourceDirectories.begin()).c_str() );
       Home_directory.Back_up_directory();
       }
 
    // get a complete list of files we want to copy.
-   list<string> Files;
-   for (list<string>::iterator i = Source_directories.begin();
-                               i != Source_directories.end();
-                               i++)
+   vector<string> Files;
+   for (vector<string>::iterator i = sourceDirectories.begin();
+                                 i != sourceDirectories.end();
+                                 i++)
       {
       string source_directory = *i;
 
       // get a list of all filenames
-      list<string> Files;
-      Get_recursive_directory_listing( (*i).c_str(), "*.*", 10000, true, Files);
+      vector<string> Files;
+      getRecursiveDirectoryListing( (*i).c_str(), "*.*", 10000, true, Files);
 
       // create a semicolon delimited string to hold all file names.
       string st;
@@ -238,7 +193,7 @@ void Copy_directories (list<string>& Source_directories,
 
       // replace all source directories with destination directories and add
       // to destination_st
-      Replace_all (st, Home_directory.Get_directory().c_str(), Destination_directory);
+      Replace_all (st, Home_directory.Get_directory().c_str(), destinationDirectory.c_str());
       destination_st += st;
       }
 
@@ -255,7 +210,7 @@ void Copy_directories (list<string>& Source_directories,
    SHFILEOPSTRUCT op;
    ZeroMemory(&op,sizeof(op));
    op.hwnd=GetForegroundWindow();
-   if (Do_move_files)
+   if (doMoveFiles)
       op.wFunc = FO_MOVE;
    else
       op.wFunc=FO_COPY;
@@ -270,10 +225,8 @@ void Copy_directories (list<string>& Source_directories,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     copy or move the specified source files to the destination
-//     directory preserving the directory structure.
-
+// Copy or move the specified source files to the destination
+// directory preserving the directory structure.
 //     The source_base_directory is used to determine the root of all the
 //     source files.  It is assumed that all source files are located
 //     under this base directory.  Any that aren't are NOT copied.
@@ -284,30 +237,24 @@ void Copy_directories (list<string>& Source_directories,
 //           source_base_directory = c:\apsuite\apsim
 //           destination_directory = c:\apswork
 //        Then    destination file = c:\apswork\chickpea\chickpea.apf
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
 // ------------------------------------------------------------------
-void Copy_files_preserve_directories(list<string>& Source_files,
-                                     const char* Source_base_directory,
-                                     const char* Destination_directory,
-                                     bool Do_move_files,
-                                     bool Make_files_read_write)
+void copyFilesPreserveDirectories(std::vector<std::string>& sourceFiles,
+                                  const std::string& sourceBaseDirectory,
+                                  const std::string& destinationDirectory,
+                                  bool doMoveFiles,
+                                  bool makeFilesReadWrite)
    {
    string source_st, destination_st;
    // loop through all source files and replace source_base_directory
    // with destination_directory.
-   for (list<string>::iterator file = Source_files.begin();
-                               file != Source_files.end();
-                               file++)
+   for (vector<string>::iterator file = sourceFiles.begin();
+                                 file != sourceFiles.end();
+                                 file++)
       {
       string filest = *file;
-      if (stristr((char*) filest.c_str(), Source_base_directory) == filest.c_str())
+      if (stristr((char*) filest.c_str(), sourceBaseDirectory.c_str()) == filest.c_str())
          {
-         filest.replace (0, strlen(Source_base_directory), Destination_directory);
+         filest.replace (0, strlen(sourceBaseDirectory.c_str()), destinationDirectory.c_str());
          source_st += (*file) + ";";
          destination_st += filest + ";";
          }
@@ -326,7 +273,7 @@ void Copy_files_preserve_directories(list<string>& Source_files,
    SHFILEOPSTRUCT op;
    ZeroMemory(&op,sizeof(op));
    op.hwnd=GetForegroundWindow();
-   if (Do_move_files)
+   if (doMoveFiles)
       op.wFunc = FO_MOVE;
    else
       op.wFunc=FO_COPY;
@@ -336,11 +283,11 @@ void Copy_files_preserve_directories(list<string>& Source_files,
    SHFileOperation(&op);
 
    // if we need to make sure files are read/write then do so.
-   if (Make_files_read_write)
+   if (makeFilesReadWrite)
       {
-      list<string> Destination_files;
+      vector<string> Destination_files;
       Split_string (destination_st, ";", Destination_files);
-      for (list<string>::iterator file = Destination_files.begin();
+      for (vector<string>::iterator file = Destination_files.begin();
                                   file != Destination_files.end();
                                   file++)
          {
@@ -354,21 +301,13 @@ void Copy_files_preserve_directories(list<string>& Source_files,
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     send the specified directory and all directories below it to the
-//     recycle bin.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
+// Send the specified directory or files to the recycle bin.
 // ------------------------------------------------------------------
-void Delete_files_or_directories (list<string>& Directories)
+void deleteFilesOrDirectories(std::vector<std::string>& directories)
    {
    // create a string to hold all filenames.
    string st;
-   Build_string (Directories, ";", st);
+   Build_string (directories, ";", st);
    st += ";";
 
    // convert string to a double null terminated string.
@@ -388,20 +327,12 @@ void Delete_files_or_directories (list<string>& Directories)
    // cleanup
    delete [] source_string;
    }
-
 // ------------------------------------------------------------------
-//  Short description:
-//     return the youngest file in a given directory that matches the
-//     specified filespec.
-
-//  Notes:
-
-//  Changes:
-//    DPH 11/9/98
-
+// Return the youngest file in a given directory that matches the
+// specified filespec.
 // ------------------------------------------------------------------
-string Get_youngest_file (const char* Directory,
-                          const char* Filespec)
+std::string getYoungestFile(const std::string& directory,
+                            const std::string& filespec)
    {
    unsigned short Maximum_date = 0;
    unsigned short Maximum_time = 0;
@@ -411,15 +342,15 @@ string Get_youngest_file (const char* Directory,
    struct ffblk ffblk;
    int done;
    Path p;
-   p.Set_path (Directory);
-   p.Set_name (Filespec);
+   p.Set_path (directory.c_str());
+   p.Set_name (filespec.c_str());
    done = findfirst(p.Get_path().c_str(),&ffblk, FA_NORMAL);
    while (!done)
       {
       if (ffblk.ff_fdate > Maximum_date ||
          (ffblk.ff_fdate == Maximum_date && ffblk.ff_ftime > Maximum_time))
          {
-         Youngest_file.Set_directory (Directory);
+         Youngest_file.Set_directory (directory.c_str());
          Youngest_file.Set_name (ffblk.ff_name);
          }
       done = findnext(&ffblk);

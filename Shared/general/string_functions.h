@@ -106,45 +106,6 @@ void Build_string (container& words, const char* separators, std::string& text)
       }
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    get a section name from a line. ie look for [section]
-//    on the line passed in.  Returns name if found.  Blank otherwise.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/4/1997
-//    dph 17/9/1997 changed "string& line" to "const char* line"
-
-// ------------------------------------------------------------------
-std::string Get_section_name (const char* line);
-
-// ------------------------------------------------------------------
-//  Short description:
-//    get a key value from a line. ie look for keyname = keyvalue
-//    on the line passed in.  Returns keyvalue if found.  Blank otherwise.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/4/1997
-//    dph 17/9/1997 changed "string& line" to "const char* line"
-
-// ------------------------------------------------------------------
-std::string Get_key_value (const char* line, const char* Key_name);
-
-// ------------------------------------------------------------------
-//  Short description:
-//    return the key name and value on the line.
-
-//  Notes:
-
-//  Changes:
-//    DPH 24/9/97
-
-// ------------------------------------------------------------------
-void Get_keyname_and_value (const char* line, std::string& Key_name, std::string& Key_value);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -451,18 +412,11 @@ int Str_i_Cmp(const std::string &a, const std::string &b);
 void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char);
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Get all words from a double null terminated string where each
-//     word is separated by a null.  Windows API routines sometimes
-//     do things this way.
-
-//  Notes:
-
-//  Changes:
-//    DPH 4/1/1999
-
+// Get all words from a double null terminated string where each
+// word is separated by a null.  Windows API routines sometimes
+// do things this way.
 // ------------------------------------------------------------------
-void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
+void getWordsFromDoubleNullSt(char* st, std::vector<std::string>& words);
 
 // ------------------------------------------------------------------
 //  Short description:

@@ -64,106 +64,6 @@ void Strip (char* text, const char* separators)
 
 // ------------------------------------------------------------------
 //  Short description:
-//    return the key name and value on the line.
-
-//  Notes:
-
-//  Changes:
-//    DPH 24/9/97
-//    dph 6/7/2001 added code to remove TAB chars d423
-
-// ------------------------------------------------------------------
-void Get_keyname_and_value (const char* line, string& Key_name, string& Key_value)
-   {
-   string Str_line = line;
-
-   int Pos_equals = Str_line.find("=");
-   if (Pos_equals > 0)
-      {
-      string Left_of_equals;
-      Key_name = Str_line.substr (0, Pos_equals);
-      Replace_all(Key_name, "\t", "   ");
-      Strip (Key_name, " ");
-      Key_value = Str_line.substr (Pos_equals + 1);
-      Replace_all(Key_value, "\t", "   ");
-      Strip (Key_value, " ");
-      }
-   else
-      {
-      Key_name = "";
-      Key_value = "";
-      }
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    get a key value from a line. ie look for keyname = keyvalue
-//    on the line passed in.  Returns keyvalue if found.  Blank otherwise.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/4/1997
-//    dph 17/9/1997 changed "string& line" to "const char* line"
-//    dph 5/6/98 modified to use str_i_eq routine instead of to_lower.
-//    dph 6/7/2001 added code to remove TAB chars d423
-
-// ------------------------------------------------------------------
-string Get_key_value (const char* line, const char* Key_name)
-   {
-
-   string Str_line = line;
-   string Key_value;
-
-   int Pos_equals = Str_line.find("=");
-   if (Pos_equals > 0)
-      {
-      string Left_of_equals;
-      Left_of_equals = Str_line.substr (0, Pos_equals);
-      Replace_all(Left_of_equals, "\t", "   ");
-      Strip (Left_of_equals, " ");
-      if (Str_i_Eq(Left_of_equals, Key_name))
-         {
-         Key_value = Str_line.substr (Pos_equals + 1);
-         Replace_all(Key_value, "\t", "   ");
-         Strip (Key_value, " ");
-         }
-      }
-   return Key_value;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//    get a section name from a line. ie look for [section]
-//    on the line passed in.  Returns name if found.  Blank otherwise.
-
-//  Notes:
-
-//  Changes:
-//    DPH 29/4/1997
-//    dph 17/9/1997 changed "string& line" to "const char* line"
-//    dph 6/7/2001 added code to remove TAB chars d423
-
-// ------------------------------------------------------------------
-string Get_section_name (const char* line)
-   {
-   string Str_line = line;
-   string Section_name;
-
-   unsigned int Pos_first_non_blank = Str_line.find_first_not_of (" \t");
-   if (Pos_first_non_blank != string::npos && Str_line[Pos_first_non_blank] == '[')
-      {
-      int Pos_open = Str_line.find("[");
-      int Pos_close = Str_line.find("]");
-      if (Pos_open >= 0 && Pos_close > 0)
-         Section_name = Str_line.substr(Pos_open + 1, Pos_close - Pos_open - 1);
-      To_lower (Section_name);
-      }
-   return Section_name;
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
 //    Return true if string passed in is numerical.  False otherwise.
 
 //  Notes:
@@ -300,25 +200,18 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Get all words from a double null terminated string where each
-//     word is separated by a null.  Windows API routines sometimes
-//     do things this way.
-
-//  Notes:
-
-//  Changes:
-//    DPH 4/1/1999
-
+// Get all words from a double null terminated string where each
+// word is separated by a null.  Windows API routines sometimes
+// do things this way.
 // ------------------------------------------------------------------
-void Get_words_from_double_null_term (char* St, list<string>& Words)
+void getWordsFromDoubleNullSt(char* st, std::vector<std::string>& words)
    {
-   char* StartPtr = St;
-   char* EndPtr = St;
+   char* StartPtr = st;
+   char* EndPtr = st;
    EndPtr = strchr(StartPtr, 0);
    while (StartPtr != EndPtr)
       {
-      Words.push_back (StartPtr);
+      words.push_back(StartPtr);
       StartPtr = ++EndPtr;
       EndPtr = strchr(StartPtr, 0);
       }
