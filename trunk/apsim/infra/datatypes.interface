@@ -585,7 +585,7 @@
       </element>
    </type>
 
-   <type name="CropNitrogenDemand" description="Message sent to add crop N demand terms to N balance calculations." array="T">
+   <type name="CropNitrogenDemand" array="T" description="Message sent to add crop N demand terms to N balance calculations." >
       <element>
       <field name="Name" kind = "string" description="cohort name + instance name"/>
       <field name="CropType" kind = "string"/>
@@ -805,8 +805,11 @@
       </element>
    </type>
 
-!dsg 030702 for each residue instance
-   <type name="SurfaceOrganicMatter" >
+!dsg 030702 for each residue instance, the array allows SOILN2 to fill "ActualResidueDecomCalc" 
+!   for all the system residues and it also allows a residue instance to send data for, say, "woody"
+!   "leafy" etc, components of itself.
+   <type name="SurfaceOrganicMatter" array="T">
+      <element>
       <field name="name" kind="string"/>
       <field name="OrganicMatterType" kind="string"/>
       <field name="OrganicMatterFraction" array="T">
@@ -818,6 +821,7 @@
          <field name="AshAlk"  kind="single" units="kg/ha"/>
          </element>
       </field>
+      </element>      
    </type>
 !   
 !   !!!!! SOILN2  types  !!!!!!!!!!!!!!!!!!!!!!
@@ -992,8 +996,8 @@
    </type>
 
 
-!dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event
-   <type name="NitrogenBalance" >
+!dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event, array sized for soil layers
+   <type name="NitrogenBalance" array = "T">
       <field name="Fertilizer"              kind="single" units="kg/ha"/>
       <field name="ResiduesMineralised"     kind="single" units="kg/ha"/>
       <field name="Leaching"                kind="single" units="kg/ha"/>
