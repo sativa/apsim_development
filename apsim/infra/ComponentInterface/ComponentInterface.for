@@ -352,10 +352,16 @@
  
 !+ Calls
       dll_import LOADER_GETCURRENTCOMPONENT
+
+!+ Constant Values
+      character my_name*(*)
+      parameter (my_name='Get_current_module')
  
 !- Implementation Section ----------------------------------
 
+      call Push_routine (my_name)
       call LOADER_GETCURRENTCOMPONENT(ModuleName)
+      call Pop_routine (my_name)
       return
       end
 
@@ -392,13 +398,16 @@
       dll_import Summary_WriteLine
   
 !+ Constant Values
+      character my_name*(*)
+      parameter (my_name='Write_string')
  
 !+ Local Variables
 
 !- Implementation Section ----------------------------------
 
+      call Push_routine (my_name)
       call Summary_WriteLine (String)
-
+      call Pop_routine  (my_name)
       return
       end
 

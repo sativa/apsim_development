@@ -1043,7 +1043,7 @@
      .     (Variable_ptr, Num_elements, Max_elements_expected)
 * ====================================================================
       implicit none
-      dll_export check_num_elements
+!      dll_export check_num_elements
       include 'const.inc'
       include 'postbox.inc'
  
@@ -1281,6 +1281,7 @@
       dll_export find_variable_in_postbox
       include 'const.inc'
       include 'postbox.inc'
+      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to find.
@@ -1329,7 +1330,8 @@
      .    g_Variable_start(g_Current_message + 1)) then
          ! Look at this variable name
  
-         if (g_Variable_name(Variable_ptr) .eq. Variable_name) then
+         if (Strings_equal(g_Variable_name(Variable_ptr), 
+     .                     Variable_name)) then
             ! Found variable - increment our variable counter and if it
             ! matches the requested variable number then exit the routine.
             ! Otherwise keep searching.
@@ -1555,6 +1557,8 @@
 *     DPH 17/5/96  Added code to fill g_variable_owner
 *     dph 5/10/99  Added 2 calls to lower_case so that the postbox
 *                  system is NOT case sensitive.
+*     dph 3/11/99 removed calls to lower_case.  The find_variable_in_postbox
+*                 routine now does case insensitive string comparisons.
  
 *+ Calls
       dll_import push_routine
@@ -1565,7 +1569,7 @@
  
 *+ Constant Values
       character This_routine*(*)
-      parameter (This_routine='Post_add_variable')
+      parameter (This_routine='Postbox_add_variable')
  
 *+ Local Variables
       character msg*300                ! error message
@@ -1576,9 +1580,11 @@
       call Push_routine(This_routine)
  
       ! Ok we have enough space in postbox - store variable
- 
-      g_Variable_name(g_Empty_variable_slot) = Lower_case(Variable_name)
-      g_Variable_unit(g_Empty_variable_slot) = Lower_case(Units)
+
+      call Assign_string(g_Variable_name(g_Empty_variable_slot),
+     .                   Variable_name)
+      call Assign_string(g_Variable_unit(g_Empty_variable_slot),
+     .                   Units)
  
       ! By the time we get to this line we can assume that the data has
       ! already been stored in the postbox.  We know how many variables
@@ -1760,6 +1766,7 @@
 *     DPH 18/10/95
 *     jngh 01/11/95 corrected routines name from double to char
 *                   added else to if stmts and blank filled array if nothing found
+*     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
       dll_import push_routine
@@ -1792,7 +1799,7 @@
  
       ! Make a copy of the variable and work on the copy - not the original.
  
-      Our_variable = Lower_case (Variable_name)
+      call Assign_string(Our_variable, Variable_name)
  
       ! Check for any array specifiers in variable name and strip off if necessary.
  
@@ -1996,6 +2003,7 @@
  
 *+ Changes
 *     DPH 18/10/95
+*     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
       dll_import push_routine
@@ -2027,7 +2035,7 @@
  
       ! Make a copy of the variable and work on the copy - not the original.
  
-      Our_variable = Lower_case(Variable_name)
+      call Assign_string(Our_variable, Variable_name)
  
       ! Check for any array specifiers in variable name and strip off if necessary.
  
@@ -2572,7 +2580,7 @@
       dll_import push_routine
       dll_import get_sum
       dll_import double_var_to_string
-      dll_import check_num_elements
+!      dll_import check_num_elements
       dll_import fatal_error
       dll_import assign_string
       dll_import pop_routine
@@ -2698,7 +2706,7 @@
 *+ Calls
       dll_import push_routine
       dll_import get_sum
-      dll_import check_num_elements
+!      dll_import check_num_elements
       dll_import fatal_error
       dll_import string_to_double_array
       dll_import pop_routine
