@@ -1226,7 +1226,7 @@
 *     dph 12/7/96  added code to display line in summary file when setting apsim variable
 *     dph 25/7/96  added message to summary file when creating a local variable
 *     dph 2/10/96  replaced all calls to post_char_var to set_char_var.
- 
+*     sb 3/7/97  Trimmed args in both calls of set_char_var().
 *   Calls:
 *      assign_string
  
@@ -1267,9 +1267,9 @@
  
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
-         call set_char_var
-     .        (Mod_name, Var_name, ' ',
-     .         Variable_value)
+         call set_char_var(Mod_name,
+     .         var_name(1:lastnb(var_name)), ' ',
+     .         Variable_value(1:lastnb(Variable_value)) )
  
       else
          ! Try to find variable in local variable list.
@@ -1299,8 +1299,9 @@
                call Report_event (str)
  
             else
-               call set_char_var(Unknown_module, variable_name, ' ', 
-     .            Variable_value)
+               call set_char_var(Unknown_module,
+     .            variable_name(1:lastnb(variable_name)), ' ', 
+     .            Variable_value(1:lastnb(Variable_value)))
                Is_apsim_variable = .true.
             endif
          else
