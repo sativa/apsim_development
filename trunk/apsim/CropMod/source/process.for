@@ -16,10 +16,8 @@ C     Last change:  E    14 Sep 2001    1:00 pm
      :                               ,dlt_vernalisation
      :                               ,vernalisation)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
-      include 'science.pub'
 
 *+  Sub-Program Arguments
       real    current_stage  !The current development stage
@@ -27,9 +25,9 @@ C     Last change:  E    14 Sep 2001    1:00 pm
       integer end_stage        !Stage vernalisation ends
       real    maxt           !Daily maximum Temperature
       real    mint           !Daily minimum temperature
-      REAL    num_temp_vern
-      REAL    x_temp_vern
-      REAL    y_vern_rate
+      Integer    num_temp_vern
+      REAL    x_temp_vern(*)
+      REAL    y_vern_rate(*)
       REAL    vernalisation_requirement
       REAL    dlt_cumvd
       REAL    dlt_vernalisation
@@ -38,20 +36,20 @@ C     Last change:  E    14 Sep 2001    1:00 pm
 
 *+  Purpose
 *     Calculate daily vernalisation and accumulate to g_cumvd
- 
+
 *+  Mission Statement
 *     Calculate todays vernalization (used to affect phenology)
- 
+
 *+  Notes
 
 *+  Changes
 *     2000/02/06 ew programmed
- 
+
 
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'Crop_Vernalisation')
- 
+
 *+  Local Variables
       REAL max_vern_rate
       REAL rel_vern_rate
@@ -148,11 +146,9 @@ C     Last change:  E    14 Sep 2001    1:00 pm
      :               , g_phase_tt
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                       
-      include 'error.pub'
 
 
 *+  Sub-Program Arguments
@@ -231,7 +227,7 @@ C     Last change:  E    14 Sep 2001    1:00 pm
 
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
       p_phyllochron = c_leaf_app_rate1
@@ -358,7 +354,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
      :                             *  p_phyllochron
 
       else
- 
+
       endif
 
 
@@ -417,11 +413,9 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
      :               , g_phase_tt
      :               )
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                       
-      include 'error.pub'
 
 
 *+  Sub-Program Arguments
@@ -493,7 +487,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
        REAL leaf_no_init
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
 * On the sowing day, calculate the tt for emergence
@@ -519,7 +513,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 
        g_phase_tt(emerg_to_endjuv)       = 1.0
 
-* On the day of emergence,make an estimate of phase duration for endjuv to floral init  
+* On the day of emergence,make an estimate of phase duration for endjuv to floral init
       elseif (stage_is_between(endjuv,floral_init,g_current_stage)) then
 
         leaf_no_init = MAX(0.0, 0.5*g_leaf_no_final-c_leaf_no_at_emerg)
@@ -544,7 +538,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
      :                         * c_leaf_app_rate1
      :                         + (g_leaf_no_final - leaf_no)
      :                         * c_leaf_app_rate2
- 
+
          g_phase_tt(init_to_flag) = tt_emerg_to_flag_leaf
      :                            - g_phase_tt(emerg_to_endjuv)
      :                            - g_phase_tt(endjuv_to_init)
@@ -556,7 +550,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
        g_phase_tt(maturity_to_ripe)      = p_tt_maturity_to_ripe
        g_phase_tt(ripe_to_harvest)       = p_tt_ripe_to_harvest
       else
- 
+
       endif
 
 
@@ -594,11 +588,9 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
      .          g_grain_no,
      .          g_dm_green_retrans_pool )
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        real g_current_stage     !(INPUT) current phenological stage
@@ -650,14 +642,14 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
       REAL       stem_trans_frac
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
          ! initialisations - set up dry matter for leaf, stem, flower, grain! and root
 
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
          ! seedling has just emerged. initialise root, stem and leaf.
- 
+
          g_dm_green(root)  = c_dm_root_init * g_plants
          g_dm_green(stem)  = c_dm_stem_init * g_plants
          g_dm_green(leaf)  = c_dm_leaf_init * g_plants
@@ -671,7 +663,7 @@ c       PRINT *, 'g_phase_tt = ',g_phase_tt(germ_to_emerg)
 c for nwheat min stem weight at beginning of grain filling stage, no carbon mobile from leaves
       elseif (on_day_of (start_grain_fill
      :                 , g_current_stage, g_days_tot)) then
- 
+
          ! we are at first day of grainfill.
          ! set the minimum weight of leaf; used for translocation to grain and stem
 
@@ -693,7 +685,7 @@ c for nwheat min stem weight at beginning of grain filling stage, no carbon mobi
 
          !==================================================
 
- 
+
          dm_plant_leaf       = divide (g_dm_green(leaf), g_plants, 0.0)
 c        g_dm_plant_min(leaf)= dm_plant_leaf * (1.0 - c_leaf_trans_frac)
          g_dm_plant_min(leaf)= dm_plant_leaf -
@@ -737,7 +729,7 @@ c    :               + c_dm_stem_init * g_plants
 
       else   ! no changes
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -757,10 +749,8 @@ c    :               + c_dm_stem_init * g_plants
      .           c_leaf_no_max,
      .           g_leaf_no_final)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    start_leaf_init_stage !stage to begin (e.g. emerg) est. final leaf no.
@@ -796,9 +786,9 @@ c    :               + c_dm_stem_init * g_plants
                                        ! to true floral initiation (deg day)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 
       if (stage_is_between(start_leaf_init_stage,
      .                     end_leaf_init_stage,
@@ -806,26 +796,26 @@ c    :               + c_dm_stem_init * g_plants
      .    on_day_of       (end_leaf_init_stage,
      .                     g_current_stage,
      .                     g_days_tot))     then
- 
+
       ! estimate the final leaf no from an approximated thermal
       ! time for the period from emergence to floral initiation.
- 
+
         tt_floral_init = sum_between(start_leaf_init_stage,
      .                               end_leaf_init_stage,
      .                               g_phase_tt)
- 
+
         g_leaf_no_final = divide (tt_floral_init
      :                         , c_leaf_init_rate, 0.0)
      :                   + c_leaf_no_seed
- 
+
          call bound_check_real_var (g_leaf_no_final
      :                            , c_leaf_no_min, c_leaf_no_max
      :                            , 'g_leaf_no_final')
- 
+
       elseif (on_day_of (leaf_no_reset_stage,
      .                    g_current_stage, g_days_tot)) then
          g_leaf_no_final = 0.0
- 
+
       endif
       call pop_routine (my_name)
       return
@@ -861,10 +851,8 @@ c    :               + c_dm_stem_init * g_plants
 *     0596   glh  fixed it up
 
 
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    start_leaf_init !stage to begin (e.g. emerg) est. final leaf no.
@@ -887,13 +875,13 @@ c    :               + c_dm_stem_init * g_plants
 *+  Local Variables
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
 
       if (stage_is_between(start_leaf_init,end_leaf_init,current_stage)
      .  .or. on_day_of (end_leaf_init, current_stage, days_tot)) then
- 
+
           ! estimate the final leaf no from an approximated thermal
           ! time for the period from emergence to floral initiation.
 
@@ -914,7 +902,7 @@ c    :               + c_dm_stem_init * g_plants
 c      call bound_check_real_var (leaf_no_final
 c     :                            , leaf_no_min, leaf_no_max
 c     :                            , 'leaf_no_final')
- 
+
 
       if (on_day_of (reset_stage, current_stage, days_tot)) then
          leaf_no_final = 0.0
@@ -938,11 +926,9 @@ c     :                            , 'leaf_no_final')
      .          g_dlt_tt,
      .          g_dlt_leaf_no)
 *======================================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
@@ -955,7 +941,7 @@ c     :                            , 'leaf_no_final')
       real       g_dlt_tt
       real       g_dlt_leaf_no           ! (OUTPUT) new fraction of oldest
                                          ! expanding leaf
-  
+
 *+  Purpose
 *       Return the fractional increase in emergence of the oldest
 *       expanding leaf.
@@ -981,33 +967,33 @@ c     :                            , 'leaf_no_final')
       real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cglh uses sowing, not emerg to calc leaf no.
- 
+
       leaf_no_now = sum_between (emerg, now, g_leaf_no)
       leaf_no_remaining = g_leaf_no_final - leaf_no_now
 
 c      PRINT *, 'leaf_appearan = ',g_current_stage, g_leaf_no_final,
 c     :  leaf_no_now
- 
+
 !scc Peter's 2 stage version used here, modified to apply
 ! to last few leaves before flag
 !i.e. c_leaf_no_rate_change is leaf number from the top down (e.g. 4)
- 
+
       if (leaf_no_remaining .le. c_leaf_no_rate_change) then
          leaf_app_rate = c_leaf_app_rate2
       else
          leaf_app_rate = c_leaf_app_rate1
       endif
- 
+
 
        if (on_day_of (emerg, g_current_stage, g_days_tot)) then
- 
+
          ! initialisation done elsewhere.
          g_dlt_leaf_no = 0.0
- 
+
       elseif (leaf_no_remaining.gt.0.0) then
 
              ! if leaves are still growing, the cumulative number of
@@ -1016,14 +1002,14 @@ c     :  leaf_no_now
 
          g_dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
          g_dlt_leaf_no = bound (g_dlt_leaf_no, 0.0, leaf_no_remaining)
- 
+
       else
              ! we have full number of leaves.
- 
+
          g_dlt_leaf_no = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1063,12 +1049,9 @@ c     :  leaf_no_now
      .          tiller_no,
      .          zadok_stage)
 *     ===========================================================
+      Use infrastructure
       implicit none
       !dll_export zadok_stage_decimal_code
-      include 'convert.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER    emerg
@@ -1078,7 +1061,7 @@ c     :  leaf_no_now
       real       current_stage
       real       phase_tt(*)
       real       tt_tot(*)
-      real       leaf_no
+      real       leaf_no(*)
       real       tiller_no
       real       zadok_stage
 
@@ -1102,9 +1085,9 @@ c     :  leaf_no_now
 
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
           !Crop not in the field
           if (current_stage .lt.1.0 .and. current_stage.gt.12.0) then
              zadok_stage = 0.0
@@ -1190,11 +1173,8 @@ c     :  leaf_no_now
 
      :           g_extinction_coeff )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
-      include 'science.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       CHARACTER crop_type*(*)
@@ -1229,11 +1209,11 @@ c     :  leaf_no_now
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
 
       !WHEAT CROP
       if (crop_type .eq. 'wheat') then
-      
+
         extinct_coef = linear_interp_real(g_lai
      :                                   ,c_x_extinct_coeff_lai
      :                                   ,c_y_extinct_coeff_lai
@@ -1264,14 +1244,14 @@ c        endif
 
         if (g_current_stage .le. REAL(flowering))
      :     c_extinct_coeff_post_anthesis = extinct_coef
-        
-        
+
+
         if (g_current_stage .ge. REAL(flowering))
      :     extinct_coef = c_extinct_coeff_post_anthesis
-      
+
 
         g_extinction_coeff = extinct_coef
-        
+
 
       !SORGHUM CROP
       else if ((crop_type .eq. 'sorghum').OR.
@@ -1283,11 +1263,11 @@ c        endif
      :                                 , c_num_row_spacing)
 
        g_extinction_coeff = extinct_coef
- 
+
       else
          call Fatal_error (ERR_internal, 'Invalid crop type - for now')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1313,13 +1293,9 @@ c        endif
      :              , dlt_NO3gsm_diffusion
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export cproc_n_uptake2
-      include   'const.inc'
-      include   'cmxlayer.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       C_no3_diffn_const     ! (INPUT)  time constant for uptake by di
@@ -1379,12 +1355,12 @@ c        endif
       real       N_max                 ! potential N uptake per plant (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! get potential N uptake (supply) from the root profile.
             ! get totals for diffusion and mass flow.
- 
+
       deepest_layer = find_layer_no (g_root_depth
      :                              ,g_dlayer
      :                              ,max_layer)
@@ -1394,16 +1370,16 @@ c        endif
          NO3gsm_diffn_avail(layer) = l_bound (NO3gsm_diffn_avail(layer)
      :                                       , 0.0)
 1000  continue
- 
+
       NO3gsm_mflow_supply = sum_real_array (g_NO3gsm_mflow_avail
      :                                     , deepest_layer)
       NO3gsm_diffn_supply = sum_real_array (NO3gsm_diffn_avail
      :                                     , deepest_layer)
- 
+
             ! get actual total nitrogen uptake for diffusion and mass flow.
             ! If demand is not satisfied by mass flow, then use diffusion.
             ! N uptake above N critical can only happen via mass flow.
- 
+
       N_demand = sum_real_array (g_N_demand, max_part)
       N_max    = sum_real_array (g_N_max, max_part)
 
@@ -1416,52 +1392,52 @@ c        endif
 
 
 
- 
+
       if (NO3gsm_mflow_supply.ge.N_demand) then
          NO3gsm_mflow = NO3gsm_mflow_supply
          NO3gsm_mflow = u_bound (NO3gsm_mflow, N_max)
          NO3gsm_diffn = 0.0
- 
+
       else
- 
+
          NO3gsm_mflow = NO3gsm_mflow_supply
- 
+
          if (c_n_supply_preference.eq.'active') then
             NO3gsm_diffn = bound (N_demand - NO3gsm_mflow, 0.0
      :                        , NO3gsm_diffn_supply)
- 
+
          elseif (c_n_supply_preference.eq.'fixation') then
             NO3gsm_diffn = bound (N_demand - NO3gsm_mflow - g_N_fix_pot
      :                        , 0.0
      :                        , NO3gsm_diffn_supply)
- 
+
          else
             call fatal_error (ERR_USER, 'bad n supply preference')
          endif
- 
+
          NO3gsm_diffn = divide (NO3gsm_diffn, c_NO3_diffn_const, 0.0)
- 
+
       endif
- 
+
             ! get actual change in N contents
- 
+
       call fill_real_array (dlt_NO3gsm, 0.0, max_layer)
- 
+
       do 1100 layer = 1,deepest_layer
- 
+
                ! allocate nitrate
                ! Find proportion of nitrate uptake to be taken from layer
                ! by diffusion and mass flow
- 
+
          mflow_fract = divide (g_NO3gsm_mflow_avail(layer)
      :                       , NO3gsm_mflow_supply, 0.0)
- 
+
          diffn_fract = divide (NO3gsm_diffn_avail(layer)
      :                       , NO3gsm_diffn_supply, 0.0)
- 
+
                ! now find how much nitrate the plant removes from
                ! the layer by both processes
- 
+
          NO3gsm_uptake = NO3gsm_mflow * mflow_fract
      :                 + NO3gsm_diffn * diffn_fract
          dlt_NO3gsm(layer) = - NO3gsm_uptake
@@ -1471,7 +1447,7 @@ c        endif
          dlt_NO3gsm_diffusion(layer) = - NO3gsm_diffn * diffn_fract
 
 1100  continue
- 
+
       call pop_routine (my_name)
       return
 
@@ -1507,10 +1483,9 @@ c        endif
      :          , g_swdef_fixation
      :          , g_N_fix_pot        )
 * ====================================================================
+      Use infrastructure
       implicit none
 c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
-      include 'error.pub'                         
-      include 'crp_nitn.pub'
 
 *+  Sub-Program Arguments
       real    g_dlayer(*)             ! (INPUT)
@@ -1620,11 +1595,9 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
      .          NH4gsm_mflow_pot   )
 *     ===========================================================
 
+      Use infrastructure
       implicit none
       dll_export crop_n_potential_massflow
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL      root_depth         ! (INPUT)  depth of roots (mm)
@@ -1640,7 +1613,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
       REAL      NH4gsm(*)          ! (INPUT)  nitrate nitrogen in layer L (g N/m^2)
       REAL      NH4gsm_min(*)      ! (INPUT)  minimum allowable NH4 in soil (g/m^2)
       REAL      NH4gsm_mflow_pot(*)! (OUTPUT) potential plant NH4  uptake (supply) g/m^2, by mass flow
-                 
+
 *+  Purpose
 *       Return potential nitrogen uptake (supply) by mass flow (water
 *       uptake) (g/m^2)
@@ -1667,9 +1640,9 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
       real NH4gsm_mflow        ! potential nitrogen uptake (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       ! only take the layers in which roots occur
       deepest_layer = find_layer_no(root_depth, dlayer, max_layer)
 
@@ -1728,12 +1701,9 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
      .          NH4gsm_diffn_pot)
 *     ===========================================================
 
+      Use infrastructure
       implicit none
       dll_export crop_n_potential_diffusion
-      include 'convert.inc'       ! ha2sm, kg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL    root_depth          ! (INPUT)  depth of roots (mm)
@@ -1771,14 +1741,14 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
       real    NH4gsm_diffn        ! potential nitrogen uptake (g/m^2)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
       ! only take the layers in which roots occur
       deepest_layer = find_layer_no(root_depth, dlayer, max_layer)
 
       call fill_real_array(NO3gsm_diffn_pot, 0.0, max_layer)
- 
+
       do layer = 1, deepest_layer
          sw_avail_fract = divide(sw_avail(layer),
      :                           sw_avail_pot(layer), 0.0)
@@ -1817,9 +1787,9 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
      :              swdef_fixation,
      :              n_fix_pot )
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export crop_n_potential_fixation
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       current_stage       ! (INPUT) Current stage
@@ -1830,7 +1800,7 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
 
 *+  Purpose
 *          Calculate the quantity of atmospheric nitrogen fixed
-*          per unit standing crop biomass (fixation_determinant) and 
+*          per unit standing crop biomass (fixation_determinant) and
 *          limited by the soil water deficit factor for fixation.
 
 *+  Mission Statement
@@ -1847,15 +1817,15 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
       integer current_phase                 ! guess
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       current_phase = int(current_stage)
- 
+
       n_fix_pot = n_fix_rate(current_phase)
      :          * fixation_determinant
      :          * swdef_fixation
- 
+
       call pop_routine (my_name)
       return
       end
@@ -1891,13 +1861,9 @@ c     dll_export Cproc_N_Supply_Massflow_Diffusion_Fixation
      :              , n_fix_pot
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
 c     dll_export cproc_n_uptake_massflow_diffusion_fixation
-      include 'const.inc'
-      include 'cmxlayer.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       INTEGER    max_part            ! (INPUT)  number of plant parts
@@ -1981,12 +1947,12 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       REAL       NH4_f
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
             ! get potential N uptake (supply) from the root profile.
             ! get totals for diffusion and mass flow.
- 
+
       deepest_layer = find_layer_no (root_depth
      :                              ,dlayer
      :                              ,max_layer)
@@ -2053,7 +2019,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
          NH4gsm_diffn = 0.0
 
       else
- 
+
          NO3gsm_mflow = NO3gsm_mflow_supply
          NH4gsm_mflow = NH4gsm_mflow_supply
 
@@ -2062,16 +2028,16 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
          if (c_n_supply_preference.eq.'active') then
             n_tot_diffn = bound (N_demand_tot - n_tot_mflow, 0.0
      :                         , n_tot_diffn_supply)
- 
+
          elseif (c_n_supply_preference.eq.'fixation') then
             n_tot_diffn = bound (N_demand_tot - n_tot_mflow - n_fix_pot
      :                        , 0.0
      :                        , n_tot_diffn_supply)
- 
+
          else
             call fatal_error (ERR_USER, 'bad n supply preference')
          endif
- 
+
          n_tot_diffn = divide (n_tot_diffn, c_n_diffn_const, 0.0)
 
          NO3gsm_diffn = n_tot_diffn * NO3Ratio_df
@@ -2080,7 +2046,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       endif
 
             ! get actual change in N contents
- 
+
       call fill_real_array (dlt_NO3gsm,           0.0, max_layer)
       call fill_real_array (dlt_NO3gsm_massflow,  0.0, max_layer)
       call fill_real_array (dlt_NO3gsm_diffusion, 0.0, max_layer)
@@ -2090,9 +2056,9 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       call fill_real_array (dlt_NH4gsm_diffusion, 0.0, max_layer)
 
       do layer = 1,deepest_layer
- 
+
          ! allocate nitrate and amonium, Find proportion of nitrate uptake to be taken from layer by diffusion and mass flow
- 
+
          NO3_mflow_fract = divide (NO3gsm_mflow_avail(layer)
      :                           , NO3gsm_mflow_supply, 0.0)
          NO3_diffn_fract = divide (NO3gsm_diffn_avail(layer)
@@ -2116,7 +2082,7 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
      :                       + dlt_NH4gsm_diffusion (layer)
 
       enddo
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2142,13 +2108,9 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
      :              , dlt_dm_yieldpart_demand
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
 *     dll_export Cproc_Bio_Yieldpart_Demand_Temp_Driven
-      include 'CropDefCons.inc'
-      include 'convert.inc'            ! mg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       current_stage           ! (INPUT) current phenological stage
@@ -2190,14 +2152,14 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       real       factor
 
 *- Implementation Section ----------------------------------
-         
+
 
       call push_routine (my_name)
-      
+
 
       dlt_dm_yield = 0.0
 
-      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING 
+      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING
       if (stage_is_between (start_grainfill_stage
      :                    , end_grainfill_Stage
      :                   , current_stage))     then
@@ -2247,13 +2209,9 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
      :              , dlt_N_yieldpart_demand
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
 *     dll_export Cproc_N_Yieldpart_Demand_Temp_Driven
-      include 'CropDefCons.inc'
-      include 'convert.inc'            ! mg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       current_stage           ! (INPUT) current phenological stage
@@ -2295,14 +2253,14 @@ c     dll_export cproc_n_uptake_massflow_diffusion_fixation
       real       factor
 
 *- Implementation Section ----------------------------------
-         
+
 
       call push_routine (my_name)
-      
+
 
       dlt_n_yield = 0.0
 
-      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING 
+      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING
       if (stage_is_between (start_grainfill_stage
      :                    , end_grainfill_Stage
      :                   , current_stage))     then
@@ -2369,13 +2327,9 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :              , dlt_dm_yieldpart_demand
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
 *     dll_export Cproc_Bio_Yieldpart_Demand_Temp_Driven1
-      include 'CropDefCons.inc'
-      include 'convert.inc'            ! mg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       current_stage           ! (INPUT) current phenological stage
@@ -2417,14 +2371,14 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       real       factor
 
 *- Implementation Section ----------------------------------
-         
+
 
       call push_routine (my_name)
-      
+
 
       dlt_dm_yield = 0.0
 
-      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING 
+      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING
       if (stage_is_between (start_grainfill_stage
      :                    , end_grainfill_Stage
      :                   , current_stage))     then
@@ -2477,13 +2431,9 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :              , dlt_N_yieldpart_demand
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
 *     dll_export Cproc_N_Yieldpart_Demand_Temp_Driven1
-      include 'CropDefCons.inc'
-      include 'convert.inc'            ! mg2gm
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       current_stage           ! (INPUT) current phenological stage
@@ -2527,14 +2477,14 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       real       factor
 
 *- Implementation Section ----------------------------------
-         
+
 
       call push_routine (my_name)
-      
+
 
       dlt_n_yield = 0.0
 
-      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING 
+      !GRAIN FILLING STAGE - CALCULATE THE GRAIN FILLING
       if (stage_is_between (start_grainfill_stage
      :                    , end_grainfill_Stage
      :                   , current_stage))     then
@@ -2576,9 +2526,9 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :              , bio_temp_max
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export Temperature_Response_Curvilinear
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       temperature             ! (INPUT) daily maximum temp. (C)
@@ -2606,7 +2556,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       REAL       factor
 
 *- Implementation Section ----------------------------------
-         
+
       call push_routine (my_name)
 
       if ((bio_temp_opt .LE. bio_temp_min) .OR.
@@ -2634,7 +2584,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       factor = MAX(0.0, Min(factor, 1.0))
 
       Temperature_Response_Curvilinear = factor
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2649,9 +2599,9 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :              , bio_temp_max
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
       dll_export Temperature_Response_Linear
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       temperature             ! (INPUT) daily maximum temp. (C)
@@ -2679,7 +2629,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       REAL       factor
 
 *- Implementation Section ----------------------------------
-         
+
       call push_routine (my_name)
 
       if ((bio_temp_opt .LE. bio_temp_min) .OR.
@@ -2708,7 +2658,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       factor = MAX(0.0, Min(factor, 1.0))
 
       Temperature_Response_Linear = factor
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2718,6 +2668,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
 *     ===========================================================
       subroutine Photoperiod_Wang (day, latitude, twilight, photoperiod)
 *     ===========================================================
+      Use infrastructure
       implicit none
       !dll_export Photoperiod_Wang
 
@@ -2764,6 +2715,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :                            radiation
      :                            )
 *     ===========================================================
+      Use infrastructure
       implicit none
       !dll_export ExtraTerrestrialRadiationDailyTotal(
 
@@ -2793,7 +2745,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
       PI             = 3.1415926
       RAD            = PI/180.0
       SolarConstant  = 1370.0      !W/m2 - the solar constant
-	
+
       !Declination of the sun as function of iJulianDaynumber (iJulianDay)
       Dec = -asin( sin(23.45*RAD)*cos(2.0*PI*(Day+10.0)/365.0))
 
@@ -2848,6 +2800,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :                    diff_radn_frac
      :                    )
 *     ===========================================================
+      Use infrastructure
       implicit none
       !dll_export Diffuse_Radiation_fraction
 
@@ -2886,6 +2839,7 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      :                    rue_modifier
      :                    )
 *     ===========================================================
+      Use infrastructure
       implicit none
       !dll_export RUE_Diffuse_Radiation_Modifier
 
@@ -2911,9 +2865,9 @@ c     :                           (dm_grain + dlt_dm_grain + 0.0001)
      .                                co2_modifier,
      .                                dlt_dm_pot)
 *     ===========================================================
-       implicit none
+       Use infrastructure
+      implicit none
 c      dll_export crop_dm_pot_rue_wang
-       include 'error.pub'
 
 *+  Sub-Program Arguments
        real current_stage
@@ -2945,19 +2899,19 @@ c      dll_export crop_dm_pot_rue_wang
                                        ! no stress (g biomass/mj)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       usrue = rue * co2_modifier *
      .              min(temp_stress_photo, nfact_photo)
- 
+
          ! potential dry matter production with temperature
          ! and N content stresses is calculated.
          ! This is g of dry biomass produced per MJ of intercepted
          ! radiation under stressed conditions.
- 
+
       dlt_dm_pot = usrue * radn_int
- 
+
       call pop_routine (my_name)
       return
       end
@@ -2982,11 +2936,9 @@ c      dll_export crop_dm_pot_rue_wang
      :                         , dlt_vernalisation
      :                          )
 *     ===========================================================
-       implicit none
+       Use infrastructure
+      implicit none
 c      dll_export crop_dm_pot_rue_wang
-       include 'science.pub'
-       include 'data.pub'
-       include 'error.pub'
 
 *+  Sub-Program Arguments
        REAL temp_max
@@ -2994,7 +2946,7 @@ c      dll_export crop_dm_pot_rue_wang
        real vern_days_0C
        real x_vern_temp(*)
        real y_vern_fact(*)
-       real num_vern_temp
+       integer num_vern_temp
        real leaf_no_now
        real leaf_no_min
        real leaf_no_max
@@ -3015,7 +2967,7 @@ c      dll_export crop_dm_pot_rue_wang
       REAL cum_vern
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
       !Calculate progress towards vernalisation. No vernalization below
@@ -3080,10 +3032,8 @@ c      dll_export crop_dm_pot_rue_wang
      .          leaf_no_now,
      .          leaf_no_final )
 *======================================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real    photoperiod
@@ -3109,7 +3059,7 @@ c      dll_export crop_dm_pot_rue_wang
       REAL primordia_no
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
 
       primordia_no = 2.0*Leaf_no_now + 4.0
@@ -3176,14 +3126,11 @@ c      PRINT *, 'leaf_no_final = ', leaf_no_final
      :                  c_start_retrans_dm_stage,
      :                  c_end_retrans_dm_stage,
      :                  g_dlt_dm_green_retrans_pool)
-      
+
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include  'convert.inc'
-      include  'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real    g_current_stage
@@ -3222,7 +3169,7 @@ c      PRINT *, 'leaf_no_final = ', leaf_no_final
 
 *+  Calls
 !      real nwheat_min_root_fraction
-      
+
 *+  Local Variables
       real       leaf_fraction
       real       stem_fraction
@@ -3244,19 +3191,19 @@ c     REAL       root_fr
 
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 
       current_stage = int (g_current_stage)
 
       root_shoot_ratio  = c_ratio_root_shoot(current_stage)
       root_fr_min       = root_shoot_ratio/(1.0+root_shoot_ratio)
 
- 
-      dlt_dm_root_min   = g_dlt_dm * root_shoot_ratio  
+
+      dlt_dm_root_min   = g_dlt_dm * root_shoot_ratio
       dlt_dm_tot        = g_dlt_dm + dlt_dm_root_min
- 
+
 
       !------------------------------------------------------------------------------------
       !the tops and root fraction
@@ -3264,12 +3211,12 @@ c     REAL       root_fr
        root_fraction = root_fr_min
        tops_fraction = 1.0 - root_fraction
 
-    
+
       !------------------------------------------------------------------------------------
       !Partitioning
 
       call fill_real_array (g_dlt_dm_green, 0.0, max_part)
-      
+
 
       sum_tt = sum_between(floral_init, flag_leaf, g_tt_tot)
       cum_tt = sum_between(floral_init, flag_leaf, g_phase_tt)
@@ -3452,11 +3399,9 @@ c     :        - g_dlt_dm_green(root)
      :        , g_dlt_tt
      :        , dlt_leaf_no)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
@@ -3496,62 +3441,62 @@ c     :        - g_dlt_dm_green(root)
       real       leaf_app_rate         ! rate of leaf appearance (oCd/leaf)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 cscc Need to work this out. If you use sowing, not emerg. then the
 c leaf no. appears to be underestimated. Maybe it double counts leaf no.
 c between sowing and emergence. Note use of c_leaf_no_at_emerg.
 c ie. this routine really works out leaf no., when above ground.
- 
+
 cglh uses sowing, not emerg to calc leaf no.
- 
+
       leaf_no_now = sum_between (sowing, now, g_leaf_no)
       leaf_no_remaining = g_leaf_no_final - leaf_no_now
- 
+
 c      write(*,*) g_leaf_no
- 
+
 cSCC normal leaf app rate
- 
+
 !      leaf_app_rate = c_leaf_app_rate
- 
+
 !scc Peter's 2 stage version used here, modified to apply
 ! to last few leaves before flag
- 
+
       if (leaf_no_remaining .le. c_leaf_no_rate_change) then
- 
+
          leaf_app_rate = c_leaf_app_rate2
- 
+
       else
- 
+
          leaf_app_rate = c_leaf_app_rate1
- 
+
       endif
- 
- 
+
+
       if (on_day_of (emerg, g_current_stage, g_days_tot)) then
- 
+
              ! initialisation done elsewhere.
- 
+
       elseif (leaf_no_remaining.gt.0.0) then
- 
+
 !sscc This should halt on day flag leaf is fully expanded ....
              ! we  haven't reached full number of leaves yet
- 
+
              ! if leaves are still growing, the cumulative number of
              ! phyllochrons or fully expanded leaves is calculated from
              ! daily thermal time for the day.
- 
+
          dlt_leaf_no = divide (g_dlt_tt, leaf_app_rate, 0.0)
          dlt_leaf_no = bound (dlt_leaf_no, 0.0, leaf_no_remaining)
- 
+
       else
              ! we have full number of leaves.
- 
+
          dlt_leaf_no = 0.0
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3575,11 +3520,8 @@ cSCC normal leaf app rate
      .           g_nfact_grain_conc,
      .           grain_n_demand)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'
-      include 'crp_nitn.pub'
 
 *+  Sub-Program Arguments
        real g_dm_grain
@@ -3613,9 +3555,9 @@ cSCC normal leaf app rate
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       grain_N_demand = g_dlt_dm_grain * cproc_N_dlt_grain_conc(
      .                                      c_sfac_slope,
      .                                      c_sw_fac_max,
@@ -3627,13 +3569,13 @@ cSCC normal leaf app rate
      .                                      g_N_conc_crit_grain,
      .                                      g_N_conc_min_grain,
      .                                      g_swdef_expansion)
-                                        
+
       N_potential  = (g_dm_grain + g_dlt_dm_grain)
      :             * g_N_conc_max_grain
- 
+
       grain_N_demand = u_bound (grain_N_demand
      :                        , N_potential - g_N_grain)
- 
+
 
       call pop_routine (my_name)
       return
@@ -3653,8 +3595,8 @@ cSCC normal leaf app rate
      .              g_n_conc_min_grain,
      .              g_swdef_expansion)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       c_sfac_slope          ! (INPUT)  soil water stress factor slope
@@ -3704,30 +3646,30 @@ cSCC normal leaf app rate
       real       ave_temp              ! mean temperature (oC)
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
       ave_temp = (g_maxt + g_mint) /2.0
- 
+
 c+!!!!!!!!!! return to orig cm
       N_grain_temp_fac = c_temp_fac_min + c_tfac_slope* ave_temp
       N_grain_sw_fac = c_sw_fac_max - c_sfac_slope * g_swdef_expansion
- 
+
             ! N stress reduces grain N concentration below critical
- 
+
       N_conc_pot = g_n_conc_min_grain
      :           + (g_n_conc_crit_grain - g_n_conc_min_grain)
      :           * g_nfact_grain_conc
- 
+
             ! Temperature and water stresses can decrease/increase grain
             ! N concentration
- 
+
             ! when there is no N stress, the following can be a higher N conc th
             ! the crit and thus the N conc of the grain can exceed N critical.
- 
+
       cproc_N_dlt_grain_conc = N_conc_pot
      :                       * max (N_grain_temp_fac, N_grain_sw_fac)
- 
+
       call pop_routine (my_name)
       return
       end
@@ -3741,11 +3683,9 @@ c+!!!!!!!!!! return to orig cm
      .            g_N_green,
      .            o_dlt_N_retrans)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'                         
-      include 'crp_nitn.pub'
 
 *+  Sub-Program Arguments
        real grain_n_demand
@@ -3777,64 +3717,64 @@ c+!!!!!!!!!! return to orig cm
       integer    part                  ! plant part number
 
 *- Implementation Section ----------------------------------
- 
+
       call push_routine (my_name)
- 
+
 
       call crop_N_retrans_avail (max_part, root, grain,
      .          g_N_conc_min,
      .          g_dm_green,
      .          g_N_green,N_avail)  ! grain N potential (supply)
- 
+
             ! available N does not include roots or grain
 cjh  this should not presume roots and grain are 0.
 csc  true....
- 
+
       N_avail_stover  =  sum_real_array (N_avail, max_part)
- 
+
           ! get actual grain N uptake
- 
+
           ! limit retranslocation to total available N
- 
+
       call fill_real_array (o_dlt_N_retrans, 0.0, max_part)
- 
+
       if (grain_N_demand.ge.N_avail_stover) then
- 
+
              ! demand greater than or equal to supply
              ! retranslocate all available N
- 
+
          o_dlt_N_retrans(leaf) = - N_avail(leaf)
          o_dlt_N_retrans(stem) = - N_avail(stem)
          o_dlt_N_retrans(flower) = - N_avail(flower)
          o_dlt_N_retrans(grain) = N_avail_stover
- 
+
       else
              ! supply greater than demand.
              ! Retranslocate what is needed
- 
+
          o_dlt_N_retrans(leaf) = - grain_N_demand
      :                         * divide (N_avail(leaf)
      :                                 , N_avail_stover, 0.0)
- 
+
          o_dlt_N_retrans(flower) = - grain_N_demand
      :                         * divide (N_avail(flower)
      :                                 , N_avail_stover, 0.0)
- 
+
          o_dlt_N_retrans(stem) = - grain_N_demand
      :                         - o_dlt_N_retrans(leaf)   ! note - these are
      :                         - o_dlt_N_retrans(flower) ! -ve values.
- 
+
          o_dlt_N_retrans(grain) = grain_N_demand
- 
+
       endif
              ! just check that we got the maths right.
- 
+
       do 1000 part = root, flower
          call bound_check_real_var (abs (o_dlt_N_retrans(part))
      :                            , 0.0, N_avail(part)
      :                            , 'o_dlt_N_retrans(part)')
 1000  continue
- 
+
       call pop_routine (my_name)
       return
       end

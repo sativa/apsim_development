@@ -1,8 +1,8 @@
-      include 'SOI.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use SOIModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -24,6 +24,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use SOIModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -43,6 +44,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use SOIModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -61,9 +63,8 @@
       recursive subroutine Main (action, data)
 * ====================================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'action.inc'
 
 *+  Sub-Program Arguments
       character  action*(*)            ! (INPUT) Message action to perform
@@ -108,12 +109,8 @@
       subroutine SOI_init ()
 *     ===========================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'read.pub'                          
-      include 'error.pub'                         
-      include 'apsimengine.pub'
-      include 'componentinterface.inc'
 
 *+  Purpose
 *       Initialise module - called once only at beginning of run
@@ -160,8 +157,8 @@
       subroutine SOI_zero_variables ()
 *     ===========================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *       Zero all variables.  Called at initialisation
@@ -204,13 +201,8 @@
       subroutine SOI_read_phases ()
 * ====================================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! Constant definitions
-      include 'data.pub'                          
-      include 'datastr.pub'                       
-      include 'read.pub'                          
-      include 'error.pub'                         
-      include 'apsimengine.pub'
 
 *+  Purpose
 *      Read in all phases from SOI file.
@@ -277,10 +269,8 @@
       recursive subroutine SOI_send_my_variable (variable_name)
 *     ================================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character variable_name*(*)      ! (input) variable name to search for
@@ -323,11 +313,8 @@
       recursive subroutine SOI_get_phase (variable_name)
 *     ================================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include 'const.inc'              ! constant definitions
-      include 'date.pub'                          
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character variable_name*(*)      ! (input) variable name to search for
@@ -410,11 +397,8 @@
       integer function SOI_get_units (record)
 * =============================================================
       use SOIModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! err_user
-      include 'date.pub'                          
-      include 'string.pub'                        
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  record*(*)            ! (INPUT) record string of array

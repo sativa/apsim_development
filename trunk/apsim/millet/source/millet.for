@@ -9,10 +9,8 @@
      :subroutine millet_dm_init (dm_green, dm_plant_min)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dm_green(*)           ! (INPUT/OUTPUT) plant part weights
@@ -96,10 +94,8 @@
      :subroutine millet_dm_retranslocate (dm_retranslocate)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dm_retranslocate(*)   ! (INPUT) actual change in plant part
@@ -221,10 +217,8 @@
      :subroutine millet_leaf_number_final (leaf_no_final)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       leaf_no_final         ! (OUTPUT) maximum total leaf number
@@ -335,10 +329,8 @@ cgd
      :subroutine millet_leaf_appearance (dlt_leaf_no_pot)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_leaf_no_pot       ! (OUTPUT) new fraction of oldest
@@ -426,11 +418,8 @@ cgd
      :subroutine millet_leaf_area ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Simulate actual crop leaf area development - checks that leaf area
@@ -516,9 +505,8 @@ cejvo
      :subroutine millet_N_init (N_green)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       N_green(*)            ! plant nitrogen (g/m^2)
@@ -562,9 +550,8 @@ cejvo
      :subroutine millet_tt (dlt_tt)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_tt                ! (OUTPUT) daily thermal time (oC)
@@ -629,10 +616,8 @@ cejvo
      :subroutine millet_phenology_init_o (phase_tt)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       phase_tt (*)          ! (INPUT/OUTPUT) cumulative growing
@@ -745,8 +730,8 @@ cjh
      :subroutine millet_devel (dlt_stage, current_stage)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_stage             ! (OUTPUT) change in growth stage
@@ -756,7 +741,7 @@ cjh
 *     Determine the curent stage of development.
 
 *+  Mission statement
-*     Determine %2 
+*     Determine %2
 *+  Changes
 *     010994 jngh specified and programmed
 *     070495 psc add l_bound to dlt-stage
@@ -805,9 +790,8 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
      :subroutine millet_phase_devel (phase_devel)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       phase_devel           ! (OUTPUT) fraction of current phase
@@ -859,10 +843,8 @@ cjh         phase_devel = 0.0
      :real function millet_germination (current_stage)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       current_stage         ! (OUTPUT) phenological stage number
@@ -928,9 +910,8 @@ cjh         phase_devel = 0.0
      :real function millet_phase_tt (stage_no)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       stage_no              ! (INPUT) stage number
@@ -973,10 +954,8 @@ cjh  changed 0.0 to 1.0
      :subroutine millet_leaf_death_o (dlt_leaf_no_dead)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_leaf_no_dead      ! (OUTPUT) new fraction of oldest
@@ -1030,7 +1009,7 @@ cgol         added upper and lower bounds
 !     :          * sum_between (emerg, now, g%tt_tot))
 !     :          , g%leaf_no_final))
 cgd
-            leaf_no_dead_now = c%leaf_no_dead_const 
+            leaf_no_dead_now = c%leaf_no_dead_const
      :                       + c%leaf_no_dead_slope1 * ttsum
             leaf_no_dead_now = u_bound (leaf_no_dead_now
      :                                , g%leaf_no_final)
@@ -1039,10 +1018,10 @@ cgd
 
             g%lf_no_dead_at_flaglf = leaf_no_dead_today
 
-            g%leaf_no_dead_const2 = leaf_no_dead_today 
+            g%leaf_no_dead_const2 = leaf_no_dead_today
      :                            - c%leaf_no_dead_slope2 * ttsum
 
-         
+
          else
 
 !              leaf_no_dead_today = amax1(leaf_no_dead_yesterday,
@@ -1050,7 +1029,7 @@ cgd
 !     :          * sum_between (emerg, now, g%tt_tot))
 !     :          , g%leaf_no_final))
 
-            leaf_no_dead_now = g%leaf_no_dead_const2 
+            leaf_no_dead_now = g%leaf_no_dead_const2
      :                       + c%leaf_no_dead_slope2 * ttsum
 
             leaf_no_dead_now = u_bound (leaf_no_dead_now
@@ -1105,9 +1084,8 @@ cccc
      :subroutine millet_N_senescence (dlt_N_senesced)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_N_senesced(*)     ! (OUTPUT) actual nitrogen senesced
@@ -1150,11 +1128,8 @@ cccc
      :subroutine millet_update ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Update states
@@ -1468,9 +1443,8 @@ cjh
      :subroutine millet_check_bounds ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *         Check bounds of internal pools
@@ -1677,10 +1651,8 @@ cjh
      :subroutine millet_totals ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *         Collect totals of crop variables for output
@@ -1809,12 +1781,8 @@ cpsc  add above
      :subroutine millet_event ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include   'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Report occurence of event and the current status of specific
@@ -1915,10 +1883,8 @@ cpsc  add above
      :subroutine millet_root_distrib (root_array, root_sum)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       root_array(*)         ! (OUTPUT) array to contain
@@ -1983,14 +1949,8 @@ cpsc  add above
      :subroutine millet_root_incorp (dlt_dm_root, dlt_N_root)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'action.inc'
-      include   'convert.inc'
-      include 'science.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       real       dlt_dm_root           ! (INPUT) new root residue dm (g/m^2)
@@ -2006,7 +1966,7 @@ cpsc  add above
 *       220794 jngh specified and programmed
 *       170895 jngh changed message send to message pass to module
 *       220696 jngh changed to post_ construct
-*       180101 dph  changed unknown_module to all_active_modules in 
+*       180101 dph  changed unknown_module to all_active_modules in
 *                   call to action_send
 
 *+  Calls
@@ -2094,13 +2054,12 @@ cjh     :                               , string)
      :subroutine millet_tillering ()
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *       Determine the tiller appearance rate, either as a function of thermal time or
-*       biomass 
+*       biomass
 
 *+  Mission statement
 *       Call a tillering routine
@@ -2148,10 +2107,8 @@ cjh     :                               , string)
      :subroutine millet_tiller_appearance_tt (dlt_tiller_no)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_tiller_no         ! (OUTPUT) new fraction of next
@@ -2276,10 +2233,8 @@ cgol bounds added to tiller number determination
      :subroutine millet_tiller_appearance_dm (dlt_tiller_no)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       dlt_tiller_no         ! (OUTPUT) new fraction of next
@@ -2336,10 +2291,8 @@ cgol bounds added to tiller number determination
      :                                    , N_tiller_independence)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    tiller_independence    ! (OUTPUT) new tiller ready for
@@ -2407,14 +2360,8 @@ cgol bounds added to tiller number determination
      :                                , N_tiller_independence)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'action.inc'
-      include 'string.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       real       dm_tiller_independence ! (INPUT) new tiller DM (g/m^2)
@@ -2432,7 +2379,6 @@ cgol bounds added to tiller number determination
 *       180500 jngh changed 'tiller_N' to lower case
 
 *+  Calls
-      character  no_spaces*8           ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2568,10 +2514,8 @@ cgol bounds added to tiller number determination
      :        , dlt_lai_pot)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
@@ -2664,9 +2608,8 @@ cgol bounds added to tiller number determination
      :        , c_b_slope2
      :        , leaf_no)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_x0_const
@@ -2748,11 +2691,8 @@ cgol bounds added to tiller number determination
      :        , g_dm_senesced)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Partitions new dm (assimilate) between plant components (g/m^2)
@@ -2966,11 +2906,8 @@ cgol bounds added to tiller number determination
      :        , g_dm_senesced)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -3185,8 +3122,8 @@ cgol bounds added to tiller number determination
      :        ,               c_temp_grain_crit_stress
      :        ,               dlt_tt_heat_stress)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_maxt                ! (INPUT) maximum temperature (oC)
@@ -3245,11 +3182,8 @@ cgol bounds added to tiller number determination
      :        , grain_num)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'crp_nitn.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -3403,11 +3337,8 @@ cgol bounds added to tiller number determination
      :        , grain_num)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -3567,11 +3498,8 @@ c     :                           , 'grain_no_fract')
      :        , dlt_dm_grain_demand)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! mg2gm
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -3705,10 +3633,9 @@ c     :                           , 'grain_no_fract')
      :        , g_nfact_grain_conc)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
+      Use CropLibrary
       implicit none
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_N_conc_min(*)
@@ -3797,10 +3724,9 @@ c     :                           , 'grain_no_fract')
      :        , dlt_N_retrans)
 *     ===========================================================
       use milletModule
+      Use infrastructure
+      Use CropLibrary
       implicit none
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_dlt_dm_green(*)
@@ -3945,10 +3871,8 @@ csc  true....
      :                     )
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
-      include 'science.pub'
 
 *+  Sub-Program Arguments
       real       g_root_depth
@@ -4068,11 +3992,9 @@ csc  true....
      :        , N_conc_min)
 *     ===========================================================
       use milletModule
+      Use infrastructure
+      Use CropLibrary
       implicit none
-      include 'crp_phen.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -4221,9 +4143,8 @@ csc  true....
      :                        , g_cover_green
      :                         )
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_row_spacing
@@ -4279,11 +4200,8 @@ csc  true....
      :        , P_conc_min)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
-      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -4300,11 +4218,11 @@ csc  true....
 
 *+  Purpose
 *     Calculate the critical P concentration below which plant growth is affected.
-*     Also minimum and maximum P concentrations below and above which it is not 
-*     allowed to fall or rise. 
+*     Also minimum and maximum P concentrations below and above which it is not
+*     allowed to fall or rise.
 
 *+  Mission Statement
-*       Calculate the critical p concentration below which plant growth 
+*       Calculate the critical p concentration below which plant growth
 *       is affected.
 
 *+  Changes
@@ -4373,10 +4291,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :              , pfact
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
@@ -4397,7 +4313,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *     total plant Phosphorus concentration.
 
 *+  Mission Statement
-*      Calculate P stress indicies   
+*      Calculate P stress indicies
 
 *+   Changes
 *     270697 nih
@@ -4455,9 +4371,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_P_demand)
 
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Calculate the plant p demand
@@ -4533,10 +4448,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_p_conc_max
      :        , g_plant_p)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    init_stage
@@ -4588,11 +4501,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                          , dlt_plants)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_lai
@@ -4648,11 +4558,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , dlt_plants)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_cswd_pheno(*)
@@ -4662,7 +4569,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       real       dlt_plants
 
 *+  Purpose
-*     Determine crop failure because of prolonged delay 
+*     Determine crop failure because of prolonged delay
 *     in phenology through water stress.
 
 *+  Mission Statement
@@ -4718,10 +4625,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :          , dlt_plants)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_days_tot(*)
@@ -4808,10 +4713,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , dlt_plants)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_cswd_photo(*)
@@ -4888,10 +4791,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , dlt_plants)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -4972,9 +4873,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                       )
 *     ==========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_dlt_plants_failure_germ
@@ -5029,9 +4929,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , killfr)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    g_year
@@ -5094,9 +4993,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_plants
      :        , killfr)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -5173,9 +5071,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , p_head_grain_no_max
      :        , c_barren_crit)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! err_user
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -5233,10 +5130,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_dm_dead)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character g_plant_status*(*)
@@ -5307,10 +5202,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :            , dlt_plants)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -5386,9 +5279,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :        , g_plants
      :        , killfr)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -5461,8 +5353,8 @@ cjh special for erik - start
      :subroutine millet_stop_growth (switch)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       logical  switch
@@ -5498,8 +5390,8 @@ cjh special for erik - end
      :subroutine millet_cleanup ()
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       cleanup after crop processes

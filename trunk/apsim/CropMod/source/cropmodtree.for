@@ -4,11 +4,8 @@ C     Last change:  E    14 Sep 2001    1:43 pm
       subroutine Crop_Read_Constants ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
-      include 'datastr.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -69,10 +66,8 @@ C     Last change:  E    14 Sep 2001    1:43 pm
       subroutine Crop_Read_Cultivar_Params (cultivar)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line,  blank
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  cultivar*(*)          ! (INPUT) keyname of cultivar in crop
@@ -146,16 +141,10 @@ C     Last change:  E    14 Sep 2001    1:43 pm
 *+  Include section
 
       use CropModModule
+      Use infrastructure
       implicit none
 
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
-      include 'crp_biom.pub'
-      include 'crp_util.pub'
-      include 'crp_temp.pub'
 
 
       INTEGER GetSwitchCode
@@ -296,12 +285,8 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       subroutine water_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option   !(INPUT) template option number
@@ -390,13 +375,8 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       subroutine water_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
-      include 'convert.inc'  ! g2mm, mb2kpa
 
 *+  Sub-Program Arguments
       integer Option ! (INPUT) template option number
@@ -515,13 +495,8 @@ c      call leaf_area_potential       (GetSwitchCode(c%can_switch,2))
       subroutine water_uptake (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_watr.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option      ! (INPUT) template option number
@@ -590,14 +565,9 @@ c     integer    deepest_layer
       subroutine water_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
-      include 'science.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option       ! (INPUT) option number
@@ -733,10 +703,8 @@ c      REAL    deepest_layer
       subroutine vernalization (option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -836,11 +804,8 @@ c      REAL    deepest_layer
       subroutine photoperiodism (option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -901,11 +866,8 @@ c      REAL    deepest_layer
       subroutine phenology_initalisation (option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
-      include 'science.pub'
-      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -1200,11 +1162,8 @@ c      !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC - CHANGE - DELETE IN 
        subroutine phenology (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
-      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1374,15 +1333,9 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       subroutine biomass_rue (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
-      include 'crp_util.pub'
-      include 'crp_temp.pub'
 
-      include 'science.pub'
-      include 'data.pub'
 
 
 *+  Sub-Program Arguments
@@ -1618,12 +1571,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       subroutine biomass_te (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1739,12 +1688,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       subroutine biomass_actual (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1814,9 +1759,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       subroutine biomass_initialisation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1944,12 +1888,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       subroutine biomass_yieldpart_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2198,12 +2138,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
       subroutine biomass_grain_demand_stress (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_biom.pub'
-      include 'science.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2260,12 +2196,8 @@ c      if (Option.eq.1) Option = 2 !force to use the nwheat original phenology
        subroutine biomass_partition (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'science.pub'
-      include 'error.pub'
-      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2525,11 +2457,8 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
       subroutine biomass_retranslocation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
-      include 'convert.inc'            ! mg2gm
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2647,12 +2576,8 @@ c      REAL grain_now
       subroutine leaf_number_initialisation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2714,10 +2639,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        subroutine leaf_number_final (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2844,10 +2767,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        subroutine leaf_initiation (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2899,10 +2820,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        subroutine leaf_appearance (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2981,11 +2900,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine tillering_initialisation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3035,11 +2951,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine tillering (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3159,12 +3072,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        subroutine leaf_area_initialisation (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
-      include 'science.pub'
-      include 'crp_cnpy.pub'
 
 
 *+  Sub-Program Arguments
@@ -3220,12 +3129,8 @@ c          endif
        subroutine leaf_area_potential (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'error.pub'
-      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3447,12 +3352,8 @@ c          endif
       subroutine leaf_area_actual (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -3590,10 +3491,8 @@ c      endif
       subroutine crop_height (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3640,10 +3539,8 @@ c      endif
       subroutine root_depth_initialisation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3688,10 +3585,8 @@ c      endif
       subroutine root_depth (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3767,10 +3662,8 @@ c      endif
       subroutine root_length_initialisation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -3818,12 +3711,8 @@ c      endif
       subroutine root_length (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3898,12 +3787,8 @@ c      endif
       subroutine senescence_leaf_area (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
-      include 'crp_cnpy.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) template option number
@@ -4242,11 +4127,8 @@ c     :                g%dlt_slai )
 
 *+  Include section
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Constant Values
       character*(*) myname             ! name of this procedure
@@ -4331,11 +4213,8 @@ c     :                g%dlt_slai )
 
 *+  Include section
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'data.pub'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Constant Values
       character*(*) myname             ! name of this procedure
@@ -4400,10 +4279,8 @@ c       end do
       subroutine senescence_biomass (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -4497,10 +4374,8 @@ c       end do
       subroutine senescence_root_length (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4548,12 +4423,8 @@ c       end do
       subroutine senescence_nitrogen (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -4846,12 +4717,8 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       subroutine nitrogen_initialisation (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'
-      include 'science.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4960,12 +4827,8 @@ c"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
       subroutine nitrogen_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -5137,12 +5000,8 @@ c     :          )
       subroutine nitrogen_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -5287,14 +5146,8 @@ c      call fill_real_array (g%dlt_N_retrans, 0.0, max_part)
       subroutine nitrogen_uptake (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'crp_nitn.pub'
-      include 'crp_comm.pub'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -5533,12 +5386,8 @@ c     :               )
        subroutine Nitrogen_partition (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5608,10 +5457,8 @@ c     :               )
        subroutine nitrogen_yieldpart_demand (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5726,10 +5573,8 @@ c     :               )
        subroutine nitrogen_retranslocation (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5863,10 +5708,8 @@ c     :               )
       subroutine nitrogen_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6051,9 +5894,8 @@ c         g%nfact_tiller = g%nfact_expansion
       subroutine Phosphorus_initialisation(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6105,9 +5947,8 @@ c         g%nfact_tiller = g%nfact_expansion
       subroutine Phosphorus_demand(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6176,12 +6017,8 @@ c         g%nfact_tiller = g%nfact_expansion
       subroutine Phosphorus_uptake(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -6248,12 +6085,8 @@ c         g%nfact_tiller = g%nfact_expansion
       subroutine Phosphorus_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -6367,12 +6200,8 @@ c         g%nfact_tiller = g%nfact_expansion
        subroutine Crop_death (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_fail.pub'
-      include 'convert.inc'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -6548,13 +6377,9 @@ c         g%nfact_tiller = g%nfact_expansion
        subroutine Simulation_Prepare ()
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
-      include 'crp_biom.pub'
-      include 'crp_util.pub'
-      include 'crp_temp.pub'
-      include 'crp_cnpy.pub'
 
 
 *+  Purpose
@@ -6616,13 +6441,9 @@ c         g%nfact_tiller = g%nfact_expansion
        subroutine biomass_rue_partition ()
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
-      include 'crp_biom.pub'
-      include 'crp_util.pub'
-      include 'crp_temp.pub'
-      include 'crp_cnpy.pub'
 
 
 *+  Purpose

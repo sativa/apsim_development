@@ -1,11 +1,11 @@
 C     Last change:  IH   27 Sep 1999    3:34 pm
 
-      include  'Fertiliz.inc'            ! Global constant definitions
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -32,6 +32,7 @@ c     allocate (Instances(InstanceNo)%cptr)
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -56,6 +57,7 @@ c     deallocate (Instances(anInstanceNo)%cptr)
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -81,15 +83,11 @@ c     c => Instances(anInstanceNo)%cptr
       subroutine Main (Action, Data_string)
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 
-      include   'action.inc'
 
-      include   'const.inc'            ! Global constant definitions
-      include   'event.inc'
 c     include   'fertiliz.inc'         ! fertiliz common block
-      include 'string.pub'
-      include 'error.pub'
  
 *+  Sub-Program Arguments
       character  Action*(*)            ! Message action to perform
@@ -165,11 +163,9 @@ C      call set_warning_off ()
       subroutine fertiliz_fertilize ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
 c     include   'fertiliz.inc'         ! fertiliz common block
-      include 'intrface.pub'
-      include 'error.pub'
  
 *+  Purpose
 *      This routine deciphers the data string and applies the fertiliser.
@@ -245,9 +241,9 @@ c     include   'fertiliz.inc'         ! fertiliz common block
       subroutine fertiliz_Init ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 c     include   'fertiliz.inc'         ! fertiliz model common
-      include 'error.pub'
  
 *+  Purpose
 *      Initialise fertiliz module
@@ -288,10 +284,9 @@ c     include   'fertiliz.inc'         ! fertiliz model common
       subroutine fertiliz_zero_variables ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 c     include    'fertiliz.inc'        ! fertiliz common block
-      include 'data.pub'
-      include 'error.pub'
  
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -330,11 +325,9 @@ c     include    'fertiliz.inc'        ! fertiliz common block
       subroutine fertiliz_get_other_variables ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
 c     include   'fertiliz.inc'         ! fertiliz common block
-      include 'intrface.pub'
-      include 'error.pub'
  
 *+  Purpose
 *      Get the values of variables from other modules
@@ -365,10 +358,9 @@ c     include   'fertiliz.inc'         ! fertiliz common block
       subroutine fertiliz_Send_my_variable (Variable_name)
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 c     include   'fertiliz.inc'         ! fertiliz Common block
-      include 'intrface.pub'
-      include 'error.pub'
  
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -410,16 +402,9 @@ c     include   'fertiliz.inc'         ! fertiliz Common block
       subroutine fertiliz_apply (amount, depth, type)
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
-      include   'ACTION.inc'
-      include   'const.inc'
 c     include   'fertiliz.inc'
-      include 'string.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'read.pub'
-      include 'error.pub'
-      include 'Postbox.pub'
  
 *+  Sub-Program Arguments
       real       amount                !
@@ -570,10 +555,9 @@ c     include   'fertiliz.inc'
       subroutine fertiliz_schedule ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 c     include   'fertiliz.inc'
-      include 'data.pub'
-      include 'error.pub'
  
 *+  Purpose
 *       fertiliser management.
@@ -628,12 +612,9 @@ c     include   'fertiliz.inc'
       subroutine fertiliz_read_param ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
 c     include 'fertiliz.inc'
-      include 'data.pub'
-      include 'read.pub'
-      include 'error.pub'
  
 *+  Purpose
 *       get fertiliser schedule to apply
@@ -788,10 +769,9 @@ c     include 'fertiliz.inc'
       subroutine fertiliz_ONtick ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 c     include   'fertiliz.inc'
-      include 'error.pub'
-      include 'event.pub'
  
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -832,10 +812,9 @@ c     include   'fertiliz.inc'
       subroutine fertiliz_set_my_variable (variable_name)
 * ====================================================================
       use FertilizModule
+      Use infrastructure
       implicit none
 c     include   'fertiliz.inc'
-      include 'intrface.pub'
-      include 'error.pub'
  
 *+  Sub-Program Arguments
       character variable_name*(*)         ! (input) variable name to search for
@@ -887,10 +866,8 @@ c     include   'fertiliz.inc'
       subroutine fertiliz_ONNew_Profile ()
 *     ===========================================================
       use FertilizModule
+      Use infrastructure
       implicit none
-      include 'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
  
 *+  Purpose
 *     Update internal soil layer structure with new data

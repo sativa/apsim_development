@@ -1,8 +1,8 @@
-      include 'surface.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -28,6 +28,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -51,6 +52,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -73,10 +75,8 @@
       subroutine Main (Action, Data_String)
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'action.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Action*(*)            ! Message action to perform
@@ -156,9 +156,8 @@ c         call surface_surface ()
       subroutine surface_Init ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *      Initialise surface module
@@ -203,10 +202,8 @@ c         call surface_surface ()
       subroutine surface_read_param ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -305,8 +302,8 @@ c         call surface_surface ()
       subroutine surface_zero_variables ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -352,10 +349,8 @@ c         call surface_surface ()
       subroutine surface_get_other_variables ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -404,9 +399,8 @@ c         call surface_surface ()
       subroutine surface_Send_my_variable (Variable_name)
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -466,10 +460,8 @@ c RDC
       subroutine surface_set_my_variable (Variable_name)
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -540,12 +532,8 @@ c RDC
       subroutine surface_Calc_Scon ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'action.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'
-      include 'postbox.pub'                         
 
 *+  Purpose
 *      Return the value of one of our variables to caller
@@ -620,11 +608,8 @@ c RDC
       subroutine surface_get_swim_variables ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'science.pub'                   
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Get the values of surface seal variables from apswim
@@ -734,8 +719,8 @@ c RDC
       subroutine surface_scon_calc1(rainfall,duration,Scon)
 * =====================================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
 
 *+  Sub-Program Arguments
       double precision duration
@@ -816,8 +801,8 @@ c RDC
       subroutine surface_scon_calc2(rainfall,duration,Scon)
 * =====================================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
 
 *+  Sub-Program Arguments
       double precision duration  !(INPUT) Duration of timestep
@@ -927,8 +912,8 @@ cnh but is more sensible at low rainfall intensities.
        subroutine surface_timestep_preparation ()
 * ====================================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      APSwim broadcasts a message just prior to performing calculations
@@ -966,10 +951,8 @@ cnh but is more sensible at low rainfall intensities.
       subroutine surface_post_swim_timestep ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Perform calcs after swim timestep
@@ -1012,10 +995,8 @@ cnh but is more sensible at low rainfall intensities.
       subroutine surface_tillage ()
 *     ===========================================================
       use SurfaceModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Perform calcs to respond to a tillage action

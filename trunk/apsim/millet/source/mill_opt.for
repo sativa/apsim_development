@@ -3,10 +3,8 @@
      :subroutine Millet_water_supply (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -58,10 +56,8 @@
      :subroutine Millet_nit_stress(Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -123,10 +119,8 @@
      :subroutine Millet_temp_stress(Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_temp.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option         ! (INPUT) option number
@@ -171,10 +165,8 @@
      :subroutine Millet_light_supply (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_util.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -214,10 +206,8 @@
      :subroutine millet_bio_TE (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -265,10 +255,8 @@
      :subroutine Millet_bio_RUE (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -316,10 +304,8 @@
      :subroutine Millet_transpiration_eff (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -366,10 +352,8 @@
      :subroutine Millet_water_demand (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -413,10 +397,8 @@
      :subroutine Millet_root_depth (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -468,10 +450,8 @@
      :subroutine Millet_root_depth_init (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -530,11 +510,8 @@
      :subroutine Millet_water_stress(Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option       ! (INPUT) option number
@@ -630,13 +607,8 @@
      :subroutine Millet_water_uptake (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'crp_watr.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -702,10 +674,8 @@
      :subroutine Millet_leaf_area_init (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -751,10 +721,8 @@
      :subroutine Millet_leaf_no_init (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -800,9 +768,8 @@
      :subroutine Millet_leaf_no_pot (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -873,9 +840,8 @@ cjh special for erik - end
      :subroutine Millet_leaf_area_potential (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -940,10 +906,8 @@ cjh special for erik - end
      :subroutine Millet_leaf_area_stressed (Option)
 *     ===========================================================
       use MilletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) option number
@@ -994,9 +958,8 @@ cjh special for erik - end
      :subroutine millet_bio_actual (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1058,11 +1021,8 @@ cjh special for erik - end
      :subroutine millet_bio_partition (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1136,10 +1096,8 @@ cjh special for erik - end
      :subroutine millet_bio_retrans (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1204,12 +1162,8 @@ cjh special for erik - end
      :subroutine millet_leaf_actual(Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'science.pub'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1253,11 +1207,8 @@ cjh special for erik - end
      :subroutine millet_height (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1312,9 +1263,8 @@ cjh special for erik - end
      :subroutine millet_bio_grain_demand (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1508,9 +1458,8 @@ cjh special for erik - end
      :subroutine millet_leaf_death (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1549,10 +1498,8 @@ cjh special for erik - end
      :subroutine millet_leaf_area_sen (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1622,10 +1569,8 @@ cjh special for erik - end
      :subroutine millet_sen_bio (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1675,10 +1620,8 @@ cjh special for erik - end
      :subroutine millet_sen_nit (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1727,10 +1670,8 @@ cjh special for erik - end
      :subroutine millet_nit_init (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -1779,12 +1720,8 @@ cjh special for erik - end
      :subroutine millet_nit_supply (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1851,9 +1788,8 @@ cjh special for erik - end
      :subroutine millet_nit_retrans (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1910,10 +1846,8 @@ cjh special for erik - end
      :subroutine millet_nit_demand (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -1982,12 +1916,8 @@ cjh special for erik - end
      :subroutine millet_nit_uptake (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'crp_nitn.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2056,9 +1986,8 @@ cjh special for erik - end
      :subroutine millet_nit_partition (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2103,11 +2032,8 @@ cjh special for erik - end
      :subroutine millet_nit_demand_est (Option)
 * ====================================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -2194,12 +2120,8 @@ cjh special for erik - end
      :subroutine millet_P_uptake (Option)
 * ====================================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2259,9 +2181,8 @@ cjh special for erik - end
      :subroutine millet_p_stress_photo (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2307,9 +2228,8 @@ cjh special for erik - end
      :subroutine millet_p_stress_pheno (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2355,9 +2275,8 @@ cjh special for erik - end
      :subroutine millet_p_stress_expansion (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *         Get current P stress factors for cell expansion(0-1)
@@ -2407,6 +2326,7 @@ cjh special for erik - end
 *         Get current P stress factors (0-1)
 
       use milletModule
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -2419,8 +2339,6 @@ cjh special for erik - end
       integer    Option                ! (INPUT) option number
 
 *   Global variables
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2461,9 +2379,8 @@ cjh special for erik - end
      :subroutine millet_P_demand_est (Option)
 * ====================================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -2510,9 +2427,8 @@ cjh special for erik - end
      :subroutine millet_P_conc (Option)
 * ====================================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer Option
@@ -2554,9 +2470,8 @@ cjh special for erik - end
      :subroutine millet_Phos_init (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -2601,11 +2516,8 @@ cjh special for erik - end
      :subroutine millet_plant_death (Option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_fail.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       integer Option                   ! (INPUT) template option number
@@ -2803,12 +2715,8 @@ cnh      real dlt_plants
      :subroutine millet_detachment(option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'crp_nitn.pub'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -2871,11 +2779,8 @@ c in millet
      :subroutine millet_phenology (option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'
-      include 'crp_phen.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -2987,9 +2892,8 @@ cjh special for erik - end
      :subroutine millet_phenology_init (option)
 *     ===========================================================
       use milletModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option

@@ -1,23 +1,23 @@
-      include 'Operatns.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
       end
 
@@ -25,37 +25,39 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
- 
+
       return
       end
-     
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
- 
+
       return
       end
 
@@ -63,11 +65,8 @@
       subroutine Main (Action, Data_String)
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'string.pub'
-      include   'error.pub'
-      include   'action.inc'
 
 *+  Sub-Program Arguments
       character  Action*(*)            ! Message action to perform
@@ -90,28 +89,28 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       if (Action.eq.ACTION_Init) then
          call operatns_Get_Other_Variables ()
          call operatns_zero_variables ()
          call operatns_Init ()
- 
+
       else if (Action.eq.ACTION_Prepare) then
          call operatns_Get_Other_Variables ()
          call operatns_schedule (Prepare_Phase)
- 
+
       else if (Action.eq.ACTION_Process) then
          call operatns_schedule (Process_Phase)
- 
+
       else if (Action.eq.ACTION_Post) then
          call operatns_schedule (Post_Phase)
- 
+
       else
             ! Don't use message
          call Message_unused ()
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -120,10 +119,8 @@
       subroutine operatns_Init ()
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'read.pub'
-      include   'error.pub'
 
 *+  Purpose
 *      Initialise operatns module
@@ -144,11 +141,11 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       g%oplun = 57
       open (unit=g%oplun, file='operatns.tmp', form='formatted',
      :     access='direct', recl= record_length, iostat=iostatus)
- 
+
       if (iostatus.eq.0) then
          call operatns_read_section ('start_of_day',prepare_phase)
          call operatns_read_section ('parameters',prepare_phase)
@@ -156,11 +153,11 @@
          call operatns_read_section ('end_of_day',post_phase)
          call operatns_sort_data ()
          call operatns_list ()
- 
+
       else
          call fatal_error (Err_User, 'Cannot open scratch file.')
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -171,9 +168,8 @@
       subroutine operatns_zero_variables ()
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
-      include   'data.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -187,19 +183,19 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       g%last_record = 0
       g%op_pointer = 1
- 
+
       call fill_integer_array (g%op_days, 0, max_ops)
       call fill_integer_array (g%op_years, 0, max_ops)
       call fill_integer_array (g%op_order, 0, max_ops)
       call fill_integer_array (g%op_phase, 0, max_ops)
- 
+
       g%phase_name(prepare_phase) = 'Prepare'
       g%phase_name(process_phase) = 'Process'
       g%phase_name(post_phase) = 'Post'
- 
+
       call pop_routine (my_name)
       return
       end
@@ -210,10 +206,8 @@
       subroutine operatns_get_other_variables ()
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'error.pub'
-      include   'intrface.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -230,7 +224,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'year'          ! Variable Name
@@ -239,7 +233,7 @@
      :    , numvals         ! Number of values returned
      :    , min_year            ! Lower Limit for bound checking
      :    , max_year)           ! Upper Limit for bound checking
- 
+
       call Get_integer_var (
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'day'           ! Variable Name
@@ -248,7 +242,7 @@
      :    , numvals         ! Number of values returned
      :    , 0               ! Lower Limit for bound checking
      :    , 366)            ! Upper Limit for bound checking
- 
+
       call pop_routine (my_name)
       return
       end
@@ -259,9 +253,8 @@
       subroutine operatns_list()
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -281,10 +274,10 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call write_string ('Operations Schedule')
       call write_string ('===================')
- 
+
       do 100 counter = 1, g%last_record
          recno = g%op_order(counter)
          read (g%oplun, '(A)', rec=recno) Record
@@ -295,7 +288,7 @@
      :                   ,Record
          call write_string (Line)
   100 continue
- 
+
       call pop_routine (my_name)
       return
       end
@@ -306,13 +299,8 @@
       subroutine operatns_read_section (section, phase_no)
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'error.pub'
-      include   'read.pub'
-      include   'string.pub'
-      include   'apsimengine.pub'
-      include   'componentinterface.inc'
 
 *+  Sub-Program Arguments
       character  section*(*)           ! section names
@@ -339,7 +327,7 @@
        parameter (MAX_CONDITION_SIZE=20)
 
 *+  Calls
-      character lower_case*(MAX_CONDITION_SIZE)
+
 
 *+  Local Variables
       character  Line*(record_length) ! line from an operations file
@@ -405,7 +393,7 @@
 100            continue
 200            continue
             endif
-            call component_freerule(rule_object) 
+            call component_freerule(rule_object)
          endif
       end do
 
@@ -419,8 +407,8 @@
       subroutine operatns_sort_data ()
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'error.pub'
 
 *+  Purpose
 *   This subroutine uses a simple shell sort algorithm to sort
@@ -451,28 +439,28 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-        do 250 i = 1, g%last_record 
+        do 250 i = 1, g%last_record
             do 200 recno = 1, (g%last_record-1)
- 
+
                day1 = g%op_days(g%op_order(recno))
                day2 = g%op_days(g%op_order(recno+1))
                year1 = g%op_years(g%op_order(recno))
                year2 = g%op_years(g%op_order(recno+1))
                phase1 = g%op_phase(g%op_order(recno))
                phase2 = g%op_phase(g%op_order(recno+1))
- 
- 
+
+
                if (((day1.gt.day2) .and. (year1.eq.year2))
      :                            .or.
      :                      (year1.gt.year2))
      :                            then
- 
+
          ! These records need to be swapped to be in chronological order
                   temp = g%op_order(recno+1)
                   g%op_order(recno+1) = g%op_order(recno)
                   g%op_order(recno) = temp
- 
- 
+
+
                else if (((day1.eq.day2) .and. (year1.eq.year2))
      :                            .and.
      :                      (phase1.gt.phase2))
@@ -481,16 +469,16 @@
                   temp = g%op_order(recno+1)
                   g%op_order(recno+1) = g%op_order(recno)
                   g%op_order(recno) = temp
- 
- 
+
+
                else
                endif
   200       continue
   250       continue
- 
+
 
  ! finished sorting
- 
+
       call pop_routine (my_name)
       return
       end
@@ -500,11 +488,8 @@
       subroutine operatns_extract_date (record, day, year)
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'error.pub'
-      include   'string.pub'
-      include   'datastr.pub'
 
 *+  Sub-Program Arguments
       character  record*(*)            ! record from file
@@ -532,32 +517,32 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
       call get_next_word (record, day_String)
       call string_to_integer_var (day_string, day, dayflag)
- 
+
       call get_next_word (record, year_string)
       call string_to_integer_var (year_string, year, yearflag)
- 
+
       if ((dayflag.ne.1) .or. (yearflag.ne.1)) then
          call warning_error (Err_User,
      :               'trouble with date format in file')
          day = 0
          year = 0
- 
+
       else
          if (day .gt. 366) then
                ! it must be year in first column - swap values
             tempinteger = year
             year = day
             day = tempinteger
- 
+
          else
             ! assume day in first column
          endif
- 
+
       endif
- 
+
       call pop_routine (my_name)
       return
       end
@@ -568,14 +553,8 @@
       subroutine operatns_schedule (Phase_no)
 *     ===========================================================
       use OperatnsModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'string.pub'
-      include   'intrface.pub'
-      include   'error.pub'
-      include   'read.pub'
-      include   'postbox.pub'
-      include   'datastr.pub'
 
 *+  Sub-Program Arguments
        integer Phase_no
@@ -610,38 +589,38 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
+
   100 continue
- 
+
       If (g%op_pointer .le. g%last_record) then
- 
+
          recno = g%op_order(g%op_pointer)
          nextday = g%op_days(recno)
          nextyear = g%op_years(recno)
          nextphase = g%op_phase(recno)
- 
+
          if ((nextday .eq. g%today)
      :       .and. (nextyear.eq. g%thisyear)
      :       .and. (nextphase.eq. Phase_no)) then
- 
+
             read (g%oplun, '(A)', rec=recno) Line
- 
+
                ! extract components from string
             call get_next_word (Line, Destination)
             call get_next_word (Line, Action)
             Line = adjustl(line)
- 
+
             call Write_string (
      :          ' Sending '
      :       // trim(Action)
      :       // ' message to '
      :       // trim(Destination))
- 
+
             call New_postbox ()
             Data_stored = Store_in_postbox (Line)
- 
+
             if (Data_stored) then
- 
+
                if (Action .eq. 'set') then
                   call Get_next_variable (Line,
      :                                    Variable_name,
@@ -652,45 +631,45 @@
                   call Action_send
      :                      (destination, Action, Blank)
                endif
- 
+
             else
                call Action_send (destination, Action, Line)
             endif
- 
+
             call Delete_postbox ()
- 
+
             g%op_pointer = g%op_pointer + 1
             goto 100
- 
+
          else if (((g%today .gt. nextday).and.(nextyear.eq.g%thisyear))
      :                                 .or.
      :                            g%thisyear.gt.nextyear) then
- 
+
                ! we are actually past this operation date
                ! - try to catch up
- 
+
             g%op_pointer = g%op_pointer + 1
- 
+
             goto 100
- 
+
          else if (((g%today .eq. nextday).and.(nextyear.eq.g%thisyear))
      :                                 .and.
      :                            Phase_no.gt.NextPhase) then
             ! It is the right day but we are past this phase so try
             ! and find a later record that is for this phase.
- 
+
             g%op_pointer = g%op_pointer + 1
- 
+
             goto 100
- 
+
          else
             ! do nothing today - try again tomorrow.
- 
+
          endif
       else
          ! we are at the end of the operations file
       endif
- 
+
       call pop_routine (my_name)
       return
       end

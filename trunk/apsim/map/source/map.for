@@ -1,9 +1,9 @@
-      include 'map.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use MapModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -27,6 +27,7 @@ c      allocate (Instances(InstanceNo)%cptr)
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use MapModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -48,6 +49,7 @@ c      deallocate (Instances(anInstanceNo)%cptr)
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use MapModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -69,10 +71,8 @@ c      c => Instances(anInstanceNo)%cptr
        subroutine Main (Action, Data_string)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Global constant definitions
-      include 'error.pub'                         
-      include 'action.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -123,9 +123,8 @@ cnh      call set_warning_off ()
        subroutine map_Init ()
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *      Initialise map module
@@ -170,9 +169,8 @@ cnh      call set_warning_off ()
        subroutine map_zero_variables ()
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -238,9 +236,8 @@ cnh      call set_warning_off ()
        recursive subroutine map_Send_my_variable (Variable_name)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -319,11 +316,8 @@ cnh      call set_warning_off ()
       subroutine map_read_param ()
 *     ===========================================================
       use MapModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'datastr.pub'                       
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module parameters.
@@ -565,9 +559,8 @@ cnh      call set_warning_off ()
        subroutine map_set_my_variable (Variable_name)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -602,9 +595,8 @@ c      endif
       subroutine map_calc_row_sum ()
 *     ===========================================================
       use MapModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Purpose
 *       Calculates the sum of the mapping coefficients for each
@@ -646,9 +638,8 @@ c      endif
       subroutine map_calc_new_dlayer ()
 *     ===========================================================
       use MapModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Purpose
 *       Maps the simulation layers into the output layers
@@ -690,10 +681,8 @@ c      endif
        subroutine map_get_sim_dlayer ()
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Finds out what the simulation layering is
@@ -747,9 +736,8 @@ c      endif
        subroutine map_calc_coefficients ()
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *      Calculates the mapping coefficients, 1=sim layer entirely within
@@ -830,10 +818,8 @@ c      endif
        subroutine map_Send_new_dlayer ()
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Returns the output layering
@@ -874,10 +860,8 @@ c      endif
        subroutine map_Send_summed_var (arr_num)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Recalculates a variable to be summed into an output layer
@@ -1025,10 +1009,8 @@ c      endif
        subroutine map_Send_averaged_var (arr_num)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Recalculates a variable to be averaged into an output layer
@@ -1180,10 +1162,8 @@ c      endif
        subroutine map_Send_concentration (arr_num)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Recalculates an amount variable (eg salt in kg/ha) into a
@@ -1337,10 +1317,8 @@ c      endif
        subroutine map_Send_concentration_sw (arr_num)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Recalculates an amount variable (eg salt in kg/ha) into a
@@ -1526,11 +1504,8 @@ c      endif
        subroutine map_Send_satpaste (arr_num)
 * ====================================================================
       use MapModule
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'
 
 *+  Purpose
 *      Recalculates an amount variable (eg salt in kg/ha) into a

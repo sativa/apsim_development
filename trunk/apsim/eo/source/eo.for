@@ -1,9 +1,9 @@
-      include 'Eo.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use EoModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -27,6 +27,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use EoModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -48,6 +49,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use EoModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -69,10 +71,8 @@
       subroutine Main (Action, Data_string)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'action.inc'
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Action*(*)            ! Message action to perform
@@ -131,9 +131,8 @@
       subroutine Eo_zero_variables ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -248,8 +247,8 @@
       subroutine Eo_zero_daily_variables ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -276,8 +275,8 @@
       subroutine Eo_init ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      Initialise Eo module
@@ -319,10 +318,8 @@
       subroutine Eo_read_param ()
 *===========================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module parameters.
@@ -579,10 +576,8 @@
       subroutine Eo_read_constants ()
 *===========================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module constants.
@@ -802,10 +797,8 @@
       subroutine Eo_get_other_var_ini ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -993,8 +986,8 @@
       subroutine Eo_prepare ()
 *================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     perform calculations before the current timestep.
@@ -1022,13 +1015,8 @@
       subroutine Eo_get_other_variables ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'convert.inc'          ! conversion constants
-      include 'intrface.pub'                      
-      include 'error.pub'                         
-      include 'science.pub'                       
-      include 'data.pub'                          
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -1319,9 +1307,8 @@ cjh   crop type.
       subroutine Eo_pen_mon ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Purpose
 *     calculate the potential evapotranspiration Eo by penman-monteith
@@ -1415,11 +1402,8 @@ cjh   crop type.
       subroutine Eo_radiation (radn_net)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       radn_net              ! (OUTPUT) net inward radiant flux
@@ -1494,8 +1478,8 @@ cjh   crop type.
       subroutine Eo_vp (vapour_pressure, temperature)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       vapour_pressure       ! (OUTPUT) vapour pressure (mb)
@@ -1528,8 +1512,8 @@ cjh   crop type.
       subroutine Eo_esat (esat)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       esat                  ! (OUTPUT) saturated vapour pressure
@@ -1572,9 +1556,8 @@ cjh   crop type.
       subroutine Eo_da (da)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       da                    ! (OUTPUT) specific humidity deficit
@@ -1649,11 +1632,8 @@ cjh      print*, 'da, source = ', da,'  ', trim(g%vpd_source)
       subroutine Eo_aerodynamic (ra)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       ra                    ! (OUTPUT) aerodynamic resistance (s/m)
@@ -1826,11 +1806,8 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
      :                     , rc_raupach)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       rc                    ! (OUTPUT) canopy resistance (s/m)
@@ -2015,11 +1992,8 @@ c     *           usuhm = 1.0,          ! (max of us/uh)
      :                        , z2, d2, zruff2, windz2)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       z1                    ! (INPUT) original instrument height (mm)
@@ -2097,8 +2071,8 @@ cjh!         conversion_height = c%zc_conversion + g%canopy_height
       real function Eo_lambda ()
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     calculate the lambda (latent heat of vapourisation for water)(J/kg/oK)
@@ -2133,8 +2107,8 @@ cjh!         conversion_height = c%zc_conversion + g%canopy_height
       subroutine Eo_epsilon (epsilon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       epsilon               ! (OUTPUT) the slope of saturation 
@@ -2187,10 +2161,8 @@ cjh!         conversion_height = c%zc_conversion + g%canopy_height
       subroutine Eo_penman (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) evaporation rate ()
@@ -2258,11 +2230,8 @@ cjh!         conversion_height = c%zc_conversion + g%canopy_height
       subroutine Eo_penman_doorenbos (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub' 
-      include 'science.pub'                  
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) evaporation rate ()
@@ -2503,10 +2472,8 @@ cjh!         conversion_height = c%zc_conversion + g%canopy_height
       subroutine Eo_penman_monteith (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) evaporation rate ()
@@ -2562,10 +2529,8 @@ cjh!         conversion_height = c%zc_conversion + g%canopy_height
       subroutine Eo_penman_monteith_transp (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2619,10 +2584,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_radn_x_Kfunction (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2680,10 +2643,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_pm_x_kfunction (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2719,10 +2680,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_pm_x_cover (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2753,10 +2712,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_penman_x_cover (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2789,10 +2746,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_penman_doorenbos_x_cover (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2824,11 +2779,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_pm_plant (pen_mon)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       pen_mon               ! (OUTPUT) transpiration rate ()
@@ -2894,10 +2846,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_priestly_taylor (priestly_taylor)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       priestly_taylor       ! (OUTPUT) evaporation rate ()
@@ -2943,10 +2893,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_send_my_variable (Variable_name)
 *====================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'convert.inc'
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -3148,8 +3096,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_process ()
 *================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      perform actions for current day
@@ -3173,9 +3121,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine Eo_set_my_variable (Variable_name)
 *     ================================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -3222,9 +3169,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       subroutine eo_ritchie (eo)
 *     ===========================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
  
 *+  Sub-Program Arguments
       real       eo                    ! (output) potential evapotranspiration
@@ -3291,8 +3237,8 @@ cjh      print*, 'g%da, fe = ', g%da, fe
       real function eo_eeq_fac ()
 *     ===========================================================
       use EoModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
  
 *+  Purpose
 *                 calculate coefficient for equilibrium evaporation rate

@@ -1,19 +1,15 @@
 C     Last change:  E    14 Sep 2001    2:18 pm
 
-      INCLUDE 'CropMod.inc'
 
 
 *=====================================================================
       subroutine Main (action, data_string)
 *=====================================================================
       use CropModModule
+      use CropLibrary
+      Use infrastructure
       implicit none
 
-      include 'action.inc'
-      include 'const.inc'
-      include 'crp_comm.pub'
-      include 'string.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character  action*(*)            ! (INPUT) Message action to perform
@@ -294,8 +290,8 @@ c        if (TestTrue)   close (1)
 *     010994 sc   specified and programmed
 *----------------------------------------------------------
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Calls
       character  CropMod_Version*52    ! function
@@ -334,10 +330,8 @@ c        if (TestTrue)   close (1)
       subroutine Start_Crop ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'            !  blank
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Start crop using parameters specified in passed record
@@ -479,11 +473,8 @@ cjh      endif
       subroutine Read_Root_Params ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! new_line,  blank,
-      include 'data.pub'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Get root profile parameters
@@ -628,11 +619,8 @@ cjh      endif
       subroutine Read_Module_Switches ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
-      include 'datastr.pub'
 
 *+  Purpose
 *       CropMod initialisation - reads crop type and module switches
@@ -882,6 +870,7 @@ cjh      endif
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -905,6 +894,7 @@ cjh      endif
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -926,6 +916,7 @@ cjh      endif
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
 
 !+  Sub-Program Arguments
@@ -957,8 +948,8 @@ cjh      endif
 *-----Variable declaration---------------------------------
 
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *     Constant Values
       character  my_name*(*)           ! name of procedure
@@ -984,12 +975,8 @@ cjh      endif
       subroutine Send_My_Variable (variable_name)
 *     ================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc, sm2smm
-      include 'science.pub'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       character variable_name*(*)      ! (INPUT) variable name to search for
@@ -2548,9 +2535,8 @@ cjh      endif
       subroutine Set_My_Variable (Variable_name)
 *     ===============================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -2691,14 +2677,8 @@ c         g%co2level = c%co2level
       subroutine Get_Other_Variables ()
 *     ================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'crp_root.pub'
-      include 'crp_util.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables/arrays from other modules.
@@ -2997,14 +2977,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       subroutine Set_Other_Variables ()
 *     ================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'action.inc'
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Purpose
 *      Set the value of a variable or array in other module/s.
@@ -3090,12 +3064,8 @@ c        end if
       subroutine Update_Other_Variables()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'componentInterface.inc'
-      include 'convert.inc'
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 
 *+  Purpose
@@ -3219,12 +3189,10 @@ c        end if
      .          g_cnd_grain_conc,
      .          c_stage_names)
 *     ===========================================================
+      Use infrastructure
+      Use cropdefcons
+
       implicit none
-      include   'const.inc'            ! new_line, lu_scr_sum, blank,
-      include   'convert.inc'          ! gm2kg, sm2ha, sm2smm
-      include   'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_dm_green(*)
@@ -3464,13 +3432,8 @@ c        end if
       subroutine End_Crop ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'componentinterface.inc'
-      include 'const.inc'            ! new_line, lu_scr_sum
-      include 'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include 'data.pub'
-      include 'crp_comm.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       End crop
@@ -3622,13 +3585,8 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      :                                    , fraction_to_Residue
      :                                    , max_part)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'data.pub'
-      include 'postbox.pub'
 
 *+  Sub-Program Arguments
       character  crop_type*(*)              ! (INPUT) crop type
@@ -3697,11 +3655,9 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
      .          g_dm_senesced,
      .          g_dm_dead)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
       implicit none
-      include   'convert.inc'          ! gm2kg, sm2ha, mm2cm, cmm2cc
-      include   'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        character g_plant_status*(*)
@@ -3774,8 +3730,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       subroutine Crop_Cleanup ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *       clean
@@ -3879,11 +3835,8 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
       subroutine Crop_Update ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *       Update states
@@ -4342,10 +4295,10 @@ c         enddo
      .          g_dm_green,
      .          g_dm_senesced)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
+
       implicit none
-      include   'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_leaf_no(*)
@@ -4609,11 +4562,10 @@ c         enddo
      .          g_N_senesced,
      .          g_day_of_year)
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
+
       implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_N_green(*)
@@ -4787,13 +4739,10 @@ cpsc  add above
      .          g_lai)
 
 *     ===========================================================
+      Use infrastructure
+      Use CropDefCons
+
       implicit none
-      include 'const.inc'            ! new_line,  blank,
-      include 'convert.inc'
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -4939,12 +4888,10 @@ cpsc  add above
      .          N_conc_max,
      .          N_conc_min)
 *     ===========================================================
+      Use infrastructure
+      Use CropLibrary
+      Use CropDefCons
       implicit none
-      include   'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'
-      include 'error.pub'
-      include 'crp_phen.pub'
 
 *+  Sub-Program Arguments
        real g_current_stage
@@ -5106,12 +5053,8 @@ cpsc  add above
       subroutine Crop_Detachment(option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'
-      include 'crp_nitn.pub'
-      include 'crp_biom.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer option
@@ -5186,9 +5129,8 @@ c in maize
      .                               pos     ! position of the digital
      .                               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       INTEGER switch
@@ -5253,9 +5195,8 @@ c in maize
      .                               pos     ! position of the digital
      .                               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 *+  Sub-Program Arguments
       character  switch*(*)
       INTEGER    pos
@@ -5326,9 +5267,8 @@ c           string_to_integer_var(value_string, value, numvals)
 
 *------------------------------------------------------------
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Constant Values
       character  my_name*(*) ! name of procedure
@@ -6233,9 +6173,8 @@ c      g%dlt_n_uptake_stover=0.0
 *     000121 ew   generalised for all crops
 *--------------------------------------------------------------
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Constant Values
       character  my_name*(*)  ! name of procedure
@@ -6382,11 +6321,8 @@ c      g%dlt_n_uptake_stover=0.0
       subroutine Read_Constants ()
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'read.pub'
-      include 'error.pub'
-      include 'datastr.pub'
 
 *+  Purpose
 *       Crop initialisation - reads constants from constants file
@@ -7392,9 +7328,8 @@ cew - added this section
      .          cover_leaf,
      .          lai)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        real g_row_spacing
@@ -7456,9 +7391,8 @@ cew - added this section
      .          lai,
      .          cover)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real extinct_coef
@@ -7500,15 +7434,14 @@ cew - added this section
      .          g_lai,
      .          g_cover_green)
 * ====================================================================
+      Use infrastructure
       implicit none
-      include 'science.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real g_row_spacing
       real c_x_row_spacing(*)
       real c_y_extinct_coef(*)
-      real c_num_row_spacing
+      integer c_num_row_spacing
       real g_lai
       real g_cover_green
 

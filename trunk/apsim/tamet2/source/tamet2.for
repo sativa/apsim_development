@@ -1,28 +1,28 @@
-      include 'Tamet2.inc'
-      
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use Tamet2Module
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
 
 *+  Mission Statement
 *     Instantiate routine
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
       allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
       end
 
@@ -30,47 +30,49 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use Tamet2Module
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
 
 *+  Mission Statement
 *     De-Instantiate routine
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
       deallocate (Instances(anInstanceNo)%cptr)
- 
+
       return
       end
-     
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use Tamet2Module
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
 
 *+  Mission Statement
 *     Swap an instance into global pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
       c => Instances(anInstanceNo)%cptr
- 
+
       return
       end
 
@@ -79,11 +81,8 @@
 *====================================================================
 
       use Tamet2Module
+      Use infrastructure
       implicit none
-      include   'action.inc'
-      include   'const.inc'           ! Global constant definitions
-      include   'event.inc'
-      include   'error.pub'
 
 *+  Purpose
 *      This routine is the interface between the main system and the
@@ -140,11 +139,9 @@
 *====================================================================
       subroutine tamet2_zero_variables ()
 *====================================================================
-      use Tamet2Module             
+      use Tamet2Module
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -165,7 +162,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-         !variables 
+         !variables
 
       g%a_day   = 0
       g%a_year  = 0
@@ -192,7 +189,7 @@
       g%rd(:)    = 0.0
       g%nv = 0
       g%radn_rcal = 0.0
-             
+
       call tamet2_zero_daily_variables ()
 
       call pop_routine (myname)
@@ -204,10 +201,8 @@
 *====================================================================
 
       use Tamet2Module               ! tamet2 common block
+      Use infrastructure
       implicit none
-      include    'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -231,27 +226,27 @@
 
       do i = 1, offset-1
          g%a_day(i) = g%a_day(i+1)
-         g%a_year(i) = g%a_year(i+1) 
-         g%a_min(i) = g%a_min(i+1)  
-         g%a_max(i) = g%a_max(i+1)  
-         g%a_evap(i) = g%a_evap(i+1) 
-         g%a_rain(i) = g%a_rain(i+1) 
-         g%a_radn(i) = g%a_radn(i+1) 
-         g%a_wind(i) = g%a_wind(i+1) 
+         g%a_year(i) = g%a_year(i+1)
+         g%a_min(i) = g%a_min(i+1)
+         g%a_max(i) = g%a_max(i+1)
+         g%a_evap(i) = g%a_evap(i+1)
+         g%a_rain(i) = g%a_rain(i+1)
+         g%a_radn(i) = g%a_radn(i+1)
+         g%a_wind(i) = g%a_wind(i+1)
       enddo
 
-      g%a_day(offset) = 0  
-      g%a_year(offset) = 0 
-      g%a_min(offset) = 0  
-      g%a_max(offset) = 0  
-      g%a_evap(offset) = 0 
-      g%a_rain(offset) = 0 
-      g%a_radn(offset) = 0 
-      g%a_wind(offset) = 0 
-      
+      g%a_day(offset) = 0
+      g%a_year(offset) = 0
+      g%a_min(offset) = 0
+      g%a_max(offset) = 0
+      g%a_evap(offset) = 0
+      g%a_rain(offset) = 0
+      g%a_radn(offset) = 0
+      g%a_wind(offset) = 0
+
       g%type = blank
       g%field = blank
-      
+
       call pop_routine (myname)
 
       return
@@ -260,9 +255,8 @@
       subroutine tamet2_init ()
 *====================================================================
 
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *      Initialise tamet2 module
@@ -307,16 +301,12 @@
 *===========================================================
 
       use Tamet2Module               ! tamet2 common block
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include   'date.pub'
-      include 'data.pub'                          
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *      Read in all parameters from parameter file.
- 
+
 *+  Mission Statement
 *     Read Parameters from par file
 
@@ -345,7 +335,7 @@
 
       call write_string (
      :          new_line//'   - Reading Tamet2 Parameters')
- 
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'dis_evap',            ! Keyword
@@ -354,7 +344,7 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     100.0)         ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'dish_evap',            ! Keyword
@@ -363,7 +353,7 @@
      :     numvals,               ! Number of values returned
      :     -100.0,         ! Lower Limit for bound checking
      :     0.0)         ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'disvh_evap',            ! Keyword
@@ -372,7 +362,7 @@
      :     numvals,               ! Number of values returned
      :     -100.0,         ! Lower Limit for bound checking
      :     0.0)         ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'dis_maxt_dry_season',            ! Keyword
@@ -381,7 +371,7 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     60.0)         ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'dis_maxt_other',            ! Keyword
@@ -390,7 +380,7 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     60.0)         ! Upper Limit for bound checking
- 
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'dis_mint',            ! Keyword
@@ -399,9 +389,9 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     60.0)         ! Upper Limit for bound checking
- 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'Maxt_to_minT',            ! Keyword
@@ -410,10 +400,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     60.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'rain_lb',            ! Keyword
@@ -422,10 +412,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     100.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'rain_ub',            ! Keyword
@@ -434,10 +424,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     2000.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'gauge_capacity',            ! Keyword
@@ -446,10 +436,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     1000.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'maxt_lb',            ! Keyword
@@ -458,10 +448,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     30.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'maxt_ub',            ! Keyword
@@ -470,10 +460,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     60.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'mint_lb',            ! Keyword
@@ -482,10 +472,10 @@
      :     numvals,               ! Number of values returned
      :     -20.0,         ! Lower Limit for bound checking
      :     30.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'mint_ub',            ! Keyword
@@ -494,10 +484,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     40.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'evap_lb',            ! Keyword
@@ -506,10 +496,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     100.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'evap_ub',            ! Keyword
@@ -518,10 +508,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     100.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'wind_lb',            ! Keyword
@@ -530,10 +520,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     100.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'wind_ub',            ! Keyword
@@ -542,10 +532,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     2000.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'radn_lb',            ! Keyword
@@ -554,10 +544,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     2.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'radn_ub',            ! Keyword
@@ -566,10 +556,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     2.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'radn_low',            ! Keyword
@@ -578,10 +568,10 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     1.0)         ! Upper Limit for bound checking
- 
 
 
- 
+
+
       call read_real_var (
      :     section_name,          ! Section header
      :     'radn_vlow',            ! Keyword
@@ -590,18 +580,18 @@
      :     numvals,               ! Number of values returned
      :     0.0,         ! Lower Limit for bound checking
      :     1.0)         ! Upper Limit for bound checking
- 
- 
-          
+
+
+
          ! met parameter names
 !      call read_char_array (
-!     :           section_name   
-!     :          ,'names'       
-!     :          ,numvars          
+!     :           section_name
+!     :          ,'names'
+!     :          ,numvars
 !     :          ,'(-)'
-!     :          ,p%names       
+!     :          ,p%names
 !     :          ,p%numvars)
-           
+
       call pop_routine  (myname)
       return
       end
@@ -612,14 +602,13 @@
 *===========================================================
 
       use Tamet2Module               ! tamet2 common block
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 
 *+  Purpose
 *      Read in all parameters from parameter file.
- 
+
 *+  Mission Statement
 *     Read Constants from Ini file
 
@@ -649,7 +638,6 @@
 *================================================================
 
       implicit   none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Perform calculations before the current timestep.
@@ -676,13 +664,8 @@
 *====================================================================
 
       use Tamet2Module               ! tamet2 common block
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'date.pub'
 
 
 *+  Purpose
@@ -698,17 +681,17 @@
       integer    numvals               ! number of values returned
       integer    i
       integer    j
-      real       value 
-      integer    idate(3)                    
-      
+      real       value
+      integer    idate(3)
+
 
 *   Constant values
       character  myname*(*)            ! Name of this procedure
       parameter (myname = 'tamet2_get_other_variables_init')
-   
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-      
+
       call get_real_var (
      :           unknown_module
      :          ,'latitude'
@@ -717,31 +700,31 @@
      :          ,numvals
      :          ,-90.0
      :          ,90.0)
- 
-     
+
+
        call get_integer_var (
      :      unknown_module
-     :     ,'day'        
-     :     ,'()'      
-     :     ,g%day        
-     :     ,numvals       
-     :     ,1         
+     :     ,'day'
+     :     ,'()'
+     :     ,g%day
+     :     ,numvals
+     :     ,1
      :     ,366)
-     
+
        call get_integer_var (
      :      unknown_module
-     :     ,'year'        
-     :     ,'()'      
-     :     ,g%year        
-     :     ,numvals       
-     :     ,1800         
+     :     ,'year'
+     :     ,'()'
+     :     ,g%year
+     :     ,numvals
+     :     ,1800
      :     ,2050)
-     
+
       call day_of_year_to_date (g%day, g%year, idate)
       g%last_day = Date_to_jday (idate(1), idate(2), idate(3))
      :           - 1.0D0
-     
-     
+
+
       call get_real_var_optional (
      :      unknown_module
      :     ,'wind'
@@ -750,36 +733,36 @@
      :     ,numvals
      :     ,0.0
      :     ,1000.0)
-      
+
       if (numvals.gt.0) then
          g%wind_found = .true.
       else
          g%wind_found = .false.
       endif
-     
- 
+
+
 !      g%numvars = 0
 !      do i=1, p%numvars
 !      if (p%names(i).ne.blank) then
-   
+
 !      call get_real_var_optional (
 !     :      unknown_module
-!     :     ,p%names(i)        
-!     :     ,'()'      
-!     :     ,value        
-!     :     ,numvals       
-!     :     ,-1000.0         
+!     :     ,p%names(i)
+!     :     ,'()'
+!     :     ,value
+!     :     ,numvals
+!     :     ,-1000.0
 !     :     ,10000.0)
-     
+
 !         if (numvals.gt.0) then
 !            g%numvars = g%numvars + 1
 !            g%name_found(g%numvars) = p%names(i)
 !         else
 !         endif
-     
+
 !      else
-!      endif         
-      
+!      endif
+
 !      end do
 
       call pop_routine (myname)
@@ -790,16 +773,12 @@
 *====================================================================
 
       use Tamet2Module               ! tamet2 common block
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'convert.inc'          ! conversion constants
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
- 
+
 *+  Mission Statement
 *     Get Other Variables
 
@@ -808,16 +787,16 @@
 
 *   Internal variables
       integer    numvals               ! number of values returned
-      integer    i                     
-      
+      integer    i
+
 
 *   Constant values
       character  myname*(*)            ! Name of this procedure
       parameter (myname = 'tamet2_get_other_variables')
-   
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
-      
+
 !   D(I,3-5)  DAY, MONTH, YEAR
 !   D(I,6)    RAIN
 !   D(I,7)    EVAPORATION
@@ -831,9 +810,9 @@
      :    , g%year
      :    , numvals
      :    , 1800, 2050)
-     
+
       g%a_year(offset) = g%year
- 
+
       call get_integer_var (
      :      Unknown_module
      :    , 'day'
@@ -842,9 +821,9 @@
      :    , numvals
      :    , 1
      :    , 366)
-     
+
       g%a_day(offset) = g%day
- 
+
       call get_real_var (
      :      unknown_module
      :     ,'radn'
@@ -853,9 +832,9 @@
      :     ,numvals
      :     ,0.0
      :     ,100.0)
- 
+
       g%a_radn(offset) = g%radn
-      
+
       call Get_real_var(
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'maxt'          ! Variable Name
@@ -864,9 +843,9 @@
      :    , numvals         ! Number of values returned
      :    , 0.0             ! Lower Limit for bound checking
      :    , 50.0)           ! Upper Limit for bound checking
-     
+
       g%a_max(offset) = g%maxt
- 
+
       call Get_real_var(
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'mint'          ! Variable Name
@@ -875,9 +854,9 @@
      :    , numvals         ! Number of values returned
      :    , -20.0           ! Lower Limit for bound checking
      :    , 40.0)           ! Upper Limit for bound checking
-     
+
       g%a_min(offset) = g%mint
- 
+
       call Get_real_var(
      :      unknown_module  ! Module that responds (Not Used)
      :    , 'rain'          ! Variable Name
@@ -886,7 +865,7 @@
      :    , numvals         ! Number of values returned
      :    , 0.0             ! Lower Limit for bound checking
      :    , 1000.0)         ! Upper Limit for bound checking
-     
+
       g%a_rain(offset) = g%rain
 
       call Get_real_var_optional(
@@ -897,7 +876,7 @@
      :    , numvals         ! Number of values returned
      :    , 0.0             ! Lower Limit for bound checking
      :    , 1000.0)         ! Upper Limit for bound checking
-     
+
       g%a_evap(offset) = g%evap
 
       call get_real_var_optional (
@@ -910,8 +889,8 @@
      :     ,1000.0)
 
       g%a_wind(offset) = g%wind
-     
- 
+
+
       call pop_routine (myname)
       return
       end
@@ -920,13 +899,10 @@
 *====================================================================
 
       use Tamet2Module               ! tamet2 common block
-       include 'const.inc'             ! constant definitions
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Return the value of one of our variables to caller
- 
+
 *+  Mission Statement
 *     Send Value of Requested Variable
 
@@ -948,60 +924,60 @@
      :               variable_name
      :              ,'()'
      :              ,g%error)
- 
+
       elseif (variable_name .eq. 'field') then
          call respond2get_char_var (
      :               variable_name
      :              ,'()'
      :              ,g%field)
- 
+
       elseif (variable_name .eq. 'type') then
          call respond2get_char_var (
      :               variable_name
      :              ,'()'
      :              ,g%type)
- 
+
       elseif (variable_name .eq. 'dis_radn') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(MJ/m2)'
      :              ,g%dis_radn)
- 
+
 
       elseif (variable_name .eq. 'dis_maxt') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(oC)'
      :              ,g%dis_maxt)
- 
+
 
       elseif (variable_name .eq. 'dis_mint') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(oC)'
      :              ,g%dis_mint)
- 
+
 
       elseif (variable_name .eq. 'dis_evap') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(mm)'
      :              ,g%dis_evap)
- 
+
 
       elseif (variable_name .eq. 'dis_wind') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(km)'
      :              ,g%dis_wind)
- 
+
 
       elseif (variable_name .eq. 'radn_rcal') then
          call respond2get_real_var (
      :               variable_name
      :              ,'(MJ/m2)'
      :              ,g%radn_rcal)
- 
+
       else
 
          call Message_unused ()
@@ -1016,7 +992,6 @@
 
       implicit   none
 
-      include 'error.pub'                         
 
 *+  Purpose
 *      perform actions for current day
@@ -1038,22 +1013,19 @@
       call tamet2_main()
       call pop_routine (myname)
       return
-      end         
+      end
 
 
 *================================================================
       subroutine tamet2_main()
 *================================================================
 
-      use Tamet2Module        
+      use Tamet2Module
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include 'date.pub'
-      include 'read.pub'
-      include 'error.pub'
 
       character string*80
-      
+
       real  radn_max
       real  radn_cal
 
@@ -1084,7 +1056,7 @@
 
 *+  Mission Statement
 *     Perform calculations for current day
-      
+
 ! ***************
 !   AV      R MONTH AVERAGE
 !   BL      R LOWER LIMIT FOR RADIATION
@@ -1158,42 +1130,42 @@
 !   VP      R VAPOUR PRESSURE
 !   Y       I INDEXING VARIABLE FOR ARRAY IRD
 !   YR      I YEAR
- 
+
 !   UNITS USED ARE AS FOLLOWS:-
 !                          1   OUTPUT DATA FOR PRINTING
 !                          2   ERROR MESSAGES
 !                          3   INPUT DATA
 ! *************
       DATA STN, MTH, YR/'    ', 0, 0/
- 
+
       LAG = 0
 
       call day_of_year_to_date (g%day, g%year, idate)
 !         COMPUTE SEASON, COMPUTE MONTHLY PART OF DAY NUMBER
 !         ASSUMING FEB ALWAYS 28 DAYS.   SET UP DISCONTINUITY LIMITS
- 
+
       IF (g%latitude.LT.-18. .OR. g%latitude.GT.-11.) then
          DS = 0
       else
          DS = idate(2)/6*(1-idate(2)/10)  ! 1 = dry season (6-9)
-    
+
       endif
       if (ds.eq.0) then
          p%dis_maxt = p%dis_maxt_other
       else
          p%dis_maxt = p%dis_maxt_dry
       endif
- 
+
       call jday_to_date (I, mth, yr, g%last_day)
       call day_of_year_to_date (g%day, g%year, idate)
       MTH = idate(2)
-!65    continue 
+!65    continue
 !      LYR = (YR-(YR-1)/4*4)/4
       I = MTH + MTH/8
- 
+
       LAT = g%latitude
 !      IF (LAT.EQ.0E0) GO TO 10
- 
+
 
       K = MTH - 1
       IF (K.GE.2) then
@@ -1202,56 +1174,56 @@
          NM = 31*K
       endif
 !*************
- 
+
 !   SET DISCONTINUITY LIMITS
- 
+
 
             call day_of_year_to_date (g%day, g%year, idate)
 !        FIND INDEXES FOR PREVIOUS 2 CARDS
-         I = 3 
+         I = 3
          IA = 1
          IB = 2
- 
-      
-      if (g%last_day + 1.0D0 
+
+
+      if (g%last_day + 1.0D0
      :   .eq. Date_to_jday (iDate(1), idate(2), idate(3))) then
          ! dates ok
       else
          call t2_error (LAG,2,STN,g%day,g%year,
      :                 'Dates inconsistant')
-         WRITE (string, '(15x, a, 2I3, I5)') 
+         WRITE (string, '(15x, a, 2I3, I5)')
      :                    ' Expected date =', I, MTH, YR
          call write_string (string)
-         
+
       endif
- 
+
       g%last_day = Date_to_jday (iDate(1), idate(2), idate(3))
-      
+
 !********************    TEMPERATURES    *******************
- 
+
 !         CHECK DB NOT LESS THAN WB, COMPUTE WB DEPRESSION
 !       CHECK IF DB=WB AND RAIN=0
 !       COMPUTE AND CHECK VP,RH,ENTER RH
 !       KEEP YESTERDAYS RHP(9AM) AND RH(3PM)
- 
-         
+
+
       if (g%a_day(1).gt.0) then
             g%dis_radn = ABS((g%a_radn(IA) - g%a_radn(IB))
      :         +  (g%radn - g%a_radn(IB)))
-            g%dis_wind = ABS((g%a_wind(IA) - g%a_wind(IB)) 
+            g%dis_wind = ABS((g%a_wind(IA) - g%a_wind(IB))
      :         +  (g%wind - g%a_wind(IB)))
             g%dis_evap = ABS((g%a_evap(IA) - g%a_evap(IB))
      :              + (g%evap - g%a_evap(IB)))
 !          *****     + EVAP X RAIN
 !         CHECK FOR DISCONTINUITY IN EVAP, MAX AND MIN
- 
+
          !print*, ' 1'
-         IF (g%a_rain(IB).LE.3.0) then 
+         IF (g%a_rain(IB).LE.3.0) then
          else
-            dk = (g%a_evap(IA) - g%a_evap(IB)) 
+            dk = (g%a_evap(IA) - g%a_evap(IB))
      :         + (g%evap - g%a_evap(IB))
-            IF (dk.GE.p%dish_evap) then 
-!            IF (dk.GE.-8.5) then 
+            IF (dk.GE.p%dish_evap) then
+!            IF (dk.GE.-8.5) then
             else
                IF (dk.LE.p%disvh_evap) then
 !               IF (dk.LE.-12.0) then
@@ -1264,27 +1236,27 @@
                LAG2 = 1 + LAG/2
                write (string, '(15x, a, 10f6.1)') ' Values = ', g%a_evap
                call write_string (string)
-               WRITE (string, '(15x, a, f6.1)') 
+               WRITE (string, '(15x, a, f6.1)')
      :                          ' Discontinuity =', g%dis_evap
                call write_string (string)
-               
+
                g%field = 'evap'
                g%type = 'discont'
-              
+
             endif
          endif
          !print*, ' 2'
- 
-            g%dis_mint = ABS((g%a_min(IA) - g%a_min(IB)) 
+
+            g%dis_mint = ABS((g%a_min(IA) - g%a_min(IB))
      :              + (g%mint - g%a_min(IB)))
-            IF (g%dis_mint.LE.p%dis_mint) then 
+            IF (g%dis_mint.LE.p%dis_mint) then
             else
                LAG2 = 1 + LAG/2
                call t2_error (LAG,LAG2,STN,g%a_day(IB), g%a_year(IB)
      :                     , 'Discontinuity in minT')
                write (string, '(15x, a, 10f6.1)') ' Values = ', g%a_min
                call write_string (string)
-               WRITE (string, '(15x, a, f6.1)') 
+               WRITE (string, '(15x, a, f6.1)')
      :               ' Possible error. Discontinuity =', g%dis_mint
                call write_string (string)
                IF (g%rain.EQ.0) then
@@ -1294,12 +1266,12 @@
                endif
                g%field = 'minT'
                g%type = 'discont'
-              
+
             endif
          !print*, ' 3'
             g%dis_maxt = ABS((g%a_max(IA) - g%a_max(IB))
      :              + (g%maxt- g%a_max(IB)))
-            IF (g%dis_maxt.LE.p%dis_maxt) then 
+            IF (g%dis_maxt.LE.p%dis_maxt) then
             else
                LAG2 = 1 + LAG/2
          !print*, ' 31, lag, lag2, stn, ib, g%a_day(ib)'
@@ -1309,7 +1281,7 @@
          !print*, ' 32'
                write (string, '(15x, a, 10f6.1)') ' Values = ',g%a_max
                call write_string (string)
-               WRITE (string, '(15x, a, f6.1)') 
+               WRITE (string, '(15x, a, f6.1)')
      :               ' Possible error. Discontinuity =', g%dis_maxt
                call write_string (string)
          !print*, ' 33'
@@ -1325,17 +1297,17 @@
                endif
                g%field = 'maxT'
                g%type = 'discont'
-              
+
             endif
          !print*, ' 34'
-            IF (g%dis_evap.LE.p%dis_evap) then 
+            IF (g%dis_evap.LE.p%dis_evap) then
             else
                LAG2 = 1 + LAG/2
                call t2_error (LAG,LAG2,STN,g%a_day(IB), g%a_year(IB)
      :                     , 'Discontinuity in evap')
                write (string,'(15x, a, 10f6.1)') ' Values = ',g%a_evap
                call write_string (string)
-               WRITE (string, '(15x, a, f6.1)') 
+               WRITE (string, '(15x, a, f6.1)')
      :               ' Possible error. Discontinuity =', g%dis_evap
                call write_string (string)
                IF (g%rain.EQ.0) then
@@ -1346,22 +1318,22 @@
 
                g%field = 'evap'
                g%type = 'discont'
-              
+
             endif
- 
+
          !print*, ' 4'
       else
       endif
 
       NV = 0
- 
+
       I = idate(1)
-      
- 
+
+
 !******************    RAINFALL    *******************
 !       CHECK RAINFALL
- 
- 
+
+
       IF (g%rain.GE.p%rain_lb .AND. g%rain.LE.p%rain_ub) then
          LAG2 = 1 + LAG/2
          IF (g%rain.GT.p%gauge_capacity) then
@@ -1369,7 +1341,7 @@
      :   ,' mm Rainfall exceeds capacity of gauge   Possible error')
          g%field = 'rain'
          g%type = 'gauge'
-              
+
          else
          endif
       else
@@ -1377,85 +1349,85 @@
      :            ,' mm Rainfall outside limits')
          g%field = 'rain'
          g%type = 'limits'
-              
+
       endif
- 
+
          !print*, ' 5'
- 
+
 !*******************    EVAPORATION    *********************
       !print*, evap
-      IF (g%evap.GE.p%evap_lb .AND. g%evap.LE.p%evap_ub) then 
+      IF (g%evap.GE.p%evap_lb .AND. g%evap.LE.p%evap_ub) then
       else
          call t2_errorr (LAG,2,STN,g%day,g%year, g%evap
      :               ,'Evaporation outside limits')
          g%field = 'evap'
          g%type = 'limits'
-              
+
       endif
- 
- 
+
+
 !********************    MAX TEMPERATURE    *********************
 !               CHECK MAX WITHIN LIMITS
- 
+
       IF (g%maxt.LT.p%maxt_lb .OR. g%maxt.GT.p%maxt_ub) then
          call t2_errorr (LAG,2,STN,g%day,g%year, g%maxt
      :               ,'MaxT outside limits')
          g%field = 'MaxT'
          g%type = 'limits'
-              
+
       else
       endif
- 
+
 !*********************    MIN TEMPERATURE    ********************
-!  CHECK MIN WITHIN LIMITS 
- 
+!  CHECK MIN WITHIN LIMITS
+
       IF (g%mint.GE.p%mint_lb .AND. g%mint.LE.p%mint_ub) then !GO TO 530
       else
          call t2_errorr (LAG,2,STN,g%day,g%year, g%mint
      :               ,'MinT outside limits')
          g%field = 'MinT'
          g%type = 'limits'
-              
+
       endif
 
 !********************    WIND    ***********************
-      if (g%wind_found) then 
-         IF (g%wind.GE.p%wind_lb .AND. g%wind.LE.p%wind_ub) then 
+      if (g%wind_found) then
+         IF (g%wind.GE.p%wind_lb .AND. g%wind.LE.p%wind_ub) then
          else
             call t2_errorr (LAG,2,STN,g%day,g%year, g%wind
      :               , 'Wind run outside limitS')
          endif
          g%field = 'Wind'
          g%type = 'limits'
-              
+
       else
       endif
          !print*, ' 6'
- 
+
 !********************    RADIATION    *******************
- 
+
       DEC = 23.45 * DSIN(.0172 * DBLE(NM + I - 83))
-      RCAL  = (318.24 * DCOS((DEC-LAT)/57.3) - 17.46) 
+      RCAL  = (318.24 * DCOS((DEC-LAT)/57.3) - 17.46)
      :      * (1E0 + DEC * LAT/5157.0)
-     :      / 10.0 
-      
+     :      / 10.0
+
       radn_cal = radn_max (g%day, g%latitude, -0.83)
-      !print*, g%latitude, lat, g%day  
+      !print*, g%latitude, lat, g%day
       !print*, g%radn, rcal, radn_cal
       g%radn_rcal = rcal - g%radn
       bottom_limit = p%radn_lb*RCAL
       top_limit = p%radn_ub*RCAL
-      
+
       g%RD(idate(1)) = g%radn*100.0/RCAL
       IF (g%radn.LT.p%radn_low*RCAL-0.05) then
          g%NV = g%NV + 1
       else
       endif
- 
-      IF (g%radn.GE.bottom_limit-0.5 
-     :   .AND. g%radn.LE.top_limit+0.5) then 
+
+      IF (g%radn.GE.bottom_limit-0.5
+     :   .AND. g%radn.LE.top_limit+0.5) then
          RCAL20 = p%radn_vlow*RCAL
-         IF (g%radn.GE.int(RCAL20-0.5)) then 
+         IF (g%radn.GE.int(RCAL20-0.5)) then
          else
             call t2_errorr (LAG,LAG2,STN,g%day,g%year, g%radn
      :               ,'Radiation very low   Possible error ')
@@ -1464,7 +1436,7 @@
             call write_string (string)
             g%field = 'radn'
             g%type = 'VLow'
-              
+
          endif
       else
          LAG2 = 1 + LAG/2
@@ -1475,12 +1447,12 @@
          call write_string (string)
          g%field = 'radn'
          g%type = 'limits'
-              
+
       endif
- 
- 
-      if (End_month (g%day, g%Year)) then 
-         IF (NV.LE.idate(1)-2) then  
+
+
+      if (End_month (g%day, g%Year)) then
+         IF (NV.LE.idate(1)-2) then
          else
             LAG2 = 1 + LAG/2
             call t2_error (LAG,LAG2,STN,g%day,g%year,
@@ -1488,11 +1460,11 @@
          WRITE (string, 99989)  g%NV, ' 65% of ', RCAL20
 99989    FORMAT (15x, I8, ' Values below', a, F6.2)
          call write_string (string)
-         
+
          write (string, '(a)')' Observed values,'//
      : ' expressed as Percentage of calculated clear sky value, are:-'
          call write_string (string)
-         
+
          write (string, '(1x, 16f6.1)') (g%rd(j), j=1, 16)
          call write_string (string)
          write (string, '(1x, 16f6.1)') (g%rd(j), j=17, idate(1))
@@ -1503,44 +1475,43 @@
          g%nv = 0
       else
       endif
- 
+
       IF (g%maxt.le. g%mint) then
          call t2_errorr (LAG,2,STN,g%day,g%year, g%maxt
      :               ,' MaxT < or = MinT')
-         write (string, '(15x, a, 2f6.1)') 
+         write (string, '(15x, a, 2f6.1)')
      :               ' MaxT, MinT = ', g%maxt, g%mint
          call write_string (string)
          g%field = 'MaxT'
          g%type = 'MinT'
-              
+
       elseIF (g%maxt.le. g%mint+p%Maxt_to_minT
      :   .and. g%rain.le.0.0001) then
          if ( g%radn .gt.p%radn_low*RCAL) then
             call t2_errorr (LAG,2,STN,g%day,g%year, g%maxt
      :       ,' MaxT is close to MinT and not overcast. Possible error')
-            write (string, '(15x, a, 2f6.1)') 
+            write (string, '(15x, a, 2f6.1)')
      :               ' MaxT, MinT = ', g%maxt, g%mint
             call write_string (string)
             g%field = 'MaxT'
             g%type = 'MinT'
          else
          endif
-              
+
       else
 
       endif
- 
+
          !print*, ' 7'
       g%error = lag
       return
       END
- 
+
 *================================================================
       SUBROUTINE t2_ERROR (LAG,N2,STN,K1,K3,RMESS)
 *================================================================
-      use Tamet2Module        
+      use Tamet2Module
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      include   'const.inc'            ! Constant definitions
       CHARACTER*4 STN
       CHARACTER RMESS*(*)
       character string*80
@@ -1550,51 +1521,52 @@
 
 *+  Mission Statement
 *     Produce error string
-       
+
       LAG = N2
- 
+
          !print*, ' e1'
- 
+
       WRITE (string, 1000) STN,K1,K3,trim(rmess)
  1000 FORMAT(A1, I4, I5, 3X, a)
          !print*, ' e2'
       call write_string (string)
       RETURN
       END
- 
+
 *================================================================
       SUBROUTINE t2_ERRORR (LAG,N2,STN,K1,K3,r4,RMESS)
 *================================================================
-      use Tamet2Module        
-      IMPLICIT none
-      include   'const.inc'            ! Constant definitions
+      use Tamet2Module
+      Use infrastructure
+      implicit none
       character string*80
       CHARACTER*4 STN
       CHARACTER RMESS*(*)
       integer lag, N2, k1, k3
       real r4
- 
+
       LAG = N2
- 
+
 *+  Purpose
 *      Produce error string
 
 *+  Mission Statement
 *     Produce error string
- 
+
       WRITE (string, 1000) STN,K1,K3,r4,trim(rmess)
  1000 FORMAT(A1,I4,I5,1X,f7.1,1x,a)
       call write_string (string)
       RETURN
       END
- 
+
 
 *     ===========================================================
       real function radn_max (dyoyr, lat, sun_angle)
 *     ===========================================================
+      Use infrastructure
       implicit none
-	  include 'data.pub'
- 
+
+
 *+ Sub-Program Arguments
       real       sun_angle             ! (INPUT) angle to measure time between
                                        ! such as twilight (deg).
@@ -1603,18 +1575,18 @@
                                        ! of sun. +ve up, -ve down.
       integer    dyoyr                 ! (INPUT) day of year number
       real       lat                   ! (INPUT) latitude of site (deg)
- 
+
 *+ Purpose
 *      return the time elasped in hours between the specified sun angle
 *      from 90 deg in am and pm. +ve above the horizon, -ve below the horizon.
- 
+
 *+ Notes
 *                    there is a small err in cos (90), thus a special
 *                    case is made for this.
- 
+
 *+  Mission Statement
 *      day length for %1 and %2
- 
+
 *+ Changes
 *       020392 jngh specified and programmed
 *       130592 jngh limited altitude for twilight to increase range_of
@@ -1630,7 +1602,7 @@
 *                   1.0, which asin doesn't like.
 *       071293 jngh added sun (twilight) angle to arguments
 *       270295 jngh put in function to test for equal reals.
- 
+
 
 *+ Constant Values
       real       aeqnox                ! average day number of autumnal
@@ -1660,16 +1632,16 @@
 *
       real       rdn2hr                ! convert radians to hours
       parameter (rdn2hr = 24.0/(2.0*pi))
-      
+
       real      water_vap_abs          ! water vapour absorption
       parameter (water_vap_abs = 0.07)
- 
+
       real      ozone_abs          ! ozone absorption
       parameter (ozone_abs = 0.02)
-      
+
       real       transmission_coef
       parameter (transmission_coef = 0.6)
- 
+
 *+ Local Variables
       real       alt                   ! twilight altitude limited to max/min
                                        !   sun altitudes end of twilight
@@ -1702,64 +1674,64 @@
       real       rs                    ! radiation at surface (MJ/m2)
       real       diffuse_sky_radn
       real       cosz
-      
+
       real       solar_const           ! MJ/m2/hr
       parameter (solar_const = 4.871)
       real      A
       parameter (A=0.25)
       real      B
       parameter (B=0.50)
- 
+
 *- Implementation Section ----------------------------------
- 
- 
+
+
       sun_alt = sun_angle * dg2rdn
- 
+
           ! calculate daylangth in hours by getting the
           ! solar declination (radians) from the day of year, then using
           ! the sin and cos of the latitude.
- 
+
           ! declination ranges from -.41 to .41 (summer and winter solstices)
- 
+
       dec = decsol*sin (dy2rdn* (real(dyoyr) - aeqnox))
- 
+
           ! get the max and min altitude of sun for today and limit
           ! the twilight altitude between these.
- 
+
       if (reals_are_equal(abs(lat), 90.0)) then
          coshra = sign (1.0, -dec) * sign (1.0, lat)
       else
          latrn = lat*dg2rdn
          slsd = sin(latrn)*sin(dec)
          clcd = cos(latrn)*cos(dec)
- 
+
          altmn = asin (bound (slsd - clcd, -1.0, 1.0))
          altmx = asin (bound (slsd + clcd, -1.0, 1.0))
          alt = bound (sun_alt, altmn, altmx)
- 
+
              ! get cos of the hour angle
- 
+
          coshra = (sin (alt) - slsd) /clcd
          coshra = bound (coshra, -1.0, 1.0)
       endif
- 
+
           ! now get the hour angle and the hours of light
- 
+
       hrangl = acos (coshra)
       radius_vector = 1.0/sqrt(1.0+0.033*cos(dy2rdn*real(dyoyr)))
       ra = (24.0/pi)
      :   * (solar_const/radius_vector**2)
-     :   * (hrangl*sin(latrn)*sin(dec) 
+     :   * (hrangl*sin(latrn)*sin(dec)
      :      + sin(hrangl)*cos(latrn)*cos(dec))
 !      cosz = (slsd + clcd*cos(hrangl))/dg2rdn
       rs = ra*(A + B)
 !      rs = transmission_coef ** (1.0/cosz) * ra
       diffuse_sky_radn = (ra*(1.0-ozone_abs-water_vap_abs) - rs)*0.5
       radn_max = rs  + diffuse_sky_radn
-      
+
       !print*, hrangl, radius_vector, lat, latrn, dec
- 
+
       return
       end
- 
+
 

@@ -1,9 +1,9 @@
-      include 'Correl.inc'
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use CorrelModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -34,6 +34,7 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use CorrelModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -55,6 +56,7 @@
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use CorrelModule
+      Use infrastructure
       implicit none
  
 !+  Sub-Program Arguments
@@ -78,10 +80,8 @@
       subroutine Main (Action, Data_string)
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'action.inc'
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Action*(*)            ! Message action to perform
@@ -139,9 +139,8 @@
       subroutine correl_zero_variables ()
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -173,8 +172,8 @@
       subroutine correl_zero_daily_variables ()
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -201,8 +200,8 @@
       subroutine correl_init ()
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      Initialise correl module
@@ -241,10 +240,8 @@
       subroutine correl_read_param ()
 *===========================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'read.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module parameters.
@@ -337,9 +334,8 @@ c      character  line*80               ! output string
       subroutine correl_read_constants ()
 *===========================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Global constant definitions
-      include 'error.pub'                         
 
 *+  Purpose
 *       Read all module constants.
@@ -371,8 +367,8 @@ c      character  line*80               ! output string
       subroutine correl_prepare ()
 *================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *     perform calculations before the current timestep.
@@ -398,11 +394,8 @@ c      character  line*80               ! output string
       subroutine correl_get_other_variables_init ()
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'convert.inc'          ! conversion constants
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -457,11 +450,8 @@ c      character  line*80               ! output string
       subroutine correl_get_other_variables ()
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! Constant definitions
-      include   'convert.inc'          ! conversion constants
-      include 'intrface.pub'                      
-      include 'error.pub'                         
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -504,8 +494,8 @@ c      character  line*80               ! output string
       subroutine correl_send_my_variable (Variable_name)
 *====================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -535,8 +525,8 @@ c      character  line*80               ! output string
       subroutine correl_process ()
 *================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Purpose
 *      perform actions for current day
@@ -562,10 +552,8 @@ c      character  line*80               ! output string
       subroutine correl_calculate (variable_name)
 *================================================================
       use CorrelModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'string.pub'                        
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for

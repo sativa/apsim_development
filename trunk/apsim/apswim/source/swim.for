@@ -8,12 +8,12 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     gets soil surface conductance, surfcon
 *
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     Global Variables
       double precision ddivide
 
-      include 'data.pub'                                                     _
 
 *     Subroutine Arguments
       double precision deqrain
@@ -68,8 +68,8 @@ C     Last change:  DSG  15 Jun 2000    3:40 pm
 *     solves for this time step
 *
       use APSwimModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
 
 *     Global Variables
       double precision apswim_wpf    ! function
@@ -206,6 +206,7 @@ cnh
 *     already variables with those names in common
 
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     Global Variables
@@ -365,10 +366,8 @@ c        timestep??????? !!
 *     this include p%isol, g%csl, p%slos
 
       use APSwimModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
-      include 'const.inc'
 
 *     Global Variables
 cnh      double precision grad
@@ -820,6 +819,7 @@ cnh         if(g%psi(p%n).ge.0.)then
 *     gets water present in profile
 *
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     Global Variables
@@ -850,8 +850,8 @@ cnh         if(g%psi(p%n).ge.0.)then
 *
 
       use APSwimModule
+      Use infrastructure
       implicit none
-      include 'data.pub'
 
 *     Global Variables
       double precision apswim_slupf
@@ -1320,6 +1320,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 *     Thomas algorithm for solving tridiagonal system of eqns
 *     Allow for bypass flow if ib from 1 to N and rb nonzero
 *
+      Use infrastructure
       implicit none
 
 *     Global Variables
@@ -1390,7 +1391,8 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 *     Short description:
 *     gets psi and its partial derivitives
 *
-      Implicit none
+      Use infrastructure
+      implicit none
 
 *     Global Variables
 
@@ -1441,6 +1443,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 *     Short description:
 *     returns transform p
 *
+      Use infrastructure
       implicit none
 
 *     Global Variables
@@ -1486,6 +1489,7 @@ cnh     :                  -g%qex(p%n)*g%csl(solnum,p%n)*p%slupf(solnum)
 * tr->ttr
 
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     Subroutine Arguments
@@ -1608,6 +1612,7 @@ cnh                  g(i)=1./(g%rc(i,iveg)/thk(i)+1./(gr*g%rld(i,iveg)*p%dx(i)))
 *     g%psi, g%hk, g%p, g%th, p%x, p%dx,g%dc
 
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     notes
@@ -1721,6 +1726,7 @@ c      end if
 *     g%h was renamed to tth as g%h already exists in common
 
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     Global Variables
@@ -1762,6 +1768,7 @@ cnh      end if
 *     g%roff was renamed to ttroff as g%roff already exists in common
 
       use APSwimModule
+      Use infrastructure
       implicit none
 
 *     Global Variables
@@ -1808,6 +1815,7 @@ cnh      end if
 *     gets new reference point x0new on drying curve if necessary
 *     returns 0, 1 or 2 for drying, scanning or wetting curve
 *
+      Use infrastructure
       implicit none
 
 *     Global Variables

@@ -1,24 +1,25 @@
-      include 'apswim.inc'
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       character InstanceName*(*)       ! (INPUT) name of instance
       integer   InstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       allocate (Instances(InstanceNo)%gptr)
       allocate (Instances(InstanceNo)%pptr)
       allocate (Instances(InstanceNo)%cptr)
       Instances(InstanceNo)%Name = InstanceName
- 
+
       return
       end
 
@@ -26,41 +27,45 @@
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Module de-instantiation routine.
- 
+
 !- Implementation Section ----------------------------------
-               
+
       deallocate (Instances(anInstanceNo)%gptr)
       deallocate (Instances(anInstanceNo)%pptr)
       deallocate (Instances(anInstanceNo)%cptr)
- 
+
       return
       end
-     
+
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
- 
+
 !+  Sub-Program Arguments
       integer anInstanceNo             ! (INPUT) instance number to allocate
- 
+
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
- 
+
 !- Implementation Section ----------------------------------
-               
+
       g => Instances(anInstanceNo)%gptr
       p => Instances(anInstanceNo)%pptr
       c => Instances(anInstanceNo)%cptr
- 
+
       return
       end
 
@@ -69,11 +74,9 @@ C     Last change:  DSG  15 Jun 2000    4:33 pm
        subroutine Main (Action, Data_string)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'             ! Global constant definitions
-      include 'error.pub'
-      include 'event.inc'
-      include 'action.inc'
 
 *+  Sub-Program Arguments
        character Action*(*)            ! Message action to perform
@@ -161,10 +164,9 @@ C     Last change:  DSG  15 Jun 2000    4:33 pm
        subroutine apswim_Reset ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Initialise apswim module
@@ -259,10 +261,9 @@ C     Last change:  DSG  15 Jun 2000    4:33 pm
        subroutine apswim_read_param ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Read in all parameters from parameter file.
@@ -923,10 +924,9 @@ c     :              1.0d0)
        subroutine apswim_get_other_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Purpose
 *      Get the values of variables from other modules
@@ -983,6 +983,8 @@ c      read(ret_string, *, iostat = err_code) g%rain
        subroutine apswim_set_other_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -1002,9 +1004,9 @@ c      read(ret_string, *, iostat = err_code) g%rain
        subroutine apswim_Send_my_variable (Variable_name)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'string.pub'
-      include 'intrface.pub'
 
 *+  Sub-Program Arguments
        character Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -1071,11 +1073,11 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            g%th(0),
      :            p%n+1)
       else if (Variable_name .eq. 'swf') then
-         call respond2Get_double_array (
+         call respond2Get_real_array (
      :            'swf',
      :            '()',
      :            g%swf(0),
-     :            p%n+1)     
+     :            p%n+1)
       else if (Variable_name .eq. 'sw_dep') then
          do 11 node=0,p%n
             dummy(node) = g%th(node)*g%dlayer(node)
@@ -1399,10 +1401,9 @@ cnh added as per request by Dr Val Snow
        subroutine apswim_set_my_variable (Variable_name)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Sub-Program Arguments
       character Variable_name*(*) ! (INPUT) Variable name to search for
@@ -1544,8 +1545,9 @@ cnh added as per request by Dr Val Snow
        subroutine apswim_zero_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
 
 *+  Purpose
 *     Set all variables in this module to zero.
@@ -1970,8 +1972,9 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        subroutine apswim_zero_module_links ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
 
 *+  Purpose
 *     Reset all information regarding links to other modules
@@ -2000,6 +2003,8 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        subroutine apswim_Prepare ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -2067,6 +2072,8 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        subroutine apswim_post ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -2086,6 +2093,8 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        subroutine apswim_end_run ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -2114,9 +2123,9 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
        subroutine apswim_init_calc ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *   Perform initial calculations from input parameters and prepare for
@@ -2322,8 +2331,9 @@ c   47       continue
        subroutine apswim_interp (node,tpsi,tth,thd,hklg,hklgd)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        integer          node
@@ -2431,9 +2441,9 @@ c   47       continue
        double precision function apswim_suction (node, theta)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer node
@@ -2589,12 +2599,9 @@ c   47       continue
        logical function apswim_swim (timestep_start, timestep)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'intrface.pub'
-      include 'postbox.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
        double precision timestep
@@ -2656,7 +2663,7 @@ c      double precision psiold(0:M)
       double precision old_hmin
       double precision old_gsurf
       double precision evap_Demand
-       
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -2952,11 +2959,9 @@ cnh
        integer function apswim_time_to_mins (timestring)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'datastr.pub'
-      include 'string.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        character timestring*(*)
@@ -3006,9 +3011,9 @@ cnh
        subroutine apswim_Process ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'
 
 *+  Purpose
 *      Perform actions for current g%day.
@@ -3078,10 +3083,9 @@ cnh
        subroutine apswim_sum_report ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *   Report all initial conditions and input parameters to the
@@ -3348,9 +3352,9 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
        subroutine apswim_reset_daily_totals()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3399,9 +3403,9 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
        subroutine apswim_check_inputs ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3484,8 +3488,9 @@ cnh     :       p%x(layer), p%soil_type(layer), g%th(layer),g%psi(layer)*1000.,
        subroutine apswim_init_defaults ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -3533,8 +3538,9 @@ c      eqr0  = 0.d0
        double precision function apswim_crain (time)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision time
@@ -3573,8 +3579,9 @@ c      eqr0  = 0.d0
        double precision function apswim_cevap (time)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision time
@@ -3662,6 +3669,8 @@ c      eqr0  = 0.d0
 *     ===========================================================
       double precision function dlinint (x, x_cord, y_cord, num_cord)
 *     ===========================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3747,6 +3756,8 @@ c      eqr0  = 0.d0
       double precision function ddivide (dividend, divisor, default)
 *     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -3817,10 +3828,9 @@ c      eqr0  = 0.d0
        double precision function apswim_time (yy,dd,tt)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'date.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer yy
@@ -3882,9 +3892,9 @@ c      endif
        subroutine apswim_init_change_units ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *   To keep in line with APSIM standard units we input many parameters
@@ -3938,8 +3948,9 @@ c      endif
        real function apswim_eqrain (time)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision time             ! first time (hours since start)
@@ -3977,10 +3988,9 @@ c      endif
        subroutine apswim_read_solute_params ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4197,10 +4207,9 @@ cnh               g%slscr(solnum) = table_slscr(solnum2)
        subroutine apswim_read_solsoil_params ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4338,9 +4347,9 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
        subroutine apswim_get_solute_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'error.pub'
 
 *+  Purpose
 *      Get the values of solute variables from other modules
@@ -4380,13 +4389,9 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
        subroutine apswim_set_solute_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'action.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'string.pub'
-      include 'postbox.pub'
 
 *+  Purpose
 *      Set the values of solute variables from other modules
@@ -4471,7 +4476,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
      :           '(kg/ha)',
      :           solute_n(0),
      :           p%n+1)
-         
+
          call Action_send(g%solute_owners(solnum)
      :                              ,ACTION_set_variable
      :                              ,p%solute_names(solnum))
@@ -4487,9 +4492,9 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
        subroutine apswim_read_crop_params ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4559,9 +4564,9 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
        subroutine apswim_assign_crop_params ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4627,11 +4632,9 @@ cnh       include 'utility.inc'
        subroutine apswim_find_crops ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Purpose
 *     <insert here>
@@ -4700,11 +4703,9 @@ cnh       include 'utility.inc'
        subroutine apswim_get_crop_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-      include 'string.pub'
-      include 'error.pub'
-      include 'intrface.pub'
 
 *+  Purpose
 *      Get the values of solute variables from other modules
@@ -4713,7 +4714,7 @@ cnh       include 'utility.inc'
 *     <insert here>
 
 *+  Calls
-       character string_concat*(strsize)      ! function
+
 
 *+  Local Variables
       double precision rlv_l(M+1)
@@ -4836,11 +4837,9 @@ cnh
        subroutine apswim_ONirrigated ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -5039,8 +5038,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
        double precision function apswim_csol (solnum,time)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        integer          solnum
@@ -5092,9 +5092,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
        subroutine apswim_get_uptake (ucrop, uname, uarray, uunits,uflag)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision uarray(0:p%n)
@@ -5176,6 +5176,8 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *     ===========================================================
       double precision function dubound (var, upper)
 *     ===========================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5201,6 +5203,8 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *     ===========================================================
       double precision function dlbound (var, lower)
 *     ===========================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -5227,8 +5231,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
        integer function apswim_solute_number (solname)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        character solname*(*)
@@ -5270,11 +5275,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
        subroutine apswim_get_rain_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'             ! Constant definitions
-      include 'error.pub'
-      include 'intrface.pub'
-      include 'postbox.pub'
 
 *+  Purpose
 *      Get the rainfall values from other modules
@@ -5382,8 +5385,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
       subroutine apswim_pot_evapotranspiration (pot_eo)
 *     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       pot_eo      ! (output) potential evapotranspiration
@@ -5442,8 +5446,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
       real function apswim_eeq_fac ()
 *     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *                 calculate coefficient for equilibrium evaporation rate
@@ -5491,9 +5496,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
        subroutine apswim_read_constants ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'read.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Read in all constants from constants file.
@@ -5838,10 +5843,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
        subroutine apswim_get_green_cover (cover_green_sum)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision cover_green_sum
@@ -5904,11 +5908,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
        subroutine apswim_calc_evap_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'data.pub'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -5984,9 +5986,9 @@ cnh NOTE - intensity is not part of the official design !!!!?
 * ====================================================================
       real function integral_real_linint_function (X1,X2,X,Y,N)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        real X1
@@ -6108,8 +6110,9 @@ c      endif
        subroutine apswim_recalc_eqrain ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -6164,10 +6167,9 @@ c      endif
        subroutine apswim_tillage ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -6296,9 +6298,9 @@ c      endif
        subroutine apswim_reset_water_balance (wc_flag, water_content)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer          wc_flag           ! flag defining type of water
@@ -6359,8 +6361,9 @@ c      endif
 * ====================================================================
        double precision function apswim_theta (i,suction)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer i
@@ -6399,9 +6402,9 @@ c      endif
 * ====================================================================
        subroutine union_double_arrays (a,na,b,nb,c,nc,nc_max)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
        integer na,nb,nc,nc_max
@@ -6474,6 +6477,8 @@ c      endif
 *     ===========================================================
       SUBROUTINE Shell_sort_double (array, size_of, key)
 *     ===========================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
@@ -6573,9 +6578,9 @@ c      endif
        subroutine apswim_hmin (deqrain, sstorage)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision deqrain
@@ -6650,8 +6655,9 @@ cnh      end if
        subroutine apswim_freundlich (node, solnum, Cw, Ctot, dCtot)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer node
@@ -6693,9 +6699,9 @@ cnh      end if
      :                                      (node, solnum, Ctot)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer node
@@ -6724,7 +6730,7 @@ cnh      end if
 
 *+  Local Variables
       double precision Cw
-      double precision error
+      double precision error_amount
       integer          iteration
       double precision f
       double precision dfdCw
@@ -6755,12 +6761,12 @@ cnh      end if
 
             call apswim_freundlich (node,solnum,Cw,f,dfdCw)
 
-            error = f - Ctot
-            if (abs(error) .lt. tolerance) then
+            error_amount = f - Ctot
+            if (abs(error_amount) .lt. tolerance) then
                solved = .true.
                goto 200
             else
-               Cw = Cw - ddivide(error,dfdCw,0d0)
+               Cw = Cw - ddivide(error_amount,dfdCw,0d0)
             endif
 
   100    continue
@@ -6788,11 +6794,9 @@ cnh      end if
        subroutine apswim_get_obs_evap_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'             ! Constant definitions
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'postbox.pub'
 
 *+  Purpose
 *      Get the evap values from other modules
@@ -6877,9 +6881,9 @@ cnh      end if
        subroutine apswim_extra_solute_supply ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Purpose
 *      Previous observations seem to imply that crops often take up
@@ -7115,8 +7119,9 @@ cnh      end if
        double precision function apswim_solute_amount (solnum,node)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer solnum
@@ -7167,8 +7172,9 @@ cnh      end if
 * ====================================================================
        double precision function dbound (x,l,u)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision x,l,u
@@ -7202,8 +7208,9 @@ cnh      end if
        double precision function apswim_solute_conc (solnum,node,amount)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer         solnum
@@ -7256,8 +7263,9 @@ cnh      end if
        double precision function apswim_transp_redn (crop_num)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer crop_num
@@ -7330,8 +7338,9 @@ cnh      end if
        double precision function apswim_slupf (crop, solnum)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer crop
@@ -7383,9 +7392,9 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
        subroutine apswim_check_demand ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *     <insert here>
@@ -7460,9 +7469,9 @@ c     :       max(g%solute_demand (crop,solnum) - tpsuptake,0d0)
        subroutine apswim_report_status ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'error.pub'
 
 *+  Purpose
 *   Dump a series of values to output file to be used by users in
@@ -7523,9 +7532,9 @@ c      pause
      :                               ,SWIMNumPairs
      :                               ,SWIMLogSize)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       integer LUNlog
@@ -7648,10 +7657,9 @@ c      pause
      :                                  ,SWIMNumPairs
      :                                  ,SWIMArraySize)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
        double precision amount          ! (mm)
@@ -7793,8 +7801,9 @@ c      pause
      :                                 ,SWIMAmt
      :                                 ,SWIMNumPairs)
 * ====================================================================
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
        double precision time
@@ -7861,11 +7870,9 @@ c      pause
        subroutine apswim_conc_water_solute (solname,conc_water_solute)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       character solname*(*)
@@ -7970,11 +7977,9 @@ c      pause
        subroutine apswim_conc_adsorb_solute (solname,conc_adsorb_solute)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'intrface.pub'
-      include 'error.pub'
-      include 'data.pub'
 
 *+  Sub-Program Arguments
       character solname*(*)
@@ -8092,9 +8097,9 @@ c      pause
      :                           ,flow_flag)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision flow_array(0:p%n+1)
@@ -8160,10 +8165,9 @@ c      pause
        subroutine apswim_diagnostics (pold)
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'
-      include 'data.pub'
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       double precision pold(0:p%n)
@@ -8228,9 +8232,9 @@ c      pause
        subroutine apswim_get_residue_variables ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-       include 'const.inc'             ! Constant definitions
-       include 'intrface.pub'
 
 *+   Purpose
 *      Get the values of residue variables from other modules
@@ -8265,8 +8269,9 @@ c      pause
       double precision function apswim_cover_eos_redn  ()
 * ====================================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Purpose
 *      Calculate reduction in potential soil evaporation
@@ -8332,12 +8337,9 @@ c      pause
       subroutine apswim_on_new_solute ()
 *     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'event.inc'
-      include 'error.pub'
-      include 'data.pub'
-      include 'intrface.pub'
 
 *+  Purpose
 *     Find the owner of any run_solutes
@@ -8401,9 +8403,9 @@ c      pause
       subroutine apswim_ONtick ()
 *     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'error.pub'
-      include 'event.pub'
 
 *+  Purpose
 *     Update internal time record and reset daily state variables.
@@ -8482,10 +8484,9 @@ c      pause
        subroutine apswim_remove_interception ()
 * ====================================================================
       use APSwimModule
-       implicit none
-       include 'const.inc'             ! Constant definitions
-       include 'intrface.pub'
-       include 'error.pub'
+       use Infrastructure
+      Use infrastructure
+      implicit none
 
 *+   Purpose
 *      Remove interception losses from rainfall record
@@ -8511,7 +8512,7 @@ c      pause
 
 
          call get_double_var_optional (
-     :            unknown_module, 
+     :            unknown_module,
      :           'interception',
      :           '(mm)',
      :           intercep,
@@ -8526,8 +8527,8 @@ c      pause
 
       if (intercep.gt.0d0) then
 
-         ! Firstly, find the record for start of rainfall for the 
-         ! current day - ie assume interception cannot come from 
+         ! Firstly, find the record for start of rainfall for the
+         ! current day - ie assume interception cannot come from
          ! rainfall that started before the current day.
 
          time_mins = apswim_time_to_mins (g%apsim_time)
@@ -8541,7 +8542,7 @@ c      pause
             else
             endif
  100     continue
- 101     continue    
+ 101     continue
 
          ! Assume that interception is taken over all rainfall
          ! information given thus far - can do nothing better than this
@@ -8556,7 +8557,7 @@ c      pause
             do 200 counter = start+1, g%SWIMRainNumPairs
                g%SWIMRainAmt(counter) = g%SWIMRainAmt(start)
      :            + (g%SWIMRainAmt(counter)-g%SWIMRainAmt(start))
-     :                 * (1d0 - fraction)             
+     :                 * (1d0 - fraction)
   200       continue
          endif
 
@@ -8571,32 +8572,31 @@ c      pause
       subroutine apswim_New_Profile_Event ()
 *     ===========================================================
       use APSwimModule
+      use Infrastructure
+      Use infrastructure
       implicit none
-      include 'event.inc'
-      include 'error.pub'
-      include 'postbox.pub'
-      include 'data.pub' 
+
 *+  Purpose
 *     Advise other modules of new profile specification
- 
+
 *+  Mission Statement
 *     Advise other modules of new profile specification
- 
+
 *+  Changes
-*        210800 nih 
+*        210800 nih
 
 *+  Local Variables
       double precision dummy(M)
- 
+
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'APSwim_New_Profile_Event')
- 
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
       call new_postbox ()
- 
+
       call post_double_array   (DATA_dlayer
      :                        ,'(mm)'
      :                        , g%dlayer(0)
@@ -8634,9 +8634,9 @@ c      pause
      :                        ,'(g/cc)'
      :                        , p%rhob(0:p%n)
      :                        , p%n+1)
- 
+
       call event_send (EVENT_new_profile)
- 
+
       call delete_postbox ()
 
 

@@ -2,8 +2,15 @@
 Dependency = %licensed_source(canopy)
 
 [Contents]
+ComponentInterface.for = ComponentInterface.for
+datatypesmodule.f90 = datatypesmodule.f90
+canopy.inc = canopy.inc
+canopyscience.for = canopyscience.for
 canopy.for = canopy.for
+
 
 [APSBuild]
 binary = ..\lib\canopy.dll
-moduletype=module
+;compilerFile=debug.compile
+moduletype=croptemplate
+

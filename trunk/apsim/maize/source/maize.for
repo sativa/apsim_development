@@ -6,11 +6,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
       subroutine Maize_water_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option       ! (INPUT) option number
@@ -102,9 +99,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
       subroutine Maize_bio_actual (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -166,11 +162,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
      :        , c_leaf_trans_frac
      :        , dm_green, dm_plant_min)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -249,9 +242,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
       subroutine Maize_bio_grain_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -338,8 +330,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
      :                      , c_temp_grain_crit_stress
      :                      , dlt_tt_heat_stress)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'
 
 *+  Sub-Program Arguments
       real       g_maxt                ! (INPUT) maximum temperature (oC)
@@ -384,10 +376,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
       subroutine Maize_bio_TE (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -436,11 +426,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
       subroutine Maize_bio_partition (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -509,12 +496,8 @@ C     Last change:  E    24 Aug 2001    4:50 pm
      :        , g_dlt_dm_grain_demand
      :        , dlt_dm_green)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -695,12 +678,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :        , g_nfact_grain_conc
      :        , dlt_dm_grain_demand)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'          ! mg2gm
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -836,11 +815,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :        , g_swdef_expansion
      :        , g_nfact_grain_conc)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include    'CropDefCons.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_N_conc_min(*)
@@ -913,10 +889,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
       subroutine Maize_bio_retrans (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -980,11 +954,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
       subroutine Maize_plant_death (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_fail.pub'                      
-      include 'error.pub'                         
-      include 'data.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -1202,12 +1173,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_cswd_pheno(*)
@@ -1270,11 +1237,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1350,9 +1314,8 @@ c scc This effect must cut in a bit, as changing c_sla_min seems to affect thing
      :        , g_plants
      :        , killfr)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1428,9 +1391,8 @@ cSCC/JNGH changed le to lt
      :        , p_head_grain_no_max
      :        , c_barren_crit)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'            ! err_user
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1500,12 +1462,8 @@ cSCC/JNGH changed le to lt
      :        , c_grain_N_conc_min
      :        , grain_num)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include    'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1642,11 +1600,8 @@ c     :                           , 'grain_no_fract')
        subroutine maize_nit_demand_est (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option
@@ -1738,9 +1693,8 @@ c     :                           , 'grain_no_fract')
      :        , g_plants
      :        , killfr)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       c_head_grain_no_crit
@@ -1820,11 +1774,8 @@ c     :                           , 'grain_no_fract')
      :                    , g_plants
      :                    , dlt_plants)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -1896,12 +1847,8 @@ c     :                           , 'grain_no_fract')
       subroutine Maize_leaf_actual(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -1960,10 +1907,8 @@ c     .          interp_sla_max)
       subroutine Maize_leaf_area_potential (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'crp_cnpy.pub'
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) option number
@@ -2050,10 +1995,8 @@ c     .          interp_sla_max)
       subroutine Maize_leaf_area_stressed (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) option number
@@ -2112,11 +2055,8 @@ c     .          interp_sla_max)
      :        , leaf_no_final)
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -2206,10 +2146,8 @@ c     .          interp_sla_max)
       subroutine Maize_leaf_no_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -2256,10 +2194,8 @@ c     .          interp_sla_max)
       subroutine Maize_leaf_area_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -2306,9 +2242,8 @@ c     .          interp_sla_max)
       subroutine Maize_leaf_no_pot (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -2410,11 +2345,8 @@ c     .          interp_sla_max)
      :        , g_swdef_expansion
      :        , dlt_lai_pot)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'convert.inc'
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
@@ -2506,8 +2438,8 @@ c     .          interp_sla_max)
      :        , c_b_slope1
      :        , leaf_no)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       c_x0_const
@@ -2591,11 +2523,8 @@ c     .          interp_sla_max)
      :        , g_dlt_tt
      :        , dlt_leaf_no)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no(*)
@@ -2701,9 +2630,8 @@ cSCC normal leaf app rate
       subroutine Maize_nit_retrans (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -2772,11 +2700,8 @@ cSCC normal leaf app rate
      :        , g_nfact_grain_conc
      :        , dlt_N_retrans)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_dlt_dm_green(*)
@@ -2910,10 +2835,8 @@ csc  true....
       subroutine Maize_nit_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -2981,12 +2904,8 @@ csc  true....
       subroutine Maize_nit_uptake (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'crp_nitn.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -3053,10 +2972,8 @@ csc  true....
       subroutine Maize_nit_stress(Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3119,10 +3036,8 @@ csc  true....
       subroutine Maize_nit_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -3170,12 +3085,8 @@ csc  true....
       subroutine Maize_nit_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'                          
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -3242,9 +3153,8 @@ csc  true....
       subroutine Maize_nit_partition (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -3296,11 +3206,8 @@ csc  true....
      :        , dlt_N_green
      :                     )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'error.pub'                         
-      include 'science.pub'                         
 
 *+  Sub-Program Arguments
       real       g_root_depth
@@ -3395,10 +3302,8 @@ csc  true....
       subroutine Maize_phenology (option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_phen.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    option
@@ -3483,10 +3388,8 @@ c (how do we do this w. TPLA approach?)
       subroutine Maize_height (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -3535,9 +3438,8 @@ c (how do we do this w. TPLA approach?)
       subroutine Maize_phenology_init (option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    option
@@ -3622,11 +3524,8 @@ c (how do we do this w. TPLA approach?)
      :        , p_tt_maturity_to_ripe
      :        , phase_tt)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'data.pub'
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -3790,9 +3689,8 @@ cjh
       subroutine Maize_leaf_area_sen_actual (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -3838,9 +3736,8 @@ cjh
       subroutine Maize_leaf_death (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -3895,11 +3792,8 @@ cjh
      :        , g_days_tot
      :        , dlt_leaf_no_dead)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       real       g_leaf_no_dead(*)
@@ -3968,10 +3862,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_sen_bio (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4022,10 +3914,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_sen_nit (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_nitn.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4071,10 +3961,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_leaf_area_sen (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_cnpy.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4144,10 +4032,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_root_depth (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4199,10 +4085,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_water_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4255,10 +4139,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_water_demand (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4302,13 +4184,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_water_uptake (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'science.pub'                       
-      include 'data.pub'                          
-      include 'crp_watr.pub'                      
-      include 'crp_comm.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4390,10 +4267,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_light_supply (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_util.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4435,10 +4310,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_transpiration_eff (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include     'const.inc'
-      include 'crp_watr.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4487,10 +4360,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_bio_RUE (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_biom.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4537,10 +4408,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_temp_stress (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_temp.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option         ! (INPUT) option number
@@ -4585,10 +4454,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine maize_sen_root_length (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4636,10 +4503,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine maize_root_dist (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -4700,10 +4565,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_root_depth_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4761,10 +4624,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_root_length_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'crp_root.pub'                      
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4813,12 +4674,8 @@ cpsc need to develop leaf senescence functions for crop
       subroutine Maize_P_uptake (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'convert.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'intrface.pub'                      
 
 *+  Sub-Program Arguments
       integer    Option                   ! (INPUT) template option number
@@ -4886,12 +4743,8 @@ cpsc need to develop leaf senescence functions for crop
      :        , P_conc_max
      :        , P_conc_min)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'CropDefCons.inc'
-      include 'science.pub'
-      include 'data.pub'                          
-      include 'error.pub'                         
-      include 'crp_phen.pub'                      
 
 *+  Sub-Program Arguments
       real       g_current_stage
@@ -4980,10 +4833,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :              , pfact
      :               )
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       REAL       G_dm_green(*)    ! (INPUT)  live plant biomass (g/m2)
@@ -5048,9 +4899,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       subroutine maize_p_stress_photo (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5095,9 +4945,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       subroutine maize_p_stress_pheno (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5142,9 +4991,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       subroutine maize_p_stress_expansion (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'                         
  
 *+  Purpose
 *         Get current P stress factors for cell expansion(0-1)
@@ -5193,6 +5041,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 *         Get current P stress factors (0-1)
  
       use CropModModule
+      Use infrastructure
       implicit none
 
 *+  Purpose
@@ -5205,8 +5054,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       integer    Option                ! (INPUT) option number
  
 *   Global variables
-      include   'const.inc'
-      include 'error.pub'                         
  
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -5246,9 +5093,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
        subroutine maize_P_demand_est (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option
@@ -5307,9 +5153,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_P_demand)
  
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'error.pub'                         
 
 *+  Purpose
 *     Calculate the plant p demand
@@ -5378,9 +5223,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
        subroutine maize_P_conc (Option)
 * ====================================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include 'const.inc'
-      include 'error.pub'                         
  
 *+  Sub-Program Arguments
       integer    Option
@@ -5421,9 +5265,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       subroutine Maize_Phos_init (Option)
 *     ===========================================================
       use CropModModule
+      Use infrastructure
       implicit none
-      include   'const.inc'
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    Option                ! (INPUT) option number
@@ -5473,10 +5316,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_p_conc_max
      :        , g_plant_p)
 *     ===========================================================
+      Use infrastructure
       implicit none
-      include 'data.pub'                          
-      include 'science.pub'                       
-      include 'error.pub'                         
 
 *+  Sub-Program Arguments
       integer    init_stage
