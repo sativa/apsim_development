@@ -24,6 +24,7 @@
 !   Global variables
 !     ================================================================
       type SoilTGlobals
+      sequence
 
       real       maxt                  ! maximum air temperature (oC)
       real       mint                  ! minimum air temperature (oC)
@@ -40,193 +41,37 @@
       end type SoilTGlobals
 !     ================================================================
       type SoilTParameters
+      sequence
       logical   dummy_parameter
 
       end type SoilTParameters
 !     ================================================================
       type SoilTConstants
+      sequence
       logical   dummy_Constantr
 
       end type SoilTConstants
 !     ================================================================
       type SoilTExternals
+      sequence
       logical   dummy_External
 
       end type SoilTExternals
 !     ================================================================
-         ! instance variables.
 
-      type (SoilTGlobals), pointer :: g
-      type (SoilTExternals), pointer :: e
-      type (SoilTParameters), pointer :: p
-      type (SoilTConstants), pointer :: c
-
-      save g
-      save e
-      save p
-      save c
-
-      integer MAX_NUM_INSTANCES
-      parameter (MAX_NUM_INSTANCES=10)
-
-      integer MAX_INSTANCE_NAME_SIZE
-      parameter (MAX_INSTANCE_NAME_SIZE=50)
-
-      type SoilTDataPtr
-         type (SoilTGlobals), pointer ::    gptr
-         type (SoilTExternals), pointer ::  eptr
-         type (SoilTParameters), pointer :: pptr
-         type (SoilTConstants), pointer ::  cptr
-         character Name*(MAX_INSTANCE_NAME_SIZE)
-      end type SoilTDataPtr
-
-      type (SoilTDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
-      save Instances
+      ! instance variables.
+      common /InstancePointers/ ID,g,p,c,e
+      save InstancePointers
+      type (SoilTGlobals),pointer :: g
+      type (SoilTParameters),pointer :: p
+      type (SoilTConstants),pointer :: c
+      type (SoilTExternals),pointer :: e
 
       contains
 
 
 
 
- !     ===========================================================
-      Recursive
-     :Subroutine AllocInstance (InstanceName, InstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
- !+  Sub-Program Arguments
-      character InstanceName*(*)       ! (INPUT) name of instance
-      integer   InstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Module instantiation routine.
-
- !- Implementation Section ----------------------------------
-
-      allocate (Instances(InstanceNo)%gptr)
-      allocate (Instances(InstanceNo)%eptr)
-      allocate (Instances(InstanceNo)%pptr)
-      allocate (Instances(InstanceNo)%cptr)
-      Instances(InstanceNo)%Name = InstanceName
-
-      return
-      end subroutine
-
- !     ===========================================================
-      Recursive
-     :Subroutine FreeInstance (anInstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
- !+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Module de-instantiation routine.
-
- !- Implementation Section ----------------------------------
-
-      deallocate (Instances(anInstanceNo)%gptr)
-      deallocate (Instances(anInstanceNo)%eptr)
-      deallocate (Instances(anInstanceNo)%pptr)
-      deallocate (Instances(anInstanceNo)%cptr)
-
-      return
-      end subroutine
-
- !     ===========================================================
-      Recursive
-     :Subroutine SwapInstance (anInstanceNo)
- !     ===========================================================
-      Use infrastructure
-      implicit none
-
- !+  Sub-Program Arguments
-      integer anInstanceNo             ! (INPUT) instance number to allocate
-
- !+  Purpose
- !      Swap an instance into the global 'g' pointer
-
- !- Implementation Section ----------------------------------
-
-      g => Instances(anInstanceNo)%gptr
-      e => Instances(anInstanceNo)%eptr
-      p => Instances(anInstanceNo)%pptr
-      c => Instances(anInstanceNo)%cptr
-
-      return
-      end subroutine
-
-
-* ====================================================================
-      Recursive
-     :Subroutine Main (action, data_string)
-* ====================================================================
-      Use infrastructure
-      implicit none
-
-*+  Sub-Program Arguments
-      character Action*(*)            ! Message action to perform
-      character data_string*(*)
-
-*+  Purpose
-*      This routine is the interface between the main system and the
-*      soilt module.
-
-*+  Changes
-*      psc - 300595
-*      011195 jngh  added call to message_unused
-
-*+  Constant Values
-      character  myname*(*)            ! name of subroutine
-      parameter (myname = 'apsim_soilt')
-
-*- Implementation Section ----------------------------------
-      call push_routine(myname)
-
-      if (Action.eq.ACTION_init) then
-         call soilt_zero_variables ()
-         call soilt_Init ()
-
-      else if (Action .eq. ACTION_prepare) then
-         call soilt_prepare ()
-
-      else if (Action.eq.ACTION_Process) then
-         if (g%Zero_variables) then
-            call soilt_zero_variables()
-            call soilt_init()
-
-         else
-            ! No need to zero variables.
-         endif
-
-         call soilt_get_other_variables ()
-         call soilt_Process ()
-         call soilt_set_other_variables ()
-
-      else if (Action .eq. ACTION_Post) then
-         call soilt_post ()
-
-      else if (Action.eq.ACTION_Get_variable) then
-         call soilt_Send_my_variable (data_string)
-
-      else if (Action .eq. ACTION_Set_variable) then
-         call soilt_set_my_variable (data_string)
-
-      else if (Action .eq. ACTION_End_run) then
-         call soilt_end_run ()
-
-      else
-            ! Don't use message
-         call Message_unused ()
-
-      endif
-
-      call pop_routine(myname)
-      return
-      end subroutine
 
 * ====================================================================
       Recursive
@@ -1094,3 +939,102 @@ c     endif
       end subroutine
 
       end module SoilTModule
+
+!     ===========================================================
+      subroutine alloc_dealloc_instance(doAllocate)
+!     ===========================================================
+      use SoilTModule
+      implicit none  
+      ml_external alloc_dealloc_instance
+
+!+  Sub-Program Arguments
+      logical, intent(in) :: doAllocate
+
+!+  Purpose
+!      Module instantiation routine.
+
+!- Implementation Section ----------------------------------
+
+      if (doAllocate) then
+         allocate(g)
+         allocate(p)
+         allocate(c)
+      else
+         deallocate(g)
+         deallocate(p)
+         deallocate(c)
+      end if
+      return
+      end subroutine
+
+
+
+* ====================================================================
+      Recursive
+     :Subroutine Main (action, data_string)
+* ====================================================================
+      Use infrastructure
+      implicit none
+      ml_external Main
+
+*+  Sub-Program Arguments
+      character Action*(*)            ! Message action to perform
+      character data_string*(*)
+
+*+  Purpose
+*      This routine is the interface between the main system and the
+*      soilt module.
+
+*+  Changes
+*      psc - 300595
+*      011195 jngh  added call to message_unused
+
+*+  Constant Values
+      character  myname*(*)            ! name of subroutine
+      parameter (myname = 'apsim_soilt')
+
+*- Implementation Section ----------------------------------
+      call push_routine(myname)
+
+      if (Action.eq.ACTION_init) then
+         call soilt_zero_variables ()
+         call soilt_Init ()
+
+      else if (Action .eq. ACTION_prepare) then
+         call soilt_prepare ()
+
+      else if (Action.eq.ACTION_Process) then
+         if (g%Zero_variables) then
+            call soilt_zero_variables()
+            call soilt_init()
+
+         else
+            ! No need to zero variables.
+         endif
+
+         call soilt_get_other_variables ()
+         call soilt_Process ()
+         call soilt_set_other_variables ()
+
+      else if (Action .eq. ACTION_Post) then
+         call soilt_post ()
+
+      else if (Action.eq.ACTION_Get_variable) then
+         call soilt_Send_my_variable (data_string)
+
+      else if (Action .eq. ACTION_Set_variable) then
+         call soilt_set_my_variable (data_string)
+
+      else if (Action .eq. ACTION_End_run) then
+         call soilt_end_run ()
+
+      else
+            ! Don't use message
+         call Message_unused ()
+
+      endif
+
+      call pop_routine(myname)
+      return
+      end subroutine
+
