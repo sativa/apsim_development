@@ -132,6 +132,7 @@ void TExcel::storeRecords(void) throw(runtime_error)
       ExcelApp->Quit();
       ExcelApp->Disconnect();
       delete ExcelApp;
+      Sleep(1000);
       }
    }
 // ------------------------------------------------------------------
