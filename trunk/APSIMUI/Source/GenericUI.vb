@@ -178,9 +178,15 @@ Public Class GenericUI
                 row.BeginEdit()
                 row.Cells(0).Value = Prop.Name
                 row.Cells(1).Value = Prop.Value
-                Dim Editor As CustomEditor = CreateCustomEditorForColumn(Prop)
+                Dim Editor As CustomEditor
+                Dim DefaultText As String
+                CreateCustomEditorForColumn(Prop, Editor, DefaultText)
                 If Not IsNothing(Editor) Then
                     row.Cells(1).CellEditor = Editor
+                    If row.Cells(1).Value = "" Then
+                        row.Cells(1).Value = DefaultText
+                        Prop.Value = DefaultText
+                    End If
                 End If
                 AddHandler row.Cells(1).LeavingEdit, AddressOf Me.CellLeavingEdit
 
@@ -203,17 +209,19 @@ Public Class GenericUI
     ' --------------------------------
     ' Set the type of a grid column
     ' --------------------------------
-    Shared Function CreateCustomEditorForColumn(ByVal Prop As APSIMData) As CustomEditor
+    Shared Sub CreateCustomEditorForColumn(ByVal Prop As APSIMData, _
+                                           ByRef Editor As CustomEditor, _
+                                           ByRef DefaultText As String)
+        DefaultText = ""
         If Prop.Attribute("type") = "yesno" Then
             Dim CheckCombo As New ComboBox
             CheckCombo.Items.Add("yes")
             CheckCombo.Items.Add("no")
-            Return New CustomEditor(CheckCombo, "Text", True)
+            Editor = New CustomEditor(CheckCombo, "Text", True)
         ElseIf Prop.Attribute("type") = "date" Then
             Dim DateEditor As New DateTimePicker
             DateEditor.Format = DateTimePickerFormat.Short
-
-            Return New CustomEditor(DateEditor, "Text", True)
+            Editor = New CustomEditor(DateEditor, "Text", True)
         ElseIf Prop.Attribute("type") = "list" Then
             Dim CheckCombo As New ComboBox
             Dim Values() As String = Prop.Attribute("listvalues").Split(",")
@@ -221,7 +229,7 @@ Public Class GenericUI
                 Value = Value.Trim
                 CheckCombo.Items.Add(Value)
             Next
-            Return New CustomEditor(CheckCombo, "Text", True)
+            Editor = New CustomEditor(CheckCombo, "Text", True)
         ElseIf Prop.Attribute("type") = "modulename" Then
             Dim CheckCombo As New ComboBox
             Dim Values As StringCollection = GetMatchingModuleNames(Prop)
@@ -229,15 +237,18 @@ Public Class GenericUI
                 Value = Value.Trim
                 CheckCombo.Items.Add(Value)
             Next
-            Return New CustomEditor(CheckCombo, "Text", True)
+            Editor = New CustomEditor(CheckCombo, "Text", True)
+            If CheckCombo.Items.Count > 0 Then
+                DefaultText = CheckCombo.Items.Item(0)
+            End If
         ElseIf Prop.Attribute("type") = "cultivars" Then
             Dim CultivarCombo As New ComboBox
             CultivarCombo.Name = Prop.Name
-            Return New CustomEditor(CultivarCombo, "Text", True)
+            Editor = New CustomEditor(CultivarCombo, "Text", True)
         Else
-            Return Nothing
+            Editor = Nothing
         End If
-    End Function
+    End Sub
 
 
     ' ------------------------------------------------------------------
@@ -246,7 +257,7 @@ Public Class GenericUI
     Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As StringCollection
         Dim Values As New StringCollection
         Dim System As APSIMData = Prop.Parent
-        While System.Type <> "simulation" And Not IsNothing(System.Parent)
+        While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
             System = System.Parent
         End While
 

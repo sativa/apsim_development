@@ -467,6 +467,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "StartupUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StartupUI.resx"
+                    DependentUpon = "StartupUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "SwimSoilUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"

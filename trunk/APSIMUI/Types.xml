@@ -13,6 +13,54 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ Paddock ################ [endcomment]
+         <system name="[area.name]" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+            [foreach area.outputfile][insert outputfile][endfor]
+            [foreach area.micromet][insert micromet][endfor]
+            [foreach area.logic][insert logic][endfor]
+            [foreach area.manager][insert manager][endfor]
+            [foreach area.irrigation][insert irrigation][endfor]
+            [foreach area.fertiliser][insert fertiliser][endfor]
+            [foreach area.surfaceom][insert surfaceom][endfor]
+            [foreach area.soil][insert soil][endfor]
+
+            [foreach area.bambatsi as plant][insert bambatsi][endfor]
+            [foreach area.canola as plant][insert canola][endfor]
+            [foreach area.chickpea as plant][insert chickpea][endfor]
+            [foreach area.cowpea as plant][insert cowpea][endfor]
+            [foreach area.egrandis as plant][insert egrandis][endfor]
+            [foreach area.fababean as plant][insert fababean][endfor]
+            [foreach area.fieldpea as plant][insert fieldpea][endfor]
+            [foreach area.lablab as plant][insert lablab][endfor]
+            [foreach area.lucerne as plant][insert lucerne][endfor]
+            [foreach area.lupin as plant][insert lupin][endfor]
+            [foreach area.maize as plant][insert maize][endfor]
+            [foreach area.mucuna as plant][insert mucuna][endfor]
+            [foreach area.mungbean as plant][insert mungbean][endfor]
+            [foreach area.navybean as plant][insert navybean][endfor]
+            [foreach area.ozcot as plant][insert ozcot][endfor]
+            [foreach area.peanut as plant][insert peanut][endfor]
+            [foreach area.pigeonpea as plant][insert pigeonpea][endfor]
+            [foreach area.sorghum as plant][insert sorghum][endfor]
+            [foreach area.soybean as plant][insert soybean][endfor]
+            [foreach area.stylo as plant][insert stylo][endfor]
+            [foreach area.sugar as plant][insert sugar][endfor]
+            [foreach area.sunflower as plant][insert sunflower][endfor]
+            [foreach area.weed as plant][insert weed][endfor]
+            [foreach area.wheat as plant][insert wheat][endfor]
+            [foreach area.root][insert root][endfor]
+            [foreach area.slurp][insert slurp][endfor]
+            [foreach area.stock][insert stock][endfor]
+            [foreach area.StockScienceConverter as converter][insert StockScienceConverter][endfor]
+            [foreach area.vinelogic as v1][insert vinelogic][endfor]
+            [foreach area.stream][insert stream][endfor]
+
+            [foreach area.registrations][insert registrations][endfor]
+         </system>
+         ]]>
+     </SimMacro>
    </area>
    <registrations>
       <UItype>generic</UItype>
@@ -39,6 +87,61 @@
          <event name="post" description="End of daily simulation time step"/>
          <event name="newmet" description="Event indicating change in meteorological data"/>
       </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ Registrations ################ [endcomment]
+         <registrations>
+            <event name="summaryFileWrite" type="summaryFileWrite"/>
+            <event name="error" type="string"/>
+            <event name="NotifyTermination" type="string"/>
+            <event name="gimme_water" type="string"/>
+
+            <respondToEvent name="tick" type="time"/>
+            <respondToEvent name="newmet" type="newmet"/>
+            <respondToEvent name="prepare" type="prepare"/>
+            <respondToEvent name="process" type="process"/>
+            <respondToEvent name="post" type="post"/>
+            <respondToEvent name="end_week" type="null"/>
+            <respondToEvent name="end_month" type="null"/>
+            <respondToEvent name="end_year" type="null"/>
+            <respondToEvent name="water_supplied" type="null"/>
+            <respondToEvent name="irrigate" type="null"/>
+            <respondToEvent name="sow" type="null"/>
+
+            <get name="today" type="integer4"/>
+            <get name="day" type="integer4"/>
+            <get name="year" type="integer4"/>
+            <get name="dd/mm/yyyy" type="string"/>
+            <get name="rain" type="single"/>
+            <get name="radn" type="single"/>
+            <get name="maxt" type="single"/>
+            <get name="mint" type="single"/>
+            <get name="latitude" type="single"/>
+            <get name="tav" type="single"/>
+            <get name="amp" type="single"/>
+            <get name="co2" type="single"/>
+
+            <respondToGet name="streamflow" type="single"/>
+            <respondToGet name="root_sw_uptake_vol" type="single"/>
+            <respondToGet name="root_sw_supply_vol" type="single"/>
+            <respondToGet name="sw_dep" array = "T" type="single"/>
+            <respondToGet name="ll15_dep" array = "T" type="single"/>
+            <respondToGet name="dul_dep" array = "T" type="single"/>
+            <respondToGet name="sat_dep" array = "T" type="single"/>
+            <respondToGet name="sw" array = "T" type="single"/>
+            <respondToGet name="lai" array = "F" type="single"/>
+            <respondToGet name="istage" array = "F" type="integer4"/>
+
+            <respondToSet name="root_sw_demand_vol" type="single"/>
+         </registrations>
+         <types>
+            <type name="summaryFileWrite">
+               <field name="componentName" kind="string"/>
+               <field name="lines" kind="string"/>
+            </type>
+         </types>
+         ]]>
+      </SimMacro>
    </registrations>
 
    <variables>
@@ -68,6 +171,47 @@
          <drop name="toolbox"/>
          <drop name="simulations"/>
      </drops>
+     <SimMacro>
+         <![CDATA[
+         [foreach simulations.simulation as sim]
+         [file [sim.name].sim]
+         <Simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+            <title>[sim.name]</title>
+            [comment] ################ screen ################ [endcomment]
+            [foreach sim.summaryfile][insert summaryfile][endfor]
+            <component name="Screen" executable="%apsuite\apsim\Screen\lib\Screen.dll">
+               <initdata>
+                  <parameters name="test">
+                     <property name="screen_output">on</property>
+                  </parameters>
+               </initdata>
+            </component>
+            [foreach sim.log][insert log][endfor]
+            [foreach sim.clock][insert clock][endfor]
+            [foreach sim.metfile][insert metfile][endfor]
+            [foreach sim.micromet][insert micromet][endfor]
+            [foreach sim.soi][insert soi][endfor]
+            [foreach sim.outputfile][insert outputfile][endfor]
+            [foreach sim.logic][insert logic][endfor]
+            [foreach sim.spaceslurp][insert spaceslurp][endfor]
+            [foreach sim.area][insert area][endfor]
+            [foreach sim.stream][insert stream][endfor]
+            [foreach sim.WaterSupply][insert WaterSupply][endfor]
+
+            [comment] ################ vinelogic specific files ################ [endcomment]
+            [comment] Iterate through all vinelogics in the simulation, making an input file for each one [endcomment]
+            [foreach sim.area as a]
+            [foreach a.vinelogic as vl]
+            [file [vl.name][vl.instance].inp]
+            [vl.data]
+            [endfile]
+            [endfor]
+            [endfor]
+         </Simulation>
+         [endfile]
+         [endfor]
+         ]]>
+     </SimMacro>
    </simulation>
    <clock>
       <UItype>generic</UItype>
@@ -95,6 +239,20 @@
          <event name="prepare" description="Start of daily simulation time step"/>
          <event name="post" description="End of daily simulation time step"/>
       </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ clock ################ [endcomment]
+         <component name="[clock.name]" executable="%apsuite\apsim\clock\lib\clock.dll">
+            <initdata>
+               <include>%apsuite\apsim\clock\clock.ini</include>
+               <parameters name="test">
+                  <property name="start_date">[clock.start_date]</property>
+                  <property name="end_date">[clock.end_date]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+     </SimMacro>
    </clock>
    <summaryfile>
       <UItype>file</UItype>
@@ -107,6 +265,18 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ summaryfile ################ [endcomment]
+         <component name="[summaryfile.name]" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
+            <initdata>
+               <parameters name="test">
+                  <property name="summaryfile">[summaryfile.filename]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+     </SimMacro>
    </summaryfile>
    <outputfile>
       <UItype>file</UItype>
@@ -121,6 +291,33 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ outputfile ################ [endcomment]
+         <component name="[outputfile.name]" executable="%apsuite\apsim\report\lib\report.dll">
+            <initdata>
+               <parameters name="general">
+                  <property name="outputfile">[outputfile.filename]</property>
+                  <property name="outputfrequency">[foreach outputfile.outputfiledescription as desc][foreach desc.events][foreach events.event as e][if "[e.module]" = "Data outside paddock"][e.eventname][else][e.name][endif] [endfor][endfor][endfor]</property>
+               </parameters>
+               <variables>
+               [foreach outputfile.outputfiledescription as desc]
+               [foreach desc.variables as vars]
+               [foreach vars.variable as var]
+               [if "[var.module]" = "registrations"]
+               <variable>[var.variablename][var.arrayspec] as [var.name]</variable>
+               [else]
+               <variable>[var.module].[var.variablename][var.arrayspec] as [var.name]</variable>
+               [endif]
+               [endfor]
+               [endfor]
+               [endfor]
+               </variables>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+
    </outputfile>
    <metfile>
       <UItype>met</UItype>
@@ -141,6 +338,19 @@
          <variable name="rain" description="Rainfall (mm)"/>
          <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
       </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ metfile ################ [endcomment]
+         <component name="[metfile.name]" executable="%apsuite\apsim\input\lib\input.dll">
+            <initdata>
+               <parameters name="file">
+                  <property name="filename">[metfile.filename]</property>
+               </parameters>
+            </initdata>
+         </component>
+         [foreach metfile.climatechange as cc][insert climatechange][endfor]
+         ]]>
+     </SimMacro>
    </metfile>
    <logic>
       <UItype>logic</UItype>
@@ -155,6 +365,20 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ logic ################ [endcomment]
+         <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+         <initdata>
+            <rules>
+               <rule name="sample.init" condition="init"><![CDATA[[logic.init]]]&gt;</rule>
+               <rule name="sample.end_of_day" condition="end_of_day"><![CDATA[[logic.endofday]]]&gt;</rule>
+               <rule name="sample.start_of_day" condition="start_of_day"><![CDATA[[logic.startofday]]]&gt;</rule>
+            </rules>
+         </initdata>
+         </component>
+         ]]>
+     </SimMacro>
    </logic>
    <irrigation>
       <UItype>generic</UItype>
@@ -178,6 +402,21 @@
          <variable name="irr_fasw" description="Irrigation fraction of available soil water (0-1)"/>
          <variable name="irr_deficit" description="Water deficit within the critical irrigation soil depth (mm)"/>
       </variables>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ irrigation ################ [endcomment]
+         <component name="[irrigation.name]" executable="%apsuite\apsim\irrigate\lib\irrigate.dll">
+            <initdata>
+               <parameters name="sample">
+                 <property name="automatic_irrigation">[irrigation.automatic_irrigation]</property>
+                 <property name="asw_depth">[irrigation.asw_depth]</property>
+                 <property name="crit_fr_asw">[irrigation.crit_fr_asw]</property>
+                 <property name="irrigation_efficiency">[irrigation.irrigation_efficiency]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </irrigation>
    <fertiliser>
       <UItype>empty</UItype>
@@ -196,6 +435,18 @@
       <variables module="fertiliz">
          <variable name="fertilizer" description="Amount of fertilizer applied (kg/ha)"/>
       </variables>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ fertiliser ################ [endcomment]
+         <component name="[fertiliser.name]" executable="%apsuite\apsim\fertiliz\lib\fertiliz.dll">
+            <initdata>
+               <include>%apsuite\apsim\fertiliz\fertiliz.ini</include>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+
+
    </fertiliser>
    <soil>
       <UItype>soil</UItype>
@@ -254,6 +505,74 @@
          <variable name="water_table" description="Water table depth (mm)"/>
          <variable name="infiltration" description="Infiltration (mm)"/>
       </variables>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ Soil ################ [endcomment]
+         [foreach soil.Water as w]
+         <component name="[soil.name] Water" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
+            <initdata>
+               <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
+               <parameters name="black_earth">
+                  [foreach soil.InitWater as initwater]
+
+                  [foreach initwater.layeredmethod as layer]
+                     <property name="sw">[foreach layer.sw][sw.innerxml] [endfor]</property>
+                  [endfor]
+                  [foreach initwater.percentmethod as p]
+                     [if ([p.distributed] = "filled from top")]
+                        <property name="profile_fesw">[p.percent]</property>
+                     [else]
+                        <property name="insoil">[p.percent]</property>
+                     [endif]
+                  [endfor]
+                  [foreach initwater.depthwetsoilmethod as depthwetsoil]
+                     <property name="wet_soil_depth">[depthwetsoil.depth]</property>
+                  [endfor]
+
+                  [endfor]
+                  <property name="diffus_const">[w.DiffusConst]</property>
+                  <property name="diffus_slope">[w.DiffusSlope]</property>
+                  <property name="cn2_bare">[w.Cn2Bare]</property>
+                  <property name="cn_red">[w.CnRed]</property>
+                  <property name="cn_cov">[w.CnCov]</property>
+                  <property name="salb">[w.Salb]</property>
+                  <property name="cona">[w.Cona]</property>
+                  <property name="u">[w.U]</property>
+                  <property name="dlayer"> [foreach w.layer as l][l.thickness] [endfor] </property>
+                  <property name="sat">[foreach w.layer as l][l.sat] [endfor]</property>
+                  <property name="dul">[foreach w.layer as l][l.dul] [endfor]</property>
+                  <property name="ll15">[foreach w.layer as l][l.ll15] [endfor]</property>
+                  <property name="air_dry">[foreach w.layer as l][l.airdry] [endfor]</property>
+                  <property name="swcon">[foreach w.layer as l][l.swcon] [endfor]</property>
+                  <property name="bd">[foreach w.layer as l][l.bd] [endfor]</property>
+               </parameters>
+            </initdata>
+         </component>
+         [endfor]
+         [foreach soil.Nitrogen as n]
+         <component name="[soil.name] Nitrogen" executable="%apsuite\apsim\soiln2\lib\soiln2.dll">
+            <initdata>
+               <include>%apsuite\apsim\soiln2\soiln2.ini</include>
+               <parameters name="black_earth">
+                  <property name="root_cn">20.</property>
+                  <property name="root_wt">1000.</property>
+                  <property name="soil_cn">14.5</property>
+                  <property name="oc">[foreach n.layer as l] [l.oc][endfor]</property>
+                  <property name="ph">[foreach n.layer as l] [l.ph][endfor]</property>
+                  <property name="fbiom">[foreach n.layer as l] [l.fbiom][endfor]</property>
+                  <property name="finert">[foreach n.layer as l] [l.finert][endfor]</property>
+                  <property name="no3ppm">[foreach n.layer as l] [l.no3][endfor]</property>
+                  <property name="nh4ppm">[foreach n.layer as l] [l.nh4][endfor]</property>
+                  <property name="ureappm">0  0    0    0    0    0    0</property>
+                  <property name="enr_a_coeff">7.4</property>
+                  <property name="enr_b_coeff">0.2</property>
+                  <property name="profile_reduction">off</property>
+               </parameters>
+            </initdata>
+         </component>
+         [endfor]
+         ]]>
+      </SimMacro>
    </soil>
    <InitWater>
       <UItype>initwater</UItype>
@@ -314,6 +633,19 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ log ################ [endcomment]
+         <component name="[log.name]" executable="%apsuite\apsim\log\lib\log.dll">
+            <initdata>
+               <parameters name="test">
+                  <property name="debug_output">[log.debugoutput]</property>
+                  <property name="logfile">[log.filename]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </log>
    <micromet>
       <UItype>generic</UItype>
@@ -327,7 +659,47 @@
          <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
-     </drops>
+      </drops>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ Micromet ################ [endcomment]
+         <component name="[micromet.name]" executable="%apsuite\apsim\micromet\lib\micromet.dll">
+            <initdata>
+               <include>%apsuite\apsim\micromet\micromet.ini</include>
+               <base_class name="standard">
+                  <property name="albedo">0.15</property>
+                  <property name="gsmax">0.010</property>
+                  <property name="r50">200</property>
+                  <property name="emissivity">0.96</property>
+               </base_class>
+               <crop name="standard">
+                  <property name="albedo">0.26</property>
+                  <property name="gsmax">0.011</property>
+               </crop>
+               <grass name="standard">
+                  <property name="albedo">0.23</property>
+                  <property name="gsmax">0.010</property>
+               </grass>
+               <c4grass name="standard">
+                  <property name="albedo">0.23</property>
+                  <property name="gsmax">0.015</property>
+                  <property name="r50">150</property>
+               </c4grass>
+               <tree name="standard">
+                  <property name="albedo">0.15</property>
+                  <property name="gsmax">0.005</property>
+               </tree>
+               <parameters name="sample">
+                  <property name="soil_albedo">[micromet.soilalbedo]</property>
+                  <property name="a_interception">[micromet.a_interception]</property>
+                  <property name="b_interception">[micromet.b_interception]</property>
+                  <property name="c_interception">[micromet.c_interception]</property>
+                  <property name="d_interception">[micromet.d_interception]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </micromet>
    <stock>
       <UItype>generic</UItype>
@@ -344,6 +716,31 @@
          <drop name="folder"/>
      </drops>
      <variables link="stock.xml"/>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ Stock ################ [endcomment]
+         <component name="[stock.name]" executable="%apsuite\apsim\stock\lib\stock.dll">
+          <executable>"%apsuite\apsim\stock\lib\stock.dll"</executable>
+            <initdata>
+               <![CDATA[
+                 <initsection>
+                   <init name="published_events" array="T"></init>
+                   <init name="driver_connections" array="T"></init>
+                   <init name="breed" kind="string"><val>[stock.breed]</val></init>
+                   <init name="death_rate" kind="double" unit="/y"><val>[stock.death_rate]</val></init>
+                   <init name="[stock.type]" array="T">
+                     <element>
+                       <field name="number" kind="integer4">
+                         <val>0</val>
+                       </field>
+                     </element>
+                   </init>
+                 </initsection>
+               ]]&gt;
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </stock>
    <StockScienceConverter>
       <UItype>generic</UItype>
@@ -361,6 +758,78 @@
          <variable name="dm_feed_on_offer" description="Dry matter of feed on offer (kg/ha)"/>
          <variable name="dm_feed_removed" description="Dry matter of feed removed (kg/ha)"/>
       </variables>
+      <SimMacro>
+         <![CDATA[
+         [comment] ################ StockScienceConverter ################ [endcomment]
+         <component name="[converter.name]" executable="%apsuite\apsim\stock\lib\stockscienceconverter.dll">
+            <initdata>
+               <parameters name="standard">
+                  <property name="herbage_module_name">[converter.herbage_module_name]</property>
+                  <property name="debug">[converter.debug]</property>
+
+               </parameters>
+               <[converter.herbage_module_name] name="standard">
+                  <property name="dmdValue">[converter.dmdValue]</property>
+
+                  <property name="p_conc_green_leaf_default">[converter.p_conc_green_leaf_default]</property>
+                  <property name="p_conc_green_stem_default">[converter.p_conc_green_stem_default]</property>
+                  <property name="p_conc_senesced_leaf_default">[converter.p_conc_senesced_leaf_default]</property>
+                  <property name="p_conc_senesced_stem_default">[converter.p_conc_senesced_stem_default]</property>
+                  <property name="p_conc_dead_leaf_default">[converter.p_conc_dead_leaf_default]</property>
+                  <property name="p_conc_dead_stem_default">[converter.p_conc_dead_stem_default]</property>
+
+                  <property name="ash_alk_green_leaf_default">[converter.ash_alk_green_leaf_default]</property>
+                  <property name="ash_alk_green_stem_default">[converter.ash_alk_green_stem_default]</property>
+                  <property name="ash_alk_senesced_leaf_default">[converter.ash_alk_senesced_leaf_default]</property>
+                  <property name="ash_alk_senesced_stem_default">[converter.ash_alk_senesced_stem_default]</property>
+                  <property name="ash_alk_dead_leaf_default">[converter.ash_alk_dead_leaf_default]</property>
+                  <property name="ash_alk_dead_stem_default">[converter.ash_alk_dead_stem_default]</property>
+
+                  <property name="ns_ratio_green_leaf_default">[converter.ns_ratio_green_leaf_default]</property>
+                  <property name="ns_ratio_green_stem_default">[converter.ns_ratio_green_stem_default]</property>
+                  <property name="ns_ratio_senesced_leaf_default">[converter.ns_ratio_senesced_leaf_default]</property>
+                  <property name="ns_ratio_senesced_stem_default">[converter.ns_ratio_senesced_stem_default]</property>
+                  <property name="ns_ratio_dead_leaf_default">[converter.ns_ratio_dead_leaf_default]</property>
+                  <property name="ns_ratio_dead_stem_default">[converter.ns_ratio_dead_stem_default]</property>
+
+                  <property name="np_ratio_green_leaf_default">[converter.np_ratio_green_leaf_default]</property>
+                  <property name="np_ratio_green_stem_default">[converter.np_ratio_green_stem_default]</property>
+                  <property name="np_ratio_senesced_leaf_default">[converter.np_ratio_senesced_leaf_default]</property>
+                  <property name="np_ratio_senesced_stem_default">[converter.np_ratio_senesced_stem_default]</property>
+                  <property name="np_ratio_dead_leaf_default">[converter.np_ratio_dead_leaf_default]</property>
+                  <property name="np_ratio_dead_stem_default">[converter.np_ratio_dead_stem_default]</property>
+
+                  <property name="dmd_green_leaf">[converter.dmd_green_leaf]</property>
+                  <property name="dmd_green_stem">[converter.dmd_green_stem]</property>
+                  <property name="dmd_senesced_leaf">[converter.dmd_senesced_leaf]</property>
+                  <property name="dmd_senesced_stem">[converter.dmd_senesced_stem]</property>
+                  <property name="dmd_dead_leaf">[converter.dmd_dead_leaf]</property>
+                  <property name="dmd_dead_stem">[converter.dmd_dead_stem]</property>
+
+                  <property name="cp_n_ratio">[converter.cp_n_ratio]</property>
+
+               </[converter.herbage_module_name]>
+            </initdata>
+         </component>
+         <component name="[converter.name]manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+            <initdata>
+               <rules>
+                  [foreach converter.rule as rule]
+                  [foreach rule.condition as condition]
+                  <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+                  [condition.innerxml]
+                  [endfor]
+                  [foreach rule.category as category]
+                  [category.xml]
+                  [endfor]
+                  </rule>
+
+                  [endfor]
+               </rules>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </StockScienceConverter>
    <cattle>
       <UItype>generic</UItype>
@@ -406,6 +875,27 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ manager ################ [endcomment]
+         <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+         <initdata>
+            <rules>
+               [foreach manager.rule as rule]
+               [foreach rule.condition as condition]
+               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
+               [condition.innerxml]
+               [foreach rule.category as category]
+               [category.xml]
+               [endfor]
+               </rule>
+               [endfor]
+               [endfor]
+            </rules>
+         </initdata>
+         </component>
+         ]]>
+     </SimMacro>
    </manager>
    <rule>
       <UItype>rule</UItype>
@@ -451,6 +941,18 @@
 			<variable name="fruit_wt" description="Fruit Weight (kg/ha)"/>
 			<variable name="fruit_fresh_wt" description="Fruit Fresh Weight (kg/ha)"/>
       </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ vinelogic ################ [endcomment]
+         <component name="[vl.name]" executable="%apsuite\apsim\vinelogic\lib\vinelogic[vl.instance].dll">
+            <initdata>
+               <parameters name="sample">
+                  <property name="filename">[vl.name][vl.instance].inp</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </vinelogic>
    <surfaceom>
       <UItype>generic</UItype>
@@ -500,6 +1002,23 @@
          <variable name="surfaceom_cover_xxxx" description="Fraction of ground covered by &quot;xxxx&quot;"/>
          <variable name="cnrf_xxxx" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"/>
       </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ surfaceom ################ [endcomment]
+      	<component name="[surfaceom.name]" executable="%apsuite\apsim\surfaceom\lib\surfaceom.dll">
+      	  <initdata>
+               <include>%apsuite\apsim\surfaceom\surfaceom.ini</include>
+      	     <parameters name="sample">
+      	        <property name="name">[surfaceom.PoolName]</property>
+      	        <property name="type">[surfaceom.type]</property>
+      	        <property name="mass">[surfaceom.mass]</property>
+      	        <property name="cnr">[surfaceom.cnr]</property>
+      	        <property name="standing_fraction">[surfaceom.standing_fraction]</property>
+      	     </parameters>
+      	  </initdata>
+      	</component>
+         ]]>
+      </SimMacro>
    </surfaceom>
    <folder>
       <UItype>area</UItype>
@@ -603,6 +1122,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ canola ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\canola\lib\canola.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </canola>
    <chickpea>
       <UItype>empty</UItype>
@@ -621,6 +1161,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ chickpea ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </chickpea>
    <cowpea>
       <UItype>empty</UItype>
@@ -638,6 +1199,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ cowpea ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </cowpea>
    <fababean>
       <UItype>empty</UItype>
@@ -655,6 +1237,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ fababean ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </fababean>
    <fieldpea>
       <UItype>empty</UItype>
@@ -672,6 +1275,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ fieldpea ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </fieldpea>
    <lablab>
       <UItype>empty</UItype>
@@ -690,6 +1314,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ lablab ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </lablab>
    <lucerne>
       <UItype>empty</UItype>
@@ -707,6 +1352,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ lucerne ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </lucerne>
    <lupin>
       <UItype>empty</UItype>
@@ -724,6 +1390,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ lupin ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </lupin>
    <maize>
       <UItype>empty</UItype>
@@ -788,6 +1475,27 @@
       </variables>
       <events>
       </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ maize ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\maize\lib\maize.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </maize>
    <mucuna>
       <UItype>empty</UItype>
@@ -804,6 +1512,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ mucuna ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </mucuna>
    <mungbean>
       <UItype>empty</UItype>
@@ -822,6 +1551,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ mungbean ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </mungbean>
    <navybean>
       <UItype>empty</UItype>
@@ -838,6 +1588,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ navybean ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </navybean>
    <ozcot>
       <UItype>empty</UItype>
@@ -866,6 +1637,27 @@
       </variables>
       <events>
       </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ ozcot ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\ozcot\lib\ozcot.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </ozcot>
    <peanut>
       <UItype>empty</UItype>
@@ -883,6 +1675,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ peanut ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </peanut>
    <pigeonp>
       <UItype>empty</UItype>
@@ -900,6 +1713,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ pigeonpea ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </pigeonp>
    <slurp>
       <UItype>generic</UItype>
@@ -918,6 +1752,38 @@
          <variable name="cover_green" description="Slurp Green Cover"/>
          <variable name="ep" description="Slurp water use - (mm)"/>
       </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ slurp ################ [endcomment]
+         <component name="[slurp.name]" executable="%apsuite\apsim\slurp\lib\slurp.dll">
+            <initdata>
+               <parameters name="sample">
+                  <property name="crop_type">[slurp.type]</property>
+                  <property name="lai">[slurp.LAI]</property>
+                  <property name="laid">[slurp.LAId]</property>
+                  <property name="kg">[slurp.Kg]</property>
+                  <property name="kd">[slurp.Kd]</property>
+                  <property name="vpd">0 10 50</property>
+                  <property name="fvpd">1 1  1</property>
+                  <property name="height">[slurp.height]</property>
+                  <property name="frgr">[slurp.Frgr]</property>
+                  <property name="tav">5 20 25 40</property>
+                  <property name="ft">1  1  1  1</property>
+                  [foreach area.soil as s]
+                  [foreach s.SoilCrop as sc]
+                  [if [sc.name] = [slurp.type]]
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+                  <property name="RLV">0.05    0.03    0.02    0.01    0.01    0.005   0.001</property>
+                  [endif]
+                  [endfor]
+                  [endfor]
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </slurp>
    <sorghum>
       <UItype>empty</UItype>
@@ -935,6 +1801,27 @@
          <drop name="folder"/>
      </drops>
      <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ sorghum ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\sorghum\lib\sorghum.dll">
+            <initdata>
+               <include>%apsuite\apsim\sorghum\sorghum.ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </sorghum>
    <soybean>
       <UItype>empty</UItype>
@@ -952,6 +1839,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ soybean ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </soybean>
    <stylo>
       <UItype>empty</UItype>
@@ -968,15 +1876,38 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ stylo ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </stylo>
    <sugar>
-      <UItype>generic</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Image>%apsuite\apsimui\images\sugar.jpg</Image>
       <Documentation name="Sugar science documentation">../apsim/sugar/docs/sugar_science.htm</Documentation>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
@@ -1021,6 +1952,29 @@
       </variables>
       <events>
       </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ sugar ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\sugar\lib\sugar.dll">
+            <initdata>
+               <include>%apsuite\apsim\sugar\sugar.ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="uptake_source">calc</property>
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+                  <property name="rlv">0.04  0.02  0.01  .005  0.00  0.00 0.00</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </sugar>
    <sunflower>
       <UItype>empty</UItype>
@@ -1081,6 +2035,27 @@
       </variables>
       <events>
       </events>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ sunflower ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\sunflower\lib\sunflower.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </sunflower>
    <weed>
       <UItype>empty</UItype>
@@ -1098,6 +2073,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ weed ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </weed>
    <wheat>
       <UItype>empty</UItype>
@@ -1121,6 +2117,27 @@
          <drop name="folder"/>
      </drops>
       <variables link="plant.xml"/>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ wheat ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\plant\lib\plant.dll">
+            <initdata>
+               <include>%apsuite\apsim\[plant.xmltype]\[plant.xmltype].ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </wheat>
 
    <accum>
@@ -1173,11 +2190,6 @@
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/SiloInput/docs/SiloInput.htm</Documentation>
    </SiloInput>
-   <soi>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/soi/docs/soi_science.htm</Documentation>
-   </soi>
    <soilph>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -1271,6 +2283,31 @@
          <variable name="adm_dead" array = "T" description ="E. grandis Dead Above-ground Biomass Pools"/>
          <variable name="adm_sen" array = "T" description ="E. grandis Senesced Above-ground Biomass Pools"/>
      </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ egrandis ################ [endcomment]
+         <component name="[plant.name]" executable="%apsuite\apsim\growth\lib\growth.dll">
+            <initdata>
+               <include>%apsuite\apsim\egrandis\egrandis.ini</include>
+               [foreach area.soil as s]
+               [foreach s.SoilCrop as sc]
+               [if [plant.xmltype] = [sc.name]]
+               <parameters name="sample">
+               <property name="crop_type">grandis</property>
+               <property name="uptake_source">calc</property>
+               <property name="n_uptake_source">calc</property>
+                  <property name="rlv"> 0.01 [foreach sc.layer as l] 0.0[endfor]</property>
+                  <property name="ll">[foreach sc.layer as l] [l.ll][endfor]</property>
+                  <property name="kl">[foreach sc.layer as l] [l.kl][endfor]</property>
+                  <property name="XF">[foreach sc.layer as l] [l.xf][endfor]</property>
+               </parameters>
+               [endif]
+               [endfor]
+               [endfor]
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </egrandis>
    <stream>
       <UItype>empty</UItype>
@@ -1285,11 +2322,22 @@
          <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
-     </drops>
-
-     <variables>
+      </drops>
+      <variables>
          <variable name="streamflow" description ="Stream Flow (ML)"/>
-     </variables>
+      </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ stream ################ [endcomment]
+         <component name="[stream.name]" executable="%apsuite\apsim\stream\lib\stream.dll">
+            <initdata>
+            <parameters name="sample">
+               <property name="temp">xxx</property>
+            </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </stream>
    <root>
       <UItype>generic</UItype>
@@ -1305,12 +2353,24 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-
      <variables>
          <variable name="root_sw_demand_vol" description ="Root SW Demand (ML)"/>
          <variable name="root_sw_supply_vol" description ="Root SW Supply (ML)"/>
          <variable name="root_sw_uptake_vol" description ="Root SW Uptake (ML)"/>
      </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ root ################ [endcomment]
+         <component name="[root.name]" executable="%apsuite\apsim\root\lib\root.dll">
+            <initdata>
+               <parameters name="sample">
+                  <property name="crop_type">[root.type]</property>
+                     <property name="kl">[root.kl]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
    </root>
    <spaceslurp>
       <UItype>generic</UItype>
@@ -1349,7 +2409,56 @@
 
      <variables>
      </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ climatechange ################ [endcomment]
+         <component name="[cc.name]" executable="%apsuite\apsim\manager\lib\manager.dll">
+      	   <initdata>
+	         <rules>
+               <rule name="climatechange" condition="init">
+                  co2 = [cc.co2]
+               </rule>
+	            <rule name="climatechange" condition="prenewmet">
+	               !change met data to reflect climate change
+	               met.maxt = met.maxt + [cc.maxtmodifier]
+	               met.mint = met.mint + [cc.mintmodifier]
+	               met.rain = met.rain * [cc.rainmodifier]
+	               met.radn = met.radn * [cc.radiationmodifier]
+	            </rule>
+	         </rules>
+	         </initdata>
+	      </component>
+	      ]]>
+      </SimMacro>
    </climatechange>
+   <soi>
+      <UItype>file</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>This component allows the user to add SOI phases to a simulation. These phases can then be used in manager logic.</Description>
+      <Documentation name="SOI module documentation">../apsim/soi/docs/soi_science.htm</Documentation>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
 
+     <variables>
+     </variables>
+     <SimMacro>
+         <![CDATA[
+         [comment] ################ soi ################ [endcomment]
+         <component name="[soi.name]" executable="%apsuite\apsim\soi\lib\soi.dll">
+            <initdata>
+               <parameters name="file">
+                  <property name="filename">[soi.filename]</property>
+               </parameters>
+            </initdata>
+         </component>
+         ]]>
+      </SimMacro>
+   </soi>
 </Types>
 

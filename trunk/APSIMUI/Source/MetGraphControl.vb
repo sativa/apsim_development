@@ -253,26 +253,29 @@ Public Class MetGraphControl
 
 #End Region
 
-    Public Overrides Sub fill()
-        Try
-            Metfile.ReadFromFile(MyData.Child("filename").Value)
-            Dim FirstRow As DataRow = Metfile.Data.Rows(0)
-            Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
-            Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
-            StartDate = FirstRow(DateColumn)
-            EndDate = LastRow(DateColumn)
-            YearBox.Text = StartDate.Year
-            With TrackBar
-                .Minimum = StartDate.Year
-                .Maximum = EndDate.Year
-                .SmallChange = 1
-                .LargeChange = 1
-            End With
-        RedrawGraph()
+    Public Sub PopulateGraph()
+        If Visible Then
+            Try
+                Metfile.ReadFromFile(MyData.Child("filename").Value)
+                Dim FirstRow As DataRow = Metfile.Data.Rows(0)
+                Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
+                Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
+                StartDate = FirstRow(DateColumn)
+                EndDate = LastRow(DateColumn)
+                YearBox.Text = StartDate.Year
+                With TrackBar
+                    .Minimum = StartDate.Year
+                    .Maximum = EndDate.Year
+                    .SmallChange = 1
+                    .LargeChange = 1
+                End With
+                RedrawGraph()
 
-        Catch e As System.Exception
-            MsgBox(e.Message, MsgBoxStyle.Critical, "Unable to build met file interface")
-        End Try
+            Catch e As System.Exception
+                MsgBox(e.Message, MsgBoxStyle.Critical, "Unable to build met file interface")
+            End Try
+        End If
+
     End Sub
 
     Private Sub RedrawGraph()

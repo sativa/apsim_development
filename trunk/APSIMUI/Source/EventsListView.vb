@@ -33,12 +33,10 @@ Public Class EventsListView
     'Do not modify it using the code editor.
     Friend WithEvents ListView As System.Windows.Forms.ListView
     Friend WithEvents NameColumn As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ModuleColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents DescriptionColumn As System.Windows.Forms.ColumnHeader
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.ListView = New System.Windows.Forms.ListView
         Me.NameColumn = New System.Windows.Forms.ColumnHeader
-        Me.ModuleColumn = New System.Windows.Forms.ColumnHeader
         Me.DescriptionColumn = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
@@ -46,7 +44,7 @@ Public Class EventsListView
         '
         Me.ListView.AllowDrop = True
         Me.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NameColumn, Me.ModuleColumn, Me.DescriptionColumn})
+        Me.ListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NameColumn, Me.DescriptionColumn})
         Me.ListView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.ListView.Location = New System.Drawing.Point(0, 23)
@@ -59,11 +57,6 @@ Public Class EventsListView
         '
         Me.NameColumn.Text = "Name"
         Me.NameColumn.Width = 135
-        '
-        'ModuleColumn
-        '
-        Me.ModuleColumn.Text = "Module"
-        Me.ModuleColumn.Width = 131
         '
         'DescriptionColumn
         '
@@ -87,8 +80,7 @@ Public Class EventsListView
         Dim EventsNode As APSIMData = MyData.Child("events")
         For Each child As String In EventsNode.ChildList("event")
             Dim item As New ListViewItem
-            item.Text = child
-            item.SubItems.Add(EventsNode.Child(child).Attribute("module"))
+            item.Text = EventsNode.Child(child).Attribute("name")
             item.SubItems.Add(EventsNode.Child(child).Attribute("description"))
             ListView.Items.Add(item)
         Next
@@ -107,6 +99,8 @@ Public Class EventsListView
         Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
         Dim NewData As New APSIMData(NewDataString)
         If NewData.Type = "event" Then
+            NewData.SetAttribute("eventname", NewData.Attribute("name"))
+            NewData.SetAttribute("name", NewData.Attribute("module") + "." + NewData.Attribute("name"))
             Dim EventsNode As APSIMData = MyData.Child("events")
             EventsNode.Add(NewData)
             fill()

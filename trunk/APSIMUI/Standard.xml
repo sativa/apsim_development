@@ -29,12 +29,16 @@
       <mintmodifier description="Change in temperature in degrees celsius">0.0</mintmodifier>
       <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
       <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
+      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
     </climatechange>
   </metfile>
+  <soi name="soi">
+    <filename>%apsuite\soi\phases.soi</filename>
+  </soi>
   <manager name="Manager">
-    <rule name="Variable Sowing rule">
+    <rule name="Sow using a variable rule">
       <condition name="start_of_day"><![CDATA[
-      if ([crop].plant_status = 'out') then
+      if (paddock_is_fallow() = 1) then
          if (date_within('[date1], [date2]') = 1) then
             surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
             if ((esw >= [esw_amount] AND
@@ -62,9 +66,9 @@
         <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
       </category>
     </rule>
-    <rule name="Fixed sowing rule">
+    <rule name="Sow on a fixed date">
       <condition name="start_of_day"><![CDATA[
-            if (clock.today = date('[date]')) then
+            if (paddock_is_fallow() = 1 and clock.today = date('[date]')) then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
             endif
                ]]></condition>
@@ -77,6 +81,65 @@
         <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
         <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
+      </category>
+    </rule>
+    <rule name="SUGAR management">
+      <condition name="start_of_day"><![CDATA[
+            ! -----------------------------------------------------------------
+            ! Book keeping to round days to integer values
+            plantlen = nearest_int(plantlen)
+            ratoonlen = nearest_int(ratoonlen)
+
+            ! Initialise and set a time counter for entire run
+            dah = 0
+
+            if (sugar.crop_status = 'alive') then
+               dah = 0
+
+               ! Set harvest dates for each crop phase
+               if (sugar.das = [plantlen] and ratoon_no = 0) or
+                  (sugar.das = [ratoonlen] and ratoon_no > 0) then
+
+                  sugar harvest
+
+                  if (ratoon_no = [NoRatoons] + 1) then
+                     ! plough the crop out
+                     sugar kill_crop
+                     sugar end_crop
+
+                  else
+                     ! Set stalk density
+                     sugar.plants = [ratoon_stalks]
+                  endif
+               else
+                  ! We have not reached the harvest date for this ratoon.
+               endif
+
+            elseif (sugar.crop_status = 'dead') then
+               sugar harvest
+               sugar end_crop
+
+            elseif (sugar.crop_status = 'out') and (today = date('[planting_day]') then
+               sugar sow plants = 10 (), cultivar = [variety], sowing_depth = [sowing_depth]
+               sugar.plants = [plant_stalks]
+               dah = 0
+
+            else
+               dah = dah + 1
+            endif
+               ]]></condition>
+      <category name="Sugar plant crop management parameters">
+        <property name="crop" value="sugar" type="modulename" description="Enter name of crop to sow : " />
+        <property name="planting_day" value="1-jan" type="text" description="Enter planting date (dd-mmm) : " />
+        <property name="plantlen" value="30.5 * 15" type="text" description="Duration of a plant crop (days) (30.5 days/month) : " />
+        <property name="plant_stalks" value="10" type="text" description="Stalk density of plant crop (/m2) :" />
+        <property name="variety" value="q117" type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :" />
+        <property name="sowing_depth" value="150" type="text" description="Planting depth mm) :" />
+      </category>
+      <category name="Ratoon management parameters">
+        <property name="NoRatoons" value="4" type="text" description="Number of ratoons (max = 5): " />
+        <property name="ratoonlen" value="30.5 * 13" type="text" description="Duration of a ratoon crop (days) (30.5 days/month) : " />
+        <property name="ratoon_stalks" value="10" type="text" description="Stalk density of ratoon crop (/m2) :" />
       </category>
     </rule>
     <rule name="Harvesting rule">
@@ -92,7 +155,7 @@
         <property name="crop" value="wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
       </category>
     </rule>
-    <rule name="Sowing fertiliser">
+    <rule name="Fertilise at sowing">
       <condition name="[modulename].[eventname]">
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
@@ -101,15 +164,48 @@
         <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
       </category>
       <category name="Fertiliser application details">
-        <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
         <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
         <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
       </category>
     </rule>
-    <rule name="Irrigation: amount at event">
+    <rule name="Fertilise on fixed date">
+      <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil < [fert_criteria]) then
+               [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+            endif
+         endif ]]></condition>
+      <category name="When should fertiliser be applied">
+        <property name="fert_date" value="dd-mmm" type="text" description="Enter fertiliser date (dd-mmm) : " />
+        <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+      </category>
+      <category name="Fertiliser application details">
+        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+        <property name="fert_amount" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+        <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+      </category>
+    </rule>
+    <rule name="Fertilise on fixed date - top up">
+      <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_deficit = $fert_criteria - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+            '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
+         endif ]]></condition>
+      <category name="When should fertiliser be applied">
+        <property name="fert_date" value="dd-mmm" type="text" description="Enter fertiliser date (dd-mmm) : " />
+        <property name="fert_criteria" value="1000" type="text" description="Amount of N required in top 3 layers (kg/ha) : " />
+      </category>
+      <category name="Fertiliser application details">
+        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+        <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+      </category>
+    </rule>
+    <rule name="Irrigate at sowing">
       <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
-            irrigation apply amount = [irrig_amount_evt] (mm)
+            '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
          endif
    ]]></condition>
       <category name="When should irrigation be applied">
@@ -117,7 +213,58 @@
         <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
       </category>
       <category name="Irrigation application details">
+        <property name="irrigatemodule" value="" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
         <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+      </category>
+    </rule>
+    <rule name="Tillage on fixed date">
+      <condition name="start_of_day"><![CDATA[
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+            ready_to_till_pre_sow = 0
+            till_day_pre_sow = 0
+         endif
+      ]]></condition>
+      <category name="When should tillage be done">
+        <property name="tillage_date" value="dd-mmm" type="text" description="Enter tillage date (dd-mmm) : " />
+      </category>
+      <category name="Tillage application details">
+        <property name="surfaceommodule" value="" type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : " />
+        <property name="tillage_type" value="disc" type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : " />
+        <property name="tillage_depth" value="0" description="User_defined depth of seedbed preparation (mm) : " />
+        <property name="tillage_f_incorp" value="0" description="User_defined fraction of surface residues to incorporate (0-1): " />
+      </category>
+    </rule>
+    <rule name="Reset water, nitrogen and surfaceOM on fixed date">
+      <condition name="start_of_day">
+         if (today = date('[reset_date]') then
+            resetWater = '[resetWater]'
+            resetNitrogen  = '[resetNitrogen]'
+            resetSurfaceOM = '[resetSurfaceOM]'
+            if (resetWater = 'yes') then
+                '[soilmodule] Water' reset
+            endif
+            if (resetNitrogen = 'yes') then
+                '[soilmodule] Nitrogen' reset
+            endif
+            if (resetSurfaceOM = 'yes') then
+                '[surfaceommodule]' reset
+            endif
+         endif
+      </condition>
+      <category name="When should a reset be done">
+        <property name="reset_date" value="dd-mmm" type="text" description="Enter date of reset (dd-mmm) : " />
+      </category>
+      <category name="Reset details">
+        <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
+        <property name="surfaceommodule" value="wheat residue" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
+        <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
+        <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
+        <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
       </category>
     </rule>
   </manager>
@@ -387,6 +534,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Buntine,Deep Sand,#146">
         <Water>
@@ -572,6 +725,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Buntine,Sand over gravel,#24">
         <Water>
@@ -687,6 +846,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Eaton (Pearse soil-sand)">
         <Water>
@@ -917,6 +1082,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Goodlands,Red sandy loam,#147">
         <Water>
@@ -1101,6 +1272,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Mingenew,Deep Sand,#90">
         <Water>
@@ -1286,6 +1463,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Mingenew,Sandy Loam,#71">
         <Water>
@@ -1471,6 +1654,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <soil name="Sand">
         <Water>
@@ -2336,6 +2525,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Bongeen,Norillee (#002)">
         <Site>Bongeen</Site>
@@ -2591,6 +2786,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Bongeen,Waco (#003)">
         <Site>Bongeen</Site>
@@ -2810,6 +3011,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Brookstead,Cecilvale (#004)">
         <Site>Brookstead</Site>
@@ -3080,6 +3287,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Brookstead,Anchorfield (#006)">
         <Site>Brookstead</Site>
@@ -3313,6 +3526,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Yandilla,Condamine (#008)">
         <Site>Yandilla</Site>
@@ -3494,6 +3713,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Kupunn (#009)">
         <Site>Kupunn</Site>
@@ -3787,6 +4012,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Beverley,Cecilvale (#010)">
         <Site>Beverley</Site>
@@ -4043,6 +4274,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Kaimkillenbun,Irving (#011)">
         <Site>Kaimkillenbun</Site>
@@ -4261,6 +4498,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Jimbour,Waco (#016)">
         <Site>Jimbour</Site>
@@ -4925,6 +5168,12 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Jandowae,Cecilvale (#017)">
         <Site>Jandowae</Site>
@@ -5144,6 +5393,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Hopelands,Kupunn (#021)">
         <Site>Hopelands</Site>
@@ -5437,6 +5692,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Macalister,Bongeen (#026)">
         <Site>Macalister</Site>
@@ -5986,6 +6247,12 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Wellcamp Res Stn, Wellcamp,Waco (#030)">
         <Site>Wellcamp Res Stn, Wellcamp</Site>
@@ -6168,6 +6435,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Hermitage Res Stn, Warwick,Talgai (#033)">
         <Site>Hermitage Res Stn, Warwick</Site>
@@ -6350,6 +6623,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Millwood,Moola (#034)">
         <Site>Millwood</Site>
@@ -6787,6 +7066,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="UQ, Lawes,Black Vertosol (#037)">
         <Site>UQ, Lawes</Site>
@@ -7116,6 +7401,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="UQ, Lawes,Lockyer (#038)">
         <Site>UQ, Lawes</Site>
@@ -7335,6 +7626,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Nindigully,Grey Vertosol (#040)">
         <Site>Nindigully</Site>
@@ -7629,6 +7926,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Banana,Rolleston (#046)">
         <Site>Banana</Site>
@@ -7762,6 +8065,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Jambin,Grey Vertosol (#047)">
         <Site>Jambin</Site>
@@ -7943,6 +8252,12 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Capella,Orion (#049)">
         <Site>Capella</Site>
@@ -8105,6 +8420,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Billa Billa,Red Chromosol (#066)">
         <Site>Billa Billa</Site>
@@ -8265,6 +8586,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Greenmount,Irving (#067)">
         <Site>Greenmount</Site>
@@ -8447,6 +8774,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Jinghi,Downfall (#069)">
         <Site>Jinghi</Site>
@@ -8738,6 +9071,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Jinghi Valley,Moola (#073)">
         <Site>Jinghi Valley</Site>
@@ -8957,6 +9296,12 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Jinghi Valley,Millmerran (#074)">
         <Site>Jinghi Valley</Site>
@@ -9175,6 +9520,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Inglestone,Belah/ Brigalow (#075)">
         <Site>Inglestone</Site>
@@ -9355,6 +9706,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Moonie,Grey Vertosol (#081)">
         <Site>Moonie</Site>
@@ -9573,6 +9930,12 @@
             <xf>0</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Wallumbilla,Brigalow (#100)">
         <Site>Wallumbilla</Site>
@@ -9792,6 +10155,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Dirranbandi District,Grey Vertosol (#155)">
         <Site>Dirranbandi District</Site>
@@ -10355,6 +10724,152 @@
           </percentmethod>
         </InitWater>
       </soil>
+      <soil name="Brown Vertosol">
+        <Water>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <Salb>0.13</Salb>
+          <Cona>3.5</Cona>
+          <U>6</U>
+          <layer name="1">
+            <thickness>100</thickness>
+            <airdry>0.115</airdry>
+            <ll15>0.2</ll15>
+            <dul>0.4</dul>
+            <sat>0.48</sat>
+            <sw>0.4</sw>
+            <swcon>0.3</swcon>
+            <bd>1.29</bd>
+          </layer>
+          <layer name="2">
+            <thickness>100</thickness>
+            <airdry>0.198</airdry>
+            <ll15>0.22</ll15>
+            <dul>0.41</dul>
+            <sat>0.47</sat>
+            <sw>0.41</sw>
+            <swcon>0.3</swcon>
+            <bd>1.32</bd>
+          </layer>
+          <layer name="3">
+            <thickness>200</thickness>
+            <airdry>0.24</airdry>
+            <ll15>0.24</ll15>
+            <dul>0.42</dul>
+            <sat>0.47</sat>
+            <sw>0.42</sw>
+            <swcon>0.3</swcon>
+            <bd>1.32</bd>
+          </layer>
+          <layer name="4">
+            <thickness>200</thickness>
+            <airdry>0.26</airdry>
+            <ll15>0.26</ll15>
+            <dul>0.42</dul>
+            <sat>0.47</sat>
+            <sw>0.42</sw>
+            <swcon>0.3</swcon>
+            <bd>1.33</bd>
+          </layer>
+          <layer name="5">
+            <thickness>200</thickness>
+            <airdry>0.28</airdry>
+            <ll15>0.28</ll15>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>0.4</sw>
+            <swcon>0.3</swcon>
+            <bd>1.39</bd>
+          </layer>
+        </Water>
+        <soilcrop name="Wheat">
+          <layer name="1">
+            <ll>0.2</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.22</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.24</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.26</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.28</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+        </soilcrop>
+        <Nitrogen>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+          </layer>
+          <layer name="2">
+            <oc>1.24</oc>
+            <ph>7</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>4</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>1.25</oc>
+            <ph>7</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>3</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>1.1</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>2</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.71</oc>
+            <ph>7</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.5</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <Region>Queensland</Region>
+        <Site>Roma</Site>
+        <SoilType />
+        <Comment>Parameterisation from N. Dalgliesh</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+      </soil>
     </folder>
     <folder name="Vic">
       <Soil name="Mallee_clay_loam_A">
@@ -10563,6 +11078,12 @@
             <xf>0.382143</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Mallee_clay_loam_B">
         <Water>
@@ -10770,6 +11291,12 @@
             <xf>0.278571</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Mallee_sandy_loam">
         <Water>
@@ -10978,6 +11505,12 @@
             <xf>0.587429</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Malley_sandy_clay_loam">
         <Water>
@@ -11186,6 +11719,12 @@
             <xf>0.642857</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Red_duplex">
         <Water>
@@ -11394,6 +11933,12 @@
             <xf>0.828381</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Red_duplex 2004">
         <Water>
@@ -11602,6 +12147,12 @@
             <xf>0.828381</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Red_Kandosol -CSU Parna">
         <Water>
@@ -11810,6 +12361,12 @@
             <xf>0.828381</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Wimmera_clay">
         <Water>
@@ -12018,6 +12575,12 @@
             <xf>0.679365</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Wimmera_clay 2004">
         <Water>
@@ -12226,6 +12789,12 @@
             <xf>0.679365</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <Soil name="Wimmera_clay_heavy">
         <Water>
@@ -12434,6 +13003,12 @@
             <xf>0.285714</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </Soil>
       <soil name="Birchip Field Site">
         <Water>
@@ -12818,6 +13393,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Croppa Creek,Brigalow (#053)">
         <Site>Croppa Creek</Site>
@@ -13131,6 +13712,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Ashley,Cecilvale (#056)">
         <Site>Ashley</Site>
@@ -13350,6 +13937,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Gurley,Grey Vertosol (#058)">
         <Site>Gurley</Site>
@@ -13561,6 +14154,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Moree,Belah (#060)">
         <Site>Moree</Site>
@@ -13802,6 +14401,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Spring Ridge,Black Vertosol (#062)">
         <Site>Spring Ridge</Site>
@@ -14021,6 +14626,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Terry hie hie,Grey Vertosol (#077)">
         <Site>Terry hie hie</Site>
@@ -14202,6 +14813,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Biniguy,Grey Vertosol (#085)">
         <Site>Biniguy</Site>
@@ -14671,6 +15288,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Aust. Cotton Res. Instit, Myall Vale,Grey Vertosol (#097)">
         <Site>Aust. Cotton Res. Instit, Myall Vale</Site>
@@ -14997,6 +15620,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Bourke,Grey Vertosol (#165)">
         <Site>Bourke</Site>
@@ -15178,6 +15807,12 @@
             <xf>1</xf>
           </layer>
         </SoilCrop>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
       </soil>
       <soil name="Red Brown Earth">
         <Water>
@@ -15907,6 +16542,7 @@
     <sorghum />
     <soybean />
     <stylo />
+    <sugar />
     <sunflower />
     <weed />
     <wheat />
