@@ -2344,13 +2344,14 @@ end subroutine
 ! This routine is the event handler for all events
 ! ====================================================================
 subroutine respondToEvent(fromID, eventID, variant)
+   use SoilpModule
    Use infrastructure
    implicit none
    ml_external respondToEvent
 
    integer, intent(in) :: fromID
    integer, intent(in) :: eventID
-   integer, intent(in) :: variant
+   integer, intent(in out) :: variant
 
    if (eventID .eq.id%FreshOrganicMatterIncorporated) then
       call soilP_ONFreshOrganicMatterIncorporated(variant)
