@@ -13,10 +13,10 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 
 
 !===========================================================================================
-! mungbean
+! navybean
 !===========================================================================================
 
-[mungbean.manager.init]
+[navybean.manager.init]
  systemP_yday = 0.0
  cum_error_systemP = 0.0
  P_below_ground = 0.0
@@ -32,29 +32,29 @@ end_date = 30/12/1993     ! dd/mm/yyyy
  P_below_ground_yday = 0.0
  dlt_residue_P_cum = 0.0
 
-[mungbean.manager.start_of_day]
+[navybean.manager.start_of_day]
 
    if day = 336 and year = 1992 then
         !fertiliz apply amount = 20 (kg/ha), depth = 35 (mm), type = banded_p
-        mungbean sow crop_class = plant, cultivar = emerald, plants = 40, sowing_depth = 50
+        navybean sow crop_class = plant, cultivar = rainbird, plants = 40, sowing_depth = 50
    endif
 
   ! if crop killed due to stress, end simulation
-   if (mungbean.plant_status = 'dead')  then
-      mungbean harvest
-      mungbean kill_crop
-      mungbean end_crop
+   if (navybean.plant_status = 'dead')  then
+      navybean harvest
+      navybean kill_crop
+      navybean end_crop
   endif
 
-   if (mungbean.stage_name = 'harvest_ripe') then
-       mungbean harvest
-       mungbean kill_crop
-       mungbean end_crop
+   if (navybean.stage_name = 'harvest_ripe') then
+       navybean harvest
+       navybean kill_crop
+       navybean end_crop
    endif
 
-!   if (mungbean.stage_name = 'harvest_ripe') then
-!       mungbean harvest
-!       mungbean end_crop
+!   if (navybean.stage_name = 'harvest_ripe') then
+!       navybean harvest
+!       navybean end_crop
 !   endif
 
  if (clock.day=151 and clock.year=1993) then
@@ -65,10 +65,10 @@ end_date = 30/12/1993     ! dd/mm/yyyy
 
 
 
-[mungbean.manager.end_of_day]
+[navybean.manager.end_of_day]
 
 P_below_ground = soilp.fom_p() + soilp.hum_p() + soilp.biom_p() + soilp.rock_p() + soilp.unavail_p() + soilp.labile_p()
-P_above_ground = (mungbean.p_green() + mungbean.p_senesced() + mungbean.p_dead())*10.0 + residue2.residue_p
+P_above_ground = (navybean.p_green() + navybean.p_senesced() + navybean.p_dead())*10.0 + residue2.residue_p
 systemP = P_below_ground + P_above_ground
 dlt_systemP = systemP - systemP_yday
 
@@ -80,21 +80,21 @@ else
     dlt_residue_P = 0.0
 endif
 
-P_plant = (mungbean.P_green() + mungbean.P_sen() + mungbean.P_dead())*10.0
-P_uptake_cum = P_uptake_cum + uptake_P_mungbean()
+P_plant = (navybean.P_green() + navybean.P_sen() + navybean.P_dead())*10.0
+P_uptake_cum = P_uptake_cum + uptake_P_navybean()
 P_pl_up_diff = P_plant - P_uptake_cum
 below_gnd_diff = P_below_ground - P_below_ground_yday
 residue_P_yday =  residue2.residue_P
 
-!  if (mungbean.stage >=1 and mungbean.stage <= 11) then
+!  if (navybean.stage >=1 and navybean.stage <= 11) then
     report do_output
 !  endif
 
 systemP_yday = systemP
 P_below_ground_yday = P_below_ground
 
-[mungbean.SummaryFile.parameters]
-summaryfile = mungbean.sum
+[navybean.SummaryFile.parameters]
+summaryfile = navybean.sum
 
 [all.Screen.parameters]
 screen_output = on
