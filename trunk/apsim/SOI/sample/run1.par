@@ -102,8 +102,10 @@ residue_type =          sorghum
 
 [run1.sorg.parameters]    
 
-kl =     0.12 0.10    0.09    0.08    0.07    0.05    0.05  ()   
+kl =       0.12    0.10    0.09    0.08    0.07    0.05    0.05  ()   
 ll =       0.188   0.234   0.232   0.301   0.300   0.284   0.320 (mm/mm)   
+XF =       1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
+
 [run1.sorg.dk55]    
 
    ! sorghum phenology
