@@ -3,6 +3,7 @@
 
 #include <general\vcl_functions.h>
 #include <general\string_functions.h>
+#include <general\path.h>
 #include <general\mylist.h>
 #include <vcl\dbtables.hpp>
 // ------------------------------------------------------------------
@@ -121,7 +122,9 @@ void Get_selected_items_from_listbox(TListBox* listbox, TStrings* Selected_items
    for (int i = 0; i < listbox->Items->Count; i++)
       {
       if (listbox->Selected[i])
+         {
          Selected_items->Add(listbox->Items->Strings[i]);
+         }
       }
    }
 
@@ -243,6 +246,7 @@ void Get_field_list (TDataSet* dataset, TStringList* field_names)
       field_names->Add (dataset->Fields[i]->FieldName);
    }
 
+#if __BORLANDC__ == 0x530
 // ------------------------------------------------------------------
 //  Short description:
 //      copy the structure from one dataset to another for those
@@ -275,3 +279,47 @@ void Copy_dataset_structure (TDataSet* source,
       }
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//      setup the open dialog.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Give_files_to_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
+   {
+   string Initial_file_name;
+
+   // loop through all files
+   for (int i = 0; i < File_list->Count; i++)
+      {
+      Path p(File_list->Strings[i].c_str());
+
+      Initial_file_name += "\"";
+      Initial_file_name += p.Get_name();
+      Initial_file_name += "\" ";
+      Open_dialog->InitialDir = p.Get_directory().c_str();
+      }
+
+   Open_dialog->FileName = Initial_file_name.c_str();
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//      setup the open dialog.
+
+//  Notes:
+
+//  Changes:
+//    DPH 5/2/98
+
+// ------------------------------------------------------------------
+void Get_files_from_open_dialog (TOpenDialog* Open_dialog, TStringList* File_list)
+   {
+   File_list->Clear();
+   File_list->AddStrings(Open_dialog->Files);
+   }
+#endif
