@@ -1,8 +1,9 @@
 [test.clock.parameters]  
-start_day =    1   
-end_day =      99   
-start_year =   1988   
-end_year =     1988   
+simulation_start_day =    1   
+simulation_end_day =      99   
+simulation_start_year =   1988   
+simulation_end_year =     1988   
+
 ! Author  : Dean Holzworth
 ! Comment : This example demonstrates some of the capability of the met
 !           module.  It outputs 2 different types of date formats to the
