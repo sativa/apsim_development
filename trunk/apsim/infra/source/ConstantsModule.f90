@@ -106,7 +106,7 @@ module ConstantsModule
 
 
    character (len=*), parameter :: ACTION_Create        = 'create'
-   character (len=*), parameter :: ACTION_Init          = 'init'
+   character (len=*), parameter :: ACTION_Init          = 'init2'
    character (len=*), parameter :: ACTION_Get_variable = 'get'
    character (len=*), parameter :: ACTION_Set_variable = 'set'
    character (len=*), parameter :: ACTION_Prepare      = 'prepare'
@@ -193,7 +193,7 @@ module ConstantsModule
       character DATA_time *(*)      ! data name for time of day
       character DATA_jday *(*)      ! data name for julian day number
       parameter (DATA_jday = 'jday')
-     
+
       parameter (DATA_time = 'time')
       character DATA_timestep *(*)  ! data name for timestep
       parameter (DATA_timestep = 'timestep')
