@@ -228,6 +228,26 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "FileUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FileUI.resx"
+                    DependentUpon = "FileUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "GenericUI.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GenericUI.resx"
+                    DependentUpon = "GenericUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "HypropsControl.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
@@ -318,13 +338,13 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "OutputFileUI.vb"
+                    RelPath = "OutputFileDescUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "OutputFileUI.resx"
-                    DependentUpon = "OutputFileUI.vb"
+                    RelPath = "OutputFileDescUI.resx"
+                    DependentUpon = "OutputFileDescUI.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -408,16 +428,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "SummaryFileUI.vb"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SummaryFileUI.resx"
-                    DependentUpon = "SummaryFileUI.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "SwimSoilUI.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -426,6 +436,11 @@
                     RelPath = "SwimSoilUI.resx"
                     DependentUpon = "SwimSoilUI.vb"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Toolboxes.vb"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TrackerUI.vb"

@@ -92,12 +92,13 @@ Public Class ReportVariablesListView
     Overrides Sub fill()
         CaptionLabel.Text = "Output variables"
         ListView.Items.Clear()
-        For Each child As String In MyData.ChildList("variable")
+        Dim VariablesNode As APSIMData = MyData.Child("Variables")
+        For Each child As APSIMData In VariablesNode.Children("variable")
             Dim item As New ListViewItem
-            item.Text = MyData.Child(child).Attribute("alias")
-            item.SubItems.Add(MyData.Child(child).Attribute("module"))
-            item.SubItems.Add(MyData.Child(child).Attribute("name"))
-            item.SubItems.Add(MyData.Child(child).Attribute("description"))
+            item.Text = child.Attribute("alias")
+            item.SubItems.Add(child.Attribute("module"))
+            item.SubItems.Add(child.Attribute("name"))
+            item.SubItems.Add(child.Attribute("description"))
             ListView.Items.Add(item)
         Next
     End Sub
@@ -115,7 +116,10 @@ Public Class ReportVariablesListView
         Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
         Dim NewData As New APSIMData(NewDataString)
         If NewData.Type = "variable" Then
-            MyData.Add(NewData)
+            If NewData.Attribute("alias") = "" Then
+                NewData.SetAttribute("alias", NewData.Name)
+            End If
+            MyData.Child("Variables").Add(NewData)
             fill()
         Else
             MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
@@ -124,9 +128,9 @@ Public Class ReportVariablesListView
 
 
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
-        If e.KeyValue = 46 Then
+        If e.KeyValue = Keys.Delete Then
             For Each item As ListViewItem In ListView.SelectedItems
-                MyData.Delete(item.Text)
+                MyData.Child("Variables").Delete(item.Text)
                 ListView.Items.Remove(item)
             Next
 
@@ -134,6 +138,6 @@ Public Class ReportVariablesListView
     End Sub
 
     Private Sub ListView_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.LabelEditEventArgs) Handles ListView.AfterLabelEdit
-        MyData.Child(ListView.Items(e.Item).Text).SetAttribute("alias", e.Label)
+        MyData.Child("Variables").Child(ListView.Items(e.Item).Text).SetAttribute("alias", e.Label)
     End Sub
 End Class
