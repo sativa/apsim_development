@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000   11:40 am
+C     Last change:  E    18 Jan 2001    1:08 pm
 *     ===========================================================
       subroutine sorg_nfact_photo(leaf,lai,
      :                  n_green, nfact)
@@ -41,7 +41,7 @@ C     Last change:  E    18 Dec 2000   11:40 am
       call push_routine (my_name)
  
 cew   SLN = n_green(leaf)/lai
-      SLN = divide(n_green(leaf), lai,10)
+      SLN = divide(n_green(leaf), lai, 0.0) !3.0)
 
 
       nfact = (1.0/0.7) * SLN - (3.0/7.0)
@@ -279,7 +279,7 @@ cew   SLN = n_green(leaf)/lai
       real SLN,NFillFact,gf_tt
       integer    numvals               ! number of values in stage code table
 
-        save SLN
+c     save SLN
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -321,6 +321,11 @@ cew   SLN = n_green(leaf)/lai
 
 ! LEAF demand to keep SLN = 1.3g/m2
 !
+
+
+
+
+
        lai = g_lai + g_dlt_lai - g_dlt_slai
        if(G_current_stage .lt. flag_leaf )then
           N_required = lai * c_n_target_conc(leaf)
@@ -329,15 +334,12 @@ cew   SLN = n_green(leaf)/lai
           N_required = lai * min(SLN,c_n_target_conc(leaf))
        endif
 
-      
+
 
 cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
         SLN = divide(G_n_green(leaf),
      :              (g_lai + g_dlt_lai - g_dlt_slai),
-     :               1.5)
-
-
-
+     :               0.0)
 
 
 
@@ -721,7 +723,7 @@ cew     SLN = G_n_green(leaf)/(g_lai + g_dlt_lai - g_dlt_slai)
 
 
 cew   SLN = LeafN/lai
-      SLN = divide(LeafN, lai, 1.5)
+      SLN = divide(LeafN, lai, 0.0)!1.5)
 
 
       g_nfact_expansion = 1.0
