@@ -9,47 +9,46 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-
-
--------  Initialisation ----------------------------------------------------
-     Licensed name          = User SEG
-     Licensed organisation  = CSIRO
-     Version                = 2.1
-     Simulation filename    = c:\regr\apsim\soilt\sample\soilt.sim
+     Version                = 2.2
      Title                  = sample simulation
-     Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\input\lib\input.dll(met) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\manager\lib\manager.dll(manager) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilwat2\lib\soilwat2.dll(soilwat2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soilt\lib\soilt.dll(soilt) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\residue2\lib\residue2.dll(residue2) - Licensed
-     Instantiated DLL       = c:\build\apsuite\apsim\soiln2\lib\soiln2.dll(soiln2) - Licensed
+     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\residue2\lib\residue2.dll
+     Component DLL          = C:\Program Files\apsim22\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\soilt\lib\soilt.dll
 
-------- CLOCK Initialisation -------------------------------------------------
+------- clock Initialisation --------------------------------------------------
      Simulation start date =  1/01/1988
      Simulation end date   = 30/04/1990
      Time step =           = 1440 (mins)
 
-------- REPORT Initialisation ------------------------------------------------
-     Output file = soilt.out
-     Format = normal
+------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy (alias: Date)
+        clock.today.dd/mm/yyyy(Date)
         soilt.soil_temp
         met.maxt
         met.mint
+     
+     Output file = soilt.out
+     Format = normal
 
-------- MET Initialisation ---------------------------------------------------
-     File name = c:\build\apsuite\apsim\met\sample\dalby.met
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\progra~1\apsim22\apsim\met\sample\dalby.met
 
-------- MANAGER Initialisation -----------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      if (end_week = 1) then
         report do_output
      endif
 
-------- SOILWAT2 Initialisation ----------------------------------------------
+------- soilwat2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -121,10 +120,7 @@
             CONA:                     2.50 ()
            Eo from priestly-taylor
 
-------- SOILT Initialisation -------------------------------------------------
-     Initialising:
-
-------- RESIDUE2 Initialisation ----------------------------------------------
+------- residue2 Initialisation -----------------------------------------------
      
          - Reading constants
      
@@ -140,7 +136,7 @@
               2000.0    26.7     0.0  mungbean
          ------------------------------------------------
 
-------- SOILN2 Initialisation ------------------------------------------------
+------- soiln2 Initialisation -------------------------------------------------
      
         - Reading Constants
      
@@ -188,7 +184,9 @@
           ---------------------------------------------------------
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
+
+------- soilt Initialisation --------------------------------------------------
+     Initialising:
 ------- Start of simulation  --------------------------------------------------
-30 April 1990 (Day of year=120):
-   CLOCK:
-      Simulation is terminating due to end criteria being met.
+30 April 1990(Day of year=120), clock: 
+     Simulation is terminating due to end criteria being met.
