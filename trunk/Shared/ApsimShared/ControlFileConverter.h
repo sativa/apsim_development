@@ -133,6 +133,11 @@ class __declspec(dllexport) ControlFileConverter
       //---------------------------------------------------------------------------
       bool removePeriodsInReportAndTracker(const string& arguments) throw(runtime_error);
 
+      //---------------------------------------------------------------------------
+      // Rework the tracker variables to new format.
+      //---------------------------------------------------------------------------
+      bool ReworkTrackerVariables(const string& arguments) throw(runtime_error);
+
    };
 
 // ------------------------------------------------------------------
