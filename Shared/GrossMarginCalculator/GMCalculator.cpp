@@ -587,7 +587,8 @@ float GMCalculator::calculateCost(const std::string& scenarioName,
                factor = 1000;
             else
                throw runtime_error("Invalid units specified for nitrogen cost in nitrogen application.  Should be tonne, kg or g");
-            cost += costs[c].operationCost + costs[c].productCost * factor * nitrogenRate;
+            if (nitrogenRate > 0)
+               cost += costs[c].operationCost + costs[c].productCost * factor * nitrogenRate;
             break;
             }
          case yieldCost:
