@@ -239,6 +239,12 @@
          <variable name="infiltration" description="Infiltration (mm)"/>
       </variables>
    </soil>
+   <InitWater>
+      <UItype>initwater</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\drink_blue32.png</LargeIcon>
+      <SmallIcon>Images\drink_blue16.png</SmallIcon>
+   </InitWater>
    <soilp>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

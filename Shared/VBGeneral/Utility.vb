@@ -6,7 +6,7 @@ Public Class Utility
         Try
             Dim NullChar As New Char
             CStringToVBString = Cstring.Substring(0, Cstring.IndexOf(NullChar))
-        Catch e As Exception
+        Catch e As System.Exception
             MsgBox("Error converting string types", MsgBoxStyle.Critical)
         End Try
     End Function

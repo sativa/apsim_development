@@ -10,7 +10,7 @@ Public Class APSIMSettings
             Dim key As String = Trim(section) + "|" + Trim(keyword)
             GetAPSIMSetting(key, Setting, 1) '1 is true in C++
             GetSetting = Utility.CStringToVBString(Setting)
-        Catch ex As Exception
+        Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error reading APSIM Setting")
         End Try
     End Function
@@ -18,7 +18,7 @@ Public Class APSIMSettings
         Try
             Dim key As String = Trim(section) + "|" + Trim(keyword)
             SetAPSIMSetting(key, value)
-        Catch ex As Exception
+        Catch ex As System.Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error writting APSIM Setting")
         End Try
     End Sub

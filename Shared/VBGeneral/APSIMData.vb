@@ -19,7 +19,12 @@ Public Class APSIMData
     Sub New(ByVal type As String, ByVal name As String)
         name = name.Replace("&", "&amp;")
         Dim XMLString As String
-        XMLString = "<" + type + " name = """ + name + """></" + type + ">"
+        XMLString = "<" + type
+        If name <> "" Then
+            XMLString = XMLString + " name = """ + name + """"
+        End If
+        XMLString = XMLString + "/>"
+
         Dim data As New XmlDocument
         data.LoadXml(XMLString)
         Node = data.DocumentElement
@@ -64,7 +69,7 @@ Public Class APSIMData
         Loop
 
         If IsNothing(CurrentData) Then
-            Throw New Exception("Cannot find child " + ChildPath)
+            Throw New System.Exception("Cannot find child " + ChildPath)
         Else
             Return CurrentData
         End If
@@ -184,7 +189,11 @@ Public Class APSIMData
         ElseIf Me.Attribute("shortcut") <> "" Then
             MsgBox("Cannot add data to a short cut.  You must add this data to the data source in the library.", MsgBoxStyle.Critical, "User Error")
         Else
-            Data.Name = UniqueName(Data.Name, ChildList)
+            Dim NewName as string = UniqueName(Data.Name, ChildList)
+            if NewName <> Data.Name then
+                Data.Name = NewName
+            End If
+
             Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
             Node.AppendChild(newnode)
         End If
@@ -250,9 +259,9 @@ Public Class APSIMData
             SetAttribute("name", Value)
         End Set
     End Property
-    ReadOnly Property Children(Optional ByVal Type As String = Nothing) As Collection
+    ReadOnly Property Children(Optional ByVal Type As String = Nothing) As System.Collections.ArrayList
         Get
-            Dim ChildrenCollection As New Collection
+            Dim ChildrenCollection As New ArrayList
             If Node Is Nothing Then
                 ' do nothing
             Else

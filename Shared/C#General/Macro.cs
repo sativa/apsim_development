@@ -380,7 +380,7 @@ namespace CSGeneral
 			int PosCondition = Contents.IndexOf("[if");
 			while (PosCondition != -1 && PosCondition != Contents.Length)
 				{
-				int PosEndMacro = Contents.IndexOf(']', PosCondition);
+				int PosEndMacro = FindMatchingCloseBracket(ref Contents, PosCondition+1);
 				int PosEndIf = Contents.IndexOf("[endif]", PosCondition+1);
 				int PosNextElse = Contents.IndexOf("[else]", PosCondition+1);
 				int PosNextElseIf = Contents.IndexOf("[elseif", PosCondition+1);
@@ -439,6 +439,27 @@ namespace CSGeneral
 				PosCondition = Math.Min(Math.Min(PosIf, PosElse), PosElseIf);
 				}
 			}
+
+		//---------------------------------------------------------------
+		// Find the matching close bracket starting from the specified
+		// position 
+		//---------------------------------------------------------------
+		int FindMatchingCloseBracket(ref string Contents, int Pos)
+			{
+			int Count = 1;
+			while (Pos < Contents.Length && Count != 0)
+				{
+				if (Contents[Pos] == '[')
+					Count++;
+				if (Contents[Pos] == ']')
+					Count--;
+				Pos++;
+				}
+			if (Count != 0)
+				throw new Exception("Badly formed if statement: " + Contents.Substring(Pos));
+			return Pos-1;
+			}
+
 		//---------------------------------------------------------------
 		// Parse all comment statements and remove.
 		//---------------------------------------------------------------
@@ -464,8 +485,12 @@ namespace CSGeneral
 			{
 			StringCollection s = StringManip.SplitStringHonouringQuotes(IfMacro, " ");
 
-			if (s.Count != 3)
-				throw new Exception("Badly formatted if statement: " + IfMacro);
+			if (s.Count == 1)
+				return (s[0].IndexOf('[') == -1 || s[0].IndexOf(']') == -1);
+
+//			if (s.Count != 3)
+//				throw new Exception("Badly formatted if statement: " + IfMacro);
+			char[] operators = {'<', '>'};
 			string lhs = s[0];
 			string op = s[1];
 			string rhs = s[2];
@@ -475,6 +500,10 @@ namespace CSGeneral
 				return StringManip.StringsAreEqual(lhs, rhs);
 			else if (op == "<>")
 				return !StringManip.StringsAreEqual(lhs, rhs);
+			else if (op.IndexOfAny(operators) == -1)
+				return (s.Count >= 1);
+
+
 			else
 				{
 				double lhsValue = Convert.ToDouble(lhs);
