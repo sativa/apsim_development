@@ -10,7 +10,8 @@ class Field
       Field (protocol::Component* parent,
              const std::string& variable,
              bool csvformat,
-             const std::string& nastring);
+             const std::string& nastring,
+             unsigned int precision);
 
       void writeHeadings(std::ostream& headingOut, std::ostream& unitOut);
       void writeValue(std::ostream& out);
@@ -26,6 +27,7 @@ class Field
       bool CSVFormat;
       unsigned variableID;
       unsigned int fieldWidth;
+      unsigned int Precision;
       std::vector<std::string> values;
       std::string unit;
       unsigned arrayIndex;
@@ -35,7 +37,6 @@ class Field
       void calcFieldWidth(protocol::Variant* variant, bool ok);
       void writeTo(std::ostream& out, const std::string& value);
       void formatAsFloats(void);
-
    };
 // ------------------------------------------------------------------
 //  Short description:
@@ -68,6 +69,7 @@ class ReportComponent : public protocol::Component
       int DaysSinceLastReport;
       bool CSVFormat;
       bool haveWrittenHeadings;
+      unsigned int Precision;
       std::vector<unsigned> frequencyIds;
       std::string NAString;
 

@@ -30,14 +30,15 @@ static const char* stringArrayType = "<type kind=\"string\" array=\"T\">";
 Field::Field (protocol::Component* p,
               const string& variable,
               bool csvformat,
-              const std::string& nastring )
+              const std::string& nastring,
+              unsigned int precision)
    {
    parent = p;
    CSVFormat = csvformat;
    fieldWidth = 0;
    managerVariable = false;
    NAString = nastring;
-
+   Precision = precision;
    unsigned posPeriod = variable.find('.');
    if (posPeriod != string::npos)
       {
@@ -127,7 +128,7 @@ void Field::formatAsFloats(void)
          char* endptr;
          double value = strtod(values[i].c_str(), &endptr);
          if (*endptr == '\0')
-            values[i] = ftoa(value, 3);
+            values[i] = ftoa(value, Precision);
          }
       }
    }
@@ -408,6 +409,11 @@ void ReportComponent::doInit2(void)
       // get format specifier.
       CSVFormat = Str_i_Eq(componentData->getProperty("parameters", "format"), "csv");
 
+      if (readParameter("parameters", "precision", Precision, 0, 15, 1) == false)
+        {
+        Precision = 3;
+        }
+
       // enumerate through all output variables
       // and create a field for each.
       writeString("Output variables:");
@@ -420,7 +426,7 @@ void ReportComponent::doInit2(void)
          string name = *variableI;
          name = "   " + name;
          writeString(name.c_str());
-         fields.push_back(Field(this, *variableI, CSVFormat, NAString));
+         fields.push_back(Field(this, *variableI, CSVFormat, NAString, Precision));
          }
       writeString("");
 
