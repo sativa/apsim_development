@@ -60,10 +60,10 @@ variable = soilwat2.sw_dep
 variable = sugar.tt_tot()
 variable = sugar.lai
 variable = sugar.biomass
-variable = sugar.avg@swdef_photo
-variable = sugar.avg@nfact_photo
+variable = tracker.avg@swdef_photo
+variable = tracker.avg@nfact_photo
 variable = sugar.root_depth
-variable = sugar.avg@oxdef_photo
+variable = tracker.avg@oxdef_photo
 variable = sugar.crop_status
 variable = sugar.dm_dead()
 variable = sugar.lodge_redn_photo
@@ -261,6 +261,10 @@ rlv =         0.005   0.001   0.000
    endif
 
 [reference.SummaryFile.parameters]
-summaryfile=referenc.sum
+summaryfile = referenc.sum
 [reference.Screen.parameters]
-screen_output=on
+screen_output = on
+[reference.tracker.parameters]
+variable = average of swdef_photo since reported as avg@swdef_photo
+variable = average of nfact_photo since reported as avg@nfact_photo
+variable = average of oxdef_photo since reported as avg@oxdef_photo
