@@ -414,17 +414,18 @@ cnh      call set_warning_off ()
       endif
  
 !arrays2satpaste_names = salt
-         call read_char_array_optional (
+         call read_char_array_optional (  
      :           section_name,        ! Section header
-     :           'p%arrays2satpaste_names',      ! Keyword
+     :           'arrays2satpaste_names',      ! Keyword
      :           max_arrays,         ! array size
      :           '()',                ! Units
      :           p%arrays2satpaste_names,        ! Array
      :           p%num2satpaste)         ! Number of values returned
       if (p%num2satpaste .gt. 0) then
          do i=1,p%num2satpaste
-            write (line,'(20a,3a,20a)')  p%arrays2satpaste_names(i),
-     :              '-->', 'satpaste_'//p%arrays2satpaste_names(i)
+            write (line,'(20a,3a,50a)')  p%arrays2satpaste_names(i),
+     :              '-->', 'satpaste_'//p%arrays2satpaste_names(i) 
+     :              
             call write_string (line)
          enddo
       endif
