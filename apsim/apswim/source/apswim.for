@@ -3459,6 +3459,16 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
 *+  Changes
 *   NeilH - 19-09-1994 - Programmed and Specified
 
+*+  Local Variables
+      integer i
+      integer node
+      double precision psi1, psi2 ! psi at interpolation points
+      double precision th1, th2   ! theta at interpolation points
+      double precision hkl1, hkl2 ! log hk at interpolation points
+      double precision temp1, temp2 ! dummy numbers
+      double precision psix, thx, hklx ! point X for checking
+      character error_string*200
+
 *+  Constant Values
       character myname*(*)               ! name of current procedure
       parameter (myname = 'apswim_check_inputs')
@@ -3478,6 +3488,42 @@ cnh     :       x(layer), soil_type(layer), th(layer),psi(layer)*1000.,
          endif
       else
       endif
+
+      do 200 node = 0,n
+         do 100 i=2,MP
+            if (sl(node,i).ne.0) then
+               psi1 = 10**sl(node,i-1)
+               psi2 = 10**sl(node,i)
+               call apswim_interp(node,psi1,th1,temp1,hkl1,temp2)
+               call apswim_interp(node,psi2,th2,temp1,hkl2,temp2)
+
+               ! Now check that midpoint is between these two
+               psix = (psi1 + psi2)/2d0
+               call apswim_interp(node,psix,thx,temp1,hklx,temp2)
+
+               if ((thx.le.th1).and.(thx.ge.th2)) then
+                  ! this theta point is OK
+               else
+                  write(Error_String,*) 'Theta not monotonic, node ',
+     :               node,' psi = ',psix
+                  call fatal_error (ERR_User, Error_String)
+               endif
+
+               if ((hklx.le.hkl1).and.(hklx.ge.hkl2)) then
+                  ! this hkl point is OK
+               else
+                  write(Error_String,*) 'HKL not monotonic, node ',
+     :               node,' psi = ',psix
+                  call fatal_error (ERR_User, Error_String)
+               endif
+
+            else
+               goto 150
+            endif
+  100    continue
+  150    continue
+  200 continue
+
       call pop_routine (myname)
       return
       end
