@@ -558,8 +558,8 @@ void TestFindSubString(){
     // 2. null parent string
     BOOST_CHECK_EQUAL(findSubString(""," "),(unsigned int) -1);
 
-    // 3. null search string - error: returns 0
-    BOOST_CHECK_EQUAL(findSubString("ks2abc",""),(unsigned int) 0);
+    // 3. null search string
+    BOOST_CHECK_EQUAL(findSubString("ks2abc",""),(unsigned int) -1);
 
     // 4. not found
     BOOST_CHECK_EQUAL(findSubString("ks2abc","78"),(unsigned int) -1);

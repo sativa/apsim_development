@@ -58,7 +58,7 @@ void GDate_test::TestGDateMemberFunctions(){
     ostrstream out;
     gdate.Set(Julian2K);
     out << gdate;
-    BOOST_CHECK(out.str() == string("1/1/2000"));
+    BOOST_CHECK_EQUAL(string(out.str()), string("1/1/2000"));
 }
 
 void GDate_test::TestGDateValidEnquire(){
@@ -88,7 +88,7 @@ void GDate_test::TestGDateValidEnquire(){
     ostrstream out;
     gdate.Set(Julian2K);
     gdate.Write(out);
-    BOOST_CHECK(string(out.str()) == string("1/1/2000"));
+    BOOST_CHECK_EQUAL(string(out.str()), string("1/1/2000"));
 
     // 3.b test Write(string&)
     string str;

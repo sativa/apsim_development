@@ -150,7 +150,7 @@ template < class c1, class c2 >
 c1 multiply (const c1& container1, const c2& container2)
    {
    if (container1.size() != container2.size())
-      throw runtime_error("Cannot multiply 2 containers of numbers. Different number of values in each container.");
+       throw runtime_error("Cannot multiply 2 containers of numbers. Different number of values in each container.");
 
    c1 return_container;
 

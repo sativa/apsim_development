@@ -9,7 +9,7 @@
       ..\path.obj ..\stream_functions.obj ..\stream_processor.obj 
       ..\string_functions.obj ..\StringTokenizer.obj ..\stristr.obj ..\xml.obj 
       TestXml.obj TestIoFunctions.obj TestPathClass.obj TestMathFunctions.obj 
-      TestDateClass.obj"/>
+      TestStringFunctions.obj TestDateClass.obj"/>
     <RESFILES value="Test.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -33,8 +33,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="Test.bpf"/>
-    <INCLUDEPATH value="..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;&quot;C:\Program Files\Borland\CBuilder6\Components\Boost&quot;;&quot;C:\Program Files\Borland\CBuilder6\Components\libxml2\include&quot;;..\.."/>
-    <LIBPATH value="..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..\;..;D:\development\Shared\general\test;$(BCB)\include;$(BCB)\include\vcl;&quot;C:\Program Files\Borland\CBuilder6\Components\Boost&quot;;&quot;C:\Program Files\Borland\CBuilder6\Components\libxml2\include&quot;;..\.."/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..\;..;D:\development\Shared\general\test;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -78,6 +78,7 @@
       <FILE FILENAME="TestIoFunctions.cpp" FORMNAME="" UNITNAME="TestIoFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TestPathClass.cpp" FORMNAME="" UNITNAME="TestPathClass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TestMathFunctions.cpp" FORMNAME="" UNITNAME="TestMathFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestStringFunctions.cpp" FORMNAME="" UNITNAME="TestStringFunctions" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TestDateClass.cpp" FORMNAME="" UNITNAME="TestDateClass" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>

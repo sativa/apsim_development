@@ -340,6 +340,8 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
 // ------------------------------------------------------------------
 unsigned findSubString(const std::string& st, const std::string& subString)
    {
+   if (subString=="")
+       return string::npos;
    char* posChar = stristr(st.c_str(), subString.c_str());
    if (posChar == NULL)
       return string::npos;
