@@ -1,4 +1,4 @@
-c      include 'micromet.inc'
+      include 'micromet.inc'
 C     Last change:  VS   30 Jul 1999   11:44 am
 
       module MicrometScienceModule
