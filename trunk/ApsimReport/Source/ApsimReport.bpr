@@ -9,8 +9,9 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRenameFileForm.dfm TMainForm.dfm TPageSetupForm.dfm"/>
     <LIBFILES value="..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value="gtCompressionC60.lib VclSmp.lib gtQRC60Pro.lib kbmMemC6Run.lib 
-      ThirdParty.lib dcctc6.lib TMSC6.lib SEGReport.lib qrpt.lib"/>
+    <LIBRARIES value="gtCompressionC60.lib VclSmp.lib gtQRC60Pro.lib bcb2kaxserver.lib 
+      kbmMemC6Run.lib ThirdParty.lib dcctc6.lib TMSC6.lib SEGReport.lib 
+      nmfast.lib qrpt.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib qrpt.lib bdertl.lib dbrtl.lib vcldb.lib 
       nmfast.lib SEGReport.lib TMSC6.lib dcctc6.lib qrpt60.lib ThirdParty.lib 
       kbmMemC6Run.lib adortl.lib bcb2kaxserver.lib Tee6C6.lib TeeDB6C6.lib 
@@ -21,8 +22,7 @@
       inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi 
       dclocx.bpi dbexpress.bpi dbxcds.bpi ibxpress.bpi indy.bpi vcljpg.bpi 
       qrpt60.bpi adortl.bpi bdertl.bpi TeeDB6C6.bpi Tee6C6.bpi TeeUI6C6.bpi 
-      TeeQR6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeGL6C6.bpi 
-      bcb2kaxserver.bpi nmfast.bpi"/>
+      TeeQR6C6.bpi TeeLanguage6C6.bpi TeePro6C6.bpi TeeGL6C6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -95,6 +95,7 @@ Comments=
 
 [Excluded Packages]
 C:\Program Files\Borland\CBuilder6\Bin\dclclxstd60.bpl=Borland CLX Standard Components
+C:\MyData\development\Bin\SEGReport.bpl=SEGReport
 
 [HistoryLists\hlIncludePath]
 Count=12
