@@ -20,7 +20,7 @@
      and once for the actual variables
      ============================================================================ -->
 <xsl:template match="variables">
-   <h2>Variables for module <xsl:value-of select="../@name"/></h2>
+   <h2>Variables for outputting</h2>
    <table>
    <tr>
    <td><b>Name</b></td>

@@ -13,14 +13,12 @@
    <h2>Module documentation</h2>
 
    <!-- Create a table of contents -->
-   <table>
-   <xsl:apply-templates select="//variables">
+   <xsl:apply-templates select="//Documentation">
       <xsl:with-param name="table-of-contents" select="'yes'"/>
-      <xsl:sort select="@name"/>
+      <xsl:sort select="name(..)"/>
    </xsl:apply-templates>
-   </table>
 
-   <xsl:apply-templates select="//variables">
+   <xsl:apply-templates select="//Documentation">
       <xsl:with-param name="table-of-contents" select="'no'"/>
       <xsl:sort select="@name"/>
    </xsl:apply-templates>
@@ -33,45 +31,42 @@
      Matches all 'variables' elements. Called twice, once for a table of contents
      and once for the actual variables
      ============================================================================ -->
-<xsl:template match="variables">
+<xsl:template match="Documentation">
    <xsl:param name="table-of-contents" select="'no'"/>
    <xsl:if test="name(..)!='Types'">
       <xsl:choose>
          <xsl:when test="$table-of-contents='yes'">
-            <tr>
-            <td>
-            <xsl:choose>
-               <xsl:when test="@link">
-                  <a href="{@link}"><xsl:value-of select="name(..)"/> variables</a>
-               </xsl:when>
-               <xsl:otherwise>
-                  <a href="#{name(..)}"><xsl:value-of select="name(..)"/> variables</a>
-               </xsl:otherwise>
-            </xsl:choose>
-            </td>
-            <xsl:if test="@sciencedoc">
-               <td>
-               <a href="{@sciencedoc}"><xsl:value-of select="@name"/> science documentation</a>
-               </td>
-            </xsl:if>
-            </tr>
-
+            <p>
+            <a href="#{name(..)}"><xsl:value-of select="name(..)"/></a>
+            </p>
          </xsl:when>
 
          <xsl:otherwise>
-            <xsl:if test="boolean(@link) = false">
-               <H2><a name="{name(..)}">Variables for module <xsl:value-of select="name(..)"/></a></H2>
-               <table>
-               <tr>
-               <td><b>Name</b></td>
-               <td><b>Description</b></td>
-                  <xsl:apply-templates>
-                     <xsl:sort select="@name"/>
-                  </xsl:apply-templates>
-               </tr>
-               </table>
+            <H2><a name="{name(..)}"><xsl:value-of select="name(..)"/></a></H2>
+            <a href="{.}"><xsl:value-of select="@name"/> Documentation</a>
+            <xsl:if test="../Documentation2">
+               <p><a href="{../Documentation2}"><xsl:value-of select="../Documentation2/@name"/> Documentation</a></p>
             </xsl:if>
-         </xsl:otherwise>
+            <xsl:if test="../variables">
+              <xsl:choose>
+                  <xsl:when test="boolean(../variables/@link) = false">
+                     <table>
+                     <tr><td><b>Variables available for reporting</b></td></tr>
+                     <tr>
+                     <td><b>Name</b></td>
+                     <td><b>Description</b></td>
+                        <xsl:apply-templates select="../variables">
+                           <xsl:sort select="@name"/>
+                        </xsl:apply-templates>
+                     </tr>
+                     </table>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <p><a href="{../variables/@link}">Link to variables for outputting</a></p>
+                  </xsl:otherwise>
+              </xsl:choose>
+           </xsl:if>
+      </xsl:otherwise>
       </xsl:choose>
    </xsl:if>
 </xsl:template>
