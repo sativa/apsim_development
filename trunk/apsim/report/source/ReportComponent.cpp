@@ -243,6 +243,21 @@ void Field::calcFieldWidth(protocol::Variant* variant, bool ok)
 
 // ------------------------------------------------------------------
 //  Short description:
+//     Return a blank string when requested to indicate that we
+//     don't need a wrapper DLL.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+   {
+   strcpy(wrapperDll, "");
+   }
+// ------------------------------------------------------------------
+//  Short description:
 //     Create an instance of the REPORT module
 
 //  Notes:
