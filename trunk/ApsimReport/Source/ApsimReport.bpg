@@ -9,7 +9,7 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = SEGReport.bpl StandardControls.dll DataControls.dll ApsimReport.exe
+PROJECTS = SEGReport.bpl ApsimReport.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -19,14 +19,6 @@ ApsimReport.exe: ApsimReport.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 SEGReport.bpl: ..\..\Shared\SEGReport\SEGReport.bpk
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-StandardControls.dll: ..\..\Shared\SEGReport\StandardControls\StandardControls.bpr
-  $(ROOT)\bin\bpr2mak $**
-  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
-
-DataControls.dll: ..\..\Shared\SEGReport\DataControls\DataControls.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
