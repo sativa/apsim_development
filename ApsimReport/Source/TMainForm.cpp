@@ -73,6 +73,9 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    settings.write("Apsim Report Pos|MainFormTop", IntToStr(Top).c_str());
    settings.write("Apsim Report Pos|MainFormWidth", IntToStr(Width).c_str());
    settings.write("Apsim Report Pos|MainFormHeight", IntToStr(Height).c_str());
+
+   // ApsimReport will throw an av when shut down without the following line.
+   ReportForm->Report->clear();
    }
 //---------------------------------------------------------------------------
 // User wants to edit the report.
@@ -101,6 +104,7 @@ void __fastcall TMainForm::EditDataActionExecute(TObject *Sender)
       ReportForm->TabControl->TabWidth = 1;
       ReportForm->Report->showDataPage(true);
       edit(true);
+      loadFormPosition(DataPreviewForm);
       }
    else
       {
@@ -108,7 +112,6 @@ void __fastcall TMainForm::EditDataActionExecute(TObject *Sender)
       ReportForm->TabControl->TabHeight = 0;  // auto size.
       ReportForm->TabControl->TabWidth = 0;
       }
-   loadFormPosition(DataPreviewForm);
    }
 //---------------------------------------------------------------------------
 // Tell report to go into edit mode.
@@ -172,10 +175,7 @@ void TMainForm::populateToolBar(void)
    ReportForm->Report->populateToolBar(ReportToolBar);
    ReportToolBar->Visible = (ReportToolBar->ButtonCount > 0);
    for (int b = 0; b != ReportToolBar->ButtonCount; b++)
-      {
       ReportToolBar->Buttons[b]->OnClick = ReportButtonClick;
-      ReportToolBar->Buttons[b]->Hint = ReportToolBar->Buttons[b]->Caption;
-      }
    }
 //---------------------------------------------------------------------------
 // user has clicked a report toolbar button.
