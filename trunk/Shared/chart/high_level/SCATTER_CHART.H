@@ -24,7 +24,9 @@ class Scatter_chart : public High_level_chart_base
                    X_axis_link_enum X_axis_link = bottom,
                    Y_axis_link_enum Y_axis_link = left,
                    Format_base* Format_ptr = NULL,
-                   const char* Title = NULL);
+                   const char* Title = NULL,
+                   bool Accumulate_x = false,
+                   bool Accumulate_y = false);
 
    protected:
    };
