@@ -141,7 +141,7 @@ class PlantPhenology {
 class WheatPhenology : public PlantPhenology {
  private:
    // State variables
-   float das;
+   int   das;
    float cumvd;
    float vern_eff;
    float photop_eff;
@@ -202,7 +202,7 @@ class WheatPhenology : public PlantPhenology {
 class LegumePhenology : public PlantPhenology {
  private:
    // states
-   float das;
+   int   das;
    float photoperiod;                                // is really day length..
    float cumvd;                                      // cumulative v days 
 

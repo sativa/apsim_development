@@ -748,14 +748,17 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       // day of sowing elsewhere. 
       if (das == 0)
          {
-         dltStage = 0.0;
+         phase_devel = 0.999;
          }
       else if ( plant_germination(pesw_germ, sowing_depth, sw) )
          {
-      	dltStage = 1.0;
+         phase_devel = 1.999;
          }
-      phase_devel = 1.999;
-      new_stage = currentStage + dltStage;
+      else 
+         {
+         phase_devel = 0.0;
+         }
+      new_stage = floor(currentStage) + phase_devel;
       }
    else if (inPhase("germination"))
       {
@@ -771,7 +774,6 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       const pPhase &current = phases[currentStage];
       phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
       new_stage = floor(currentStage) + phase_devel;
-      dltStage = new_stage - currentStage;
       }
    else if (inPhase("above_ground"))
       {
@@ -789,7 +791,6 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       const pPhase &current = phases[currentStage];
       phase_devel = divide(current.getTT() + dlt_tt_phenol, current.getTTTarget(), 1.0);
       new_stage = floor(currentStage) + phase_devel;
-      dltStage = new_stage - currentStage;
       }
    else
       {
@@ -797,8 +798,9 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       dlt_tt_phenol = dlt_tt;
       phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
-      dltStage = 0.0;
       }
+   dltStage = new_stage - currentStage;
+
 
    /// accumulate() to objects
    float value = dlt_tt_phenol;             //  (INPUT) value to add to array
@@ -1444,7 +1446,6 @@ void LegumePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       {
       // ??Hmmm. should probably stop dead here??
       dlt_tt_phenol = dlt_tt;
-      const pPhase &current = phases[currentStage];
       phase_devel = 0.0;
       new_stage = floor(currentStage) + phase_devel;
       }
