@@ -77,79 +77,81 @@
       integer    numvals               ! number of values found in array
       character  string*200            ! output string
       character  skip*20               ! skip type solid,single,double
+      character  module_name*50      ! module name
 
 *- Implementation Section ----------------------------------
 
       call push_routine (my_name)
       call print_routine (my_name)
 
+      if (g%plant_status.eq.status_out) then
+         if (.not. g%plant_status_out_today) then
 
-      !-----------------------------------------------------------
-      !Read sowing information
-      !-----------------------------------------------------------
-      call Write_string ( 'Sowing initiate')
+         !-----------------------------------------------------------
+         !Read sowing information
+         !-----------------------------------------------------------
+         call Write_string ( 'Sowing initiate')
 
-      call collect_char_var ('cultivar', '()'
+         call collect_char_var ('cultivar', '()'
      :                        , cultivar, numvals)
 
-      call collect_real_var ('plants', '()'
+         call collect_real_var ('plants', '()'
      :                        , g%plants, numvals, 0.0, 400.0)
 
-      call collect_real_var (
+         call collect_real_var (
      :                          'sowing_depth', '(mm)'
      :                        , g%sowing_depth, numvals
      :                        , 0.0, 100.0)
 
-      call collect_real_var_optional (
+         call collect_real_var_optional (
      :                          'row_spacing', '(m)'
      :                        , g%row_spacing, numvals
      :                        , 0.0, 2.0)
 
-      if (numvals.eq.0) then
-          g%row_spacing = c%row_spacing_default
-      endif
+         if (numvals.eq.0) then
+             g%row_spacing = c%row_spacing_default
+         endif
 
-      g%skip_row = c%skip_row_default
-      call collect_real_var_optional (
+         g%skip_row = c%skip_row_default
+         call collect_real_var_optional (
      :                         'skiprow', '()'
      :                        , g%skip_row, numvals
      :                        , 0.0, 2.0)
-      if (numvals.eq.0) then
-         call collect_char_var_optional ('skip', '()', skip, numvals)
-         if (numvals.ne.0) then
-            if (skip .eq. 'single') then
-               g%skip_row = 1.0
-            elseif (skip .eq. 'double') then
-               g%skip_row = 2.0
-            elseif (skip .eq. 'solid') then
-               g%skip_row = 0.0
+         if (numvals.eq.0) then
+            call collect_char_var_optional ('skip', '()', skip, numvals)
+            if (numvals.ne.0) then
+               if (skip .eq. 'single') then
+                  g%skip_row = 1.0
+               elseif (skip .eq. 'double') then
+                  g%skip_row = 2.0
+               elseif (skip .eq. 'solid') then
+                  g%skip_row = 0.0
+               else
+                  call warning_error (err_user, 'Dont know what skip='//
+     :                                 skip //'means.')
+                  g%skip_row = 0.0
+               endif
             else
-               call warning_error (err_user, 'Dont know what skip='//
-     :         skip //'means.')
-               g%skip_row = 0.0
+               ! uses default value
             endif
          else
-            ! uses default value
+            ! uses collected value
          endif
-      else
-         ! uses collected value
-      endif
 
-      g%skip_row_fac = (2.0 + g%skip_row)/2.0
+         g%skip_row_fac = (2.0 + g%skip_row)/2.0
 
 
-         !scc added FTN 11/10/95
-      call collect_real_var_optional (
+            !scc added FTN 11/10/95
+         call collect_real_var_optional (
      :                      'tiller_no_fertile', '()'
      :                    , g%tiller_no_fertile, numvals
      :                    , 0.0, 10.0)
 
-      if (numvals.eq.0) then
-         g%tiller_no_fertile = 0.0
-      else
-      endif
-
-      call publish_null(id%sowing)
+         if (numvals.eq.0) then
+            g%tiller_no_fertile = 0.0
+         else
+         endif
+        call publish_null(id%sowing)
       !-----------------------------------------------------------
       !Report sowing information
       !-----------------------------------------------------------
@@ -207,6 +209,25 @@ cjh      else
             ! report empty sowing record
 cjh         call fatal_error (err_user, 'No sowing criteria supplied')
 cjh      endif
+
+         else
+            call get_name (module_name)
+            call fatal_error (ERR_USER,
+     :           '"'//trim(module_name)
+     :          //'" was taken out today by end_crop action -'
+     :          //new_line
+     :          //' Unable to accept sow action '
+     :          //' until the next day.')
+         endif
+      else
+         call get_name (module_name)
+         call fatal_error (ERR_USER,
+     :           '"'//trim(module_name)
+     :          //'" is still in the ground -'
+     :          //' unable to sow until it is'
+     :          //' taken out by "end_crop" action.')
+
+      endif
 
       call pop_routine (my_name)
       return
@@ -3274,7 +3295,7 @@ c        end if
 
          g%plant_status = status_out
          g%current_stage = real (plant_end)
-
+         g%plant_status_out_today = .true.
 
         !Report the crop yield
          yield = (g%dm_green(grain) + g%dm_dead(grain)) *gm2kg /sm2ha
@@ -3414,6 +3435,7 @@ c    :             - g%N_dead(root) - g%N_dead(grain))
          call write_string ( string)
 
       else
+         ! crop is already out
       endif
 
       call pop_routine (my_name)
@@ -5080,7 +5102,8 @@ c           string_to_integer_var(value_string, value, numvals)
 
 
       !name
-      g%plant_status     = " ";
+      g%plant_status     = status_out
+      g%plant_status_out_today = .false.
 
 
       !general
