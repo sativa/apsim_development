@@ -1,29 +1,29 @@
 [files.report.parameters]
-title = sample simulation
-outputfile = soiltemp.out     /overwrite
-summaryfile = soiltemp.sum   /overwrite
+outputfile =soiltemp.out
 
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  1
-simulation_start_year = 1988
-simulation_end_day =  120
-simulation_end_year = 1990
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=30/4/1990     ! dd/mm/yyyy
 
-[sample.manager.post]
+[sample.manager.end_of_day]
 if (end_week = 1) then
    report do_output
 endif
 
 
 [variables.report.parameters]
-module_names   =  clock              soiltemp      soiltemp               soiltemp           soiltemp          met  met
-variable_names =  today.dd/mm/yyyy   ave_soil_temp ave_soil_temp_surface  maxt_soil_surface  mint_soil_surface maxt mint
-variable_alias =  Date               -              -                     -                  -                 -    -
 
+variable = clock.today.dd/mm/yyyy(Date)
+variable = soiltemp.ave_soil_temp
+variable = soiltemp.ave_soil_temp_surface
+variable = soiltemp.maxt_soil_surface
+variable = soiltemp.mint_soil_surface
+variable = met.maxt
+variable = met.mint
 [sample.soiltemp.parameters]
 bound_layer_cond = 20.0  (J/s/m2/K)
-clay =  0.1  0.1  0.1  0.1  0.1  0.2  0.3  () ! proportion of clay (0-1)    
+clay =  0.1  0.1  0.1  0.1  0.1  0.2  0.3  () ! proportion of clay (0-1)
 
 
 
