@@ -3107,6 +3107,7 @@ cnh
       call apswim_assign_crop_params ()
       call apswim_get_crop_variables ()
       call apswim_get_residue_variables ()
+      call apswim_remove_interception ()
 
       time_of_day = apswim_time_to_mins (g%apsim_time)
       timestep_start = apswim_time (g%year,g%day,time_of_day)
@@ -8535,6 +8536,73 @@ c      pause
 
 
       call pop_routine (myname)
+      return
+      end
+
+* ====================================================================
+       subroutine apswim_remove_interception ()
+* ====================================================================
+      use APSwimModule
+       implicit none
+       include 'const.inc'             ! Constant definitions
+       include 'intrface.pub'
+       include 'error.pub'
+
+*+   Purpose
+*      Remove interception losses from rainfall record
+
+*+   Changes
+
+*+  Calls
+      double precision ddivide
+
+*+  Local Variables
+      integer numvals                  ! number of values returned
+      integer counter
+      double precision intercep
+      double precision tot_rain
+      double precision fraction
+
+*- Implementation Section ----------------------------------
+
+
+         call get_double_var_optional (
+     :            unknown_module, 
+     :           'interception',
+     :           '(mm)',
+     :           intercep,
+     :           numvals,
+     :           0d0,
+     :           1000d0)
+
+         if (numvals.le.0) then
+            intercep = 0d0
+         else
+         endif
+
+      if (intercep.gt.0d0) then
+
+         ! Assume that interception is taken over all rainfall
+         ! information given thus far - can do nothing better than this
+
+         tot_rain = g%SWIMRainAmt(g%SWIMRainNumPairs)
+     :            - g%SWIMRainAmt(1)
+
+         fraction = ddivide(intercep,tot_rain,1d6)
+         if (fraction.gt.1d0) then
+            call fatal_error(ERR_Internal,'Interception > Rainfall')
+         else
+            do 100 counter = 2, g%SWIMRainNumPairs
+               g%SWIMRainAmt(counter) = g%SWIMRainAmt(1)
+     :            + (g%SWIMRainAmt(counter)-g%SWIMRainAmt(1))
+     :                 * (1d0 - fraction)             
+  100       continue
+         endif
+
+      else
+         ! do not bother removing zero
+      endif
+
       return
       end
 
