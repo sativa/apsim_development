@@ -1,17 +1,18 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "io_functions.h"
-#include <dir.h>
 #include <general\path.h>
+#include <dos.h>
 #include <shellapi.h>
 // ------------------------------------------------------------------
 //  Short description:
 //      return a list of files/directories to caller.
 
-//  Notes:    
+//  Notes:
 
 //  Changes:
 //    DPH 11/6/1997
+//    dph 11/1/1998 modified to use VCL findfirst routines.
 
 // ------------------------------------------------------------------
 void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
@@ -21,7 +22,7 @@ void GENERAL_EXPORT Get_directory_listing (const char* Directory_name,
                                            bool Full_path)
    {
    if (Attribute == 0)
-      Attribute = faAnyFile;
+      Attribute = ~faDirectory;
       
    Path p;
 
