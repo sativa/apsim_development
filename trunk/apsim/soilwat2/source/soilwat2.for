@@ -12,6 +12,9 @@
  
 !+  Purpose
 !      Module instantiation routine.
+
+*+  Mission Statement
+*     Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -34,6 +37,9 @@
  
 !+  Purpose
 !      Module de-instantiation routine.
+
+*+  Mission Statement
+*     De-Instantiate routine
  
 !- Implementation Section ----------------------------------
                
@@ -55,6 +61,9 @@
  
 !+  Purpose
 !      Swap an instance into the global 'g' pointer
+
+*+  Mission Statement
+*     Swap an instance into global pointer
  
 !- Implementation Section ----------------------------------
                
@@ -84,7 +93,7 @@
 *       evaporation, solute movement (nitrate, urea), total transpiration.
  
 *+  Mission Statement
-*     SoilWat2
+*     Handles communications for SoilWat2
  
 *+  Changes
 * =====================================================
@@ -6129,7 +6138,10 @@ c
       include 'error.pub'                         
 
 *+  Purpose
-*     <insert here>
+*     Calculate the water table
+
+*+  Mission statement
+*     Calculate the water table
 
 *+  Changes
 *   neilh - 28-03-1996 - Programmed and Specified
