@@ -12,6 +12,7 @@
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "HTMListB"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 //---------------------------------------------------------------------------
@@ -21,9 +22,10 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
    // load the onTop property from the .ini file.
    ApsimSettings settings;
    string onTop;
-   settings.read("on_top", onTop);
+   settings.read("ApsBuild|on_top", onTop);
    OnTopRadio->Checked = !Str_i_Eq(onTop, "no");
    OnTopRadioClick(NULL);
+   Thread = NULL;
    }
 //---------------------------------------------------------------------------
 __fastcall TMainForm::~TMainForm()
@@ -62,7 +64,7 @@ void TMainForm::Go ()
 // ------------------------------------------------------------------
 void __fastcall TMainForm::DisplayMessage1 (TObject* Object, const char* Message)
    {
-   MessageLabel1->Caption = Message;
+   ListBox->Items->Strings[0] = Message;
    }
 
 // ------------------------------------------------------------------
@@ -77,7 +79,7 @@ void __fastcall TMainForm::DisplayMessage1 (TObject* Object, const char* Message
 // ------------------------------------------------------------------
 void __fastcall TMainForm::DisplayMessage2 (TObject* Object, const char* Message)
    {
-   MessageLabel2->Caption = Message;
+   ListBox->Items->Strings[1] = Message;
    }
 
 // ------------------------------------------------------------------
@@ -97,7 +99,13 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
       string ProjectFilename = *ProjectFiles.begin();
       ProjectFiles.erase(ProjectFiles.begin());
 
-      if (GetFileAttributes(ProjectFilename.c_str()) & FILE_ATTRIBUTE_READONLY)
+      if (!FileExists(ProjectFilename.c_str()))
+         {
+         string msg = "Cannot compile: " + ProjectFilename + ".  The file doesn't exist";
+         Application->MessageBox( (char*) msg.c_str(), "Error", MB_ICONSTOP | MB_OK);
+         ThreadTerminated(Object);
+         }
+      else if (GetFileAttributes(ProjectFilename.c_str()) & FILE_ATTRIBUTE_READONLY)
          {
          string msg = "Cannot compile: " + ProjectFilename + ".  The file is readonly.  "
                       "If the file is in the APSuite directory then copy the module to "
@@ -108,6 +116,7 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          }
       else
          {
+         delete Thread;
          Thread = new CompileThread ( ProjectFilename.c_str() );
          Thread->Build = Build;
          Thread->Debug = Debug;
@@ -120,12 +129,16 @@ void __fastcall TMainForm::ThreadTerminated (TObject* Object)
          }
       }
    else
-      Close();
+      {
+      if (!Quiet)
+         displayCompilerOutput();
+      }
    }
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::Button1Click(TObject *Sender)
+void __fastcall TMainForm::CloseButtonClick(TObject *Sender)
    {
    Thread->Terminate();
+   Close();
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
@@ -140,9 +153,9 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
       onTop = "no";
 
    ApsimSettings settings;
-   settings.write("left", left);
-   settings.write("top", top);
-   settings.write("on_top", onTop);
+   settings.write("ApsBuild|left", left);
+   settings.write("ApsBuild|top", top);
+   settings.write("ApsBuild|on_top", onTop);
    }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OnTopRadioClick(TObject *Sender)
@@ -163,8 +176,8 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       // load the Left, Top properties from the .ini file.
       ApsimSettings settings;
       string left, top;
-      settings.read("left", left);
-      settings.read("top", top);
+      settings.read("ApsBuild|left", left);
+      settings.read("ApsBuild|top", top);
       if (left != "" && top != "")
          {
          Left = StrToInt(left.c_str());
@@ -175,4 +188,23 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
       }
    }
 //---------------------------------------------------------------------------
-
+// Display the compiler output.
+//---------------------------------------------------------------------------
+void TMainForm::displayCompilerOutput(void)
+   {
+   if (Thread != NULL)
+      {
+      ApsimSettings settings;
+      string st;
+      settings.read("ApsBuild|height", st);
+      if (st == "")
+         Height = 400;
+      else
+         Height = StrToInt(st.c_str());
+      Memo->Lines->LoadFromFile(Thread->getCompilerFileName().c_str());
+      CloseButton->Caption = "Close";
+      while (ModalResult == mrNone)
+         Application->ProcessMessages();
+      settings.write("ApsBuild|height", IntToStr(Height).c_str());
+      }
+   }

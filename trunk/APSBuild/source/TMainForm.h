@@ -8,6 +8,7 @@
 #include <Forms.hpp>
 #include "CompileThread.h"
 #include <ExtCtrls.hpp>
+#include "HTMListB.hpp"
 #include <string>
 #include <list>
 using std::list;
@@ -16,14 +17,12 @@ using std::string;
 class TMainForm : public TForm
 {
 __published:	// IDE-managed Components
-   TButton *Button1;
+   TPanel *Panel3;
    TCheckBox *OnTopRadio;
-   TPanel *Panel1;
-   TLabel *MessageLabel1;
-   TLabel *Label1;
-   TPanel *Panel2;
-   TLabel *MessageLabel2;
-   void __fastcall Button1Click(TObject *Sender);
+   TButton *CloseButton;
+   THTMListBox *ListBox;
+   TMemo *Memo;
+   void __fastcall CloseButtonClick(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall OnTopRadioClick(TObject *Sender);
    void __fastcall FormShow(TObject *Sender);
@@ -36,6 +35,7 @@ private:	// User declarations
       void __fastcall DisplayMessage1 (TObject* Object, const char* Message);
       void __fastcall DisplayMessage2 (TObject* Object, const char* Message);
       void __fastcall ThreadTerminated (TObject* Object);
+      void displayCompilerOutput(void);
 
 public:		// User declarations
    __fastcall TMainForm(TComponent* Owner);
