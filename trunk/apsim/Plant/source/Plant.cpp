@@ -9547,7 +9547,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     else
         {
         stage_fract = stage_part_current;
-        for (stage_no = stage_no_current; stage_no< stage_no_previous; stage_no++)
+        for (stage_no = stage_no_current; stage_no<= stage_no_previous; stage_no++)
             {
             g.days_tot[stage_no-1]       = 0.0;
             g.tt_tot[stage_no-1]         = 0.0;
