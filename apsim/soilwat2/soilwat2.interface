@@ -18,26 +18,42 @@ class APSIMSoilwat2Public
    drain                   : APSIMReal         = Drainage, (mm), GET
    infiltration            : APSIMReal         = Infiltration, (mm), GET
    eff_rain                : APSIMReal         = Effective rainfall = Rainfall - runoff - drainage, (mm), GET
-   salb                    : APSIMReal         = Bare soil albedo, (mm), GET
-   bd                      : APSIMRealArray    = Bulk density of the soil for each layer, (g/cc), GET
+   bd                      : APSIMRealArray    = Bulk density of the soil for each layer, (g/cc), GET|READ, 0.0, 2.0
    esw                     : APSIMReal         = Extractable soil water, (mm), GET
    sw_dep                  : APSIMReal         = Layered soil water, (mm), GET|SET
-   sw                      : APSIMRealArray    = Soil water, (mm/mm), GET|SET
-   dlayer                  : APSIMRealArray    = Soil Depth - layered, (mm), GET|SET, 0.0, 10000.0
+   dlt_sw_dep              : APSIMRealArray    = Change in soil moisture, (mm), SET, -10000.0, 10000.0
+   sw                      : APSIMRealArray    = Soil water, (mm/mm), GET|SET|READ, 0.0, 1.0
+   dlt_sw                  : APSIMRealArray    = Change in volumetric soil moisture, (mm/mm), SET, -1.0, 1.0
+   dlayer                  : APSIMRealArray    = Soil Depth - layered, (mm), GET|SET|READ, 0.0, 10000.0
+   dlt_dlayer              : APSIMRealArray    = Change in layer thicknesses, (mm), SET, 0.0, 10000.0
    ll15_dep                : APSIMRealArray    = 15 bar Lower limit - layered, (mm), GET|SET, 0.0, 1.0
-   ll15                    : APSIMRealArray    = Volumetric 15 bar Lower limit - layered, (mm/mm), GET
+   ll15                    : APSIMRealArray    = Volumetric 15 bar Lower limit - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
    dul_dep                 : APSIMRealArray    = Drained upper limit - layered, (mm), GET|SET, 0.0, 10000.0
-   dul                     : APSIMRealArray    = Volumetric drained upper limit - layered, (mm/mm), GET|SET, 0.0, 1.0
+   dul                     : APSIMRealArray    = Volumetric drained upper limit - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
    sat_dep                 : APSIMRealArray    = Saturation - layered, (mm), GET|SET, 0.0, 10000.0
-   sat                     : APSIMRealArray    = Volumetric saturation - layered, (mm/mm), GET|SET, 0.0, 1.0
+   sat                     : APSIMRealArray    = Volumetric saturation - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
    air_dry_dep             : APSIMRealArray    = Air dry - layered, (mm), GET|SET, 0.0, 10000.0
-   air_dry                 : APSIMRealArray    = Volumetric air dry - layered, (mm/mm), GET|SET, 0.0, 1.0
+   air_dry                 : APSIMRealArray    = Volumetric air dry - layered, (mm/mm), GET|SET|READ, 0.0, 1.0
    flux                    : APSIMRealArray    = Saturated water flux from each layer to the layer below, (mm), GET
    flow                    : APSIMRealArray    = Unsaturated water movements between layers (+ve up), (mm), GET
    flow_water              : APSIMRealArray    = flow_water, (mm), GET
    flow_nnnn               : APSIMRealArray    = Flow of solute nnnn between layers, (mm), GET
    nnnn_leach              : APSIMRealArray    = Amount of solute nnnn in saturated water movement from each layer to the layer below, (mm), GET
    nnnn_up                 : APSIMRealArray    = Amount of solute nnnn in unsaturated water movement for each layer (+ve up), (mm), GET
+
+   observed_runoff         : APSIMString       = Name of APSIM variable containing observed runoff data, (), READ_OPT
+   insoil                  : APSIMReal         = Indicator for initial soil water, (), READ, 0.0, 100.0
+   diffus_const            : APSIMReal         = Constant term in diffusivity calculation, (), READ, 0.0, 500.0
+   diffus_slope            : APSIMReal         = Slope term in diffusivity calculation, (), READ, 0.0, 100.0
+   cn2_bare                : APSIMReal         = Bare soil runoff curve number, (), READ|SET, 0.0, 100.0
+   cn_red                  : APSIMReal         = Maximum reduction in curve number due to cover, (), READ|SET, 0.0, 100.0
+   cn_cov                  : APSIMReal         = Cover effecting a maximum reduction in curve number, (0-1), READ|SET, 0.0, 1.0
+   salb                    : APSIMReal         = Bare soil albedo, (0-1), GET|READ, 0.0, 1.0
+   cona                    : APSIMReal         = Slope coefficient for 2nd stage evaporation, (), READ, 0.0, 10.0
+   u                       : APSIMReal         = Duration of 1st stage evaporation, (mm), READ, 0.0, 100.0
+; NIH - note that I have ignored the parameters for the unused evaporation options - this may lead to confusion to current users if I put them in
+
+   eo_source               : APSIMString       = Name of APSIM variable containing Eo data, (), READ_OPT
 
    min_crit_temp           : APSIMReal         = Temperature below which eeq decreases, (oC), READ, 0.0, 10.0
    max_crit_temp           : APSIMReal         = Temperature above which eeq increases, (oC), READ, 0.0, 50.0
@@ -59,12 +75,7 @@ class APSIMSoilwat2Public
    canopy_fact_default     : APSIMReal         = Default canopy factor in absence of height, (), READ, 0.0, 1.0
    act_evap_method         : APSIMString       = act_evap_method, (), READ
 
-   dlt_sw                  : APSIMRealArray    = dlt_sw temporary array, (), SET, -1.0, 1.0
-   dlt_sw_dep              : APSIMRealArray    = dlt_sw_dep temporary array, (), SET, -10000.0, 10000.0
-   dlt_dlayer              : APSIMRealArray    = dlt_dlayer temporary array, (), SET, -10000.0, 10000.0
-   cn2_bare                : APSIMReal         = Curve number input used to calculate daily runoff, (), SET, 0.0, 100.0
-   cn_cov                  : APSIMReal         = Cover at which curve number reduction occurs, (), SET, 0.0, 1.0
-   cn_red                  : APSIMReal         = Maximum reduction in p_cn2_bare due to cover, (), SET
+
 
    tillage                 : APSIMSoilwat2TillageMethod = Set up for CN reduction after tillage operation
    sysinit                 : APSIMMethod                = System initialise
