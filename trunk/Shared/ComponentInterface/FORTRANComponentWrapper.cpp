@@ -1456,9 +1456,10 @@ extern "C" __declspec(dllexport) int __stdcall read_parameter
    (const char* parameterName, const char* sectionName, char* value, int* optional,
     unsigned parameterNameLength, unsigned sectionNameLength, unsigned valueLength)
    {
-   bool found = FortranWrapper::currentInstance->readParameter
-      (FString(sectionName, sectionNameLength, FORString), FString(parameterName, parameterNameLength, FORString),
-       FString(value, valueLength, FORString), *optional);
+   FString fsect = FString(sectionName, sectionNameLength, FORString);
+   FString fpar = FString(parameterName, parameterNameLength, FORString);
+   FString fvar = FString(value, valueLength, FORString);
+   bool found = FortranWrapper::currentInstance->readParameter(fsect, fpar, fvar, *optional);
 
    if (found)
       return true;
