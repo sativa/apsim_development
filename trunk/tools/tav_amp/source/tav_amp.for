@@ -229,8 +229,10 @@
             record_lc = lower_case (record)
                
             if (.not. record_is_comment) then
-         
-               read (record_data_lc, *) (c_columns(i), i=1,num_words)
+!               read (record_data_lc, *) (c_columns(i), i=1,num_words)
+               do i = 1, num_words
+                  call get_a_word (record_data_lc, i, c_columns(i))
+               enddo
                read (c_columns(posn_year), *) year
                read (c_columns(posn_day), *) day
                read (c_columns(posn_maxt), *) maxt
@@ -671,6 +673,91 @@
       ! or is the year is divisible by 400.
  
       Leap_year = (y4 .and. .not. y100) .or. y400
+ 
+      return
+      end
+ 
+* ====================================================================
+      subroutine get_a_word (string, nth, word)
+* ====================================================================
+      implicit none
+ 
+*+ Sub-Program Arguments
+      character  string*(*)            ! (INPUT) string to be searched
+      integer    nth                   ! (INPUT) word number to return
+      character  word*(*)              ! (OUTPUT) word found
+ 
+*+ Purpose
+*     returns the n'th word in a string, separated by one or more blanks,
+*     commas or equals. If not found, blank is returned.
+ 
+*+  Definition
+*     "string" is a string containing zero or more words where
+*     each word is separated from any previous word by  one or
+*     more blanks, commas or equals signs.  If there is at
+*     least "nth" words in "string", then the "nth"'th word will be
+*     assigned to "word".  Otherwise the empty string will be
+*     assigned to "word".  
+
+*+  Mission Statement
+*      Let %3 be the %2'th word in %1
+ 
+*+ Changes
+*       050994 JNGH specified and programmed
+ 
+*+ Calls
+ 
+*+ Constant Values
+      character  blank_string*(*)
+      parameter (blank_string = ' ')
+*
+      character  word_delim*(*)        ! possible delimiters of wordss
+      parameter (word_delim = ' ,=')
+ 
+*+ Local Variables
+      integer counter                  ! count_of_real_vals of words found so
+                                       ! far
+      integer indx                     ! character index
+      logical on_word_now              ! flag indicating if on a word
+      logical prev_on_word             ! flag indicating if previous
+                                       ! character was on a word
+      integer start_pos                ! starting position of word in string
+      integer string_end               ! position of end  of string
+      logical word_end                 ! flag indicating if ending a word
+      logical word_start               ! flag indicating if starting a word
+ 
+*- Implementation Section ----------------------------------
+ 
+ 
+            ! Take each character in string in turn and check if it
+            ! is a delimiter in the list.  Find start of a word
+            ! and count_of_real_vals word.
+ 
+      word = blank_string
+      prev_on_word = .false.
+      counter = 0
+      start_pos = 0
+      string_end = len_trim(string)
+ 
+      do 1000 indx = 1, string_end
+ 
+         on_word_now = index (word_delim, string(indx:indx)).eq.0
+         word_start = on_word_now .and. .not.prev_on_word
+         word_end = (prev_on_word .and. .not.on_word_now)
+     :           .or. (on_word_now .and. indx.eq.string_end)
+ 
+         if (word_start) then
+            counter = counter + 1
+            start_pos = indx
+         elseif (word_end .and. counter.eq.nth) then
+               ! extract nth word
+            word = string(start_pos:indx)
+         else
+         endif
+ 
+         prev_on_word = on_word_now
+ 
+1000  continue
  
       return
       end
