@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Plants>
+   <Plant name="Lawn">
+      <RootingDepth>0</RootingDepth>
+      <CropFactor>1.0</CropFactor>
+   </Plant>
+   <Plant name="European Shrubs">
+      <RootingDepth>200</RootingDepth>
+      <CropFactor>0.9</CropFactor>
+   </Plant>
+   <Plant name="Native Shrubs">
+      <RootingDepth>200</RootingDepth>
+      <CropFactor>0.7</CropFactor>
+   </Plant>
+</Plants>
+<Soils>
+   <Soil name="Clay">
+      <PAWC>0.20</PAWC>
+   </Soil>
+   <Soil name="Loam">
+      <PAWC>0.15</PAWC>
+   </Soil>
+   <Soil name="Sand">
+      <PAWC>0.10</PAWC>
+   </Soil>
+</Soils>
