@@ -66,7 +66,6 @@
          Real Fact(max_layer)      ! Soil-water tension (pF)
          real Fvpd                 ! Interpolated VPD stress factor (0-1)
          REAL eff                  ! Initial light-use efficiency (kg CO2 ha-1 leaf h-1)(W m-2 leaf )-1 
-         REAL wclqt(max_layer)     ! Array of actual soil water contents/layer (m3 m-3)
          REAL MSUC(max_layer)      ! Array of soil-water tension (suction), per soil layer  !cm H2O 
          REAL TRWL(max_layer)      ! Array of actual water withdrawal by transpiration, per soil layer  !mm d-1 
          REAL ZRTL(max_layer)      ! Array of root length in a soil layer, per soil layer  !m
@@ -78,7 +77,6 @@
          Real ETD                  ! Reference evapotranspiration (mm d-1)                
          REAL ETRD                 ! Radiation-driven part of reference evapotranspiration rate  !mm d-1 
          REAL ETAE                 ! Dryness-driven part of reference evapotranspiration rate  !mm d-1 
-         REAL evsc                 ! Potential evaporation rate of soil or ponded water layer  !mm d-1 
          REAL TRC                  ! Potential transpiration rate of crop with given LAI  !mm d-1
          REAL WLVG                 ! Dry weight of green leaves  !kg ha-1 
          REAL WSTS                 ! Dry weight of structural stems  !kg ha-1
@@ -753,8 +751,8 @@
 
          N_residue = sum(dlt_dm_N)
          dm_residue = sum(dlt_dm_crop)
-         write (string, '(22x, a, f7.1, a, 3(a, 22x, a, f6.1, a))')
-     :                    '  straw residue ='
+         write (string, '(22x, a, f7.1, a, 3(a, 22x, a, f7.1, a))')
+     :                    '  straw residue = '
      :                  , dm_residue , ' (kg/ha)'
      :                  , new_line
      :                  , '  straw N       = '
@@ -866,7 +864,6 @@
         ! set up (dummy) variables
         g%TKLT = 100.
         p%ZRTMS = 100.
-        g%WCLQT(1) = 0.3
         p%WCST(1)  = 0.3
         p%tkl(1)   = 100.0
       else
@@ -959,7 +956,6 @@
       g%etrd = 0.0
       g%etae = 0.0
       g%ETD = 0.0
-      g%evsc = 0.0
       g%trc  = 0.0
       g%WLVG = 0.0
       g%WSTS = 0.0
@@ -1045,7 +1041,6 @@
       g%TRWL(:) = 0
       g%MSUC(:)  = 0.
       g%MSKPA(:) = 0.
-      g%wclqt(:)=0.0
       p%wcst(:)=0.0
       g%WCL(:)=0.0
       g%FACT(:)=0.0
@@ -1272,13 +1267,6 @@
      :              ,'()'              ! variable units
      :              ,p%crop_type)      ! variable
        
-      elseif (variable_name .eq. 'estab') then
-
-         call respond2get_char_var (
-     :               variable_name     ! variable name
-     :              ,'()'              ! variable units
-     :              ,p%estab)      ! variable
-      
       elseif (variable_name .eq. 'lrstrs') then
 
          call respond2get_real_var (
@@ -1463,19 +1451,19 @@
      :              ,'()'          ! variable units
      :              ,g%etae)         ! variable
       
-      elseif (variable_name .eq. 'evsc') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,g%evsc)         ! variable
-      
       elseif (variable_name .eq. 'trc') then
 
          call respond2get_real_var (
      :               variable_name    ! variable name
      :              ,'()'          ! variable units
      :              ,g%trc)         ! variable
+
+      elseif (variable_name .eq. 'gcr') then
+
+         call respond2get_real_var (
+     :               variable_name    ! variable name
+     :              ,'()'          ! variable units
+     :              ,g%gcr)         ! variable
             
       elseif (variable_name .eq. 'rlai') then
 
@@ -1484,27 +1472,6 @@
      :              ,'()'          ! variable units
      :              ,g%rlai)         ! variable
 
-      elseif (variable_name .eq. 'lape') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,p%lape)         ! variable
-     
-      elseif (variable_name .eq. 'nplsb') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,p%nplsb)         ! variable
-     
-      elseif (variable_name .eq. 'nplds') then
-
-         call respond2get_real_var (
-     :               variable_name    ! variable name
-     :              ,'()'          ! variable units
-     :              ,p%nplds)         ! variable
-      
       elseif (variable_name .eq. 'etd') then
 
          call respond2get_real_var (
@@ -1520,20 +1487,6 @@
      :              ,g%cropsta)            ! variable
       
       
-      elseif (variable_name .eq. 'sbdur') then
-
-         call respond2get_integer_var (
-     :               variable_name      ! variable name
-     :              ,'()'            ! variable units
-     :              ,p%sbdur)            ! variable
-      
-      elseif (variable_name .eq. 'idoy') then
-
-         call respond2get_integer_var (
-     :               variable_name      ! variable name
-     :              ,'()'            ! variable units
-     :              ,g%idoy)            ! variable
-       
        elseif (variable_name .eq. 'dae') then
 
          call respond2get_integer_var (
@@ -1541,16 +1494,6 @@
      :              ,'()'            ! variable units
      :              ,g%dae)            ! variable
       
-      elseif (variable_name .eq. 'wclqt') then
-         num_layers = count_of_real_vals(g%wclqt,max_layer)
-         num_layers = max(1,num_layers)
-
-         call respond2get_real_array (
-     :               variable_name     ! variable name
-     :              ,'(cm3/cm3)'        ! variable units
-     :              ,g%wclqt             ! variable
-     :              ,num_layers)       ! array size 
-
       else
          call Message_Unused ()
       endif
@@ -2647,7 +2590,6 @@
 ! CROPSTA I4  Crop stage (-)                                        I  !
 ! NL      I4  Number of soil layers (-)                             I  !
 ! FAOF    R4  Correction factor for E and T (FAO factor) (-)        I  !
-! WCLQT   R4  Array of actual soil water contents/layer (m3 m-3)    I  !
 ! WCST    R4  Array of water content saturation / layer (m3 m-3)    I  !
 ! LAI     R4  Leaf Area Index (-)                                   I  !
 ! EVSC    R4  Potential soil evaporation (mm d-1)                   O  !
@@ -2668,9 +2610,6 @@
            g%etae = g%etd-g%etrd
           
 !
-!!---- Calculate potential soil evaporation taking into account the standing crop   
-      g%EVSC = EXP (-0.5*g%rlai)*(g%ETRD+g%ETAE)
-      g%EVSC = MAX (g%EVSC, 0.)
 !          
 !!---- Calculate potential transpiration of rice in main field
       IF (g%CROPSTA .GE. 4) THEN
@@ -4314,7 +4253,6 @@
 ! TKL     R4  Array of thicknesses soil layers (m)                  I  !
 ! NL      I4  Number of soil layers (-)                             I  !
 ! CROPSTA I4  Crop stage (-)                                        I  !
-! WCLQT   R4  Array of actual soil water contents/layer (m3 m-3)    I  !
 ! WCWP    R4  Array of water content at wilting point/layer (m3 m-3)I  !
 ! WCAD    R4  Array of water content air dry/ layer (m3 m-3)        I  !
 
@@ -4363,6 +4301,7 @@
 
          num_layers = count_of_real_vals(p%tkl,max_layer)
          num_layers = max(1,num_layers)
+!         write (*,*) 'n=', num_layers
          DO I = 1,num_layers
            
             IF (g%WCL(I).GE.p%WCFC(I)) THEN
@@ -4429,7 +4368,7 @@
             If(TRR(I).lt.0.0) TRR(I)=0.0
             If(TRR(I).gt.1.0) TRR(I)=1.0
            
-            WLA(I)=MAX(0.0,(g%WCLQT(I)-p%WCWP(I))*g%ZRTL(I)*1000.)
+            WLA(I)=MAX(0.0,(g%WCL(I)-p%WCWP(I))*g%ZRTL(I)*1000.)
             g%TRWL(I) = MIN(TRR(I)*g%ZRTL(I)*g%TRRM,WLA(I))
             g%TRW     = g%TRW + g%TRWL(I)
             g%ZLL     = g%ZLL+p%TKL(I)
@@ -5193,7 +5132,7 @@
 
          do layer = 1, deepest_layer
             nfract(layer) = divide(g%no3(layer),totno3,0.0)
-            dlt_no3(layer) = g%nacr * nfract(layer)
+            dlt_no3(layer) = min(g%no3(layer), g%nacr * nfract(layer))
          enddo
          call set_real_array (unknown_module, 'dlt_no3', '(kg/ha)'
      :                            ,-1.0*dlt_no3, deepest_layer)
