@@ -105,6 +105,14 @@ inline unsigned int memorySize(const Type& type)
    return type.memorySize();
    }
 
+inline DataTypeCode dataTypeCodeOf(bool)   {return DTboolean;}
+inline DataTypeCode dataTypeCodeOf(int)    {return DTint4;}
+inline DataTypeCode dataTypeCodeOf(float)  {return DTsingle;}
+inline DataTypeCode dataTypeCodeOf(double) {return DTdouble;}
+inline DataTypeCode dataTypeCodeOf(char)   {return DTchar;}
+inline DataTypeCode dataTypeCodeOf(char *) {return DTstring;}
+
+
 } // namespace protocol
 
 #endif

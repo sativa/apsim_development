@@ -1,9 +1,16 @@
 //---------------------------------------------------------------------------
 #ifndef ComponentH
 #define ComponentH
+
+// oohhh this is messy
+#include <map>
+#include <boost/lexical_cast.hpp>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+
 #include "Messages.h"
 #include "ProtocolVector.h"
-class ApsimComponentData;
+#include <ApsimShared/ApsimComponentData.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -27,46 +34,64 @@ extern "C" void __stdcall createInstance(const char* dllFileName,
 void callCallback(const unsigned int* callbackArg,
                    CallbackType* messageCallback,
                    Message* message);
-#ifdef NOTYET
+
 // ------------------------------------------------------------------
-// Pure virtual class to send variables to the rest of the system
+// Abstract class to send variables to the rest of the system
 // via sendVariable()
 // ------------------------------------------------------------------
 class baseInfo {
   protected:
+   bool                   myIsArray;
    int                    myLength;
    protocol::DataTypeCode myType;
    FString                myName;
    FString                myUnits;
    FString                myDescription;
   public:
-   baseInfo() 
+   baseInfo()
       {
-      myLength = 0; 
-      myType = protocol::DTunknown; 
+      myLength = 0;  myIsArray = false;
+      myType = protocol::DTunknown;
       };
    ~baseInfo() {};
    virtual void sendVariable(Component *, QueryValueData&) = 0;
 };
 
 // ------------------------------------------------------------------
-// A class to wrap a variable for reporting/manager/etc. Keeps a pointer 
+// A class to wrap a variable for reporting/manager/etc. Keeps a pointer
 // to memory region of scalar or array object, and knows how to send this
-// to the system via sendVariable when asked.  
+// to the system via sendVariable when asked.
 // ------------------------------------------------------------------
 class varInfo : public baseInfo {
   private:
-   void                  *myPtr;
+   void *myPtr;
   public:
    varInfo(const char *name, DataTypeCode type, int length, void *ptr, const char *units, const char *desc) {
       myName = name;
       myType = type;
       myLength = length;
+      myIsArray = length > 1;
       myPtr = ptr;
       myUnits = units;
       myDescription = desc;
    };
    ~varInfo() {};
+   void sendVariable(Component *, QueryValueData&);
+};
+class stringInfo : public baseInfo {
+  private:
+   string *myPtr;
+  public:
+   stringInfo(const char *name, string *ptr, const char *units, const char *desc) {
+      myName = name;
+      myType = DTstring;
+      myLength = 1;
+      myIsArray = 0;
+      myPtr = ptr;
+      myUnits = units;
+      myDescription = desc;
+   };
+   ~stringInfo() {};
    void sendVariable(Component *, QueryValueData&);
 };
 
@@ -75,14 +100,15 @@ class fnInfo : public baseInfo {
   private:
     boost::function2<void, Component *, QueryValueData &> myFn;
   public:
-    fnInfo(const char *name, 
-           protocol::DataTypeCode type, int length, 
-           boost::function2<void, Component *, QueryValueData &> fn, 
+    fnInfo(const char *name,
+           protocol::DataTypeCode type, bool isArray,
+           boost::function2<void, Component *, QueryValueData &> fn,
            const char *units, const char *desc) {
       myFn = fn;
       myName = name;
       myType = type;
-      myLength = length;
+      myLength = -1;          // length is variable..
+      myIsArray = isArray;
       myUnits = units;
       myDescription = desc;
    };
@@ -91,7 +117,8 @@ class fnInfo : public baseInfo {
 };
 
 typedef std::map<unsigned, baseInfo*>   UInt2InfoMap;
-#endif   // NOTYET
+typedef boost::function3<void, unsigned &, unsigned &, protocol::Variant &> pfcall;
+typedef std::multimap<unsigned, pfcall, less<unsigned> >   UInt2EventMap;
 
 // ------------------------------------------------------------------
 // Manages a single instance of an APSIM Component
@@ -102,6 +129,9 @@ class Component
       Component(void);
       virtual ~Component(void);
 
+      const char  *getName(void) {return name;};
+      unsigned int getId(void) {return componentID;};
+
       // Add a registration.
       unsigned addRegistration(RegistrationType kind,
                                const FString& name,
@@ -111,12 +141,10 @@ class Component
       void deleteRegistration(RegistrationType kind,
                               unsigned int regID);
 
-      // Read a variable from a parameter file
-      bool readParameter
-         (const FString& sectionName,
-          const FString& variableName,
-          FString& variableValue,
-          bool optional);
+      std::string getProperty(const std::string &a, const std::string &b) const
+         {
+         return componentData->getProperty(a,b);
+         }
 
       // Notify system of an error.
       void error(const FString& msg, bool isFatal);
@@ -129,83 +157,6 @@ class Component
       bool getVariable(unsigned int variableID,
                        Variant*& value,
                        bool optional = false);
-
-      template <class T>
-      bool getVariable(int variableID,
-                       vector<T>& values,
-                       double lower,
-                       double upper,
-                       bool isOptional = false)
-         {
-         protocol::Variant* variant;
-         if (getVariable(variableID, variant, isOptional))
-            {
-            bool ok = variant->unpack(values);
-            if (!ok)
-               {
-               char buffer[100];
-               strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
-                              "VariableName:");
-//               strncat(buffer, variableName.f_str(), variableName.length());
-               error(buffer, true);
-               return false;
-               }
-            for (unsigned layer = 0; layer != values.size(); layer++)
-               {
-               if (values[layer] < lower || values[layer] > upper)
-                  {
-                  char buffer[100];
-                  strcpy(buffer, "Bound check error while getting variable.\n"
-                                 "Variable :");
-//                  strncat(buffer, variableName.f_str(), variableName.length());
-                  error(buffer, true);
-                  return false;
-                  }
-               }
-            }
-         else
-            return false;
-
-         return true;
-         }
-      template <class T>
-      bool getVariable(int regId,
-                       T& value,
-                       double lower,
-                       double upper,
-                       bool isOptional = false)
-         {
-         protocol::Variant* variant;
-         if (getVariable(regId, variant, isOptional))
-            {
-            bool ok = variant->unpack(value);
-            if (!ok)
-               {
-               char buffer[100];
-               strcpy(buffer, "Cannot use array notation on a scalar variable.\n"
-                              "VariableName:");
-
-               FString variableName = getRegistrationName(regId);
-               strncat(buffer, variableName.f_str(), variableName.length());
-               error(buffer, true);
-               return false;
-               }
-/*            if (value < lower || value > upper)
-               {
-               char buffer[100];
-               strcpy(buffer, "Bound check error while getting variable.\n"
-                              "Variable :");
-               FString variableName = getRegistrationName(regId);
-               strncat(buffer, variableName.f_str(), variableName.length());
-               error(buffer, true);
-               return false;
-               }
-*/            }
-         else
-            return false;
-
-         return true;
-         }
 
       // Get the multiple values of a specific variable.  Return true
       // if some values are returned.
@@ -275,30 +226,18 @@ class Component
          sendMessage(newApsimChangeOrderMessage(componentID, parentID, names));
          }
       void setRegistrationType(unsigned int regID, const Type& type);
-      const char *getName(void) {return name;};
-#ifdef NOTYET
-      void addGettableVar(const char *systemName,
-                          protocol::DataTypeCode type,
-                          int length,
-                          boost::function2<void, Component *, QueryValueData &> ptr,
-                          const char *units,
-                          const char *desc);
-      void addGettableVar(const char *systemName,
-                          int length,
-                          float *ptr,
-                          const char *units,
-                          const char *desc);
-      void addGettableVar(const char *systemName,
-                          int length,
-                          int *ptr,
-                          const char *units,
-                          const char *desc);
-      void addGettableVar(const char *systemName,
-                          int length,
-                          char *ptr,
-                          const char *units,
-                          const char *desc);
-#endif
+
+      // override these methods if necessary.
+      virtual void doInit1(const FString& sdml);
+      virtual void doInit2(void) { }
+      virtual void doCommence(void) { }
+      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant);
+      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant) { }
+      virtual void respondToGet(unsigned int& fromID, QueryValueData& queryData);
+      virtual bool respondToSet(unsigned int& fromID, QuerySetValueData& setValueData) {return false;}
+      virtual void notifyTermination(void) { }
+      virtual void messageToLogic(const Message* message);
+
    protected:
       char         *dllName;
       unsigned int componentID;
@@ -306,16 +245,6 @@ class Component
       ApsimComponentData* componentData;
       char* name;
       bool beforeInit2;
-
-      // override these methods if necessary.
-      virtual void doInit1(const FString& sdml);
-      virtual void doInit2(void) { }
-      virtual void doCommence(void) { }
-      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant) { }
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, Variant& variant) { }
-      virtual void respondToGet(unsigned int& fromID, QueryValueData& queryData) { }
-      virtual bool respondToSet(unsigned int& fromID, QuerySetValueData& setValueData) {return false;}
-      virtual void notifyTermination(void) { }
 
       // ********* LOW LEVEL ROUTINES - should not be used by regular components.
       virtual void onRequestComponentIDMessage(unsigned int fromID, RequestComponentIDData& data) { }
@@ -333,7 +262,6 @@ class Component
       virtual bool onApsimSetQuery(ApsimSetQueryData& apsimSetQueryData) {return false;}
       virtual void onApsimChangeOrderData(protocol::MessageData& messageData) { }
       virtual void onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData);
-
 
       // Send a message
       void sendMessage(Message* message)
@@ -354,13 +282,10 @@ class Component
                                               const Type& type,
                                               const FString& componentNameOrID = "");
       Type getRegistrationType(unsigned int regID);
-      FString getRegistrationName(unsigned int regID);
+      const char *getRegistrationName(unsigned int regID);
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
-      bool getSetVariableSuccess(void)
-         {return setVariableSuccess;}
-
+      bool getSetVariableSuccess(void) {return setVariableSuccess;}
       void setVariableError(unsigned int regID);
-      virtual void messageToLogic(Message* message);
 
    private:
       Registrations* registrations;
@@ -376,9 +301,10 @@ class Component
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
       bool completeFound;
-#ifdef NOTYET
+
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
-#endif
+      UInt2EventMap eventMap;                  // List of events we handle
+      
       const unsigned int* callbackArg;
       CallbackType* messageCallback;
 
@@ -402,15 +328,288 @@ class Component
                                            unsigned int* instanceNumber,
                                            const unsigned int* callbackArg,
                                            CallbackType* callback);
-#ifdef NOTYET
       unsigned int getReg(const char *systemName,
-                          DataTypeCode type, 
-                          bool isArray, 
+                          DataTypeCode type,
+                          bool isArray,
                           const char *units);
-#endif
-   };
 
-   } // end namespace protocol
+ public:
+      // Get a variable from the system (into basic C datatypes)
+      template <class T>
+      bool getVariable(int regId,
+                       T& value,
+                       double lower,
+                       double upper,
+                       bool isOptional = false)
+         {
+         protocol::Variant* variant;
+         if (getVariable(regId, variant, isOptional))
+            {
+            bool ok = variant->unpack(value);
+            if (!ok)
+               {
+               char buffer[100];
+               strcpy(buffer, "TypeConverter failed.\n"
+                              "VariableName:");
+               const char *variableName = getRegistrationName(regId);
+               strcat(buffer, variableName);
+               error(buffer, true);
+               return false;
+               }
+            if (value < lower || value > upper)
+               {
+               const char *variableName = getRegistrationName(regId);
+               string msg = string("Bound check warning while getting variable.\n"
+                                   "Variable  : ") + variableName + string("\n"
+                                   "Condition : ") + ftoa(lower, 2) + string(" <= ") +
+                                    boost::lexical_cast<std::string>(value) + string(" <= ") + ftoa(upper, 2);
+               error(msg.c_str(), false);
+               }
+            }
+         else
+            return false;
+
+         return true;
+         }
+
+      template <class T>
+      bool getVariable(int regId,
+                       std::vector<T>& values,
+                       double lower,
+                       double upper,
+                       bool isOptional = false)
+         {
+         values.clear();
+         protocol::Variant* variant;
+         if (getVariable(regId, variant, isOptional))
+            {
+            bool ok = variant->unpack(values);
+            if (!ok)
+               {
+               char buffer[100];
+               strcpy(buffer, "TypeConverter failed.\n"
+                              "VariableName:");
+               const char *variableName = getRegistrationName(regId);
+               strcat(buffer, variableName);
+               error(buffer, true);
+               return false;
+               }
+
+            for (int i = 0; i < values.size(); i++)
+               {
+               if (values[i] < lower || values[i] > upper)
+                   {
+                   string variableName = getRegistrationName(regId);
+                   string msg = string("Bound check warning while getting variable.\n"
+                                       "Variable  : ") + variableName + string("(") + itoa(i+1) +  string(")\n"
+                                       "Condition : ") + ftoa(lower, 2) + string(" <= ") +
+                                boost::lexical_cast<string>(values[i]) + string(" <= ") + ftoa(upper, 2);
+                   error(msg.c_str(), false);
+                   }
+               }
+            }
+         else
+            return false;
+
+         return (values.size()> 0);
+         }
+
+   // Read variable permutations
+   bool readParameter(const FString& sectionName,
+                      const FString& variableName,
+                      FString& variableValue,
+                      bool optional);
+
+   std::string readParameter(const std::string& sectionName,
+                             const std::string& variableName)
+       {
+       std::string valueString = componentData->getProperty(sectionName, variableName);
+       if (valueString.length() <= 0)
+          {
+          std::string baseSection = componentData->getProperty(sectionName, "derived_from");
+          if (baseSection.length() > 0)
+             {
+             return readParameter(baseSection, variableName);
+             }
+          }
+       return valueString;
+       }
+
+   template <class T>
+   bool readParameter(const string &sectionName,
+                      const string &variableName,
+                      T &value,
+                      double lower,
+                      double upper,
+                      bool optional=false)
+      {
+      // 1. Get the variable as string
+      string datastring = readParameter(sectionName, variableName);
+
+      if (datastring.size() == 0)
+         {
+         if (!optional)
+             {
+             string msg = string("Cannot find a parameter in any of the files/sections\n"
+                                 "specified in the control file.\n"
+                                 "Parameter name = ") + variableName;
+             error(msg.c_str(), true);
+             }
+         return false;
+         }
+
+      // 2. Convert it
+      try { value = boost::lexical_cast<T> (datastring); }
+      catch(boost::bad_lexical_cast &)
+         {
+         string msg = string("Problem converting variable to numeric type.\n"
+                             "Parameter name = ") + variableName + string("\n"
+                             "Value          = '") + datastring + string("'");
+         error(msg.c_str(), true);
+         return false;
+         }
+
+      // 3. Check bounds
+      if (value < lower || value > upper)
+         {
+         string msg = string(
+                    "Bound check warning while reading parameter.\n"
+                    "Variable  : ") + variableName + string("\n"
+                    "Condition : ") + ftoa(lower, 2) + string(" <= ") +
+                    datastring + string(" <= ") + ftoa(upper, 2);
+         error(msg.c_str(), false);
+         }
+
+      return true;
+      }
+
+   template <class T>
+   bool readParameter(const string &sectionName,
+                      const string &variableName,
+                      std::vector <T> &values,
+                      double lower,
+                      double upper,
+                      bool optional=false)
+      {
+      values.clear();
+
+      // 1. Get the variable as string
+      string datastring = readParameter(sectionName, variableName);
+      if (datastring == "")
+         {
+         if (!optional)
+             {
+             string msg = string("Cannot find a parameter in any of the files/sections\n"
+                                 "specified in the control file.\n"
+                                 "Parameter name = ") + variableName;
+             error(msg.c_str(), true);
+             }
+         return false;
+         }
+
+      // 2. Convert it
+      std::vector <string> value_strings;
+      splitIntoValues (datastring," ",value_strings);
+      for (int i=0; i!=value_strings.size();i++)
+        {
+        T value;
+        try { value = boost::lexical_cast<T> (value_strings[i]); }
+        catch(boost::bad_lexical_cast &)
+           {
+           string msg = string("Problem converting variable to numeric type.\n"
+                               "Parameter name = ") + variableName + string("\n"
+                               "Value          = '") + value_strings[i] + string("'");
+           error(msg.c_str(), true);
+           return false;
+           }
+        values.push_back(value);
+
+        // 3. Check bounds
+        if (value < lower || value > upper)
+            {
+            //NB. array index reported as origin 1 indexing!!!
+            string msg = string(
+                    "Bound check warning while reading parameter.\n"
+                    "Variable  : ") + variableName + string("(") + itoa(i+1) +  string(")\n"
+                    "Condition : ") + ftoa(lower, 2) + string(" <= ") +
+                    value_strings[i] + string(" <= ") + ftoa(upper, 2);
+            error(msg.c_str(), false);
+            }
+        }
+      return (value_strings.size() > 0);
+      };
+
+      // Add Variables to the Get list.
+      // Function
+      void addGettableVar(const char *systemName,
+                          DataTypeCode type,
+                          bool isArray,
+                          boost::function2<void, Component *, QueryValueData &> ptr,
+                          const char *units,
+                          const char *desc)
+          {
+          // Get a system ID for it
+          unsigned int id = getReg(systemName, type, isArray, units);
+          // Add to variable map
+          fnInfo *v = new fnInfo(systemName, type, isArray, ptr, units, desc);
+          getVarMap.insert(UInt2InfoMap::value_type(id,v));
+          };
+
+      // scalar
+      template <class T>
+      void addGettableVar(const char *systemName,
+                          T &value,
+                          const char *units,
+                          const char *desc)
+          {
+          DataTypeCode type = dataTypeCodeOf(value);
+          unsigned int id = getReg(systemName, type, false, units);
+          varInfo *v = new varInfo(systemName, type, 1, &value, units, desc);
+          getVarMap.insert(UInt2InfoMap::value_type(id,v));
+          };
+      // Special case for stl strings
+      void addGettableVar(const char *systemName,
+                          std::string &value,
+                          const char *units,
+                          const char *desc)
+          {
+          unsigned int id = getReg(systemName, DTstring, false, units);
+          stringInfo *v = new stringInfo(systemName, &value, units, desc);
+          getVarMap.insert(UInt2InfoMap::value_type(id,v));
+          };
+
+      // C array
+      template <class T>
+      void addGettableVar(const char *systemName,
+                          int length,
+                          T *value,
+                          const char *units,
+                          const char *desc)
+          {
+          DataTypeCode type = dataTypeCodeOf(* value);
+          unsigned int id = getReg(systemName, type, 1, units);
+          varInfo *v = new varInfo(systemName, type, length, value, units, desc);
+          getVarMap.insert(UInt2InfoMap::value_type(id,v));
+          };
+
+      // vector
+      template <class T>
+      void addGettableVar(const char *systemName,
+                          std::vector<T> &value,
+                          const char *units,
+                          const char *desc)
+           {
+           throw "vector addGettableVar not yet implemented";
+           };
+
+
+      // Add a procedure to be called when events occur
+      void addEvent(const char *systemName,
+                    protocol::RegistrationType type,
+                    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr);
+
+   }; // end class Component
+} // end namespace protocol
 
 protocol::Component* createComponent(void);
 
