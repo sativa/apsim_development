@@ -248,10 +248,7 @@ bool TMDIChild::Edit_panel()
 {
    if (Analysis_panel->Edit())
    {
-      Analysis_panel->Refresh();
-      APSTable_2_TDataSet->APSTable =  Analysis_panel->Destination_data;
-      if (ChartsViewDataMenu->Checked)
-         APSTable_2_TDataSet->Refresh();
+      Refresh_panel();
       return true;
    }
    else
@@ -274,7 +271,12 @@ void TMDIChild::Force_refresh()
       (*t)->setWorkingData(scenarios, working);
       (*t)->doCalculations(*working);
    }
+   Refresh_panel();
+}
 
+//---------------------------------------------------------------------------
+void TMDIChild::Refresh_panel()
+{
    if (Analysis_panel != NULL)
    {
       // Moved from Hook_panel_to_this_form so that the colour background
@@ -294,6 +296,7 @@ void TMDIChild::Force_refresh()
 
    if (ChartsViewDataMenu->Checked)
       APSTable_2_TDataSet->Refresh();
+
 }
 
 //---------------------------------------------------------------------------

@@ -123,6 +123,8 @@ private:
    void decorateWithAddins(void);
    void Force_refresh();
    bool Refresh_is_needed();
+   void Refresh_panel();
+
 
    bool Edit_panel();
 
