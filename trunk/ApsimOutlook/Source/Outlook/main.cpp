@@ -308,12 +308,12 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
    ini.Read_section_contents("addins", originalContents);
    string contents = originalContents;
    To_lower(contents);
-   unsigned int posAddIn = contents.find("dbaddin\\dbaddin.dll");
+   unsigned int posAddIn = contents.find("dbaddin.dll");
    if (posAddIn != string::npos)
       {
       // add the destination MDB to the .ini file so that the DBaddin
       // can pick it up.
-      contents.insert(posAddIn+19, " " + destinationMDB);
+      contents.insert(posAddIn+11, " " + destinationMDB);
       ini.Write_section_contents("addins", contents);
       CreateMDIChild("Chart" + IntToStr(MDIChildCount + 1));
 
@@ -321,7 +321,7 @@ void __fastcall TMainForm::CreateDefaultDatabase(TStrings* files)
       ini.Write_section_contents("addins", originalContents);
       }
    else
-      ShowMessage("Cannot find line in .ini file.  Line: DBAddIn\\DBAddin.dll");
+      ShowMessage("Cannot find line in ini file.  Line: DBAddin.dll");
 
    Screen->Cursor = savedCursor;
    }
