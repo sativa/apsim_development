@@ -75,7 +75,7 @@ endif
 
 [run1.manager.start_of_day]    
    if (today = date('15-Oct')) AND (crop_in = 0) then
-      sorg sow plants = 10 (plants/m2), sowing_depth = 30, cultivar = Buster, tiller_no_fertile = 0.5
+      sorg sow plants = 10 (plants/m2), sowing_depth = 30, cultivar = medium, tiller_no_fertile = 0.5
       sorg_in = 1
       crop_in = 1
       soiln2 set no3ppm  =      9.19    1.33    1.33   0.964   0.815    1.19    1.19 (ppm)
