@@ -17,7 +17,7 @@ PROJECTS = general.lib ApsimShared.dll SEGReport.bpl StandardControls.dll \
   apsdata.bpl ApsimOutlook.exe dbaddin.dll DamEasyAddin.dll FilterAddIn.dll \
   RotationAddIn.dll soiaddin.dll WhopEconAddin.dll OutlookManager.exe \
   FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll \
-  SendToExcel.exe ApsimContextMenu.dll
+  SendToExcel.exe ApsimContextMenu.dll Misc.dll SoilWater.dll TemplatePacks.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -175,6 +175,18 @@ SendToExcel.exe: ShellExt\source\SendToExcel.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 ApsimContextMenu.dll: ShellExt\source\ApsimContextMenu.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+Misc.dll: apsfront\source\Misc\Misc.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+SoilWater.dll: apsfront\source\SoilWater\SoilWater.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+TemplatePacks.dll: apsfront\source\TemplatePacks\TemplatePacks.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
