@@ -1,9 +1,13 @@
 [APSIM.sample_lupin]
-module=clock      lupin.par[sample]
-module=report     lupin.par[sample]                                 
-module=met        %apsuite\apsim\met\sample\dalby.met[weather]
-module=manager    lupin.par[sample]
-module=soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module=residue2   %apsuite\apsim\residue2\sample\residue2.par[legume_residue]  %apsuite\apsim\residue2\residue2.ini[standard]
-module=soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module=lupin     lupin.par[sample] %apsuite\apsim\lupin\lupin.ini[standard] 
+version=2.2
+title=lupin Sample Simulation
+summaryfile=lupin.sum
+screen_output=on
+module = clock      lupin.par[sample]
+module = report     lupin.par[sample]
+module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    lupin.par[sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = residue2   %apsuite\apsim\residue2\sample\residue2.par[legume_residue]  %apsuite\apsim\residue2\residue2.ini[standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = legume(lupin)     lupin.par[sample] %apsuite\apsim\lupin\lupin.ini[standard]
