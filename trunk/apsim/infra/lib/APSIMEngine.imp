@@ -32,12 +32,15 @@
 -import    somcomponent_getpropertynames
 
 -import    component_getconstant
+-import    component_freeconstant
 -import    constant_getvalue
 
 -import    component_getgeneric
+-import    component_freegeneric
 -import    generic_getfieldvalue
 
 -import    component_gettable
+-import    component_freetable
 -import    externaltable_getfilename
 -import    externaltable_getvalue
 -import    externaltable_getvaluebyindex
@@ -50,19 +53,23 @@
 -import    externaltable_eof
 
 -import    component_getoutputfile
+-import    component_freeoutputfile
 -import    outputfile_delete
 -import    outputfile_open
 
 -import    component_getproperty
+-import    component_freeproperty
 -import    property_getvalue
 
 -import    component_getrule
+-import    component_freerule
 -import    rule_getcondition
 -import    rule_getaction
 -import    rule_getactionlinecount
 -import    rule_getactionline
 
 -import    component_gettext
+-import    component_freetext
 -import    text_gettext
 -import    text_getlinecount
 -import    text_getline
