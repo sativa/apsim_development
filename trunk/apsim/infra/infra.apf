@@ -14,6 +14,7 @@ binary=infra
 compiler_switches = %apsuite\apsim\infra\lf90.fig
 target  = lib\apsinfra.dll
 source  = source\error.for
+source  = source\profile.f90
 source  = source\datastr.for
 source  = source\data.for
 source  = source\date.for
