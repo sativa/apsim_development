@@ -18,7 +18,6 @@ class InputComponent : public protocol::Component
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
       virtual bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
 
    protected:
@@ -40,7 +39,7 @@ class InputComponent : public protocol::Component
       boost::gregorian::date fileDate;
       boost::gregorian::date startDate;
       boost::gregorian::date endDate;
-      
+
       virtual void openInputFile(void);
 
       void addVariable(Value& value);

@@ -20,7 +20,6 @@ class PatchInputComponent : public InputComponent
 
       virtual void doInit1(const FString& sdml);
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
-      virtual void respondToMethod(unsigned int& fromID, unsigned int& methodID, protocol::Variant& variant);
 
    private:
       unsigned preNewmetID;
