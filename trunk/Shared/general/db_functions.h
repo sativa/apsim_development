@@ -46,6 +46,13 @@ void getDBFieldValues(TDataSet* dataset,
 void getDBFieldValues(TDataSet* dataset,
                       const std::string& fieldName,
                       std::vector<std::string>& values);
+// ------------------------------------------------------------------
+// This routine loops through all records from First to Eof on the
+// specified dataset and returns a vector of numbers for the specified field.
+// ------------------------------------------------------------------
+void getDBFieldValues(TDataSet* dataset,
+                      const std::string& fieldName,
+                      std::vector<unsigned>& values);
 
 //---------------------------------------------------------------------------
 // Copy a record from the source dataset to the destination dataset.
@@ -71,6 +78,26 @@ string getDBValue(TDataSet* dataset, const std::string& fieldName)
       return "";
    else
       return AnsiString(dataset->FieldValues[fieldName.c_str()]).c_str();
+   }
+//---------------------------------------------------------------------------
+// Return a DB value to caller - as a string.
+//---------------------------------------------------------------------------
+double getDBDouble(TDataSet* dataset, const std::string& fieldName)
+   {
+   if (dataset->FieldValues[fieldName.c_str()].IsNull())
+      return 0;
+   else
+      return dataset->FieldValues[fieldName.c_str()];
+   }
+//---------------------------------------------------------------------------
+// Return a DB value to caller - as a string.
+//---------------------------------------------------------------------------
+double getDBUnsigned(TDataSet* dataset, const std::string& fieldName)
+   {
+   if (dataset->FieldValues[fieldName.c_str()].IsNull())
+      return 0;
+   else
+      return dataset->FieldValues[fieldName.c_str()];
    }
 
 #endif
