@@ -10,7 +10,8 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = general.lib ApsimShared.dll SEGReport.bpl StandardControls.dll \
-  DataControls.dll ApsimReport.exe ApsimExplorer.exe APSBuild.exe APSRun.exe \
+  DataControls.dll ApsimReport.exe ApsimExplorer.exe APSBuild.exe \
+  CreateComponentInterfaceSource.exe CreateDataTypesSource.exe APSRun.exe \
   ComponentInterface.lib Protocol.dll apsim.exe ProtocolManager.dll Log.dll \
   SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll APSGeneral.bpl \
   apsdata.bpl ApsimOutlook.exe dbaddin.dll DamEasyAddin.dll FilterAddIn.dll \
@@ -153,6 +154,14 @@ Test.dll: Shared\Test\Test.bpr
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 StandardControls.dll: Shared\SEGReport\StandardControls\StandardControls.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+CreateComponentInterfaceSource.exe: APSBuild\source\CreateComponentInterfaceSource.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+CreateDataTypesSource.exe: APSBuild\source\CreateDataTypesSource.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
