@@ -2003,14 +2003,15 @@ subroutine soiln2_ONFreshOrganicMatterIncorporated(variant)
       g%fom_n_pool(3,layer) = g%fom_n_pool(3,layer)+ FPoolProfileLayer(layer)%fpool(3)%N
 
 
+
       !dsg    add up fom_n in each layer by adding up each of the pools
       g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
 
+      g%no3(layer) = g%no3(layer) + FPoolProfileLayer(layer)%no3
+      g%nh4(layer) = g%nh4(layer) + FPoolProfileLayer(layer)%nh4
+
+
   end do
-
-
-      ! now stuff the inorganic into profile
-  call soiln2_incorp_min_N ()
 
   call pop_routine (my_name)
   return
