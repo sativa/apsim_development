@@ -5953,7 +5953,7 @@ void Plant::legnew_n_partition
           {
           n_capacity[part] = g_n_max[part] - g_n_demand[part];
           }
-        n_capacity[meal] = 0.0;
+//jngh        n_capacity[meal] = 0.0;
         n_capacity[oil] = 0.0;
         }
     else
