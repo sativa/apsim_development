@@ -6442,6 +6442,7 @@
  
 *+ Changes
 *     DPH 19/10/95
+*     dph 20/1/99 moved call to fill array to before if statement D-233
  
 *+ Calls
       dll_import push_routine
@@ -6460,6 +6461,8 @@
       call Push_routine(This_routine)
  
       call Check_numvals(Array_size)
+
+      call fill_double_array(Variable, 0.0d0, Array_size)
  
       call Respond2Post_double_postbox
      .    (Variable_name, Array_size, Units, variable, Numvals,
@@ -6469,9 +6472,6 @@
          call Bound_check_double_array
      .      (Variable, Lower_bound, Upper_bound, Variable_name,
      .       numvals)
- 
-      else
-         call fill_double_array(Variable, 0.0d0, Array_size)
       endif
  
       call Pop_routine(This_routine)
@@ -6541,7 +6541,7 @@
 *- Implementation Section ----------------------------------
  
       call Push_routine(This_routine)
- 
+
       ! Make a copy of the variable and work on the copy - not the original.
  
       Our_variable = Lower_case(Variable_name)
@@ -6682,6 +6682,7 @@
  
 *+ Changes
 *     DPH 19/10/95
+*     dph 20/1/99 moved call to fill array to before if statement D-233
  
 *+ Calls
       dll_import push_routine
@@ -6705,6 +6706,8 @@
       call Push_routine(This_routine)
  
       call Check_numvals(Array_size)
+
+      call fill_integer_array(Variable, 0, Array_size)
  
       call Respond2Post_double_postbox
      .    (Variable_name, Array_size, Units, Arr, Numvals,
@@ -6718,9 +6721,6 @@
          call Bound_check_integer_array
      .      (Variable, Lower_bound, Upper_bound, Variable_name,
      .       numvals)
- 
-      else
-         call fill_integer_array(Variable, 0, Array_size)
       endif
  
       call Pop_routine(This_routine)
@@ -6943,6 +6943,7 @@
  
 *+ Changes
 *     DPH 19/10/95
+*     dph 20/1/99 moved call to fill array to before if statement D-233
  
 *+ Calls
       dll_import push_routine
@@ -6967,6 +6968,8 @@
  
       call Check_numvals(Array_size)
  
+      call fill_real_array(Variable, 0.0, Array_size)
+
       call Respond2Post_double_postbox
      .    (Variable_name, Array_size, Units, Arr, Numvals,
      .     Allow_zero_numvals, Variable_number)
@@ -6979,9 +6982,6 @@
          call Bound_check_real_array
      .      (Variable, Lower_bound, Upper_bound, Variable_name,
      .       numvals)
- 
-      else
-         call fill_real_array(Variable, 0.0, Array_size)
       endif
  
       call Pop_routine(This_routine)
