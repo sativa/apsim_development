@@ -9,29 +9,34 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = GrantCottonKamaniV1.61(61-62)
-     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim32\apsim\accum\lib\accum.dll
-     Component DLL          = c:\program files\apsim32\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim32\apsim\ozcot\lib\ozcot.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\ozcot\lib\ozcot.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date = 30/04/1960
      Simulation end date   = 26/05/1998
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy as Date
+        clock.dd/mm/yyyy as Date
         clock.year
         ozcot.yield as oz_yield
      
@@ -85,6 +90,22 @@
         residue2 reset
         soilwat2 set sw =  0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
        endif
+     
+     SECTION:- end_of_day
+     days_this_year = 364 + (date('1-mar') - date('28-feb'))
+        if ((today = date('23-aug')+1 or today = date('15-mar')+1)then
+           if (crop_sow = 'waiting') then
+           report do_end_day_output
+           endif
+        endif
+        if ((today = date('23-aug')+1 or today = date('15-mar')+1)then
+           crop_sow = blank
+        endif
+        if (ozcot_status > 0) then
+           report do_end_day_output
+           ozcot harvest
+           crop_in = 0
+        endif
      
      SECTION:- process
      if (next_crop = cotton or next_crop = blank) then
@@ -170,22 +191,6 @@
            endif
         endif
      endif
-     
-     SECTION:- end_of_day
-     days_this_year = 364 + (date('1-mar') - date('28-feb'))
-        if ((today = date('23-aug')+1 or today = date('15-mar')+1)then
-           if (crop_sow = 'waiting') then
-           report do_end_day_output
-           endif
-        endif
-        if ((today = date('23-aug')+1 or today = date('15-mar')+1)then
-           crop_sow = blank
-        endif
-        if (ozcot_status > 0) then
-           report do_end_day_output
-           ozcot harvest
-           crop_in = 0
-        endif
      END of rules
      
      Manager creating a new local real variable : crop_in =     0.00000000000000
