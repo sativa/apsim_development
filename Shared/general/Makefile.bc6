@@ -23,7 +23,7 @@ LIBFILES =
 
 USERDEFINES = 
 SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
-INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\components\boost
 LIBPATH = $(SYSLIBPATH)
 
 # ---------------------------------------------------------------------------
