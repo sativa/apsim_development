@@ -7,12 +7,12 @@
     <OBJFILES value="ApsimOutlook.obj about.obj childwin.obj main.obj TChartSettingsForm.obj 
       TDrill_down_form.obj TPreferences_form.obj tskin.obj Scenarios.obj 
       factor.obj scenario.obj addin.obj ToolBarAddIn.obj POPUPFORMUNIT.obj 
-      TValueSelectPopup.obj TOutlookSplashForm.obj"/>
+      TValueSelectPopup.obj TOutlookSplashForm.obj TScenarioSelectForm.obj"/>
     <RESFILES value="ApsimOutlook.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) about.dfm childwin.dfm main.dfm TChartSettingsForm.dfm 
       TDrill_down_form.dfm TPreferences_form.dfm POPUPFORMUNIT.dfm 
-      TValueSelectPopup.dfm TOutlookSplashForm.dfm"/>
+      TValueSelectPopup.dfm TOutlookSplashForm.dfm TScenarioSelectForm.dfm"/>
     <LIBFILES value="..\..\..\Shared\general\general.lib 
       ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value="thirdparty.lib"/>
@@ -34,8 +34,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ApsimOutlook.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data"/>
-    <LIBPATH value="..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general"/>
+    <INCLUDEPATH value="..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\thirdparty;$(BCB)\components\memtable;$(BCB)\components\tms;$(SHARED);$(SHARED)\components\data"/>
+    <LIBPATH value="..\;..\..\..\shared\components\general;..\..\..\shared\components\data;$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\thirdparty;$(SHARED)\components\general"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -75,6 +75,7 @@
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TOutlookSplashForm.cpp" FORMNAME="OutlookSplashForm" UNITNAME="TOutlookSplashForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TScenarioSelectForm.cpp" FORMNAME="ScenarioSelectForm" UNITNAME="TScenarioSelectForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

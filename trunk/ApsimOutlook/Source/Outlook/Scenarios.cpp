@@ -12,7 +12,7 @@
 #include <ApsimShared\ApsimDirectories.h>
 #include <list>
 using namespace std;
-static const char* SCENARIOS_KEY = "Saved Scenarios|Scenario";
+static const char* SCENARIOS_KEY = "Saved Scenarios";
 
 #pragma package(smart_init)
 
@@ -328,7 +328,7 @@ void Scenarios::makeScenarioNamesValid(void)
 //---------------------------------------------------------------------------
 // save the current state to the .ini file.
 //---------------------------------------------------------------------------
-void Scenarios::save(void)
+void Scenarios::save(const string& name)
    {
    // loop through all scenarios and tell each to write its state to the
    // specified string.
@@ -337,15 +337,15 @@ void Scenarios::save(void)
                                           scenario != scenarios.end();
                                           scenario++)
       scenarioStates.push_back(scenario->getState());
-   settings.write(SCENARIOS_KEY, scenarioStates);
+   settings.write(name + "|scenario", scenarioStates);
    }
 //---------------------------------------------------------------------------
 // restore the previously saved state from the .ini file.
 //---------------------------------------------------------------------------
-void Scenarios::restore(void)
+void Scenarios::restore(const string& name)
    {
    vector<string> scenarioStates;
-   settings.read(SCENARIOS_KEY, scenarioStates);
+   settings.read(name + "|scenario", scenarioStates);
    if (scenarioStates.size() > 0)
       scenarios.erase(scenarios.begin(), scenarios.end());
 

@@ -36,6 +36,8 @@ __published:	// IDE-managed Components
    TLabel *AddInLabel;
    TPanel *AddInBevel;
    TImage *LogoImage;
+   TLabel *SaveLabel;
+   TLabel *RestoreLabel;
    void __fastcall FormShow(TObject *Sender);
 //   void __fastcall Tab_controlChange(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
@@ -56,6 +58,8 @@ __published:	// IDE-managed Components
    void __fastcall ScenarioTreeExpanding(TObject *Sender, TTreeNode *Node,
           bool &AllowExpansion);
    void __fastcall Rename1Click(TObject *Sender);
+   void __fastcall SaveLabelClick(TObject *Sender);
+   void __fastcall RestoreLabelClick(TObject *Sender);
 //   void __fastcall Rename1Click(TObject *Sender);
 //   void __fastcall Delete1Click(TObject *Sender);
 //   void __fastcall Tab_controlMouseDown(TObject *Sender,
