@@ -370,8 +370,21 @@ bool RotationAddIn::processRotation(TAPSTable& data,
    for (vector<string>::iterator fieldI = fieldNames.begin();
                                  fieldI != fieldNames.end();
                                  fieldI++)
-      destData.addField(*fieldI);
+
+      destData.addField(addPerYearToFieldName(*fieldI));
    destData.markFieldAsAPivot("Simulation");
 
    return ok;
    }
+
+// ------------------------------------------------------------------
+// Make sure all field names have a per yr on the end.
+// ------------------------------------------------------------------
+string addPerYearToFieldName(string& fieldName)
+   {
+   if (fieldName[fieldName.length()-1] == ')')
+      return fieldName.substr(0, fieldName.length()-1) + " per yr)";
+   else
+      return fieldName;
+   }
+

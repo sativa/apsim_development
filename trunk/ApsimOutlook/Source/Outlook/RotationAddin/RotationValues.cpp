@@ -11,6 +11,9 @@
 
 #pragma package(smart_init)
 using namespace std;
+
+string addPerYearToFieldName(string& fieldName);
+
 // ------------------------------------------------------------------
 // Return a single value across all files.  FieldValues specifies
 // the year and field number while doAverage specifies if the
@@ -119,7 +122,7 @@ void RotationValues::writeToDataset(const string& rotationName, TAPSTable& data,
                value = rotationName;
             else
                value = getValue(fileValues, isAveragedField(name));
-            newRecord.setFieldValue(name, value);
+            newRecord.setFieldValue(addPerYearToFieldName(name), value);
             }
          data.storeRecord(newRecord);
          }
