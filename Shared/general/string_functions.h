@@ -476,7 +476,7 @@ void Get_words_from_double_null_term (char* St, std::list<std::string>& Words);
 //    NH 13/12/2000
 
 // ------------------------------------------------------------------
-int NumOccurrences (std::string text, std::string substring);
+int GENERAL_EXPORT NumOccurrences (std::string text, std::string substring);
 
 #endif
 

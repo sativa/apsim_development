@@ -4,9 +4,10 @@
 #define MacroH
 #include <list>
 #include <string>
+#include <general\general.h>
 using namespace std;
 //---------------------------------------------------------------------------
-class Macro
+class GENERAL_EXPORT Macro
    {
       public:
          Macro(string Name);                     //Constructor
