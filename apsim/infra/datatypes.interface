@@ -960,7 +960,7 @@
       <type name="org_c_pool1" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Organic Matter Carbon in the Carbohydrate pool"/>
       <type name="org_c_pool2" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Organic Matter Carbon in the Cellulose pool"/>
       <type name="org_c_pool3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Organic Matter Carbon in the Lignin pool"/>
-      <type name="lattitude" kind="single" unit="degrees" lower_bound="-90.0" upper_bound="90.0" description="Geographical Lattitude"/>
+      <type name="latitude" kind="single" unit="degrees" lower_bound="-90.0" upper_bound="90.0" description="Geographical Lattitude"/>
 
 !dsg 030702
    <type name="SoilOrganicMatter">
