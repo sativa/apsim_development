@@ -66,6 +66,7 @@
       real Fn
       real Fage
       real Ffasw
+      real Fdl
       real Frgr
       real Flai
       real dlt_dm_pot_rue
@@ -73,6 +74,7 @@
       real sw_demand
       real no3_demand
       real cover_green
+      real cover_tot
       real dlt_no3(max_layer)
       real cum_water_uptake
       real fasw
@@ -118,8 +120,8 @@
 
 
       real lai, foliage_mass, foliage_n
-      real foliage_mass_sen, foliage_n_Sen
-      real dlt_lai, dlt_lai_sen
+      real slai, foliage_mass_sen, foliage_n_Sen
+      real dlt_lai, dlt_lai_sen, dlt_lai_sen_detached
       real dlt_foliage_mass, dlt_foliage_mass_sen
       real dlt_foliage_n, dlt_foliage_n_sen
       real dlt_foliage_mass_detached, dlt_foliage_n_detached
@@ -161,6 +163,7 @@
       real rue
       real vpd(max_table), Fvpd (max_table)
       real fasw(max_table), Ffasw(max_table), fasw_depth
+      real day_length(max_table), Fdl(max_table)
       real av_temp(max_table), Ft(max_table)
       real fta_av_temp(max_table)
       real fta_above_gnd(max_table), fta_below_gnd(max_table)
@@ -199,6 +202,7 @@
 
 
       integer num_fasw
+      integer num_day_length
       integer num_av_temp
       integer num_fta_av_temp
       integer num_min_temp
@@ -516,6 +520,7 @@
       g%sw_demand = 0.0
       g%no3_demand = 0.0
       g%cover_green = 0.0
+      g%cover_tot = 0.0
       g%dlt_no3(:) = 0.0
       g%cum_water_uptake = 0.0
       g%fasw = 0.0
@@ -585,10 +590,12 @@
       g%lai = 0.0
       g%foliage_mass = 0.0
       g%foliage_n = 0.0
+      g%slai = 0.0
       g%foliage_mass_sen = 0.0
       g%foliage_n_Sen = 0.0
       g%dlt_lai = 0.0
       g%dlt_lai_sen = 0.0
+      g%dlt_lai_sen_detached = 0.0
       g%dlt_foliage_mass = 0.0
       g%dlt_foliage_mass_sen = 0.0
       g%dlt_foliage_n = 0.0
@@ -876,6 +883,12 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(m2/m2)'         ! variable units
      :              ,g%lai)            ! variable
 
+      elseif (variable_name .eq. 'slai') then
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(m2/m2)'         ! variable units
+     :              ,g%slai)            ! variable
+
       elseif (variable_name .eq. 'foliage_mass') then
          call respond2get_real_var (
      :               variable_name     ! variable name
@@ -918,15 +931,19 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(mm)'              ! variable units
      :              ,g%cum_water_uptake) ! variable
 
-      elseif ((variable_name .eq. 'cover_tot')
-     :                       .or.
-     :        (variable_name .eq. 'cover_green')) then
-cnh          cover = 1.0 - exp (-g%extinction_coef*g%lai)
+      elseif (variable_name .eq. 'cover_green') then
 
          call respond2get_real_var (
      :               variable_name       ! variable name
      :              ,'()'                ! variable units
      :              ,G%cover_green)      ! variable
+
+      elseif (variable_name .eq. 'cover_tot') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'()'                ! variable units
+     :              ,G%cover_tot)      ! variable
 
       elseif (variable_name .eq. 'rlv_Growth') then
          ! really effective RLV!!!! - NIH
@@ -1037,6 +1054,13 @@ cnh          cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :               variable_name       ! variable name
      :              ,'(0-1)'              ! variable units
      :              ,g%Ffasw) ! variable
+
+      elseif (variable_name .eq. 'fdl') then
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(0-1)'              ! variable units
+     :              ,g%Fdl) ! variable
 
       elseif (variable_name .eq. 'fw') then
 
@@ -1911,6 +1935,26 @@ cnh          cover = 1.0 - exp (-g%extinction_coef*g%lai)
 
       call read_real_array (
      :          section_name
+     :          ,'day_length'            ! Keyword
+     :          ,max_table            ! array size
+     :          ,'(0-1)'               ! Units
+     :          ,c%day_length            ! Array
+     :          ,c%num_day_length        ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,24.0)                 ! Upper Limit for bound check
+
+      call read_real_array (
+     :          section_name
+     :          ,'fdl'                 ! Keyword
+     :          ,max_table            ! array size
+     :          ,'(0-1)'              ! Units
+     :          ,c%Fdl                 ! Array
+     :          ,c%num_day_length        ! Number of values returned
+     :          ,0.0                  ! Lower Limit for bound check
+     :          ,1.0)                 ! Upper Limit for bound check
+
+      call read_real_array (
+     :          section_name
      :          ,'min_temp'            ! Keyword
      :          ,max_table            ! array size
      :          ,'(oC)'               ! Units
@@ -2314,6 +2358,16 @@ c     :          ,1.0)                 ! Upper Limit for bound check
      :              , c%Ffasw
      :              , c%num_fasw
      :              , g%Ffasw
+     :               )
+
+            call Growth_Fdl
+     :               (
+     :                g%day_of_year
+     :              , g%latitude
+     :              , c%day_length
+     :              , c%Fdl
+     :              , c%num_day_length
+     :              , g%Fdl
      :               )
 
             call Growth_Frgr
@@ -3185,6 +3239,59 @@ c     :                 , c_num_av_temp)
       end subroutine
 
 *     ===========================================================
+      subroutine Growth_Fdl
+     :               (
+     :                G_day
+     :              , g_latitude
+     :              , c_day_length
+     :              , c_Fdl
+     :              , c_num_day_length
+     :              , Fdl
+     :               )
+*     ===========================================================
+
+      implicit none
+
+*+  Sub-Program Arguments
+      Integer       G_day
+      real       G_latitude
+      REAL       c_day_length(*)
+      REAL       c_Fdl(*)
+      INTEGER    c_num_day_length
+      real       Fdl                    ! (OUTPUT)
+
+*+  Purpose
+*       Calculate today's day length factor for partitioning growth
+
+*+  Changes
+*       220299 nih
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'Growth_Fdl')
+
+*+  Local Variables
+      real    daylength
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+
+      daylength = day_length(g_day,g_latitude,-6.0)
+
+
+      Fdl = linear_interp_Real (daylength
+     :                        ,c_day_length
+     :                        ,c_Fdl
+     :                        ,c_num_day_length)
+
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
       subroutine Growth_Fage
      :               (
      :                G_age
@@ -3476,7 +3583,7 @@ c      call Growth_foliage_fraction(foliage_fraction)
      :       )
       below_gnd_activity = Ft_bgnd
 
-      stress = min (g%Fw, g%Ffasw, g%Fn)
+      stress = min (g%Fw, g%Ffasw, g%Fn, g%Fdl)
       below_gnd_fraction = linear_interp_Real
      :                   (stress
      :                   ,c%partition_stress
@@ -4327,6 +4434,8 @@ cnh     :              - LRT/365.25
      :               ,1.0)               ! upper limit for bound check
 
       g%foliage_mass_sen = g%foliage_mass_sen * (1.0 - foliage_fraction)
+      g%foliage_n_sen = g%foliage_n_sen * (1.0 - foliage_fraction)
+      g%slai = g%slai * (1.0 - foliage_fraction)
 
       ! make sure cutting does not drop lai below the minimum allowable lai
       foliage_fraction_max = 1.0-divide(c%min_lai,g%lai,0.0)
@@ -4918,12 +5027,14 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 
 
       dlt_plants = g%plants * plants_fraction
-
       g%plants = g%plants - dlt_plants
 
       g%foliage_mass = g%foliage_mass * (1.0 - biomass_fraction)
       g%foliage_n = g%foliage_n * (1.0 - biomass_fraction)
       g%lai = g%lai * (1.0 - biomass_fraction)
+      g%slai = g%slai * (1.0 - biomass_fraction)
+      g%foliage_mass_sen = g%foliage_mass_sen * (1.0 - biomass_fraction)
+      g%foliage_n_sen = g%foliage_n_sen * (1.0 - biomass_fraction)
 
       do 100 part = 1, c%num_above_gnd_parts
          g%adm_green(part) = g%adm_green(part) * (1.-biomass_fraction)
@@ -5068,7 +5179,8 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 
 *     ===========================================================
       subroutine Growth_foliage_detachment (dlt_foliage_mass_detached
-     :                                     ,dlt_foliage_n_detached)
+     :                                     ,dlt_foliage_n_detached
+     :                                     ,dlt_lai_sen_detached)
 *     ===========================================================
 
       implicit none
@@ -5076,7 +5188,7 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
 *+  Sub-Program Arguments
       real dlt_foliage_mass_detached
       real dlt_foliage_n_detached
-
+      real dlt_lai_sen_detached
 *+  Purpose
 *       Calculate daily detachment of senesced foliage
 *+  Changes
@@ -5094,6 +5206,8 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
       dlt_foliage_mass_detached = g%foliage_mass_sen
      :                          * c%foliage_detach_frac
       dlt_foliage_n_detached = g%foliage_n_sen
+     :                          * c%foliage_detach_frac
+      dlt_lai_sen_detached = g%slai
      :                          * c%foliage_detach_frac
 
       call pop_routine (my_name)
@@ -5199,10 +5313,13 @@ c         NO3_diffn = divide (NO3_diffn, c%NO3_diffn_const, 0.0)
      :                              ,g%dlt_foliage_mass_sen
      :                              ,g%dlt_foliage_n_sen)
       call Growth_foliage_detachment (g%dlt_foliage_mass_detached
-     :                               ,g%dlt_foliage_n_detached)
+     :                               ,g%dlt_foliage_n_detached
+     :                               ,g%dlt_lai_sen_detached)
 
 
       g%lai = g%lai + g%dlt_lai - g%dlt_lai_sen
+      g%slai = g%slai + g%dlt_lai_sen - g%dlt_lai_sen_detached
+
       if (g%lai.lt.0.0) then
          call fatal_error (ERR_Internal, 'LAI < 0')
          g%lai = 0.0
@@ -5897,6 +6014,13 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
      :              , G%cover_green
      :               )
 
+      call Growth_canopy_cover
+     :               (
+     :                g%extinction_coef
+     :              , G%lai + g%slai
+     :              , G%crown_cover
+     :              , G%cover_tot
+     :               )
       call new_postbox()
 
       call post_real_var ('height'
@@ -5920,7 +6044,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
       call post_real_var ('cover_tot'
      :                   , '()'
-     :                   , g%cover_green)
+     :                   , g%cover_tot)
 
       call post_real_var ('lai_tot'
      :                   , '()'
