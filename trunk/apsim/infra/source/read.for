@@ -1287,6 +1287,7 @@ C     Last change:  P     8 Nov 2000   12:19 pm
          Parameter_value = Lower_case(Parameter_value)
          Parameter_units = ' '
          Read_parameter_optional = .true.
+         call component_freeproperty(property)
 
       else
          ! couldn't find property.  Signal that all is not ok.
