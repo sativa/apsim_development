@@ -7843,8 +7843,10 @@ c      pause
       call push_routine (myname)
  
       solnum = apswim_solute_number (solname)
- 
-      call get_double_array (
+
+      if (solnum .gt. 0) then
+         ! only continue if solute exists. 
+         call get_double_array (
      :           unknown_module,
      :           solname,
      :           n+1,
@@ -7879,12 +7881,20 @@ c      pause
    50       continue
  
          else
-            call fatal_error (Err_User,
-     :         'You have asked apswim to use a '
-     :         //' solute that is not in the system :-'
-     :         //solname)
+               call fatal_error (Err_User,
+     :            'You have asked apswim to use a '
+     :            //' solute that is not in the system :-'
+     :            //solname)
          endif
  
+      else
+               call fatal_error (Err_User,
+     :            'You have asked apswim to use a'
+     :            //' solute that it does not know about :-'
+     :            //solname)
+      endif
+
+
       call pop_routine (myname)
       return
       end
