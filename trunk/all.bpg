@@ -16,7 +16,7 @@ PROJECTS = general.lib ApsimShared.dll SEGReport.bpl ComponentInterface.lib \
   Log.dll SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll VenLink.dll \
   ApsimOutlook.exe dbaddin.dll FilterAddIn.dll RotationAddIn.dll soiaddin.dll \
   WhopEconAddin.dll OutlookManager.exe apsoil.exe icons.dll Misc.dll \
-  SoilWater.dll TemplatePacks.dll apsvis.exe
+  SoilWater.dll TemplatePacks.dll apsvis.exe FileGeneratorFromExcel.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -174,6 +174,10 @@ GrossMarginCalculator.dll: Shared\GrossMarginCalculator\GrossMarginCalculator.bp
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 Soil.dll: Shared\Soil\Soil.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+FileGeneratorFromExcel.exe: FileGenerator\Source\FileGeneratorFromExcel.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
