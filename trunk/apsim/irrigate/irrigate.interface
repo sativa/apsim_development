@@ -34,7 +34,6 @@
       <respondToMethodCallReg name="sysinit" type="sysinit"/>
       <respondToMethodCallReg name="irrigate" type="irrigate"/>
       <respondToMethodCallReg name="apply" type="apply"/>
-      <methodCallReg name="gimme_water" type="gimme_water"/>
       <eventReg name="irrigated" type="irrigated"/>
       <getVariableReg name="sw_dep" type="sw_dep"/>
       <getVariableReg name="ll15_dep" type="ll15_dep"/>
