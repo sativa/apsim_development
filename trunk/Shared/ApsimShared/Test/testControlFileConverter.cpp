@@ -372,7 +372,41 @@ void testRemoveSumAvgToTracker(void)
    BOOST_CHECK(variables4[1] == "average of soiln2.no3 since report2.reported as avg@soiln2.no3 on post");
    tearDownControlFileConverter();
    }
+//---------------------------------------------------------------------------
+// test the ReworkTrackerVariables functionality
+//---------------------------------------------------------------------------
+void testReworkTrackerVariables(void)
+   {
+   // write a con/par file and conversion script.
+   ofstream out("accum.con");
+   out << "[apsim.sample_accum]\n"
+       << "Module = tracker    accum.par[sample]\n";
+   out.close();
+   ofstream par("accum.par");
+   par << "[sample.tracker.parameters]\n"
+       << "variable = sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process\n"
+       << "variable = sum of soilwat2.runoff on prepare since report.reported as sum@soilwat2_runoff";
+   par.close();
+   ofstream conversion("conversion.script");
+   conversion << "[testReworkTrackerVariables]\n";
+   conversion << "command=ReworkTrackerVariables()\n";
+   conversion.close();
 
+   ControlFileConverter converter;
+   converter.convert("accum.con", "conversion.script", (TControlFileConverterEvent) NULL);
+   ifstream parIn("accum.par");
+   ostringstream parContents;
+   parContents << parIn.rdbuf();
+
+   BOOST_CHECK(parContents.str() == 
+      "[sample.tracker.parameters]\n"
+      "variable = sum of soilwat2.runoff on process from report.reported to now as sum@soilwat2_runoff\n"
+      "variable = sum of soilwat2.runoff on start_of_day from report.reported to now as sum@soilwat2_runoff\n");
+
+   DeleteFile("accum.con");
+   DeleteFile("accum.par");
+   DeleteFile("conversion.script");
+   }
 //---------------------------------------------------------------------------
 // Perform all tests.
 //---------------------------------------------------------------------------
@@ -388,6 +422,7 @@ test_suite* testControlFileConverter(void)
    test->add(BOOST_TEST_CASE(&testNewFormatReportVariables));
    test->add(BOOST_TEST_CASE(&testMoveParamsFromConToPar));
    test->add(BOOST_TEST_CASE(&testRemoveSumAvgToTracker));
+   test->add(BOOST_TEST_CASE(&testReworkTrackerVariables));
    return test;
    }
 
