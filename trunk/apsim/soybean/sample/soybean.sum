@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.60
+     Version                = 1.61
      Control filename       = c:\regr\apsim\soybean\sample\soybean.con
      Configuration filename = c:\build\regression.config
      Title                  = soybean Sample Simulation
@@ -208,7 +208,8 @@
           ------------------------------------------------
           Cultivar                 = davis
           est_days_emerg_to_init  =      20
-          tt_emerg_to_endjuv       =    60.0
+          cum_vernal_days  =    0.00 100.00
+          tt_emerg_to_endjuv  =   60.00  60.00
           photoperiod      =   12.00  18.00
           phase_tt_init      =  350.00 850.00
           tt_flower_to_maturity    =   800.0
@@ -282,12 +283,12 @@
 8 February 1989 (Day of year=39):
    SOYBEAN:
        stage    7.0 start_grain_fill
-                           biomass =           781.5361       lai =     5.734890    
-                           stover N conc =    2.934262       extractable sw =    98.33098
+                           biomass =           780.2010       lai =     5.722363    
+                           stover N conc =    2.936954       extractable sw =    98.45473
 14 March 1989 (Day of year=73):
    SOYBEAN:
        crop failure because of total leaf senescence.
-          Plant Death. Standing above-ground dm = 10542.4 (kg/ha)
+          Plant Death. Standing above-ground dm = 10521.1 (kg/ha)
        stage    0.0
 15 March 1989 (Day of year=74):
    MANAGER:
@@ -296,20 +297,20 @@
       
       
       
-       flowering day  =   15                  stover (kg/ha) =    6465.8
-       maturity day        =    0             grain yield (kg/ha) =    3564.5
-       grain % water content   =   12.0       grain yield wet (kg/ha) =    4050.6
+       flowering day  =   15                  stover (kg/ha) =    6453.3
+       maturity day        =    0             grain yield (kg/ha) =    3557.1
+       grain % water content   =   12.0       grain yield wet (kg/ha) =    4042.2
        grain wt (g) =     0.000               grains/m^2   =     0.000
        grains/head =   0.0                    maximum lai = 6.762
-       total above ground biomass (kg/ha) =   10030.3
+       total above ground biomass (kg/ha) =   10010.5
        live above ground biomass (kg/ha) =       0.0
        green above ground biomass (kg/ha) =       0.0
        senesced above ground biomass (kg/ha) =       0.0
-       dead above ground biomass (kg/ha) =   10030.3
-       number of leaves =  36.8
-       grain N percent =      6.33            total N content (kg/ha) =    292.05
-       grain N uptake (kg/ha) =    225.63     senesced N content (kg/ha) =      0.00
-       green N content (kg/ha) =      0.00    dead N content (kg/ha) =     66.42
+       dead above ground biomass (kg/ha) =   10010.5
+       number of leaves =  36.7
+       grain N percent =      6.34            total N content (kg/ha) =    291.87
+       grain N uptake (kg/ha) =    225.39     senesced N content (kg/ha) =      0.00
+       green N content (kg/ha) =      0.00    dead N content (kg/ha) =     66.48
       
       
       
@@ -332,22 +333,22 @@
       
       
        stress indices for flowering
-       water stress 1 =       0.1866033   nitrogen stress 1 =       0.0000000
-       water stress 2 =       0.2433622   nitrogen stress 2 =       0.0000000
+       water stress 1 =       0.1865477   nitrogen stress 1 =       0.0000000
+       water stress 2 =       0.2433066   nitrogen stress 2 =       0.0000000
       
       
       
        stress indices for start_grain_fill
-       water stress 1 =       0.2234526   nitrogen stress 1 =       0.0517779
-       water stress 2 =       0.2588441   nitrogen stress 2 =       0.1048439
+       water stress 1 =       0.2231713   nitrogen stress 1 =       0.0502928
+       water stress 2 =       0.2585628   nitrogen stress 2 =       0.1025425
    MANAGER:
            Manager sending message :- soybean end_crop
    SOYBEAN:
           ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
-                                                root residue = 3932.9 kg/ha
-                                                root N =   82.6 kg/ha
+                                                root residue = 3928.5 kg/ha
+                                                root N =   82.5 kg/ha
 31 March 1989 (Day of year=90):
    CLOCK:
       Simulation is terminating due to end criteria being met.
