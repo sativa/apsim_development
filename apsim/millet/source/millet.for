@@ -2382,7 +2382,7 @@ cgol bounds added to tiller number determination
      :                        ,'()'
      :                        ,g%cultivar)
 
-            call Action_send (tiller_module
+            call Event_send_directed (tiller_module
      :                        , ACTION_initiate_crop)
 
             call Delete_postbox ()
