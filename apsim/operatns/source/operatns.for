@@ -1,8 +1,71 @@
+      module OperatnsModule
+!     ================================================================
+!     operatns module
+!     ================================================================
+
+!   Short description:
+!
+
+!   Notes:
+!      none
+
+
+!   Changes:
+!      081294 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Constant values
+
+      integer    numfiles
+      parameter (numfiles = 10)
+
+      integer    record_length
+      parameter (record_length = 500)
+
+      integer    max_ops
+      parameter (max_ops = 1000)
+
+      integer    prepare_phase
+      parameter (prepare_phase = 1)
+
+      integer    process_phase
+      parameter (process_phase = 2)
+
+      integer    post_phase
+      parameter (post_phase = 3)
+
+      type OperatnsGlobals
+         integer    today
+         integer    thisyear
+         integer    oplun
+         integer    last_record
+         integer    op_days(max_ops)
+         integer    op_years(max_ops)
+         integer    op_phase(max_ops)
+         integer    op_order(max_ops)
+         integer    op_pointer
+         character phase_name(3)*10
+      end type OperatnsGlobals
+
+      ! instance variables.
+      type (OperatnsGlobals), pointer :: g
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type OperatnsDataPtr
+         type (OperatnsGlobals), pointer ::    gptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type OperatnsDataPtr
+      type (OperatnsDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
 
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -19,12 +82,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -39,12 +101,11 @@
       deallocate (Instances(anInstanceNo)%gptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -59,12 +120,11 @@
       g => Instances(anInstanceNo)%gptr
 
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine Main (Action, Data_String)
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -113,12 +173,11 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 *     ===========================================================
       subroutine operatns_Init ()
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -160,14 +219,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine operatns_zero_variables ()
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -198,14 +256,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine operatns_get_other_variables ()
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -245,14 +302,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine operatns_list()
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -291,14 +347,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine operatns_read_section (section, phase_no)
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -399,14 +454,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine operatns_sort_data ()
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -481,13 +535,12 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 *     ===========================================================
       subroutine operatns_extract_date (record, day, year)
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -545,14 +598,13 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine operatns_schedule (Phase_no)
 *     ===========================================================
-      use OperatnsModule
       Use infrastructure
       implicit none
 
@@ -567,7 +619,7 @@
 *     040595 jngh removed above changes
 *     050895 nih  created from operatns_process
 *                 now schedules operations for a given phase.
-*     011195 jngh changed message_send to Action_send
+*     011195 jngh changed message_send to Action_send subroutine
 *     14/2/96 DPH added calls to new_postbox, delete_postbox
 
 *+  Calls
@@ -625,10 +677,10 @@
                   call Get_next_variable (Line,
      :                                    Variable_name,
      :                                    Line)
-                  call Action_send
+                  call Action_send subroutine
      :                      (destination, Action, Variable_name)
                else
-                  call Action_send
+                  call Action_send subroutine
      :                      (destination, Action, Blank)
                endif
 
@@ -672,4 +724,7 @@
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
+
+      end module OperatnsModule
