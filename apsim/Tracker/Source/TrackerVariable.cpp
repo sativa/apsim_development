@@ -131,6 +131,12 @@ void TrackerVariable::parseAs(StringTokenizer& tokenizer)
 void TrackerVariable::parseOn(StringTokenizer& tokenizer)
    {
    on = tokenizer.nextToken();
+   unsigned posPeriod = on.find('.');
+   if (posPeriod != string::npos)
+      {
+      onComponent = on.substr(0, posPeriod);
+      on = on.substr(posPeriod+1);
+      }
    if (on == "")
       throw runtime_error("Expected an event name following an 'on' keyword.");
    }
@@ -140,7 +146,7 @@ void TrackerVariable::parseOn(StringTokenizer& tokenizer)
 void TrackerVariable::doRegistrations(void)
    {
    static const char* nullDDML = "<type/>";
-   static const char* singleDDML = "<type kind=\"single\"/>";
+//   static const char* singleDDML = "<type kind=\"single\"/>";
    static const char* singleArrayDDML = "<type kind=\"single\" array=\"T\"/>";
    string typeString = singleArrayDDML;
 
@@ -204,7 +210,13 @@ void TrackerVariable::doRegistrations(void)
 void TrackerVariable::respondToEvent(unsigned fromID, unsigned eventID)
    {
    if (eventID == onID)
-      doSample();
+      {
+      char buffer[1000];
+      FString fromName(buffer, sizeof(buffer), CString);
+      if (parent->componentIDToName(fromID, fromName)
+          && fromName == onComponent.c_str())
+         doSample();
+      }
    else if (eventID == startPeriodID)
       onStartPeriod();
    else if (eventID == sinceID && (sinceComponentID == 0 || sinceComponentID == fromID))
