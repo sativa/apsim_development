@@ -1,12 +1,15 @@
+      module PostboxModule
+      
+      
+      contains
+      
 C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
        logical function postbox_init ()
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export postbox_init
-      include 'const.inc'
       include 'postbox.inc'
-      include 'componentinterface.inc'
 
 *+ Purpose
 *     Initialisation for the apsim interface routines.
@@ -26,21 +29,19 @@ C     Last change:  P     9 Nov 2000   10:29 am
       g_Empty_double_slot = 1
       g_Empty_char_slot = 1
       g_Empty_variable_slot = 1
-      EventInterface = 0
       g_SavedEIStackPtr = 0
  
       postbox_init = .true.
       return
-      end
+      end function
  
 
  
 * ====================================================================
        subroutine postbox_term()
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export postbox_term
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Purpose
@@ -57,7 +58,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *- Implementation Section ----------------------------------
  
       return
-      end
+      end subroutine
  
  
  
@@ -65,11 +66,11 @@ C     Last change:  P     9 Nov 2000   10:29 am
 * ====================================================================
        subroutine New_postbox ()
 * ====================================================================
+      use ConstantsModule  
+      use ErrorModule
       implicit none
-      dll_export new_postbox
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
- 
+
 *+ Purpose
 *     Create a new postbox.
  
@@ -80,9 +81,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 31/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import fatal_error
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)
@@ -105,7 +103,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      New_line,
      .      ' Maximum number of postboxes = ',
      .      MAX_POSTBOXES
-         call Fatal_error(ERR_internal, msg)
+         call error(msg, .true.)
       else
         g_Variable_start(g_Current_message) = g_Empty_variable_slot
         g_Variable_start(g_Current_message + 1) = g_Empty_variable_slot
@@ -113,15 +111,14 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
 * ====================================================================
        subroutine Delete_postbox ()
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export delete_postbox
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Purpose
@@ -162,16 +159,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
       g_Current_message = max(g_Current_message - 1, 0)
  
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine get_posting_module(Module_name)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_posting_module
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -187,9 +183,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 20/10/94
  
 *+ Calls
-      dll_import push_routine
-      dll_import assign_string
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)
@@ -204,7 +197,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -212,9 +205,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_char_array (variable_name, units,
      .                             array, Num_elements)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export post_char_array
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -234,12 +227,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 18/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import fatal_error
-      dll_import assign_string
-      dll_import postbox_add_variable
-      dll_import set_respond_data_type
-      dll_import pop_routine
       logical Postbox_add_variable     ! function
  
 *+ Constant Values
@@ -248,7 +235,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
 *+ Local Variables
       character Msg*300                ! Error message
-      logical Error                    ! Has an error ocurred?
+      logical Err                      ! Has an error ocurred?
       integer Indx                     ! do loop index
  
 *- Implementation Section ----------------------------------
@@ -263,8 +250,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     New_line,
      .     'Maximum number of slots = ',
      .     POSTBOX_SIZE
-         call Fatal_error(ERR_INTERNAL, Msg)
-         Error = .true.
+         call error(Msg, .true.)
+         Err = .true.
  
       else
          ! Ok there is enough space in postbox so store the array in postbox
@@ -278,26 +265,25 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
          ! Add variable details to postbox variable arrays.
  
-         Error = Postbox_add_variable (Variable_name, Units,
-     .                                 Num_elements, CHAR_TYPE)
+         Err = Postbox_add_variable (Variable_name, Units,
+     .                               Num_elements, CHAR_TYPE)
  
       endif
-      Error = Error ! gets rid of compiler warning about not being used
+      Err = Err ! gets rid of compiler warning about not being used
  
       call Set_respond_data_type(CHAR_TYPE)
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Post_char_var (variable_name, units, Variable)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_char_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -315,11 +301,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import assign_string
-      dll_import post_char_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -338,7 +319,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(CHAR_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -346,9 +327,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_double_array (variable_name, units,
      .                               array, num_elements)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export post_double_array
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -368,11 +349,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 18/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import fatal_error
-      dll_import postbox_add_variable
-      dll_import set_respond_data_type
-      dll_import pop_routine
       logical Postbox_add_variable     ! function
  
 *+ Constant Values
@@ -381,7 +357,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
 *+ Local Variables
       character Msg*300                ! Error message
-      logical Error                    ! Has an error ocurred?
+      logical Err                    ! Has an error ocurred?
       integer Indx                     ! Do loop index
  
 *- Implementation Section ----------------------------------
@@ -396,8 +372,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     New_line,
      .     'Maximum number of slots = ',
      .     POSTBOX_SIZE
-         call Fatal_error(ERR_INTERNAL, Msg)
-         Error = .true.
+         call error(Msg, .true.)
+         Err = .true.
  
       else
          ! Ok there is enough space in postbox so store the array in postbox
@@ -410,26 +386,25 @@ C     Last change:  P     9 Nov 2000   10:29 am
 
          ! Add variable details to postbox variable arrays.
  
-         Error = Postbox_add_variable (Variable_name, Units,
-     .                                 Num_elements, DOUBLE_TYPE)
+         Err = Postbox_add_variable (Variable_name, Units,
+     .                               Num_elements, DOUBLE_TYPE)
  
       endif
-      Error = Error ! gets rid of compiler warning about not being used
+      Err = Err ! gets rid of compiler warning about not being used
        
       call Set_respond_data_type(DOUBLE_TYPE)
        
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Post_double_var (variable_name, units, Variable)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_double_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -447,10 +422,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -468,7 +439,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(DOUBLE_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -476,9 +447,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_integer_array (variable_name, units,
      .                             Variable, Numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_integer_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -497,11 +467,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -528,16 +493,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(INTEGER_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Post_integer_var (variable_name, units, Variable)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_integer_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -555,10 +519,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -577,7 +537,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(INTEGER_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -585,9 +545,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_logical_array (variable_name, units,
      .                             Variable, Numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_logical_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -606,11 +565,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -641,16 +595,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(LOGICAL_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Post_logical_var (variable_name, units, Variable)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_logical_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -669,10 +622,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     jngh 01/11/95 corrected subscript of arr from 0 to 1 in else eondition
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -696,7 +645,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(LOGICAL_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -704,9 +653,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Post_real_array (variable_name, units,
      .                             Variable, Numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_real_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -725,11 +673,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -756,16 +699,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(REAL_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Post_real_var (variable_name, units, Variable)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export post_real_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -783,10 +725,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_double_array
-      dll_import set_respond_data_type
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -805,16 +743,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Set_respond_data_type(REAL_TYPE)
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        logical function Store_in_postbox (Data_string)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export store_in_postbox
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -837,13 +774,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *                 any such routine
  
 *+ Calls
-      dll_import push_routine
-      dll_import assign_string
-      dll_import get_next_variable
-      dll_import split_off_units
-      dll_import post_char_var
-!      dll_import fatal_error_found
-      dll_import pop_routine
 !      logical Fatal_error_found        ! function
  
 *+ Constant Values
@@ -908,7 +838,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call pop_routine(This_routine)
       return
-      end
+      end function
  
  
  
@@ -916,9 +846,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
        subroutine Check_for_array(Variable_name, Sum_array,
      .                            Array_start_index, Array_stop_index)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export check_for_array
-      include 'const.inc'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to modify
@@ -944,10 +874,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *                   fatal error if found.
  
 *+ Calls
-      dll_import split_off_units
-      dll_import split_line
-      dll_import string_to_integer_var
-      dll_import fatal_error
  
 *+ Local Variables
       character Array_spec*100         ! array specifier
@@ -1002,7 +928,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .                new_line,
      .                'the array.  Variable name = ',
      .                Variable_name
-                  call Fatal_error (ERR_user, msg)
+                  call error (msg, .true.)
                endif
  
                Array_stop_index = Array_start_index
@@ -1024,7 +950,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .               new_line //
      .               'Array specification = ',
      .               Array_spec
-                  call Fatal_error(ERR_user, msg)
+                  call error(msg, .true.)
                else
                endif
             endif
@@ -1039,7 +965,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -1047,9 +973,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
        logical function Check_num_elements
      .     (Variable_ptr, Num_elements, Max_elements_expected)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-!      dll_export check_num_elements
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1069,9 +995,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     <insert here>
  
 *+ Calls
-      dll_import push_routine
-      dll_import fatal_error
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)
@@ -1097,7 +1020,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .         Num_elements,
      .         ' elements.  Variable = ',
      .         g_Variable_name(Variable_ptr)
-         call Fatal_error(ERR_user, Msg)
+         call error(Msg, .true.)
          Num_elements = 0
          Check_num_elements = .false.
       else
@@ -1106,16 +1029,16 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end function
  
  
  
 * ====================================================================
        subroutine Check_numvals (Numvals)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export check_numvals
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1131,7 +1054,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     <insert here>
  
 *+ Calls
-      dll_import fatal_error
  
 *+ Local Variables
       character Msg*200                ! error message
@@ -1142,12 +1064,12 @@ C     Last change:  P     9 Nov 2000   10:29 am
          write (msg, '(a, i4)' )
      .      'Maximum allowed array size is ',
      .      MAX_ARRAY_SIZE
-         call Fatal_error(ERR_internal, Msg)
+         call error(Msg, .true.)
          Numvals = MAX_ARRAY_SIZE
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -1155,14 +1077,11 @@ C     Last change:  P     9 Nov 2000   10:29 am
        recursive subroutine Deliver_get_message
      .     (module_name, variable_name, optional)
 * ====================================================================
+      use ConstantsModule
+      use ComponentInterfaceModule
+      use ErrorModule
       implicit none
-      dll_export deliver_get_message
-      include 'const.inc'
-      include 'action.inc'
-      include 'error.pub'
-      include 'apsimengine.pub'
       include 'postbox.inc'
-      include 'componentinterface.inc'
 
 *+ Sub-Program Arguments
       character Module_name*(*)        ! (INPUT) module to deliver message to.
@@ -1179,8 +1098,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 17/5/96
  
 *+ Calls
-      dll_import assign_string
-      dll_import remove_array_spec
  
 *+ Local Variables
       character our_variable_name*(Max_variable_name_size)
@@ -1211,28 +1128,24 @@ C     Last change:  P     9 Nov 2000   10:29 am
          ok = EI_ComponentResponded(EventInterface)
       endif
       if (.not. ok .and. .not. optional) then
-         call Fatal_error (ERR_User,
-     .                     "Cannot get a variable from a module" //
+         call error (      "Cannot get a variable from a module" //
      .                      new_line //
      .                     "Variable name = " // variable_name //
      .                      new_line //
-     .                     "No module owns this variable")  
+     .                     "No module owns this variable", .true.)  
       endif
       return
-      end
+      end subroutine
  
 * ====================================================================
        recursive subroutine Deliver_set_message
      .     (module_name, variable_name)
 * ====================================================================
+      use ConstantsModule
+      use ComponentInterfaceModule
+      use ErrorModule
       implicit none
-      dll_export deliver_set_message
-      include 'const.inc'
-      include 'action.inc'
-      include 'error.pub'
-      include 'apsimengine.pub'
       include 'postbox.inc'
-      include 'componentinterface.inc'
 
 *+ Sub-Program Arguments
       character Module_name*(*)        ! (INPUT) module to deliver message to.
@@ -1269,28 +1182,25 @@ C     Last change:  P     9 Nov 2000   10:29 am
          ok = .true.
       endif
       if (.not. ok) then
-         call Fatal_error (ERR_User,
-     .                     "Cannot set a variable in a module" // 
+         call error (      "Cannot set a variable in a module" // 
      .                      new_line //
      .                     "Variable name = " // variable_name // 
      .                      new_line //
-     .                     "No module owns this variable")  
+     .                     "No module owns this variable", .true.)  
       endif
       
       return
-      end
+      end subroutine
  
  
 * ====================================================================
        integer function Find_variable_in_postbox
      .      (Variable_name, Variable_number)
 * ====================================================================
+      use ConstantsModule
+      use StringModule
       implicit none
-      dll_export find_variable_in_postbox
-      include 'const.inc'
       include 'postbox.inc'
-      include 'string.pub'
-      include 'apsimengine.pub'
 
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to find.
@@ -1311,8 +1221,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)
@@ -1367,14 +1275,13 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end function
  
 * ====================================================================
        subroutine Get_variables_in_postbox (Variable_names, Num_vars)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_variables_in_postbox
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1394,8 +1301,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 22/10/98 in response to C133
  
 *+ Calls
-      dll_import push_routine
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)
@@ -1419,15 +1324,14 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
 * ====================================================================
        subroutine Get_respond_data_type(Data_type)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_respond_data_type
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1449,16 +1353,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       Data_type = g_Last_respond_type
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Get_respond_units(Units)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_respond_units
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1479,16 +1382,16 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       Units = g_Last_respond_units
       return
-      end
+      end subroutine
  
  
  
 * ====================================================================
        subroutine Get_sum (Variable_ptr, Num_elements, Sum)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export get_sum
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1507,7 +1410,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 27/10/95
  
 *+ Calls
-      dll_import fatal_error
  
 *+ Local Variables
       integer Indx                     ! Do loop index
@@ -1531,11 +1433,11 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      'Cannot sum a character array.  Variable = ',
      .      g_Variable_name(Variable_ptr)
  
-         call Fatal_error(ERR_user, msg)
+         call error(msg, .true.)
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -1543,13 +1445,11 @@ C     Last change:  P     9 Nov 2000   10:29 am
        logical function Postbox_add_variable(Variable_name, Units,
      .                                       Num_elements, Data_type)
 * ====================================================================
+      use ConstantsModule
+      use ComponentInterfaceModule
+      use ErrorModule
       implicit none
-      dll_export postbox_add_variable
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
-      include 'string.pub'
-      include 'apsimengine.pub'
-      include 'componentinterface.inc'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1572,9 +1472,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *                 routine now does case insensitive string comparisons.
  
 *+ Calls
-      dll_import push_routine
-      dll_import fatal_error
-      dll_import pop_routine
       character Lower_case*(MAX_VARIABLE_NAME_SIZE)
  
 *+ Constant Values
@@ -1583,7 +1480,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
 *+ Local Variables
       character msg*300                ! error message
-      logical Error                    ! Has an error occurred?
+      logical Err                    ! Has an error occurred?
  
 *- Implementation Section ----------------------------------
  
@@ -1616,7 +1513,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call EI_GetName(EventInterface, 
      .                g_variable_owners(g_empty_variable_slot))
 
-      Error = .false.
+      Err = .false.
  
       ! update the message pointers
  
@@ -1630,28 +1527,27 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     New_line,
      .     'Maximum number of variables = ',
      .     MAX_VARIABLES
-         call Fatal_error(ERR_INTERNAL, Msg)
-         Error = .true.
+         call error(Msg, .true.)
+         Err = .true.
  
       else
  
       endif
  
-      Postbox_add_variable = Error
+      Postbox_add_variable = Err
  
       call Pop_routine(This_routine)
  
       return
-      end
+      end function
  
  
  
 * ====================================================================
        subroutine Remove_array_spec (Variable_name)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export remove_array_spec
-      include 'const.inc'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT & OUTPUT) Variable name to modify
@@ -1666,7 +1562,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 25/10/95
  
 *+ Calls
-      dll_import remove_units
       character Remove_units*(Function_string_len)
                                        ! function
  
@@ -1680,7 +1575,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       endif
  
       return
-      end
+      end subroutine
  
  
  
@@ -1689,9 +1584,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     (variable_name, Array_size, units, Variable, Numvals,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_char_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1713,11 +1607,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import fill_char_array
-      dll_import respond2post_char_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -1737,7 +1626,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1746,11 +1635,10 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     (variable_name, array_size, units, array, Num_elements,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export respond2post_char_postbox
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
-      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -1780,13 +1668,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_for_array
-      dll_import find_variable_in_postbox
-      dll_import fill_char_array
-      dll_import retrieve_char_values
-      dll_import fatal_error
-      dll_import pop_routine
       integer Find_variable_in_postbox ! function
       character Lower_case*(Function_string_len)
                                        ! function
@@ -1842,14 +1723,14 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      new_line,
      .      '  Variable_name = ',
      .      Variable_name
-         call Fatal_error(ERR_user, msg)
+         call error(msg, .true.)
  
       else
       endif
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1858,9 +1739,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     (variable_name, units, Variable, Numvals,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_char_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1881,10 +1761,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_char_postbox
-      dll_import assign_string
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -1909,7 +1785,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1919,9 +1795,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Lower_bound, Upper_bound,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_double_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -1945,12 +1820,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import respond2post_double_postbox
-      dll_import bound_check_double_array
-      dll_import fill_double_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -1976,7 +1845,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1985,11 +1854,10 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     (variable_name, array_size, units, array, Num_elements,
      .     Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export respond2post_double_postbox
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
-      include 'string.pub'
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -2017,12 +1885,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     dph 3/11/99 - removed call to lower_case
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_for_array
-      dll_import find_variable_in_postbox
-      dll_import retrieve_double_values
-      dll_import fatal_error
-      dll_import pop_routine
       integer Find_variable_in_postbox ! function
       character Lower_case*(Function_string_len)
                                        ! function
@@ -2077,13 +1939,13 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      new_line,
      .      '  Variable_name = ',
      .      Variable_name
-         call Fatal_error(ERR_user, msg)
+         call error(msg, .true.)
 
       endif
 
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2093,9 +1955,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Lower_bound, Upper_bound,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_double_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2118,10 +1979,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_postbox
-      dll_import bound_check_double_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2149,7 +2006,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2159,9 +2016,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Lower_bound, Upper_bound,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_integer_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2185,12 +2041,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import respond2post_double_postbox
-      dll_import bound_check_integer_array
-      dll_import fill_integer_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2225,7 +2075,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2235,9 +2085,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Lower_bound, Upper_bound,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_integer_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2260,10 +2109,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_postbox
-      dll_import bound_check_integer_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2291,7 +2136,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2300,9 +2145,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     (variable_name, Array_size, units, Variable, Numvals,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_logical_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2324,10 +2168,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import respond2post_double_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2354,7 +2194,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2363,9 +2203,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .     (variable_name, units, Variable, Numvals,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_logical_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2386,9 +2225,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2409,7 +2245,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2419,9 +2255,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Lower_bound, Upper_bound,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_real_array
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2445,12 +2280,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import check_numvals
-      dll_import respond2post_double_postbox
-      dll_import bound_check_real_array
-      dll_import fill_real_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2486,7 +2315,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2496,9 +2325,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      Lower_bound, Upper_bound,
      .      Allow_zero_numvals, Variable_number)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export respond2post_real_var
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2521,10 +2349,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 19/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_postbox
-      dll_import bound_check_real_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! Name of this routine
@@ -2553,7 +2377,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2562,9 +2386,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      (Variable_ptr, Array, Array_size, Num_elements,
      .       Sum_array, Array_start_index, Array_end_index)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export retrieve_char_values
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2587,13 +2411,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 23/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import get_sum
-      dll_import double_var_to_string
-!      dll_import check_num_elements
-      dll_import fatal_error
-      dll_import assign_string
-      dll_import pop_routine
       logical Check_num_elements       ! function         
  
 *+ Constant Values
@@ -2651,7 +2468,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .         Num_elements,
      .         new_line,
      .         'elements in it.'
-            call Fatal_error(ERR_user, msg)
+            call error(msg, .true.)
  
          else if (ok) then
  
@@ -2680,7 +2497,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2689,9 +2506,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .      (Variable_ptr, Array, Array_size, Num_elements,
      .       Sum_array, Array_start_index, Array_end_index)
 * ====================================================================
+      use ConstantsModule
+      use ErrorModule
       implicit none
-      dll_export retrieve_double_values
-      include 'const.inc'
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2714,12 +2531,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 23/10/95
  
 *+ Calls
-      dll_import push_routine
-      dll_import get_sum
-!      dll_import check_num_elements
-      dll_import fatal_error
-      dll_import string_to_double_array
-      dll_import pop_routine
       logical Check_num_elements       ! function
  
 *+ Constant Values
@@ -2774,7 +2585,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
      .         Num_elements,
      .         new_line,
      .         'elements in it.'
-            call Fatal_error(ERR_user, msg)
+            call error(msg, .true.)
  
          else if (ok) then
  
@@ -2805,16 +2616,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       call Pop_routine(This_routine)
       return
-      end
+      end subroutine
 
  
  
 * ====================================================================
        subroutine Set_respond_data_type(Data_type)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export set_respond_data_type
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
  
 *+ Sub-Program Arguments
@@ -2836,15 +2646,13 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       g_Last_respond_type = Data_type
       return
-      end
+      end subroutine
 
 * ====================================================================
       integer function Get_EI ( )
 * ====================================================================
+      use ComponentInterfaceModule
       implicit none
-      dll_export get_ei
-      include 'const.inc'              ! constant definitions
-      include 'componentinterface.inc'
 
 *+ Sub-Program Arguments
  
@@ -2863,15 +2671,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
       Get_EI = EventInterface
       return 
-      end
+      end function
       
 * ====================================================================
       subroutine Set_EI (EI)
 * ====================================================================
+      use ConstantsModule
+      use ComponentInterfaceModule
+      use ErrorModule
       implicit none
-      dll_export set_ei
-      include 'const.inc'              ! constant definitions
-      include 'componentinterface.inc'
       include 'postbox.inc'
 
 *+ Sub-Program Arguments
@@ -2887,29 +2695,28 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 4/7/00
  
 *+ Calls
-      dll_import fatal_error
 
 *- Implementation Section ----------------------------------
 
       g_SavedEIStackPtr = g_SavedEIStackPtr + 1
       if (g_SavedEIStackPtr .gt. MAX_SAVED_EI) then
-         call Fatal_error(ERR_Internal, 
-     .   "Too many levels of recursion in postbox.set_ei routine")
+         call error(
+     .   "Too many levels of recursion in postbox.set_ei routine",
+     .   .true.)
       endif
 
       g_SavedEIStack(g_SavedEIStackPtr) = EI
       EventInterface = EI
 
       return 
-      end
+      end subroutine
 
 * ====================================================================
       subroutine Restore_EI()
 * ====================================================================
+      use ConstantsModule
+      use ComponentInterfaceModule
       implicit none
-      dll_export restore_ei
-      include 'const.inc'              ! constant definitions
-      include 'componentinterface.inc'
       include 'postbox.inc'
 
 *+ Sub-Program Arguments
@@ -2935,14 +2742,13 @@ C     Last change:  P     9 Nov 2000   10:29 am
       endif
 
       return 
-      end
+      end subroutine
 
 * ====================================================================
       subroutine Rename_variable(oldname, newname)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export rename_variable
-      include 'const.inc'              ! constant definitions
       include 'postbox.inc'
 
 *+ Sub-Program Arguments
@@ -2959,7 +2765,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 4/5/2001
 
 *+ Calls
-      dll_import find_variable_in_postbox
       integer Find_variable_in_postbox
 
 *+ Local Variables
@@ -2970,5 +2775,6 @@ C     Last change:  P     9 Nov 2000   10:29 am
       Variable_ptr = Find_variable_in_postbox(oldName, 1)
       g_variable_name(variable_ptr) = newName
       return
-      end
+      end subroutine
 
+      end module PostboxModule

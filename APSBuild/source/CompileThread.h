@@ -61,11 +61,11 @@ class CompileThread : public TThread
                                      const char delimiter = ';',
                                      const std::string& compilerFile = "");
       void   deleteFiles (ApsimProject& apf, const char* Filespec);
-      void   createDataTypesModule(ApsimProject& apf);
       void   deleteDependentFiles(ApsimProject& apf);
       void   CreateAutomakeRSP(ApsimProject& apf);
       std::string getCompileLineForSourceFile(ApsimProject& apf,
                                               const std::string& sourceFile);
+      void runExternalProgram(ApsimProject& apf);
    };
 
 bool ProjectIsCompilable (const char* Filename);

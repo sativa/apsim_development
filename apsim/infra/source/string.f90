@@ -1,11 +1,21 @@
 module StringModule
+      
+   dll_import Strings_equal
+   interface
+   
+      function Strings_equal(st1, st2)
+      character (len=*), intent(in) :: st1
+      character (len=*), intent(in) :: st2
+      logical                       :: Strings_equal
+      end function Strings_equal
 
+   end interface
+      
    contains
 
    ! ====================================================================
        function Lower_case (char_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -409,7 +419,6 @@ module StringModule
    ! ====================================================================
         function String_concat (String1, String2)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -459,7 +468,6 @@ module StringModule
    ! ====================================================================
        function String_concat_with_blank(String1, String2)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -514,7 +522,6 @@ module StringModule
    ! ====================================================================
        function No_spaces (Char_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -582,7 +589,6 @@ module StringModule
    ! ====================================================================
        function No_leading_spaces (Char_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -636,7 +642,7 @@ module StringModule
    !     ===========================================================
       subroutine check_string_bounds (string, position)
    !     ===========================================================
-      use ComponentCInterfaceModule
+      use ErrorModule 
       use ConstantsModule
       implicit none
 
@@ -699,8 +705,8 @@ module StringModule
    !     ===========================================================
       logical function check_string_truncation (string, substring)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1157,7 +1163,6 @@ module StringModule
    ! ====================================================================
       integer function word_count (string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1235,7 +1240,6 @@ module StringModule
    ! ====================================================================
       subroutine get_a_word (string, nth, word)
    ! ====================================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments

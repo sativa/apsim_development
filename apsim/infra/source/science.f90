@@ -5,7 +5,6 @@ module ScienceModule
    !     ===========================================================
       logical function phase_is_between (start, finish, current_stage)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DataModule
       implicit none
 
@@ -52,7 +51,6 @@ module ScienceModule
    !     ===========================================================
       real function day_length (dyoyr, lat, sun_angle)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DataModule
       implicit none
 
@@ -663,7 +661,6 @@ module ScienceModule
    !     ===========================================================
       real function average_over (num_days, array, year, day_of_year)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DateModule
       use DataModule
       implicit none
@@ -720,9 +717,9 @@ module ScienceModule
       integer function stage_no_of (stage_code, stage_code_list  &
                                 , list_size)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use DataModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -785,7 +782,6 @@ module ScienceModule
    !     ===========================================================
       subroutine accumulate (value, array, p_index, dlt_index)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -872,8 +868,8 @@ module ScienceModule
    !     ===========================================================
       real function temp_3hr (tmax, tmin, period)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -944,7 +940,6 @@ module ScienceModule
    !     ===========================================================
       real function linint_3hrly_temp (tmax, tmin, temps, y, num)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1048,7 +1043,6 @@ module ScienceModule
    !     ===========================================================
       real function root_proportion (layer, dlayr, root_depth)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DataModule
       implicit none
 
@@ -1105,7 +1099,6 @@ module ScienceModule
    !     ===========================================================
       real function find_stage_delta (current_stage, stage_devel)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1189,7 +1182,6 @@ module ScienceModule
    !     ===========================================================
       logical function stage_is_between (start, finish, current_stage)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DataModule
       implicit none
 

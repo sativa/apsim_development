@@ -2,17 +2,19 @@
 Dependency = %licensed_source(infra)
 
 [Contents]
+ComponentInterfaceModule.f90 = ComponentInterfaceModule.f90
 convertmodule.f90 = convertmodule.f90
 constantsModule.f90 = constantsModule.f90
-protocolModule.f90 = protocolmodule.f90
-componentcinterfacemodule.f90 = componentcinterfacemodule.f90
+error.f90 = error.f90
 string.f90 = string.f90
 data.f90 = data.f90
 date.f90 = date.f90
 science.f90 = science.f90
 datastr.f90 = datastr.f90
+intrface.for = intrface.for
+postbox.for = postbox.for
 read.f90 = read.f90
-ComponentInterfaceModule.f90 = ComponentInterfaceModule.f90
+Infrastructure.f90 = Infrastructure.f90
 
 [APSBuild]
 binary = ..\lib\apsinfra.lib
