@@ -3,7 +3,9 @@
 #ifndef DataTypesH
 #define DataTypesH
 #include <ComponentInterface/MessageData.h>
-#include "ProtocolVector.h"
+#include <ComponentInterface/MessageDataExt.h>
+#include <boost/lexical_cast.hpp>
+#include <general\xml.h>
 namespace protocol {
 
 //-------------------- Built in types
@@ -20,9 +22,9 @@ struct structure.nameType
    {
    #for_each structure.field
    #if (field.isArrayAndStructure = T)
-   protocol::vector<field.ctypeType> field.name;
+   std::vector<field.ctypeType> field.name;
    #elseif (field.array = T)
-   protocol::vector<field.ctype> field.name;
+   std::vector<field.ctype> field.name;
    #elseif (field.isStructure = T)
    field.ctype field.name;
    #else
@@ -51,6 +53,44 @@ inline unsigned int memorySize(const structure.nameType& data)
       + protocol::memorySize(data.field.name)
    #endfor;
    }
+void Initstructure.name(structure.nameType& data,
+                        const std::string& xml)
+   {
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   XMLNode::iterator childI = doc.documentElement();
+   #for_each structure.field
+   childI = std::find_if(doc.documentElement().begin(),
+                         doc.documentElement().end(),
+                         EqualToName<XMLNode>("field.name"));
+
+   #if (field.isArrayAndStructure = T)
+   // Don't know yet
+   #elseif (field.array = T)
+   StringToContainer<std::vector<field.ctype>, field.ctype> (childI->getValue(), data.field.name);
+
+   #elseif (field.isStructure = T)
+   // Don't know yet
+   #else
+   data.field.name = boost::lexical_cast<field.ctype> (childI->getValue());
+   #endif
+   #endfor
+   }
+#if (structure.array = T)
+void Initstructure.name(vector<structure.nameType>& values,
+                        const std::string& xml)
+   {
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   for (XMLNode::iterator childI = doc.documentElement().begin();
+                          childI != doc.documentElement().end();
+                          childI++)
+      {
+      string childXml = childI->write();
+      structure.nameType data;
+      Initstructure.name(data, childXml);
+      values.push_back(data);
+      }
+   }
+#endif
 
 #endfor
 } // protocol
