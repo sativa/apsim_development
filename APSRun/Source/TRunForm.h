@@ -41,6 +41,10 @@ class __declspec(dllexport) TRunForm : public TForm
       TLabel *Label7;
       TBevel *Bevel2;
       TLabel *Label8;
+   TTabSheet *Page4;
+   TLabel *Label9;
+   TLabel *Label10;
+   TTimer *Timer1;
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);
@@ -48,20 +52,38 @@ class __declspec(dllexport) TRunForm : public TForm
       void __fastcall Page2Show(TObject *Sender);
       void __fastcall Page3Show(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
+   void __fastcall Timer1Timer(TObject *Sender);
    private:	// User declarations
       TCursor savedCursor;
       PreviousRuns previousRuns;
+      bool createSIM;
+      bool console;
+      std::vector<std::string> sections;
+      unsigned currentSection;
+      std::string controlFileName;
+      std::string configurationFile;
+      HANDLE childProcessHandle;
 
       void fillConfigurationList(void);
       void fillSimulationList(void);
       void setupForm(void);
       void __fastcall ConverterCallback(const std::string& section);
-   public:		// User declarations
-      __fastcall TRunForm(TComponent* Owner);
-      std::string controlFileName;
+
+      // This application will be passed either a control file (.CON), a
+      // run file (.RUN), or a .SIM file depending on what the user has
+      // right clicked on.  Returns true if we need to continue with this
+      // form.
+      // ------------------------------------------------------------------
+      bool processCmdLine();
+
+      void doApsimRun(void);
 
       void getSelectedSimulations(std::vector<std::string>& simulations);
       std::string getSelectedConfiguration(void);
+
+   public:		// User declarations
+      __fastcall TRunForm(TComponent* Owner);
+
    };
 //---------------------------------------------------------------------------
 extern PACKAGE TRunForm *RunForm;

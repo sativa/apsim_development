@@ -4,16 +4,18 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\apsrun.exe"/>
-    <OBJFILES value="APSRun.obj PreviousRuns.obj TRunForm.obj"/>
-    <RESFILES value="APSRun.res"/>
-    <IDLFILES value=""/>
+    <OBJFILES value="apsrun.obj TRunForm.obj PreviousRuns.obj"/>
+    <RESFILES value="apsrun.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
     <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib"/>
-    <LIBRARIES value="Tee.lib TMSC6.lib bdertl.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib bdertl.lib TMSC6.lib Tee.lib"/>
-    <PACKAGES value="vclx.bpi rtl.bpi vcl.bpi dbrtl.bpi vcldb.bpi vcldbx.bpi bcbsmp.bpi 
-      dclocx.bpi ibsmp.bpi nmfast.bpi"/>
+    <LIBRARIES value="Tee.lib TMSC6.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
+      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
+      vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi 
+      soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt60.bpi ibxpress.bpi 
+      indy.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -21,22 +23,21 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value=""/>
-    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
-    <MAINSOURCE value="APSRun.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms"/>
-    <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib;$(SHARED)\ApsimShared"/>
-    <WARNINGS value="-w-par -w-8027 -w-8026"/>
-    <WARNOPTSTR value=""/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <MAINSOURCE value="apsrun.cpp"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -a8 -b- -k- -vi -c 
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
       -tW -tWM"/>
-    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -M -JPHNE"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -46,12 +47,12 @@
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="APSRun.cpp" FORMNAME="" UNITNAME="APSRun" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="APSRun.res" FORMNAME="" UNITNAME="APSRun" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="apsrun.res" FORMNAME="" UNITNAME="apsrun.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="apsrun.cpp" FORMNAME="" UNITNAME="apsrun" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRunForm.cpp" FORMNAME="RunForm" UNITNAME="TRunForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="PreviousRuns.cpp" FORMNAME="" UNITNAME="PreviousRuns" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TRunForm.cpp" FORMNAME="RunForm" UNITNAME="TRunForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -69,7 +70,7 @@ PreRelease=0
 Special=0
 Private=0
 DLL=0
-Locale=1033
+Locale=3081
 CodePage=1252
 
 [Version Info Keys]
@@ -86,64 +87,38 @@ Comments=
 
 [Excluded Packages]
 C:\WINDOWS\System32\PsQRC60.bpl=Pragnaan QuickReport Export Filters
-C:\Program Files\Borland\CBuilder6\Projects\Bpl\FilterBarPackage.bpl=FilterBarPackage
-c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=11
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED);$(BCB)\components\tms
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED);$(BCB)\components\tms
-Item3=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
-Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item5=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item6=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item7=
-Item8=
-Item9=c:\program files\borland\cbuilder3\projects;$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
-Item10=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=4
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=..\..\apsfront\source\TemplatePacks;..\..\..\APSRun\Source;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=12
-Item0=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib;$(SHARED)\ApsimShared
-Item1=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib;$(SHARED)\ApsimShared
-Item2=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Projects\Lib
-Item3=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\aps\
-Item4=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\aps
-Item5=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item6=$(BCB)\lib\debug;..\..\shared\components\ui;$(BCB)\lib\obj;$(BCB)\lib
-Item7=..\..\shared\components\ui;$(BCB)\lib\obj;$(BCB)\lib
-Item8=$(BCB)\lib\obj;$(BCB)\lib
-Item9=..\..\shared\components\thirdparty;c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
-Item10=c:\program files\borland\cbuilder3\lib;c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
-Item11=c:\thypergrid;c:\rx-30\units;c:\program files\borland\cbuilder3\projects;..\..\shared\components\ui;..\..\shared\components\3rdparty;..\..\shared\components\data;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Count=3
+Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\..\apsfront\source\TemplatePacks;..\..\..\APSRun\Source;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=2
+Count=1
 Item0=_DEBUG
-Item1=_RTLDLL;USEPACKAGES
-
-[HistoryLists\hlRunParameters]
-Count=3
-Item0=c:\apswork\accum\sample\accum.con
-Item1=@confiles.lst
-Item2=c:\apswork\apsim\mungbean\sample\mungbean.con
 
 [HistoryLists\hlFinalOutputDir]
-Count=3
+Count=2
 Item0=..\..\Bin\
 Item1=..\..\Bin
-Item2=..\
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=c:\mydata\development\apsim\clock\sample\test.con
+RunParams=c:\mydata\apswork\johnh\test7.con
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -158,5 +133,10 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
   </IDEOPTIONS>
 </PROJECT>

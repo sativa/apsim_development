@@ -9,6 +9,9 @@
 #include <general\path.h>
 #include <general\io_functions.h>
 #include <general\vcl_functions.h>
+#include <ApsimShared\ApsimControlFile.h>
+#include <ApsimShared\ApsimRunFile.h>
+#include <ApsimShared\ApsimSimulationFile.h>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -18,17 +21,22 @@
 TRunForm *RunForm;
 //---------------------------------------------------------------------------
 __fastcall TRunForm::TRunForm(TComponent* Owner)
-   : TForm(Owner)
+   : TForm(Owner), childProcessHandle(NULL)
  {
  }
 //---------------------------------------------------------------------------
 void __fastcall TRunForm::FormShow(TObject *Sender)
    {
-   if (!ControlFileConverter::needsConversion(controlFileName))
+   if (processCmdLine())
       {
-      PageControl1->ActivePageIndex = 1;
-      NextButtonClick(Sender);
+      if (!ControlFileConverter::needsConversion(controlFileName))
+         {
+         PageControl1->ActivePageIndex = 1;
+         NextButtonClick(Sender);
+         }
       }
+   else
+      Close();
    }
 //---------------------------------------------------------------------------
 void __fastcall TRunForm::FormClose(TObject *Sender, TCloseAction &Action)
@@ -51,9 +59,41 @@ void __fastcall TRunForm::NextButtonClick(TObject *Sender)
    {
    PageControl1->ActivePageIndex = PageControl1->ActivePageIndex + 1;
    if (PageControl1->ActivePageIndex == 2)
-      {
       NextButton->Caption = "&Run APSIM";
-      NextButton->ModalResult = mrOk;
+   else if (PageControl1->ActivePageIndex == 3)
+      {
+      NextButton->Visible = false;
+      getSelectedSimulations(sections);
+      currentSection = 0;
+      configurationFile = getSelectedConfiguration();
+      if (createSIM)
+         {
+         Visible = false;
+         try
+            {
+            for (unsigned sim = 0; sim != sections.size(); sim++)
+               {
+               ApsimControlFile simulation(controlFileName, sections[sim]);
+               string simFileName;
+               simulation.createSIM(configurationFile, simFileName);
+               }
+            }
+         catch (const runtime_error& err)
+            {
+            ShowMessage(err.what());
+            }
+         Close();
+         }
+      else if (sections.size() == 1)
+         {
+         Visible = false;
+         Timer1->Enabled = true;
+         }
+      else
+         {
+         Caption = "Batch running APSIM";
+         Timer1->Enabled = true;
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -172,5 +212,89 @@ void __fastcall TRunForm::ConverterCallback(const std::string& section)
    AnsiString msg = AnsiString("Converting control file section: ") + section.c_str();
    StatusList->Items->Add(msg);
    Application->ProcessMessages();
+   }
+// ------------------------------------------------------------------
+// This application will be passed either a control file (.CON), a
+// run file (.RUN), or a .SIM file depending on what the user has
+// right clicked on.  Returns true if we need to continue with this
+// form.
+// ------------------------------------------------------------------
+bool TRunForm::processCmdLine()
+   {
+   console = false;
+
+   string fileName;
+   bool quietRun = false;
+   createSIM = false;
+   for (int argIndex = 1; argIndex < _argc; argIndex++)
+      {
+      if (stricmp(_argv[argIndex], "/q") == 0)
+         quietRun = true;
+      else if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
+         createSIM = true;
+      else if (stricmp(_argv[argIndex], "/Console") == 0)
+         console = true;
+      else
+         fileName = _argv[argIndex];
+      }
+   if (!FileExists(fileName.c_str()))
+      throw runtime_error("Cannot locate APSIM file: " + fileName);
+
+   // Does the command line contain a control file?
+   if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".con") == 0)
+      {
+      // yes - better ask user for a configuration.
+      controlFileName = fileName;
+      return true;
+      }
+   else if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".run") == 0)
+      {
+      ApsimRunFile run(fileName);
+      run.run(quietRun);
+      }
+   else if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".sim") == 0)
+      {
+      ApsimSimulationFile::run(fileName, quietRun);
+      }
+   else
+      throw runtime_error("Cannot run APSIM on file: " + fileName);
+   return false;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TRunForm::Timer1Timer(TObject *Sender)
+   {
+   Timer1->Enabled = false;
+   if (childProcessHandle == NULL)
+      doApsimRun();
+   else
+      {
+      DWORD exitCode;
+      GetExitCodeProcess(childProcessHandle, &exitCode);
+      if (exitCode != STILL_ACTIVE)
+         doApsimRun();
+      }
+   if (childProcessHandle == NULL)
+      Close();
+   else
+      Timer1->Enabled = true;
+   }
+//---------------------------------------------------------------------------
+void TRunForm::doApsimRun(void)
+   {
+   if (currentSection != sections.size())
+      {
+      try
+         {
+         ApsimControlFile simulation(controlFileName, sections[currentSection]);
+         childProcessHandle = simulation.run(configurationFile, console);
+         currentSection++;
+         }
+      catch (const runtime_error& err)
+         {
+         ShowMessage(err.what());
+         }
+      }
+   else
+      childProcessHandle = NULL;
    }
 

@@ -283,14 +283,14 @@ void ApsimControlFile::getSummaryFileNames(vector<string>& fileNames) const
 // ------------------------------------------------------------------
 // Run apsim using the specified configuration file.
 // ------------------------------------------------------------------
-void ApsimControlFile::run(const string& configurationFile,
-                           bool console) const throw(runtime_error)
+HANDLE ApsimControlFile::run(const string& configurationFile,
+                             bool console) const throw(runtime_error)
    {
    try
       {
       string simFileName;
       createSIM(configurationFile, simFileName);
-      ApsimSimulationFile::run(simFileName, console);
+      return ApsimSimulationFile::run(simFileName, console);
       }
    catch (const runtime_error& error)
       {

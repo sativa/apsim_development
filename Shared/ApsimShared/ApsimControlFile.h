@@ -41,8 +41,8 @@ class __declspec(dllexport) ApsimControlFile
       // Run apsim using the specified configuration file.
       // If sections.size() > 0 then only those sections specified will be run
       // If sections.size() == 0 then all sections will be run.
-      void run(const std::string& configurationFile,
-               bool console = false) const throw(std::runtime_error);
+      HANDLE run(const std::string& configurationFile,
+                 bool console = false) const throw(std::runtime_error);
 
       // Create a SIM file for the specified section and return its filename.
       // Throws an exception on error.
