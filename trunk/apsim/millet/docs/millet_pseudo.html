@@ -414,7 +414,7 @@ height="73"></p>
 <A NAME = "main">  </A>
 <H2>Main</H2>
 <br>
-<H3><CENTER>This module performs crop crop growth simulates root, leaf, head, stem and grain development. Water and nitrogen uptake, photosynhesis, and leaf and root senescense.  </CENTER></H3>
+<H3><CENTER>This module simulates phenology, root, leaf, stem, panicle, and grain growth, water and nitrogen uptake, photosynthesis, and leaf and root senescence.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -1619,7 +1619,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_p_conc_limits">  </A>
 <H2>Millet P Conc Limits</H2>
 <br>
-<H3><CENTER>Calculate the critical N concentration below which plant growth is affected.  Also minimum and maximum N concentrations below and above which it is not allowed to fall or rise.  </CENTER></H3>
+<H3><CENTER>Calculate the critical P concentration below which plant growth is affected. Also minimum and maximum P concentrations below and above which it is not allowed to fall or rise.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -1922,7 +1922,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_light_supply">  </A>
 <H2>Millet Light Supply</H2>
 <br>
-<H3><CENTER>Seek the light intercepted by the leaves  </CENTER></H3>
+<H3><CENTER>Calculate the amount of radiation intercepted by the leaves  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -1955,7 +1955,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_bio_rue">  </A>
 <H2>Millet Bio Rue</H2>
 <br>
-<H3><CENTER>biomass light  </CENTER></H3>
+<H3><CENTER>Calculate the biomass produced per MJ of intercepted radiation.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -2021,7 +2021,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_water_demand">  </A>
 <H2>Millet Water Demand</H2>
 <br>
-<H3><CENTER>Soil water demand  </CENTER></H3>
+<H3><CENTER>Calculate the crop demand for soil water based upon transpiration efficiency.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -2477,7 +2477,7 @@ if (module_name.=.name_main) then<br>
 <A NAME = "millet_process">  </A>
 <H2>Millet Process</H2>
 <br>
-<H3><CENTER>Simulate crop processes.  These include biomass production, phenological stages, plant component development, water uptake and nitrogen uptake, and plant senescense.  </CENTER></H3>
+<H3><CENTER>Simulate crop process, including phenology, biomass (carbohydrate) and nitrogen accumulation and partitioning, senescence of vegetative plant parts, and water and N uptake. All processes can be affected by abiotic stresses like drought, N and P deficiency, and temperature stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -2584,7 +2584,7 @@ endif<br>
 <A NAME = "millet_root_depth">  </A>
 <H2>Millet Root Depth</H2>
 <br>
-<H3><CENTER>Plant root distribution in the soil  </CENTER></H3>
+<H3><CENTER>Calculate daily increase in root depth.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -2654,7 +2654,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_water_supply">  </A>
 <H2>Millet Water Supply</H2>
 <br>
-<H3><CENTER>Plant water supply  </CENTER></H3>
+<H3><CENTER>Calculate the soil water availability in each soil layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -2734,7 +2734,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_phenology_init">  </A>
 <H2>Millet Phenology Init</H2>
 <br>
-<H3><CENTER>Initialise Phenological Growth Stage Targets  </CENTER></H3>
+<H3><CENTER>Initialise cumulative thermal time targets required for each growth stage.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -3016,7 +3016,7 @@ if (stage_is_between (sowing, germ, current_stage)) then<br>
 <A NAME = "millet_water_uptake">  </A>
 <H2>Millet Water Uptake</H2>
 <br>
-<H3><CENTER>Plant transpiration and soil water extraction  </CENTER></H3>
+<H3><CENTER>Calculate the actual water uptake from each layer of the soil profile by the crop.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -3059,7 +3059,7 @@ For each layer from 1 to number of layers<br>
 <A NAME = "millet_height">  </A>
 <H2>Millet Height</H2>
 <br>
-<H3><CENTER>Canopy height.  </CENTER></H3>
+<H3><CENTER>Calculate the change in plant canopy height between emergence and flag leaf from stem dry weight.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -3418,7 +3418,7 @@ if (option.=.101) then<br>
 <A NAME = "millet_bio_te">  </A>
 <H2>Millet Bio Te</H2>
 <br>
-<H3><CENTER>Calculate bio transpiration efficiency  </CENTER></H3>
+<H3><CENTER>Calculate daily potential biomass accumulation, as determined by today's water availability (based upon TE)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -3682,7 +3682,7 @@ endif<br>
 <A NAME = "millet_dm_grain">  </A>
 <H2>Millet Dm Grain</H2>
 <br>
-<H3><CENTER>Find grain demand for carbohydrate (g/m^2)  </CENTER></H3>
+<H3><CENTER>Calculate grain demand for carbohydrate(g/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -3778,7 +3778,7 @@ endif<br>
 <A NAME = "millet_bio_partition">  </A>
 <H2>Millet Bio Partition</H2>
 <br>
-<H3><CENTER>Partition biomass.  </CENTER></H3>
+<H3><CENTER>partition today's dry matter between plant parts.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -3815,7 +3815,6 @@ if (option.=.101) then<br>
 <A NAME = "millet_dm_partition">  </A>
 <H2>Millet Dm Partition</H2>
 <br>
-<H3><CENTER>Partitions new dm (assimilate) between plant components (g/m^2)  </CENTER></H3>
 <H3><CENTER>Partitions new dm (assimilate) between plant components (g/m^2)  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
@@ -4254,7 +4253,7 @@ leaf_no_frac = linear_interp_real (lai_ratio, x_lai_ratio, y_leaf_no_frac, numbe
 <A NAME = "millet_tillering">  </A>
 <H2>Millet Tillering</H2>
 <br>
-<H3><CENTER>Determine tillering  </CENTER></H3>
+<H3><CENTER>Determine the tiller appearance rate, either as a function of thermal time or biomass  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -4752,7 +4751,7 @@ if (option.=.1) then<br>
 <A NAME = "millet_n_init">  </A>
 <H2>Millet N Init</H2>
 <br>
-<H3><CENTER>Set plant nitrogen  </CENTER></H3>
+<H3><CENTER>Set initial nitrogen contents for each plant part  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -4895,7 +4894,7 @@ if (n_avail<I><SUB> stem</SUB></I>.=.0.0.and.dlt_n_retrans<I><SUB> stem</SUB></I
 <A NAME = "millet_nit_demand">  </A>
 <H2>Millet Nit Demand</H2>
 <br>
-<H3><CENTER>Find nitrogen demand.  </CENTER></H3>
+<H3><CENTER>Calculate plant nitrogen demand for each plant part.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -4932,7 +4931,7 @@ dlt_dm_pot_radn = rue (current_phase) * radn_int<br>
 <A NAME = "millet_nit_uptake">  </A>
 <H2>Millet Nit Uptake</H2>
 <br>
-<H3><CENTER>Find nitrogen uptake.  </CENTER></H3>
+<H3><CENTER>Calculate the actual nitrogen uptake for each plant part from each soil layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -4969,7 +4968,7 @@ if (uptake_source.=.'apsim') then<br>
 <A NAME = "millet_nit_partition">  </A>
 <H2>Millet Nit Partition</H2>
 <br>
-<H3><CENTER>Find nitrogen partitioning.  </CENTER></H3>
+<H3><CENTER>Calculate actual plant nitrogen uptake to each plant part and from each soil layer.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -5075,7 +5074,7 @@ Check that sum_real_array (dlt_n_green, max_part) lies between n_uptake_sum and 
 <A NAME = "millet_p_uptake">  </A>
 <H2>Millet P Uptake</H2>
 <br>
-<H3><CENTER>Get P uptake from P module and convert to require units for internal use.  </CENTER></H3>
+<H3><CENTER>Get P uptake from P module and convert to required units for internal use.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -5234,7 +5233,7 @@ Write a string to a file<br>
 <A NAME = "failure_phen_delay">  </A>
 <H2>Failure Phen Delay</H2>
 <br>
-<H3><CENTER>Determine plant death due to water stress  </CENTER></H3>
+<H3><CENTER>Determine crop failure because of prolonged delay in phenology through water stress.  </CENTER></H3>
 <H4>Subprogram Logic</H4>
 <blockquote><br>
 
@@ -6476,7 +6475,7 @@ Supply dlt_dm_incorp to the messaging system using the name 'dlt_fom_wt'<br>
 
 Supply dlt_n_incorp to the messaging system using the name 'dlt_fom_n'<br>
 
-action_send<I><SUB> unknown_module, 'incorp_fom', blank</SUB></I><br>
+action_send<I><SUB> all_active_modules, 'incorp_fom', blank</SUB></I><br>
 
 <br>
 
@@ -11624,7 +11623,7 @@ content="text/html; charset=iso-8859-1">
 height="73"></p>
 </body>
 </html>
-Date: 11/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+Date: 06/02/2001  APseudo Version:  1. 0 Rev.  1<br>
 <hr>
 <html>
 <body>
