@@ -46,9 +46,9 @@ class APSIMEoPublic
     z0_instrum              : APSIMReal           = roughness length, (mm), READ, 0.0, 50000.0
     extinct_coef            : APSIMReal           = xtinction coefficient for plant, (), READ, 0.0, 1.0
     eo_plant_method         : APSIMString         = method used for transpiration, (), READ
-    wind_day_fraction       : APSIMReal           = fraction of 24 hour wind run in daytime, (), READ, 0.0, 1.0, optional
-    adjustment_factor       : APSIMReal           = Calibration factor, (), READ, 0.0, 2.0, optional
-    wind_multiplier         : APSIMReal           = wind multiplier to adjust wind, (), READ, 0.0, 2.0, optional
+    wind_day_fraction       : APSIMReal           = fraction of 24 hour wind run in daytime, (), READ_OPT, 0.0, 1.0
+    adjustment_factor       : APSIMReal           = Calibration factor, (), READ_OPT, 0.0, 2.0
+    wind_multiplier         : APSIMReal           = wind multiplier to adjust wind, (), READ_OPT, 0.0, 2.0
 
 ; Constants read from ini file constants section
     reference_height        : APSIMReal           = reference point height above base, (mm), READ, 0.0, 50000.0
@@ -56,11 +56,11 @@ class APSIMEoPublic
     zc_conversion           : APSIMReal           = height at which surface has no influence, (mm), READ, 0.0, 50000.0
     multiplier_height       : APSIMReal           = height at which multiplier is applied, (mm), READ, 0.0, 50000.0
     rsmin_canopy            : APSIMReal           = minimum leaf stomatal resistance, (s/m), READ, 0.0, 200.0
-    radn_crit               : APSIMReal           = critical value of radiation in Raupach method, below which surface resistance increases, (w/m2), READ, 0.0, 1000.0
-    vpd_crit                : APSIMReal           = critical value of vpd in raupach method, above which surface resistance increases, (kg/kg), READ, 0.0, 10.0
+    radn_crit               : APSIMReal           = critical value of radiation in Raupach method below which surface resistance increases, (w/m2), READ, 0.0, 1000.0
+    vpd_crit                : APSIMReal           = critical value of vpd in raupach method above which surface resistance increases, (kg/kg), READ, 0.0, 10.0
     lai_crit                : APSIMReal           = critical value of lai below which surface resistance increases, (mm2/mm2), READ, 0.0, 10.0
-    rc_method               : APSIMString         = method to calculate rc (simulat, simple, kelliher, fixed), (), READ
-    rc                      : APSIMReal           = bulk vegetation surface resistance for 'fixed' method, (s/m), READ, 0.0, 200.0, optional
+    rc_method               : APSIMString         = method to calculate rc (simulat simple kelliher fixed), (), READ
+    rc                      : APSIMReal           = bulk vegetation surface resistance for 'fixed' method, (s/m), READ_OPT, 0.0, 200.0
     pen_mon_ub              : APSIMReal           = upper limit of Penman Monteith Eo for warning messages, (mm), READ, 0.0, 100.0
     default_wind_day_fraction : APSIMReal           = default fraction of 24 hour wind run in daytime, (), READ, 0.0, 1.0
     ra_ub                   : APSIMReal           = upper bound of areodynamic resistance, (s/m), READ, 0.0, 3000.0
@@ -88,22 +88,22 @@ end
 class APSIMEoExternal
 ; Variables obtained  by Eo_get_other_variables_ini for initialisation purposes
     latitude                : APSIMReal             = latitude of site, (degree), GET, -90.0, 90.0
-    instrum_height          : APSIMReal             = height of instruments, (mm), GET, 0.0, 50000.0, optional
-    vpd                     : APSIMReal             = vapour pressure deficit, (mb), GET, 0.0, 200.0, optional
-    rh                      : APSIMReal             = relative humidity, (%), GET, 0.0, 100.0, optional
+    instrum_height          : APSIMReal             = height of instruments, (mm), GET_OPT, 0.0, 50000.0
+    vpd                     : APSIMReal             = vapour pressure deficit, (mb), GET_OPT, 0.0, 200.0
+    rh                      : APSIMReal             = relative humidity, (%), GET_OPT, 0.0, 100.0
     mint                    : APSIMReal             = minimum temperature, (oC), GET, -30.0, 50.0
-    pa                      : APSIMReal             = atmospheric pressure, (hPa), GET, 800.0, 1200.0, optional
-    wind                    : APSIMReal             = wind, (km/day), GET, 0.0, 1000.0, optional
-    lai                     : APSIMReal             = lai of vegetation , (mm2/mm2), GET, 0.0, 20.0, optional
+    pa                      : APSIMReal             = atmospheric pressure, (hPa), GET_OPT, 800.0, 1200.0
+    wind                    : APSIMReal             = wind, (km/day), GET_OPT, 0.0, 1000.0
+    lai                     : APSIMReal             = lai of vegetation , (mm2/mm2), GET_OPT, 0.0, 20.0
 
 ; Eo_get_other_variables
-    fr_intc_radn            : APSIMReal             = fraction of radiation intercepted by canopy, (-), GET, 0.0, 1.0, optional
+    fr_intc_radn            : APSIMReal             = fraction of radiation intercepted by canopy, (-), GET_OPT, 0.0, 1.0
     day                     : APSIMInteger          = day of year, (), GET, 1, 366
-    year                    : APSIMInteger          = year, (), GET, min_year, max_year
+    year                    : APSIMInteger          = year, (), GET, 1800, 2100
     maxt                    : APSIMReal             = maximum temperature, (oC), GET, -30.0, 50.0
     radn                    : APSIMReal             = incoming radiation, (MJ/m2), GET, 0.0, 100.0
-    canopy_height           : APSIMReal             = height of canopy, (mm), GET, 0.0, 20000.0, optional
-    cover_green             : APSIMReal             = green canopy cover of crop, (), GET, 0.0, 1.0, optional
+    canopy_height           : APSIMReal             = height of canopy, (mm), GET_OPT, 0.0, 20000.0
+    cover_green             : APSIMReal             = green canopy cover of crop, (), GET_OPT, 0.0, 1.0
 end
 
 class APSIMEo
