@@ -1,7 +1,49 @@
+!     ========================================
+      module SoluteModule
+!     ========================================
+      integer max_layer
+      parameter (max_layer = 100)
+
+      integer max_solutes
+      parameter (max_solutes = 5)
+!     ========================================
+      Type SoluteGlobals
+         real    solute(max_solutes,max_layer)
+         integer num_solutes
+         real    dlayer (max_layer)
+      end type SoluteGlobals
+!     ========================================
+      Type SoluteParameters
+         character solute_names(max_solutes)*20
+      end type SoluteParameters
+!     ========================================
+      Type SoluteConstants
+         real ub_solute
+         real lb_solute
+      end type SoluteConstants
+!     ========================================
+      ! instance variables.
+      type (SoluteGlobals), pointer :: g
+      type (SoluteParameters), pointer :: p
+      type (SoluteConstants), pointer :: c
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type SoluteDataPtr
+         type (SoluteGlobals), pointer ::    gptr
+         type (SoluteParameters), pointer :: pptr
+         type (SoluteConstants), pointer ::  cptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type SoluteDataPtr
+      type (SoluteDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+
+      contains
+
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -23,12 +65,11 @@
       Instances(InstanceNo)%Name = InstanceName
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -48,12 +89,11 @@
       deallocate (Instances(anInstanceNo)%cptr)
 
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -73,12 +113,11 @@
       c => Instances(anInstanceNo)%cptr
 
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine Main (Action, Data_string)
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -126,14 +165,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine solute_Init ()
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -176,14 +214,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine solute_zero_variables ()
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -219,14 +256,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine solute_get_other_variables ()
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -263,14 +299,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine solute_Send_my_variable (Variable_name)
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -345,14 +380,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 *     ===========================================================
       subroutine solute_read_param ()
 *     ===========================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -426,14 +460,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine solute_set_my_variable (Variable_name)
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -524,14 +557,13 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine solute_read_constants ()
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -580,12 +612,11 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 * ====================================================================
        subroutine solute_notification ()
 * ====================================================================
-      use SoluteModule
       Use Infrastructure
       implicit none
 
@@ -623,6 +654,7 @@
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
 
 
+      end module SoluteModule
