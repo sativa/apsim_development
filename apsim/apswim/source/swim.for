@@ -1,6 +1,6 @@
 !      include 'apswim.inc'
 
-C     Last change:  DSG  15 Jun 2000    3:40 pm
+C     Last change:  DSG  15 Jun 2000   12:21 pm
 * =====================================================================
       subroutine apswim_gsurf(deqrain,surfcon)
 * =====================================================================
@@ -763,7 +763,7 @@ cnh         if(g%psi(p%n).ge.0.)then
             j=i+1
 *           j is next different node, k is equation
             if(i.gt.0.and.i.lt.p%n-1)then
-               if(Doubles_are_equal(p%x(i),p%x(i+1)))then
+               if(Doubles_are_equal(p%x(i).eq.p%x(i+1)))then
                   xipdif=.FALSE.
                   j=i+2
                   g%q(i+1)=((p%x(j)-p%x(i))*g%q(i)+(p%x(i)-p%x(i-1))*
@@ -955,8 +955,7 @@ cnh         j=indxsl(solnum,i)
 
 *Peter's CHANGE 21/10/98 to ensure zero exchange is treated as linear
 *         if (p%fip(solnum,j).eq.1.) then
-         if ((Doubles_are_equal(p%ex(solnum,j),0.0d0)).or.
-     :    (Doubles_are_equal(p%fip(solnum,j),1.0d0))) then
+         if ((p%ex(solnum,j).eq.0.).or.(p%fip(solnum,j).eq.1.)) then
 *           linear exchange isotherm
             c2(i)=1.
             exco1=p%ex(solnum,j)
@@ -1072,7 +1071,7 @@ cnh
 *     allow for two nodes at same depth
       j=0
       do 60 i=1,p%n
-         if(.not.Doubles_are_equal(p%x(i-1),p%x(i)))then
+         if(.not.Doubles_are_equal(p%x(i-1).ne.p%x(i)))then
             j=j+1
             a(j)=a(i)
             b(j)=b(i)
@@ -1140,10 +1139,9 @@ cnh end
                   if (i.gt.0) then
                      j=j+1
                   end if
-                  END if
 cnh               kk=indxsl(solnum,i)
                kk = i
-               if(.not.Doubles_are_equal(p%fip(solnum,kk),1.0d0))then
+               if(.not.Doubles_are_equal(p%fip(solnum,kk),1.0))then
                   cp=0.
                   if(g%csl(solnum,i).gt.0.)then
                      cp=g%csl(solnum,i)**(p%fip(solnum,kk)-1.)
@@ -1235,7 +1233,7 @@ cnh               kk=indxsl(solnum,i)
 cnh         j=indxsl(solnum,i)
          j = i
          cp=1.
-         if(.not.Doubles_are_equal(p%fip(solnum,j),1.0d0))then
+         if(.not.Doubles_are_equal(p%fip(solnum,j),1.0))then
             cp=0.
             if(g%csl(solnum,i).gt.0.)
      :            cp=g%csl(solnum,i)**(p%fip(solnum,j)-1.)
