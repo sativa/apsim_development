@@ -1,0 +1,41 @@
+!******************************* Alan Hunter *************************
+
+[APSIM.o97_1_1.cotton_Hunter_1995/96]
+Module = report    ozcot.man  [o97_1_1]  ozcot.par [default]
+Module = input     ozcot.man  [o97_1_1]  ozcot.man [o97_1_all]   hunter.aps [default]
+Module = manager   ozcot.man  [o97_1_1]  ozcot.man [o97_1_all]
+Module = soilwat   ozcot.par  [belah]                          c:\apsim\ini\soilwat.ini  [default]
+Module = residue   ozcot.par  [belah]                          c:\apsim\ini\residue.ini  [default]
+Module = soiln     ozcot.par  [belah]                          c:\apsim\ini\soiln.ini    [default]
+Module = fertiliz                                              c:\apsim\ini\fertiliz.ini [default]
+Module = ozcot                             ozcot.par [cotton]
+Module = accum     ozcot.man [o97_1_all]
+   
+
+!******************************* James Clarke *************************
+
+[APSIM.o97_1_2.cotton_Clarke_1995/96]
+Module = report    ozcot.man  [o97_1_2]  ozcot.par [default]
+Module = input     ozcot.man  [o97_1_2]  ozcot.man [o97_1_all] morclark.aps [default]
+Module = manager   ozcot.man  [o97_1_2]  ozcot.man [o97_1_all]
+Module = soilwat   ozcot.par  [clarke]                          c:\apsim\ini\soilwat.ini  [default]
+Module = residue   ozcot.par  [clarke]                          c:\apsim\ini\residue.ini  [default]
+Module = soiln     ozcot.par  [clarke]                          c:\apsim\ini\soiln.ini    [default]
+Module = fertiliz                                              c:\apsim\ini\fertiliz.ini [default]
+Module = ozcot                             ozcot.par [cotton]
+Module = accum     ozcot.man [o97_1_all]
+
+!******************************* Mac Patterson *************************
+
+[APSIM.o97_1_3.cotton_Patterson_1995/96]
+Module = report    ozcot.man  [o97_1_3]  ozcot.par [default]
+Module = input     ozcot.man  [o97_1_3]  ozcot.man [o97_1_all]   patterso.aps [default]
+Module = manager   ozcot.man  [o97_1_3]  ozcot.man [o97_1_all]
+Module = soilwat   ozcot.par  [billa]                          c:\apsim\ini\soilwat.ini  [default]
+Module = residue   ozcot.par  [billa]                          c:\apsim\ini\residue.ini  [default]
+Module = soiln     ozcot.par  [billa]                          c:\apsim\ini\soiln.ini    [default]
+Module = fertiliz                                              c:\apsim\ini\fertiliz.ini [default]
+Module = ozcot                             ozcot.par [cotton]
+Module = accum     ozcot.man [o97_1_all]
+
+
