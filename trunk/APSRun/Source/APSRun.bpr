@@ -8,15 +8,14 @@
     <RESFILES value="apsrun.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
-    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib 
+    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib
       ..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="Tee6C6.lib VclSmp.lib Tee.lib TMSC6.lib"/>
-    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib Tee.lib VclSmp.lib 
-      Tee6C6.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
-      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
-      vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi 
-      soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt60.bpi ibxpress.bpi 
+    <LIBRARIES value="TMSC6.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi
+      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi
+      vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi
+      soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt60.bpi ibxpress.bpi
       indy.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -34,7 +33,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>

@@ -4,22 +4,20 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\..\..\Bin\dbaddin.dll"/>
-    <OBJFILES value="dbaddin.obj DataBaseAddIn.obj DBSimulation.obj ..\scenario.obj 
+    <OBJFILES value="dbaddin.obj DataBaseAddIn.obj DBSimulation.obj ..\scenario.obj
       TDirectory_select_form.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TDirectory_select_form.dfm"/>
-    <LIBFILES value="..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
-      ..\..\..\..\Shared\general\general.lib 
+    <LIBFILES value="..\..\..\..\Shared\ApsimShared\ApsimShared.lib
+      ..\..\..\..\Shared\general\general.lib
       ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value="kbmMemC6Run.lib TMSC6.lib APSGENERAL.lib APSData.lib"/>
-    <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib 
+    <SPARELIBS value="rtl.lib vcl.lib adortl.lib dbrtl.lib vcldb.lib APSData.lib bdertl.lib
       APSGENERAL.lib vclx.lib TMSC6.lib kbmMemC6Run.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
-      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
-      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi Tee6C6.bpi TeeDB6C6.bpi 
-      TeeUI6C6.bpi TeeGL6C6.bpi qrpt60.bpi TeeQR6C6.bpi TeeLanguage6C6.bpi 
-      TeePro6C6.bpi TeeImage6C6.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
+      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi"/>
     <PATHCPP value=".;.."/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>

@@ -8,16 +8,14 @@
     <RESFILES value="soiaddin.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TSOI_form.dfm"/>
-    <LIBFILES value="..\..\..\..\Shared\general\general.lib 
-      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib 
+    <LIBFILES value="..\..\..\..\Shared\general\general.lib
+      ..\..\..\..\Shared\ApsimShared\ApsimShared.lib
       ..\..\..\..\Shared\general\general_vcl.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib"/>
-    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi 
-      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi 
-      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi Tee6C6.bpi TeeDB6C6.bpi 
-      TeeUI6C6.bpi TeeGL6C6.bpi qrpt60.bpi TeeQR6C6.bpi TeeLanguage6C6.bpi 
-      TeePro6C6.bpi TeeImage6C6.bpi"/>
+    <PACKAGES value="rtl.bpi vcl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi vcldb.bpi ibsmp.bpi
+      vcldbx.bpi ibxpress.bpi bcbie.bpi vclie.bpi inetdb.bpi inet.bpi nmfast.bpi
+      dclocx.bpi bcb97axserver.bpi adortl.bpi bdertl.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -34,7 +32,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi-
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
