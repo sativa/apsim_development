@@ -433,13 +433,20 @@ cih
          endif
          call Respond2get_char_var
      .        ('today.dd/mm/yyyy', '()', str)
- 
+
       else if (variable_name .eq. '.dd_mmm_yyyy') then
          write (str, '(i2,a,a,a,i4)')
      .        thisdate(1), '_', Get_month_string(thisdate(2)),
      .        '_', thisdate(3)
          call Respond2get_char_var
      .        ('today.dd_mmm_yyyy', '()', str)
+
+      else if (variable_name .eq. '.dd/mmm/yyyy') then
+         write (str, '(i2,a,a,a,i4)')
+     .        thisdate(1), '/', Get_month_string(thisdate(2)),
+     .        '/', thisdate(3)
+         call Respond2get_char_var
+     .        ('today.dd/mmm/yyyy', '()', str)
  
       else if (variable_name .eq. '.dd_mmm') then
          write (str, '(i2,a,a)')
