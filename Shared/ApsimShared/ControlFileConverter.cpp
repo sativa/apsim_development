@@ -526,13 +526,16 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
 // ------------------------------------------------------------------
 bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error)
    {
-   bool doneSomething = false;
+   bool sumAvgFound = false;
+
    string name;
 
    vector<string> instanceNames;
    controlFile.getInstances("report", instanceNames);
    for (unsigned i = 0; i != instanceNames.size(); ++i)
       {
+      bool alreadyConverted = false;
+
       vector<string> trackerVariables;
       string trackerInstanceName = string("tracker") + IntToStr(i+1).c_str();
       vector<ApsimParameterFile> paramFiles;
@@ -555,41 +558,48 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                              variableI != variables.size();
                              variableI++)
                   {
-                  if ((variables[variableI].find("sum@") != string::npos ||
-                       variables[variableI].find("avg@") != string::npos) &&
-                       variables[variableI].find("tracker") == string::npos)
+                  if (variables[variableI].find("sum@") != string::npos ||
+                      variables[variableI].find("avg@") != string::npos)
                      {
-                     doneSomething = true;
-                     StringTokenizer tokenizer(variables[variableI], ".@");
-                     string moduleName = tokenizer.nextToken();
-                     string functionName = tokenizer.nextToken();
-                     string variableName = tokenizer.nextToken();
-                     string alias;
-                     unsigned posAlias = variableName.find(" as ");
-                     if (posAlias != string::npos)
+                     sumAvgFound = true;
+                     if (variables[variableI].find("tracker") == string::npos)
                         {
-                        alias = variableName.substr(posAlias+4);
-                        variableName.erase(posAlias);
+                        StringTokenizer tokenizer(variables[variableI], ".@");
+                        string moduleName = tokenizer.nextToken();
+                        string functionName = tokenizer.nextToken();
+                        string variableName = tokenizer.nextToken();
+                        Replace_all(variableName, "(", "[");
+                        Replace_all(variableName, ")", "]");
+
+                        string alias;
+                        unsigned posAlias = variableName.find(" as ");
+                        if (posAlias != string::npos)
+                           {
+                           alias = variableName.substr(posAlias+4);
+                           variableName.erase(posAlias);
+                           }
+
+                        string trackerFunctionName = functionName;
+                        if (Str_i_Eq(trackerFunctionName, "avg"))
+                           trackerFunctionName = "average";
+
+                        // Change the report variable.
+                        string reportVariable = trackerInstanceName + "."
+                                              + functionName +  "@"
+                                              + moduleName + "." + variableName;
+                        if (alias != "")
+                           reportVariable += " as " + alias;
+                        newVariables.push_back(reportVariable);
+
+                        // set the tracker variable.
+                        string trackerVariable = trackerFunctionName + " of " + moduleName + "."
+                               + variableName + " since " + paramFiles[par].getInstanceName()
+                               + ".reported as ";
+                        trackerVariable += functionName + "@" + moduleName + "." + variableName;
+                        trackerVariables.push_back(trackerVariable);
                         }
-
-                     string trackerFunctionName = functionName;
-                     if (Str_i_Eq(trackerFunctionName, "avg"))
-                        trackerFunctionName = "average";
-
-                     // Change the report variable.
-                     string reportVariable = trackerInstanceName + "."
-                                           + functionName +  "@"
-                                           + moduleName + "." + variableName;
-                     if (alias != "")
-                        reportVariable += " as " + alias;
-                     newVariables.push_back(reportVariable);
-
-                     // set the tracker variable.
-                     string trackerVariable = trackerFunctionName + " of " + moduleName + "."
-                            + variableName + " since " + paramFiles[par].getInstanceName()
-                            + ".reported as ";
-                     trackerVariable += functionName + "@" + moduleName + "." + variableName;
-                     trackerVariables.push_back(trackerVariable);
+                     else
+                        newVariables.push_back(variables[variableI]);
                      }
                   else
                      newVariables.push_back(variables[variableI]);
@@ -599,7 +609,7 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                if (newVariables.size() > 0)
                   paramFiles[par].setParamValues("variable", newVariables);
                }
-            if (doneSomething)
+            if (trackerVariables.size() > 0)
                {
                controlFile.setParameterValues(trackerInstanceName, "", "variable", trackerVariables);
                controlFile.changeModuleName
@@ -607,7 +617,20 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
                }
             }
          }
+
+      if (sumAvgFound)
+         {
+         vector<string> instanceNames;
+         controlFile.getInstances("tracker", instanceNames);
+         if (find(instanceNames.begin(), instanceNames.end(),
+             trackerInstanceName) == instanceNames.end())
+            {
+            string defaultFile, defaultSection;
+            controlFile.getDefaultParFileAndSection(defaultFile, defaultSection);
+            controlFile.addModuleLine("tracker", trackerInstanceName, defaultFile, defaultSection);
+            }
+         }
       }
-   return doneSomething;
+   return sumAvgFound;
    }
 

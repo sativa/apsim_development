@@ -423,15 +423,7 @@ void ApsimControlFile::setParameterValues(const string& moduleName,
          if (suggestedFileName != "")
             defaultFile = suggestedFileName;
 
-         // write new module= line to control file.
-         vector<string> moduleLines;
-         IniFile conAsIni(fileName);
-         conAsIni.read(section, "module", moduleLines);
-
-         string newControlLine = moduleName + "  " + defaultFile + "["
-                               + defaultSection + "]";
-         moduleLines.push_back(newControlLine);
-         conAsIni.write(section, "module", moduleLines);
+         addModuleLine(moduleName, "", defaultFile, defaultSection);
 
          // now write to the parameter file.
          ApsimParameterFile parFile(defaultFile, moduleName, moduleName,
@@ -439,6 +431,25 @@ void ApsimControlFile::setParameterValues(const string& moduleName,
          parFile.setParamValues(parameterName, parameterValues);
          }
       }
+   }
+// ------------------------------------------------------------------
+// write new module= line to control file.
+// ------------------------------------------------------------------
+void ApsimControlFile::addModuleLine(const string& moduleName,
+                                     const string& instanceName,
+                                     const string& parFileName,
+                                     const string& sectionName) const
+   {
+   vector<string> moduleLines;
+   IniFile conAsIni(fileName);
+   conAsIni.read(section, "module", moduleLines);
+
+   string newControlLine = moduleName;
+   if (instanceName != "")
+      newControlLine += "(" + instanceName + ")";
+   newControlLine += "   " + parFileName + "[" + sectionName + "]";
+   moduleLines.push_back(newControlLine);
+   conAsIni.write(section, "module", moduleLines);
    }
 // ------------------------------------------------------------------
 // Set the value of a parameter for a module
