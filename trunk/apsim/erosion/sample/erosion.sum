@@ -11,27 +11,25 @@
 
      Version                = 2.2
      Title                  = erosion Sample Simulation
-     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
-     Component DLL          = c:\Program Files\apsim22\apsim\log\lib\log.dll
      Component DLL          = c:\Program Files\apsim22\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\screen\lib\screen.dll
      Component DLL          = c:\Program Files\apsim22\apsim\clock\lib\clock.dll
      Component DLL          = c:\Program Files\apsim22\apsim\report\lib\report.dll
      Component DLL          = c:\Program Files\apsim22\apsim\input\lib\input.dll
      Component DLL          = c:\Program Files\apsim22\apsim\manager\lib\manager.dll
      Component DLL          = C:\Program Files\apsim22\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\apswork\apsim\erosion\lib\erosion.dll
+     Component DLL          = c:\Program Files\apsim22\apsim\erosion\lib\erosion.dll
 
 ------- clock Initialisation --------------------------------------------------
-     Simulation start date = 15/11/1988
-     Simulation end date   =  1/03/1989
+     Simulation start date =  1/01/1988
+     Simulation end date   =  1/01/1990
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy(date)
-        soilwat2.dlayer()
+        clock.today.dd/mm/yyyy as date
         erosion.soil_loss
-        erosion.erosion_cover
+        soilwat2.runoff
      
      Output file = erosion.out
      Format = normal
@@ -42,7 +40,9 @@
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
-     report do_output
+     if runoff > 0 then
+       report do_output
+     endif
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -136,5 +136,5 @@
      
           -----------------------------------------------
 ------- Start of simulation  --------------------------------------------------
-1 March 1989(Day of year=60), clock: 
+1 January 1990(Day of year=1), clock: 
      Simulation is terminating due to end criteria being met.
