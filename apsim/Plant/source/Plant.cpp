@@ -158,7 +158,9 @@ Plant::~Plant()
 void Plant::doInit1(protocol::Component *s)
     {
     string scratch = s->readParameter ("constants", "phenology_model");
-    if (scratch == "legume")
+    if (scratch == "")
+       throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
+    else if (scratch == "legume")
        phenology = new LegumePhenology(this);
     else if (scratch == "wheat")
        phenology = new WheatPhenology(this);
