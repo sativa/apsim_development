@@ -54,7 +54,9 @@ __fastcall TMDIChild::TMDIChild(TComponent *Owner)
    }
 //---------------------------------------------------------------------
 __fastcall TMDIChild::~TMDIChild()
+//    changes: DAH - 5/12/00: fixing d383
    {
+   OnResize = NULL;
    delete Settings_form;
    }
 //---------------------------------------------------------------------------
@@ -151,8 +153,10 @@ void TMDIChild::Enable_options(void)
 void __fastcall TMDIChild::SelectSimulations(TObject *Sender)
    {
    bool ok;
-   Drill_down_form->Simulations = Raw_data;
+   //Drill_down_form->Simulations = Raw_data;
+   Drill_down_form = new TDrill_down_form(this);
    ok = (Drill_down_form->ShowModal() == mrOk);
+   delete Drill_down_form;
 
    if (ok)
       {
