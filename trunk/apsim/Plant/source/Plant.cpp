@@ -11021,8 +11021,9 @@ void Plant::plant_read_root_params ()
 //+  Local Variables
     int   layer;                                  // layer number
     float ll [max_layer];                         // lower limit of plant-extractable
-// soil water for soil layer l
-// (mm water/mm soil)
+                                                  // soil water for soil layer l
+                                                  // (mm water/mm soil)
+    float dep_tot, ll_tot;                         // total depth of soil & ll
     int   num_layers=0;                             // number of layers in profile
     char  msg[200];
 
@@ -11094,6 +11095,7 @@ void Plant::plant_read_root_params ()
     parent->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
     parent->writeString ("---------------------------------------------------");
 
+    dep_tot = ll_tot = 0.0;
     for (layer = 0; layer < num_layers; layer++)
        {
        sprintf (msg, "%9.1f%10.3f%15.3f%12.3f"
@@ -11102,7 +11104,15 @@ void Plant::plant_read_root_params ()
           , ll[layer]
           , p.xf[layer]);
        parent->writeString (msg);
+       dep_tot += g.dlayer[layer];
+       ll_tot += p.ll_dep[layer];
        }
+    parent->writeString ("---------------------------------------------------");
+    sprintf (msg, "%9.1f%10s%15.1f(mm)"
+          , dep_tot
+          , " "
+          , ll_tot);
+    parent->writeString (msg);
     parent->writeString ("---------------------------------------------------\n");
 
     sprintf (msg, "(%s%5.1f%s)"
@@ -15355,8 +15365,9 @@ void Plant::plant_fruit_no_abort(
                                              , g_fruit_sdr_daily[cohort]
                                              , days_assimilate_ave-1);
 
-//          fprintf(stdout, "%d %d %f\n", g.day_of_year, days_assimilate_ave,
+//          fprintf(stdout, "%3d %3d %10.4f\n", g.day_of_year, days_assimilate_ave,
 //                  fruit_sdr_average);
+                  
           fruit_sdr_average = divide(
                       fruit_sdr_average * (float)(days_assimilate_ave-1)
                       + g_fruit_sdr[cohort]
@@ -15578,7 +15589,7 @@ void Plant::plant_fruit_update(
     push_routine (my_name);
 
     *g_fruit_site_no  = *g_fruit_site_no  + g_dlt_fruit_site_no;
-    fprintf(stdout, "%d %f\n", g.day_of_year, *g_fruit_site_no);
+    //fprintf(stdout, "%3d %10f\n", g.day_of_year, *g_fruit_site_no);
     if (g_dlt_fruit_flower_no <= 0.0 && g_setting_fruit)
        {
        *g_setting_fruit = false;
