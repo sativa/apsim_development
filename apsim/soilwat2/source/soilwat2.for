@@ -1,12 +1,77 @@
+      include 'soilwat2.inc'
+
+!     ===========================================================
+      subroutine AllocInstance (InstanceName, InstanceNo)
+!     ===========================================================
+      use Soilwat2Module
+      implicit none
+ 
+!+  Sub-Program Arguments
+      character InstanceName*(*)       ! (INPUT) name of instance
+      integer   InstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      allocate (Instances(InstanceNo)%gptr)
+      allocate (Instances(InstanceNo)%pptr)
+      allocate (Instances(InstanceNo)%cptr)
+      Instances(InstanceNo)%Name = InstanceName
+ 
+      return
+      end
+
+!     ===========================================================
+      subroutine FreeInstance (anInstanceNo)
+!     ===========================================================
+      use Soilwat2Module
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Module de-instantiation routine.
+ 
+!- Implementation Section ----------------------------------
+               
+      deallocate (Instances(anInstanceNo)%gptr)
+      deallocate (Instances(anInstanceNo)%pptr)
+      deallocate (Instances(anInstanceNo)%cptr)
+ 
+      return
+      end
+     
+!     ===========================================================
+      subroutine SwapInstance (anInstanceNo)
+!     ===========================================================
+      use Soilwat2Module
+      implicit none
+ 
+!+  Sub-Program Arguments
+      integer anInstanceNo             ! (INPUT) instance number to allocate
+ 
+!+  Purpose
+!      Swap an instance into the global 'g' pointer
+ 
+!- Implementation Section ----------------------------------
+               
+      g => Instances(anInstanceNo)%gptr
+      p => Instances(anInstanceNo)%pptr
+      c => Instances(anInstanceNo)%cptr
+ 
+      return
+      end
+
 * ====================================================================
-      subroutine APSIM_soilwat2 (action, data_string)
+      subroutine Main (action, data_string)
 * ====================================================================
       implicit none
-      dll_export apsim_soilwat2
-      include   'const.inc'            ! mes_presence, mes_init, mes_process
+      include   'const.inc'            ! ACTION_presence, ACTION_init, ACTION_process
       include   'event.inc'
       include 'action.inc'
-      include 'engine.pub'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -70,9 +135,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      call set_warning_off ()
-
-      if (action.eq.mes_get_variable) then
+      if (action.eq.ACTION_get_variable) then
                ! respond to request for variable values - from modules
          call soilwat2_send_my_variable (Data_string)
 
@@ -82,28 +145,28 @@
       else if (action.eq.EVENT_newmet) then
          call soilwat2_ONnewmet()
   
-      else if (action.eq.mes_init) then
+      else if (action.eq.ACTION_init) then
          call soilwat2_zero_variables ()
          call soilwat2_zero_data_links ()
          call soilwat2_init ()
          call soilwat2_sum_report ()
  
       else if ((action.eq.ACTION_reset)
-     :        .or.(action.eq.ACTION_init)) then
+     :        .or.(action.eq.ACTION_user_init)) then
          call soilwat2_zero_variables ()
          call soilwat2_get_other_variables ()
          call soilwat2_init ()
  
-      else if (action.eq.mes_sum_report) then
+      else if (action.eq.ACTION_sum_report) then
          call soilwat2_sum_report ()
  
-      else if (action.eq.mes_post) then
+      else if (action.eq.ACTION_post) then
  
-      else if (action.eq.mes_set_variable) then
+      else if (action.eq.ACTION_set_variable) then
                ! respond to request to reset variable values - from modules
          call soilwat2_set_my_variable (data_string)
  
-      else if (action.eq.mes_process) then
+      else if (action.eq.ACTION_process) then
          call soilwat2_zero_daily_variables ()
                ! request and receive variables from owner-modules
          call soilwat2_get_other_variables ()
@@ -121,7 +184,7 @@
          call fatal_error (ERR_USER,
      :   '"ADD_WATER" message no longer available - use "irrigated"') 
 
-      else if (action .eq. mes_till) then
+      else if (action .eq. ACTION_till) then
          call soilwat2_tillage ()
 
       else if (action .eq. EVENT_new_solute) then
@@ -142,8 +205,8 @@
 *     ===========================================================
       subroutine soilwat2_process
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -186,18 +249,18 @@
  
             ! water balance
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
          ! runoff
  
-      call soilwat2_runoff (g_rain, g_runoff)
+      call soilwat2_runoff (g%rain, g%runoff)
  
-      call soilwat2_infiltration (g_infiltration)
+      call soilwat2_infiltration (g%infiltration)
  
             ! all infiltration and solutes(from irrigation)
             ! go into the top layer.
  
-      g_sw_dep(1) = g_sw_dep(1) + g_infiltration
+      g%sw_dep(1) = g%sw_dep(1) + g%infiltration
  
             ! save solutes from irrigation
       call soilwat2_irrig_solute ()
@@ -209,41 +272,41 @@
       ! information would be lost.  The safest way is to hold onto the
       ! information until it is used then reset the record.
  
-      g_irrigation = 0.0
-      call fill_real_array (g_irrigation_solute, 0.0, max_solute)
+      g%irrigation = 0.0
+      call fill_real_array (g%irrigation_solute, 0.0, max_solute)
  
             ! drainage
             ! get flux
-      call soilwat2_drainage (g_flux)
+      call soilwat2_drainage (g%flux)
  
             ! move water down
-      call move_down_real (g_flux, g_sw_dep, num_layers)
+      call move_down_real (g%flux, g%sw_dep, num_layers)
  
             ! drainage out of bottom layer
-      g_drain = g_flux(num_layers)
+      g%drain = g%flux(num_layers)
  
-            ! now move the solutes with g_flux
+            ! now move the solutes with g%flux
             ! flux -  flow > dul
       call soilwat2_move_solute_down ()
  
                           ! potential: sevap + transpiration:
-      call soilwat2_pot_evapotranspiration (g_eo)
+      call soilwat2_pot_evapotranspiration (g%eo)
  
                           ! actual soil evaporation:
-      call soilwat2_evaporation (g_es_layers, g_eos)
+      call soilwat2_evaporation (g%es_layers, g%eos)
  
             ! ** take away evaporation
       do 1500 layer = 1, num_layers
-         g_sw_dep(layer) = g_sw_dep(layer) - g_es_layers(layer)
+         g%sw_dep(layer) = g%sw_dep(layer) - g%es_layers(layer)
  
  1500 continue
  
             ! flow
             ! get unsaturated flow
-      call soilwat2_unsat_flow (g_flow)
+      call soilwat2_unsat_flow (g%flow)
  
             ! move water up
-      call move_up_real (g_flow, g_sw_dep, num_layers)
+      call move_up_real (g%flow, g%sw_dep, num_layers)
  
             ! now check that the soil water is not silly
       do 2000 layer = 1,num_layers
@@ -263,9 +326,9 @@
 *     ===========================================================
       subroutine soilwat2_runoff ( rain, runoff )
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -301,15 +364,15 @@
       runoff = 0.0
  
       if (rain .gt. 0.0) then
-         if (g_obsrunoff_name .eq. blank ) then
+         if (g%obsrunoff_name .eq. blank ) then
             call soilwat2_scs_runoff (rain, runoff)
          else
-           if ( g_obsrunoff_found ) then
-               runoff = g_obsrunoff
+           if ( g%obsrunoff_found ) then
+               runoff = g%obsrunoff
            else
                write (string, '(a,i4,a,i3,a)')
-     :      'Year = ', g_year,
-     :      ', day = ', g_day,
+     :      'Year = ', g%year,
+     :      ', day = ', g%day,
      :      ', Using predicted runoff for missing observation'
  
                call warning_error (err_user, string)
@@ -317,7 +380,7 @@
            endif
          endif
  
-         call soilwat2_tillage_addrain(g_rain)  ! Update rain since tillage accumulator
+         call soilwat2_tillage_addrain(g%rain)  ! Update rain since tillage accumulator
                                                 ! NB. this needs to be done _after_ cn
                                                 ! calculation.
  
@@ -334,8 +397,8 @@
 *     ===========================================================
       subroutine soilwat2_scs_runoff (rain, runoff)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -410,7 +473,7 @@
             ! s     : s value from scs equation, transfer to mm scale
             !         = max. pot. retention (~infiltration) (mm)
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
            ! check if hydro_effective_depth applies for eroded profile.
  
@@ -419,8 +482,8 @@
       cnpd = 0.0
       do 100 layer = 1, num_layers
          cnpd = cnpd
-     :        + divide (g_sw_dep(layer) - g_ll15_dep(layer)
-     :                 , g_dul_dep(layer) - g_ll15_dep(layer)
+     :        + divide (g%sw_dep(layer) - g%ll15_dep(layer)
+     :                 , g%dul_dep(layer) - g%ll15_dep(layer)
      :                 , 0.0) *runoff_wf(layer)
   100 continue
       cnpd = bound (cnpd, 0.0, 1.0)
@@ -429,32 +492,32 @@
  
           ! reduce CN2 for the day due to cover effect
  
-      cover_fract = divide (runoff_cover, p_cn_cov, 0.0)
+      cover_fract = divide (runoff_cover, p%cn_cov, 0.0)
       cover_fract = bound (cover_fract, 0.0, 1.0)
  
-      g_cn2_new = p_cn2_bare - (p_cn_red * cover_fract)
+      g%cn2_new = p%cn2_bare - (p%cn_red * cover_fract)
  
           ! Tillage reduction on CN
-      if (g_tillage_cn_rain .gt. 0.0 ) then
-        tillage_reduction = g_tillage_cn_red *
-     :    ( divide (g_tillage_rain_sum, g_tillage_cn_rain, 0.0) -
+      if (g%tillage_cn_rain .gt. 0.0 ) then
+        tillage_reduction = g%tillage_cn_red *
+     :    ( divide (g%tillage_rain_sum, g%tillage_cn_rain, 0.0) -
      :      1.0)
 c        write (*,*) 'tillred = ', tillage_reduction
-        g_cn2_new = g_cn2_new + tillage_reduction
+        g%cn2_new = g%cn2_new + tillage_reduction
       else
                                    ! Nothing
       endif
  
-          ! cut off response to cover at high covers if p_cn_red < 100.
+          ! cut off response to cover at high covers if p%cn_red < 100.
           ! <dms7/95> - this bit was missing altogether ??
  
 cjh         this is redundant because the previous bound of cover_frac and the
 cjh         calculation of cn2_new make it impossible to go lower.
-cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
-      g_cn2_new = bound (g_cn2_new, 0.0, 100.0)
+cjh      g%cn2_new = l_bound (g%cn2_new, p%cn2_bare - p%cn_red)
+      g%cn2_new = bound (g%cn2_new, 0.0, 100.0)
  
-      cn1 = divide (g_cn2_new, (2.334 - 0.01334*g_cn2_new), 0.0)
-      cn3 = divide (g_cn2_new, (0.4036 + 0.005964*g_cn2_new), 0.0)
+      cn1 = divide (g%cn2_new, (2.334 - 0.01334*g%cn2_new), 0.0)
+      cn3 = divide (g%cn2_new, (0.4036 + 0.005964*g%cn2_new), 0.0)
       cn = cn1 + (cn3 - cn1) *cnpd
  
           ! curve number will be decided from scs curve number table ??dms
@@ -475,8 +538,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_runoff_cover (runoff_cover)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'science.pub'
       include 'error.pub'
  
@@ -518,17 +581,17 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
           !    0 (no effect) to 1 (full effect)
  
       effective_cover_tot = 0.0
-      do 1000 crop = 1, g_num_crops
-         if (g_canopy_height(crop).ge.0.0) then
-            canopy_fact = linear_interp_real (g_canopy_height(crop)
-     :                                       , c_canopy_fact_height
-     :                                       , c_canopy_fact
-     :                                       , g_num_canopy_fact)
+      do 1000 crop = 1, g%num_crops
+         if (g%canopy_height(crop).ge.0.0) then
+            canopy_fact = linear_interp_real (g%canopy_height(crop)
+     :                                       , c%canopy_fact_height
+     :                                       , c%canopy_fact
+     :                                       , g%num_canopy_fact)
          else
-            canopy_fact = c_canopy_fact_default
+            canopy_fact = c%canopy_fact_default
          endif
  
-         effective_crop_cover = g_cover_tot(crop) * canopy_fact
+         effective_crop_cover = g%cover_tot(crop) * canopy_fact
          effective_cover_tot = add_cover (effective_cover_tot
      :                                   , effective_crop_cover)
 1000  continue
@@ -536,7 +599,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
           !    ie residue with canopy shading residue
  
       runoff_cover = add_cover (effective_cover_tot
-     :                         , g_residue_cover)
+     :                         , g%residue_cover)
  
  
       call pop_routine (my_name)
@@ -548,9 +611,9 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_pot_evapotranspiration (eo)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -579,10 +642,10 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
       call push_routine (my_name)
  
-      if (g_eo_source .eq. blank) then
+      if (g%eo_source .eq. blank) then
           call soilwat2_priestly_taylor (eo) ! eo from priestly taylor
       else
-          eo = g_eo_system                   ! eo is provided by system
+          eo = g%eo_system                   ! eo is provided by system
       endif
  
       call pop_routine (my_name)
@@ -593,8 +656,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_priestly_taylor (eo)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'science.pub'
       include 'error.pub'
  
@@ -639,15 +702,15 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
                 ! find equilibrium evap rate as a
                 ! function of radiation, albedo, and temp.
  
-      cover_green_sum = sum_cover_array (g_cover_green, g_num_crops)
-      albedo = c_max_albedo
-     :       - (c_max_albedo - p_salb) * (1.0 - cover_green_sum)
+      cover_green_sum = sum_cover_array (g%cover_green, g%num_crops)
+      albedo = c%max_albedo
+     :       - (c%max_albedo - p%salb) * (1.0 - cover_green_sum)
  
                 ! wt_ave_temp is mean temp, weighted towards max.
  
-      wt_ave_temp = 0.60*g_maxt + 0.40*g_mint
+      wt_ave_temp = 0.60*g%maxt + 0.40*g%mint
  
-      eeq = g_radn*23.8846* (0.000204 - 0.000183*albedo)
+      eeq = g%radn*23.8846* (0.000204 - 0.000183*albedo)
      :    * (wt_ave_temp + 29.0)
  
                 ! find potential evapotranspiration (eo)
@@ -664,8 +727,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       real function soilwat2_eeq_fac ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'error.pub'
  
 *+  Purpose
@@ -686,13 +749,13 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
       call push_routine (my_name)
  
-      if (g_maxt.gt.c_max_crit_temp) then
+      if (g%maxt.gt.c%max_crit_temp) then
  
                 ! at very high max temps eo/eeq increases
                 ! beyond its normal value of 1.1
  
-         soilwat2_eeq_fac =  ((g_maxt - c_max_crit_temp) *0.05 + 1.1)
-      else if (g_maxt.lt.c_min_crit_temp) then
+         soilwat2_eeq_fac =  ((g%maxt - c%max_crit_temp) *0.05 + 1.1)
+      else if (g%maxt.lt.c%min_crit_temp) then
  
                 ! at very low max temperatures eo/eeq
                 ! decreases below its normal value of 1.1
@@ -700,7 +763,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
                 ! it would be better at tmax = 6.1, or change the
                 ! .18 to .188 or change the 20 to 21.1
  
-         soilwat2_eeq_fac = 0.01*exp (0.18* (g_maxt + 20.0))
+         soilwat2_eeq_fac = 0.01*exp (0.18* (g%maxt + 20.0))
       else
  
                 ! temperature is in the normal range, eo/eeq = 1.1
@@ -717,8 +780,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_evaporation (esoil, eos)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -754,8 +817,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
       ! 2. get available soil water for evaporation
          ! NB. ritchie + b&s evaporate from layer 1, but rickert
          !     can evaporate from L1 + L2.
-      asw1 = g_sw_dep(1) - g_air_dry_dep(1)
-      asw1 = bound (asw1, 0.0, g_eo)
+      asw1 = g%sw_dep(1) - g%air_dry_dep(1)
+      asw1 = bound (asw1, 0.0, g%eo)
  
       ! 3. get actual soil water evaporation
       call soilwat2_soil_evaporation (esoil, eos, asw1)
@@ -769,8 +832,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_pot_soil_evaporation (eos)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'science.pub'
       include 'data.pub'
       include 'error.pub'
@@ -845,12 +908,12 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          !  the "% shade" (ie cover) of the crop canopy - this should include th
          !  green & dead canopy ie. the total canopy cover (but NOT near/on-grou
          !  residues).  From fig. 5 & eqn 2.                       <dms June 95>
-         !  Default value for c_canopy_eos_coef = 1.7
+         !  Default value for c%canopy_eos_coef = 1.7
          !              ...minimum reduction (at cover =0.0) is 1.0
          !              ...maximum reduction (at cover =1.0) is 0.183.
  
-      cover_tot_sum = sum_cover_array (g_cover_tot, g_num_crops)
-      eos_canopy_fract = exp (-c_canopy_eos_coef * cover_tot_sum)
+      cover_tot_sum = sum_cover_array (g%cover_tot, g%num_crops)
+      eos_canopy_fract = exp (-c%canopy_eos_coef * cover_tot_sum)
  
          !-----------------------------------------------+
          ! reduce Eo under canopy to that under mulch            <DMS June 95>
@@ -862,7 +925,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          ! BUT taking into account that residue can be a mix of
          ! residues from various crop types <dms june 95>
  
-      if (g_residue_cover.ge.1.0) then
+      if (g%residue_cover.ge.1.0) then
          ! We test for 100% to avoid log function failure.
          ! The algorithm applied here approaches 0 as cover approaches
          ! 100% and so we use zero in this case.
@@ -874,23 +937,23 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
          ! a) back-calculate area from residue_cover & residue_wt
  
-         resid_area = -divide (log (1.0 - g_residue_cover)
-     :                                 , g_residue_wt, 0.0)
+         resid_area = -divide (log (1.0 - g%residue_cover)
+     :                                 , g%residue_wt, 0.0)
  
  
          ! b) estimate 1st stage soil evap reduction power of
          !    mixed residues from the area of mixed residues.
          !    [DM. Silburn unpublished data, June 95 ]
          !    <temporary value - will reproduce Adams et al 75 effect>
-         !     c_A_to_evap_fact = 0.00022 / 0.0005 = 0.44
+         !     c%A_to_evap_fact = 0.00022 / 0.0005 = 0.44
  
-         eos_resid_coef = resid_area * c_A_to_evap_fact
-         eos_residue_fract = exp(-eos_resid_coef * g_residue_wt)
+         eos_resid_coef = resid_area * c%A_to_evap_fact
+         eos_residue_fract = exp(-eos_resid_coef * g%residue_wt)
       endif
  
          ! Reduce potential soil evap under canopy to that under residue (mulch)
  
-      eos  = g_eo * eos_canopy_fract * eos_residue_fract
+      eos  = g%eo * eos_canopy_fract * eos_residue_fract
  
       call pop_routine (my_name)
       return
@@ -901,9 +964,9 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_soil_evaporation (es, eos, eos_max)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include   'error.pub'
       include   'data.pub'
  
@@ -937,19 +1000,19 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
       call fill_real_array(es, 0.0, max_layer)
  
-      if (c_evap_method .eq. c_ritchie_method) then
+      if (c%evap_method .eq. ritchie_method) then
          call soilwat2_ritchie_evaporation (es(1), eos, eos_max)
  
-      else if (c_evap_method .eq. c_bs_a_method) then
+      else if (c%evap_method .eq. bs_a_method) then
          call soilwat2_bs_a_evaporation (es(1), eos, eos_max)
  
-      else if (c_evap_method .eq. c_bs_b_method) then
+      else if (c%evap_method .eq. bs_b_method) then
          call soilwat2_bs_b_evaporation (es(1), eos, eos_max)
  
-      else if (c_evap_method .eq. c_bs_acs_method) then
+      else if (c%evap_method .eq. bs_acs_method) then
          call soilwat2_bs_acs_evaporation (es(1), eos, eos_max)
  
-      else if (c_evap_method .eq. c_rickert_method) then
+      else if (c%evap_method .eq. rickert_method) then
          call soilwat2_rickert_evaporation (es, eos)
  
       else
@@ -968,8 +1031,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_ritchie_evaporation (es, eos, eos_max)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1023,20 +1086,20 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
       call push_routine (my_name)
  
-      sumes1_max = p_u
-      w_inf = g_infiltration
+      sumes1_max = p%u
+      w_inf = g%infiltration
  
          ! if infiltration, reset sumes1
          ! reset sumes2 if infil exceeds sumes1
  
       if (w_inf.gt.0.0) then
  
-         g_sumes2 = max (0.0, g_sumes2 - max (0.0, w_inf-g_sumes1))
-         g_sumes1 = max (0.0, g_sumes1 - w_inf)
+         g%sumes2 = max (0.0, g%sumes2 - max (0.0, w_inf-g%sumes1))
+         g%sumes1 = max (0.0, g%sumes1 - w_inf)
  
             ! update t (incase sumes2 changed)
  
-         g_t = (divide (g_sumes2, p_cona, 0.0))**2
+         g%t = (divide (g%sumes2, p%cona, 0.0))**2
  
       else
          ! no infiltration, no re-set.
@@ -1044,12 +1107,12 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
          ! are we in stage1 ?
  
-      if (g_sumes1.lt.sumes1_max) then
+      if (g%sumes1.lt.sumes1_max) then
  
             ! we are in stage1
             ! set esoil1 = potential, or limited by u.
  
-          esoil1 = min (eos, sumes1_max - g_sumes1)
+          esoil1 = min (eos, sumes1_max - g%sumes1)
  
           if (eos.gt.esoil1 .and. esoil1.lt.eos_max) then
  
@@ -1057,12 +1120,12 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *           !  & there is evaporative sw excess to air_dry, allowing for esoil1.
 *           !  need to calc. some stage 2 drying(esoil2).
  
-*  if g_sumes2.gt.0.0 then esoil2 =f(sqrt(time),p_cona,g_sumes2,g_eos-esoil1).
-*  if g_sumes2 is zero, then use ritchie's empirical transition constant (0.6).
+*  if g%sumes2.gt.0.0 then esoil2 =f(sqrt(time),p%cona,g%sumes2,g%eos-esoil1).
+*  if g%sumes2 is zero, then use ritchie's empirical transition constant (0.6).
  
-            if (g_sumes2.gt.0.0) then
-               g_t = g_t + 1.0
-               esoil2 = min (eos - esoil1, p_cona*g_t**0.5 - g_sumes2)
+            if (g%sumes2.gt.0.0) then
+               g%t = g%t + 1.0
+               esoil2 = min (eos - esoil1, p%cona*g%t**0.5 - g%sumes2)
             else
                esoil2 = 0.6*(eos - esoil1)
             endif
@@ -1076,9 +1139,9 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
                !  update 1st and 2nd stage soil evaporation.
  
-         g_sumes1 = g_sumes1 + esoil1
-         g_sumes2 = g_sumes2 + esoil2
-         g_t = (divide (g_sumes2, p_cona, 0.0))**2
+         g%sumes1 = g%sumes1 + esoil1
+         g%sumes2 = g%sumes2 + esoil2
+         g%t = (divide (g%sumes2, p%cona, 0.0))**2
  
       else
  
@@ -1086,8 +1149,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
          esoil1 = 0.0
  
-         g_t = g_t + 1.0
-         esoil2 = min (eos, p_cona*g_t**0.5 - g_sumes2)
+         g%t = g%t + 1.0
+         esoil2 = min (eos, p%cona*g%t**0.5 - g%sumes2)
  
             ! check with lower limit of evaporative sw.
  
@@ -1095,7 +1158,7 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
             !   update 2nd stage soil evaporation.
  
-         g_sumes2 = g_sumes2 + esoil2
+         g%sumes2 = g%sumes2 + esoil2
  
       endif
  
@@ -1114,8 +1177,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_bs_a_evaporation (es, eos, eos_max)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1153,47 +1216,47 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      sumes1_max = p_beta**2
-      w_inf = g_infiltration
+      sumes1_max = p%beta**2
+      w_inf = g%infiltration
  
 *     if infiltration is greater than eos, es is = eos.
  
 *     &&&&&&&&&& Below here - as coded by B&S in Fig 2 &&&&&&&&&&&&&&&&&&&&&&
       if (w_inf .ge. eos) then
  
-         g_sumes = max(0.0, g_sumes - (w_inf - eos))
+         g%sumes = max(0.0, g%sumes - (w_inf - eos))
          es = eos
-         espot = divide (g_sumes**2, p_beta**2, 0.0)
-         g_sumeos = max(g_sumes, espot)
+         espot = divide (g%sumes**2, p%beta**2, 0.0)
+         g%sumeos = max(g%sumes, espot)
       else
                                 ! Infiltration is less than eos
-         g_sumeos = g_sumeos + (eos - w_inf)
-         es = w_inf + (min(g_sumeos, p_beta*g_sumeos**0.5)
-     :        - g_sumes)
-         g_sumes = min(g_sumeos, p_beta*g_sumeos**0.5)
+         g%sumeos = g%sumeos + (eos - w_inf)
+         es = w_inf + (min(g%sumeos, p%beta*g%sumeos**0.5)
+     :        - g%sumes)
+         g%sumes = min(g%sumeos, p%beta*g%sumeos**0.5)
       endif
 *     &&&&&&&&&& Above here - as coded by B&S in Fig 2 &&&&&&&&&&&&&&&&&&&&&&
  
-*     next 2 conditions added because g_sumes was zero
+*     next 2 conditions added because g%sumes was zero
 *     after larger rain and at the same time es was = eos.
  
-      if(es .gt. g_sumes) then
-         g_sumes = es
+      if(es .gt. g%sumes) then
+         g%sumes = es
       endif
  
-      if(g_sumes.le.sumes1_max) then
-         g_sumeos = g_sumes
+      if(g%sumes.le.sumes1_max) then
+         g%sumeos = g%sumes
       else
-         g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+         g%sumeos = (divide (g%sumes, p%beta, 0.0))**2
       endif
  
  
-      if (g_sumes.ge. sumes1_max) then
-         g_sumes1 = sumes1_max
-         g_sumes2 = g_sumes - g_sumes1
+      if (g%sumes.ge. sumes1_max) then
+         g%sumes1 = sumes1_max
+         g%sumes2 = g%sumes - g%sumes1
       else
-         g_sumes1 = g_sumes
-         g_sumes2 = 0.0
+         g%sumes1 = g%sumes
+         g%sumes2 = 0.0
       endif
  
                                 ! make sure we are within bounds
@@ -1209,8 +1272,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_bs_b_evaporation (es, eos, eos_max)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1252,24 +1315,24 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      sumes1_max = p_beta**2
+      sumes1_max = p%beta**2
  
-      w_inf = g_infiltration
+      w_inf = g%infiltration
  
                                 ! if infiltration, reset sumes1
                                 ! reset sumes2 if infil exceeds sumes1
       if (w_inf .gt. 0.0) then
  
-         g_sumes2 = max (0.0, g_sumes2 - max (0.0, w_inf
-     :        - g_sumes1))
-         g_sumes1 = max (0.0, g_sumes1 - w_inf)
+         g%sumes2 = max (0.0, g%sumes2 - max (0.0, w_inf
+     :        - g%sumes1))
+         g%sumes1 = max (0.0, g%sumes1 - w_inf)
  
                                 ! update sumes & sumeos
-         g_sumes = g_sumes1 + g_sumes2
-         if(g_sumes.le.sumes1_max) then
-            g_sumeos = g_sumes
+         g%sumes = g%sumes1 + g%sumes2
+         if(g%sumes.le.sumes1_max) then
+            g%sumeos = g%sumes
          else
-            g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+            g%sumeos = (divide (g%sumes, p%beta, 0.0))**2
          endif
  
       else
@@ -1278,29 +1341,29 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
  
 *     Today's actual evap calculated for today's eos
-*     If todays_es is limited by soil water then g_sumeos will
+*     If todays_es is limited by soil water then g%sumeos will
 *     be adjusted later
  
-      g_sumeos = g_sumeos + eos
-      if(g_sumeos .le. sumes1_max) then
+      g%sumeos = g%sumeos + eos
+      if(g%sumeos .le. sumes1_max) then
  
          todays_es = eos
-         g_sumes = g_sumes + todays_es
+         g%sumes = g%sumes + todays_es
       else
  
-         todays_es = p_beta * g_sumeos**0.5 - g_sumes
+         todays_es = p%beta * g%sumeos**0.5 - g%sumes
          todays_es = bound (todays_es,  0.0, eos)
-         g_sumes  = g_sumes + todays_es
-         g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+         g%sumes  = g%sumes + todays_es
+         g%sumeos = (divide (g%sumes, p%beta, 0.0))**2
       endif
  
                                 ! are we in stage1 ?
-      if (g_sumes1 .lt. sumes1_max) then
+      if (g%sumes1 .lt. sumes1_max) then
 *     We are in stage1.
 *     set esoil1 = eos, or limited by sumes1_max (beta**2).
 *     todays_es is overriden by 1st stage evap.
  
-         esoil1 = min (eos, sumes1_max - g_sumes1)
+         esoil1 = min (eos, sumes1_max - g%sumes1)
  
          if (eos .gt. esoil1 .and. esoil1 .lt. eos_max) then
  
@@ -1320,8 +1383,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          esoil2 = min (esoil2, eos_max - esoil1)
  
                                 !  update 1st and 2nd stage soil evaporation.
-         g_sumes1 = g_sumes1 + esoil1
-         g_sumes2 = g_sumes2 + esoil2
+         g%sumes1 = g%sumes1 + esoil1
+         g%sumes2 = g%sumes2 + esoil2
  
       else
  
@@ -1335,14 +1398,14 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
          esoil2 = min (esoil2, eos_max)
  
                                 !   update 2nd stage soil evaporation.
-         g_sumes2 = g_sumes2 + esoil2
+         g%sumes2 = g%sumes2 + esoil2
       endif
  
 *     update sumes & sumeos incase esoil1&2 limited by eos_max
 *     or ritchie transition constant
  
-      g_sumes = g_sumes1 + g_sumes2
-      g_sumeos = (divide (g_sumes, p_beta, 0.0))**2
+      g%sumes = g%sumes1 + g%sumes2
+      g%sumeos = (divide (g%sumes, p%beta, 0.0))**2
  
       es = esoil1 + esoil2
  
@@ -1359,8 +1422,8 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_bs_acs_evaporation (es, eos, eos_max)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1399,26 +1462,26 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
  
-      sumes1_max = p_beta**2
+      sumes1_max = p%beta**2
  
-      w_inf = g_infiltration
+      w_inf = g%infiltration
  
-      g_sumes_yest = g_sumes
+      g%sumes_yest = g%sumes
  
                                 ! reset for infiltration
-      if ((g_inf_pool .EQ. 0.0) .AND. (w_inf .GT. 0.0)) then
-         g_sumes_yest = 0.0
-         g_sumes_last = g_sumes
-         g_sumeos_last = g_sumeos
+      if ((g%inf_pool .EQ. 0.0) .AND. (w_inf .GT. 0.0)) then
+         g%sumes_yest = 0.0
+         g%sumes_last = g%sumes
+         g%sumeos_last = g%sumeos
       else
                                 ! no need to store last values
       endif
  
-      g_inf_pool = g_inf_pool + w_inf
+      g%inf_pool = g%inf_pool + w_inf
  
-      if (g_inf_pool .GT. 0.0) then
-         g_sumes = 0.0
-         g_sumeos = 0.0
+      if (g%inf_pool .GT. 0.0) then
+         g%sumes = 0.0
+         g%sumeos = 0.0
       else
                                 ! Nothing in inf pool to be
                                 ! evap at stage 1, no reset
@@ -1426,45 +1489,45 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
                                 ! dodgy logic for a massive reset
                                 ! on 90% AWR (1)   ho ho ho !!
-      if ( g_sw_dep(1) .GT. (0.9*(g_dul_dep(1)-g_air_dry_dep(1))) )
+      if ( g%sw_dep(1) .GT. (0.9*(g%dul_dep(1)-g%air_dry_dep(1))) )
      +     then
-         g_sumes_last = 0.0
-         g_sumeos_last = 0.0
+         g%sumes_last = 0.0
+         g%sumeos_last = 0.0
       else
                                 ! no need for massive reset
       endif
  
  
                                 ! Do the B&S ...
-      g_sumeos = g_sumeos + eos
+      g%sumeos = g%sumeos + eos
  
-      if (g_sumes .LT. sumes1_max) then !first stage
-         g_sumes = g_sumeos
+      if (g%sumes .LT. sumes1_max) then !first stage
+         g%sumes = g%sumeos
  
       else                      ! second stage
-         g_sumes = p_beta * g_sumeos**0.5
+         g%sumes = p%beta * g%sumeos**0.5
  
       endif
  
                                 ! calc esoil and update inf_pool, sumes/eos
-      es = g_sumes - g_sumes_yest
-      g_inf_pool = max (0.0, g_inf_pool - es)
+      es = g%sumes - g%sumes_yest
+      g%inf_pool = max (0.0, g%inf_pool - es)
  
 *     Put things back how they were before infil and adjust for over evaping
-      if (g_inf_pool .LE. 0.0) then !evaped all away
-         if (g_sumes_last .GT. 0.0) then
-            surplus_es = 0.0 - g_inf_pool
-            g_inf_pool = 0.0
+      if (g%inf_pool .LE. 0.0) then !evaped all away
+         if (g%sumes_last .GT. 0.0) then
+            surplus_es = 0.0 - g%inf_pool
+            g%inf_pool = 0.0
  
                                 ! carry surplus evap over to last posi
-            g_sumes = g_sumes_last + surplus_es
+            g%sumes = g%sumes_last + surplus_es
             if (surplus_es .LT. sumes1_max) then
-               g_sumeos = g_sumeos_last + surplus_es
+               g%sumeos = g%sumeos_last + surplus_es
             else
-               g_sumeos = g_sumeos_last + (surplus_es/p_beta)**2
+               g%sumeos = g%sumeos_last + (surplus_es/p%beta)**2
             endif
-         else                   ! g_sumes_last = 0.0 ie had massive reset
-                                ! and no need to change g_sumes and g_sumeos
+         else                   ! g%sumes_last = 0.0 ie had massive reset
+                                ! and no need to change g%sumes and g%sumeos
          endif
  
       else
@@ -1482,9 +1545,9 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
 *     ===========================================================
       subroutine soilwat2_rickert_evaporation (es, eos)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include    'const.inc'
-      include    'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1532,9 +1595,9 @@ cjh      g_cn2_new = l_bound (g_cn2_new, p_cn2_bare - p_cn_red)
  
       call fill_real_array(es, 0.0, max_layer)
  
-      avail_water_L1 = g_sw_dep(1) - g_air_dry_dep(1)
+      avail_water_L1 = g%sw_dep(1) - g%air_dry_dep(1)
  
-      avail_capacity_L1 = g_dul_dep(1) - g_air_dry_dep(1)
+      avail_capacity_L1 = g%dul_dep(1) - g%air_dry_dep(1)
  
       supply_ratio_L1 = divide (avail_water_L1,
      :     avail_capacity_L1, 0.0)
@@ -1544,11 +1607,11 @@ c     PdeV - Should send this magic number to constants file:
  
       supply_ratio_L1 = bound (supply_ratio_L1, 0.0, 1.0)
  
-      avail_water_L1_L2 = g_sw_dep(1) + g_sw_dep(2) -
-     :     g_air_dry_dep(1) - g_ll15_dep(2)
+      avail_water_L1_L2 = g%sw_dep(1) + g%sw_dep(2) -
+     :     g%air_dry_dep(1) - g%ll15_dep(2)
  
-      avail_capacity_L1_L2 = g_dul_dep(1) + g_dul_dep(2) -
-     :     g_air_dry_dep(1) - g_ll15_dep(2)
+      avail_capacity_L1_L2 = g%dul_dep(1) + g%dul_dep(2) -
+     :     g%air_dry_dep(1) - g%ll15_dep(2)
  
       supply_ratio_L1_L2 = divide (avail_water_L1_L2,
      :     avail_capacity_L1_L2, 0.0)
@@ -1559,19 +1622,19 @@ c     PdeV - Should send this magic number to constants file:
  
  
       evap_L1 = supply_ratio_L1 * eos
-      eos_max = min(p_max_evap, g_sw_dep(1) - g_air_dry_dep(1))
+      eos_max = min(p%max_evap, g%sw_dep(1) - g%air_dry_dep(1))
       evap_L1 = bound(evap_L1, 0.0, eos_max)
  
 CPdeV - should resolve whether we can evaporate L2 down to airdry.
       if (supply_ratio_L1_L2 .gt. supply_ratio_L1 .and.
-     :    g_sw_dep(2) .gt. g_ll15_dep(2)) then
+     :    g%sw_dep(2) .gt. g%ll15_dep(2)) then
          supply_ratio_L2 = supply_ratio_L1_L2 - supply_ratio_L1
  
          evap_L2 = supply_ratio_L2 * eos
-         eos_max = min(p_max_evap - evap_L1,
-     :                  g_sw_dep(2) - g_ll15_dep(2))
-cdms         eos_max = min(p_max_evap - evap_L1,
-cdms     :                     g_sw_dep(2) - g_air_dry_dep(2))  ! more realistic
+         eos_max = min(p%max_evap - evap_L1,
+     :                  g%sw_dep(2) - g%ll15_dep(2))
+cdms         eos_max = min(p%max_evap - evap_L1,
+cdms     :                     g%sw_dep(2) - g%air_dry_dep(2))  ! more realistic
          evap_L2 = bound(evap_L2, 0.0, eos_max)
  
       else
@@ -1579,11 +1642,11 @@ cdms     :                     g_sw_dep(2) - g_air_dry_dep(2))  ! more realistic
       endif
 cdms  pete - this looks to be limited to available sw above
 cdms         is a further check needed ?????
-c     Can't use g_eo as upper bound to evaporation (like all the
-c     other routines) as g_eo is specific to the top layer. This check
+c     Can't use g%eo as upper bound to evaporation (like all the
+c     other routines) as g%eo is specific to the top layer. This check
 c     should suffice.
-      eos_max = g_sw_dep(1) - g_air_dry_dep(1) +
-     :    g_sw_dep(2) - g_ll15_dep(2)
+      eos_max = g%sw_dep(1) - g%air_dry_dep(1) +
+     :    g%sw_dep(2) - g%ll15_dep(2)
  
       if (evap_L1 + evap_L2 .gt. eos_max) then
          call warning_error (err_internal,
@@ -1604,6 +1667,7 @@ c     should suffice.
 *     ===========================================================
       real function soilwat2_comp_curve (ndx, a)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include 'data.pub'
       include 'error.pub'
@@ -1646,8 +1710,8 @@ c     should suffice.
 *     ===========================================================
       subroutine soilwat2_drainage (flux)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1671,7 +1735,7 @@ c     should suffice.
 *        250893   jngh firstly changed drainage criteria to match cm v1 code
 *                      then removed .003 part to allow proper denitrification
 *                      in nitrogrn module.
-*        131093   markl changes p_swcon to an array for each soil layer
+*        131093   markl changes p%swcon to an array for each soil layer
  
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
@@ -1698,28 +1762,28 @@ c     should suffice.
                 ! redistribution.
  
       call fill_real_array (flux, 0.0, max_layer)
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
       do 240 layer = 1, num_layers
  
              ! get total water concentration in layer
  
-         w_tot = g_sw_dep(layer) + w_in
+         w_tot = g%sw_dep(layer) + w_in
  
              ! get excess water above saturation & then water left
              ! to drain between sat and dul.  Only this water is
              ! subject to swcon. The excess is not - treated as a
              ! bucket model. (mm)
  
-         if (w_tot.gt.g_sat_dep(layer)) then
-            excess = w_tot - g_sat_dep(layer)
-            w_tot = g_sat_dep(layer)
+         if (w_tot.gt.g%sat_dep(layer)) then
+            excess = w_tot - g%sat_dep(layer)
+            w_tot = g%sat_dep(layer)
          else
             excess = 0.0
          endif
  
-         if (w_tot.gt. g_dul_dep(layer)) then
-            w_drain = (w_tot - g_dul_dep(layer)) *p_swcon(layer)
+         if (w_tot.gt. g%dul_dep(layer)) then
+            w_drain = (w_tot - g%dul_dep(layer)) *p%swcon(layer)
          else
             w_drain = 0.0
          endif
@@ -1743,8 +1807,8 @@ c     should suffice.
 *     ===========================================================
       subroutine soilwat2_unsat_flow (flow)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -1762,7 +1826,7 @@ c     should suffice.
 *        210191   specified and programmed jngh (j hargreaves
 *        290892   jngh changed soil water to depth of water
 *        151292   jngh changed common blocks
-*        120294   jpd add apswtspr.blk for p_diffus_const,p_diffus_slope
+*        120294   jpd add apswtspr.blk for p%diffus_const,p%diffus_slope
 *        150294   mep added variable flow_max to constrain flow(layer) to
 *                    a zero gradient for adjacent layers.
 *        100795 jngh added limits for flow_max to esw_dep as sw was going
@@ -1826,7 +1890,7 @@ c     should suffice.
  
       call push_routine (my_name)
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
         ! *** calculate unsaturated flow below drained upper limit (flow)***
  
@@ -1840,18 +1904,18 @@ c     should suffice.
       do 500 layer = 1, second_last_layer
          next_layer = layer + 1
  
-         dlayer1    = p_dlayer(layer)
-         dlayer2    = p_dlayer(next_layer)
+         dlayer1    = p%dlayer(layer)
+         dlayer2    = p%dlayer(next_layer)
          ave_dlayer = (dlayer1 + dlayer2) *0.5
  
-         sw_dep1    = g_sw_dep(layer)
-         sw_dep2    = g_sw_dep(next_layer)
+         sw_dep1    = g%sw_dep(layer)
+         sw_dep2    = g%sw_dep(next_layer)
  
-         ll15_dep1  = g_ll15_dep(layer)
-         ll15_dep2  = g_ll15_dep(next_layer)
+         ll15_dep1  = g%ll15_dep(layer)
+         ll15_dep2  = g%ll15_dep(next_layer)
  
-         sat_dep1   = g_sat_dep(layer)
-         sat_dep2   = g_sat_dep(next_layer)
+         sat_dep1   = g%sat_dep(layer)
+         sat_dep2   = g%sat_dep(next_layer)
  
          esw_dep1   = l_bound ((sw_dep1 - w_out) - ll15_dep1, 0.0)
          esw_dep2   = l_bound (sw_dep2 - ll15_dep2, 0.0)
@@ -1864,8 +1928,8 @@ c     should suffice.
  
            ! find diffusivity, a function of mean thet.
  
-         dbar  = p_diffus_const
-     :         * exp (p_diffus_slope * (theta1 + theta2) * 0.5)
+         dbar  = p%diffus_const
+     :         * exp (p%diffus_slope * (theta1 + theta2) * 0.5)
  
             ! testing found that a limit of 10000 (as used in ceres-maize)
             ! for dbar limits instability for flow direction for consecutive
@@ -1885,7 +1949,7 @@ cjh          subtract gravity gradient to prevent gradient being +ve when
 cjh          flow_max is -ve, resulting in sw > sat.
  
          gradient  = divide ((sw2 - sw1), ave_dlayer, 0.0)
-     :             - c_gravity_gradient
+     :             - c%gravity_gradient
  
             !  flow (positive up) = diffusivity * gradient in water content
  
@@ -1894,7 +1958,7 @@ cjh          flow_max is -ve, resulting in sw > sat.
             ! flow will cease when the gradient, adjusted for gravitational
             ! effect, becomes zero.
  
-         swg = c_gravity_gradient* ave_dlayer
+         swg = c%gravity_gradient* ave_dlayer
  
             ! calculate maximum flow
  
@@ -1945,9 +2009,9 @@ cjh
 *     ===========================================================
       subroutine soilwat2_check_profile (layer)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'            ! err_internal
-      include   'soilwat2.inc'
       include 'science.pub'
       include 'data.pub'
       include 'error.pub'
@@ -1960,7 +2024,7 @@ cjh
  
 *+  Notes
 *           reports an error if
-*           - g_ll15_dep, dul_dep, and sat_dep are not in ascending order
+*           - g%ll15_dep, dul_dep, and sat_dep are not in ascending order
 *           - ll15 is below min_sw
 *           - sat is above max_sw
 *           - sw > sat or sw < min_sw
@@ -2014,14 +2078,14 @@ cjh
                                        !   (mm water/mm soil)
  
 *- Implementation Section ----------------------------------
-      max_sw = 1.0 - divide (g_bd(layer), c_specific_bd, 0.0)
+      max_sw = 1.0 - divide (g%bd(layer), c%specific_bd, 0.0)
          ! ie Total Porosity
  
-      sw = divide (g_sw_dep(layer), p_dlayer(layer), 0.0)
-      sat = divide (g_sat_dep(layer), p_dlayer(layer), 0.0)
-      dul = divide (g_dul_dep(layer), p_dlayer(layer), 0.0)
-      ll15 = divide (g_ll15_dep(layer), p_dlayer(layer), 0.0)
-      air_dry = divide (g_air_dry_dep(layer), p_dlayer(layer), 0.0)
+      sw = divide (g%sw_dep(layer), p%dlayer(layer), 0.0)
+      sat = divide (g%sat_dep(layer), p%dlayer(layer), 0.0)
+      dul = divide (g%dul_dep(layer), p%dlayer(layer), 0.0)
+      ll15 = divide (g%ll15_dep(layer), p%dlayer(layer), 0.0)
+      air_dry = divide (g%air_dry_dep(layer), p%dlayer(layer), 0.0)
  
       sw_errmargin = error_margin (sw)
       sat_errmargin = error_margin (sat)
@@ -2079,7 +2143,7 @@ cjh
      :           ,'         is above acceptable value of ', max_sw
      :           , new_line
      :           , 'You must adjust bulk density (bd) to below '
-     :           , (1.0 - sat) * c_specific_bd
+     :           , (1.0 - sat) * c%specific_bd
      :           , new_line
      :           , 'OR saturation (sat) to below ', max_sw
          call warning_error (err_internal, err_messg)
@@ -2116,12 +2180,11 @@ cjh
 *     ===========================================================
       subroutine soilwat2_layer_check (layer)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'            ! err_user
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'read.pub'
-      include 'write.pub'
       include 'error.pub'
  
 *+  Sub-Program Arguments
@@ -2159,7 +2222,7 @@ cjh
  
 *- Implementation Section ----------------------------------
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
       if (layer.lt.min_layer) then
          write (err_messg,'(2(a,i3))')
@@ -2183,12 +2246,12 @@ cjh
 * ====================================================================
       subroutine soilwat2_read_constants ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
        include 'const.inc'
-       include 'soilwat2.inc'
       include 'read.pub'
-      include 'write.pub'
       include 'error.pub'
+      include 'APSIMEngine.pub'
  
 *+  Purpose
 *      Read in all coefficients from coefficient file.
@@ -2201,7 +2264,7 @@ cjh
 *     190595 jngh added specific bulk density
 *     040995 nih  added mobile and immobile solutes
 *     200896 jngh changed N_flow/flux to Solute_Flow/flux
-*     210896 jngh changed upper bound of c_canopy_eos_coef from 1 to 10
+*     210896 jngh changed upper bound of c%canopy_eos_coef from 1 to 10
  
 *+  Constant Values
        character  my_name*(*)          ! name of this procedure
@@ -2222,93 +2285,93 @@ cjh
  
       call read_real_var (section_name
      :                   , 'min_crit_temp', '(oC)'
-     :                   , c_min_crit_temp, numvals
+     :                   , c%min_crit_temp, numvals
      :                   , 0.0, 10.0)
  
       call read_real_var (section_name
      :                   , 'max_crit_temp', '(oC)'
-     :                   , c_max_crit_temp, numvals
+     :                   , c%max_crit_temp, numvals
      :                   , 0.0, 50.0)
  
       call read_real_var (section_name
      :                   , 'max_albedo', '()'
-     :                   , c_max_albedo, numvals
+     :                   , c%max_albedo, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'A_to_evap_fact', '()'
-     :                   , c_A_to_evap_fact, numvals
+     :                   , c%A_to_evap_fact, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'canopy_eos_coef', '()'
-     :                   , c_canopy_eos_coef, numvals
+     :                   , c%canopy_eos_coef, numvals
      :                   , 0.0, 10.0)
  
       call read_real_var (section_name
      :                   , 'sw_top_crit', '()'
-     :                   , c_sw_top_crit, numvals
+     :                   , c%sw_top_crit, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'sumes1_max', '()'
-     :                   , c_sumes1_max, numvals
+     :                   , c%sumes1_max, numvals
      :                   , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                   , 'sumes2_max', '()'
-     :                   , c_sumes2_max, numvals
+     :                   , c%sumes2_max, numvals
      :                   , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                   , 'solute_flow_eff', '()'
-     :                   , c_Solute_flow_eff, numvals
+     :                   , c%Solute_flow_eff, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'solute_flux_eff', '()'
-     :                   , c_Solute_flux_eff, numvals
+     :                   , c%Solute_flux_eff, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'gravity_gradient', '()'
-     :                   , c_gravity_gradient, numvals
+     :                   , c%gravity_gradient, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'specific_bd', '()'
-     :                   , c_specific_bd, numvals
+     :                   , c%specific_bd, numvals
      :                   , 0.0, 3.0)
  
       call read_real_var (section_name
      :                   , 'hydrol_effective_depth', '(mm)'
-     :                   , c_hydrol_effective_depth, numvals
+     :                   , c%hydrol_effective_depth, numvals
      :                   , 1.0, 1000.0)
  
       call read_char_array (section_name
      :                   ,'mobile_solutes'
      :                   , max_solute
      :                   , '()'
-     :                   , c_mobile_solutes
+     :                   , c%mobile_solutes
      :                   , numvals)
  
       call read_char_array (section_name
      :                   ,'immobile_solutes'
      :                   , max_solute
      :                   , '()'
-     :                   , c_immobile_solutes
+     :                   , c%immobile_solutes
      :                   , numvals)
  
       call read_real_array (section_name
      :                   , 'canopy_fact', max_coeffs, '()'
-     :                   , c_canopy_fact, g_num_canopy_fact
+     :                   , c%canopy_fact, g%num_canopy_fact
      :                   , 0.0, 1.0)
  
       call read_real_array (section_name
      :                   , 'canopy_fact_height', max_coeffs, '(mm)'
-     :                   , c_canopy_fact_height, numvals
+     :                   , c%canopy_fact_height, numvals
      :                   , 0.0, 100000.0)
-      if (numvals.ne. g_num_canopy_fact) then
+      if (numvals.ne. g%num_canopy_fact) then
          call fatal_error (err_user
      :                    , 'No. of canopy_fact coeffs do not match '
      :                    //'no. of canopy_fact_height coeffs.')
@@ -2318,7 +2381,7 @@ cjh
  
       call read_real_var (section_name
      :                   , 'canopy_fact_default', '()'
-     :                   , c_canopy_fact_default, numvals
+     :                   , c%canopy_fact_default, numvals
      :                   , 0.0, 1.0)
  
       evap_method = 'unknown'
@@ -2327,22 +2390,22 @@ cjh
      :                   , evap_method, numvals)
  
       if (evap_method .eq. 'ritchie') then
-         c_evap_method = c_ritchie_method
+         c%evap_method = ritchie_method
  
       else if (evap_method .eq. 'bs_a') then
-         c_evap_method = c_bs_a_method
+         c%evap_method = bs_a_method
  
       else if (evap_method .eq. 'bs_b') then
-         c_evap_method = c_bs_b_method
+         c%evap_method = bs_b_method
  
       else if (evap_method .eq. 'bs_acs_jd') then
-         c_evap_method = c_bs_acs_method
+         c%evap_method = bs_acs_method
  
       else if (evap_method .eq. 'rickert') then
-         c_evap_method = c_rickert_method
+         c%evap_method = rickert_method
  
       else
-         c_evap_method = -1  ! Force error somewhere later..
+         c%evap_method = -1  ! Force error somewhere later..
  
       endif
  
@@ -2355,12 +2418,12 @@ cjh
 *     ===========================================================
       subroutine soilwat2_soil_property_param ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'read.pub'
-      include 'write.pub'
       include 'error.pub'
+      include 'APSIMEngine.pub'
  
 *+  Purpose
 *       input initial values from soil property file.
@@ -2375,11 +2438,11 @@ cjh
 *               removed ferror=false - cr74
 *       160992 jngh introduced write_string function for dual output
 *       051093 jngh added fatal error to halt simulation
-*       131093 markl added input of c_cn_red and c_cn_cov for cover/cn response
-*       131093 markl added input of p_cona for soil evaporation
+*       131093 markl added input of c%cn_red and c%cn_cov for cover/cn response
+*       131093 markl added input of p%cona for soil evaporation
 *       131093 markl added input of residue_wt for effects of residue on
 *                          potential soil evaporation
-*       131093 markl removed input of p_swcon from this subroutine and added
+*       131093 markl removed input of p%swcon from this subroutine and added
 *                             it in soilwat2_soil_profile_param
 *       190194 jpd  changed ulmcona from 5. to 10.
 *                               query limits for cnred&cncov
@@ -2390,7 +2453,7 @@ cjh
 *       150994 jpd  added input for crop cover/ runoff  switch -
 *                   'crpcov_rnof_switch'
 *
-*       300994 jpd added c_hydrol_effective_depth
+*       300994 jpd added c%hydrol_effective_depth
 *       181094 jpd removed crpcov_rnof option with '!!'
 *       120195 jngh removed crop cover runoff switch
 *                   removed combining residue cover and crop cover as done
@@ -2419,106 +2482,106 @@ cjh
           ! get runoff source
       call read_char_var_optional (section_name
      :                   ,'observed_runoff', '()'
-     :                   , g_obsrunoff_name
+     :                   , g%obsrunoff_name
      :                   , numvals)
  
       if ( numvals .eq. 0 .or.
-     :     g_obsrunoff_name .eq. 'blank') then
-         g_obsrunoff_name = blank              ! blank != 'blank' !!!
+     :     g%obsrunoff_name .eq. 'blank') then
+         g%obsrunoff_name = blank              ! blank != 'blank' !!!
       else
-         ! nothing - there's a valid string in g_obsrunoff_name
+         ! nothing - there's a valid string in g%obsrunoff_name
       endif
  
           ! get sw parameters
  
       call read_real_var (section_name
      :                   , 'insoil', '()'
-     :                   , p_insoil, numvals
+     :                   , p%insoil, numvals
      :                   , 0.0, 10.0)
  
       call read_real_var (section_name
      :                   , 'diffus_const', '()'
-     :                   , p_diffus_const, numvals
+     :                   , p%diffus_const, numvals
      :                   , 0.0, 1000.0)
  
       call read_real_var (section_name
      :                   , 'diffus_slope', '()'
-     :                   , p_diffus_slope, numvals
+     :                   , p%diffus_slope, numvals
      :                   , 0.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'cn2_bare', '()'
-     :                   , p_cn2_bare, numvals
+     :                   , p%cn2_bare, numvals
      :                   , 1.0, 100.0)
  
       call read_real_var (section_name
      :                   , 'cn_red', '()'
-     :                   , p_cn_red, numvals
-     :                   , 0.0, p_cn2_bare - 0.00009)
+     :                   , p%cn_red, numvals
+     :                   , 0.0, p%cn2_bare - 0.00009)
  
       call read_real_var (section_name
      :                   , 'cn_cov', '()'
-     :                   , p_cn_cov, numvals
+     :                   , p%cn_cov, numvals
      :                   , 0.0, 1.0)
  
       call read_real_var (section_name
      :                   , 'salb', '()'
-     :                   , p_salb, numvals
+     :                   , p%salb, numvals
      :                   , 0.0001, 1.0)
  
 *     Extra parameters for evaporation models:
-      if (c_evap_method .eq. c_ritchie_method .or.
-     :     c_evap_method .eq. c_bs_acs_method) then
+      if (c%evap_method .eq. ritchie_method .or.
+     :     c%evap_method .eq. bs_acs_method) then
          call read_real_var (section_name
      :        , 'cona', '()'
-     :        , p_cona, numvals
+     :        , p%cona, numvals
      :        , 0.0001, 10.0)
  
       else
  
-         p_cona = 0.0001
+         p%cona = 0.0001
       endif
  
-      if (c_evap_method .eq. c_ritchie_method .or.
-     :     c_evap_method .eq. c_bs_acs_method) then
+      if (c%evap_method .eq. ritchie_method .or.
+     :     c%evap_method .eq. bs_acs_method) then
          call read_real_var (section_name
      :        , 'u', '()'
-     :        , p_u, numvals
+     :        , p%u, numvals
      :        , 0.0001, 40.0)
       else
-         p_u = 0.0001
+         p%u = 0.0001
       endif
  
-      if (c_evap_method .eq. c_bs_a_method .or.
-     :     c_evap_method .eq. c_bs_b_method .or.
-     :     c_evap_method .eq. c_bs_acs_method) then
+      if (c%evap_method .eq. bs_a_method .or.
+     :     c%evap_method .eq. bs_b_method .or.
+     :     c%evap_method .eq. bs_acs_method) then
          call read_real_var (section_name
      :        , 'beta', '()'
-     :        , p_beta, numvals
+     :        , p%beta, numvals
      :        , 0.0, 3.5)
  
       else
  
-         p_beta = 0.0
+         p%beta = 0.0
       endif
  
-      if (c_evap_method .eq. c_rickert_method) then
+      if (c%evap_method .eq. rickert_method) then
          call read_real_var (section_name
      :        , 'max_evap', '()'
-     :        , p_max_evap, numvals
+     :        , p%max_evap, numvals
      :        , 0.9, 20.0)
  
       else
  
-         p_max_evap = 0.0
+         p%max_evap = 0.0
       endif
  
       call read_char_var_optional (section_name
      :                   ,'eo_source', '()'
-     :                   , g_eo_source
+     :                   , g%eo_source
      :                   , numvals)
       if (numvals .le. 0) then
-          g_eo_source = blank
+          g%eo_source = blank
       else
       endif
  
@@ -2531,12 +2594,11 @@ cjh
 *     ===========================================================
       subroutine soilwat2_soil_profile_param ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
-      include 'write.pub'
       include 'read.pub'
  
 *+  Purpose
@@ -2553,7 +2615,7 @@ cjh
 *                   check ios flag instead of ferror - cr258
 *       290892 jngh changed soil water to depth of water
 *       160992 jngh introduced write_string function for dual output
-*       131093 markl added p_swcon as an array for each soil layer
+*       131093 markl added p%swcon as an array for each soil layer
 *       190194 jpd   added air_dry_dep as an array for each soil layer
 *       210395 jngh changed from soilwat2_section to a parameters section
 *       190595 jngh added bulk density
@@ -2592,7 +2654,7 @@ cjh
  
       call read_real_array (section_name
      :                     , 'dlayer', max_layer, '(mm)'
-     :                     , p_dlayer, numvals
+     :                     , p%dlayer, numvals
      :                     , 0.0, 10000.0)
  
       call read_real_array (section_name
@@ -2622,29 +2684,29 @@ cjh
  
       call read_real_array (section_name
      :                     , 'swcon', max_layer, '()'
-     :                     , p_swcon, numvals
+     :                     , p%swcon, numvals
      :                     , 0.0, 1000.0)
  
       call read_real_array ( section_name
      :                     , 'bd', max_layer, '(g/cc)'
-     :                     , g_bd, numvals
+     :                     , g%bd, numvals
      :                     , 0.01, 10.0)
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
       do 1010 layer = 1,num_layers
  
-         g_air_dry_dep(layer) = air_dry(layer)*p_dlayer(layer)
-         g_dul_dep(layer)     = dul(layer)    *p_dlayer(layer)
-         g_ll15_dep(layer)    = ll15(layer)   *p_dlayer(layer)
-         g_sat_dep(layer)     = sat(layer)    *p_dlayer(layer)
-         g_sw_dep(layer)      = sw(layer)     *p_dlayer(layer)
+         g%air_dry_dep(layer) = air_dry(layer)*p%dlayer(layer)
+         g%dul_dep(layer)     = dul(layer)    *p%dlayer(layer)
+         g%ll15_dep(layer)    = ll15(layer)   *p%dlayer(layer)
+         g%sat_dep(layer)     = sat(layer)    *p%dlayer(layer)
+         g%sw_dep(layer)      = sw(layer)     *p%dlayer(layer)
  
          call soilwat2_check_profile (layer)
 1010  continue
  
           ! get sw parameters
  
-      if (p_insoil.ge.0.0 .and. p_insoil.le.1.0) then
+      if (p%insoil.ge.0.0 .and. p%insoil.le.1.0) then
  
          msg = 'Soil water in parameter file is being overridden by' //
      .         new_line //
@@ -2665,8 +2727,8 @@ cjh
 *     ===========================================================
       subroutine soilwat2_set_default ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -2700,17 +2762,17 @@ cjh
  
                 ! we want to calculate default
  
-      call fill_real_array (g_sw_dep, 0.0, max_layer)
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      call fill_real_array (g%sw_dep, 0.0, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
       do 1000 layer = 1,num_layers
  
                  ! set default according to insoil fraction of plant-
                  ! available water
  
-         g_sw_dep(layer) = g_ll15_dep(layer)
-     :                   + (g_dul_dep(layer) - g_ll15_dep(layer))
-     :                   * p_insoil
+         g%sw_dep(layer) = g%ll15_dep(layer)
+     :                   + (g%dul_dep(layer) - g%ll15_dep(layer))
+     :                   * p%insoil
  
          call soilwat2_layer_check (layer)
          call soilwat2_check_profile (layer)
@@ -2726,9 +2788,9 @@ cjh
 *     ===========================================================
       subroutine soilwat2_evap_init
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'error.pub'
  
 *+  Purpose
@@ -2747,19 +2809,19 @@ cjh
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
-      if (c_evap_method .eq. c_ritchie_method) then
+      if (c%evap_method .eq. ritchie_method) then
          call soilwat2_ritchie_init ()
  
-      else if (c_evap_method .eq. c_bs_a_method) then
+      else if (c%evap_method .eq. bs_a_method) then
          call soilwat2_bs_a_init ()
  
-      else if (c_evap_method .eq. c_bs_b_method) then
+      else if (c%evap_method .eq. bs_b_method) then
          call soilwat2_bs_b_init ()
  
-      else if (c_evap_method .eq. c_bs_acs_method) then
+      else if (c%evap_method .eq. bs_acs_method) then
          call soilwat2_bs_acs_init ()
  
-      else if (c_evap_method .eq. c_rickert_method) then
+      else if (c%evap_method .eq. rickert_method) then
          call soilwat2_rickert_init ()
  
       else
@@ -2777,8 +2839,8 @@ cjh
 *     ===========================================================
       subroutine soilwat2_ritchie_init
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -2792,7 +2854,7 @@ cjh
 *       210191 specified and programmed jngh (j hargreaves
 *       290892 jngh changed soil water to depth of water
 *       160992 jngh changed constants to named constants
-*       131093 markl added replaced 3.5 constant with p_cona variable
+*       131093 markl added replaced 3.5 constant with p%cona variable
 *
 *       190194 jpd initialization for evap needs re-working.
 *      no check on sumes1 wrt. u. sumes1 will be =>10mm if swr_top >sw_crit_top
@@ -2813,24 +2875,24 @@ cjh
  
           ! set up evaporation stage
  
-      swr_top = divide (g_sw_dep(1) - g_ll15_dep(1)
-     :                , g_dul_dep(1) - g_ll15_dep(1), 0.0)
+      swr_top = divide (g%sw_dep(1) - g%ll15_dep(1)
+     :                , g%dul_dep(1) - g%ll15_dep(1), 0.0)
       swr_top = bound (swr_top, 0.0, 1.0)
  
           ! are we in stage1 or stage2 evap?
-      if (swr_top.lt.c_sw_top_crit) then
+      if (swr_top.lt.c%sw_top_crit) then
  
              ! stage 2 evap
-         g_sumes2 = c_sumes2_max
-     :            - c_sumes2_max * divide (swr_top, c_sw_top_crit, 0.0)
-         g_sumes1 = p_u
-         g_t = (divide (g_sumes2, p_cona, 0.0))**2
+         g%sumes2 = c%sumes2_max
+     :            - c%sumes2_max * divide (swr_top, c%sw_top_crit, 0.0)
+         g%sumes1 = p%u
+         g%t = (divide (g%sumes2, p%cona, 0.0))**2
       else
  
              ! stage 1 evap
-         g_sumes2 = 0.0
-         g_sumes1 = c_sumes1_max - c_sumes1_max *swr_top
-         g_t = 0.0
+         g%sumes2 = 0.0
+         g%sumes1 = c%sumes1_max - c%sumes1_max *swr_top
+         g%t = 0.0
       endif
  
       call pop_routine (my_name)
@@ -2842,8 +2904,8 @@ cjh
 *     ===========================================================
       subroutine soilwat2_bs_a_init
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -2874,53 +2936,53 @@ cjh
 *     B&S evaporation:
 *      cumulative actual evap = beta * sqrt(cumulative eos)
  
-      sumes_max = g_dul_dep(1) - g_air_dry_dep(1)
-      g_sumes = g_dul_dep(1) - g_sw_dep(1)
+      sumes_max = g%dul_dep(1) - g%air_dry_dep(1)
+      g%sumes = g%dul_dep(1) - g%sw_dep(1)
  
-      if (g_sumes .le. 0.0) then
+      if (g%sumes .le. 0.0) then
  
 *     ! initial sw is at, or above, DUL.
  
-         g_sumes = 0.0
-         g_sumes1 = 0.0
-         g_sumes2 = 0.0
-         g_sumeos = 0.0
+         g%sumes = 0.0
+         g%sumes1 = 0.0
+         g%sumes2 = 0.0
+         g%sumeos = 0.0
  
-      else if (g_sumes .gt. sumes_max) then
+      else if (g%sumes .gt. sumes_max) then
  
 *     Initial sw is less than air_dry(1):
 *     Write a warning message to summary file.
 *PdeV. This check is in soilwat2_check_profile. Is it necessary here?
 *         write (err_messg, '(a, g17.6e3, a, 2a, g17.6e3)')
-*     :        ' soil water of ', g_sw_dep(1)
+*     :        ' soil water of ', g%sw_dep(1)
 *     :        ,' in top layer '
 *     :        , new_line
-*     :        ,' is below air_dry value of ', g_air_dry_dep(1)
+*     :        ,' is below air_dry value of ', g%air_dry_dep(1)
 *         call warning_error (err_internal, err_messg)
  
-         g_sumes = sumes_max
-         g_sumes1 = p_beta**2
-         g_sumes2 = g_sumes - g_sumes1
-         g_sumeos = divide (g_sumes**2, p_beta**2, 0.0)
+         g%sumes = sumes_max
+         g%sumes1 = p%beta**2
+         g%sumes2 = g%sumes - g%sumes1
+         g%sumeos = divide (g%sumes**2, p%beta**2, 0.0)
  
  
-      elseif (g_sumes .ge. (p_beta**2)) then
+      elseif (g%sumes .ge. (p%beta**2)) then
  
 *     Initial sw is not close to DUL.
 *      1st stage evaporation is finished, start in 2nd stage
  
-         g_sumes1 = p_beta**2
-         g_sumes2 = g_sumes - g_sumes1
-         g_sumeos = divide (g_sumes**2, p_beta**2, 0.0)
+         g%sumes1 = p%beta**2
+         g%sumes2 = g%sumes - g%sumes1
+         g%sumeos = divide (g%sumes**2, p%beta**2, 0.0)
  
       else
  
 *     Initial sw is close to DUL.
 *      We're in 1st stage evaporation.
  
-         g_sumes1 = g_sumes
-         g_sumes2 = 0.0
-         g_sumeos = g_sumes
+         g%sumes1 = g%sumes
+         g%sumes2 = 0.0
+         g%sumeos = g%sumes
  
       endif
  
@@ -2933,8 +2995,8 @@ cjh
 *     ===========================================================
       subroutine soilwat2_bs_b_init
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'error.pub'
  
 *+  Purpose
@@ -2968,8 +3030,8 @@ c     he should have. Any ideas? Perhaps
 *     ===========================================================
       subroutine soilwat2_bs_acs_init
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -3003,33 +3065,33 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
-      sumes2_max = g_dul_dep(1) - g_air_dry_dep(1) - p_u
+      sumes2_max = g%dul_dep(1) - g%air_dry_dep(1) - p%u
  
-      if ((g_dul_dep(1) - g_sw_dep(1)) .LT. p_u) then
+      if ((g%dul_dep(1) - g%sw_dep(1)) .LT. p%u) then
                                 ! In first stage
-         g_sumes1 = g_dul_dep(1) - g_sw_dep(1)
+         g%sumes1 = g%dul_dep(1) - g%sw_dep(1)
  
-         if(g_sumes1 .lt. 0.0) then
-            g_sumes1 = 0.0      ! initial sw greater than DUL
+         if(g%sumes1 .lt. 0.0) then
+            g%sumes1 = 0.0      ! initial sw greater than DUL
          else
                                 !
          endif
-         g_sumes2 = 0.0
-         g_t = 0.0
+         g%sumes2 = 0.0
+         g%t = 0.0
  
       else
                                 ! In second stage
-         g_sumes1 = p_u
-         g_sumes2 = g_dul_dep(1) - g_sw_dep(1) - p_u
+         g%sumes1 = p%u
+         g%sumes2 = g%dul_dep(1) - g%sw_dep(1) - p%u
  
-         if (g_sumes2 .GT. sumes2_max) then
+         if (g%sumes2 .GT. sumes2_max) then
  
 *     init sw must be .lt. air_dry
-            g_sumes2 = sumes2_max
+            g%sumes2 = sumes2_max
  
          endif
  
-         g_t = divide(g_sumes2, p_cona, 0.0) **2
+         g%t = divide(g%sumes2, p%cona, 0.0) **2
  
       endif
  
@@ -3042,9 +3104,9 @@ c     he should have. Any ideas? Perhaps
 *     ===========================================================
       subroutine soilwat2_rickert_init
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'intrface.pub'
       include 'error.pub'
@@ -3066,8 +3128,8 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
-      if (p_diffus_const .gt. 0.0 .or.
-     :     p_diffus_slope .gt. 0.0) then
+      if (p%diffus_const .gt. 0.0 .or.
+     :     p%diffus_slope .gt. 0.0) then
          call warning_error (err_user,
      :     'diffus_const and diffus_slope should be off for rickert')
       else
@@ -3082,6 +3144,7 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_get_other_variables ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
       include 'error.pub'
  
@@ -3121,12 +3184,11 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_get_residue_variables ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'const.inc'            ! mes_get_variable, global_active
-      include   'soilwat2.inc'
+      include   'const.inc'            ! ACTION_get_variable, global_active
       include 'string.pub'
       include 'data.pub'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
  
@@ -3160,11 +3222,11 @@ c     he should have. Any ideas? Perhaps
  
       call get_real_var_optional (unknown_module
      :                                  , 'residue_wt', '(kg/ha)'
-     :                                  , g_residue_wt, numvals
+     :                                  , g%residue_wt, numvals
      :                                  , 0.0, 100000.0)
  
       call get_real_var_optional (unknown_module, 'residue_cover', '()'
-     :                                  , g_residue_cover, numvals
+     :                                  , g%residue_cover, numvals
      :                                  , 0.0, 1.0)
   
       call pop_routine (my_name)
@@ -3176,14 +3238,14 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_get_crop_variables ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'const.inc'            ! mes_get_variable, global_active
-      include   'soilwat2.inc'
+      include   'const.inc'            ! ACTION_get_variable, global_active
       include 'string.pub'
       include 'data.pub'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
+      include 'postbox.pub'
  
 *+  Purpose
 *      get the value/s of a variable/array.
@@ -3224,7 +3286,7 @@ c     he should have. Any ideas? Perhaps
       call push_routine (my_name)
  
              ! Get green cover of each crop
-             ! g_cover_green is all canopys green
+             ! g%cover_green is all canopys green
  
       crop = 0
 1000  continue
@@ -3237,8 +3299,8 @@ c     he should have. Any ideas? Perhaps
             if (crop+1.le.max_crops) then
                crop = crop + 1
                call get_posting_Module (Owner_module)
-               g_crop_module(crop) = owner_module
-               g_cover_green(crop) = cover
+               g%crop_module(crop) = owner_module
+               g%cover_green(crop) = cover
                goto 1000
             else
                call fatal_error (err_user
@@ -3248,26 +3310,26 @@ c     he should have. Any ideas? Perhaps
          else
          endif
  
-      g_num_crops = crop
+      g%num_crops = crop
  
             ! Get total cover of each crop
-            ! g_cover_tot is all canopys green + dead
+            ! g%cover_tot is all canopys green + dead
 
 
-      do 2000 crop = 1, g_num_crops
+      do 2000 crop = 1, g%num_crops
 
-         call get_real_var  (g_crop_module(crop)
+         call get_real_var  (g%crop_module(crop)
      :                      ,'cover_tot'
      :                      ,'()'
-     :                      ,g_cover_tot(crop)
+     :                      ,g%cover_tot(crop)
      :                      ,numvals
      :                      ,0.0
      :                      ,1.0)
 
-         call get_real_var  (g_crop_module(crop)
+         call get_real_var  (g%crop_module(crop)
      :                      ,'height'
      :                      ,'(mm)'
-     :                      ,g_canopy_height(crop)
+     :                      ,g%canopy_height(crop)
      :                      ,numvals
      :                      ,0.0
      :                      ,100000.0)
@@ -3283,12 +3345,11 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_get_solute_variables ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'const.inc'            ! mes_get_variable, global_active
-      include   'soilwat2.inc'
+      include   'const.inc'            ! ACTION_get_variable, global_active
       include 'string.pub'
       include 'data.pub'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
  
@@ -3332,14 +3393,14 @@ c     he should have. Any ideas? Perhaps
  
          ! Now find information for each of these solutes
          ! ----------------------------------------------
-         do 3400 solnum = 1, g_num_solutes
+         do 3400 solnum = 1, g%num_solutes
  
             ! initialise tempory array
             call fill_real_array (temp_solute, 0.0, max_layer)
  
             call get_real_array
-     :                       (g_solute_owners(solnum)
-     :                       ,g_solute_names(solnum)
+     :                       (g%solute_owners(solnum)
+     :                       ,g%solute_names(solnum)
      :                       , max_layer
      :                       , '(kg/ha)'
      :                       , temp_solute
@@ -3349,7 +3410,7 @@ c     he should have. Any ideas? Perhaps
  
             ! assign temp array to our global array
             do 3200 layer=1,max_layer
-               g_solute(solnum,layer) = temp_solute(layer)
+               g%solute(solnum,layer) = temp_solute(layer)
  3200       continue
  
             ! reinitialise tempory array
@@ -3358,10 +3419,10 @@ c     he should have. Any ideas? Perhaps
             ! Ask for solute info from APSIM system
             ! - NOTE if it does not exist in the system then
             ! the default of zero will be used.
-            min_name = string_concat(g_solute_names(solnum),'_min')
+            min_name = string_concat(g%solute_names(solnum),'_min')
  
             call get_real_array_optional
-     :                       (g_solute_owners(solnum)
+     :                       (g%solute_owners(solnum)
      :                       ,min_name
      :                       , max_layer
      :                       , '(kg/ha)'
@@ -3372,7 +3433,7 @@ c     he should have. Any ideas? Perhaps
  
             ! assign temp array to our global array
             do 3300 layer=1,max_layer
-               g_solute_min(solnum,layer) = temp_solute(layer)
+               g%solute_min(solnum,layer) = temp_solute(layer)
  3300       continue
  
  3400    continue
@@ -3385,12 +3446,11 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_get_environ_variables ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'const.inc'            ! mes_get_variable, global_active
-      include   'soilwat2.inc'
+      include   'const.inc'            ! ACTION_get_variable, global_active
       include 'string.pub'
       include 'data.pub'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
  
@@ -3421,22 +3481,22 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
-      if (g_eo_source .ne. blank) then
-         g_eo_system = 0.0
-         call get_real_var (unknown_module, g_eo_source, '()'
-     :                                , g_eo_system, numvals
+      if (g%eo_source .ne. blank) then
+         g%eo_system = 0.0
+         call get_real_var (unknown_module, g%eo_source, '()'
+     :                                , g%eo_system, numvals
      :                                , 0.0, 100.0)
       else
       endif
  
-      if (g_obsrunoff_name .ne. blank) then
+      if (g%obsrunoff_name .ne. blank) then
  
          call get_real_var_optional (unknown_module,
-     :                               g_obsrunoff_name, '()',
-     :                               g_obsrunoff, numvals,
+     :                               g%obsrunoff_name, '()',
+     :                               g%obsrunoff, numvals,
      :                               0.0, 1000.0)
  
-         g_obsrunoff_found = numvals .gt. 0
+         g%obsrunoff_found = numvals .gt. 0
       endif
  
       call pop_routine (my_name)
@@ -3449,9 +3509,8 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_set_my_variable (variable_name)
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'data.pub'
       include 'error.pub'
@@ -3469,8 +3528,8 @@ c     he should have. Any ideas? Perhaps
 *      031292 jngh
 *      170393 jngh changed for new engine interface
 *      020893 jngh added pond
-*      300994 jpd?? included p_cn2 - can't remember why?
-*           could be to accomodate p_cn2 re-set by manager following tillage
+*      300994 jpd?? included p%cn2 - can't remember why?
+*           could be to accomodate p%cn2 re-set by manager following tillage
 *      ??0994 pdev added re-sets for erosion
 *      191094 jngh changed interface routines and added resets of contents
 *      180895 nih  removed pond
@@ -3498,18 +3557,18 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , 0.0, 1.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 1000 layer = 1,num_layers
-            g_sw_dep(layer) = temp(layer)*p_dlayer(layer)
+            g%sw_dep(layer) = temp(layer)*p%dlayer(layer)
             call soilwat2_check_profile (layer)
 1000     continue
  
       elseif (variable_name .eq. 'sw_dep') then
          call collect_real_array (variable_name, max_layer, '(mm)'
-     :                               , g_sw_dep, numvals
+     :                               , g%sw_dep, numvals
      :                               , 0.0, 10000.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 2000 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 2000     continue
@@ -3520,10 +3579,10 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , -1.0, 1.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 3000 layer = 1,num_layers
-            g_sw_dep(layer) = g_sw_dep(layer)
-     :                      + temp(layer)*p_dlayer(layer)
+            g%sw_dep(layer) = g%sw_dep(layer)
+     :                      + temp(layer)*p%dlayer(layer)
             call soilwat2_check_profile (layer)
 3000     continue
  
@@ -3532,9 +3591,9 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , -10000.0, 10000.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4000 layer = 1,num_layers
-            g_sw_dep(layer) = g_sw_dep(layer) + temp(layer)
+            g%sw_dep(layer) = g%sw_dep(layer) + temp(layer)
             call soilwat2_check_profile (layer)
 4000     continue
  
@@ -3542,10 +3601,10 @@ c     he should have. Any ideas? Perhaps
  
       elseif (variable_name .eq. 'dul_dep') then
          call collect_real_array (variable_name, max_layer, '(mm)'
-     :                               , g_dul_dep, numvals
+     :                               , g%dul_dep, numvals
      :                               , 0.0, 10000.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4100 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4100     continue
@@ -3555,18 +3614,18 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , 0.0, 1.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4110 layer = 1,num_layers
-            g_dul_dep(layer) = temp(layer)*p_dlayer(layer)
+            g%dul_dep(layer) = temp(layer)*p%dlayer(layer)
             call soilwat2_check_profile (layer)
 4110     continue
  
       elseif (variable_name .eq. 'll15_dep') then
          call collect_real_array (variable_name, max_layer, '(mm)'
-     :                               , g_ll15_dep, numvals
+     :                               , g%ll15_dep, numvals
      :                               , 0.0, 10000.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4200 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4200     continue
@@ -3576,18 +3635,18 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , 0.0, 1.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4210 layer = 1,num_layers
-            g_ll15_dep(layer) = temp(layer)*p_dlayer(layer)
+            g%ll15_dep(layer) = temp(layer)*p%dlayer(layer)
             call soilwat2_check_profile (layer)
 4210     continue
  
       elseif (variable_name .eq. 'sat_dep') then
          call collect_real_array (variable_name, max_layer, '(mm)'
-     :                               , g_sat_dep, numvals
+     :                               , g%sat_dep, numvals
      :                               , 0.0, 10000.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4300 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4300     continue
@@ -3597,18 +3656,18 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , 0.0, 1.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4310 layer = 1,num_layers
-            g_sat_dep(layer) = temp(layer)*p_dlayer(layer)
+            g%sat_dep(layer) = temp(layer)*p%dlayer(layer)
             call soilwat2_check_profile (layer)
 4310     continue
  
       elseif (variable_name .eq. 'air_dry_dep') then
          call collect_real_array (variable_name, max_layer, '(mm)'
-     :                               , g_air_dry_dep, numvals
+     :                               , g%air_dry_dep, numvals
      :                               , 0.0, 10000.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4500 layer = 1,num_layers
             call soilwat2_check_profile (layer)
 4500     continue
@@ -3618,9 +3677,9 @@ c     he should have. Any ideas? Perhaps
      :                               , temp, numvals
      :                               , 0.0, 1.0)
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 4510 layer = 1,num_layers
-            g_air_dry_dep(layer) = temp(layer)*p_dlayer(layer)
+            g%air_dry_dep(layer) = temp(layer)*p%dlayer(layer)
             call soilwat2_check_profile (layer)
 4510     continue
  
@@ -3630,26 +3689,26 @@ c     he should have. Any ideas? Perhaps
      :                               , 0.0, 10000.0)
  
          do 5000 layer = 1, numvals
-            fract = divide (temp(layer), p_dlayer(layer), 0.0)
+            fract = divide (temp(layer), p%dlayer(layer), 0.0)
  
-            g_air_dry_dep(layer) = g_air_dry_dep(layer) * fract
-            g_dul_dep(layer) = g_dul_dep(layer) * fract
-            g_ll15_dep(layer) = g_ll15_dep(layer) * fract
-            g_sat_dep(layer) = g_sat_dep(layer) * fract
-            g_sw_dep(layer) = g_sw_dep(layer) * fract
-            p_dlayer(layer) = temp(layer)
+            g%air_dry_dep(layer) = g%air_dry_dep(layer) * fract
+            g%dul_dep(layer) = g%dul_dep(layer) * fract
+            g%ll15_dep(layer) = g%ll15_dep(layer) * fract
+            g%sat_dep(layer) = g%sat_dep(layer) * fract
+            g%sw_dep(layer) = g%sw_dep(layer) * fract
+            p%dlayer(layer) = temp(layer)
  
             call soilwat2_check_profile (layer)
 5000     continue
  
          do 5100 layer = numvals, max_layer
  
-            g_air_dry_dep(layer) = 0.0
-            g_dul_dep(layer) = 0.0
-            g_ll15_dep(layer) = 0.0
-            g_sat_dep(layer) = 0.0
-            g_sw_dep(layer) = 0.0
-            p_dlayer(layer) = 0.0
+            g%air_dry_dep(layer) = 0.0
+            g%dul_dep(layer) = 0.0
+            g%ll15_dep(layer) = 0.0
+            g%sat_dep(layer) = 0.0
+            g%sw_dep(layer) = 0.0
+            p%dlayer(layer) = 0.0
  
 5100     continue
  
@@ -3659,15 +3718,15 @@ c     he should have. Any ideas? Perhaps
      :                               ,-10000.0, 10000.0)
  
          do 6000 layer = 1, numvals
-            temp(layer) = p_dlayer(layer) + temp(layer)
-            fract = divide (temp(layer), p_dlayer(layer), 0.0)
+            temp(layer) = p%dlayer(layer) + temp(layer)
+            fract = divide (temp(layer), p%dlayer(layer), 0.0)
  
-            g_air_dry_dep(layer) = g_air_dry_dep(layer) * fract
-            g_dul_dep(layer) = g_dul_dep(layer) * fract
-            g_ll15_dep(layer) = g_ll15_dep(layer) * fract
-            g_sat_dep(layer) = g_sat_dep(layer) * fract
-            g_sw_dep(layer) = g_sw_dep(layer) * fract
-            p_dlayer(layer) = temp(layer)
+            g%air_dry_dep(layer) = g%air_dry_dep(layer) * fract
+            g%dul_dep(layer) = g%dul_dep(layer) * fract
+            g%ll15_dep(layer) = g%ll15_dep(layer) * fract
+            g%sat_dep(layer) = g%sat_dep(layer) * fract
+            g%sw_dep(layer) = g%sw_dep(layer) * fract
+            p%dlayer(layer) = temp(layer)
  
             call soilwat2_check_profile (layer)
 6000     continue
@@ -3676,18 +3735,18 @@ c     he should have. Any ideas? Perhaps
  
       elseif (variable_name .eq. 'cn2_bare') then
          call collect_real_var (variable_name, '()'
-     :                             , p_cn2_bare, numvals
+     :                             , p%cn2_bare, numvals
      :                             , 0.0, 100.0)
  
       elseif (variable_name .eq. 'cn_cov') then
          call collect_real_var (variable_name, '()'
-     :                             , p_cn_cov, numvals
+     :                             , p%cn_cov, numvals
      :                             , 0.0, 1.0)
  
       elseif (variable_name .eq. 'cn_red') then
          call collect_real_var (variable_name, '()'
-     :                             , p_cn_red, numvals
-     :                             , 0.0, p_cn2_bare - 0.00009)
+     :                             , p%cn_red, numvals
+     :                             , 0.0, p%cn2_bare - 0.00009)
  
       else
          call Message_unused ()
@@ -3703,14 +3762,15 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_set_other_variables ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'const.inc'            ! global_active, mes_set_variable
-      include   'soilwat2.inc'
+      include   'const.inc'            ! global_active, ACTION_set_variable
       include 'string.pub'
       include 'data.pub'
-      include 'engine.pub'
       include 'intrface.pub'
       include 'error.pub'
+      include 'action.inc'
+      include 'postbox.pub'
  
 *+  Purpose
 *      set the value of a variable or array in other module/s.
@@ -3745,26 +3805,26 @@ c     he should have. Any ideas? Perhaps
 *- Implementation Section ----------------------------------
  
       call push_routine (my_name)
- 
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
-      do 100 solnum = 1, g_num_solutes
+
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
+      do 100 solnum = 1, g%num_solutes
  
          call fill_real_array (temp_dlt_solute ,0.0, max_layer)
  
          do 50 layer=1,max_layer
-            temp_dlt_solute(layer) = g_dlt_solute (solnum, layer)
+            temp_dlt_solute(layer) = g%dlt_solute (solnum, layer)
    50    continue
  
-         dlt_name = string_concat ('dlt_',g_solute_names(solnum))
+         dlt_name = string_concat ('dlt_',g%solute_names(solnum))
  
          call new_postbox()
          call post_real_array (dlt_name
      :                       , '(kg/ha)'
      :                       , temp_dlt_solute
      :                       , num_layers)
-         call message_send_immediate (g_solute_owners(solnum)
-     :                               ,MES_set_variable
-     :                               ,dlt_name)
+         call action_send (g%solute_owners(solnum)    
+     :                    ,ACTION_set_variable
+     :                    ,dlt_name)
          call delete_postbox()
   100 continue
  
@@ -3777,13 +3837,12 @@ c     he should have. Any ideas? Perhaps
 * ====================================================================
       subroutine soilwat2_send_my_variable (variable_name)
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'string.pub'
       include 'science.pub'
       include 'data.pub'
       include 'error.pub'
-      include 'engine.pub'
       include 'intrface.pub'
  
 *+  Sub-Program Arguments
@@ -3813,7 +3872,7 @@ c     he should have. Any ideas? Perhaps
 *      180895 nih  upgraded the solute output stuff to match muti-solute
 *                  approached that is now used.
 *      261095 DPH  Added call to message_unused
-*      130896 jngh removed crop_cover (g_cover_green_sum)
+*      130896 jngh removed crop_cover (g%cover_green_sum)
 *      260897 nih  Added output for flow_water and flow_(solute_name)
 *      970910 slw  fix problem with es reporting as zero
 *      990323 nih  Added output for effective rainfall (eff_rain)
@@ -3839,162 +3898,162 @@ c     he should have. Any ideas? Perhaps
       call push_routine (my_name)
  
       if (variable_name .eq. 'es') then
-         es = sum_real_array(g_es_layers, max_layer)
+         es = sum_real_array(g%es_layers, max_layer)
          call respond2get_real_var (variable_name, '(mm)', es)
  
       else if (variable_name .eq. 'eo') then
-         call respond2get_real_var (variable_name, '(mm)', g_eo)
+         call respond2get_real_var (variable_name, '(mm)', g%eo)
  
       else if (variable_name .eq. 'eos') then
-         call respond2get_real_var (variable_name, '(mm)', g_eos)
+         call respond2get_real_var (variable_name, '(mm)', g%eos)
  
       else if (variable_name .eq. 'total_cover') then
-         crop_cover = sum_cover_array (g_cover_tot, g_num_crops)
-         total_cover = add_cover (crop_cover, g_residue_cover)
+         crop_cover = sum_cover_array (g%cover_tot, g%num_crops)
+         total_cover = add_cover (crop_cover, g%residue_cover)
          call respond2get_real_var (variable_name, '()'
      :                             , total_cover)
  
       else if (variable_name .eq. 'cn2_new') then
-         call respond2get_real_var (variable_name, '()', g_cn2_new)
+         call respond2get_real_var (variable_name, '()', g%cn2_new)
  
       else if (variable_name .eq. 'runoff') then
-         call respond2get_real_var (variable_name, '(mm)', g_runoff)
+         call respond2get_real_var (variable_name, '(mm)', g%runoff)
  
       else if (variable_name .eq. 'drain') then
-         call respond2get_real_var (variable_name, '(mm)', g_drain)
+         call respond2get_real_var (variable_name, '(mm)', g%drain)
  
       else if (variable_name .eq. 'infiltration') then
          call respond2get_real_var (variable_name, '(mm)'
-     :                             , g_infiltration)
+     :                             , g%infiltration)
 
       else if (variable_name .eq. 'eff_rain') then
-         es = sum_real_array(g_es_layers, max_layer)
-         eff_rain = g_rain - g_runoff - g_drain
+         es = sum_real_array(g%es_layers, max_layer)
+         eff_rain = g%rain - g%runoff - g%drain
          call respond2get_real_var (variable_name, '(mm)'
      :                             , eff_rain)
  
       else if (variable_name .eq. 'salb') then
-         call respond2get_real_var (variable_name, '(mm)', p_salb)
+         call respond2get_real_var (variable_name, '(mm)', p%salb)
  
       elseif (variable_name .eq. 'bd') then
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(g/cc)'
-     :                               , g_bd, num_layers)
+     :                               , g%bd, num_layers)
  
       else if (variable_name .eq. 'esw') then
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          esw = 0.0
          do 1000 layer = 1, num_layers
-            esw = esw + l_bound (g_sw_dep(layer) - g_ll15_dep(layer)
+            esw = esw + l_bound (g%sw_dep(layer) - g%ll15_dep(layer)
      :                        , 0.0)
 1000     continue
          call respond2get_real_var (variable_name, '(mm)', esw)
  
       else if (variable_name .eq. 'sw_dep') then
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_sw_dep, num_layers)
+     :                               , g%sw_dep, num_layers)
  
       else if (variable_name .eq. 'sw') then
  
-         num_layers = count_of_real_vals (p_dlayer, max_layer)
+         num_layers = count_of_real_vals (p%dlayer, max_layer)
          do 2000 layer = 1, num_layers
-            temp_array(layer) = divide (g_sw_dep(layer)
-     :                                , p_dlayer(layer), 0.0)
+            temp_array(layer) = divide (g%sw_dep(layer)
+     :                                , p%dlayer(layer), 0.0)
 2000     continue
          call respond2get_real_array (variable_name, '(mm/mm)'
      :                               , temp_array, num_layers)
  
       else if (variable_name .eq. 'dlayer') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , p_dlayer, num_layers)
+     :                               , p%dlayer, num_layers)
  
       else if (variable_name .eq. 'll15_dep') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_ll15_dep, num_layers)
+     :                               , g%ll15_dep, num_layers)
  
       else if (variable_name .eq. 'll15') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 3000 layer = 1, num_layers
-            temp_array(layer) = divide (g_ll15_dep(layer)
-     :                                , p_dlayer(layer), 0.0)
+            temp_array(layer) = divide (g%ll15_dep(layer)
+     :                                , p%dlayer(layer), 0.0)
 3000     continue
          call respond2get_real_array (variable_name, '(mm/mm)'
      :                               , temp_array, num_layers)
  
       else if (variable_name .eq. 'dul_dep') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_dul_dep, num_layers)
+     :                               , g%dul_dep, num_layers)
  
       else if (variable_name .eq. 'dul') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 4000 layer = 1, num_layers
-            temp_array(layer) = divide (g_dul_dep(layer)
-     :                                , p_dlayer(layer), 0.0)
+            temp_array(layer) = divide (g%dul_dep(layer)
+     :                                , p%dlayer(layer), 0.0)
 4000     continue
          call respond2get_real_array (variable_name, '(mm/mm)'
      :                               , temp_array, num_layers)
  
       else if (variable_name .eq. 'sat_dep') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_sat_dep, num_layers)
+     :                               , g%sat_dep, num_layers)
  
       else if (variable_name .eq. 'sat') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 5000 layer = 1, num_layers
-            temp_array(layer) = divide (g_sat_dep(layer)
-     :                                , p_dlayer(layer), 0.0)
+            temp_array(layer) = divide (g%sat_dep(layer)
+     :                                , p%dlayer(layer), 0.0)
 5000     continue
          call respond2get_real_array (variable_name, '(mm/mm)'
      :                               , temp_array, num_layers)
  
       else if (variable_name .eq. 'air_dry_dep') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_air_dry_dep, num_layers)
+     :                               , g%air_dry_dep, num_layers)
  
       else if (variable_name .eq. 'air_dry') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 6000 layer = 1, num_layers
-            temp_array(layer) = divide (g_air_dry_dep(layer)
-     :                                , p_dlayer(layer), 0.0)
+            temp_array(layer) = divide (g%air_dry_dep(layer)
+     :                                , p%dlayer(layer), 0.0)
 6000     continue
          call respond2get_real_array (variable_name, '(mm/mm)'
      :                               , temp_array, num_layers)
  
       else if (variable_name .eq. 'flux') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_flux, num_layers)
+     :                               , g%flux, num_layers)
  
       else if (variable_name .eq. 'flow') then
  
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          call respond2get_real_array (variable_name, '(mm)'
-     :                               , g_flow, num_layers)
+     :                               , g%flow, num_layers)
  
       ! --- Resultant water and solute flow output variables ---
       else if (variable_name .eq. 'flow_water') then
-         num_layers =  count_of_real_vals (p_dlayer, max_layer)
+         num_layers =  count_of_real_vals (p%dlayer, max_layer)
          do 6100 layer = 1, num_layers
-            temp_array(layer) = g_flux (layer)
-     :                        - g_flow (layer)
+            temp_array(layer) = g%flux (layer)
+     :                        - g%flow (layer)
  6100    continue
          call respond2get_real_array (variable_name, '(mm)'
      :                               , temp_array, num_layers)
@@ -4002,13 +4061,13 @@ c     he should have. Any ideas? Perhaps
       else if (index(variable_name, 'flow_').eq.1) then
          solute_name = variable_name(len('flow_')+1:)
          solnum = position_in_char_array (solute_name
-     :                                   ,g_solute_names
+     :                                   ,g%solute_names
      :                                   ,max_solute)
          if (solnum.ne.0) then
-            num_layers = count_of_real_vals (p_dlayer, max_layer)
+            num_layers = count_of_real_vals (p%dlayer, max_layer)
             do 6200 layer = 1, num_layers
-               temp_array(layer) = g_solute_leach(solnum,layer)
-     :                           - g_solute_up(solnum,layer)
+               temp_array(layer) = g%solute_leach(solnum,layer)
+     :                           - g%solute_up(solnum,layer)
  6200       continue
  
             call respond2get_real_array (variable_name, '(kg/ha)'
@@ -4028,13 +4087,13 @@ c     he should have. Any ideas? Perhaps
  
          solute_name = variable_name(:index(variable_name,'_leach')-1)
          solnum = position_in_char_array (solute_name
-     :                                   ,g_solute_names
+     :                                   ,g%solute_names
      :                                   ,max_solute)
  
          if (solnum.ne.0) then
-            num_layers = count_of_real_vals (p_dlayer, max_layer)
+            num_layers = count_of_real_vals (p%dlayer, max_layer)
             do 7000 layer = 1, num_layers
-               temp_array(layer) = g_solute_leach(solnum,layer)
+               temp_array(layer) = g%solute_leach(solnum,layer)
  7000       continue
  
             call respond2get_real_array (variable_name, '(kg/ha)'
@@ -4049,13 +4108,13 @@ c     he should have. Any ideas? Perhaps
  
          solute_name = variable_name(:index(variable_name,'_up')-1)
          solnum = position_in_char_array (solute_name
-     :                                   ,g_solute_names
+     :                                   ,g%solute_names
      :                                   ,max_solute)
  
          if (solnum.ne.0) then
-            num_layers = count_of_real_vals (p_dlayer, max_layer)
+            num_layers = count_of_real_vals (p%dlayer, max_layer)
             do 8000 layer = 1, num_layers
-               temp_array(layer) = g_solute_up(solnum,layer)
+               temp_array(layer) = g%solute_up(solnum,layer)
  8000       continue
  
             call respond2get_real_array (variable_name, '(kg/ha)'
@@ -4078,9 +4137,9 @@ c     he should have. Any ideas? Perhaps
 *     ===========================================================
       subroutine soilwat2_zero_variables ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'            ! blank
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -4106,31 +4165,31 @@ c     he should have. Any ideas? Perhaps
  
       call soilwat2_zero_daily_variables ()
  
-      call fill_real_array (g_air_dry_dep , 0.0, max_layer)
-      call fill_real_array (g_dul_dep     , 0.0, max_layer)
-      call fill_real_array (g_ll15_dep    , 0.0, max_layer)
-      call fill_real_array (g_sat_dep     , 0.0, max_layer)
-      call fill_real_array (g_sw_dep      , 0.0, max_layer)
-      call fill_real_array (g_bd          , 0.0, max_layer)
-      call fill_real_array (c_canopy_fact , 0.0, max_coeffs)
-      call fill_real_array (c_canopy_fact_height , 0.0, max_coeffs)
+      call fill_real_array (g%air_dry_dep , 0.0, max_layer)
+      call fill_real_array (g%dul_dep     , 0.0, max_layer)
+      call fill_real_array (g%ll15_dep    , 0.0, max_layer)
+      call fill_real_array (g%sat_dep     , 0.0, max_layer)
+      call fill_real_array (g%sw_dep      , 0.0, max_layer)
+      call fill_real_array (g%bd          , 0.0, max_layer)
+      call fill_real_array (c%canopy_fact , 0.0, max_coeffs)
+      call fill_real_array (c%canopy_fact_height , 0.0, max_coeffs)
  
-      c_canopy_fact_default = 0.0
-      g_num_canopy_fact    = 0
-      g_sumes1             = 0.0
-      g_sumes2             = 0.0
-      g_t                  = 0.0
-      g_obsrunoff_name     = blank
+      c%canopy_fact_default = 0.0
+      g%num_canopy_fact    = 0
+      g%sumes1             = 0.0
+      g%sumes2             = 0.0
+      g%t                  = 0.0
+      g%obsrunoff_name     = blank
  
-      g_inf_pool           = 0.0
-      g_sumes              = 0.0
-      g_sumes_last         = 0.0
-      g_sumes_yest         = 0.0
-      g_sumeos_last        = 0.0
-      g_eo_source          = blank
-      g_tillage_rain_sum   = 0.0
-      g_tillage_cn_rain    = 0.0
-      g_tillage_cn_red     = 0.0
+      g%inf_pool           = 0.0
+      g%sumes              = 0.0
+      g%sumes_last         = 0.0
+      g%sumes_yest         = 0.0
+      g%sumeos_last        = 0.0
+      g%eo_source          = blank
+      g%tillage_rain_sum   = 0.0
+      g%tillage_cn_rain    = 0.0
+      g%tillage_cn_red     = 0.0
  
       call pop_routine (my_name)
       return
@@ -4139,9 +4198,9 @@ c     he should have. Any ideas? Perhaps
 *     ===========================================================
       subroutine soilwat2_zero_data_links ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'            ! blank
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -4162,10 +4221,10 @@ c     he should have. Any ideas? Perhaps
  
       call push_routine (my_name)
  
-      call fill_char_array (g_solute_names, ' ', max_solute)
-      call fill_char_array (g_solute_owners, ' ', max_solute)
-      call fill_logical_array (g_solute_mobility, .false., max_solute)
-      g_num_solutes = 0
+      call fill_char_array (g%solute_names, ' ', max_solute)
+      call fill_char_array (g%solute_owners, ' ', max_solute)
+      call fill_logical_array (g%solute_mobility, .false., max_solute)
+      g%num_solutes = 0
 
       call pop_routine (my_name)
       return
@@ -4175,8 +4234,8 @@ c     he should have. Any ideas? Perhaps
 *     ===========================================================
       subroutine soilwat2_zero_daily_variables ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -4189,11 +4248,11 @@ c     he should have. Any ideas? Perhaps
 *+  Changes
 *       191094 jngh specified and programmed
 *       170895 nih  added initialisation of solute information
-*       130896 jngh removed g_total_cover
-*                   removed g_cover_green_sum
-*                   removed g_cover_tot_sum
-*                   added g_cover_tot and g_cover_green and g_crop_module
-*                   added g_num_crops
+*       130896 jngh removed g%total_cover
+*                   removed g%cover_green_sum
+*                   removed g%cover_tot_sum
+*                   added g%cover_tot and g%cover_green and g%crop_module
+*                   added g%num_crops
  
 *+  Constant Values
       character  my_name*(*)           ! module name
@@ -4209,35 +4268,35 @@ c     he should have. Any ideas? Perhaps
  
           !  zero pools etc.
  
-      call fill_real_array (g_flow, 0.0, max_layer)
-      call fill_real_array (g_flux, 0.0, max_layer)
-      call fill_real_array (g_es_layers, 0.0, max_layer)
-      call fill_real_array (g_cover_tot, 0.0, max_crops)
-      call fill_real_array (g_cover_green, 0.0, max_crops)
-      call fill_char_array (g_crop_module, ' ', max_crops)
-      call fill_real_array (g_canopy_height, 0.0, max_crops)
+      call fill_real_array (g%flow, 0.0, max_layer)
+      call fill_real_array (g%flux, 0.0, max_layer)
+      call fill_real_array (g%es_layers, 0.0, max_layer)
+      call fill_real_array (g%cover_tot, 0.0, max_crops)
+      call fill_real_array (g%cover_green, 0.0, max_crops)
+      call fill_char_array (g%crop_module, ' ', max_crops)
+      call fill_real_array (g%canopy_height, 0.0, max_crops)
  
-      g_residue_wt         = 0.0
-      g_residue_cover      = 0.0
-      g_eo                 = 0.0
-      g_eos                = 0.0
-      g_cn2_new            = 0.0
-      g_drain              = 0.0
-      g_infiltration       = 0.0
-      g_runoff             = 0.0
-      g_num_crops          = 0
-      g_obsrunoff          = 0.0
-      g_obsrunoff_found    = .false.
+      g%residue_wt         = 0.0
+      g%residue_cover      = 0.0
+      g%eo                 = 0.0
+      g%eos                = 0.0
+      g%cn2_new            = 0.0
+      g%drain              = 0.0
+      g%infiltration       = 0.0
+      g%runoff             = 0.0
+      g%num_crops          = 0
+      g%obsrunoff          = 0.0
+      g%obsrunoff_found    = .false.
  
       ! initialise all solute information
  
       do 200 solnum = 1, max_solute
          do 100 layer = 1, max_layer
-            g_solute (solnum, layer) = 0.0
-            g_solute_min (solnum, layer) = 0.0
-            g_solute_leach(solnum, layer) = 0.0
-            g_solute_up (solnum,layer) = 0.0
-            g_dlt_solute (solnum,layer) = 0.0
+            g%solute (solnum, layer) = 0.0
+            g%solute_min (solnum, layer) = 0.0
+            g%solute_leach(solnum, layer) = 0.0
+            g%solute_up (solnum,layer) = 0.0
+            g%dlt_solute (solnum,layer) = 0.0
   100    continue
   200 continue
  
@@ -4253,8 +4312,8 @@ c     he should have. Any ideas? Perhaps
      :                                , solute_kg
      :                                , solute_min)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -4308,7 +4367,7 @@ c     he should have. Any ideas? Perhaps
             ! flux section - drainage out, down to next layer
  
       call fill_real_array (solute_out, 0.0, max_layer)
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
       in_solute = 0.0
  
       do 1000 layer = 1,num_layers
@@ -4316,7 +4375,7 @@ c     he should have. Any ideas? Perhaps
              ! get water draining out of layer and n content of layer
              ! includes that leaching down
  
-         out_w = g_flux(layer)
+         out_w = g%flux(layer)
          solute_kg_layer = solute_kg(layer) + in_solute
  
              ! n leaching out of layer is proportional to the water draining
@@ -4324,10 +4383,10 @@ c     he should have. Any ideas? Perhaps
 * ?????????????? 21 mar 91 - jngh. should the water draining into this
 * ?????????????? layer be removed also?
  
-         water = g_sw_dep(layer) + out_w
+         water = g%sw_dep(layer) + out_w
          out_solute = solute_kg_layer
      :         * divide (out_w, water, 0.0)
-     :         * c_Solute_flux_eff
+     :         * c%Solute_flux_eff
  
              ! don't allow the n to be reduced below a minimum level
  
@@ -4350,8 +4409,8 @@ c     he should have. Any ideas? Perhaps
 *     ===========================================================
       subroutine soilwat2_solute_flow (solute_up, solute_kg, solute_min)
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'data.pub'
       include 'intrface.pub'
       include 'error.pub'
@@ -4421,7 +4480,7 @@ c     he should have. Any ideas? Perhaps
  
             ! + ve flow : upward movement. go from bottom to top layer
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
       in_solute = 0.0
       do 1000 layer = num_layers,2,-1
  
@@ -4431,18 +4490,18 @@ c     he should have. Any ideas? Perhaps
  
              ! get water moving up and out of layer to the one above
  
-         out_w = g_flow(layer-1)
+         out_w = g%flow(layer-1)
          if (out_w .le. 0.0) then
             out_solute = 0.0
          else
                 ! get water movement between this and next layer
  
-            bottomw = g_flow(layer)
+            bottomw = g%flow(layer)
  
                 ! get n content of layer includes that moving from other layer
  
             solute_kg_layer = solute_kg(layer) + in_solute
-            water = g_sw_dep(layer) + out_w - bottomw
+            water = g%sw_dep(layer) + out_w - bottomw
  
                 ! n moving out of layer is proportional to the water moving
                 ! out.
@@ -4456,7 +4515,7 @@ c     he should have. Any ideas? Perhaps
 cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             out_solute = solute_kg_layer
      :                 * divide (out_w, water, 0.0)
-     :                 * c_Solute_flow_eff
+     :                 * c%Solute_flow_eff
  
                 ! don't allow the n to be reduced below a minimum level
  
@@ -4494,7 +4553,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
              ! get water moving out of layer
  
-         out_w = - g_flow(layer)
+         out_w = - g%flow(layer)
          if (out_w.le.0.0) then
             out_solute = 0.0
          else
@@ -4504,7 +4563,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             solute_kg_layer = solute_kg(layer)
      :                      + in_solute
      :                      + remain(layer)
-            water = g_sw_dep(layer) + out_w - top_w
+            water = g%sw_dep(layer) + out_w - top_w
  
                 ! n moving out of layer is proportional to the water moving
                 ! out.
@@ -4513,7 +4572,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
             out_solute = solute_kg_layer
      :            * divide (out_w, water, 0.0)
-     :            * c_Solute_flow_eff
+     :            * c%Solute_flow_eff
  
                 ! don't allow the n to be reduced below a minimum level
  
@@ -4540,8 +4599,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 * ====================================================================
        subroutine soilwat2_ONirrigated ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include 'soilwat2.inc'
       include 'event.inc'
       include 'error.pub'
       include 'intrface.pub'
@@ -4578,12 +4637,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :                      ,0.0
      :                      ,1000.)
  
-      g_irrigation = g_irrigation + amount
+      g%irrigation = g%irrigation + amount
 
-      do 100 solnum = 1, g_num_solutes
+      do 100 solnum = 1, g%num_solutes
  
          call collect_real_var_optional (
-     :                         g_solute_names(solnum)
+     :                         g%solute_names(solnum)
      :                        ,'(kg/ha)'
      :                        ,solconc
      :                        ,numvals
@@ -4591,7 +4650,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :                        ,1000.)
 
         if (numvals.gt.0) then
-           g_irrigation_solute(solnum) = g_irrigation_solute(solnum)
+           g%irrigation_solute(solnum) = g%irrigation_solute(solnum)
      :                                 + solconc
         else
         endif
@@ -4606,12 +4665,11 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 * ====================================================================
       subroutine soilwat2_sum_report ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'string.pub'
       include 'data.pub'
-      include 'write.pub'
       include 'error.pub'
  
 *+  Purpose
@@ -4670,25 +4728,25 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      ://'----------'
       call write_string (lu_scr_sum, line)
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
       depth_layer_top = 0.0
       call soilwat2_runoff_depth_factor (runoff_wf)
  
       do 1000 layer = 1,num_layers
-         depth_layer_bottom = depth_layer_top + p_dlayer(layer)
+         depth_layer_bottom = depth_layer_top + p%dlayer(layer)
  
          write (line,'(3x, f6.0, a, f6.0, 8f7.3)')
      :            depth_layer_top, '-', depth_layer_bottom
-     :          , divide (g_air_dry_dep(layer)
-     :                  , p_dlayer(layer), 0.0)
-     :          , divide (g_ll15_dep(layer)
-     :                  , p_dlayer(layer), 0.0)
-     :          , divide (g_dul_dep(layer), p_dlayer(layer), 0.0)
-     :          , divide (g_sat_dep(layer), p_dlayer(layer), 0.0)
-     :          , divide (g_sw_dep(layer), p_dlayer(layer), 0.0)
-     :          , g_bd(layer)
+     :          , divide (g%air_dry_dep(layer)
+     :                  , p%dlayer(layer), 0.0)
+     :          , divide (g%ll15_dep(layer)
+     :                  , p%dlayer(layer), 0.0)
+     :          , divide (g%dul_dep(layer), p%dlayer(layer), 0.0)
+     :          , divide (g%sat_dep(layer), p%dlayer(layer), 0.0)
+     :          , divide (g%sw_dep(layer), p%dlayer(layer), 0.0)
+     :          , g%bd(layer)
      :          , runoff_wf(layer)
-     :          , p_swcon(layer)
+     :          , p%swcon(layer)
  
          call write_string (lu_scr_sum, line)
          depth_layer_top = depth_layer_bottom
@@ -4724,15 +4782,15 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :'     ---------------------------------------------------------'
       call write_string (lu_scr_sum, line)
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
       depth_layer_top = 0.0
  
       do 2000 layer = 1,num_layers
-         depth_layer_bottom = depth_layer_top + p_dlayer(layer)
-         usw(layer) = g_ll15_dep(layer)
-         asw(layer) = l_bound(g_sw_dep(layer)-g_ll15_dep(layer),0.0)
-         masw(layer) = g_dul_dep(layer) - g_ll15_dep(layer)
-         dsw(layer) = g_sat_dep(layer) - g_dul_dep(layer)
+         depth_layer_bottom = depth_layer_top + p%dlayer(layer)
+         usw(layer) = g%ll15_dep(layer)
+         asw(layer) = l_bound(g%sw_dep(layer)-g%ll15_dep(layer),0.0)
+         masw(layer) = g%dul_dep(layer) - g%ll15_dep(layer)
+         dsw(layer) = g%sat_dep(layer) - g%dul_dep(layer)
  
          write (line,'(3x, f6.0, a, f6.0, 4f11.2)')
      :            depth_layer_top, '-', depth_layer_bottom
@@ -4783,10 +4841,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call write_string (lu_scr_sum, line)
  
       write (line, '(6x, 4f12.2)')
-     :               p_insoil
-     :             , p_salb
-     :             , p_diffus_const
-     :             , p_diffus_slope
+     :               p%insoil
+     :             , p%salb
+     :             , p%diffus_const
+     :             , p%diffus_slope
       call write_string (lu_scr_sum, line)
  
       line =
@@ -4794,10 +4852,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       call write_string (lu_scr_sum, line)
       call write_string (lu_scr_sum, new_line//new_line)
  
-      if (g_obsrunoff_name .ne. blank) then
+      if (g%obsrunoff_name .ne. blank) then
          write (line, '(6x,a,a,a)')
      :          '             Observed runoff data ( ',
-     :          g_obsrunoff_name(1:lastNB(g_obsrunoff_name)),
+     :          g%obsrunoff_name(1:lastNB(g%obsrunoff_name)),
      :          ' ) is used in water balance'
  
          call write_string (lu_scr_sum, line)
@@ -4819,8 +4877,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
          call write_string (lu_scr_sum, line)
  
          write (line, '(6x, 4f8.2)')
-     :       p_cn2_bare, p_cn_red, p_cn_cov,
-     :       c_hydrol_effective_depth
+     :       p%cn2_bare, p%cn_red, p%cn_cov,
+     :       c%hydrol_effective_depth
          call write_string (lu_scr_sum, line)
  
          line =
@@ -4830,56 +4888,56 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call write_string (lu_scr_sum, new_line//new_line)
  
-      if (c_evap_method .eq. c_ritchie_method) then
+      if (c%evap_method .eq. ritchie_method) then
          line = '      Using Ritchie evaporation model'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ',
-     :        p_u, ' (mm^0.5)'
+     :        p%u, ' (mm^0.5)'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'CONA:                 ',
-     :        p_cona, ' ()'
+     :        p%cona, ' ()'
          call write_string (lu_scr_sum, line)
  
-      else if (c_evap_method .eq. c_bs_a_method) then
+      else if (c%evap_method .eq. bs_a_method) then
          line = '      Using B&S option A evaporation method'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'Beta:                 ',
-     :        p_beta, ' (mm^0.5)'
+     :        p%beta, ' (mm^0.5)'
          call write_string (lu_scr_sum, line)
  
-      else if (c_evap_method .eq. c_bs_b_method) then
+      else if (c%evap_method .eq. bs_b_method) then
          line = '      Using B&S option B evaporation method'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'Beta:                 ',
-     :        p_beta, ' (mm^0.5)'
+     :        p%beta, ' (mm^0.5)'
          call write_string (lu_scr_sum, line)
  
-      else if (c_evap_method .eq. c_bs_acs_method) then
+      else if (c%evap_method .eq. bs_acs_method) then
          line = '      Using B&S option B method with acs/jd mods'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'Cuml evap (U):        ',
-     :        p_u, ' (mm)'
+     :        p%u, ' (mm)'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'CONA:                 ',
-     :        p_cona, ' ()'
+     :        p%cona, ' ()'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'Beta:                 ',
-     :        p_beta, ' (mm^0.5)'
+     :        p%beta, ' (mm^0.5)'
          call write_string (lu_scr_sum, line)
  
-      else if (c_evap_method .eq. c_rickert_method) then
+      else if (c%evap_method .eq. rickert_method) then
          line = '      Using Rickert evaporation method'
          call write_string (lu_scr_sum, line)
  
          write (line, '(7x, a, f8.2, a)') 'Max daily evaporation:',
-     :        p_max_evap, ' (mm)'
+     :        p%max_evap, ' (mm)'
          call write_string (lu_scr_sum, line)
  
       else
@@ -4888,9 +4946,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       endif
  
-      if (g_eo_source .ne. blank) then
+      if (g%eo_source .ne. blank) then
          write (line, '(6x, a, a)') 'Eo source:             ',
-     :        g_eo_source
+     :        g%eo_source
          call write_string (lu_scr_sum, line)
       else
          write (line, '(6x, a)') 'Eo from priestly-taylor'
@@ -4906,11 +4964,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_init ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include   'error.pub'
-      include   'write.pub'
  
 *+  Purpose
 *       input initial values from soil water parameter files.
@@ -4926,9 +4983,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *        051093   jngh added fatal error call.
 *                      changed l to layer.
 *        190194   jpd  add air_dry_tot for output
-*        25/7/96  dph  added code to report to summary file when p_insoil < 1
+*        25/7/96  dph  added code to report to summary file when p%insoil < 1
 *        190897   nih  renamed from soilwat2_init and
-*                      adapted as part of MES_reset development
+*                      adapted as part of ACTION_reset development
 *        090299   jngh changed name from reset to init
 *                       removed calls to zero variables and get other variables
  
@@ -4940,7 +4997,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call push_routine (my_name)
             ! zero pools
-      call report_event (' Initialising ')
  
           ! Get all coefficients from file
  
@@ -4960,8 +5016,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 * ====================================================================
        subroutine Soilwat2_runoff_depth_factor (runoff_wf)
 * ====================================================================
+      use Soilwat2Module
       implicit none
-      include 'soilwat2.inc'
       include 'science.pub'
       include 'data.pub'
       include 'error.pub'
@@ -5011,24 +5067,24 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       xx     = 0.0
       cum_depth = 0.0
       wf_tot = 0.0
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
            ! check if hydro_effective_depth applies for eroded profile.
  
-      profile_depth = sum_real_array (p_dlayer, num_layers)
-      hydrol_effective_depth = min (c_hydrol_effective_depth
+      profile_depth = sum_real_array (p%dlayer, num_layers)
+      hydrol_effective_depth = min (c%hydrol_effective_depth
      :                            , profile_depth)
  
       scale_fact = 1.0/(1.0 - exp(-4.16))
       hydrol_effective_layer = find_layer_no (hydrol_effective_depth
-     :                                       , p_dlayer
+     :                                       , p%dlayer
      :                                       , num_layers)
  
       do 100 layer = 1, hydrol_effective_layer
-         cum_depth = cum_depth + p_dlayer(layer)
+         cum_depth = cum_depth + p%dlayer(layer)
          cum_depth = u_bound (cum_depth, hydrol_effective_depth)
  
-            ! assume water content to c_hydrol_effective_depth affects runoff
+            ! assume water content to c%hydrol_effective_depth affects runoff
             ! sum of wf should = 1 - may need to be bounded? <dms 7-7-95>
  
          wx = scale_fact * (1.0 - exp( - 4.16* divide (cum_depth
@@ -5052,9 +5108,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 * ====================================================================
        subroutine soilwat2_irrig_solute ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
       include 'const.inc'
-      include 'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -5077,11 +5133,11 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *- Implementation Section ----------------------------------
       call push_routine (myname)
  
-      do 1000 solnum = 1, g_num_solutes
-         g_solute(solnum,1)     = g_solute(solnum,1)
-     :                          + g_irrigation_solute(solnum)
-         g_dlt_solute(solnum,1) = g_dlt_solute(solnum,1)
-     :                          + g_irrigation_solute(solnum)
+      do 1000 solnum = 1, g%num_solutes
+         g%solute(solnum,1)     = g%solute(solnum,1)
+     :                          + g%irrigation_solute(solnum)
+         g%dlt_solute(solnum,1) = g%dlt_solute(solnum,1)
+     :                          + g%irrigation_solute(solnum)
  
  1000 continue
  
@@ -5094,9 +5150,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 * ====================================================================
        subroutine soilwat2_move_solute_down ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
       include 'const.inc'
-      include 'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -5133,16 +5189,16 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       ! flux routine then insert moved solute back into the global
       ! record.
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
-      do 1300 solnum = 1, g_num_solutes
-         if (g_solute_mobility(solnum)) then
+      do 1300 solnum = 1, g%num_solutes
+         if (g%solute_mobility(solnum)) then
  
             do 1100 layer = 1, num_layers
-               temp_solute(layer) = g_solute(solnum, layer)
+               temp_solute(layer) = g%solute(solnum, layer)
                leach(layer) = 0.0
-               temp_solute_min(layer) = g_solute_min(solnum,layer)
-               temp_dlt_solute(layer) = g_dlt_solute(solnum,layer)
+               temp_solute_min(layer) = g%solute_min(solnum,layer)
+               temp_dlt_solute(layer) = g%dlt_solute(solnum,layer)
  1100       continue
  
             call soilwat2_solute_flux (leach
@@ -5152,9 +5208,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             call move_down_real (leach, temp_dlt_solute, num_layers)
  
             do 1200 layer = 1, num_layers
-               g_solute (solnum, layer) = temp_solute (layer)
-               g_solute_leach (solnum, layer) = leach (layer)
-               g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
+               g%solute (solnum, layer) = temp_solute (layer)
+               g%solute_leach (solnum, layer) = leach (layer)
+               g%dlt_solute (solnum, layer) = temp_dlt_solute (layer)
  1200       continue
  
          else
@@ -5172,9 +5228,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 * ====================================================================
        subroutine soilwat2_move_solute_up ()
 * ====================================================================
+      use Soilwat2Module
       implicit none
       include 'const.inc'
-      include 'soilwat2.inc'
       include 'data.pub'
       include 'error.pub'
  
@@ -5211,17 +5267,17 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       ! flux routine then insert moved solute back into the global
       ! record.
  
-      num_layers = count_of_real_vals (p_dlayer, max_layer)
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
  
-      do 2300 solnum = 1, g_num_solutes
+      do 2300 solnum = 1, g%num_solutes
  
-         if (g_solute_mobility(solnum)) then
+         if (g%solute_mobility(solnum)) then
  
             do 2100 layer = 1, max_layer
-               temp_solute(layer) = g_solute(solnum, layer)
+               temp_solute(layer) = g%solute(solnum, layer)
                leach(layer) = 0.0
-               temp_solute_min(layer) = g_solute_min(solnum,layer)
-               temp_dlt_solute(layer) = g_dlt_solute(solnum,layer)
+               temp_solute_min(layer) = g%solute_min(solnum,layer)
+               temp_dlt_solute(layer) = g%dlt_solute(solnum,layer)
  2100       continue
  
             call soilwat2_solute_flow (leach
@@ -5231,9 +5287,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             call move_up_real (leach, temp_dlt_solute, num_layers)
  
             do 2200 layer = 1, max_layer
-               g_solute (solnum, layer) = temp_solute (layer)
-               g_solute_up (solnum, layer) = leach (layer)
-               g_dlt_solute (solnum, layer) = temp_dlt_solute (layer)
+               g%solute (solnum, layer) = temp_solute (layer)
+               g%solute_up (solnum, layer) = leach (layer)
+               g%dlt_solute (solnum, layer) = temp_dlt_solute (layer)
  2200       continue
          else
             ! solute was not in the mobile list - do not move it
@@ -5250,10 +5306,9 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_infiltration ( infiltration )
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'read.pub'
-      include 'write.pub'
       include 'intrface.pub'
       include 'error.pub'
  
@@ -5277,10 +5332,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call push_routine (my_name)
  
-            ! infiltration (mm) = (g_rain+irrigation) - g_runoff
+            ! infiltration (mm) = (g%rain+irrigation) - g%runoff
             ! Note: no irrigation runs off.
  
-      infiltration =  g_irrigation + g_rain - g_runoff
+      infiltration =  g%irrigation + g%rain - g%runoff
  
       call pop_routine (my_name)
       return
@@ -5291,11 +5346,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_tillage ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include   'const.inc'
-      include   'soilwat2.inc'
       include 'data.pub'
-      include 'write.pub'
       include 'error.pub'
       include 'read.pub'
       include 'intrface.pub'
@@ -5340,12 +5394,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call collect_real_var_optional ('cn_red'
      :                      ,'()'
-     :                      ,g_tillage_cn_red
+     :                      ,g%tillage_cn_red
      :                      ,numvals_cnred, 0.0, 100.0)
  
       call collect_real_var_optional ('cn_rain'
      :                      ,'()'
-     :                      ,g_tillage_cn_rain
+     :                      ,g%tillage_cn_rain
      :                      ,numvals_cnrain, 0.0, 1000.0)
  
       if (numvals_cnred .le. 0 .or. numvals_cnrain .le. 0) then
@@ -5365,37 +5419,37 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
         if (numvals.ne.2) then
                ! We have an unspecified tillage type
-            g_tillage_cn_red = 0.0
-            g_tillage_cn_rain = 0.0
+            g%tillage_cn_red = 0.0
+            g%tillage_cn_rain = 0.0
  
             string = 'Cannot find info for tillage:- '//type
             call FATAL_ERROR (ERR_user, string)
  
         else
           if (numvals_cnred .le. 0) then
-            g_tillage_cn_red = type_info(1)
+            g%tillage_cn_red = type_info(1)
           else
           endif
  
           if (numvals_cnrain .le. 0) then
-            g_tillage_cn_rain = type_info(2)
+            g%tillage_cn_rain = type_info(2)
           else
           endif
         endif
       endif
  
       ! Ensure cn equation won't go silly
-      g_tillage_cn_red = bound (g_tillage_cn_red, 0.0, p_cn2_bare)
+      g%tillage_cn_red = bound (g%tillage_cn_red, 0.0, p%cn2_bare)
  
       write (string, '(3a,40x,a,f8.2,a,40x,a, f8.2)' )
      :      'Soil tilled using ', type, New_Line
-     :     ,'CN reduction = ', g_tillage_cn_red, New_Line
-     :     ,'Acc rain     = ', g_tillage_cn_rain
+     :     ,'CN reduction = ', g%tillage_cn_red, New_Line
+     :     ,'Acc rain     = ', g%tillage_cn_rain
  
-      call report_event (string)
+      call write_string (LU_scr_sum, string)
  
                                      ! 3. Reset the accumulator
-      g_tillage_rain_sum = 0.0
+      g%tillage_rain_sum = 0.0
  
       call pop_routine (my_name)
       return
@@ -5406,10 +5460,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_tillage_addrain ( rain )
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
-      include 'write.pub'
       include 'error.pub'
+      include 'const.inc'
  
 *+  Sub-Program Arguments
       real      rain                   ! (INPUT) today's rainfall (mm)
@@ -5434,18 +5488,18 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
  
       call push_routine (my_name)
  
-      g_tillage_rain_sum = g_tillage_rain_sum + rain
+      g%tillage_rain_sum = g%tillage_rain_sum + rain
  
-      if (g_tillage_cn_rain .gt. 0.0 .and.
-     :    g_tillage_rain_sum .gt. g_tillage_cn_rain) then
+      if (g%tillage_cn_rain .gt. 0.0 .and.
+     :    g%tillage_rain_sum .gt. g%tillage_cn_rain) then
  
            ! This tillage has lost all effect on cn. CN reduction
            !  due to tillage is off until the next tillage operation.
-         g_tillage_cn_rain = 0.0
-         g_tillage_cn_red = 0.0
+         g%tillage_cn_rain = 0.0
+         g%tillage_cn_red = 0.0
  
          write (string, '(a)') 'Tillage CN reduction finished'
-         call report_event (string)
+         call write_string (LU_scr_sum, string)
  
       else
       endif
@@ -5458,10 +5512,10 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_on_new_solute ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
       include 'const.inc' 
       include 'event.inc'
-      include 'soilwat2.inc'
       include 'error.pub'
       include 'data.pub'
       include 'intrface.pub'
@@ -5502,36 +5556,36 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
      :                        ,names
      :                        ,numvals)
 
-      if (g_num_solutes+numvals.gt.max_solute) then
+      if (g%num_solutes+numvals.gt.max_solute) then
          call fatal_error (ERR_Internal
      :                    ,'Too many solutes for Soilwat2')
       else
          do 100 counter = 1, numvals
-            g_num_solutes = g_num_solutes + 1
-            g_solute_names(g_num_solutes) = names(counter)
-            g_solute_owners(g_num_solutes) = sender
+            g%num_solutes = g%num_solutes + 1
+            g%solute_names(g%num_solutes) = names(counter)
+            g%solute_owners(g%num_solutes) = sender
 
             mobile_no = position_in_char_array(
-     :                        g_solute_names(g_num_solutes)
-     :                       ,c_mobile_solutes
+     :                        g%solute_names(g%num_solutes)
+     :                       ,c%mobile_solutes
      :                       ,max_solute)
 
             immobile_no = position_in_char_array(
-     :                        g_solute_names(g_num_solutes)
-     :                       ,c_immobile_solutes
+     :                        g%solute_names(g%num_solutes)
+     :                       ,c%immobile_solutes
      :                       ,max_solute)
 
 
             if (mobile_no.ne.0) then
-               g_solute_mobility(g_num_solutes) = .true.
+               g%solute_mobility(g%num_solutes) = .true.
 
             elseif (immobile_no.ne.0) then
-               g_solute_mobility(g_num_solutes) = .false.
+               g%solute_mobility(g%num_solutes) = .false.
 
             else
                call fatal_error(ERR_Internal,
      :                 'No solute mobility information for '//
-     :                 g_solute_names(g_num_solutes))
+     :                 g%solute_names(g%num_solutes))
             endif
 
   100    continue
@@ -5545,8 +5599,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_ONtick ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'error.pub'
       include 'event.pub'
  
@@ -5573,7 +5627,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       ! Note that time and timestep information is not required
       ! and so dummy variables are used in their place.
 
-      call handler_ONtick(g_day, g_year, temp1, temp2)
+      call handler_ONtick(g%day, g%year, temp1, temp2)
 
       call pop_routine (myname)
       return
@@ -5582,8 +5636,8 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 *     ===========================================================
       subroutine soilwat2_ONnewmet ()
 *     ===========================================================
+      use Soilwat2Module
       implicit none
-      include   'soilwat2.inc'
       include 'event.inc'
       include 'error.pub'
       include 'event.pub'
@@ -5611,34 +5665,34 @@ cnh      real   temp1
 cnh      ! Note that vp is not needed
 cnh      ! and so a dummy variable is used in its place.
 cnh
-cnh      call handler_ONnewmet(g_radn, g_maxt, g_mint, g_rain, temp1)
+cnh      call handler_ONnewmet(g%radn, g%maxt, g%mint, g%rain, temp1)
 
       ! only collect that which is needed to save execution time
 
       call collect_real_var (DATA_radn
      :                      ,'(MJ)'
-     :                      ,g_radn
+     :                      ,g%radn
      :                      ,numvals
      :                      ,0.0
      :                      ,50.0)
  
       call collect_real_var (DATA_maxt
      :                      ,'(oC)'
-     :                      ,g_maxt
+     :                      ,g%maxt
      :                      ,numvals
      :                      ,0.0
      :                      ,50.0)
 
       call collect_real_var (DATA_mint
      :                      ,'(oC)'
-     :                      ,g_mint
+     :                      ,g%mint
      :                      ,numvals
      :                      ,-10.0
-     :                      ,g_maxt)
+     :                      ,g%maxt)
 
       call collect_real_var (DATA_rain
      :                      ,'(mm)'
-     :                      ,g_rain
+     :                      ,g%rain
      :                      ,numvals
      :                      ,0.0
      :                      ,500.0)
