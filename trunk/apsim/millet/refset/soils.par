@@ -115,44 +115,56 @@ bd =            1.560   1.520   1.460   1.420   1.460   1.500   1.530 (g/cc)   !
 ! Millet
 
 [icrisat_alf1.millet.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.146   0.207   0.244   0.236   0.218   0.173   0.173 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 1.
 
 [icrisat_alf1.millet1.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.146   0.207   0.244   0.236   0.218   0.173   0.173 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 2.
 
 [icrisat_alf1.millet2.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.146   0.207   0.244   0.236   0.218   0.173   0.173 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 3.
 
 [icrisat_alf1.millet3.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.146   0.207   0.244   0.236   0.218   0.173   0.173 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 4.
 
 [icrisat_alf1.millet4.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.146   0.207   0.244   0.236   0.218   0.173   0.173 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 5.
 
 [icrisat_alf1.millet5.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.146   0.207   0.244   0.236   0.218   0.173   0.173 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 
 
@@ -313,50 +325,62 @@ bd =            1.530   1.540   1.550   1.550   1.530   1.500   1.500 (g/cc)   !
 ! Millet
 
 [jodhpur_aridisol.millet.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.040   0.043   0.043   0.043   0.040   0.040   0.040 (mm/mm)   ! millet lower limit
 
 ! kl values here are same as for icrisat_alf1. Needs to be changed for sandy soil texture of soil at Jodphur.
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    0.60   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 1.
 
 [jodhpur_aridisol.millet1.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.040   0.043   0.043   0.043   0.040   0.040   0.040 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    0.60   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 2.
 
 [jodhpur_aridisol.millet2.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 
 ll =        0.040   0.043   0.043   0.043   0.040   0.040   0.040 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    0.60   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 3.
 
 [jodhpur_aridisol.millet3.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 
 ll =        0.040   0.043   0.043   0.043   0.040   0.040   0.040 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    0.60   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 4.
 
 [jodhpur_aridisol.millet4.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 
 ll =        0.040   0.043   0.043   0.043   0.040   0.040   0.040 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    0.60   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 5.
 
 [jodhpur_aridisol.millet5.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 
 ll =        0.040   0.043   0.043   0.043   0.040   0.040   0.040 (mm/mm)   ! millet lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    0.60   ()   ! Root Exploration factor (0-1)
 
 
 
@@ -547,44 +571,56 @@ bd =            1.560   1.520   1.460   1.420   1.460   1.500   1.530 (g/cc)   !
 ! Millet
 
 [icrisat_alf2.millet.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.066   0.090   0.117   0.123   0.129   0.137   0.148 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 1.
 
 [icrisat_alf2.millet1.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.066   0.090   0.117   0.123   0.129   0.137   0.148 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 2.
 
 [icrisat_alf2.millet2.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.066   0.090   0.117   0.123   0.129   0.137   0.148 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 3.
 
 [icrisat_alf2.millet3.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.066   0.090   0.117   0.123   0.129   0.137   0.148 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 4.
 
 [icrisat_alf2.millet4.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.066   0.090   0.117   0.123   0.129   0.137   0.148 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 5.
 
 [icrisat_alf2.millet5.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.066   0.090   0.117   0.123   0.129   0.137   0.148 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 
  !***********************************************************************
@@ -701,44 +737,56 @@ bd =            1.560   1.520   1.460   1.420   1.460   1.500   1.530 (g/cc)   !
 ! Millet
 
 [icrisat_alf3.millet.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.027   0.041   0.066   0.143   0.103   0.092   0.092 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 1.
 
 [icrisat_alf3.millet1.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.027   0.041   0.066   0.143   0.103   0.092   0.092 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 2.
 
 [icrisat_alf3.millet2.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.027   0.041   0.066   0.143   0.103   0.092   0.092 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 3.
 
 [icrisat_alf3.millet3.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.027   0.041   0.066   0.143   0.103   0.092   0.092 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 4.
 
 [icrisat_alf3.millet4.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.027   0.041   0.066   0.143   0.103   0.092   0.092 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 ! Millet - tiller 5.
 
 [icrisat_alf3.millet5.parameters]  
+uptake_source =    calc   ! calculate own uptakes.
 
 ll =        0.027   0.041   0.066   0.143   0.103   0.092   0.092 (mm/mm)   ! lower limit
 kl =        0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()   ! rate of soil water extraction
+xf =        1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()   ! Root Exploration factor (0-1)
 
 
 
