@@ -444,11 +444,12 @@ c      integer    canopy_crop_number    ! function
 *+  Local Variables
       real       cover                 ! temporary cover variable
       integer    module                ! module counter
-      character  module_id_string*(max_module_name_size) ! module name
+      character  module_string*(max_module_name_size) ! module name
       real       cover_tot_all(max_crops)   ! total cover of each crop (0-1)
       real       cover_green_all(max_crops) ! green cover of each crop (0-1)
       integer    moduleID 
       integer    numvals
+      logical    found
 
 *- Implementation Section ----------------------------------
 
@@ -457,23 +458,24 @@ c      integer    canopy_crop_number    ! function
       temp_variable_name = variable_name
 
       if (temp_variable_name .eq. fr_intc_radn_name) then
-         module_id_string = Variable_name(fr_intc_radn_name_length+1:)
-         call string_to_integer_var (module_id_string
-     :                             , moduleID, numvals)
-         if (numvals .eq. 0) then
+         module_string = Variable_name(fr_intc_radn_name_length+1:)
+         found = component_name_to_ID(module_string,moduleID)
+
+         if (.not.found) then
             call fatal_error(err_internal
      :                       , 'Bad module id sent with fr_intc_radn.'
      :                       // 'Module id = '
-     :                       // module_id_string)
+     :                       // module_string)
          else
            
             module = canopy_crop_number (moduleID)
+            
             if (module.gt.0) then
                call respond2get_real_var (variable_name, '()'
      :                                   , g%intc_light(module))
             else
                call fatal_error (err_user
-     :              , 'Module with id: ' // module_id_string
+     :              , 'Module: ' // module_string
      :              // ' requested fr_intc_radn and does not '
      :              // 'have a canopy')
    
@@ -555,8 +557,11 @@ c      integer    canopy_crop_number    ! function
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
+
       do 1000 crop = 1, g%num_crops
+
          if (module_id.eq.g%crop_module(crop)) then
+
             crop_num = crop
             goto 1100
          else
