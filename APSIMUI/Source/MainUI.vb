@@ -14,7 +14,7 @@ Public Class MainUI
     Private APSIMFile As New APSIMFile
 
     'Private Toolbox As New OutlookBar
-    
+
 
 #Region " Windows Form Designer generated code "
 
@@ -54,7 +54,7 @@ Public Class MainUI
     Private components As System.ComponentModel.IContainer
 
     'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
+    'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
