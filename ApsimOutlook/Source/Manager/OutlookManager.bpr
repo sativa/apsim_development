@@ -9,7 +9,8 @@
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMain_form.dfm TFilespec_form.dfm TBatch_import_form.dfm"/>
-    <LIBFILES value="..\..\..\Shared\general\general.lib"/>
+    <LIBFILES value="..\..\..\Shared\general\general.lib 
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib"/>
     <LIBRARIES value="kbmMemC6Run.lib TeeUI.lib TeePro.lib Tee.lib TMSC6.lib THIRDPARTY.lib 
       APSGENERAL.lib APSData.lib bdertl.lib"/>
     <SPARELIBS value="rtl.lib vcl.lib dbrtl.lib vcldb.lib bdertl.lib APSData.lib APSGENERAL.lib 
@@ -55,6 +56,7 @@
       <FILE FILENAME="TFilespec_form.cpp" FORMNAME="Filespec_import_form" UNITNAME="TFilespec_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TBatch_import_form.cpp" FORMNAME="Batch_import_form" UNITNAME="TBatch_import_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
