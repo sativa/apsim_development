@@ -9,15 +9,17 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\SiloInput.dll
 
-OBJFILES=SiloInput.obj SiloInputComponent.obj
+OBJFILES=SiloInput.obj SiloInputComponent.obj $(APSROOT)\apsim\input\source\InputComponent.obj $(APSROOT)\apsim\input\source\StringVariant.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\Protocol\Protocol.lib
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib \
+	indy.lib 
 
 USERDEFINES = 
-SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface;$(APSROOT)\apsim\input\source
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 
