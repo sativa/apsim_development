@@ -174,6 +174,25 @@ void Scenarios::getFactorAttributes(const std::string& factorName,
 void Scenarios::createScenariosFromCurrent(const string& factorName,
                                            const vector<string>& factorValues)
    {
+   createScenariosFromCurrentInternal(factorName, factorValues);
+   makeScenarioNamesValid();
+   }
+
+// ------------------------------------------------------------------
+//  Short description:
+//    create multiple scenarios, based on the current scenario, given
+//    the factor name and 1 or more factor values.
+
+//  Notes:
+
+//  Changes:
+//    DPH 29/6/98
+//    dph 4/4/01 moved from drilldownform to Scenarios.
+
+// ------------------------------------------------------------------
+void Scenarios::createScenariosFromCurrentInternal(const string& factorName,
+                                                   const vector<string>& factorValues)
+   {
    if (factorValues.size() == 1)
       currentScenario->setFactorValue(factorName, *(factorValues.begin()));
    else
@@ -212,6 +231,7 @@ void Scenarios::createScenarioPermutation(const string& factorName,
       setCurrentScenario(*n);
       createScenariosFromCurrent(factorName, factorValues);
       }
+   makeScenarioNamesValid();
    }
 
 // ------------------------------------------------------------------
@@ -384,3 +404,66 @@ TValueSelectionForm*  Scenarios::getUIForm(const string& factor_name, TComponent
    {
       return currentScenario->getUIForm(factor_name, Owner);
    }
+
+struct FactorInfo
+   {
+   FactorInfo(const string& n, const string& v)
+      : name(n), value(v), isDifferent(false) { }
+   void setValue(const string& v)
+      {
+      if (value != v)
+         isDifferent = true;
+      }
+   string name;
+   string value;
+   bool isDifferent;
+   };
+
+// ------------------------------------------------------------------
+// Make sure all scenario names is valid and reflects the factor values.
+// ------------------------------------------------------------------
+void Scenarios::makeScenarioNamesValid(void)
+   {
+   typedef vector<FactorInfo> FactorInfos;
+   FactorInfos allFactors;
+
+   // Create a container of factor names and values and whether they are
+   // different between more than one scenario.
+   for (ScenarioContainer::iterator scenario = scenarios.begin();
+                                    scenario != scenarios.end();
+                                    scenario++)
+      {
+      vector<Factor> factors;
+      (*scenario)->getFactors(factors);
+      for (vector<Factor>::iterator factor = factors.begin();
+                                    factor != factors.end();
+                                    factor++)
+         {
+         FactorInfos::iterator i = find(allFactors.begin(),
+                                        allFactors.end(),
+                                        factor->getName());
+         if (i == allFactors.end())
+            allFactors.push_back(FactorInfo(factor->getName(), factor->getValue()));
+         else
+            i->setValue(factor->getValue());
+         }
+      }
+
+   // Loop through all scenarios and change name to reflect all factors in
+   // our container of factors.
+   for (ScenarioContainer::iterator scenario = scenarios.begin();
+                                    scenario != scenarios.end();
+                                    scenario++)
+      {
+      string newName;
+      for (FactorInfos::iterator factor = allFactors.begin();
+                                 factor != allFactors.end();
+                                 factor++)
+         {
+         if (newName != "")
+            newName += ";";
+         newName += factor->name + "=" + (*scenario)->getFactorValue(factor->name);
+         }
+      }
+   }
+
