@@ -9,25 +9,30 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Gympie Irrigated
-     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim32\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\program files\apsim32\apsim\operatns\lib\operatns.dll
-     Component DLL          = c:\program files\apsim32\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim32\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim32\apsim\forest\lib\forest.dll
-     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Growth\lib\Growth.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  4/02/1987
      Simulation end date   =  4/02/1997
      Time step =           = 1440 (mins)
@@ -36,45 +41,45 @@
      Output variables:
         clock.day
         clock.year
-        clock.today.dd/mm/yyyy as date
+        clock.dd/mm/yyyy as date
         Egrandis.age
         soilwat2.esw
-        tracker1.sum@soilwat2.runoff
-        tracker1.sum@soilwat2.drain
-        tracker1.sum@soilwat2.es
-        tracker1.sum@irrigate.irrigation
+        tracker1.sum@soilwat2_runoff
+        tracker1.sum@soilwat2_drain
+        tracker1.sum@soilwat2_es
+        tracker1.sum@irrigate_irrigation
         soiln2.no3()
         soiln2.nh4()
         soiln2.biom_n()
         soiln2.fom_n()
         soiln2.hum_n()
-        tracker1.sum@soiln2.dlt_n_min[]
+        tracker1.sum@soiln2_dlt_n_min[]
         residue2.residue_wt
         residue2.residue_n
         Egrandis.lai
-        tracker1.avg@Egrandis.Fn
-        tracker1.avg@Egrandis.Fw
-        tracker1.avg@Egrandis.Fvpd
-        tracker1.avg@Egrandis.ft
+        tracker1.avg@Egrandis_Fn
+        tracker1.avg@Egrandis_Fw
+        tracker1.avg@Egrandis_Fvpd
+        tracker1.avg@Egrandis_ft
         Egrandis.adm_green(1) as stem_wt
         Egrandis.adm_green(2) as branch_wt
         Egrandis.adm_green(3) as bark_wt
         Egrandis.foliage_mass as leaf_wt
         Egrandis.root_mass
         Egrandis.adm_sen()
-        tracker1.avg@Egrandis.sw_demand
+        tracker1.avg@Egrandis_sw_demand
         Egrandis.ep
         Egrandis.height
-        tracker1.sum@Egrandis.dlt_adm_green[1] as dlt_stem_wt
-        tracker1.sum@Egrandis.dlt_adm_green[2] as dlt_branch_wt
-        tracker1.sum@Egrandis.dlt_adm_green[3] as dlt_bark_wt
-        tracker1.sum@Egrandis.dlt_foliage_mass as dlt_leaf_wt
+        tracker1.sum@Egrandis_dlt_adm_green[1] as dlt_stem_wt
+        tracker1.sum@Egrandis_dlt_adm_green[2] as dlt_branch_wt
+        tracker1.sum@Egrandis_dlt_adm_green[3] as dlt_bark_wt
+        tracker1.sum@Egrandis_dlt_foliage_mass as dlt_leaf_wt
         Egrandis.foliage_n
         Egrandis.an_green(1) as stem_n
         Egrandis.an_green(2) as branch_n
         Egrandis.an_green(3) as bark_n
-        tracker1.sum@Egrandis.n_demand
-        tracker1.sum@Egrandis.dlt_no3[]
+        tracker1.sum@Egrandis_n_demand
+        tracker1.sum@Egrandis_dlt_no3[]
         Egrandis.plants
         soiln2.carbon_tot(1)
         soiln2.carbon_tot(2)
@@ -85,16 +90,16 @@
         manager.oc1
         manager.oc2
         manager.volume
-        tracker1.sum@soilwat2.flow_no3[5]
-        tracker1.sum@soilwat2.flow_no3[8]
+        tracker1.sum@soilwat2_flow_no3[5]
+        tracker1.sum@soilwat2_flow_no3[8]
         Egrandis.total_n
         soiln2.nit_tot()
-        tracker1.sum@Egrandis.dlt_no3
+        tracker1.sum@Egrandis_dlt_no3
         Egrandis.rlv
         soilwat2.dlayer
-        tracker1.sum@micromet.interception
-        tracker1.sum@met.rain
-        tracker1.sum@fertiliz.fertiliser
+        tracker1.sum@micromet_interception
+        tracker1.sum@met_rain
+        tracker1.sum@fertiliz_fertiliser
      
      Output file = i.out
      Format = normal
@@ -546,13 +551,6 @@
         egrandis establish plants = 1111, init_section = seedling
      endif
      
-     SECTION:- start_of_day
-     
-     SECTION:- start_of_day
-     if day = 1 and year = 1994 then
-        automatic_irrigation = 'off'
-     endif
-     
      SECTION:- end_of_day
      if day = 35 and year = 1987 then
         residue2 add_residue  dlt_residue_wt = 75000 (kg/ha), dlt_residue_cnr = 100 , dlt_residue_type = grandis
@@ -565,6 +563,13 @@
      volume = (adm_green(1) + adm_green(3) + foliage_mass)/1000. * 1000./500.
      if end_week = 1 then
         report do_output
+     endif
+     
+     SECTION:- start_of_day
+     
+     SECTION:- start_of_day
+     if day = 1 and year = 1994 then
+        automatic_irrigation = 'off'
      endif
      END of rules
      
@@ -715,28 +720,28 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        sum of soilwat2.runoff since report.reported as sum@soilwat2.runoff on process
-        sum of soilwat2.drain since report.reported as sum@soilwat2.drain on process
-        sum of soilwat2.es since report.reported as sum@soilwat2.es on process
-        sum of irrigate.irrigation since report.reported as sum@irrigate.irrigation on process
-        sum of soiln2.dlt_n_min() since report.reported as sum@soiln2.dlt_n_min[] on process
-        average of Egrandis.Fn since report.reported as avg@Egrandis.Fn on process
-        average of Egrandis.Fw since report.reported as avg@Egrandis.Fw on process
-        average of Egrandis.Fvpd since report.reported as avg@Egrandis.Fvpd on process
-        average of Egrandis.ft since report.reported as avg@Egrandis.ft on process
-        average of Egrandis.sw_demand since report.reported as avg@Egrandis.sw_demand on process
-        sum of Egrandis.dlt_adm_green(1) since report.reported as sum@Egrandis.dlt_adm_green[1] on process
-        sum of Egrandis.dlt_adm_green(2) since report.reported as sum@Egrandis.dlt_adm_green[2] on process
-        sum of Egrandis.dlt_adm_green(3) since report.reported as sum@Egrandis.dlt_adm_green[3] on process
-        sum of Egrandis.dlt_foliage_mass since report.reported as sum@Egrandis.dlt_foliage_mass on process
-        sum of Egrandis.n_demand since report.reported as sum@Egrandis.n_demand on process
-        sum of Egrandis.dlt_no3() since report.reported as sum@Egrandis.dlt_no3[] on process
-        sum of soilwat2.flow_no3(5) since report.reported as sum@soilwat2.flow_no3[5] on process
-        sum of soilwat2.flow_no3(8) since report.reported as sum@soilwat2.flow_no3[8] on process
-        sum of Egrandis.dlt_no3 since report.reported as sum@Egrandis.dlt_no3 on process
-        sum of micromet.interception since report.reported as sum@micromet.interception on process
-        sum of met.rain since report.reported as sum@met.rain on process
-        sum of fertiliz.fertilizer since report.reported as sum@fertiliz.fertiliser on process
+        sum of soilwat2.runoff since report.reported as sum@soilwat2_runoff on process
+        sum of soilwat2.drain since report.reported as sum@soilwat2_drain on process
+        sum of soilwat2.es since report.reported as sum@soilwat2_es on process
+        sum of irrigate.irrigation since report.reported as sum@irrigate_irrigation on process
+        sum of soiln2.dlt_n_min() since report.reported as sum@soiln2_dlt_n_min[] on process
+        average of Egrandis.Fn since report.reported as avg@Egrandis_Fn on process
+        average of Egrandis.Fw since report.reported as avg@Egrandis_Fw on process
+        average of Egrandis.Fvpd since report.reported as avg@Egrandis_Fvpd on process
+        average of Egrandis.ft since report.reported as avg@Egrandis_ft on process
+        average of Egrandis.sw_demand since report.reported as avg@Egrandis_sw_demand on process
+        sum of Egrandis.dlt_adm_green(1) since report.reported as sum@Egrandis_dlt_adm_green[1] on process
+        sum of Egrandis.dlt_adm_green(2) since report.reported as sum@Egrandis_dlt_adm_green[2] on process
+        sum of Egrandis.dlt_adm_green(3) since report.reported as sum@Egrandis_dlt_adm_green[3] on process
+        sum of Egrandis.dlt_foliage_mass since report.reported as sum@Egrandis_dlt_foliage_mass on process
+        sum of Egrandis.n_demand since report.reported as sum@Egrandis_n_demand on process
+        sum of Egrandis.dlt_no3() since report.reported as sum@Egrandis_dlt_no3[] on process
+        sum of soilwat2.flow_no3(5) since report.reported as sum@soilwat2_flow_no3[5] on process
+        sum of soilwat2.flow_no3(8) since report.reported as sum@soilwat2_flow_no3[8] on process
+        sum of Egrandis.dlt_no3 since report.reported as sum@Egrandis_dlt_no3 on process
+        sum of micromet.interception since report.reported as sum@micromet_interception on process
+        sum of met.rain since report.reported as sum@met_rain on process
+        sum of fertiliz.fertilizer since report.reported as sum@fertiliz_fertiliser on process
 ------- Start of simulation  --------------------------------------------------
 4 February 1987(Day of year=35), manager: 
      Manager sending message :- egrandis establish  plants = 1111, init_section = seedling
@@ -1043,59 +1048,6 @@
       Sending apply message to irrigate
 29 January 1990(Day of year=29), operatns: 
       Sending apply message to irrigate
-6 February 1990(Day of year=37), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.4656613E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 February 1990(Day of year=38), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 February 1990(Day of year=38), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.4656613E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 February 1990(Day of year=38), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.4654975E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 8 February 1990(Day of year=39), operatns: 
       Sending apply message to irrigate
 15 February 1990(Day of year=46), operatns: 
@@ -1106,98 +1058,10 @@
       Sending apply message to irrigate
 8 March 1990(Day of year=67), operatns: 
       Sending apply message to irrigate
-11 March 1990(Day of year=70), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 March 1990(Day of year=71), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 March 1990(Day of year=71), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 March 1990(Day of year=71), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 15 March 1990(Day of year=74), operatns: 
       Sending apply message to irrigate
 22 March 1990(Day of year=81), operatns: 
       Sending apply message to irrigate
-23 March 1990(Day of year=82), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-24 March 1990(Day of year=83), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-24 March 1990(Day of year=83), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-24 March 1990(Day of year=83), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 29 March 1990(Day of year=88), operatns: 
       Sending apply message to irrigate
 8 April 1990(Day of year=98), operatns: 
@@ -1212,50 +1076,6 @@
       Sending apply message to irrigate
 15 May 1990(Day of year=135), operatns: 
       Sending apply message to irrigate
-19 May 1990(Day of year=139), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-20 May 1990(Day of year=140), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-20 May 1990(Day of year=140), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-20 May 1990(Day of year=140), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 22 May 1990(Day of year=142), operatns: 
       Sending apply message to irrigate
 29 May 1990(Day of year=149), operatns: 
@@ -1290,50 +1110,6 @@
       Sending apply message to irrigate
 22 September 1990(Day of year=265), operatns: 
       Sending apply message to irrigate
-23 September 1990(Day of year=266), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.5820766E-10)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-24 September 1990(Day of year=267), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-24 September 1990(Day of year=267), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-24 September 1990(Day of year=267), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.5820766E-10)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 29 September 1990(Day of year=272), operatns: 
       Sending apply message to irrigate
 8 October 1990(Day of year=281), operatns: 
@@ -1362,50 +1138,6 @@
       Sending apply message to irrigate
 8 January 1991(Day of year=8), operatns: 
       Sending apply message to irrigate
-11 January 1991(Day of year=11), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 January 1991(Day of year=12), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 January 1991(Day of year=12), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 January 1991(Day of year=12), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 15 January 1991(Day of year=15), operatns: 
       Sending apply message to irrigate
 22 January 1991(Day of year=22), operatns: 
@@ -1434,93 +1166,6 @@
       Sending apply message to irrigate
 22 April 1991(Day of year=112), operatns: 
       Sending apply message to irrigate
-24 April 1991(Day of year=114), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-25 April 1991(Day of year=115), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-25 April 1991(Day of year=115), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-25 April 1991(Day of year=115), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.4656613E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-26 April 1991(Day of year=116), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-26 April 1991(Day of year=116), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-26 April 1991(Day of year=116), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.4656613E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 29 April 1991(Day of year=119), operatns: 
       Sending apply message to irrigate
 8 May 1991(Day of year=128), operatns: 
@@ -1533,50 +1178,6 @@
       Sending apply message to irrigate
 8 June 1991(Day of year=159), operatns: 
       Sending apply message to irrigate
-8 June 1991(Day of year=159), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 June 1991(Day of year=160), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 June 1991(Day of year=160), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 June 1991(Day of year=160), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 15 June 1991(Day of year=166), operatns: 
       Sending apply message to irrigate
 22 June 1991(Day of year=173), operatns: 
@@ -1631,50 +1232,6 @@
       Sending apply message to irrigate
 29 December 1991(Day of year=363), operatns: 
       Sending apply message to irrigate
-3 January 1992(Day of year=3), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.3725290E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 January 1992(Day of year=4), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 January 1992(Day of year=4), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 January 1992(Day of year=4), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.3725290E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 8 January 1992(Day of year=8), operatns: 
       Sending apply message to irrigate
 15 January 1992(Day of year=15), operatns: 
@@ -1775,50 +1332,6 @@
       Sending apply message to irrigate
 15 January 1993(Day of year=15), operatns: 
       Sending apply message to irrigate
-20 January 1993(Day of year=20), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-21 January 1993(Day of year=21), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-21 January 1993(Day of year=21), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-21 January 1993(Day of year=21), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 22 January 1993(Day of year=22), operatns: 
       Sending apply message to irrigate
 29 January 1993(Day of year=29), operatns: 
@@ -1831,50 +1344,6 @@
       Sending apply message to irrigate
 1 March 1993(Day of year=60), operatns: 
       Sending apply message to irrigate
-3 March 1993(Day of year=62), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.3725290E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 March 1993(Day of year=63), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 March 1993(Day of year=63), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 March 1993(Day of year=63), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.3725290E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 8 March 1993(Day of year=67), operatns: 
       Sending apply message to irrigate
 15 March 1993(Day of year=74), operatns: 
@@ -1901,50 +1370,6 @@
       Sending apply message to irrigate
 8 June 1993(Day of year=159), operatns: 
       Sending apply message to irrigate
-12 June 1993(Day of year=163), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-13 June 1993(Day of year=164), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-13 June 1993(Day of year=164), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-13 June 1993(Day of year=164), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 15 June 1993(Day of year=166), operatns: 
       Sending apply message to irrigate
 22 June 1993(Day of year=173), operatns: 
@@ -1961,50 +1386,6 @@
       Sending apply message to irrigate
 8 August 1993(Day of year=220), operatns: 
       Sending apply message to irrigate
-9 August 1993(Day of year=221), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 August 1993(Day of year=222), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 August 1993(Day of year=222), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 August 1993(Day of year=222), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 15 August 1993(Day of year=227), operatns: 
       Sending apply message to irrigate
 22 August 1993(Day of year=234), operatns: 
@@ -2045,59 +1426,6 @@
       Sending apply message to irrigate
 8 January 1994(Day of year=8), operatns: 
       Sending apply message to irrigate
-8 January 1994(Day of year=8), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.4656613E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 January 1994(Day of year=9), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 January 1994(Day of year=9), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.4656613E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 January 1994(Day of year=9), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.4654381E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 15 January 1994(Day of year=15), operatns: 
       Sending apply message to irrigate
 22 January 1994(Day of year=22), operatns: 
@@ -2120,931 +1448,5 @@
       Sending apply message to irrigate
 29 March 1994(Day of year=88), operatns: 
       Sending apply message to irrigate
-9 April 1994(Day of year=99), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 April 1994(Day of year=100), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 April 1994(Day of year=100), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 April 1994(Day of year=100), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-17 June 1994(Day of year=168), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-18 June 1994(Day of year=169), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-18 June 1994(Day of year=169), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-18 June 1994(Day of year=169), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-13 July 1994(Day of year=194), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-14 July 1994(Day of year=195), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-14 July 1994(Day of year=195), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-14 July 1994(Day of year=195), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-15 July 1994(Day of year=196), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-16 July 1994(Day of year=197), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-16 July 1994(Day of year=197), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-16 July 1994(Day of year=197), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-30 January 1995(Day of year=30), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-31 January 1995(Day of year=31), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-31 January 1995(Day of year=31), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.9313226E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-31 January 1995(Day of year=31), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9308573E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-21 May 1995(Day of year=141), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-22 May 1995(Day of year=142), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-22 May 1995(Day of year=142), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-22 May 1995(Day of year=142), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-29 May 1995(Day of year=149), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-30 May 1995(Day of year=150), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-30 May 1995(Day of year=150), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328306E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-30 May 1995(Day of year=150), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2326747E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-4 June 1995(Day of year=155), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-5 June 1995(Day of year=156), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-5 June 1995(Day of year=156), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-5 June 1995(Day of year=156), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-6 June 1995(Day of year=157), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 June 1995(Day of year=158), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 June 1995(Day of year=158), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 June 1995(Day of year=158), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-16 June 1995(Day of year=167), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-17 June 1995(Day of year=168), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-17 June 1995(Day of year=168), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-17 June 1995(Day of year=168), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-22 August 1995(Day of year=234), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-23 August 1995(Day of year=235), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-23 August 1995(Day of year=235), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328306E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.1176703E-13
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328189E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-23 August 1995(Day of year=235), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1175645E-13)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2327920E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-11 October 1995(Day of year=284), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 October 1995(Day of year=285), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 October 1995(Day of year=285), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328306E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-12 October 1995(Day of year=285), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2326784E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-29 February 1996(Day of year=60), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.3725290E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-1 March 1996(Day of year=61), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-1 March 1996(Day of year=61), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-1 March 1996(Day of year=61), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.3725290E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-6 May 1996(Day of year=127), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 May 1996(Day of year=128), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 May 1996(Day of year=128), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-7 May 1996(Day of year=128), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 May 1996(Day of year=130), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 May 1996(Day of year=131), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 May 1996(Day of year=131), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 May 1996(Day of year=131), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.1862645E-08)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-18 May 1996(Day of year=139), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-19 May 1996(Day of year=140), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-19 May 1996(Day of year=140), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328306E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-19 May 1996(Day of year=140), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2326877E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-9 June 1996(Day of year=161), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 June 1996(Day of year=162), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 June 1996(Day of year=162), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328306E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-10 June 1996(Day of year=162), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2327311E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-13 June 1996(Day of year=165), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-14 June 1996(Day of year=166), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-14 June 1996(Day of year=166), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-14 June 1996(Day of year=166), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.9313226E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-25 June 1996(Day of year=177), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2328306E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-26 June 1996(Day of year=178), Egrandis: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to     1000.0000000
-     Component name: Egrandis
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-26 June 1996(Day of year=178), soilwat2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Value of variable is out of bounds.
-     Variable: no3
-     Value:        0.0000000
-     Bounds:        0.0000000 to    30000.0000000
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound     0.000000    is > upper bound  -0.2328306E-09
-             Variable is not constrained
-     Component name: soilwat2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
-26 June 1996(Day of year=178), soiln2: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Lower bound (    0.000000    ) exceeds upper bound (  -0.2326888E-09)
-             Variable is not checked
-     Component name: soiln2
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 4 February 1997(Day of year=35), clock: 
      Simulation is terminating due to end criteria being met.

@@ -9,40 +9,45 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 3.2
+     Version                = 3.3
      Title                  = Grandis
-     Component DLL          = c:\program files\apsim32\apsim\log\lib\log.dll
-     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
-     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim32\apsim\micromet\lib\micromet.dll
-     Component DLL          = c:\program files\apsim32\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim32\apsim\irrigate\lib\irrigate.dll
-     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim32\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
-     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim32\apsim\forest\lib\forest.dll
-     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\log\lib\log.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\micromet\lib\micromet.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Growth\lib\Growth.dll
 
 ------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+        report
      Simulation start date =  9/04/1980
      Simulation end date   = 10/04/1994
      Time step =           = 1440 (mins)
 
 ------- report Initialisation -------------------------------------------------
      Output variables:
-        clock.today.dd/mm/yyyy as date
+        clock.dd/mm/yyyy as date
         clock.day
         clock.year
         Egrandis.age
         Egrandis.lai
-        tracker1.avg@Egrandis.Fn
-        tracker1.avg@Egrandis.Fw
-        tracker1.avg@Egrandis.Fvpd
-        tracker1.avg@Egrandis.ft
+        tracker1.avg@Egrandis_Fn
+        tracker1.avg@Egrandis_Fw
+        tracker1.avg@Egrandis_Fvpd
+        tracker1.avg@Egrandis_ft
         Egrandis.adm_green(1) as stem_wt
         Egrandis.adm_green(2) as branch_wt
         Egrandis.adm_green(3) as bark_wt
@@ -253,10 +258,10 @@
 
 ------- tracker1 Initialisation -----------------------------------------------
      Tracker variables:
-        average of Egrandis.Fn since report.reported as avg@Egrandis.Fn on process
-        average of Egrandis.Fw since report.reported as avg@Egrandis.Fw on process
-        average of Egrandis.Fvpd since report.reported as avg@Egrandis.Fvpd on process
-        average of Egrandis.ft since report.reported as avg@Egrandis.ft on process
+        average of Egrandis.Fn since report.reported as avg@Egrandis_Fn on process
+        average of Egrandis.Fw since report.reported as avg@Egrandis_Fw on process
+        average of Egrandis.Fvpd since report.reported as avg@Egrandis_Fvpd on process
+        average of Egrandis.ft since report.reported as avg@Egrandis_ft on process
 ------- Start of simulation  --------------------------------------------------
 10 April 1994(Day of year=100), clock: 
      Simulation is terminating due to end criteria being met.
