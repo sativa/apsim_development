@@ -1,7 +1,7 @@
 [general]
 name = source
 uses = %thispath\*.*
-apf = %thispath\..\..\base-source.apf
+apf = %apsuite\apsim\base-source.apf
 
 [source]
 source  = surface.for; %thispath\surface.for
