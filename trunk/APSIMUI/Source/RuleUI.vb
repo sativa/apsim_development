@@ -62,9 +62,9 @@ Public Class RuleUI
     Friend WithEvents GroupManagerRow1 As Xceed.Grid.GroupManagerRow
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents ScriptBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents Name As Xceed.Grid.Column
     Friend WithEvents cellColumnManagerRow1Column4 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents celldataRowTemplate1Column4 As Xceed.Grid.DataCell
+    Friend WithEvents NameColumn As Xceed.Grid.Column
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.celldataRowTemplate1Column1 = New Xceed.Grid.DataCell
         Me.celldataRowTemplate1Column2 = New Xceed.Grid.DataCell
@@ -74,22 +74,22 @@ Public Class RuleUI
         Me.Description = New Xceed.Grid.Column
         Me.Value = New Xceed.Grid.Column
         Me.Category = New Xceed.Grid.Column
+        Me.NameColumn = New Xceed.Grid.Column
         Me.dataRowTemplate1 = New Xceed.Grid.DataRow
         Me.celldataRowTemplate1Column11 = New Xceed.Grid.DataCell
         Me.celldataRowTemplate1Column21 = New Xceed.Grid.DataCell
         Me.celldataRowTemplate1Column3 = New Xceed.Grid.DataCell
+        Me.celldataRowTemplate1Column4 = New Xceed.Grid.DataCell
         Me.GroupByRow1 = New Xceed.Grid.GroupByRow
         Me.ColumnManagerRow1 = New Xceed.Grid.ColumnManagerRow
         Me.cellColumnManagerRow1Column1 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column2 = New Xceed.Grid.ColumnManagerCell
         Me.cellColumnManagerRow1Column3 = New Xceed.Grid.ColumnManagerCell
+        Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
         Me.Group1 = New Xceed.Grid.Group
         Me.GroupManagerRow1 = New Xceed.Grid.GroupManagerRow
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.ScriptBox = New System.Windows.Forms.RichTextBox
-        Me.Name = New Xceed.Grid.Column
-        Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
-        Me.celldataRowTemplate1Column4 = New Xceed.Grid.DataCell
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.PropertyGrid, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,7 +110,7 @@ Public Class RuleUI
         Me.TabControl1.Location = New System.Drawing.Point(0, 23)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(937, 611)
+        Me.TabControl1.Size = New System.Drawing.Size(937, 586)
         Me.TabControl1.TabIndex = 3
         '
         'TabPage1
@@ -118,7 +118,7 @@ Public Class RuleUI
         Me.TabPage1.Controls.Add(Me.PropertyGrid)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(929, 582)
+        Me.TabPage1.Size = New System.Drawing.Size(929, 557)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Properties"
         '
@@ -128,7 +128,7 @@ Public Class RuleUI
         Me.PropertyGrid.Columns.Add(Me.Description)
         Me.PropertyGrid.Columns.Add(Me.Value)
         Me.PropertyGrid.Columns.Add(Me.Category)
-        Me.PropertyGrid.Columns.Add(Me.Name)
+        Me.PropertyGrid.Columns.Add(Me.NameColumn)
         Me.PropertyGrid.DataRowTemplate = Me.dataRowTemplate1
         Me.PropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PropertyGrid.FixedHeaderRows.Add(Me.GroupByRow1)
@@ -142,7 +142,7 @@ Public Class RuleUI
         Me.PropertyGrid.RowSelectorPane.Visible = False
         Me.PropertyGrid.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.PropertyGrid.SingleClickEdit = True
-        Me.PropertyGrid.Size = New System.Drawing.Size(929, 582)
+        Me.PropertyGrid.Size = New System.Drawing.Size(929, 557)
         Me.PropertyGrid.TabIndex = 3
         Me.PropertyGrid.UIStyle = Xceed.Grid.UIStyle.UIStyle.WindowsXP
         '
@@ -175,6 +175,13 @@ Public Class RuleUI
         Me.Category.VisibleIndex = 2
         Me.Category.Initialize("Column3", GetType(System.String))
         '
+        'NameColumn
+        '
+        Me.NameColumn.Title = "Name"
+        Me.NameColumn.Visible = False
+        Me.NameColumn.VisibleIndex = 3
+        Me.NameColumn.Initialize("Column4", GetType(System.String))
+        '
         'dataRowTemplate1
         '
         Me.dataRowTemplate1.AccessibleName = "Data row 1 in data row template"
@@ -188,6 +195,7 @@ Public Class RuleUI
         Me.celldataRowTemplate1Column11.Initialize("Column1")
         Me.celldataRowTemplate1Column21.Initialize("Column2")
         Me.celldataRowTemplate1Column3.Initialize("Column3")
+        Me.celldataRowTemplate1Column4.Initialize("Column4")
         '
         'GroupByRow1
         '
@@ -214,6 +222,7 @@ Public Class RuleUI
         Me.cellColumnManagerRow1Column1.Initialize("Column1")
         Me.cellColumnManagerRow1Column2.Initialize("Column2")
         Me.cellColumnManagerRow1Column3.Initialize("Column3")
+        Me.cellColumnManagerRow1Column4.Initialize("Column4")
         '
         'Group1
         '
@@ -229,7 +238,7 @@ Public Class RuleUI
         Me.TabPage2.Controls.Add(Me.ScriptBox)
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(929, 582)
+        Me.TabPage2.Size = New System.Drawing.Size(-8, -29)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Script"
         '
@@ -239,24 +248,16 @@ Public Class RuleUI
         Me.ScriptBox.Font = New System.Drawing.Font("Courier New", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ScriptBox.Location = New System.Drawing.Point(0, 0)
         Me.ScriptBox.Name = "ScriptBox"
-        Me.ScriptBox.Size = New System.Drawing.Size(929, 582)
+        Me.ScriptBox.Size = New System.Drawing.Size(0, 0)
         Me.ScriptBox.TabIndex = 0
         Me.ScriptBox.Text = ""
-        '
-        'Name
-        '
-        Me.Name.Title = "Name"
-        Me.Name.Visible = False
-        Me.Name.VisibleIndex = 3
-        Me.Name.Initialize("Column4", GetType(System.String))
-        Me.cellColumnManagerRow1Column4.Initialize("Column4")
-        Me.celldataRowTemplate1Column4.Initialize("Column4")
         '
         'RuleUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(937, 674)
+        Me.ClientSize = New System.Drawing.Size(937, 649)
         Me.Controls.Add(Me.TabControl1)
+        Me.Name = "RuleUI"
         Me.Controls.SetChildIndex(Me.TabControl1, 0)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)

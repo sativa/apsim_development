@@ -404,16 +404,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "ReportingControl.vb"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ReportingControl.resx"
-                    DependentUpon = "ReportingControl.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "ReportVariablesListView.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
