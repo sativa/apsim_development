@@ -364,15 +364,18 @@ bool RotationAddIn::processRotation(TAPSTable& data,
       }
 
    // Tell values to do its output.
-   values.writeToDataset(rotationName, destData, firstYear, lastYear);
+   if (numDataBlocks > 0)
+      {
+      values.writeToDataset(rotationName, destData, firstYear, lastYear, numDataBlocks);
 
-   // Give all field names to destination dataset.
-   for (vector<string>::iterator fieldI = fieldNames.begin();
-                                 fieldI != fieldNames.end();
-                                 fieldI++)
+      // Give all field names to destination dataset.
+      for (vector<string>::iterator fieldI = fieldNames.begin();
+                                    fieldI != fieldNames.end();
+                                    fieldI++)
 
-      destData.addField(addPerYearToFieldName(*fieldI));
-   destData.markFieldAsAPivot("Simulation");
+         destData.addField(addPerYearToFieldName(*fieldI));
+      destData.markFieldAsAPivot("Simulation");
+      }
 
    return ok;
    }
