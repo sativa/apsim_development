@@ -1320,10 +1320,9 @@ void PlantFruit::N_retrans_avail(const int meal
 void PlantFruit::n_demand(const int max_part,           // (INPUT)
                         int   *demand_parts,          // (INPUT)
                         const int num_demand_parts,   // (INPUT)
-                        float G_dlt_dm_veg,           // (INPUT)  the daily biomass production (g/m^2)
+                        float G_dlt_dm,           // (INPUT)  the daily biomass production (g/m^2)
                         float *G_dlt_dm_green,        // (INPUT)  plant biomass growth (g/m^2)
                         float G_dlt_dm_pot_rue,       // (INPUT)  potential dry matter production from pods (g/m^2)
-                        float G_dlt_dm_pot_rue_veg,   // (INPUT)  potential dry matter production from veg (g/m^2)
                         float *G_dlt_n_retrans,       // (INPUT)  nitrogen retranslocated out from plant parts (g/m^2)
                         float *G_dm_green,            // (INPUT)  live plant dry weight (biomass g/m^2)
                         float *G_n_conc_crit,         // (INPUT)  critical N concentration (g N/g dm)
@@ -1380,9 +1379,9 @@ void PlantFruit::n_demand(const int max_part,           // (INPUT)
             // need to calculate dm using potential rue not affected by
             // N and temperature
 
-      part_fract = divide (G_dlt_dm_green[part], G_dlt_dm_veg, 0.0);
-      dlt_dm_pot = G_dlt_dm_pot_rue_veg * part_fract + G_dlt_dm_pot_rue;
-      dlt_dm_pot = bound (dlt_dm_pot, 0.0, G_dlt_dm_pot_rue_veg + G_dlt_dm_pot_rue);
+      part_fract = divide (G_dlt_dm_green[part], G_dlt_dm, 0.0);
+      dlt_dm_pot = G_dlt_dm_pot_rue * part_fract;
+      dlt_dm_pot = bound (dlt_dm_pot, 0.0, G_dlt_dm_pot_rue);
 
       if (G_dm_green[part] > 0.0)
       {
