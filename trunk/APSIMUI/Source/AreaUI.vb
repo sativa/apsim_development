@@ -90,11 +90,20 @@ Public Class areaui
         MyBase.Refresh()
 
         ListView.Clear()
-        Dim AreaList As New StringCollection
-        APSIMFile.GetChildListByType(DataPath, "area", AreaList)
-        Dim AreaName As String
-        For Each AreaName In AreaList
-            Dim item As New ListViewItem(AreaName, 0)
+        '        Dim AreaList As New StringCollection
+        '        APSIMFile.GetChildListByType(DataPath, "area", AreaList)
+        '        Dim AreaName As String
+        '        For Each AreaName In AreaList
+        '        Dim item As New ListViewItem(AreaName, 0)
+        '        item.ImageIndex = 0
+        '        ListView.Items.Add(item)
+        '        Next
+
+        Dim ChildList As New StringCollection
+        APSIMFile.GetChildList(DataPath, ChildList)
+        Dim ChildName As String
+        For Each ChildName In ChildList
+            Dim item As New ListViewItem(ChildName, 0)
             item.ImageIndex = 0
             ListView.Items.Add(item)
         Next
@@ -116,7 +125,8 @@ Public Class areaui
 
     Private Sub ListView_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragDrop
         Dim datastring As String = e.Data.GetData(DataFormats.Text)
-        Dim data As New APSIMFile(datastring, False)
+        Dim data As New APSIMFile
+        data.Data = datastring
         Dim caption As String = data.RootPath
         Dim item As New ListViewItem(caption, 0)
         ListView.Items.Add(item)

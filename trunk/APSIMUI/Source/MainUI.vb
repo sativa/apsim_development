@@ -7,12 +7,13 @@ Imports System.io
 Imports System.IO.Path
 
 
+
 Public Class MainUI
     Inherits System.Windows.Forms.Form
-    Private MainUImanager As UIManager
+    Private MainUImanager As New UIManager
 
     'Private Toolbox As New OutlookBar
-
+    
 
 #Region " Windows Form Designer generated code "
 
@@ -24,6 +25,11 @@ Public Class MainUI
 
         'Add any initialization after the InitializeComponent() call
         HelpBrowser.Navigate("c:\development\docs\documentation.xml")
+
+        ' Tell the UI manager where everything is
+        MainUImanager.UITabControl = MainTabControl
+        MainUImanager.SimulationExplorer = SimulationExplorer
+        MainUImanager.MainForm = Me
 
     End Sub
 
@@ -78,7 +84,6 @@ Public Class MainUI
     Friend WithEvents EditMenuPaste As System.Windows.Forms.MenuItem
     Friend WithEvents SimulationMenu As System.Windows.Forms.MenuItem
     Friend WithEvents SimulationMenuMake As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem6 As System.Windows.Forms.MenuItem
     Friend WithEvents UIHelpButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ExportButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents CutButton As System.Windows.Forms.ToolBarButton
@@ -99,6 +104,9 @@ Public Class MainUI
     Friend WithEvents HelpBrowsertoolBar As System.Windows.Forms.ToolBar
     Friend WithEvents SmallButtonImageList As System.Windows.Forms.ImageList
     Friend WithEvents HelpBrowserPanel As System.Windows.Forms.Panel
+    Friend WithEvents MenuItem5 As System.Windows.Forms.MenuItem
+    Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -120,7 +128,6 @@ Public Class MainUI
         Me.ViewMenuOptions = New System.Windows.Forms.MenuItem
         Me.SimulationMenu = New System.Windows.Forms.MenuItem
         Me.SimulationMenuMake = New System.Windows.Forms.MenuItem
-        Me.MenuItem6 = New System.Windows.Forms.MenuItem
         Me.HelpMenu = New System.Windows.Forms.MenuItem
         Me.HelpMenuAbout = New System.Windows.Forms.MenuItem
         Me.StatusBar1 = New System.Windows.Forms.StatusBar
@@ -158,6 +165,9 @@ Public Class MainUI
         Me.ForwardButton = New System.Windows.Forms.ToolBarButton
         Me.SmallButtonImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.HelpBrowser = New AxSHDocVw.AxWebBrowser
+        Me.MenuItem5 = New System.Windows.Forms.MenuItem
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+        Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
         Me.HelpBrowserPanel.SuspendLayout()
         CType(Me.HelpBrowser, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -169,7 +179,7 @@ Public Class MainUI
         'FileMenu
         '
         Me.FileMenu.Index = 0
-        Me.FileMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenuNew, Me.FileMenuOpen, Me.FileMenuSave, Me.MenuItem4, Me.FileMenuExit})
+        Me.FileMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.FileMenuNew, Me.FileMenuOpen, Me.FileMenuSave, Me.MenuItem5, Me.MenuItem4, Me.FileMenuExit})
         Me.FileMenu.MergeType = System.Windows.Forms.MenuMerge.MergeItems
         Me.FileMenu.Text = "&File"
         '
@@ -190,13 +200,13 @@ Public Class MainUI
         '
         'MenuItem4
         '
-        Me.MenuItem4.Index = 3
+        Me.MenuItem4.Index = 4
         Me.MenuItem4.MergeOrder = 2
         Me.MenuItem4.Text = "-"
         '
         'FileMenuExit
         '
-        Me.FileMenuExit.Index = 4
+        Me.FileMenuExit.Index = 5
         Me.FileMenuExit.MergeOrder = 2
         Me.FileMenuExit.Text = "E&xit"
         '
@@ -257,18 +267,13 @@ Public Class MainUI
         'SimulationMenu
         '
         Me.SimulationMenu.Index = 3
-        Me.SimulationMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SimulationMenuMake, Me.MenuItem6})
+        Me.SimulationMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.SimulationMenuMake})
         Me.SimulationMenu.Text = "&Simulation"
         '
         'SimulationMenuMake
         '
         Me.SimulationMenuMake.Index = 0
         Me.SimulationMenuMake.Text = "&Make Sim File"
-        '
-        'MenuItem6
-        '
-        Me.MenuItem6.Index = 1
-        Me.MenuItem6.Text = "Test"
         '
         'HelpMenu
         '
@@ -509,6 +514,15 @@ Public Class MainUI
         Me.HelpBrowser.Size = New System.Drawing.Size(763, 176)
         Me.HelpBrowser.TabIndex = 8
         '
+        'MenuItem5
+        '
+        Me.MenuItem5.Index = 3
+        Me.MenuItem5.Text = "Save &As ..."
+        '
+        'SaveFileDialog
+        '
+        Me.SaveFileDialog.Filter = "XML Files|*.xml|All Files|*.*"
+        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -520,6 +534,7 @@ Public Class MainUI
         Me.Controls.Add(Me.SimulationExplorer)
         Me.Controls.Add(Me.ToolBar1)
         Me.Controls.Add(Me.StatusBar1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Menu = Me.MainMenu1
         Me.Name = "MainUI"
         Me.Text = "APSIM"
@@ -534,11 +549,7 @@ Public Class MainUI
     Sub OpenAPSimFile(ByVal Filename As String)
         Try
             If File.Exists(Filename) Then
-                MainUImanager = New UIManager(MainTabControl, SimulationExplorer, Filename)
-                MainUImanager.FillSimulationExplorer()
-                SimulationExplorer.SelectedNode = SimulationExplorer.Nodes(0)
-                SimulationExplorer.SelectedNode.Expand()
-
+                MainUImanager.DataSource = Filename
             Else
                 MsgBox("Cannot open :" + Filename, MsgBoxStyle.Critical, "File does not exist")
             End If
@@ -550,6 +561,7 @@ Public Class MainUI
     End Sub
     Sub GetAndOpenAPSimFile()
         Try
+
             If OpenFileDialog.ShowDialog() = DialogResult.OK Then
                 OpenAPSimFile(OpenFileDialog.FileName)
             Else
@@ -560,7 +572,18 @@ Public Class MainUI
         End Try
 
     End Sub
-
+    Sub OpenNewFile()
+        Try
+            Dim inifile As New APSIMSettings
+            Dim newfile As String = inifile.GetSetting("apsimui", "newfile")
+            Dim text As String
+            Dim sr As StreamReader = New StreamReader(newfile)
+            text = sr.ReadToEnd
+            MainUImanager.DataSource = text
+        Catch e As Exception
+            MsgBox(e.Message, MsgBoxStyle.Critical, "Error openinig document template")
+        End Try
+    End Sub
     Private Sub FileMenuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuExit.Click
         End
     End Sub
@@ -570,7 +593,7 @@ Public Class MainUI
 
     Private Sub ToolBar1_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles ToolBar1.ButtonClick
         If e.Button Is FileNewButton Then
-            'OpenNewFile()
+            OpenNewFile()
         ElseIf e.Button Is FileOpenButton Then
             GetAndOpenAPSimFile()
         ElseIf e.Button Is FileSaveButton Then
@@ -591,7 +614,16 @@ Public Class MainUI
     End Sub
 
     Private Sub FileMenuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuSave.Click
-        MainUImanager.SaveDocument()
+
+        If File.Exists(MainUImanager.APSIMFileName) Then
+            MainUImanager.SaveDocument()
+        Else
+            If SaveFileDialog.ShowDialog() = DialogResult.OK Then
+                MainUImanager.SaveDocumentAs(SaveFileDialog.FileName)
+            Else
+                ' User cancelled file open operation
+            End If
+        End If
     End Sub
 
     Private Sub TabContextMenuClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenuClose.Click
@@ -640,10 +672,6 @@ Public Class MainUI
         optfrm.Show()
     End Sub
 
-    Private Sub SimulationExplorer_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs)
-
-    End Sub
-
     Private Sub SimulationExplorer_AfterLabelEdit(ByVal sender As System.Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs)
         Dim oldname As String = SimulationExplorer.SelectedNode.Text
         Dim newname As String = e.Label
@@ -654,7 +682,7 @@ Public Class MainUI
         mf.Transform(MainUImanager.APSIMFileName, "C:\temp\macro.txt", "C:\temp")
     End Sub
 
-    Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem6.Click
+    Private Sub MenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim inifile As New APSIMSettings
         Dim value As String
         value = inifile.GetSetting("Apsim", "left")
@@ -789,6 +817,26 @@ Public Class MainUI
     End Sub
 
     Private Sub TabContextMenu_Popup(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabContextMenu.Popup
+
+    End Sub
+
+    Private Sub FileMenuNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileMenuNew.Click
+        OpenNewFile()
+
+
+    End Sub
+
+    Private Sub MenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem5.Click
+        If SaveFileDialog.ShowDialog() = DialogResult.OK Then
+            MainUImanager.SaveDocumentAs(SaveFileDialog.FileName)
+        Else
+            ' User cancelled file open operation
+        End If
+
+
+    End Sub
+
+    Private Sub OpenFileDialog_FileOk(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog.FileOk
 
     End Sub
 End Class
