@@ -16,7 +16,8 @@ PROJECTS = general.lib ApsimShared.dll SEGReport.bpl StandardControls.dll \
   SummaryFile.dll Input.dll report.dll Screen.dll Tracker.dll APSGeneral.bpl \
   apsdata.bpl ApsimOutlook.exe dbaddin.dll DamEasyAddin.dll FilterAddIn.dll \
   RotationAddIn.dll soiaddin.dll WhopEconAddin.dll OutlookManager.exe \
-  FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll
+  FilterBarPackage.bpl SoilAPI.dll import.exe apsoil.exe Test.dll icons.dll \
+  SendToExcel.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -162,6 +163,14 @@ CreateComponentInterfaceSource.exe: APSBuild\source\CreateComponentInterfaceSour
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
 CreateDataTypesSource.exe: APSBuild\source\CreateDataTypesSource.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+icons.dll: ShellExt\source\icons.bpr
+  $(ROOT)\bin\bpr2mak $**
+  $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
+
+SendToExcel.exe: ShellExt\source\SendToExcel.bpr
   $(ROOT)\bin\bpr2mak $**
   $(ROOT)\bin\make -$(MAKEFLAGS) -f$*.mak
 
