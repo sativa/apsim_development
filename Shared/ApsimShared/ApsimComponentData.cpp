@@ -320,10 +320,10 @@ void ApsimComponentData::addRule(const string& name,
       XMLNode child = rules.appendChild("rule", true);
       child.setAttribute("name", name);
       child.setAttribute("condition", condition);
-      child.setValue(sanitisedContents, true);
+      child.setValue(sanitisedContents);
       }
    else
-      rule->setValue(sanitisedContents, true);
+      rule->setValue(sanitisedContents);
    }
 // ------------------------------------------------------------------
 // Return the contents of this service as an xml string.

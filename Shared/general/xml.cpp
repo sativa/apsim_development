@@ -154,12 +154,11 @@ void XMLNode::setAttribute(const string& attributeName,
       }
    }
 // ------------------------------------------------------------------
-// Set the value of this node.  If asCData = true, then the text
-// will be added as a CData section.
+// Set the value of this node.
 // ------------------------------------------------------------------
-void XMLNode::setValue(const std::string& value, bool asCData)
+void XMLNode::setValue(const std::string& value)
    {
-   if (asCData)
+   if (value.find_first_of("&<>") != string::npos)
       {
       xmlNode* cdata = xmlNewCDataBlock(node->doc, value.c_str(), value.length());
       xmlAddChild(node, cdata);
