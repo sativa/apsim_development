@@ -7,7 +7,6 @@ module DataStrModule
    ! ====================================================================
       function get_units_from_string(record)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -72,9 +71,9 @@ module DataStrModule
    ! ====================================================================
       function get_units (record)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -148,7 +147,6 @@ module DataStrModule
    ! ====================================================================
       subroutine split_off_units (record, units)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use StringModule
       implicit none
 
@@ -229,7 +227,6 @@ module DataStrModule
    !     ===========================================================
       function remove_units (string)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -309,9 +306,9 @@ module DataStrModule
    ! ====================================================================
       subroutine string_to_real_var (value_string, value, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -399,9 +396,9 @@ module DataStrModule
    ! ====================================================================
       subroutine String_to_real_array(Value_string, array, limit, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -608,9 +605,9 @@ module DataStrModule
    ! ====================================================================
       subroutine string_to_double_var (value_string, value, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -684,9 +681,9 @@ module DataStrModule
    ! ====================================================================
       subroutine String_to_double_array(Value_string, array, limit, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -796,9 +793,9 @@ module DataStrModule
    ! ====================================================================
       subroutine string_to_logical_var (value_string, value, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -861,9 +858,9 @@ module DataStrModule
    ! ====================================================================
       subroutine String_to_logical_array(Value_string, array, limit, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -972,9 +969,9 @@ module DataStrModule
    ! ====================================================================
       subroutine String_to_char_array(Value_string, array, limit, numvals)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1104,7 +1101,6 @@ module DataStrModule
    ! ====================================================================
       subroutine Real_array_to_string(array, numvals, value_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -1198,7 +1194,6 @@ module DataStrModule
    ! ====================================================================
       subroutine Integer_array_to_string(array, numvals, value_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -1278,7 +1273,6 @@ module DataStrModule
    ! ====================================================================
       subroutine Double_array_to_string(array, numvals, value_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -1379,7 +1373,6 @@ module DataStrModule
    ! ====================================================================
       subroutine Logical_array_to_string(array, numvals, value_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -1440,7 +1433,6 @@ module DataStrModule
    ! ====================================================================
       subroutine Char_array_to_string(array, numvals, value_string)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -1651,7 +1643,6 @@ module DataStrModule
    ! ====================================================================
        subroutine get_next_variable (variables_str, var_name, values_str)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       use StringModule
       implicit none
@@ -1741,7 +1732,7 @@ module DataStrModule
 ! ====================================================================
       logical function get_char_variable(line, key, value, optval)
 ! ====================================================================
-      use ComponentcInterfaceModule
+      use ErrorModule
       implicit none
 
       character key*(*)
@@ -1794,7 +1785,6 @@ module DataStrModule
 !*******************************************************************************************
       logical function get_real_variable(line,key,value,optval)
 ! ====================================================================
-      use ComponentcInterfaceModule
       implicit none
 
       character key*(*)
@@ -1818,7 +1808,6 @@ module DataStrModule
 ! ====================================================================
       logical function get_integer_variable(line,key,value,optval)
 ! ====================================================================
-      use ComponentcInterfaceModule
       implicit none
 
       character key*(*)

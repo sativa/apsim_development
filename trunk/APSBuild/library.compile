@@ -1,6 +1,6 @@
 [Instructions]
 import   = %apsuite\apsim\infra\lib\apsimengine.imp
-include  = %apsuite\apsim\infra
+include  = %apsuite\apsim\infra;%apsuite\apsim\infra\componentinterface
 module   = .
 module   = %apsuite\apsim\infra\source
 ;module   = %apsuite\shared\componentinterface

@@ -9,3 +9,7 @@
 -import    ApsimComponentData_getRuleCondition
 -implib  "test.dll"
 -import    test                      
+-implib  "apsimengine.dll"
+-import    ei_create
+-import    ei_free
+-import    summary_writeline

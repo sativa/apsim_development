@@ -57,12 +57,6 @@ module ConstantsModule
    ! Message delimiter
    character (len=*), parameter :: Mes_delimiter = ','
 
-   ! Internal error specifier
-   integer, parameter :: ERR_internal = 1
-
-   ! User error specifier
-   integer, parameter :: Err_user = 2
-
    ! Len. of string returned by char. fun.
    integer, parameter :: Function_string_len = 600
 
@@ -72,6 +66,10 @@ module ConstantsModule
    ! maximum year for APSIM simulations.
    integer, parameter :: max_year = 2200
 
+   character (len=*), parameter :: All_active_modules ='act_mods'
+   character (len=*), parameter :: Unknown_module = 'unk_mod'
+   character (len=*), parameter :: First_active_module = 'unk_mod'
+                                                      
    ! Smallest number considered to be zero
    real, parameter :: close_enough_to_zero = 1.0e-15
 
@@ -105,6 +103,14 @@ module ConstantsModule
 
    ! identifier for no section returned
    character (len=*), parameter :: no_section = ' '
+
+   character (len=*), parameter :: ACTION_Create        = 'create'
+   character (len=*), parameter :: ACTION_Init          = 'init'
+   character (len=*), parameter :: ACTION_Get_variable = 'get'
+   character (len=*), parameter :: ACTION_Set_variable = 'set'
+   character (len=*), parameter :: ACTION_Prepare      = 'prepare'
+   character (len=*), parameter :: ACTION_Process      = 'process'
+   character (len=*), parameter :: ACTION_Post         = 'post'
 
 end module ConstantsModule
 

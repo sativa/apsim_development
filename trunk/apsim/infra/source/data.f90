@@ -45,7 +45,6 @@
    ! ===========================================================
       subroutine copy_real_array(dest, src, n)
    ! ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -91,7 +90,6 @@
    ! ===========================================================
       subroutine array_val_mul(vec, n, mul)
    ! ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -136,7 +134,6 @@
    ! ===========================================================
       subroutine print_real_array(unt, vec, nvars)
    ! ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -282,8 +279,8 @@
    ! ===========================================================
       subroutine bound_check_single (value, lower, upper, vname)
    ! ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -403,7 +400,6 @@
       subroutine bound_check_single_array &
          (array, lower_bound, upper_bound, array_name, array_size)
    ! ================================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -517,7 +513,6 @@
       subroutine bound_check_integer4_array  &
          (array, lower_bound, upper_bound, array_name, array_size)
    ! ================================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -631,7 +626,6 @@
       subroutine bound_check_double_array  &
          (array, lower_bound, upper_bound, array_name, array_size)
    !     ================================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -757,8 +751,8 @@
    !     ===========================================================
       real function bound (var, lower, upper)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1015,8 +1009,8 @@
    !     ===========================================================
       subroutine Check_real_array_empty (array, limit, aname)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
+      use ErrorModule
       implicit none
 
 
@@ -1444,7 +1438,6 @@
    ! ====================================================================
        subroutine Fill_logical_array (array, value, size_of)
    ! ====================================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1489,7 +1482,6 @@
    ! ====================================================================
        subroutine Fill_char_array (array, string, size_of)
    ! ====================================================================
-      use ComponentCInterfaceModule
       use StringModule
       implicit none
 
@@ -1772,7 +1764,6 @@
    !     ===========================================================
       real function sum_part_of_real_array (array, start, stop, size_of)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1836,7 +1827,6 @@
       integer function sum_part_of_integer_array &
          (array, start, stop, size_of)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1908,7 +1898,6 @@
    !     ===========================================================
       real function sum_between (start, finish, array)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+  Sub-Program Arguments
@@ -1961,7 +1950,6 @@
    !     ===========================================================
       real function sum_part_of_real (array, start, stop, size_of)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -2031,7 +2019,6 @@
    !     ===========================================================
       integer function sum_part_of_integer (array, start, stop, size_of)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -2302,7 +2289,6 @@
    !     ===========================================================
       real function round_to_zero (var)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -2339,7 +2325,7 @@
       subroutine assert(isok, whatchkd)
    !     ===========================================================
       use ConstantsModule
-      use ComponentCInterfaceModule
+      use ErrorModule
       implicit none
 
    !+  Sub-Program Arguments

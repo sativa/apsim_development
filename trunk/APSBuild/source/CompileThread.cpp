@@ -192,6 +192,9 @@ void CompileThread::compileProject (ApsimProject& apf)
       // make sure the binary path exists.
       CreateDirectory (BinaryFile.Get_directory().c_str(), NULL);
 
+      if (!Terminated)
+         runExternalProgram(apf);
+
       // create an AUTOMAKE file for this binary.
       if (!Terminated)
          createAutoMakeFile (apf, BinaryFile);
@@ -326,9 +329,6 @@ void CompileThread::runAutoMake (ApsimProject& apf, Path& BinaryFile)
    // display message on screen.
    Message = "<B>Creating: </B>DataTypesModule.f90...";
    Synchronize(goDisplayMessage2);
-
-   // go create the component interface file - datatypesmodule.f90
-   createDataTypesModule(apf);
 
    // display message on screen.
    Message = "<B>Creating: </B>DataTypesModule.f90.  Done!";
@@ -484,35 +484,6 @@ void CompileThread::deleteFiles (ApsimProject& apf, const char* filespec)
       }
    }
 // ------------------------------------------------------------------
-// Create a DataTypesModule.f90 file for this module.
-// ------------------------------------------------------------------
-void CompileThread::createDataTypesModule(ApsimProject& apf)
-   {
-   // need to work out the name of the interface file.
-   // It does this by looking at the name of the binary file and
-   // assuming the interface file has the same name but with a .interface
-   // extension and exists in the parent directory of the apf passed in.
-   vector<string> binaryFileNames;
-   getBinaryFileNames (apf, binaryFileNames);
-   if (binaryFileNames.size() > 0)
-      {
-      Path binaryPath(binaryFileNames.begin()->c_str());
-      string moduleName = binaryPath.Get_name_without_ext();
-
-      Path interfaceFilePath(apf.getFileName());
-      interfaceFilePath.Back_up_directory();
-      interfaceFilePath.Set_name(moduleName.c_str());
-      interfaceFilePath.Set_extension(".interface");
-
-      if (interfaceFilePath.Exists())
-         {
-         CreateDataTypesF90 converter;
-         ofstream out(Compiler_output_filename.c_str(), ios::app);
-         converter.convert(interfaceFilePath.Get_path(), out);
-         }
-      }
-   }
-// ------------------------------------------------------------------
 // Delete all dependant files for this module.  This will force a
 // rebuild.
 // ------------------------------------------------------------------
@@ -585,3 +556,17 @@ string CompileThread::getCompileLineForSourceFile(ApsimProject& apf, const strin
 
    return getCompilerSetting(apf, "compile", ' ', compilerFile);
    }
+// ------------------------------------------------------------------
+// Run an external program if necessary.
+// ------------------------------------------------------------------
+void CompileThread::runExternalProgram(ApsimProject& apf)
+   {
+   string program = getCompilerSetting(apf, "Program");
+   if (program != "")
+      {
+      Replace_all(program, "%apsuite", getApsimDirectory().c_str());
+      program += " " + apf.getFileName() + " " + Compiler_output_filename;
+      Exec(program.c_str(), SW_SHOW, true);
+      }
+   }
+

@@ -1,10 +1,12 @@
+       module InterfaceModule
+       
+       
+       contains
+
 * ====================================================================
        logical function intrface_init ()
 * ====================================================================
       implicit none
-      dll_export intrface_init
-      include 'const.inc'
-!      include 'intrface.inc'
  
 *+ Purpose
 *     Initialisation for the apsim interface routines.
@@ -27,7 +29,7 @@
  
       intrface_init = .true.
       return
-      end
+      end function
  
  
  
@@ -35,9 +37,6 @@
        subroutine intrface_term()
 * ====================================================================
       implicit none
-      dll_export intrface_term
-      include 'const.inc'
-!      include 'intrface.inc'
  
 *+ Purpose
 *     Clean up resources used by interface routines.
@@ -53,7 +52,7 @@
 *- Implementation Section ----------------------------------
  
       return
-      end
+      end subroutine
  
  
  
@@ -63,7 +62,6 @@
      :                              , array, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_char_array
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -83,9 +81,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_char_array
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -99,7 +94,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -109,7 +104,6 @@
      :                              , array, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_char_array_optional
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -129,9 +123,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_char_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -149,7 +140,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -159,7 +150,6 @@
      :                              , variable, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_char_var
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -178,9 +168,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_char_var
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -194,7 +181,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -204,7 +191,6 @@
      :                              , variable, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_char_var_optional
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -223,9 +209,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_char_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -243,7 +226,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -254,7 +237,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_double_array
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -276,9 +258,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_double_array
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -293,7 +272,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -304,7 +283,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_double_array_optional
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -326,9 +304,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -347,7 +322,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -358,7 +333,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_double_var
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -379,9 +353,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_double_var
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -396,7 +367,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -407,7 +378,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_double_var_optional
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -428,9 +398,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -449,7 +416,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -460,7 +427,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_integer_array
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -482,9 +448,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_integer_array
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -499,7 +462,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -510,7 +473,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_integer_array_optional
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -532,9 +494,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_integer_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -553,7 +512,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -564,7 +523,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_integer_var
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -585,9 +543,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_integer_var
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -602,7 +557,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -613,7 +568,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_integer_var_optional
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -634,9 +588,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_integer_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -655,7 +606,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -665,7 +616,6 @@
      :                              , array, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_logical_array
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -685,9 +635,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_logical_array
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -701,7 +648,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -711,7 +658,6 @@
      :                              , array, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_logical_array_optional
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -731,9 +677,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_logical_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -751,7 +694,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -761,7 +704,6 @@
      :                              , variable, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_logical_var
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -780,9 +722,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_logical_var
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -796,7 +735,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -806,7 +745,6 @@
      :                              , variable, numvals)
 * ====================================================================
       implicit none
-      dll_export collect_logical_var_optional
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -825,9 +763,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_logical_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -845,7 +780,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -856,7 +791,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_real_array
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -878,9 +812,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_real_array
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -895,7 +826,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -906,7 +837,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_real_array_optional
  
 *+ Sub-Program Arguments
       character  array_name*(*)        ! (INPUT) array name to search for
@@ -928,9 +858,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_real_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -949,7 +876,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -960,7 +887,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_real_var
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -981,9 +907,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2set_real_var
-      dll_import pop_routine
  
 *+ Constant Values
       character  my_name*(*)           ! Name of subroutine
@@ -998,7 +921,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -1009,7 +932,6 @@
      :                              , lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export collect_real_var_optional
  
 *+ Sub-Program Arguments
       character  Variable_name*(*)     ! (INPUT) Variable name to search for
@@ -1030,9 +952,6 @@
 *     050696 nih programmed and specified
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_real_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals       ! Is this an optional routine?
@@ -1051,7 +970,7 @@
  
       call pop_routine (my_name)
       return
-      end
+      end subroutine
  
  
  
@@ -1061,8 +980,6 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_char_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1085,12 +1002,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_char_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -1114,7 +1025,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1124,8 +1035,6 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_char_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1150,12 +1059,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_char_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1179,7 +1082,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1188,9 +1091,8 @@
      .   (request_no, variable_name, Array_size,
      .    units, variable, numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_char_arrays
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -1213,12 +1115,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_char_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1249,7 +1145,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1259,8 +1155,6 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_char_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1282,12 +1176,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_char_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -1310,7 +1198,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1320,8 +1208,6 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_char_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1345,12 +1231,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_char_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1374,7 +1254,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1383,9 +1263,8 @@
      .   (request_no, variable_name,
      .    units, variable, numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_char_vars
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -1407,12 +1286,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_char_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1443,7 +1316,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1454,8 +1327,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_double_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1480,12 +1351,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_double_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -1509,7 +1374,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1520,8 +1385,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_double_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1548,12 +1411,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_double_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1577,7 +1434,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1587,9 +1444,8 @@
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_double_arrays
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -1614,12 +1470,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_double_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1650,7 +1500,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1661,8 +1511,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_double_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1686,12 +1534,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_double_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -1716,7 +1558,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1727,8 +1569,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_double_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1754,12 +1594,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_double_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1783,7 +1617,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1793,9 +1627,8 @@
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_double_vars
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -1819,12 +1652,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_double_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1855,7 +1682,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1866,8 +1693,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_integer_array
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1892,12 +1717,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_integer_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -1921,7 +1740,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1932,8 +1751,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_integer_array_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -1960,12 +1777,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_integer_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -1989,7 +1800,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -1999,9 +1810,8 @@
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_integer_arrays
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -2026,12 +1836,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_integer_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2062,7 +1866,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2073,8 +1877,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_integer_var
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2098,12 +1900,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_integer_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -2129,7 +1925,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2140,8 +1936,6 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_integer_var_optional
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2167,12 +1961,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_integer_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2196,7 +1984,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2206,9 +1994,8 @@
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_integer_vars
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -2232,12 +2019,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_integer_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2268,7 +2049,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2278,8 +2059,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_logical_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2302,12 +2082,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_logical_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -2331,7 +2105,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2341,8 +2115,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_logical_array_optional
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2367,12 +2140,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_logical_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2396,7 +2163,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2405,9 +2172,8 @@
      .   (request_no, variable_name, Array_size,
      .    units, variable, numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_logical_arrays
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -2430,12 +2196,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_logical_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2466,7 +2226,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2476,8 +2236,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_logical_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2499,12 +2258,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_logical_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -2527,7 +2280,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2537,8 +2290,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export get_logical_var_optional
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2562,12 +2314,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_logical_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2591,7 +2337,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2600,9 +2346,8 @@
      .   (request_no, variable_name,
      .    units, variable, numvals)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_logical_vars
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -2624,12 +2369,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_logical_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2660,7 +2399,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2671,8 +2410,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_real_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2697,12 +2435,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_real_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -2726,7 +2458,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2737,8 +2469,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_real_array_optional
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2765,12 +2496,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_real_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2794,7 +2519,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2804,9 +2529,8 @@
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_real_arrays
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -2831,12 +2555,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_real_array
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -2867,7 +2585,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2878,8 +2596,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_real_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2904,12 +2621,6 @@
 *     DPH 17/5/96  Changed all get routines to use deliver_get_message
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_real_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -2934,7 +2645,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -2945,8 +2656,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export get_real_var_optional
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -2972,12 +2682,6 @@
 *     dph 26/7/99  removed call to is_active_module.  All modules are now active
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_real_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -3001,7 +2705,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3011,9 +2715,8 @@
      .    units, variable, numvals,
      .    lower_limit, upper_limit)
 * ====================================================================
+      use ConstantsModule
       implicit none
-      dll_export get_real_vars
-      include 'const.inc'              ! Constant definitions
  
 *+ Sub-Program Arguments
       integer Request_no               ! (INPUT) Owner module name
@@ -3037,12 +2740,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import deliver_get_message
-      dll_import respond2post_real_var
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       logical Allow_zero_numvals          ! Is this an optional routine?
@@ -3073,7 +2770,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3082,8 +2779,7 @@
      .   (variable_name, units, variable, Numvals)
 * ====================================================================
       implicit none
-      dll_export respond2get_char_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3102,9 +2798,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_char_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3118,7 +2811,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3127,8 +2820,7 @@
      .   (variable_name, units, variable)
 * ====================================================================
       implicit none
-      dll_export respond2get_char_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3146,9 +2838,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_char_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3162,7 +2851,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3171,8 +2860,7 @@
      .   (variable_name, units, variable, Numvals)
 * ====================================================================
       implicit none
-      dll_export respond2get_double_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3191,9 +2879,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_double_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3207,7 +2892,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3216,8 +2901,7 @@
      .   (variable_name, units, variable)
 * ====================================================================
       implicit none
-      dll_export respond2get_double_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3235,9 +2919,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_double_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3251,7 +2932,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3260,8 +2941,7 @@
      .   (variable_name, units, variable, Numvals)
 * ====================================================================
       implicit none
-      dll_export respond2get_integer_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3280,9 +2960,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_integer_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3296,7 +2973,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3305,8 +2982,7 @@
      .   (variable_name, units, variable)
 * ====================================================================
       implicit none
-      dll_export respond2get_integer_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3324,9 +3000,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_integer_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3340,7 +3013,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3349,8 +3022,7 @@
      .   (variable_name, units, variable, Numvals)
 * ====================================================================
       implicit none
-      dll_export respond2get_logical_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3369,9 +3041,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_logical_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3385,7 +3054,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3394,8 +3063,7 @@
      .   (variable_name, units, variable)
 * ====================================================================
       implicit none
-      dll_export respond2get_logical_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3413,9 +3081,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_logical_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3429,7 +3094,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3438,8 +3103,7 @@
      .   (variable_name, units, variable, Numvals)
 * ====================================================================
       implicit none
-      dll_export respond2get_real_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3458,9 +3122,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_real_array
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3474,7 +3135,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3483,8 +3144,7 @@
      .   (variable_name, units, variable)
 * ====================================================================
       implicit none
-      dll_export respond2get_real_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name
@@ -3502,9 +3162,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import post_real_var
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -3518,7 +3175,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3528,8 +3185,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export respond2set_char_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3549,9 +3205,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_char_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3570,7 +3223,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3580,8 +3233,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export respond2set_char_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3600,9 +3252,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_char_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3620,7 +3269,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3631,8 +3280,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export respond2set_double_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3654,9 +3302,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3675,7 +3320,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3686,8 +3331,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export respond2set_double_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3708,9 +3352,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_double_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3729,7 +3370,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3740,8 +3381,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export respond2set_integer_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3763,9 +3403,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_integer_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3784,7 +3421,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3795,8 +3432,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export respond2set_integer_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3817,9 +3453,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_integer_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3838,7 +3471,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3848,8 +3481,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export respond2set_logical_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3869,9 +3501,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_logical_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3890,7 +3519,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3900,8 +3529,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export respond2set_logical_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3920,9 +3548,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_logical_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3940,7 +3565,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -3951,8 +3576,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export respond2set_real_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -3974,9 +3598,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_real_array
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -3995,7 +3616,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4006,8 +3627,7 @@
      .    lower_limit, upper_limit)
 * ====================================================================
       implicit none
-      dll_export respond2set_real_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to search for
@@ -4028,9 +3648,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import respond2post_real_var
-      dll_import pop_routine
  
 *+ Constant Values
       logical No_zero_numvals          ! Is this an optional routine?
@@ -4049,7 +3666,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4059,8 +3676,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export set_char_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4080,12 +3696,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_char_array
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4103,7 +3713,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4113,8 +3723,7 @@
      .    units, variable)
 * ====================================================================
       implicit none
-      dll_export set_char_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4133,12 +3742,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_char_var
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4156,7 +3759,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4166,8 +3769,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export set_double_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4187,12 +3789,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_double_array
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4210,7 +3806,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4220,8 +3816,7 @@
      .    units, variable)
 * ====================================================================
       implicit none
-      dll_export set_double_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4240,12 +3835,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_double_var
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4263,7 +3852,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4273,8 +3862,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export set_integer_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4294,12 +3882,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_integer_array
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4317,7 +3899,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4327,8 +3909,7 @@
      .    units, variable)
 * ====================================================================
       implicit none
-      dll_export set_integer_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4347,12 +3928,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_integer_var
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4370,7 +3945,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4380,8 +3955,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export set_logical_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4401,12 +3975,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_logical_array
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4424,7 +3992,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4434,8 +4002,7 @@
      .    units, variable)
 * ====================================================================
       implicit none
-      dll_export set_logical_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4454,12 +4021,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_logical_var
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4477,7 +4038,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4487,8 +4048,7 @@
      .    units, variable, numvals)
 * ====================================================================
       implicit none
-      dll_export set_real_array
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4508,12 +4068,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_real_array
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4531,7 +4085,7 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
  
@@ -4541,8 +4095,7 @@
      .    units, variable)
 * ====================================================================
       implicit none
-      dll_export set_real_var
-      include 'const.inc'              ! Constant definitions
+
  
 *+ Sub-Program Arguments
       character Owner_module_name*(*)  ! (INPUT) Owner module name
@@ -4561,12 +4114,6 @@
 *     DPH 25/10/95 Reworked routine to use new postbox routines
  
 *+ Calls
-      dll_import push_routine
-      dll_import new_postbox
-      dll_import post_real_var
-      dll_import deliver_set_message
-      dll_import delete_postbox
-      dll_import pop_routine
  
 *+ Constant Values
       character This_routine*(*)       ! name of this routine
@@ -4584,6 +4131,8 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
  
  
+      end module InterfaceModule
+      

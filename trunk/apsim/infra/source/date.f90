@@ -485,7 +485,6 @@ module DateModule
    !     ===========================================================
       subroutine day_of_year_to_date (dyoyr, iyr, date)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DataModule
       implicit none
 
@@ -789,7 +788,6 @@ module DateModule
    !     ===========================================================
       subroutine String_to_jday (Date_string, JDay, numvals, Today)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use DataStrModule
       implicit none
 
@@ -956,7 +954,6 @@ module DateModule
    !     ===========================================================
       function Get_month_string (Month)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
       implicit none
 
@@ -1004,8 +1001,8 @@ module DateModule
    !     ===========================================================
       function String_to_jday_with_error(Date_string, Today)
    !     ===========================================================
-      use ComponentCInterfaceModule
       use ConstantsModule
+      use ErrorModule
       implicit none
 
    !+ Sub-Program Arguments
@@ -1124,7 +1121,6 @@ module DateModule
    !     ===========================================================
       integer function offset_day_of_year (iyr, doy, ndays)
    !     ===========================================================
-      use ComponentCInterfaceModule
       implicit none
 
    !+ Sub-Program Arguments
