@@ -4831,6 +4831,9 @@ cpsc
 *+  Purpose
 *       Set class type for this module.
 
+*+  Mission statement
+*       Set the class type for this module
+
 *+  Changes
 *     280598 igh specified and programmed
 
