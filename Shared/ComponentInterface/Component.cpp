@@ -376,7 +376,8 @@ bool Component::readParameter
                                       variableName,
                                       variableValue))
       return true;
-   FString baseSection;
+   char buffer[100];
+   FString baseSection(buffer, sizeof(buffer), CString);
    if (ApsimComponentData_getProperty(componentData,
                                       sectionName,
                                       "derived_from",
