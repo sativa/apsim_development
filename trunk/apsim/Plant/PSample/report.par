@@ -11,8 +11,6 @@ variable = navybean.grain_wt as grain
 variable = navybean.biomass_n
 variable = navybean.grain_n
 variable = navybean.root_depth as rootdepth
-
-
 variable = navybean.cep
 variable = navybean.swdef_pheno as ws_pheno
 variable = navybean.swdef_photo as ws_photo
@@ -20,7 +18,6 @@ variable = navybean.swdef_expan as ws_expan
 variable = navybean.nfact_pheno as Ns_pheno
 variable = navybean.nfact_photo as Ns_photo
 variable = navybean.nfact_expan as Ns_expan
-
 variable = navybean.n_conc_root
 variable = navybean.n_conc_leaf
 variable = navybean.n_conc_stem
@@ -58,8 +55,39 @@ variable = navybean.p_conc_stem
 variable = navybean.p_conc_grain
 variable = navybean.p_uptake_stover
 variable = navybean.grain_p_demand
+variable = surfaceom.surfaceom_p
+variable = soilwat2.esw as esw
+variable = soilwat2.sw()
+variable = soilwat2.es
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+variable = soilp.uptake_p_navybean()
+variable = soilp.fom_cp()
+variable = soilp.fom_p_pool3()
+variable = soilp.fom_p_pool2()
+variable = soilp.fom_p_pool1()
+variable = soilp.fom_p()
+variable = soilp.hum_p()
+variable = soilp.biom_p()
+variable = soilp.soil_test_p()
+variable = soilp.rock_p()
+variable = soilp.unavail_p()
+variable = soilp.labile_p()
+variable = manager.P_below_ground
+variable = manager.P_above_ground
+variable = manager.systemP
+variable = manager.cum_error_systemP
+variable = manager.dlt_systemP
+variable = manager.P_plant
+variable = manager.P_pl_up_diff
+variable = manager.dlt_residue_P
+variable = manager.below_gnd_diff
 
-variable = residue2.residue_p
+
+
+
 
 
 
