@@ -7,6 +7,9 @@ class Component;
 void tooManyError(unsigned int maxCount);
 void rangeError(unsigned int index, unsigned int maxCount);
 
+// turn of the warnings about "Functions containing for are not expanded inline.
+#pragma warn -inl
+
 // ------------------------------------------------------------------
 //  Short description:
 //     This template class is a vector container that mimics the
@@ -145,5 +148,8 @@ inline unsigned int memorySize(const vector<T>& values)
 #pragma warn .inl
 
 } // namespace protocol
+
+// restore the warnings about "Functions containing for are not expanded inline.
+#pragma warn .inl
 
 #endif
