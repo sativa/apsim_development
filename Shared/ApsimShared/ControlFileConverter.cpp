@@ -141,6 +141,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
          ok = executeNewFormatReportVariables(arguments) || ok;
       else if (routineName == "MoveParametersOutOfCon")
          ok = executeMoveParametersOutOfCon(arguments) || ok;
+      else if (routineName == "RemoveSumAvgToTracker")
+         ok = executeRemoveSumAvgToTracker(arguments) || ok;
 
       if (!ok)
          return false;
@@ -504,5 +506,61 @@ bool ControlFileConverter::executeMoveParametersOutOfCon(const std::string argum
    if (selfReferencesFound)
       controlFile.removeSelfReferences(parFileToUse);
    return selfReferencesFound;
+   }
+// ------------------------------------------------------------------
+// Execute the RemoveSumAvgToTracker command. Returns true on success
+// ------------------------------------------------------------------
+bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& arguments) throw(runtime_error)
+   {
+   bool doneSomething = false;
+   // Return all the parameter files for the specified section and instance.
+   vector<ApsimParameterFile> paramFiles;
+   controlFile.getParameterFiles("report", paramFiles);
+   string name;
+   findParameters("report.module_names", name, paramFiles);
+   for (unsigned par = 0; par != paramFiles.size(); ++par)
+      {
+      vector<string> variables;
+      paramFiles[par].getParamValues("variable", variables);
+
+      // For each variable on each variable line, create a new variable.
+      vector<string> newVariables;
+      vector<string> trackerVariables;
+      for (unsigned variableI = 0;
+                    variableI != variables.size();
+                    variableI++)
+         {
+         if (variables[variableI].find("sum@") != string::npos ||
+             variables[variableI].find("avg@") != string::npos)
+            {
+            doneSomething = true;
+            StringTokenizer tokenizer(variables[variableI], ".@");
+            string moduleName = tokenizer.nextToken();
+            string functionName = tokenizer.nextToken();
+            string variableName = tokenizer.nextToken();
+            string trackerFunctionName = functionName;
+            if (Str_i_Eq(trackerFunctionName, "avg"))
+               trackerFunctionName = "average";
+
+            newVariables.push_back("tracker." + functionName +  "@" + variableName);
+
+            // set the tracker variable.
+            string trackerVariable = trackerFunctionName + " of " + variableName + " since reported as "
+                  + functionName + "@" + variableName;
+            trackerVariables.push_back(trackerVariable);
+            }
+         else
+            newVariables.push_back(variables[variableI]);
+         }
+
+      // write all new variables.
+      if (newVariables.size() > 0)
+         {
+         paramFiles[par].setParamValues("variable", newVariables);
+         controlFile.setParameterValues("tracker", "", "variable", trackerVariables);
+         doneSomething = true;
+         }
+      }
+   return doneSomething;
    }
 
