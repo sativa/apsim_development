@@ -20,8 +20,6 @@ using namespace std;
 //---------------------------------------------------------------------
 #pragma link "StrHlder"
 #pragma link "MDIWallp"
-#pragma link "MDIWallp"
-#pragma link "MDIWallp"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 extern AnsiString CommandLine;
