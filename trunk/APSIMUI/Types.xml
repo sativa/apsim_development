@@ -342,7 +342,10 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <commentvariables link="stock.xml"/>
+      <variables>
+         <variable name="dm_feed_on_offer" module = "StockScienceConverter" description="Dry matter of feed on offer (kg/ha)"></variable>
+         <variable name="dm_feed_removed" module = "StockScienceConverter" description="Dry matter of feed removed (kg/ha)"></variable>
+      </variables>
    </StockScienceConverter>
    <cattle>
       <UItype>generic</UItype>
@@ -405,6 +408,7 @@
       <SmallIcon>Images\question_and_answer16.png</SmallIcon>
       <drops>
          <drop name="manager"/>
+         <drop name="StockScienceConverter"/>
      </drops>
    </rule>
    <vinelogic>
