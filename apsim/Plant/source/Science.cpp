@@ -254,7 +254,11 @@ float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord)
  */
    {
    //Local Variables
-   float y;                         // interpolated value
+   float y = 0.0;                         // interpolated value
+
+   if (num_cord <= 0) {
+     warning_error (&err_internal,"no coords in linear_interp_real");
+   }
 
    //Implementation
    for(int indx = 0; indx < num_cord; indx++)
