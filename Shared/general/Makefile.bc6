@@ -1,0 +1,39 @@
+# (Borlandish) Makefile for general routines
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+CC=$(BCB)\Bin\bcc32.exe
+RANLIB=$(BCB)\Bin\TLib.exe
+
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:/progra~1/apsim33
+#APSROOT=c:\development
+
+TARGET = general.lib
+OBJECTS = date_class.obj db_functions.obj exec.obj general.obj IniFile.obj \
+    io_functions.obj math_functions.obj path.obj stream_functions.obj \
+    stream_processor.obj string_functions.obj StringTokenizer.obj stristr.obj \
+    vcl_functions.obj xml.obj MSXML2_TLB.obj MSXML2_OCX.obj Macro.obj
+LIBFILES = 
+
+USERDEFINES = 
+SYSDEFINES = _RTLDLL;NO_STRICT;
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+
+# ---------------------------------------------------------------------------
+CFLAG1 = -Od -H- -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM
+WARNINGS = -w-par
+LFLAGS = 
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+$(TARGET): $(OBJECTS)
+    $(RANLIB) /u $@ @&&!
+    $(LFLAGS) $? 
+
+!

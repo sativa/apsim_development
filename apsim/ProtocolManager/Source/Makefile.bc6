@@ -1,0 +1,49 @@
+# (Borlandish) Makefile for apsim ProtocolManager module
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+CC=$(BCB)/Bin/bcc32.exe
+LD=$(BCB)/Bin/ilink32.exe
+
+
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+TARGET=..\lib\ProtocolManager.dll
+OBJECTS = ProtocolManager.obj Coordinator.obj \
+	ComponentAlias.obj DebugHook.obj \
+	Registrations.obj
+RESFILES = 
+LIBFILES = $(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\Protocol\Protocol.lib
+
+USERDEFINES = 
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+
+ALLOBJ = c0d32.obj vcl.bpi $(OBJECTS)
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
+
+# ---------------------------------------------------------------------------
+CFLAG1 = -WD -O2 -H- -Vx -Ve -X- -a8 -b- -k- -vi -tWD -tWM -c
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+.cpp.obj:
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+$(TARGET): $(OBJECTS) 
+	$(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(TARGET),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!

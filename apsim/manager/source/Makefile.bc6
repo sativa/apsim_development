@@ -1,0 +1,34 @@
+# (Borlandish) Makefile for apsim manager module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\manager.dll
+..\lib\manager.dll: Registrations.obj manager.obj manager.imp $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) manager.obj Registrations.obj -exe ..\lib\manager.dll manager.imp @linker.tmp
+	$(RM) linker.tmp
+   
+manager.obj: manager.for
+manager.imp:
+	$(ECHO) -implib ApsimShared.dll > manager.imp
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\manager.interface
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\manager.interface
+
+clean:
+	$(RM) ..\lib\manager.dll Registrations.obj Registrations.f90 manager.obj manager.imp
+
