@@ -3848,6 +3848,7 @@ cnh      c%crop_type = ' '
       use sugarModule
       implicit none
       include   'const.inc'
+      include   'action.inc'
       include 'postbox.pub'
       include 'data.pub'                          
       include 'intrface.pub'                      
@@ -3928,10 +3929,10 @@ cnh      c%crop_type = ' '
      :                           ,fon
      :                           ,1)
  
-            call Action_send ( unknown_module
-     :                       , 'incorp_fom'
-     :                       , Blank
-     :                        )
+            call Action_send (all_active_modules
+     :                            ,ACTION_incorp_fom
+     :                            ,blank)
+
  
             call Delete_postbox ()
  
