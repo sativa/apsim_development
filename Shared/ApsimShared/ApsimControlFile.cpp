@@ -288,8 +288,7 @@ void ApsimControlFile::run(const string& configurationFile,
       {
       string simFileName;
       createSIM(configurationFile, simFileName);
-      ApsimSimulationFile simulation(simFileName);
-      simulation.run(console);
+      ApsimSimulationFile::run(simFileName, console);
       }
    catch (const runtime_error& error)
       {

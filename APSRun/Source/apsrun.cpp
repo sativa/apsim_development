@@ -82,8 +82,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR,  int)
          }
       else if (ExtractFileExt(fileName.c_str()).AnsiCompareIC(".sim") == 0)
          {
-         ApsimSimulationFile simulationFile(fileName);
-         simulationFile.run(quietRun);
+         ApsimSimulationFile::run(fileName, quietRun);
          }
       else
          throw runtime_error("Cannot run APSIM on file: " + fileName);

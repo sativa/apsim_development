@@ -44,8 +44,7 @@ void ApsimRunFile::run(bool console) const
 
       if (ExtractFileExt(simulationFileName.c_str()).AnsiCompareIC(".sim") == 0)
          {
-         ApsimSimulationFile simulation(simulationFileName);
-         simulation.run(console);
+         ApsimSimulationFile::run(simulationFileName, console);
          }
       else
          {
