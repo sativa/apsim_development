@@ -26,6 +26,7 @@ void TApsimFileReaderForm::setComponent(TComponent* comp)
    TPropertyForm::setComponent(comp);
 
    apsimFileReader = dynamic_cast<TApsimFileReader*>(comp);
+   FilesList->Clear();
    for (int f = 0; f != apsimFileReader->filenames->Count; f++)
       {
       TListItem* newItem = FilesList->Items->Add();
