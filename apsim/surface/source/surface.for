@@ -109,7 +109,7 @@ c         call surface_surface ()
  
          ! Notify system that we have initialised
  
-      Event_string = ' Initialising, Version'
+      Event_string = 'Initialising'
       call report_event (Event_string)
  
          ! Get all parameters from parameter file
