@@ -1265,8 +1265,8 @@
       trtsnh4 = 0.0
       g%dn_plant = u_bound (g%dn_plant, (trtsno3 + trtsnh4)/10.0)
 !jh      trtsnh4 = sum(g%anh4(1:g%nrtlayr))
-      print*,'g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.'
-      print*, g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.
+!      print*,'g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.'
+!      print*, g%total_n, g%uptakn/10., g%availn,trtsno3 ,g%dn_plant*10.
       do 20 Layer = 1, g%nlayr
          if (trtsno3+ trtsnh4 .gt. 0.0 .and. Layer.le.g%nrtlayr) then
             dlt_no3(Layer) = -g%dn_plant*10. * g%ano3(Layer)
@@ -1274,7 +1274,7 @@
 !jh            dlt_nh4(Layer) = -g%dn_plant*10. * g%anh4(Layer)
 !jh     :                     / (trtsno3 + trtsnh4)
             dlt_no3(layer) = min(0.0, dlt_no3(layer))
-      print*, dlt_no3(layer), g%ano3(Layer)
+!      print*, dlt_no3(layer), g%ano3(Layer)
          else
             dlt_no3(layer) = 0.0
             dlt_nh4(layer) = 0.0
