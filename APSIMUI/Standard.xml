@@ -113,9 +113,9 @@
     <height name="height">1000.</height>
     <Frgr name="Frgr">1.0</Frgr>
   </slurp>
-  <crop name="plant">
+  <plant>
     <type name="type">wheat</type>
-  </crop>
+  </plant>
   <outputfiledescription name="My Variables">
     <variables>
       <variable alias="year" name="year" module="clock" description="Year" />
