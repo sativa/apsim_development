@@ -14,9 +14,8 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 1.61
-     Control filename       = c:\regr\apsim\sugar\refset\referenc.con
-     Configuration filename = c:\build\regression.config
+     Version                = 2.0
+     Simulation filename    = c:\regr\apsim\sugar\refset\referenc.sim
      Title                  = sugar reference run
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
      Instantiated DLL       = c:\build\apsuite\apsim\report\lib\report.dll(report) - Licensed
@@ -37,11 +36,25 @@
 ------- REPORT Initialisation ------------------------------------------------
      Output file = referenc.out
      Format = normal
-     Module_names = clock clock clock soiln2 soilwat2 sugar sugar sugar sugar sugar sugar sugar sugar sugar residue2 residue2 soiln2 soiln2 
-     Variable_names = year day today.dd/mm/yyyy no3 sw_dep tt_tot() lai biomass avg@swdef_photo avg@nfact_photo root_depth avg@oxdef_photo crop_status dm_dead() residue_wt residue_n fom_c() fom_n() 
-     Variable_alias = - - date - - - - - - - - - - - - - - - 
-     Units = - - - - - - - - - - - - - - - - - - 
-     
+     Output variables:
+        clock.year
+        clock.day
+        clock.today.dd/mm/yyyy (alias: date)
+        soiln2.no3
+        soilwat2.sw_dep
+        sugar.tt_tot()
+        sugar.lai
+        sugar.biomass
+        sugar.avg@swdef_photo
+        sugar.avg@nfact_photo
+        sugar.root_depth
+        sugar.avg@oxdef_photo
+        sugar.crop_status
+        sugar.dm_dead()
+        residue2.residue_wt
+        residue2.residue_n
+        soiln2.fom_c()
+        soiln2.fom_n()
 
 ------- MET Initialisation ---------------------------------------------------
      File name = c:\regr\apsim\sugar\refset\referenc.met
