@@ -2,10 +2,12 @@ USEUNIT("RotationAddIn.cpp");
 USEFORM("TRotationForm.cpp", RotationForm);
 USEUNIT("RotAddIn.cpp");
 USELIB("general.lib");
-USEFORM("..\..\..\RotationAddin\TRenameRotationForm.cpp", RenameRotationForm);
 USEUNIT("..\CropFields.cpp");
 USEUNIT("RotationValues.cpp");
+USEFORM("TRenameRotationForm.cpp", RenameRotationForm);
 T//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
