@@ -1,74 +1,66 @@
-//---------------------------------------------------------------------------
-
 #ifndef MacroH
 #define MacroH
-#include <vector>
-#include <string>
-#include "MacroValue.h"
-// ------------------------------------------------------------------
-//  Short description:
-//    Encapsulates a specific macro complete with 0 or more values.
 
-//  Changes:
-//    DPH 22/8/2001 reworked from NIH original
+#include <string>
+#include <vector>
+class XMLNode;
+// ------------------------------------------------------------------
+// This class takes a macro file and an XMLDocument and performs a
+// macro replacement.
 // ------------------------------------------------------------------
 class Macro
    {
    public:
-      // constructor and destructor
-      Macro(const std::string& contents);
+      // ------------------------------------------------------------------
+      // Constructor & Destructor
+      // ------------------------------------------------------------------
+      Macro();
       ~Macro();
 
-      // != operator so that other objects can do a find on name.
-      bool operator==(const std::string& rhsName)
-         {
-         return Str_i_Eq(getName(), rhsName);
-         }
-
-      // return a macro name to caller.
-      std::string getName(void) const {return getAttribute("name");}
-
-      // return a macro attribute to caller.
-      std::string getAttribute(const std::string& name) const;
-
-      // set a macro attribute.
-      void setAttribute(const std::string& name, const std::string& value);
-
-      // return the number of values to caller.
-      unsigned int getNumValues(void) const {return values.size();}
-
-      // return a complete list of macro value names to caller.
-      void getValueNames(std::vector<std::string>& names);
-
-      // return a specific macro value or NULL if not found.
-      MacroValue* getValue(const std::string& name);
-
-      // return a specific macro value or NULL if not found.
-      MacroValue* getValue(unsigned int valueIndex)
-         {
-         return &values[valueIndex];
-         }
-
-      // add a macro value to our list of macros.
-      void addValue(const MacroValue& value) {values.push_back(value);}
-
-      // clear all macro values.
-      void clearValues(void)
-         {
-         values.erase(values.begin(), values.end());
-         }
-
-      // Parse the specified string removing this macros' name and
-      // replacing with 1 or more values.
-      void performMacroReplacement(std::string& text);
-
-      void Macro::performMacroAttributeReplacement(std::string& text);
+      // ------------------------------------------------------------------
+      // generate the files.
+      // ------------------------------------------------------------------
+      void go(const XMLNode& macroValues,
+              const std::string& macroContents,
+              std::vector<std::string>& filesGenerated);
 
    private:
-      typedef std::map<std::string, std::string, std::less<std::string> > Attributes;
-      Attributes attributes;
-      std::vector<MacroValue> values;
+      const XMLNode* macroValues;
 
-      void parseString(const std::string& contents);
+      // ------------------------------------------------------------------
+      // Parse and remove all for_each macros from specified string.
+      // ------------------------------------------------------------------
+      std::string parseForEach(const std::string& contents,
+                               const std::string& parentName,
+                               const XMLNode& valuesNode) const;
+
+      // ------------------------------------------------------------------
+      // Do all macro replacement in specified text for the given macroname.
+      // ------------------------------------------------------------------
+      void doMacroReplacement(const std::string& macroName, std::string& contents);
+
+      // ------------------------------------------------------------------
+      // Write everything between #file/#endfile pairs to the
+      // file name listed after the #file macro.
+      // ------------------------------------------------------------------
+      void writeStringToFiles(std::string contents,
+                              std::vector<std::string>& fileNamesCreated) const;
+
+      // ------------------------------------------------------------------
+      // Replace all global counter in the specified string.
+      // ------------------------------------------------------------------
+      void replaceGlobalCounter(std::string& contents) const;
+
+      // ------------------------------------------------------------------
+      // Resolve any #if defines.
+      // ------------------------------------------------------------------
+      void parseIf(std::string& forEachBody) const;
+
+      // ------------------------------------------------------------------
+      // Evaluated the specified #if statement.
+      // ------------------------------------------------------------------
+      bool evaluateIf(const std::string& conditionLine) const;
+
    };
+
 #endif
