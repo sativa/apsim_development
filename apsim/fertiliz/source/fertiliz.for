@@ -4,6 +4,7 @@
       implicit none
       dll_export apsim_fertiliz
       include   'const.inc'            ! Global constant definitions
+      include   'event.inc'
       include   'fertiliz.inc'         ! fertiliz common block
       include 'string.pub'
       include 'engine.pub'
@@ -44,8 +45,8 @@
          call fertiliz_zero_variables ()
          call fertiliz_Init ()
  
-      else if (Action.eq.MES_Inter_Timestep) then
-         call fertiliz_Inter_Timestep()
+      else if (Action.eq.EVENT_tick) then
+         call fertiliz_ONtick()
  
       else if (Action.eq.MES_Process) then
  
@@ -262,24 +263,6 @@
  
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
- 
-      call Get_integer_var (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'year'          ! Variable Name
-     :    , '()'            ! Units                (Not Used)
-     :    , g_year          ! Variable
-     :    , numvals         ! Number of values returned
-     :    , min_year            ! Lower Limit for bound checking
-     :    , max_year)       ! Upper Limit for bound checking
- 
-      call Get_integer_var (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'day'           ! Variable Name
-     :    , '()'            ! Units                (Not Used)
-     :    , g_day           ! Variable
-     :    , numvals         ! Number of values returned
-     :    , 0               ! Lower Limit for bound checking
-     :    , 366)            ! Upper Limit for bound checking
  
       call Get_real_array (
      :      unknown_module  ! Module that responds (Not Used)
@@ -719,29 +702,40 @@
  
  
 *     ===========================================================
-      subroutine fertiliz_inter_timestep ()
+      subroutine fertiliz_ONtick ()
 *     ===========================================================
       implicit none
       include   'fertiliz.inc'
       include 'error.pub'
+      include 'event.pub'
  
 *+  Purpose
-*     <insert here>
+*     Update internal time record and reset daily state variables.
  
 *+  Mission Statement
-*     Reset daily state variables.
+*     Update internal time record and reset daily state variables.
  
 *+  Changes
 *        150696 nih changed routine from fertiliz_prepare to
 *                   fertiliz_inter_timestep.
+*        260899 nih changed routine to EVENT_ONtick
+
+*+  Local Variables
+      character temp1*5
+      integer   temp2
  
 *+  Constant Values
       character*(*) myname               ! name of current procedure
-      parameter (myname = 'fertiliz_inter_timestep')
+      parameter (myname = 'fertiliz_ONtick')
  
 *- Implementation Section ----------------------------------
       call push_routine (myname)
- 
+
+      ! Note that time and timestep information is not required
+      ! and so dummy variables are used in their place.
+
+      call handler_ONtick(g_day, g_year, temp1, temp2)
+
       g_fert_applied = 0.0
  
       call pop_routine (myname)
