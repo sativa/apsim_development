@@ -356,14 +356,8 @@ namespace CSGeneral
 			
 			string Value;
 			// try getting an attribute first.
-			try
-				{
-				Value = Child.Attribute(Macro);
-				if (Value != "")
-					return Value;
-				}
-			catch (Exception)
-				{ }
+			if (Child.AttributeExists(Macro))
+				return Child.Attribute(Macro);
 
 			// couldn't get an attribute so try getting a value
 			if (Macro == "xml")
@@ -382,15 +376,18 @@ namespace CSGeneral
 			int PosElseIf = 0;
 			int PosElse = 0;
 			int PosCondition = Contents.IndexOf("[if");
-			while (PosCondition != -1)
+			while (PosCondition != -1 && PosCondition != Contents.Length)
 				{
 				int PosEndMacro = Contents.IndexOf(']', PosCondition); 
 				int PosEndIf = Contents.IndexOf("[endif]", PosCondition+1);
-				int PosEndBlock =Contents.IndexOf("[elseif]", PosCondition+1);
-				if (PosEndBlock == -1)
-					PosEndBlock = Contents.IndexOf("[else]", PosCondition+1);
-				if (PosEndBlock == -1)
-					PosEndBlock = PosEndIf;
+				int PosNextElse = Contents.IndexOf("[else]", PosCondition+1);
+				int PosNextElseIf = Contents.IndexOf("[elseif", PosCondition+1);
+				if (PosNextElse == -1)
+					PosNextElse = Contents.Length;
+				if (PosNextElseIf == -1)
+					PosNextElseIf = Contents.Length;
+
+				int PosEndBlock = Math.Min(Math.Min(PosNextElseIf, PosNextElse), PosEndIf);
 				if (PosEndBlock == -1)
 					throw new Exception("Missing endif for if: " + Contents.Substring(PosCondition));
 				bool ok;
@@ -428,13 +425,16 @@ namespace CSGeneral
 					}
 
 				int PosIf = Contents.IndexOf("[if");
-				PosElse = Contents.IndexOf("[else");
+				PosElse = Contents.IndexOf("[else]");
 				PosElseIf = Contents.IndexOf("[elseif");
-				PosCondition = PosIf;
-				if (PosCondition == -1)
-					PosCondition = PosElse;
-				if (PosCondition == -1)
-					PosCondition = PosElseIf;
+				if (PosIf == -1)
+					PosIf = Contents.Length;
+				if (PosElse == -1)
+					PosElse = Contents.Length;
+				if (PosElseIf == -1)
+					PosElseIf = Contents.Length;
+
+				PosCondition = Math.Min(Math.Min(PosIf, PosElse), PosElseIf);
 				}
 			}
 		//---------------------------------------------------------------
