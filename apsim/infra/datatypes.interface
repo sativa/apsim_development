@@ -213,12 +213,15 @@
 
    <type name="irrigstring" kind="string" unit="" description="Irrigation string: amount=xx (kg/ha), time=xx:xx (hh:mm), duration=xx (min), {solute_name}...."/>
 
-   <type name="irrigated" description="Sent to SWIM when an irrigation occurs">
-      <field name="amount" kind="single" unit="mm" description="Amount of irrigation applied"/>
-      <field name="time" kind="string" description="Time of application"/>
-      <field name="duration" kind="integer4" unit="min" description="Duration of application"/>
-      <field name="intensity" kind="single" unit="mm/h" description="Intensity of application"/>
-   </type>
+   <type name="Irrigated" description="Sent when an irrigation occurs">
+      <field name="amount" kind="double" unit="mm" description="Amount of irrigation applied"/>
+      <field name="depth"  kind="double" unit="mm" description="Depth of irrigation applied"/>
+      <field name="solute" array="T">
+         <element>
+         <field name="name" kind="string"/>
+         <field name="amount" kind="single"/>
+         </element>
+      </field>
 
    !!!!! CROP types !!!!!
 
