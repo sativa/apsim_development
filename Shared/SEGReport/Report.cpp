@@ -603,7 +603,10 @@ void Report::exportCurrentToFile(const std::string& fileName)
          else if (ExtractFileExt(fileName.c_str()) == ".html")
             ExportToHTML(currentPage, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".pdf")
+            {
+            gtQRPDFSettings->ExportImageFormat = ifJPG;
             ExportToPDF(currentPage, fileName.c_str(), false, false);
+            }
          else if (ExtractFileExt(fileName.c_str()) == ".rtf")
             {
             gtQRRTFSettings->ExportImageFormat = ifBMP;
