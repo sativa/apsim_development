@@ -1,7 +1,0 @@
-[APSIM.sample_solute]
-module=report     solute.par[sample]                                 
-module=input      ..\..\input\sample\dalby.met[weather]  solute.par[sample]
-module=manager    solute.par[sample]
-module=fertiliz   ..\..\fertiliz\fertiliz.ini[standard]
-module=soilwat2   ..\..\soilwat2\sample\soilwat2.par[black_earth]  ..\..\soilwat2\soilwat2.ini[standard]
-module=solute     solute.par[sample]    ..\solute.ini[standard]
