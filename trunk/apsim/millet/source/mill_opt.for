@@ -2,7 +2,6 @@
       Recursive
      :subroutine Millet_water_supply (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -49,13 +48,11 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_nit_stress(Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -112,13 +109,11 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_temp_stress(Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -157,14 +152,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine Millet_light_supply (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -198,14 +191,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_bio_TE (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -248,13 +239,11 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_bio_RUE (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -296,14 +285,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine Millet_transpiration_eff (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -345,13 +332,11 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_water_demand (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -389,14 +374,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine Millet_root_depth (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -442,14 +425,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine Millet_root_depth_init (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -503,13 +484,11 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_water_stress(Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -598,15 +577,13 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine Millet_water_uptake (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -665,15 +642,13 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine Millet_leaf_area_init (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -713,14 +688,12 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine Millet_leaf_no_init (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -761,13 +734,11 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_leaf_no_pot (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -833,13 +804,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine Millet_leaf_area_potential (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -898,14 +867,12 @@ cjh special for erik - end
       endif
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine Millet_leaf_area_stressed (Option)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -949,15 +916,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_bio_actual (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -965,11 +930,11 @@ cjh special for erik - end
       integer Option                   ! (INPUT) template option number
 
 *+  Purpose
-*       Takes the minimum of biomass production limited by radiation and 
+*       Takes the minimum of biomass production limited by radiation and
 *       biomass production limited by water.
 
 *+  Mission Statement
-*     Takes the minimum of biomass production limited by radiation and 
+*     Takes the minimum of biomass production limited by radiation and
 *     biomass production limited by water.
 
 *+  Changes
@@ -1013,14 +978,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_bio_partition (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1088,14 +1051,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_bio_retrans (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1153,15 +1114,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_leaf_actual(Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1200,13 +1159,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_height (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1256,13 +1213,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_bio_grain_demand (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1450,14 +1405,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_leaf_death (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1491,13 +1444,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_leaf_area_sen (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1561,14 +1512,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_sen_bio (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1613,13 +1562,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_sen_nit (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1660,8 +1607,7 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -1669,7 +1615,6 @@ cjh special for erik - end
       Recursive
      :subroutine millet_nit_init (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1712,14 +1657,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_nit_supply (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1780,14 +1723,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_nit_retrans (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1836,8 +1777,7 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -1845,7 +1785,6 @@ cjh special for erik - end
       Recursive
      :subroutine millet_nit_demand (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1907,15 +1846,13 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_nit_uptake (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -1976,8 +1913,7 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -1985,7 +1921,6 @@ cjh special for erik - end
       Recursive
      :subroutine millet_nit_partition (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2025,13 +1960,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 * ====================================================================
       Recursive
      :subroutine millet_nit_demand_est (Option)
 * ====================================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2112,14 +2045,12 @@ cjh special for erik - end
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 
 * ====================================================================
       Recursive
      :subroutine millet_P_uptake (Option)
 * ====================================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2175,12 +2106,12 @@ cjh special for erik - end
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_p_stress_photo (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2222,12 +2153,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_p_stress_pheno (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2269,12 +2200,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_p_stress_expansion (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2316,7 +2247,8 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_p_stress_grain (Option)
@@ -2325,7 +2257,6 @@ cjh special for erik - end
 *   Short description:
 *         Get current P stress factors (0-1)
 
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2372,13 +2303,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 * ====================================================================
       Recursive
      :subroutine millet_P_demand_est (Option)
 * ====================================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2421,12 +2350,12 @@ cjh special for erik - end
 
       call pop_routine (myname)
       return
-      end
+      end subroutine
+
 * ====================================================================
       Recursive
      :subroutine millet_P_conc (Option)
 * ====================================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2463,13 +2392,11 @@ cjh special for erik - end
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_Phos_init (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2510,12 +2437,12 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_plant_death (Option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2707,14 +2634,12 @@ cnh      real dlt_plants
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
      :subroutine millet_detachment(option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2772,13 +2697,11 @@ c in millet
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_phenology (option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2885,13 +2808,11 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_phenology_init (option)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -2924,5 +2845,4 @@ cjh special for erik - end
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine

@@ -2,11 +2,9 @@
 Dependency = %licensed_source(millet)
 
 [Contents]
-ComponentInterface.for = ComponentInterface.for
-millet.inc = millet.inc
 mil_main.for = mil_main.for
-millet.for = millet.for
-mill_opt.for = mill_opt.for
+ComponentInterface.for = ComponentInterface.for
+
 
 [APSBuild]
 binary = ..\lib\millet.dll

@@ -8,7 +8,6 @@
       Recursive
      :subroutine millet_dm_init (dm_green, dm_plant_min)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -77,8 +76,7 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -93,7 +91,6 @@
       Recursive
      :subroutine millet_dm_retranslocate (dm_retranslocate)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -200,8 +197,7 @@
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -216,7 +212,6 @@
       Recursive
      :subroutine millet_leaf_number_final (leaf_no_final)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -320,15 +315,13 @@ cgd
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_leaf_appearance (dlt_leaf_no_pot)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -405,8 +398,7 @@ cgd
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -417,7 +409,6 @@ cgd
       Recursive
      :subroutine millet_leaf_area ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -495,8 +486,7 @@ cejvo
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -504,7 +494,6 @@ cejvo
       Recursive
      :subroutine millet_N_init (N_green)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -540,8 +529,7 @@ cejvo
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -549,7 +537,6 @@ cejvo
       Recursive
      :subroutine millet_tt (dlt_tt)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -573,9 +560,6 @@ cejvo
 *+  Changes
 *       140994 jngh specified and programmed
 *       090695 psc  added N_fact for phenology stress
-
-*+  Calls
-!x      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -604,8 +588,7 @@ cejvo
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -615,7 +598,6 @@ cejvo
       Recursive
      :subroutine millet_phenology_init_o (phase_tt)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -721,15 +703,13 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_devel (dlt_stage, current_stage)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -781,15 +761,13 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_phase_devel (phase_devel)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -805,10 +783,6 @@ cjh      dlt_stage = l_bound(new_stage - g%current_stage,0.0)
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
-      real  millet_phase_tt
-      real  millet_germination
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -834,15 +808,13 @@ cjh         phase_devel = 0.0
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :real function millet_germination (current_stage)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -901,15 +873,13 @@ cjh         phase_devel = 0.0
 
       call pop_routine (my_name)
       return
-      end
-
+      end function
 
 
 *     ===========================================================
       Recursive
      :real function millet_phase_tt (stage_no)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -940,8 +910,7 @@ cjh  changed 0.0 to 1.0
      :                       , g%phase_tt(phase), 1.0)
       call pop_routine (my_name)
       return
-      end
-
+      end function
 
 
 
@@ -953,7 +922,6 @@ cjh  changed 0.0 to 1.0
       Recursive
      :subroutine millet_leaf_death_o (dlt_leaf_no_dead)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -970,8 +938,6 @@ cjh  changed 0.0 to 1.0
 *+  Changes
 *     010994 jngh specified and programmed
 *     011100 jngh added check for leaf_no_final to be ne 0.
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1069,8 +1035,7 @@ cccc
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -1083,7 +1048,6 @@ cccc
       Recursive
      :subroutine millet_N_senescence (dlt_N_senesced)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1119,15 +1083,13 @@ cccc
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_update ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1139,9 +1101,6 @@ cccc
 
 *+  Changes
 *      250894 jngh specified and programmed
-
-*+  Calls
-!x      real  millet_swdef
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1434,15 +1393,13 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_check_bounds ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1642,15 +1599,13 @@ cjh
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_totals ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1662,8 +1617,6 @@ cjh
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1772,15 +1725,13 @@ cpsc  add above
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_event ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1793,8 +1744,6 @@ cpsc  add above
 
 *+  Changes
 *     010994 jngh specified and programmed
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -1873,8 +1822,7 @@ cpsc  add above
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -1882,7 +1830,6 @@ cpsc  add above
       Recursive
      :subroutine millet_root_distrib (root_array, root_sum)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1939,8 +1886,7 @@ cpsc  add above
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -1948,7 +1894,6 @@ cpsc  add above
       Recursive
      :subroutine millet_root_incorp (dlt_dm_root, dlt_N_root)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -1968,8 +1913,6 @@ cpsc  add above
 *       220696 jngh changed to post_ construct
 *       180101 dph  changed unknown_module to all_active_modules in
 *                   call to action_send
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2044,8 +1987,7 @@ cjh     :                               , string)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -2053,7 +1995,6 @@ cjh     :                               , string)
       Recursive
      :subroutine millet_tillering ()
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2098,15 +2039,13 @@ cjh     :                               , string)
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_tiller_appearance_tt (dlt_tiller_no)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2224,15 +2163,13 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
       Recursive
      :subroutine millet_tiller_appearance_dm (dlt_tiller_no)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2280,8 +2217,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -2290,7 +2226,6 @@ cgol bounds added to tiller number determination
      :                                    , dm_tiller_independence
      :                                    , N_tiller_independence)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2350,8 +2285,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -2359,7 +2293,6 @@ cgol bounds added to tiller number determination
      :subroutine millet_tiller_initiate (dm_tiller_independence
      :                                , N_tiller_independence)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2377,8 +2310,6 @@ cgol bounds added to tiller number determination
 *       101095 jngh specified and programmed
 *       220696 jngh changed to post_ construct
 *       180500 jngh changed 'tiller_N' to lower case
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2476,8 +2407,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 
@@ -2513,7 +2443,6 @@ cgol bounds added to tiller number determination
      :        , g_swdef_expansion
      :        , dlt_lai_pot)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2547,9 +2476,6 @@ cgol bounds added to tiller number determination
 
 *+  Changes
 *     210397 nih/mjr specified and programmed
-
-*+  Calls
-      real       Millet_leaf_size1       ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -2590,8 +2516,7 @@ cgol bounds added to tiller number determination
       dlt_lai_pot = g_dlt_leaf_no * area * smm2sm * g_plants
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :real function Millet_leaf_size1 (
@@ -2670,7 +2595,8 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
+      end function
+
 *     ===========================================================
       Recursive
      :subroutine millet_dm_partition (
@@ -2690,7 +2616,6 @@ cgol bounds added to tiller number determination
      :        , g_dm_green
      :        , g_dm_senesced)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -2882,8 +2807,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_dm_partition1 (
@@ -2905,7 +2829,6 @@ cgol bounds added to tiller number determination
      :        , g_dm_green
      :        , g_dm_senesced)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -3113,8 +3036,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
@@ -3160,8 +3082,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_grain_no (
@@ -3181,7 +3102,6 @@ cgol bounds added to tiller number determination
      :        , c_grain_N_conc_min
      :        , grain_num)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -3314,8 +3234,7 @@ cgol bounds added to tiller number determination
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
@@ -3336,7 +3255,6 @@ cgol bounds added to tiller number determination
      :        , c_grain_N_conc_min
      :        , grain_num)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -3468,8 +3386,7 @@ c     :                           , 'grain_no_fract')
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
@@ -3497,7 +3414,6 @@ c     :                           , 'grain_no_fract')
      :        , g_nfact_grain_conc
      :        , dlt_dm_grain_demand)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -3534,9 +3450,6 @@ c     :                           , 'grain_no_fract')
 *+  Changes
 *     010994 jngh specified and programmed
 *     970317 slw new template form
-
-*+  Calls
-      real       millet_dm_grain_max    ! function
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3614,8 +3527,7 @@ c     :                           , 'grain_no_fract')
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :real function millet_dm_grain_max (
@@ -3632,7 +3544,6 @@ c     :                           , 'grain_no_fract')
      :        , g_swdef_expansion
      :        , g_nfact_grain_conc)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       Use CropLibrary
       implicit none
@@ -3657,8 +3568,6 @@ c     :                           , 'grain_no_fract')
 *+  Changes
 *     141093 jngh specified and programmed
 *     970317 slw new template form
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3697,8 +3606,7 @@ c     :                           , 'grain_no_fract')
 
       call pop_routine (my_name)
       return
-      end
-
+      end function
 
 
 
@@ -3723,7 +3631,6 @@ c     :                           , 'grain_no_fract')
      :        , g_nfact_grain_conc
      :        , dlt_N_retrans)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       Use CropLibrary
       implicit none
@@ -3755,8 +3662,6 @@ c     :                           , 'grain_no_fract')
 
 *+  Changes
 *     080994 jngh specified and programmed
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3855,8 +3760,7 @@ csc  true....
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -3870,7 +3774,6 @@ csc  true....
      :        , dlt_N_green
      :                     )
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -3960,8 +3863,7 @@ csc  true....
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -3991,7 +3893,6 @@ csc  true....
      :        , N_conc_max
      :        , N_conc_min)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       Use CropLibrary
       implicit none
@@ -4036,8 +3937,6 @@ csc  true....
 
 *+  Changes
 *     080994 jngh specified and programmed
-
-*+  Calls
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -4130,8 +4029,7 @@ csc  true....
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 * ====================================================================
       Recursive
      :subroutine millet_cover1 (
@@ -4184,8 +4082,7 @@ csc  true....
 
       call pop_routine (myname)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_P_conc_limits (
@@ -4199,7 +4096,6 @@ csc  true....
      :        , P_conc_max
      :        , P_conc_min)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4275,7 +4171,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_pfact
@@ -4352,7 +4249,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_P_demand
@@ -4436,7 +4334,8 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
+      end subroutine
+
 *     ===========================================================
       Recursive
      :subroutine millet_P_init (
@@ -4488,8 +4387,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4500,7 +4398,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                          , g_plants
      :                          , dlt_plants)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4544,8 +4441,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
       endif
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4557,7 +4453,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , g_plants
      :            , dlt_plants)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4607,8 +4502,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4624,7 +4518,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :          , g_plants
      :          , dlt_plants)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4696,8 +4589,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4712,7 +4604,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , g_plants
      :            , dlt_plants)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4774,8 +4665,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4790,7 +4680,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :            , g_plants
      :            , dlt_plants)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4855,8 +4744,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4872,7 +4760,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                    , dlt_plants
      :                       )
 *     ==========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4913,8 +4800,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -4928,7 +4814,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , c_num_weighted_temp
      :        , killfr)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -4979,8 +4864,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -5060,8 +4944,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -5117,8 +5000,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 
 *     ===========================================================
@@ -5129,7 +5011,6 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :        , g_dm_senesced
      :        , g_dm_dead)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -5186,8 +5067,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 
 *     ===========================================================
       Recursive
@@ -5201,7 +5081,6 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
      :            , g_plants
      :            , dlt_plants)
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -5267,8 +5146,7 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 *     ===========================================================
       Recursive
      :subroutine millet_plants_barren0 (
@@ -5345,14 +5223,12 @@ c+!!!!!! fix problem with deltas in update when change from alive to dead ?zero
 
       call pop_routine (my_name)
       return
-      end
-
+      end subroutine
 cjh special for erik - start
 *     ===========================================================
       Recursive
      :subroutine millet_stop_growth (switch)
 *     ===========================================================
-      use MilletModule
       Use infrastructure
       implicit none
 
@@ -5389,7 +5265,6 @@ cjh special for erik - end
       Recursive
      :subroutine millet_cleanup ()
 *     ===========================================================
-      use milletModule
       Use infrastructure
       implicit none
 
@@ -5417,8 +5292,7 @@ cjh special for erik - end
       call pop_routine (my_name)
 
       return
-      end
-
+      end subroutine
 
 
 
