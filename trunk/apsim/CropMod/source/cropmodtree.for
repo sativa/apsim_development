@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000    4:55 pm
+C     Last change:  E    19 Dec 2000    3:40 pm
 
 C      INCLUDE 'CropMod.inc'
 
@@ -126,6 +126,22 @@ C      INCLUDE 'CropMod.inc'
       call phenology_initalisation   (GetSwitchCode(c%phen_switch,1))
       call phenology                 (GetSwitchCode(c%phen_switch,5))
 
+
+
+
+      !SECTION 5: CANOPY FORMATION - ABOVE GROUND PART
+      call leaf_number_initialisation(GetSwitchCode(c%leafno_switch,1))
+      call leaf_number_final         (GetSwitchCode(c%leafno_switch,2))
+      call leaf_initiation           (GetSwitchCode(c%leafno_switch,3))
+      call leaf_appearance           (GetSwitchCode(c%leafno_switch,4))
+
+
+
+
+
+
+
+
       !SECTION 3: CARBOHYDRATE/BIOMASS PRODUCTION
       call biomass_rue               (GetSwitchCode(c%carb_switch,1))
       call biomass_te                (GetSwitchCode(c%carb_switch,2))
@@ -139,11 +155,14 @@ C      INCLUDE 'CropMod.inc'
       call biomass_retranslocation   (GetSwitchCode(c%part_switch,4))
 
 
-      !SECTION 5: CANOPY FORMATION - ABOVE GROUND PART
-      call leaf_number_initialisation(GetSwitchCode(c%leafno_switch,1))
-      call leaf_number_final         (GetSwitchCode(c%leafno_switch,2))
-      call leaf_initiation           (GetSwitchCode(c%leafno_switch,3))
-      call leaf_appearance           (GetSwitchCode(c%leafno_switch,4))
+
+
+
+
+
+
+
+
 
       call tillering_initialisation  (GetSwitchCode(c%tiller_switch,1))
       call tillering                 (GetSwitchCode(c%tiller_switch,2))
@@ -528,24 +547,6 @@ c      REAL    deepest_layer
 
 
 
-
-
-c        deepest_layer = find_layer_no
-c     :                   (g%root_depth,
-c     :                    g%dlayer,
-c     :                    max_layer)
-
-c        PRINT *, 'demand = ', g%sw_demand
-c        PRINT *, 'supply = ', g%sw_supply
-
-c        g%sw_supply_sum = sum_real_array(g%sw_supply, deepest_layer)
-
-c        PRINT *, 'demand = ', g%sw_demand
-c        PRINT *, 'supply = ', g%sw_supply_sum
-
-c          g%swdef_expansion = g%swdef_tiller
-
-
       elseif (Option .eq. 2) then
 
          call crop_swdef_photo(max_layer, g%dlayer, g%root_depth,
@@ -587,6 +588,18 @@ c          g%swdef_expansion = g%swdef_tiller
       else
          call Fatal_error (ERR_internal, 'Invalid template option')
       endif
+
+
+      if (g%current_stage .lt. 3.0) then
+        g%swdef_pheno     = 1.0
+        g%swdef_photo     = 1.0
+        g%swdef_expansion = 1.0
+        g%swdef_tiller    = 1.0
+      end if
+
+
+
+
  
       call pop_routine (my_name)
       return
@@ -793,6 +806,12 @@ c          g%swdef_expansion = g%swdef_tiller
      :               )
 
 
+
+      elseif (option.eq.4)  then
+
+          call sunf_phenology_init ()
+
+
       elseif (Option.eq.0) then
 
          !This module is excluded from the model
@@ -913,6 +932,12 @@ c          g%swdef_expansion = g%swdef_tiller
      :                            ,g%days_tot
      :                            )
 
+
+
+      elseif (Option.eq.4) then
+
+             call sunf_phenology()        !different TT for grainfill, EW not checked yet
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -985,16 +1010,17 @@ c          g%swdef_expansion = g%swdef_tiller
  
       if (Option .eq. 1) then
 
-        extinct_coef = linear_interp_real(g%lai
-     :                                   ,c%x_extinct_coeff_lai
-     :                                   ,c%y_extinct_coeff_lai
-     :                                   ,c%num_extinct_coeff_lai)
+         call crop_extinction_coefficient
+     :          (c%crop_type,
+     :           flowering,
+     :           g%current_stage,
+     :           g%lai,
+     :           c%x_extinct_coeff_lai,
+     :           c%y_extinct_coeff_lai,
+     :           c%num_extinct_coeff_lai,
+     :           c%extinct_coeff_post_anthesis,
+     :           g%extinction_coeff)
 
-         if (g%current_stage.lt.7.0) then
-             g%extinction_coeff = extinct_coef
-         else
-             g%extinction_coeff = c%extinct_coeff_post_anthesis   !0.42
-         end if
 
          g%cover_green = 1.0 - exp (-g%extinction_coeff*g%lai)
 
@@ -1401,6 +1427,23 @@ c        PRINT *,'biomass CF  =', co2_modifier
      .          g%lai,
      .          g%grain_no)
 
+      elseif (Option.eq.4) then
+
+         call sunf_dm_init (g%current_stage,
+     .          g%days_tot,
+     .          c%dm_root_init,
+     .          g%plants,
+     .          c%dm_stem_init,
+     .          c%dm_leaf_init,
+     :          c%flower_trans_frac,   !added for sunflower
+     .          c%stem_trans_frac,
+     .          c%leaf_trans_frac,
+     .          g%dm_green,
+     .          g%dm_plant_min)
+
+
+
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -1524,6 +1567,37 @@ c        PRINT *,'biomass CF  =', co2_modifier
      :              , g%grain_no
      :              , g%dlt_dm_grain_demand
      :               )
+
+
+      else if (Option .eq. 4) then
+
+          call biomass_grain_demand_stress (1)
+
+          call sunf_bio_yieldpart_demand1
+     :               (
+     :                g%current_stage
+     :              , flag_leaf ! Start Stress_stage
+     :              , start_grain_fill
+     :              , maturity
+     :              , grain
+     :              , root
+     :              , max_part
+     :              , g%dlt_dm
+     :              , g%dm_green
+     :              , g%dm_senesced
+     :              , g%days_tot
+     :              , g%dm_stress_max
+     :              , p%hi_incr
+     :              , p%x_hi_max_pot_stress
+     :              , p%y_hi_max_pot
+     :              , p%num_hi_max_pot
+     :              , g%mint
+     :              , g%dlt_dm_grain_demand
+     :              , p%x_hi_incr_min_temp              !Enli added the following three variables (lookup tab)
+     :              , p%y_hi_incr_reduct_fac
+     :              , p%mum_hi_incr_min_temp
+     :               )
+
 
 
       else if (Option.eq.0) then
@@ -1737,7 +1811,39 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      :                  g%dlt_dm_green,
      :                  g%dlt_dm_leaf_pot)
 
+
+
       elseif (Option.eq.4) then
+
+c         call leaf_area_potential(GetSwitchCode(c%can_switch,2))
+
+c         call cproc_leaf_area_stressed1 (
+c     :                       g%dlt_lai_pot
+c     :                      ,g%swdef_expansion
+c     :                      ,g%nfact_expansion
+c     :                      ,g%dlt_lai_stressed
+c     :                      )
+
+
+      call sproc_bio_partition2 (
+     .          g%current_stage,
+     .          c%ratio_root_shoot,
+     .          g%dlt_dm,
+     .          g%leaf_no,
+     .          c%partition_rate_leaf,
+     .          g%dlt_lai_stressed,
+     .          c%sla_min,
+     .          c%frac_stem2flower,
+     :          c%frac_pod2grain,
+     :          c%grain_energy,
+     .          g%dlt_dm_grain_demand,
+     :          g%phase_tt,
+     :          g%tt_tot,
+     .          g%dlt_dm_green)
+
+
+
+      elseif (Option.eq.9) then
 
           call cproc_bio_partition_nw_ew (
      :                  g%current_stage,
@@ -1793,14 +1899,14 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
 
 *+  Constant Values
       integer   num_supply_pools
-      parameter (num_supply_pools = 2)
+      parameter (num_supply_pools = 3)
 *
       character  my_name*(*)           ! name of procedure
       parameter (my_name = 'biomass_retranslocation')
 
 *+  Local Variables
       integer supply_pools(num_supply_pools)
-      data    supply_pools /stem,leaf/      !in nwheat no carbon from leaves to grain  ??????????????
+      data    supply_pools /flower,stem,leaf/      !in nwheat no carbon from leaves to grain  ??????????????
       save    /supply_pools/
 
 *- Implementation Section ----------------------------------
@@ -1825,6 +1931,7 @@ c          nw_sla = 22500.0  ! mm2/g - nwheat value
      :              , g%plants
      :              , g%dlt_dm_green_retrans
      :               )
+
 
       elseif (Option.eq.2) then
  
@@ -2019,6 +2126,23 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%leaf_primodia)
 
 
+      elseif (Option.eq.4) then
+ 
+            call sunf_leaf_number_final1 (
+     .          emerg,
+     .          floral_init,
+     .          plant_end,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%phase_tt,
+     .          c%leaf_init_rate,
+     .          p%rel_leaf_init_rate,
+     .          c%leaf_no_seed,
+     .          c%leaf_no_min,
+     .          c%leaf_no_max,
+     .          g%leaf_no_final)
+
+
       else if (Option.eq.0) then
 
          !This module is excluded from the model
@@ -2125,6 +2249,22 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%dlt_tt,
      .          g%dlt_leaf_no) ! fraction of leaf emerged
 
+
+      else if (Option.eq.4) then
+
+           call sunf_leaf_appearance(
+     .          g%leaf_no,
+     .          g%leaf_no_final,
+     .          p%determinate_crop,
+     .          p%x_node_num_lar,
+     .          p%y_node_lar,
+     .          p%num_node_lar,
+     .          emerg,
+     .          flag_leaf,
+     .          g%current_stage,
+     .          g%days_tot,
+     .          g%dlt_tt,
+     .          g%dlt_leaf_no)
 
 
 
@@ -2415,6 +2555,33 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      .          g%tiller_area_pot,
      .          g%dlt_tiller_area_pot,
      .          g%dlt_lai_pot)
+
+
+
+      else if (Option.eq.4) then
+
+           call sunf_leaf_area_pot(
+     .          emerg,
+     .          flowering,
+     .          now,
+     .          g%phase_tt,
+     .          g%days_tot,
+     .          g%current_stage,
+     .          g%leaf_no_final,
+     .          c%initial_tpla,
+     .          g%tiller_no_fertile,
+     .          c%tiller_coef,
+     .          p%main_stem_coef,
+     .          g%tt_tot,
+     .          c%tpla_inflection_ratio,
+     .          g%tpla_today,
+     .          g%tpla_yesterday,
+     .          p%tpla_prod_coef,
+     .          g%plants,
+     .          g%lai,
+     .          g%dlt_lai_pot)
+ 
+
 
        elseif (Option.eq.8) then
 
@@ -4468,29 +4635,16 @@ c       pause
  
       if (Option.eq.1) then
  
-c        call nitrogen_stress_wang (
-c     :                          leaf,
-c     :                          stem,
-c     :                          emerg,
-c     :                          g%current_stage,
-c     :                          g%dm_green,
-c     :                          g%n_conc_crit,
-c     :                          g%n_conc_min,
-c     :                          g%n_green,
-c     :                          g%nfact_photo,
-c     :                          g%nfact_expansion,
-c     :                          g%nfact_pheno,
-c     :                          g%nfact_tiller)
 
         call nitrogen_stress_nw (
-     :                          leaf, 
-     :                          stem, 
+     :                          leaf,
+     :                          stem,
      :                          emerg,
      :                          g%current_stage,
      :                          g%dm_green,
-     :                          g%n_conc_crit, 
+     :                          g%n_conc_crit,
      :                          g%n_conc_min,
-     :                          g%n_green, 
+     :                          g%n_green,
      :                          g%nfact_photo,
      :                          g%nfact_expansion,
      :                          g%nfact_pheno,
@@ -4606,8 +4760,7 @@ c         g%nfact_tiller = g%nfact_expansion
       endif
 
 
-      if (INT(g%current_stage).le.3) then
-
+      if (INT(g%current_stage).lt.3) then
          g%nfact_photo     = 1.0
          g%nfact_expansion = 1.0
          g%nfact_pheno     = 1.0

@@ -1,4 +1,4 @@
-C     Last change:  E    18 Dec 2000    2:53 pm
+C     Last change:  E    19 Dec 2000   12:26 pm
 
 *     ===========================================================
       subroutine cproc_transp_eff_co2(svp_fract,
@@ -1597,6 +1597,104 @@ c     dll_export leaf_size_bellshapecurveellshapecurve
            end if
 
 
+      call pop_routine (my_name)
+      return
+      end
+
+
+
+*     ===========================================================
+      subroutine crop_extinction_coefficient
+     :          (crop_type,
+     :           flowering,
+     :           g_current_stage,
+     :           g_lai,
+     :           c_x_extinct_coeff_lai,
+     :           c_y_extinct_coeff_lai,
+     :           c_num_extinct_coeff_lai,
+     :           c_extinct_coeff_post_anthesis,
+     :           g_extinction_coeff)
+*     ===========================================================
+      implicit none
+      include 'const.inc'
+      include 'error.pub'
+      include 'science.pub'
+      include 'data.pub'
+
+*+  Sub-Program Arguments
+      CHARACTER crop_type*(*)
+      integer   flowering
+      real      g_current_stage
+      real      g_lai
+      real      c_x_extinct_coeff_lai(*)
+      real      c_y_extinct_coeff_lai(*)
+      integer   c_num_extinct_coeff_lai
+      REAL      c_extinct_coeff_post_anthesis
+      real      g_extinction_coeff
+
+*+  Purpose
+*     light supply
+
+*+  Changes
+*     5/9/96 dph
+*     970312 slw - templated
+
+*+  Constant Values
+      character  my_name*(*)           ! name of procedure
+      parameter (my_name = 'crop_extinction_coefficient')
+
+*+  Local Variables
+      real extinct_coef
+
+*- Implementation Section ----------------------------------
+      call push_routine (my_name)
+ 
+
+      !WHEAT CROP
+      if (crop_type .eq. 'wheat') then
+      
+        extinct_coef = linear_interp_real(g_lai
+     :                                   ,c_x_extinct_coeff_lai
+     :                                   ,c_y_extinct_coeff_lai
+     :                                   ,c_num_extinct_coeff_lai)
+
+         if (g_current_stage.lt. real(flowering)) then
+             g_extinction_coeff = extinct_coef
+         else
+             g_extinction_coeff = c_extinct_coeff_post_anthesis   !0.42
+         end if
+
+
+
+      !SUNFLOWER CROP
+      else if (crop_type .eq. 'sunflower') then
+
+        !EW extinction coefficient needs value when lai is small
+        !   extinction coefficient should not increase after anthesis
+
+        if (g_lai.gt.0.0) then
+            extinct_coef = 3.76 * g_lai ** (-0.81)   !!!MCW
+        else
+            extinct_coef = 0.5
+        endif
+        
+        extinct_coef = bound(extinct_coef, 0.4, 1.0)
+
+        if (g_current_stage .le. REAL(flowering))
+     :     c_extinct_coeff_post_anthesis = extinct_coef
+        
+        
+        if (g_current_stage .ge. REAL(flowering))
+     :     extinct_coef = c_extinct_coeff_post_anthesis
+      
+
+        g_extinction_coeff = extinct_coef
+        
+
+      else
+         call Fatal_error (ERR_internal, 'Invalid crop type')
+      endif
+ 
       call pop_routine (my_name)
       return
       end

@@ -1,4 +1,4 @@
-C     Last change:  E    28 Nov 2000    2:18 pm
+C     Last change:  E    19 Dec 2000    1:10 pm
 
 *     ===========================================================
       subroutine crop_dm_potential (current_stage,
@@ -752,9 +752,14 @@ c      end if
       sw_avail_sum = sum_real_array (sw_avail, deepest_layer)
       sw_avail_ratio = divide (sw_avail_sum, sw_avail_pot_sum, 1.0) !???
       sw_avail_ratio = bound (sw_avail_ratio , 0.0, 1.0)
-      swdef = linear_interp_real(sw_avail_ratio, x_sw_avail_ratio,
+
+      if (num_sw_avail_ratio .eq. 0) then
+        swdef = 1.0
+      else
+        swdef = linear_interp_real(sw_avail_ratio, x_sw_avail_ratio,
      :                           y_swdef_pheno, num_sw_avail_ratio)
- 
+      end if
+
       call pop_routine (my_name)
       return
       end
