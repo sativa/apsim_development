@@ -1,0 +1,1968 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 3.2
+     Title                  = 3 Years Lucerne Harvested 1997 plots
+     Component DLL          = c:\program files\apsim32\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\program files\apsim32\apsim\Screen\lib\Screen.dll
+     Component DLL          = c:\program files\apsim32\apsim\clock\lib\clock.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\report\lib\report.dll
+     Component DLL          = c:\program files\apsim32\apsim\input\lib\input.dll
+     Component DLL          = c:\program files\apsim32\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\program files\apsim32\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\program files\apsim32\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\program files\apsim32\apsim\manager\lib\manager.dll
+     Component DLL          = c:\program files\apsim32\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\program files\apsim32\apsim\residue2\lib\residue2.dll
+     Component DLL          = c:\program files\apsim32\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\plant\lib\plant.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\program files\apsim32\apsim\cropmod\lib\cropmod.dll
+
+------- clock Initialisation --------------------------------------------------
+     Simulation start date =  1/01/1994
+     Simulation end date   = 31/12/1999
+     Time step =           = 1440 (mins)
+
+------- report1 Initialisation ------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        clock.month
+        clock.day_of_month
+        manager.event
+        tracker1.sum@met.rain as rain
+        tracker1.sum@wheat.ep as W_ep
+        tracker1.sum@lucerne.ep as L_ep
+        tracker1.sum@canola.ep as C_ep
+        tracker1.sum@lupin.ep as P_ep
+        tracker1.sum@weed.ep as weed_ep
+        soilwat2.sw_dep() as sw_dep
+        tracker1.sum@soilwat2.es as es
+        tracker1.sum@soilwat2.runoff as runoff
+        tracker1.sum@soilwat2.drain as drain
+        tracker1.sum@manager.Transp as Transp
+        tracker1.sum@manager.ET as ET
+        soilwat2.sw
+        manager.cum_drain_120 as drain_120
+        manager.cum_drain_180 as drain_180
+        manager.cum_rain
+        manager.cum_es
+        manager.cum_T
+        manager.cum_ET
+        manager.sw_dep_10120
+        manager.sw_dep_120180
+        manager.sw_dep_10180
+        manager.sw_dep_0180
+        manager.sw_dep_180300
+        manager.nit_020
+        manager.nit_020_100
+        manager.cum_n_min_020
+        manager.fom_n_020
+        manager.biom_n_020
+        manager.hum_n_020
+        soiln2.nit_tot() as nit_tot
+        soiln2.biom_n() as biom_n
+        soiln2.fom_n() as fom_n
+        soiln2.hum_n() as hum_n
+        soiln2.no3()
+        soiln2.nh4()
+        soiln2.urea() as urea
+        tracker1.sum@soiln2.dlt_n_min[] as dlt_n_min
+        residue2.residue_n
+        residue2.residue_wt
+        residue2.residue_cover
+        wheat.biomass_wt as W_topbiom
+        wheat.dleaf_wt as W_dleaf_wt
+        wheat.root_wt as W_rootwt
+        wheat.leaf_wt as W_leafwt
+        wheat.stem_wt as W_stemwt
+        wheat.grain_wt as W_grainwt
+        wheat.zadok_stage as W_stage
+        wheat.flowering_date as W_antdat
+        wheat.maturity_date as W_matdat
+        wheat.rlv(1-14) as W_rlv
+        wheat.lai as W_lai
+        tracker1.avg@wheat.swdef_photo as W_WatStrF
+        tracker1.avg@wheat.nfact_photo as W_NitStrF
+        wheat.grain_n as W_GrainN
+        wheat.biomass_n as W_TopsN
+        canola.grain_wt as C_grain
+        canola.biomass_wt as C_biom
+        canola.green_biomass_wt as C_gbiom
+        canola.lai as C_lai
+        canola.rlv(1-14) as C_rlv
+        canola.biomass_n as C_biomass_n
+        canola.grain_n as C_grain_n
+        canola.root_depth as C_rootdepth
+        tracker1.avg@canola.swdef_photo as C_swdefphoto
+        tracker1.avg@canola.nfact_photo as C_nfactphoto
+        lucerne.lai as L_lai
+        lucerne.biomass as L_biomass
+        lucerne.green_biomass as L_gbiomass
+        lucerne.rlv as L_rlv
+        lucerne.biomass_n as L_biomass_n
+        lucerne.stage as L_stage
+        lucerne.root_depth as L_rootdepth
+        tracker1.avg@lucerne.swdef_photo as L_swdefphoto
+        tracker1.avg@lucerne.nfact_photo as L_nfactphoto
+        tracker1.sum@lucerne.dlt_n_fixed as L_n_fixed
+        lucerne.cover_green as L_cover_gr
+        lucerne.cover_tot as L_cover_tot
+        lupin.grain_wt as P_grain
+        lupin.biomass_wt as P_biom
+        lupin.green_biomass_wt as P_gbiom
+        lupin.lai as P_lai
+        lupin.rlv(1-14) as P_rlv
+        lupin.biomass_n as P_biomass_n
+        lupin.grain_n as P_grain_n
+        lupin.root_depth as P_rootdepth
+        tracker1.avg@lupin.swdef_photo as P_swdefphoto
+        tracker1.avg@lupin.nfact_photo as P_nfactphoto
+        tracker1.sum@lupin.dlt_n_fixed as P_n_fixed
+        soiln2.no3ppm(1-17) as no3ppm
+        soiln2.nh4ppm(1-17) as nh4ppm
+        weed.rlv(1-6) as Weed_rlv
+        weed.biomass_wt as Weed_biomass
+        weed.green_biomass_wt as weed_gbiomass
+        weed.lai as weed_lai
+        weed.biomass_n as weed_biomass_n
+        manager.cumnetdrain180
+        tracker1.sum@manager.netdrain180 as netdrain180
+        manager.period_sw
+        manager.period_drain
+     
+     Output file = 3L97-142.out
+     Format = csv
+
+------- report2 Initialisation ------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        clock.month
+        clock.day_of_month
+        met.rain
+        soilwat2.eo
+        soilwat2.eos
+        soilwat2.es
+        lucerne.ep() as L_ep
+        soilwat2.sw
+        soiln2.fom_c(1)
+        soiln2.fom_c(2)
+        soiln2.biom_c(1)
+        soiln2.biom_c(2)
+        soiln2.hum_c(1)
+        soiln2.hum_c(2)
+        tracker2.sum@soiln2.dlt_n_min[1]
+        tracker2.sum@soiln2.dlt_n_min_res[1]
+        tracker2.sum@soiln2.dlt_n_min_tot[1]
+        tracker2.avg@wheat.swdef_photo as W_WatStrF
+        tracker2.avg@wheat.nfact_photo as W_NitStrF
+        wheat.lai as W_lai
+        wheat.zadok_stage as W_stage
+        wheat.ep as W_ep
+        manager.cum_T
+        manager.cum_ET
+        soilwat2.runoff
+        lucerne.stage as L_stage
+        lucerne.biomass as L_biomass
+        lucerne.green_biomass as L_gbiomass
+        lucerne.root_wt as rootwt
+        lucerne.leaf_wt as leafwt
+        lucerne.stem_wt as stemwt
+        residue2.residue_n
+        residue2.residue_wt
+        residue2.residue_cover
+        manager.nit_020
+        manager.nit_020_100
+     
+     Output file = d3L97-142.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: 082039new.met
+
+------- canopy Initialisation -------------------------------------------------
+      Initialising
+      Module rotation for intercropping :
+     wheat                           weed
+
+------- operatns Initialisation -----------------------------------------------
+     Operations Schedule
+     ===================
+       120 1993  Prepare      residue2 tillage type = rip()
+       130 1994  Prepare      lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
+       130 1994  Prepare      residue2 set pot_decomp_rate = 0.10 ()
+       292 1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+         6 1995  Prepare      lucerne harvest height = 50 (mm)
+         8 1995  Prepare      residue2 tillage type = graze()
+        42 1995  Prepare      lucerne harvest height = 50 (mm)
+        44 1995  Prepare      residue2 tillage type = graze()
+       235 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+       287 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
+       335 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 200
+        18 1996  Prepare      lucerne harvest height = 50 (mm)
+        20 1996  Prepare      residue2 tillage type = graze()
+        74 1996  Prepare      lucerne harvest height = 50 (mm)
+        76 1996  Prepare      residue2 tillage type = graze()
+       230 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+       298 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+       346 1996  Prepare      lucerne harvest height = 50 (mm)
+       348 1996  Prepare      residue2 tillage type = graze()
+        93 1997  Prepare      lucerne harvest
+        93 1997  Prepare      lucerne end_crop
+       133 1997  Prepare      wheat sow plants = 192, sowing_depth = 40, cultivar = swift
+       345 1997  Prepare      wheat harvest
+       345 1997  Prepare      wheat kill_crop
+       345 1997  Prepare      wheat end_crop
+       345 1997  Prepare      residue2 set pot_decomp_rate = 0.02 ()
+       110 1998  Prepare      residue2 tillage type = burn_95()
+       120 1998  Prepare      wheat sow plants = 231, sowing_depth = 40, cultivar = goldmark
+       316 1998  Prepare      weed sow cultivar = early, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+       356 1998  Prepare      wheat harvest
+       356 1998  Prepare      wheat kill_crop
+       356 1998  Prepare      wheat end_crop
+       119 1999  Prepare      weed harvest
+       119 1999  Prepare      weed kill_crop
+       119 1999  Prepare      weed end_crop
+       120 1999  Prepare      residue2 tillage type = burn_95()
+       145 1999  Prepare      canola sow cultivar = pinnacle, crop_class = triazine, plants = 176 (/m2), sowing_depth = 20 (mm)
+       341 1999  Prepare      canola harvest
+       341 1999  Prepare      canola end_crop
+       341 1999  Prepare      residue2 set pot_decomp_rate = 0.10 ()
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     event         = 0
+     transp        = 0
+     et            = 0
+     cum_drain_120 = 0
+     cum_drain_180 = 0
+     cum_rain      = 0
+     cum_es        = 0
+     cum_t         = 0
+     cum_et        = 0
+     nit_020       = 0
+     nit_20100     = 0
+     sw_dep_10120  = 0
+     sw_dep_120180 = 0
+     sw_dep_10180  = 0
+     sw_dep_180300 = 0
+     sw_dep_0180    = 0
+     oldsw_dep_0180 = 0
+     netdrain180    = 0
+     cumnetdrain180 = 0
+     period_rain   = 0
+     period_drain  = 0
+     period_et     = 0
+     period_sw     = 0
+     fom_n_020     = 0
+     biom_n_020    = 0
+     hum_n_020     = 0
+     cum_n_min_020 = 0
+     crop_in       = 0
+     resn_loss      = 0
+     resn_pregraze  = 0
+     resn_postgraze = 0
+     report_flag    = 0
+     reduce_status = 0
+     
+     SECTION:- start_of_day
+     if ((year = 1994) and (day = 1)) then
+     soiln2 incorp_fom dlt_fom_wt=1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0,dlt_fom_cnr=30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
+     endif
+     
+     SECTION:- start_of_day
+     if (day = 1) then
+        cum_drain_120  = 0
+        cum_drain_180  = 0
+        cum_rain       = 0
+        cum_es         = 0
+        cum_t          = 0
+        cum_et         = 0
+        cumnetdrain180 = 0
+        cum_n_min_020  = 0
+     endif
+     if (lucerne.crop_class = 'regrowth' and day = 90 and reduce_status = 0) then
+        lucerne reduce
+        reduce_status = 1
+     endif
+     if (day = 213 and lucerne.crop_class = 'reduced') then
+        lucerne spring
+        reduce_status = 0
+     endif
+     if (reduce_status = 1 and lucerne.crop_class = 'plant') then
+        reduce_status = 0
+     endif
+     
+     SECTION:- end_of_day
+     transp        = lucerne.ep + canola.ep + lupin.ep + weed.ep - wheat.ep
+     et            = soilwat2.es + transp
+     cum_drain_120 = cum_drain_120 + flow_water(8)
+     cum_drain_180 = cum_drain_180 + flow_water(11)
+     cum_rain      = cum_rain + met.rain
+     cum_t         = cum_t  + transp
+     cum_es        = cum_es + soilwat2.es
+     cum_et        = cum_et + et
+     sw_dep_10120  = sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8)
+     sw_dep_120180 = sw_dep(9) + sw_dep(10) + sw_dep(11)
+     sw_dep_10180  = sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11)
+     nit_020       = no3(1) + nh4(1) + no3(2) + nh4(2)
+     nit_20100     = no3(3) + no3(4) + no3(5) + no3(6) + no3(7) + nh4(3) + nh4(4) + nh4(5) + nh4(6) + nh4(7)
+     fom_n_020     = fom_n(1) + fom_n(2)
+     biom_n_020    = biom_n(1) + biom_n(2)
+     hum_n_020     = hum_n(1) + hum_n(2)
+     cum_n_min_020 = cum_n_min_020 + dlt_n_min(1) + dlt_n_min(2)
+     sw_dep_180300 = sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15) + sw_dep(16) + sw_dep(17)
+     sw_dep_0180    = sw_dep_10180 + sw_dep(1)
+     netdrain180    = met.rain - et - (sw_dep_0180 - oldsw_dep_0180)
+     cumnetdrain180 = cumnetdrain180 + netdrain180
+     oldsw_dep_0180 = sw_dep_0180
+     period_rain  = period_rain + met.rain
+     period_et    = period_et + et
+     period_drain = 0
+     report2 do_end_day_output
+     if ((year = 1993) and (day = 31 or day = 59 or
+          day = 90 or day = 158 or day = 192 or
+          day = 205 or day = 213 or day = 219 or day = 233 or
+          day = 247 or day = 261 or day = 272 or day = 282 or
+          day = 292 or day = 300 or day = 306 or day = 314 or
+          day = 321 or day = 328 or day = 339 or day = 342)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1994) and (day = 27 or day = 42 or
+          day = 158 or day = 192 or day = 198 or
+          day = 205 or day = 213 or day = 219 or day = 233 or
+          day = 247 or day = 261 or day = 304 or
+          day = 324 or day = 344 or day = 350)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1995) and (day = 311 or day = 335 or day = 336)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1996) and (day = 297 or day = 342 or day = 343)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1997) and (day = 294 or day = 344 or day = 345)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1998) and (day = 286 or day = 355 or day = 356)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1999) and (day = 271 or day = 340 or day = 341)) then
+          event = 1
+          report_flag = 1
+     endif
+     if ((year = 1994) and (day = 21 or day = 22 or day = 84 or day = 85 or day = 291 or day = 292)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1995) and (day = 5 or day = 6 or day = 41 or day = 42 or day = 234)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1995) and (day = 235 or day = 286 or day = 287 or day = 334 or day = 335)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1996) and (day = 17 or day = 18 or day = 73 or day = 74 or day = 229)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1996) and (day = 230 or day = 297 or day = 298 or day = 345 or day = 346)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1997) and (day = 149 or day = 150 or day = 254 or day = 255 or day = 322 or day = 323)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1998) and (day = 125 or day = 126 or day = 219 or day = 220)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1998) and (day = 286 or day = 287 or day = 338 or day = 339)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1999) and (day = 64 or day = 65 or day = 111 or day = 112 or day = 217)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1999) and (day = 218 or day = 286 or day = 287 or day = 343 or day = 344)) then
+         event = 1
+         report_flag = 1
+     endif
+     if ((year = 1995) and (day = 265 or day = 272 or day = 282 or day = 292 or day = 300
+          or day = 306 or day = 314 or day = 321 or day = 328 or day = 339 or day = 342 or day = 362)) then
+          event = 2
+          report_flag = 1
+     endif
+     if ((year = 1996) and (day = 20 or day = 27 or day = 42 or
+          day = 101 or day = 158 or day = 192 or day = 205 or day = 219 or day = 233 or
+          day = 247 or day = 261 or day = 277 or day = 304 or day = 324 or day = 344)) then
+          event = 2
+          report_flag = 1
+     endif
+     if ((year = 1997) and (day = 38 or day = 113 or day = 150 or day = 168 or day = 182
+          or day = 199 or day = 217 or day = 234 or day = 267 or day = 297 or day = 317 or
+          day = 336 or day = 351)) then
+          event = 2
+          report_flag = 1
+     endif if ((year = 1998) and (day = 71 or day = 112 or day = 126 or day = 138 or
+          day = 154 or day = 166 or day = 183 or day = 202 or day = 303)) then
+          event = 2
+          report_flag = 1
+     endif
+     if ((year = 1999) and (day = 55 or day = 113 or day = 148 or day = 173 or
+          day = 203 or day = 223 or day = 237 or day = 250 or day = 265 or day = 294 or day = 342)) then
+          event = 2
+          report_flag = 1
+     endif
+     if ((year = 1993) and (day = 121)) then
+         event = 3
+         report_flag = 1
+     endif
+     if ((year = 1994) and (day = 121)) then
+         event = 3
+         report_flag = 1
+     endif
+     if ((year = 1995) and (day = 121)) then
+         event = 3
+         report_flag = 1
+     endif
+     if ((year = 1996) and (day = 122)) then
+         event = 3
+         report_flag = 1
+     endif
+     if ((year = 1997) and (day = 121)) then
+         event = 3
+         report_flag = 1
+     endif
+     if ((year = 1998) and (day = 121)) then
+         event = 3
+         report_flag = 1
+     endif
+     if ((year = 1999) and (day = 121)) then
+         event = 3
+         report_flag = 1
+     endif
+     if (event = 2) then
+        period_drain   = period_rain - period_et - (sw_dep_0180 - period_sw)
+        period_sw      = sw_dep_0180
+     endif
+     if ((report_flag = 1) or (report1.days_since_last_report = 14 and year > 1993)) then
+        report1 do_end_day_output
+        report_flag = 0
+        event       = 0
+     endif
+     END of rules
+     
+     Manager creating a new local real variable : event =     0.00000000000000
+     Manager creating a new local real variable : transp =     0.00000000000000
+     Manager creating a new local real variable : et =     0.00000000000000
+     Manager creating a new local real variable : cum_drain_120 =     0.00000000000000
+     Manager creating a new local real variable : cum_drain_180 =     0.00000000000000
+     Manager creating a new local real variable : cum_rain =     0.00000000000000
+     Manager creating a new local real variable : cum_es =     0.00000000000000
+     Manager creating a new local real variable : cum_t =     0.00000000000000
+     Manager creating a new local real variable : cum_et =     0.00000000000000
+     Manager creating a new local real variable : nit_020 =     0.00000000000000
+     Manager creating a new local real variable : nit_20100 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_10120 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_120180 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_10180 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_180300 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_0180 =     0.00000000000000
+     Manager creating a new local real variable : oldsw_dep_0180 =     0.00000000000000
+     Manager creating a new local real variable : netdrain180 =     0.00000000000000
+     Manager creating a new local real variable : cumnetdrain180 =     0.00000000000000
+     Manager creating a new local real variable : period_rain =     0.00000000000000
+     Manager creating a new local real variable : period_drain =     0.00000000000000
+     Manager creating a new local real variable : period_et =     0.00000000000000
+     Manager creating a new local real variable : period_sw =     0.00000000000000
+     Manager creating a new local real variable : fom_n_020 =     0.00000000000000
+     Manager creating a new local real variable : biom_n_020 =     0.00000000000000
+     Manager creating a new local real variable : hum_n_020 =     0.00000000000000
+     Manager creating a new local real variable : cum_n_min_020 =     0.00000000000000
+     Manager creating a new local real variable : crop_in =     0.00000000000000
+     Manager creating a new local real variable : resn_loss =     0.00000000000000
+     Manager creating a new local real variable : resn_pregraze =     0.00000000000000
+     Manager creating a new local real variable : resn_postgraze =     0.00000000000000
+     Manager creating a new local real variable : report_flag =     0.00000000000000
+     Manager creating a new local real variable : reduce_status =     0.00000000000000
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  100.  0.030  0.030  0.190  0.350  0.080  1.500  0.613  0.900
+          100.-  200.  0.030  0.030  0.190  0.350  0.090  1.630  0.243  0.900
+          200.-  300.  0.050  0.050  0.230  0.300  0.170  1.710  0.096  0.600
+          300.-  400.  0.070  0.130  0.270  0.300  0.160  1.730  0.038  0.600
+          400.-  600.  0.110  0.150  0.290  0.310  0.220  1.750  0.009  0.600
+          600.-  800.  0.130  0.160  0.290  0.310  0.270  1.760  0.000  0.600
+          800.- 1000.  0.160  0.180  0.300  0.320  0.280  1.770  0.000  0.600
+         1000.- 1200.  0.180  0.220  0.310  0.320  0.280  1.790  0.000  0.600
+         1200.- 1400.  0.180  0.220  0.310  0.330  0.310  1.800  0.000  0.500
+         1400.- 1600.  0.180  0.210  0.300  0.320  0.300  1.800  0.000  0.500
+         1600.- 1800.  0.180  0.190  0.290  0.320  0.290  1.800  0.000  0.400
+         1800.- 2000.  0.180  0.180  0.280  0.320  0.280  1.800  0.000  0.400
+         2000.- 2200.  0.185  0.220  0.270  0.300  0.270  1.830  0.000  0.300
+         2200.- 2400.  0.200  0.230  0.290  0.310  0.290  1.830  0.000  0.200
+         2400.- 2600.  0.200  0.220  0.290  0.310  0.290  1.830  0.000  0.200
+         2600.- 2800.  0.200  0.220  0.280  0.300  0.280  1.830  0.000  0.200
+         2800.- 3000.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         3000.- 3200.  0.200  0.220  0.280  0.290  0.280  1.830  0.000  0.200
+         3200.- 3400.  0.200  0.220  0.280  0.290  0.280  1.830  0.000  0.200
+         3400.- 3600.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         3600.- 3800.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         3800.- 4000.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         4000.- 4200.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         4200.- 4400.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         4400.- 4600.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         4600.- 4800.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+         4800.- 5000.  0.200  0.220  0.290  0.300  0.290  1.830  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  100.       3.00       5.00      16.00      16.00
+          100.-  200.       3.00       6.00      16.00      16.00
+          200.-  300.       5.00      12.00      18.00       7.00
+          300.-  400.      13.00       3.00      14.00       3.00
+          400.-  600.      30.00      14.00      28.00       4.00
+          600.-  800.      32.00      22.00      26.00       4.00
+          800.- 1000.      36.00      20.00      24.00       4.00
+         1000.- 1200.      44.00      12.00      18.00       2.00
+         1200.- 1400.      44.00      18.00      18.00       4.00
+         1400.- 1600.      42.00      18.00      18.00       4.00
+         1600.- 1800.      38.00      20.00      20.00       6.00
+         1800.- 2000.      36.00      20.00      20.00       8.00
+         2000.- 2200.      44.00      10.00      10.00       6.00
+         2200.- 2400.      46.00      12.00      12.00       4.00
+         2400.- 2600.      44.00      14.00      14.00       4.00
+         2600.- 2800.      44.00      12.00      12.00       4.00
+         2800.- 3000.      44.00      14.00      14.00       2.00
+         3000.- 3200.      44.00      12.00      12.00       2.00
+         3200.- 3400.      44.00      12.00      12.00       2.00
+         3400.- 3600.      44.00      14.00      14.00       2.00
+         3600.- 3800.      44.00      14.00      14.00       2.00
+         3800.- 4000.      44.00      14.00      14.00       2.00
+         4000.- 4200.      44.00      14.00      14.00       2.00
+         4200.- 4400.      44.00      14.00      14.00       2.00
+         4400.- 4600.      44.00      14.00      14.00       2.00
+         4600.- 4800.      44.00      14.00      14.00       2.00
+         4800.- 5000.      44.00      14.00      14.00       2.00
+          ---------------------------------------------------------
+               Totals     988.00     368.00     434.00     118.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       44.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              75.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- residue2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                      Residue Initial Data
+         ------------------------------------------------
+            Dry matter   N       P    Type
+             (kg/ha)  (kg/ha) (kg/ha)
+         ------------------------------------------------
+              1000.0    16.0     0.0  grass
+         ------------------------------------------------
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     5.30  1.42    1.35    2.25    0.00
+             2     5.00  0.96    1.47    1.63    0.00
+             3     5.10  0.59    1.54    1.54    0.00
+             4     5.10  0.46    1.56    1.04    0.00
+             5     5.30  0.35    3.15    2.45    0.00
+             6     5.50  0.35    3.17    2.46    0.00
+             7     5.80  0.26    1.42    1.06    0.00
+             8     5.80  0.15    1.79    1.79    0.00
+             9     5.80  0.08    1.44    1.08    0.00
+            10     5.80  0.06    2.52    1.44    0.00
+            11     5.80  0.06    2.52    1.44    0.00
+            12     5.80  0.06    2.52    1.44    0.00
+            13     5.80  0.06    2.56    1.46    0.00
+            14     5.80  0.06    2.56    1.46    0.00
+            15     5.80  0.06    2.56    1.46    0.00
+            16     5.80  0.06    2.56    1.46    0.00
+            17     5.80  0.06    2.56    1.46    0.00
+            18     5.80  0.06    2.56    1.46    0.00
+            19     5.80  0.06    2.56    1.46    0.00
+            20     5.80  0.06    2.56    1.46    0.00
+            21     5.80  0.06    2.56    1.46    0.00
+            22     5.80  0.06    2.56    1.46    0.00
+            23     5.80  0.06    2.56    1.46    0.00
+            24     5.80  0.06    2.56    1.46    0.00
+            25     5.80  0.06    2.56    1.46    0.00
+            26     5.80  0.06    2.56    1.46    0.00
+            27     5.80  0.06    2.56    1.46    0.00
+          ------------------------------------------------
+           Totals               62.87   41.58    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      20154.6  1439.6  1145.4   143.2     0.0     0.0
+             2      14977.4  1069.8   670.6    83.8     0.0     0.0
+             3       9778.6   698.5   310.4    38.8     0.0     0.0
+             4       7880.0   562.9    78.0     9.8     0.0     0.0
+             5      12195.7   871.1    54.3     6.8     0.0     0.0
+             6      12274.5   876.7    45.5     5.7     0.0     0.0
+             7       9185.8   656.1    18.2     2.3     0.0     0.0
+             8       5362.0   383.0     8.0     1.0     0.0     0.0
+             9       2877.1   205.5     2.9     0.4     0.0     0.0
+            10       2158.9   154.2     1.1     0.1     0.0     0.0
+            11       2158.9   154.2     1.1     0.1     0.0     0.0
+            12       2158.9   154.2     1.1     0.1     0.0     0.0
+            13       2194.9   156.8     1.1     0.1     0.0     0.0
+            14       2194.9   156.8     1.1     0.1     0.0     0.0
+            15       2194.9   156.8     1.1     0.1     0.0     0.0
+            16       2194.9   156.8     1.1     0.1     0.0     0.0
+            17       2194.9   156.8     1.1     0.1     0.0     0.0
+            18       2194.9   156.8     1.1     0.1     0.0     0.0
+            19       2194.9   156.8     1.1     0.1     0.0     0.0
+            20       2194.9   156.8     1.1     0.1     0.0     0.0
+            21       2194.9   156.8     1.1     0.1     0.0     0.0
+            22       2194.9   156.8     1.1     0.1     0.0     0.0
+            23       2194.9   156.8     1.1     0.1     0.0     0.0
+            24       2194.9   156.8     1.1     0.1     0.0     0.0
+            25       2194.9   156.8     1.1     0.1     0.0     0.0
+            26       2194.9   156.8     1.1     0.1     0.0     0.0
+            27       2194.9   156.8     1.1     0.1     0.0     0.0
+          ---------------------------------------------------------
+           Totals  134086.1  9577.6  2352.9   294.1     0.0     0.0
+          ---------------------------------------------------------
+
+------- canola Initialisation -------------------------------------------------
+      Initialising
+
+------- lucerne Initialisation ------------------------------------------------
+      Initialising
+
+------- lupin Initialisation --------------------------------------------------
+      Initialising
+
+------- weed Initialisation ---------------------------------------------------
+      Initialising
+
+------- tracker1 Initialisation -----------------------------------------------
+     Tracker variables:
+
+------- tracker2 Initialisation -----------------------------------------------
+     Tracker variables:
+
+------- wheat Initialisation --------------------------------------------------
+      Initialising, V1.0 2000.01.21
+     
+         - Reading constants
+------- Start of simulation  --------------------------------------------------
+1 January 1994(Day of year=1), manager: 
+     Manager sending message :- soiln2 incorp_fom  dlt_fom_wt = 1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, dlt_fom_cnr = 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
+10 May 1994(Day of year=130), operatns: 
+      Sending sow message to lucerne
+10 May 1994(Day of year=130), lucerne: 
+     Sow
+     
+      - Reading constants for plant
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                   = trifecta
+         est_days_emerg_to_init     =       30
+         cum_vernal_days            =     0.00  100.00
+         tt_emerg_to_endjuv         =   700.00  700.00
+         x_pp_endjuv_to_init        =    10.70   17.00
+         y_tt_endjuv_to_init        =   300.00  300.00
+         x_pp_init_to_flower        =     1.00   24.00
+         y_tt_init_to_flower        =   200.00  200.00
+         x_pp_flower_to_start_grain =     1.00   24.00
+         y_tt_flower_to_start_grain =   100.00  100.00
+         x_pp_start_to_end_grain    =     1.00   24.00
+         y_tt_start_to_end_grain    =  9400.00 9400.00
+         tt_end_grain_to_maturity   =    500.0
+         tt_maturity_to_ripe        =      5.0
+         x_pp_hi_incr               =     1.00   24.00
+         y_hi_incr                  =  0.00010 0.00010
+         x_hi_max_pot_stress        =     0.00    1.00
+         y_hi_max_pot               =     0.50    0.50
+         x_stem_wt                  =     0.00    2.00
+         y_height                   =     0.00  500.00
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     
+     
+                         Root Profile
+     ---------------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+     ---------------------------------------------------
+          100.0     0.080          0.030       1.000
+          100.0     0.080          0.030       1.000
+          100.0     0.080          0.050       1.000
+          100.0     0.080          0.130       1.000
+          200.0     0.080          0.150       1.000
+          200.0     0.070          0.160       1.000
+          200.0     0.060          0.180       1.000
+          200.0     0.050          0.220       1.000
+          200.0     0.030          0.220       1.000
+          200.0     0.010          0.210       1.000
+          200.0     0.010          0.190       1.000
+          200.0     0.010          0.180       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.010          0.230       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.010          0.220       1.000
+          200.0     0.000          0.220       1.000
+          200.0     0.000          0.220       1.000
+          200.0     0.000          0.220       1.000
+          200.0     0.000          0.220       1.000
+          200.0     0.000          0.220       1.000
+          200.0     0.000          0.220       1.000
+          200.0     0.000          0.220       1.000
+     ---------------------------------------------------
+     
+     
+       Crop factor for bounding water use is set to 100.0 times Eo
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   Row   Plant Name
+         ------------------------------------------------
+            130   40.0  100.0  150.0   0.0   0.0  trifecta
+         ------------------------------------------------
+     
+     
+10 May 1994(Day of year=130), operatns: 
+      Sending set message to residue2
+11 May 1994(Day of year=131), lucerne: 
+      stage    2.0 germination
+25 May 1994(Day of year=145), lucerne: 
+      stage    3.0 emergence
+                          biomass =          0.5000000       lai =    0.1000000E-03
+                          stover N conc =    6.000000       extractable sw =   0.3100121
+29 September 1994(Day of year=272), lucerne: 
+      stage    4.0 end_of_juvenile
+                          biomass =           22.68541       lai =    0.1975546
+                          stover N conc =    6.000000       extractable sw =    109.7490
+19 October 1994(Day of year=292), operatns: 
+      Sending harvest message to lucerne
+19 October 1994(Day of year=292), lucerne: 
+     
+     
+     
+      flowering day  =    0                  stover (kg/ha) =     692.9
+      maturity day        =    0             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 0.507
+      total above ground biomass (kg/ha) =     692.9
+      live above ground biomass (kg/ha) =     692.9
+      green above ground biomass (kg/ha) =     642.6
+      senesced above ground biomass (kg/ha) =      50.3
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  22.9
+      grain N percent =      0.00            total N content (kg/ha) =     34.01
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      1.86
+      green N content (kg/ha) =     32.15    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0009369
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      - Reading constants for regrowth
+     
+      Crop harvested.
+                                               tops residue =  153.4 kg/ha
+                                               tops N =    7.6 kg/ha
+                                               root residue =   38.2 kg/ha
+                                               root N =    0.4 kg/ha
+     
+     
+                                               tops removed =  284.8 kg/ha
+                                               tops N removed =   14.1 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           25.47276       lai =    0.1000000E-03
+                          stover N conc =    4.956827       extractable sw =    108.4389
+15 November 1994(Day of year=319), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           146.3842       lai =    0.5729694
+                          stover N conc =    3.999732       extractable sw =    130.1622
+29 November 1994(Day of year=333), lucerne: 
+      stage    6.0 flowering
+                          biomass =           273.4857       lai =    0.9782200
+                          stover N conc =    2.967668       extractable sw =    83.70284
+6 December 1994(Day of year=340), lucerne: 
+      stage    7.0 start_grain_fill
+                          biomass =           305.7988       lai =     1.070760
+                          stover N conc =    2.715564       extractable sw =    87.24881
+6 January 1995(Day of year=6), operatns: 
+      Sending harvest message to lucerne
+6 January 1995(Day of year=6), lucerne: 
+     
+     
+     
+      flowering day  =  333                  stover (kg/ha) =    3386.1
+      maturity day        =    0             grain yield (kg/ha) =      11.2
+      grain % water content   =   15.5       grain yield wet (kg/ha) =      13.2
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.292
+      total above ground biomass (kg/ha) =    3397.3
+      live above ground biomass (kg/ha) =    3397.3
+      green above ground biomass (kg/ha) =    3121.8
+      senesced above ground biomass (kg/ha) =     275.5
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  38.2
+      grain N percent =      1.70            total N content (kg/ha) =     84.47
+      grain N uptake (kg/ha) =      0.19     senesced N content (kg/ha) =      1.87
+      green N content (kg/ha) =     82.41    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0027946
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0095909
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.1958531   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2668037   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.4470716   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.5226784   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.5506333   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6393605   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 2880.9 kg/ha
+                                               tops N =   72.0 kg/ha
+                                               root residue =  171.2 kg/ha
+                                               root N =    1.7 kg/ha
+     
+     
+                                               tops removed =   11.2 kg/ha
+                                               tops N removed =    0.2 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           50.51270       lai =    0.1000000E-03
+                          stover N conc =    2.592342       extractable sw =    60.68872
+8 January 1995(Day of year=8), operatns: 
+      Sending tillage message to residue2
+8 January 1995(Day of year=8), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using graze
+                                             Fraction Incorporated =     0.75
+                                             Incorporated Depth    =     0.00
+23 January 1995(Day of year=23), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           104.5090       lai =    0.4436328
+                          stover N conc =    4.017878       extractable sw =    112.9837
+4 February 1995(Day of year=35), lucerne: 
+      stage    6.0 flowering
+                          biomass =           204.9516       lai =    0.9225640
+                          stover N conc =    2.841218       extractable sw =    74.27597
+11 February 1995(Day of year=42), operatns: 
+      Sending harvest message to lucerne
+11 February 1995(Day of year=42), lucerne: 
+     
+     
+     
+      flowering day  =   35                  stover (kg/ha) =    2323.0
+      maturity day        =    0             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.292
+      total above ground biomass (kg/ha) =    2323.0
+      live above ground biomass (kg/ha) =    2323.0
+      green above ground biomass (kg/ha) =    2248.3
+      senesced above ground biomass (kg/ha) =      74.7
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  23.3
+      grain N percent =      0.00            total N content (kg/ha) =     61.06
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.59
+      green N content (kg/ha) =     60.47    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0014404   nitrogen stress 1 =       0.0521264
+      water stress 2 =       0.0071434   nitrogen stress 2 =       0.0645133
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.1321895   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1852605   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.4038166   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.4737775   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 1949.2 kg/ha
+                                               tops N =   51.5 kg/ha
+                                               root residue =  199.0 kg/ha
+                                               root N =    2.0 kg/ha
+     
+     
+                                               tops removed =    0.0 kg/ha
+                                               tops N removed =    0.0 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           37.38115       lai =    0.1000000E-03
+                          stover N conc =    2.618079       extractable sw =    79.77222
+13 February 1995(Day of year=44), operatns: 
+      Sending tillage message to residue2
+13 February 1995(Day of year=44), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using graze
+                                             Fraction Incorporated =     0.75
+                                             Incorporated Depth    =     0.00
+28 February 1995(Day of year=59), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           67.85549       lai =    0.3171273
+                          stover N conc =    4.293056       extractable sw =    77.84314
+12 March 1995(Day of year=71), lucerne: 
+      stage    6.0 flowering
+                          biomass =           93.41602       lai =    0.4414262
+                          stover N conc =    3.382216       extractable sw =    67.19791
+21 March 1995(Day of year=80), lucerne: 
+      stage    7.0 start_grain_fill
+                          biomass =           102.7493       lai =    0.4845695
+                          stover N conc =    3.088187       extractable sw =    74.33119
+31 March 1995(Day of year=90), manager: 
+     Manager sending message :- lucerne reduce
+23 August 1995(Day of year=235), operatns: 
+      Sending harvest message to lucerne
+23 August 1995(Day of year=235), lucerne: 
+     
+     
+     
+      flowering day  =   71                  stover (kg/ha) =    1324.7
+      maturity day        =    0             grain yield (kg/ha) =      58.7
+      grain % water content   =   15.5       grain yield wet (kg/ha) =      69.5
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.748
+      total above ground biomass (kg/ha) =    1383.4
+      live above ground biomass (kg/ha) =    1383.4
+      green above ground biomass (kg/ha) =     790.7
+      senesced above ground biomass (kg/ha) =     592.7
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  53.4
+      grain N percent =      1.70            total N content (kg/ha) =     42.67
+      grain N uptake (kg/ha) =      1.00     senesced N content (kg/ha) =     11.53
+      green N content (kg/ha) =     30.14    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.1747267   nitrogen stress 1 =       0.0508568
+      water stress 2 =       0.2094811   nitrogen stress 2 =       0.0638550
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.5885509   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6827717   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.6370700   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.7370700   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0427317   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0546100   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue =  386.9 kg/ha
+                                               tops N =   11.9 kg/ha
+                                               root residue =  268.7 kg/ha
+                                               root N =    2.7 kg/ha
+     
+     
+                                               tops removed =  777.2 kg/ha
+                                               tops N removed =   23.2 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           21.93534       lai =    0.1000000E-03
+                          stover N conc =    4.570692       extractable sw =    383.2745
+5 October 1995(Day of year=278), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           136.7057       lai =    0.5616240
+                          stover N conc =    4.009485       extractable sw =    394.0872
+14 October 1995(Day of year=287), operatns: 
+      Sending harvest message to lucerne
+14 October 1995(Day of year=287), lucerne: 
+     
+     
+     
+      flowering day  =   71                  stover (kg/ha) =    2147.6
+      maturity day        =    0             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.748
+      total above ground biomass (kg/ha) =    2147.6
+      live above ground biomass (kg/ha) =    2147.6
+      green above ground biomass (kg/ha) =    2107.4
+      senesced above ground biomass (kg/ha) =      40.2
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  17.1
+      grain N percent =      0.00            total N content (kg/ha) =     75.56
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      1.10
+      green N content (kg/ha) =     74.46    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0045364
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0082425
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue =  623.4 kg/ha
+                                               tops N =   22.0 kg/ha
+                                               root residue =  248.4 kg/ha
+                                               root N =    2.5 kg/ha
+     
+     
+                                               tops removed = 1157.7 kg/ha
+                                               tops N removed =   40.9 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           36.65155       lai =    0.1500000E-03
+                          stover N conc =    3.478492       extractable sw =    375.9987
+12 November 1995(Day of year=316), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           187.1967       lai =    0.8098683
+                          stover N conc =    4.046915       extractable sw =    423.3552
+29 November 1995(Day of year=333), lucerne: 
+      stage    6.0 flowering
+                          biomass =           416.4068       lai =     1.710222
+                          stover N conc =    2.819713       extractable sw =    379.3446
+1 December 1995(Day of year=335), operatns: 
+      Sending harvest message to lucerne
+1 December 1995(Day of year=335), lucerne: 
+     
+     
+     
+      flowering day  =  333                  stover (kg/ha) =    4270.6
+      maturity day        =    0             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.752
+      total above ground biomass (kg/ha) =    4270.6
+      live above ground biomass (kg/ha) =    4270.6
+      green above ground biomass (kg/ha) =    4268.2
+      senesced above ground biomass (kg/ha) =       2.4
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  21.4
+      grain N percent =      0.00            total N content (kg/ha) =    117.76
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      0.03
+      green N content (kg/ha) =    117.72    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0179988
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0210904
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 1281.6 kg/ha
+                                               tops N =   35.6 kg/ha
+                                               root residue =  306.8 kg/ha
+                                               root N =    3.1 kg/ha
+     
+     
+                                               tops removed = 2380.1 kg/ha
+                                               tops N removed =   66.0 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           60.88807       lai =    0.2000000E-03
+                          stover N conc =    2.653505       extractable sw =    375.5412
+25 December 1995(Day of year=359), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           269.3558       lai =     1.081466
+                          stover N conc =    4.141514       extractable sw =    301.6157
+6 January 1996(Day of year=6), lucerne: 
+      stage    6.0 flowering
+                          biomass =           399.3318       lai =     1.779919
+                          stover N conc =    3.020118       extractable sw =    285.8123
+12 January 1996(Day of year=12), lucerne: 
+      stage    7.0 start_grain_fill
+                          biomass =           433.8134       lai =     1.892607
+                          stover N conc =    2.821263       extractable sw =    254.2342
+18 January 1996(Day of year=18), operatns: 
+      Sending harvest message to lucerne
+18 January 1996(Day of year=18), lucerne: 
+     
+     
+     
+      flowering day  =    6                  stover (kg/ha) =    4435.4
+      maturity day        =    0             grain yield (kg/ha) =       2.7
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       3.2
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.941
+      total above ground biomass (kg/ha) =    4438.1
+      live above ground biomass (kg/ha) =    4438.1
+      green above ground biomass (kg/ha) =    4212.3
+      senesced above ground biomass (kg/ha) =     225.8
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  26.2
+      grain N percent =      1.70            total N content (kg/ha) =    119.86
+      grain N uptake (kg/ha) =      0.05     senesced N content (kg/ha) =      2.33
+      green N content (kg/ha) =    117.48    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0141179   nitrogen stress 1 =       0.0329043
+      water stress 2 =       0.0231512   nitrogen stress 2 =       0.0345931
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.3061650   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3748737   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.4533968   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.5533968   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.5956010   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6956010   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 3704.4 kg/ha
+                                               tops N =  100.4 kg/ha
+                                               root residue =  354.1 kg/ha
+                                               root N =    3.5 kg/ha
+     
+     
+                                               tops removed =    2.7 kg/ha
+                                               tops N removed =    0.0 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           73.10153       lai =    0.2000000E-03
+                          stover N conc =    2.755081       extractable sw =    234.4643
+20 January 1996(Day of year=20), operatns: 
+      Sending tillage message to residue2
+20 January 1996(Day of year=20), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using graze
+                                             Fraction Incorporated =     0.75
+                                             Incorporated Depth    =     0.00
+7 February 1996(Day of year=38), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           152.3323       lai =    0.6384064
+                          stover N conc =    4.421749       extractable sw =    209.4247
+22 February 1996(Day of year=53), lucerne: 
+      stage    6.0 flowering
+                          biomass =           207.9963       lai =    0.8982528
+                          stover N conc =    3.492155       extractable sw =    189.3463
+28 February 1996(Day of year=59), lucerne: 
+      stage    7.0 start_grain_fill
+                          biomass =           213.5329       lai =    0.9249929
+                          stover N conc =    3.379168       extractable sw =    208.5043
+14 March 1996(Day of year=74), operatns: 
+      Sending harvest message to lucerne
+14 March 1996(Day of year=74), lucerne: 
+     
+     
+     
+      flowering day  =   53                  stover (kg/ha) =    2520.5
+      maturity day        =    0             grain yield (kg/ha) =       3.9
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       4.6
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.941
+      total above ground biomass (kg/ha) =    2524.4
+      live above ground biomass (kg/ha) =    2524.4
+      green above ground biomass (kg/ha) =    2364.1
+      senesced above ground biomass (kg/ha) =     160.3
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  29.6
+      grain N percent =      1.70            total N content (kg/ha) =     68.44
+      grain N uptake (kg/ha) =      0.07     senesced N content (kg/ha) =      2.00
+      green N content (kg/ha) =     66.37    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.1787335   nitrogen stress 1 =       0.0460532
+      water stress 2 =       0.2170506   nitrogen stress 2 =       0.0562609
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.6127083   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6993437   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.6060448   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.6942208   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.3189330   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3960121   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 1917.6 kg/ha
+                                               tops N =   52.1 kg/ha
+                                               root residue =  334.3 kg/ha
+                                               root N =    3.3 kg/ha
+     
+     
+                                               tops removed =    3.9 kg/ha
+                                               tops N removed =    0.1 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           60.29149       lai =    0.2000000E-03
+                          stover N conc =    2.807914       extractable sw =    177.8375
+16 March 1996(Day of year=76), operatns: 
+      Sending tillage message to residue2
+16 March 1996(Day of year=76), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using graze
+                                             Fraction Incorporated =     0.75
+                                             Incorporated Depth    =     0.00
+9 April 1996(Day of year=100), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           140.3870       lai =    0.7423337
+                          stover N conc =    4.000503       extractable sw =    168.7443
+3 May 1996(Day of year=124), lucerne: 
+      stage    6.0 flowering
+                          biomass =           225.2068       lai =     1.038672
+                          stover N conc =    3.448523       extractable sw =    146.9799
+12 May 1996(Day of year=133), lucerne: 
+      stage    7.0 start_grain_fill
+                          biomass =           237.3005       lai =     1.151152
+                          stover N conc =    3.066917       extractable sw =    161.0950
+17 August 1996(Day of year=230), operatns: 
+      Sending harvest message to lucerne
+17 August 1996(Day of year=230), lucerne: 
+     
+     
+     
+      flowering day  =  124                  stover (kg/ha) =     445.3
+      maturity day        =    0             grain yield (kg/ha) =      20.6
+      grain % water content   =   15.5       grain yield wet (kg/ha) =      24.4
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 1.941
+      total above ground biomass (kg/ha) =     466.0
+      live above ground biomass (kg/ha) =     466.0
+      green above ground biomass (kg/ha) =     378.5
+      senesced above ground biomass (kg/ha) =      87.4
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  38.8
+      grain N percent =      1.70            total N content (kg/ha) =     17.11
+      grain N uptake (kg/ha) =      0.35     senesced N content (kg/ha) =      2.89
+      green N content (kg/ha) =     13.87    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.1646071   nitrogen stress 1 =       0.0356269
+      water stress 2 =       0.2103928   nitrogen stress 2 =       0.0437520
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.4313571   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.5161535   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.1166731   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1346125   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue =  112.3 kg/ha
+                                               tops N =    4.0 kg/ha
+                                               root residue =  244.7 kg/ha
+                                               root N =    2.4 kg/ha
+     
+     
+                                               tops removed =  229.1 kg/ha
+                                               tops N removed =    7.8 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           12.45399       lai =    0.2000000E-03
+                          stover N conc =    4.507155       extractable sw =    302.6638
+1 October 1996(Day of year=275), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           245.4915       lai =     1.056811
+                          stover N conc =    4.007354       extractable sw =    342.9853
+22 October 1996(Day of year=296), lucerne: 
+      stage    6.0 flowering
+                          biomass =           555.4202       lai =     2.290154
+                          stover N conc =    2.680058       extractable sw =    292.7236
+24 October 1996(Day of year=298), operatns: 
+      Sending harvest message to lucerne
+24 October 1996(Day of year=298), lucerne: 
+     
+     
+     
+      flowering day  =  296                  stover (kg/ha) =    5704.4
+      maturity day        =    0             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 2.346
+      total above ground biomass (kg/ha) =    5704.4
+      live above ground biomass (kg/ha) =    5704.4
+      green above ground biomass (kg/ha) =    5650.9
+      senesced above ground biomass (kg/ha) =      53.5
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  21.4
+      grain N percent =      0.00            total N content (kg/ha) =    151.62
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      1.21
+      green N content (kg/ha) =    150.40    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0048043
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0082813
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 1715.2 kg/ha
+                                               tops N =   45.9 kg/ha
+                                               root residue =  343.5 kg/ha
+                                               root N =    3.4 kg/ha
+     
+     
+                                               tops removed = 3185.3 kg/ha
+                                               tops N removed =   85.3 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           80.39236       lai =    0.2000000E-03
+                          stover N conc =    2.543674       extractable sw =    286.0450
+22 November 1996(Day of year=327), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           335.0617       lai =     1.138190
+                          stover N conc =    4.012661       extractable sw =    225.8170
+10 December 1996(Day of year=345), lucerne: 
+      stage    6.0 flowering
+                          biomass =           498.5640       lai =     1.595333
+                          stover N conc =    3.064079       extractable sw =    169.1933
+11 December 1996(Day of year=346), operatns: 
+      Sending harvest message to lucerne
+11 December 1996(Day of year=346), lucerne: 
+     
+     
+     
+      flowering day  =  345                  stover (kg/ha) =    4985.6
+      maturity day        =    0             grain yield (kg/ha) =       0.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =       0.0
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 2.346
+      total above ground biomass (kg/ha) =    4985.6
+      live above ground biomass (kg/ha) =    4985.6
+      green above ground biomass (kg/ha) =    4761.4
+      senesced above ground biomass (kg/ha) =     224.2
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  20.9
+      grain N percent =      0.00            total N content (kg/ha) =    149.10
+      grain N uptake (kg/ha) =      0.00     senesced N content (kg/ha) =      3.20
+      green N content (kg/ha) =    145.89    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0385624
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0442910
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.4369979   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.5189344   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.6912118   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.7912117   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue = 4192.1 kg/ha
+                                               tops N =  125.3 kg/ha
+                                               root residue =  369.2 kg/ha
+                                               root N =    3.7 kg/ha
+     
+     
+                                               tops removed =    0.0 kg/ha
+                                               tops N removed =    0.0 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           79.35374       lai =    0.2000000E-03
+                          stover N conc =    3.075368       extractable sw =    169.1933
+13 December 1996(Day of year=348), operatns: 
+      Sending tillage message to residue2
+13 December 1996(Day of year=348), residue2: 
+     
+         - Reading residue tillage info
+     Residue removed using graze
+                                             Fraction Incorporated =     0.75
+                                             Incorporated Depth    =     0.00
+1 January 1997(Day of year=1), lucerne: 
+      stage    5.0 floral_initiation
+                          biomass =           137.3571       lai =    0.4883771
+                          stover N conc =    4.467665       extractable sw =    149.3630
+14 January 1997(Day of year=14), lucerne: 
+      stage    6.0 flowering
+                          biomass =           153.9044       lai =    0.5314958
+                          stover N conc =    3.938269       extractable sw =    138.1654
+20 January 1997(Day of year=20), lucerne: 
+      stage    7.0 start_grain_fill
+                          biomass =           157.0561       lai =    0.5517575
+                          stover N conc =    3.828384       extractable sw =    135.1995
+3 April 1997(Day of year=93), operatns: 
+      Sending harvest message to lucerne
+3 April 1997(Day of year=93), lucerne: 
+     
+     
+     
+      flowering day  =   14                  stover (kg/ha) =    1177.3
+      maturity day        =    0             grain yield (kg/ha) =      14.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =      16.5
+      grain wt (g) =     0.000               grains/m^2   =     0.000
+      grains/head =   0.0                    maximum lai = 2.346
+      total above ground biomass (kg/ha) =    1191.2
+      live above ground biomass (kg/ha) =    1191.2
+      green above ground biomass (kg/ha) =     982.4
+      senesced above ground biomass (kg/ha) =     208.8
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  56.1
+      grain N percent =      1.70            total N content (kg/ha) =     39.09
+      grain N uptake (kg/ha) =      0.24     senesced N content (kg/ha) =      4.25
+      green N content (kg/ha) =     34.59    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0020006
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0411797
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.2885707   nitrogen stress 1 =       0.0534682
+      water stress 2 =       0.3390132   nitrogen stress 2 =       0.0713010
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.8107494   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.9107493   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.7434220   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.8434219   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.6380864   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.7267420   nitrogen stress 2 =       0.0000000
+     
+      Crop harvested.
+                                               tops residue =  977.9 kg/ha
+                                               tops N =   31.7 kg/ha
+                                               root residue =  264.1 kg/ha
+                                               root N =    2.6 kg/ha
+     
+     
+                                               tops removed =   14.0 kg/ha
+                                               tops N removed =    0.2 kg/ha
+                                               root removed =    0.0 kg/ha
+                                               root N removed =    0.0 kg/ha
+      stage    4.0 end_of_juvenile
+                          biomass =           19.93518       lai =    0.2000000E-03
+                          stover N conc =    3.885230       extractable sw =    112.9718
+3 April 1997(Day of year=93), operatns: 
+      Sending end_crop message to lucerne
+3 April 1997(Day of year=93), lucerne: 
+         Crop ended. Yield (dw) =     0.0
+                                               straw residue =  199.4 kg/ha
+                                               straw N =    7.1 kg/ha
+                                               root residue = 2654.1 kg/ha
+                                               root N =   66.9 kg/ha
+13 May 1997(Day of year=133), operatns: 
+      Sending sow message to wheat
+13 May 1997(Day of year=133), wheat: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+            133   40.0  192.0    0.0    0.0   swift         0.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by wheat
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          100.000    0.080    0.030    0.600
+          100.000    0.080    0.030    0.600
+          100.000    0.040    0.050    0.600
+          100.000    0.040    0.130    0.600
+          200.000    0.020    0.150    0.600
+          200.000    0.020    0.160    0.600
+          200.000    0.010    0.180    0.600
+          200.000    0.010    0.220    0.600
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.210    0.000
+          200.000    0.000    0.190    0.000
+          200.000    0.000    0.180    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.230    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          200.000    0.000    0.220    0.000
+          ------------------------------------------------
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = vern_sens
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = photop_sens
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = tt_startgf_to_mat
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = grain_num_coeff
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = max_grain_fill_rate
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = dm_tiller_max
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = x_stem_wt
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = y_height
+     Section name = swift
+     Component name: wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+         ------------------------------------------------
+         Cultivar                     = swift
+         Sensitivity to vernalisation =   0.00
+         Sensitivity to photoperiod   =    0.00
+         tt_startgrainfill_to_mat     =    0.00
+         grain_num_coeff              =    0.00
+         max_grain_fill_rate          =    0.00
+         dm_tiller_max                =    0.00
+         x_stem_wt                    =
+         y_height                     =
+         ------------------------------------------------
+     
+     
+     
