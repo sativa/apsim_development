@@ -1,24 +1,17 @@
 [sample.report.parameters]
-title = stylo Sample Simulation
-screen_output = on
-outputfile  = stylo.out /overwrite
-summaryfile = stylo.sum /overwrite
+outputfile  =stylo.out
 
-module_names=    clock clock
-variable_names=  day   year     
-variable_alias=  -     -      
 
-module_names=    stylo stylo stylo
-variable_names=  lai      biomass  green_biomass
-variable_alias=  -        -        -     
-units=           -         -       -     
 
+variable = clock.day
+variable = clock.year
+variable = stylo.lai
+variable = stylo.biomass
+variable = stylo.green_biomass
 [sample.clock.parameters]
 ! Start and end date of run (day number of year and year)
-simulation_start_day =  310
-simulation_start_year = 1988
-simulation_end_day =  100
-simulation_end_year = 1989
+start_date=5/11/1988     ! dd/mm/yyyy
+end_date=10/4/1989     ! dd/mm/yyyy
 
 [sample.manager.start_of_day]
 
