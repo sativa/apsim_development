@@ -61,7 +61,7 @@
 
 *+  Sub-Program Arguments
       integer num_part            ! (INPUT) number of plant part
-      real    SLN
+      real    SLN                 ! (INPUT) Specific Leaf Nitrogen (g N /m^2)
       REAL    c_n_sen_conc(*)     ! (INPUT)  N concentration of senesced material
                                   !         (g/m^2)
       REAL    g_dlt_dm_senesced(*)! (INPUT)  plant biomass senescence (g/m^2)
@@ -108,7 +108,7 @@
      :                         ,g_dm_green(part)
      :                         ,0.0)
 
-         sen_n_conc = green_n_conc * min(SLN,1.0) *0.75
+         sen_n_conc = green_n_conc * min(SLN,1.0) * 0.75  ! should be externals?
          dlt_N_senesced(part) = g_dlt_dm_senesced(part)
      :                        * sen_n_conc
 
@@ -137,12 +137,12 @@
       implicit none
 
 *+  Sub-Program Arguments
-      REAL       C_n_init_conc(*)      ! (INPUT)  initial N concentration (
-      INTEGER    max_part
-      REAL       G_dm_green(*)         ! (INPUT)  live plant dry weight (biomass
-      real       N_green(*)            ! plant nitrogen (g/m^2)
-      real g_lai
-      real g_plants
+      REAL       C_n_init_conc(*)      ! (INPUT) initial N concentration (
+      INTEGER    max_part              ! (INPUT) size of plant part array
+      REAL       G_dm_green(*)         ! (INPUT) live plant dry weight (biomass
+      real       N_green(*)            ! (INPUT) plant nitrogen (g/m^2)
+      real       g_lai                 ! (INPUT) leaf area index (m2/m2)
+      real       g_plants              ! (INPUT) plants / m^2
 
 *+  Purpose
 *   Initialise plant Nitrogen pools
@@ -158,7 +158,7 @@
       parameter (my_name = 'sorg_N_init1')
 
 *+  Local Variables
-      real leafarea
+      real    leafarea
       integer part
 
 *- Implementation Section ----------------------------------
@@ -166,12 +166,12 @@
       call push_routine (my_name)
 
 
-      leafarea = g_lai * 10000 / g_plants
-      if(leafarea .lt. 4.0)then
+      leafarea = divide(g_lai * 10000, g_plants, 0.0)
+      if (leafarea .lt. 4.0) then   ! ???? what's magic about 4?
          do 100 part = 1, max_part
             N_green(part) = c_N_init_conc(part)*g_dm_green(part)
   100    continue
-         N_green(2) = c_N_init_conc(2) * g_lai
+         N_green(leaf) = c_N_init_conc(leaf) * g_lai
       endif
 
       call pop_routine (my_name)
@@ -239,10 +239,12 @@
 *+  Local Variables
 
 
-      real    N_required,lai
-      real    gf_tt_now,grain_no
+      real    N_required
+      real    lai                        ! todays lai
+      real    gf_tt_now
+      real    grain_no
       real    NTargetStem
-      real    SLN,NFillFact,gf_tt
+      real    SLN, NFillFact, gf_tt
       integer i,   numvals               ! number of values in stage code table
 
       save SLN
@@ -253,6 +255,9 @@
 
       call fill_real_array (n_demand, 0.0, max_part)
 
+      if (G_current_stage .lt. emerg)then
+         SLN = 0.0
+      endif
 
 !     ROOT demand to keep root [N] at 0.2%   (1.2%) c_n_target_conc
 !     get root + delta root
@@ -264,7 +269,6 @@
       N_demand(root) = max(0.0, N_required - G_n_green(root))
 
 !     STEM demand to keep stem [N] at levels from  y_N_conc_crit_stem
-
       if (G_current_stage .lt. start_grain_fill )then
          numvals = count_of_real_vals (c_x_stage_code, max_stage)
 
@@ -284,9 +288,10 @@
 
       endif
 
-!     LEAF demand to keep SLN = c_n_target_conc
+      lai = max(0.0, g_lai + g_dlt_lai - g_dlt_slai)
+      SLN = divide(G_n_green(leaf), lai, 0.0)
 
-      lai = g_lai + g_dlt_lai - g_dlt_slai
+!     LEAF demand to keep SLN = c_n_target_conc
       N_required = 0
       if (G_current_stage .lt. flag_leaf )then
          N_required = lai * c_n_target_conc(leaf)
@@ -294,31 +299,20 @@
          N_required = lai * min(SLN,c_n_target_conc(leaf))
       endif
 
-      SLN = divide(G_n_green(leaf),
-     :              (g_lai + g_dlt_lai - g_dlt_slai),
-     :               0.0)
-
-
-
-
       N_demand(leaf) = max(0.0, N_required - G_n_green(leaf))
-
 
 !     GRAIN demand to keep grain N filling rate at 0.001mg/grain/dd
 !       where dd is degree days from start_grain_fill
 !
 !       g_grain_no is the final grain number.
 !       Ramp grain number from 0 at StartGrainFill to g_grain_no at SGF + 200dd
-
-
       if(G_current_stage .ge. start_grain_fill )then
          gf_tt_now = sum_between(start_grain_fill,now,g_tt_tot_fm)
-         grain_no = min((gf_tt_now/200 *  g_grain_no),g_grain_no)
+         grain_no = min((gf_tt_now/200.0 *  g_grain_no),g_grain_no)   !200dd is???
 
          N_required = grain_no * g_dlt_tt *
-     .                     c_n_target_conc(grain) / 1000
+     .                     c_n_target_conc(grain) / 1000.0
          N_demand(grain) = max(0.0, N_required )
-
 
       endif
 
@@ -499,7 +493,7 @@
 
 *+  Sub-Program Arguments
       ! DEMAND
-      real    g_N_demand(*)
+      real    g_N_demand(*)            ! (INPUT) N demand by part
       real    NFract                   ! Demand/Supply ratio of available N
       real    dlt_N_green(max_part)    ! (OUTPUT) actual plant N uptake
                                        ! into each plant part (g/m^2)
@@ -609,7 +603,7 @@
 !      b)   reduce SLN to 0.5 while reducing dlt_lai from 100% to 50%
 !            until demand is reduced to supply
 
-      lai = g_lai + g_dlt_lai - g_dlt_slai
+      lai = max(0.0, g_lai + g_dlt_lai - g_dlt_slai)
       LeafN = G_n_green(leaf) + dlt_N_green(leaf)
 
       SLN = divide(LeafN, lai, 0.0)
@@ -621,7 +615,7 @@
          if(SLN .lt. 1.0)then
 !             b)   reduce SLN to 0.5 while reducing dlt_lai from 100% to 50%
 !             Note: New leaf growth SLN is 1.0
-            LeafN50 = 0.5 *g_dlt_lai *1.0 +(g_lai - g_dlt_slai)* 0.5
+            LeafN50 = 0.5 *g_dlt_lai *1.0 +(g_lai - g_dlt_slai)* 0.5  !?????
             if(LeafN .ge. LeafN50)then
                LeafN100 = lai * 1.0
                reduct = (LeafN-LeafN50)/(LeafN100-LeafN50)*0.5 + 0.5
