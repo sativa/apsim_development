@@ -1,9 +1,9 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Sample  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 version = 2.2
-[apsim.sample_soilph]    
+[apsim.sample_soilph]
 
 
-title=sample run
+title = sample run
 module = clock    soilph.par [sample]
 module = report   soilph.par [sample]
 module = report (report1)  soilph.par [rtexcr]
@@ -18,3 +18,4 @@ module = fertiliz                                                               
 module = soilph   soilph.par [sample]                                            %apsuite\apsim\soilph\soilph.ini [standard]
 module = SummaryFile  soilph.par[sample]
 module = Screen  soilph.par[sample]
+module = tracker  soilph.par[sample]
