@@ -2,7 +2,7 @@
       module MicrometModule
 *     ========================================
       use Registrations
-      
+
       real       svp_A
       parameter (svp_A = 6.106)            ! Teten coefficients
 
@@ -142,6 +142,7 @@
          real soil_heat_flux_fraction
          real night_interception_fraction
          real windspeed_default
+         real RefHeight
 
       end type MicrometConstants
 *     ========================================
@@ -664,6 +665,14 @@
      :         , 0.0                  ! Lower Limit for bound checking
      :         , 10.0)                ! Upper Limit for bound checking
 
+      call read_real_var (
+     :           section_name         ! Section header
+     :         , 'refheight'    ! Keyword
+     :         , '(m)'                 ! Units
+     :         , c%RefHeight    ! Variable
+     :         , numvals              ! Number of values returned
+     :         , 0.0                  ! Lower Limit for bound checking
+     :         , 10.0)                ! Upper Limit for bound checking
 
       call pop_routine (myname)
       return
@@ -1590,9 +1599,9 @@
 
       Use Infrastructure
       implicit none
-                                         
+
       integer, intent(in) :: variant
-                                         
+
 *+  Purpose
 *     Update internal time record and reset daily state variables.
 
@@ -1612,7 +1621,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call unpack_time(variant, tick)                                                 
+      call unpack_time(variant, tick)
       call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       call pop_routine (myname)
@@ -1896,6 +1905,7 @@
 
       TotalGa = micromet_AerodynamicConductanceFAO(
      :                         g%WindSpeed          !windspeed
+     :                       , c%RefHeight
      :                       , sum(g%DeltaZ(:))     !Top Height
      :                       , sum(g%LAItot(:,:)) ) ! Total LAI
 
@@ -2746,7 +2756,7 @@
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
@@ -2758,5 +2768,5 @@
       endif
       return
       end subroutine respondToEvent
-                                   
+
       
