@@ -1,0 +1,14 @@
+[Dependencies]
+Dependency = %licensed(forest)
+
+[Contents]
+Executable = lib\lib.apf
+Source = source\source.apf
+Sample = sample\sample.apf
+Documentation = docs\docs.apf
+
+[contacts]
+contact = Neil Huth - Module Developer; mailto:neil.huth@csiro.au
+
+[References]
+forest.ini = forest.ini
