@@ -191,6 +191,20 @@ void LogComponent::writeMessageData(const protocol::Message* message)
          out << " type=\"" << asString(registerData.type) << "\"";
          break;
          }
+      case protocol::RequestSetValue:
+         {
+         protocol::RequestSetValueData requestSetValueData;
+         messageData >> requestSetValueData;
+         writeVariant(requestSetValueData.variant);
+         break;
+         }
+      case protocol::QuerySetValue:
+         {
+         protocol::QuerySetValueData querySetValueData;
+         messageData >> querySetValueData;
+         writeVariant(querySetValueData.variant);
+         break;
+         }
       case protocol::GetValue:
          {
          writeRegistrationData(message);
