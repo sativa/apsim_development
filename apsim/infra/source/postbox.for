@@ -48,7 +48,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
 *+  Mission Statement
 *      
- 
+
 *+ Changes
 *     SB 24/4/98  Created.
  
@@ -1291,15 +1291,15 @@ C     Last change:  P     9 Nov 2000   10:29 am
       include 'postbox.inc'
       include 'string.pub'
       include 'apsimengine.pub'
- 
+
 *+ Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to find.
       integer Variable_number          ! (INPUT) Which variable do we return?
- 
+
 *+ Purpose
 *     Find the specified variable in the postbox.  Return index into
 *     variable arrays for found variable.  Return -1 if not found.
- 
+
 *+ Notes
 *      If variable_number = 2 and there are 2 variables in the postbox
 *      with the same name then the second one will be returned.
@@ -1328,9 +1328,9 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Push_routine(This_routine)
  
       Num_found_so_far = 0
- 
+
       ! We need to search for the variable name for the current message.
- 
+
       Message_ptr = g_current_message
 
       Variable_ptr = g_Variable_start(Message_ptr)
@@ -1338,8 +1338,8 @@ C     Last change:  P     9 Nov 2000   10:29 am
       if (Variable_ptr .lt.
      .    g_Variable_start(g_Current_message + 1)) then
          ! Look at this variable name
- 
-         if (Strings_equal(g_Variable_name(Variable_ptr), 
+
+         if (Strings_equal(g_Variable_name(Variable_ptr),
      .                     Variable_name)) then
             ! Found variable - increment our variable counter and if it
             ! matches the requested variable number then exit the routine.
@@ -2058,29 +2058,29 @@ C     Last change:  P     9 Nov 2000   10:29 am
       Num_elements = 0
       if (Variable_ptr .gt. 0) then
          ! Found variable - go retrieve all it's values.
- 
+
          call Retrieve_double_values
      .       (Variable_ptr, Array, Array_size, Num_elements,
      .        Sum_array, Array_start_index, Array_stop_index)
- 
+
          ! Store the units, data type and owner module so that a module can query these later.
- 
+
          g_Last_respond_units = g_Variable_unit(Variable_ptr)
          g_Last_respond_module = g_variable_owners(Variable_ptr)
-         
+
       else if (.not. Allow_zero_numvals) then
          ! Variable not found and calling routine won't allow a zero numvals.
          ! Issue fatal error.
- 
+
          write(msg, '(50a)' )
      .      'Cannot find a variable in any module in APSIM.  ',
      .      new_line,
      .      '  Variable_name = ',
      .      Variable_name
          call Fatal_error(ERR_user, msg)
- 
+
       endif
- 
+
       call Pop_routine(This_routine)
       return
       end
@@ -2731,7 +2731,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       integer Indx                     ! Do loop index
       integer Numvals                  ! Dummy variable
       logical ok                       ! all ok
- 
+
 *- Implementation Section ----------------------------------
  
       call Push_routine (This_routine)
@@ -2806,7 +2806,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
       call Pop_routine(This_routine)
       return
       end
- 
+
  
  
 * ====================================================================
@@ -2831,7 +2831,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     DPH 20/10/94
  
 *+ Calls
- 
+
 *- Implementation Section ----------------------------------
  
       g_Last_respond_type = Data_type
@@ -2856,7 +2856,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
  
 *+ Changes
 *     DPH 4/7/00
- 
+
 *+ Calls
  
 *- Implementation Section ----------------------------------
@@ -2881,7 +2881,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *     Set the variable type of from the previous repond call
 
 *+  Mission Statement
-*      
+*
  
 *+ Changes
 *     DPH 4/7/00
@@ -2926,7 +2926,7 @@ C     Last change:  P     9 Nov 2000   10:29 am
 *+ Calls
  
 *- Implementation Section ----------------------------------
- 
+
       g_SavedEIStackPtr = g_SavedEIStackPtr - 1
       if (g_SavedEIStackPtr .gt. 0) then
          EventInterface = g_SavedEIStack(g_SavedEIStackPtr)
@@ -2936,3 +2936,39 @@ C     Last change:  P     9 Nov 2000   10:29 am
 
       return 
       end
+
+* ====================================================================
+      subroutine Rename_variable(oldname, newname)
+* ====================================================================
+      implicit none
+      dll_export rename_variable
+      include 'const.inc'              ! constant definitions
+      include 'postbox.inc'
+
+*+ Sub-Program Arguments
+      character oldname*(*)            ! (INPUT) old variable name
+      character newname*(*)            ! (INPUT) new variable name
+
+*+ Purpose
+*     rename a postbox variable.
+
+*+  Mission Statement
+*
+
+*+ Changes
+*     DPH 4/5/2001
+
+*+ Calls
+      dll_import find_variable_in_postbox
+      integer Find_variable_in_postbox
+
+*+ Local Variables
+      integer Variable_ptr
+
+*- Implementation Section ----------------------------------
+
+      Variable_ptr = Find_variable_in_postbox(oldName, 1)
+      g_variable_name(variable_ptr) = newName
+      return
+      end
+
