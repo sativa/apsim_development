@@ -11,7 +11,7 @@
 //---------------------------------------------------------------------------
 // Return the APSIM version number
 //---------------------------------------------------------------------------
-std::string getApsimVersion(void)
+std::string _export getApsimVersion(void)
    {
    IniFile ini(getApsimDirectory() + "\\version.ini");
    string versionString;

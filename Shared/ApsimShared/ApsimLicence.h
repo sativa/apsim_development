@@ -7,7 +7,7 @@
 // ------------------------------------------------------------------
 // Class to read and write a licence
 // ------------------------------------------------------------------
-class ApsimLicence
+class __declspec(dllexport) ApsimLicence
    {
    protected:
       std::string fileName;

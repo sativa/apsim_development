@@ -12,7 +12,7 @@ class IniFile;
 // Keys can be hierarchical and are in the format:
 //           section1|section2|...|name
 // ------------------------------------------------------------------
-class ApsimSettings
+class __declspec(dllexport) ApsimSettings
     {
     public:
       ApsimSettings(void);
