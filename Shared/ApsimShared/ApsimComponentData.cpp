@@ -6,6 +6,8 @@
 #include "ApsimComponentData.h"
 #include <general\xml.h>
 #include <general\stl_functions.h>
+#include <general\string_functions.h>
+#include "FStringExt.h"
 #pragma package(smart_init)
 
 
@@ -286,5 +288,39 @@ extern "C" bool _export __stdcall ApsimComponentData_getProperty
    string valueSt = componentData->getProperty(property);
    unsigned charsCopied = valueSt.copy(value, valueLength);
    return (charsCopied > 0);
+   }
+extern "C" void _export __stdcall ApsimComponentData_getRuleNames
+   (ApsimComponentData* componentData,
+    char* names,
+    unsigned* maxNumNames,
+    unsigned* numNames,
+    unsigned namesLength)
+   {
+   vector<string> ruleNames;
+   componentData->getRuleNames(ruleNames);
+   FStrings(names, namesLength, *maxNumNames, 0) = ruleNames;
+   *numNames = ruleNames.size();
+   }
+vector<string> ruleLines;
+extern "C" void _export __stdcall ApsimComponentData_loadRule
+   (ApsimComponentData* componentData,
+    const char* name,
+    unsigned nameLength)
+   {
+   Split_string(componentData->getRule(asString(FString(name, nameLength))),
+                "\n", ruleLines);
+   }
+extern "C" unsigned _export __stdcall ApsimComponentData_getNumRuleLines
+   (ApsimComponentData* componentData)
+   {
+   return ruleLines.size();
+   }
+extern "C" void _export __stdcall ApsimComponentData_getRuleLine
+   (ApsimComponentData* componentData,
+    unsigned* lineNumber,
+    const char* line,
+    unsigned lineLength)
+   {
+   FString(line, lineLength) = ruleLines[*lineNumber].c_str();
    }
 
