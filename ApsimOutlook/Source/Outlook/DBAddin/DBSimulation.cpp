@@ -240,6 +240,7 @@ void DBSimulation::readData(TAPSTable& data, const string& simulationName)
    delete TFieldNames;
 
    // give all field names to the data object.
+   data.clearFields();
    data.addField(SIMULATION_FIELD_NAME);
    for (unsigned int f = 0; f < fieldNames.size(); f++)
       data.addField(fieldNames[f]);
@@ -324,33 +325,20 @@ unsigned int DBSimulation::calculateRank
 // ------------------------------------------------------------------
 string DBSimulation::getFactorValue(const string& factorName) const
    {
-   string searchString = factorName + "=";
-   char* posFactor = stristr(title, searchString.c_str());
-   posFactor += searchString.length();
-   char* posSemiColon = strchr(posFactor, ';');
-   if (posSemiColon == NULL)
-      return posFactor;
-   else
-      return string(posFactor, posSemiColon - posFactor);
-   }
-
-/*   vector<string> factorNames, factorValues;
-   getFactors(factorNames, factorValues);
-
-   if (factorName == SIMULATION_FACTOR_NAME)
-      return factorValues[0];
+   if (factorName == "Simulation")
+      return title;
    else
       {
-      vector<string>::const_iterator f = find(factorNames.begin(),
-                                              factorNames.end(),
-                                              factorName);
-      if (f == factorNames.end())
-         return "";
+      string searchString = factorName + "=";
+      char* posFactor = stristr(title, searchString.c_str());
+      posFactor += searchString.length();
+      char* posSemiColon = strchr(posFactor, ';');
+      if (posSemiColon == NULL)
+         return posFactor;
       else
-         return factorValues[f-factorNames.begin()];
+         return string(posFactor, posSemiColon - posFactor);
       }
    }
-*/
 // ------------------------------------------------------------------
 //  Short description:
 //    return all factor names and values to caller.
@@ -374,6 +362,11 @@ void DBSimulation::getFactors(vector<string>& names, vector<string>& values) con
       {
       string name, value;
       Get_keyname_and_value (titleBits[i].c_str(), name, value);
+      if (name == "")
+         {
+         name = "Simulation";
+         value = titleBits[i];
+         }
       names.push_back (name);
       values.push_back (value);
       }

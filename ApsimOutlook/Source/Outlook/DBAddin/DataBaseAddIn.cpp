@@ -53,7 +53,10 @@ string createPartialTitle(const Scenario& scenario, const string& factorName)
       scenario.getFactorAttributes(*f, factorValue, factorBitmap);
       if (partialTitle.length() > 0)
          partialTitle += ";";
-      partialTitle += *f + "=" + factorValue;
+      if (*f == "Simulation")
+         partialTitle += factorValue;
+      else
+         partialTitle += *f + "=" + factorValue;
       }
    return partialTitle;
    }
