@@ -167,6 +167,15 @@ class Component
                                             getRegistrationType(eventID),
                                             data));
          }
+      // Publish an event.
+      template <class T>
+      void publishArray(unsigned int eventID, T data[], unsigned int numValues)
+         {
+         sendMessage(newPublishEventMessage(componentID, parentID, eventID,
+                                            getRegistrationType(eventID),
+                                            data, numValues));
+         }
+
       // Call a method in another component.
       template <class T>
       void methodCall(unsigned int methodID, T& data)
