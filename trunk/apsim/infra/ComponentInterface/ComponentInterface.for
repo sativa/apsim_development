@@ -69,15 +69,14 @@ C     Last change:  P     1 Nov 2000    9:53 am
 !      DPH 14/7/99
 
 !+ Calls
-      dll_import set_ei
+      dll_import restore_ei
 
 !- Implementation Section ----------------------------------
 
+      call Restore_EI()
       CurrentInstanceIndex = CurrentInstanceIndex - 1
       if (CurrentInstanceIndex .gt. 0) then
          call SwapInstance(InstanceNoStack(CurrentInstanceIndex))
-
-         call Set_EI(SavedEventInterface)
 
          MessageUsed    = SavedMessageUsed
          EventInterface = SavedEventInterface

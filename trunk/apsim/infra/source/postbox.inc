@@ -35,6 +35,8 @@
       integer MAX_ARRAY_SIZE
       parameter (MAX_ARRAY_SIZE=150)   ! maximum size of array
 
+      integer MAX_SAVED_EI
+      parameter (MAX_SAVED_EI=20)      ! maximum number of levels of recursion
 
 * ====================================================================
        common /postbox_double/
@@ -107,7 +109,9 @@
      .   g_Empty_double_slot,
      .   g_Empty_char_slot,
      .   g_Empty_variable_slot,
-     .   g_Last_respond_type
+     .   g_Last_respond_type,
+     .   g_SavedEIStack,
+     .   g_SavedEIStackPtr
 
 * ====================================================================
  
@@ -141,4 +145,5 @@
       integer g_Empty_char_slot        ! Pointer to first empty slot in Postbox_char array
       integer g_Empty_variable_slot    ! Pointer to first empty slot in variable arrays
       integer g_Last_respond_type      ! Data type of last variable respond.
-
+      integer g_SavedEIStack(MAX_SAVED_EI)  ! saved event interfaces
+      integer g_SavedEIStackPtr        ! index into g_savedeistack
