@@ -1945,6 +1945,8 @@
  
       call Check_numvals(Array_size)
  
+      call fill_double_array(Variable, 0.0d0, Array_size)
+
       call Respond2Post_double_postbox
      .    (Variable_name, Array_size, Units, variable, Numvals,
      .     Allow_zero_numvals, Variable_number)
@@ -1953,9 +1955,6 @@
          call Bound_check_double_array
      .      (Variable, Lower_bound, Upper_bound, Variable_name,
      .       numvals)
- 
-      else
-         call fill_double_array(Variable, 0.0d0, Array_size)
       endif
  
       call Pop_routine(This_routine)
@@ -2189,6 +2188,8 @@
       call Push_routine(This_routine)
  
       call Check_numvals(Array_size)
+
+      call fill_integer_array(Variable, 0, Array_size)
  
       call Respond2Post_double_postbox
      .    (Variable_name, Array_size, Units, Arr, Numvals,
@@ -2202,9 +2203,6 @@
          call Bound_check_integer_array
      .      (Variable, Lower_bound, Upper_bound, Variable_name,
      .       numvals)
- 
-      else
-         call fill_integer_array(Variable, 0, Array_size)
       endif
  
       call Pop_routine(This_routine)
@@ -2451,6 +2449,8 @@
  
       call Check_numvals(Array_size)
  
+      call fill_real_array(Variable, 0.0, Array_size)
+
       call Respond2Post_double_postbox
      .    (Variable_name, Array_size, Units, Arr, Numvals,
      .     Allow_zero_numvals, Variable_number)
@@ -2464,8 +2464,6 @@
      .      (Variable, Lower_bound, Upper_bound, Variable_name,
      .       numvals)
  
-      else
-         call fill_real_array(Variable, 0.0, Array_size)
       endif
  
       call Pop_routine(This_routine)
