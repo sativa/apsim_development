@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "ApsimRuns.h"
-#include "TRunForm.h"
 #include <ApsimShared\ControlFileConverter.h>
 #include <ApsimShared\ApsimRunFile.h>
 #include <ApsimShared\ApsimControlFile.h>
@@ -15,54 +14,17 @@
 #include <general\exec.h>
 #pragma package(smart_init)
 using namespace std;
-//---------------------------------------------------------------------------
-// Add a .run file to the list of runs to run.
-//---------------------------------------------------------------------------
-class ApsimRun
-   {
-   public:
-      ApsimRun(const string& file)
-         : fileName(file) { }
-
-      void setSimulationsToRun(const vector<string>& simulations)
-         {
-         sections = simulations;
-         }
-      void getSimulationsToRun(vector<string>& simulations)
-         {
-         simulations = sections;
-         }
-      void doAllSimulations(void)
-         {
-         if (Path(fileName).Get_extension() == ".con")
-            {
-            ApsimControlFile con(fileName);
-            con.getAllSectionNames(sections);
-            }
-         }
-      string getFileName(void) const {return fileName;}
-   private:
-      string fileName;
-      vector<string> sections;
-   };
 
 //---------------------------------------------------------------------------
-// destructor
+// Add simulations from the specified file to the pending list of runs.
 //---------------------------------------------------------------------------
-ApsimRuns::~ApsimRuns(void)
-   {
-   for (unsigned r = 0; r != runs.size(); r++)
-      delete runs[r];
-   }
-//---------------------------------------------------------------------------
-// Add a .run file to the list of runs to run.
-//---------------------------------------------------------------------------
-void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
+void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
    {
    if (!FileExists(fileName.c_str()))
       throw runtime_error("Cannot find file: " + fileName);
 
-   if (Path(fileName).Get_extension() == ".run")
+   string fileExtension = Path(fileName).Get_extension();
+   if (fileExtension == ".run")
       {
       ApsimRunFile runFile(fileName);
       vector<string> runNames;
@@ -72,110 +34,62 @@ void ApsimRuns::addFile(const std::string& fileName, bool allSimulations)
          string fileName;
          vector<string> conFileSections;
          runFile.getRun(runNames[r], fileName, conFileSections);
-         runs.push_back(new ApsimRun(fileName));
          if (conFileSections.size() == 0)
-            runs[runs.size()-1]->doAllSimulations();
+            addSimulationsFromFile(fileName);
          else
-            runs[runs.size()-1]->setSimulationsToRun(conFileSections);
+            addSimulationsFromConFile(fileName, conFileSections);
          }
       }
-   else if (Path(fileName).Get_extension() == ".con")
+   else if (fileExtension == ".con")
       {
-      runs.push_back(new ApsimRun(fileName));
-      runs[runs.size()-1]->doAllSimulations();
+      vector<string> conFileSections;
+      addSimulationsFromConFile(fileName, conFileSections);
       }
+   else if (fileExtension == ".sim")
+      addSimulation(fileName, Path(fileName).Get_name_without_ext());
    else
-      runs.push_back(new ApsimRun(fileName));
-
-   if (allSimulations)
-      {
-      for (unsigned r = 0; r != runs.size(); r++)
-         runs[r]->doAllSimulations();
-      }
+      throw runtime_error("Invalid simulation file: " + fileName);
    }
 //---------------------------------------------------------------------------
-// Perform all APSIM runs.
+// Add the specified simulations from the specified CON file.
 //---------------------------------------------------------------------------
-void ApsimRuns::runAll(bool withConsole, bool quiet, bool run)
+void ApsimRuns::addSimulationsFromConFile(const std::string& fileName,
+                                          const std::vector<std::string>& sims)
    {
-   console = withConsole;
-   vector<string> filesNeedingConversion;
-   getFilesNeedingConversion(filesNeedingConversion);
-   if (!quiet && !run && (runs.size() > 1 || filesNeedingConversion.size() > 0))
+   vector<string> sections = sims;
+   if (sections.size() == 0)
       {
-      RunForm = new TRunForm(NULL);
-      RunForm->runs = this;
-      RunForm->ShowModal();
+      ApsimControlFile con(fileName);
+      con.getAllSectionNames(sections);
       }
-   else
-      {
-      RunForm = new TRunForm(NULL);
-      RunForm->runs = this;
-      RunForm->Show();
-      RunForm->MainPanel->Visible = false;
-      convertFiles();
-      runApsim(quiet);
-      }
+   for (unsigned s = 0; s != sections.size(); s++)
+      addSimulation(fileName, sections[s]);
    }
 //---------------------------------------------------------------------------
-// Create SIM files for all runs.
+// Add a specific simulation to the pending list of runs.
 //---------------------------------------------------------------------------
-void ApsimRuns::createSIMs(void)
+void ApsimRuns::addSimulation(const std::string& fileName, const std::string& simName)
    {
-   createApsimSims();
+   fileNames.push_back(fileName);
+   simNames.push_back(simName);
    }
 //---------------------------------------------------------------------------
 // Get a list of control files that need converting.
 //---------------------------------------------------------------------------
-void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& fileNames)
+void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeedingConversion)
    {
-   for (unsigned f = 0; f != runs.size(); f++)
+   for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      string fileName = runs[f]->getFileName();
+      string fileName = fileNames[f];
       if (Path(fileName).Get_extension() == ".con"
           && ControlFileConverter::needsConversion(fileName))
-         fileNames.push_back(fileName);
-      }
-   }
-//---------------------------------------------------------------------------
-// Get a list of control files that are to be run.
-//---------------------------------------------------------------------------
-void ApsimRuns::getFilesToRun(std::vector<std::string>& fileNames)
-   {
-   for (unsigned f = 0; f != runs.size(); f++)
-      {
-      string fileName = runs[f]->getFileName();
-      fileNames.push_back(fileName);
-      }
-   }
-//---------------------------------------------------------------------------
-// Get the list of simulations to run for the specified control file.
-//---------------------------------------------------------------------------
-void ApsimRuns::getSimulationsToRun(const std::string& fileName,
-                                    std::vector<std::string>& simulations)
-   {
-   for (unsigned f = 0; f != runs.size(); f++)
-      {
-      if (runs[f]->getFileName() == fileName)
-         runs[f]->getSimulationsToRun(simulations);
-      }
-   }
-//---------------------------------------------------------------------------
-// Set the list of simulations to run for the specified control file.
-//---------------------------------------------------------------------------
-void ApsimRuns::setSimulationsToRun(const std::string& fileName,
-                                    const std::vector<std::string>& simulations)
-   {
-   for (unsigned f = 0; f != runs.size(); f++)
-      {
-      if (runs[f]->getFileName() == fileName)
-         runs[f]->setSimulationsToRun(simulations);
+         filesNeedingConversion.push_back(fileName);
       }
    }
 //---------------------------------------------------------------------------
 // Perform all Apsim runs.
 //---------------------------------------------------------------------------
-void ApsimRuns::runApsim(bool quiet)
+void ApsimRuns::runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent)
    {
    ApsimSettings settings;
    if (quiet)
@@ -184,32 +98,19 @@ void ApsimRuns::runApsim(bool quiet)
       settings.write("Apsim|Quiet", "false");
 
    bool continueWithRuns = true;
-   for (unsigned f = 0; f != runs.size() && continueWithRuns; f++)
+   for (unsigned f = 0; f != fileNames.size() && continueWithRuns; f++)
       {
-      Path filePath(runs[f]->getFileName());
+      Path filePath(fileNames[f]);
       try
          {
          if (filePath.Get_extension() == ".con")
             {
-            Path simFilePath(filePath);
-            simFilePath.Set_extension(".sim");
-
             SimCreator simCreator(filePath.Get_path());
-            vector<string> simulations;
-            runs[f]->getSimulationsToRun(simulations);
-            for (unsigned s = 0; s != simulations.size() && continueWithRuns; s++)
-               {
-               simCreator.createSim(simulations[s], "");
-               bool moreToGo = ((f != runs.size()-1
-                                 || s != simulations.size()-1));
-               continueWithRuns = performRun(simFilePath.Get_path(), moreToGo);
-               }
+            simCreator.createSim(simNames[f], "");
+            filePath.Set_extension(".sim");
             }
-         else
-            {
-            bool moreToGo = (f != runs.size()-1);
-            continueWithRuns = performRun(filePath.Get_path(), moreToGo);
-            }
+         bool moreToGo = (f != fileNames.size()-1);
+         continueWithRuns = performRun(filePath.Get_path(), moreToGo, console, notifyEvent);
          }
       catch (const runtime_error& err)
          {
@@ -231,7 +132,8 @@ void ApsimRuns::runApsim(bool quiet)
 //---------------------------------------------------------------------------
 // Perform a single APSIM run.
 //---------------------------------------------------------------------------
-bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo)
+bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo, bool console,
+                           TApsimRunEvent notifyEvent)
    {
    if (FileExists(simFileName.c_str()))
       {
@@ -249,7 +151,8 @@ bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo)
       string caption = "Running ";
       caption += simFileName;
       caption.erase(caption.find(".sim"));
-      RunForm->FileNameLabel->Caption = caption.c_str();
+      if (notifyEvent != NULL)
+         notifyEvent(caption.c_str());
 
       Exec(commandLine.c_str(), SW_SHOW, true);
       settings.refresh();
@@ -262,18 +165,28 @@ bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo)
 //---------------------------------------------------------------------------
 // Create all sim files.
 //---------------------------------------------------------------------------
-void ApsimRuns::createApsimSims(void)
+void ApsimRuns::createSims(void)
    {
-   for (unsigned f = 0; f != runs.size(); f++)
+   string previousFileName;
+   if (fileNames.size() > 0)
+      previousFileName = fileNames[0];
+
+   vector<string> simulations;
+   for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      string fileName = runs[f]->getFileName();
-      SimCreator simCreator(fileName);
-      if (Path(fileName).Get_extension() == ".con")
+      string fileName = fileNames[f];
+      if (fileName == previousFileName)
+         simulations.push_back(simNames[f]);
+      else
          {
-         vector<string> simulations;
-         runs[f]->getSimulationsToRun(simulations);
-         for (unsigned s = 0; s != simulations.size(); s++)
+         if (Path(previousFileName).Get_extension() == ".con")
+            {
+            SimCreator simCreator(previousFileName);
             simCreator.createSims(simulations, "", (TSimCreatorEvent)NULL);
+            }
+         simulations.erase(simulations.begin(), simulations.end());
+         simulations.push_back(simNames[f]);
+         previousFileName = fileName;
          }
       }
    }
@@ -284,9 +197,9 @@ void ApsimRuns::convertFiles()
    {
    ControlFileConverter converter;
 
-   for (unsigned f = 0; f != runs.size(); f++)
+   for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      Path filePath(runs[f]->getFileName());
+      Path filePath(fileNames[f]);
       try
          {
          if (filePath.Get_extension() == ".con")

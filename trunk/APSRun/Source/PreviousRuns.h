@@ -4,6 +4,7 @@
 #define PreviousRunsH
 #include <string>
 #include <vector>
+class ApsimRuns;
 // ------------------------------------------------------------------
 //  Short description:
 //     This class encapsulates details previous runs of APSIM.
@@ -21,15 +22,12 @@ class PreviousRuns
    public:
       PreviousRuns(void);
 
-      bool getPreviousRun(const std::string& controlFilename,
-                          std::vector<std::string>&simulationNames);
+      bool wasPreviouslyRun(const string& controlFilename,
+                            const string& simulationName);
 
-      void setCurrentRun(const std::string& previousControlFilename,
-                         const std::vector<std::string>&simulationNames);
+      void saveSelectedRunNames(ApsimRuns& selectedRuns);
 
    private:
       unsigned int maxNumRememberedRuns;
-      typedef std::vector<std::string> RememberedRuns;
-      RememberedRuns rememberedRuns;
    };
 #endif

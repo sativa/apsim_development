@@ -26,12 +26,13 @@ __fastcall TRunForm::TRunForm(TComponent* Owner)
  {
  }
 //---------------------------------------------------------------------------
-// Form has been shown - set everything up.
+// Setup form
 //---------------------------------------------------------------------------
-void __fastcall TRunForm::FormShow(TObject *Sender)
+void TRunForm::setup(ApsimRuns& apsimRuns, bool cons)
    {
+   console = cons;
+   runs = &apsimRuns;
    runs->getFilesNeedingConversion(filesNeedingConversion);
-
    if (filesNeedingConversion.size() > 0)
       {
       MainPanel->ActivePage = Page1;
@@ -43,6 +44,7 @@ void __fastcall TRunForm::FormShow(TObject *Sender)
       populatePage3();
       }
    }
+
 //---------------------------------------------------------------------------
 // populate page 1.
 //---------------------------------------------------------------------------
@@ -98,52 +100,31 @@ void TRunForm::populatePage3()
 //---------------------------------------------------------------------------
 // Fill the simulation list.
 //---------------------------------------------------------------------------
-void TRunForm::fillSimulationList(void)
+void TRunForm::fillSimulationList()
    {
-   simulationList->Items->BeginUpdate();
-   vector<string> fileNames;
-   runs->getFilesToRun(fileNames);
+   SimulationList->Items->BeginUpdate();
+
+   vector<string> fileNames, simNames;
+   runs->getSimulations(fileNames, simNames);
+   bool someWereSelected = false;
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      TTreeNode* parentNode = simulationList->Items->Add(NULL, fileNames[f].c_str());
-      parentNode->ImageIndex = 0;
-      parentNode->SelectedIndex = 0;
+      // create list box item.
+      TListItem* simNameItem = SimulationList->Items->Add();
+      simNameItem->ImageIndex = 1;
+      simNameItem->Caption = Path(fileNames[f]).Get_name_without_ext().c_str();
 
-      vector<string> previousSimulations;
-      previousRuns.getPreviousRun(fileNames[f], previousSimulations);
+      simNameItem->SubItems->Add(fileNames[f].c_str());
 
-      vector<string> names;
-      runs->getSimulationsToRun(fileNames[f], names);
-
-      TTreeNode** itemsToSelect = new TTreeNode*[names.size()];
-      int numItemsToSelect = 0;
-
-      for (unsigned n = 0; n != names.size(); n++)
-         {
-         TTreeNode* node = simulationList->Items->AddChild(parentNode, names[n].c_str());
-         node->ImageIndex = 1;
-         node->SelectedIndex = 1;
-         if (find(previousSimulations.begin(), previousSimulations.end(),
-                  names[n]) != previousSimulations.end())
-            {
-            itemsToSelect[numItemsToSelect] = node;
-            numItemsToSelect++;
-            }
-         }
-      if (numItemsToSelect == 0)
-         {
-         TTreeNode* node = parentNode->getFirstChild();
-         while (node != NULL)
-            {
-            itemsToSelect[numItemsToSelect] = node;
-            numItemsToSelect++;
-            node = node->getNextSibling();
-            }
-         }
-      simulationList->Select((const TTreeNode**)itemsToSelect, numItemsToSelect-1);
-      delete [] itemsToSelect;
+      // select list box item if previously selected by user.
+      simNameItem->Selected = previousRuns.wasPreviouslyRun(fileNames[f], simNames[f]);
+      someWereSelected = (someWereSelected || simNameItem->Selected);
       }
-   simulationList->Items->EndUpdate();
+   if (!someWereSelected)
+      for (int i = 0; i != SimulationList->Items->Count; i++)
+         SimulationList->Items->Item[0]->Selected = true;
+
+   SimulationList->Items->EndUpdate();
    checkOkButtonState(NULL);
    }
 //---------------------------------------------------------------------------
@@ -161,8 +142,8 @@ void __fastcall TRunForm::NextButtonClick(TObject *Sender)
       NextButton->Visible = false;
       CancelButton->Visible = false;
       MainPanel->Visible = false;
-      saveSelections();
-      runs->runApsim(false);
+      ApsimRuns selectedRuns = saveSelections();
+      selectedRuns.runApsim(false, console, OnRunNotifyEvent);
       Close();
       }
    }
@@ -177,33 +158,29 @@ void __fastcall TRunForm::CancelButtonClick(TObject *Sender)
 void __fastcall TRunForm::checkOkButtonState(TObject *Sender)
    {
    bool somethingSelected = false;
-   for (int n = 0; n != simulationList->Items->Count && !somethingSelected; n++)
-      somethingSelected = simulationList->Items->Item[n]->Selected;
+   for (int n = 0; n != SimulationList->Items->Count && !somethingSelected; n++)
+      somethingSelected = SimulationList->Items->Item[n]->Selected;
 
    NextButton->Enabled = somethingSelected;
    }
 //---------------------------------------------------------------------------
-// save all selected simulations back to run and previous run objects.
+// return all selected simulations
 //---------------------------------------------------------------------------
-void TRunForm::saveSelections(void)
+ApsimRuns TRunForm::saveSelections(void)
    {
-   TTreeNode* parentNode = simulationList->Items->Item[0];
-   while (parentNode != NULL)
+   ApsimRuns selectedRuns;
+   for (int i = 0; i != SimulationList->Items->Count; i++)
       {
-      string controlFileName = parentNode->Text.c_str();
-      vector<string> simulations;
-      TTreeNode* childNode = parentNode->getFirstChild();
-      while (childNode != NULL)
+      TListItem* simNameItem = SimulationList->Items->Item[i];
+      if (simNameItem->Selected)
          {
-         if (childNode->Selected)
-            simulations.push_back(childNode->Text.c_str());
-         childNode = childNode->getNextSibling();
+         string simName = simNameItem->Caption.c_str();
+         string fileName = simNameItem->SubItems->Strings[0].c_str();
+         selectedRuns.addSimulation(fileName, simName);
          }
-      runs->setSimulationsToRun(controlFileName, simulations);
-      previousRuns.setCurrentRun(controlFileName, simulations);
-
-      parentNode = parentNode->getNextSibling();
       }
+   previousRuns.saveSelectedRunNames(selectedRuns);
+   return selectedRuns;
    }
 //---------------------------------------------------------------------------
 void __fastcall TRunForm::simulationListClick(TObject *Sender)
@@ -211,19 +188,10 @@ void __fastcall TRunForm::simulationListClick(TObject *Sender)
    checkOkButtonState(NULL);
    }
 //---------------------------------------------------------------------------
-// Need to trap the mouse up so that if the user clicks an already selected node
-// without using CTRL or SHIFT then only one node is selected.
+// APSIM is currently running - update screen.
 //---------------------------------------------------------------------------
-
-void __fastcall TRunForm::simulationListMouseUp(TObject *Sender,
-      TMouseButton Button, TShiftState Shift, int X, int Y)
+void __fastcall TRunForm::OnRunNotifyEvent(const std::string& simFileName)
    {
-   TTreeNode* node = simulationList->GetNodeAt(X, Y);
-   if (Shift.Empty() && node != NULL)
-      {
-      simulationList->ClearSelection();
-      node->Selected = true;
-      }
+   FileNameLabel->Caption = simFileName.c_str();
    }
-//---------------------------------------------------------------------------
 

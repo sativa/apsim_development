@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "PreviousRuns.h"
+#include "ApsimRuns.h"
 #include <ApsimShared\ApsimSettings.h>
 #include <general\inifile.h>
 #include <general\string_functions.h>
@@ -22,56 +23,30 @@ PreviousRuns::PreviousRuns(void)
 // Get the details of a specified run if possible.  Returns
 // true if found.
 // ------------------------------------------------------------------
-bool PreviousRuns::getPreviousRun(const string& controlFilename,
-                                  vector<string>&simulationNames)
+bool PreviousRuns::wasPreviouslyRun(const string& controlFilename,
+                                    const string& simulationName)
    {
    ApsimSettings settings;
+   vector<string> simulationNames;
    settings.read(string(SECTION) + "|" + controlFilename, simulationNames);
-   return (simulationNames.size() > 0);
+   return(find(simulationNames.begin(), simulationNames.end(), simulationName)
+               != simulationNames.end());
    }
 
 // ------------------------------------------------------------------
-// Set the most recent run to the one passed into this routine.
+// Save the selected runs to .ini file.
 // ------------------------------------------------------------------
-void PreviousRuns::setCurrentRun(const string& controlFilename,
-                                 const vector<string>&simulationNames)
+void PreviousRuns::saveSelectedRunNames(ApsimRuns& selectedRuns)
    {
    ApsimSettings settings;
+   vector<string> fileNames, simNames;
+   selectedRuns.getSimulations(fileNames, simNames);
 
-   // Write the control file section to the .ini file.
-   string contents;
-   settings.readSection(SECTION, contents);
-
-   // Loop through all lines in section, removing any lines matching controlFileName
-   // and making sure there are only maxNumRememberedRuns-1 control files.
-   istringstream in(contents.c_str());
    ostringstream out;
-   string line;
-   string previousKey;
-   unsigned numSoFar=0;
-   while (getline(in, line))
-      {
-      string key, value;
-      getKeyNameAndValue(line, key, value);
-      if (key != "" && !Str_i_Eq(key, controlFilename))
-         {
-         if (!Str_i_Eq(key, previousKey))
-            numSoFar++;
-         if (numSoFar < maxNumRememberedRuns)
-            out << line << endl;
-         previousKey = key;
-         }
-      }
+   for (unsigned f = 0; f != fileNames.size(); f++)
+      out << "   " << fileNames[f] << " = " + simNames[f] << endl;
 
-   // Now change the section contents to have our controlFileName first and then
-   // the rest of the older control filenames.
-   contents = "";
-   for (unsigned s = 0; s != simulationNames.size(); s++)
-      {
-      contents += controlFilename + " = " + simulationNames[s] + "\n";
-      }
-   contents += out.str();
-   settings.writeSection(SECTION, contents);
+   settings.writeSection(SECTION, out.str());
    }
 
 

@@ -23,7 +23,7 @@ class __declspec(dllexport) TRunForm : public TForm
       TImage *Image1;
       TButton *NextButton;
       TButton *CancelButton;
-   TPageControl *MainPanel;
+      TPageControl *MainPanel;
       TTabSheet *Page2;
       TPanel *Panel1;
       THTMListBox *StatusList;
@@ -38,34 +38,37 @@ class __declspec(dllexport) TRunForm : public TForm
       TLabel *Label9;
       TLabel *Label10;
       TLabel *ControlFileLabel;
-      TTreeView *simulationList;
       TImageList *ImageList1;
-   TLabel *FileNameLabel;
+      TLabel *FileNameLabel;
+      TListView *SimulationList;
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
-      void __fastcall FormShow(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
-   void __fastcall simulationListClick(TObject *Sender);
-   void __fastcall simulationListMouseUp(TObject *Sender,
-          TMouseButton Button, TShiftState Shift, int X, int Y);
+      void __fastcall simulationListClick(TObject *Sender);
    private:	// User declarations
       PreviousRuns previousRuns;
       std::vector<std::string> filesNeedingConversion;
+      bool console;
+      ApsimRuns* runs;
 
       void populatePage1(void);
       void populatePage2(void);
-      void populatePage3(void);
+      void populatePage3();
 
-      void fillSimulationList(void);
+      void fillSimulationList();
 
       void getSelectedSimulations(std::vector<std::string>& simulations);
       std::string getSelectedConfiguration(void);
-      void saveSelections(void);
+      ApsimRuns saveSelections(void);
 
    public:		// User declarations
       __fastcall TRunForm(TComponent* Owner);
 
-      ApsimRuns* runs;
+      void setup(ApsimRuns& runs, bool console);
+
+      void __fastcall OnRunNotifyEvent(const std::string& simFileName);
+
+
 
    };
 //---------------------------------------------------------------------------

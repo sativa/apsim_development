@@ -15,9 +15,8 @@ object RunForm: TRunForm
   OldCreateOrder = False
   Position = poScreenCenter
   Scaled = False
-  OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   object Image1: TImage
     Left = 0
     Top = 0
@@ -867,7 +866,7 @@ object RunForm: TRunForm
     Left = 168
     Top = 0
     Width = 3
-    Height = 16
+    Height = 13
   end
   object NextButton: TButton
     Left = 470
@@ -902,8 +901,8 @@ object RunForm: TRunForm
       object Label1: TLabel
         Left = 10
         Top = 24
-        Width = 449
-        Height = 16
+        Width = 363
+        Height = 13
         Alignment = taCenter
         Caption = 
           'This control files listed below need to be converted to the new ' +
@@ -912,8 +911,8 @@ object RunForm: TRunForm
       object Label3: TLabel
         Left = 10
         Top = 40
-        Width = 445
-        Height = 16
+        Width = 351
+        Height = 13
         Caption = 
           'This is an automatic process and backups will be made of all mod' +
           'ified files.'
@@ -921,15 +920,15 @@ object RunForm: TRunForm
       object Label2: TLabel
         Left = 10
         Top = 200
-        Width = 227
-        Height = 16
+        Width = 184
+        Height = 13
         Caption = 'Click "Next" to perform the conversion.'
       end
       object ControlFileLabel: TLabel
         Left = 10
         Top = 64
-        Width = 24
-        Height = 16
+        Width = 20
+        Height = 13
         Caption = 'xxxx'
       end
     end
@@ -941,8 +940,8 @@ object RunForm: TRunForm
       object Label4: TLabel
         Left = 8
         Top = 16
-        Width = 360
-        Height = 16
+        Width = 287
+        Height = 13
         Caption = 
           'The following lists all the changes made to your control file(s)' +
           ':'
@@ -980,26 +979,31 @@ object RunForm: TRunForm
       object Label6: TLabel
         Left = 8
         Top = 0
-        Width = 310
-        Height = 16
+        Width = 246
+        Height = 13
         Caption = 'Select one or more simulations from the following list.'
       end
-      object simulationList: TTreeView
+      object SimulationList: TListView
         Left = 8
         Top = 16
         Width = 465
         Height = 489
-        BevelKind = bkSoft
+        BevelKind = bkFlat
         BorderStyle = bsNone
+        Columns = <
+          item
+            AutoSize = True
+            Caption = 'Simulation'
+          end
+          item
+            AutoSize = True
+            Caption = 'Filename'
+          end>
         HideSelection = False
-        Images = ImageList1
-        Indent = 19
         MultiSelect = True
-        MultiSelectStyle = [msControlSelect, msShiftSelect]
-        ReadOnly = True
+        SmallImages = ImageList1
         TabOrder = 0
-        OnClick = simulationListClick
-        OnMouseUp = simulationListMouseUp
+        ViewStyle = vsReport
       end
     end
     object Page4: TTabSheet
@@ -1009,15 +1013,15 @@ object RunForm: TRunForm
       object Label9: TLabel
         Left = 24
         Top = 80
-        Width = 275
-        Height = 16
+        Width = 219
+        Height = 13
         Caption = 'APSIM is currently running multiple simulations.'
       end
       object Label10: TLabel
         Left = 24
         Top = 112
-        Width = 120
-        Height = 16
+        Width = 97
+        Height = 13
         Caption = 'Click Cancel to stop.'
       end
     end

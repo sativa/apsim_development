@@ -2,9 +2,13 @@
 #include <general\pch.h>
 #include <vcl.h>
 #pragma hdrstop
+
 #include "ApsimRuns.h"
+#include "TRunForm.h"
 
 USEFORM("TRunForm.cpp", RunForm);
+//---------------------------------------------------------------------------
+// Process the command line.
 //---------------------------------------------------------------------------
 void processCmdLine(void)
    {
@@ -14,33 +18,38 @@ void processCmdLine(void)
    bool quietRun = false;
    bool console = false;
    bool createSIM = false;
-   bool allRuns = false;
-   bool run = false;
+   bool runImmediately = false;
    for (int argIndex = 1; argIndex < _argc; argIndex++)
       {
       if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
-         {
          createSIM = true;
-         allRuns = true;
-         }
       else if (stricmp(_argv[argIndex], "/q") == 0)
-         {
          quietRun = true;
-         }
       else if (stricmp(_argv[argIndex], "/Console") == 0)
          console = true;
-      else if (stricmp(_argv[argIndex], "/all") == 0)
-         allRuns = true;
       else if (stricmp(_argv[argIndex], "/run") == 0)
-         run =  true;
+         runImmediately =  true;
       else
-         runs.addFile(_argv[argIndex], allRuns);
+         runs.addSimulationsFromFile(_argv[argIndex]);
       }
 
    if (createSIM)
-      runs.createSIMs();
+      runs.createSims();
+   else if (quietRun || runImmediately)
+      {
+      RunForm = new TRunForm(NULL);
+      RunForm->setup(runs, console);
+      RunForm->Show();
+      RunForm->MainPanel->Visible = false;
+      runs.convertFiles();
+      runs.runApsim(quietRun, console, RunForm->OnRunNotifyEvent);
+      }
    else
-      runs.runAll(console, quietRun, run);
+      {
+      RunForm = new TRunForm(NULL);
+      RunForm->setup(runs, console);
+      RunForm->ShowModal();
+      }
    }
 // ------------------------------------------------------------------
 // Main program entry point.
