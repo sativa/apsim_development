@@ -556,10 +556,15 @@ class CreateFields : CallbackFunction<APSIMOutputVariable*>
 
 //  Changes:
 //    DPH 29/7/99
+//    dph 19/12/00
 
 // ------------------------------------------------------------------
 void ReportComponent::init(void)
    {
+   // added event registration stuff.
+   eventInterface->registerSubscribedEvent("prepare");
+   eventInterface->registerSubscribedEvent("rep");
+
    Out = componentData->getProperty<APSIMOutputFile>("outputfile");
    if (Out != NULL)
       Out->open();
