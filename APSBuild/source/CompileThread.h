@@ -30,7 +30,8 @@ class CompileThread : public TThread
          {return Compiler_output_filename;}
 
       typedef void __fastcall (__closure *TMessageEvent)(System::TObject* Sender, const char* Message);
-      TMessageEvent DisplayMessage;
+      TMessageEvent DisplayMessage1;
+      TMessageEvent DisplayMessage2;
 
    private:
       string InitialFilename;
@@ -38,28 +39,34 @@ class CompileThread : public TThread
       string Message;
       string CommandLineToExecute;
 
-      void   __fastcall GoDisplayMessage (void);
-      void   __fastcall RunCommandLine (void);
-      void   CompileProject (APSIM_project& apf);
+      void   __fastcall goDisplayMessage1 (void);
+      void   __fastcall goDisplayMessage2 (void);
+      void   __fastcall runCommandLine (void);
+      void   compileProject (APSIM_project& apf);
 
-      void   GetBinaryFileNames (APSIM_project& apf, list<string>& BinaryFileNames);
-      void   WriteToOutputFile (string& msg);
-      void   CreateAutoMakeFile (APSIM_project& apf, Path& BinaryFile);
-      void   CreateCompilerResponseFile (APSIM_project& apf);
-      void   CreateLinkerResponseFile (APSIM_project& apf);
-      void   CopySourceFiles (APSIM_project& apf);
-      void   DeleteSourceFiles (APSIM_project& apf);
-      void   RunAutoMake (APSIM_project& apf, Path& BinaryFile);
-      void   Cleanup (APSIM_project& apf);
-      void   CopySwitchesToStream (APSIM_project& apf, ostream& out);
-      void   GetSourceFileNames (APSIM_project& apf, list<string>& SourceFiles);
-      string GetSourceDirectory (APSIM_project& apf);
-      void   GetFilesForCompiler (APSIM_project& apf, const char* Key, list<string>& Files);
-      void   DeleteFiles (APSIM_project& apf, const char* Filespec);
-      void   CreateComponentInterface(APSIM_project& apf);
-      void   DeleteDependentFiles(APSIM_project& apf);
+      void   getBinaryFileNames (APSIM_project& apf, list<string>& BinaryFileNames);
+      void   writeToOutputFile (const string& msg);
+      void   createAutoMakeFile (APSIM_project& apf, Path& BinaryFile);
+      void   createCompilerResponseFile (APSIM_project& apf);
+      void   createLinkerResponseFile (APSIM_project& apf);
+      void   runAutoMake (APSIM_project& apf, Path& BinaryFile);
+      void   cleanup (APSIM_project& apf);
+      void   getSourceFileNames (APSIM_project& apf, list<string>& SourceFiles);
+      string getSourceDirectory (APSIM_project& apf);
+      void getCompilerSettings(APSIM_project& apf,
+                               const std::string& settingName,
+                               std::list<std::string>& settings,
+                               const std::string& compilerFile = "");
+      std::string getCompilerSetting(APSIM_project& apf,
+                                     const string& settingName,
+                                     const char delimiter = ';',
+                                     const std::string& compilerFile = "");
+      void   deleteFiles (APSIM_project& apf, const char* Filespec);
+      void   createDataTypesModule(APSIM_project& apf);
+      void   deleteDependentFiles(APSIM_project& apf);
       void   CreateAutomakeRSP(APSIM_project& apf);
-
+      std::string getCompileLineForSourceFile(APSIM_project& apf,
+                                              const std::string& sourceFile);
    };
 
 bool ProjectIsCompilable (const char* Filename);

@@ -3,17 +3,17 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.05.03"/>
-    <PROJECT value="APSBuild.exe"/>
-    <OBJFILES value="APSBuild.obj TMainForm.obj CompileThread.obj ComponentInterfaceGenerator.obj"/>
+    <PROJECT value="..\APSBuild.exe"/>
+    <OBJFILES value="FormSize.obj APSBuild.obj TMainForm.obj CompileThread.obj"/>
     <RESFILES value="APSBuild.res"/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMainForm.dfm"/>
     <LIBFILES value="general.lib aps32.lib odl.lib"/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="vcl50.lib"/>
+    <SPARELIBS value="vcl50.lib tmsc5.lib VCLX50.lib VCLDB50.lib"/>
     <PACKAGES value="vcl50.bpi vcldb50.bpi vclbde50.bpi ibsmp50.bpi vclx50.bpi bcbsmp50.bpi 
-      vcldbx50.bpi vcljpg50.bpi dclocx50.bpi"/>
+      vcldbx50.bpi vcljpg50.bpi dclocx50.bpi tmsc5.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -24,7 +24,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="APSBuild.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;&quot;k:\&quot;"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;k:\;&quot;j:\tms\&quot;"/>
     <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
@@ -70,21 +70,21 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
-[Excluded Packages]
-$(BCB)\Projects\Bpl\thirdparty.bpl=Third Party Controls
-
 [HistoryLists\hlIncludePath]
-Count=4
-Item0=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item1=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item2=
-Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
+Count=6
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms
+Item1=..\..\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item2=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item3=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
+Item4=
+Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
 
 [HistoryLists\hlLibraryPath]
-Count=3
+Count=4
 Item0=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib
-Item1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
-Item2=$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\..\apsim\infra\engine;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib
+Item2=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item3=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -109,6 +109,10 @@ Item9=-make &quot;f:\build\apsuite\apsim\all modules.apf&quot;
 Item10=-build &quot;f:\build\apsuite\apsim\all modules.apf&quot;
 Item11=-build &quot;f:\build\apsuite\apsim\canola\canola.apf&quot;
 Item12=-make f:\build\apsuite\apsim\all modules.apf
+
+[HistoryLists\hlFinalOutputDir]
+Count=1
+Item0=..\
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
