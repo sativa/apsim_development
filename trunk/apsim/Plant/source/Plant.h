@@ -508,6 +508,7 @@ class Plant {
   void legnew_n_partition
     (float  *g_dlayer
     ,float  *g_dlt_no3gsm
+    ,float  *g_dlt_nh4gsm
     ,float  *g_n_demand
     ,float  g_n_fix_pot
     ,float  *g_n_max
@@ -1314,6 +1315,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_root_length(protocol::Component *, protocol::QueryValueData &);
   void get_root_length_dead(protocol::Component *, protocol::QueryValueData &);
   void get_no3gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
+  void get_nh4gsm_uptake_pot(protocol::Component *, protocol::QueryValueData &);
   void get_no3_swfac(protocol::Component *, protocol::QueryValueData &);
   void get_leaves_per_node(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_slai_age(protocol::Component *, protocol::QueryValueData &);
@@ -1344,6 +1346,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
   void get_grain_protein(protocol::Component *, protocol::QueryValueData &);
   void get_sw_supply_layr(protocol::Component *, protocol::QueryValueData &);
   void get_no3_uptake(protocol::Component *, protocol::QueryValueData &);
+  void get_nh4_uptake(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_fruit_flower_no(protocol::Component *, protocol::QueryValueData &);
   void get_dlt_dm_fruit_abort(protocol::Component *, protocol::QueryValueData &);
   void get_zadok_stage(protocol::Component *, protocol::QueryValueData &);
@@ -1366,6 +1369,9 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
        unsigned int sw_dep;
        unsigned int no3;
        unsigned int no3_min;
+       unsigned int nh4;
+       unsigned int nh4_min;
+
        unsigned int latitude;
        unsigned int parasite_c_demand;
        unsigned int parasite_sw_demand;
@@ -1374,6 +1380,7 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
 
        // sets
        unsigned int dlt_no3;
+       unsigned int dlt_nh4;
        unsigned int dlt_sw_dep;
 
        // events.
@@ -1550,8 +1557,14 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float no3gsm_min[max_layer];                      // minimum allowable NO3 in soil (g/m^2)
       float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
       float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
-      float n_fix_pot;                                  // N fixation potential (g/m^2)
       float no3gsm_uptake_pot[max_layer];
+      float dlt_nh4gsm[max_layer];                      // actual NH4 uptake from soil (g/m^2)
+      float nh4gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
+      float nh4gsm_min[max_layer];                      // minimum allowable NH4 in soil (g/m^2)
+      float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
+      float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
+      float nh4gsm_uptake_pot[max_layer];
+      float n_fix_pot;                                  // N fixation potential (g/m^2)
       float n_fix_uptake;                               // N fixation actual (g/m^2)
       float n_fixed_tops;                               // cum. fixed N in tops
       float n_conc_crit[max_part];                      // critical N concentration (g N/g biomass)
@@ -1763,7 +1776,10 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
 
       float no3_uptake_max;
       float no3_conc_half_max;
-      float kln;
+      float kno3;
+      float no3ppm_min;
+      float knh4;
+      float nh4ppm_min;
 
       string crop_type;                                  // crop type
       string default_crop_class;                      // crop type
@@ -2003,6 +2019,10 @@ void fruit_phase_devel( int    initial_stage                  // (INPUT)
       float no3_lb;                                     // lower limit of soil NO3 (kg/ha)
       float no3_min_ub;                                 // upper limit of minimum soil NO3 (kg/ha)
       float no3_min_lb;                                 // lower limit of minimum soil NO3 (kg/ha)
+      float nh4_ub;                                     // upper limit of soil NH4 (kg/ha)
+      float nh4_lb;                                     // lower limit of soil NH4 (kg/ha)
+      float nh4_min_ub;                                 // upper limit of minimum soil NH4 (kg/ha)
+      float nh4_min_lb;                                 // lower limit of minimum soil NH4 (kg/ha)
       float leaf_no_min;                                // lower limit of leaf number ()
       float leaf_no_max;                                // upper limit of leaf number ()
       float latitude_ub;                                // upper limit of latitude for model (oL)

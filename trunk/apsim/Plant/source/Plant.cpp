@@ -154,6 +154,12 @@ void Plant::doIDs(void)
        id.no3_min= parent->addRegistration(RegistrationType::get,
                                        "no3_min", floatArrayType,
                                        "", "");
+       id.nh4 = parent->addRegistration(RegistrationType::get,
+                                       "nh4", floatArrayType,
+                                       "", "");
+       id.nh4_min= parent->addRegistration(RegistrationType::get,
+                                       "nh4_min", floatArrayType,
+                                       "", "");
        id.latitude = parent->addRegistration(RegistrationType::get,
                                        "latitude", floatType,
                                        "", "");
@@ -178,6 +184,9 @@ void Plant::doIDs(void)
        // sets
        id.dlt_no3 = parent->addRegistration(RegistrationType::set,
                                        "dlt_no3", floatArrayType,
+                                       "", "");
+       id.dlt_nh4 = parent->addRegistration(RegistrationType::set,
+                                       "dlt_nh4", floatArrayType,
                                        "", "");
        id.dlt_sw_dep = parent->addRegistration(RegistrationType::set,
                                        "dlt_sw_dep", floatArrayType,
@@ -689,6 +698,10 @@ void Plant::doRegistrations(void)
                     &Plant::get_no3gsm_uptake_pot,
                     "g/m2", "Pot NO3 uptake");
 
+   setupGetFunction("nh4gsm_uptake_pot", protocol::DTsingle, true,
+                    &Plant::get_nh4gsm_uptake_pot,
+                    "g/m2", "Pot NH4 uptake");
+
    setupGetFunction("no3_swfac", protocol::DTsingle, false,
                     &Plant::get_no3_swfac,
                     "", "Work this out...>>");
@@ -699,6 +712,10 @@ void Plant::doRegistrations(void)
    setupGetFunction("no3_uptake", protocol::DTsingle, false,
                     &Plant::get_no3_uptake,
                     "","NO3 uptake");
+
+   setupGetFunction("nh4_uptake", protocol::DTsingle, false,
+                    &Plant::get_nh4_uptake,
+                    "","NH4 uptake");
 
    setupGetFunction("parasite_dm_supply", protocol::DTsingle, false,
                      &Plant::get_parasite_c_gain,
@@ -2751,9 +2768,15 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
                              , g.no3gsm
                              , g.no3gsm_min
                              , g.no3gsm_uptake_pot
+                             , g.nh4gsm
+                             , g.nh4gsm_min
+                             , g.nh4gsm_uptake_pot
                              , g.root_depth
                              , c.n_stress_start_stage
-                             , c.kln
+                             , c.kno3
+                             , c.no3ppm_min
+                             , c.knh4
+                             , c.nh4ppm_min
                              , c.total_n_uptake_max
                              , g.sw_avail_pot
                              , g.sw_avail
@@ -3018,13 +3041,15 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
         cproc_n_uptake3(g.dlayer
                         , max_layer
                         , g.no3gsm_uptake_pot
+                        , g.nh4gsm_uptake_pot
                         , g.n_fix_pot
                         , c.n_supply_preference.c_str()
                         , g.soil_n_demand
                         , g.n_max
                         , max_part
                         , g.root_depth
-                        , g.dlt_no3gsm);
+                        , g.dlt_no3gsm
+                        , g.dlt_nh4gsm);
         }
     else
         {
@@ -3056,6 +3081,7 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         {
         legnew_n_partition(g.dlayer
                            , g.dlt_no3gsm
+                           , g.dlt_nh4gsm
                            , g.soil_n_demand
                            , g.n_fix_pot
                            , g.n_max
@@ -5924,6 +5950,7 @@ void Plant::plant_n_init
 void Plant::legnew_n_partition
     (float  *g_dlayer            // (INPUT)  thickness of soil layer I (mm)
     ,float  *g_dlt_no3gsm        // (INPUT)  actual NO3 uptake from soil (g
+    ,float  *g_dlt_nh4gsm        // (INPUT)  actual NO3 uptake from soil (g
     ,float  *g_n_demand          // (INPUT)  critical plant nitrogen demand
     ,float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
     ,float  *g_n_max             // (INPUT)  maximum plant nitrogen demand
@@ -5956,7 +5983,8 @@ void Plant::legnew_n_partition
 // distributed to to each plant part and distribute it.
 
     deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
-    n_uptake_sum = - sum_real_array (g_dlt_no3gsm, deepest_layer+1);
+    n_uptake_sum = - sum_real_array (g_dlt_no3gsm, deepest_layer+1)
+                   - sum_real_array (g_dlt_nh4gsm, deepest_layer+1);
     n_demand = sum_real_array (g_n_demand, max_part);
 
     n_excess = n_uptake_sum - n_demand;
@@ -9718,14 +9746,19 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.n_senesced, 0, max_part);
       fill_real_array (g.dlt_n_retrans, 0, max_part);
       fill_real_array (g.dlt_no3gsm, 0, max_layer);
+      fill_real_array (g.dlt_nh4gsm, 0, max_layer);
       fill_real_array (g.no3gsm , 0, max_layer);
       fill_real_array (g.no3gsm_min, 0, max_layer);
+      fill_real_array (g.nh4gsm , 0, max_layer);
+      fill_real_array (g.nh4gsm_min, 0, max_layer);
+
       fill_real_array (g.no3gsm_diffn_pot, 0, max_layer);
       fill_real_array (g.no3gsm_mflow_avail, 0, max_layer);
       fill_real_array (g.soil_n_demand, 0, max_part);
       g.grain_n_demand = 0.0;
       g.n_fix_pot=0;
       fill_real_array (g.no3gsm_uptake_pot, 0, max_layer);
+      fill_real_array (g.nh4gsm_uptake_pot, 0, max_layer);
       g.n_fix_uptake=0;
       g.n_fixed_tops=0;
       fill_real_array (g.n_conc_crit, 0, max_part);
@@ -10001,6 +10034,10 @@ void Plant::plant_zero_all_globals (void)
       c.no3_lb=0;
       c.no3_min_ub=0;
       c.no3_min_lb=0;
+      c.nh4_ub=0;
+      c.nh4_lb=0;
+      c.nh4_min_ub=0;
+      c.nh4_min_lb=0;
       c.leaf_no_min=0;
       c.leaf_no_max=0;
       c.latitude_ub=0;
@@ -10328,6 +10365,7 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.dlt_n_green , 0.0, max_part);
     fill_real_array (g.dlt_n_retrans , 0.0, max_part);
     fill_real_array (g.dlt_no3gsm , 0.0, max_layer);
+    fill_real_array (g.dlt_nh4gsm , 0.0, max_layer);
     fill_real_array (g.dlt_sw_dep , 0.0, max_layer);
     fill_real_array (g.dm_green_demand , 0.0, max_part);
     fill_real_array (g.n_demand , 0.0, max_part);
@@ -10351,6 +10389,7 @@ void Plant::plant_zero_daily_variables ()
     fill_real_array (g.dlt_root_length_senesced, 0.0, max_layer);
 
     fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
+    fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
 
     g.vern_eff = 0.0;
     g.dlt_cumvd = 0.0;
@@ -11691,6 +11730,24 @@ void Plant::plant_get_other_variables ()
        g.no3gsm_min[i] = values[i] * kg2gm /ha2sm;
        }
 
+    values.empty();
+    if (!parent->getVariable(id.nh4, values, c.nh4_lb, c.nh4_ub, true))
+        {
+        // we have no N supply - make non-limiting.
+        for (int i = 0; i < g.num_layers; i++)
+           values.push_back(10000.0);
+        }
+    for (int i = 0; i < g.num_layers; i++)
+       {
+       g.nh4gsm[i] = values[i] * kg2gm /ha2sm;
+       }
+
+    values.empty();
+    parent->getVariable(id.nh4_min, values, c.nh4_min_lb, c.nh4_min_ub, true);
+    for (int i = 0; i < g.num_layers; i++)
+       {
+       g.nh4gsm_min[i] = values[i] * kg2gm /ha2sm;
+       }
 
     if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
        {
@@ -11787,6 +11844,10 @@ void Plant::plant_set_other_variables ()
         for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_no3gsm[layer] * gm2kg /sm2ha;}
         protocol::vector<float> dlt_no3_values(scratch, scratch+num_layers);
         parent->setVariable(id.dlt_no3, dlt_no3_values);
+
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_nh4gsm[layer] * gm2kg /sm2ha;}
+        protocol::vector<float> dlt_nh4_values(scratch, scratch+num_layers);
+        parent->setVariable(id.dlt_nh4, dlt_nh4_values);
 
         for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_sw_dep[layer];}
         protocol::vector<float> dlt_sw_dep_values(scratch, scratch+num_layers);
@@ -12114,6 +12175,26 @@ void Plant::plant_read_constants ( void )
     parent->readParameter (section_name
     , "no3_min_lb"//, "(kg/ha)"
     , c.no3_min_lb
+    , 0.0, 100000.0);
+
+    parent->readParameter (section_name
+    , "nh4_ub"//, "(kg/ha)"
+    , c.nh4_ub
+    , 0.0, 100000.0);
+
+    parent->readParameter (section_name
+    , "nh4_lb"//, "(kg/ha)"
+    , c.nh4_lb
+    , 0.0, 100000.0);
+
+    parent->readParameter (section_name
+    , "nh4_min_ub"//, "(kg/ha)"
+    , c.nh4_min_ub
+    , 0.0, 100000.0);
+
+    parent->readParameter (section_name
+    , "nh4_min_lb"//, "(kg/ha)"
+    , c.nh4_min_lb
     , 0.0, 100000.0);
 
     g.hasreadconstants = true;
@@ -12564,9 +12645,24 @@ void Plant::plant_read_species_const ()
      else if (c.n_uptake_option==3)
          {
          parent->searchParameter (search_order
-                       , "kln"//, "(days)"
-                       , c.kln
+                       , "kno3"//, "(/day)"
+                       , c.kno3
                        , 0.0, 1.0);
+
+         parent->searchParameter (search_order
+                       , "no3ppm_min"//, "(ppm)"
+                       , c.no3ppm_min
+                       , 0.0, 10.0);
+
+         parent->searchParameter (search_order
+                       , "knh4"//, "(/day)"
+                       , c.knh4
+                       , 0.0, 1.0);
+
+         parent->searchParameter (search_order
+                       , "nh4ppm_min"//, "(ppm)"
+                       , c.nh4ppm_min
+                       , 0.0, 10.0);
 
          parent->searchParameter (search_order
                         , "total_n_uptake_max"//, "(g/m2)"
@@ -14158,7 +14254,8 @@ void Plant::get_grain_n_demand(protocol::Component *system, protocol::QueryValue
 void Plant::get_n_supply_soil(protocol::Component *system, protocol::QueryValueData &qd)
 {
     int deepest_layer = find_layer_no (g.root_depth, g.dlayer, max_layer);
-    float n_uptake_sum = sum_real_array (g.dlt_no3gsm, deepest_layer+1);
+    float n_uptake_sum = sum_real_array (g.dlt_no3gsm, deepest_layer+1)
+                       +  sum_real_array (g.dlt_nh4gsm, deepest_layer+1);
     if (n_uptake_sum > 0)
        n_uptake_sum = - n_uptake_sum;
     else if (n_uptake_sum < 0)
@@ -14225,6 +14322,11 @@ void Plant::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryVa
     system->sendVariable(qd, protocol::vector<float>(g.no3gsm_uptake_pot, g.no3gsm_uptake_pot+num_layers));
 }
 
+void Plant::get_nh4gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    int num_layers = 1+count_of_real_vals (g.dlayer, max_layer);
+    system->sendVariable(qd, protocol::vector<float>(g.nh4gsm_uptake_pot, g.nh4gsm_uptake_pot+num_layers));
+}
 
 void Plant::get_no3_swfac(protocol::Component *system, protocol::QueryValueData &qd)
 {
@@ -14254,6 +14356,17 @@ void Plant::get_no3_uptake(protocol::Component *system, protocol::QueryValueData
        no3_uptake[layer] =  g.dlt_no3gsm[layer] * gm2kg/sm2ha;
     }
     system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+num_layers));
+}
+
+void Plant::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float nh4_uptake[max_layer];
+    fill_real_array(nh4_uptake,0.0, max_layer);
+    int num_layers = count_of_real_vals (g.dlayer, max_layer);
+    for (int layer = 0; layer <= num_layers; layer++) {
+       nh4_uptake[layer] =  g.dlt_nh4gsm[layer] * gm2kg/sm2ha;
+    }
+    system->sendVariable(qd, protocol::vector<float>(nh4_uptake, nh4_uptake+num_layers));
 }
 
 void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)

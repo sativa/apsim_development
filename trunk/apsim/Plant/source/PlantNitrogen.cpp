@@ -1033,6 +1033,7 @@ void cproc_n_uptake3
      float  *g_dlayer                            // (INPUT)  thickness of soil layer I (mm)
     ,int    max_layer                            // (INPUT)  max number of soil layers
     ,float  *g_no3gsm_uptake_pot                 // (INPUT)  potential NO3 (supply)
+    ,float  *g_nh4gsm_uptake_pot                 // (INPUT)  potential NH4 (supply)
     ,float  g_n_fix_pot                          // (INPUT) potential N fixation (g/m2)
     ,const char   *c_n_supply_preference         // (INPUT)c_n_supply_preference*(*)
     ,float  *g_soil_n_demand                     // (INPUT)  critical plant nitrogen demand
@@ -1040,6 +1041,7 @@ void cproc_n_uptake3
     ,int    max_part                             // (INPUT)  number of plant parts
     ,float  g_root_depth                         // (INPUT)  depth of roots (mm)
     ,float  *dlt_no3gsm                          // (OUTPUT) actual plant N uptake from NO3 in each layer (g/m^2)
+    ,float  *dlt_nh4gsm                          // (OUTPUT) actual plant N uptake from NH4 in each layer (g/m^2)
     ) {
 
 //+  Local Variables
@@ -1047,15 +1049,17 @@ void cproc_n_uptake3
     int   layer;                                  // soil layer number of profile
     float n_demand;                               // total nitrogen demand (g/m^2)
     float no3gsm_uptake;                          // plant NO3 uptake from layer (g/m^2)
+    float nh4gsm_uptake;                          // plant NO3 uptake from layer (g/m^2)
     float n_max;                                  // potential N uptake per plant (g/m^2)
-    float no3gsm_supply;
+    float ngsm_supply;
     float scalef;
 
 //- Implementation Section ----------------------------------
 
     deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
 
-    no3gsm_supply = sum_real_array (g_no3gsm_uptake_pot, deepest_layer+1);
+    ngsm_supply = sum_real_array (g_no3gsm_uptake_pot, deepest_layer+1)
+                + sum_real_array (g_nh4gsm_uptake_pot, deepest_layer+1);
 
     n_demand = sum_real_array (g_soil_n_demand, max_part);
 
@@ -1066,8 +1070,9 @@ void cproc_n_uptake3
 
     // get actual change in N contents
     fill_real_array (dlt_no3gsm, 0.0, max_layer);
+    fill_real_array (dlt_nh4gsm, 0.0, max_layer);
 
-    if (n_demand > no3gsm_supply)
+    if (n_demand > ngsm_supply)
         {
         scalef = 0.99999  ;                       // avoid taking it all up as it can
                                                   // cause rounding errors to take
@@ -1076,7 +1081,7 @@ void cproc_n_uptake3
     else
         {
         scalef = divide (n_demand
-                         ,no3gsm_supply
+                         ,ngsm_supply
                          ,0.0);
         }
 
@@ -1085,6 +1090,10 @@ void cproc_n_uptake3
          // allocate nitrate
         no3gsm_uptake = g_no3gsm_uptake_pot[layer] * scalef;
         dlt_no3gsm[layer] = - no3gsm_uptake;
+
+         // allocate ammonium
+        nh4gsm_uptake = g_nh4gsm_uptake_pot[layer] * scalef;
+        dlt_nh4gsm[layer] = - nh4gsm_uptake;
         }
     }
 
@@ -1184,6 +1193,7 @@ void cproc_n_supply3 (
 
     }
 
+
 //  Purpose
 //     Calculate nitrogen supplies from soil and fixation
 //
@@ -1195,9 +1205,15 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
                ,float* g_no3gsm                 //! (INPUT)
                ,float* g_no3gsm_min             //! (INPUT)
                ,float* g_no3gsm_uptake_pot      //  (output)
+               ,float* g_nh4gsm                 //! (INPUT)
+               ,float* g_nh4gsm_min             //! (INPUT)
+               ,float* g_nh4gsm_uptake_pot      //  (output)
                ,float g_root_depth              //! (INPUT)
                ,float c_n_stress_start_stage    //
-               ,float c_kln                     //
+               ,float c_kno3                     //
+               ,float c_no3ppm_min
+               ,float c_knh4                     //
+               ,float c_nh4ppm_min
                ,float c_total_n_uptake_max      //
                ,float* g_sw_avail_pot           //! (INPUT)
                ,float* g_sw_avail               //! (INPUT)
@@ -1208,6 +1224,7 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
                ,float *g_n_fix_pot)             //! (outPUT)
   {
       float no3ppm;
+      float nh4ppm;
       int deepest_layer;
       int layer;
       float swfac;
@@ -1222,21 +1239,23 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
          {
          for (layer = 0; layer <= deepest_layer; layer++)
             {
-            no3ppm = (g_no3gsm[layer] - g_no3gsm_min[layer])
-                   * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
+            no3ppm = g_no3gsm[layer] * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
+            nh4ppm = g_nh4gsm[layer] * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
 
            swfac = divide(g_sw_avail[layer],g_sw_avail_pot[layer],0.0); //**2
            swfac = bound (swfac,0.0,1.0);
 
-           g_no3gsm_uptake_pot[layer] =
-                         (g_no3gsm[layer] - g_no3gsm_min[layer])
-                                 * c_kln * no3ppm
-                                     * swfac;
+           g_no3gsm_uptake_pot[layer] = g_no3gsm[layer]
+                                      * c_kno3 * (no3ppm - c_no3ppm_min) * swfac;
+           g_no3gsm_uptake_pot[layer] = u_bound(g_no3gsm_uptake_pot[layer]
+                                               ,g_no3gsm[layer]-g_no3gsm_min[layer]);
+           g_no3gsm_uptake_pot[layer] = l_bound(g_no3gsm_uptake_pot[layer], 0.0);
 
-           g_no3gsm_uptake_pot[layer]
-                         = u_bound(g_no3gsm_uptake_pot[layer]
-                                  ,g_no3gsm[layer]-g_no3gsm_min[layer]);
-
+           g_nh4gsm_uptake_pot[layer] = g_nh4gsm[layer]
+                                      * c_knh4 * (nh4ppm - c_nh4ppm_min) * swfac;
+           g_nh4gsm_uptake_pot[layer] = u_bound(g_nh4gsm_uptake_pot[layer]
+                                               ,g_nh4gsm[layer]-g_nh4gsm_min[layer]);
+           g_nh4gsm_uptake_pot[layer] = l_bound(g_nh4gsm_uptake_pot[layer], 0.0);
             }
         }
       else
@@ -1249,17 +1268,30 @@ void cproc_n_supply4 (float* g_dlayer    //! (INPUT)
 
         for (layer = 0; layer <= deepest_layer; layer++)
            {
-           g_no3gsm_uptake_pot[layer]
-               = l_bound(g_no3gsm[layer]-g_no3gsm_min[layer],0.0);
+            no3ppm = g_no3gsm[layer] * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
+            nh4ppm = g_nh4gsm[layer] * divide (1000.0, g_bd[layer]*g_dlayer[layer], 0.0);
+
+
+           if (c_kno3>0 && no3ppm>c_no3ppm_min)
+              g_no3gsm_uptake_pot[layer] = l_bound(g_no3gsm[layer]-g_no3gsm_min[layer],0.0);
+           else
+              g_no3gsm_uptake_pot[layer] = 0.0;
+
+           if (c_knh4>0 && nh4ppm>c_nh4ppm_min)
+              g_nh4gsm_uptake_pot[layer] = l_bound(g_nh4gsm[layer]-g_nh4gsm_min[layer],0.0);
+           else
+              g_nh4gsm_uptake_pot[layer] = 0.0;
            }
         }
 
-      total_n_uptake_pot = sum_real_array(g_no3gsm_uptake_pot, deepest_layer+1);
+      total_n_uptake_pot = sum_real_array(g_no3gsm_uptake_pot, deepest_layer+1)
+                         + sum_real_array(g_nh4gsm_uptake_pot, deepest_layer+1);
       scalef = divide(c_total_n_uptake_max, total_n_uptake_pot,0.0);
       scalef = bound(scalef,0.0,1.0);
       for (layer = 0; layer <= deepest_layer; layer++)
            {
            g_no3gsm_uptake_pot[layer] = scalef * g_no3gsm_uptake_pot[layer];
+           g_nh4gsm_uptake_pot[layer] = scalef * g_nh4gsm_uptake_pot[layer];;
            }
 
       // determine N from fixation
