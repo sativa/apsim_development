@@ -33,6 +33,7 @@ class TrackerVariable
       std::string endPeriod;
       std::string since;
       std::string on;
+      std::string onComponent;
       unsigned last;
       unsigned sinceComponentID;
 
