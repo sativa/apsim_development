@@ -1,5 +1,6 @@
 *     ===========================================================
-      subroutine Millet_water_supply (Option)
+      Recursive
+     :subroutine Millet_water_supply (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -50,7 +51,8 @@
       end
 
 *     ===========================================================
-      subroutine Millet_nit_stress(Option)
+      Recursive
+     :subroutine Millet_nit_stress(Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -111,7 +113,8 @@
       end
 
 *     ===========================================================
-      subroutine Millet_temp_stress(Option)
+      Recursive
+     :subroutine Millet_temp_stress(Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -151,7 +154,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_light_supply (Option)
+      Recursive
+     :subroutine Millet_light_supply (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -190,7 +194,8 @@
 
 
 *     ===========================================================
-      subroutine millet_bio_TE (Option)
+      Recursive
+     :subroutine millet_bio_TE (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -236,7 +241,8 @@
       end
 
 *     ===========================================================
-      subroutine Millet_bio_RUE (Option)
+      Recursive
+     :subroutine Millet_bio_RUE (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -283,7 +289,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_transpiration_eff (Option)
+      Recursive
+     :subroutine Millet_transpiration_eff (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -329,7 +336,8 @@
       end
 
 *     ===========================================================
-      subroutine Millet_water_demand (Option)
+      Recursive
+     :subroutine Millet_water_demand (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -372,7 +380,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_root_depth (Option)
+      Recursive
+     :subroutine Millet_root_depth (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -423,7 +432,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_root_depth_init (Option)
+      Recursive
+     :subroutine Millet_root_depth_init (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -481,7 +491,8 @@
       end
 
 *     ===========================================================
-      subroutine Millet_water_stress(Option)
+      Recursive
+     :subroutine Millet_water_stress(Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -577,7 +588,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_water_uptake (Option)
+      Recursive
+     :subroutine Millet_water_uptake (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -645,7 +657,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_leaf_area_init (Option)
+      Recursive
+     :subroutine Millet_leaf_area_init (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -690,7 +703,8 @@
 
 
 *     ===========================================================
-      subroutine Millet_leaf_no_init (Option)
+      Recursive
+     :subroutine Millet_leaf_no_init (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -735,7 +749,8 @@
       end
 
 *     ===========================================================
-      subroutine Millet_leaf_no_pot (Option)
+      Recursive
+     :subroutine Millet_leaf_no_pot (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -803,7 +818,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine Millet_leaf_area_potential (Option)
+      Recursive
+     :subroutine Millet_leaf_area_potential (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -866,7 +882,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine Millet_leaf_area_stressed (Option)
+      Recursive
+     :subroutine Millet_leaf_area_stressed (Option)
 *     ===========================================================
       use MilletModule
       implicit none
@@ -913,7 +930,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_bio_actual (Option)
+      Recursive
+     :subroutine millet_bio_actual (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -971,7 +989,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_bio_partition (Option)
+      Recursive
+     :subroutine millet_bio_partition (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1045,7 +1064,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_bio_retrans (Option)
+      Recursive
+     :subroutine millet_bio_retrans (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1109,7 +1129,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_leaf_actual(Option)
+      Recursive
+     :subroutine millet_leaf_actual(Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1153,7 +1174,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_height (Option)
+      Recursive
+     :subroutine millet_height (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1207,7 +1229,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_bio_grain_demand (Option)
+      Recursive
+     :subroutine millet_bio_grain_demand (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1397,7 +1420,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_leaf_death (Option)
+      Recursive
+     :subroutine millet_leaf_death (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1434,7 +1458,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_leaf_area_sen (Option)
+      Recursive
+     :subroutine millet_leaf_area_sen (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1503,7 +1528,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_sen_bio (Option)
+      Recursive
+     :subroutine millet_sen_bio (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1552,7 +1578,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_sen_nit (Option)
+      Recursive
+     :subroutine millet_sen_nit (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1600,7 +1627,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_nit_init (Option)
+      Recursive
+     :subroutine millet_nit_init (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1648,7 +1676,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_nit_supply (Option)
+      Recursive
+     :subroutine millet_nit_supply (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1716,7 +1745,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_nit_retrans (Option)
+      Recursive
+     :subroutine millet_nit_retrans (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1771,7 +1801,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_nit_demand (Option)
+      Recursive
+     :subroutine millet_nit_demand (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1839,7 +1870,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_nit_uptake (Option)
+      Recursive
+     :subroutine millet_nit_uptake (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1909,7 +1941,8 @@ cjh special for erik - end
 
 
 *     ===========================================================
-      subroutine millet_nit_partition (Option)
+      Recursive
+     :subroutine millet_nit_partition (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -1952,7 +1985,8 @@ cjh special for erik - end
       end
 
 * ====================================================================
-       subroutine millet_nit_demand_est (Option)
+      Recursive
+     :subroutine millet_nit_demand_est (Option)
 * ====================================================================
       use milletModule
       implicit none
@@ -2037,7 +2071,8 @@ cjh special for erik - end
 
 
 * ====================================================================
-      subroutine millet_P_uptake (Option)
+      Recursive
+     :subroutine millet_P_uptake (Option)
 * ====================================================================
       use milletModule
       implicit none
@@ -2099,7 +2134,8 @@ cjh special for erik - end
       return
       end
 *     ===========================================================
-      subroutine millet_p_stress_photo (Option)
+      Recursive
+     :subroutine millet_p_stress_photo (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2143,7 +2179,8 @@ cjh special for erik - end
       return
       end
 *     ===========================================================
-      subroutine millet_p_stress_pheno (Option)
+      Recursive
+     :subroutine millet_p_stress_pheno (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2187,7 +2224,8 @@ cjh special for erik - end
       return
       end
 *     ===========================================================
-      subroutine millet_p_stress_expansion (Option)
+      Recursive
+     :subroutine millet_p_stress_expansion (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2231,7 +2269,8 @@ cjh special for erik - end
       return
       end
 *     ===========================================================
-      subroutine millet_p_stress_grain (Option)
+      Recursive
+     :subroutine millet_p_stress_grain (Option)
 *     ===========================================================
 
 *   Short description:
@@ -2282,7 +2321,8 @@ cjh special for erik - end
       end
 
 * ====================================================================
-       subroutine millet_P_demand_est (Option)
+      Recursive
+     :subroutine millet_P_demand_est (Option)
 * ====================================================================
       use milletModule
       implicit none
@@ -2325,7 +2365,8 @@ cjh special for erik - end
       return
       end
 * ====================================================================
-       subroutine millet_P_conc (Option)
+      Recursive
+     :subroutine millet_P_conc (Option)
 * ====================================================================
       use milletModule
       implicit none
@@ -2365,7 +2406,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_Phos_init (Option)
+      Recursive
+     :subroutine millet_Phos_init (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2408,7 +2450,8 @@ cjh special for erik - end
       return
       end
 *     ===========================================================
-      subroutine millet_plant_death (Option)
+      Recursive
+     :subroutine millet_plant_death (Option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2588,7 +2631,8 @@ cnh      real dlt_plants
 
 
 *     ===========================================================
-      subroutine millet_detachment(option)
+      Recursive
+     :subroutine millet_detachment(option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2652,7 +2696,8 @@ c in millet
       end
 
 *     ===========================================================
-      subroutine millet_phenology (option)
+      Recursive
+     :subroutine millet_phenology (option)
 *     ===========================================================
       use milletModule
       implicit none
@@ -2764,7 +2809,8 @@ cjh special for erik - end
       end
 
 *     ===========================================================
-      subroutine millet_phenology_init (option)
+      Recursive
+     :subroutine millet_phenology_init (option)
 *     ===========================================================
       use milletModule
       implicit none
