@@ -308,7 +308,6 @@ Public Class MetGraphControl
         End With
 
         For Each row As DataRow In DailyData.Rows
-            Today = row(DateColumn)
             If Not IsNothing(RainColumn) Then
                 RainfallSeries.Values.Add(row(RainColumn))
             End If
@@ -340,12 +339,12 @@ Public Class MetGraphControl
         EvapColumn = DailyData.Columns("evap")
 
         For Each row As DataRow In DailyData.Rows
-            Today = row(DateColumn)
+            Dim ThisDay As Date = row(DateColumn)
             If Not IsNothing(RainColumn) Then
-                r(Today.Month) = r(Today.Month) + row(RainColumn)
+                r(ThisDay.Month) = r(ThisDay.Month) + row(RainColumn)
             End If
             If Not IsNothing(EvapColumn) Then
-                e(Today.Month) = e(Today.Month) + row(EvapColumn)
+                e(ThisDay.Month) = e(ThisDay.Month) + row(EvapColumn)
             End If
         Next
 
