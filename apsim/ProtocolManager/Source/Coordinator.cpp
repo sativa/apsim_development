@@ -828,12 +828,9 @@ void Coordinator::onApsimChangeOrderData(MessageData& messageData)
          componentOrders.push_back(componentID);
          }
       }
-   else
-      {
-      // move all items up 1 spot.  Move top spot to bottom.
-      for (unsigned i = 1; i != componentOrders.size(); i++)
-         swap(componentOrders[i-1], componentOrders[i]);
-      }
+   // move all items up 1 spot.  Move top spot to bottom.
+   for (unsigned i = 1; i != componentOrders.size(); i++)
+      swap(componentOrders[i-1], componentOrders[i]);
    }
 // ------------------------------------------------------------------
 // Handle incoming publish event message but make sure the order
