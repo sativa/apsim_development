@@ -186,7 +186,7 @@ void Scenarios::deleteAllScenarios(void)
 void Scenarios::getScenarioNames(vector<string>& scenarioNames) const
    {
    for_each(scenarios.begin(), scenarios.end(),
-            GetNameFunction< vector<string>, Scenario>(scenarioNames));
+            GetName<Scenario>(scenarioNames));
    }
 // ------------------------------------------------------------------
 // create multiple scenarios, based on the given scenario, given
