@@ -1,8 +1,42 @@
-       
+      module AccumModule
+      
+      integer Max_variables            ! Maximum number of variables.
+      parameter (Max_variables=50)
+
+      integer Max_days                 ! maximum number of days for a single
+      parameter (Max_days = 366)       ! accumulation
+
+      type AccumGlobals
+         integer Day                      ! Day of year.
+         integer Num_variables            ! Number of variables in module
+         integer Variable_sizes(Max_variables)
+                                       ! Number of days to accumulate each
+                                       ! variable for.
+         real Variable_values(Max_variables, Max_days)
+                                       ! Values of each of the variables for the
+                                       ! previous days.
+
+         character Variable_names(Max_variables)*30
+                                       ! Variables to accumulate
+      end type AccumGlobals
+
+      ! instance variables.
+      type (AccumGlobals), pointer :: g
+      integer MAX_NUM_INSTANCES
+      parameter (MAX_NUM_INSTANCES=10)  
+      integer MAX_INSTANCE_NAME_SIZE
+      parameter (MAX_INSTANCE_NAME_SIZE=50)
+      type AccumDataPtr
+         type (AccumGlobals), pointer ::    gptr
+         character Name*(MAX_INSTANCE_NAME_SIZE)
+      end type AccumDataPtr
+      type (AccumDataPtr), dimension(MAX_NUM_INSTANCES) :: Instances
+      
+      contains
+
 !     ===========================================================
       subroutine AllocInstance (InstanceName, InstanceNo)
 !     ===========================================================
-      use AccumModule
       Use infrastructure
       implicit none
  
@@ -19,12 +53,11 @@
       Instances(InstanceNo)%Name = InstanceName
  
       return
-      end
+      end subroutine
 
 !     ===========================================================
       subroutine FreeInstance (anInstanceNo)
 !     ===========================================================
-      use AccumModule
       Use infrastructure
       implicit none
  
@@ -39,12 +72,11 @@
       deallocate (Instances(anInstanceNo)%gptr)
  
       return
-      end
+      end subroutine
      
 !     ===========================================================
       subroutine SwapInstance (anInstanceNo)
 !     ===========================================================
-      use AccumModule
       Use infrastructure
       implicit none
  
@@ -59,12 +91,11 @@
       g => Instances(anInstanceNo)%gptr
  
       return
-      end
+      end subroutine
        
 * ====================================================================
        subroutine Main (Action, Data)
 * ====================================================================
-      use AccumModule
       Use infrastructure
       implicit none
 
@@ -102,14 +133,13 @@
       endif
  
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Accum_Init ()
 * ====================================================================
-      use AccumModule
       Use infrastructure
       implicit none
 
@@ -142,14 +172,13 @@
       call Accum_read_param ()
  
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Accum_read_param ()
 * ====================================================================
-      use AccumModule
       Use infrastructure
       implicit none
 
@@ -227,14 +256,13 @@
  
       call pop_routine(This_routine)
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Accum_zero_variables ()
 * ====================================================================
-      use AccumModule
       Use infrastructure
       implicit none
 
@@ -257,14 +285,13 @@
 10    continue
  
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Accum_get_other_variables ()
 * ====================================================================
-      use AccumModule
       Use infrastructure
       implicit none
 
@@ -298,14 +325,13 @@
 20    continue
  
       return
-      end
+      end subroutine
 
 
 
 * ====================================================================
        subroutine Accum_Send_my_variable (Variable_name)
 * ====================================================================
-      use AccumModule
       Use infrastructure
       implicit none
 
@@ -391,7 +417,6 @@
  
       call pop_routine(Routine_name)
       return
-      end
+      end subroutine
 
-
-
+      end module AccumModule
