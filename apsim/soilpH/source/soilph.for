@@ -263,10 +263,18 @@
          ! Coefficient for root weighting.
       call read_real_var (section
      :                     , 'wr_coef'
-     :                     , '()'
+     :                     , '(mm)'
      :                     , c%wr_coef
      :                     , numvals
      :                     , 0.0, 20000.0)
+
+         ! Atmospheric CO2 partial pressure.
+      call read_real_var (section
+     :                     , 'co2_pressure_atm'
+     :                     , '(atm)'
+     :                     , c%CO2_pressure_atm
+     :                     , numvals
+     :                     , 0.0001, 0.01)
 
          ! Lime solubility table.
       call read_real_array (section
@@ -387,7 +395,7 @@
      :                     , numvals
      :                     , 2.0, 10.0)
 
-         ! Uptakes of each element in Moles per Kg dry matter of crop growth.
+         ! Uptakes of each element in percent dry matter of crop growth.
       call read_real_var (section
      :                     , 'ca_dm_percent'
      :                     , '(%)'
@@ -443,9 +451,9 @@
      :                     , 0.0, 100.0)
       call SoilpH_assert (numvals .ge. e%num_layers
      :                    , 'lime_pool_init: numvals .ge. e%num_layers')
-      p%lime_pool_init(:) = p%lime_pool_init(:) * caco3_kg2mol
+      p%lime_pool_init(:) = p%lime_pool_init(:) * CaCO3_kg2mol
 !      call SoilpH_vec_scalar_mul (p%lime_pool_init, e%num_layers
-!     :                           , caco3_kg2mol)
+!     :                           , CaCO3_kg2mol)
 
          ! Initial pHCa of layer.
       call read_real_array (section
@@ -484,16 +492,16 @@
          ! pHBC method is a calculation
       endif
 
-         ! Ionic activity of CO2 in the layer.
+         ! Soil air CO2 partial pressure in the layer.
       call read_real_array (section
-     :                     , 'pco2'
+     :                     , 'co2_pressure_soil'
      :                     , max_layer
      :                     , '()'
-     :                     , p%pCO2
+     :                     , p%CO2_pressure_soil
      :                     , numvals
-     :                     , 1.0, 7.0)
+     :                     , 0.0001, 0.01)
       call SoilpH_assert (numvals .ge. e%num_layers
-     :                 , 'pCO2: numvals .ge. e%num_layers')
+     :                 , 'CO2_pressure_soil: numvals .ge. e%num_layers')
 
          ! Initial aluminium concentration. (cMol/Kg).
       call read_real_array (section
@@ -721,11 +729,7 @@
  
          ! Globals
 
-      g%infiltration_mol         = 0.0 
-      g%rain_H                   = 0.0 
-      g%rain_OH                  = 0.0 
-      g%rain_HCO3                = 0.0 
-      g%rain_CO3                 = 0.0 
+      g%H_equiv_infiltration     = 0.0 
       g%residue_ash_alk_wt       = 0.0 
       g%pHBC(:)                  = 0.0
       g%pHCa(:)                  = 0.0
@@ -767,7 +771,8 @@
       p%S_dm_percent           = 0.0     
       p%Cl_dm_percent          = 0.0     
       p%pHCa_initial(:)        = 0.0
-      p%pCO2(:)               = 0.0
+      p%CO2_pressure_soil(:)   = 0.0
+      c%CO2_pressure_atm       = 0.0
       p%pHBC(:)                = 0.0
       p%lime_pool_init(:)      = 0.0
       p%Al_conc_init(:)        = 0.0
@@ -811,8 +816,8 @@
       e%dlt_OM(:)                       = 0.0
       e%NO3_transform_net_mol(:)        = 0.0
       e%NH4_transform_net_mol(:)        = 0.0
-      e%no3_uptake_equiv(:)             = 0.0
-      e%nh4_uptake_equiv(:)             = 0.0
+      e%NO3_uptake_equiv(:)             = 0.0
+      e%NH4_uptake_equiv(:)             = 0.0
       e%Ca_uptake_equiv(:)              = 0.0
       e%Mg_uptake_equiv(:)              = 0.0
       e%K_uptake_equiv(:)               = 0.0
@@ -874,6 +879,8 @@
       c%lime_sol_tbl_size     = 0
       c%hum_acid_slope        = 0.0
       c%hum_acid_pHCa_offset  = 0.0
+      c%CO2_pressure_atm      = 0.0
+
       call fill_real_array (c%lime_sol_tbl_pHCa, 0.0
      :                     , lime_sol_tbl_size_max)
       call fill_real_array (c%lime_sol_tbl_lime, 0.0
@@ -901,7 +908,7 @@
       call fill_real_array (p%Cl_avail       , 0.0, max_layer)
       call fill_real_array (p%pHCa_initial   , 0.0, max_layer)
       call fill_real_array (p%pHBC           , 0.0, max_layer)
-      call fill_real_array (p%pCO2          , 0.0, max_layer)
+      call fill_real_array (p%CO2_pressure_soil, 0.0, max_layer)
       call fill_real_array (p%lime_pool_init , 0.0, max_layer)
       call fill_real_array (p%Al_conc_init   , 0.0, max_layer)
       call fill_real_array (p%sAls_supplied  , 0.0, max_layer)
@@ -925,8 +932,8 @@
       call fill_real_array (e%dlt_OM            , 0.0, max_layer)
       call fill_real_array (e%NH4_transform_net_mol, 0.0, max_layer)
       call fill_real_array (e%NO3_transform_net_mol, 0.0, max_layer)
-      call fill_real_array (e%no3_uptake_equiv   , 0.0, max_layer)
-      call fill_real_array (e%nh4_uptake_equiv   , 0.0, max_layer)
+      call fill_real_array (e%NO3_uptake_equiv   , 0.0, max_layer)
+      call fill_real_array (e%NH4_uptake_equiv   , 0.0, max_layer)
       call fill_real_array (e%Ca_uptake_equiv    , 0.0, max_layer)
       call fill_real_array (e%Mg_uptake_equiv    , 0.0, max_layer)
       call fill_real_array (e%K_uptake_equiv     , 0.0, max_layer)
@@ -951,11 +958,7 @@
 
 
          !  Calculated variables.
-      g%infiltration_mol   = 0.0
-      g%rain_H             = 0.0
-      g%rain_OH            = 0.0
-      g%rain_HCO3          = 0.0
-      g%rain_CO3           = 0.0
+      g%H_equiv_infiltration   = 0.0
       g%residue_ash_alk_wt = 0.0
       call fill_real_array (g%pHBC              , 0.0, max_layer)
       call fill_real_array (g%pHCa              , 0.0, max_layer)
@@ -1261,7 +1264,7 @@
       endif
 
          ! Get the NO3 uptake_equiv for each crop.
-      e%no3_uptake_equiv(:) = 0.0
+      e%NO3_uptake_equiv(:) = 0.0
       
       do 1200 index_crop=1, num_crops
          this_uptake(:) = 0.0
@@ -1273,14 +1276,14 @@
      :                     , numvals
      :                     , -1000.0, 1000.0 )
          call SoilpH_assert (numvals.eq.e%num_layers
-     :                 , 'no3_uptake: numvals.eq.e%num_layers')
-         e%no3_uptake_equiv(:) = e%no3_uptake_equiv(:) 
-     :                   + this_uptake(:) * nh4_kg2mol * NO3_valency
-!         call add_real_array (this_uptake, e%no3_uptake_equiv, e%num_layers)
+     :                 , 'NO3_uptake: numvals.eq.e%num_layers')
+         e%NO3_uptake_equiv(:) = e%NO3_uptake_equiv(:) 
+     :                   + this_uptake(:) * NH4_kg2mol * NO3_valency
+!         call add_real_array (this_uptake, e%NO3_uptake_equiv, e%num_layers)
 1200  continue
 
          ! Get the NH4 uptake_equiv for each crop.
-      e%nh4_uptake_equiv(:) = 0.0
+      e%NH4_uptake_equiv(:) = 0.0
       do 1300 index_crop=1, num_crops
          this_uptake(:) = 0.0
          call get_real_array (crop_module(index_crop)
@@ -1291,10 +1294,10 @@
      :                     , numvals
      :                     , -1000.0, 1000.0 )
          call SoilpH_assert (numvals.eq.e%num_layers
-     :                 , 'nh4_uptake: numvals.eq.e%num_layers')
-         e%nh4_uptake_equiv(:) = e%nh4_uptake_equiv(:) 
-     :                   + this_uptake(:) * nh4_kg2mol * NH4_valency
-!         call add_real_array (this_uptake, e%nh4_uptake_equiv, e%num_layers)
+     :                 , 'NH4_uptake: numvals.eq.e%num_layers')
+         e%NH4_uptake_equiv(:) = e%NH4_uptake_equiv(:) 
+     :                   + this_uptake(:) * NH4_kg2mol * NH4_valency
+!         call add_real_array (this_uptake, e%NH4_uptake_equiv, e%num_layers)
 1300  continue
 
 
@@ -1750,30 +1753,10 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      if (variable_name .eq. 'infiltration_mol') then
+      if (variable_name .eq. 'h_equiv_infiltration') then
          call respond2get_real_var (variable_name
      :                              , '(mol/ha)'
-     :                              ,  g%infiltration_mol)
-
-      elseif (variable_name .eq. 'rain_h') then
-         call respond2get_real_var (variable_name
-     :                              , '(mol/ha)'
-     :                              ,  g%rain_H)
-
-      elseif (variable_name .eq. 'rain_oh') then
-         call respond2get_real_var (variable_name
-     :                              , '(mol/ha)'
-     :                              ,  g%rain_OH)
-
-      elseif (variable_name .eq. 'rain_hco3') then
-         call respond2get_real_var (variable_name
-     :                              , '(mol/ha)'
-     :                              ,  g%rain_HCO3)
-
-      elseif (variable_name .eq. 'rain_co3') then
-         call respond2get_real_var (variable_name
-     :                              , '(mol/ha)'
-     :                              ,  g%rain_CO3)
+     :                              ,  g%H_equiv_infiltration)
 
       elseif (variable_name .eq. 'phbc') then
          call respond2get_real_array (variable_name
@@ -1815,7 +1798,7 @@
 
       elseif (variable_name .eq. 'caco3') then
                ! Convert g%lime_pool to (Kg/Ha).
-         temp_array(:) = g%lime_pool(:) * caco3_mol2kg
+         temp_array(:) = g%lime_pool(:) * CaCO3_mol2kg
          call respond2get_real_array (variable_name
      :                              , '(Kg/Ha)'
      :                              , temp_array
@@ -1829,7 +1812,7 @@
 
       elseif (variable_name .eq. 'dlt_caco3') then
                ! Convert g%dlt_lime_pool to (Kg/Ha).
-         temp_array(:) = g%dlt_lime_pool(:) * caco3_mol2kg
+         temp_array(:) = g%dlt_lime_pool(:) * CaCO3_mol2kg
          call respond2get_real_array (variable_name
      :                              , '(Kg/ha)'
      :                              , temp_array
@@ -1892,13 +1875,13 @@
       elseif (variable_name .eq. 'nh4_uptake_equiv') then
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
-     :                              , e%nh4_uptake_equiv
+     :                              , e%NH4_uptake_equiv
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'no3_uptake_equiv') then
          call respond2get_real_array (variable_name
      :                              , '(mol/ha)'
-     :                              , e%no3_uptake_equiv
+     :                              , e%NO3_uptake_equiv
      :                              , e%num_layers)
 
       elseif (variable_name .eq. 'ca_uptake_equiv') then
@@ -1998,15 +1981,15 @@
      :                     , numvals
      :                     , 0.0, 10000.0)
          call SoilpH_assert (numvals.eq.e%num_layers
-     :                 , 'dlt_caco3: numvals.eq.e%num_layers')
+     :                 , 'dlt_CaCO3: numvals.eq.e%num_layers')
          message_str =
-     :     '     Received dlt_caco3 (Lime Pool) (Kg/Ha).  Values =' 
+     :     '     Received dlt_CaCO3 (Lime Pool) (Kg/Ha).  Values =' 
      :     // new_line
          call soilpH_real_array2str (message_str
      :                             , temp_array
      :                             , e%num_layers)
          call write_string (message_str)
-         temp_array(:) = temp_array(:) * caco3_kg2mol
+         temp_array(:) = temp_array(:) * CaCO3_kg2mol
          call add_real_array (temp_array
      :                      , e%dlt_lime_added
      :                      , e%num_layers)
@@ -2019,13 +2002,13 @@
      :                     , numvals
      :                     , 0.0, 10000.0)
          call SoilpH_assert (numvals.eq.e%num_layers
-     :                 , 'caco3: numvals.eq.e%num_layers')
+     :                 , 'CaCO3: numvals.eq.e%num_layers')
          message_str =
-     :     '     RESET caco3 (Lime Pool) (Kg/Ha).  Values =' // new_line
+     :     '     RESET CaCO3 (Lime Pool) (Kg/Ha).  Values =' // new_line
          call soilpH_real_array2str (message_str, g%lime_pool
      :                           , e%num_layers)
          call write_string  (message_str)
-         g%lime_pool(:) = g%lime_pool(:) * caco3_kg2mol
+         g%lime_pool(:) = g%lime_pool(:) * CaCO3_kg2mol
 
       else
             ! don't know this variable name
@@ -2067,7 +2050,7 @@
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call collect_real_array (DATA_nh4_transform_net
+      call collect_real_array (DATA_NH4_transform_net
      :                         , max_layer
      :                         ,'(kg/ha)'
      :                         ,NH4_transform_net
@@ -2077,9 +2060,9 @@
       
 
       e%NH4_transform_net_mol(:) = e%NH4_transform_net_mol(:)
-     :                           + NH4_transform_net(:) * nh4_kg2mol
+     :                           + NH4_transform_net(:) * NH4_kg2mol
 
-      call collect_real_array (DATA_no3_transform_net
+      call collect_real_array (DATA_NO3_transform_net
      :                         , max_layer
      :                         ,'(kg/ha)'
      :                         ,NO3_transform_net
@@ -2088,7 +2071,7 @@
      :                         ,100.0)
 
       e%NO3_transform_net_mol(:) = e%NO3_transform_net_mol(:)
-     :                           + NO3_transform_net(:) * no3_kg2mol
+     :                           + NO3_transform_net(:) * NO3_kg2mol
 
       call pop_routine (myname)
       return
@@ -3111,13 +3094,25 @@
 1000  continue
 
          !  Adjust lime pool in each layer.
-      do 1100 layer=1, e%num_layers
+         ! Use water flowing in instead of water flowing out
          call soilpH_dlt_lime(
-     :               g%dlt_lime_pool(layer)
+     :                g%dlt_lime_pool(1)
+     :              , g%dlt_lime_dissl(1)
+     :              , g%lime_pool(1)
+     :              , e%dlt_lime_added(1)
+     :              , e%infiltration_mm
+     :              , g%pHCa(1)
+     :              , c%lime_sol_tbl_pHCa
+     :              , c%lime_sol_tbl_lime
+     :              , c%lime_sol_tbl_size
+     :                  )
+      do 1100 layer=2, e%num_layers
+         call soilpH_dlt_lime(
+     :                g%dlt_lime_pool(layer)
      :              , g%dlt_lime_dissl(layer)
      :              , g%lime_pool(layer)
      :              , e%dlt_lime_added(layer)
-     :              , e%flow_water(layer)
+     :              , e%flow_water(layer-1)
      :              , g%pHCa(layer)
      :              , c%lime_sol_tbl_pHCa
      :              , c%lime_sol_tbl_lime
@@ -3135,13 +3130,21 @@
      :              , e%NO3_transform_net_mol(layer)
      :              , e%NH4_transform_net_mol(layer))
 
+!         print*, 'layer, g%dlt_acid_N_cycle(layer) '
+!     :             //' , e%NO3_transform_net_mol(layer) '
+!     :             //' , e%NH4_transform_net_mol(layer)) '
+!
+!         print*, layer, g%dlt_acid_N_cycle(layer)
+!     :              , e%NO3_transform_net_mol(layer)
+!     :              , e%NH4_transform_net_mol(layer)
+
 1150  continue
          !  Root excretion of acid.
       do 1170 layer=1, e%num_layers
          call soilpH_acid_excretion_root ( 
      :                            g%acid_excretion_root(layer)
-     :                           , e%no3_uptake_equiv(layer)
-     :                           , e%nh4_uptake_equiv(layer)
+     :                           , e%NO3_uptake_equiv(layer)
+     :                           , e%NH4_uptake_equiv(layer)
      :                           , e%Ca_uptake_equiv(layer)
      :                           , e%Mg_uptake_equiv(layer)
      :                           , e%K_uptake_equiv(layer)
@@ -3161,28 +3164,25 @@
 1180  continue
 
          !  Calculate ion balance infiltrating into the soil surface.
-      g%rain_H    = 10.0**(-p%pH_rain) 
-     :            * e%infiltration_mm * (mm2lpsm / sm2ha)
-      g%rain_OH   = 10.0**(-pH_max + p%pH_rain)
-     :            * e%infiltration_mm * (mm2lpsm / sm2ha)
-      g%rain_HCO3 = 10.0**(-(pCO2_rain - p%pH_rain + pK_CO2))
-     :            * e%infiltration_mm * (mm2lpsm / sm2ha)
-      g%rain_CO3  = divide (g%rain_HCO3 * 2.0 * 10.0**(-pK_HCO3)
-     :                     ,10.0**(-p%pH_rain), 0.0)
-      g%infiltration_mol = g%rain_H 
-     :                   - g%rain_OH 
-     :                   - g%rain_HCO3 
-     :                   - g%rain_CO3
+         call soilpH_H_equiv_mass_flow (g%H_equiv_infiltration
+     :                                , p%pH_rain
+     :                                , e%infiltration_mm
+     :                                , c%CO2_pressure_atm
+     :                                , 0.0
+     :                                , 0.0)
 
          !  Flow of hydrogen ions out of each layer.
       do 1200 layer=1, e%num_layers
          call soilpH_H_equiv_mass_flow (g%H_equiv_mass_flow(layer)
-     :           , g%pHCa(layer), e%flow_water(layer), p%pCO2(layer)
-     :           , p%pAl_pHca_slope(layer), p%pAl_pHCa_intercept(layer))
+     :                                , g%pHCa(layer)
+     :                                , e%flow_water(layer)
+     :                                , p%CO2_pressure_soil(layer)
+     :                                , p%pAl_pHca_slope(layer)
+     :                                , p%pAl_pHCa_intercept(layer))
 1200  continue
 
          !  Net flow of hydrogen ions into each layer.
-      g%H_equiv_flow_net(1) = g%infiltration_mol 
+      g%H_equiv_flow_net(1) = g%H_equiv_infiltration 
      :                      - g%H_equiv_mass_flow(1)
       do 1300 layer=2, e%num_layers
          g%H_equiv_flow_net(layer) = g%H_equiv_mass_flow(layer-1) 
@@ -3191,6 +3191,7 @@
 
          !  Difference in pHCa.
       do 2000 layer=1, e%num_layers
+!      print*, 'Layer=', layer
          call soilpH_dlt_pH (
      :                g%dlt_pHCa(layer)
      :               , g%pHBC(layer)
@@ -3398,7 +3399,7 @@
  !      if ((pHCa .le. 4.00) .or. (pHCa .ge. 8.2)) then
  !            pHBC = 9999
  !      else
-            pHBC = divide (caco3_t2KMol, (lri / 83.0 * 100.0), 9999.0)
+            pHBC = divide (CaCO3_t2KMol, (lri / 83.0 * 100.0), 9999.0)
  !      end if
 
  !        print *, 'pHBC,tec,al=', pHBC, tec, al
@@ -3453,7 +3454,7 @@
       parameter (my_name = 'soilpH_dlt_pH')
 
 *+  Local Variables
-      real H_diff        ! OH- equiv added - H+ equiv added (Mol/Ha).
+      real dlt_H         ! H+ equiv added (Mol/Ha).
       real pHBC_layer    ! pH buffering capacity of the layer (Kmol/ha/ph_unit).
 
 *- Implementation Section ----------------------------------
@@ -3463,14 +3464,21 @@
       pHBC_layer = pHBC * (dlayer/100.0)
 
 
-  ! Tally H+ OH- ions.
-      H_diff = (dlt_lime_dissl + ash_alk_wt)
-     :       - (H_equiv_flow_net + acid_excretion_root
-     :          + dlt_acid_N_cycle + dlt_acid_org_C_cycle)
+  ! Tally H+ ions.
+      dlt_H = H_equiv_flow_net + acid_excretion_root
+     :      + dlt_acid_N_cycle + dlt_acid_org_C_cycle
+     :      - (dlt_lime_dissl + ash_alk_wt) 
 
-  ! pHCa change for a soil layer.
-      dlt_pHCa = divide (H_diff, (kmol2mol*pHBC_layer), 0.0)
+!       print*, 'H_diff, dlt_lime_dissl,+ ash_alk_wt '
+!     :       //',- H_equiv_flow_net,- acid_excretion_root '
+!     :       //',- dlt_acid_N_cycle,- dlt_acid_org_C_cycle '
+!       print*, H_diff, dlt_lime_dissl,+ ash_alk_wt
+!     :       ,- H_equiv_flow_net,- acid_excretion_root
+!     :       ,- dlt_acid_N_cycle,- dlt_acid_org_C_cycle
 
+ ! pHCa change for a soil layer.
+      dlt_pHCa = divide (-dlt_H, (kmol2mol*pHBC_layer), 0.0)
+!      print*,'dlt_pHCa=',dlt_pHCa 
       call pop_routine (my_name)
       return
       end
@@ -3479,8 +3487,8 @@
 
 *     ===========================================================
       subroutine soilpH_acid_excretion_root(  acid_excretion_root
-     :                              , no3_uptake_equiv
-     :                              , nh4_uptake_equiv
+     :                              , NO3_uptake_equiv
+     :                              , NH4_uptake_equiv
      :                              , Ca_uptake_equiv
      :                              , Mg_uptake_equiv
      :                              , K_uptake_equiv
@@ -3495,8 +3503,8 @@
 
 *+  Sub-Program Arguments
       real acid_excretion_root ! (OUT) Adjusted estimate of root excretion of acid.
-      real no3_uptake_equiv    ! (IN) NO3 taken by crops today (Mol/Ha).
-      real nh4_uptake_equiv    ! (IN) NH4 taken by crops today (Mol/Ha).
+      real NO3_uptake_equiv    ! (IN) NO3 taken by crops today (Mol/Ha).
+      real NH4_uptake_equiv    ! (IN) NH4 taken by crops today (Mol/Ha).
       real Ca_uptake_equiv     ! (IN) uptake_equiv of Ca,   (Moles H+ equiv / Ha).
       real Mg_uptake_equiv     ! (IN) uptake_equiv of Mg,   (Moles H+ equiv / Ha).
       real K_uptake_equiv      ! (IN) uptake_equiv of K,   (Moles H+ equiv / Ha).
@@ -3522,8 +3530,8 @@
       call push_routine (my_name)
 
       acid_excretion_root =
-     :              nh4_uptake_equiv ! NH4 taken by crops today (Mol/Ha).
-     :            + no3_uptake_equiv ! NO3 taken by crops today (Mol/Ha).
+     :              NH4_uptake_equiv ! NH4 taken by crops today (Mol/Ha).
+     :            + NO3_uptake_equiv ! NO3 taken by crops today (Mol/Ha).
      :            + Ca_uptake_equiv ! uptake_equiv of Ca, (Moles H+ equiv / Ha).
      :            + Mg_uptake_equiv ! uptake_equiv of Mg, (Moles H+ equiv / Ha).
      :            + K_uptake_equiv  ! uptake_equiv of K,   (Moles H+ equiv / Ha).
@@ -3558,7 +3566,7 @@
 
 *+  Changes
 *     170699 sb   created
-*     970924 sb   Changed calculation of no3_acc and no4_acc.
+*     970924 sb   Changed calculation of NO3_acc and NH4_acc.
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
@@ -3641,7 +3649,7 @@
      :                                 , lime_sol_tbl_pHCa
      :                                 , lime_sol_tbl_lime
      :                                 , lime_sol_tbl_size)  !(gm/l)
-         max_dissl = dissl_rate * (gm2kg * caco3_kg2mol)
+         max_dissl = dissl_rate * (gm2kg * CaCO3_kg2mol)
      :             * abs (flow_water)* (mm2lpsm / sm2ha)
      :
          dlt_lime_dissl = max(0.0, min(dlt_lime_added+lime_pool
@@ -3660,10 +3668,11 @@
 
 *     ===========================================================
       subroutine soilpH_H_equiv_mass_flow (H_equiv_mass_flow
-     :                   , pHCa, H20_mass_flow_mm
-     :                   , pCO2
-     :                   , pAl_pHca_slope
-     :                   , pAl_pHCa_intercept)
+     :                                    , pH
+     :                                    , H20_mass_flow_mm
+     :                                    , CO2_pressure
+     :                                    , pAl_pHca_slope
+     :                                    , pAl_pHCa_intercept)
 *     ===========================================================
       use soilpHModule
       implicit none
@@ -3673,9 +3682,9 @@
 
 *+  Sub-Program Arguments
       real H_equiv_mass_flow  ! (OUT) Equivalent H+ flow out of the layer (Mol/ha).
-      real pHCa               ! (IN) pHCa.
+      real pH                 ! (IN) pH
       real H20_mass_flow_mm   ! (IN) How much water flowing out of the layer (mm).
-      real pCO2               ! (IN) Ionic activity of CO2 in the layer.
+      real CO2_pressure       ! (IN) Air CO2 partial pressure (atm)
       real pAl_pHca_slope     ! (IN) User supplied slope of -log(labile Al) vs pHCa.
       real pAl_pHCa_intercept ! (IN) supplied intercept of -log(labile Al) vs pHCa.
 
@@ -3698,7 +3707,6 @@
                               ! (-ve log of [al] in solution) (mol/L)
       real Al_conc            !  Al conc (Mol/L)
       real Al_mass_flow       ! labile aluminium (mol/Ha)  Mass flow of Al .
-      real Al_equiv_mass_flow !  (Mol/ha)
       real HCO3_conc          !  (Mol/L)
       real pHCO3
       real HCO3_mass_flow     ! Mass flow HCO3_conc (Mol/ha)
@@ -3710,6 +3718,7 @@
       real H_mass_flow        ! Mass flow of H+  (Mol/ha)
       real pCO3
       real CO3_conc           ! HCO3_conc (Mol/L)
+      real pCO2               ! Ionic activity of CO2 
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -3718,28 +3727,29 @@
       H2O_mass_flow    =  H20_mass_flow_mm * (mm2lpsm / sm2ha)
 
          ! HCO3_conc (moles/L).
-      pHCO3     = pCO2 - pHCa + pK_CO2
+      pCO2      = - log10 (CO2_pressure)
+      pHCO3     = pCO2 - pH + pKa_CO2
       HCO3_conc = 10.0 ** (-pHCO3)
 
          ! Mass flow HCO3_conc- (mol/ha).
       HCO3_mass_flow = HCO3_conc * H2O_mass_flow
 
          ! Actual mass flow of CO3_conc-  (mol/ha).
-      pCO3          = pHCO3 - pHCa + pK_HCO3
+      pCO3          = pHCO3 - pH + pKa_HCO3
       CO3_conc      = 10.0 ** (-pCO3) ! CO3_conc- concentration.
       CO3_mass_flow = CO3_conc * H2O_mass_flow
 
-         ! Mass flow of OH-  (mol/ha).
-      pOH          = pH_max - pHCa
+         ! Mass flow of OH- (hydroxide ions) (mol/ha).
+      pOH          = pKc_water - pH
       OH_conc      = 10.0 **(-pOH)
       OH_mass_flow = OH_conc * H2O_mass_flow
 
-         ! Mass flow of H+  (mol/ha).
-      H_conc       = 10.0 ** (-pHCa)
+         ! Mass flow of H+ (hydrogen ions) (mol/ha).
+      H_conc       = 10.0 ** (-pH)
       H_mass_flow  = H_conc * H2O_mass_flow
 
          ! pAl as a function of soil pHCa (-ve log of [al] in soln) (moles/L).
-      pAl  = pAl_pHca_slope * pHCa  +  pAl_pHCa_intercept
+      pAl  = pAl_pHca_slope * pH  +  pAl_pHCa_intercept
  !        write (*,*) 'pAl  = pAl_pHca_slope * pHCa  +  pAl_pHCa_intercept'
  !        write (*,'(g13.5,g15.5,g13.5,g13.5)') pAl, pAl_pHca_slope, pHCa
  !       :                                               ,  pAl_pHCa_intercept
@@ -3748,18 +3758,31 @@
  !        write (*,*)
 
          ! Mass flow of Al (mol/ha).
-      Al_conc       = 10.0 ** (-pAl) 
-      Al_mass_flow  = Al_conc * H2O_mass_flow
-
-         ! Mass flow of Al (moles + /ha).
-      Al_equiv_mass_flow = Al_valency * Al_mass_flow
+      if (pAl .gt. 0.0) then
+         Al_conc       = 10.0 ** (-pAl) 
+         Al_mass_flow  = Al_conc * H2O_mass_flow
+      else
+         Al_mass_flow = 0.0
+      endif
 
          ! Mass flow of H+ equivalents through the soil layer.
-      H_equiv_mass_flow = H_mass_flow 
-     :                  - OH_mass_flow 
-     :                  - HCO3_mass_flow 
-     :                  - CO3_mass_flow 
-     :                  + Al_equiv_mass_flow
+      H_equiv_mass_flow = H_mass_flow * H_valency 
+     :                  + OH_mass_flow * OH_valency 
+     :                  + HCO3_mass_flow * HCO3_valency 
+     :                  + CO3_mass_flow * CO3_valency 
+     :                  + Al_mass_flow * Al_valency 
+
+!      print*, 'pHCa, H_equiv_mass_flow, H_mass_flow' 
+!     :                  //', -OH_mass_flow '
+!     :                  //', -HCO3_mass_flow '
+!     :                  //', - CO3_mass_flow '
+!     :                  //', + Al_equiv_mass_flow '
+
+!      print*, pHCa, H_equiv_mass_flow, H_mass_flow 
+!     :                  , -OH_mass_flow 
+!     :                  , -HCO3_mass_flow 
+!     :                  , - CO3_mass_flow 
+!     :                  , + Al_equiv_mass_flow
 
       call pop_routine (my_name)
       return
