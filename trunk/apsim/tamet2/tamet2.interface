@@ -1,37 +1,11 @@
-include base.interface
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/apsim.xsl"?>
 
-; -----------------------------------------------------------
-; Tamet2's public interface which other components may
-; use.  Contains:
-;    Properties which other components may get or set
-;    Methods which other components may call
-;    Events which other components may trap (or subscribe to)
-; -----------------------------------------------------------
-class APSIMTamet2Public
-
-   sysinit                 : APSIMMethod                = System initialise
-   end_run                 : APSIMMethod                = Message that run is to end
-
-end
-
-; -----------------------------------------------------------
-; Tamet2's external interface which documents things in other 
-; components that this component uses.
-; Contains:
-;    Properties used in other components
-;    Methods called in other components
-;    Events from other components that this component uses.
-; -----------------------------------------------------------
-
-class APSIMTamet2External
-
-   prepare                 : APSIMEvent                = Message to prepare for process
-   process                 : APSIMEvent                = Message to process
-
-end
-
-class APSIMTamet2
-   dll       : string
-   public    : APSIMTamet2Public
-   External  : APSIMTamet2External
-end
+<component name="tamet2">
+   <registrations>
+      <respondToMethodCallReg name="sysinit" type="sysinit"/>
+      <respondToMethodCallReg name="end_run" type="end_run"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>
