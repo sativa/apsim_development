@@ -8,6 +8,7 @@
 #include <fstream>
 #include <general\io_functions.h>
 #include <general\stristr.h>
+#include "ComponentInterfaceGenerator.h"
 #pragma package(smart_init)
 using std::ofstream;
 using std::ifstream;
@@ -106,33 +107,41 @@ void __fastcall CompileThread::RunCommandLine (void)
 
 //  Changes:
 //    DPH 18/3/99
+//    dph 13/12/2000 added a try/catch block.
 
 // ------------------------------------------------------------------
 void __fastcall CompileThread::Execute (void)
    {
-   // get compiler to use if necessary
-   if (CompileType == "")
-      APSConfig().Read("apsuite", "apsuite", "CompileType", CompileType);
-   if (CompileType == "")
-      CompileType = "lf90";
-
-   APSIM_project apf (InitialFilename.c_str());
-   CompileProject (apf);
-
-   // get a list of child apfs and perform build on each of them.
-   list<string> Keys, Children;
-   apf.Get_keys (Keys);
-   for (list<string>::iterator key = Keys.begin();
-                               key != Keys.end();
-                               key++)
+   try
       {
-      string Child;
-      apf.Get((*key).c_str(), Child);
-      if (Child.find(".apf") != string::npos)
+      // get compiler to use if necessary
+      if (CompileType == "")
+         APSConfig().Read("apsuite", "apsuite", "CompileType", CompileType);
+      if (CompileType == "")
+         CompileType = "lf90";
+
+      APSIM_project apf (InitialFilename.c_str());
+      CompileProject (apf);
+
+      // get a list of child apfs and perform build on each of them.
+      list<string> Keys, Children;
+      apf.Get_keys (Keys);
+      for (list<string>::iterator key = Keys.begin();
+                                  key != Keys.end();
+                                  key++)
          {
-         InitialFilename = Child;
-         Execute();
+         string Child;
+         apf.Get((*key).c_str(), Child);
+         if (Child.find(".apf") != string::npos)
+            {
+            InitialFilename = Child;
+            Execute();
+            }
          }
+      }
+   catch (string& msg)
+      {
+      ShowMessage(msg.c_str());
       }
    }
 
@@ -145,6 +154,7 @@ void __fastcall CompileThread::Execute (void)
 //  Changes:
 //    DPH 18/3/99
 //    dph 6/2/2000 added code to delete *.xp$, *.im$ when building
+//    dph 13/12/2000 added code to generate a componentinterface.for
 
 // ------------------------------------------------------------------
 void CompileThread::CompileProject (APSIM_project& apf)
@@ -178,6 +188,9 @@ void CompileThread::CompileProject (APSIM_project& apf)
 
       // make sure the binary path exists.
       CreateDirectory (BinaryFile.Get_directory().c_str(), NULL);
+
+      // create a componentInterface.for file for this component.
+      CreateComponentInterface(apf);
 
       // create an AUTOMAKE file for this binary.
       CreateAutoMakeFile (apf, BinaryFile);
@@ -443,14 +456,8 @@ void CompileThread::RunAutoMake (APSIM_project& apf, Path& BinaryFile)
 
    if (!Debug)
       {
-      // need to modify the amtemp.bat file to add an extra line on the
-      // end that deletes the target binary file on an unsuccessful link.
-      string AmtempPath = GetSourceDirectory(apf) + "\\amtemp.bat";
-      ofstream amtemp (AmtempPath.c_str(), std::ios::app);
-      amtemp << "@IF ERRORLEVEL 1 del " << BinaryFile.Get_path() << std::endl;
-      amtemp.close();
-
       // run batch file that automake has created.
+      string AmtempPath = GetSourceDirectory(apf) + "\\amtemp.bat";
       CommandLineToExecute = AmtempPath + " >> " + APSDirectories().Get_working() + "\\compiler.rpt";
       Synchronize(RunCommandLine);
 
@@ -476,7 +483,7 @@ void CompileThread::Cleanup (APSIM_project& apf)
    DeleteFile ("amtemp.bat");
    DeleteFiles (apf, "automake.*");
    DeleteFiles (apf, "*.rsp");
-   DeleteSourceFiles (apf);
+//   DeleteSourceFiles (apf);
    }
 
 // ------------------------------------------------------------------
@@ -615,5 +622,35 @@ void CompileThread::DeleteFiles (APSIM_project& apf, const char* Filespec)
       {
       DeleteFile( (*i).c_str() );
       }
+   }
+// ------------------------------------------------------------------
+//  Short description:
+//     create a ComponentInterface.for file for this module.
+
+//  Notes:
+
+//  Changes:
+//    DPH 18/3/99
+
+// ------------------------------------------------------------------
+void CompileThread::CreateComponentInterface(APSIM_project& apf)
+   {
+   // see if we can find an interface file.
+   Path interfaceFilePath(apf.Get_filename().c_str());
+   interfaceFilePath.Back_up_directory();
+   string moduleName = interfaceFilePath.Back_up_directory();
+   interfaceFilePath.Append_path(moduleName.c_str());
+   interfaceFilePath.Set_name(moduleName.c_str());
+   interfaceFilePath.Set_extension(".interface");
+   if (!interfaceFilePath.Exists())
+      throw string("Cannot find APSIM interface file: " +
+                   interfaceFilePath.Get_path() +
+                   ".  All APSIM modules must have an interface file.");
+
+   Path sourcePath(GetSourceDirectory(apf).c_str());
+   sourcePath.Change_directory();
+
+   // generate interface file.
+   GenerateComponentInterface(interfaceFilePath.Get_path().c_str());
    }
 
