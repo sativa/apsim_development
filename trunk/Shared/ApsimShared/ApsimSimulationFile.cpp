@@ -227,7 +227,7 @@ extern "C" unsigned _export __stdcall newApsimSimulationFile
    {
    return (unsigned) new ApsimSimulationFile(fileName);
    }
-extern "C" void _export __stdcall deleteApsimComponentData
+extern "C" void _export __stdcall deleteApsimSimulationFile
    (ApsimSimulationFile* simulationFile)
    {
    delete simulationFile;
