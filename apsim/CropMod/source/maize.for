@@ -1,5 +1,5 @@
 
-C     Last change:  E    14 Sep 2001    2:07 pm
+C     Last change:  E     1 Oct 2001   11:38 am
 
 
 *     ===========================================================
@@ -1779,7 +1779,7 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
 
 *+  Constant Values
       character  my_name*(*)           ! name of procedure
-      parameter (my_name  = 'Crop_Read_Constants')
+      parameter (my_name  = 'Read_Constants_Maize')
 *
       character  section_name*(*)
       parameter (section_name = 'constants')
@@ -1821,6 +1821,11 @@ cnh         P_conc_min = linear_interp_real (current_stage_code
      :                     , c%ratio_root_shoot, numvals
      :                     , 0.0, 1000.0)
  
+      call read_real_var (section_name
+     :                    , 'row_spacing_default', '(m)'
+     :                    , c%row_spacing_default, numvals
+     :                    , 0.0, 2.0)
+
       call read_real_array (section_name
      :                     , 'x_row_spacing', max_table, '(mm)'
      :                     , c%x_row_spacing, c%num_row_spacing
