@@ -13,8 +13,8 @@ variable_alias =  -    -
 units =          -     -   
 
 [met.report.parameters]  
-module_names =          clock                 clock   
-variable_names =  today.dd_mmm_yyyy      today.dd/mm/yyyy   
-variable_alias =     dd_mmm_yyyy           dd/mm/yyyy   
-units =                  -                     -   
+module_names =          clock                 clock              clock
+variable_names =  today.dd_mmm_yyyy      today.dd/mm/yyyy    today.dd/mmm/yyyy 
+variable_alias =     dd_mmm_yyyy           dd/mm/yyyy              -
+units =                  -                     -                   - 
 
