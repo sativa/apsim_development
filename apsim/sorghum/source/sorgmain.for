@@ -1,4 +1,4 @@
-C     Last change:  E    18 Jan 2001   10:53 am
+C     Last change:  E    14 Feb 2001   10:39 am
       include 'cropmodmain.for'
       
 *     ===========================================================
@@ -1273,7 +1273,22 @@ c     :                    , 0.0, 100.0)
      :                     , 'y_n_conc_min_flower', max_stage, '()'
      :                     , c%y_N_conc_min_flower, c%num_N_conc_stage
      :                     , 0.0, 100.0)
+
+      call read_real_array (section_name
+     :                     , 'y_n_conc_crit_root', max_stage, '()'
+     :                     , c%y_N_conc_crit_flower, c%num_N_conc_stage
+     :                     , 0.0, 100.0)
  
+      call read_real_array (section_name
+     :                     , 'y_n_conc_max_root', max_stage, '()'
+     :                     , c%y_N_conc_max_flower, c%num_N_conc_stage
+     :                     , 0.0, 100.0)
+ 
+      call read_real_array (section_name
+     :                     , 'y_n_conc_min_root', max_stage, '()'
+     :                     , c%y_N_conc_min_flower, c%num_N_conc_stage
+     :                     , 0.0, 100.0)
+
       call read_real_var (section_name
      :                   , 'n_conc_crit_grain', '()'
      :                   , c%N_conc_crit_grain, numvals
@@ -1287,21 +1302,6 @@ c     :                    , 0.0, 100.0)
       call read_real_var (section_name
      :                   , 'n_conc_min_grain', '()'
      :                   , c%N_conc_min_grain, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_crit_root', '()'
-     :                   , c%N_conc_crit_root, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_max_root', '()'
-     :                   , c%N_conc_max_root, numvals
-     :                   , 0.0, 100.0)
- 
-      call read_real_var (section_name
-     :                   , 'n_conc_min_root', '()'
-     :                   , c%N_conc_min_root, numvals
      :                   , 0.0, 100.0)
  
          !    Maize_N_init
