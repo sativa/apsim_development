@@ -4556,6 +4556,7 @@ cjh         endif
 *      261095 DPH  Added call to message_unused
 *      130896 jngh removed crop_cover (g_cover_green_sum)
 *      260897 nih  Added output for flow_water and flow_(solute_name)
+*      970910 slw  fix problem with es reporting as zero
 
 *   Calls:
 *      count_of_real_vals
@@ -4581,6 +4582,7 @@ cjh         endif
       integer    lastNB                ! function
       integer    position_in_char_array! function
       real       sum_cover_array       ! function
+      real       sum_real_array        ! function
 
 *   Internal variables
       real       crop_cover            ! sum of crop covers (0-1)
@@ -4591,7 +4593,8 @@ cjh         endif
       character  solute_name*32        ! solute name
       real       temp_array(max_layer) ! temporary array
       real       total_cover           ! total ground cover (0-1)
-
+      real       es                    ! total es
+      
 *   Constant values
       character  my_name*(*)           ! name of subroutine
       parameter (my_name = 'soilwat2_send_my_variable')
@@ -4604,7 +4607,8 @@ cjh         endif
       call push_routine (my_name)
 
       if (variable_name .eq. 'es') then
-         call respond2get_real_var (variable_name, '(mm)', g_es)
+         es = sum_real_array(g_es_layers, max_layer)
+         call respond2get_real_var (variable_name, '(mm)', es)
 
       else if (variable_name .eq. 'eo') then
          call respond2get_real_var (variable_name, '(mm)', g_eo)
