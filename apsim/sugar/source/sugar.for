@@ -2761,8 +2761,7 @@ c      call sugar_get_other_variables ()
       endif
 
       ! now add the dung    (manure module?)
-      call crop_top_residue (c%crop_type, dm_residue, n_residue,
-     .                       eventInterface)
+      call crop_top_residue (c%crop_type, dm_residue, n_residue)
 
 
       ! Now we need to update the leaf tracking info
