@@ -5,6 +5,7 @@ import   = %apsuite\apsim\croptemp\lib\apsimcroptemp.imp
 include  = %apsuite\apsim\croptemp
 include  = %apsuite\apsim\infra
 include  = %apsuite\apsim\infra\componentinterface
+include  = %apsuite\apsim\cropmod\source
 switches = %apsuite\apsbuild\switches.lf95
 source   = ComponentInterface.for
 object   = %apsuite\apsim\infra\source\data.obj
