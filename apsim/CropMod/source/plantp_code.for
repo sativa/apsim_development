@@ -586,11 +586,12 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 *+  Constant Values
       character*(*) myname               ! name of current procedure
       parameter (myname = 'PlantP_prepare')
+      character  string*200            ! output string
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call zero_daily_variables()
+      call PlantP_zero_daily_variables()
 
       call PlantP_get_other_variables ()
       call PlantP_demand(growth_stage, part_wts, dlt_dm_pot)
