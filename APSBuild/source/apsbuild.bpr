@@ -3,17 +3,17 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\APSBuild.exe"/>
+    <PROJECT value="..\..\Bin\APSBuild.exe"/>
     <OBJFILES value="APSBuild.obj TMainForm.obj CompileThread.obj CreateDataTypesF90.obj"/>
     <RESFILES value="APSBuild.res"/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TMainForm.dfm"/>
     <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib"/>
-    <LIBRARIES value=""/>
-    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib"/>
+    <LIBRARIES value="Tee.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib vclx.lib dbrtl.lib vcldb.lib TMSC6.lib Tee.lib"/>
     <PACKAGES value="rtl.bpi vcl.bpi dbrtl.bpi vcldb.bpi bdertl.bpi ibsmp.bpi vclx.bpi 
-      bcbsmp.bpi vcldbx.bpi vcljpg.bpi dclocx.bpi"/>
+      bcbsmp.bpi vcldbx.bpi vcljpg.bpi dclocx.bpi TMSC6.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -24,7 +24,7 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="APSBuild.cpp"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)"/>
     <LIBPATH value="$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib"/>
     <WARNINGS value="-w-par -w-8027 -w-8026"/>
     <WARNOPTSTR value=""/>
@@ -90,17 +90,18 @@ c:\program files\borland\cbuilder6\Projects\Bpl\SEGReport.bpl=SEGReport
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
 
 [HistoryLists\hlIncludePath]
-Count=10
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item3=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms\
-Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms
-Item5=..\..\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;k:\
-Item6=$(BCB)\include;$(BCB)\include\vcl;k:\
-Item7=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
-Item8=
-Item9=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
+Count=11
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(BCB)\components\tms;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms\
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;j:\tms
+Item6=..\..\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;k:\
+Item7=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item8=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared
+Item9=
+Item10=$(BCB)\include;$(BCB)\include\vcl;..\..\shared\general
 
 [HistoryLists\hlLibraryPath]
 Count=4
@@ -134,14 +135,20 @@ Item11=-build &quot;f:\build\apsuite\apsim\canola\canola.apf&quot;
 Item12=-make f:\build\apsuite\apsim\all modules.apf
 
 [HistoryLists\hlFinalOutputDir]
+Count=3
+Item0=..\..\Bin\
+Item1=..\..\Bin
+Item2=..\
+
+[HistoryLists\hIBPIOutputDir]
 Count=1
-Item0=..\
+Item0=.
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=-make d:\development\apsim\all.apf
+RunParams=-make d:\development\apsim\clock\source\source.apf
 Launcher=
 UseLauncher=0
 DebugCWD=
