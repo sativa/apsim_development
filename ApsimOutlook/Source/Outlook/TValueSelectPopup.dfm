@@ -77,6 +77,7 @@ inherited ValueSelectPopup: TValueSelectPopup
       Top = 2
       Width = 50
       Height = 50
+      Transparent = True
     end
   end
 end
