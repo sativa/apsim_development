@@ -40,7 +40,7 @@
         clock.dd/mm/yyyy as date
         clock.day
         clock.year
-        soilwat2.sw_dep()
+        soilwat2.sw_dep
         soiln2.no3()
         soiln2.nh4()
         wheat.lai
@@ -217,23 +217,18 @@
          - Reading constants
      
          - Reading parameters
-      Residue name = wheat
-      Residue type = wheat
-      Overall mass =  500.000000
-      Pot Decomposition Rate =  0.100000001
-      Standing carbohydrate mass =  0.00000000E+00
-                            C:N =  -NaN
-      Standing cellulose mass =  0.00000000E+00
-                            C:N =  -NaN
-      Standing lignin mass =  0.00000000E+00
-                            C:N =  -NaN
-      Lying carbohydrate mass =  100.000000
-                            C:N =  80.0000000
-      Lying cellulose mass =  350.000000
-                            C:N =  80.0000000
-      Lying lignin mass =  50.0000000
-                            C:N =  80.0000000
      
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          500.0   200.0     2.5     0.0   0.221     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
      
 
 ------- soiln2 Initialisation -------------------------------------------------
@@ -335,7 +330,7 @@
          600.0     0.060          0.130       0.700
          -----------------------------------------------
          Extractable SW:   148mm in  2800mm total depth (  5%).
-         Crop factor for bounding water use is set to   1.1 times eo.
+         Crop factor for bounding water use is set to   1.5 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -361,23 +356,23 @@
                      stover N conc =     2.17 (%)    extractable sw =   69.13 (mm)
 30 September 1983(Day of year=273), Wheat: 
       stage 6.0 flowering
-                     biomass =         244.45 (g/m^2)   lai          =   0.490 (m^2/m^2)
-                     stover N conc =     1.16 (%)    extractable sw =   76.55 (mm)
+                     biomass =         244.48 (g/m^2)   lai          =   0.490 (m^2/m^2)
+                     stover N conc =     1.16 (%)    extractable sw =   73.54 (mm)
 6 October 1983(Day of year=279), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         283.77 (g/m^2)   lai          =   0.458 (m^2/m^2)
-                     stover N conc =     1.00 (%)    extractable sw =   98.26 (mm)
+                     biomass =         283.81 (g/m^2)   lai          =   0.458 (m^2/m^2)
+                     stover N conc =     1.00 (%)    extractable sw =   93.41 (mm)
 4 November 1983(Day of year=308), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         434.84 (g/m^2)   lai          =   0.194 (m^2/m^2)
-                     stover N conc =     0.94 (%)    extractable sw =   68.06 (mm)
+                     biomass =         434.90 (g/m^2)   lai          =   0.194 (m^2/m^2)
+                     stover N conc =     0.92 (%)    extractable sw =   56.99 (mm)
 6 November 1983(Day of year=310), Wheat: 
       stage 9.0 maturity
-                     biomass =         435.77 (g/m^2)   lai          =   0.173 (m^2/m^2)
-                     stover N conc =     0.92 (%)    extractable sw =   66.53 (mm)
+                     biomass =         435.84 (g/m^2)   lai          =   0.173 (m^2/m^2)
+                     stover N conc =     0.89 (%)    extractable sw =   55.39 (mm)
 7 November 1983(Day of year=311), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         435.77 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.93 (%)    extractable sw =   66.35 (mm)
+                     biomass =         435.84 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.91 (%)    extractable sw =   55.21 (mm)
 11 November 1983(Day of year=315), clock: 
      Simulation is terminating due to end criteria being met.

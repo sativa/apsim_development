@@ -40,7 +40,7 @@
         clock.dd/mm/yyyy as date
         clock.day
         clock.year
-        soilwat2.sw_dep()
+        soilwat2.sw_dep
         soiln2.no3()
         soiln2.nh4()
         wheat.lai
@@ -258,23 +258,18 @@
          - Reading constants
      
          - Reading parameters
-      Residue name = wheat
-      Residue type = wheat
-      Overall mass =  500.000000
-      Pot Decomposition Rate =  0.100000001
-      Standing carbohydrate mass =  0.00000000E+00
-                            C:N =  -NaN
-      Standing cellulose mass =  0.00000000E+00
-                            C:N =  -NaN
-      Standing lignin mass =  0.00000000E+00
-                            C:N =  -NaN
-      Lying carbohydrate mass =  100.000000
-                            C:N =  80.0000000
-      Lying cellulose mass =  350.000000
-                            C:N =  80.0000000
-      Lying lignin mass =  50.0000000
-                            C:N =  80.0000000
      
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          500.0   200.0     2.5     0.0   0.221     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
      
 
 ------- soiln2 Initialisation -------------------------------------------------
@@ -395,7 +390,7 @@
          200.0     0.060          0.130       0.200
          -----------------------------------------------
          Extractable SW:   242mm in  2100mm total depth ( 12%).
-         Crop factor for bounding water use is set to   1.1 times eo.
+         Crop factor for bounding water use is set to   1.5 times eo.
      
                       Crop Sowing Data
          ------------------------------------------------
@@ -454,8 +449,8 @@
                                               added at depth   10.00 (layer   1)
 12 March 1997(Day of year=71), Wheat: 
       stage 5.0 floral_initiation
-                     biomass =         178.59 (g/m^2)   lai          =   2.401 (m^2/m^2)
-                     stover N conc =     2.00 (%)    extractable sw =   92.81 (mm)
+                     biomass =         178.21 (g/m^2)   lai          =   2.396 (m^2/m^2)
+                     stover N conc =     2.00 (%)    extractable sw =   91.67 (mm)
 13 March 1997(Day of year=72), operatns: 
       Sending apply message to irrigate
 17 March 1997(Day of year=76), operatns: 
@@ -498,8 +493,8 @@
       Sending apply message to irrigate
 13 April 1997(Day of year=103), Wheat: 
       stage 6.0 flowering
-                     biomass =         560.89 (g/m^2)   lai          =   1.124 (m^2/m^2)
-                     stover N conc =     0.75 (%)    extractable sw =  190.37 (mm)
+                     biomass =         560.88 (g/m^2)   lai          =   1.127 (m^2/m^2)
+                     stover N conc =     0.75 (%)    extractable sw =  182.22 (mm)
 16 April 1997(Day of year=106), operatns: 
       Sending apply message to fertiliz
 16 April 1997(Day of year=106), fertiliz: 
@@ -511,8 +506,8 @@
       Sending apply message to irrigate
 19 April 1997(Day of year=109), Wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         640.96 (g/m^2)   lai          =   0.934 (m^2/m^2)
-                     stover N conc =     0.53 (%)    extractable sw =  199.65 (mm)
+                     biomass =         641.14 (g/m^2)   lai          =   0.938 (m^2/m^2)
+                     stover N conc =     0.53 (%)    extractable sw =  186.96 (mm)
 21 April 1997(Day of year=111), operatns: 
       Sending apply message to fertiliz
 21 April 1997(Day of year=111), fertiliz: 
@@ -554,15 +549,15 @@
       Sending apply message to irrigate
 15 May 1997(Day of year=135), Wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         730.33 (g/m^2)   lai          =   0.214 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =  219.91 (mm)
+                     biomass =         732.40 (g/m^2)   lai          =   0.214 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =  219.60 (mm)
 19 May 1997(Day of year=139), Wheat: 
       stage 9.0 maturity
-                     biomass =         730.78 (g/m^2)   lai          =   0.186 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =  205.80 (mm)
+                     biomass =         732.85 (g/m^2)   lai          =   0.186 (m^2/m^2)
+                     stover N conc =     0.29 (%)    extractable sw =  205.56 (mm)
 20 May 1997(Day of year=140), Wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         730.78 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =  215.44 (mm)
+                     biomass =         732.85 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.29 (%)    extractable sw =  215.22 (mm)
 30 May 1997(Day of year=150), clock: 
      Simulation is terminating due to end criteria being met.

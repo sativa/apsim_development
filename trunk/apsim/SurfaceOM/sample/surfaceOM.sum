@@ -136,41 +136,19 @@
          - Reading constants
      
          - Reading parameters
-      Residue name = manure
-      Residue type = manure
-      Overall mass =  2000.00000
-      Pot Decomposition Rate =  0.100000001
-      Standing carbohydrate mass =  60.0000038
-                            C:N =  199.999985
-      Standing cellulose mass =  60.0000038
-                            C:N =  199.999985
-      Standing lignin mass =  80.0000000
-                            C:N =  200.000000
-      Lying carbohydrate mass =  540.000000
-                            C:N =  200.000000
-      Lying cellulose mass =  540.000000
-                            C:N =  200.000000
-      Lying lignin mass =  720.000000
-                            C:N =  200.000000
      
      
-      Residue name = lucerne
-      Residue type = lucerne
-      Overall mass =  4000.00000
-      Pot Decomposition Rate =  0.100000001
-      Standing carbohydrate mass =  160.000000
-                            C:N =  49.9999962
-      Standing cellulose mass =  560.000000
-                            C:N =  50.0000000
-      Standing lignin mass =  80.0000000
-                            C:N =  49.9999962
-      Lying carbohydrate mass =  640.000000
-                            C:N =  50.0000000
-      Lying cellulose mass =  2240.00000
-                            C:N =  50.0000000
-      Lying lignin mass =  320.000000
-                            C:N =  50.0000000
      
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          manure    manure        2000.0   160.0     0.8     0.0   0.181     0.1
+          lucerne   lucerne       4000.0  1600.0    32.0     0.0   0.551     0.2
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
      
 
 ------- soiln2 Initialisation -------------------------------------------------
