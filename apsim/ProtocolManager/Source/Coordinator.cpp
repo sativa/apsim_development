@@ -757,29 +757,12 @@ void Coordinator::fixupRegistrationID(PMRegistrationItem& registrationItem)
 // ------------------------------------------------------------------
 void Coordinator::pollComponentsForGetVariable(PMRegistrationItem& registrationItem)
    {
-   static unsigned lastModuleID = 0;
-
-   // try the last responding module first
-   if (lastModuleID != NULL)
-      sendMessage(newApsimGetQueryMessage(componentID,
-                                          lastModuleID,
-                                          registrationItem.getName().c_str()));
-
-   // if we still don't have any registrations then loop through all modules.
-   if (registrationItem.interestedItems.size() == 0)
+   for (Components::iterator i = components.begin();
+                             i != components.end();
+                             i++)
       {
-      for (Components::iterator i = components.begin();
-                                i != components.end();
-                                i++)
-         {
-         sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
-                                             registrationItem.getName().c_str()));
-         if (registrationItem.interestedItems.size() != 0)
-            {
-            lastModuleID = i->second->ID;
-            return;
-            }
-         }
+      sendMessage(newApsimGetQueryMessage(componentID, i->second->ID,
+                                          registrationItem.getName().c_str()));
       }
    }
 
