@@ -169,6 +169,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .       (Max_manager_var_name_size)  !  Array to hold local variables names
          character local_variable_values(Max_local_variables)*
      .       (Max_variable_value_size)    ! Array to hold local variables
+         logical   local_variable_is_real(Max_local_variables)
+                                          ! True if the local variable is a floating point variable.
 
          character token_array(Max_tokens)*(Max_token_size)
                                           ! Array to hold tokens.
@@ -717,6 +719,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !+  Local Variables
       integer Variable_index           ! index into local variable list
+      real realValue
+      integer numvals
 
 !- Implementation Section ----------------------------------
 
@@ -728,8 +732,16 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .   (Variable_name, g%local_variable_names, g%num_local_variables)
 
       if (Variable_index .gt. 0) then
-            call respond2get_char_var (Variable_name, '(man)',
+         if (g%local_variable_is_real(Variable_index)) then
+            call string_to_real_var
+     .          (g%local_variable_values(Variable_index), realValue,
+     .           numvals)
+            call respond2get_real_var (Variable_name, '()',
+     .                                 realValue)
+         else
+            call respond2get_char_var (Variable_name, '()',
      .                        g%local_variable_values(Variable_index))
+         endif
       else
          ! not our variable
 
@@ -850,7 +862,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 ! ====================================================================
        subroutine Manager_new_local_variable(Variable_name,
      .                                       Variable_value)
-     .                                       
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -858,7 +869,6 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Sub-Program Arguments
       character Variable_name*(*)      ! (INPUT) Variable name to store
       character Variable_value*(*)     ! (INPUT) Variable value to store
-
 
 !+  Purpose
 !     Add a new local variable to list.
@@ -869,11 +879,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 !+  Local Variables
       character Str*300                ! Dummy value returned by APSIM
+      integer read_status
+      real realValue
 
-
-
-
-
+      integer, parameter :: Ok_status=0
+      integer, parameter :: Not_ok=1
 
 !- Implementation Section ----------------------------------
 
@@ -887,12 +897,24 @@ C     Last change:  P    25 Oct 2000    9:26 am
          call Fatal_error(ERR_user, str)
 
       else
+         if (scan(Variable_value,'0123456789') .le. 0) then
+            read_status = Not_ok
+         else
+            read (Variable_value, '(g25.0)',
+     .         iostat=read_status) realValue
+         endif
+
+         g%local_variable_is_real(g%num_local_variables)
+     .       = (read_status.eq.OK_status)
+
          call assign_string (
      :        g%local_variable_names(g%num_local_variables)
      :      , Variable_name)
          call assign_string (
      :        g%local_variable_values(g%num_local_variables)
      :      , Variable_value)
+
+
       endif
 
       return
@@ -980,7 +1002,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 ! ====================================================================
       recursive subroutine Parse_get_variable
-     .                 (Variable_Name, Variable_Value)
+     .                 (Variable_Name, Variable_Value, valueIsReal)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -1013,8 +1035,12 @@ C     Last change:  P    25 Oct 2000    9:26 am
       character Params(2)*(50)         ! params from function call
       double precision d_var_val       ! double precision of variable_value
       double precision today           ! todays date.
-      integer modNameID
+      character todayStr*(50)
+      integer modNameID                ! ID for module.
+      integer regID
       logical ok
+      real  value
+      integer io_result
 
 !- Implementation Section ----------------------------------
 
@@ -1022,30 +1048,32 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
       if (variable_name(1:5) .eq. 'date(') then
          call Manager_get_params (variable_name, Params)
-         call Get_char_var (Unknown_module, 'today', '', str, 
-     .                        numvals)  
-         call String_to_double_var(str, today, numvals)
+         call Get_char_var (Unknown_module, 'today', '', Todaystr,
+     .                        numvals)
+         call string_to_double_var (Todaystr, Today, numvals)
          call Double_var_to_string (Date(Params(1), Today),
      .                              Variable_value)
+         valueIsReal = .false.
 
       else if (variable_name(1:12) .eq. 'date_within(') then
          ! get parameters from string.
 
          call Manager_get_params (variable_name, Params)
 
-         call Get_char_var (Unknown_module, 'today', '', str, 
+         call Get_char_var (Unknown_module, 'today', '', Todaystr,
      .                        numvals)
-         call String_to_double_var(str, today, numvals)
+         call string_to_double_var (Todaystr, Today, numvals)
 
          if (Date_within(Params(1), Params(2), Today)) then
             Variable_value = '1'
          else
             Variable_value = '0'
          endif
+         valueIsReal = .true.
 
       else if (variable_name(1:12) .eq. 'nearest_int(') then
          call Manager_get_params (variable_name, Params)
-         call parse_get_variable(params(1), variable_value)
+         call parse_get_variable(params(1), variable_value, valueIsReal)
          call string_to_double_var(variable_value, d_var_val, numvals)
          if (numvals .ne. 1) then
             call fatal_error(ERR_user,
@@ -1053,17 +1081,30 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             d_var_val = dnint(d_var_val)
             call double_var_to_string (d_var_val, variable_value)
-         end if 
+         end if
+         valueIsReal = .true.
 
       else
          Is_apsim_variable = (index(variable_name, '.') .gt. 0)
 
          if (Is_apsim_variable) then
             call Split_line(variable_name, Mod_name, Var_name, '.')
-            ok = component_name_to_id(Mod_name, modNameID) 
-            call Get_char_var
-     .           (modNameID, Var_name, '()',
-     .            Variable_value, Numvals)
+            ok = component_name_to_id(Mod_name, modNameID)
+            if (ok) then
+               call Get_char_var
+     .              (modNameID, Var_name, '()',
+     .               Variable_value, Numvals)
+               call str_to_real_var (Variable_value
+     :                                    , value, io_result)
+               valueIsReal = (io_result .eq. 0)
+
+            else
+               str = 'Cannot find APSIM variable: '
+     .                // Trim(variable_name)
+               call error(str, .true.)
+               Variable_value = ' '
+               valueIsReal = .false.
+            endif
 
          else
 
@@ -1084,22 +1125,27 @@ C     Last change:  P    25 Oct 2000    9:26 am
                ! variable not already defined.  Add variable to list.
 
                if (Numvals .eq. 0) then
-                  call manager_new_local_variable(variable_name, '0')
+                  call manager_new_local_variable
+     .                (variable_name, '0')
                   Variable_value = '0'
                   write (str, '(4a)' )
      .              'Manager creating a new local variable : ',
      .               trim(variable_name),
      .               ' = 0'
                   call Write_string (str)
+                  valueIsReal = .true.
 
                else
                   ! Found variable elsewhere in APSIM
+                  call str_to_real_var
+     .                     (Variable_value, value, io_result)
+                  valueIsReal = (io_result .eq. 0)
                endif
 
-            else 
+            else
                call assign_string (Variable_value
      .                      , g%local_variable_values(Variable_index))
-
+               valueIsReal = g%local_variable_is_real(variable_index)
             endif
          endif
 
@@ -1111,7 +1157,8 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
 
 ! ====================================================================
-       subroutine Parse_set_variable (Variable_Name, Variable_Value)
+       subroutine Parse_set_variable
+     .           (Variable_Name, Variable_Value)
 ! ====================================================================
       Use Infrastructure
       implicit none
@@ -1142,8 +1189,14 @@ C     Last change:  P    25 Oct 2000    9:26 am
       integer Variable_index           ! Index into local variable array
       character Mod_name*100           ! name of module owning variable
       character Var_name*100           ! name of variable
-      logical ok                                      
-      integer modNameID
+      integer modNameID                ! ID for module.
+      integer regID
+      logical ok
+      integer read_status
+      real realValue
+
+      integer, parameter :: Ok_status=0
+      integer, parameter :: Not_ok=1
 
 !- Implementation Section ----------------------------------
       variable_name = lower_case(variable_name)
@@ -1151,9 +1204,9 @@ C     Last change:  P    25 Oct 2000    9:26 am
       Is_apsim_variable = (index(variable_name, '.') .gt. 0)
       if (Is_apsim_variable) then
          call Split_line(variable_name, Mod_name, Var_name, '.')
-         ok = component_name_to_id(Mod_name, modNameID) 
-         call set_char_var(modNameID,
-     .         trim(var_name), ' ',
+         ok = component_name_to_id(Mod_name, modNameID)
+         call set_variable_in_other_module(modNameID,
+     .         trim(var_name),
      .         trim(Variable_value) )
 
       else
@@ -1173,7 +1226,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
             if (Numvals .eq. 0) then
                ! Add variable to local variable list.
-                                             
+
                call manager_new_local_variable(variable_name,
      .              Variable_value)
 
@@ -1185,12 +1238,34 @@ C     Last change:  P    25 Oct 2000    9:26 am
                call Write_string (str)
 
             else
-               call set_char_var(Unknown_module,
-     .            trim(variable_name), ' ',
+               call set_variable_in_other_module(Unknown_module,
+     .            trim(variable_name),
      .            trim(Variable_value))
                Is_apsim_variable = .true.
             endif
          else
+            ! make sure this value matches the type
+            if (g%local_variable_is_real(variable_index)) then
+               read (Variable_value, '(g25.0)'
+     .             , iostat=read_status) realValue
+               if (read_status.ne.OK_status) then
+                 write(str, '(12a)')
+     .           'Cannot change the type of a manager local variable.',
+     .           new_line,
+     .           'Type is being changed from a real to a string.',
+     .           new_line,
+     .           'Variable name: ',
+     .           Trim(Variable_name),
+     .           new_line,
+     .           'Existing value: ',
+     .           Trim(g%local_variable_values(variable_index)),
+     .           new_line,
+     .           'New value: ',
+     .           Trim(Variable_value)
+
+                 call error(str, .true.)
+               endif
+            endif
             call assign_string (
      :           g%local_variable_values(Variable_index)
      :         , Variable_value)
@@ -1738,6 +1813,7 @@ c      end subroutine
 
 !- Implementation Section ----------------------------------
 
+
        call   Get_next_token(Token_array, Token_array2)
        g%number_expressions = 1
        call assign_string (g%expression_array(g%number_expressions)
@@ -2100,7 +2176,46 @@ c      end subroutine
 
 !- Implementation Section ----------------------------------
 
-      read (String, '(g25.0)',iostat = io_result) Double_value
+
+      if (scan(String, '0123456789') .gt. 0) then
+         read (String, '(g25.0)',iostat = io_result) Double_value
+      else
+         io_result = -1
+      endif
+
+      return
+      end subroutine
+
+
+! =====================================================================
+       subroutine Str_to_real_var(String, Real_value, io_result)
+! =====================================================================
+      Use Infrastructure
+      implicit none
+
+!+  Sub-Program Arguments
+      character String*(*)             ! (INPUT) String to convert
+      real  real_value                 ! (OUTPUT) Value of string
+      integer IO_result                ! (OUTPUT) io_result of internal read.
+
+!+  Purpose
+!     Convert a string value to a real number.
+
+!+  Notes
+!     We created this routine because we don't want an error message when
+!     the string cannot be converted to a real number.
+
+!+  Changes
+!     DPH 1/8/95
+!     dph 24/6/96 Changed routine from a real routine to a double routine
+
+!- Implementation Section ----------------------------------
+
+      if (scan(String, '0123456789') .gt. 0) then
+         read (String, '(g25.0)',iostat = io_result) Real_value
+      else
+         io_result = -1
+      endif
 
       return
       end subroutine
@@ -2494,14 +2609,20 @@ c      end subroutine
        character     Variable_value*(Buffer_size)
                                           ! Value to push on g%stack
        character     Temp*(Buffer_size)
+       logical valueIsReal
 
 !- Implementation Section ----------------------------------
 
        if (g%token .eq. C_WORD) then
-          call   Parse_get_variable(g%buffer, Variable_Value)
-           
-          call assign_string (Temp, Real_or_not(Variable_Value))
-          
+          call   Parse_get_variable
+     .         (g%buffer, Variable_Value, valueIsReal)
+
+          if (valueIsReal) then
+             call assign_string (Temp, Real_or_not(Variable_Value))
+          else
+             call assign_string (Temp, Variable_value)
+          endif
+
           call   push_stack(Temp)
 
           call   Get_sub_token
@@ -2516,7 +2637,7 @@ c      end subroutine
        elseif (g%token .eq. C_LITERAL) then
           call   push_stack(g%buffer)
 
-          call   Get_sub_token  
+          call   Get_sub_token
 
        endif
 
