@@ -16,6 +16,98 @@
 
 // default constructor
 // 	initialise data members.
+PlantPartType::PlantPartType()  			 // member initialisation
+{
+   leaf = 0.0;
+   stem = 0.0;
+}
+
+PlantPartType::PlantPartType(float leafInit, float stemInit)
+{
+
+	leaf = leafInit;
+	stem = stemInit;
+}
+
+// destructor
+PlantPartType::~PlantPartType()
+{
+}
+
+ostream &operator<<(ostream &output, const PlantPartType &part)
+{
+	output << "   Leaf:     " << part.leaf << endl;
+	output << "   Stem:     " << part.stem << endl << endl;
+      return output;
+}
+
+// copy constructor
+//	copy data members of object
+PlantPartType::PlantPartType(const PlantPartType &PlantPartType)
+{
+ 	leaf = PlantPartType.leaf;
+	stem=PlantPartType.stem;
+}
+
+
+// Assigment operator
+//	assign data members of object
+const PlantPartType &PlantPartType::operator=(const PlantPartType &other)
+{
+	if (&other != this)			// don't self-assign
+	{
+		// copy data members over
+            leaf = other.leaf;
+            stem = other.stem;
+      }
+	return *this;
+}
+
+//===========================================================================
+PlantPartType PlantPartType::operator+ (const PlantPartType &y) const
+//===========================================================================
+
+/*Definition
+ */
+
+   {
+   //Constant Values
+
+   //Local Varialbes
+   PlantPartType result;
+
+   //Implementation
+   result.leaf = leaf + y.leaf;
+   result.stem = stem + y.stem;
+
+   return result;
+   }
+
+
+//===========================================================================
+PlantPartType PlantPartType::operator- (const PlantPartType &y) const
+//===========================================================================
+
+/*Definition
+ */
+
+   {
+   //Constant Values
+
+   //Local Varialbes
+   PlantPartType result;
+
+   //Implementation
+   result.leaf = leaf - y.leaf;
+   result.stem = stem - y.stem;
+
+   return result;
+   }
+
+
+
+// default constructor
+// 	initialise data members.
 PlantPool::PlantPool()  			 // member initialisation
 {
    green.leaf = 0.0;
@@ -364,6 +456,17 @@ void PlantPool::setValue(float greenLeaf, float greenStem, float senescedLeaf, f
 	senesced.stem = senescedStem;
 	dead.leaf = deadLeaf;
 	dead.stem = deadStem;
+}
+
+void PlantPool::setValue(PlantPartType greenValue, PlantPartType senescedValue, PlantPartType deadValue)
+{
+
+	green.leaf = greenValue.leaf;
+	green.stem = greenValue.stem;
+	senesced.leaf = senescedValue.leaf;
+	senesced.stem = senescedValue.stem;
+	dead.leaf = deadValue.leaf;
+	dead.stem = deadValue.stem;
 }
 
 

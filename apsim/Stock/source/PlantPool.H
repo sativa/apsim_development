@@ -13,6 +13,25 @@
 #include <iostream.h>
 #endif
 
+class PlantPartType
+{
+   friend ostream &operator<<(ostream &, const PlantPartType &);
+   public:
+      PlantPartType();
+      PlantPartType(float leafInit, float stemInit);
+	PlantPartType(const PlantPartType &PlantPartType); 						// copy constructor
+	const PlantPartType &operator=(const PlantPartType &other);		// Assigment operator
+
+      PlantPartType operator- (const PlantPartType &y) const;  // Command
+      PlantPartType operator+ (const PlantPartType &y) const;  // Command
+      virtual ~PlantPartType();							// destructor
+
+      float leaf;
+      float stem;
+
+   private:
+};
+
 class PlantPool
 {
    friend ostream &operator<<(ostream &, const PlantPool &);
@@ -32,21 +51,13 @@ class PlantPool
             PlantPool divide (PlantPool &dividend, PlantPool &divisor, float default_value);  // Command
             float divide (float dividend, float divisor, float default_value) const;  // Command
             void setValue(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
+            void setValue(PlantPartType green, PlantPartType senesced, PlantPartType dead);
 		float total() const;  	// Query
 
 		virtual void display(ostream &os = cout) const;	// display function
 
-#if TEST_PlantPool
 		virtual ~PlantPool();							// destructor
-#else
-		virtual ~PlantPool();
-#endif
 
-      struct PlantPartType
-         {
-         float leaf;
-         float stem;
-         };
 
          PlantPartType green;
          PlantPartType senesced;
