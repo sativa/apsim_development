@@ -9,25 +9,39 @@ using namespace std;
 using namespace boost;
 using namespace boost::gregorian;
 //---------------------------------------------------------------------------
+// destructor
+//---------------------------------------------------------------------------
+ApsimDataFileWriter::~ApsimDataFileWriter(void)
+   {
+   close();
+   }
+//---------------------------------------------------------------------------
 // Open the data file for writing. All data is overwritten.
 // Section name should NOT have [ ] characters around it.
 //---------------------------------------------------------------------------
 void ApsimDataFileWriter::open(const std::string& file,
-                               const std::string& sectionName,
-                               DateFormat format)
+                               const std::string& sectionName)
    {
    fileName = file;
    out.open(fileName.c_str());
    out << "[" << sectionName << "]" << endl;;
    haveWritenHeadings = false;
-   dateFormat = format;
    }
 //---------------------------------------------------------------------------
 // Close the data file for writing.
 //---------------------------------------------------------------------------
 void ApsimDataFileWriter::close(void)
    {
-   out.close();
+   if (out)
+      {
+      if (!haveWritenHeadings)
+         {
+         out << "date" << endl;
+         out << "  ()" << endl;
+         }
+
+      out.close();
+      }
    }
 //---------------------------------------------------------------------------
 // add a constant to the data file.
@@ -64,11 +78,7 @@ void ApsimDataFileWriter::addTemporalRecord(boost::gregorian::date& recordDate,
    if (!haveWritenHeadings)
       {
       vector<string> headings, units;
-      switch (dateFormat)
-         {
-         case dayColumn  : headings.push_back("day");   break;
-         case dateColumn : headings.push_back("date"); break;
-         };
+      headings.push_back("date");
          
       units.push_back("()");
       for (Values::const_iterator field = fields.begin();
@@ -97,15 +107,7 @@ void ApsimDataFileWriter::addTemporalRecord(boost::gregorian::date& recordDate,
       }
    vector<string> values;
 
-   string dateValue;
-   switch (dateFormat)
-      {
-      case dayColumn  : {int doy = date_duration(recordDate - date(recordDate.year(), 1, 1)).days() + 1;
-                        dateValue = lexical_cast<string>(doy);
-                        break;}
-      case dateColumn : dateValue = to_iso_extended_string(recordDate);
-                        break;
-      };
+   string dateValue = to_iso_extended_string(recordDate);
 
    values.push_back(dateValue);
    for (Values::const_iterator field = fields.begin();
