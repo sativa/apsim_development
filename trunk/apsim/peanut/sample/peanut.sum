@@ -14,7 +14,7 @@
 -------  Initialisation ----------------------------------------------------
      Licensed name          = User SEG
      Licensed organisation  = CSIRO
-     Version                = 2.0
+     Version                = 2.1
      Simulation filename    = c:\regr\apsim\peanut\sample\peanut.sim
      Title                  = peanut Sample Simulation
      Instantiated DLL       = c:\build\apsuite\apsim\clock\lib\clock.dll(clock) - Licensed
@@ -62,6 +62,7 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
      
      
      
@@ -204,32 +205,32 @@
       
          - Reading Cultivar Parameters
           ------------------------------------------------
-          Cultivar                 = early_bunch
-          est_days_emerg_to_init  =       2
-          cum_vernal_days  =    0.00 100.00
-          tt_emerg_to_endjuv  =    5.00   5.00
-          x_pp_endjuv_to_init      =   12.00  17.00
-          y_tt_endjuv_to_init      =    0.00   5.00
-          x_pp_init_to_flower      =    1.00  24.00
-          y_tt_init_to_flower      =  380.00 380.00
-          x_pp_flower_to_start_grain      =    1.00  24.00
-          y_tt_flower_to_start_grain      =  300.00 300.00
-          x_pp_start_to_end_grain      =    1.00  24.00
-          y_tt_start_to_end_grain      = 1020.501020.50
-          tt_end_grain_to_maturity      =    69.5
-          tt_maturity_to_ripe      =     5.0
-          hi_incr                  =     0.0
-          x_hi_max_pot_stress =    0.00   1.00
-          y_hi_max_pot        =    0.10   0.38
-          x_stem_wt      =    0.00  10.00
-          y_height      =    0.00 700.00
+          Cultivar                   = early_bunch
+          est_days_emerg_to_init     =        2
+          cum_vernal_days            =     0.00  100.00
+          tt_emerg_to_endjuv         =     5.00    5.00
+          x_pp_endjuv_to_init        =    12.00   17.00
+          y_tt_endjuv_to_init        =     0.00    5.00
+          x_pp_init_to_flower        =     1.00   24.00
+          y_tt_init_to_flower        =   380.00  380.00
+          x_pp_flower_to_start_grain =     1.00   24.00
+          y_tt_flower_to_start_grain =   300.00  300.00
+          x_pp_start_to_end_grain    =     1.00   24.00
+          y_tt_start_to_end_grain    =  1020.50 1020.50
+          tt_end_grain_to_maturity   =     69.5
+          tt_maturity_to_ripe        =      5.0
+          x_pp_hi_incr               =     1.00   24.00
+          y_hi_incr                  =  0.00640 0.00640
+          x_hi_max_pot_stress        =     0.00    1.00
+          y_hi_max_pot               =     0.10    0.38
+          x_stem_wt                  =     0.00   10.00
+          y_height                   =     0.00  700.00
           ------------------------------------------------
       
       
       
       
          - Reading root profile parameters
-      
       
       
                           Root Profile
@@ -250,15 +251,15 @@
       
       
       
-      
-      
                        Crop Sowing Data
           ------------------------------------------------
           Sowing  Depth Plants Spacing Cultivar
           Day no   mm     m^2     m     Name
           ------------------------------------------------
-             330   40.0   10.0  500.0 early_bunc
+             330   40.0   10.0  500.0 early_bunch
           ------------------------------------------------
+      
+      
 26 November 1988 (Day of year=331):
    PEANUT:
        stage    2.0 germination
@@ -353,10 +354,22 @@
        stress indices for start_grain_fill
        water stress 1 =       0.2632328   nitrogen stress 1 =       0.0000000
        water stress 2 =       0.3142188   nitrogen stress 2 =       0.0000000
+         
+       Crop harvested.
+                                                tops residue = 6348.8 kg/ha
+                                                tops N =   95.7 kg/ha
+                                                root residue =  133.2 kg/ha
+                                                root N =    1.1 kg/ha
+      
+      
+                                                tops removed = 3891.2 kg/ha
+                                                tops N removed =  194.6 kg/ha
+                                                root removed =    0.0 kg/ha
+                                                root N removed =    0.0 kg/ha
    MANAGER:
            Manager sending message :- peanut end_crop
    PEANUT:
-          ended. Yield (dw) =     0.0
+          Crop ended. Yield (dw) =     0.0
                                                 straw residue =    0.0 kg/ha
                                                 straw N =    0.0 kg/ha
                                                 root residue = 1338.5 kg/ha
