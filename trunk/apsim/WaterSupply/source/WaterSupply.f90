@@ -1,7 +1,7 @@
 module WaterSupplyModule
    use ComponentInterfaceModule
    use Registrations
-
+  
 !  ====================================================================
 !  WaterSupply constants
 !  ====================================================================
@@ -41,7 +41,7 @@ module WaterSupplyModule
       integer source_counter                       ! counter which keeps track of the preferential source number we are up to
       integer tot_num_sources                      ! total number of water sources specified in a 'top_up' or 'apply' method call
       integer num_solutes                          ! total number of solutes present in the simulation
-      real    solute_conc(max_solutes)             ! solute concentration in watersupply for each of the system solutes
+      real    solute_conc(max_solutes)             ! solute concentration in watersupply for each of the system solutes (ppm)
       real    rain_capture                         ! rain captured directly by storage (Ml)
       real    total_runoff                         ! catchment and crop runoff captured by storage (Ml)
       real    evaporation                          ! daily evaporation loss from the surface of storage (Ml)
@@ -49,6 +49,7 @@ module WaterSupplyModule
       real    available_water                      ! available water at any time (Ml)
       real    available_depth                      ! available depth of water at any time (m)
       real    overflow                             ! storage overflow above maximum capacity
+      real    irrig_water_supplied                 ! water provided (ML) on this day in response to a 'gimme_water' event from irrigate
       character  top_up_source(max_sources)*(module_name_size)  ! String containing the #1 preference top-up water source
       character  solute_names(max_solutes)*32      ! array of system solute names
       character  solute_owners(max_solutes)*32     ! array of the 'owners' of each of the above solutes
@@ -57,16 +58,22 @@ module WaterSupplyModule
    !  ====================================================================
    type WaterSupplyParameters
       sequence
-      character   source_type*9               ! storage type (eg dam_gully, dam_ring, dam_exc, sump, river or bore)
-      character   receive_catchment_runoff*3  ! string (yes/no) indicating whether catchment runoff flows into this storage
-      real        max_available_water         ! storage capacity or maximum allocation (Ml)
-      real        max_area                    ! surface area of storage at capacity (ha)
-      real        permeability                ! permeability of sealing layer (m/day)
-      real        seal_thickness              ! thickness of low permeability seal (m)
-      real        min_volume                  ! water volume available below which pumping is not possible (Ml)
-      real        max_pump                    ! maximum daily delivery from the pump (Ml)
-      real        annual_allocation           ! for bore and river
-      integer     renewal_day                 ! day upon which allocation is renewed
+      character   source_type*9                     ! storage type (eg dam_gully, dam_ring, dam_exc, sump, river or bore)
+      character   receive_catchment_runoff*3        ! string (yes/no) indicating whether catchment runoff flows into this storage
+      character   receive_crop_runoff*3             ! string (yes/no) indicating whether crop runoff flows into this storage
+      character   receive_rainfall*3                ! string (yes/no) indicating whether rainfall is received into this storage
+      real        catchment_runoff_factor           ! water-shedding factor of catchment cf cropping area ()
+      real        catchment_area                    ! catchment area (ha)
+      real        runoff_solute_conc(max_solutes)   ! solute concentration in runoff for each of the system solutes (ppm)
+      real        rainfall_solute_conc(max_solutes) ! solute concentration in rainfall for each of the system solutes (ppm)
+      real        max_available_water               ! storage capacity or maximum allocation (Ml)
+      real        max_area                          ! surface area of storage at capacity (ha)
+      real        permeability                      ! permeability of sealing layer (m/day)
+      real        seal_thickness                    ! thickness of low permeability seal (m)
+      real        min_volume                        ! water volume available below which pumping is not possible (Ml)
+      real        max_pump                          ! maximum daily delivery from the pump (Ml)
+      real        annual_allocation                 ! for bore and river
+      integer     renewal_day                       ! day upon which allocation is renewed
    end type WaterSupplyParameters
    !  ====================================================================
    type WaterSupplyConstants
@@ -140,6 +147,21 @@ subroutine WaterSupply_read_parameters ()
         call fatal_error (ERR_USER,'Water Source type not recognised')
    endif
 
+   !********* get parameter indicating whether this storage receives rainfall******
+   ! this parameter specifically added for simulations in which a dam may or may not be active
+   if (source_type.eq.'dam_gully'.or. &
+       source_type.eq.'dam_ring'.or. &
+       source_type.eq.'dam_exc'.or. &
+       source_type.eq.'sump') then
+
+       call read_char_var_optional (section_name,'receive_rainfall', '()', p%receive_rainfall, numvals)
+
+       if(numvals.eq.0) then
+          p%receive_rainfall = 'yes'
+       endif 
+
+   endif
+
 
    !********* get parameter indicating whether this storage receives catchment runoff******
    if (source_type.eq.'dam_gully'.or. &
@@ -150,12 +172,33 @@ subroutine WaterSupply_read_parameters ()
 
        if(p%receive_catchment_runoff.ne.'yes'.and.p%receive_catchment_runoff.ne.'no') then
          call fatal_error (ERR_USER,'receive_catchment_runoff parameter must be yes or no')
-      endif
+       endif
 
+       if(p%receive_catchment_runoff.eq.'yes') then
+          call read_real_var (section_name, 'catchment_area', '(ha)', p%catchment_area, numvals, 0.0, 10000.0)
+          call read_real_var (section_name, 'catchment_runoff_factor', '()', p%catchment_runoff_factor, numvals, 0.0, 10000.0)
+       endif 
 
    else  ! for bore, river, or dam_ring
 
        p%receive_catchment_runoff = 'no'
+       
+   endif
+
+   !********* get parameter indicating whether this storage receives crop runoff******
+   if (source_type.eq.'dam_gully'.or. &
+       source_type.eq.'dam_exc'.or. &
+       source_type.eq.'sump') then
+
+       call read_char_var (section_name,'receive_crop_runoff', '()', p%receive_crop_runoff, numvals)
+
+       if(p%receive_crop_runoff.ne.'yes'.and.p%receive_crop_runoff.ne.'no') then
+         call fatal_error (ERR_USER,'receive_crop_runoff parameter must be yes or no')
+      endif
+
+   else  ! for bore, river, or dam_ring
+
+       p%receive_crop_runoff = 'no'
 
    endif
 
@@ -214,6 +257,16 @@ subroutine WaterSupply_read_parameters ()
       default_name = string_concat(dummy,'_conc')
       g%solute_conc(i) = 0.0
       call read_real_var_optional (section_name, default_name, '(ppm)', g%solute_conc(i), numvals, 0.0, 10000.0)
+! also read in any information on runoff solute concentrations
+      dummy = string_concat('runoff_',g%solute_names(i))
+      default_name = string_concat(dummy,'_conc')
+      p%runoff_solute_conc(i) = 0.0
+      call read_real_var_optional (section_name, default_name, '(ppm)', p%runoff_solute_conc(i), numvals, 0.0, 10000.0)
+! also read in any information on rainfall solute concentrations
+      dummy = string_concat('rainfall_',g%solute_names(i))
+      default_name = string_concat(dummy,'_conc')
+      p%rainfall_solute_conc(i) = 0.0
+      call read_real_var_optional (section_name, default_name, '(ppm)', p%rainfall_solute_conc(i), numvals, 0.0, 10000.0)
    end do
 
    !********************************************************************************************
@@ -262,7 +315,7 @@ subroutine WaterSupply_read_constants ()
        p%source_type.eq.'dam_exc'.or. &
        p%source_type.eq.'sump') then
 
-      call read_real_var (Storage_geometry, p%source_type, '()', c%b, numvals, 0.0, 10.0)
+      call read_real_var (Storage_geometry, p%source_type, '()', c%b, numvals, 0.0, 10.0)               
       if (numvals.ne.1) then
          ! We have dodgy data
          string = 'Incorrect storage geometry data provided for '//p%source_type
@@ -303,7 +356,7 @@ subroutine WaterSupply_ONprocess ()
    parameter (my_name = 'WaterSupply_process')
 
 !+ Local Variables
-
+    integer i
 
 !- Implementation Section ----------------------------------
 
@@ -373,21 +426,31 @@ subroutine WaterSupply_rain_capture ()
       ! g%rain_capture = p%max_area*((p%max_depth + (g%rain/1000.0))**c%b)
       ! :                  - p%max_available_water
 
-      g%rain_capture = (p%max_area*g%rain)/100
-
+      if(p%receive_rainfall.eq.'yes') then
+        g%rain_capture = (p%max_area*g%rain)/100
+      else
+        g%rain_capture = 0.0  
+      endif
    else
 
       g%rain_capture = 0.0    ! for a river or bore
 
    endif
 
-   !  dsg 050803 Now modify solute concentrations
-   do i=1,g%num_solutes
-      new_solute_conc =(g%solute_conc(i)*g%available_water)/(g%available_water + g%rain_capture)
-      g%solute_conc(i) = new_solute_conc
-      new_solute_conc = 0.0
-   end do
 
+   !  dsg 050803 Now modify solute concentrations
+   if (g%rain_capture.gt.0.0) then
+      do i=1,g%num_solutes
+         if ((g%available_water + g%rain_capture).eq.0.0) then
+            g%solute_conc(i) = 0.0
+         else
+            new_solute_conc =divide(((g%solute_conc(i)*g%available_water)+ (p%rainfall_solute_conc(i) * g%rain_capture)),(g%available_water + g%rain_capture),0.0)
+            g%solute_conc(i) = new_solute_conc
+            new_solute_conc = 0.0
+         endif   
+      end do
+   endif
+   
    call pop_routine (my_name)
    return
 end subroutine
@@ -419,7 +482,7 @@ subroutine WaterSupply_runoff ()
 !+ Local Variables
    integer i                    !     simple counter
    integer  numvals             !     simple counter
-   real  external_runoff        !     runoff from the catchment (non-crop) from external file (via INPUT)
+   real  catchment_runoff       !     runoff from the catchment (non-crop) (ML)
    real  crop_runoff            !     runoff from the crop (ML)
    real  runoff                 !     runoff from the crop/fallow from SOILWAT2/ASPWIM
    real  crop_area              !     area simulated by apsim (ha)
@@ -429,45 +492,42 @@ subroutine WaterSupply_runoff ()
 
    call push_routine (my_name)
 
+   crop_runoff = 0.0
+   catchment_runoff = 0.0
+   call get_real_var (unknown_module,'runoff','(mm)',runoff,numvals,0.0,1000.0)              
+
+! Calculate runoff from the catchment
    if(p%receive_catchment_runoff.eq.'yes') then
 
-      !         call get_real_var_optional (
-      !     :        unknown_module       ! Module that responds (Not Used)
-      !     :       ,'fre'                ! Variable Name
-      !     :       ,'(Ml)'               ! Units                (Not Used)
-      !     :       ,external_runoff   ! Variable
-      !     :       ,numvals              ! Number of values returned
-      !     :       ,0.0                  ! Lower Limit for bound checking
-      !     :       ,1000.0)              ! Upper Limit for bound checking
+      ! calculate runoff from the catchment area in ML
+     catchment_runoff = runoff * p%catchment_runoff_factor * p%catchment_area /100
 
-      if(numvals.eq.0) then
-         ! call warning_error (ERR_USER,'External runoff variable FRE could not be found')
+   endif
 
-         external_runoff = 0.0
-      endif
+! Calculate runoff from the crop
+   if(p%receive_crop_runoff.eq.'yes') then
 
-      call get_real_var        (unknown_module,'runoff','(mm)',runoff,numvals,0.0,1000.0)
-      call get_real_var        (unknown_module,'crop_area','(ha)',crop_area,numvals,0.0,100000.0)
-      if(numvals.eq.0) then
-          call fatal_error (err_user, 'Irrigation area not provided in MANAGER')
-      endif
-
+      call get_real_var (unknown_module,'crop_area','(ha)',crop_area,numvals,0.0,1000.0)              
+   
       ! calculate runoff from the cropping area in ML
       crop_runoff = runoff*crop_area/100
 
-      ! total the runoff from catchment and crop
-      g%total_runoff = external_runoff + crop_runoff
+   endif 
 
-   else
-      g%total_runoff = 0.0
-   endif
+
+      ! total the runoff from catchment and crop
+      g%total_runoff = catchment_runoff + crop_runoff
 
 
    ! dsg 050803 Now modify solute concentrations
    do i=1,g%num_solutes
-      new_solute_conc =(g%solute_conc(i)*g%available_water)/(g%available_water + g%total_runoff)
-      g%solute_conc(i) = new_solute_conc
-      new_solute_conc = 0.0
+      if ((g%available_water + g%total_runoff).eq.0.0) then
+          g%solute_conc(i) = 0.0
+      else    
+          new_solute_conc =divide(((g%solute_conc(i)*g%available_water)+ (p%runoff_solute_conc(i) * g%total_runoff)),(g%available_water + g%total_runoff),0.0)
+          g%solute_conc(i) = new_solute_conc
+          new_solute_conc = 0.0
+      endif
    end do
 
 
@@ -514,6 +574,9 @@ subroutine WaterSupply_evaporation_seepage ()
        p%source_type.eq.'dam_exc'.or. &
        p%source_type.eq.'sump') then
 
+ ! if dam is inactive in simulation don't incorporate any losses
+    if(p%receive_rainfall.eq.'yes') then
+
        ! calculate depth of water in storage (m)
        g%available_depth=((g%available_water/p%max_area)**(1.0/c%b))
 
@@ -535,6 +598,10 @@ subroutine WaterSupply_evaporation_seepage ()
           g%evaporation = g%available_depth
           g%seepage = 0.0
        endif
+
+    else
+    endif
+    
    else  ! we have a bore or a river
 
        g%evaporation = 0.0
@@ -544,10 +611,15 @@ subroutine WaterSupply_evaporation_seepage ()
 
    ! dsg 050803 Now modify solute concentrations due to evaporation, not seepage
    do i=1,g%num_solutes
-      new_solute_conc =(g%solute_conc(i)*g%available_water)/(g%available_water - g%evaporation)
-      g%solute_conc(i) = new_solute_conc
-      new_solute_conc = 0.0
+     if((g%available_water-g%evaporation).eq.0.0) then
+        g%solute_conc(i) = 0.0
+     else   
+        new_solute_conc =(g%solute_conc(i)*g%available_water)/(g%available_water - g%evaporation)
+        g%solute_conc(i) = new_solute_conc
+        new_solute_conc = 0.0
+     endif
    end do
+
 
    call pop_routine (my_name)
    return
@@ -588,7 +660,7 @@ subroutine WaterSupply_check_allocation ()
    if (p%source_type.eq.'bore'.or. &
        p%source_type.eq.'river') then
 
-      call get_integer_var        (unknown_module,'day','',day,numvals,0,366)
+      call get_integer_var        (unknown_module,'day','',day,numvals,0,366)           
 
       ! check if today is the allocation renewal day
       if (day.eq.p%renewal_day) then
@@ -669,6 +741,9 @@ subroutine WaterSupply_send_my_variable (variable_name)
    elseif (variable_name .eq. 'runoff_input') then
        call respond2get_real_var (variable_name,'(ML)', g%total_runoff)
 
+   elseif (variable_name .eq. 'irrig_water_supplied') then
+       call respond2get_real_var (variable_name,'(ML)', g%irrig_water_supplied)
+
    elseif (variable_name .eq. 'available_depth') then
        call respond2get_real_var (variable_name,'(m)', g%available_depth)
 
@@ -727,20 +802,19 @@ subroutine WaterSupply_ONgimme_water ()
    parameter (my_name = 'WaterSupply_ONgimme_water')
 
 !+ Local Variables
-   character  err_string*120         ! Error message string
+   character  err_string*200         ! Error message string
    real       water_requested        ! The amount of water wanted by the requesting module
    real       pot_water_supplied     ! The water which can be potentially supplied, not accounting for pumping limitations
    real       water_supplied         ! The water which can actually be supplied today by this source
    integer    numvals                ! Number of values returned
    character  water_requester*(Max_module_name_size) ! Module (instance) name sending request for water
    character  water_provider*(Max_module_name_size) ! Module (instance) name of this module
-
+   integer i
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
 
    call get_name(water_provider)
-
 
    !****** collect information on the sender and the amount of water required ******
 
@@ -784,10 +858,14 @@ subroutine WaterSupply_ONgimme_water ()
 
    endif
 
+
    !******** Update Pools *******
 
    g%available_water = g%available_water - water_supplied
 
+   if(water_requester.eq.'irrigate') then
+   g%irrig_water_supplied = water_supplied
+   endif
 
    !***** Send WaterSupplied Method  ******
 
@@ -919,11 +997,15 @@ subroutine WaterSupply_ONwater_supplied ()
 
    ! dsg 050803 Now modify solute concentrations due to water supplied
    do i=1,g%num_solutes
-      new_solute_conc =((g%solute_conc(i) * g%available_water) &
+     if((g%available_water + water_supplied).eq.0.0) then
+        g%solute_conc(i) = 0.0
+     else   
+        new_solute_conc =((g%solute_conc(i) * g%available_water) &
                        + (solute_conc_supplied(i) * water_supplied)) &
                         /(g%available_water + water_supplied)
-      g%solute_conc(i) = new_solute_conc
-      new_solute_conc = 0.0
+        g%solute_conc(i) = new_solute_conc
+        new_solute_conc = 0.0
+     endif   
    end do
 
    call pop_routine (my_name)
@@ -1098,7 +1180,7 @@ subroutine WaterSupply_zero_daily_variables ()
    g%evaporation        = 0.0
    g%seepage            = 0.0
    g%overflow           = 0.0
-
+   g%irrig_water_supplied     = 0.0
    call pop_routine (my_name)
    return
 end subroutine
@@ -1510,7 +1592,6 @@ subroutine Main (action, data_string)
       call WaterSupply_send_my_variable (Data_string)
 
    else if (action.eq.ACTION_process) then
-      call WaterSupply_zero_daily_variables ()
       call WaterSupply_ONprocess ()
 
    else if (action.eq.ACTION_gimme_water) then
@@ -1557,6 +1638,7 @@ subroutine respondToEvent(fromID, eventID, variant)
    integer, intent(in) :: variant
 
    if (eventID .eq. id%tick) then
+      call WaterSupply_zero_daily_variables ()
       call WaterSupply_ONtick(variant)
    elseif (eventID .eq. id%newmet) then
       call WaterSupply_ONnewmet(variant)
