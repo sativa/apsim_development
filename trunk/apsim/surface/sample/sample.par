@@ -18,10 +18,10 @@ outputfile =  sample.out /overwrite
 summaryfile =  sample.sum /overwrite   
 
 [sample.clock.parameters]  
-start_day =  1   
-start_year =  1995   
-end_day =   31   
-end_year =  1995   
+simulation_start_day =  1   
+simulation_start_year =  1995   
+simulation_end_day =   31   
+simulation_end_year =  1995   
 
 
 [sample.manager.start_of_day]  
