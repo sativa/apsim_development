@@ -22,6 +22,9 @@ class __declspec(dllexport) ApsimDataFile
       // return the values on the current record.
       void getFieldValues(std::vector<std::string>& fieldValues) const;
 
+      // return the date on the current record.
+      TDateTime getDate(void) const throw(std::runtime_error);
+
       // return a single field value for the specified field name.  Returns
       // a blank string if not found.
       std::string getFieldValue(const std::string& fieldName) const;
@@ -30,8 +33,14 @@ class __declspec(dllexport) ApsimDataFile
       // on an invalid index.
       std::string getFieldValue(unsigned fieldIndex) const throw(std::runtime_error);
 
+      // position at first record.
+      bool first(void);
+
       // advance to the next record.
       bool next(void);
+
+      // advance to the last record.
+      bool last(void);
 
       // return a list of constant names to caller.
       void getConstantNames(std::vector<std::string>& names) const;
@@ -48,12 +57,20 @@ class __declspec(dllexport) ApsimDataFile
       std::vector<std::string> fieldValues;
       typedef std::map<std::string, std::string, std::less<std::string> > Constants;
       Constants constants;
+      unsigned firstRecordPos;
+      unsigned yearI;
+      unsigned dayOfYearI;
+      unsigned dayOfMonthI;
+      unsigned monthI;
 
       void open(void) throw(std::runtime_error);
+      std::istream& getline(std::string& line);
 
       void readAndStoreFields(const std::string& filename) throw(std::runtime_error);
       void readAndStoreRecords(const std::string& filename) throw (std::runtime_error);
       void readApsimHeader(std::istream& in) throw(std::runtime_error);
       bool readNextRecord(std::istream& in) throw(std::runtime_error);
+      void lookForDateField(void);
+
    };
 #endif
