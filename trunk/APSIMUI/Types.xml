@@ -153,9 +153,10 @@
       </variables>
    </irrigation>
    <fertiliser>
-      <UItype>generic</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Description>The fertiliser module doesn't have any properties. It is required though if you wish to apply fertiliser."</Description>
       <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
       <LargeIcon>images\fertiliser32.png</LargeIcon>
       <SmallIcon>images\fertiliser16.png</SmallIcon>
@@ -533,9 +534,10 @@
    </grasp>
 
    <canola>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Canola.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Canola science documentation">../apsim/canola/docs/canola_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -549,9 +551,10 @@
       <variables link="plant.xml"/>
    </canola>
    <chickpea>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Chickpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Chickpea science documentation">../apsim/chickpea/docs/chickpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -565,9 +568,10 @@
       <variables link="plant.xml"/>
    </chickpea>
    <cowpea>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Cowpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Cowpea science documentation">../apsim/cowpea/docs/cowpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -581,9 +585,10 @@
       <variables link="plant.xml"/>
    </cowpea>
    <fababean>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\FabaBean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -596,9 +601,10 @@
       <variables link="plant.xml"/>
    </fababean>
    <fieldpea>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\fieldpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Fieldpea science documentation">../apsim/fieldpea/docs/Working science document for fieldpea module.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -612,9 +618,10 @@
       <variables link="plant.xml"/>
    </fieldpea>
    <lablab>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lablab.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Lablab science documentation">../apsim/lablab/docs/Working science document for lablab module.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -629,9 +636,10 @@
       <variables link="plant.xml"/>
    </lablab>
    <lucerne>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lucerne.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Lucerne science documentation">../apsim/lucerne/docs/lucerne_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -645,9 +653,10 @@
       <variables link="plant.xml"/>
    </lucerne>
    <lupin>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lupin.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Lupin science documentation">../apsim/lupin/docs/lupin_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -661,9 +670,10 @@
       <variables link="plant.xml"/>
    </lupin>
    <maize>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\maize.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Maize science documentation">../apsim/maize/docs/maize_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -722,9 +732,10 @@
       </events>
    </maize>
    <mucuna>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mucuna.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -737,9 +748,10 @@
       <variables link="plant.xml"/>
    </mucuna>
    <mungbean>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Mungbean science documentation">../apsim/mungbean/docs/lmungbean_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -753,9 +765,10 @@
       <variables link="plant.xml"/>
    </mungbean>
    <navybean>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphicsnavybean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -768,9 +781,10 @@
       <variables link="plant.xml"/>
    </navybean>
    <ozcot>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\cottton.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Ozcot science documentation">../apsim/ozcot/docs/ozcot_science.htm</Documentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
       <SmallIcon>Images\cubes16.png</SmallIcon>
@@ -795,9 +809,10 @@
       </events>
    </ozcot>
    <peanut>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\peanut.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Peanut science documentation">../apsim/peanut/docs/peanut_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -811,9 +826,10 @@
       <variables link="plant.xml"/>
    </peanut>
    <pigeonp>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Pigeonpea science documentation">../apsim/pigeonp/docs/pigeonpea_science.htm</Documentation>
       <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -844,9 +860,10 @@
       </variables>
    </slurp>
    <sorghum>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\sorghum.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Sorghum science documentation">../apsim/sorghum/docs/sorghum_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -859,9 +876,10 @@
      <variables link="plant.xml"/>
    </sorghum>
    <soybean>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\soybean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Soybean science documentation">../apsim/soybean/docs/soybean_science.htm</Documentation>
       <Documentation name="Generic plant document" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -875,9 +893,10 @@
       <variables link="plant.xml"/>
    </soybean>
    <stylo>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\stylo.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
@@ -943,7 +962,8 @@
       </events>
    </sugar>
    <sunflower>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\sunflower.jpg</Image>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -1002,9 +1022,10 @@
       </events>
    </sunflower>
    <weed>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\weed.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Weed science documentation">../apsim/weed/docs/weed_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -1018,9 +1039,10 @@
       <variables link="plant.xml"/>
    </weed>
    <wheat>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\wheat.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Wheat science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
@@ -1136,9 +1158,10 @@
    </WaterSupply>
 
    <egrandis>
-      <UItype>crop</UItype>
+      <UItype>empty</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Egrandis.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Generic Growth science documentation" >../apsim/growth/docs/growth_science.htm</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
