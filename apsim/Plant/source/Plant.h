@@ -160,7 +160,11 @@ class Plant {
   bool read_array(const vector<std::string>& search_order,
                   const char * variableName,
                   const char * units,
-                  float *value, int &NumValues, float lower, float upper);
+                  float *value,
+                  int &NumValues,
+                  float lower,
+                  float upper,
+                  bool isOptional = false);
 
   bool read_var(const char * sectionName,
                 const char * variableName,
@@ -173,7 +177,10 @@ class Plant {
   bool read_var(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                float &value, float lower, float upper);
+                                float &value,
+                                float lower,
+                                float upper,
+                                bool isOptional = false);
 
   // INTs
   bool read_array(const char * sectionName,
@@ -188,7 +195,8 @@ class Plant {
   bool read_array(const vector<std::string>& search_order,
                   const char * variableName,
                   const char * units,
-                  int *value, int &NumValues, int lower, int upper);
+                  int *value, int &NumValues, int lower, int upper,
+                  bool isOptional = false);
 
   bool read_var(const char * sectionName,
                 const char * variableName,
@@ -201,7 +209,7 @@ class Plant {
   bool read_var(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                int &value, int lower, int upper);
+                                int &value, int lower, int upper, bool isOptional = false);
 
 
   // CHARs
@@ -214,7 +222,7 @@ class Plant {
   bool read_array(const vector<std::string>& search_order,
                   const char * variableName,
                   const char * units,
-                  vector<string> &value);
+                  vector<string> &value,bool isOptional = false);
 
   bool read_var(const char * sectionName,
                 const char * variableName,
@@ -225,7 +233,7 @@ class Plant {
   bool read_var(const vector<std::string>& search_order,
                                 const char * variableName,
                                 const char * units,
-                                string &value);
+                                string &value,bool isOptional = false);
 
 ////////////////////END Interface code///////////////////////
 
