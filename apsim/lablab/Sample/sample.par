@@ -96,13 +96,13 @@ ureappm = 0    0    0    0    0    0    0    (ppm)   ! Urea Concentration
 root_cn =  20.   ! C:N ratio of initial root residues
 root_wt =  1000.   ! root residues as biomass (kg/ha)
 
-[all.residue2.parameters]
+[all.SurfaceOM.parameters]
 
-pot_decomp_rate =  0.10 ()   ! Potential decomposition rate
-residue_wt =  0 (kg/ha)      ! Initial surface residue
-residue_cnr =  30.0 ()       ! C:N ration of initial residue
-residue_type =  wheat        ! Type if initial residue
+mass = 0 (kg/ha)      ! Initial surface residue
+cnr = 30.0 ()       ! C:N ration of initial residue
+type = wheat        ! Type if initial residue
 
+name = wheat
 [irrigation.irrigate.parameters]  
 
 ! Maunal irrigation scheduling
