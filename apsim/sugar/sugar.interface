@@ -242,7 +242,6 @@
       <getVariableReg name="NO3_min" type="NO3_min"/>
       <getVariableReg name="st" type="st"/>
       <EventReg name="incorp_fom" type="incorp_fom"/>
-      <EventReg name="add_residue" type="add_residue"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
