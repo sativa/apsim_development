@@ -13338,7 +13338,7 @@ void Plant::plant_harvest_report ()
     float biomass_senesced;                       // above ground senesced plant wt (kg/ha)
     float dm;                                     // above ground total dry matter (kg/ha)
     float grain_wt;                               // grain dry weight (g/kernel)
-    float head_grain_no;                          // final grains /head
+    float plant_grain_no;                          // final grains /head
     float leaf_no;                                // total leaf number
     float n_grain;                                // total grain N uptake (kg/ha)
     float n_dead;                                 // above ground dead plant N (kg/ha)
@@ -13387,7 +13387,7 @@ void Plant::plant_harvest_report ()
     grain_wt = divide (g.dm_green[meal] + g.dm_dead[meal] + g.dm_green[oil] + g.dm_dead[oil]
                      , g.grain_no, 0.0);
 
-    head_grain_no = divide (g.grain_no, g.plants, 0.0);
+    plant_grain_no = divide (g.grain_no, g.plants, 0.0);
 
     biomass_green = (sum_real_array (g.dm_green, max_part) - g.dm_green[root]) * gm2kg / sm2ha;
     biomass_senesced = (sum_real_array (g.dm_senesced, max_part) - g.dm_senesced[root]) * gm2kg / sm2ha;
@@ -13450,7 +13450,7 @@ void Plant::plant_harvest_report ()
     parent->writeString (msg);
 
     sprintf (msg, "%s%6.1f%24s%s%10.3f"
-             , " grains/head            = ", head_grain_no, " "
+             , " grains/plant            = ", plant_grain_no, " "
              , " maximum lai            = ", g.lai_max);
     parent->writeString (msg);
 
