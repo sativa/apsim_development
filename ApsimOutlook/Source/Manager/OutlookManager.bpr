@@ -35,21 +35,18 @@ RELEASELIBPATH = $(BCB)\lib\release
 SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 USERDEFINES =
 # ---------------------------------------------------------------------------
-CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thypergrid \
+CFLAG1 = -I$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;"j:\thypergrid\" \
   -Od -Hc -H=$(BCB)\lib\vcl40.csm -w -Ve -Tkh30000 -r- -a8 -k -y -v -vi- \
   -D$(SYSDEFINES);$(USERDEFINES) -c -b- -w-par -w-inl -Vx -tW -tWM
 CFLAG2 =
 CFLAG3 =
-PFLAGS = -U$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thypergrid;$(RELEASELIBPATH) \
-  -I$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thypergrid \
+PFLAGS = -U$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\;"j:\thypergrid\";$(RELEASELIBPATH) \
+  -I$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;"j:\thypergrid\" \
   -$YD -$W -$O- -v -M -JPHNE
-RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thypergrid
-AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\..\shared \
-  /i..\..\..\shared\components\data \
-  /i..\..\..\..\..\..\progra~1\borland\components\rx\units \
-  /i..\..\..\..\..\..\progra~1\borland\components\thypergrid /mx /w2 /zd /d_RTLDLL \
-  /dUSEPACKAGES
-LFLAGS = -L$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\progra~1\borland\components\thypergrid;$(RELEASELIBPATH) \
+RFLAGS = -i$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data\;j:\rx\units\;"j:\thypergrid\"
+AFLAGS = /i$(BCB)\include /i$(BCB)\include\vcl /ik:\ /ik:\components\data /ij:\rx\units \
+  /ij:\thypergrid /mx /w2 /zd /d_RTLDLL /dUSEPACKAGES
+LFLAGS = -L$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general\;k:\components\data\;k:\general\;j:\rx\units\;"j:\thypergrid\";$(RELEASELIBPATH) \
   -aa -Tpe -x -Gn -v
 IFLAGS =
 # ---------------------------------------------------------------------------
@@ -87,44 +84,46 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-$(BCB)\Projects\Bpl\APSData.bpl=APSuite data mining/analysis components.
 $(BCB)\Projects\Bpl\APSUI.bpl=APSuite user interface components
+$(BCB)\Projects\Bpl\APSData.bpl=APSuite data mining/analysis components.
 
 [HistoryLists\hlIncludePath]
-Count=14
-Item0=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\..\progra~1\borland\components\thypergrid
-Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;$(BCB)\..\components\rx\units\;$(BCB)\..\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;"c:\program files\borland\components\rx\units\";"c:\program files\borland\components\thypergrid\"
-Item2=
-Item3=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\progra~1\borland\components\rx\units\;c:\progra~1\borland\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid
-Item4=
-Item5=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units
-Item6=
-Item7=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data
-Item8=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units;c:\program files\borland\components\THyperGrid
-Item9=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c:\rx\units;c:\THyperGrid
-Item10=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c;\rx\units;c;\THyperGrid
-Item11=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data
-Item12=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\data
-Item13=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Count=15
+Item0=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\data;j:\rx\units;j:\thypergrid
+Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;..\..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\..\progra~1\borland\components\thypergrid
+Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;$(BCB)\..\components\rx\units\;$(BCB)\..\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;"c:\program files\borland\components\rx\units\";"c:\program files\borland\components\thypergrid\"
+Item3=
+Item4=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\progra~1\borland\components\rx\units\;c:\progra~1\borland\components\thypergridItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid
+Item5=
+Item6=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units\;c:\program files\borland\components\thypergrid\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units
+Item7=
+Item8=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data
+Item9=$(BCB)\include;$(BCB)\include\vcl;..\..\..\shared;..\..\..\shared\components\data;c:\program files\borland\components\rx\units;c:\program files\borland\components\THyperGrid
+Item10=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c:\rx\units;c:\THyperGrid
+Item11=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data;c;\rx\units;c;\THyperGrid
+Item12=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\thirdparty;d:\apsuite\shared\components\data
+Item13=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;d:\apsuite\shared\components\data
+Item14=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
 
 [HistoryLists\hlLibraryPath]
-Count=16
-Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;..\..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\..\progra~1\borland\components\thypergrid
-Item1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;..\..\..\..\..\..\progra~1\borland\components\rx\units
-Item2=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\projects\lib;c:\program files\borland\components\rx\units\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general
-Item3=
+Count=17
+Item0=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general;k:\components\data;k:\general;j:\rx\units;j:\thypergrid
+Item1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;..\..\..\..\..\..\progra~1\borland\components\rx\units;..\..\..\..\..\..\progra~1\borland\components\thypergrid
+Item2=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;..\..\..\..\..\..\progra~1\borland\components\rx\units
+Item3=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\projects\lib;c:\program files\borland\components\rx\units\;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general
 Item4=
 Item5=
-Item6=$(BCB)\projects\lib;c:\program files\borland\components\rx\units;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\program files\borland\components\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\program files\borland\components\rx\units
-Item7=
-Item8=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general
-Item9=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general
-Item10=..\..\..\shared\components\ui;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\data;..\..\..\shared\general;c:\program files\borland\components\rx\units;c:\program files\borland\components\thypergrid
-Item11=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\data;c:\program files\borland\components\rx\units;c:\program files\borland\components\thypergrid
-Item12=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\apsuite\shared\components\thirdparty;..\..\..\apsuite\shared\components\general;..\..\..\apsuite\shared\components\ui;..\..\..\apsuite\shared\components\data;..\..\..\apsuite\shared\general;c:\rx\units;c:\thypergrid
-Item13=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\apsuite\shared\components\thirdparty;..\..\..\apsuite\shared\components\general;..\..\..\apsuite\shared\components\ui;..\..\..\apsuite\shared\components\data;..\..\..\apsuite\shared\general;c:\rx\units
-Item14=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\apsuite\shared\components\thirdparty;..\..\..\apsuite\shared\components\general;..\..\..\apsuite\shared\components\ui;c:\rx\units
-Item15=..\..\..\apsuite\shared\components\ui;..\..\..\apsuite\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib
+Item6=
+Item7=$(BCB)\projects\lib;c:\program files\borland\components\rx\units;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\program files\borland\components\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general;c:\program files\borland\components\rx\units
+Item8=
+Item9=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general
+Item10=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;..\..\..\shared\components\data;..\..\..\shared\general
+Item11=..\..\..\shared\components\ui;..\..\..\shared\components\general;..\..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\data;..\..\..\shared\general;c:\program files\borland\components\rx\units;c:\program files\borland\components\thypergrid
+Item12=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\shared\components\data;c:\program files\borland\components\rx\units;c:\program files\borland\components\thypergrid
+Item13=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\apsuite\shared\components\thirdparty;..\..\..\apsuite\shared\components\general;..\..\..\apsuite\shared\components\ui;..\..\..\apsuite\shared\components\data;..\..\..\apsuite\shared\general;c:\rx\units;c:\thypergrid
+Item14=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\apsuite\shared\components\thirdparty;..\..\..\apsuite\shared\components\general;..\..\..\apsuite\shared\components\ui;..\..\..\apsuite\shared\components\data;..\..\..\apsuite\shared\general;c:\rx\units
+Item15=$(BCB)\lib\obj;$(BCB)\lib;..\..\..\apsuite\shared\components\thirdparty;..\..\..\apsuite\shared\components\general;..\..\..\apsuite\shared\components\ui;c:\rx\units
+Item16=..\..\..\apsuite\shared\components\ui;..\..\..\apsuite\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
