@@ -223,7 +223,7 @@ object DamEasy_form: TDamEasy_form
   end
   object Label44: TLabel
     Left = 388
-    Top = 241
+    Top = 261
     Width = 139
     Height = 13
     Caption = 'Additional Capital Costs:'
@@ -236,14 +236,14 @@ object DamEasy_form: TDamEasy_form
   end
   object Label48: TLabel
     Left = 410
-    Top = 265
+    Top = 285
     Width = 84
     Height = 13
     Caption = 'OFWS pump cost'
   end
   object Label51: TLabel
     Left = 554
-    Top = 265
+    Top = 285
     Width = 6
     Height = 13
     Caption = '$'
@@ -264,28 +264,28 @@ object DamEasy_form: TDamEasy_form
   end
   object Label28: TLabel
     Left = 410
-    Top = 289
+    Top = 309
     Width = 116
     Height = 13
     Caption = 'OFWS construction cost'
   end
   object Label30: TLabel
     Left = 554
-    Top = 289
+    Top = 309
     Width = 6
     Height = 13
     Caption = '$'
   end
   object Label31: TLabel
     Left = 410
-    Top = 313
+    Top = 333
     Width = 79
     Height = 13
     Caption = 'Reticulation cost'
   end
   object Label32: TLabel
     Left = 554
-    Top = 313
+    Top = 333
     Width = 6
     Height = 13
     Caption = '$'
@@ -329,6 +329,13 @@ object DamEasy_form: TDamEasy_form
     Width = 8
     Height = 13
     Caption = '%'
+  end
+  object Label15: TLabel
+    Left = 409
+    Top = 234
+    Width = 112
+    Height = 13
+    Caption = 'Cane payment constant'
   end
   object Sugar_price_box: TEdit
     Left = 191
@@ -477,7 +484,7 @@ object DamEasy_form: TDamEasy_form
   end
   object OFWS_pump_cost_box: TEdit
     Left = 566
-    Top = 261
+    Top = 281
     Width = 73
     Height = 21
     TabOrder = 19
@@ -523,14 +530,14 @@ object DamEasy_form: TDamEasy_form
   end
   object OFWS_construction_box: TEdit
     Left = 566
-    Top = 285
+    Top = 305
     Width = 73
     Height = 21
     TabOrder = 20
   end
   object Reticulation_box: TEdit
     Left = 566
-    Top = 309
+    Top = 329
     Width = 73
     Height = 21
     TabOrder = 21
@@ -577,7 +584,7 @@ object DamEasy_form: TDamEasy_form
   end
   object Panel2: TPanel
     Left = 536
-    Top = 245
+    Top = 265
     Width = 169
     Height = 5
     TabOrder = 28
@@ -590,7 +597,7 @@ object DamEasy_form: TDamEasy_form
     TabOrder = 6
   end
   object Tax_yes_no: TCheckBox
-    Left = 408
+    Left = 407
     Top = 210
     Width = 170
     Height = 17
@@ -601,5 +608,12 @@ object DamEasy_form: TDamEasy_form
     ParentBiDiMode = False
     State = cbChecked
     TabOrder = 18
+  end
+  object Payment_constant_box: TEdit
+    Left = 565
+    Top = 230
+    Width = 73
+    Height = 21
+    TabOrder = 29
   end
 end

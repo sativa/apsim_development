@@ -46,6 +46,7 @@ void __fastcall TDamEasy_form::FormShow(TObject *Sender)
    Number_partners_box->Text = ftoa(Config.Num_partners, 2).c_str();
    OFWS_pump_cost_box->Text = ftoa(Config.OFWS_pump_cost,2).c_str();
    OFWS_construction_box->Text = ftoa(Config.OFWS_construction_cost,2).c_str();
+   Payment_constant_box->Text = ftoa(Config.Payment_constant,4).c_str();
 
    if (Config.Upfront == true)
       OFWS_payment_method->ItemIndex = 0;
@@ -96,6 +97,7 @@ void __fastcall TDamEasy_form::FormClose(TObject *Sender, TCloseAction &Action)
       Config.Num_partners = atof(Number_partners_box->Text.c_str());
       Config.OFWS_pump_cost = atof(OFWS_pump_cost_box->Text.c_str());
       Config.OFWS_construction_cost = atof(OFWS_construction_box->Text.c_str());
+      Config.Payment_constant = atof(Payment_constant_box->Text.c_str());
 
       if (OFWS_payment_method->ItemIndex == 0)
          Config.Upfront = true;
