@@ -29,27 +29,16 @@ Public Class APSIMData
         End Get
     End Property
     Function Child(ByVal ChildName As String) As APSIMData
-        Dim found As Boolean = False
-        Dim FoundNode As XmlNode
-        For Each ChildNode As XmlNode In Node.ChildNodes
-            If New APSIMData(ChildNode).Name = ChildName Then
-                FoundNode = ChildNode
-                found = True
-                Exit For
+        For Each ChildData As APSIMData In Me.Children
+            If LCase(ChildName) = LCase(ChildData.Name) Then
+                Return ChildData
             End If
         Next
-
-        If found Then
-            Return New APSIMData(FoundNode)
-        Else
-            Return Nothing
-            'Throw New Exception("Cannot find child " + ChildName)
-        End If
+        Return Nothing
     End Function
     Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
         Dim name As String
-        Dim CurrentNode As XmlNode = Node
-        Dim Found As Boolean = False
+        Dim CurrentData As New APSIMData(Node)
         Dim Path As String = ChildPath
 
         Do Until Path = ""
@@ -61,41 +50,26 @@ Public Class APSIMData
                 name = Path
                 Path = ""
             End If
-            Found = False
-            For Each ChildNode As XmlNode In CurrentNode.ChildNodes
-                If New APSIMData(ChildNode).Name = name Then
-                    CurrentNode = ChildNode
-                    Found = True
-                    Exit For
-                End If
-            Next
 
+            CurrentData = CurrentData.Child(name)
+            If IsNothing(CurrentData) Then
+                Exit Do
+            End If
         Loop
 
-        If Found Then
-            Return New APSIMData(CurrentNode)
-        Else
+        If IsNothing(CurrentData) Then
             Throw New Exception("Cannot find child " + ChildPath)
+        Else
+            Return CurrentData
         End If
     End Function
-
     Function ChildList(Optional ByVal type As String = Nothing) As StringCollection
-        Dim Children As New StringCollection
-        If Node Is Nothing Then
-            ' do nothing
-        Else
-            Dim i As Integer
-            For i = 0 To Node.ChildNodes.Count - 1
-                Dim nodename As String
-                nodename = Node.ChildNodes(i).Name
-                If nodename <> "#text" And nodename <> "#comment" Then
-                    If type Is Nothing Or type = nodename Then
-                        Children.Add(New APSIMData(Node.ChildNodes(i)).Name)
-                    End If
-                End If
-            Next i
-        End If
-        Return Children
+        Dim List As New StringCollection
+        For Each child As APSIMData In Me.Children(type)
+            List.Add(child.Name)
+        Next
+        Return List
+
     End Function
     Property Value() As String
         Get
@@ -131,18 +105,23 @@ Public Class APSIMData
     End Property
     Public Sub Add(ByVal Data As APSIMData)
         If IsNothing(Data) Then
-            ' Do Nothin
+            ' Do Nothing
+        ElseIf Me.Attribute("shortcut") <> "" Then
+            MsgBox("Cannot add data to a short cut.  You must add this data to the data source in the library.", MsgBoxStyle.Critical, "User Error")
         Else
-            Dim NewName As String = UniqueName(Data.Name, ChildList)
-            Data.Name = NewName
-
+            Data.Name = UniqueName(Data.Name, ChildList)
             Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
             Node.AppendChild(newnode)
         End If
 
     End Sub
     Public Sub Delete(ByVal ChildName As String)
-        Node.RemoveChild(Child(ChildName).Node)
+        If Me.Attribute("shortcut") <> "" Then
+            MsgBox("Cannot delete data from a short cut.  You must delete this data from the data source in the library.", MsgBoxStyle.Critical, "User Error")
+        Else
+            Node.RemoveChild(Child(ChildName).Node)
+        End If
+
     End Sub
     Private Function UniqueName(ByVal ProposedName As String, ByVal UsedNames As StringCollection) As String
 
@@ -186,14 +165,35 @@ Public Class APSIMData
             Node.Attributes.GetNamedItem("name").Value = Value
         End Set
     End Property
-
-    ReadOnly Property Children() As Collection
+    ReadOnly Property Children(Optional ByVal Type As String = Nothing) As Collection
         Get
-            Dim ChildCollection As New Collection
-            For Each child As String In ChildList()
-                ChildCollection.Add(Me.Child(child))
-            Next
-            Return ChildCollection
+            Dim ChildrenCollection As New Collection
+            If Node Is Nothing Then
+                ' do nothing
+            Else
+                If Me.Attribute("shortcut") = "" Then
+                    ' No shortcut so return MY children
+                    Dim i As Integer
+                    For i = 0 To Node.ChildNodes.Count - 1
+                        Dim nodename As String
+                        nodename = Node.ChildNodes(i).Name
+                        If nodename <> "#text" And nodename <> "#comment" Then
+                            If Type Is Nothing Or Type = nodename Then
+                                ChildrenCollection.Add(New APSIMData(Node.ChildNodes(i)))
+                            End If
+                        End If
+                    Next i
+
+                Else
+                    ' There is a shortcut so return REMOTE children
+                    Dim RemoteSource = "library" + "|" + Me.Attribute("shortcut")
+                    ChildrenCollection = New APSIMData(Node.OwnerDocument.DocumentElement).FindChild(RemoteSource, "|").Children
+                End If
+
+
+            End If
+            Return ChildrenCollection
+
         End Get
     End Property
 
