@@ -593,6 +593,26 @@
       </element>
    </type>
 
+!  dsg 030702  array sized for number of crops
+!       
+   <type name="cropnitrogensupply" array = "T">
+      <element>
+      <field name="name" kind="string" description="crop type + instance name"/>
+      <field name="layer" array = "T">
+         <element>
+         <field name="thickness" kind="single" unit="mm" />
+         <field name="amount"    array = "T">
+              <element>
+                   <field name="NH4"    kind="single" unit="kg/ha" />
+                   <field name="NO3"    kind="single" unit="kg/ha" />
+              </element>
+         </element>
+      </field>
+      </element>
+   </type>
+
+
+
    !!!!! MICROMET types !!!!!
 
    <type name="cover_tot_sum" kind="single" unit="" description=""/>
@@ -657,13 +677,18 @@
 
    <type name="Residue" array="T">
       <element>
-      <field name="Type"    kind = "string" />
-      <field name="name"    kind = "string" description="Type + instance name"/>
-      <field name="amount"  kind="single" units="kg/ha"/>
-      <field name="C"       kind="single" units="kg/ha"/>
-      <field name="N"       kind="single" units="kg/ha"/>
-      <field name="P"       kind="single" units="kg/ha"/>
-      <field name="AshAlk"  kind="single" units="kg/ha"/>
+! dsg 040702  ****** note: below is the 'SurfaceOrganicMatter' data structure with 'cover' added *******
+      <field name="name" kind="string"/>
+      <field name="type" kind="string"/>
+      <field name="OrganicMatterFraction"array="T">
+         <element>
+         <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="C"       kind="single" units="kg/ha"/>
+         <field name="N"       kind="single" units="kg/ha"/>
+         <field name="P"       kind="single" units="kg/ha"/>
+         <field name="AshAlk"  kind="single" units="kg/ha"/>
+         </element>
+      </field>         
       <field name="Cover"  kind="single" units=""/>
       </element>
    </type>
@@ -710,13 +735,16 @@
 
     !!!! ORGANIC MATTER Types !!!!!!
 
-   <type name="OrganicMatter">
-      <field name="amount"  kind="single" units="kg/ha"/>
-      <field name="C"       kind="single" units="kg/ha"/>
-      <field name="N"       kind="single" units="kg/ha"/>
-      <field name="P"       kind="single" units="kg/ha"/>
-      <field name="AshAlk"  kind="single" units="kg/ha"/>
-   </type>
+
+! dsg040702  this individual structure is currently part of several other structures, and can be used when inheritance is implemented 
+!            It's currently redundant
+!   <type name="OrganicMatterFraction" array="T" >
+!      <field name="amount"  kind="single" units="kg/ha"/>
+!      <field name="C"       kind="single" units="kg/ha"/>
+!      <field name="N"       kind="single" units="kg/ha"/>
+!      <field name="P"       kind="single" units="kg/ha"/>
+!      <field name="AshAlk"  kind="single" units="kg/ha"/>
+!   </type>
 
    <type name="FPoolProfileLayer" array="T">
       <element>
@@ -735,6 +763,71 @@
       </field>
       </element>
    </type>
+
+!dsg 030702
+   <type name="SurfaceOrganicMatter">
+      <field name="name" kind="string"/>
+      <field name="type" kind="string"/>
+      <field name="OrganicMatterFraction"array="T">
+         <element>
+         <field name="amount"  kind="single" units="kg/ha"/>
+         <field name="C"       kind="single" units="kg/ha"/>
+         <field name="N"       kind="single" units="kg/ha"/>
+         <field name="P"       kind="single" units="kg/ha"/>
+         <field name="AshAlk"  kind="single" units="kg/ha"/>
+         </element>
+      </field>         
+   </type>
+
+!dsg 030702
+   <type name="SoilOrganicMatter">
+      <field name="type" kind="string"/>
+      <field name="layer" array = "T">
+          <element>
+          <field name="OrganicMatterFraction"array="T">
+             <element>
+             <field name="amount"  kind="single" units="kg/ha"/>
+             <field name="C"       kind="single" units="kg/ha"/>
+             <field name="N"       kind="single" units="kg/ha"/>
+             <field name="P"       kind="single" units="kg/ha"/>
+             <field name="AshAlk"  kind="single" units="kg/ha"/>
+             </element>
+          </element>   
+      </field>         
+   </type>
+
+
+!dsg 040702  array sized for number of soil layers
+   <type name="SoilNitrogenFlowsLayer" array = "T">
+      <field name="nh4_transform_net" kind="single" units="kg/ha"/>
+      <field name="no3_transform_net" kind="single" units="kg/ha"/>
+      <field name="dlt_nh4_net"       kind="single" units="kg/ha"/>
+      <field name="dlt_no3_net"       kind="single" units="kg/ha"/>
+      <field name="dlt_oc"            kind="single" units="kg/ha"/>
+      <field name="dlt_om"            kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_hum"      kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_biom"     kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_atm"      kind="single" units="kg/ha"/>
+      <field name="dlt_humc_biom"     kind="single" units="kg/ha"/>
+      <field name="dlt_humc_atm"      kind="single" units="kg/ha"/>
+      <field name="dlt_biomc_hum"     kind="single" units="kg/ha"/>
+      <field name="dlt_biomc_atm"     kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_hum"      kind="single" units="kg/ha"/>
+      <field name="dlt_fomc_pool"     kind="single" array="T" units="kg/ha"/>
+   </type>
+
+
+!dsg 040702  inputs and losses of N for 'NitrogenBalanceCalculated' Event
+   <type name="NitrogenBalance" >
+      <field name="Fertilizer"              kind="single" units="kg/ha"/>
+      <field name="ResiduesMineralised"     kind="single" units="kg/ha"/>
+      <field name="Leaching"                kind="single" units="kg/ha"/>
+      <field name="Denitrification"         kind="single" units="kg/ha"/>
+      <field name="Uptake"                  kind="single" units="kg/ha"/>
+      <field name="Erosion"                 kind="single" units="kg/ha"/>
+      <field name="LateralFlow"             kind="single" units="kg/ha"/>
+   </type>
+
 
 </types>
 
