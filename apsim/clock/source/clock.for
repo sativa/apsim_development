@@ -1,27 +1,3 @@
-*     ===========================================================
-      character*(*) function clock_version ()
-*     ===========================================================
-      implicit none
-
-*+  Purpose
-*       return version number of clock module
-
-*+  Changes
-*       DPH - 25/2/94
-
-*+  Constant Values
-      character  version_number*(*)    ! version number of module
-      parameter (version_number = 'V1.0 25/11/96')
-
-*- Implementation Section ----------------------------------
- 
-      clock_version = version_number
- 
-      return
-      end
-
-
-
 * ====================================================================
       subroutine APSIM_clock (Action, Data)
 * ====================================================================
@@ -43,14 +19,10 @@
 *+  Changes
 *     dph 25/11/96
 
-*+  Calls
-      character  clock_version*20      ! function
-
 *- Implementation Section ----------------------------------
 
-      if (Action .eq. MES_Presence) then
-         call Write_string (LU_Scr_sum,
-     .       'Module = clock ' // clock_version())
+      if (Action.eq.MES_Get_variable) then
+         call clock_send_my_variable (Data)
  
       else if (Action .eq. MES_Init) then
          call clock_init ()
@@ -66,9 +38,6 @@
  
       else if (Action.eq.MES_End_run) then
          g_end_current_run = .true.
- 
-      else if (Action.eq.MES_Get_variable) then
-         call clock_send_my_variable (Data)
  
       else
          ! Don't use message
@@ -98,7 +67,6 @@
 *     nih 28/04/99 - added simple sub-daily timestep function
 
 *+  Calls
-      character  clock_version*20      ! function
       logical Clock_advance_clock      ! function
 
 *+  Constant Values
@@ -128,7 +96,7 @@ cih
  
       ! tell user we have initialised.
  
-!      msg = ' CLOCK Initialised, Version: ' // clock_version()
+!      msg = ' CLOCK Initialised, Version: '
  
 !      call Write_string (LU_scr_sum, msg)
 !      msg =
