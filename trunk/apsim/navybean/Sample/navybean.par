@@ -23,7 +23,7 @@ end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 330 and year  = 1988 then
-   navybean sow crop_type = navybean, cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
+   navybean sow cultivar = rainbird, plants = 25 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 55 and year = 1989 then
    navybean harvest

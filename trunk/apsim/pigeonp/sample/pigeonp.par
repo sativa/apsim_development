@@ -23,7 +23,7 @@ end_year = 1989
 [sample.manager.start_of_day]
 
 if day = 290 and year  = 1988 then
-   pigeonp sow crop_type = pigeonpea, cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
+   pigeonp sow cultivar = short_duration, plants = 10 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 115 and year = 1989 then
    pigeonp harvest

@@ -23,7 +23,7 @@ end_year = 1988
 [sample.manager.start_of_day]
 
 if day = 130 and year  = 1988 then
-   chickpea sow crop_type = chickpea, cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
+   chickpea sow cultivar = amethyst, plants = 25 (/m2), sowing_depth = 40 (mm)
 
 elseif day = 290 and year = 1988 then
    chickpea harvest
