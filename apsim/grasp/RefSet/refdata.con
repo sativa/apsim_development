@@ -432,8 +432,7 @@ bottom_boundary_condition =  0   ! Bottom Flag  - 0) constant gradient
 vapour_conductivity =  off   ! Vapour Conductivity flag (0=off, 1=on)
                               ! ------------------------
 
-run_solutes =    
-!!no3 nh4       ! solutes to be moved by SWIM during simulation
+run_solutes =    none    ! solutes to be moved by SWIM during simulation
 
 extra_solute_supply =  off   
 solute_exclusion =  off   
