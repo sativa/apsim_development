@@ -20,7 +20,7 @@ string _export getApsimDirectory(void) throw(runtime_error)
    char moduleFileName[MAX_PATH];
    GetModuleFileName(hInstance, moduleFileName, sizeof moduleFileName);
    Path path(moduleFileName);
-   path.Set_name("version.ini");
+   path.Set_name("apsim.ini");
    while (path.Back_up_directory() != "" && !path.Exists());
 
    if (!path.Exists())
@@ -37,8 +37,8 @@ string _export getApsimDirectory(void) throw(runtime_error)
 std::string _export getAppHomeDirectory(void) throw(std::runtime_error)
    {
    string apsimDir = getApsimDirectory();
-   string versionIni = apsimDir + "\\version.ini";
-   if (FileExists(versionIni.c_str()))
+   string apsimIni = apsimDir + "\\apsim.ini";
+   if (FileExists(apsimIni.c_str()))
       {
       string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
       return apsimDir + "\\" + applicationName;

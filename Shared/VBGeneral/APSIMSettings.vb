@@ -27,7 +27,7 @@ Public Class APSIMSettings
         Return Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).ToString
     End Function
     Public Function ApsimVersion() As String
-        Dim version As String = GetSetting("versions", "apsim")
+        Dim version As String = GetSetting("version", "apsim")
         Return version
     End Function
 End Class

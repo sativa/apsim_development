@@ -28,10 +28,10 @@ string getApsimVersion(void)
    GetModuleFileName(hInst, lpFilename, MAX_PATH);
    Path p(lpFilename);
    p.Back_up_directory();
-   p.Set_name("version.ini");
+   p.Set_name("apsim.ini");
    IniFile ini(p.Get_path().c_str());
    string versionString;
-   ini.read("versions", "apsim", versionString);
+   ini.read("version", "apsim", versionString);
    return versionString;
    }
 
