@@ -863,7 +863,10 @@ c         write (*,*) 'g_sw(',layer,') =', g_sw_dep(layer)
 *                                                     ^^^
 *       for the top 2 layers.
 *
-*       This has been replaced by KL(), read from the parameter file.
+*       I've used layer_proportion to cater for all number of profile
+*       layers.
+*
+*       This has yet to be checked with an authoritative source..
 
 
 *   Procedure attributes:
@@ -2294,7 +2297,7 @@ C     Limit cover to potential maximum
 * --------------------- Executable code section ----------------------
 
       call push_routine (my_name)
-
+    
 *     Potential growth from existing grass basal area
       grasp_dm_regrowth =
      :     p_pot_regrow *
@@ -2733,6 +2736,7 @@ C     condition. This is because of the wrap-around between years.
       g_acc_growth = g_acc_growth +
      :     sum_real_array(g_dlt_dm_plant, max_layer)
 
+cplp
 c      write (*,*) 'g_acc_et_summer: ', g_acc_et_summer
 c      write (*,*) 'dm_green:     ', g_dm_green
 c      write (*,*) 'dlt_dm:       ', g_dlt_dm
@@ -2903,7 +2907,7 @@ C     Proportions are different for wet season or dry season.
 *   Assumptions:
 *       none
 
-*   Notes:
+*   Notes:                        
 *     There has to be a better way for this.
 
 *   Procedure attributes:
@@ -3241,7 +3245,6 @@ c     Bound to reasonable values:
       if (g_day_of_year .eq. c_acc_growth_reset) then
          g_acc_growth = 0.0
       endif
-
       if (g_day_of_year .eq. c_acc_et_reset) then
          g_acc_ET_summer = 0.0
       endif
@@ -3415,7 +3418,7 @@ c     Bound to reasonable values:
 * --------------------- Executable code section ----------------------
 
       call push_routine (my_name)
-
+                              
           !  zero pools etc.
 
       call grasp_zero_daily_variables ()
@@ -3601,7 +3604,7 @@ c     Bound to reasonable values:
       call grasp_write_summary ()
 
       call pop_routine (my_name)
-      return
+      return      
       end
 
 *     ===========================================================
@@ -3952,7 +3955,7 @@ C     Check that none of the pools is negative
      :        g_detach(stem)
          call write_string(lu_scr_sum, string)
 
-         call fatal_error(err_internal, 'Negative Pool Error')
+cplp         call fatal_error(err_internal, 'Negative Pool Error')
       endif
 
       call pop_routine (my_name)
@@ -3988,7 +3991,7 @@ C     Check that none of the pools is negative
 
 * ----------------------- Declaration section ------------------------
 
-      implicit none
+      implicit none                   
 
 *   Subroutine arguments
 *      none
@@ -4101,7 +4104,8 @@ cpdev  bound required?..
 *     ================================================================
 
 *   Short description:
-*     Cover for runoff purposes. Not used by grasp. Historical use only.
+*     Cover for runoff purposes. Not used by grasp, but passed to
+*     soilwat.
 
 *   Assumptions:
 *      none
@@ -4412,7 +4416,7 @@ cpdev  bound required?..
 
 !     If there isn't an N module plugged in, then sending out
 !     N uptake fills the summary file with needless garbage.
-!     So this check is a bit of a fudge.
+!     However, this check is a bit of a fudge.
       if (sum_real_array(g_No3, max_layer) .lt. 10000.0) then
         call post_real_array( 'dlt_no3',
      :     '(kg/ha)',
@@ -4450,7 +4454,7 @@ cpdev  bound required?..
 
 *   Notes:
 *      none
-
+                                           
 *   Procedure attributes:
 *      Version:         any hardware/fortran77
 *      Extensions:      long names <= 20 chars.
@@ -4684,6 +4688,7 @@ cpdev  bound required?..
       include 'grasp.inc'
       real       grasp_transp_eff
       real       grasp_vpd_hgt_ndx
+      real       grasp_total_cover
       integer    count_of_real_vals    ! function
       real       sum_real_array
 
@@ -4756,7 +4761,7 @@ c     real       N_demand              ! sum N demand for plant parts (g/plant)
       elseif (variable_name .eq. 'cover_tot') then
          call respond2get_real_var (
      :        'cover_tot',
-     :        '()', g_out_total_cover )
+     :        '()', grasp_total_cover() )
 
 cpdev. One of these is right. I don't know which...
       elseif (variable_name .eq. 'green_cover') then
@@ -4899,7 +4904,7 @@ cpdev. One of these is right. I don't know which...
      :        'growth_photo',
      :        '(kg/ha)', g_out_growth_photo)
 
-      elseif (variable_name .eq. 'growth_regrow') then
+      elseif (variable_name .eq. 'growth_regrowth') then
          call respond2get_real_var (
      :        'growth_regrow',
      :        '(kg/ha)', g_out_growth_regrow)
@@ -4980,7 +4985,7 @@ cpdev. One of these is right. I don't know which...
      :        '()', g_out_rfact)
 
       elseif (variable_name .eq. 'sw_index') then
-         call respond2get_real_var (
+         call respond2get_real_var (               
      :        'sw_index',
      :        '()', g_swi_total)
 
@@ -5802,7 +5807,7 @@ c     :                    , 0.0, 10000.0)
      :            layer
      :          , g_ll_dep(layer)
          call write_string (lu_scr_sum, string)
-2000  continue
+2000  continue                           
 
       string = '    ------------------------'
       call write_string (lu_scr_sum, string)
