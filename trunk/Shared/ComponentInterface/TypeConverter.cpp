@@ -121,7 +121,7 @@ class StringFromSingle : public TypeConverter
          float value;
          messageData >> value;
          char st[100];
-         sprintf(st, "%10.3f", value);
+         sprintf(st, "%f", value);
          bufferMessageData << FString(st);
          }
       virtual TypeConverter* clone(void)
@@ -137,7 +137,7 @@ class StringFromDouble : public TypeConverter
          double value;
          messageData >> value;
          char st[100];
-         sprintf(st, "%10.3f", value);
+         sprintf(st, "%f", value);
          bufferMessageData << FString(st);
          }
       virtual TypeConverter* clone(void)
