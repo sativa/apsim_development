@@ -7,29 +7,30 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
-OBJECTS = Component.obj message.obj Type.obj TypeConverter.obj variant.obj \
-    Variants.obj MessageData.obj ApsimVariant.obj \
-    ArraySpecifier.obj Registrations.obj RegistrationItem.obj \
-    ProtocolVector.obj datatypes.obj
+OBJECTS = ApsimFortranWrapper.obj FORTRANComponentWrapper.obj Component.obj \
+      message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
+      MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
+      RegistrationItem.obj ProtocolVector.obj datatypes.obj
 
-USERDEFINES = 
-SYSDEFINES = _RTLDLL;NO_STRICT
+PACKAGES = vcl.bpi rtl.bpi
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
 LIBPATH = $(SYSLIBPATH)
-LIBFILES = $(APSROOT)\Shared\general\general.lib \
-    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
-    $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
-    $(BCB)\Components\Boost\libs\date_time\date_time.lib
+LIBRARIES = rtl.lib
+LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
 
-source: ComponentInterface.lib ../../Bin/ApsimFortranWrapper.dll SimpleWrapper.obj
+source: ../../Bin/ApsimFortranWrapper.dll SimpleWrapper.obj
 
-ALLOBJ = c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLOBJ = c0d32.obj $(PACKAGES) $(OBJECTS)
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
 # ---------------------------------------------------------------------------
-CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM 
+#CFLAG1 = $(SYSCFLAGS) -x- -RT- -tWM
+CFLAG1 = -WD -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+
 WARNINGS = -w-par
-LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
+LFLAGS = -aa -Tpd -x -Gn -Gi -v
 
 CC=$(BCB)/Bin/bcc32.exe
 RANLIB=$(BCB)/Bin/TLib.exe
@@ -39,16 +40,10 @@ IMPDEF=$(BCB)\Bin\impdef.exe
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
-ComponentInterface.lib: $(OBJECTS) FORTRANComponent.obj 
-	$(RANLIB) /u $@ @&&!
-	$(LFLAGS) $? 
-
-!
-
-../../Bin/ApsimFortranWrapper.dll: $(OBJECTS) FORTRANComponentWrapper.obj
+../../Bin/ApsimFortranWrapper.dll: $(OBJECTS)
 	$(LINKER) @&&!
 $(LFLAGS) -L$(LIBPATH) +
-$(OBJECTS) FORTRANComponentWrapper.obj, +
+$(ALLOBJ), +
 ..\..\Bin\ApsimFortranWrapper.dll,, +
 $(ALLLIB), +
 $(DEFFILE), +
@@ -67,4 +62,5 @@ datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT
 # NB. Assumption here that we are always working within the development tree. NB.
 
 clean:
-	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h
+	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h FORTRANComponentWrapper.obj ApsimFortranWrapper.obj
+	

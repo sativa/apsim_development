@@ -7,7 +7,7 @@
     <OBJFILES value="Component.obj message.obj Type.obj TypeConverter.obj variant.obj 
       Variants.obj FORTRANComponent.obj MessageData.obj ApsimVariant.obj 
       ArraySpecifier.obj Registrations.obj RegistrationItem.obj 
-      ProtocolVector.obj datatypes.obj"/>
+      ProtocolVector.obj datatypes.obj SimpleWrapper.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -57,6 +57,7 @@
       <FILE FILENAME="RegistrationItem.cpp" FORMNAME="" UNITNAME="RegistrationItem.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ProtocolVector.cpp" FORMNAME="" UNITNAME="ProtocolVector" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="datatypes.cpp" FORMNAME="" UNITNAME="datatypes" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SimpleWrapper.cpp" FORMNAME="" UNITNAME="SimpleWrapper" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
