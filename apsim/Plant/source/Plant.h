@@ -330,7 +330,7 @@ class Plant {
   void plant_width (int   option/*(INPUT) option number*/);
   void plant_phenology_init (int   option/*(INPUT) option number*/);
   void plant_phenology (int   option/*(INPUT) option number*/);
-  void plant_sen_bio (int dm_sen_opt, int   fruit_option/*(INPUT) option number*/);
+  void plant_sen_bio (int option);
   void plant_sen_nit (int   option/*(INPUT) option number*/);
   void plant_leaf_death (int   option/*(INPUT) option number*/);
   void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
@@ -1180,7 +1180,7 @@ void plant_fruit_update(
     ,float  **g_dm_fruit_senesced
     ,int    g_num_fruit_cohorts
     ,float  *g_fruit_no
-    ,float  g_fruit_site_no
+    ,float  *g_fruit_site_no
     ,float  g_dlt_dm
     ,float  *g_fruit_sdr
     ,int    g_day_of_year
