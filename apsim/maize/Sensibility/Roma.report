@@ -6,7 +6,7 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 861
+  ClientHeight = 865
   ClientWidth = 1384
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -491,10 +491,10 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 110
-  Top = 5
-  Width = 653
-  Height = 845
+  Left = 192
+  Top = 0
+  Width = 816
+  Height = 1056
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -535,12 +535,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 80
+  Zoom = 100
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 653
-    Height = 845
+    Width = 816
+    Height = 1056
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -552,13 +552,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2794
-      2159.66145833333)
+      2159)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 60
-      Top = 284
-      Width = 512
-      Height = 446
+      Left = 75
+      Top = 378
+      Width = 640
+      Height = 558
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -566,9 +566,9 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1475.78703703704
-        199.907407407407
-        940.740740740741
+        1475.05208333333
+        198.4375
+        998.802083333333
         1693.33333333333)
       title = ' '
       leftAxisTitle = 'Cumulative Probability (%)'
@@ -701,10 +701,10 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 55
-      Top = 94
-      Width = 183
-      Height = 24
+      Left = 69
+      Top = 118
+      Width = 229
+      Height = 30
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -713,9 +713,9 @@ object Page1: TQuickRep
       Frame.Style = psClear
       Size.Values = (
         79.375
-        181.901041666667
-        310.885416666667
-        605.234375)
+        182.5625
+        312.208333333333
+        605.895833333333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -735,10 +735,10 @@ object Page1: TQuickRep
       FontSize = 18
     end
     object Text2: TText
-      Left = 53
-      Top = 132
-      Width = 576
-      Height = 117
+      Left = 66
+      Top = 165
+      Width = 720
+      Height = 202
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -746,8 +746,8 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        386.953125
-        175.286458333333
+        534.458333333333
+        174.625
         436.5625
         1905)
       Alignment = taLeftJustify
@@ -803,8 +803,8 @@ object Page1: TQuickRep
     object Image1: TImage
       Left = 1
       Top = -2
-      Width = 655
-      Height = 84
+      Width = 819
+      Height = 105
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1521,10 +1521,10 @@ object Page1: TQuickRep
         8A28A0028A28A0028A28A0028A28A00FFFD9}
     end
     object Image2: TImage
-      Left = 24
-      Top = 777
-      Width = 280
-      Height = 68
+      Left = 30
+      Top = 971
+      Width = 350
+      Height = 85
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1738,10 +1738,10 @@ object Page1: TQuickRep
         2111AA15000DB918E4D75745150E4E5A30B58FFFD9}
     end
     object Text3: TText
-      Left = 383
-      Top = 777
-      Width = 190
-      Height = 48
+      Left = 479
+      Top = 971
+      Width = 238
+      Height = 60
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1750,9 +1750,9 @@ object Page1: TQuickRep
       Frame.Style = psClear
       Size.Values = (
         158.75
-        1266.69270833333
-        2569.765625
-        628.385416666667)
+        1267.35416666667
+        2569.10416666667
+        629.708333333333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
