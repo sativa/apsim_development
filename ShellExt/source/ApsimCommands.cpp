@@ -127,7 +127,12 @@ extern "C" _export void __stdcall viewFiles(const char* csvFiles)
 
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      string command = getApsimDirectory() + "\\bin\\Viewer \"" + fileNames[f] + "\"";
+      string command;
+      if (fileNames[f].find(".out") != string::npos)
+         command = getApsimDirectory() + "\\bin\\Viewer";
+      else
+         command = "notepad ";
+      command += " \"" + fileNames[f] + "\"";
       WinExec(command.c_str(), SW_SHOW);
       }
    }
