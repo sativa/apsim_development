@@ -27,7 +27,7 @@ class InputComponent : public protocol::Component
       bool iAmMet;
       bool allowSparseData;
       ApsimDataFile* data;
-      std::string fileName;      
+      std::string fileName;
 
       unsigned newmetID;
       unsigned tickID;
@@ -41,7 +41,7 @@ class InputComponent : public protocol::Component
       void readConstants(void);
       void readHeadings(void);
       InputVariables::iterator findVariable(const string& name);
-      void removeArraySpec(const std::string& fieldName,
+      bool removeArraySpec(const std::string& fieldName,
                            std::string& fieldNameMinusSpec,
                            unsigned int& arraySpec);
       void doRegistrations(void);
@@ -56,7 +56,8 @@ class InputComponent : public protocol::Component
                        const std::string& units,
                        const std::string& value,
                        unsigned arrayIndex,
-                       bool isTemporal = false);
+                       bool isTemporal,
+                       bool isArray);
       float calcDayLength(void);
       float dayLength(int dyoyr, float lat, float sun_angle);
    };
