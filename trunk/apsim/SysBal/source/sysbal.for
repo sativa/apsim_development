@@ -546,6 +546,9 @@
       character  rock_p*30
       parameter (rock_p = 'rock_p()')
 
+      character  banded_p*30
+      parameter (banded_p = 'banded_p()')
+
       character  unavail_p*30
       parameter (unavail_p = 'unavail_p()')
 
@@ -573,6 +576,7 @@
      :           + sysbal_get_variable(hum_p, kgha)
      :           + sysbal_get_variable(biom_p, kgha)
      :           + sysbal_get_variable(rock_p, kgha)
+     :           + sysbal_get_variable(banded_p, kgha)
      :           + sysbal_get_variable(unavail_p, kgha)
      :           + sysbal_get_variable(labile_p, kgha)
       state_surface = sysbal_get_variable(surfaceom_p, kgha)
