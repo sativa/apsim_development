@@ -11185,7 +11185,7 @@ void Plant::plant_read_cultivar_params ()
 
        s = string("   x_fruit_stage_no_partition   = ");
        for (int i = 0; i < p.num_fruit_stage_no_partition; i++)
-         s = s + itoa(p.fruit_stage_no_partition[i]) + " ";
+         s = s + itoa(p.fruit_stage_no_partition[i],5) + " ";
        parent->writeString (s.c_str());
 
        s = string("   y_fruit_frac_pod             = ");
@@ -16720,7 +16720,7 @@ void Plant::get_zadok_stage(protocol::Component *system, protocol::QueryValueDat
 //                  na     na   na    na    na   30  43   65    71     87    90    100
 
        static float zadok_code_y[] =
-           {30,   43, 65, 71, 87, 90, 100};
+           {30,   40, 65, 71, 87, 90, 100};
        static float zadok_code_x[] =
            {4.9, 5.4,  6,  7,  8,  9,  10};
 
